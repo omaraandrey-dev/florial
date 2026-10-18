@@ -1,5 +1,5 @@
 import React from 'react'
-import { ServiceItem } from '../types'
+import type { ServiceItem } from '../types'
 
 interface ServicePageProps {
   service: ServiceItem
