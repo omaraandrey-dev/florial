@@ -6,7 +6,8 @@ export function Header() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
 
   useEffect(() => {
-    const query = `*[defined(image.asset)][0]{
+    // Ищем документ строго с категорией 'home' (или специфичный для логотипа)
+    const query = `*[defined(image.asset) && category == "home"][0]{
       "imageUrl": image.asset->url,
       "title": title
     }`
@@ -17,11 +18,16 @@ export function Header() {
           setImageUrl(data.imageUrl)
           setStatus(`Найдено: ${data.title || 'Логотип'}`)
         } else {
-          setStatus('Документ с картинкой не найден в Sanity!')
+          // Запасной вариант, если category == "home" не проставлена у самого логотипа, 
+          // но документ называется "Логотип" или содержит слово Logo
+          sanityClient.fetch(`*[defined(image.asset) && (title match "*Logo*" || title match "*лого*")][0]{ "imageUrl": image.asset->url }`)
+            .then(fallbackData => {
+              if (fallbackData?.imageUrl) setImageUrl(fallbackData.imageUrl)
+            })
         }
       })
       .catch((err) => {
-        setStatus(`Ошибка связи: ${err.message}`)
+        setStatus(`Ошибка: ${err.message}`)
       })
   }, [])
 
