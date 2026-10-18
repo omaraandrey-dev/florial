@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { sanityClient } from '../lib/sanity' // Обратите внимание: ../lib/sanity
+import { sanityClient } from '../lib/sanity'
 
 export interface HeaderProps {
   services: Array<{ _id: string; name: string; slug?: { current: string } }>
@@ -33,10 +33,10 @@ export function Header({
   }, [])
 
   return (
-    <header className="bg-amber-100/80 backdrop-blur-md border-b border-amber-200 sticky top-0 z-50 shadow-sm h-16 flex items-center justify-between px-0">
+    <header className="bg-amber-100/90 backdrop-blur-md border-b border-amber-200 sticky top-0 z-50 shadow-sm h-16 flex items-center justify-between px-0">
       {/* Логотип в левом углу (0,0) во всю высоту */}
       <div 
-        onClick={onNavigateHome} 
+        onClick={() => { onNavigateHome(); setIsMenuOpen(false); }} 
         className="h-full flex items-center bg-white border-r border-amber-200 px-3 cursor-pointer shrink-0"
       >
         {logoUrl ? (
@@ -51,13 +51,17 @@ export function Header({
           Градински център Флориал
         </h2>
 
-        {/* Кнопка Меню справа */}
+        {/* Кнопка Меню (гамбургер) справа */}
         <div className="relative">
           <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsMenuOpen(!isMenuOpen)
+            }}
             className="p-2 text-slate-800 hover:text-emerald-800 focus:outline-none flex items-center gap-2 cursor-pointer"
           >
-            <div className="space-y-1.5 w-7">
+            <div className="space-y-1.5 w-7 pointer-events-none">
               <div className="h-0.5 bg-slate-900 w-full"></div>
               <div className="h-0.5 bg-slate-900 w-full"></div>
               <div className="h-0.5 bg-slate-900 w-full"></div>
@@ -68,8 +72,12 @@ export function Header({
           {isMenuOpen && (
             <div className="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-3 z-50 text-slate-800">
               <button 
-                onClick={() => { onNavigateHome(); setIsMenuOpen(false); }}
-                className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition border-b border-slate-100"
+                type="button"
+                onClick={() => {
+                  onNavigateHome()
+                  setIsMenuOpen(false)
+                }}
+                className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition border-b border-slate-100 cursor-pointer"
               >
                 Начална страница
               </button>
@@ -77,19 +85,28 @@ export function Header({
               {/* Услуги */}
               <div className="border-b border-slate-100">
                 <button 
-                  onClick={() => setIsServicesOpenDropdown(!isServicesOpenDropdown)}
-                  className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition flex justify-between items-center"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsServicesOpenDropdown(!isServicesOpenDropdown)
+                  }}
+                  className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition flex justify-between items-center cursor-pointer"
                 >
                   <span>Услуги</span>
                   <span className="text-xs">{isServicesOpenDropdown ? '▲' : '▼'}</span>
                 </button>
                 {isServicesOpenDropdown && (
-                  <div className="bg-slate-50 py-1 pl-4">
+                  <div className="bg-slate-50 py-1 pl-4 space-y-1">
                     {services.map(srv => (
                       <button
                         key={srv._id}
-                        onClick={() => { onNavigateService(srv.slug?.current, srv._id); setIsMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:text-emerald-700 hover:bg-slate-100 transition block truncate"
+                        type="button"
+                        onClick={() => {
+                          onNavigateService(srv.slug?.current, srv._id)
+                          setIsMenuOpen(false)
+                          setIsServicesOpenDropdown(false)
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:text-emerald-700 hover:bg-slate-100 transition block truncate cursor-pointer"
                       >
                         • {srv.name}
                       </button>
@@ -98,22 +115,31 @@ export function Header({
                 )}
               </div>
 
-              {/* Каталог */}
+              {/* Каталог (Категории) */}
               <div className="border-b border-slate-100">
                 <button 
-                  onClick={() => setIsCatalogOpenDropdown(!isCatalogOpenDropdown)}
-                  className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition flex justify-between items-center"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsCatalogOpenDropdown(!isCatalogOpenDropdown)
+                  }}
+                  className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition flex justify-between items-center cursor-pointer"
                 >
                   <span>Каталог</span>
                   <span className="text-xs">{isCatalogOpenDropdown ? '▲' : '▼'}</span>
                 </button>
                 {isCatalogOpenDropdown && (
-                  <div className="bg-slate-50 py-1 pl-4 max-h-60 overflow-y-auto">
+                  <div className="bg-slate-50 py-1 pl-4 max-h-60 overflow-y-auto space-y-1">
                     {categories.map(cat => (
                       <button
                         key={cat._id}
-                        onClick={() => { onNavigateCategory(cat.slug?.current, cat._id); setIsMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:text-emerald-700 hover:bg-slate-100 transition block truncate"
+                        type="button"
+                        onClick={() => {
+                          onNavigateCategory(cat.slug?.current, cat._id)
+                          setIsMenuOpen(false)
+                          setIsCatalogOpenDropdown(false)
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:text-emerald-700 hover:bg-slate-100 transition block truncate cursor-pointer"
                       >
                         • {cat.name}
                       </button>
@@ -122,9 +148,14 @@ export function Header({
                 )}
               </div>
 
+              {/* Контакты */}
               <button 
-                onClick={() => { onNavigateContacts(); setIsMenuOpen(false); }}
-                className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition"
+                type="button"
+                onClick={() => {
+                  onNavigateContacts()
+                  setIsMenuOpen(false)
+                }}
+                className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition cursor-pointer"
               >
                 Контакти
               </button>
