@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { sanityClient } from '../lib/sanity'
-import { ServiceItem, CategoryItem } from '../types'
+import type { ServiceItem, CategoryItem } from '../types'
 
 export interface HeaderProps {
   services: ServiceItem[]
