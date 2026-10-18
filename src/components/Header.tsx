@@ -34,7 +34,7 @@ export function Header({
 
   return (
     <header className="bg-amber-100/90 backdrop-blur-md border-b border-amber-200 sticky top-0 z-50 shadow-sm h-16 flex items-center justify-between px-0">
-      {/* Логотип в левом углу (0,0) во всю высоту */}
+      {/* Логотип в самом левом углу (0,0) во всю высоту */}
       <div 
         onClick={() => { onNavigateHome(); setIsMenuOpen(false); }} 
         className="h-full flex items-center bg-white border-r border-amber-200 px-3 cursor-pointer shrink-0"
@@ -51,7 +51,7 @@ export function Header({
           Градински център Флориал
         </h2>
 
-        {/* Кнопка Меню (гамбургер) справа */}
+        {/* Кнопка Гамбургер справа */}
         <div className="relative">
           <button 
             type="button"
