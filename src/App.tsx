@@ -7,6 +7,9 @@ import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
 import { ContactsPage } from './pages/ContactsPage'
 
+import { Footer } from './components/Footer'
+
+
 export default function App() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<CategoryItem[]>([])
@@ -228,6 +231,18 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Модальное окно просмотра товара */}
+      {selectedProduct && (
+        // ... код модального окна ...
+      )}
+
+      {/* Сквозной подвал сайта */}
+      <Footer />
+    </div>
+  )
+}
+
     </div>
   )
 }
