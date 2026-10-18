@@ -2,23 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
 import { Header } from './components/Header'
 
-// Правильная функция генерации CDN-ссылок на картинки Sanity для нашего проекта
-const urlFor = (source: any) => {
-  if (!source || !source.asset || !source.asset._ref) return ''
-  const ref = source.asset._ref // Пример: image-a1b2c3d4e5f6-800x600-png
-  const parts = ref.split('-')
-  if (parts.length < 4) return ''
-  const id = parts[1]
-  const dimensions = parts[2]
-  const format = parts[3]
-  
-  // Строго используем правильный ID проекта и датасет
-  const projectId = 'kjkc2aazayha1zdg3opyp8uc'
-  const dataset = 'production'
-  
-  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}`
-}
-
 export interface Product {
   _id: string
   name: string
@@ -26,7 +9,7 @@ export interface Product {
   priceEUR: number
   oldPriceEUR?: number
   sku?: string
-  mainImage?: any
+  imageUrl?: string
   category?: string
   stockStatus?: string
   description?: any
@@ -40,7 +23,7 @@ export interface ServiceItem {
   slug?: { current: string }
   shortDescription?: string
   description?: any
-  image?: any
+  imageUrl?: string
   startingPriceEUR?: number
   isActive?: boolean
   advantages?: Array<{ title: string; description?: string }>
@@ -72,7 +55,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Товары
+        // 1. Товары с прямой ссылкой на картинку из Sanity
         const productQuery = `*[_type == "product" && isActive != false] {
           _id,
           name,
@@ -95,7 +78,7 @@ export default function App() {
           setCategories(uniqueCats)
         }
 
-        // 2. Услуги
+        // 2. Услуги с прямой ссылкой на картинку из Sanity
         const serviceQuery = `*[_type == "service" && isActive != false] {
           _id,
           name,
@@ -188,38 +171,35 @@ export default function App() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map(product => {
-              const imageUrl = urlFor(product.mainImage)
-              return (
-                <div 
-                  key={product._id} 
-                  onClick={() => setSelectedProduct(product)}
-                  className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between hover:shadow-md transition cursor-pointer"
-                >
-                  <div>
-                    <div className="h-40 bg-slate-100 rounded-lg mb-3 flex items-center justify-center text-slate-400 text-sm overflow-hidden">
-                      {imageUrl ? (
-                        <img src={imageUrl} alt={product.name} className="h-full w-full object-contain p-2" />
-                      ) : (
-                        <span className="text-xs text-slate-400">Няма снимка</span>
-                      )}
-                    </div>
-                    <div className="flex justify-between items-center text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">
-                      <span>{product.category || 'Оборудване'}</span>
-                      {product.sku && <span className="text-slate-400">SKU: {product.sku}</span>}
-                    </div>
-                    <h4 className="font-bold text-slate-800 mb-2 leading-snug hover:text-emerald-700 transition">{product.name}</h4>
+            {filteredProducts.map(product => (
+              <div 
+                key={product._id} 
+                onClick={() => setSelectedProduct(product)}
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between hover:shadow-md transition cursor-pointer"
+              >
+                <div>
+                  <div className="h-40 bg-slate-100 rounded-lg mb-3 flex items-center justify-center text-slate-400 text-sm overflow-hidden">
+                    {product.imageUrl ? (
+                      <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain p-2" />
+                    ) : (
+                      <span className="text-xs text-slate-400">Няма снимка</span>
+                    )}
                   </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-800">{(product.priceEUR || 0).toFixed(2)} €</span>
-                    <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition cursor-pointer">
-                      Преглед
-                    </button>
+                  <div className="flex justify-between items-center text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">
+                    <span>{product.category || 'Оборудване'}</span>
+                    {product.sku && <span className="text-slate-400">SKU: {product.sku}</span>}
                   </div>
+                  <h4 className="font-bold text-slate-800 mb-2 leading-snug hover:text-emerald-700 transition">{product.name}</h4>
                 </div>
-              )
-            })}
+
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xl font-bold text-emerald-800">{(product.priceEUR || 0).toFixed(2)} €</span>
+                  <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition cursor-pointer">
+                    Преглед
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
@@ -235,45 +215,42 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map(srv => {
-                const srvImageUrl = urlFor(srv.image)
-                return (
-                  <div 
-                    key={srv._id} 
-                    onClick={() => setSelectedService(srv)}
-                    className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition cursor-pointer"
-                  >
-                    <div>
-                      <div className="h-44 bg-emerald-100/60 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-                        {srvImageUrl ? (
-                          <img src={srvImageUrl} alt={srv.name} className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="p-3 text-center">
-                            <span className="font-bold text-emerald-900 text-lg block">{srv.name}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <h4 className="text-xl font-bold text-slate-800 mb-2">{srv.name}</h4>
-                      <p className="text-sm text-slate-600 mb-4">{srv.shortDescription}</p>
+              {services.map(srv => (
+                <div 
+                  key={srv._id} 
+                  onClick={() => setSelectedService(srv)}
+                  className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition cursor-pointer"
+                >
+                  <div>
+                    <div className="h-44 bg-emerald-100/60 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                      {srv.imageUrl ? (
+                        <img src={srv.imageUrl} alt={srv.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="p-3 text-center">
+                          <span className="font-bold text-emerald-900 text-lg block">{srv.name}</span>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div>
-                        {srv.startingPriceEUR ? (
-                          <span className="text-xs text-slate-500">От <strong className="text-slate-800 text-base">{srv.startingPriceEUR} €</strong></span>
-                        ) : (
-                          <span className="text-xs text-slate-400">По оферта</span>
-                        )}
-                      </div>
-
-                      <button className="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
-                        Заяви консултация
-                      </button>
-                    </div>
+                    <h4 className="text-xl font-bold text-slate-800 mb-2">{srv.name}</h4>
+                    <p className="text-sm text-slate-600 mb-4">{srv.shortDescription}</p>
                   </div>
-                )
-              })}
+
+                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      {srv.startingPriceEUR ? (
+                        <span className="text-xs text-slate-500">От <strong className="text-slate-800 text-base">{srv.startingPriceEUR} €</strong></span>
+                      ) : (
+                        <span className="text-xs text-slate-400">По оферта</span>
+                      )}
+                    </div>
+
+                    <button className="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
+                      Заяви консултация
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -294,8 +271,8 @@ export default function App() {
             {selectedProduct.sku && <p className="text-sm text-slate-400 mb-4">Артикул (SKU): {selectedProduct.sku}</p>}
 
             <div className="h-64 bg-slate-100 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-              {urlFor(selectedProduct.mainImage) ? (
-                <img src={urlFor(selectedProduct.mainImage)} alt={selectedProduct.name} className="h-full w-full object-contain p-4" />
+              {selectedProduct.imageUrl ? (
+                <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="h-full w-full object-contain p-4" />
               ) : (
                 <span className="text-slate-400 text-sm">Няма снимка</span>
               )}
@@ -326,9 +303,9 @@ export default function App() {
             <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Услуга Florial</span>
             <h3 className="text-2xl font-bold text-slate-900 mt-1 mb-2">{selectedService.name}</h3>
 
-            {urlFor(selectedService.image) && (
+            {selectedService.imageUrl && (
               <div className="h-56 bg-slate-100 rounded-lg mb-4 overflow-hidden">
-                <img src={urlFor(selectedService.image)} alt={selectedService.name} className="h-full w-full object-cover" />
+                <img src={selectedService.imageUrl} alt={selectedService.name} className="h-full w-full object-cover" />
               </div>
             )}
 
