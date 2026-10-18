@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
 import { Header } from './components/Header'
 
-// Вспомогательный генератор CDN-ссылок для картинок Sanity
+// Правильная функция генерации CDN-ссылок на картинки Sanity для нашего проекта
 const urlFor = (source: any) => {
   if (!source || !source.asset || !source.asset._ref) return ''
-  const ref = source.asset._ref
+  const ref = source.asset._ref // Пример: image-a1b2c3d4e5f6-800x600-png
   const parts = ref.split('-')
   if (parts.length < 4) return ''
   const id = parts[1]
   const dimensions = parts[2]
   const format = parts[3]
   
+  // Строго используем правильный ID проекта и датасет
   const projectId = 'kjkc2aazayha1zdg3opyp8uc'
   const dataset = 'production'
   
