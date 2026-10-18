@@ -5,7 +5,7 @@ export interface CategoryItem {
   imageUrl?: string
   description?: any
   sortOrder?: number
-  seo?: { 
+  seo?: {
     metaTitle?: string
     metaDescription?: string
     noIndex?: boolean
