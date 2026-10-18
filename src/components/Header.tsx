@@ -11,18 +11,19 @@ export function Header() {
   const [logo, setLogo] = useState<LogoData | null>(null)
 
   useEffect(() => {
-    // Ищем фотографию логотипа по названию или по slug
-    const query = `*[_type == "photo" && (slug.current == "oficialno-logo-na-florial-gradinski-centar" || title match "*лого*")][0]{
+    // Ищем любой документ, у которого есть изображение и в названии/slug есть нужный текст
+    const query = `*[defined(image) && (slug.current == "oficialno-logo-na-florial-gradinski-centar" || title match "*лого*")][0]{
       "title": title,
       "alt": alt,
       "imageUrl": image.asset->url
     }`
 
     sanityClient.fetch(query).then((data) => {
+      console.log("Данные из Sanity получены:", data)
       if (data && data.imageUrl) {
         setLogo(data)
       }
-    }).catch(console.error)
+    }).catch((err) => console.error("Ошибка запроса Sanity:", err))
   }, [])
 
   return (
