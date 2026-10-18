@@ -60,7 +60,7 @@ export interface SiteSettings {
   heroSubtitle?: string
 }
 
-// Вспомогательный рендер для Portable Text
+// Рендер Portable Text
 const renderPortableText = (content: any) => {
   if (!content) return null
   if (typeof content === 'string') {
@@ -93,11 +93,9 @@ export default function App() {
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   
-  // Роутинг: активная услуга или активная категория
   const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null)
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
 
-  // Обработка маршрутов в URL
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
@@ -146,12 +144,12 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Категории с картинками и SEO
+        // 1. Категории: проверяем все возможные поля изображений (image, mainImage, photo, icon)
         const categoryQuery = `*[_type == "category"] {
           _id,
           name,
           slug,
-          "imageUrl": image.asset->url,
+          "imageUrl": coalesce(image.asset->url, mainImage.asset->url, photo.asset->url, icon.asset->url),
           description,
           seo
         }`
@@ -167,7 +165,7 @@ export default function App() {
           priceEUR,
           oldPriceEUR,
           stockStatus,
-          "imageUrl": mainImage.asset->url,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
           shortDescription,
           description,
           specifications,
@@ -185,7 +183,7 @@ export default function App() {
           slug,
           shortDescription,
           description,
-          "imageUrl": image.asset->url,
+          "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
           startingPriceEUR,
           advantages,
           steps,
@@ -211,7 +209,6 @@ export default function App() {
     fetchData()
   }, [])
 
-  // Находим текущую выбранную услугу или категорию
   const currentService = services.find(
     s => s.slug?.current === activeServiceSlug || s._id === activeServiceSlug
   )
@@ -219,12 +216,10 @@ export default function App() {
     c => c.slug?.current === activeCategorySlug || c._id === activeCategorySlug
   )
 
-  // Фильтрация товаров для выбранной категории
   const filteredProducts = currentCategory 
     ? products.filter(p => p.category === currentCategory.name || (p as any).categorySlug === currentCategory.slug?.current || p.categoryId === currentCategory._id)
     : products
 
-  // Управление SEO метатегами
   useEffect(() => {
     if (activeServiceSlug && currentService) {
       const seoTitle = currentService.seo?.seoTitle || currentService.seo?.metaTitle || `${currentService.name} | Градински център Флориал`
@@ -252,7 +247,7 @@ export default function App() {
     metaDesc.setAttribute('content', desc)
   }
 
-  // СТРАНИЦА УСЛУГИ
+  // Страница услуги
   if (activeServiceSlug && currentService) {
     return (
       <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
@@ -301,7 +296,7 @@ export default function App() {
     )
   }
 
-  // СТРАНИЦА КАТЕГОРИИ ТОВАРОВ
+  // Страница категории
   if (activeCategorySlug && currentCategory) {
     return (
       <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
@@ -371,7 +366,7 @@ export default function App() {
     )
   }
 
-  // ГЛАВНАЯ СТРАНИЦА
+  // Главная страница
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header />
@@ -432,7 +427,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
         <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Каталог продукти</h3>
 
-        {/* Визуальные категории: 3 в ряд на мобильных (grid-cols-3), 4 в ряд на десктопе (md:grid-cols-4) */}
+        {/* Сетка категорий */}
         {categories.length > 0 && (
           <div className="mb-12">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">Изберете категория</span>
@@ -459,7 +454,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Все товары или общая витрина */}
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-xl font-bold text-slate-800">Всички продукти</h4>
         </div>
@@ -527,7 +521,7 @@ export default function App() {
             <p className="text-slate-600 text-sm mb-6">{selectedProduct.shortDescription || 'Няма допълнително описание.'}</p>
             <div className="flex items-center justify-between pt-4 border-t border-slate-100">
               <span className="text-2xl font-bold text-emerald-800">{(selectedProduct.priceEUR || 0).toFixed(2)} €</span>
-              <button onClick={() => setSelectedProduct(null)} className="bg-emerald-600 text-white px-6 py-2 rounded-lg font-bold">
+              <button onClick={() => setSelectedProduct(null)} className="bg-emerald-600 text-white font-bold py-3 rounded-lg">
                 Затвори
               </button>
             </div>
