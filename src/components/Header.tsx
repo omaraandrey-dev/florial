@@ -11,15 +11,17 @@ export function Header() {
   const [logo, setLogo] = useState<LogoData | null>(null)
 
   useEffect(() => {
-    // GROQ-запрос забирает логотип из вашей созданной записи в Sanity
-    const query = `*[_type == "photo" && slug.current == "oficialno-logo-na-florial-gradinski-centar"][0]{
+    // Ищем фотографию логотипа по названию или по slug
+    const query = `*[_type == "photo" && (slug.current == "oficialno-logo-na-florial-gradinski-centar" || title match "*лого*")][0]{
       "title": title,
       "alt": alt,
       "imageUrl": image.asset->url
     }`
 
     sanityClient.fetch(query).then((data) => {
-      if (data) setLogo(data)
+      if (data && data.imageUrl) {
+        setLogo(data)
+      }
     }).catch(console.error)
   }, [])
 
