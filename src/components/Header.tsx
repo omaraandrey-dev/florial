@@ -11,21 +11,21 @@ export function Header() {
   const [logo, setLogo] = useState<LogoData | null>(null)
 
   useEffect(() => {
-    // Безусловный запрос: ищем первый же документ с картинкой в Sanity
-    const query = `*[defined(image)][0]{
+    // Точный GROQ-запрос под вашу схему
+    const query = `*[defined(image.asset) && (category == "home" || slug.current == "oficialno-logo-na-florial-gradinski-centar")][0]{
       "title": title,
-      "alt": alt,
+      "alt": image.alt,
       "imageUrl": image.asset->url
     }`
 
     sanityClient.fetch(query)
       .then((data) => {
-        console.log("Успешный ответ от Sanity:", data)
+        console.log("Данные логотипа из Sanity:", data)
         if (data && data.imageUrl) {
           setLogo(data)
         }
       })
-      .catch((err) => console.error("Ошибка при получении логотипа:", err))
+      .catch((err) => console.error("Ошибка Sanity:", err))
   }, [])
 
   return (
