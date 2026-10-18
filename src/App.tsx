@@ -74,7 +74,18 @@ export default function App() {
       try {
         // 1. Товары
         const productQuery = `*[_type == "product" && isActive != false] {
-          _id, name, slug, sku, priceEUR, oldPriceEUR, stockStatus, mainImage, shortDescription, description, specifications, "category": category->name
+          _id,
+          name,
+          slug,
+          sku,
+          priceEUR,
+          oldPriceEUR,
+          stockStatus,
+          "imageUrl": mainImage.asset->url,
+          shortDescription,
+          description,
+          specifications,
+          "category": category->name
         }`
         const pData = await sanityClient.fetch(productQuery)
         setProducts(pData || [])
@@ -86,7 +97,18 @@ export default function App() {
 
         // 2. Услуги
         const serviceQuery = `*[_type == "service" && isActive != false] {
-          _id, name, slug, shortDescription, description, image, startingPriceEUR, advantages, steps, hero, callToAction, leadForm
+          _id,
+          name,
+          slug,
+          shortDescription,
+          description,
+          "imageUrl": image.asset->url,
+          startingPriceEUR,
+          advantages,
+          steps,
+          hero,
+          callToAction,
+          leadForm
         }`
         const sData = await sanityClient.fetch(serviceQuery)
         setServices(sData || [])
