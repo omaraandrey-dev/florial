@@ -2,6 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
 import { createOrder } from './services/orderService'
 
+import { Header } from './components/Header'
+
+function App() {
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* Сквозная шапка для всего сайта */}
+      <Header />
+
+      {/* Основной контент страниц */}
+      <main className="flex-grow">
+        {/* Здесь выводится контент активной страницы */}
+      </main>
+    </div>
+  )
+}
+
+export default App
 // Простая и надежная функция генерации CDN-ссылок на картинки Sanity без сторонних библиотек
 const urlFor = (source: any) => {
   if (!source || !source.asset || !source.asset._ref) return ''
