@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { sanityClient } from '../lib/sanity' // Обратите внимание: '../lib/sanity', так как мы находимся в папке components
+import { sanityClient } from '../lib/sanity'
 
 export function Header() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [status, setStatus] = useState<string>('Зареждане на логотип...')
 
   useEffect(() => {
-    // Ищем документ логотипа с категорией 'home' или подходящим заголовком
     const query = `*[defined(image.asset) && (category == "home" || title match "*Logo*" || title match "*лого*")][0]{
       "imageUrl": image.asset->url,
       "title": title
@@ -18,7 +17,6 @@ export function Header() {
           setImageUrl(data.imageUrl)
           setStatus(`Найдено: ${data.title || 'Логотип'}`)
         } else {
-          // Запасной запрос, если категории нет
           sanityClient.fetch(`*[defined(image.asset)][0]{ "imageUrl": image.asset->url }`)
             .then(fallbackData => {
               if (fallbackData?.imageUrl) setImageUrl(fallbackData.imageUrl)
@@ -52,8 +50,6 @@ export function Header() {
 
         <nav className="flex items-center gap-4 text-xs md:text-sm font-semibold">
           <a href="/" className="hover:text-emerald-300 transition">Начало</a>
-          <a href="#catalog" className="hover:text-emerald-300 transition">Продукти</a>
-          <a href="#services" className="hover:text-emerald-300 transition">Услуги</a>
         </nav>
       </div>
     </header>
