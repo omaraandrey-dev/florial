@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
 import { createOrder } from './services/orderService'
-import { Header } from './components/Header'
+import { Header  } from './components/Header'
 
 export interface Product {
   _id: string
