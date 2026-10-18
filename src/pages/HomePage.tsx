@@ -1,5 +1,5 @@
 import React from 'react'
-import { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
+import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
 interface HomePageProps {
   services: ServiceItem[]
