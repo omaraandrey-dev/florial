@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { sanityClient } from '../lib/sanity'
+import { ServiceItem, CategoryItem } from '../types'
 
 export interface HeaderProps {
-  services: Array<{ _id: string; name: string; slug?: { current: string } }>
-  categories: Array<{ _id: string; name: string; slug?: { current: string } }>
+  services: ServiceItem[]
+  categories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
@@ -34,7 +35,6 @@ export function Header({
 
   return (
     <header className="bg-amber-100/90 backdrop-blur-md border-b border-amber-200 sticky top-0 z-50 shadow-sm h-16 flex items-center justify-between px-0">
-      {/* Логотип в самом левом углу (0,0) во всю высоту */}
       <div 
         onClick={() => { onNavigateHome(); setIsMenuOpen(false); }} 
         className="h-full flex items-center bg-white border-r border-amber-200 px-3 cursor-pointer shrink-0"
@@ -51,7 +51,6 @@ export function Header({
           Градински център Флориал
         </h2>
 
-        {/* Кнопка Гамбургер справа */}
         <div className="relative">
           <button 
             type="button"
@@ -68,21 +67,16 @@ export function Header({
             </div>
           </button>
 
-          {/* Выпадающее меню */}
           {isMenuOpen && (
             <div className="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-3 z-50 text-slate-800">
               <button 
                 type="button"
-                onClick={() => {
-                  onNavigateHome()
-                  setIsMenuOpen(false)
-                }}
+                onClick={() => { onNavigateHome(); setIsMenuOpen(false); }}
                 className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition border-b border-slate-100 cursor-pointer"
               >
                 Начална страница
               </button>
 
-              {/* Услуги */}
               <div className="border-b border-slate-100">
                 <button 
                   type="button"
@@ -115,7 +109,6 @@ export function Header({
                 )}
               </div>
 
-              {/* Каталог (Категории) */}
               <div className="border-b border-slate-100">
                 <button 
                   type="button"
@@ -148,13 +141,9 @@ export function Header({
                 )}
               </div>
 
-              {/* Контакты */}
               <button 
                 type="button"
-                onClick={() => {
-                  onNavigateContacts()
-                  setIsMenuOpen(false)
-                }}
+                onClick={() => { onNavigateContacts(); setIsMenuOpen(false); }}
                 className="w-full text-left px-4 py-2.5 font-bold hover:bg-slate-50 transition cursor-pointer"
               >
                 Контакти
