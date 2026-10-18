@@ -22,7 +22,7 @@ export interface ServiceItem {
   name: string
   slug?: { current: string }
   shortDescription?: string
-  description?: any
+  description?: any // Portable Text (массив блоков) или строка
   imageUrl?: string
   startingPriceEUR?: number
   isActive?: boolean
@@ -31,13 +31,64 @@ export interface ServiceItem {
   hero?: { title?: string; subtitle?: string }
   callToAction?: { title?: string; buttonText?: string }
   leadForm?: { formTitle?: string; submitButtonText?: string }
-  galleryCount?: number
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    seoTitle?: string
+    seoDescription?: string
+    keywords?: string[]
+  }
 }
 
 export interface SiteSettings {
   siteName?: string
   heroTitle?: string
   heroSubtitle?: string
+}
+
+// Вспомогательный рендер для Sanity Portable Text (Rich Text / полное описание)
+const renderPortableText = (content: any) => {
+  if (!content) return null
+
+  // Если описание заполнено обычной строкой
+  if (typeof content === 'string') {
+    return <p className="text-slate-700 leading-relaxed mb-4">{content}</p>
+  }
+
+  // Если описание — массив блоков Sanity Portable Text
+  if (Array.isArray(content)) {
+    return content.map((block: any, index: number) => {
+      if (block._type !== 'block') return null
+
+      const text = block.children?.map((child: any) => child.text).join('') || ''
+
+      switch (block.style) {
+        case 'h2':
+          return <h2 key={block._key || index} className="text-2xl font-bold text-slate-900 mt-6 mb-3">{text}</h2>
+        case 'h3':
+          return <h3 key={block._key || index} className="text-xl font-bold text-slate-800 mt-5 mb-2">{text}</h3>
+        case 'h4':
+          return <h4 key={block._key || index} className="text-lg font-semibold text-slate-800 mt-4 mb-2">{text}</h4>
+        case 'blockquote':
+          return (
+            <blockquote key={block._key || index} className="border-l-4 border-emerald-600 pl-4 my-4 italic text-slate-600 bg-emerald-50/50 py-2 rounded-r">
+              {text}
+            </blockquote>
+          )
+        default:
+          if (block.listItem === 'bullet') {
+            return (
+              <ul key={block._key || index} className="list-disc list-inside text-slate-700 mb-2 pl-2">
+                <li>{text}</li>
+              </ul>
+            )
+          }
+          return <p key={block._key || index} className="text-slate-700 leading-relaxed mb-4 text-base">{text}</p>
+      }
+    })
+  }
+
+  return null
 }
 
 export default function App() {
@@ -51,10 +102,10 @@ export default function App() {
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   
-  // Текущая выбранная услуга для отдельной страницы
+  // Текущий slug открытой услуги
   const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null)
 
-  // Обработка URL-путей для поддержки переходов по страницам услуг
+  // Обработка маршрутизации
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
@@ -111,7 +162,7 @@ export default function App() {
           setCategories(uniqueCats)
         }
 
-        // 2. Услуги
+        // 2. Услуги с полным описанием и SEO-полями
         const serviceQuery = `*[_type == "service" && isActive != false] {
           _id,
           name,
@@ -124,12 +175,13 @@ export default function App() {
           steps,
           hero,
           callToAction,
-          leadForm
+          leadForm,
+          seo
         }`
         const sData = await sanityClient.fetch(serviceQuery)
         setServices(sData || [])
 
-        // 3. Настройки
+        // 3. Настройки сайта
         const settingsQuery = `*[_type == "siteSettings"][0]`
         const settData = await sanityClient.fetch(settingsQuery)
         setSiteSettings(settData || null)
@@ -147,18 +199,43 @@ export default function App() {
     ? products 
     : products.filter(p => p.category === selectedCategory)
 
-  // Находим текущую открытую услугу
+  // Поиск текущей выбранной услуги
   const currentService = services.find(
     s => s.slug?.current === activeServiceSlug || s._id === activeServiceSlug
   )
 
-  // Если открыта отдельная страница услуги
+  // Управление SEO метатегами при смене страниц
+  useEffect(() => {
+    if (activeServiceSlug && currentService) {
+      // Поддержка различных вариантов названия SEO-полей из Sanity
+      const seoTitle = currentService.seo?.seoTitle || currentService.seo?.metaTitle || `${currentService.name} | Градински център Флориал`
+      const seoDesc = currentService.seo?.seoDescription || currentService.seo?.metaDescription || currentService.shortDescription || ''
+
+      document.title = seoTitle
+
+      let metaDesc = document.querySelector('meta[name="description"]')
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta')
+        metaDesc.setAttribute('name', 'description')
+        document.head.appendChild(metaDesc)
+      }
+      metaDesc.setAttribute('content', seoDesc)
+    } else {
+      document.title = 'Градински център Флориал | Поливни системи и ландшафтен дизайн'
+      const metaDesc = document.querySelector('meta[name="description"]')
+      if (metaDesc) {
+        metaDesc.setAttribute('content', siteSettings?.heroSubtitle || 'Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг.')
+      }
+    }
+  }, [activeServiceSlug, currentService, siteSettings])
+
+  // Страница отдельной услуги
   if (activeServiceSlug && currentService) {
     return (
       <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
         <Header />
         
-        <main className="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+        <main className="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
           <button 
             onClick={navigateToHome}
             className="mb-6 inline-flex items-center text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition cursor-pointer"
@@ -176,12 +253,6 @@ export default function App() {
               </div>
             )}
 
-            {currentService.shortDescription && (
-              <p className="text-lg text-slate-700 leading-relaxed mb-8 font-medium">
-                {currentService.shortDescription}
-              </p>
-            )}
-
             {currentService.startingPriceEUR && (
               <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl mb-8 flex items-center justify-between">
                 <span className="text-sm font-medium text-emerald-900">Начална цена на услугата:</span>
@@ -189,14 +260,47 @@ export default function App() {
               </div>
             )}
 
+            {/* Вывод КРАТКОГО описания (если оно есть как вступление) */}
+            {currentService.shortDescription && (
+              <div className="p-4 bg-slate-50 rounded-xl border-l-4 border-emerald-600 mb-6 text-slate-700 font-medium leading-relaxed text-lg">
+                {currentService.shortDescription}
+              </div>
+            )}
+
+            {/* Вывод ПОЛНОГО описания услуги из Sanity (Portable Text) */}
+            <div className="prose prose-emerald max-w-none mb-8">
+              {renderPortableText(currentService.description)}
+            </div>
+
+            {/* Блок преимуществ */}
             {currentService.advantages && currentService.advantages.length > 0 && (
-              <section className="mt-8 mb-8">
+              <section className="mt-8 mb-8 pt-6 border-t border-slate-100">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Предимства</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {currentService.advantages.map((adv, idx) => (
                     <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <h4 className="font-bold text-emerald-800 mb-1">{adv.title}</h4>
                       {adv.description && <p className="text-xs text-slate-600">{adv.description}</p>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Блок этапов работы */}
+            {currentService.steps && currentService.steps.length > 0 && (
+              <section className="mt-8 mb-8 pt-6 border-t border-slate-100">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">Етапи на работа</h3>
+                <div className="space-y-3">
+                  {currentService.steps.map((step, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                      <span className="bg-emerald-700 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        {step.stepNumber || idx + 1}
+                      </span>
+                      <div>
+                        <h5 className="font-bold text-slate-800 text-sm">{step.title}</h5>
+                        {step.description && <p className="text-xs text-slate-600 mt-0.5">{step.description}</p>}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -218,6 +322,7 @@ export default function App() {
     )
   }
 
+  // Главная страница
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       {/* Шапка */}
