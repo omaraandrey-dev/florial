@@ -1,61 +1,42 @@
 import { useEffect, useState } from 'react'
 import { sanityClient } from '../lib/sanity'
 
-interface LogoData {
-  title: string
-  alt?: string
-  imageUrl?: string
-}
-
 export function Header() {
-  const [logo, setLogo] = useState<LogoData | null>(null)
+  const [status, setStatus] = useState('Загрузка из Sanity...')
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
 
   useEffect(() => {
-    // Точный GROQ-запрос под вашу схему
-    const query = `*[defined(image.asset) && (category == "home" || slug.current == "oficialno-logo-na-florial-gradinski-centar")][0]{
-      "title": title,
-      "alt": image.alt,
-      "imageUrl": image.asset->url
+    const query = `*[defined(image.asset)][0]{
+      "imageUrl": image.asset->url,
+      "title": title
     }`
 
     sanityClient.fetch(query)
       .then((data) => {
-        console.log("Данные логотипа из Sanity:", data)
         if (data && data.imageUrl) {
-          setLogo(data)
+          setImageUrl(data.imageUrl)
+          setStatus(`Найдено: ${data.title || 'Логотип'}`)
+        } else {
+          setStatus('Документ с картинкой не найден в Sanity!')
         }
       })
-      .catch((err) => console.error("Ошибка Sanity:", err))
+      .catch((err) => {
+        setStatus(`Ошибка связи: ${err.message}`)
+      })
   }, [])
 
   return (
-    <header className="w-full bg-[#1b4332] text-white py-4 px-6 shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Логотип */}
-        <a href="/" className="flex items-center gap-3 decoration-none">
-          {logo?.imageUrl ? (
-            <img 
-              src={logo.imageUrl} 
-              alt={logo.alt || logo.title || "Florial Logo"} 
-              className="h-14 w-auto object-contain bg-white/10 p-1 rounded"
-            />
-          ) : (
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold tracking-wide text-white">Florial</span>
-              <span className="text-xs text-green-200 uppercase tracking-wider">
-                ГРАДИНСКИ ЦЕНТЪР — Автоматично напояване & Озеленяване
-              </span>
-            </div>
-          )}
-        </a>
-
-        {/* Меню */}
-        <nav className="hidden md:flex gap-6 font-medium text-white/90">
-          <a href="/" className="hover:text-white transition">Начало</a>
-          <a href="/services" className="hover:text-white transition">Услуги</a>
-          <a href="/products" className="hover:text-white transition">Продукти</a>
-          <a href="/contacts" className="hover:text-white transition">Контакти</a>
-        </nav>
+    <header className="w-full bg-[#1b4332] text-white py-4 px-6 shadow-md flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        {imageUrl ? (
+          <img src={imageUrl} alt="Logo" className="h-12 w-auto bg-white/10 p-1 rounded" />
+        ) : (
+          <span className="text-xl font-bold">Florial</span>
+        )}
+      </div>
+      {/* Отладочная плашка прямо в шапке */}
+      <div className="text-xs bg-black/30 px-3 py-1 rounded text-yellow-300">
+        Статус Sanity: {status}
       </div>
     </header>
   )
