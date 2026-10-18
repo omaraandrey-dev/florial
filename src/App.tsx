@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
 import { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
 import { Header } from './components/Header'
+import { Footer } from './components/Footer'
 import { HomePage } from './pages/HomePage'
 import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
 import { ContactsPage } from './pages/ContactsPage'
-
-import { Footer } from './components/Footer'
-
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([])
@@ -224,7 +222,7 @@ export default function App() {
             <p className="text-slate-600 text-sm mb-6">{selectedProduct.shortDescription || 'Няма допълнително описание.'}</p>
             <div className="flex items-center justify-between pt-4 border-t border-slate-100">
               <span className="text-2xl font-bold text-emerald-800">{(selectedProduct.priceEUR || 0).toFixed(2)} €</span>
-              <button onClick={() => setSelectedProduct(null)} className="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg">
+              <button onClick={() => setSelectedProduct(null)} className="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg cursor-pointer">
                 Затвори
               </button>
             </div>
@@ -232,17 +230,8 @@ export default function App() {
         </div>
       )}
 
-      {/* Модальное окно просмотра товара */}
-      {selectedProduct && (
-        // ... код модального окна ...
-      )}
-
       {/* Сквозной подвал сайта */}
       <Footer />
-    </div>
-  )
-}
-
     </div>
   )
 }
