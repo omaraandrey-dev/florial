@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { sanityClient } from './lib/sanity'
-import { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
+import type { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { HomePage } from './pages/HomePage'
