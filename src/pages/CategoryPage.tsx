@@ -1,5 +1,5 @@
 import React from 'react'
-import { CategoryItem, Product } from '../types'
+import type { CategoryItem, Product } from '../types'
 
 interface CategoryPageProps {
   category: CategoryItem
