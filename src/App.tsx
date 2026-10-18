@@ -119,22 +119,69 @@ export default function App() {
       {/* Динамическая шапка с логотипом из Sanity */}
       <Header />
 
-      {/* Главный баннер */}
+      {/* Главный баннер (Hero + Услуги) */}
       <section className="bg-emerald-900 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">
-            {siteSettings?.heroTitle || 'Професионално напояване и ландшафтен дизайн в Бургас и Слънчев бряг'}
-          </h2>
-          <p className="text-emerald-100 max-w-2xl mb-6">
-            {siteSettings?.heroSubtitle || 'Rain Bird оборудване, капкови маркучи, изграждане на поливни системи и рулонен райграс с гаранция.'}
+          <h1 className="text-4xl font-extrabold mb-3 tracking-tight">
+            Градински център Флореал
+          </h1>
+          <p className="text-emerald-100 max-w-2xl mb-10 text-lg">
+            {siteSettings?.heroSubtitle || 'Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.'}
           </p>
+
+          {/* Перенесенный блок услуг внутри главного баннера */}
+          <div className="mt-6">
+            <div className="mb-6">
+              <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest">Нашите услуги и готови комплекти</span>
+              <h3 className="text-2xl font-bold text-white mt-1">Професионални решения за градината</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {services.map(srv => (
+                <div 
+                  key={srv._id} 
+                  onClick={() => setSelectedService(srv)}
+                  className="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-lg flex flex-col justify-between hover:bg-white/15 transition cursor-pointer text-white"
+                >
+                  <div>
+                    <div className="h-40 bg-emerald-950/40 rounded-lg mb-4 flex items-center justify-center overflow-hidden border border-white/10">
+                      {srv.imageUrl ? (
+                        <img src={srv.imageUrl} alt={srv.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="p-3 text-center">
+                          <span className="font-bold text-white text-base block">{srv.name}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <h4 className="text-xl font-bold mb-2">{srv.name}</h4>
+                    <p className="text-sm text-emerald-100 mb-4 line-clamp-2">{srv.shortDescription}</p>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                      {srv.startingPriceEUR ? (
+                        <span className="text-xs text-emerald-200">От <strong className="text-white text-base">{srv.startingPriceEUR} €</strong></span>
+                      ) : (
+                        <span className="text-xs text-emerald-300">По оферта</span>
+                      )}
+                    </div>
+
+                    <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
+                      Научете повече
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Раздел товаров */}
-      <main className="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h3 className="text-2xl font-bold text-slate-900">Каталог продукти</h3>
+      {/* Каталог товаров */}
+      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <h3 className="text-3xl font-bold text-slate-900">Каталог продукти</h3>
 
           <div className="flex flex-wrap gap-2">
             <button
@@ -202,58 +249,6 @@ export default function App() {
             ))}
           </div>
         )}
-
-        {/* Раздел Услуги */}
-        <section className="bg-emerald-50/50 border-t border-b border-emerald-100 py-12 px-4 mt-12 rounded-2xl">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-xs font-bold text-emerald-700 uppercase tracking-widest">Професионални услуги Florial</span>
-              <h3 className="text-3xl font-bold text-slate-900 mt-1 mb-3">Услуги и Готови комплекти</h3>
-              <p className="text-slate-600 text-sm">
-                Проектиране, монтаж и поддръжка за поливни системи и озеленяване в района на Бургас и Слънчев бряг.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map(srv => (
-                <div 
-                  key={srv._id} 
-                  onClick={() => setSelectedService(srv)}
-                  className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition cursor-pointer"
-                >
-                  <div>
-                    <div className="h-44 bg-emerald-100/60 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-                      {srv.imageUrl ? (
-                        <img src={srv.imageUrl} alt={srv.name} className="h-full w-full object-cover" />
-                      ) : (
-                        <div className="p-3 text-center">
-                          <span className="font-bold text-emerald-900 text-lg block">{srv.name}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <h4 className="text-xl font-bold text-slate-800 mb-2">{srv.name}</h4>
-                    <p className="text-sm text-slate-600 mb-4">{srv.shortDescription}</p>
-                  </div>
-
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <div>
-                      {srv.startingPriceEUR ? (
-                        <span className="text-xs text-slate-500">От <strong className="text-slate-800 text-base">{srv.startingPriceEUR} €</strong></span>
-                      ) : (
-                        <span className="text-xs text-slate-400">По оферта</span>
-                      )}
-                    </div>
-
-                    <button className="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
-                      Заяви консултация
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* Модальное окно просмотра товара */}
