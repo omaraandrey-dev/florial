@@ -1,5 +1,3 @@
-import { supabase } from '../lib/supabase'
-
 export interface OrderData {
   customer_name: string
   phone: string
@@ -10,41 +8,36 @@ export interface OrderData {
   payment_method?: string
   comment?: string
   items: Array<{
-    sku: string
-    name: string
+    productId: string
     qty: number
-    price: number
+    expectedPrice: number
   }>
-  subtotal: number
 }
 
-export async function createOrder(data: OrderData) {
-  const orderNumber = 'FL-' + Math.floor(100000 + Math.random() * 900000)
+export interface CreatedOrder {
+  orderNumber: string
+}
 
-  // Отправка заказа в Supabase (убрали неиспользуемую переменную order)
-  const { error } = await supabase
-    .from('orders')
-    .insert([
-      {
-        order_number: orderNumber,
-        customer_name: data.customer_name,
-        phone: data.phone,
-        email: data.email,
-        city: data.city,
-        address: data.address,
-        delivery_method: data.delivery_method || 'Econt Courier',
-        payment_method: data.payment_method || 'Cash on delivery',
-        comment: data.comment || '',
-        items: data.items,
-        total_price: data.subtotal,
-        status: 'new'
-      }
-    ])
+export async function createOrder(data: OrderData): Promise<CreatedOrder> {
+  const response = await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
 
-  if (error) {
-    console.error('Помилка при запис в Supabase:', error)
-    throw new Error('Грешка при запазване на поръчката')
+  const result = await response.json().catch(() => null)
+
+  if (!response.ok) {
+    throw new Error(
+      typeof result?.error === 'string'
+        ? result.error
+        : 'Грешка при запазване на поръчката. Моля, опитайте отново.'
+    )
   }
 
-  return { orderNumber }
+  if (!result?.orderNumber) {
+    throw new Error('Поръчката не беше потвърдена от сървъра.')
+  }
+
+  return { orderNumber: result.orderNumber as string }
 }
