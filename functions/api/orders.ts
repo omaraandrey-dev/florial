@@ -66,7 +66,7 @@ export const onRequestPost = async ({
     return json({ error: 'Количката е празна или съдържа твърде много артикули.' }, 400)
   }
 
-  const requestedItems: Array<{ productId: string; qty: number }> = []
+  const requestedItems: Array<{ productId: string; qty: number; expectedPrice: number }> = []
   for (const item of body.items) {
     if (!item || typeof item !== 'object') {
       return json({ error: 'Невалиден артикул в количката.' }, 400)
