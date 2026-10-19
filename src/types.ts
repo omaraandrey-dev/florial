@@ -8,6 +8,10 @@ export interface CategoryItem {
   seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
 }
 
+export interface CartItem {
+  product: Product
+  quantity: number
+}
 export interface Product {
   _id: string
   name: string
