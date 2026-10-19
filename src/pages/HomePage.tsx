@@ -22,6 +22,15 @@ export function HomePage({
   onNavigateCategory,
   onSelectProduct,
 }: HomePageProps) {
+  // Сортируем категории так, чтобы главная ("Всичко за поливане") всегда была первой
+  const sortedCategories = [...categories].sort((a, b) => {
+    const isAAll = a.slug?.current === 'vsichko-za-polivane' || a.name.includes('Всичко за поливане')
+    const isBAll = b.slug?.current === 'vsichko-za-polivane' || b.name.includes('Всичко за поливане')
+    if (isAAll) return -1
+    if (isBAll) return 1
+    return (a.sortOrder || 0) - (b.sortOrder || 0)
+  })
+
   return (
     <div>
       <section className="bg-emerald-900 text-white py-12 px-4">
@@ -78,72 +87,38 @@ export function HomePage({
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
         <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Каталог продукти</h3>
 
-        {categories.length > 0 && (
+        {sortedCategories.length > 0 && (
           <div className="mb-12">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">Изберете категория</span>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
-              {categories.map(cat => (
-                <div
-                  key={cat._id}
-                  onClick={() => onNavigateCategory(cat.slug?.current, cat._id)}
-                  className="bg-white rounded-xl p-3 md:p-4 border border-slate-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col items-center text-center group"
-                >
-                  <div className="w-full h-24 sm:h-32 md:h-36 bg-slate-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
-                    {cat.imageUrl ? (
-                      <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-                    ) : (
-                      <span className="text-xs text-slate-400">Няма снимка</span>
-                    )}
+              {sortedCategories.map((cat, index) => {
+                const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
+                return (
+                  <div
+                    key={cat._id}
+                    onClick={() => onNavigateCategory(cat.slug?.current, cat._id)}
+                    className={`rounded-xl p-3 md:p-4 border transition cursor-pointer flex flex-col items-center text-center group ${
+                      isMainCategory 
+                        ? 'bg-emerald-50/80 border-emerald-300 shadow-sm hover:shadow-md' 
+                        : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
+                    }`}
+                  >
+                    <div className="w-full h-24 sm:h-32 md:h-36 bg-slate-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
+                      {cat.imageUrl ? (
+                        <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                      ) : (
+                        <span className="text-xs text-slate-400">Няма снимка</span>
+                      )}
+                    </div>
+                    <h4 className={`font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ${
+                      isMainCategory ? 'text-emerald-900 font-extrabold' : 'text-slate-800'
+                    }`}>
+                      {cat.name}
+                    </h4>
                   </div>
-                  <h4 className="font-bold text-xs sm:text-sm md:text-base text-slate-800 group-hover:text-emerald-700 transition line-clamp-2">
-                    {cat.name}
-                  </h4>
-                </div>
-              ))}
+                )
+              })}
             </div>
-          </div>
-        )}
-
-        <div className="flex justify-between items-center mb-6">
-          <h4 className="text-xl font-bold text-slate-800">Всички продукти</h4>
-        </div>
-
-        {loadingProducts ? (
-          <p className="text-slate-500">Зареждане на продукти от Sanity CMS...</p>
-        ) : products.length === 0 ? (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-            <p className="text-slate-600 font-medium">Няма намерени продукти.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map(product => (
-              <div 
-                key={product._id} 
-                onClick={() => onSelectProduct(product)}
-                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between hover:shadow-md transition cursor-pointer"
-              >
-                <div>
-                  <div className="h-40 bg-slate-100 rounded-lg mb-3 flex items-center justify-center text-slate-400 text-sm overflow-hidden">
-                    {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain p-2" />
-                    ) : (
-                      <span className="text-xs text-slate-400">Няма снимка</span>
-                    )}
-                  </div>
-                  <div className="flex justify-between items-center text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">
-                    <span>{product.category || 'Оборудване'}</span>
-                    {product.sku && <span className="text-slate-400">SKU: {product.sku}</span>}
-                  </div>
-                  <h4 className="font-bold text-slate-800 mb-2 leading-snug hover:text-emerald-700 transition">{product.name}</h4>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-800">{(product.priceEUR || 0).toFixed(2)} €</span>
-                  <button className="bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition cursor-pointer">
-                    Преглед
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
         )}
       </main>
