@@ -149,10 +149,13 @@ const settingsQuery = `*[_type == "siteSettings"][0]{
 
 
 const logoQuery = `*[
-  _type == "photo" &&
   slug.current == "oficialno-logo-florial-gradinski-centar"
 ][0]{
-  logoUrl
+  _id,
+  _type,
+  title,
+  slug,
+  "logoUrl": image.asset->url
 }`
         
 const [settData, logoData] = await Promise.all([
