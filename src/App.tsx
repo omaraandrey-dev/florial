@@ -188,36 +188,31 @@ export default function App() {
       setLoadingProductDetails(true)
       try {
         const query = `*[_type == "product" && (slug.current == $slug || _id == $slug)][0] {
-          _id,
-          name,
-          slug,
-          sku,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "galleryImages": images[].asset->url,
-          shortDescription,
-          description,
-          specifications,
-          "category": category->name,
-          "categoryId": category->_id,
-          "categorySlug": category->slug.current,
-          "categories": categories[]-> { _id, name, slug },
-          documents[] {
-            title,
-            "fileUrl": file.asset->url
-          },
-          compatibleProducts[]-> {
-            _id, name, slug, priceEUR, stockStatus,
-            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-            "category": category->name
-          },
-          relatedProducts[]-> {
-            _id, name, slug, priceEUR, stockStatus,
-            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-            "category": category->name
-          }
+  _id,
+  name,
+  slug,
+  sku,
+  priceEUR,
+  oldPriceEUR,
+  stockStatus,
+  "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+  "galleryImages": gallery[].asset->url,
+  shortDescription,
+  description,
+  specifications,
+  "category": category->name,
+  "categoryId": category->_id,
+  "categorySlug": category->slug.current,
+  "categories": categories[]-> { _id, name, slug },
+  documents[] {
+    title,
+    "fileUrl": file.asset->url
+  },
+  compatibleProducts[]-> {
+    _id, name, slug, priceEUR, stockStatus,
+    "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+    "category": category->name
+  }
         }`
         const data = await sanityClient.fetch(query, { slug: activeProductSlug })
         setCurrentProduct(data || foundInState || null)
