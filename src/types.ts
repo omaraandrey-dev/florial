@@ -5,11 +5,7 @@ export interface CategoryItem {
   imageUrl?: string
   description?: any
   sortOrder?: number
-  seo?: {
-    metaTitle?: string
-    metaDescription?: string
-    noIndex?: boolean
-  }
+  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
 }
 
 export interface Product {
@@ -20,12 +16,18 @@ export interface Product {
   oldPriceEUR?: number
   sku?: string
   imageUrl?: string
+  galleryImages?: string[]
   category?: string
   categoryId?: string
+  categorySlug?: string
+  categories?: Array<{ _id: string; name: string; slug?: { current: string } }>
   stockStatus?: string
   description?: any
   shortDescription?: string
   specifications?: Array<{ name: string; value: string; unit?: string }>
+  documents?: Array<{ title: string; fileUrl: string }>
+  compatibleProducts?: Product[]
+  relatedProducts?: Product[]
 }
 
 export interface ServiceItem {
@@ -42,12 +44,7 @@ export interface ServiceItem {
   hero?: { title?: string; subtitle?: string }
   callToAction?: { title?: string; buttonText?: string }
   leadForm?: { formTitle?: string; submitButtonText?: string }
-  seo?: {
-    metaTitle?: string
-    metaDescription?: string
-    seoTitle?: string
-    seoDescription?: string
-  }
+  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string }
 }
 
 export interface SiteSettings {
