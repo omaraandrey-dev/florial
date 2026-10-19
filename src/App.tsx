@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { sanityClient } from './lib/sanity'
 import type { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
 import { Header } from './components/Header'
