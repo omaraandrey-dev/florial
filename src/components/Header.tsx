@@ -39,23 +39,33 @@ export function Header({
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         
         {/* Логотип как ИЗОБРАЖЕНИЕ */}
-        <div 
-          onClick={onNavigateHome}
-          className="flex items-center gap-2 cursor-pointer select-none flex-shrink-0"
-        >
-          <img 
-            src={logoImageSrc} 
-            alt={siteSettings?.siteName || "Florial"} 
-            className="h-9 md:h-11 w-auto object-contain"
-            onError={(e) => {
-              // Егерь-фоллбэк: если картинка не загрузилась по пути /logo.png, пробуем /logo.svg
-              if (e.currentTarget.src.endsWith('/logo.png')) {
-                e.currentTarget.src = '/logo.svg'
-              }
-            }}
-          />
-        </div>
+        {/* Логотип */}
+<div 
+  onClick={onNavigateHome}
+  className="flex items-center gap-2 cursor-pointer select-none flex-shrink-0"
+>
+  {siteSettings?.logoUrl ? (
+    <img 
+      src={siteSettings.logoUrl} 
+      alt={siteSettings?.siteName || "Florial"} 
+      className="h-9 md:h-11 w-auto object-contain"
+      onError={(e) => {
+        // Если картинка из Sanity не загрузилась, скрываем img и показываем текст
+        e.currentTarget.style.display = 'none'
+        const fallback = e.currentTarget.nextElementSibling as HTMLElement
+        if (fallback) fallback.style.display = 'inline-block'
+      }}
+    />
+  ) : null}
 
+  {/* Текстовый логотип (показывается всегда, если нет картинки из Sanity) */}
+  <span 
+    style={{ display: siteSettings?.logoUrl ? 'none' : 'inline-block' }}
+    className="text-2xl md:text-3xl font-black text-emerald-800 tracking-tight"
+  >
+    FLORIAL<span className="text-emerald-500">.BG</span>
+  </span>
+</div>
         {/* Правая часть: Корзина + Главное Меню + Мобильная гамбургер-кнопка */}
         <div className="flex items-center gap-3 md:gap-6">
           
