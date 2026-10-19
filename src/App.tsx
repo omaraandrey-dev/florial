@@ -141,38 +141,31 @@ export default function App() {
         setServices(sData || [])
 
 
-const logoQuery = `*[
-  slug.current == "oficialno-logo-florial-gradinski-centar"
-][0]{
-  _id,
-  _type,
-  title,
-  slug,
-  "logoUrl": image.asset->url
-}`
-
-const logoData = await sanityClient.fetch(logoQuery)
-
-console.log('Документ логотипа:', logoData)
-
-
-        
 const settingsQuery = `*[_type == "siteSettings"][0]{
   siteName,
   heroTitle,
-  heroSubtitle,
-  "logoUrl": coalesce(
-    logo.asset->url,
-    mainLogo.asset->url,
-    headerLogo.asset->url,
-    image.asset->url
-  )
+  heroSubtitle
 }`
 
-const settData = await sanityClient.fetch(settingsQuery)
+const logoQuery = `*[
+  _type == "photo" &&
+  slug.current == "oficialno-logo-florial-gradinski-centar"
+][0]{
+  "logoUrl": logoUrl
+}`
+
+const [settData, logoData] = await Promise.all([
+  sanityClient.fetch(settingsQuery),
+  sanityClient.fetch(logoQuery)
+])
+
 console.log('Настройки сайта:', settData)
-console.log('URL логотипа:', settData?.logoUrl)
-setSiteSettings(settData || null)
+console.log('URL логотипа:', logoData?.logoUrl)
+
+setSiteSettings({
+  ...settData,
+  logoUrl: logoData?.logoUrl || null
+})
 
       } catch (err) {
         console.error('Грешка при зареждане от Sanity:', err)
