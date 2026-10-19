@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { ServiceItem, CategoryItem, CartItem } from '../types'
 
 interface HeaderProps {
@@ -22,6 +22,10 @@ export function Header({
   onNavigateContacts,
   onNavigateCart,
 }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+  const [isServicesOpen, setIsServicesOpen] = useState(false)
+
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalCartPrice = cart.reduce((sum, item) => sum + (item.product.priceEUR || 0) * item.quantity, 0)
 
@@ -39,13 +43,13 @@ export function Header({
           </span>
         </div>
 
-        {/* Навигация и кнопка корзины */}
-        <div className="flex items-center gap-4">
+        {/* Правая часть: Корзина + Десктопное Меню + Мобильная кнопка */}
+        <div className="flex items-center gap-3 md:gap-6">
           
-          {/* Кнопка Корзины слева от меню */}
+          {/* Кнопка Корзины */}
           <button
             onClick={onNavigateCart}
-            className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-900 font-bold px-3.5 py-2 rounded-xl transition cursor-pointer relative"
+            className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-900 font-bold px-3 py-2 md:px-3.5 md:py-2 rounded-xl transition cursor-pointer relative"
           >
             <svg
               className="w-5 h-5 text-emerald-700"
@@ -69,23 +73,171 @@ export function Header({
               </span>
             )}
             {totalCartPrice > 0 && (
-              <span className="text-xs font-extrabold text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-md hidden md:inline">
+              <span className="text-xs font-extrabold text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-md hidden lg:inline">
                 {totalCartPrice.toFixed(2)} €
               </span>
             )}
           </button>
 
-          {/* Навигационные ссылки */}
+          {/* Главное Десктопное Меню */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
             <button onClick={onNavigateHome} className="hover:text-emerald-700 transition cursor-pointer">
               Начало
             </button>
+
+            {/* Выпадающее меню категорий */}
+            {categories.length > 0 && (
+              <div 
+                className="relative group"
+                onMouseEnter={() => setIsCategoriesOpen(true)}
+                onMouseLeave={() => setIsCategoriesOpen(false)}
+              >
+                <button 
+                  onClick={() => onNavigateCategory('vsichko-za-polivane')}
+                  className="hover:text-emerald-700 py-2 flex items-center gap-1 transition cursor-pointer"
+                >
+                  Каталог
+                  <span className="text-xs">▾</span>
+                </button>
+                {isCategoriesOpen && (
+                  <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat._id}
+                        onClick={() => {
+                          onNavigateCategory(cat.slug?.current, cat._id)
+                          setIsCategoriesOpen(false)
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition cursor-pointer"
+                      >
+                        {cat.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Выпадающее меню услуг */}
+            {services.length > 0 && (
+              <div 
+                className="relative group"
+                onMouseEnter={() => setIsServicesOpen(true)}
+                onMouseLeave={() => setIsServicesOpen(false)}
+              >
+                <button className="hover:text-emerald-700 py-2 flex items-center gap-1 transition cursor-pointer">
+                  Услуги
+                  <span className="text-xs">▾</span>
+                </button>
+                {isServicesOpen && (
+                  <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50">
+                    {services.map((srv) => (
+                      <button
+                        key={srv._id}
+                        onClick={() => {
+                          onNavigateService(srv.slug?.current, srv._id)
+                          setIsServicesOpen(false)
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition cursor-pointer"
+                      >
+                        {srv.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             <button onClick={onNavigateContacts} className="hover:text-emerald-700 transition cursor-pointer">
               Контакти
             </button>
           </nav>
+
+          {/* Гамбургер-кнопка для мобильных устройств */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none cursor-pointer"
+            aria-label="Меню"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* Мобильное Выпадающее Меню */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-4 space-y-3 shadow-md">
+          <button
+            onClick={() => {
+              onNavigateHome()
+              setIsMenuOpen(false)
+            }}
+            className="block w-full text-left py-2 font-semibold text-slate-800 hover:text-emerald-700"
+          >
+            Начало
+          </button>
+
+          {categories.length > 0 && (
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Категории
+              </span>
+              <div className="pl-2 space-y-1 border-l-2 border-emerald-100">
+                {categories.map((cat) => (
+                  <button
+                    key={cat._id}
+                    onClick={() => {
+                      onNavigateCategory(cat.slug?.current, cat._id)
+                      setIsMenuOpen(false)
+                    }}
+                    className="block w-full text-left py-1.5 text-sm text-slate-700 hover:text-emerald-700"
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {services.length > 0 && (
+            <div>
+              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                Услуги
+              </span>
+              <div className="pl-2 space-y-1 border-l-2 border-emerald-100">
+                {services.map((srv) => (
+                  <button
+                    key={srv._id}
+                    onClick={() => {
+                      onNavigateService(srv.slug?.current, srv._id)
+                      setIsMenuOpen(false)
+                    }}
+                    className="block w-full text-left py-1.5 text-sm text-slate-700 hover:text-emerald-700"
+                  >
+                    {srv.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <button
+            onClick={() => {
+              onNavigateContacts()
+              setIsMenuOpen(false)
+            }}
+            className="block w-full text-left py-2 font-semibold text-slate-800 hover:text-emerald-700"
+          >
+            Контакти
+          </button>
+        </div>
+      )}
     </header>
   )
 }
