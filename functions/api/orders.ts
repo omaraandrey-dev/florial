@@ -15,6 +15,9 @@ type RuntimeEnv = {
   SUPABASE_SERVICE_ROLE_KEY?: string
   SANITY_PROJECT_ID?: string
   SANITY_DATASET?: string
+  RESEND_API_KEY?: string
+  EMAIL_FROM?: string
+  ORDER_NOTIFICATION_EMAIL?: string
 }
 
 type SanityProduct = {
@@ -32,6 +35,36 @@ const json = (body: Record<string, unknown>, status = 200) =>
 
 const cleanText = (value: unknown, maxLength = 500): string =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : ''
+
+
+const escapeHtml = (value: string): string =>
+  value.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[char] || char)
+
+const sendOrderEmail = async (
+  apiKey: string,
+  from: string,
+  to: string,
+  subject: string,
+  html: string,
+): Promise<void> => {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + apiKey,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ from, to: [to], subject, html }),
+  })
+  if (!response.ok) {
+    throw new Error('Email provider returned ' + response.status + ': ' + await response.text())
+  }
+}
 
 export const onRequestPost = async ({
   request,
@@ -173,6 +206,53 @@ export const onRequestPost = async ({
   } catch (error) {
     console.error('Order endpoint network error:', error)
     return json({ error: 'Временно не можем да запазим поръчката. Моля, опитайте отново.' }, 502)
+  }
+
+
+  // Email is best-effort: a mail-provider outage must not fail a saved order.
+  if (env.RESEND_API_KEY && env.EMAIL_FROM) {
+    const itemsHtml = orderItems.map((item) =>
+      '<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb">' +
+      escapeHtml(item.name) + (item.sku ? '<br><small>SKU: ' + escapeHtml(item.sku) + '</small>' : '') +
+      '</td><td style="padding:8px;text-align:center;border-bottom:1px solid #e5e7eb">' +
+      item.qty + '</td><td style="padding:8px;text-align:right;border-bottom:1px solid #e5e7eb">' +
+      (item.price * item.qty).toFixed(2) + ' €</td></tr>'
+    ).join('')
+    const detailsHtml = '<p><strong>Номер на поръчката:</strong> ' + escapeHtml(orderNumber) + '</p>' +
+      '<p><strong>Клиент:</strong> ' + escapeHtml(customerName) + '<br>' +
+      '<strong>Телефон:</strong> ' + escapeHtml(phone) + '<br>' +
+      '<strong>Имейл:</strong> ' + escapeHtml(email || 'Не е посочен') + '<br>' +
+      '<strong>Населено място:</strong> ' + escapeHtml(city) + '<br>' +
+      '<strong>Адрес:</strong> ' + escapeHtml(address || 'Не е посочен') + '</p>' +
+      (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
+      '<table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
+      itemsHtml + '</tbody></table><p style="text-align:right;font-size:18px"><strong>Общо: ' +
+      subtotal.toFixed(2) + ' €</strong></p><p>Разходите за доставка, ако има такива, ще бъдат потвърдени допълнително.</p>'
+
+    const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
+    const mailTasks: Promise<void>[] = []
+    if (sellerEmail && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(sellerEmail)) {
+      mailTasks.push(sendOrderEmail(
+        env.RESEND_API_KEY,
+        env.EMAIL_FROM,
+        sellerEmail,
+        'Нова поръчка ' + orderNumber + ' — Florial',
+        '<h1>Получена е нова поръчка</h1>' + detailsHtml,
+      ))
+    }
+    if (email) {
+      mailTasks.push(sendOrderEmail(
+        env.RESEND_API_KEY,
+        env.EMAIL_FROM,
+        email,
+        'Потвърждение на поръчка ' + orderNumber + ' — Florial',
+        '<h1>Благодарим ви за поръчката!</h1><p>Получихме вашата заявка. Екипът на Florial ще се свърже с вас за потвърждение.</p>' + detailsHtml,
+      ))
+    }
+    const mailResults = await Promise.allSettled(mailTasks)
+    for (const result of mailResults) {
+      if (result.status === 'rejected') console.error('Order email failed:', result.reason)
+    }
   }
 
   return json({ orderNumber }, 201)
