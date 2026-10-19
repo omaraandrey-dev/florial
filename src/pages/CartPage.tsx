@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import type { CartItem } from '../types'
+import { createOrder } from '../services/orderService'
 
 interface CartPageProps {
   cart: CartItem[]
@@ -17,6 +18,9 @@ export function CartPage({
   onNavigateHome,
 }: CartPageProps) {
   const [orderSubmitted, setOrderSubmitted] = useState(false)
+  const [orderNumber, setOrderNumber] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -31,15 +35,39 @@ export function CartPage({
     0
   )
 
-  const handleSubmitOrder = (e: React.FormEvent) => {
+  const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (cart.length === 0) return
+    if (cart.length === 0 || isSubmitting) return
 
-    // Здесь происходит отправка заказа (на бэкенд, e-mail или в Telegram)
-    console.log('Поръчка:', { cart, customer: formData, totalPrice })
+    setIsSubmitting(true)
+    setSubmitError('')
 
-    setOrderSubmitted(true)
-    onClearCart()
+    try {
+      const result = await createOrder({
+        customer_name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        city: formData.city.trim(),
+        address: formData.address.trim(),
+        comment: formData.comment.trim(),
+        items: cart.map(({ product, quantity }) => ({
+          productId: product._id,
+          qty: quantity,
+        })),
+      })
+
+      setOrderNumber(result.orderNumber)
+      setOrderSubmitted(true)
+      onClearCart()
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : 'Възникна грешка при изпращане на поръчката. Моля, опитайте отново.'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (orderSubmitted) {
@@ -53,7 +81,7 @@ export function CartPage({
             Благодарим ви за поръчката!
           </h1>
           <p className="text-slate-600 mb-8 max-w-md mx-auto">
-            Вашата поръчка беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.
+            Вашата поръчка {orderNumber ? `№ ${orderNumber} ` : ''}беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.
           </p>
           <button
             onClick={onNavigateHome}
@@ -230,11 +258,17 @@ export function CartPage({
                 />
               </div>
 
+              {submitError && (
+                <p role="alert" className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-lg p-3">
+                  {submitError}
+                </p>
+              )}
               <button
                 type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
+                disabled={isSubmitting}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
-                Изпрати поръчката
+                {isSubmitting ? 'Изпращане...' : 'Изпрати поръчката'}
               </button>
             </form>
           </div>
