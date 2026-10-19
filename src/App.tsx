@@ -140,6 +140,22 @@ export default function App() {
         }`)
         setServices(sData || [])
 
+
+const logoQuery = `*[
+  slug.current == "oficialno-logo-florial-gradinski-centar"
+][0]{
+  _id,
+  _type,
+  title,
+  slug,
+  "logoUrl": image.asset->url
+}`
+
+const logoData = await sanityClient.fetch(logoQuery)
+
+console.log('Документ логотипа:', logoData)
+
+
         
 const settingsQuery = `*[_type == "siteSettings"][0]{
   siteName,
