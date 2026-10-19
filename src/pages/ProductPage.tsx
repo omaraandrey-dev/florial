@@ -20,13 +20,17 @@ export function ProductPage({
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
 
-  // Установка начального изображения при изменении товара
+  // Собираем все изображения: главное (imageUrl) + галерея (galleryImages)
+  const allImages = [
+    product.imageUrl,
+    ...(product.galleryImages || [])
+  ].filter(Boolean) as string[]
+
   useEffect(() => {
-    setSelectedImage(product.imageUrl || '')
+    setSelectedImage(product.imageUrl || allImages[0] || '')
     setQuantity(1)
   }, [product])
 
-  // SEO-метаданные
   useEffect(() => {
     if (!product) return
     document.title = `${product.name} | Флориал`
@@ -47,21 +51,15 @@ export function ProductPage({
     setTimeout(() => setAddedNotification(false), 2500)
   }
 
-  // Все доступные изображения для галереи
-  const allImages = [
-    product.imageUrl,
-    ...(product.galleryImages || [])
-  ].filter(Boolean) as string[]
-
   return (
     <main className="flex-grow container mx-auto px-4 py-6 max-w-7xl">
       {/* Хлебные крошки */}
       <nav className="mb-6 flex items-center text-sm text-slate-500 flex-wrap gap-1">
-        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors">
+        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors cursor-pointer">
           Начало
         </button>
         <span className="mx-1">/</span>
-        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors">
+        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors cursor-pointer">
           Каталог
         </button>
         {product.category && (
@@ -69,7 +67,7 @@ export function ProductPage({
             <span className="mx-1">/</span>
             <button 
               onClick={() => onNavigateCategory(product.categorySlug, product.categoryId)}
-              className="hover:text-emerald-700 transition-colors"
+              className="hover:text-emerald-700 transition-colors cursor-pointer"
             >
               {product.category}
             </button>
@@ -79,10 +77,8 @@ export function ProductPage({
         <span className="text-slate-800 font-medium truncate max-w-xs">{product.name}</span>
       </nav>
 
-      {/* Основной двухколоночный блок */}
+      {/* Основной блок товара и галерея */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
-        
-        {/* Левая колонка: Галерея */}
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage ? (
@@ -97,14 +93,14 @@ export function ProductPage({
             )}
           </div>
 
-          {/* Миниатюры */}
+          {/* Миниатюры галереи */}
           {allImages.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
               {allImages.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-20 rounded-lg border-2 overflow-hidden flex-shrink-0 bg-slate-50 transition-all ${
+                  className={`w-20 h-20 rounded-lg border-2 overflow-hidden flex-shrink-0 bg-slate-50 transition-all cursor-pointer ${
                     selectedImage === img ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
@@ -115,7 +111,7 @@ export function ProductPage({
           )}
         </div>
 
-        {/* Правая колонка: Информация и покупка */}
+        {/* Правая колонка с информацией */}
         <div className="flex flex-col justify-between">
           <div>
             {product.sku && (
@@ -151,7 +147,7 @@ export function ProductPage({
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3 py-2 text-slate-600 hover:bg-slate-200 transition"
+                  className="px-3 py-2 text-slate-600 hover:bg-slate-200 transition cursor-pointer"
                 >
                   -
                 </button>
@@ -160,24 +156,22 @@ export function ProductPage({
                 </span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="px-3 py-2 text-slate-600 hover:bg-slate-200 transition"
+                  className="px-3 py-2 text-slate-600 hover:bg-slate-200 transition cursor-pointer"
                 >
                   +
                 </button>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={handleAdd}
-                className="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Добави в количката</span>
-              </button>
-            </div>
+            <button
+              onClick={handleAdd}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Добави в количката</span>
+            </button>
 
             {addedNotification && (
-              <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium animate-fadeIn">
+              <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium">
                 Продуктът е добавен успешно в кошницата!
               </div>
             )}
@@ -202,13 +196,25 @@ export function ProductPage({
         </section>
       )}
 
-      {/* Полное описание */}
+      {/* Полное описание товара */}
       {product.description && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Описание</h2>
           <div className="text-slate-600 text-base leading-relaxed space-y-4">
             {typeof product.description === 'string' ? (
-              <p>{product.description}</p>
+              <p className="whitespace-pre-line">{product.description}</p>
+            ) : Array.isArray(product.description) ? (
+              // Рендеринг блоков Portable Text из Sanity
+              product.description.map((block: any, idx: number) => {
+                if (block._type === 'block' && block.children) {
+                  return (
+                    <p key={idx}>
+                      {block.children.map((child: any) => child.text).join('')}
+                    </p>
+                  )
+                }
+                return null
+              })
             ) : (
               <p>Детайлно описание на продукта.</p>
             )}
