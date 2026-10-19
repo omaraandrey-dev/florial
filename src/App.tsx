@@ -147,19 +147,21 @@ const settingsQuery = `*[_type == "siteSettings"][0]{
   heroSubtitle
 }`
 
+
 const logoQuery = `*[
   _type == "photo" &&
   slug.current == "oficialno-logo-florial-gradinski-centar"
 ][0]{
-  "logoUrl": logoUrl
+  logoUrl
 }`
-
+        
 const [settData, logoData] = await Promise.all([
   sanityClient.fetch(settingsQuery),
   sanityClient.fetch(logoQuery)
 ])
 
 console.log('Настройки сайта:', settData)
+        console.log('Настройки logoData:', logoData)
 console.log('URL логотипа:', logoData?.logoUrl)
 
 setSiteSettings({
