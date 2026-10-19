@@ -53,6 +53,7 @@ export function CartPage({
         items: cart.map(({ product, quantity }) => ({
           productId: product._id,
           qty: quantity,
+          expectedPrice: product.priceEUR || 0,
         })),
       })
 
@@ -228,6 +229,19 @@ export function CartPage({
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="+359 88 123 4567"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Имейл за потвърждение
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  placeholder="ivan@example.com"
                 />
               </div>
 
