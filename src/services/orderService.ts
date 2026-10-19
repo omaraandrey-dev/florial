@@ -10,6 +10,7 @@ export interface OrderData {
   items: Array<{
     productId: string
     qty: number
+    expectedPrice: number
   }>
 }
 
