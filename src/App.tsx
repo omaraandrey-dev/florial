@@ -125,11 +125,10 @@ export default function App() {
   }
 
   const handleAddToCart = (product: Product, qty: number) => {
-    console.log('Добавлено в корзину:', product.name, 'Количество:', qty)
-    // Здесь можно подключить реальную корзину проекта, если она есть
+    console.log('Добавлено в количката:', product.name, 'Количество:', qty)
   }
 
-  // Первоначальная загрузка каталога, категорий и услуг
+  // Загрузка начальных данных из Sanity
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -162,7 +161,7 @@ export default function App() {
         const settData = await sanityClient.fetch(settingsQuery)
         setSiteSettings(settData || null)
       } catch (err) {
-        console.error('Ошибка при загрузке из Sanity:', err)
+        console.error('Грешка при зареждане от Sanity:', err)
       } finally {
         setLoadingProducts(false)
       }
@@ -171,16 +170,15 @@ export default function App() {
     fetchData()
   }, [])
 
-  // Загрузка детальной информации о товаре при изменении activeProductSlug
+  // Загрузка подробной информации о товаре по slug или id
   useEffect(() => {
     if (!activeProductSlug) {
       setCurrentProduct(null)
       return
     }
 
-    // Сначала ищем в уже загруженном списке
     const foundInState = products.find(p => p.slug?.current === activeProductSlug || p._id === activeProductSlug)
-    if (foundInState && (foundInState.specifications || foundInState.documents)) {
+    if (foundInState && foundInState.description && (foundInState.specifications || foundInState.galleryImages)) {
       setCurrentProduct(foundInState)
       return
     }
@@ -189,37 +187,41 @@ export default function App() {
       setLoadingProductDetails(true)
       try {
         const query = `*[_type == "product" && (slug.current == $slug || _id == $slug)][0] {
-  _id,
-  name,
-  slug,
-  sku,
-  priceEUR,
-  oldPriceEUR,
-  stockStatus,
-  "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-  "galleryImages": gallery[].asset->url,
-  shortDescription,
-  description,
-  specifications,
-  "category": category->name,
-  "categoryId": category->_id,
-  "categorySlug": category->slug.current,
-  "categories": categories[]-> { _id, name, slug },
-  documents[] {
-    title,
-    "fileUrl": file.asset->url
-  },
-  compatibleProducts[]-> {
-    _id, name, slug, priceEUR, stockStatus,
-    "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-    "category": category->name
-  }
-}`
+          _id,
+          name,
+          slug,
+          sku,
+          priceEUR,
+          oldPriceEUR,
+          stockStatus,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "galleryImages": gallery[].asset->url,
+          shortDescription,
+          description,
+          specifications,
+          "category": category->name,
+          "categoryId": category->_id,
+          "categorySlug": category->slug.current,
+          "categories": categories[]-> { _id, name, slug },
+          documents[] {
+            title,
+            "fileUrl": file.asset->url
+          },
+          compatibleProducts[]-> {
+            _id, name, slug, priceEUR, stockStatus,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            "category": category->name
+          },
+          relatedProducts[]-> {
+            _id, name, slug, priceEUR, stockStatus,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            "category": category->name
+          }
         }`
         const data = await sanityClient.fetch(query, { slug: activeProductSlug })
         setCurrentProduct(data || foundInState || null)
       } catch (err) {
-        console.error('Ошибка загрузки товара:', err)
+        console.error('Грешка при зареждане на продукта:', err)
         setCurrentProduct(foundInState || null)
       } finally {
         setLoadingProductDetails(false)
