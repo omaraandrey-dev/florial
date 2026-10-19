@@ -7,18 +7,18 @@ import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
 import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
+import { CartPage } from './pages/CartPage'
 
-import type { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
+import type { CategoryItem, Product, ServiceItem, SiteSettings, CartItem } from './types'
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
+  const [cart, setCart] = useState<CartItem[]>([])
 
   const [loadingProducts, setLoadingProducts] = useState(true)
-  
-  // Текущий открытый товар при детальном просмотре
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
   
@@ -26,41 +26,42 @@ export default function App() {
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
   const [activeProductSlug, setActiveProductSlug] = useState<string | null>(null)
   const [isContactsOpen, setIsContactsOpen] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   // Роутинг по URL
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
-      if (path.startsWith('/services/')) {
-        setActiveServiceSlug(path.replace('/services/', ''))
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
+      if (path === '/cart') {
+        setIsCartOpen(true)
         setIsContactsOpen(false)
-        setCurrentProduct(null)
-      } else if (path.startsWith('/category/')) {
-        setActiveCategorySlug(path.replace('/category/', ''))
-        setActiveServiceSlug(null)
-        setActiveProductSlug(null)
-        setIsContactsOpen(false)
-        setCurrentProduct(null)
-      } else if (path.startsWith('/product/') || path.startsWith('/products/')) {
-        const slug = path.replace(/^\/(product|products)\//, '')
-        setActiveProductSlug(slug)
         setActiveServiceSlug(null)
         setActiveCategorySlug(null)
-        setIsContactsOpen(false)
+        setActiveProductSlug(null)
       } else if (path === '/contacts') {
         setIsContactsOpen(true)
+        setIsCartOpen(false)
         setActiveServiceSlug(null)
         setActiveCategorySlug(null)
         setActiveProductSlug(null)
-        setCurrentProduct(null)
-      } else {
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
+      } else if (path.startsWith('/services/')) {
+        setActiveServiceSlug(path.replace('/services/', ''))
+        setIsCartOpen(false)
         setIsContactsOpen(false)
-        setCurrentProduct(null)
+      } else if (path.startsWith('/category/')) {
+        setActiveCategorySlug(path.replace('/category/', ''))
+        setIsCartOpen(false)
+        setIsContactsOpen(false)
+      } else if (path.startsWith('/product/') || path.startsWith('/products/')) {
+        setActiveProductSlug(path.replace(/^\/(product|products)\//, ''))
+        setIsCartOpen(false)
+        setIsContactsOpen(false)
+      } else {
+        setIsCartOpen(false)
+        setIsContactsOpen(false)
+        setActiveServiceSlug(null)
+        setActiveCategorySlug(null)
+        setActiveProductSlug(null)
       }
     }
 
@@ -69,96 +70,77 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
-  // Навигационные функции
-  const navigateToService = (slug?: string, id?: string) => {
-    const target = slug || id
-    if (!target) return
-    window.history.pushState({}, '', `/services/${target}`)
-    setActiveServiceSlug(target)
-    setActiveCategorySlug(null)
-    setActiveProductSlug(null)
+  // Навигация в корзину
+  const navigateToCart = () => {
+    window.history.pushState({}, '', '/cart')
+    setIsCartOpen(true)
     setIsContactsOpen(false)
-    setCurrentProduct(null)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const navigateToCategory = (slug?: string, id?: string) => {
-    const target = slug || id
-    if (!target) return
-    window.history.pushState({}, '', `/category/${target}`)
-    setActiveCategorySlug(target)
-    setActiveServiceSlug(null)
-    setActiveProductSlug(null)
-    setIsContactsOpen(false)
-    setCurrentProduct(null)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const navigateToProduct = (slug: string) => {
-    if (!slug) return
-    window.history.pushState({}, '', `/product/${slug}`)
-    setActiveProductSlug(slug)
-    setActiveServiceSlug(null)
-    setActiveCategorySlug(null)
-    setIsContactsOpen(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const navigateToContacts = () => {
-    window.history.pushState({}, '', '/contacts')
-    setIsContactsOpen(true)
     setActiveServiceSlug(null)
     setActiveCategorySlug(null)
     setActiveProductSlug(null)
-    setCurrentProduct(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const navigateToHome = () => {
-    window.history.pushState({}, '', '/')
-    setActiveServiceSlug(null)
-    setActiveCategorySlug(null)
-    setActiveProductSlug(null)
-    setIsContactsOpen(false)
-    setCurrentProduct(null)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
+  // Функции работы с корзиной
   const handleAddToCart = (product: Product, qty: number) => {
-    console.log('Добавлено в количката:', product.name, 'Количество:', qty)
+    setCart((prev) => {
+      const existing = prev.find((item) => item.product._id === product._id)
+      if (existing) {
+        return prev.map((item) =>
+          item.product._id === product._id
+            ? { ...item, quantity: item.quantity + qty }
+            : item
+        )
+      }
+      return [...prev, { product, quantity: qty }]
+    })
   }
 
-  // Загрузка начальных данных из Sanity
+  const handleUpdateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      handleRemoveFromCart(productId)
+      return
+    }
+    setCart((prev) =>
+      prev.map((item) =>
+        item.product._id === productId ? { ...item, quantity } : item
+      )
+    )
+  }
+
+  const handleRemoveFromCart = (productId: string) => {
+    setCart((prev) => prev.filter((item) => item.product._id !== productId))
+  }
+
+  const handleClearCart = () => setCart([])
+
+  // Первоначальная загрузка данных из Sanity
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const categoryQuery = `*[_type == "category"] | order(sortOrder asc) {
+        const cData = await sanityClient.fetch(`*[_type == "category"] | order(sortOrder asc) {
           _id, name, slug, sortOrder, "imageUrl": image.asset->url, description, seo
-        }`
-        const cData = await sanityClient.fetch(categoryQuery)
+        }`)
         setCategories(cData || [])
 
-        const productQuery = `*[_type == "product" && isActive != false && defined(slug.current)] {
+        const pData = await sanityClient.fetch(`*[_type == "product" && isActive != false && defined(slug.current)] {
           _id, name, slug, sku, priceEUR, oldPriceEUR, stockStatus,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
           "galleryImages": gallery[].asset->url,
           shortDescription, description, specifications,
           "category": category->name, "categoryId": category->_id, "categorySlug": category->slug.current,
           "categories": categories[]-> { _id, name, slug }
-        }`
-        const pData = await sanityClient.fetch(productQuery)
+        }`)
         setProducts(pData || [])
 
-        const serviceQuery = `*[_type == "service" && isActive != false] {
+        const sData = await sanityClient.fetch(`*[_type == "service" && isActive != false] {
           _id, name, slug, shortDescription, description,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
           startingPriceEUR, advantages, steps, hero, callToAction, leadForm, seo
-        }`
-        const sData = await sanityClient.fetch(serviceQuery)
+        }`)
         setServices(sData || [])
 
-        const settingsQuery = `*[_type == "siteSettings"][0]`
-        const settData = await sanityClient.fetch(settingsQuery)
+        const settData = await sanityClient.fetch(`*[_type == "siteSettings"][0]`)
         setSiteSettings(settData || null)
       } catch (err) {
         console.error('Грешка при зареждане от Sanity:', err)
@@ -170,79 +152,64 @@ export default function App() {
     fetchData()
   }, [])
 
-  // Загрузка подробной информации о товаре по slug или id
-  useEffect(() => {
-    if (!activeProductSlug) {
-      setCurrentProduct(null)
-      return
-    }
+  // Переход по страницам
+  const navigateToHome = () => {
+    window.history.pushState({}, '', '/')
+    setIsCartOpen(false)
+    setIsContactsOpen(false)
+    setActiveServiceSlug(null)
+    setActiveCategorySlug(null)
+    setActiveProductSlug(null)
+    setCurrentProduct(null)
+  }
 
-    const foundInState = products.find(p => p.slug?.current === activeProductSlug || p._id === activeProductSlug)
-    if (foundInState && foundInState.description && (foundInState.specifications || foundInState.galleryImages)) {
-      setCurrentProduct(foundInState)
-      return
-    }
+  const navigateToContacts = () => {
+    window.history.pushState({}, '', '/contacts')
+    setIsContactsOpen(true)
+    setIsCartOpen(false)
+    setActiveServiceSlug(null)
+    setActiveCategorySlug(null)
+    setActiveProductSlug(null)
+  }
 
-    const fetchSingleProduct = async () => {
-      setLoadingProductDetails(true)
-      try {
-        const query = `*[_type == "product" && (slug.current == $slug || _id == $slug)][0] {
-          _id,
-          name,
-          slug,
-          sku,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "galleryImages": gallery[].asset->url,
-          shortDescription,
-          description,
-          specifications,
-          "category": category->name,
-          "categoryId": category->_id,
-          "categorySlug": category->slug.current,
-          "categories": categories[]-> { _id, name, slug },
-          documents[] {
-            title,
-            "fileUrl": file.asset->url
-          },
-          compatibleProducts[]-> {
-            _id, name, slug, priceEUR, stockStatus,
-            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-            "category": category->name
-          },
-          relatedProducts[]-> {
-            _id, name, slug, priceEUR, stockStatus,
-            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-            "category": category->name
-          }
-        }`
-        const data = await sanityClient.fetch(query, { slug: activeProductSlug })
-        setCurrentProduct(data || foundInState || null)
-      } catch (err) {
-        console.error('Грешка при зареждане на продукта:', err)
-        setCurrentProduct(foundInState || null)
-      } finally {
-        setLoadingProductDetails(false)
-      }
-    }
+  const navigateToCategory = (slug?: string, id?: string) => {
+    const target = slug || id
+    if (!target) return
+    window.history.pushState({}, '', `/category/${target}`)
+    setActiveCategorySlug(target)
+    setIsCartOpen(false)
+    setIsContactsOpen(false)
+    setActiveServiceSlug(null)
+    setActiveProductSlug(null)
+  }
 
-    fetchSingleProduct()
-  }, [activeProductSlug, products])
+  const navigateToService = (slug?: string, id?: string) => {
+    const target = slug || id
+    if (!target) return
+    window.history.pushState({}, '', `/services/${target}`)
+    setActiveServiceSlug(target)
+    setIsCartOpen(false)
+    setIsContactsOpen(false)
+    setActiveCategorySlug(null)
+    setActiveProductSlug(null)
+  }
 
-  const currentService = services.find(
-    s => s.slug?.current === activeServiceSlug || s._id === activeServiceSlug
-  )
-  const currentCategory = categories.find(
-    c => c.slug?.current === activeCategorySlug || c._id === activeCategorySlug
-  )
+  const navigateToProduct = (slug: string) => {
+    if (!slug) return
+    window.history.pushState({}, '', `/product/${slug}`)
+    setActiveProductSlug(slug)
+    setIsCartOpen(false)
+    setIsContactsOpen(false)
+    setActiveServiceSlug(null)
+    setActiveCategorySlug(null)
+  }
+
+  const currentService = services.find(s => s.slug?.current === activeServiceSlug || s._id === activeServiceSlug)
+  const currentCategory = categories.find(c => c.slug?.current === activeCategorySlug || c._id === activeCategorySlug)
 
   const filteredProducts = useMemo(() => {
     if (!currentCategory) return products
-    if (currentCategory.slug?.current === 'vsichko-za-polivane') {
-      return products
-    }
+    if (currentCategory.slug?.current === 'vsichko-za-polivane') return products
     return products.filter(p => {
       const isMainMatch = p.categoryId === currentCategory._id
       const isMultiMatch = p.categories && p.categories.some((cat: any) => cat._id === currentCategory._id)
@@ -255,13 +222,23 @@ export default function App() {
       <Header
         services={services}
         categories={categories}
+        cart={cart}
         onNavigateHome={navigateToHome}
         onNavigateService={navigateToService}
         onNavigateCategory={navigateToCategory}
         onNavigateContacts={navigateToContacts}
+        onNavigateCart={navigateToCart}
       />
 
-      {isContactsOpen ? (
+      {isCartOpen ? (
+        <CartPage
+          cart={cart}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveFromCart}
+          onClearCart={handleClearCart}
+          onNavigateHome={navigateToHome}
+        />
+      ) : isContactsOpen ? (
         <ContactsPage onNavigateHome={navigateToHome} />
       ) : activeServiceSlug && currentService ? (
         <ServicePage service={currentService} onNavigateHome={navigateToHome} />
@@ -274,11 +251,7 @@ export default function App() {
           onSelectProduct={(p) => p.slug?.current && navigateToProduct(p.slug.current)}
         />
       ) : activeProductSlug ? (
-        loadingProductDetails ? (
-          <div className="flex-grow flex items-center justify-center py-20">
-            <p className="text-slate-500 font-medium">Зареждане на продукта...</p>
-          </div>
-        ) : currentProduct ? (
+        currentProduct ? (
           <ProductPage
             product={currentProduct}
             onNavigateHome={navigateToHome}
@@ -287,15 +260,8 @@ export default function App() {
             onAddToCart={handleAddToCart}
           />
         ) : (
-          <div className="flex-grow flex flex-col items-center justify-center py-20 text-center px-4">
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">Продуктът не е намерен</h2>
-            <p className="text-slate-500 mb-6">Търсеният от вас продукт не съществува или е премахнат.</p>
-            <button
-              onClick={navigateToHome}
-              className="bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition cursor-pointer"
-            >
-              Към началната страница
-            </button>
+          <div className="flex-grow flex items-center justify-center py-20">
+            <p className="text-slate-500 font-medium">Зареждане на продукта...</p>
           </div>
         )
       ) : (
