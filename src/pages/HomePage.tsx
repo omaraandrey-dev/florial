@@ -105,7 +105,7 @@ export function HomePage({
                   >
                     <div className="w-full h-24 sm:h-32 md:h-36 bg-slate-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                        <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-300" />
                       ) : (
                         <span className="text-xs text-slate-400">Няма снимка</span>
                       )}
