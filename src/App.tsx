@@ -142,6 +142,7 @@ export default function App() {
         const productQuery = `*[_type == "product" && isActive != false && defined(slug.current)] {
           _id, name, slug, sku, priceEUR, oldPriceEUR, stockStatus,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "galleryImages": gallery[].asset->url,
           shortDescription, description, specifications,
           "category": category->name, "categoryId": category->_id, "categorySlug": category->slug.current,
           "categories": categories[]-> { _id, name, slug }
@@ -213,6 +214,7 @@ export default function App() {
     "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
     "category": category->name
   }
+}`
         }`
         const data = await sanityClient.fetch(query, { slug: activeProductSlug })
         setCurrentProduct(data || foundInState || null)
