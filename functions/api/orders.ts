@@ -73,10 +73,11 @@ export const onRequestPost = async ({
     }
     const productId = cleanText((item as { productId?: unknown }).productId, 120)
     const qty = (item as { qty?: unknown }).qty
-    if (!productId || !Number.isInteger(qty) || (qty as number) < 1 || (qty as number) > 999) {
+    const expectedPrice = (item as { expectedPrice?: unknown }).expectedPrice
+    if (!productId || !Number.isInteger(qty) || (qty as number) < 1 || (qty as number) > 999 || typeof expectedPrice !== 'number' || !Number.isFinite(expectedPrice) || expectedPrice < 0) {
       return json({ error: 'Невалиден артикул или количество.' }, 400)
     }
-    requestedItems.push({ productId, qty: qty as number })
+    requestedItems.push({ productId, qty: qty as number, expectedPrice })
   }
 
   const supabaseUrl = env.SUPABASE_URL
@@ -116,6 +117,9 @@ export const onRequestPost = async ({
     const price = Number(product?.priceEUR)
     if (!product || !Number.isFinite(price) || price < 0) {
       return json({ error: 'Един или повече продукти вече не са налични. Обновете количката и опитайте отново.' }, 409)
+    }
+    if (Math.abs(price - requested.expectedPrice) > 0.009) {
+      return json({ error: 'Цената на продукт се е променила. Обновете страницата и проверете количката отново.' }, 409)
     }
     orderItems.push({
       sku: cleanText(product.sku, 100),
