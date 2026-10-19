@@ -235,6 +235,7 @@ setSiteSettings(settData || null)
         onNavigateCategory={navigateToCategory}
         onNavigateContacts={navigateToContacts}
         onNavigateCart={navigateToCart}
+        siteSettings={siteSettings}
       />
 
       {isCartOpen ? (
