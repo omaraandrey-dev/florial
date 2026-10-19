@@ -31,38 +31,32 @@ export function Header({
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalCartPrice = cart.reduce((sum, item) => sum + (item.product.priceEUR || 0) * item.quantity, 0)
 
-  // Путь к файлу логотипа из настроек Sanity или из папки public
-  const logoSrc = siteSettings?.logoUrl || '/logo.png' // или /logo.svg в зависимости от вашего файла
-
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         
-        {/* Логотип как ИЗОБРАЖЕНИЕ */}
+        {/* Логотип-картинка из Sanity */}
         <div 
           onClick={onNavigateHome}
           className="flex items-center gap-2 cursor-pointer select-none flex-shrink-0"
         >
-          <img 
-            src={logoSrc} 
-            alt={siteSettings?.siteName || "Florial"} 
-            className="h-9 md:h-11 w-auto object-contain"
-            onError={(e) => {
-              // Если файла картинки нет, показываем аккуратный текстовый логотип
-              e.currentTarget.style.display = 'none'
-              const fallback = e.currentTarget.nextElementSibling as HTMLElement
-              if (fallback) fallback.style.display = 'block'
-            }}
-          />
-          <span className="hidden text-2xl md:text-3xl font-black text-emerald-800 tracking-tight">
-            FLORIAL<span className="text-emerald-500">.BG</span>
-          </span>
+          {siteSettings?.logoUrl ? (
+            <img 
+              src={siteSettings.logoUrl} 
+              alt={siteSettings.siteName || "Florial"} 
+              className="h-9 md:h-11 w-auto object-contain"
+            />
+          ) : (
+            <span className="text-2xl md:text-3xl font-black text-emerald-800 tracking-tight">
+              FLORIAL<span className="text-emerald-500">.BG</span>
+            </span>
+          )}
         </div>
 
         {/* Правая часть: Корзина + Главное Меню + Мобильная гамбургер-кнопка */}
         <div className="flex items-center gap-3 md:gap-6">
           
-          {/* Кнопка Корзины слева от меню */}
+          {/* Кнопка Корзины */}
           <button
             onClick={onNavigateCart}
             className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-900 font-bold px-3 py-2 md:px-3.5 md:py-2 rounded-xl transition cursor-pointer relative flex-shrink-0"
@@ -95,7 +89,7 @@ export function Header({
             )}
           </button>
 
-          {/* Главное Меню (Десктоп) */}
+          {/* Главное Десктопное Меню */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
             <button onClick={onNavigateHome} className="hover:text-emerald-700 transition cursor-pointer">
               Начало
@@ -186,7 +180,7 @@ export function Header({
         </div>
       </div>
 
-      {/* Выпадающее меню для мобильных */}
+      {/* Мобильное выпадающее меню */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-4 space-y-3 shadow-md">
           <button
