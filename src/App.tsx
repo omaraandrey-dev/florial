@@ -102,22 +102,27 @@ export default function App() {
         const cData = await sanityClient.fetch(categoryQuery)
         setCategories(cData || [])
 
-        const productQuery = `*[_type == "product" && isActive != false] {
-          _id,
-          name,
-          slug,
-          sku,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          shortDescription,
-          description,
-          specifications,
-          "category": category->name,
-          "categoryId": category->_id,
-          "categorySlug": category->slug.current
-        }`
+        const productQuery = `*[_type == "product" && isActive != false && defined(slug.current)] {
+  _id,
+  name,
+  slug,
+  sku,
+  priceEUR,
+  oldPriceEUR,
+  stockStatus,
+  "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+  shortDescription,
+  description,
+  specifications,
+  "category": category->name,
+  "categoryId": category->_id,
+  "categorySlug": category->slug.current,
+  "categories": categories[]-> {
+    _id,
+    name,
+    slug
+  }
+}`
         const pData = await sanityClient.fetch(productQuery)
         setProducts(pData || [])
 
@@ -159,9 +164,21 @@ export default function App() {
     c => c.slug?.current === activeCategorySlug || c._id === activeCategorySlug
   )
 
-  const filteredProducts = currentCategory 
-    ? products.filter(p => p.category === currentCategory.name || (p as any).categorySlug === currentCategory.slug?.current || p.categoryId === currentCategory._id)
-    : products
+  const filteredProducts = useMemo(() => {
+  if (!currentCategory) return products
+
+  // Если это главная категория «Всичко за поливане», выводим весь ассортимент
+  if (currentCategory.slug?.current === 'vsichko-za-polivane') {
+    return products
+  }
+
+  // Для тематических категорий проверяем совпадение основного ID или наличие в массиве categories
+  return products.filter(p => {
+    const isMainMatch = p.categoryId === currentCategory._id
+    const isMultiMatch = p.categories && p.categories.some((cat: any) => cat._id === currentCategory._id)
+    return isMainMatch || isMultiMatch
+  })
+}, [products, currentCategory])
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
