@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { sanityClient } from './lib/sanity'
-import type { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { HomePage } from './pages/HomePage'
 import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
+import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
+
+import type { CategoryItem, Product, ServiceItem, SiteSettings } from './types'
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([])
@@ -15,33 +17,50 @@ export default function App() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
 
   const [loadingProducts, setLoadingProducts] = useState(true)
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   
-  // Состояние активных страниц
+  // Текущий открытый товар при детальном просмотре
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
+  const [loadingProductDetails, setLoadingProductDetails] = useState(false)
+  
   const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null)
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
+  const [activeProductSlug, setActiveProductSlug] = useState<string | null>(null)
   const [isContactsOpen, setIsContactsOpen] = useState(false)
 
-  // Маршрутизация по URL
+  // Роутинг по URL
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
       if (path.startsWith('/services/')) {
         setActiveServiceSlug(path.replace('/services/', ''))
         setActiveCategorySlug(null)
+        setActiveProductSlug(null)
         setIsContactsOpen(false)
+        setCurrentProduct(null)
       } else if (path.startsWith('/category/')) {
         setActiveCategorySlug(path.replace('/category/', ''))
         setActiveServiceSlug(null)
+        setActiveProductSlug(null)
+        setIsContactsOpen(false)
+        setCurrentProduct(null)
+      } else if (path.startsWith('/product/') || path.startsWith('/products/')) {
+        const slug = path.replace(/^\/(product|products)\//, '')
+        setActiveProductSlug(slug)
+        setActiveServiceSlug(null)
+        setActiveCategorySlug(null)
         setIsContactsOpen(false)
       } else if (path === '/contacts') {
         setIsContactsOpen(true)
         setActiveServiceSlug(null)
         setActiveCategorySlug(null)
+        setActiveProductSlug(null)
+        setCurrentProduct(null)
       } else {
         setActiveServiceSlug(null)
         setActiveCategorySlug(null)
+        setActiveProductSlug(null)
         setIsContactsOpen(false)
+        setCurrentProduct(null)
       }
     }
 
@@ -50,13 +69,16 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
+  // Навигационные функции
   const navigateToService = (slug?: string, id?: string) => {
     const target = slug || id
     if (!target) return
     window.history.pushState({}, '', `/services/${target}`)
     setActiveServiceSlug(target)
     setActiveCategorySlug(null)
+    setActiveProductSlug(null)
     setIsContactsOpen(false)
+    setCurrentProduct(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -66,6 +88,18 @@ export default function App() {
     window.history.pushState({}, '', `/category/${target}`)
     setActiveCategorySlug(target)
     setActiveServiceSlug(null)
+    setActiveProductSlug(null)
+    setIsContactsOpen(false)
+    setCurrentProduct(null)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const navigateToProduct = (slug: string) => {
+    if (!slug) return
+    window.history.pushState({}, '', `/product/${slug}`)
+    setActiveProductSlug(slug)
+    setActiveServiceSlug(null)
+    setActiveCategorySlug(null)
     setIsContactsOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -75,6 +109,8 @@ export default function App() {
     setIsContactsOpen(true)
     setActiveServiceSlug(null)
     setActiveCategorySlug(null)
+    setActiveProductSlug(null)
+    setCurrentProduct(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -82,64 +118,41 @@ export default function App() {
     window.history.pushState({}, '', '/')
     setActiveServiceSlug(null)
     setActiveCategorySlug(null)
+    setActiveProductSlug(null)
     setIsContactsOpen(false)
+    setCurrentProduct(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // Загрузка данных из Sanity
+  const handleAddToCart = (product: Product, qty: number) => {
+    console.log('Добавлено в корзину:', product.name, 'Количество:', qty)
+    // Здесь можно подключить реальную корзину проекта, если она есть
+  }
+
+  // Первоначальная загрузка каталога, категорий и услуг
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoryQuery = `*[_type == "category"] | order(sortOrder asc) {
-          _id,
-          name,
-          slug,
-          sortOrder,
-          "imageUrl": image.asset->url,
-          description,
-          seo
+          _id, name, slug, sortOrder, "imageUrl": image.asset->url, description, seo
         }`
         const cData = await sanityClient.fetch(categoryQuery)
         setCategories(cData || [])
 
         const productQuery = `*[_type == "product" && isActive != false && defined(slug.current)] {
-  _id,
-  name,
-  slug,
-  sku,
-  priceEUR,
-  oldPriceEUR,
-  stockStatus,
-  "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-  shortDescription,
-  description,
-  specifications,
-  "category": category->name,
-  "categoryId": category->_id,
-  "categorySlug": category->slug.current,
-  "categories": categories[]-> {
-    _id,
-    name,
-    slug
-  }
-}`
+          _id, name, slug, sku, priceEUR, oldPriceEUR, stockStatus,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          shortDescription, description, specifications,
+          "category": category->name, "categoryId": category->_id, "categorySlug": category->slug.current,
+          "categories": categories[]-> { _id, name, slug }
+        }`
         const pData = await sanityClient.fetch(productQuery)
         setProducts(pData || [])
 
         const serviceQuery = `*[_type == "service" && isActive != false] {
-          _id,
-          name,
-          slug,
-          shortDescription,
-          description,
+          _id, name, slug, shortDescription, description,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
-          startingPriceEUR,
-          advantages,
-          steps,
-          hero,
-          callToAction,
-          leadForm,
-          seo
+          startingPriceEUR, advantages, steps, hero, callToAction, leadForm, seo
         }`
         const sData = await sanityClient.fetch(serviceQuery)
         setServices(sData || [])
@@ -157,6 +170,68 @@ export default function App() {
     fetchData()
   }, [])
 
+  // Загрузка детальной информации о товаре при изменении activeProductSlug
+  useEffect(() => {
+    if (!activeProductSlug) {
+      setCurrentProduct(null)
+      return
+    }
+
+    // Сначала ищем в уже загруженном списке
+    const foundInState = products.find(p => p.slug?.current === activeProductSlug || p._id === activeProductSlug)
+    if (foundInState && (foundInState.specifications || foundInState.documents)) {
+      setCurrentProduct(foundInState)
+      return
+    }
+
+    const fetchSingleProduct = async () => {
+      setLoadingProductDetails(true)
+      try {
+        const query = `*[_type == "product" && (slug.current == $slug || _id == $slug)][0] {
+          _id,
+          name,
+          slug,
+          sku,
+          priceEUR,
+          oldPriceEUR,
+          stockStatus,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "galleryImages": images[].asset->url,
+          shortDescription,
+          description,
+          specifications,
+          "category": category->name,
+          "categoryId": category->_id,
+          "categorySlug": category->slug.current,
+          "categories": categories[]-> { _id, name, slug },
+          documents[] {
+            title,
+            "fileUrl": file.asset->url
+          },
+          compatibleProducts[]-> {
+            _id, name, slug, priceEUR, stockStatus,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            "category": category->name
+          },
+          relatedProducts[]-> {
+            _id, name, slug, priceEUR, stockStatus,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            "category": category->name
+          }
+        }`
+        const data = await sanityClient.fetch(query, { slug: activeProductSlug })
+        setCurrentProduct(data || foundInState || null)
+      } catch (err) {
+        console.error('Ошибка загрузки товара:', err)
+        setCurrentProduct(foundInState || null)
+      } finally {
+        setLoadingProductDetails(false)
+      }
+    }
+
+    fetchSingleProduct()
+  }, [activeProductSlug, products])
+
   const currentService = services.find(
     s => s.slug?.current === activeServiceSlug || s._id === activeServiceSlug
   )
@@ -165,20 +240,16 @@ export default function App() {
   )
 
   const filteredProducts = useMemo(() => {
-  if (!currentCategory) return products
-
-  // Если это главная категория «Всичко за поливане», выводим весь ассортимент
-  if (currentCategory.slug?.current === 'vsichko-za-polivane') {
-    return products
-  }
-
-  // Для тематических категорий проверяем совпадение основного ID или наличие в массиве categories
-  return products.filter(p => {
-    const isMainMatch = p.categoryId === currentCategory._id
-    const isMultiMatch = p.categories && p.categories.some((cat: any) => cat._id === currentCategory._id)
-    return isMainMatch || isMultiMatch
-  })
-}, [products, currentCategory])
+    if (!currentCategory) return products
+    if (currentCategory.slug?.current === 'vsichko-za-polivane') {
+      return products
+    }
+    return products.filter(p => {
+      const isMainMatch = p.categoryId === currentCategory._id
+      const isMultiMatch = p.categories && p.categories.some((cat: any) => cat._id === currentCategory._id)
+      return isMainMatch || isMultiMatch
+    })
+  }, [products, currentCategory])
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
@@ -191,7 +262,6 @@ export default function App() {
         onNavigateContacts={navigateToContacts}
       />
 
-      {/* Выбор отображаемой страницы */}
       {isContactsOpen ? (
         <ContactsPage onNavigateHome={navigateToHome} />
       ) : activeServiceSlug && currentService ? (
@@ -201,8 +271,34 @@ export default function App() {
           category={currentCategory} 
           products={filteredProducts} 
           onNavigateHome={navigateToHome}
-          onSelectProduct={setSelectedProduct}
+          onNavigateCategory={navigateToCategory}
+          onSelectProduct={(p) => p.slug?.current && navigateToProduct(p.slug.current)}
         />
+      ) : activeProductSlug ? (
+        loadingProductDetails ? (
+          <div className="flex-grow flex items-center justify-center py-20">
+            <p className="text-slate-500 font-medium">Зареждане на продукта...</p>
+          </div>
+        ) : currentProduct ? (
+          <ProductPage
+            product={currentProduct}
+            onNavigateHome={navigateToHome}
+            onNavigateCategory={navigateToCategory}
+            onNavigateProduct={navigateToProduct}
+            onAddToCart={handleAddToCart}
+          />
+        ) : (
+          <div className="flex-grow flex flex-col items-center justify-center py-20 text-center px-4">
+            <h2 className="text-2xl font-bold text-slate-800 mb-2">Продуктът не е намерен</h2>
+            <p className="text-slate-500 mb-6">Търсеният от вас продукт не съществува или е премахнат.</p>
+            <button
+              onClick={navigateToHome}
+              className="bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition cursor-pointer"
+            >
+              Към началната страница
+            </button>
+          </div>
+        )
       ) : (
         <HomePage
           services={services}
@@ -212,42 +308,10 @@ export default function App() {
           loadingProducts={loadingProducts}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
-          onSelectProduct={setSelectedProduct}
+          onSelectProduct={(p) => p.slug?.current && navigateToProduct(p.slug.current)}
         />
       )}
 
-      {/* Модальное окно просмотра товара */}
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            <button 
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold cursor-pointer"
-            >
-              ✕
-            </button>
-            <span className="text-xs text-emerald-600 font-semibold uppercase tracking-wider">{selectedProduct.category || 'Оборудване'}</span>
-            <h3 className="text-2xl font-bold text-slate-900 mt-1 mb-2">{selectedProduct.name}</h3>
-            {selectedProduct.sku && <p className="text-sm text-slate-400 mb-4">Артикул (SKU): {selectedProduct.sku}</p>}
-            <div className="h-64 bg-slate-100 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-              {selectedProduct.imageUrl ? (
-                <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="h-full w-full object-contain p-4" />
-              ) : (
-                <span className="text-slate-400 text-sm">Няма снимка</span>
-              )}
-            </div>
-            <p className="text-slate-600 text-sm mb-6">{selectedProduct.shortDescription || 'Няма допълнително описание.'}</p>
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-              <span className="text-2xl font-bold text-emerald-800">{(selectedProduct.priceEUR || 0).toFixed(2)} €</span>
-              <button onClick={() => setSelectedProduct(null)} className="bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg cursor-pointer">
-                Затвори
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Сквозной подвал сайта */}
       <Footer />
     </div>
   )
