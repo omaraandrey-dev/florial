@@ -140,15 +140,24 @@ export default function App() {
         }`)
         setServices(sData || [])
 
-        const settingsQuery = `*[_type == "siteSettings"][0]{
+        
+const settingsQuery = `*[_type == "siteSettings"][0]{
   siteName,
   heroTitle,
   heroSubtitle,
-  "logoUrl": coalesce(logo.asset->url, mainLogo.asset->url, headerLogo.asset->url, image.asset->url)
+  "logoUrl": coalesce(
+    logo.asset->url,
+    mainLogo.asset->url,
+    headerLogo.asset->url,
+    image.asset->url
+  )
 }`
+
 const settData = await sanityClient.fetch(settingsQuery)
+console.log('Настройки сайта:', settData)
+console.log('URL логотипа:', settData?.logoUrl)
 setSiteSettings(settData || null)
-        setSiteSettings(settData || null)
+
       } catch (err) {
         console.error('Грешка при зареждане от Sanity:', err)
       } finally {
