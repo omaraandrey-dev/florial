@@ -11,49 +11,38 @@ interface CenterInfo {
   name: string
   address: string
   mapUrl: string
-  fallbackSlug: string
+  slug: string
 }
 
 export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
   const { t, language } = useI18n()
   
-  const [centersImages, setCentersImages] = useState<Record<string, string>>({})
+  const [centersImages, setCentersImages] = useState<Record<string, string>>({
+    nesebr: '',
+    ravda: ''
+  })
   const [loadingImages, setLoadingImages] = useState(true)
 
-  // Гибкий запрос для поиска изображений садовых центров по фрагментам в slug или title
+  // Используем проверенный принцип запроса по конкретным slug для каждого центра
   useEffect(() => {
     const fetchCenterImages = async () => {
       try {
-        const query = `*[
-          _type in ["product", "category", "service", "post", "location", "center"] || 
-          defined(slug.current)
-        ] {
-          "slug": slug.current,
-          "title": coalesce(title, name),
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, logo.asset->url)
-        }`
-        
-        const data = await sanityClient.fetch(query)
-        
-        const mapped: Record<string, string> = {}
-        
-        data.forEach((item: any) => {
-          if (!item.slug || !item.imageUrl) return
-          const slugLower = item.slug.toLowerCase()
-          
-          // Ищем совпадения для Несебра
-          if (slugLower.includes('nesebr') || slugLower.includes('несебър') || slugLower.includes('nesebar')) {
-            mapped['nesebr'] = item.imageUrl
-          }
-          // Ищем совпадения для Равды
-          if (slugLower.includes('ravda') || slugLower.includes('равда')) {
-            mapped['ravda'] = item.imageUrl
-          }
-        })
+        const nesebrQuery = `*[slug.current == "Florial-nesebr"][0]{ "imageUrl": image.asset->url }`
+        const ravdaQuery = `*[slug.current == "Florial-ravda"][0]{ "imageUrl": image.asset->url }`
 
-        setCentersImages(mapped)
+        // Если в Sanity ваши slug написаны в другом регистре или по-другому, 
+        // подставьте их сюда или используем альтернативные ключи:
+        const [nesebrRes, ravdaRes] = await Promise.all([
+          sanityClient.fetch(nesebrQuery),
+          sanityClient.fetch(ravdaQuery)
+        ])
+
+        setCentersImages({
+          nesebr: nesebrRes?.imageUrl || '',
+          ravda: ravdaRes?.imageUrl || ''
+        })
       } catch (err) {
-        console.error('Грешка при зареждане на снимките:', err)
+        console.error('Грешка при зареждане на снимките на центровете:', err)
       } finally {
         setLoadingImages(false)
       }
@@ -68,14 +57,14 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       name: language === 'en' ? 'Garden Centre Nessebar' : language === 'ru' ? 'Садовый центр Несебр' : 'Градински център Несебър',
       address: language === 'en' ? 'ul. "Khan Krum", 8230 Nessebar (Next to Janet store)' : language === 'ru' ? 'ул. "Хан Крум", 8230 Несебр (Рядом с магазином Janet)' : 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)',
       mapUrl: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9',
-      fallbackSlug: 'Florial-nesebr'
+      slug: 'Florial-nesebr'
     },
     {
       key: 'ravda',
       name: language === 'en' ? 'Garden Centre Ravda' : language === 'ru' ? 'Садовый центр Равда' : 'Градински център Равда',
       address: language === 'en' ? 'Ravda, Bulgaria' : language === 'ru' ? 'Равда, Болгария' : 'с. Равда, България',
       mapUrl: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6',
-      fallbackSlug: 'Florial-ravda'
+      slug: 'Florial-ravda'
     }
   ]
 
