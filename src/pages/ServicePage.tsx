@@ -87,12 +87,12 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           onClick={onNavigateHome}
           className="mb-6 inline-flex items-center gap-2 rounded-lg py-2 text-sm font-semibold text-emerald-800 transition hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2"
         >
-          <span aria-hidden="true">←</span> Към началната страница
+          <span aria-hidden="true">←</span> {t("Към началната страница")}
         </button>
 
         <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
           <span className="mb-3 inline-flex rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-emerald-800">
-            Услуги на Florial
+            {t("Услуги на Florial")}
           </span>
           <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
             {localize(service, 'name')}
@@ -147,7 +147,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
               href="/contacts"
               className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 font-bold text-emerald-900 transition hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-800"
             >
-              Свържете се с нас
+              {t("Свържете се с нас")}
             </a>
           </section>
         )}
