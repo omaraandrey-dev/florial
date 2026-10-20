@@ -19,8 +19,9 @@ Optional email notifications via Resend:
 - `RESEND_API_KEY` — Resend API key, stored as a secret.
 - `EMAIL_FROM` — sender address on a domain verified with Resend.
 - `ORDER_NOTIFICATION_EMAIL` — seller inbox that receives new-order notifications.
+- `PROFORMA_FONT_URL` — optional URL for a Unicode TTF font used in the Bulgarian PDF; defaults to Noto Sans.
 
-When configured, the function sends an order email to the seller and a confirmation to the customer if they entered an email address. Email failures are logged but do not turn a successfully saved order into a checkout error.
+When configured, the function sends an order email to the seller and a confirmation to the customer if they entered an email address. The Bulgarian proforma PDF is attached when PDF generation succeeds. PDF/email failures are logged but do not turn a successfully saved order into a checkout error.
 
 Redeploy after adding or changing variables.
 
@@ -36,5 +37,5 @@ Redeploy after adding or changing variables.
 - Test a successful order and verify the record in Supabase.
 - Test a changed product price, inactive/missing product, invalid quantity, and missing server variables.
 - Configure transactional email with a verified sender domain and test both seller and customer delivery.
-- Prepare the proforma PDF with a Cyrillic-capable font and verify Bulgarian company/payment details before using it with customers.
+- Verify the generated Bulgarian proforma PDF, including Cyrillic text, on the deployed environment before using it with customers. Bank details are not included until confirmed.
 - Econt city/office lookup and shipping-price integration are not part of this first endpoint yet.
