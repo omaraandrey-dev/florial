@@ -77,7 +77,7 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
-  const contentBlocks = (service.contentBlocks || []).map((block) => ({ ...block, title: localize(block, 'title'), text: localize(block, 'text') }))
+  const contentBlocks = (service.contentBlocks || []).map((block) => ({ ...block, title: localize(block, 'title'), text: localize(block, 'text'), imageAlt: localize(block, 'imageAlt') }))
 
   return (
     <main className="w-full flex-grow bg-white">
