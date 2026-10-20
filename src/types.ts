@@ -6,6 +6,7 @@ export interface CategoryItem {
   imageUrl?: string
   description?: any
   sortOrder?: number
+  parentId?: string | null
   seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
 }
 
@@ -18,6 +19,9 @@ export interface Product {
   translations?: Record<string, Record<string, any>>
   _id: string
   name: string
+  productType?: 'plant' | 'equipment'
+  scientificName?: string
+  plantDetails?: { scientificName?: string; availabilityNote?: string; [key: string]: any }
   slug?: { current: string }
   priceEUR: number
   oldPriceEUR?: number
