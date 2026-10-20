@@ -246,6 +246,15 @@ export default function App() {
               image.asset->url,
               mainImage.asset->url
             ),
+            "galleryImages": gallery[].asset->url,
+            "contentBlocks": contentBlocks[]{
+              _key,
+              title,
+              text,
+              imagePosition,
+              "imageUrl": image.asset->url,
+              "imageAlt": image.alt
+            },
             startingPriceEUR,
             advantages,
             steps,
