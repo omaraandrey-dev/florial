@@ -11,7 +11,7 @@ In **Cloudflare Dashboard → Workers & Pages → Florial project → Settings �
 
 Optional variables (the current public catalog defaults are already configured in the function):
 
-- `SANITY_PROJECT_ID` — defaults to `kjkc2aazayha1zdg3opyp8uc`.
+- `SANITY_PROJECT_ID` — defaults to `bxvcy0qs`.
 - `SANITY_DATASET` — defaults to `production`.
 
 Optional email notifications via Resend:
@@ -35,5 +35,6 @@ Redeploy after adding or changing variables.
 
 - Test a successful order and verify the record in Supabase.
 - Test a changed product price, inactive/missing product, invalid quantity, and missing server variables.
-- Configure transactional email and customer/seller documents in a separate step.
+- Configure transactional email with a verified sender domain and test both seller and customer delivery.
+- Prepare the proforma PDF with a Cyrillic-capable font and verify Bulgarian company/payment details before using it with customers.
 - Econt city/office lookup and shipping-price integration are not part of this first endpoint yet.
