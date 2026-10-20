@@ -27,11 +27,12 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
   useEffect(() => {
     const fetchCenterImages = async () => {
       try {
-        const nesebrQuery = `*[slug.current == "Florial-nesebr"][0]{ "imageUrl": image.asset->url }`
-        const ravdaQuery = `*[slug.current == "Florial-ravda"][0]{ "imageUrl": image.asset->url }`
+        // В Sanity поле slug у этих двух фото сохранено как обычная строка,
+        // а не только как стандартный объект { current: "..." }.
+        // Поддерживаем оба варианта и сравниваем без учёта регистра.
+        const nesebrQuery = `*[_type == "photo" && (lower(slug) == "florial-nesebr" || lower(slug.current) == "florial-nesebr")][0]{ "imageUrl": image.asset->url }`
+        const ravdaQuery = `*[_type == "photo" && (lower(slug) == "florial-ravda" || lower(slug.current) == "florial-ravda")][0]{ "imageUrl": image.asset->url }`
 
-        // Если в Sanity ваши slug написаны в другом регистре или по-другому, 
-        // подставьте их сюда или используем альтернативные ключи:
         const [nesebrRes, ravdaRes] = await Promise.all([
           sanityClient.fetch(nesebrQuery),
           sanityClient.fetch(ravdaQuery)
