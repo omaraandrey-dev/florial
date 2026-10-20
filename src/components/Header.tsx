@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useI18n, type Language } from '../lib/i18n'
 import type {
   ServiceItem,
   CategoryItem,
@@ -109,8 +110,8 @@ export function Header({
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Търсене на продукти..."
-                aria-label="Търсене на продукти"
+                placeholder={t('Търсене на продукти...')}
+                aria-label={t('Търсене на продукти')}
                 className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:px-3 sm:text-base"
               />
               <button
@@ -118,7 +119,7 @@ export function Header({
                 disabled={!searchQuery.trim()}
                 className="m-1 shrink-0 rounded-lg bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
               >
-                <span className="hidden sm:inline">Търси</span>
+                <span className="hidden sm:inline">{t('Търси')}</span>
                 <svg className="h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -142,7 +143,7 @@ export function Header({
                 <circle cx="9" cy="19" r="1.5" />
                 <circle cx="17" cy="19" r="1.5" />
               </svg>
-              <span className="hidden text-sm font-semibold lg:inline">Количка</span>
+              <span className="hidden text-sm font-semibold lg:inline">{t('Количка')}</span>
               <span className="text-sm font-bold">{totalCartCount}</span>
               {totalCartPrice > 0 && (
                 <span className="hidden rounded-md bg-emerald-200/60 px-2 py-0.5 text-xs font-extrabold text-emerald-800 xl:inline">
@@ -158,7 +159,7 @@ export function Header({
                 setIsCategoriesOpen(false)
                 setIsServicesOpen(false)
               }}
-              aria-label={isMenuOpen ? 'Затвори менюто' : 'Отвори менюто'}
+              aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : language === 'ru' ? 'Закрыть меню' : 'Затвори менюто') : (language === 'en' ? 'Open menu' : language === 'ru' ? 'Открыть меню' : 'Отвори менюто')}
               aria-expanded={isMenuOpen}
               className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 transition hover:border-emerald-500 hover:text-emerald-700 md:h-12 md:w-12"
             >
@@ -179,7 +180,7 @@ export function Header({
       {/* Меню по умолчанию скрыто; подкатегории раскрываются отдельно */}
       {isMenuOpen && (
         <div className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
-          <nav aria-label="Главна навигация" className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
+          <nav aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={() => { closeMenu(); onNavigateHome() }}
@@ -195,7 +196,7 @@ export function Header({
                 aria-expanded={isCategoriesOpen}
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
-                <span>Продукти</span>
+                <span>{t('Продукти')}</span>
                 <svg className={`h-5 w-5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -230,7 +231,7 @@ export function Header({
                 aria-expanded={isServicesOpen}
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
-                <span>Услуги</span>
+                <span>{t('Услуги')}</span>
                 <svg className={`h-5 w-5 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -262,6 +263,28 @@ export function Header({
                   <path d="M7 17 17 7M7 7h10v10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
+            </div>
+
+            <div className="mt-3 border-t border-slate-100 px-4 pt-4">
+              <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">{t('Език')}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {([
+                  { value: 'bg', label: 'Български', short: 'BG' },
+                  { value: 'en', label: 'Английски', short: 'EN' },
+                  { value: 'ru', label: 'Руски', short: 'RU' },
+                ] as { value: Language; label: string; short: string }[]).map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => setLanguage(item.value)}
+                    aria-pressed={language === item.value}
+                    className={`rounded-lg border px-3 py-2 text-sm font-semibold transition ${language === item.value ? 'border-emerald-600 bg-emerald-50 text-emerald-800' : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-300'}`}
+                  >
+                    <span className="block">{item.short}</span>
+                    <span className="text-xs font-normal">{t(item.label)}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </nav>
         </div>
