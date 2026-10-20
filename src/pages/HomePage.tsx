@@ -44,16 +44,26 @@ export function HomePage({
 
   return (
     <div>
-      <section className="bg-[#F3F5E9] text-slate-800 py-12 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight text-center">
-            {t('Градински център Флориал')}
+      <section className="bg-[#F7F8F1] text-slate-800 py-12 md:py-16 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <span className="inline-block text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#71814F] mb-3">{t('Градински център Флориал')}</span>
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-[#263323]">
+            {t('Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас')}
           </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
-            {localize(siteSettings, 'heroSubtitle') || t('Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.')}
+          <p className="text-slate-600 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
+            {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-5 mt-7 text-left max-w-4xl mx-auto">
+            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Индивидуален проект')}</span><p className="text-sm text-slate-600 mt-1">{t('според вашите желания')}</p></div>
+            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Пълен цикъл')}</span><p className="text-sm text-slate-600 mt-1">{t('от концепцията до поддръжката')}</p></div>
+            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Премиум качество')}</span><p className="text-sm text-slate-600 mt-1">{t('и висок професионализъм')}</p></div>
+          </div>
+        </div>
+      </section>
 
-          <div className="mt-8 text-left">
+      <section className="bg-[#EEF1E4] text-slate-800 py-10 md:py-12 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mt-1 text-left">
             <div className="mb-6 text-center">
               <span className="text-xs font-bold text-[#697A49] uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
               <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{t('Професионални решения за градината')}</h3>
@@ -95,7 +105,7 @@ export function HomePage({
         </div>
       </section>
 
-      <section className="bg-white border-y border-emerald-100">
+      <section className="bg-[#F7F8F1] border-y border-[#E7EBDD]">
         <div className="max-w-7xl mx-auto px-4 py-10">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
             <div>
@@ -123,7 +133,7 @@ export function HomePage({
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
         <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">{t('Каталог продукти')}</h3>
 
         {sortedCategories.length > 0 && (
