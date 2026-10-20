@@ -5,6 +5,7 @@ interface ContactsPageProps {
 }
 
 export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
+  const { t, language, localize } = useI18n()
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
       <button 
@@ -15,7 +16,7 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       </button>
 
       <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 mb-4">Работни часове</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-4">{t('Работни часове')}</h2>
         <ul className="space-y-2 text-slate-700 font-medium">
           <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>понеделник</i> <span>9:00 – 18.00</span></li>
           <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>вторник</i> <span>9:00 – 18.00</span></li>
@@ -28,7 +29,7 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       </div>
 
       <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6 space-y-4">
-        <h2 className="text-xl font-bold text-slate-900">Адрес и контакти</h2>
+        <h2 className="text-xl font-bold text-slate-900">{t('Адрес и контакти')}</h2>
         <p className="font-semibold text-slate-800">Градински център "Флориал"</p>
         <div className="space-y-2 text-sm">
           <p><a href="tel:+359876777902" className="text-emerald-800 font-bold hover:underline">+359876777902</a></p>
