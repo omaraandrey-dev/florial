@@ -32,6 +32,7 @@ export default function App() {
   const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null)
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
   const [activeProductSlug, setActiveProductSlug] = useState<string | null>(null)
+  const [activeSearchQuery, setActiveSearchQuery] = useState<string | null>(null)
 
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -40,8 +41,16 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
+      const searchParams = new URLSearchParams(window.location.search)
+      setActiveSearchQuery(path === '/search' ? (searchParams.get('q')?.trim() || '') : null)
 
-      if (path === '/cart') {
+      if (path === '/search') {
+        setIsCartOpen(false)
+        setIsContactsOpen(false)
+        setActiveServiceSlug(null)
+        setActiveCategorySlug(null)
+        setActiveProductSlug(null)
+      } else if (path === '/cart') {
         setIsCartOpen(true)
         setIsContactsOpen(false)
         setActiveServiceSlug(null)
@@ -127,6 +136,7 @@ export default function App() {
 
   // Навигация в корзину
   const navigateToCart = () => {
+    setActiveSearchQuery(null)
     window.history.pushState({}, '', '/cart')
 
     setIsCartOpen(true)
@@ -312,6 +322,7 @@ export default function App() {
 
   // Переход на главную страницу
   const navigateToHome = () => {
+    setActiveSearchQuery(null)
     window.history.pushState({}, '', '/')
 
     setIsCartOpen(false)
@@ -327,6 +338,7 @@ export default function App() {
 
   // Переход на страницу контактов
   const navigateToContacts = () => {
+    setActiveSearchQuery(null)
     window.history.pushState({}, '', '/contacts')
 
     setIsContactsOpen(true)
@@ -339,8 +351,32 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Переход на страницу результатов поиска
+  const navigateToSearch = (query: string) => {
+    const normalizedQuery = query.trim()
+    if (!normalizedQuery) return
+
+    window.history.pushState(
+      {},
+      '',
+      `/search?q=${encodeURIComponent(normalizedQuery)}`
+    )
+
+    setActiveSearchQuery(normalizedQuery)
+    setIsCartOpen(false)
+    setIsContactsOpen(false)
+    setActiveServiceSlug(null)
+    setActiveCategorySlug(null)
+    setActiveProductSlug(null)
+    setCurrentProduct(null)
+    setLoadingProductDetails(false)
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   // Переход в категорию
   const navigateToCategory = (slug?: string, id?: string) => {
+    setActiveSearchQuery(null)
     const target = slug || id
 
     if (!target) return
@@ -363,6 +399,7 @@ export default function App() {
 
   // Переход на страницу услуги
   const navigateToService = (slug?: string, id?: string) => {
+    setActiveSearchQuery(null)
     const target = slug || id
 
     if (!target) return
@@ -385,6 +422,7 @@ export default function App() {
 
   // Переход в карточку товара
   const navigateToProduct = (slug: string) => {
+    setActiveSearchQuery(null)
     if (!slug) return
 
     window.history.pushState(
@@ -404,6 +442,30 @@ export default function App() {
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const searchedProducts = useMemo(() => {
+    const query = (activeSearchQuery || '').toLocaleLowerCase('bg').trim()
+    if (!query) return []
+
+    const words = query.split(/\\s+/).filter(Boolean)
+
+    return products.filter((product) => {
+      const searchableText = [
+        product.name,
+        product.sku,
+        product.shortDescription,
+        typeof product.description === 'string' ? product.description : '',
+        product.category,
+        product.categorySlug,
+        ...(product.specifications || []).flatMap((item) => [item.name, item.value, item.unit]),
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLocaleLowerCase('bg')
+
+      return words.every((word) => searchableText.includes(word))
+    })
+  }, [products, activeSearchQuery])
 
   const currentService = services.find(
     (service) =>
@@ -448,6 +510,7 @@ export default function App() {
         onNavigateCategory={navigateToCategory}
         onNavigateContacts={navigateToContacts}
         onNavigateCart={navigateToCart}
+        onSearch={navigateToSearch}
         siteSettings={siteSettings}
       />
 
@@ -461,6 +524,92 @@ export default function App() {
         />
       ) : isContactsOpen ? (
         <ContactsPage onNavigateHome={navigateToHome} />
+      ) : activeSearchQuery !== null ? (
+        <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+          <nav className="mb-5 text-sm text-slate-500">
+            <button
+              onClick={navigateToHome}
+              className="font-semibold text-emerald-700 hover:text-emerald-900"
+            >
+              Начало
+            </button>
+            <span className="mx-2">/</span>
+            <span>Резултати от търсенето</span>
+          </nav>
+
+          <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+            Резултати от търсенето
+          </h1>
+          <p className="mt-2 text-slate-600">
+            Търсене: „{activeSearchQuery}“
+          </p>
+
+          {loadingProducts ? (
+            <p className="py-12 text-slate-500">Зареждане на продуктите...</p>
+          ) : !activeSearchQuery ? (
+            <p className="py-12 text-slate-600">
+              Въведете име, марка или продуктов код в полето за търсене.
+            </p>
+          ) : searchedProducts.length === 0 ? (
+            <div className="py-12">
+              <p className="text-lg font-semibold text-slate-800">
+                Няма намерени продукти
+              </p>
+              <p className="mt-2 text-slate-600">
+                Опитайте с друго име, марка или продуктов код.
+              </p>
+            </div>
+          ) : (
+            <>
+              <p className="mt-4 text-sm text-slate-500">
+                Намерени продукти: {searchedProducts.length}
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {searchedProducts.map((product) => (
+                  <button
+                    key={product._id}
+                    type="button"
+                    onClick={() => {
+                      if (product.slug?.current) {
+                        navigateToProduct(product.slug.current)
+                      }
+                    }}
+                    className="overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-emerald-500 hover:shadow-md"
+                  >
+                    {product.imageUrl ? (
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        loading="lazy"
+                        className="h-40 w-full bg-white object-contain p-3"
+                      />
+                    ) : (
+                      <div className="flex h-40 items-center justify-center bg-slate-50 text-sm text-slate-400">
+                        Няма снимка
+                      </div>
+                    )}
+                    <div className="p-3">
+                      <h2 className="line-clamp-2 font-semibold text-slate-800">
+                        {product.name}
+                      </h2>
+                      {product.sku && (
+                        <p className="mt-2 text-xs text-slate-500">
+                          Артикул: {product.sku}
+                        </p>
+                      )}
+                      <p className="mt-3 font-bold text-emerald-800">
+                        {Number(product.priceEUR || 0).toFixed(2)} €
+                      </p>
+                      <span className="mt-3 block text-sm font-semibold text-emerald-700">
+                        Виж продукта →
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </main>
       ) : activeServiceSlug && currentService ? (
         <ServicePage
           service={currentService}
