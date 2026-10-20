@@ -35,10 +35,10 @@ export function ProductPage({
 
   useEffect(() => {
     if (!product) return
-    document.title = `${localize(product, 'name')} | Флориал`
+    document.title = `${localize(product, 'name')} | Florial`
     
     let descMeta = document.querySelector('meta[name="description"]')
-    const descText = product.shortDescription || `Купете ${product.name} изгодно в онлайн магазин Флориал.`
+    const descText = product.shortDescription || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`
     if (!descMeta) {
       descMeta = document.createElement('meta')
       descMeta.setAttribute('name', 'description')
@@ -71,12 +71,12 @@ export function ProductPage({
               onClick={() => onNavigateCategory(product.categorySlug, product.categoryId)}
               className="hover:text-emerald-700 transition-colors cursor-pointer"
             >
-              {product.category}
+              {localize(product, 'category')}
             </button>
           </>
         )}
         <span className="mx-1">/</span>
-        <span className="text-slate-800 font-medium truncate max-w-xs">{product.name}</span>
+        <span className="text-slate-800 font-medium truncate max-w-xs">{localize(product, 'name')}</span>
       </nav>
 
       {/* Основной блок товара и галерея */}
@@ -118,11 +118,11 @@ export function ProductPage({
           <div>
             {product.sku && (
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                Артикул (SKU): {product.sku}
+                {t('Артикул (SKU):')} {product.sku}
               </p>
             )}
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-              {product.name}
+              {localize(product, 'name')}
             </h1>
 
             <div className="flex items-baseline gap-4 mb-6">
@@ -174,7 +174,7 @@ export function ProductPage({
 
             {addedNotification && (
               <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium">
-                Продуктът е добавен успешно в кошницата!
+                {t('Продуктът е добавен успешно в кошницата!')}
               </div>
             )}
           </div>
@@ -205,9 +205,9 @@ export function ProductPage({
           <div className="text-slate-600 text-base leading-relaxed space-y-4">
             {typeof localize(product, 'description') === 'string' ? (
               <p className="whitespace-pre-line">{localize(product, 'description')}</p>
-            ) : Array.isArray(product.description) ? (
+            ) : Array.isArray(localize(product, 'description')) ? (
               // Рендеринг блоков Portable Text из Sanity
-              localize(product, 'description').map((block: any, idx: number) => {
+              (localize(product, 'description') as any[]).map((block: any, idx: number) => {
                 if (block._type === 'block' && block.children) {
                   return (
                     <p key={idx}>
@@ -227,7 +227,7 @@ export function ProductPage({
       {/* Документы и инструкции */}
       {product.documents && product.documents.length > 0 && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Документи и инструкции</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Документи и инструкции')}</h2>
           <div className="flex flex-col gap-3">
             {product.documents.map((doc, i) => (
               <a
@@ -238,7 +238,7 @@ export function ProductPage({
                 className="flex items-center justify-between p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-xl border border-slate-200 transition"
               >
                 <span className="font-semibold text-slate-800 text-sm">{doc.title}</span>
-                <span className="text-emerald-700 text-xs font-bold uppercase">Изтегляне ↓</span>
+                <span className="text-emerald-700 text-xs font-bold uppercase">{t('Изтегляне ↓')}</span>
               </a>
             ))}
           </div>
@@ -248,7 +248,7 @@ export function ProductPage({
       {/* Совместимые продукты */}
       {product.compatibleProducts && product.compatibleProducts.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">Съвместими продукти</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-6">{t('Съвместими продукти')}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {product.compatibleProducts.map(item => (
               <div
@@ -259,16 +259,16 @@ export function ProductPage({
                 <div>
                   <div className="h-40 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
                     {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={item.name} className="h-full w-full object-contain p-2" />
+                      <img src={item.imageUrl} alt={localize(item, 'name')} className="h-full w-full object-contain p-2" />
                     ) : (
                       <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-1">{item.name}</h3>
+                  <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-1">{localize(item, 'name')}</h3>
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                   <span className="font-bold text-emerald-800">{(item.priceEUR || 0).toFixed(2)} €</span>
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg">Виж</span>
+                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg">{t('Виж')}</span>
                 </div>
               </div>
             ))}
