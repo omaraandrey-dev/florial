@@ -136,10 +136,12 @@ export default function App() {
     }
   }, [activeProductSlug, products, loadingProducts])
 
+  const localizedUrl = (path: string) => language === 'bg' ? path : `${path}${path.includes('?') ? '&' : '?'}lang=${language}`
+
   // Навигация в корзину
   const navigateToCart = () => {
     setActiveSearchQuery(null)
-    window.history.pushState({}, '', '/cart')
+    window.history.pushState({}, '', localizedUrl('/cart'))
 
     setIsCartOpen(true)
     setIsContactsOpen(false)
@@ -332,7 +334,7 @@ export default function App() {
   // Переход на главную страницу
   const navigateToHome = () => {
     setActiveSearchQuery(null)
-    window.history.pushState({}, '', '/')
+    window.history.pushState({}, '', localizedUrl('/'))
 
     setIsCartOpen(false)
     setIsContactsOpen(false)
@@ -348,7 +350,7 @@ export default function App() {
   // Переход на страницу контактов
   const navigateToContacts = () => {
     setActiveSearchQuery(null)
-    window.history.pushState({}, '', '/contacts')
+    window.history.pushState({}, '', localizedUrl('/contacts'))
 
     setIsContactsOpen(true)
     setIsCartOpen(false)
@@ -368,7 +370,7 @@ export default function App() {
     window.history.pushState(
       {},
       '',
-      `/search?q=${encodeURIComponent(normalizedQuery)}&lang=${language}`
+      localizedUrl(`/search?q=${encodeURIComponent(normalizedQuery)}`)
     )
 
     setActiveSearchQuery(normalizedQuery)
@@ -393,7 +395,7 @@ export default function App() {
     window.history.pushState(
       {},
       '',
-      `/category/${encodeURIComponent(target)}`
+      localizedUrl(`/category/${encodeURIComponent(target)}`)
     )
 
     setActiveCategorySlug(target)
@@ -416,7 +418,7 @@ export default function App() {
     window.history.pushState(
       {},
       '',
-      `/services/${encodeURIComponent(target)}`
+      localizedUrl(`/services/${encodeURIComponent(target)}`)
     )
 
     setActiveServiceSlug(target)
@@ -437,7 +439,7 @@ export default function App() {
     window.history.pushState(
       {},
       '',
-      `/product/${encodeURIComponent(slug)}`
+      localizedUrl(`/product/${encodeURIComponent(slug)}`)
     )
 
     setCurrentProduct(null)
