@@ -34,7 +34,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-slate-800">
           <div>
             <h4 className="text-white text-xl font-extrabold mb-3 tracking-wide">
-              За нас
+              {t("За нас")}
             </h4>
             <p className="text-slate-400 text-sm leading-relaxed">
               <strong>Florial landscape</strong> {language === 'en' ? 'Florial Landscape has been working since 2000. We provide a wide range of landscaping and garden improvement services. Our goal is to create beautiful, functional outdoor spaces, including landscape design, planting, turf installation and automatic irrigation systems.' : language === 'ru' ? 'Florial Landscape работает с 2000 года. Мы предлагаем широкий спектр услуг по благоустройству и озеленению. Наша цель — создавать красивые и функциональные сады: ландшафтный дизайн, посадки, укладка рулонного газона и монтаж систем автоматического полива.' : 'работят от 2000г. Извършваме широк спектър от дейности по озеленяване и благоустрояване. Нашата основна цел е да създаваме красиви и функционални градински пространства. Основните области на нашата работа: ландшафтен дизайн, озеленяване, засаждане, изграждане на тревни площи с готови чимове и инсталиране на системи за автоматично поливане.'}
