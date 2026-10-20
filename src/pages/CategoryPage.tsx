@@ -50,7 +50,7 @@ export function CategoryPage({
       document.head.appendChild(descriptionMeta)
     }
     descriptionMeta.setAttribute('content', descriptionText)
-  }, [category])
+  }, [category, language])
 
   // Извлекаем список уникальных подкатегорий, присутствующих в отображаемых товарах
   const subCategories = useMemo(() => {
@@ -206,7 +206,7 @@ export function CategoryPage({
                   )}
                   {product.stockStatus && (
                     <span className="absolute top-2 right-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                      {product.stockStatus}
+                      {localize(product, 'stockStatus')}
                     </span>
                   )}
                 </div>
