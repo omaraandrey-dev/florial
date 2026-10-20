@@ -42,7 +42,7 @@ export function CategoryPage({
       category.seo?.metaDescription ||
       (typeof category.description === 'string'
         ? category.description
-        : `Разгледайте категория ${category.name} в нашия магазин.`)
+        : `Разгледайте категория ${localize(category, 'name')} в нашия магазин.`)
 
     if (!descriptionMeta) {
       descriptionMeta = document.createElement('meta')
@@ -111,13 +111,13 @@ export function CategoryPage({
           Начало
         </button>
         <span className="mx-2">/</span>
-        <span className="text-slate-800 font-medium">{category.name}</span>
+        <span className="text-slate-800 font-medium">{localize(category, 'name')}</span>
       </nav>
 
       {/* Заголовок категории */}
       <div className="mb-6">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          {category.name}
+          {localize(category, 'name')}
         </h1>
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
@@ -214,11 +214,11 @@ export function CategoryPage({
                   {product.category || category.name}
                 </span>
                 <h3 className="text-lg font-bold text-slate-900 mt-1 mb-2 group-hover:text-emerald-700 transition-colors line-clamp-2">
-                  {product.name}
+                  {localize(product, 'name')}
                 </h3>
                 <p className="text-slate-500 text-xs line-clamp-2 mb-4">
                   {localize(product, 'shortDescription') ||
-                    'Висококачествен продукт за поливни системи.'}
+                    t('Висококачествен продукт за поливни системи.')}
                 </p>
               </div>
 
