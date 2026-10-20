@@ -41,7 +41,7 @@ export function HomePage({
             {t('Градински център Флориал')}
           </h1>
           <p className="text-emerald-100 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
-            {localize(siteSettings, 'heroSubtitle') || '{t('Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.')}'}
+            {localize(siteSettings, 'heroSubtitle') || t('Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.')}
           </p>
 
           <div className="mt-8 text-left">
