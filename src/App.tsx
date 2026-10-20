@@ -197,138 +197,164 @@ export default function App() {
   // Очистка корзины
   const handleClearCart = () => setCart([])
 
-  // Первоначальная загрузка данных из Sanity
+  // Первоначальная загрузка данных из Sanity.
+  // Каждый раздел загружается независимо: ошибка одного запроса не должна
+  // блокировать категории, услуги, настройки сайта или логотип.
   useEffect(() => {
+    let cancelled = false
+
     const fetchData = async () => {
-      try {
-        const cData = await sanityClient.fetch(`
-          *[_type == "category"] | order(sortOrder asc) {
+      const categoryQuery = `
+        *[_type == "category"] | order(sortOrder asc) {
+          _id,
+          name,
+          translations,
+          slug,
+          sortOrder,
+          "imageUrl": image.asset->url,
+          description,
+          seo
+        }
+      `
+
+      const productQuery = `
+        *[
+          _type == "product" &&
+          isActive != false &&
+          defined(slug.current)
+        ] {
+          _id,
+          name,
+          translations,
+          slug,
+          sku,
+          priceEUR,
+          oldPriceEUR,
+          stockStatus,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "galleryImages": gallery[].asset->url,
+          shortDescription,
+          description,
+          specifications,
+          "category": category->name,
+          "categoryTranslations": category->translations,
+          "categoryId": category->_id,
+          "categorySlug": category->slug.current,
+          "categories": categories[]-> {
             _id,
             name,
             translations,
-            slug,
-            sortOrder,
-            "imageUrl": image.asset->url,
-            description,
-            seo
+            slug
           }
-        `)
+        }
+      `
 
-        setCategories(cData || [])
-
-        const pData = await sanityClient.fetch(`
-          *[
-            _type == "product" &&
-            isActive != false &&
-            defined(slug.current)
-          ] {
-            _id,
-            name,
-            translations,
-            slug,
-            sku,
-            priceEUR,
-            oldPriceEUR,
-            stockStatus,
-            "imageUrl": coalesce(
-              mainImage.asset->url,
-              image.asset->url
-            ),
-            "galleryImages": gallery[].asset->url,
-            shortDescription,
-            description,
-            specifications,
-            "category": category->name,
-            "categoryTranslations": category->translations,
-            "categoryId": category->_id,
-            "categorySlug": category->slug.current,
-            "categories": categories[]-> {
-              _id,
-              name,
-              translations,
-              slug
-            }
-          }
-        `)
-
-        setProducts(pData || [])
-
-        const sData = await sanityClient.fetch(`
-          *[_type == "service" && isActive != false] {
-            _id,
-            name,
-            translations,
-            slug,
-            shortDescription,
-            description,
-            "imageUrl": coalesce(
-              image.asset->url,
-              mainImage.asset->url
-            ),
-            "galleryImages": gallery[].asset->url,
-            "contentBlocks": contentBlocks[]{
-              _key,
-              title,
-              text,
-              imagePosition,
-              "imageUrl": image.asset->url,
-              "imageAlt": image.alt,
-              translations
-            },
-            startingPriceEUR,
-            advantages,
-            steps,
-            hero,
-            callToAction,
-            leadForm,
-            seo
-          }
-        `)
-
-        setServices(sData || [])
-
-        const settingsQuery = `
-          *[_type == "siteSettings"][0] {
-            siteName,
-            heroTitle,
-            heroSubtitle,
-            translations
-          }
-        `
-
-        const logoQuery = `
-          *[
-            slug.current == "oficialno-logo-florial-gradinski-centar"
-          ][0] {
-            _id,
-            _type,
+      const serviceQuery = `
+        *[_type == "service" && isActive != false] {
+          _id,
+          name,
+          translations,
+          slug,
+          shortDescription,
+          description,
+          "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
+          "galleryImages": gallery[].asset->url,
+          "contentBlocks": contentBlocks[]{
+            _key,
             title,
-            slug,
-            "logoUrl": image.asset->url
-          }
-        `
+            text,
+            imagePosition,
+            "imageUrl": image.asset->url,
+            "imageAlt": image.alt,
+            translations
+          },
+          startingPriceEUR,
+          advantages,
+          steps,
+          hero,
+          callToAction,
+          leadForm,
+          seo
+        }
+      `
 
-        const [settData, logoData] = await Promise.all([
+      const settingsQuery = `
+        *[_type == "siteSettings"][0] {
+          siteName,
+          heroTitle,
+          heroSubtitle,
+          translations
+        }
+      `
+
+      const logoQuery = `
+        *[
+          _type == "photo" &&
+          slug.current == "oficialno-logo-florial-gradinski-centar"
+        ][0] {
+          _id,
+          title,
+          slug,
+          "logoUrl": image.asset->url
+        }
+      `
+
+      const requests = await Promise.allSettled([
+        sanityClient.fetch(categoryQuery),
+        sanityClient.fetch(productQuery),
+        sanityClient.fetch(serviceQuery),
+        Promise.all([
           sanityClient.fetch(settingsQuery),
           sanityClient.fetch(logoQuery),
-        ])
+        ]),
+      ])
 
-        console.log('Настройки сайта:', settData)
-        console.log('Данные логотипа:', logoData)
-        console.log('URL логотипа:', logoData?.logoUrl)
+      if (cancelled) return
 
+      const [categoryResult, productResult, serviceResult, settingsResult] = requests
+
+      if (categoryResult.status === 'fulfilled') {
+        setCategories(Array.isArray(categoryResult.value) ? categoryResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить категории:', categoryResult.reason)
+      }
+
+      if (productResult.status === 'fulfilled') {
+        setProducts(Array.isArray(productResult.value) ? productResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить товары:', productResult.reason)
+      }
+
+      if (serviceResult.status === 'fulfilled') {
+        setServices(Array.isArray(serviceResult.value) ? serviceResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить услуги:', serviceResult.reason)
+      }
+
+      if (settingsResult.status === 'fulfilled') {
+        const [settData, logoData] = settingsResult.value
         setSiteSettings({
-          ...settData,
+          ...(settData || {}),
           logoUrl: logoData?.logoUrl || null,
         })
-      } catch (err) {
-        console.error('Ошибка при загрузке данных из Sanity:', err)
-      } finally {
-        setLoadingProducts(false)
+        console.log('Florial: настройки и логотип загружены', {
+          settingsFound: Boolean(settData),
+          logoFound: Boolean(logoData?.logoUrl),
+        })
+      } else {
+        console.error('Sanity: не удалось загрузить настройки или логотип:', settingsResult.reason)
       }
     }
 
     fetchData()
+      .catch((err) => console.error('Ошибка загрузки данных Florial:', err))
+      .finally(() => {
+        if (!cancelled) setLoadingProducts(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   // Переход на главную страницу
