@@ -124,7 +124,7 @@ export function CategoryPage({
             {typeof category.description === 'string' ? (
               <p>{category.description}</p>
             ) : (
-              <p>Разгледайте продуктите в тази категория.</p>
+              <p>{t("Разгледайте продуктите в тази категория.")}</p>
             )}
           </div>
         )}
