@@ -233,7 +233,7 @@ export default function App() {
           oldPriceEUR,
           stockStatus,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "galleryImages": gallery[].asset->url,
+          "galleryImages": gallery[]{ "url": asset->url, alt },
           shortDescription,
           description,
           specifications,
