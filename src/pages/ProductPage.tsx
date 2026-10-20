@@ -8,6 +8,7 @@ interface ProductPageProps {
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateProduct: (slug: string) => void
   onAddToCart: (product: Product, quantity: number) => void
+  onNavigateContacts: () => void
 }
 
 export function ProductPage({
@@ -16,6 +17,7 @@ export function ProductPage({
   onNavigateCategory,
   onNavigateProduct,
   onAddToCart,
+  onNavigateContacts,
 }: ProductPageProps) {
   const { t, language, localize } = useI18n()
   const [selectedImage, setSelectedImage] = useState<string>('')
@@ -125,6 +127,9 @@ export function ProductPage({
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
               {localize(product, 'name')}
             </h1>
+            {product.productType === 'plant' && product.scientificName && (
+              <p className="text-sm italic text-slate-500 -mt-2 mb-4">{product.scientificName}</p>
+            )}
 
             <div className="flex items-baseline gap-4 mb-6">
               <span className="text-3xl font-extrabold text-emerald-800">
@@ -142,9 +147,15 @@ export function ProductPage({
                 {localize(product, 'shortDescription')}
               </p>
             )}
+            {product.productType === 'plant' && (
+              <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+                {t('Наличност, размер и актуална цена се потвърждават при запитване.')}
+              </p>
+            )}
           </div>
 
           <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
+            {product.productType !== 'plant' && (
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-slate-700">{t('Количество:')}</span>
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
@@ -165,15 +176,25 @@ export function ProductPage({
                 </button>
               </div>
             </div>
+            )}
 
+            {product.productType === 'plant' ? (
+              <button
+                onClick={onNavigateContacts}
+                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {t('Запитайте за цена и наличност')}
+              </button>
+            ) : (
             <button
               onClick={handleAdd}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{t('Добави в количката')}</span>
             </button>
+            )}
 
-            {addedNotification && (
+            {product.productType !== 'plant' && addedNotification && (
               <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium">
                 {t('Продуктът е добавен успешно в кошницата!')}
               </div>
