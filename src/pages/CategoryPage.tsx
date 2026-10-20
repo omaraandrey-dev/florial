@@ -182,7 +182,7 @@ export function CategoryPage({
             onClick={onNavigateHome}
             className="mt-4 inline-block bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer"
           >
-            Към началната страница
+            {t("Към началната страница")}
           </button>
         </div>
       ) : (
@@ -227,7 +227,7 @@ export function CategoryPage({
                   {(product.priceEUR || 0).toFixed(2)} €
                 </span>
                 <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-2 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                  Виж детайли
+                  {t("Виж детайли")}
                 </span>
               </div>
             </div>
