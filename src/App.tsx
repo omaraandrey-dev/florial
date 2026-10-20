@@ -259,7 +259,7 @@ export default function App() {
         *[_type == "category" && _id match "plants-*"] | order(sortOrder asc) {
           _id, name, translations, slug, sortOrder, description,
           "parentId": parent->_id,
-          "imageUrl": image.asset->url
+          "imageUrl": coalesce(image.asset->url, externalImageUrl)
         }
       `
 
@@ -269,7 +269,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
           scientificName, plantDetails, sourcePageUrl,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->externalImageUrl),
           "category": category->name,
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
