@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { sanityClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
+import { useI18n } from './lib/i18n'
 import { HomePage } from './pages/HomePage'
 import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
@@ -19,6 +20,7 @@ import type {
 } from './types'
 
 export default function App() {
+  const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
@@ -201,6 +203,7 @@ export default function App() {
           *[_type == "category"] | order(sortOrder asc) {
             _id,
             name,
+            translations,
             slug,
             sortOrder,
             "imageUrl": image.asset->url,
@@ -219,6 +222,7 @@ export default function App() {
           ] {
             _id,
             name,
+            translations,
             slug,
             sku,
             priceEUR,
@@ -231,6 +235,7 @@ export default function App() {
             "galleryImages": gallery[].asset->url,
             shortDescription,
             description,
+            translations,
             specifications,
             "category": category->name,
             "categoryId": category->_id,
@@ -238,6 +243,7 @@ export default function App() {
             "categories": categories[]-> {
               _id,
               name,
+              translations,
               slug
             }
           }
@@ -249,9 +255,11 @@ export default function App() {
           *[_type == "service" && isActive != false] {
             _id,
             name,
+            translations,
             slug,
             shortDescription,
             description,
+            translations,
             "imageUrl": coalesce(
               image.asset->url,
               mainImage.asset->url
@@ -281,7 +289,8 @@ export default function App() {
           *[_type == "siteSettings"][0] {
             siteName,
             heroTitle,
-            heroSubtitle
+            heroSubtitle,
+            translations
           }
         `
 
@@ -452,10 +461,15 @@ export default function App() {
     return products.filter((product) => {
       const searchableText = [
         product.name,
+        product.translations?.en?.name,
+        product.translations?.ru?.name,
         product.sku,
         product.shortDescription,
+        product.translations?.en?.shortDescription,
+        product.translations?.ru?.shortDescription,
         typeof product.description === 'string' ? product.description : '',
         product.category,
+        product.categories?.flatMap((category: any) => [category.name, category.translations?.en?.name, category.translations?.ru?.name]).join(' '),
         product.categorySlug,
         ...(product.specifications || []).flatMap((item) => [item.name, item.value, item.unit]),
       ]
@@ -534,18 +548,18 @@ export default function App() {
               Начало
             </button>
             <span className="mx-2">/</span>
-            <span>Резултати от търсенето</span>
+            <span>{t('Резултати от търсенето')}</span>
           </nav>
 
           <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
             Резултати от търсенето
           </h1>
           <p className="mt-2 text-slate-600">
-            Търсене: „{activeSearchQuery}“
+            {t('Търсене:')} „{activeSearchQuery}“
           </p>
 
           {loadingProducts ? (
-            <p className="py-12 text-slate-500">Зареждане на продуктите...</p>
+            <p className="py-12 text-slate-500">{t('Зареждане на продуктите...')}</p>
           ) : !activeSearchQuery ? (
             <p className="py-12 text-slate-600">
               Въведете име, марка или продуктов код в полето за търсене.
@@ -562,7 +576,7 @@ export default function App() {
           ) : (
             <>
               <p className="mt-4 text-sm text-slate-500">
-                Намерени продукти: {searchedProducts.length}
+                {t('Намерени продукти:')} {searchedProducts.length}
               </p>
               <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {searchedProducts.map((product) => (
@@ -579,7 +593,7 @@ export default function App() {
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl}
-                        alt={product.name}
+                        alt={localize(product, 'name')}
                         loading="lazy"
                         className="h-40 w-full bg-white object-contain p-3"
                       />
