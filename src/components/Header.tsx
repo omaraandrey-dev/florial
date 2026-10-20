@@ -32,6 +32,7 @@ export function Header({
   onNavigateCart,
   onSearch,
 }: HeaderProps) {
+  const { t, language, setLanguage } = useI18n()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
