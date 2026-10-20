@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import type { ServiceItem, CategoryItem, CartItem, SiteSettings } from '../types'
+import type {
+  ServiceItem,
+  CategoryItem,
+  CartItem,
+  SiteSettings,
+} from '../types'
 
 interface HeaderProps {
   services: ServiceItem[]
@@ -11,6 +16,7 @@ interface HeaderProps {
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateContacts: () => void
   onNavigateCart: () => void
+  onSearch: (query: string) => void
 }
 
 export function Header({
@@ -23,240 +29,240 @@ export function Header({
   onNavigateCategory,
   onNavigateContacts,
   onNavigateCart,
+  onSearch,
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
-  const totalCartPrice = cart.reduce((sum, item) => sum + (item.product.priceEUR || 0) * item.quantity, 0)
+  const totalCartPrice = cart.reduce(
+    (sum, item) => sum + (item.product.priceEUR || 0) * item.quantity,
+    0
+  )
 
-  // Путь к изображению (из Sanity или статичный файл из public)
-  const logoImageSrc = siteSettings?.logoUrl || '/logo.png' // заменятся автоматически при загрузке из Sanity
+  const logoImageSrc = siteSettings?.logoUrl || '/logo.png'
+
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+    setIsCategoriesOpen(false)
+    setIsServicesOpen(false)
+  }
+
+  const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const query = searchQuery.trim()
+    if (!query) return
+    closeMenu()
+    onSearch(query)
+  }
+
+  const toggleCategories = () => {
+    setIsCategoriesOpen((previous) => !previous)
+    setIsServicesOpen(false)
+  }
+
+  const toggleServices = () => {
+    setIsServicesOpen((previous) => !previous)
+    setIsCategoriesOpen(false)
+  }
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        
-        {/* Логотип как ИЗОБРАЖЕНИЕ */}
-        {/* Логотип */}
-<div 
-  onClick={onNavigateHome}
-  className="flex items-center gap-2 cursor-pointer select-none flex-shrink-0"
->
-  {siteSettings?.logoUrl ? (
-    <img 
-      src={siteSettings.logoUrl} 
-      alt={siteSettings?.siteName || "Florial"} 
-      className="h-9 md:h-11 w-auto object-contain"
-      onError={(e) => {
-        // Если картинка из Sanity не загрузилась, скрываем img и показываем текст
-        e.currentTarget.style.display = 'none'
-        const fallback = e.currentTarget.nextElementSibling as HTMLElement
-        if (fallback) fallback.style.display = 'inline-block'
-      }}
-    />
-  ) : null}
-
-  {/* Текстовый логотип (показывается всегда, если нет картинки из Sanity) */}
-  <span 
-    style={{ display: siteSettings?.logoUrl ? 'none' : 'inline-block' }}
-    className="text-2xl md:text-3xl font-black text-emerald-800 tracking-tight"
-  >
-    FLORIAL<span className="text-emerald-500">.BG</span>
-  </span>
-</div>
-        {/* Правая часть: Корзина + Главное Меню + Мобильная гамбургер-кнопка */}
-        <div className="flex items-center gap-3 md:gap-6">
-          
-          {/* Кнопка Корзины */}
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
+      <div className="w-full px-3 sm:px-5 lg:px-8">
+        <div className="grid min-h-[100px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 py-3 md:min-h-[120px] md:gap-6 md:py-4">
+          {/* Logo: увеличен и прижат к левому краю контейнера */}
           <button
-            onClick={onNavigateCart}
-            className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-900 font-bold px-3 py-2 md:px-3.5 md:py-2 rounded-xl transition cursor-pointer relative flex-shrink-0"
+            type="button"
+            onClick={() => {
+              closeMenu()
+              onNavigateHome()
+            }}
+            aria-label="Florial — начална страница"
+            className="flex h-full min-w-0 shrink-0 items-center justify-start text-left"
           >
-            <svg
-              className="w-5 h-5 text-emerald-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+            <img
+              src={logoImageSrc}
+              alt={siteSettings?.siteName || 'Florial'}
+              className="block h-[76px] max-w-[145px] object-contain object-left sm:h-[88px] sm:max-w-[190px] md:h-[100px] md:max-w-[230px]"
+              onError={(event) => {
+                event.currentTarget.style.display = 'none'
+              }}
+            />
+            {!siteSettings?.logoUrl && (
+              <span className="text-xl font-black tracking-tight text-emerald-800 sm:text-2xl md:text-3xl">
+                FLORIAL<span className="text-emerald-500">.BG</span>
+              </span>
+            )}
+          </button>
+
+          {/* Поиск товаров по центру */}
+          <form onSubmit={submitSearch} role="search" className="mx-auto flex w-full max-w-2xl items-center">
+            <div className="flex w-full items-center overflow-hidden rounded-xl border border-slate-300 bg-slate-50 transition focus-within:border-emerald-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-100">
+              <svg className="ml-3 h-5 w-5 shrink-0 text-slate-500 sm:ml-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" strokeWidth="2" />
+                <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Търсене на продукти..."
+                aria-label="Търсене на продукти"
+                className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:px-3 sm:text-base"
               />
-            </svg>
-            <span className="hidden sm:inline text-sm">
-              Количка ({totalCartCount})
-            </span>
-            {totalCartCount > 0 && (
-              <span className="sm:hidden bg-emerald-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">
-                {totalCartCount}
-              </span>
-            )}
-            {totalCartPrice > 0 && (
-              <span className="text-xs font-extrabold text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-md hidden lg:inline">
-                {totalCartPrice.toFixed(2)} €
-              </span>
-            )}
-          </button>
-
-          {/* Главное Десктопное Меню */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
-            <button onClick={onNavigateHome} className="hover:text-emerald-700 transition cursor-pointer">
-              Начало
-            </button>
-
-            {categories.length > 0 && (
-              <div 
-                className="relative group"
-                onMouseEnter={() => setIsCategoriesOpen(true)}
-                onMouseLeave={() => setIsCategoriesOpen(false)}
+              <button
+                type="submit"
+                disabled={!searchQuery.trim()}
+                className="m-1 shrink-0 rounded-lg bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
               >
-                <button 
-                  onClick={() => onNavigateCategory('vsichko-za-polivane')}
-                  className="hover:text-emerald-700 py-2 flex items-center gap-1 transition cursor-pointer"
-                >
-                  Каталог
-                  <span className="text-xs">▾</span>
-                </button>
-                {isCategoriesOpen && (
-                  <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50">
-                    {categories.map((cat) => (
-                      <button
-                        key={cat._id}
-                        onClick={() => {
-                          onNavigateCategory(cat.slug?.current, cat._id)
-                          setIsCategoriesOpen(false)
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition cursor-pointer"
-                      >
-                        {cat.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+                <span className="hidden sm:inline">Търси</span>
+                <svg className="h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </form>
 
-            {services.length > 0 && (
-              <div 
-                className="relative group"
-                onMouseEnter={() => setIsServicesOpen(true)}
-                onMouseLeave={() => setIsServicesOpen(false)}
-              >
-                <button className="hover:text-emerald-700 py-2 flex items-center gap-1 transition cursor-pointer">
-                  Услуги
-                  <span className="text-xs">▾</span>
-                </button>
-                {isServicesOpen && (
-                  <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50">
-                    {services.map((srv) => (
-                      <button
-                        key={srv._id}
-                        onClick={() => {
-                          onNavigateService(srv.slug?.current, srv._id)
-                          setIsServicesOpen(false)
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition cursor-pointer"
-                      >
-                        {srv.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            <button onClick={onNavigateContacts} className="hover:text-emerald-700 transition cursor-pointer">
-              Контакти
-            </button>
-          </nav>
-
-          {/* Гамбургер для мобильных */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none cursor-pointer"
-            aria-label="Меню"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          {/* Количка и меню */}
+          <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                closeMenu()
+                onNavigateCart()
+              }}
+              aria-label={`Количка: ${totalCartCount} продукта`}
+              className="relative flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 text-emerald-900 transition hover:bg-emerald-100 md:h-12 md:px-4"
+            >
+              <svg className="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M3 3h2l2.5 11h10l3-8H6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="9" cy="19" r="1.5" />
+                <circle cx="17" cy="19" r="1.5" />
+              </svg>
+              <span className="hidden text-sm font-semibold lg:inline">Количка</span>
+              <span className="text-sm font-bold">{totalCartCount}</span>
+              {totalCartPrice > 0 && (
+                <span className="hidden rounded-md bg-emerald-200/60 px-2 py-0.5 text-xs font-extrabold text-emerald-800 xl:inline">
+                  {totalCartPrice.toFixed(2)} €
+                </span>
               )}
-            </svg>
-          </button>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsMenuOpen((previous) => !previous)
+                setIsCategoriesOpen(false)
+                setIsServicesOpen(false)
+              }}
+              aria-label={isMenuOpen ? 'Затвори менюто' : 'Отвори менюто'}
+              aria-expanded={isMenuOpen}
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 transition hover:border-emerald-500 hover:text-emerald-700 md:h-12 md:w-12"
+            >
+              {isMenuOpen ? (
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M4 6h16M4 12h16M4 18h16" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Выпадающее меню мобильных */}
+      {/* Меню по умолчанию скрыто; подкатегории раскрываются отдельно */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-4 space-y-3 shadow-md">
-          <button
-            onClick={() => {
-              onNavigateHome()
-              setIsMenuOpen(false)
-            }}
-            className="block w-full text-left py-2 font-semibold text-slate-800 hover:text-emerald-700"
-          >
-            Начало
-          </button>
+        <div className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
+          <nav aria-label="Главна навигация" className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              onClick={() => { closeMenu(); onNavigateHome() }}
+              className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
+            >
+              Начало
+            </button>
 
-          {categories.length > 0 && (
-            <div>
-              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                Категории
-              </span>
-              <div className="pl-2 space-y-1 border-l-2 border-emerald-100">
-                {categories.map((cat) => (
+            <div className="border-t border-slate-100">
+              <button
+                type="button"
+                onClick={toggleCategories}
+                aria-expanded={isCategoriesOpen}
+                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
+              >
+                <span>Продукти</span>
+                <svg className={`h-5 w-5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {isCategoriesOpen && (
+                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   <button
-                    key={cat._id}
-                    onClick={() => {
-                      onNavigateCategory(cat.slug?.current, cat._id)
-                      setIsMenuOpen(false)
-                    }}
-                    className="block w-full text-left py-1.5 text-sm text-slate-700 hover:text-emerald-700"
+                    type="button"
+                    onClick={() => { closeMenu(); onNavigateCategory('vsichko-za-polivane') }}
+                    className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
                   >
-                    {cat.name}
+                    Всички продукти
                   </button>
-                ))}
-              </div>
+                  {categories.map((category) => (
+                    <button
+                      key={category._id}
+                      type="button"
+                      onClick={() => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) }}
+                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
 
-          {services.length > 0 && (
-            <div>
-              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                Услуги
-              </span>
-              <div className="pl-2 space-y-1 border-l-2 border-emerald-100">
-                {services.map((srv) => (
-                  <button
-                    key={srv._id}
-                    onClick={() => {
-                      onNavigateService(srv.slug?.current, srv._id)
-                      setIsMenuOpen(false)
-                    }}
-                    className="block w-full text-left py-1.5 text-sm text-slate-700 hover:text-emerald-700"
-                  >
-                    {srv.name}
-                  </button>
-                ))}
-              </div>
+            <div className="border-t border-slate-100">
+              <button
+                type="button"
+                onClick={toggleServices}
+                aria-expanded={isServicesOpen}
+                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
+              >
+                <span>Услуги</span>
+                <svg className={`h-5 w-5 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {isServicesOpen && (
+                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+                  {services.map((service) => (
+                    <button
+                      key={service._id}
+                      type="button"
+                      onClick={() => { closeMenu(); onNavigateService(service.slug?.current, service._id) }}
+                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
+                    >
+                      {service.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
 
-          <button
-            onClick={() => {
-              onNavigateContacts()
-              setIsMenuOpen(false)
-            }}
-            className="block w-full text-left py-2 font-semibold text-slate-800 hover:text-emerald-700"
-          >
-            Контакти
-          </button>
+            <div className="border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => { closeMenu(); onNavigateContacts() }}
+                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
+              >
+                Контакти
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="M7 17 17 7M7 7h10v10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </nav>
         </div>
       )}
     </header>
