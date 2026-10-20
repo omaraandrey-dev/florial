@@ -119,7 +119,7 @@ export const onRequestPost = async ({
     return json({ error: 'Сървърът за поръчки не е конфигуриран. Моля, свържете се с нас.' }, 503)
   }
 
-  const sanityProjectId = env.SANITY_PROJECT_ID || 'kjkc2aazayha1zdg3opyp8uc'
+  const sanityProjectId = env.SANITY_PROJECT_ID || 'bxvcy0qs'
   const sanityDataset = env.SANITY_DATASET || 'production'
   const productIds = [...new Set(requestedItems.map((item) => item.productId))]
   const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR }'
