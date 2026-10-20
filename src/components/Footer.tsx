@@ -43,10 +43,10 @@ export function Footer() {
 
           <div className="space-y-2 text-sm text-slate-400 md:text-right">
             <h4 className="text-white text-lg font-bold mb-2">{t('{t('Контакти')}')}</h4>
-            <p className="font-semibold text-slate-200">Градински център "Флориал"</p>
-            <p>Тел: <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359876777902</a></p>
+            <p className="font-semibold text-slate-200">{language === 'en' ? 'Florial Garden Centre' : language === 'ru' ? 'Садовый центр Florial' : 'Градински център „Флориал“'}</p>
+            <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359876777902</a></p>
             <p>Тел: <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359885834860</a> (BG / UA / RU)</p>
-            <p>Разсадник: ул. „Хан Крум“, 8230 Несебър</p>
+            <p>{language === 'en' ? 'Nursery: Khan Krum St., 8230 Nessebar' : language === 'ru' ? 'Питомник: ул. Хан Крум, 8230 Несебр' : 'Разсадник: ул. „Хан Крум“, 8230 Несебър'}</p>
           </div>
         </div>
 
@@ -56,7 +56,7 @@ export function Footer() {
             {t('Райони и населени места на обслужване:')}
           </p>
           <p className="leading-relaxed max-w-4xl mx-auto">
-            Несебър • Равда • Слънчев бряг • Свети Влас • Поморие • Ахелой • Тънково • Кошарица • Каблешково и близките населени места в региона.
+            {language === 'en' ? 'Nessebar • Ravda • Sunny Beach • Sveti Vlas • Pomorie • Aheloy • Tankovo • Kosharitsa • Kableshkovo and nearby areas.' : language === 'ru' ? 'Несебр • Равда • Солнечный Берег • Святой Влас • Поморие • Ахелой • Тънково • Кошарица • Каблешково и близлежащие населённые пункты.' : 'Несебър • Равда • Слънчев бряг • Свети Влас • Поморие • Ахелой • Тънково • Кошарица • Каблешково и близките населени места в региона.'}
           </p>
           <p className="pt-4 text-[11px] text-slate-600">
             © {new Date().getFullYear()} Florial Landscape & Градински център Флориал. Всички права запазени.
