@@ -77,7 +77,7 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
-  const contentBlocks = service.contentBlocks || []
+  const contentBlocks = (service.contentBlocks || []).map((block) => ({ ...block, title: localize(block, 'title'), text: localize(block, 'text') }))
 
   return (
     <main className="w-full flex-grow bg-white">
@@ -104,9 +104,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           )}
           {service.startingPriceEUR != null && service.startingPriceEUR > 0 && (
             <div className="mt-7 inline-flex flex-wrap items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-5 py-3">
-              <span className="text-sm font-medium text-emerald-900">Начална цена:</span>
+              <span className="text-sm font-medium text-emerald-900">{t('Начална цена:')}</span>
               <span className="text-2xl font-extrabold text-emerald-800">
-                от {new Intl.NumberFormat('bg-BG', { maximumFractionDigits: 2 }).format(service.startingPriceEUR)} €
+                {language === 'en' ? 'from' : 'от'} {new Intl.NumberFormat(language === 'en' ? 'en-IE' : language === 'ru' ? 'ru-RU' : 'bg-BG', { maximumFractionDigits: 2 }).format(service.startingPriceEUR)} €
               </span>
             </div>
           )}
@@ -116,7 +116,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
             <img
               src={service.imageUrl}
-              alt={service.name}
+              alt={localize(service, 'name')}
               fetchPriority="high"
               className="max-h-[560px] min-h-[220px] w-full object-cover"
             />
@@ -125,7 +125,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {service.description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
-            {renderPortableText(service.description)}
+            {renderPortableText(localize(service, 'description'))}
           </div>
         )}
 
@@ -139,9 +139,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {service.callToAction?.title && (
           <section className="my-8 rounded-2xl bg-emerald-800 px-6 py-10 text-center text-white md:my-12 md:px-12">
-            <h2 className="text-2xl font-bold md:text-3xl">{service.callToAction.title}</h2>
+            <h2 className="text-2xl font-bold md:text-3xl">{localize(service.callToAction, 'title')}</h2>
             <p className="mx-auto mt-3 max-w-2xl leading-7 text-emerald-50">
-              Свържете се с нас и ще обсъдим подходящото решение за вашата градина.
+              {t('Свържете се с нас и ще обсъдим подходящото решение за вашата градина.')}
             </p>
             <a
               href="/contacts"
