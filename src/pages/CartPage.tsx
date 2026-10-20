@@ -52,16 +52,16 @@ export function CartPage({
             ✓
           </div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
-            Благодарим ви за поръчката!
+            {t('Благодарим ви за поръчката!')}
           </h1>
           <p className="text-slate-600 mb-8 max-w-md mx-auto">
-            Вашата поръчка беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.
+            {t('Вашата поръчка беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.')}
           </p>
           <button
             onClick={onNavigateHome}
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition cursor-pointer"
           >
-            Към началната страница
+            {t('Към началната страница')}
           </button>
         </div>
       </main>
@@ -76,14 +76,14 @@ export function CartPage({
           onClick={onNavigateHome}
           className="hover:text-emerald-700 transition cursor-pointer"
         >
-          Начало
+          {t('Начало')}
         </button>
         <span className="mx-2">/</span>
         <span className="text-slate-800 font-medium">{t('Количка')}</span>
       </nav>
 
       <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8">
-        Количка за пазаруване
+        {t('Количка за пазаруване')}
       </h1>
 
       {cart.length === 0 ? (
@@ -93,7 +93,7 @@ export function CartPage({
             onClick={onNavigateHome}
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition cursor-pointer"
           >
-            Разгледайте каталога
+            {t('Разгледайте каталога')}
           </button>
         </div>
       ) : (
@@ -119,7 +119,7 @@ export function CartPage({
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-base mb-1 line-clamp-2">
-                      {product.name}
+                      {localize(product, 'name')}
                     </h3>
                     <p className="text-emerald-800 font-extrabold text-sm">
                       {(product.priceEUR || 0).toFixed(2)} € / бр.
@@ -154,7 +154,7 @@ export function CartPage({
                   <button
                     onClick={() => onRemoveItem(product._id)}
                     className="text-slate-400 hover:text-red-600 transition cursor-pointer text-xl font-bold px-2"
-                    title="Премахни"
+                    title={t('Премахни')}
                   >
                     ✕
                   </button>
@@ -166,7 +166,7 @@ export function CartPage({
           {/* Итоговая сумма и форма заказа */}
           <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm h-fit space-y-6">
             <h2 className="text-xl font-bold text-slate-900 border-b border-slate-100 pb-4">
-              Детайли за поръчката
+              {t('Детайли за поръчката')}
             </h2>
 
             <div className="flex justify-between items-center text-lg font-bold text-slate-900">
@@ -179,7 +179,7 @@ export function CartPage({
             <form onSubmit={handleSubmitOrder} className="space-y-4 pt-2">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Име и фамилия *
+                  {t('Име и фамилия *')}
                 </label>
                 <input
                   type="text"
@@ -187,13 +187,13 @@ export function CartPage({
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Иван Иванов"
+                  placeholder={language === 'en' ? 'John Smith' : 'Иван Иванов'}
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Телефон *
+                  {t('Телефон *')}
                 </label>
                 <input
                   type="tel"
@@ -207,7 +207,7 @@ export function CartPage({
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Град / Населено място *
+                  {t('Град / Населено място *')}
                 </label>
                 <input
                   type="text"
@@ -215,20 +215,20 @@ export function CartPage({
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                   className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Бургас / Слънчев бряг"
+                  placeholder={language === 'en' ? 'Burgas / Sunny Beach' : language === 'ru' ? 'Бургас / Солнечный Берег' : 'Бургас / Слънчев бряг'}
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Адрес за доставка
+                  {t('Адрес за доставка')}
                 </label>
                 <textarea
                   rows={2}
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder="ул. Примерна №10 или офис на Еконт/Спиди"
+                  placeholder={language === 'en' ? 'Street and number or courier office' : language === 'ru' ? 'Улица и номер или офис курьерской службы' : 'ул. Примерна №10 или офис на Еконт/Спиди'}
                 />
               </div>
 
@@ -236,7 +236,7 @@ export function CartPage({
                 type="submit"
                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
-                Изпрати поръчката
+                {t('Изпрати поръчката')}
               </button>
             </form>
           </div>
