@@ -247,11 +247,13 @@ export default function App() {
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
           "categorySlug": category->slug.current,
+          "categoryParentId": category->parent->_id,
           "categories": categories[]-> {
             _id,
             name,
             translations,
-            slug
+            slug,
+            "parentId": parent->_id
           }
         }
       `
@@ -276,7 +278,8 @@ export default function App() {
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
           "categorySlug": category->slug.current,
-          "categories": categories[]->{_id, name, translations, slug}
+          "categoryParentId": category->parent->_id,
+          "categories": categories[]->{_id, name, translations, slug, "parentId": parent->_id}
         }
       `
 
