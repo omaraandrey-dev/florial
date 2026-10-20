@@ -269,7 +269,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
           scientificName, plantDetails, sourcePageUrl,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->externalImageUrl),
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
           "category": category->name,
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
