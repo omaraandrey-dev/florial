@@ -75,6 +75,7 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 }
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
+  const { t, language, localize } = useI18n()
   const contentBlocks = service.contentBlocks || []
 
   return (
@@ -93,11 +94,11 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             Услуги на Florial
           </span>
           <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
-            {service.name}
+            {localize(service, 'name')}
           </h1>
           {service.shortDescription && (
             <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
-              {service.shortDescription}
+              {localize(service, 'shortDescription')}
             </p>
           )}
           {service.startingPriceEUR != null && service.startingPriceEUR > 0 && (
