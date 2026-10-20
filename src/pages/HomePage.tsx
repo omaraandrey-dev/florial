@@ -1,4 +1,5 @@
 import React from 'react'
+import { useI18n } from '../lib/i18n'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
 interface HomePageProps {
@@ -22,6 +23,7 @@ export function HomePage({
   onNavigateCategory,
   onSelectProduct,
 }: HomePageProps) {
+  const { t, language, localize } = useI18n()
   // Сортируем категории так, чтобы главная ("Всичко за поливане") всегда была первой
   const sortedCategories = [...categories].sort((a, b) => {
     const isAAll = a.slug?.current === 'vsichko-za-polivane' || a.name.includes('Всичко за поливане')
@@ -39,13 +41,13 @@ export function HomePage({
             Градински център Флориал
           </h1>
           <p className="text-emerald-100 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
-            {siteSettings?.heroSubtitle || 'Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.'}
+            {localize(siteSettings, 'heroSubtitle') || 'Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.'}
           </p>
 
           <div className="mt-8 text-left">
             <div className="mb-6 text-center">
-              <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest block">Нашите услуги и готови комплекти</span>
-              <h3 className="text-xl md:text-2xl font-bold text-white mt-1">Професионални решения за градината</h3>
+              <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
+              <h3 className="text-xl md:text-2xl font-bold text-white mt-1">{t('Професионални решения за градината')}</h3>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
@@ -58,10 +60,10 @@ export function HomePage({
                   <div>
                     <div className="h-28 md:h-40 bg-emerald-950/40 rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-white/10">
                       {srv.imageUrl ? (
-                        <img src={srv.imageUrl} alt={srv.name} className="w-full h-full object-cover" />
+                        <img src={srv.imageUrl} alt={localize(srv, 'name')} className="w-full h-full object-cover" />
                       ) : (
                         <div className="p-2 text-center">
-                          <span className="font-bold text-white text-xs md:text-base block">{srv.name}</span>
+                          <span className="font-bold text-white text-xs md:text-base block">{localize(srv, 'name')}</span>
                         </div>
                       )}
                     </div>
@@ -71,7 +73,7 @@ export function HomePage({
                     {srv.startingPriceEUR ? (
                       <span className="text-[10px] md:text-xs text-emerald-200">От <strong className="text-white text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
                     ) : (
-                      <span className="text-[10px] md:text-xs text-emerald-300">По оферта</span>
+                      <span className="text-[10px] md:text-xs text-emerald-300">{t('По оферта')}</span>
                     )}
                     <span className="hidden md:inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
                       Детайли →
@@ -85,11 +87,11 @@ export function HomePage({
       </section>
 
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
-        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Каталог продукти</h3>
+        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">{t('Каталог продукти')}</h3>
 
         {sortedCategories.length > 0 && (
           <div className="mb-12">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">Изберете категория</span>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">{t('Изберете категория')}</span>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
               {sortedCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
@@ -105,9 +107,9 @@ export function HomePage({
                   >
                     <div className="w-full h-24 sm:h-32 md:h-36 bg-slate-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-300" />
+                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-300" />
                       ) : (
-                        <span className="text-xs text-slate-400">Няма снимка</span>
+                        <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}
                     </div>
                     <h4 className={`font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ${
