@@ -37,19 +37,19 @@ export function HomePage({
 
   return (
     <div>
-      <section className="bg-emerald-900 text-white py-12 px-4">
+      <section className="bg-[#EEF1E4] text-slate-800 py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight text-center">
             {t('Градински център Флориал')}
           </h1>
-          <p className="text-emerald-100 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
+          <p className="text-slate-600 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
             {localize(siteSettings, 'heroSubtitle') || t('Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.')}
           </p>
 
           <div className="mt-8 text-left">
             <div className="mb-6 text-center">
-              <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
-              <h3 className="text-xl md:text-2xl font-bold text-white mt-1">{t('Професионални решения за градината')}</h3>
+              <span className="text-xs font-bold text-[#71824F] uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{t('Професионални решения за градината')}</h3>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
@@ -57,27 +57,27 @@ export function HomePage({
                 <div 
                   key={srv._id} 
                   onClick={() => onNavigateService(srv.slug?.current, srv._id)}
-                  className="bg-white/10 backdrop-blur-md p-3 md:p-6 rounded-xl border border-white/20 shadow-lg flex flex-col justify-between hover:bg-white/15 transition cursor-pointer text-white"
+                  className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800"
                 >
                   <div>
-                    <div className="h-28 md:h-40 bg-emerald-950/40 rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-white/10">
+                    <div className="h-28 md:h-40 bg-[#E2E8D5] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#D5DDC5]">
                       {srv.imageUrl ? (
                         <img src={srv.imageUrl} alt={localize(srv, 'name')} className="w-full h-full object-cover" />
                       ) : (
                         <div className="p-2 text-center">
-                          <span className="font-bold text-white text-xs md:text-base block">{localize(srv, 'name')}</span>
+                          <span className="font-bold text-slate-800 text-xs md:text-base block">{localize(srv, 'name')}</span>
                         </div>
                       )}
                     </div>
                     <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
                   </div>
-                  <div className="pt-2 md:pt-4 border-t border-white/10 flex items-center justify-between mt-2">
+                  <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
                     {srv.startingPriceEUR ? (
-                      <span className="text-[10px] md:text-xs text-emerald-200">{t('От')} <strong className="text-white text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
+                      <span className="text-[10px] md:text-xs text-[#71824F]">{t('От')} <strong className="text-slate-900 text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
                     ) : (
-                      <span className="text-[10px] md:text-xs text-emerald-300">{t('По оферта')}</span>
+                      <span className="text-[10px] md:text-xs text-[#71824F]">{t('По оферта')}</span>
                     )}
-                    <span className="hidden md:inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
+                    <span className="hidden md:inline-block bg-[#7C8D55] hover:bg-[#687847] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
                       {t("Детайли →")}
                     </span>
                   </div>
@@ -101,7 +101,7 @@ export function HomePage({
             </button>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            {plantCategories.filter((cat) => cat.parentId === 'plants-root').map((cat, index) => (
+            {plantCategories.filter((cat) => cat._id !== 'plants-root' || cat.slug?.current === 'rastenia').map((cat, index) => (
               <button key={cat._id} onClick={() => onNavigateCategory(cat.slug?.current, cat._id)} className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-emerald-100 via-lime-50 to-amber-50 flex items-center justify-center">
                   {cat.imageUrl ? <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
