@@ -4,7 +4,10 @@ export type Language = 'bg' | 'en' | 'ru'
 
 const translations: Record<string, Record<Language, string>> = {
   'Начало': { bg: 'Начало', en: 'Home', ru: 'Главная' },
-  'Продукти': { bg: 'Продукти', en: 'Products', ru: 'Товары' },
+  'Поливни системи': { bg: 'Поливни системи', en: 'Irrigation systems', ru: 'Системы полива' },
+  'Растения': { bg: 'Растения', en: 'Plants', ru: 'Растения' },
+  'Всички растения': { bg: 'Всички растения', en: 'All plants', ru: 'Все растения' },
+  'Цялото оборудване за поливане': { bg: 'Цялото оборудване за поливане', en: 'All irrigation equipment', ru: 'Всё оборудование для полива' },
   'Услуги': { bg: 'Услуги', en: 'Services', ru: 'Услуги' },
   'Контакти': { bg: 'Контакти', en: 'Contacts', ru: 'Контакты' },
   'Количка': { bg: 'Количка', en: 'Cart', ru: 'Корзина' },
