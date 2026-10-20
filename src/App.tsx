@@ -615,7 +615,8 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
         services={services}
-        categories={categories}
+        categories={categories.filter((category) => !category._id.startsWith('plants-'))}
+        plantCategories={plantCategories}
         cart={cart}
         onNavigateHome={navigateToHome}
         onNavigateService={navigateToService}
