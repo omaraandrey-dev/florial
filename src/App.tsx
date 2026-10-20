@@ -227,6 +227,7 @@ export default function App() {
           _id,
           name,
           translations,
+          "productType": "equipment",
           // Normalize both Sanity slug objects ({ current }) and legacy plain strings.
           "slug": { "current": coalesce(slug.current, slug) },
           sku,
@@ -266,6 +267,7 @@ export default function App() {
       const plantProductQuery = `
         *[_type == "product" && productType == "plant" && isActive != false] | order(sortOrder asc) {
           _id, name, translations,
+          "productType": "plant",
           "slug": { "current": coalesce(slug.current, slug) },
           sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
           scientificName, plantDetails, sourcePageUrl,
@@ -566,22 +568,40 @@ export default function App() {
   const filteredProducts = useMemo(() => {
     if (!currentCategory) return products
 
+    // Equipment and plants have separate root categories and must never leak
+    // into each other's category listings.
+    if (currentCategory._id === 'plants-root' || currentCategory.slug?.current === 'rastenia') {
+      return products.filter((product) => product.productType === 'plant')
+    }
     if (currentCategory.slug?.current === 'vsichko-za-polivane') {
-      return products
+      return products.filter((product) => product.productType !== 'plant')
+    }
+
+    // A parent plant category includes products assigned to its descendants.
+    const descendantIds = new Set<string>([currentCategory._id])
+    let expanded = true
+    while (expanded) {
+      expanded = false
+      categories.forEach((category: any) => {
+        if (category.parentId && descendantIds.has(category.parentId) && !descendantIds.has(category._id)) {
+          descendantIds.add(category._id)
+          expanded = true
+        }
+      })
     }
 
     return products.filter((product) => {
-      const isMainMatch = product.categoryId === currentCategory._id
+      const productIsPlant = product.productType === 'plant'
+      const categoryIsPlant = currentCategory._id.startsWith('plants-')
+      if (productIsPlant !== categoryIsPlant) return false
 
-      const isMultiMatch =
-        product.categories &&
-        product.categories.some(
-          (category: any) => category._id === currentCategory._id
-        )
-
+      const isMainMatch = Boolean(product.categoryId && descendantIds.has(product.categoryId))
+      const isMultiMatch = Boolean(
+        product.categories?.some((category: any) => descendantIds.has(category._id))
+      )
       return isMainMatch || isMultiMatch
     })
-  }, [products, currentCategory])
+  }, [products, currentCategory, categories])
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
