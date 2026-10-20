@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
-import { sanityClient } from './lib/sanity'
+import { sanityClient, plantsClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { useI18n } from './lib/i18n'
@@ -23,6 +23,7 @@ export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<CategoryItem[]>([])
+  const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>([])
@@ -254,6 +255,28 @@ export default function App() {
         }
       `
 
+      const plantCategoryQuery = `
+        *[_type == "category" && _id in ["plants-root", "plants-palms", "plants-olives", "plants-citrus", "plants-trees-shrubs", "plants-flowers", "plants-exotic", "plants-solitaires"]] | order(sortOrder asc) {
+          _id, name, translations, slug, sortOrder, description,
+          "imageUrl": image.asset->url
+        }
+      `
+
+      const plantProductQuery = `
+        *[_type == "product" && productType == "plant" && isActive != false] | order(sortOrder asc) {
+          _id, name, translations,
+          "slug": { "current": coalesce(slug.current, slug) },
+          sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
+          scientificName, plantDetails, sourcePageUrl,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "category": category->name,
+          "categoryTranslations": category->translations,
+          "categoryId": category->_id,
+          "categorySlug": category->slug.current,
+          "categories": categories[]->{_id, name, translations, slug}
+        }
+      `
+
       const serviceQuery = `
         *[_type == "service" && isActive != false] {
           _id,
@@ -308,6 +331,8 @@ export default function App() {
         sanityClient.fetch(categoryQuery),
         sanityClient.fetch(productQuery),
         sanityClient.fetch(serviceQuery),
+        plantsClient.fetch(plantCategoryQuery),
+        plantsClient.fetch(plantProductQuery),
         Promise.all([
           sanityClient.fetch(settingsQuery),
           sanityClient.fetch(logoQuery),
@@ -316,18 +341,29 @@ export default function App() {
 
       if (cancelled) return
 
-      const [categoryResult, productResult, serviceResult, settingsResult] = requests
+      const [categoryResult, productResult, serviceResult, plantCategoryResult, plantProductResult, settingsResult] = requests
 
-      if (categoryResult.status === 'fulfilled') {
-        setCategories(Array.isArray(categoryResult.value) ? categoryResult.value : [])
-      } else {
-        console.error('Sanity: не удалось загрузить категории:', categoryResult.reason)
+      const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
+      const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
+      setPlantCategories(plantsCategoryData)
+      setCategories([...equipmentCategories, ...plantsCategoryData])
+
+      if (categoryResult.status !== 'fulfilled') {
+        console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
+      }
+      if (plantCategoryResult.status !== 'fulfilled') {
+        console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }
 
-      if (productResult.status === 'fulfilled') {
-        setProducts(Array.isArray(productResult.value) ? productResult.value : [])
-      } else {
-        console.error('Sanity: не удалось загрузить товары:', productResult.reason)
+      const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
+      const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
+      setProducts([...equipmentProducts, ...plantProductData])
+
+      if (productResult.status !== 'fulfilled') {
+        console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
+      }
+      if (plantProductResult.status !== 'fulfilled') {
+        console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
       }
 
       if (serviceResult.status === 'fulfilled') {
@@ -709,7 +745,8 @@ export default function App() {
       ) : (
         <HomePage
           services={services}
-          categories={categories}
+          categories={categories.filter((category) => !category._id.startsWith('plants-'))}
+          plantCategories={plantCategories}
           products={products}
           siteSettings={siteSettings}
           loadingProducts={loadingProducts}
