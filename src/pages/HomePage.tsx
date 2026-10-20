@@ -5,6 +5,7 @@ import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 interface HomePageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
+  plantCategories: CategoryItem[]
   products: Product[]
   siteSettings: SiteSettings | null
   loadingProducts: boolean
@@ -16,6 +17,7 @@ interface HomePageProps {
 export function HomePage({
   services,
   categories,
+  plantCategories,
   products,
   siteSettings,
   loadingProducts,
@@ -82,6 +84,34 @@ export function HomePage({
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white border-y border-emerald-100">
+        <div className="max-w-7xl mx-auto px-4 py-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">{t('Градински център Флориал')}</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
+              <p className="mt-2 max-w-2xl text-sm md:text-base text-slate-600">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
+            </div>
+            <button onClick={() => onNavigateCategory('rastenia')} className="shrink-0 rounded-lg bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 transition">
+              {t('Разгледайте всички растения')} →
+            </button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            {plantCategories.filter((cat) => cat._id !== 'plants-root').map((cat, index) => (
+              <button key={cat._id} onClick={() => onNavigateCategory(cat.slug?.current, cat._id)} className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
+                <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-emerald-100 via-lime-50 to-amber-50 flex items-center justify-center">
+                  {cat.imageUrl ? <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
+                </div>
+                <div className="p-3 md:p-4">
+                  <h3 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-emerald-800">{localize(cat, 'name')}</h3>
+                  <span className="mt-2 inline-block text-xs font-semibold text-emerald-700">{t('Разгледайте')} →</span>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </section>
