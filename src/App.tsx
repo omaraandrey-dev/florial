@@ -235,9 +235,9 @@ export default function App() {
             "galleryImages": gallery[].asset->url,
             shortDescription,
             description,
-            translations,
             specifications,
             "category": category->name,
+            "categoryTranslations": category->translations,
             "categoryId": category->_id,
             "categorySlug": category->slug.current,
             "categories": categories[]-> {
@@ -259,7 +259,6 @@ export default function App() {
             slug,
             shortDescription,
             description,
-            translations,
             "imageUrl": coalesce(
               image.asset->url,
               mainImage.asset->url
@@ -271,7 +270,8 @@ export default function App() {
               text,
               imagePosition,
               "imageUrl": image.asset->url,
-              "imageAlt": image.alt
+              "imageAlt": image.alt,
+              translations
             },
             startingPriceEUR,
             advantages,
@@ -368,7 +368,7 @@ export default function App() {
     window.history.pushState(
       {},
       '',
-      `/search?q=${encodeURIComponent(normalizedQuery)}`
+      `/search?q=${encodeURIComponent(normalizedQuery)}&lang=${language}`
     )
 
     setActiveSearchQuery(normalizedQuery)
