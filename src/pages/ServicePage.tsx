@@ -79,22 +79,38 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
 
-  // Keep every CMS content block. The service gallery is also used as a
-  // fallback source for images, because some existing service documents have
-  // gallery images populated separately from the image field in each block.
+  // Text and images inside contentBlocks belong together. Do not merge the
+  // separate gallery by array index: gallery order is independent and that
+  // was causing duplicate photos and empty text sections.
   const sourceBlocks = Array.isArray(service.contentBlocks) ? service.contentBlocks : []
-  const galleryImages = Array.isArray(service.galleryImages) ? service.galleryImages.filter(Boolean) : []
-  const blockCount = Math.max(sourceBlocks.length, galleryImages.length)
-  const contentBlocks = Array.from({ length: blockCount }, (_, index) => {
-    const block = sourceBlocks[index] || {}
-    return {
+  const galleryImages = Array.isArray(service.galleryImages)
+    ? service.galleryImages.filter((image) => image?.url)
+    : []
+
+  const contentBlocks = sourceBlocks
+    .map((block) => ({
       ...block,
-      imageUrl: block.imageUrl || galleryImages[index],
       title: localize(block, 'title'),
       text: localize(block, 'text'),
       imageAlt: localize(block, 'imageAlt'),
-    }
-  }).filter((block) => block.imageUrl || block.title || block.text)
+    }))
+    .filter((block) => block.imageUrl || block.title || block.text)
+
+  // Add only gallery photos not already used by a content block. Their Sanity
+  // alt text is shown as a caption, so every extra photo has accompanying text.
+  const usedImageUrls = new Set(contentBlocks.map((block) => block.imageUrl).filter(Boolean))
+  const galleryOnlyBlocks = galleryImages
+    .filter((image) => image.url && !usedImageUrls.has(image.url))
+    .map((image, index) => ({
+      _key: image._key || `gallery-${index}`,
+      imageUrl: image.url,
+      imageAlt: image.alt || '',
+      title: '',
+      text: image.alt || '',
+      imagePosition: index % 2 === 0 ? 'left' as const : 'right' as const,
+    }))
+
+  const allContentBlocks = [...contentBlocks, ...galleryOnlyBlocks]
 
   return (
     <main className="w-full flex-grow bg-white">
@@ -146,9 +162,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           </div>
         )}
 
-        {contentBlocks.length > 0 && (
+        {allContentBlocks.length > 0 && (
           <div className="divide-y divide-slate-100">
-            {contentBlocks.map((block, index) => (
+            {allContentBlocks.map((block, index) => (
               <ContentBlock key={block._key || index} block={block} index={index} />
             ))}
           </div>
