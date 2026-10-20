@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useI18n } from '../lib/i18n'
 import type { Product } from '../types'
 
 interface ProductPageProps {
@@ -16,6 +17,7 @@ export function ProductPage({
   onNavigateProduct,
   onAddToCart,
 }: ProductPageProps) {
+  const { t, language, localize } = useI18n()
   const [selectedImage, setSelectedImage] = useState<string>('')
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
@@ -33,7 +35,7 @@ export function ProductPage({
 
   useEffect(() => {
     if (!product) return
-    document.title = `${product.name} | Флориал`
+    document.title = `${localize(product, 'name')} | Флориал`
     
     let descMeta = document.querySelector('meta[name="description"]')
     const descText = product.shortDescription || `Купете ${product.name} изгодно в онлайн магазин Флориал.`
@@ -82,9 +84,9 @@ export function ProductPage({
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage ? (
-              <img src={selectedImage} alt={product.name} className="h-full w-full object-contain p-4" />
+              <img src={selectedImage} alt={localize(product, 'name')} className="h-full w-full object-contain p-4" />
             ) : (
-              <span className="text-slate-400">Няма изображение</span>
+              <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
             {product.stockStatus && (
               <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
@@ -136,14 +138,14 @@ export function ProductPage({
 
             {product.shortDescription && (
               <p className="text-slate-600 text-base mb-6 leading-relaxed">
-                {product.shortDescription}
+                {localize(product, 'shortDescription')}
               </p>
             )}
           </div>
 
           <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
             <div className="flex items-center gap-4">
-              <span className="text-sm font-semibold text-slate-700">Количество:</span>
+              <span className="text-sm font-semibold text-slate-700">{t('Количество:')}</span>
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -167,7 +169,7 @@ export function ProductPage({
               onClick={handleAdd}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Добави в количката</span>
+              <span>{t('Добави в количката')}</span>
             </button>
 
             {addedNotification && (
@@ -182,11 +184,11 @@ export function ProductPage({
       {/* Технические характеристики */}
       {product.specifications && product.specifications.length > 0 && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">Технически характеристики</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-6">{t('Технически характеристики')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {product.specifications.map((spec, i) => (
               <div key={i} className="flex justify-between py-3 px-4 bg-slate-50 rounded-xl">
-                <span className="text-slate-500 text-sm font-medium">{spec.name}</span>
+                <span className="text-slate-500 text-sm font-medium">{localize(spec, 'name')}</span>
                 <span className="text-slate-900 text-sm font-semibold text-right">
                   {spec.value} {spec.unit || ''}
                 </span>
@@ -199,13 +201,13 @@ export function ProductPage({
       {/* Полное описание товара */}
       {product.description && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Описание</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Описание')}</h2>
           <div className="text-slate-600 text-base leading-relaxed space-y-4">
-            {typeof product.description === 'string' ? (
-              <p className="whitespace-pre-line">{product.description}</p>
+            {typeof localize(product, 'description') === 'string' ? (
+              <p className="whitespace-pre-line">{localize(product, 'description')}</p>
             ) : Array.isArray(product.description) ? (
               // Рендеринг блоков Portable Text из Sanity
-              product.description.map((block: any, idx: number) => {
+              localize(product, 'description').map((block: any, idx: number) => {
                 if (block._type === 'block' && block.children) {
                   return (
                     <p key={idx}>
@@ -259,7 +261,7 @@ export function ProductPage({
                     {item.imageUrl ? (
                       <img src={item.imageUrl} alt={item.name} className="h-full w-full object-contain p-2" />
                     ) : (
-                      <span className="text-xs text-slate-400">Няма снимка</span>
+                      <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-1">{item.name}</h3>
