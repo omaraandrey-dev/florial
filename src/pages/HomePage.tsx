@@ -26,6 +26,13 @@ export function HomePage({
   onSelectProduct,
 }: HomePageProps) {
   const { t, language, localize } = useI18n()
+  const sortedPlantCategories = [...plantCategories].sort((a, b) => {
+    const aRoot = a._id === 'plants-root' || a.slug?.current === 'rastenia'
+    const bRoot = b._id === 'plants-root' || b.slug?.current === 'rastenia'
+    if (aRoot && !bRoot) return -1
+    if (bRoot && !aRoot) return 1
+    return (a.sortOrder || 0) - (b.sortOrder || 0) || a.name.localeCompare(b.name, 'bg')
+  })
   // Сортируем категории так, чтобы главная ("Всичко за поливане") всегда была первой
   const sortedCategories = [...categories].sort((a, b) => {
     const isAAll = a.slug?.current === 'vsichko-za-polivane' || a.name.includes('Всичко за поливане')
@@ -48,7 +55,7 @@ export function HomePage({
 
           <div className="mt-8 text-left">
             <div className="mb-6 text-center">
-              <span className="text-xs font-bold text-[#71824F] uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
+              <span className="text-xs font-bold text-[#697A49] uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
               <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{t('Професионални решения за градината')}</h3>
             </div>
 
@@ -77,7 +84,7 @@ export function HomePage({
                     ) : (
                       <span className="text-[10px] md:text-xs text-[#71824F]">{t('По оферта')}</span>
                     )}
-                    <span className="hidden md:inline-block bg-[#7C8D55] hover:bg-[#687847] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
+                    <span className="hidden md:inline-block bg-[#879663] hover:bg-[#71814F] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
                       {t("Детайли →")}
                     </span>
                   </div>
@@ -102,13 +109,13 @@ export function HomePage({
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {[...plantCategories].sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name)).map((cat, index) => (
-              <button key={cat._id} onClick={() => onNavigateCategory(cat.slug?.current, cat._id)} className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
-                <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-emerald-100 via-lime-50 to-amber-50 flex items-center justify-center">
+              <button key={cat._id} onClick={() => onNavigateCategory(cat.slug?.current, cat._id)} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md">
+                <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
                   {cat.imageUrl ? <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
                 </div>
                 <div className="p-3 md:p-4">
-                  <h3 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-emerald-800">{localize(cat, 'name')}</h3>
-                  <span className="mt-2 inline-block text-xs font-semibold text-emerald-700">{t('Разгледайте')} →</span>
+                  <h3 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-[#647746]">{localize(cat, 'name')}</h3>
+                  <span className="mt-2 inline-block text-xs font-semibold text-[#71814F]">{t('Разгледайте')} →</span>
                 </div>
               </button>
             ))}
