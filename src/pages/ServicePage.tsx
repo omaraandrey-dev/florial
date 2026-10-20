@@ -78,7 +78,23 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
-  const contentBlocks = (service.contentBlocks || []).map((block) => ({ ...block, title: localize(block, 'title'), text: localize(block, 'text'), imageAlt: localize(block, 'imageAlt') }))
+
+  // Keep every CMS content block. The service gallery is also used as a
+  // fallback source for images, because some existing service documents have
+  // gallery images populated separately from the image field in each block.
+  const sourceBlocks = Array.isArray(service.contentBlocks) ? service.contentBlocks : []
+  const galleryImages = Array.isArray(service.galleryImages) ? service.galleryImages.filter(Boolean) : []
+  const blockCount = Math.max(sourceBlocks.length, galleryImages.length)
+  const contentBlocks = Array.from({ length: blockCount }, (_, index) => {
+    const block = sourceBlocks[index] || {}
+    return {
+      ...block,
+      imageUrl: block.imageUrl || galleryImages[index],
+      title: localize(block, 'title'),
+      text: localize(block, 'text'),
+      imageAlt: localize(block, 'imageAlt'),
+    }
+  }).filter((block) => block.imageUrl || block.title || block.text)
 
   return (
     <main className="w-full flex-grow bg-white">
