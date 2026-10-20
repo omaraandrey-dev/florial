@@ -218,7 +218,7 @@ export function ProductPage({
                 return null
               })
             ) : (
-              <p>Детайлно описание на продукта.</p>
+              <p>{t("Детайлно описание на продукта.")}</p>
             )}
           </div>
         </section>
