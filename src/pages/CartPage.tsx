@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useI18n } from '../lib/i18n'
 import type { CartItem } from '../types'
 
 interface CartPageProps {
@@ -16,6 +17,7 @@ export function CartPage({
   onClearCart,
   onNavigateHome,
 }: CartPageProps) {
+  const { t, language, localize } = useI18n()
   const [orderSubmitted, setOrderSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -77,7 +79,7 @@ export function CartPage({
           Начало
         </button>
         <span className="mx-2">/</span>
-        <span className="text-slate-800 font-medium">Количка</span>
+        <span className="text-slate-800 font-medium">{t('Количка')}</span>
       </nav>
 
       <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8">
@@ -86,7 +88,7 @@ export function CartPage({
 
       {cart.length === 0 ? (
         <div className="bg-white rounded-2xl border border-slate-100 p-12 text-center shadow-sm">
-          <p className="text-slate-500 text-lg mb-6">Вашата количка е празна.</p>
+          <p className="text-slate-500 text-lg mb-6">{t('Вашата количка е празна.')}</p>
           <button
             onClick={onNavigateHome}
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition cursor-pointer"
@@ -108,11 +110,11 @@ export function CartPage({
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl}
-                        alt={product.name}
+                        alt={localize(product, 'name')}
                         className="w-full h-full object-contain p-1"
                       />
                     ) : (
-                      <span className="text-xs text-slate-400">Няма снимка</span>
+                      <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
                   </div>
                   <div>
@@ -168,7 +170,7 @@ export function CartPage({
             </h2>
 
             <div className="flex justify-between items-center text-lg font-bold text-slate-900">
-              <span>Общо:</span>
+              <span>{t('Общо:')}</span>
               <span className="text-2xl font-extrabold text-emerald-800">
                 {totalPrice.toFixed(2)} €
               </span>
