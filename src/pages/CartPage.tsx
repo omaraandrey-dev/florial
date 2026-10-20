@@ -84,7 +84,7 @@ export function CartPage({
             {t('Благодарим ви за поръчката!')}
           </h1>
           <p className="text-slate-600 mb-8 max-w-md mx-auto">
-            {t('Вашата поръчка {orderNumber ? `№ ${orderNumber} ` : ''}беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.')}
+            {t('Вашата поръчка')} {orderNumber ? `№ ${orderNumber} ` : ''}{t('беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.')}
           </p>
           <button
             onClick={onNavigateHome}
