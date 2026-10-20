@@ -62,7 +62,7 @@ export function ProductPage({
         </button>
         <span className="mx-1">/</span>
         <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors cursor-pointer">
-          Каталог
+          {t("Каталог")}
         </button>
         {product.category && (
           <>
