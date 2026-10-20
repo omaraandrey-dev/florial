@@ -40,8 +40,8 @@ export function CategoryPage({
     const descriptionText =
       category.seo?.seoDescription ||
       category.seo?.metaDescription ||
-      (typeof category.description === 'string'
-        ? category.description
+      (typeof localize(category, 'description') === 'string'
+        ? localize(category, 'description')
         : `Разгледайте категория ${localize(category, 'name')} в нашия магазин.`)
 
     if (!descriptionMeta) {
@@ -121,8 +121,8 @@ export function CategoryPage({
         </h1>
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
-            {typeof category.description === 'string' ? (
-              <p>{category.description}</p>
+            {typeof localize(category, 'description') === 'string' ? (
+              <p>{localize(category, 'description')}</p>
             ) : (
               <p>{t("Разгледайте продуктите в тази категория.")}</p>
             )}
