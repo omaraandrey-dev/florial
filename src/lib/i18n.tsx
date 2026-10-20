@@ -147,6 +147,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localize: (item: any, field: string) => {
       if (!item) return undefined
       const translated = item.translations?.[language]?.[field]
+        ?? item[`${field}Translations`]?.[language]?.[field]
+        ?? item[`${field}Translations`]?.[language]?.name
         ?? item[`${field}${language.toUpperCase()}`]
         ?? item[`${field}_${language}`]
       return translated ?? item[field]
