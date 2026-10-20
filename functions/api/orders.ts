@@ -85,6 +85,7 @@ const createProformaPdf = async (order: ProformaOrder, fontUrl?: string): Promis
     y -= size + 9
   }
   draw('FLORIAL OOD', 22, rgb(0.02, 0.39, 0.29))
+  draw('ЕИК: 206978288', 9)
   draw('ПРОФОРМА / ПОТВЪРЖДЕНИЕ НА ПОРЪЧКА', 12)
   draw('Номер: ' + order.order_number)
   draw('Дата: ' + new Date(order.created_at).toLocaleDateString('bg-BG'))
