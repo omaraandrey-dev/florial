@@ -71,7 +71,7 @@ export function Header({
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
       <div className="w-full px-3 sm:px-5 lg:px-8">
-        <div className="grid min-h-[100px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 py-3 md:min-h-[120px] md:gap-6 md:py-4">
+        <div className="grid min-h-[84px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 py-2 sm:gap-3 sm:py-3 md:min-h-[120px] md:gap-6 md:py-4">
           {/* Logo: увеличен и прижат к левому краю контейнера */}
           <button
             type="button"
@@ -82,16 +82,17 @@ export function Header({
             aria-label="Florial — начална страница"
             className="flex h-full min-w-0 shrink-0 items-center justify-start text-left"
           >
-            <img
-              src={logoImageSrc}
-              alt={siteSettings?.siteName || 'Florial'}
-              className="block h-[76px] max-w-[145px] object-contain object-left sm:h-[88px] sm:max-w-[190px] md:h-[100px] md:max-w-[230px]"
-              onError={(event) => {
-                event.currentTarget.style.display = 'none'
-              }}
-            />
-            {!siteSettings?.logoUrl && (
-              <span className="text-xl font-black tracking-tight text-emerald-800 sm:text-2xl md:text-3xl">
+            {siteSettings?.logoUrl ? (
+              <img
+                src={logoImageSrc}
+                alt={siteSettings?.siteName || 'Florial'}
+                className="block h-[60px] max-w-[100px] object-contain object-left sm:h-[78px] sm:max-w-[160px] md:h-[100px] md:max-w-[230px]"
+                onError={(event) => {
+                  event.currentTarget.style.display = 'none'
+                }}
+              />
+            ) : (
+              <span className="text-lg font-black tracking-tight text-emerald-800 sm:text-2xl md:text-3xl">
                 FLORIAL<span className="text-emerald-500">.BG</span>
               </span>
             )}
