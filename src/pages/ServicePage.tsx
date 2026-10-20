@@ -40,6 +40,7 @@ function renderPortableText(content: any) {
 }
 
 function ContentBlock({ block, index }: { block: ServiceContentBlock; index: number }) {
+  const { t } = useI18n()
   const imageLeft = block.imagePosition === 'left' || (!block.imagePosition && index % 2 === 0)
 
   return (
