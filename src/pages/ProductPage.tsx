@@ -31,7 +31,7 @@ export function ProductPage({
   useEffect(() => {
     setSelectedImage(product.imageUrl || allImages[0] || '')
     setQuantity(1)
-  }, [product])
+  }, [product, language])
 
   useEffect(() => {
     if (!product) return
@@ -90,7 +90,7 @@ export function ProductPage({
             )}
             {product.stockStatus && (
               <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                {product.stockStatus}
+                {localize(product, 'stockStatus')}
               </span>
             )}
           </div>
@@ -190,7 +190,7 @@ export function ProductPage({
               <div key={i} className="flex justify-between py-3 px-4 bg-slate-50 rounded-xl">
                 <span className="text-slate-500 text-sm font-medium">{localize(spec, 'name')}</span>
                 <span className="text-slate-900 text-sm font-semibold text-right">
-                  {spec.value} {spec.unit || ''}
+                  {localize(spec, 'value')} {spec.unit || ''}
                 </span>
               </div>
             ))}
@@ -237,7 +237,7 @@ export function ProductPage({
                 rel="noopener noreferrer"
                 className="flex items-center justify-between p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-xl border border-slate-200 transition"
               >
-                <span className="font-semibold text-slate-800 text-sm">{doc.title}</span>
+                <span className="font-semibold text-slate-800 text-sm">{localize(doc, 'title')}</span>
                 <span className="text-emerald-700 text-xs font-bold uppercase">{t('Изтегляне ↓')}</span>
               </a>
             ))}
