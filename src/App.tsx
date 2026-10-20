@@ -562,15 +562,15 @@ export default function App() {
             <p className="py-12 text-slate-500">{t('Зареждане на продуктите...')}</p>
           ) : !activeSearchQuery ? (
             <p className="py-12 text-slate-600">
-              Въведете име, марка или продуктов код в полето за търсене.
+              {t("Въведете име, марка или продуктов код в полето за търсене.")}
             </p>
           ) : searchedProducts.length === 0 ? (
             <div className="py-12">
               <p className="text-lg font-semibold text-slate-800">
-                Няма намерени продукти
+                {t("Няма намерени продукти")}
               </p>
               <p className="mt-2 text-slate-600">
-                Опитайте с друго име, марка или продуктов код.
+                {t("Опитайте с друго име, марка или продуктов код.")}
               </p>
             </div>
           ) : (
@@ -599,7 +599,7 @@ export default function App() {
                       />
                     ) : (
                       <div className="flex h-40 items-center justify-center bg-slate-50 text-sm text-slate-400">
-                        Няма снимка
+                        {t("Няма снимка")}
                       </div>
                     )}
                     <div className="p-3">
@@ -615,7 +615,7 @@ export default function App() {
                         {Number(product.priceEUR || 0).toFixed(2)} €
                       </p>
                       <span className="mt-3 block text-sm font-semibold text-emerald-700">
-                        Виж продукта →
+                        {t("Виж продукта →")}
                       </span>
                     </div>
                   </button>
@@ -644,7 +644,7 @@ export default function App() {
         loadingProducts || loadingProductDetails ? (
           <div className="flex-grow flex items-center justify-center py-20">
             <p className="text-slate-500 font-medium">
-              Зареждане на продукта...
+              {t("Зареждане на продукта...")}
             </p>
           </div>
         ) : currentProduct ? (
@@ -658,18 +658,18 @@ export default function App() {
         ) : (
           <div className="flex-grow text-center py-20">
             <h1 className="text-xl font-bold text-slate-800">
-              Продуктът не е намерен
+              {t("Продуктът не е намерен")}
             </h1>
 
             <p className="mt-2 text-slate-500">
-              Проверете адреса или се върнете към началната страница.
+              {t("Проверете адреса или се върнете към началната страница.")}
             </p>
 
             <button
               onClick={navigateToHome}
               className="mt-4 rounded-lg bg-emerald-600 px-5 py-3 text-white"
             >
-              Към началната страница
+              {t("Към началната страница")}
             </button>
           </div>
         )
