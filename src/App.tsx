@@ -744,6 +744,7 @@ export default function App() {
             onNavigateCategory={navigateToCategory}
             onNavigateProduct={navigateToProduct}
             onAddToCart={handleAddToCart}
+            onNavigateContacts={navigateToContacts}
           />
         ) : (
           <div className="flex-grow text-center py-20">
