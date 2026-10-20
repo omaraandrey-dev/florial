@@ -1,65 +1,155 @@
 import React from 'react'
-import type { ServiceItem } from '../types'
+import type { ServiceItem, ServiceContentBlock } from '../types'
 
 interface ServicePageProps {
   service: ServiceItem
   onNavigateHome: () => void
 }
 
-const renderPortableText = (content: any) => {
+function renderPortableText(content: any) {
   if (!content) return null
+
   if (typeof content === 'string') {
-    return <p className="text-slate-700 leading-relaxed mb-4">{content}</p>
+    return content.split('\n').filter(Boolean).map((paragraph, index) => (
+      <p key={index} className="mb-4 leading-7 text-slate-600">{paragraph}</p>
+    ))
   }
-  if (Array.isArray(content)) {
-    return content.map((block: any, index: number) => {
-      if (block._type !== 'block') return null
-      const text = block.children?.map((child: any) => child.text).join('') || ''
-      switch (block.style) {
-        case 'h2':
-          return <h2 key={block._key || index} className="text-2xl font-bold text-slate-900 mt-6 mb-3">{text}</h2>
-        case 'h3':
-          return <h3 key={block._key || index} className="text-xl font-bold text-slate-800 mt-5 mb-2">{text}</h3>
-        default:
-          return <p key={block._key || index} className="text-slate-700 leading-relaxed mb-4 text-base">{text}</p>
-      }
-    })
-  }
-  return null
+
+  if (!Array.isArray(content)) return null
+
+  return content.map((block: any, index: number) => {
+    if (block?._type !== 'block') return null
+
+    const children = block.children || []
+    const text = children.map((child: any) => child.text || '').join('')
+    const key = block._key || index
+
+    if (block.style === 'h2') {
+      return <h2 key={key} className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{text}</h2>
+    }
+    if (block.style === 'h3') {
+      return <h3 key={key} className="mb-3 mt-6 text-xl font-bold text-slate-900">{text}</h3>
+    }
+    if (block.listItem) {
+      return <li key={key} className="ml-5 mb-2 list-disc leading-7 text-slate-600">{text}</li>
+    }
+
+    return <p key={key} className="mb-4 leading-7 text-slate-600">{text}</p>
+  })
+}
+
+function ContentBlock({ block, index }: { block: ServiceContentBlock; index: number }) {
+  const imageLeft = block.imagePosition === 'left' || (!block.imagePosition && index % 2 === 0)
+
+  return (
+    <section className="grid items-center gap-6 py-8 md:grid-cols-2 md:gap-10 md:py-12">
+      <div className={imageLeft ? 'order-1' : 'order-1 md:order-2'}>
+        {block.imageUrl ? (
+          <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm">
+            <img
+              src={block.imageUrl}
+              alt={block.imageAlt || block.title || ''}
+              loading="lazy"
+              className="h-64 w-full object-cover sm:h-80 md:h-[360px]"
+            />
+          </div>
+        ) : (
+          <div className="flex h-56 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
+            <span className="text-sm font-medium">Florial</span>
+          </div>
+        )}
+      </div>
+
+      <div className={imageLeft ? 'order-2' : 'order-2 md:order-1'}>
+        {block.title && (
+          <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            {block.title}
+          </h2>
+        )}
+        <div className="text-base md:text-lg">
+          {renderPortableText(block.text)}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
+  const contentBlocks = service.contentBlocks || []
+
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
-      <button 
-        onClick={onNavigateHome}
-        className="mb-6 inline-flex items-center text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition cursor-pointer"
-      >
-        ← Назад към началната страница
-      </button>
-      <article className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden p-6 md:p-10">
-        <span className="text-xs font-bold text-emerald-700 uppercase tracking-widest block mb-1">Услуга Florial</span>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">{service.name}</h1>
+    <main className="w-full flex-grow bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+        <button
+          type="button"
+          onClick={onNavigateHome}
+          className="mb-6 inline-flex items-center gap-2 rounded-lg py-2 text-sm font-semibold text-emerald-800 transition hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2"
+        >
+          <span aria-hidden="true">←</span> Към началната страница
+        </button>
+
+        <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
+          <span className="mb-3 inline-flex rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-emerald-800">
+            Услуги на Florial
+          </span>
+          <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
+            {service.name}
+          </h1>
+          {service.shortDescription && (
+            <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
+              {service.shortDescription}
+            </p>
+          )}
+          {service.startingPriceEUR != null && service.startingPriceEUR > 0 && (
+            <div className="mt-7 inline-flex flex-wrap items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-5 py-3">
+              <span className="text-sm font-medium text-emerald-900">Начална цена:</span>
+              <span className="text-2xl font-extrabold text-emerald-800">
+                от {new Intl.NumberFormat('bg-BG', { maximumFractionDigits: 2 }).format(service.startingPriceEUR)} €
+              </span>
+            </div>
+          )}
+        </header>
+
         {service.imageUrl && (
-          <div className="h-64 md:h-96 w-full bg-slate-100 rounded-xl overflow-hidden mb-8 border border-slate-100">
-            <img src={service.imageUrl} alt={service.name} className="w-full h-full object-cover" />
+          <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
+            <img
+              src={service.imageUrl}
+              alt={service.name}
+              fetchPriority="high"
+              className="max-h-[560px] min-h-[220px] w-full object-cover"
+            />
           </div>
         )}
-        {service.startingPriceEUR && (
-          <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl mb-8 flex items-center justify-between">
-            <span className="text-sm font-medium text-emerald-900">Начална цена на услугата:</span>
-            <span className="text-2xl font-bold text-emerald-800">от {service.startingPriceEUR} €</span>
+
+        {service.description && (
+          <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
+            {renderPortableText(service.description)}
           </div>
         )}
-        {service.shortDescription && (
-          <div className="p-4 bg-slate-50 rounded-xl border-l-4 border-emerald-600 mb-6 text-slate-700 font-medium leading-relaxed text-lg">
-            {service.shortDescription}
+
+        {contentBlocks.length > 0 && (
+          <div className="divide-y divide-slate-100">
+            {contentBlocks.map((block, index) => (
+              <ContentBlock key={block._key || index} block={block} index={index} />
+            ))}
           </div>
         )}
-        <div className="prose prose-emerald max-w-none mb-8">
-          {renderPortableText(service.description)}
-        </div>
-      </article>
+
+        {service.callToAction?.title && (
+          <section className="my-8 rounded-2xl bg-emerald-800 px-6 py-10 text-center text-white md:my-12 md:px-12">
+            <h2 className="text-2xl font-bold md:text-3xl">{service.callToAction.title}</h2>
+            <p className="mx-auto mt-3 max-w-2xl leading-7 text-emerald-50">
+              Свържете се с нас и ще обсъдим подходящото решение за вашата градина.
+            </p>
+            <a
+              href="/contacts"
+              className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 font-bold text-emerald-900 transition hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-800"
+            >
+              Свържете се с нас
+            </a>
+          </section>
+        )}
+      </div>
     </main>
   )
 }
