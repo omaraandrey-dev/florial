@@ -35,17 +35,18 @@ export function ProductPage({
 
   useEffect(() => {
     if (!product) return
-    document.title = `${localize(product, 'name')} | Florial`
-    
+    const localizedSeo = localize(product, 'seo')
+    document.title = `${localizedSeo?.metaTitle || localizedSeo?.seoTitle || localize(product, 'name')} | Florial`
+
     let descMeta = document.querySelector('meta[name="description"]')
-    const descText = product.shortDescription || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`
+    const descText = localizedSeo?.metaDescription || localizedSeo?.seoDescription || localize(product, 'shortDescription') || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`
     if (!descMeta) {
       descMeta = document.createElement('meta')
       descMeta.setAttribute('name', 'description')
       document.head.appendChild(descMeta)
     }
     descMeta.setAttribute('content', descText)
-  }, [product])
+  }, [product, language, localize])
 
   const handleAdd = () => {
     onAddToCart(product, quantity)
@@ -220,6 +221,29 @@ export function ProductPage({
             ) : (
               <p>{t("Детайлно описание на продукта.")}</p>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* Съвместимост на продукта */}
+      {((localize(product, 'compatibility') as string[] | undefined) || product.compatibility || []).length > 0 && (
+        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Съвместимост')}</h2>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+            {(((localize(product, 'compatibility') as string[] | undefined) || product.compatibility) || []).map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Инструкции и каталози в PDF */}
+      {(product.manualPDFUrl || product.catalogPDFUrl) && (
+        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Документи и инструкции')}</h2>
+          <div className="flex flex-col gap-3">
+            {product.manualPDFUrl && <a href={product.manualPDFUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">{t('Изтегляне на инструкция (PDF)')} ↓</a>}
+            {product.catalogPDFUrl && <a href={product.catalogPDFUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">{t('Изтегляне на каталог (PDF)')} ↓</a>}
           </div>
         </section>
       )}
