@@ -115,7 +115,7 @@ export function HomePage({
                     <h4 className={`font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ${
                       isMainCategory ? 'text-emerald-900 font-extrabold' : 'text-slate-800'
                     }`}>
-                      {cat.name}
+                      {localize(cat, 'name')}
                     </h4>
                   </div>
                 )
