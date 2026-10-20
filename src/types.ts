@@ -31,7 +31,11 @@ export interface Product {
   stockStatus?: string
   description?: any
   shortDescription?: string
-  specifications?: Array<{ name: string; value: string; unit?: string }>
+  specifications?: Array<{ name: string; value: string; unit?: string; translations?: Record<string, Record<string, any>> }>
+  compatibility?: string[]
+  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
+  manualPDFUrl?: string
+  catalogPDFUrl?: string
   documents?: Array<{ title: string; fileUrl: string }>
   compatibleProducts?: Product[]
   relatedProducts?: Product[]
