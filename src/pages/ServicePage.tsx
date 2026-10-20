@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock } from '../types'
+import { applyPageSeo } from '../lib/seo'
 
 interface ServicePageProps {
   service: ServiceItem
@@ -78,6 +79,19 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
+
+  // Service pages previously did not set SEO metadata at all.
+  useEffect(() => {
+    const localizedSeo = localize(service, 'seo')
+    const shortDescription = localize(service, 'shortDescription')
+    applyPageSeo({
+      seo: localizedSeo,
+      fallbackTitle: `${localize(service, 'name')} | Florial`,
+      fallbackDescription: typeof shortDescription === 'string' && shortDescription.trim()
+        ? shortDescription
+        : `${localize(service, 'name')} — професионални услуги от Florial в България.`,
+    })
+  }, [service, language, localize])
 
   // Text and images inside contentBlocks belong together. Do not merge the
   // separate gallery by array index: gallery order is independent and that
