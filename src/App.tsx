@@ -545,14 +545,14 @@ export default function App() {
               onClick={navigateToHome}
               className="font-semibold text-emerald-700 hover:text-emerald-900"
             >
-              Начало
+              {t('Начало')}
             </button>
             <span className="mx-2">/</span>
             <span>{t('Резултати от търсенето')}</span>
           </nav>
 
           <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
-            Резултати от търсенето
+            {t('Резултати от търсенето')}
           </h1>
           <p className="mt-2 text-slate-600">
             {t('Търсене:')} „{activeSearchQuery}“
@@ -604,11 +604,11 @@ export default function App() {
                     )}
                     <div className="p-3">
                       <h2 className="line-clamp-2 font-semibold text-slate-800">
-                        {product.name}
+                        {localize(product, 'name')}
                       </h2>
                       {product.sku && (
                         <p className="mt-2 text-xs text-slate-500">
-                          Артикул: {product.sku}
+                          {t('Артикул:')} {product.sku}
                         </p>
                       )}
                       <p className="mt-3 font-bold text-emerald-800">
