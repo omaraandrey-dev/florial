@@ -76,7 +76,7 @@ export function HomePage({
                       <span className="text-[10px] md:text-xs text-emerald-300">{t('По оферта')}</span>
                     )}
                     <span className="hidden md:inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
-                      Детайли →
+                      {t("Детайли →")}
                     </span>
                   </div>
                 </div>
