@@ -7,44 +7,53 @@ interface ContactsPageProps {
 }
 
 interface CenterInfo {
+  key: string
   name: string
   address: string
   mapUrl: string
-  slug: string
-  imageUrl?: string
+  fallbackSlug: string
 }
 
 export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
   const { t, language } = useI18n()
   
-  const [centers, setCenters] = useState<Record<string, { imageUrl?: string; title?: string }>>({})
+  const [centersImages, setCentersImages] = useState<Record<string, string>>({})
   const [loadingImages, setLoadingImages] = useState(true)
 
-  // Загружаем фото для садовых центров из Sanity по их уникальным slug
+  // Гибкий запрос для поиска изображений садовых центров по фрагментам в slug или title
   useEffect(() => {
     const fetchCenterImages = async () => {
       try {
-        const query = `*[slug.current in $slugs] {
+        const query = `*[
+          _type in ["product", "category", "service", "post", "location", "center"] || 
+          defined(slug.current)
+        ] {
           "slug": slug.current,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          title
+          "title": coalesce(title, name),
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, logo.asset->url)
         }`
-        const data = await sanityClient.fetch(query, { 
-          slugs: ['Florial-nesebr', 'Florial-ravda'] 
-        })
         
-        const mapped: Record<string, { imageUrl?: string; title?: string }> = {}
+        const data = await sanityClient.fetch(query)
+        
+        const mapped: Record<string, string> = {}
+        
         data.forEach((item: any) => {
-          if (item.slug) {
-            mapped[item.slug] = {
-              imageUrl: item.imageUrl,
-              title: item.title
-            }
+          if (!item.slug || !item.imageUrl) return
+          const slugLower = item.slug.toLowerCase()
+          
+          // Ищем совпадения для Несебра
+          if (slugLower.includes('nesebr') || slugLower.includes('несебър') || slugLower.includes('nesebar')) {
+            mapped['nesebr'] = item.imageUrl
+          }
+          // Ищем совпадения для Равды
+          if (slugLower.includes('ravda') || slugLower.includes('равда')) {
+            mapped['ravda'] = item.imageUrl
           }
         })
-        setCenters(mapped)
+
+        setCentersImages(mapped)
       } catch (err) {
-        console.error('Грешка при зареждане на снимките на центровете:', err)
+        console.error('Грешка при зареждане на снимките:', err)
       } finally {
         setLoadingImages(false)
       }
@@ -55,16 +64,18 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
 
   const gardenCenters: CenterInfo[] = [
     {
-      slug: 'Florial-nesebr',
+      key: 'nesebr',
       name: language === 'en' ? 'Garden Centre Nessebar' : language === 'ru' ? 'Садовый центр Несебр' : 'Градински център Несебър',
       address: language === 'en' ? 'ul. "Khan Krum", 8230 Nessebar (Next to Janet store)' : language === 'ru' ? 'ул. "Хан Крум", 8230 Несебр (Рядом с магазином Janet)' : 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)',
-      mapUrl: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9'
+      mapUrl: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9',
+      fallbackSlug: 'Florial-nesebr'
     },
     {
-      slug: 'Florial-ravda',
+      key: 'ravda',
       name: language === 'en' ? 'Garden Centre Ravda' : language === 'ru' ? 'Садовый центр Равда' : 'Градински център Равда',
       address: language === 'en' ? 'Ravda, Bulgaria' : language === 'ru' ? 'Равда, Болгария' : 'с. Равда, България',
-      mapUrl: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6'
+      mapUrl: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6',
+      fallbackSlug: 'Florial-ravda'
     }
   ]
 
@@ -84,11 +95,10 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       {/* Два бокса с садовыми центрами */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {gardenCenters.map((center) => {
-          const centerData = centers[center.slug]
-          const imageUrl = centerData?.imageUrl
+          const imageUrl = centersImages[center.key]
 
           return (
-            <div key={center.slug} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div key={center.key} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
               <div>
                 {/* Фото садового центра */}
                 <div className="h-52 bg-slate-100 relative overflow-hidden flex items-center justify-center">
@@ -142,7 +152,7 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
         </ul>
       </div>
 
-      {/* Телефоны и общие контакты */}
+      {/* Телефоны и контакты */}
       <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6 space-y-4">
         <h2 className="text-xl font-bold text-slate-900">{t('Адрес и контакти')}</h2>
         <div className="space-y-2 text-sm">
@@ -151,7 +161,7 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
         </div>
       </div>
 
-      {/* Быстрые действия (Звонок и WhatsApp) */}
+      {/* Кнопки связи */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
         <a href="tel:+359876777902" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer">
           📞 {t('Обаждане')}
