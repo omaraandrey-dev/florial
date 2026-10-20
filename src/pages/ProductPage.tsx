@@ -187,7 +187,7 @@ export function ProductPage({
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
           <h2 className="text-xl font-bold text-slate-900 mb-6">{t('Технически характеристики')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {product.specifications.map((spec, i) => (
+            {(((localize(product, 'specifications') as any[] | undefined) || product.specifications) || []).map((spec, i) => (
               <div key={i} className="flex justify-between py-3 px-4 bg-slate-50 rounded-xl">
                 <span className="text-slate-500 text-sm font-medium">{localize(spec, 'name')}</span>
                 <span className="text-slate-900 text-sm font-semibold text-right">
