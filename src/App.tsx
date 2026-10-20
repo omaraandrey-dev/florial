@@ -259,8 +259,13 @@ export default function App() {
       `
 
       const plantCategoryQuery = `
-        *[_type == "category" && _id match "plants-*"] | order(sortOrder asc) {
-          _id, name, translations, slug, sortOrder, description,
+        *[_type == "category" && defined(slug.current)] | order(sortOrder asc, name asc) {
+          _id,
+          name,
+          translations,
+          slug,
+          sortOrder,
+          description,
           "parentId": parent->_id,
           "imageUrl": coalesce(image.asset->url, externalImageUrl)
         }
