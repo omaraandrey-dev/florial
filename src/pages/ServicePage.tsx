@@ -56,7 +56,7 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
           </div>
         ) : (
           <div className="flex h-56 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
-            <span className="text-sm font-medium">Florial</span>
+            <span className="text-sm font-medium">{t("Florial")}</span>
           </div>
         )}
       </div>
