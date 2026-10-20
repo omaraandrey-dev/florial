@@ -10,6 +10,7 @@ import type {
 interface HeaderProps {
   services: ServiceItem[]
   categories: CategoryItem[]
+  plantCategories: CategoryItem[]
   cart: CartItem[]
   siteSettings?: SiteSettings | null
   onNavigateHome: () => void
@@ -23,6 +24,7 @@ interface HeaderProps {
 export function Header({
   services,
   categories,
+  plantCategories,
   cart,
   siteSettings,
   onNavigateHome,
@@ -35,6 +37,7 @@ export function Header({
   const { t, language, setLanguage } = useI18n()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+  const [isPlantsOpen, setIsPlantsOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -49,6 +52,7 @@ export function Header({
   const closeMenu = () => {
     setIsMenuOpen(false)
     setIsCategoriesOpen(false)
+    setIsPlantsOpen(false)
     setIsServicesOpen(false)
   }
 
@@ -62,12 +66,20 @@ export function Header({
 
   const toggleCategories = () => {
     setIsCategoriesOpen((previous) => !previous)
+    setIsPlantsOpen(false)
+    setIsServicesOpen(false)
+  }
+
+  const togglePlants = () => {
+    setIsPlantsOpen((previous) => !previous)
+    setIsCategoriesOpen(false)
     setIsServicesOpen(false)
   }
 
   const toggleServices = () => {
     setIsServicesOpen((previous) => !previous)
     setIsCategoriesOpen(false)
+    setIsPlantsOpen(false)
   }
 
   return (
@@ -158,6 +170,7 @@ export function Header({
               onClick={() => {
                 setIsMenuOpen((previous) => !previous)
                 setIsCategoriesOpen(false)
+                setIsPlantsOpen(false)
                 setIsServicesOpen(false)
               }}
               aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : language === 'ru' ? 'Закрыть меню' : 'Затвори менюто') : (language === 'en' ? 'Open menu' : language === 'ru' ? 'Открыть меню' : 'Отвори менюто')}
@@ -187,8 +200,43 @@ export function Header({
               onClick={() => { closeMenu(); onNavigateHome() }}
               className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
             >
-              Начало
+              {t('Начало')}
             </button>
+
+            <div className="border-t border-slate-100">
+              <button
+                type="button"
+                onClick={togglePlants}
+                aria-expanded={isPlantsOpen}
+                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
+              >
+                <span>{t('Растения')}</span>
+                <svg className={`h-5 w-5 transition-transform ${isPlantsOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {isPlantsOpen && (
+                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+                  <button
+                    type="button"
+                    onClick={() => { closeMenu(); onNavigateCategory('rastenia') }}
+                    className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
+                  >
+                    {t('Всички растения')}
+                  </button>
+                  {plantCategories.filter((category) => category.slug?.current !== 'rastenia').map((category) => (
+                    <button
+                      key={category._id}
+                      type="button"
+                      onClick={() => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) }}
+                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="border-t border-slate-100">
               <button
@@ -197,7 +245,7 @@ export function Header({
                 aria-expanded={isCategoriesOpen}
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
-                <span>{t('Продукти')}</span>
+                <span>{t('Поливни системи')}</span>
                 <svg className={`h-5 w-5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -209,7 +257,7 @@ export function Header({
                     onClick={() => { closeMenu(); onNavigateCategory('vsichko-za-polivane') }}
                     className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
                   >
-                    {t("Всички продукти")}
+                    {t('Цялото оборудване за поливане')}
                   </button>
                   {categories.map((category) => (
                     <button
