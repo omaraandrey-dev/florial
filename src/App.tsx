@@ -221,12 +221,13 @@ export default function App() {
         *[
           _type == "product" &&
           isActive != false &&
-          defined(slug.current)
+          defined(slug)
         ] {
           _id,
           name,
           translations,
-          slug,
+          // Normalize both Sanity slug objects ({ current }) and legacy plain strings.
+          "slug": { "current": coalesce(slug.current, slug) },
           sku,
           priceEUR,
           oldPriceEUR,
