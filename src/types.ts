@@ -34,6 +34,15 @@ export interface Product {
   relatedProducts?: Product[]
 }
 
+export interface ServiceContentBlock {
+  _key?: string
+  title?: string
+  text?: any
+  imageUrl?: string
+  imageAlt?: string
+  imagePosition?: 'left' | 'right'
+}
+
 export interface ServiceItem {
   _id: string
   name: string
@@ -41,6 +50,8 @@ export interface ServiceItem {
   shortDescription?: string
   description?: any
   imageUrl?: string
+  galleryImages?: string[]
+  contentBlocks?: ServiceContentBlock[]
   startingPriceEUR?: number
   isActive?: boolean
   advantages?: Array<{ title: string; description?: string }>
@@ -48,11 +59,12 @@ export interface ServiceItem {
   hero?: { title?: string; subtitle?: string }
   callToAction?: { title?: string; buttonText?: string }
   leadForm?: { formTitle?: string; submitButtonText?: string }
-  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string }
+  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
 }
 
 export interface SiteSettings {
   siteName?: string
   heroTitle?: string
   heroSubtitle?: string
+  logoUrl?: string | null
 }
