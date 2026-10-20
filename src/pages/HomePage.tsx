@@ -38,10 +38,10 @@ export function HomePage({
       <section className="bg-emerald-900 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight text-center">
-            Градински център Флориал
+            {t('Градински център Флориал')}
           </h1>
           <p className="text-emerald-100 max-w-2xl mx-auto mb-10 text-sm md:text-base text-center">
-            {localize(siteSettings, 'heroSubtitle') || 'Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.'}
+            {localize(siteSettings, 'heroSubtitle') || '{t('Професионално напояване, ландшафтен дизайн и оборудване в Бургас и Слънчев бряг с гаранция.')}'}
           </p>
 
           <div className="mt-8 text-left">
@@ -67,11 +67,11 @@ export function HomePage({
                         </div>
                       )}
                     </div>
-                    <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{srv.name}</h4>
+                    <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
                   </div>
                   <div className="pt-2 md:pt-4 border-t border-white/10 flex items-center justify-between mt-2">
                     {srv.startingPriceEUR ? (
-                      <span className="text-[10px] md:text-xs text-emerald-200">От <strong className="text-white text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
+                      <span className="text-[10px] md:text-xs text-emerald-200">{t('От')} <strong className="text-white text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
                     ) : (
                       <span className="text-[10px] md:text-xs text-emerald-300">{t('По оферта')}</span>
                     )}
