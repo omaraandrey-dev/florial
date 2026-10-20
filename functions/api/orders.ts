@@ -189,12 +189,18 @@ export const onRequestPost = async ({
   try {
     const response = await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/orders`, {
       method: 'POST',
-      headers: {
-        apikey: serviceKey,
-        Authorization: `Bearer ${serviceKey}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
+      headers: (() => {
+        const headers: Record<string, string> = {
+          apikey: serviceKey,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        }
+        // New Supabase sb_secret_ keys are not JWTs and must not be sent as Bearer tokens.
+        if (!serviceKey.startsWith('sb_secret_')) {
+          headers.Authorization = `Bearer ${serviceKey}`
+        }
+        return headers
+      })(),
       body: JSON.stringify(order),
     })
 
@@ -231,7 +237,7 @@ export const onRequestPost = async ({
 
     const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
     const mailTasks: Promise<void>[] = []
-    if (sellerEmail && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(sellerEmail)) {
+    if (sellerEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sellerEmail)) {
       mailTasks.push(sendOrderEmail(
         env.RESEND_API_KEY,
         env.EMAIL_FROM,
