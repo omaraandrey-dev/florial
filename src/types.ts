@@ -50,6 +50,12 @@ export interface ServiceContentBlock {
   imagePosition?: 'left' | 'right'
 }
 
+export interface ServiceGalleryImage {
+  _key?: string
+  url?: string
+  alt?: string
+}
+
 export interface ServiceItem {
   translations?: Record<string, Record<string, any>>
   _id: string
@@ -58,7 +64,7 @@ export interface ServiceItem {
   shortDescription?: string
   description?: any
   imageUrl?: string
-  galleryImages?: string[]
+  galleryImages?: ServiceGalleryImage[]
   contentBlocks?: ServiceContentBlock[]
   startingPriceEUR?: number
   isActive?: boolean
