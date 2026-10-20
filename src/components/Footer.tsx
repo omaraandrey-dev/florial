@@ -37,7 +37,7 @@ export function Footer() {
               {t("За нас")}
             </h4>
             <p className="text-slate-400 text-sm leading-relaxed">
-              <strong>Florial landscape</strong> {language === 'en' ? 'Florial Landscape has been working since 2000. We provide a wide range of landscaping and garden improvement services. Our goal is to create beautiful, functional outdoor spaces, including landscape design, planting, turf installation and automatic irrigation systems.' : language === 'ru' ? 'Florial Landscape работает с 2000 года. Мы предлагаем широкий спектр услуг по благоустройству и озеленению. Наша цель — создавать красивые и функциональные сады: ландшафтный дизайн, посадки, укладка рулонного газона и монтаж систем автоматического полива.' : 'работят от 2000г. Извършваме широк спектър от дейности по озеленяване и благоустрояване. Нашата основна цел е да създаваме красиви и функционални градински пространства. Основните области на нашата работа: ландшафтен дизайн, озеленяване, засаждане, изграждане на тревни площи с готови чимове и инсталиране на системи за автоматично поливане.'}
+              {language === 'en' ? 'Florial Landscape has been operating since 2000. We provide landscaping and garden improvement services, including landscape design, planting, turf installation and automatic irrigation systems.' : language === 'ru' ? 'Florial Landscape работает с 2000 года. Мы предлагаем услуги по благоустройству и озеленению: ландшафтный дизайн, посадки, укладка рулонного газона и монтаж систем автоматического полива.' : 'Florial Landscape работи от 2000 г. Предлагаме широк спектър от дейности по озеленяване и благоустрояване: ландшафтен дизайн, засаждане, изграждане на тревни площи с готови чимове и монтаж на системи за автоматично поливане.'}
             </p>
           </div>
 
@@ -45,7 +45,7 @@ export function Footer() {
             <h4 className="text-white text-lg font-bold mb-2">{t('Контакти')}</h4>
             <p className="font-semibold text-slate-200">{language === 'en' ? 'Florial Garden Centre' : language === 'ru' ? 'Садовый центр Florial' : 'Градински център „Флориал“'}</p>
             <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359876777902</a></p>
-            <p>Тел: <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359885834860</a> (BG / UA / RU)</p>
+            <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359885834860</a> (BG / UA / RU)</p>
             <p>{language === 'en' ? 'Nursery: Khan Krum St., 8230 Nessebar' : language === 'ru' ? 'Питомник: ул. Хан Крум, 8230 Несебр' : 'Разсадник: ул. „Хан Крум“, 8230 Несебър'}</p>
           </div>
         </div>
@@ -59,7 +59,7 @@ export function Footer() {
             {language === 'en' ? 'Nessebar • Ravda • Sunny Beach • Sveti Vlas • Pomorie • Aheloy • Tankovo • Kosharitsa • Kableshkovo and nearby areas.' : language === 'ru' ? 'Несебр • Равда • Солнечный Берег • Святой Влас • Поморие • Ахелой • Тънково • Кошарица • Каблешково и близлежащие населённые пункты.' : 'Несебър • Равда • Слънчев бряг • Свети Влас • Поморие • Ахелой • Тънково • Кошарица • Каблешково и близките населени места в региона.'}
           </p>
           <p className="pt-4 text-[11px] text-slate-600">
-            © {new Date().getFullYear()} Florial Landscape & Градински център Флориал. Всички права запазени.
+            © {new Date().getFullYear()} Florial Landscape & {language === "en" ? "Florial Garden Centre. All rights reserved." : language === "ru" ? "Садовый центр Florial. Все права защищены." : "Градински център Флориал. Всички права запазени."}
           </p>
         </div>
 
