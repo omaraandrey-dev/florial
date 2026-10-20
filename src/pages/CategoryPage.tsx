@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 
 interface CategoryPageProps {
@@ -16,6 +17,7 @@ export function CategoryPage({
   onNavigateCategory,
   onSelectProduct,
 }: CategoryPageProps) {
+  const { t, language, localize } = useI18n()
   // Выбранный локальный фильтр по подкатегории ("all" = все товары текущей категории)
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all')
 
@@ -31,7 +33,7 @@ export function CategoryPage({
     const pageTitle =
       category.seo?.seoTitle ||
       category.seo?.metaTitle ||
-      `${category.name} | Флориал`
+      `${localize(category, 'name')} | Флориал`
     document.title = pageTitle
 
     let descriptionMeta = document.querySelector('meta[name="description"]')
@@ -196,11 +198,11 @@ export function CategoryPage({
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
-                      alt={product.name}
+                      alt={localize(product, 'name')}
                       className="h-full w-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <span className="text-slate-400 text-sm">Няма снимка</span>
+                    <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
                   )}
                   {product.stockStatus && (
                     <span className="absolute top-2 right-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
@@ -215,7 +217,7 @@ export function CategoryPage({
                   {product.name}
                 </h3>
                 <p className="text-slate-500 text-xs line-clamp-2 mb-4">
-                  {product.shortDescription ||
+                  {localize(product, 'shortDescription') ||
                     'Висококачествен продукт за поливни системи.'}
                 </p>
               </div>
