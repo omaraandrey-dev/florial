@@ -14,6 +14,7 @@ export interface CartItem {
   quantity: number
 }
 export interface Product {
+  categoryTranslations?: Record<string, any>
   translations?: Record<string, Record<string, any>>
   _id: string
   name: string
