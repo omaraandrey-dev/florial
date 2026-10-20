@@ -208,7 +208,7 @@ export function Header({
                     onClick={() => { closeMenu(); onNavigateCategory('vsichko-za-polivane') }}
                     className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
                   >
-                    Всички продукти
+                    {t("Всички продукти")}
                   </button>
                   {categories.map((category) => (
                     <button
@@ -258,7 +258,7 @@ export function Header({
                 onClick={() => { closeMenu(); onNavigateContacts() }}
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
-                Контакти
+                {t("Контакти")}
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="M7 17 17 7M7 7h10v10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
