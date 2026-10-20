@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { Product } from '../types'
+import { applyPageSeo } from '../lib/seo'
 
 interface ProductPageProps {
   product: Product
@@ -37,17 +38,12 @@ export function ProductPage({
 
   useEffect(() => {
     if (!product) return
-    const localizedSeo = localize(product, 'seo')
-    document.title = `${localizedSeo?.metaTitle || localizedSeo?.seoTitle || localize(product, 'name')} | Florial`
-
-    let descMeta = document.querySelector('meta[name="description"]')
-    const descText = localizedSeo?.metaDescription || localizedSeo?.seoDescription || localize(product, 'shortDescription') || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`
-    if (!descMeta) {
-      descMeta = document.createElement('meta')
-      descMeta.setAttribute('name', 'description')
-      document.head.appendChild(descMeta)
-    }
-    descMeta.setAttribute('content', descText)
+    applyPageSeo({
+      seo: localize(product, 'seo'),
+      fallbackTitle: `${localize(product, 'name')} | Florial`,
+      fallbackDescription: localize(product, 'shortDescription') || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`,
+      pageType: 'product',
+    })
   }, [product, language, localize])
 
   const handleAdd = () => {
