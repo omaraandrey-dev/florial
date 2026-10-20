@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
+import { applyPageSeo } from '../lib/seo'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -26,31 +27,18 @@ export function CategoryPage({
     setSelectedSubCategory('all')
   }, [category?._id])
 
-  // Динамическое обновление SEO-метаданных для страницы категории
+  // Use the same canonical Sanity SEO fields as the Studio schema: metaTitle/metaDescription.
   useEffect(() => {
     if (!category) return
-
-    const pageTitle =
-      category.seo?.seoTitle ||
-      category.seo?.metaTitle ||
-      `${localize(category, 'name')} | Флориал`
-    document.title = pageTitle
-
-    let descriptionMeta = document.querySelector('meta[name="description"]')
-    const descriptionText =
-      category.seo?.seoDescription ||
-      category.seo?.metaDescription ||
-      (typeof localize(category, 'description') === 'string'
-        ? localize(category, 'description')
-        : `Разгледайте категория ${localize(category, 'name')} в нашия магазин.`)
-
-    if (!descriptionMeta) {
-      descriptionMeta = document.createElement('meta')
-      descriptionMeta.setAttribute('name', 'description')
-      document.head.appendChild(descriptionMeta)
-    }
-    descriptionMeta.setAttribute('content', descriptionText)
-  }, [category, language])
+    const localizedDescription = localize(category, 'description')
+    applyPageSeo({
+      seo: localize(category, 'seo'),
+      fallbackTitle: `${localize(category, 'name')} | Florial`,
+      fallbackDescription: typeof localizedDescription === 'string'
+        ? localizedDescription
+        : `Разгледайте категория ${localize(category, 'name')} в нашия магазин.`,
+    })
+  }, [category, language, localize])
 
   // Показываем только реальные дочерние категории выбранной категории.
   const subCategories = useMemo(() => {
