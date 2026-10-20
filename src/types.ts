@@ -1,4 +1,5 @@
 export interface CategoryItem {
+  translations?: Record<string, Record<string, any>>
   _id: string
   name: string
   slug?: { current: string }
@@ -13,6 +14,7 @@ export interface CartItem {
   quantity: number
 }
 export interface Product {
+  translations?: Record<string, Record<string, any>>
   _id: string
   name: string
   slug?: { current: string }
@@ -44,6 +46,7 @@ export interface ServiceContentBlock {
 }
 
 export interface ServiceItem {
+  translations?: Record<string, Record<string, any>>
   _id: string
   name: string
   slug?: { current: string }
@@ -63,6 +66,7 @@ export interface ServiceItem {
 }
 
 export interface SiteSettings {
+  translations?: Record<string, Record<string, any>>
   siteName?: string
   heroTitle?: string
   heroSubtitle?: string
