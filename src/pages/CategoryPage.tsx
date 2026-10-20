@@ -52,52 +52,44 @@ export function CategoryPage({
     descriptionMeta.setAttribute('content', descriptionText)
   }, [category, language])
 
-  // Извлекаем список уникальных подкатегорий, присутствующих в отображаемых товарах
+  // Показываем только реальные дочерние категории выбранной категории.
   const subCategories = useMemo(() => {
-    const map = new Map<string, { id?: string; name: string; slug?: string }>()
+    const map = new Map<string, { id: string; name: string; slug?: string; translations?: Record<string, any> }>()
 
     products.forEach((product) => {
-      // 1. Проверяем массив categories, если он есть
-      if (product.categories && Array.isArray(product.categories)) {
-        product.categories.forEach((cat: any) => {
-          if (cat && cat.name && cat._id !== category._id) {
-            map.set(cat.name, {
-              id: cat._id,
-              name: cat.name,
-              slug: cat.slug?.current,
-            })
-          }
-        })
-      }
-
-      // 2. Проверяем основное поле category, если оно отличается от текущей категории
-      if (product.category && product.category !== category.name) {
-        if (!map.has(product.category)) {
-          map.set(product.category, {
-            id: product.categoryId,
-            name: product.category,
-            slug: (product as any).categorySlug,
+      product.categories?.forEach((cat: any) => {
+        if (cat?._id && cat.parentId === category._id && cat.name) {
+          map.set(cat._id, {
+            id: cat._id,
+            name: cat.name,
+            slug: cat.slug?.current,
+            translations: cat.translations,
           })
         }
+      })
+
+      const parentId = (product as any).categoryParentId
+      if (product.categoryId && parentId === category._id && product.category) {
+        map.set(product.categoryId, {
+          id: product.categoryId,
+          name: product.category,
+          slug: product.categorySlug,
+          translations: product.categoryTranslations,
+        })
       }
     })
 
     return Array.from(map.values())
   }, [products, category])
 
-  // Фильтруем товары по выбранной кнопке подкатегории
+  // Фильтрираме по ID, за да не зависи резултатът от езика на интерфейса.
   const displayedProducts = useMemo(() => {
-    if (selectedSubCategory === 'all') {
-      return products
-    }
+    if (selectedSubCategory === 'all') return products
 
-    return products.filter((product) => {
-      const isMainCategory = product.category === selectedSubCategory
-      const isMultiCategory =
-        product.categories &&
-        product.categories.some((cat: any) => cat.name === selectedSubCategory)
-      return isMainCategory || isMultiCategory
-    })
+    return products.filter((product) =>
+      product.categoryId === selectedSubCategory ||
+      product.categories?.some((cat: any) => cat._id === selectedSubCategory)
+    )
   }, [products, selectedSubCategory])
 
   return (
@@ -149,14 +141,14 @@ export function CategoryPage({
             </button>
 
             {subCategories.map((subCat) => {
-              const isSelected = selectedSubCategory === subCat.name
+              const isSelected = selectedSubCategory === subCat.id
               return (
                 <button
-                  key={subCat.name}
+                  key={subCat.id}
                   onClick={() => {
                     // Если передана функция глобального перехода на категорию, можем переходить,
                     // либо фильтровать локально для удобства быстрого просмотра
-                    setSelectedSubCategory(subCat.name)
+                    setSelectedSubCategory(subCat.id)
                   }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
                     isSelected
@@ -164,7 +156,7 @@ export function CategoryPage({
                       : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
                   }`}
                 >
-                  {subCat.name}
+                  {localize(subCat, 'name')}
                 </button>
               )
             })}
