@@ -256,8 +256,9 @@ export default function App() {
       `
 
       const plantCategoryQuery = `
-        *[_type == "category" && _id in ["plants-root", "plants-palms", "plants-olives", "plants-citrus", "plants-trees-shrubs", "plants-flowers", "plants-exotic", "plants-solitaires"]] | order(sortOrder asc) {
+        *[_type == "category" && _id match "plants-*"] | order(sortOrder asc) {
           _id, name, translations, slug, sortOrder, description,
+          "parentId": parent->_id,
           "imageUrl": image.asset->url
         }
       `
