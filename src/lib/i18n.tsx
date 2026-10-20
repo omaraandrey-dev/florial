@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
+import React, { createContext, useContext, useMemo, useState, useEffect, type ReactNode } from 'react'
 
 export type Language = 'bg' | 'en' | 'ru'
 
@@ -154,6 +154,34 @@ const translations: Record<string, Record<Language, string>> = {
   "По оферта": {"bg":"По оферта","en":"Request a quote","ru":"По запросу"},
 }
 
+const knownContentTranslations: Record<string, Record<Language, string>> = {
+  'Всичко за поливане': { bg: 'Всичко за поливане', en: 'All irrigation products', ru: 'Всё для полива' },
+  'Капково напояване': { bg: 'Капково напояване', en: 'Drip irrigation', ru: 'Капельный полив' },
+  'Дъждовални': { bg: 'Дъждовални', en: 'Sprinklers', ru: 'Дождеватели' },
+  'Роторни разпръсквачи': { bg: 'Роторни разпръсквачи', en: 'Rotor sprinklers', ru: 'Роторные дождеватели' },
+  'Статични разпръсквачи': { bg: 'Статични разпръсквачи', en: 'Spray sprinklers', ru: 'Статические дождеватели' },
+  'Дюзи': { bg: 'Дюзи', en: 'Nozzles', ru: 'Форсунки' },
+  'Електромагнитни клапани': { bg: 'Електромагнитни клапани', en: 'Solenoid valves', ru: 'Электромагнитные клапаны' },
+  'Клапанни кутии': { bg: 'Клапанни кутии', en: 'Valve boxes', ru: 'Клапанные боксы' },
+  'Контролери': { bg: 'Контролери', en: 'Controllers', ru: 'Контроллеры' },
+  'Wi-Fi контролери': { bg: 'Wi-Fi контролери', en: 'Wi-Fi controllers', ru: 'Wi-Fi контроллеры' },
+  'Филтри': { bg: 'Филтри', en: 'Filters', ru: 'Фильтры' },
+  'Помпи': { bg: 'Помпи', en: 'Pumps', ru: 'Насосы' },
+  'Фитинги': { bg: 'Фитинги', en: 'Fittings', ru: 'Фитинги' },
+  'Тръби': { bg: 'Тръби', en: 'Pipes', ru: 'Трубы' },
+  'Микронапояване': { bg: 'Микронапояване', en: 'Micro-irrigation', ru: 'Микрополив' },
+  'Автоматично напояване': { bg: 'Автоматично напояване', en: 'Automatic irrigation', ru: 'Автоматический полив' },
+  'Монтаж на поливни системи': { bg: 'Монтаж на поливни системи', en: 'Irrigation system installation', ru: 'Монтаж систем полива' },
+  'Ремонт на поливни системи': { bg: 'Ремонт на поливни системи', en: 'Irrigation system repair', ru: 'Ремонт систем полива' },
+  'Ландшафтен дизайн': { bg: 'Ландшафтен дизайн', en: 'Landscape design', ru: 'Ландшафтный дизайн' },
+  'Озеленяване': { bg: 'Озеленяване', en: 'Landscaping', ru: 'Озеленение' },
+  'Рулонен тревен чим': { bg: 'Рулонен тревен чим', en: 'Rolled turf', ru: 'Рулонный газон' },
+  'Готови комплекти': { bg: 'Готови комплекти', en: 'Ready-made kits', ru: 'Готовые комплекты' },
+  'В наличност': { bg: 'В наличност', en: 'In stock', ru: 'В наличии' },
+  'По заявка': { bg: 'По заявка', en: 'Available on request', ru: 'Под заказ' },
+  'Изчерпан': { bg: 'Изчерпан', en: 'Out of stock', ru: 'Нет в наличии' },
+}
+
 interface LanguageContextValue {
   language: Language
   setLanguage: (language: Language) => void
@@ -170,6 +198,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const candidate = fromUrl || stored || 'bg'
     return candidate === 'en' || candidate === 'ru' ? candidate : 'bg'
   })
+
+  useEffect(() => { document.documentElement.lang = language }, [language])
 
   const setLanguage = (next: Language) => {
     setLanguageState(next)
@@ -194,7 +224,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         ?? item[`${field}Translations`]?.[language]?.name
         ?? item[`${field}${language.toUpperCase()}`]
         ?? item[`${field}_${language}`]
-      return translated ?? item[field]
+      return translated ?? (typeof item[field] === 'string' ? knownContentTranslations[item[field]]?.[language] ?? item[field] : item[field])
     },
   }), [language])
 
