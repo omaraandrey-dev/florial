@@ -1,8 +1,8 @@
 import { createClient } from '@sanity/client'
 
 export const sanityClient = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'kjkc2aazayha1zdg3opyp8uc',
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'bxvcy0qs',
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-  useCdn: false, // Ставим false, чтобы свежие загруженные фото сразу появлялись без задержки кэша
+  useCdn: false,
   apiVersion: '2024-01-01',
 })
