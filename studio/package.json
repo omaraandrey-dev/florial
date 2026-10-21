@@ -7,7 +7,7 @@
     "dev": "sanity dev",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "schema:deploy": "sanity schema deploy"
+    "schema:deploy": "sanity schemas deploy"
   },
   "dependencies": {
     "@sanity/vision": "^3.99.0",
