@@ -17,22 +17,25 @@
 - Existing service slug values may still be stored as Sanity slug objects. Converting the schema field to string requires a reviewed migration/compatibility plan; a schema definition alone does not convert stored document values.
 - A local Studio build has not been run in this environment. Build and inspect this source before deploying it to the intended existing Studio.
 
-
 ## 2026-10-21 — Plain-text slug fields
 
 - Updated the shared `slugField()` helper in `studio/schemaTypes/index.ts` to use a plain `string` field with no generator, max-length rule, or slug validation. This covers irrigation products, irrigation categories, brands, pages, plant products, and plant categories in the version-controlled Studio source.
 - The service and photo slug fields were already plain strings in the source.
 - This is a source-code change only. The deployed Studio schemas and existing Content Lake documents have not yet been changed. Do not deploy the type change until the existing slug objects have been safely converted to their string values and the deployed website compatibility has been verified.
-- Studio-app cleanup is still pending: the project inventory shows three hosted Studio apps and the available connected actions do not provide a confirmed delete operation. No Studio app or dataset was deleted.
-
+- The project inventory shows three hosted Studio apps and the available connected actions do not provide a confirmed delete operation. No Studio app or dataset was deleted.
 - Added a compatibility normalization in `src/App.tsx` so slug values are projected to the existing `{ current: string }` shape whether the stored Sanity field is still a slug object or becomes a plain string. This includes product/service/category slugs, category references, and the logo lookup. Commit: `751ab216672622399e5593031e54981d39e9708a`.
 - Still pending: applying the schema to the already deployed Studio, then migrating and publishing the existing slug values in both datasets. No Content Lake document values have been modified by this step.
-
 
 ## 2026-10-21 — Cloud Studio deployment pipeline
 
 - Added `studio/sanity.cli.ts` pointing to the existing hosted Studio application ID `owtr7mlnn6xm33qah9z2wop6`. The multi-workspace configuration remains in `studio/sanity.config.ts`.
-- Added `.github/workflows/sanity-studio.yml` to validate both workspace schemas, build the Studio, and deploy it from GitHub Actions when Studio source changes or when manually dispatched.
+- Added `.github/workflows/sanity-studio.yml` to build the Studio and deploy it from GitHub Actions when Studio source changes or when manually dispatched.
 - The workflow uses the GitHub Actions secret `SANITY_AUTH_TOKEN`; it never stores credentials in source. If the secret is missing, the deploy step stops with a clear error instead of silently creating another Studio.
-- The connected GitHub tools cannot inspect or create repository Actions secrets, nor start a workflow run. The first successful cloud deployment therefore depends on the existing repository having `SANITY_AUTH_TOKEN` configured with Sanity Studio deployment permission.
+- The connected GitHub tools cannot inspect or create repository Actions secrets, nor start a workflow run. The first successful cloud deployment therefore depends on the repository having `SANITY_AUTH_TOKEN` configured with Sanity Studio deployment permission.
 - This pipeline does not migrate Content Lake documents. Existing slug object values must be converted separately, with a verified idempotent migration, before deploying schema changes that require plain strings.
+
+## 2026-10-22 — Workflow CLI compatibility fix
+
+- The first workflow run failed because `sanity schemas validate` is not a command in the repository's Sanity CLI version (`sanity@^3.99.0`).
+- Removed the unsupported validation subcommands. The workflow now uses `npm run build` to compile and validate the configured Studio workspaces before attempting deployment.
+- The workflow has been updated in GitHub. It still needs a fresh run to confirm build and deployment results.
