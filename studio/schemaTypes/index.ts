@@ -17,11 +17,10 @@ const seoFields = defineType({
 const productSpec = defineType({
   name: 'productSpec', title: 'Техническа характеристика', type: 'object',
   fields: [
-    defineField({name: 'label', title: 'Параметър', type: 'string'}),
+    defineField({name: 'name', title: 'Характеристика', type: 'string'}),
     defineField({name: 'value', title: 'Стойност', type: 'string'}),
-    defineField({name: 'unit', title: 'Мерна единица', type: 'string'}),
   ],
-  preview: {select: {title: 'label', subtitle: 'value'}},
+  preview: {select: {title: 'name', subtitle: 'value'}},
 })
 
 const serviceContentBlock = defineType({
