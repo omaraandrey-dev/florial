@@ -16,3 +16,11 @@
 - The existing deployed Studio apps were not replaced, deleted, or redeployed.
 - Existing service slug values may still be stored as Sanity slug objects. Converting the schema field to string requires a reviewed migration/compatibility plan; a schema definition alone does not convert stored document values.
 - A local Studio build has not been run in this environment. Build and inspect this source before deploying it to the intended existing Studio.
+
+
+## 2026-10-21 — Plain-text slug fields
+
+- Updated the shared `slugField()` helper in `studio/schemaTypes/index.ts` to use a plain `string` field with no generator, max-length rule, or slug validation. This covers irrigation products, irrigation categories, brands, pages, plant products, and plant categories in the version-controlled Studio source.
+- The service and photo slug fields were already plain strings in the source.
+- This is a source-code change only. The deployed Studio schemas and existing Content Lake documents have not yet been changed. Do not deploy the type change until the existing slug objects have been safely converted to their string values and the deployed website compatibility has been verified.
+- Studio-app cleanup is still pending: the project inventory shows three hosted Studio apps and the available connected actions do not provide a confirmed delete operation. No Studio app or dataset was deleted.
