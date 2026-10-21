@@ -46,10 +46,12 @@ export function HomePage({
     <div>
       <section className="bg-[#F7F8F1] text-slate-800 py-12 md:py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <span className="inline-block text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#71814F] mb-3">{t('Градински център Флориал')}</span>
-          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-[#263323]">
-            {t('Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас')}
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight text-[#263323]">
+            {t('Градински център Флориал')}
           </h1>
+          <h2 className="text-xl md:text-3xl font-bold mb-5 tracking-tight text-[#263323]">
+            {t('Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас')}
+          </h2>
           <p className="text-slate-600 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
