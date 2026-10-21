@@ -39,3 +39,11 @@
 - The first workflow run failed because `sanity schemas validate` is not a command in the repository's Sanity CLI version (`sanity@^3.99.0`).
 - Removed the unsupported validation subcommands. The workflow now uses `npm run build` to compile and validate the configured Studio workspaces before attempting deployment.
 - The workflow has been updated in GitHub. It still needs a fresh run to confirm build and deployment results.
+
+
+## 2026-10-22 — Declare Studio runtime dependencies
+
+- The next CI build failed because `sanity build` could not resolve `react/jsx-runtime`; the project manifest did not declare React, React DOM, or styled-components.
+- Added explicit `react` and `react-dom` 18.x dependencies compatible with this Sanity v3 Studio, and declared `styled-components@^6.1.15` so the CLI does not try to modify package.json during the build.
+- No dataset documents or content were changed. The workflow must run again to verify the fix.
+- The build log also reported an engine warning for a transitive package requiring Node.js >=22. It was a warning, not the immediate failure. If it becomes a hard failure, update the CI Node version after checking Sanity CLI compatibility.
