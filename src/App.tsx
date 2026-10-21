@@ -40,6 +40,29 @@ export default function App() {
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
+  // Keep canonical URLs on the selected primary domain, including SPA navigation.
+  useEffect(() => {
+    let path = window.location.pathname
+    while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1)
+    const canonicalUrl = new URL(path, 'https://florial-bg.com').toString()
+
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = canonicalUrl
+
+    let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta')
+      ogUrl.setAttribute('property', 'og:url')
+      document.head.appendChild(ogUrl)
+    }
+    ogUrl.content = canonicalUrl
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen])
+
   // Роутинг по URL
   useEffect(() => {
     const handlePopState = () => {
