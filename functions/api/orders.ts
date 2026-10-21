@@ -29,6 +29,7 @@ type SanityProduct = {
   name?: string
   sku?: string
   priceEUR?: number
+  imageUrl?: string
 }
 
 const json = (body: Record<string, unknown>, status = 200) =>
@@ -57,7 +58,7 @@ type ProformaOrder = {
   email: string | null
   city: string
   address: string | null
-  items: Array<{ sku: string; name: string; qty: number; price: number }>
+  items: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string }>
   subtotal: number
   created_at: string
 }
@@ -189,7 +190,7 @@ export const onRequestPost = async ({
   const sanityProjectId = env.SANITY_PROJECT_ID || 'bxvcy0qs'
   const sanityDataset = env.SANITY_DATASET || 'production'
   const productIds = [...new Set(requestedItems.map((item) => item.productId))]
-  const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR }'
+  const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(image.asset->url, externalImageUrl) }'
   const sanityUrl = new URL(
     `https://${sanityProjectId}.api.sanity.io/v2024-01-01/data/query/${encodeURIComponent(sanityDataset)}`
   )
@@ -209,7 +210,7 @@ export const onRequestPost = async ({
   }
 
   const productMap = new Map(products.map((product) => [product._id, product]))
-  const orderItems: Array<{ sku: string; name: string; qty: number; price: number }> = []
+  const orderItems: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string }> = []
   let subtotal = 0
 
   for (const requested of requestedItems) {
@@ -226,6 +227,7 @@ export const onRequestPost = async ({
       name: cleanText(product.name, 250) || 'Продукт',
       qty: requested.qty,
       price,
+      imageUrl: typeof product.imageUrl === 'string' && /^https:\/\//i.test(product.imageUrl) ? product.imageUrl : undefined,
     })
     subtotal += price * requested.qty
   }
@@ -285,13 +287,16 @@ export const onRequestPost = async ({
 
   // Email is best-effort: a mail-provider outage must not fail a saved order.
   if (env.RESEND_API_KEY && env.EMAIL_FROM) {
-    const itemsHtml = orderItems.map((item) =>
-      '<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb">' +
-      escapeHtml(item.name) + (item.sku ? '<br><small>SKU: ' + escapeHtml(item.sku) + '</small>' : '') +
-      '</td><td style="padding:8px;text-align:center;border-bottom:1px solid #e5e7eb">' +
-      item.qty + '</td><td style="padding:8px;text-align:right;border-bottom:1px solid #e5e7eb">' +
-      (item.price * item.qty).toFixed(2) + ' €</td></tr>'
-    ).join('')
+    const itemsHtml = orderItems.map((item) => {
+      const imageCell = item.imageUrl
+        ? '<td style="width:76px;padding:8px;border-bottom:1px solid #e5e7eb;vertical-align:middle"><img src="' + escapeHtml(item.imageUrl) + '" alt="' + escapeHtml(item.name) + '" width="64" style="display:block;width:64px;height:64px;object-fit:contain;border:0;border-radius:6px" /></td>'
+        : '<td style="width:76px;padding:8px;border-bottom:1px solid #e5e7eb;vertical-align:middle;color:#9ca3af;font-size:11px">Няма снимка</td>'
+      return '<tr>' + imageCell + '<td style="padding:8px;border-bottom:1px solid #e5e7eb;vertical-align:middle">' +
+        escapeHtml(item.name) + (item.sku ? '<br><small>SKU: ' + escapeHtml(item.sku) + '</small>' : '') +
+        '</td><td style="padding:8px;text-align:center;border-bottom:1px solid #e5e7eb;vertical-align:middle">' +
+        item.qty + '</td><td style="padding:8px;text-align:right;border-bottom:1px solid #e5e7eb;vertical-align:middle;white-space:nowrap">' +
+        (item.price * item.qty).toFixed(2) + ' €</td></tr>'
+    }).join('')
     const detailsHtml = '<p><strong>Номер на поръчката:</strong> ' + escapeHtml(orderNumber) + '</p>' +
       '<p><strong>Клиент:</strong> ' + escapeHtml(customerName) + '<br>' +
       '<strong>Телефон:</strong> ' + escapeHtml(phone) + '<br>' +
@@ -299,7 +304,7 @@ export const onRequestPost = async ({
       '<strong>Населено място:</strong> ' + escapeHtml(city) + '<br>' +
       '<strong>Адрес:</strong> ' + escapeHtml(address || 'Не е посочен') + '</p>' +
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
-      '<table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
+      '<table role="presentation" style="width:100%;border-collapse:collapse"><thead><tr><th style="width:76px;padding:8px"></th><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
       itemsHtml + '</tbody></table><p style="text-align:right;font-size:18px"><strong>Общо: ' +
       subtotal.toFixed(2) + ' €</strong></p><p>Разходите за доставка, ако има такива, ще бъдат потвърдени допълнително.</p>'
 
