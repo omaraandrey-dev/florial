@@ -77,7 +77,8 @@ const createProformaPdf = async (order: ProformaOrder, fontUrl?: string): Promis
   if (!fontResponse.ok) throw new Error('Unable to load Unicode font for PDF')
   const pdf = await PDFDocument.create()
   pdf.registerFontkit(fontkit)
-  const font = await pdf.embedFont(await fontResponse.arrayBuffer(), { subset: true })
+  // Embed the complete font. Subsetting this variable Noto Sans font produced missing/corrupted glyphs in some PDF readers.
+  const font = await pdf.embedFont(await fontResponse.arrayBuffer(), { subset: false })
   const page = pdf.addPage([595, 842])
   const left = 44
   let y = 785
@@ -190,7 +191,7 @@ export const onRequestPost = async ({
   const sanityProjectId = env.SANITY_PROJECT_ID || 'bxvcy0qs'
   const sanityDataset = env.SANITY_DATASET || 'production'
   const productIds = [...new Set(requestedItems.map((item) => item.productId))]
-  const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(image.asset->url, externalImageUrl) }'
+  const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(mainImage.asset->url, image.asset->url, externalImageUrl) }'
   const sanityUrl = new URL(
     `https://${sanityProjectId}.api.sanity.io/v2024-01-01/data/query/${encodeURIComponent(sanityDataset)}`
   )
