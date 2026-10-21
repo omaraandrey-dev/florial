@@ -27,3 +27,12 @@
 
 - Added a compatibility normalization in `src/App.tsx` so slug values are projected to the existing `{ current: string }` shape whether the stored Sanity field is still a slug object or becomes a plain string. This includes product/service/category slugs, category references, and the logo lookup. Commit: `751ab216672622399e5593031e54981d39e9708a`.
 - Still pending: applying the schema to the already deployed Studio, then migrating and publishing the existing slug values in both datasets. No Content Lake document values have been modified by this step.
+
+
+## 2026-10-21 — Cloud Studio deployment pipeline
+
+- Added `studio/sanity.cli.ts` pointing to the existing hosted Studio application ID `owtr7mlnn6xm33qah9z2wop6`. The multi-workspace configuration remains in `studio/sanity.config.ts`.
+- Added `.github/workflows/sanity-studio.yml` to validate both workspace schemas, build the Studio, and deploy it from GitHub Actions when Studio source changes or when manually dispatched.
+- The workflow uses the GitHub Actions secret `SANITY_AUTH_TOKEN`; it never stores credentials in source. If the secret is missing, the deploy step stops with a clear error instead of silently creating another Studio.
+- The connected GitHub tools cannot inspect or create repository Actions secrets, nor start a workflow run. The first successful cloud deployment therefore depends on the existing repository having `SANITY_AUTH_TOKEN` configured with Sanity Studio deployment permission.
+- This pipeline does not migrate Content Lake documents. Existing slug object values must be converted separately, with a verified idempotent migration, before deploying schema changes that require plain strings.
