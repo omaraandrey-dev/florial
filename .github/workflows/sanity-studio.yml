@@ -30,11 +30,7 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
-      - name: Validate production workspace schema
-        run: npx sanity schemas validate --workspace florial-admin
-      - name: Validate plants workspace schema
-        run: npx sanity schemas validate --workspace plants
-      - name: Build Studio
+      - name: Validate and build both Studio workspaces
         run: npm run build
       - name: Deploy existing Florial Studio
         if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
