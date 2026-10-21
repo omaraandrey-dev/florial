@@ -1,0 +1,19 @@
+{
+  "name": "florial-sanity-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "schema:deploy": "sanity schema deploy"
+  },
+  "dependencies": {
+    "@sanity/vision": "^3.99.0",
+    "sanity": "^3.99.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3"
+  }
+}
