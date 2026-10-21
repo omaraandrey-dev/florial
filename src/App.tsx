@@ -233,7 +233,7 @@ export default function App() {
           _id,
           name,
           translations,
-          slug,
+          "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "imageUrl": image.asset->url,
           description,
@@ -269,24 +269,24 @@ export default function App() {
           "category": category->name,
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
-          "categorySlug": category->slug.current,
+          "categorySlug": coalesce(category->slug.current, category->slug),
           "categoryParentId": category->parent->_id,
           "categories": categories[]-> {
             _id,
             name,
             translations,
-            slug,
+            "slug": { "current": coalesce(slug.current, slug) },
             "parentId": parent->_id
           }
         }
       `
 
       const plantCategoryQuery = `
-        *[_type == "category" && defined(slug.current)] | order(sortOrder asc, name asc) {
+        *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
           _id,
           name,
           translations,
-          slug,
+          "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           description,
           "parentId": parent->_id,
@@ -305,9 +305,9 @@ export default function App() {
           "category": category->name,
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
-          "categorySlug": category->slug.current,
+          "categorySlug": coalesce(category->slug.current, category->slug),
           "categoryParentId": category->parent->_id,
-          "categories": categories[]->{_id, name, translations, slug, "parentId": parent->_id}
+          "categories": categories[]->{_id, name, translations, "slug": { "current": coalesce(slug.current, slug) }, "parentId": parent->_id}
         }
       `
 
@@ -316,7 +316,7 @@ export default function App() {
           _id,
           name,
           translations,
-          slug,
+          "slug": { "current": coalesce(slug.current, slug) },
           shortDescription,
           description,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
@@ -352,7 +352,7 @@ export default function App() {
       const logoQuery = `
         *[
           _type == "photo" &&
-          slug.current == "oficialno-logo-florial-gradinski-centar"
+          coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"
         ][0] {
           _id,
           title,
