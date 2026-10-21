@@ -1,0 +1,57 @@
+name: Deploy Florial Sanity Studio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "studio/**"
+      - ".github/workflows/deploy-sanity-studio.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: florial-sanity-studio-production
+  cancel-in-progress: false
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate irrigation and services schemas
+        run: npx sanity schemas validate --workspace florial-admin
+
+      - name: Validate plants schema
+        run: npx sanity schemas validate --workspace plants
+
+      - name: Deploy irrigation and services schema
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity@latest schemas deploy --workspace florial-admin
+
+      - name: Deploy plants schema
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity@latest schemas deploy --workspace plants
+
+      - name: Deploy the existing hosted Studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity@latest deploy --yes
