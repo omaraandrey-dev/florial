@@ -39,3 +39,15 @@ Redeploy after adding or changing variables.
 - Configure transactional email with a verified sender domain and test both seller and customer delivery.
 - Verify the generated Bulgarian proforma PDF, including Cyrillic text, on the deployed environment before using it with customers. Bank details are not included until confirmed.
 - Econt city/office lookup and shipping-price integration are not part of this first endpoint yet.
+
+
+## Primary website domain
+
+The selected primary public website URL is `https://florial-bg.com`.
+
+- `index.html` declares this as the homepage canonical URL and Open Graph URL.
+- The React app updates the canonical and Open Graph URL to use this primary hostname and the current SPA path.
+- Cloudflare Pages custom-domain attachment, DNS records, HTTPS status, and redirects from any secondary domain must be verified in the Cloudflare dashboard before considering the domain setup complete.
+- Do not configure a redirect from a secondary domain until its exact registered spelling and ownership are confirmed.
+- The order endpoint uses a relative same-origin path (`/api/orders` from the site), so it does not require a separate domain change. Supabase project URLs are backend service URLs and should not be replaced with the website domain.
+- Transactional email currently uses Resend in `functions/api/orders.ts`; the sender is controlled by `EMAIL_FROM`. Verify the sending domain in Resend and add the provider's exact DNS records in Cloudflare before switching the sender address.
