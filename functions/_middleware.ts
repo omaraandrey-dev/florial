@@ -172,10 +172,21 @@ function setPageHead(
   Object.entries(options.alternates || {}).forEach(([language, href]) => {
     additions.push('<link rel="alternate" hreflang="' + escapeHtml(language) + '" href="' + escapeHtml(href) + '" />')
   })
-  ;(options.structuredData || []).forEach((entry) => {
+  const organization = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    areaServed: { '@type': 'Country', name: 'Bulgaria' },
+  }
+  const structured = options.structuredData || []
+  structured.forEach((entry) => {
     const json = JSON.stringify(entry.data).replace(/</g, '\\u003c')
     additions.push('<script type="application/ld+json" data-florial-jsonld="' + escapeHtml(entry.id) + '">' + json + '</script>')
   })
+  if (!structured.some((entry) => entry.id === 'organization')) {
+    additions.push('<script type="application/ld+json" data-florial-jsonld="organization">' + JSON.stringify(organization).replace(/</g, '\\u003c') + '</script>')
+  }
   if (additions.length) html = html.replace(/<\/head>/i, additions.join('\n') + '\n</head>')
   return html
 }
