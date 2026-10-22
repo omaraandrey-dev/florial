@@ -36,6 +36,13 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
     applyPageSeo({
       fallbackTitle: metadata.title,
       fallbackDescription: metadata.description,
+      language,
+      alternates: {
+        bg: 'https://florial-bg.com/contacts',
+        ru: 'https://florial-bg.com/contacts?lang=ru',
+        en: 'https://florial-bg.com/contacts?lang=en',
+        'x-default': 'https://florial-bg.com/contacts',
+      },
     })
   }, [language])
   
