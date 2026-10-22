@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock } from '../types'
 import { applyPageSeo } from '../lib/seo'
+import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface ServicePageProps {
   service: ServiceItem
