@@ -47,3 +47,10 @@
 - Added explicit `react` and `react-dom` 18.x dependencies compatible with this Sanity v3 Studio, and declared `styled-components@^6.1.15` so the CLI does not try to modify package.json during the build.
 - No dataset documents or content were changed. The workflow must run again to verify the fix.
 - The build log also reported an engine warning for a transitive package requiring Node.js >=22. It was a warning, not the immediate failure. If it becomes a hard failure, update the CI Node version after checking Sanity CLI compatibility.
+
+
+## 2026-10-22 — CI Node.js runtime update
+
+- Updated GitHub Actions `checkout` and `setup-node` to v5 and selected Node.js 22 for the Studio build. This addresses the runner warning about Node.js 20 deprecation and satisfies the logged transitive dependency engine requirement of Node.js >=22.
+- This is a CI configuration change only; no Sanity documents or datasets were modified.
+- Awaiting the next workflow run to verify build and deployment.
