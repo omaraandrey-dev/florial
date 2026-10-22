@@ -434,6 +434,24 @@ export async function onRequest(context: PagesContext): Promise<Response> {
             }],
             parentOrganization: { '@id': SITE_URL + '/#organization' },
           },
+        }, {
+          id: 'local-business-ravda',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'GardenStore',
+            '@id': SITE_URL + '/#store-ravda',
+            name: 'Florial — градински център Равда',
+            url: SITE_URL + '/contacts',
+            telephone: '+359877055605',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Чешме тарла',
+              postalCode: '8238',
+              addressLocality: 'Равда',
+              addressCountry: 'BG',
+            },
+            parentOrganization: { '@id': SITE_URL + '/#organization' },
+          },
         }],
       })
     })
