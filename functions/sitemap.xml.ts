@@ -16,11 +16,11 @@ const SANITY_PROJECT_ID = 'bxvcy0qs'
 const SANITY_API_VERSION = '2024-01-01'
 
 const queries = {
-  categories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, _updatedAt }',
-  products: '*[_type == "product" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, _updatedAt }',
-  services: '*[_type == "service" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription), "hasRussianSeo": defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription), _updatedAt }',
-  plantCategories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), _updatedAt }',
-  plantProducts: '*[_type == "product" && productType == "plant" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), _updatedAt }',
+  categories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.description), "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.description), _updatedAt }',
+  products: '*[_type == "product" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.shortDescription) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.shortDescription) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
+  services: '*[_type == "service" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
+  plantCategories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.description), "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.description), _updatedAt }',
+  plantProducts: '*[_type == "product" && productType == "plant" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.shortDescription) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.shortDescription) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
 }
 
 async function querySanity(dataset: string, query: string): Promise<SitemapDocument[]> {
@@ -125,13 +125,19 @@ export async function onRequestGet(): Promise<Response> {
 
     for (const document of [...equipmentCategories, ...plantCategories]) {
       if (!document.noIndex && document.path) {
-        addUrl(urls, `category/${encodeURIComponent(document.path)}`, document._updatedAt)
+        const categoryPath = `category/${encodeURIComponent(document.path)}`
+        addUrl(urls, categoryPath, document._updatedAt)
+        if (document.hasRussianSeo) addUrl(urls, `${categoryPath}?lang=ru`, document._updatedAt)
+        if (document.hasEnglishSeo) addUrl(urls, `${categoryPath}?lang=en`, document._updatedAt)
       }
     }
 
     for (const document of [...equipmentProducts, ...plantProducts]) {
       if (!document.noIndex && document.path) {
-        addUrl(urls, `product/${encodeURIComponent(document.path)}`, document._updatedAt)
+        const productPath = `product/${encodeURIComponent(document.path)}`
+        addUrl(urls, productPath, document._updatedAt)
+        if (document.hasRussianSeo) addUrl(urls, `${productPath}?lang=ru`, document._updatedAt)
+        if (document.hasEnglishSeo) addUrl(urls, `${productPath}?lang=en`, document._updatedAt)
       }
     }
 
