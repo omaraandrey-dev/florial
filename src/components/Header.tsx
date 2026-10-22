@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useI18n, type Language } from '../lib/i18n'
+import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type {
   ServiceItem,
   CategoryItem,
@@ -87,14 +88,11 @@ export function Header({
       <div className="w-full px-3 sm:px-5 lg:px-8">
         <div className="grid min-h-[84px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 py-2 sm:gap-3 sm:py-3 md:min-h-[120px] md:gap-6 md:py-4">
           {/* Logo: увеличен и прижат к левому краю контейнера */}
-          <button
-            type="button"
-            onClick={() => {
-              closeMenu()
-              onNavigateHome()
-            }}
+          <a
+            href={localizedHref('/', language)}
+            onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateHome() })}
             aria-label="Florial — начална страница"
-            className="flex h-full min-w-0 shrink-0 items-center justify-start text-left"
+            className="flex h-full min-w-0 shrink-0 items-center justify-start text-left no-underline"
           >
             {siteSettings?.logoUrl ? (
               <img
@@ -195,13 +193,9 @@ export function Header({
       {isMenuOpen && (
         <div className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
           <nav aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
-            <button
-              type="button"
-              onClick={() => { closeMenu(); onNavigateHome() }}
-              className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
-            >
+            <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateHome() })} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
               {t('Начало')}
-            </button>
+            </a>
 
             <div className="border-t border-slate-100">
               <button
@@ -217,22 +211,13 @@ export function Header({
               </button>
               {isPlantsOpen && (
                 <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
-                  <button
-                    type="button"
-                    onClick={() => { closeMenu(); onNavigateCategory('rastenia') }}
-                    className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
-                  >
+                  <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('rastenia') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Всички растения')}
-                  </button>
+                  </a>
                   {plantCategories.filter((category) => category.slug?.current !== 'rastenia').map((category) => (
-                    <button
-                      key={category._id}
-                      type="button"
-                      onClick={() => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) }}
-                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
-                    >
+                    <a key={category._id} href={localizedHref(`/category/${encodeURIComponent(category.slug?.current || category._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                       {category.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
@@ -252,22 +237,13 @@ export function Header({
               </button>
               {isCategoriesOpen && (
                 <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
-                  <button
-                    type="button"
-                    onClick={() => { closeMenu(); onNavigateCategory('vsichko-za-polivane') }}
-                    className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50"
-                  >
+                  <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('vsichko-za-polivane') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Цялото оборудване за поливане')}
-                  </button>
+                  </a>
                   {categories.map((category) => (
-                    <button
-                      key={category._id}
-                      type="button"
-                      onClick={() => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) }}
-                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
-                    >
+                    <a key={category._id} href={localizedHref(`/category/${encodeURIComponent(category.slug?.current || category._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                       {category.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
@@ -288,30 +264,21 @@ export function Header({
               {isServicesOpen && (
                 <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   {services.map((service) => (
-                    <button
-                      key={service._id}
-                      type="button"
-                      onClick={() => { closeMenu(); onNavigateService(service.slug?.current, service._id) }}
-                      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800"
-                    >
+                    <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateService(service.slug?.current, service._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                       {service.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
             </div>
 
             <div className="border-t border-slate-100">
-              <button
-                type="button"
-                onClick={() => { closeMenu(); onNavigateContacts() }}
-                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
-              >
+              <a href={localizedHref('/contacts', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateContacts() })} className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                 {t("Контакти")}
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="M7 17 17 7M7 7h10v10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </button>
+              </a>
             </div>
 
             <div className="mt-3 border-t border-slate-100 px-4 pt-4">
