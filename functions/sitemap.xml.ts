@@ -112,7 +112,11 @@ export async function onRequestGet(): Promise<Response> {
 
     const urls = new Map<string, string | undefined>()
     addUrl(urls, '')
+    addUrl(urls, '?lang=ru')
+    addUrl(urls, '?lang=en')
     addUrl(urls, 'contacts')
+    addUrl(urls, 'contacts?lang=ru')
+    addUrl(urls, 'contacts?lang=en')
 
     for (const document of services) {
       if (!document.noIndex && document.path) {
