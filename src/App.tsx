@@ -41,19 +41,25 @@ export default function App() {
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
-  // Keep canonical URLs on the selected primary domain, including SPA navigation.
+  // Keep canonical URLs on the selected primary domain. The current locale is
+  // represented by ?lang=ru|en, so preserve that parameter for localized SEO URLs.
   useEffect(() => {
     let path = window.location.pathname
     while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1)
-    const canonicalUrl = new URL(path, 'https://florial-bg.com').toString()
-
-    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
-    if (!canonical) {
-      canonical = document.createElement('link')
-      canonical.rel = 'canonical'
-      document.head.appendChild(canonical)
+    const canonical = new URL(path, 'https://florial-bg.com')
+    const selectedLocale = new URLSearchParams(window.location.search).get('lang')
+    if (selectedLocale === 'ru' || selectedLocale === 'en') {
+      canonical.searchParams.set('lang', selectedLocale)
     }
-    canonical.href = canonicalUrl
+    const canonicalUrl = canonical.toString()
+
+    let canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link')
+      canonicalLink.rel = 'canonical'
+      document.head.appendChild(canonicalLink)
+    }
+    canonicalLink.href = canonicalUrl
 
     let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
     if (!ogUrl) {
