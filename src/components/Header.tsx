@@ -108,7 +108,7 @@ export function Header({
                 FLORIAL<span className="text-emerald-500">.BG</span>
               </span>
             )}
-          </button>
+          </a>
 
           {/* Поиск товаров по центру */}
           <form onSubmit={submitSearch} role="search" className="mx-auto flex w-full max-w-2xl items-center">
