@@ -57,22 +57,19 @@ export function ProductPage({
     <main className="flex-grow container mx-auto px-4 py-6 max-w-7xl">
       {/* Хлебные крошки */}
       <nav className="mb-6 flex items-center text-sm text-slate-500 flex-wrap gap-1">
-        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors cursor-pointer">
+        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
           Начало
-        </button>
+        </a>
         <span className="mx-1">/</span>
-        <button onClick={onNavigateHome} className="hover:text-emerald-700 transition-colors cursor-pointer">
+        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
           {t("Каталог")}
-        </button>
+        </a>
         {product.category && (
           <>
             <span className="mx-1">/</span>
-            <button 
-              onClick={() => onNavigateCategory(product.categorySlug, product.categoryId)}
-              className="hover:text-emerald-700 transition-colors cursor-pointer"
-            >
+            <a href={localizedHref(`/category/${encodeURIComponent(product.categorySlug || product.categoryId || '')}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(product.categorySlug, product.categoryId))} className="hover:text-emerald-700 transition-colors no-underline">
               {localize(product, 'category')}
-            </button>
+            </a>
           </>
         )}
         <span className="mx-1">/</span>
