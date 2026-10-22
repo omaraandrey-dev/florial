@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { Product } from '../types'
-import { applyPageSeo } from '../lib/seo'
+import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface ProductPageProps {
@@ -39,11 +39,60 @@ export function ProductPage({
 
   useEffect(() => {
     if (!product) return
+    const productName = String(localize(product, 'name') || product.name)
+    const productDescription = String(localize(product, 'shortDescription') || \`Купете \${productName} изгодно в онлайн магазин Florial.\`)
+    const productPath = \`/product/\${encodeURIComponent(product.slug?.current || product._id)}\`
+    const productUrl = new URL(localizedHref(productPath, language), window.location.origin).toString()
+
     applyPageSeo({
       seo: localize(product, 'seo'),
-      fallbackTitle: `${localize(product, 'name')} | Florial`,
-      fallbackDescription: localize(product, 'shortDescription') || `Купете ${localize(product, 'name')} изгодно в онлайн магазин Флориал.`,
+      fallbackTitle: \`\${productName} | Florial\`,
+      fallbackDescription: productDescription,
       pageType: 'product',
+      imageUrl: product.imageUrl,
+    })
+
+    const offer: Record<string, unknown> = {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      price: Number(product.priceEUR || 0).toFixed(2),
+      url: productUrl,
+      itemCondition: 'https://schema.org/NewCondition',
+    }
+    if (product.stockStatus === 'inStock') offer.availability = 'https://schema.org/InStock'
+    if (product.stockStatus === 'outOfStock') offer.availability = 'https://schema.org/OutOfStock'
+
+    setStructuredData('product', {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: productName,
+      description: productDescription,
+      url: productUrl,
+      ...(product.imageUrl ? { image: [product.imageUrl] } : {}),
+      ...(product.sku ? { sku: product.sku } : {}),
+      offers: offer,
+    })
+
+    const breadcrumbItems: Array<{ name: string; item: string }> = [
+      { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+      { name: t('Каталог'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+    ]
+    if (product.category) {
+      breadcrumbItems.push({
+        name: String(localize(product, 'category') || product.category),
+        item: new URL(localizedHref(\`/category/\${encodeURIComponent(product.categorySlug || product.categoryId || '')}\`, language), window.location.origin).toString(),
+      })
+    }
+    breadcrumbItems.push({ name: productName, item: productUrl })
+    setStructuredData('breadcrumbs', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: item.item,
+      })),
     })
   }, [product, language, localize])
 
