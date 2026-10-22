@@ -10,6 +10,7 @@ import { CategoryPage } from './pages/CategoryPage'
 import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
 import { CartPage } from './pages/CartPage'
+import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 
 import type {
   CategoryItem,
@@ -702,15 +703,13 @@ export default function App() {
               </p>
               <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {searchedProducts.map((product) => (
-                  <button
+                  <a
                     key={product._id}
-                    type="button"
-                    onClick={() => {
-                      if (product.slug?.current) {
-                        navigateToProduct(product.slug.current)
-                      }
-                    }}
-                    className="overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-emerald-500 hover:shadow-md"
+                    href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
+                    onClick={(event) => handleInternalLinkClick(event, () => {
+                      if (product.slug?.current) navigateToProduct(product.slug.current)
+                    })}
+                    className="overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-emerald-500 hover:shadow-md no-underline"
                   >
                     {product.imageUrl ? (
                       <img
@@ -740,7 +739,7 @@ export default function App() {
                         {t("Виж продукта →")}
                       </span>
                     </div>
-                  </button>
+                  </a>
                 ))}
               </div>
             </>
