@@ -81,16 +81,27 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
 
-  // Service pages previously did not set SEO metadata at all.
+  // Each translated service URL has its own canonical and hreflang alternate.
   useEffect(() => {
     const localizedSeo = localize(service, 'seo')
     const shortDescription = localize(service, 'shortDescription')
+    const serviceSlug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : '')
+    const baseUrl = serviceSlug
+      ? `https://florial-bg.com/services/${encodeURIComponent(serviceSlug)}`
+      : undefined
+
     applyPageSeo({
       seo: localizedSeo,
       fallbackTitle: `${localize(service, 'name')} | Florial`,
       fallbackDescription: typeof shortDescription === 'string' && shortDescription.trim()
         ? shortDescription
         : `${localize(service, 'name')} — професионални услуги от Florial в България.`,
+      alternates: baseUrl ? {
+        bg: baseUrl,
+        ru: `${baseUrl}?lang=ru`,
+        en: `${baseUrl}?lang=en`,
+        'x-default': baseUrl,
+      } : undefined,
     })
   }, [service, language, localize])
 
