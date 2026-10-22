@@ -240,6 +240,7 @@ function setPageHead(
   const organization = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': SITE_URL + '/#organization',
     name: SITE_NAME,
     url: SITE_URL,
     areaServed: { '@type': 'Country', name: 'Bulgaria' },
@@ -403,6 +404,37 @@ export async function onRequest(context: PagesContext): Promise<Response> {
         canonical,
         alternates,
         pageType: 'website',
+        structuredData: [{
+          id: 'local-business-nessebar',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'GardenStore',
+            '@id': SITE_URL + '/#store-nessebar',
+            name: 'Florial — градински център Несебър',
+            url: SITE_URL + '/contacts',
+            telephone: '+359885834860',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'ул. „Хан Крум“',
+              postalCode: '8230',
+              addressLocality: 'Несебър',
+              addressCountry: 'BG',
+            },
+            openingHoursSpecification: [{
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: [
+                'https://schema.org/Monday',
+                'https://schema.org/Tuesday',
+                'https://schema.org/Wednesday',
+                'https://schema.org/Thursday',
+                'https://schema.org/Friday',
+              ],
+              opens: '09:00',
+              closes: '17:00',
+            }],
+            parentOrganization: { '@id': SITE_URL + '/#organization' },
+          },
+        }],
       })
     })
   }
