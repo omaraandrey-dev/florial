@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock } from '../types'
-import { applyPageSeo } from '../lib/seo'
+import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface ServicePageProps {
@@ -81,29 +81,50 @@ function ContentBlock({ block, index }: { block: ServiceContentBlock; index: num
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
 
-  // Each translated service URL has its own canonical and hreflang alternate.
+  // Localized service SEO and alternates are emitted only for published translations.
   useEffect(() => {
-    const localizedSeo = localize(service, 'seo')
+    const localizedSeo = language === 'bg' ? service.seo : service.translations?.[language]?.seo
+    const localizedName = String(localize(service, 'name') || service.name)
     const shortDescription = localize(service, 'shortDescription')
     const serviceSlug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : '')
     const baseUrl = serviceSlug
-      ? `https://florial-bg.com/services/${encodeURIComponent(serviceSlug)}`
+      ? \`https://florial-bg.com/services/\${encodeURIComponent(serviceSlug)}\`
       : undefined
+    const hasLocalizedSeo = (locale: 'ru' | 'en') => Boolean(
+      service.translations?.[locale]?.seo?.metaTitle &&
+      service.translations?.[locale]?.seo?.metaDescription &&
+      service.translations?.[locale]?.seo?.noIndex !== true
+    )
+    const alternates: Record<string, string> = {}
+    if (baseUrl) {
+      alternates.bg = baseUrl
+      alternates['x-default'] = baseUrl
+      if (hasLocalizedSeo('ru')) alternates.ru = \`\${baseUrl}?lang=ru\`
+      if (hasLocalizedSeo('en')) alternates.en = \`\${baseUrl}?lang=en\`
+    }
 
     applyPageSeo({
       seo: localizedSeo,
-      fallbackTitle: `${localize(service, 'name')} | Florial`,
+      fallbackTitle: \`\${localizedName} | Florial\`,
       fallbackDescription: typeof shortDescription === 'string' && shortDescription.trim()
         ? shortDescription
-        : `${localize(service, 'name')} — професионални услуги от Florial в България.`,
-      alternates: baseUrl ? {
-        bg: baseUrl,
-        ru: `${baseUrl}?lang=ru`,
-        en: `${baseUrl}?lang=en`,
-        'x-default': baseUrl,
-      } : undefined,
+        : \`\${localizedName} — професионални услуги от Florial в България.\`,
+      language,
+      noIndex: language !== 'bg' && !hasLocalizedSeo(language),
+      alternates: baseUrl ? alternates : undefined,
     })
-  }, [service, language, localize])
+
+    if (baseUrl) {
+      setStructuredData('breadcrumbs', {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+          { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(\`/services/\${encodeURIComponent(serviceSlug)}\`, language), window.location.origin).toString() },
+        ],
+      })
+    }
+  }, [service, language, localize, t])
 
   // Text and images inside contentBlocks belong together. Do not merge the
   // separate gallery by array index: gallery order is independent and that
