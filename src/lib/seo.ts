@@ -20,7 +20,17 @@ export function setStructuredData(id: string, data: Record<string, unknown>) {
 }
 
 export function clearPageStructuredData() {
-  document.head.querySelectorAll('script[data-florial-jsonld]').forEach((script) => script.remove())
+  // Preserve stable, site-wide entities injected by the Cloudflare Pages middleware.
+  // Client-side route SEO may replace page-specific Product/Breadcrumb data, but must
+  // not remove the Organization or the two physical GardenStore locations.
+  const siteEntityIds = new Set([
+    'organization',
+    'local-business-nessebar',
+    'local-business-ravda',
+  ])
+  document.head.querySelectorAll<HTMLScriptElement>('script[data-florial-jsonld]').forEach((script) => {
+    if (!siteEntityIds.has(script.dataset.florialJsonld || '')) script.remove()
+  })
 }
 
 function setMeta(name: string, content: string, attribute = 'name') {
