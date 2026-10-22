@@ -44,12 +44,31 @@ export function ProductPage({
     const productPath = \`/product/\${encodeURIComponent(product.slug?.current || product._id)}\`
     const productUrl = new URL(localizedHref(productPath, language), window.location.origin).toString()
 
+    const hasLocaleContent = (locale: 'ru' | 'en') => {
+      const translated = product.translations?.[locale]
+      return Boolean(
+        translated?.name &&
+        translated?.shortDescription &&
+        translated?.seo?.metaTitle &&
+        translated?.seo?.metaDescription
+      )
+    }
+    const localizedSeo = language === 'bg' ? product.seo : product.translations?.[language]?.seo
+    const alternates: Record<string, string> = {
+      bg: new URL(productPath, 'https://florial-bg.com').toString(),
+      'x-default': new URL(productPath, 'https://florial-bg.com').toString(),
+    }
+    if (hasLocaleContent('ru')) alternates.ru = new URL(localizedHref(productPath, 'ru'), 'https://florial-bg.com').toString()
+    if (hasLocaleContent('en')) alternates.en = new URL(localizedHref(productPath, 'en'), 'https://florial-bg.com').toString()
+
     applyPageSeo({
-      seo: localize(product, 'seo'),
+      seo: localizedSeo,
       fallbackTitle: \`\${productName} | Florial\`,
       fallbackDescription: productDescription,
       pageType: 'product',
       imageUrl: product.imageUrl,
+      noIndex: language !== 'bg' && !hasLocaleContent(language),
+      alternates,
     })
 
     const offer: Record<string, unknown> = {
