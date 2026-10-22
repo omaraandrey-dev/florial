@@ -11,6 +11,7 @@ import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
 import { CartPage } from './pages/CartPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
+import { applyPageSeo } from './lib/seo'
 
 import type {
   CategoryItem,
@@ -82,18 +83,31 @@ export default function App() {
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
-    if (isPrivateUtilityPage || isMissingDynamicRoute || isUnknownRoute) {
-      let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]')
-      if (!robots) {
-        robots = document.createElement('meta')
-        robots.name = 'robots'
-        document.head.appendChild(robots)
-      }
-      robots.content = 'noindex, nofollow'
-      document.head.querySelectorAll('script[data-florial-jsonld]').forEach((script) => script.remove())
-      if (isMissingDynamicRoute || isUnknownRoute) {
-        document.title = language === 'ru' ? 'Страница не найдена | Florial' : language === 'en' ? 'Page not found | Florial' : 'Страницата не е намерена | Florial'
-      }
+    if (isPrivateUtilityPage) {
+      const utilityMetadata = path === '/cart'
+        ? language === 'ru'
+          ? { title: 'Корзина | Florial', description: 'Содержимое корзины интернет-магазина Florial.' }
+          : language === 'en'
+            ? { title: 'Shopping Cart | Florial', description: 'Your Florial online shop shopping cart.' }
+            : { title: 'Количка | Florial', description: 'Съдържание на количката в онлайн магазина Florial.' }
+        : language === 'ru'
+          ? { title: 'Поиск товаров | Florial', description: 'Поиск оборудования для полива и растений в магазине Florial.' }
+          : language === 'en'
+            ? { title: 'Product Search | Florial', description: 'Search irrigation equipment and plants in the Florial shop.' }
+            : { title: 'Търсене на продукти | Florial', description: 'Търсете оборудване за напояване и растения в магазина Florial.' }
+      applyPageSeo({
+        fallbackTitle: utilityMetadata.title,
+        fallbackDescription: utilityMetadata.description,
+        noIndex: true,
+        language,
+      })
+    } else if (isMissingDynamicRoute || isUnknownRoute) {
+      applyPageSeo({
+        fallbackTitle: language === 'ru' ? 'Страница не найдена | Florial' : language === 'en' ? 'Page not found | Florial' : 'Страницата не е намерена | Florial',
+        fallbackDescription: language === 'ru' ? 'Запрошенная страница не найдена.' : language === 'en' ? 'The requested page could not be found.' : 'Търсената страница не беше намерена.',
+        noIndex: true,
+        language,
+      })
     }
   }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts])
 
