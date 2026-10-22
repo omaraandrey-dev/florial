@@ -47,6 +47,13 @@ export function HomePage({
     applyPageSeo({
       fallbackTitle: metadata.title,
       fallbackDescription: metadata.description,
+      language,
+      alternates: {
+        bg: 'https://florial-bg.com/',
+        ru: 'https://florial-bg.com/?lang=ru',
+        en: 'https://florial-bg.com/?lang=en',
+        'x-default': 'https://florial-bg.com/',
+      },
     })
   }, [language])
   const sortedPlantCategories = [...plantCategories].sort((a, b) => {
