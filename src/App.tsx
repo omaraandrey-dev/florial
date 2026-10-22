@@ -42,10 +42,10 @@ export default function App() {
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
-  // Keep canonical URLs on the selected primary domain. The current locale is
-  // represented by ?lang=ru|en, so preserve that parameter for localized SEO URLs.
+  // Keep the HTML language and let page-level SEO decide canonical/hreflang URLs.
   useEffect(() => {
     document.documentElement.lang = language
+    const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = !loadingProducts && (
