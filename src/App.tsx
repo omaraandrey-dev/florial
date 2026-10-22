@@ -94,7 +94,7 @@ export default function App() {
         document.title = language === 'ru' ? 'Страница не найдена | Florial' : language === 'en' ? 'Page not found | Florial' : 'Страницата не е намерена | Florial'
       }
     }
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, currentService, currentCategory, loadingProducts])
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts])
 
   // Роутинг по URL
   useEffect(() => {
