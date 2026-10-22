@@ -1,5 +1,6 @@
 import React from 'react'
 import { useI18n } from '../lib/i18n'
+import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
 interface HomePageProps {
@@ -73,10 +74,11 @@ export function HomePage({
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {services.map(srv => (
-                <div 
-                  key={srv._id} 
-                  onClick={() => onNavigateService(srv.slug?.current, srv._id)}
-                  className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800"
+                <a
+                  key={srv._id}
+                  href={localizedHref(`/services/${encodeURIComponent(srv.slug?.current || srv._id)}`, language)}
+                  onClick={(event) => handleInternalLinkClick(event, () => onNavigateService(srv.slug?.current, srv._id))}
+                  className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline"
                 >
                   <div>
                     <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
@@ -100,7 +102,7 @@ export function HomePage({
                       {t("Детайли →")}
                     </span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -115,13 +117,13 @@ export function HomePage({
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
               <p className="mt-2 max-w-2xl text-sm md:text-base text-slate-600">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
             </div>
-            <button onClick={() => onNavigateCategory('rastenia')} className="shrink-0 rounded-lg bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 transition">
+            <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="shrink-0 rounded-lg bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 transition no-underline">
               {t('Разгледайте всички растения')} →
-            </button>
+            </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {[...plantCategories].sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name)).map((cat, index) => (
-              <button key={cat._id} onClick={() => onNavigateCategory(cat.slug?.current, cat._id)} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md">
+              <a key={cat._id} href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline">
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
                   {cat.imageUrl ? <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
                 </div>
@@ -129,7 +131,7 @@ export function HomePage({
                   <h3 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-[#647746]">{localize(cat, 'name')}</h3>
                   <span className="mt-2 inline-block text-xs font-semibold text-[#71814F]">{t('Разгледайте')} →</span>
                 </div>
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -145,10 +147,11 @@ export function HomePage({
               {sortedCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
                 return (
-                  <div
+                  <a
                     key={cat._id}
-                    onClick={() => onNavigateCategory(cat.slug?.current, cat._id)}
-                    className={`rounded-xl p-3 md:p-4 border transition cursor-pointer flex flex-col items-center text-center group ${
+                    href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)}
+                    onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))}
+                    className={`rounded-xl p-3 md:p-4 border transition cursor-pointer flex flex-col items-center text-center group no-underline ${
                       isMainCategory 
                         ? 'bg-emerald-50/80 border-emerald-300 shadow-sm hover:shadow-md' 
                         : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
@@ -166,7 +169,7 @@ export function HomePage({
                     }`}>
                       {localize(cat, 'name')}
                     </h4>
-                  </div>
+                  </a>
                 )
               })}
             </div>
