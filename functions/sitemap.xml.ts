@@ -2,6 +2,8 @@ type SitemapDocument = {
   _id: string
   path?: string | null
   noIndex?: boolean | null
+  hasEnglishSeo?: boolean | null
+  hasRussianSeo?: boolean | null
   _updatedAt?: string | null
 }
 
@@ -16,7 +18,7 @@ const SANITY_API_VERSION = '2024-01-01'
 const queries = {
   categories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, _updatedAt }',
   products: '*[_type == "product" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, _updatedAt }',
-  services: '*[_type == "service" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, _updatedAt }',
+  services: '*[_type == "service" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription), "hasRussianSeo": defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription), _updatedAt }',
   plantCategories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), _updatedAt }',
   plantProducts: '*[_type == "product" && productType == "plant" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), _updatedAt }',
 }
@@ -114,7 +116,10 @@ export async function onRequestGet(): Promise<Response> {
 
     for (const document of services) {
       if (!document.noIndex && document.path) {
-        addUrl(urls, `services/${encodeURIComponent(document.path)}`, document._updatedAt)
+        const servicePath = `services/${encodeURIComponent(document.path)}`
+        addUrl(urls, servicePath, document._updatedAt)
+        if (document.hasRussianSeo) addUrl(urls, `${servicePath}?lang=ru`, document._updatedAt)
+        if (document.hasEnglishSeo) addUrl(urls, `${servicePath}?lang=en`, document._updatedAt)
       }
     }
 
