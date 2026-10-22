@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { Product } from '../types'
 import { applyPageSeo } from '../lib/seo'
+import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface ProductPageProps {
   product: Product
@@ -292,10 +293,11 @@ export function ProductPage({
           <h2 className="text-xl font-bold text-slate-900 mb-6">{t('Съвместими продукти')}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {product.compatibleProducts.map(item => (
-              <div
+              <a
                 key={item._id}
-                onClick={() => item.slug?.current && onNavigateProduct(item.slug.current)}
-                className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between"
+                href={localizedHref(`/product/${encodeURIComponent(item.slug?.current || item._id)}`, language)}
+                onClick={(event) => handleInternalLinkClick(event, () => item.slug?.current && onNavigateProduct(item.slug.current))}
+                className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between no-underline"
               >
                 <div>
                   <div className="h-40 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
@@ -311,7 +313,7 @@ export function ProductPage({
                   <span className="font-bold text-emerald-800">{(item.priceEUR || 0).toFixed(2)} €</span>
                   <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg">{t('Виж')}</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
