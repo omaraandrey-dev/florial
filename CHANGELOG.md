@@ -1,5 +1,12 @@
 # Журнал изменений Florial
 
+## 2026-10-22 — Исправление сохранения JSON-LD на странице контактов
+
+- Причина: `src/pages/ContactsPage.tsx` вызывает `applyPageSeo()`, а `clearPageStructuredData()` удалял все скрипты `data-florial-jsonld`, включая сущности `Organization` и обе точки `GardenStore`, добавленные Cloudflare Pages middleware.
+- Исправлено в `src/lib/seo.ts`: очистка клиентской SEO-разметки теперь сохраняет стабильные ID `organization`, `local-business-nessebar` и `local-business-ravda`, продолжая удалять page-specific JSON-LD (например Product/BreadcrumbList).
+- Код: commit `148ac275e6811b140297c3b4f9d3c0447c771c29`.
+- Проверка production HTML после публикации обязательна; пока новый commit не опубликован и не проверен, наличие JSON-LD в живой странице не подтверждено.
+
 ## 2026-10-22 — SEO LocalBusiness для точки в Несебре
 
 - Добавлена структурированная сущность Schema.org `GardenStore` для подтверждённой точки Florial в Несебре на главной странице и странице контактов.
