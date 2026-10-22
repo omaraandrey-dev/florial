@@ -48,6 +48,7 @@ export function CategoryPage({
 
     applyPageSeo({
       seo: language === 'bg' ? category.seo : undefined,
+      language,
       fallbackTitle: \`\${localizedName} | Florial\`,
       fallbackDescription: description,
       noIndex: language !== 'bg' && !languageContentExists(language),
