@@ -82,7 +82,14 @@ export function applyPageSeo(options: {
   if (language) document.documentElement.lang = language
   const title = seo?.metaTitle?.trim() || fallbackTitle
   const description = seo?.metaDescription?.trim() || fallbackDescription
-  const canonicalUrl = setCanonicalUrl()
+  let canonicalUrl = setCanonicalUrl()
+  if (noIndex || seo?.noIndex) {
+    const canonical = new URL(canonicalUrl)
+    canonical.searchParams.delete('lang')
+    canonicalUrl = canonical.toString()
+    const canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (canonicalLink) canonicalLink.href = canonicalUrl
+  }
 
   document.title = title
   setMeta('description', description)
