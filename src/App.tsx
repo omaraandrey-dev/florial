@@ -644,6 +644,28 @@ export default function App() {
       category._id === activeCategorySlug
   )
 
+  const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isNotFoundRoute = !loadingProducts && (
+    (
+      normalizedRoutePath !== '/' &&
+      normalizedRoutePath !== '/index.html' &&
+      normalizedRoutePath !== '/contacts' &&
+      normalizedRoutePath !== '/cart' &&
+      normalizedRoutePath !== '/search' &&
+      !normalizedRoutePath.startsWith('/product/') &&
+      !normalizedRoutePath.startsWith('/products/') &&
+      !normalizedRoutePath.startsWith('/services/') &&
+      !normalizedRoutePath.startsWith('/category/')
+    ) ||
+    (normalizedRoutePath.startsWith('/services/') && !currentService) ||
+    (normalizedRoutePath.startsWith('/category/') && !currentCategory) ||
+    (
+      (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
+      !loadingProductDetails &&
+      !currentProduct
+    )
+  )
+
   const filteredProducts = useMemo(() => {
     if (!currentCategory) return products
 
@@ -791,6 +813,21 @@ export default function App() {
               </div>
             </>
           )}
+        </main>
+      ) : isNotFoundRoute ? (
+        <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center">
+          <h1 className="text-3xl font-bold text-slate-900">
+            {language === 'ru' ? 'Страница не найдена' : language === 'en' ? 'Page not found' : 'Страницата не е намерена'}
+          </h1>
+          <p className="mt-3 text-slate-600">
+            {language === 'ru' ? 'Проверьте адрес или вернитесь на главную страницу.' : language === 'en' ? 'Check the address or return to the homepage.' : 'Проверете адреса или се върнете към началната страница.'}
+          </p>
+          <button
+            onClick={navigateToHome}
+            className="mt-6 rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white hover:bg-emerald-800"
+          >
+            {language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'}
+          </button>
         </main>
       ) : activeServiceSlug && currentService ? (
         <ServicePage
