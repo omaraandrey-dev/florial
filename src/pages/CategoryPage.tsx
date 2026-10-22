@@ -85,12 +85,9 @@ export function CategoryPage({
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
       {/* Хлебные крошки */}
       <nav className="mb-6 flex items-center text-sm text-slate-500">
-        <button
-          onClick={onNavigateHome}
-          className="hover:text-emerald-700 transition-colors cursor-pointer"
-        >
+        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
           Начало
-        </button>
+        </a>
         <span className="mx-2">/</span>
         <span className="text-slate-800 font-medium">{localize(category, 'name')}</span>
       </nav>
@@ -159,12 +156,9 @@ export function CategoryPage({
           <p className="text-slate-500 text-lg">
             В тази категория все още няма налични продукти.
           </p>
-          <button
-            onClick={onNavigateHome}
-            className="mt-4 inline-block bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer"
-          >
+          <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="mt-4 inline-block bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors no-underline">
             {t("Към началната страница")}
-          </button>
+          </a>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
