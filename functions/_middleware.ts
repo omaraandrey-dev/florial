@@ -132,8 +132,8 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   const contentType = response.headers.get('content-type') || ''
   const lastSegment = path.split('/').pop() || ''
   const looksLikeFile = /\.[a-zA-Z0-9]{1,8}$/.test(lastSegment)
-  if (looksLikeFile && contentType.includes('text/html')) {
-    return notFoundResponse(locale)
+  if (looksLikeFile) {
+    return contentType.includes('text/html') ? notFoundResponse(locale) : response
   }
 
   return notFoundResponse(locale)
