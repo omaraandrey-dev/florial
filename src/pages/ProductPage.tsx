@@ -67,6 +67,7 @@ export function ProductPage({
       fallbackDescription: productDescription,
       pageType: 'product',
       imageUrl: product.imageUrl,
+      language,
       noIndex: language !== 'bg' && !hasLocaleContent(language),
       alternates,
     })
