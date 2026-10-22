@@ -18,6 +18,7 @@ type SeoDocument = {
   sku?: string
   stockStatus?: string
   imageUrl?: string
+  brandName?: string
   seo?: Record<string, unknown> | null
   translations?: Record<string, Record<string, any>>
 }
@@ -81,22 +82,62 @@ function notFoundResponse(language: string | null): Response {
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
-  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false)][0]{_id,name,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl),seo,translations}'
+  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false)][0]{_id,name,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('$type', JSON.stringify(type))
   url.searchParams.set('$slug', JSON.stringify(slug))
 
+  // Cache Sanity lookups at the edge for five minutes. The synthetic cache key
+  // stays on our own zone because Cloudflare Cache API cannot cache arbitrary
+  // cross-zone URLs directly.
+  const cacheStorage = (globalThis as typeof globalThis & { caches?: CacheStorage }).caches
+  const cache = cacheStorage?.default
+  const cacheKey = new Request(
+    SITE_URL + '/__edge-cache/sanity/' + encodeURIComponent(dataset) + '/' +
+    encodeURIComponent(type) + '/' + encodeURIComponent(slug),
+    { method: 'GET' },
+  )
+
+  if (cache) {
+    try {
+      const cached = await cache.match(cacheKey)
+      if (cached) {
+        const cachedBody = (await cached.json()) as { result?: SeoDocument | null }
+        return cachedBody.result || null
+      }
+    } catch {
+      // A cache failure must not prevent the live Sanity lookup.
+    }
+  }
+
   const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error('Sanity lookup failed: ' + response.status)
   const body = (await response.json()) as { result?: SeoDocument | null }
-  return body.result || null
+  const result = body.result || null
+
+  if (cache) {
+    try {
+      const ttl = result ? 300 : 60
+      const cachedResponse = new Response(JSON.stringify({ result }), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'public, max-age=' + ttl,
+        },
+      })
+      await cache.put(cacheKey, cachedResponse)
+    } catch {
+      // Cache write errors are non-fatal; the live response remains usable.
+    }
+  }
+
+  return result
 }
 
 function hasTranslation(doc: SeoDocument, type: string, language: string): boolean {
   if (language === 'bg') return true
   const translated = doc.translations?.[language]
-  if (!translated?.name) return false
+  if (!translated?.name || translated.seo?.noIndex === true) return false
   if (type === 'category') return Boolean(translated.description)
   if (type === 'product') {
     return Boolean(translated.shortDescription && translated.seo?.metaTitle && translated.seo?.metaDescription)
@@ -281,15 +322,17 @@ function makeBreadcrumb(path: string, name: string, language: string): Record<st
 }
 
 function makeProductJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
-  const offer: Record<string, unknown> = {
+  const hasPrice = typeof doc.priceEUR === 'number' && doc.priceEUR > 0
+  const offer: Record<string, unknown> | null = hasPrice ? {
     '@type': 'Offer',
+    price: doc.priceEUR!.toFixed(2),
     priceCurrency: 'EUR',
     url,
     itemCondition: 'https://schema.org/NewCondition',
-  }
-  if (typeof doc.priceEUR === 'number' && doc.priceEUR > 0) offer.price = doc.priceEUR.toFixed(2)
-  if (doc.stockStatus === 'inStock') offer.availability = 'https://schema.org/InStock'
-  if (doc.stockStatus === 'outOfStock') offer.availability = 'https://schema.org/OutOfStock'
+    ...(doc.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
+    ...(doc.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
+  } : null
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -298,7 +341,8 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
     url,
     ...(doc.imageUrl ? { image: [doc.imageUrl] } : {}),
     ...(doc.sku ? { sku: doc.sku } : {}),
-    offers: offer,
+    ...(doc.brandName ? { brand: { '@type': 'Brand', name: doc.brandName } } : {}),
+    ...(offer ? { offers: offer } : {}),
   }
 }
 
@@ -313,7 +357,8 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     path === '/sitemap.xml' ||
     path === '/robots.txt' ||
     path === '/favicon.png' ||
-    path === '/index.html'
+    path === '/index.html' ||
+    /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
   if (path === '/' || path === '/contacts') {
@@ -396,17 +441,17 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
       const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
       const noIndex = seo?.noIndex === true || (language !== 'bg' && !translatedIsComplete)
-      const alternates: Record<string, string> = {}
-      if (hasTranslation(doc, type, 'bg')) alternates.bg = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'bg')
-      if (hasTranslation(doc, type, 'ru')) alternates.ru = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'ru')
-      if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'en')
-      alternates['x-default'] = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'bg')
-
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
-      const canonicalUrl = localizedRouteUrl(pagePath, noIndex ? 'bg' : language)
+      const canonicalUrl = localizedRouteUrl(pagePath, language)
+      const alternates: Record<string, string> = {}
+      if (hasTranslation(doc, type, 'bg')) alternates.bg = localizedRouteUrl(pagePath, 'bg')
+      if (hasTranslation(doc, type, 'ru')) alternates.ru = localizedRouteUrl(pagePath, 'ru')
+      if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl(pagePath, 'en')
+      alternates['x-default'] = localizedRouteUrl(pagePath, 'bg')
+
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
-        { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, noIndex ? 'bg' : language) },
+        { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
       ]
       if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
