@@ -707,7 +707,7 @@ export default function App() {
                     key={product._id}
                     href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
                     onClick={(event) => handleInternalLinkClick(event, () => {
-                      if (product.slug?.current) navigateToProduct(product.slug.current)
+                      navigateToProduct(product.slug?.current || product._id)
                     })}
                     className="overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-emerald-500 hover:shadow-md no-underline"
                   >
@@ -757,8 +757,7 @@ export default function App() {
           onNavigateHome={navigateToHome}
           onNavigateCategory={navigateToCategory}
           onSelectProduct={(product) =>
-            product.slug?.current &&
-            navigateToProduct(product.slug.current)
+            navigateToProduct(product.slug?.current || product._id)
           }
         />
       ) : activeProductSlug ? (
@@ -806,8 +805,7 @@ export default function App() {
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
           onSelectProduct={(product) =>
-            product.slug?.current &&
-            navigateToProduct(product.slug.current)
+            navigateToProduct(product.slug?.current || product._id)
           }
         />
       )}
