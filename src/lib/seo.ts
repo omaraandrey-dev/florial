@@ -8,6 +8,20 @@ type SeoFields = {
 type AlternateLanguageUrls = Partial<Record<'bg' | 'ru' | 'en' | 'x-default', string>>
 
 const SITE_URL = 'https://florial-bg.com'
+const DEFAULT_OG_IMAGE = 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png'
+
+export function setStructuredData(id: string, data: Record<string, unknown>) {
+  const existing = document.head.querySelector<HTMLScriptElement>(`script[data-florial-jsonld="${id}"]`)
+  const script = existing || document.createElement('script')
+  script.type = 'application/ld+json'
+  script.dataset.florialJsonld = id
+  script.textContent = JSON.stringify(data)
+  if (!existing) document.head.appendChild(script)
+}
+
+export function clearPageStructuredData() {
+  document.head.querySelectorAll('script[data-florial-jsonld]').forEach((script) => script.remove())
+}
 
 function setMeta(name: string, content: string, attribute = 'name') {
   let element = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${name}"]`)
@@ -22,6 +36,7 @@ function setMeta(name: string, content: string, attribute = 'name') {
 function setCanonicalUrl() {
   let path = window.location.pathname
   while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1)
+  path = path.replace(/^\/products\//, '/product/')
   const canonical = new URL(path, SITE_URL)
   const selectedLocale = new URLSearchParams(window.location.search).get('lang')
   if (selectedLocale === 'ru' || selectedLocale === 'en') {
@@ -57,16 +72,19 @@ export function applyPageSeo(options: {
   fallbackTitle: string
   fallbackDescription: string
   pageType?: 'website' | 'product' | 'article'
+  imageUrl?: string
+  noIndex?: boolean
   alternates?: AlternateLanguageUrls
 }) {
-  const { seo, fallbackTitle, fallbackDescription, pageType = 'website', alternates } = options
+  const { seo, fallbackTitle, fallbackDescription, pageType = 'website', imageUrl, noIndex = false, alternates } = options
+  clearPageStructuredData()
   const title = seo?.metaTitle?.trim() || fallbackTitle
   const description = seo?.metaDescription?.trim() || fallbackDescription
   const canonicalUrl = setCanonicalUrl()
 
   document.title = title
   setMeta('description', description)
-  setMeta('robots', seo?.noIndex ? 'noindex, nofollow' : 'index, follow')
+  setMeta('robots', noIndex || seo?.noIndex ? 'noindex, nofollow' : 'index, follow')
   if (seo?.keywords?.length) setMeta('keywords', seo.keywords.join(', '))
   else document.head.querySelector('meta[name="keywords"]')?.remove()
 
@@ -74,7 +92,10 @@ export function applyPageSeo(options: {
   setMeta('og:description', description, 'property')
   setMeta('og:type', pageType, 'property')
   setMeta('og:url', canonicalUrl, 'property')
+  setMeta('og:image', imageUrl || DEFAULT_OG_IMAGE, 'property')
+  setMeta('og:image:alt', title, 'property')
   setMeta('twitter:card', 'summary_large_image')
+  setMeta('twitter:image', imageUrl || DEFAULT_OG_IMAGE)
   setMeta('twitter:title', title)
   setMeta('twitter:description', description)
   setAlternateLanguages(alternates)
