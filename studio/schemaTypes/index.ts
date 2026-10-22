@@ -1,7 +1,10 @@
 import {defineField, defineType} from 'sanity'
 
 const slugField = (title = 'URL адрес') => defineField({
-  name: 'slug', title: `${title} (обикновен текст)`, type: 'string',
+  name: 'slug',
+  title: `${title} (slug)`,
+  type: 'slug',
+  options: {source: 'name', maxLength: 96},
 })
 
 const seoFields = defineType({
