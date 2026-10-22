@@ -1,5 +1,12 @@
 # Sanity schema changelog
 
+## 2026-10-22 — Локализованные SEO-поля услуг
+
+- В исходную схему `translationText()` добавлен вложенный объект `seo` для языков `en` и `ru` с полями `metaTitle`, `metaDescription`, `noIndex` и `keywords`.
+- Это нужно, чтобы SEO-метаданные услуг редактировались отдельно на каждом языке, а не наследовали болгарский заголовок.
+- Схема в GitHub обновлена, но не развёрнута в существующем Studio. Перед deployment нужно согласовать расхождение между исходной схемой и активной схемой `florial-admin`; не создавать новую Studio и не перезаписывать приложение без проверки.
+- Шесть опубликованных документов услуг в dataset `production` получили региональные метаданные BG/RU/EN. Публикация данных и deployment схемы — разные операции.
+
 ## 2026-10-21 — Initial version-controlled Studio source
 
 - Added `studio/sanity.config.ts` with two workspaces pointing to the existing Sanity project `bxvcy0qs`: `production` for irrigation products/services/content and `plants` for the plant catalogue.
