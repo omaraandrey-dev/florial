@@ -45,31 +45,6 @@ export default function App() {
   // Keep canonical URLs on the selected primary domain. The current locale is
   // represented by ?lang=ru|en, so preserve that parameter for localized SEO URLs.
   useEffect(() => {
-    let path = window.location.pathname
-    while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1)
-    path = path.replace(/^\/products\//, '/product/')
-    const canonical = new URL(path, 'https://florial-bg.com')
-    const selectedLocale = new URLSearchParams(window.location.search).get('lang')
-    if (selectedLocale === 'ru' || selectedLocale === 'en') {
-      canonical.searchParams.set('lang', selectedLocale)
-    }
-    const canonicalUrl = canonical.toString()
-
-    let canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
-    if (!canonicalLink) {
-      canonicalLink = document.createElement('link')
-      canonicalLink.rel = 'canonical'
-      document.head.appendChild(canonicalLink)
-    }
-    canonicalLink.href = canonicalUrl
-
-    let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
-    if (!ogUrl) {
-      ogUrl = document.createElement('meta')
-      ogUrl.setAttribute('property', 'og:url')
-      document.head.appendChild(ogUrl)
-    }
-    ogUrl.content = canonicalUrl
     document.documentElement.lang = language
 
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
