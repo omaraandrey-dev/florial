@@ -40,8 +40,8 @@ export function ProductPage({
   useEffect(() => {
     if (!product) return
     const productName = String(localize(product, 'name') || product.name)
-    const productDescription = String(localize(product, 'shortDescription') || \`Купете \${productName} изгодно в онлайн магазин Florial.\`)
-    const productPath = \`/product/\${encodeURIComponent(product.slug?.current || product._id)}\`
+    const productDescription = String(localize(product, 'shortDescription') || `Купете \${productName} изгодно в онлайн магазин Florial.`)
+    const productPath = `/product/\${encodeURIComponent(product.slug?.current || product._id)}`
     const productUrl = new URL(localizedHref(productPath, language), window.location.origin).toString()
 
     const hasLocaleContent = (locale: 'ru' | 'en') => {
@@ -63,7 +63,7 @@ export function ProductPage({
 
     applyPageSeo({
       seo: localizedSeo,
-      fallbackTitle: \`\${productName} | Florial\`,
+      fallbackTitle: `\${productName} | Florial`,
       fallbackDescription: productDescription,
       pageType: 'product',
       imageUrl: product.imageUrl,
@@ -100,7 +100,7 @@ export function ProductPage({
     if (product.category) {
       breadcrumbItems.push({
         name: String(localize(product, 'category') || product.category),
-        item: new URL(localizedHref(\`/category/\${encodeURIComponent(product.categorySlug || product.categoryId || '')}\`, language), window.location.origin).toString(),
+        item: new URL(localizedHref(`/category/\${encodeURIComponent(product.categorySlug || product.categoryId || '')}`, language), window.location.origin).toString(),
       })
     }
     breadcrumbItems.push({ name: productName, item: productUrl })
