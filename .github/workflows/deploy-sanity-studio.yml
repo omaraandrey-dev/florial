@@ -33,23 +33,23 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Validate irrigation and services schemas
-        run: npx sanity schemas validate --workspace florial-admin
+      - name: Validate and build both Studio workspaces
+        run: npm run build
 
-      - name: Validate plants schema
-        run: npx sanity schemas validate --workspace plants
-
-      - name: Deploy irrigation and services schema
+      - name: Deploy irrigation and services schema (manual only)
+        if: github.event_name == 'workflow_dispatch'
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schemas deploy --workspace florial-admin
 
-      - name: Deploy plants schema
+      - name: Deploy plants schema (manual only)
+        if: github.event_name == 'workflow_dispatch'
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schemas deploy --workspace plants
 
-      - name: Deploy the existing hosted Studio
+      - name: Deploy the existing hosted Studio (manual only)
+        if: github.event_name == 'workflow_dispatch'
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest deploy --yes
