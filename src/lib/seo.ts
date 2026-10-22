@@ -94,8 +94,15 @@ export function applyPageSeo(options: {
   setMeta('og:description', description, 'property')
   setMeta('og:type', pageType, 'property')
   setMeta('og:url', canonicalUrl, 'property')
+  setMeta('og:locale', language === 'ru' ? 'ru_RU' : language === 'en' ? 'en_US' : 'bg_BG', 'property')
   setMeta('og:image', imageUrl || DEFAULT_OG_IMAGE, 'property')
   setMeta('og:image:alt', title, 'property')
+  if (imageUrl) {
+    document.head.querySelectorAll('meta[property="og:image:width"], meta[property="og:image:height"]').forEach((element) => element.remove())
+  } else {
+    setMeta('og:image:width', '1547', 'property')
+    setMeta('og:image:height', '581', 'property')
+  }
   setMeta('twitter:card', 'summary_large_image')
   setMeta('twitter:image', imageUrl || DEFAULT_OG_IMAGE)
   setMeta('twitter:title', title)
