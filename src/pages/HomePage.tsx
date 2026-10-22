@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
+import { applyPageSeo } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
@@ -27,6 +28,27 @@ export function HomePage({
   onSelectProduct,
 }: HomePageProps) {
   const { t, language, localize } = useI18n()
+
+  useEffect(() => {
+    const metadata = language === 'ru'
+      ? {
+          title: 'Florial — садовый центр и системы автополива в Болгарии',
+          description: 'Растения, оборудование для автоматического полива, ландшафтный дизайн и озеленение в Несебре, Равде, Солнечном Береге и Бургасе.',
+        }
+      : language === 'en'
+        ? {
+            title: 'Florial — Garden Centre & Irrigation Shop in Bulgaria',
+            description: 'Plants, automatic irrigation equipment, landscape design and gardening services in Nessebar, Ravda, Sunny Beach and Burgas.',
+          }
+        : {
+            title: 'Florial — градински център и системи за напояване',
+            description: 'Растения, оборудване за автоматично напояване, ландшафтен дизайн и озеленяване в Несебър, Равда, Слънчев бряг и Бургас.',
+          }
+    applyPageSeo({
+      fallbackTitle: metadata.title,
+      fallbackDescription: metadata.description,
+    })
+  }, [language])
   const sortedPlantCategories = [...plantCategories].sort((a, b) => {
     const aRoot = a._id === 'plants-root' || a.slug?.current === 'rastenia'
     const bRoot = b._id === 'plants-root' || b.slug?.current === 'rastenia'
