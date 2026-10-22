@@ -155,7 +155,7 @@ function setPageHead(
   html = setMetaTag(html, 'property', 'og:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
   html = setMetaTag(html, 'property', 'og:image:alt', options.title)
   if (options.image) {
-    html = html.replace(/<meta\\b[^>]*property=["']og:image:(width|height)["'][^>]*>/gi, '')
+    html = html.replace(/<meta\b[^>]*property=["']og:image:(width|height)["'][^>]*>/gi, '')
   } else {
     html = setMetaTag(html, 'property', 'og:image:width', '1547')
     html = setMetaTag(html, 'property', 'og:image:height', '581')
