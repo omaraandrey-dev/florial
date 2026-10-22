@@ -88,7 +88,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     const shortDescription = localize(service, 'shortDescription')
     const serviceSlug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : '')
     const baseUrl = serviceSlug
-      ? `https://florial-bg.com/services/\${encodeURIComponent(serviceSlug)}`
+      ? `https://florial-bg.com/services/${encodeURIComponent(serviceSlug)}`
       : undefined
     const hasLocalizedSeo = (locale: 'ru' | 'en') => Boolean(
       service.translations?.[locale]?.seo?.metaTitle &&
@@ -99,16 +99,16 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     if (baseUrl) {
       alternates.bg = baseUrl
       alternates['x-default'] = baseUrl
-      if (hasLocalizedSeo('ru')) alternates.ru = `\${baseUrl}?lang=ru`
-      if (hasLocalizedSeo('en')) alternates.en = `\${baseUrl}?lang=en`
+      if (hasLocalizedSeo('ru')) alternates.ru = `${baseUrl}?lang=ru`
+      if (hasLocalizedSeo('en')) alternates.en = `${baseUrl}?lang=en`
     }
 
     applyPageSeo({
       seo: localizedSeo,
-      fallbackTitle: `\${localizedName} | Florial`,
+      fallbackTitle: `${localizedName} | Florial`,
       fallbackDescription: typeof shortDescription === 'string' && shortDescription.trim()
         ? shortDescription
-        : `\${localizedName} — професионални услуги от Florial в България.`,
+        : `${localizedName} — професионални услуги от Florial в България.`,
       language,
       noIndex: language !== 'bg' && !hasLocalizedSeo(language),
       alternates: baseUrl ? alternates : undefined,
@@ -120,7 +120,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-          { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(`/services/\${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
+          { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
         ],
       })
     }
