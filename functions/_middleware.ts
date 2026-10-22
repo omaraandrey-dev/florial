@@ -162,7 +162,7 @@ function hasTranslation(doc: SeoDocument, type: string, language: string): boole
   if (language === 'bg') return true
   const translated = doc.translations?.[language]
   if (!translated?.name || translated.seo?.noIndex === true) return false
-  if (type === 'category') return Boolean(translated.description)
+  if (type === 'category') return Boolean(translated.description && translated.seo?.metaTitle && translated.seo?.metaDescription)
   if (type === 'product') {
     return Boolean(translated.shortDescription && translated.seo?.metaTitle && translated.seo?.metaDescription)
   }
