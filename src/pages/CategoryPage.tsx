@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
-import { applyPageSeo } from '../lib/seo'
+import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface CategoryPageProps {
@@ -28,18 +28,41 @@ export function CategoryPage({
     setSelectedSubCategory('all')
   }, [category?._id])
 
-  // Use the same canonical Sanity SEO fields as the Studio schema: metaTitle/metaDescription.
+  // SEO is localized only when this category actually has translated content.
   useEffect(() => {
     if (!category) return
+    const localizedName = String(localize(category, 'name') || category.name)
     const localizedDescription = localize(category, 'description')
+    const description = typeof localizedDescription === 'string'
+      ? localizedDescription
+      : \`Разгледайте категория \${localizedName} в нашия магазин.\`
+    const categoryPath = \`/category/\${encodeURIComponent(category.slug?.current || category._id)}\`
+    const languageContentExists = (locale: 'ru' | 'en') =>
+      Boolean(category.translations?.[locale]?.name && category.translations?.[locale]?.description)
+    const alternates: Record<string, string> = {
+      bg: new URL(categoryPath, 'https://florial-bg.com').toString(),
+      'x-default': new URL(categoryPath, 'https://florial-bg.com').toString(),
+    }
+    if (languageContentExists('ru')) alternates.ru = new URL(localizedHref(categoryPath, 'ru'), 'https://florial-bg.com').toString()
+    if (languageContentExists('en')) alternates.en = new URL(localizedHref(categoryPath, 'en'), 'https://florial-bg.com').toString()
+
     applyPageSeo({
-      seo: localize(category, 'seo'),
-      fallbackTitle: `${localize(category, 'name')} | Florial`,
-      fallbackDescription: typeof localizedDescription === 'string'
-        ? localizedDescription
-        : `Разгледайте категория ${localize(category, 'name')} в нашия магазин.`,
+      seo: language === 'bg' ? category.seo : undefined,
+      fallbackTitle: \`\${localizedName} | Florial\`,
+      fallbackDescription: description,
+      noIndex: language !== 'bg' && !languageContentExists(language),
+      alternates,
     })
-  }, [category, language, localize])
+
+    setStructuredData('breadcrumbs', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+        { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() },
+      ],
+    })
+  }, [category, language, localize, t])
 
   // Показываем только реальные дочерние категории выбранной категории.
   const subCategories = useMemo(() => {
