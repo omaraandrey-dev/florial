@@ -74,10 +74,12 @@ export function applyPageSeo(options: {
   pageType?: 'website' | 'product' | 'article'
   imageUrl?: string
   noIndex?: boolean
+  language?: 'bg' | 'ru' | 'en'
   alternates?: AlternateLanguageUrls
 }) {
-  const { seo, fallbackTitle, fallbackDescription, pageType = 'website', imageUrl, noIndex = false, alternates } = options
+  const { seo, fallbackTitle, fallbackDescription, pageType = 'website', imageUrl, noIndex = false, language, alternates } = options
   clearPageStructuredData()
+  if (language) document.documentElement.lang = language
   const title = seo?.metaTitle?.trim() || fallbackTitle
   const description = seo?.metaDescription?.trim() || fallbackDescription
   const canonicalUrl = setCanonicalUrl()
