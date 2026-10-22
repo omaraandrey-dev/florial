@@ -115,7 +115,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   // Cache Sanity lookups at the edge for five minutes. The synthetic cache key
   // stays on our own zone because Cloudflare Cache API cannot cache arbitrary
   // cross-zone URLs directly.
-  const cacheStorage = (globalThis as typeof globalThis & { caches?: CacheStorage }).caches
+  const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
   const cache = cacheStorage?.default
   const cacheKey = new Request(
     SITE_URL + '/__edge-cache/sanity/' + encodeURIComponent(dataset) + '/' +
