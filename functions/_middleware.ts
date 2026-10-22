@@ -379,14 +379,14 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
       const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
       const noIndex = seo?.noIndex === true || (language !== 'bg' && !translatedIsComplete)
-      const canonical = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), noIndex ? 'bg' : language)
       const alternates: Record<string, string> = {}
       if (hasTranslation(doc, type, 'bg')) alternates.bg = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'bg')
       if (hasTranslation(doc, type, 'ru')) alternates.ru = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'ru')
       if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'en')
       alternates['x-default'] = localizedRouteUrl('/' + route + '/' + encodeURIComponent(doc.slugValue || slug), 'bg')
 
-      const pagePath = '/' + route + '/' + encodeURIComponent(doc.slugValue || slug)
+      const canonicalRoute = route === 'products' ? 'product' : route
+      const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, noIndex ? 'bg' : language)
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
         { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, noIndex ? 'bg' : language) },
