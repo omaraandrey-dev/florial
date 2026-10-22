@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { sanityClient } from '../lib/sanity'
+import { applyPageSeo } from '../lib/seo'
 
 interface ContactsPageProps {
   onNavigateHome: () => void
@@ -16,6 +17,27 @@ interface CenterInfo {
 
 export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
   const { t, language } = useI18n()
+
+  useEffect(() => {
+    const metadata = language === 'ru'
+      ? {
+          title: 'Контакты Florial — садовые центры в Несебре и Равде',
+          description: 'Адреса и контакты садовых центров Florial в Несебре и Равде, Болгария. Растения, оборудование для полива и услуги по озеленению.',
+        }
+      : language === 'en'
+        ? {
+            title: 'Contact Florial — Garden Centres in Nessebar & Ravda',
+            description: 'Find Florial garden centre locations in Nessebar and Ravda, Bulgaria. Contact us about plants, irrigation equipment and landscaping services.',
+          }
+        : {
+            title: 'Контакти Florial — градински центрове в Несебър и Равда',
+            description: 'Адреси и контакти на градинските центрове Florial в Несебър и Равда. Растения, оборудване за напояване и услуги по озеленяване.',
+          }
+    applyPageSeo({
+      fallbackTitle: metadata.title,
+      fallbackDescription: metadata.description,
+    })
+  }, [language])
   
   const [centersImages, setCentersImages] = useState<Record<string, string>>({
     nesebr: '',
