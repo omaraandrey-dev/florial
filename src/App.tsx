@@ -46,6 +46,7 @@ export default function App() {
   useEffect(() => {
     let path = window.location.pathname
     while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1)
+    path = path.replace(/^\/products\//, '/product/')
     const canonical = new URL(path, 'https://florial-bg.com')
     const selectedLocale = new URLSearchParams(window.location.search).get('lang')
     if (selectedLocale === 'ru' || selectedLocale === 'en') {
@@ -68,7 +69,32 @@ export default function App() {
       document.head.appendChild(ogUrl)
     }
     ogUrl.content = canonicalUrl
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen])
+
+    const isPrivateUtilityPage = path === '/cart' || path === '/search'
+    const isMissingDynamicRoute = !loadingProducts && (
+      ((path.startsWith('/product/') || path.startsWith('/products/')) && Boolean(activeProductSlug) && !currentProduct) ||
+      (path.startsWith('/services/') && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
+    )
+    const isUnknownRoute = path !== '/' && path !== '/index.html' &&
+      path !== '/contacts' && path !== '/cart' && path !== '/search' &&
+      !path.startsWith('/product/') && !path.startsWith('/products/') &&
+      !path.startsWith('/services/') && !path.startsWith('/category/')
+
+    if (isPrivateUtilityPage || isMissingDynamicRoute || isUnknownRoute) {
+      let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]')
+      if (!robots) {
+        robots = document.createElement('meta')
+        robots.name = 'robots'
+        document.head.appendChild(robots)
+      }
+      robots.content = 'noindex, nofollow'
+      document.head.querySelectorAll('script[data-florial-jsonld]').forEach((script) => script.remove())
+      if (isMissingDynamicRoute || isUnknownRoute) {
+        document.title = language === 'ru' ? 'Страница не найдена | Florial' : language === 'en' ? 'Page not found | Florial' : 'Страницата не е намерена | Florial'
+      }
+    }
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, currentService, currentCategory, loadingProducts])
 
   // Роутинг по URL
   useEffect(() => {
