@@ -296,7 +296,7 @@ export function ProductPage({
               <a
                 key={item._id}
                 href={localizedHref(`/product/${encodeURIComponent(item.slug?.current || item._id)}`, language)}
-                onClick={(event) => handleInternalLinkClick(event, () => item.slug?.current && onNavigateProduct(item.slug.current))}
+                onClick={(event) => handleInternalLinkClick(event, () => onNavigateProduct(item.slug?.current || item._id))}
                 className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between no-underline"
               >
                 <div>
