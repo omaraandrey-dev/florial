@@ -51,3 +51,12 @@ The selected primary public website URL is `https://florial-bg.com`.
 - Do not configure a redirect from a secondary domain until its exact registered spelling and ownership are confirmed.
 - The order endpoint uses a relative same-origin path (`/api/orders` from the site), so it does not require a separate domain change. Supabase project URLs are backend service URLs and should not be replaced with the website domain.
 - Transactional email currently uses Resend in `functions/api/orders.ts`; the sender is controlled by `EMAIL_FROM`. Verify the sending domain in Resend and add the provider's exact DNS records in Cloudflare before switching the sender address.
+
+
+## Database security
+
+- The browser must submit orders only to `POST /api/orders`; do not insert into `public.orders` from client-side code.
+- `anon` and `authenticated` have no table privileges on `public.orders`. The Cloudflare Pages Function uses the server-side `SUPABASE_SERVICE_ROLE_KEY` to insert orders.
+- Public catalog access is read-only for `public.products` and `public.product_categories`; their RLS policies expose active records only.
+- Never prefix server-side secrets with `VITE_` or commit them to Git. Configure them in Cloudflare Pages → Settings → Variables and Secrets.
+- The production permission changes are documented in `supabase/migrations/20261022003000_harden_public_table_privileges.sql`.
