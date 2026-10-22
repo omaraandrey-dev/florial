@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo } from '../lib/seo'
+import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -168,10 +169,11 @@ export function CategoryPage({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {displayedProducts.map((product) => (
-            <div
+            <a
               key={product._id}
-              onClick={() => onSelectProduct(product)}
-              className="bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col justify-between cursor-pointer group"
+              href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
+              onClick={(event) => handleInternalLinkClick(event, () => onSelectProduct(product))}
+              className="bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col justify-between cursor-pointer group no-underline"
             >
               <div>
                 <div className="h-48 bg-slate-50 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
@@ -210,7 +212,7 @@ export function CategoryPage({
                   {t("Виж детайли")}
                 </span>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       )}
