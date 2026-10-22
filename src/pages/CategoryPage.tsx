@@ -35,8 +35,8 @@ export function CategoryPage({
     const localizedDescription = localize(category, 'description')
     const description = typeof localizedDescription === 'string'
       ? localizedDescription
-      : \`Разгледайте категория \${localizedName} в нашия магазин.\`
-    const categoryPath = \`/category/\${encodeURIComponent(category.slug?.current || category._id)}\`
+      : `Разгледайте категория \${localizedName} в нашия магазин.`
+    const categoryPath = `/category/\${encodeURIComponent(category.slug?.current || category._id)}`
     const languageContentExists = (locale: 'ru' | 'en') =>
       Boolean(category.translations?.[locale]?.name && category.translations?.[locale]?.description)
     const alternates: Record<string, string> = {
@@ -49,7 +49,7 @@ export function CategoryPage({
     applyPageSeo({
       seo: language === 'bg' ? category.seo : undefined,
       language,
-      fallbackTitle: \`\${localizedName} | Florial\`,
+      fallbackTitle: `\${localizedName} | Florial`,
       fallbackDescription: description,
       noIndex: language !== 'bg' && !languageContentExists(language),
       alternates,
