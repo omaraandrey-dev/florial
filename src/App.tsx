@@ -69,6 +69,7 @@ export default function App() {
       document.head.appendChild(ogUrl)
     }
     ogUrl.content = canonicalUrl
+    document.documentElement.lang = language
 
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = !loadingProducts && (
