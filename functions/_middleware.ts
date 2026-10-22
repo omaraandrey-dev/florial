@@ -81,6 +81,30 @@ function notFoundResponse(language: string | null): Response {
   })
 }
 
+function unavailableResponse(language: string | null): Response {
+  const lang = language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg'
+  const copy = lang === 'ru'
+    ? { title: 'Каталог временно недоступен', body: 'Не удалось получить данные каталога. Пожалуйста, повторите попытку позже.' }
+    : lang === 'en'
+      ? { title: 'Catalogue temporarily unavailable', body: 'The catalogue could not be loaded. Please try again shortly.' }
+      : { title: 'Каталогът временно не е достъпен', body: 'Данните за каталога не могат да бъдат заредени. Моля, опитайте отново след малко.' }
+  const html = '<!doctype html><html lang="' + lang + '"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<title>' + copy.title + ' | ' + SITE_NAME + '</title>' +
+    '<meta name="robots" content="noindex, nofollow"></head>' +
+    '<body><main><h1>' + copy.title + '</h1><p>' + copy.body + '</p><a href="/">Florial</a></main></body></html>'
+  return new Response(html, {
+    status: 503,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Retry-After': '30',
+      'X-Robots-Tag': 'noindex, nofollow',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  })
+}
+
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
   const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false)][0]{_id,name,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
@@ -472,8 +496,8 @@ export async function onRequest(context: PagesContext): Promise<Response> {
         })
       })
     } catch {
-      // Keep the storefront available if the public Sanity API is temporarily unavailable.
-      return context.next()
+      // Do not turn an upstream Sanity outage into a false 200 or false 404.
+      return unavailableResponse(language)
     }
   }
 
