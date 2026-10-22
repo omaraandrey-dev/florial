@@ -51,6 +51,12 @@ const translationText = (language: string, title: string) => defineField({
       defineField({name: 'text', title: 'Текст', type: 'text', rows: 3}),
       defineField({name: 'buttonLabel', title: 'Текст на бутона', type: 'string'}),
     ]}),
+    defineField({name: 'seo', title: 'SEO за езика', type: 'object', fields: [
+      defineField({name: 'metaTitle', title: 'Meta title', type: 'string'}),
+      defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3}),
+      defineField({name: 'noIndex', title: 'Не индексирай тази езикова версия', type: 'boolean', initialValue: false}),
+      defineField({name: 'keywords', title: 'Ключови думи', type: 'array', of: [{type: 'string'}]}),
+    ]}),
   ],
 })
 
