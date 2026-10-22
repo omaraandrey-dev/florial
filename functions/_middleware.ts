@@ -16,28 +16,28 @@ function notFoundResponse(language: string | null): Response {
       ? { title: 'Page not found', body: 'The requested page does not exist or has been moved.', home: 'Go to homepage' }
       : { title: 'Страницата не е намерена', body: 'Тази страница не съществува или е преместена.', home: 'Към началната страница' }
 
-  const html = \`<!doctype html>
-<html lang="\${lang}">
+  const html = `<!doctype html>
+<html lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>\${copy.title} | \${SITE_NAME}</title>
+  <title>${copy.title} | ${SITE_NAME}</title>
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="\${copy.body}">
-  <link rel="canonical" href="\${SITE_URL}/404">
+  <meta name="description" content="${copy.body}">
+  <link rel="canonical" href="${SITE_URL}/404">
   <meta name="theme-color" content="#53643a">
 </head>
 <body style="margin:0;font-family:Arial,sans-serif;background:#f7f8f1;color:#263323">
   <main style="min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box;text-align:center">
     <section style="max-width:560px;background:#fff;border:1px solid #e5e8db;border-radius:18px;padding:40px 28px;box-shadow:0 8px 30px #26332312">
-      <p style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#71824f;font-weight:700">\${SITE_NAME}</p>
-      <h1 style="font-size:30px;margin:12px 0">\${copy.title}</h1>
-      <p style="line-height:1.65;color:#647067">\${copy.body}</p>
-      <a href="/" style="display:inline-block;margin-top:16px;padding:12px 20px;background:#53643a;color:white;border-radius:9px;text-decoration:none;font-weight:700">\${copy.home}</a>
+      <p style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#71824f;font-weight:700">${SITE_NAME}</p>
+      <h1 style="font-size:30px;margin:12px 0">${copy.title}</h1>
+      <p style="line-height:1.65;color:#647067">${copy.body}</p>
+      <a href="/" style="display:inline-block;margin-top:16px;padding:12px 20px;background:#53643a;color:white;border-radius:9px;text-decoration:none;font-weight:700">${copy.home}</a>
     </section>
   </main>
 </body>
-</html>\`
+</html>`
 
   return new Response(html, {
     status: 404,
@@ -52,13 +52,13 @@ function notFoundResponse(language: string | null): Response {
 
 async function documentExists(dataset: string, type: string, slug: string): Promise<boolean> {
   const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false)][0]._id'
-  const url = new URL(\`https://\${SANITY_PROJECT_ID}.api.sanity.io/v\${SANITY_API_VERSION}/data/query/\${dataset}\`)
+  const url = new URL(`https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${dataset}`)
   url.searchParams.set('query', query)
   url.searchParams.set('$type', JSON.stringify(type))
   url.searchParams.set('$slug', JSON.stringify(slug))
 
   const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
-  if (!response.ok) throw new Error(\`Sanity lookup failed: \${response.status}\`)
+  if (!response.ok) throw new Error(`Sanity lookup failed: ${response.status}`)
   const result = (await response.json()) as { result?: string | null }
   return Boolean(result.result)
 }
@@ -73,7 +73,7 @@ function decodeSlug(value: string): string | null {
 
 export async function onRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
-  const path = url.pathname.replace(/\\/+$/, '') || '/'
+  const path = url.pathname.replace(/\/+$/, '') || '/'
   const locale = url.searchParams.get('lang')
 
   // API and known public/static endpoints must keep their own handlers.
@@ -131,7 +131,7 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   const response = await context.next()
   const contentType = response.headers.get('content-type') || ''
   const lastSegment = path.split('/').pop() || ''
-  const looksLikeFile = /\\.[a-zA-Z0-9]{1,8}$/.test(lastSegment)
+  const looksLikeFile = /\.[a-zA-Z0-9]{1,8}$/.test(lastSegment)
   if (looksLikeFile && contentType.includes('text/html')) {
     return notFoundResponse(locale)
   }
