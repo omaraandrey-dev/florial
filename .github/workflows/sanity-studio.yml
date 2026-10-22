@@ -33,7 +33,7 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
       - name: Deploy existing Florial Studio
-        if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch'
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: |
