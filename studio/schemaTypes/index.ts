@@ -60,6 +60,32 @@ const translationText = (language: string, title: string) => defineField({
   ],
 })
 
+const categoryTranslations = defineField({
+  name: 'translations', title: 'Преводи', type: 'object',
+  fields: ['en', 'ru'].map((language) => defineField({
+    name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object',
+    fields: [
+      defineField({name: 'name', title: language === 'en' ? 'Name' : 'Название', type: 'string'}),
+      defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'text', rows: 4}),
+      defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
+    ],
+  })),
+})
+
+const productTranslations = defineField({
+  name: 'translations', title: 'Преводи', type: 'object',
+  fields: ['en', 'ru'].map((language) => defineField({
+    name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object',
+    fields: [
+      defineField({name: 'name', title: language === 'en' ? 'Product name' : 'Название товара', type: 'string'}),
+      defineField({name: 'shortDescription', title: language === 'en' ? 'Short description' : 'Краткое описание', type: 'text', rows: 3}),
+      defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'text', rows: 8}),
+      defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
+      defineField({name: 'specifications', title: 'Преведени характеристики', type: 'array', of: [{type: 'productSpec'}]}),
+    ],
+  })),
+})
+
 const irrigationCategory = defineType({
   name: 'category', title: 'Категории за поливане', type: 'document',
   fields: [
@@ -69,6 +95,7 @@ const irrigationCategory = defineType({
     defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}}),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
+    categoryTranslations,
     defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
@@ -117,6 +144,7 @@ const irrigationProduct = defineType({
     defineField({name: 'isFeatured', title: 'Препоръчан продукт', type: 'boolean'}),
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
+    productTranslations,
     defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', subtitle: 'sku', media: 'mainImage'}},
@@ -234,9 +262,11 @@ const plantCategory = defineType({
     defineField({name: 'translations', title: 'Преводи', type: 'object', fields: [
       defineField({name: 'en', title: 'English', type: 'object', fields: [
         defineField({name: 'name', title: 'Name', type: 'string'}), defineField({name: 'description', title: 'Description', type: 'text'}),
+        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
       ]}),
       defineField({name: 'ru', title: 'Русский', type: 'object', fields: [
         defineField({name: 'name', title: 'Название', type: 'string'}), defineField({name: 'description', title: 'Описание', type: 'text'}),
+        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
       ]}),
     ]}),
   ],
@@ -280,6 +310,7 @@ const plantProduct = defineType({
         defineField({name: 'name', title: 'Име / Name / Название', type: 'string'}),
         defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
         defineField({name: 'description', title: 'Пълно описание', type: 'text', rows: 8}),
+        defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
       ]})),
     ]}),
   ],
