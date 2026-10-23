@@ -234,6 +234,22 @@ export function CategoryPage({
           ))}
         </div>
       )}
+
+      {!category.isPlantCategory && category.helpBlock && (() => {
+        const help = language === 'bg' ? category.helpBlock : (category.helpBlock.translations?.[language] || category.helpBlock)
+        const title = help?.title || (language === 'ru' ? 'Наши специалисты помогут вам с установкой системы автополива' : language === 'en' ? 'Our specialists can help install your automatic irrigation system' : 'Нашите специалисти ще ви помогнат с изграждането на система за автоматично напояване')
+        const text = help?.text || (language === 'ru' ? 'Обратитесь к нам, чтобы получить помощь в подборе оборудования для вашей системы автоматического полива. Мы можем подготовить проект-схему и выполнить монтаж оборудования на объекте.' : language === 'en' ? 'Contact us for help choosing equipment for your automatic irrigation system. We can prepare an irrigation design plan and install the equipment at your property.' : 'Свържете се с нас за помощ при избора на оборудване за вашата система за автоматично напояване. Можем да изготвим проект и схема и да монтираме оборудването на място.')
+        const buttonLabel = help?.buttonLabel || (language === 'ru' ? 'Автоматический полив' : language === 'en' ? 'Automatic irrigation' : 'Автоматично напояване')
+        return (
+          <section className="mt-12 rounded-2xl border border-[#DDE3D0] bg-[#F3F5EC] p-6 md:p-10">
+            <h2 className="mb-3 text-2xl font-bold text-slate-900">{title}</h2>
+            <p className="mb-6 max-w-4xl leading-7 text-slate-700">{text}</p>
+            <a href={localizedHref('/services/avtomatichno-napoyavane', language)} className="inline-flex rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800 no-underline">
+              {buttonLabel} →
+            </a>
+          </section>
+        )
+      })()}
     </main>
   )
 }
