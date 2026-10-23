@@ -170,13 +170,6 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           <span aria-hidden="true">/</span>
           <span aria-current="page" className="font-medium text-slate-700">{localize(service, 'name')}</span>
         </nav>
-        <button
-          type="button"
-          onClick={onNavigateHome}
-          className="mb-6 inline-flex items-center gap-2 rounded-lg py-2 text-sm font-semibold text-emerald-800 transition hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2"
-        >
-          <span aria-hidden="true">←</span> {t("Към началната страница")}
-        </button>
 
         <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
           <span className="mb-3 inline-flex rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-emerald-800">
