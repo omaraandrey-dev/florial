@@ -1,3 +1,10 @@
+## 2026-10-23 — Исправление multi-workspace basePath
+
+- GitHub Actions достиг команды schema deploy, но Sanity CLI остановился, потому что оба workspace в `studio/sanity.config.ts` не имели обязательного `basePath`.
+- Добавлены явные пути: `florial-admin` остаётся корневым workspace (`/`), а `plants` использует `/plants`. Это сохраняет каталог и услуги в корневом маршруте существующего Studio и задаёт отдельный путь для растений.
+- Исправлен npm script `schema:deploy`: команда Sanity CLI должна быть `schema deploy`, а не `schemas deploy`.
+- Изменены только конфигурация и документация репозитория. Sanity Content Lake документы не изменялись; развёртывание схемы и Studio ожидает повторного запуска GitHub Actions и проверки deployed schema.
+
 ## 2026-10-23 — Исправление ошибки Sanity CLI в GitHub Actions
 
 - Лог CI показал, что `npx sanity@latest` скачивает Sanity CLI 6.20.0, хотя Studio в `studio/package.json` использует Sanity v3 (`^3.99.0`). Ошибка `Cannot read properties of null (reading 'edgesOut')` возникла при запуске этой отдельно установленной latest-версии.
