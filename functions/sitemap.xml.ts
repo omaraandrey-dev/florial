@@ -117,6 +117,9 @@ export async function onRequestGet(): Promise<Response> {
     addUrl(urls, 'contacts')
     addUrl(urls, 'contacts?lang=ru')
     addUrl(urls, 'contacts?lang=en')
+    addUrl(urls, 'services')
+    addUrl(urls, 'services?lang=ru')
+    addUrl(urls, 'services?lang=en')
 
     for (const document of services) {
       if (!document.noIndex && document.path) {
