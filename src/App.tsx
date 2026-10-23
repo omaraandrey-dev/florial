@@ -784,6 +784,7 @@ export default function App() {
                       <p className="mt-3 font-bold text-emerald-800">
                         {Number(product.priceEUR || 0).toFixed(2)} €
                       </p>
+                      <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
                       <span className="mt-3 block text-sm font-semibold text-emerald-700">
                         {t("Виж продукта →")}
                       </span>

@@ -145,7 +145,7 @@ const irrigationProduct = defineType({
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
     defineField({name: 'oldPriceEUR', title: 'Стара цена (EUR)', type: 'number'}),
-    defineField({name: 'vatIncluded', title: 'Цената включва ДДС', type: 'boolean'}),
+    defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
       {title: 'В наличност', value: 'inStock'}, {title: 'По заявка', value: 'onRequest'}, {title: 'Изчерпан', value: 'outOfStock'},
     ]}}),
@@ -303,7 +303,7 @@ const plantProduct = defineType({
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
-    defineField({name: 'vatIncluded', title: 'Цената включва ДДС', type: 'boolean'}),
+    defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
       {title: 'В наличност', value: 'inStock'}, {title: 'По заявка', value: 'onRequest'}, {title: 'Изчерпан', value: 'outOfStock'},
     ]}}),
