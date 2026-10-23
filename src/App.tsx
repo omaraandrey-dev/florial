@@ -9,6 +9,7 @@ import { ServicePage } from './pages/ServicePage'
 import { CategoryPage } from './pages/CategoryPage'
 import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
+import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
@@ -54,7 +55,7 @@ export default function App() {
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/cart' && path !== '/search' &&
+      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -260,7 +261,9 @@ export default function App() {
           sortOrder,
           "imageUrl": image.asset->url,
           description,
-          seo
+          seo,
+          helpBlock,
+          "isPlantCategory": false
         }
       `
 
@@ -313,7 +316,8 @@ export default function App() {
           sortOrder,
           description,
           "parentId": parent->_id,
-          "imageUrl": coalesce(image.asset->url, externalImageUrl)
+          "imageUrl": coalesce(image.asset->url, externalImageUrl),
+          "isPlantCategory": true
         }
       `
 
@@ -625,6 +629,7 @@ export default function App() {
       normalizedRoutePath !== '/' &&
       normalizedRoutePath !== '/index.html' &&
       normalizedRoutePath !== '/contacts' &&
+      normalizedRoutePath !== '/services' &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
       !normalizedRoutePath.startsWith('/product/') &&
@@ -804,6 +809,8 @@ export default function App() {
             {language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'}
           </button>
         </main>
+      ) : normalizedRoutePath === '/services' ? (
+        <ServicesListPage services={services} />
       ) : activeServiceSlug && currentService ? (
         <ServicePage
           service={currentService}
