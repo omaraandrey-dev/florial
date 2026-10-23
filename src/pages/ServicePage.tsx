@@ -120,7 +120,8 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-          { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
+          { '@type': 'ListItem', position: 2, name: language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги', item: new URL(localizedHref('/services', language), window.location.origin).toString() },
+          { '@type': 'ListItem', position: 3, name: localizedName, item: new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
         ],
       })
     }
@@ -162,6 +163,13 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   return (
     <main className="w-full flex-grow bg-white">
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+        <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <a href={localizedHref('/', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}</a>
+          <span aria-hidden="true">/</span>
+          <a href={localizedHref('/services', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page" className="font-medium text-slate-700">{localize(service, 'name')}</span>
+        </nav>
         <button
           type="button"
           onClick={onNavigateHome}
