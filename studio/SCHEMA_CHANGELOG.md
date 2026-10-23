@@ -103,3 +103,10 @@
 - Updated GitHub Actions `checkout` and `setup-node` to v5 and selected Node.js 22 for the Studio build. This addresses the runner warning about Node.js 20 deprecation and satisfies the logged transitive dependency engine requirement of Node.js >=22.
 - This is a CI configuration change only; no Sanity documents or datasets were modified.
 - Awaiting the next workflow run to verify build and deployment.
+
+
+## 2026-10-23 — Fix missing SEO object type in plants workspace
+
+- Added the already-defined `seoFields` object type to `plantSchemaTypes`, because plant category/product translation fields reference it.
+- This is a schema-source registration fix only. No Content Lake documents were changed.
+- Pending: rerun the schema deployment workflow and confirm both workspace deployments and the hosted Studio routes.
