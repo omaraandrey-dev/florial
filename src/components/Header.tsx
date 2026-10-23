@@ -90,7 +90,7 @@ export function Header({
           {/* Logo: увеличен и прижат к левому краю контейнера */}
           <a
             href={localizedHref('/', language)}
-            onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateHome() })}
+            onClick={closeMenu}
             aria-label="Florial — начална страница"
             className="flex h-full min-w-0 shrink-0 items-center justify-start text-left no-underline"
           >
@@ -193,7 +193,7 @@ export function Header({
       {isMenuOpen && (
         <div className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
           <nav aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
-            <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateHome() })} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
+            <a href={localizedHref('/', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
               {t('Начало')}
             </a>
 
@@ -263,7 +263,7 @@ export function Header({
               </button>
               {isServicesOpen && (
                 <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
-                  <a href={localizedHref('/services', language)} onClick={(event) => handleInternalLinkClick(event, () => closeMenu())} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
+                  <a href={localizedHref('/services', language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}
                   </a>
                   {services.map((service) => (
