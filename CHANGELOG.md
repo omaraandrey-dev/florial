@@ -131,3 +131,10 @@
 - Production-проверка 22.10.2026: карточка `f54228` — HTTP 200, Product и BreadcrumbList JSON-LD; растение `rakat-na-buda?lang=ru` без полного перевода — `noindex, nofollow` и canonical на базовый болгарский URL; несуществующий товар — HTTP 404; корзина/поиск — noindex. Последний тест Organization JSON-LD ожидает завершения нового deployment.
 - Ограничение: это edge-подстановка начального HTML и метаданных, а не полный React SSR/SSG. Проверить все варианты языков и страницы после последнего deployment ещё требуется.
 - Контекстное меню/долгое нажатие в реальном браузере пользователя требует финальной проверки на устройстве.
+
+
+## 2026-10-23 — Register shared SEO schema in plant workspace
+
+- CI schema deployment failed because plant categories/products reference the reusable `seoFields` object, but that object was not included in `plantSchemaTypes`.
+- Registered the existing `seoFields` definition in both workspace schema arrays. This reuses the existing type and does not change field names or document data.
+- No Sanity documents were patched, published, deleted, or migrated by this source change. Deployment must be rerun and verified before considering the deployed schema synchronized.
