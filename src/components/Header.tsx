@@ -263,6 +263,9 @@ export function Header({
               </button>
               {isServicesOpen && (
                 <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+                  <a href={localizedHref('/services', language)} onClick={(event) => handleInternalLinkClick(event, () => closeMenu())} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
+                    {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}
+                  </a>
                   {services.map((service) => (
                     <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateService(service.slug?.current, service._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                       {service.name}
