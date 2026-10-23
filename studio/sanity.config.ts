@@ -13,7 +13,7 @@ export default defineConfig([
     title: 'Florial — Каталог и услуги',
     projectId: 'bxvcy0qs',
     dataset: 'production',
-    basePath: '/',
+    basePath: '/admin',
     plugins: [structureTool()],
     schema: {types: irrigationSchemaTypes},
   },
