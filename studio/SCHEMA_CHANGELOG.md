@@ -1,3 +1,9 @@
+## 2026-10-23 — Уравнивание путей workspace Sanity
+
+- Следующий запуск CI выявил дополнительное требование CLI: у всех workspace должно быть одинаковое количество сегментов `basePath`. Пара `/` и `/plants` не проходила проверку.
+- Заданы пути одинаковой глубины: `florial-admin` → `/admin`, `plants` → `/plants`.
+- Это изменение конфигурации маршрутов Studio; документы и данные Sanity не затрагивались. После успешного schema deploy нужно проверить доступность обеих секций в существующей hosted Studio по соответствующим путям.
+
 ## 2026-10-23 — Исправление multi-workspace basePath
 
 - GitHub Actions достиг команды schema deploy, но Sanity CLI остановился, потому что оба workspace в `studio/sanity.config.ts` не имели обязательного `basePath`.
