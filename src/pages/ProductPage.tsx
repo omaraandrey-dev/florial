@@ -194,15 +194,18 @@ export function ProductPage({
               <p className="text-sm italic text-slate-500 -mt-2 mb-4">{product.scientificName}</p>
             )}
 
-            <div className="flex items-baseline gap-4 mb-6">
-              <span className="text-3xl font-extrabold text-emerald-800">
-                {(product.priceEUR || 0).toFixed(2)} €
-              </span>
-              {product.oldPriceEUR && (
-                <span className="text-lg text-slate-400 line-through">
-                  {product.oldPriceEUR.toFixed(2)} €
+            <div className="mb-6">
+              <div className="flex items-baseline gap-4">
+                <span className="text-3xl font-extrabold text-emerald-800">
+                  {(product.priceEUR || 0).toFixed(2)} €
                 </span>
-              )}
+                {product.oldPriceEUR && (
+                  <span className="text-lg text-slate-400 line-through">
+                    {product.oldPriceEUR.toFixed(2)} €
+                  </span>
+                )}
+              </div>
+              <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
             </div>
 
             {product.shortDescription && (
@@ -375,9 +378,12 @@ export function ProductPage({
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-1">{localize(item, 'name')}</h3>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="font-bold text-emerald-800">{(item.priceEUR || 0).toFixed(2)} €</span>
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg">{t('Виж')}</span>
+                <div className="mt-4 pt-3 border-t border-slate-100">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-emerald-800">{(item.priceEUR || 0).toFixed(2)} €</span>
+                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg">{t('Виж')}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
                 </div>
               </a>
             ))}
