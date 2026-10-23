@@ -36,14 +36,12 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      - name: Deploy irrigation and services schema (manual only)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Deploy irrigation and services schema
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schemas deploy --workspace florial-admin
 
-      - name: Deploy plants schema (manual only)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Deploy plants schema
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schemas deploy --workspace plants
