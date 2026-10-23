@@ -14,13 +14,13 @@ export function Footer() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
             <a 
-              href="tel:+359876777902" 
+              href={language === 'bg' ? 'tel:+359876777902' : 'tel:+359885834860'} 
               className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer"
             >
-              📞 {language === 'en' ? 'Call: +359876777902' : language === 'ru' ? 'Позвонить: +359876777902' : 'Обаждане: +359876777902'}
+              📞 {language === 'en' ? 'Call: +359885834860' : language === 'ru' ? 'Позвонить: +359885834860' : 'Обаждане: +359876777902'}
             </a>
             <a 
-              href="https://wa.me/359876777902" 
+              href={language === 'bg' ? 'https://wa.me/359876777902' : 'https://wa.me/380674807486'} 
               target="_blank" 
               rel="noreferrer" 
               className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer"
