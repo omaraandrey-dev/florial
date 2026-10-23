@@ -55,13 +55,20 @@ function escapeXml(value: string): string {
   })[character] || character)
 }
 
+const localizedAlternates = new Map<string, { bg: string; ru: string; en: string }>()
+
+function absoluteUrl(path: string) {
+  const normalizedPath = path.replace(/^\/+/, '')
+  return normalizedPath ? SITE_URL + '/' + normalizedPath : SITE_URL + '/'
+}
+
 function addUrl(
   urls: Map<string, string | undefined>,
   path: string,
   updatedAt?: string | null,
 ) {
   const normalizedPath = path.replace(/^\/+/, '')
-  const url = normalizedPath ? `${SITE_URL}/${normalizedPath}` : `${SITE_URL}/`
+  const url = normalizedPath ? SITE_URL + '/' + normalizedPath : SITE_URL + '/'
   const lastmod = updatedAt && !Number.isNaN(Date.parse(updatedAt))
     ? new Date(updatedAt).toISOString()
     : undefined
@@ -70,15 +77,37 @@ function addUrl(
   if (!previous || (lastmod && lastmod > previous)) urls.set(url, lastmod)
 }
 
+function addLocalizedUrls(urls: Map<string, string | undefined>, path: string) {
+  const bg = absoluteUrl(path)
+  const ru = bg + '?lang=ru'
+  const en = bg + '?lang=en'
+  const alternates = { bg, ru, en }
+
+  for (const url of [bg, ru, en]) localizedAlternates.set(url, alternates)
+
+  addUrl(urls, path)
+  addUrl(urls, path + '?lang=ru')
+  addUrl(urls, path + '?lang=en')
+}
+
 function xmlResponse(urls: Map<string, string | undefined>): Response {
   const entries = Array.from(urls.entries()).map(([url, lastmod]) => {
-    const modified = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''
-    return `  <url>\n    <loc>${escapeXml(url)}</loc>${modified}\n  </url>`
+    const modified = lastmod ? '\n    <lastmod>' + lastmod + '</lastmod>' : ''
+    const alternate = localizedAlternates.get(url)
+    const alternateLinks = alternate
+      ? [
+          '\n    <xhtml:link rel="alternate" hreflang="bg" href="' + escapeXml(alternate.bg) + '" />',
+          '\n    <xhtml:link rel="alternate" hreflang="ru" href="' + escapeXml(alternate.ru) + '" />',
+          '\n    <xhtml:link rel="alternate" hreflang="en" href="' + escapeXml(alternate.en) + '" />',
+          '\n    <xhtml:link rel="alternate" hreflang="x-default" href="' + escapeXml(alternate.bg) + '" />',
+        ].join('')
+      : ''
+    return '  <url>\n    <loc>' + escapeXml(url) + '</loc>' + modified + alternateLinks + '\n  </url>'
   })
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
     ...entries,
     '</urlset>',
     '',
@@ -111,15 +140,9 @@ export async function onRequestGet(): Promise<Response> {
     ])
 
     const urls = new Map<string, string | undefined>()
-    addUrl(urls, '')
-    addUrl(urls, '?lang=ru')
-    addUrl(urls, '?lang=en')
-    addUrl(urls, 'contacts')
-    addUrl(urls, 'contacts?lang=ru')
-    addUrl(urls, 'contacts?lang=en')
-    addUrl(urls, 'services')
-    addUrl(urls, 'services?lang=ru')
-    addUrl(urls, 'services?lang=en')
+    addLocalizedUrls(urls, '')
+    addLocalizedUrls(urls, 'contacts')
+    addLocalizedUrls(urls, 'services')
 
     for (const document of services) {
       if (!document.noIndex && document.path) {
