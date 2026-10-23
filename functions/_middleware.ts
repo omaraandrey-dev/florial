@@ -386,6 +386,41 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
+  if (path === '/services') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Услуги садового центра Florial — ландшафтный дизайн и автополив',
+          description: 'Ландшафтный дизайн, монтаж систем автоматического полива, озеленение и уход за садами в Несебре, Равде, Солнечном Береге и по побережью Болгарии.',
+          body: '<main><h1>Услуги садового центра Florial</h1><p>Ландшафтный дизайн, автоматический полив, озеленение и обслуживание садов в Болгарии.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Florial Garden Centre Services — Landscaping & Irrigation',
+            description: 'Landscape design, automatic irrigation installation, planting and garden maintenance in Nessebar, Ravda, Sunny Beach and along the Bulgarian coast.',
+            body: '<main><h1>Florial Garden Centre Services</h1><p>Landscape design, automatic irrigation, planting and garden maintenance in Bulgaria.</p></main>',
+          }
+        : {
+            title: 'Услуги на градински център Florial — озеленяване и напояване',
+            description: 'Ландшафтен дизайн, изграждане на системи за автоматично напояване, озеленяване и поддръжка на градини в Несебър, Равда, Слънчев бряг и по българското Черноморие.',
+            body: '<main><h1>Услуги на градински център Florial</h1><p>Ландшафтен дизайн, автоматично напояване, озеленяване и поддръжка на градини в България.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/services', language)
+    const alternates = {
+      bg: SITE_URL + '/services',
+      ru: SITE_URL + '/services?lang=ru',
+      en: SITE_URL + '/services?lang=en',
+      'x-default': SITE_URL + '/services',
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/' || path === '/contacts') {
     const meta = staticPageMetadata(path, language)
     const canonical = localizedRouteUrl(path === '/' ? '/' : '/contacts', language)
