@@ -176,7 +176,7 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
         <h2 className="text-xl font-bold text-slate-900">{t('Адрес и контакти')}</h2>
         <div className="space-y-2 text-sm">
           <p><a href="tel:+359876777902" className="text-emerald-800 font-bold hover:underline">+359876777902</a></p>
-          <p><a href="tel:+359885834860" className="text-emerald-800 font-bold hover:underline">+359885834860</a> {language === 'en' ? '(BG / UA / RU)' : language === 'ru' ? '(Болгария / Украина / Россия)' : '(България / Украйна / Русия)'}</p>
+          <p><a href="tel:+359885834860" className="text-emerald-800 font-bold hover:underline">+359885834860</a> (ENG / UA / RU)</p>
           {language !== 'bg' && <p><a href="tel:+380674807486" className="text-emerald-800 font-bold hover:underline">+38 067 480 74 86</a></p>}
         </div>
       </div>
