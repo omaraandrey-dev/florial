@@ -176,19 +176,12 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
         <h2 className="text-xl font-bold text-slate-900">{t('Адрес и контакти')}</h2>
         <div className="space-y-2 text-sm">
           <p><a href="tel:+359876777902" className="text-emerald-800 font-bold hover:underline">+359876777902</a></p>
-          <p><a href="tel:+359885834860" className="text-emerald-800 font-bold hover:underline">+359885834860</a> {t('за Українські мови и Русского языка')}</p>
+          <p><a href="tel:+359885834860" className="text-emerald-800 font-bold hover:underline">+359885834860</a> {language === 'en' ? '(BG / UA / RU)' : language === 'ru' ? '(Болгария / Украина / Россия)' : '(България / Украйна / Русия)'}</p>
+          {language !== 'bg' && <p><a href="tel:+380674807486" className="text-emerald-800 font-bold hover:underline">+38 067 480 74 86</a></p>}
         </div>
       </div>
 
-      {/* Кнопки связи */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-        <a href="tel:+359876777902" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer">
-          📞 {t('Обаждане')}
-        </a>
-        <a href="https://wa.me/359876777902" target="_blank" rel="noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer">
-          💬 WhatsApp
-        </a>
-      </div>
+
     </main>
   )
 }
