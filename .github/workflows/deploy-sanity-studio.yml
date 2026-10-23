@@ -46,8 +46,7 @@ jobs:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schemas deploy --workspace plants
 
-      - name: Deploy the existing hosted Studio (manual only)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Deploy the existing hosted Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest deploy --yes
