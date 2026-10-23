@@ -99,6 +99,18 @@ const irrigationCategory = defineType({
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     categoryTranslations,
+    defineField({name: 'helpBlock', title: 'Блок за помощ при избор на поливна система', type: 'object', fields: [
+      defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
+      defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 4}),
+      defineField({name: 'buttonLabel', title: 'Текст на бутона (BG)', type: 'string'}),
+      defineField({name: 'translations', title: 'Преводи', type: 'object', fields: ['en', 'ru'].map((language) => defineField({
+        name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object', fields: [
+          defineField({name: 'title', title: language === 'en' ? 'Title' : 'Заголовок', type: 'string'}),
+          defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 4}),
+          defineField({name: 'buttonLabel', title: language === 'en' ? 'Button label' : 'Подпись кнопки', type: 'string'}),
+        ],
+      }))}),
+    ]}),
     defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
