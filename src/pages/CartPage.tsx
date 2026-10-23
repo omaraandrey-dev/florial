@@ -153,6 +153,7 @@ export function CartPage({
                     <p className="text-emerald-800 font-extrabold text-sm">
                       {(product.priceEUR || 0).toFixed(2)} € / бр.
                     </p>
+                    <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
                   </div>
                 </div>
 
@@ -199,7 +200,10 @@ export function CartPage({
             </h2>
 
             <div className="flex justify-between items-center text-lg font-bold text-slate-900">
-              <span>{t('Общо:')}</span>
+              <div>
+                <span>{t('Общо:')}</span>
+                <p className="mt-1 text-xs font-normal text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+              </div>
               <span className="text-2xl font-extrabold text-emerald-800">
                 {totalPrice.toFixed(2)} €
               </span>
