@@ -46,6 +46,7 @@ export function Footer() {
             <p className="font-semibold text-slate-200">{language === 'en' ? 'Florial Garden Centre' : language === 'ru' ? 'Садовый центр Florial' : 'Градински център „Флориал“'}</p>
             <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359876777902</a></p>
             <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359885834860</a> (ENG / UA / RU)</p>
+            <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+380674807486" className="text-emerald-400 hover:underline font-bold">+380674807486</a></p>
             <p>{language === 'en' ? 'Nursery: Khan Krum St., 8230 Nessebar' : language === 'ru' ? 'Питомник: ул. Хан Крум, 8230 Несебр' : 'Разсадник: ул. „Хан Крум“, 8230 Несебър'}</p>
           </div>
         </div>
