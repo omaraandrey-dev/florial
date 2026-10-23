@@ -1,7 +1,7 @@
 ## 2026-10-23 — Исправление ошибки Sanity CLI в GitHub Actions
 
 - Лог CI показал, что `npx sanity@latest` скачивает Sanity CLI 6.20.0, хотя Studio в `studio/package.json` использует Sanity v3 (`^3.99.0`). Ошибка `Cannot read properties of null (reading 'edgesOut')` возникла при запуске этой отдельно установленной latest-версии.
-- Workflow изменён на вызов локального CLI из установленных зависимостей (`npx sanity ...`) и Node.js 22. Это должно использовать версию Sanity, согласованную с проектом, и соответствует ранее зафиксированному требованию Node 22.
+- Workflow переведён на Node.js 22. Для развёртывания схемы используется поддерживаемая Sanity команда `npx sanity@latest schema deploy` (единственное число), как указано в официальной документации; прежний вызов `schemas deploy` заменён. Развёртывание hosted Studio оставлено на CLI проекта (`npx sanity deploy --yes`).
 - Исходник категории `category` уже содержит поле `helpBlock` и переводы EN/RU. Развёртывание ещё не подтверждено; после следующего запуска нужно проверить build, оба шага schema deploy и Studio deploy, затем перечитать deployed schema через Sanity API.
 - Документы категорий пока не публиковать до подтверждения deployed schema и проверки draft payloads.
 
