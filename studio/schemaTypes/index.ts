@@ -336,4 +336,4 @@ export const irrigationSchemaTypes = [
   seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, plantCategory, plantProduct]
