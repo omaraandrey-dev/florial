@@ -101,6 +101,15 @@ export function HomePage({
               <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{t('Професионални решения за градината')}</h3>
             </div>
 
+            <div className="mb-4 flex justify-end">
+              <a
+                href={localizedHref('/services', language)}
+                className="inline-flex items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
+              >
+                {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'} →
+              </a>
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {services.map(srv => (
                 <a
