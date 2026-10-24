@@ -152,3 +152,14 @@
 - CI schema deployment failed because plant categories/products reference the reusable `seoFields` object, but that object was not included in `plantSchemaTypes`.
 - Registered the existing `seoFields` definition in both workspace schema arrays. This reuses the existing type and does not change field names or document data.
 - No Sanity documents were patched, published, deleted, or migrated by this source change. Deployment must be rerun and verified before considering the deployed schema synchronized.
+
+## 2026-10-24 — Каталог оборудования для автоматического полива
+
+- В Sanity production создана категория «Клапани»; категория «Електромагнитни клапани» перенесена под неё, а основные группы оборудования связаны с корневой категорией «Всичко за поливане».
+- Пересобраны ссылки категорий у 116 существующих товаров: каждому товару назначены корневая категория, верхняя группа и существующая подкатегория по текущей основной категории. Цены, описания, SKU, изображения, галереи и документы товаров не изменялись.
+- Существующие категории дождевателей, дюз, контролеров, шахт и других групп сохранены; новые дубликаты категорий не создавались, кроме необходимой родительской категории «Клапани».
+- Страница /category/vsichko-za-polivane расширена поиском по названию/артикулу/бренду/краткому описанию, фильтром по бренду и сортировкой по названию и цене.
+- В главное меню и блок каталога на главной добавлена прямая ссылка на полный каталог оборудования.
+- В запрос каталога добавлено получение названия бренда из Sanity для фильтрации; тип Product расширен полем brand.
+- Изменения кода: 9a63a3a5, ccbbb00a, 6a759add, 8784770e, 97587562. Сборка и production-проверка выполняются отдельно.
+- Ограничение: у новой категории «Клапани» пока нет переводов RU/EN в Sanity, поскольку активная схема florial-admin не содержит поля translations. Переводы для остальных существующих категорий сохранены.
