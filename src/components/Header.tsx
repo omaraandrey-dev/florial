@@ -198,7 +198,7 @@ export function Header({
             </a>
 
             <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg border-t border-slate-100 px-4 py-3 text-left font-bold text-emerald-800 transition hover:bg-emerald-50 no-underline">
-              {language === 'ru' ? 'Каталог оборудования для полива' : language === 'en' ? 'Irrigation equipment catalogue' : 'Каталог оборудване за напояване'}
+              {language === 'ru' ? 'Каталог оборудования для полива' : language === 'en' ? 'Irrigation equipment catalogue' : 'Каталог за автоматично напояване'}
             </a>
 
             <div className="border-t border-slate-100">
