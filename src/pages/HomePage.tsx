@@ -64,7 +64,8 @@ export function HomePage({
     return (a.sortOrder || 0) - (b.sortOrder || 0) || a.name.localeCompare(b.name, 'bg')
   })
   // На главной показываем только корневые категории, без подкатегорий.
-  const rootCategories = categories.filter((category) => !category.parentId)
+  const catalogRootId = categories.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
+  const rootCategories = categories.filter((category) => !category.parentId || category.parentId === catalogRootId)
   const categoryOrder = [
     'vsichko-za-polivane',
     'controllers',
