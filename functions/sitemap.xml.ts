@@ -150,9 +150,8 @@ export async function onRequestGet(): Promise<Response> {
 
     for (const document of blogPosts) {
       if (!document.noIndex && document.path) {
+        addLocalizedUrls(urls, document.path)
         addUrl(urls, document.path, document._updatedAt)
-        if (document.hasRussianSeo) addUrl(urls, document.path + '?lang=ru', document._updatedAt)
-        if (document.hasEnglishSeo) addUrl(urls, document.path + '?lang=en', document._updatedAt)
       }
     }
 
