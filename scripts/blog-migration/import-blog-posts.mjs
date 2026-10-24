@@ -24,7 +24,7 @@ for (const [index, post] of posts.entries()) {
       throw new Error('Post "' + post.slug + '" has incomplete ' + language + ' translation. No writes were performed.')
     }
   }
-  if (!post.cover?._type || post.cover._type !== 'image') throw new Error('Post "' + post.slug + '" is missing its Sanity cover asset reference.')
+  if (post.cover?._type !== 'image' || !post.cover.asset?._ref) throw new Error('Post "' + post.slug + '" is missing a valid Sanity cover asset reference. Upload the original image first; no write was performed.')
 }
 
 console.log('Validated ' + posts.length + ' complete multilingual blog posts for dataset "' + dataset + '".')
