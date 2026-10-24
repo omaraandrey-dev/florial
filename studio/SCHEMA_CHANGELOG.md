@@ -110,3 +110,9 @@
 - Added the already-defined `seoFields` object type to `plantSchemaTypes`, because plant category/product translation fields reference it.
 - This is a schema-source registration fix only. No Content Lake documents were changed.
 - Pending: rerun the schema deployment workflow and confirm both workspace deployments and the hosted Studio routes.
+
+## 2026-10-24 — Преводи на категориите
+
+- Потвърдено е разминаване между изходния код и публикуваната схема: изходната схема съдържа `category.translations.en/ru.name` и `description`, но deployed workspace `florial-admin` не ги показва.
+- Обновено е заглавието на полето в Studio, за да е ясно, че трябва да се попълват и името, и описанието на категорията.
+- След този commit трябва да се провери автоматичното schema deploy преди публикуване на преводите. Не са променяни оригинални описания, цени, SKU или изображения.
