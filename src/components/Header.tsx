@@ -244,7 +244,7 @@ export function Header({
                   <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('vsichko-za-polivane') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Цялото оборудване за поливане')}
                   </a>
-                  {categories.map((category) => (
+                  {categories.filter((category) => category.slug?.current !== 'vsichko-za-polivane').map((category) => (
                     <a key={category._id} href={localizedHref(`/category/${encodeURIComponent(category.slug?.current || category._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                       {category.name}
                     </a>
