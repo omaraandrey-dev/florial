@@ -28,6 +28,7 @@ export interface Product {
   priceEUR: number
   oldPriceEUR?: number
   sku?: string
+  brand?: string
   imageUrl?: string
   galleryImages?: string[]
   category?: string
