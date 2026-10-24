@@ -685,11 +685,21 @@ export default function App() {
     })
   }, [products, currentCategory, categories])
 
+  // Не показываем в навигации пустые категории; документы Sanity при этом не удаляются.
+  const visibleCategories = useMemo(() => {
+    return categories.filter((category) =>
+      products.some((product) =>
+        product.categoryId === category._id ||
+        product.categories?.some((item: any) => item._id === category._id)
+      )
+    )
+  }, [categories, products])
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
         services={services}
-        categories={categories.filter((category) => !category._id.startsWith('plants-'))}
+        categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
         plantCategories={plantCategories}
         cart={cart}
         onNavigateHome={navigateToHome}
@@ -865,7 +875,7 @@ export default function App() {
       ) : (
         <HomePage
           services={services}
-          categories={categories.filter((category) => !category._id.startsWith('plants-'))}
+          categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
           plantCategories={plantCategories}
           products={products}
           siteSettings={siteSettings}
