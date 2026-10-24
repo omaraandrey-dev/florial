@@ -24,6 +24,8 @@ export function CategoryPage({
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('all')
+  const [selectedSpecification, setSelectedSpecification] = useState('all')
+  const [selectedSpecificationValue, setSelectedSpecificationValue] = useState('all')
   const [sortOrder, setSortOrder] = useState<'name-asc' | 'price-asc' | 'price-desc'>('name-asc')
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
 
@@ -32,6 +34,8 @@ export function CategoryPage({
     setSelectedSubCategory('all')
     setSearchTerm('')
     setSelectedBrand('all')
+    setSelectedSpecification('all')
+    setSelectedSpecificationValue('all')
     setSortOrder('name-asc')
   }, [category?._id])
 
@@ -107,6 +111,27 @@ export function CategoryPage({
       .sort((a, b) => a.localeCompare(b, language))
   }, [products, language])
 
+  const specificationOptions = useMemo(() => {
+    const names = products.flatMap((product) => {
+      const specs = localize(product, 'specifications')
+      return Array.isArray(specs) ? specs.map((spec: any) => String(localize(spec, 'name') || spec.name || '')).filter(Boolean) : []
+    })
+    return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b, language))
+  }, [products, language, localize])
+
+  const specificationValueOptions = useMemo(() => {
+    if (selectedSpecification === 'all') return []
+    const values = products.flatMap((product) => {
+      const specs = localize(product, 'specifications')
+      if (!Array.isArray(specs)) return []
+      return specs
+        .filter((spec: any) => String(localize(spec, 'name') || spec.name || '') === selectedSpecification)
+        .map((spec: any) => String(localize(spec, 'value') || spec.value || ''))
+        .filter(Boolean)
+    })
+    return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b, language))
+  }, [products, selectedSpecification, language, localize])
+
   // Филтрите работят върху реалните данни от Sanity; не променят каталога в базата.
   const displayedProducts = useMemo(() => {
     let result = selectedSubCategory === 'all'
@@ -133,12 +158,24 @@ export function CategoryPage({
       result = result.filter((product) => product.brand === selectedBrand)
     }
 
+    if (selectedSpecification !== 'all') {
+      result = result.filter((product) => {
+        const specs = localize(product, 'specifications')
+        if (!Array.isArray(specs)) return false
+        return specs.some((spec: any) => {
+          const name = String(localize(spec, 'name') || spec.name || '')
+          const value = String(localize(spec, 'value') || spec.value || '')
+          return name === selectedSpecification && (selectedSpecificationValue === 'all' || value === selectedSpecificationValue)
+        })
+      })
+    }
+
     return result.sort((a, b) => {
       if (sortOrder === 'price-asc') return (a.priceEUR || 0) - (b.priceEUR || 0)
       if (sortOrder === 'price-desc') return (b.priceEUR || 0) - (a.priceEUR || 0)
       return String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
     })
-  }, [products, selectedSubCategory, searchTerm, selectedBrand, sortOrder, language, localize])
+  }, [products, selectedSubCategory, searchTerm, selectedBrand, selectedSpecification, selectedSpecificationValue, sortOrder, language, localize])
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
@@ -169,7 +206,7 @@ export function CategoryPage({
 
       {isIrrigationCatalog && (
         <section aria-label={language === 'ru' ? 'Фильтры каталога' : language === 'en' ? 'Catalogue filters' : 'Филтри на каталога'} className="mb-6 rounded-2xl border border-[#DDE3D0] bg-[#F7F8F1] p-4 md:p-5">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
             <label className="block text-sm font-semibold text-slate-700">
               {language === 'ru' ? 'Поиск по названию или артикулу' : language === 'en' ? 'Search by name or SKU' : 'Търсене по име или артикул'}
               <input
@@ -192,6 +229,29 @@ export function CategoryPage({
               </select>
             </label>
             <label className="block text-sm font-semibold text-slate-700">
+              {language === 'ru' ? 'Характеристика' : language === 'en' ? 'Specification' : 'Характеристика'}
+              <select
+                value={selectedSpecification}
+                onChange={(event) => { setSelectedSpecification(event.target.value); setSelectedSpecificationValue('all') }}
+                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+              >
+                <option value="all">{language === 'ru' ? 'Все характеристики' : language === 'en' ? 'All specifications' : 'Всички характеристики'}</option>
+                {specificationOptions.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
+            </label>
+            <label className="block text-sm font-semibold text-slate-700">
+              {language === 'ru' ? 'Значение' : language === 'en' ? 'Value' : 'Стойност'}
+              <select
+                value={selectedSpecificationValue}
+                onChange={(event) => setSelectedSpecificationValue(event.target.value)}
+                disabled={selectedSpecification === 'all'}
+                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 disabled:bg-slate-100 disabled:text-slate-400"
+              >
+                <option value="all">{language === 'ru' ? 'Любое значение' : language === 'en' ? 'Any value' : 'Всички стойности'}</option>
+                {specificationValueOptions.map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </label>
+            <label className="block text-sm font-semibold text-slate-700">
               {language === 'ru' ? 'Сортировка' : language === 'en' ? 'Sort by' : 'Подреждане'}
               <select
                 value={sortOrder}
@@ -206,8 +266,8 @@ export function CategoryPage({
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm text-slate-600">
             <span>{language === 'ru' ? 'Найдено товаров: ' + displayedProducts.length : language === 'en' ? 'Products found: ' + displayedProducts.length : 'Намерени продукти: ' + displayedProducts.length}</span>
-            {(searchTerm || selectedBrand !== 'all' || selectedSubCategory !== 'all') && (
-              <button type="button" onClick={() => { setSearchTerm(''); setSelectedBrand('all'); setSelectedSubCategory('all') }} className="font-semibold text-emerald-800 underline underline-offset-2">
+            {(searchTerm || selectedBrand !== 'all' || selectedSubCategory !== 'all' || selectedSpecification !== 'all' || selectedSpecificationValue !== 'all') && (
+              <button type="button" onClick={() => { setSearchTerm(''); setSelectedBrand('all'); setSelectedSubCategory('all'); setSelectedSpecification('all'); setSelectedSpecificationValue('all') }} className="font-semibold text-emerald-800 underline underline-offset-2">
                 {language === 'ru' ? 'Сбросить фильтры' : language === 'en' ? 'Clear filters' : 'Изчисти филтрите'}
               </button>
             )}
