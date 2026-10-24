@@ -2,7 +2,7 @@
   "source": "https://www.drop.od.ua/bg/blog and linked Bulgarian category/article pages",
   "createdAt": "2026-10-24",
   "articleCount": 19,
-  "imageOccurrences": 125,
+  "imageOccurrences": 128,
   "uniqueWixAssetsIncludingCovers": 39,
   "uploadedToSanity": 0,
   "articles": [
@@ -407,56 +407,55 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
       "coverAlt": "Цветна градина в Слънчев бряг",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_a28c432f9a3e4f94953328e0e4b02d69",
           "url": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
           "alt": "Цветна градина постоянно цъфтящ слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_ae2847c942174876bddbe8cd77044bf0",
           "url": "https://static.wixstatic.com/media/1b6ca6_ae2847c942174876bddbe8cd77044bf0~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_ae2847c942174876bddbe8cd77044bf0~mv2.jpg",
           "alt": "Аранжиране на цветна градина в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_478ca0b8c73f4b6b92b1304b4fe7a4ab",
           "url": "https://static.wixstatic.com/media/1b6ca6_478ca0b8c73f4b6b92b1304b4fe7a4ab~mv2.png/v1/fill/w_320,h_418,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_478ca0b8c73f4b6b92b1304b4fe7a4ab~mv2.png",
           "alt": "Направете цветна леха. Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_4ec0141d0df74428bfae967c43c197a2",
           "url": "https://static.wixstatic.com/media/1b6ca6_4ec0141d0df74428bfae967c43c197a2~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_4ec0141d0df74428bfae967c43c197a2~mv2.jpg",
           "alt": "Озеленяване с цветя в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_d2da1e9e75ce4edab4534f6786ee4ccb",
           "url": "https://static.wixstatic.com/media/1b6ca6_d2da1e9e75ce4edab4534f6786ee4ccb~mv2.jpg/v1/fill/w_640,h_864,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_d2da1e9e75ce4edab4534f6786ee4ccb~mv2.jpg",
           "alt": "Озеленяване на вашия дом с цветни лехи в Равда",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_15f2ea69451842668067295b25762225",
           "url": "https://static.wixstatic.com/media/1b6ca6_15f2ea69451842668067295b25762225~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_15f2ea69451842668067295b25762225~mv2.jpg",
           "alt": "Миксбордер от цветя за озеленяване на района на Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 7,
           "assetId": "1b6ca6_8a5cb39dc33e4fef98d13b1f5e4daaa7",
           "url": "https://static.wixstatic.com/media/1b6ca6_8a5cb39dc33e4fef98d13b1f5e4daaa7~mv2.jpg/v1/fill/w_147,h_110,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_8a5cb39dc33e4fef98d13b1f5e4daaa7~mv2.jpg",
           "alt": "Засаждане на цветя в Несебър, създаване на цветни лехи, розови градини, миксбордери",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/HWZ0Fyx5Rxg/maxresdefault.jpg",
+          "url": "https://i.ytimg.com/vi/HWZ0Fyx5Rxg/maxresdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -467,35 +466,37 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_616,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_270,h_438,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
       "coverAlt": "Рулонна тревна площ в Слънчев бряг",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_f2f038a39ea943b8964c6bb0c1423da2",
           "url": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_270,h_438,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
           "alt": "Купете рулонна тревна площ в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_982ce801a071438bb401a6798126700b",
           "url": "https://static.wixstatic.com/media/1b6ca6_982ce801a071438bb401a6798126700b~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_982ce801a071438bb401a6798126700b~mv2.jpg",
           "alt": "Купувам рулонна тревна площ Слънчев бряг Несебър",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_7892767a65174b269747c96558e17ffd",
           "url": "https://static.wixstatic.com/media/1b6ca6_7892767a65174b269747c96558e17ffd~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_7892767a65174b269747c96558e17ffd~mv2.jpg",
           "alt": "Направена рулонна тревна площ в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_ebfe73032030490a909a7f74e922edaf",
           "url": "https://static.wixstatic.com/media/1b6ca6_ebfe73032030490a909a7f74e922edaf~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_ebfe73032030490a909a7f74e922edaf~mv2.jpg",
           "alt": "Продажба на рулонна тревна площ в Слънчев бряг",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/0nRYusmY1v4/maxresdefault.jpg",
+          "url": "https://i.ytimg.com/vi/0nRYusmY1v4/maxresdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -506,66 +507,57 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg/v1/fill/w_563,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg",
       "coverAlt": "Монтаж на автоматична поливна система в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_5e5f76c2e7934c60a41134fbb7b62991",
           "url": "https://static.wixstatic.com/media/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg",
           "alt": "Обособяване на обект за автоматично напояване в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_f9cc46468a994eaf8d657b451e289a78",
           "url": "https://static.wixstatic.com/media/1b6ca6_f9cc46468a994eaf8d657b451e289a78~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f9cc46468a994eaf8d657b451e289a78~mv2_d_2368_4208_s_2.jpg",
           "alt": "Доставка на поливна техника за Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_af6b80aac1f4444683a6d8b405118683",
           "url": "https://static.wixstatic.com/media/1b6ca6_af6b80aac1f4444683a6d8b405118683~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_af6b80aac1f4444683a6d8b405118683~mv2_d_2368_4208_s_2.jpg",
           "alt": "Доставка на компоненти за автоматично поливане Равда",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1",
           "url": "https://static.wixstatic.com/media/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg",
           "alt": "Монтаж на оборудване за поливна система в Кошарица",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_8348307ee130472389bfb779642e27b9",
           "url": "https://static.wixstatic.com/media/1b6ca6_8348307ee130472389bfb779642e27b9~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_8348307ee130472389bfb779642e27b9~mv2_d_2368_4208_s_2.jpg",
           "alt": "полагане на изкопи за автоматична поливна система в Медово",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_12da5d40545f4fe6b3f51981eaeb0e1a",
           "url": "https://static.wixstatic.com/media/1b6ca6_12da5d40545f4fe6b3f51981eaeb0e1a~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_12da5d40545f4fe6b3f51981eaeb0e1a~mv2_d_2368_4208_s_2.jpg",
           "alt": "Монтаж на поливна вода в Каменар",
           "altStatus": "present"
         },
         {
-          "index": 7,
           "assetId": "1b6ca6_c17fedf7bf304776a8ecde1cdce15ab5",
           "url": "https://static.wixstatic.com/media/1b6ca6_c17fedf7bf304776a8ecde1cdce15ab5~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_c17fedf7bf304776a8ecde1cdce15ab5~mv2_d_2368_4208_s_2.jpg",
           "alt": "Монтаж на разпръсквачи за поливна система в Горица",
           "altStatus": "present"
         },
         {
-          "index": 8,
           "assetId": "1b6ca6_417cfadfb4ab43818790bf4de4eadbb8",
           "url": "https://static.wixstatic.com/media/1b6ca6_417cfadfb4ab43818790bf4de4eadbb8~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_417cfadfb4ab43818790bf4de4eadbb8~mv2_d_2368_4208_s_2.jpg",
           "alt": "Монтаж на автоматични поливни системи в Бата",
           "altStatus": "present"
         },
         {
-          "index": 9,
           "assetId": "1b6ca6_760ce54a336a4824aa60754c3af62b75",
           "url": "https://static.wixstatic.com/media/1b6ca6_760ce54a336a4824aa60754c3af62b75~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_760ce54a336a4824aa60754c3af62b75~mv2_d_2368_4208_s_2.jpg",
           "alt": "Монтаж на контролер за поливна система в Оризар",
@@ -580,35 +572,37 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_233,h_233,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
       "coverAlt": "Ремонт на автоматични поливни системи в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_c281bd1aac75495383fa612ff7ca2bfe",
           "url": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_233,h_233,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
           "alt": "Ремонт на автоматични поливни системи в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_9005ca4fa84f4bbea2de854507bba7b2",
           "url": "https://static.wixstatic.com/media/1b6ca6_9005ca4fa84f4bbea2de854507bba7b2~mv2.jpg/v1/fill/w_1280,h_1707,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_9005ca4fa84f4bbea2de854507bba7b2~mv2.jpg",
           "alt": "Ремонт на автоматични поливни системи в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_e0ef4017f91146a5a9f0bb797941f634",
           "url": "https://static.wixstatic.com/media/1b6ca6_e0ef4017f91146a5a9f0bb797941f634~mv2.jpg/v1/fill/w_640,h_711,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_e0ef4017f91146a5a9f0bb797941f634~mv2.jpg",
           "alt": "Изграждане на автоматични поливни системи в Равда",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_39b09fae8e6e4e89a92596efaca0ef88",
           "url": "https://static.wixstatic.com/media/1b6ca6_39b09fae8e6e4e89a92596efaca0ef88~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_39b09fae8e6e4e89a92596efaca0ef88~mv2.jpg",
           "alt": "Модернизация на автоматична поливна система в Свети Влас",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/us_ZrzSPKI8/maxresdefault.jpg",
+          "url": "https://i.ytimg.com/vi/us_ZrzSPKI8/maxresdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -619,45 +613,39 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_600,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_640,h_1067,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
       "coverAlt": "Маслиново дърво в градински център Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_a373962b4b3e41918e6f46eb10a37c5e",
           "url": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_640,h_1067,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
           "alt": "olive tree несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_e5012967a2844d2c97a1e2e9d129f8c9",
           "url": "https://static.wixstatic.com/media/1b6ca6_e5012967a2844d2c97a1e2e9d129f8c9~mv2.jpg/v1/fill/w_640,h_1387,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_e5012967a2844d2c97a1e2e9d129f8c9~mv2.jpg",
           "alt": "Маслина - продажба и засаждане в Градински център Несебър",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_f6730e710e104d7dbd442ebc2c605211",
           "url": "https://static.wixstatic.com/media/1b6ca6_f6730e710e104d7dbd442ebc2c605211~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f6730e710e104d7dbd442ebc2c605211~mv2.jpg",
           "alt": "Маслина  продажба Несебър",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0",
           "url": "https://static.wixstatic.com/media/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg/v1/fill/w_289,h_162,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg",
           "alt": "Продава тревен чим Несебър",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_a668e1d25df74ae5ac333a71b9587e88",
           "url": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg/v1/fill/w_289,h_162,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
           "alt": "Кипарис тотем: перфектната декорация за ваша а градина",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_d17f2bd62105424ca7831141e9d05daa",
           "url": "https://static.wixstatic.com/media/1b6ca6_d17f2bd62105424ca7831141e9d05daa~mv2.jpg/v1/fill/w_289,h_162,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_d17f2bd62105424ca7831141e9d05daa~mv2.jpg",
           "alt": "Юка Рострата в Центъра за цветни градини",
@@ -1048,5 +1036,5 @@
     "Two irrigation-cost article image alt texts mention Odesa; suggested Bulgaria-specific alt text is provided.",
     "Cover URLs are taken from source OG metadata or Bulgarian listing data. A candidate inline image is not substituted where the cover is not verified."
   ],
-  "uniqueWixAssetsIncludingVerifiedCovers": 124
+  "uniqueWixAssetsIncludingVerifiedCovers": 127
 }
