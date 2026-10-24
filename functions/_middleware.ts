@@ -11,13 +11,17 @@ type PagesContext = {
 type SeoDocument = {
   _id: string
   name?: string
+  title?: string
   slugValue?: string
+  publishedAt?: string
+  isPublished?: boolean
   shortDescription?: string
   description?: unknown
   priceEUR?: number
   sku?: string
   stockStatus?: string
   imageUrl?: string
+  coverUrl?: string
   brandName?: string
   seo?: Record<string, unknown> | null
   translations?: Record<string, Record<string, any>>
@@ -210,7 +214,7 @@ function unavailableResponse(language: string | null): Response {
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
-  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false)][0]{_id,name,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl),"brandName":brand->name,seo,translations}'
+  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,publishedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('$type', JSON.stringify(type))
@@ -265,6 +269,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
 function hasTranslation(doc: SeoDocument, type: string, language: string): boolean {
   if (language === 'bg') return true
   const translated = doc.translations?.[language]
+  if (type === 'blogPost') return Boolean(translated?.title && translated?.shortDescription && translated?.seoTitle && translated?.seoDescription)
   if (!translated?.name || translated.seo?.noIndex === true) return false
   if (type === 'category') {
     const fallback = categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en']
@@ -493,6 +498,20 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
+  if (path === '/blog') {
+    const meta = language === 'ru'
+      ? {title: 'Блог Florial — сад, растения и автоматический полив', description: 'Новости садового центра Florial, выполненные работы, растения и решения для автоматического полива в Болгарии.'}
+      : language === 'en'
+        ? {title: 'Florial Blog — Gardens, Plants & Irrigation', description: 'Florial Garden Centre news, recent projects, plants and automatic irrigation solutions in Bulgaria.'}
+        : {title: 'Блог Florial — градини, растения и автоматично напояване', description: 'Новини от градински център Florial, текущи проекти, растения и решения за автоматично напояване в България.'}
+    const canonical = localizedRouteUrl('/blog', language)
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
+      language, title: meta.title, description: meta.description, canonical,
+      alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/services') {
     const meta = language === 'ru'
       ? {
@@ -634,11 +653,11 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   if (
     parts.length === 2 &&
     slug &&
-    (route === 'product' || route === 'products' || route === 'category' || route === 'services')
+    (route === 'product' || route === 'products' || route === 'category' || route === 'services' || route === 'blog')
   ) {
     try {
       let doc: SeoDocument | null = null
-      let type = route === 'services' ? 'service' : route === 'category' ? 'category' : 'product'
+      let type = route === 'services' ? 'service' : route === 'category' ? 'category' : route === 'blog' ? 'blogPost' : 'product'
       if (route === 'services') {
         doc = await queryDocument('production', type, slug)
       } else if (route === 'category') {
@@ -651,10 +670,12 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       const localized = language === 'bg' ? null : doc.translations?.[language]
       const translatedIsComplete = hasTranslation(doc, type, language)
       const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
-      const name = String(localized?.name || categoryFallback?.name || doc.name || slug)
+      const name = String(type === 'blogPost' ? (localized?.title || doc.translations?.bg?.title || doc.title || slug) : (localized?.name || categoryFallback?.name || doc.name || slug))
       const translatedDescription = localized?.shortDescription || localized?.description || categoryFallback?.description
       const description = plainText(translatedDescription || doc.shortDescription || doc.description)
-      const seo = (language === 'bg' ? doc.seo : localized?.seo) as Record<string, any> | null | undefined
+      const seo = (type === 'blogPost'
+        ? {metaTitle: localized?.seoTitle || doc.translations?.bg?.seoTitle, metaDescription: localized?.seoDescription || doc.translations?.bg?.seoDescription}
+        : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
       const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
       const noIndex = seo?.noIndex === true || (language !== 'bg' && !translatedIsComplete)
@@ -685,7 +706,7 @@ export async function onRequest(context: PagesContext): Promise<Response> {
           noIndex,
           alternates,
           structuredData,
-          pageType: type === 'product' ? 'product' : 'website',
+          pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
       })
     } catch {
