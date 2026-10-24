@@ -64,7 +64,7 @@ const translationText = (language: string, title: string) => defineField({
 })
 
 const categoryTranslations = defineField({
-  name: 'translations', title: 'Преводи', type: 'object',
+  name: 'translations', title: 'Преводи на категориите (име и описание)', type: 'object',
   fields: ['en', 'ru'].map((language) => defineField({
     name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object',
     fields: [
