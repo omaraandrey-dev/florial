@@ -2,7 +2,7 @@
   "source": "https://www.drop.od.ua/bg/blog and linked Bulgarian category/article pages",
   "createdAt": "2026-10-24",
   "articleCount": 19,
-  "imageOccurrences": 125,
+  "imageOccurrences": 119,
   "uniqueWixAssetsIncludingCovers": 39,
   "uploadedToSanity": 0,
   "articles": [
@@ -209,226 +209,159 @@
       "slug": "kiparis-totem",
       "title": "Кипарис тотем: перфектната декорация за вашата градина",
       "sourceUrl": "https://bg.drop.od.ua/post/кипарис-тотем-перфектната-декорация-за-ваша-а-градина",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg/v1/fill/w_461,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
       "coverAlt": "Кипарис тотем в градината",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_a668e1d25df74ae5ac333a71b9587e88",
           "url": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg/v1/fill/w_310,h_672,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
           "alt": "Купете Кипарис тотем Несебър",
           "altStatus": "present"
         }
       ],
-      "coverStatus": "verified from source og:image or Bulgarian listing"
+      "coverStatus": "verified from source og:image"
     },
     {
       "slug": "godishna-poddruzhka-avtomatichni-sistemi",
       "title": "Годишна профилактика на автоматични поливни системи",
       "sourceUrl": "https://bg.drop.od.ua/post/годишна-поддръжка-на-автоматични-поливни-системи-в-слънчев-бряг-несебър",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg/v1/fill/w_1000,h_752,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg",
       "coverAlt": "Годишна профилактика на автоматични поливни системи",
       "images": [
         {
-          "index": 1,
-          "assetId": "1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d",
-          "url": "https://static.wixstatic.com/media/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg/v1/fill/w_350,h_263,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg",
-          "alt": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
-          "altStatus": "present"
-        },
-        {
-          "index": 2,
           "assetId": "1b6ca6_e202f6fce28846d4b7f0b0c4518e3e31",
           "url": "https://static.wixstatic.com/media/1b6ca6_e202f6fce28846d4b7f0b0c4518e3e31~mv2.jpg/v1/fill/w_147,h_147,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_e202f6fce28846d4b7f0b0c4518e3e31~mv2.jpg",
           "alt": "Специална оферта за годишна поддръжка на автоматични поливни системи",
           "altStatus": "present"
+        },
+        {
+          "assetId": "1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d",
+          "url": "https://static.wixstatic.com/media/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg/v1/fill/w_350,h_263,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_033e4b753da04ba6ab26b5552a1e8c0d~mv2.jpg",
+          "alt": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
+          "altStatus": "present"
         }
       ],
-      "coverStatus": "verified from source og:image or Bulgarian listing"
+      "coverStatus": "verified from source og:image"
     },
     {
       "slug": "landshaften-dizain-proekt-zasazhdenie",
       "title": "Създаване на ландшафтен дизайн от проект до озеленяване в Несебър",
       "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-дизайн-от-проект-до-засаждане",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
       "coverAlt": "Ландшафтен проект в Несебър на етапи на проектиране",
       "images": [
         {
-          "index": 1,
-          "assetId": "1b6ca6_c11c0aafe3574885bb942353fc16cd4f",
-          "url": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_242,h_242,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
-          "alt": "Ландшафтен проект в Несебър на етапи на проектиране",
-          "altStatus": "present"
-        },
-        {
-          "index": 2,
-          "assetId": "1b6ca6_d362b7610daf496daebd9971fa552e1c",
-          "url": "https://static.wixstatic.com/media/1b6ca6_d362b7610daf496daebd9971fa552e1c~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_d362b7610daf496daebd9971fa552e1c~mv2.jpg",
-          "alt": "Засаждане на хвойна Несебър",
-          "altStatus": "present"
-        },
-        {
-          "index": 3,
-          "assetId": "1b6ca6_6a0b818cf4534bf0880185004827ec3d",
-          "url": "https://static.wixstatic.com/media/1b6ca6_6a0b818cf4534bf0880185004827ec3d~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_6a0b818cf4534bf0880185004827ec3d~mv2.jpg",
-          "alt": "Озеленяване с декоративна растителност Слънчев бряг",
-          "altStatus": "present"
-        },
-        {
-          "index": 4,
-          "assetId": "1b6ca6_30ee169235af4bd5aa00667f60564373",
-          "url": "https://static.wixstatic.com/media/1b6ca6_30ee169235af4bd5aa00667f60564373~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_30ee169235af4bd5aa00667f60564373~mv2.jpg",
-          "alt": "Засаждане на иглолистни дървета в Несебър",
-          "altStatus": "present"
-        },
-        {
-          "index": 5,
           "assetId": "1b6ca6_3af7a86fee104d6ebb4252a3812f0099",
           "url": "https://static.wixstatic.com/media/1b6ca6_3af7a86fee104d6ebb4252a3812f0099~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_3af7a86fee104d6ebb4252a3812f0099~mv2.jpg",
           "alt": "Засаждане на трайни насаждения Равда",
           "altStatus": "present"
         },
         {
-          "index": 6,
-          "assetId": "1b6ca6_cd560c73d6214bdfb58391da8efe1bf7",
-          "url": "https://static.wixstatic.com/media/1b6ca6_cd560c73d6214bdfb58391da8efe1bf7~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_cd560c73d6214bdfb58391da8efe1bf7~mv2.jpg",
-          "alt": "Създаване на жив плет от туя в Несебър",
-          "altStatus": "present"
-        },
-        {
-          "index": 7,
           "assetId": "1b6ca6_4768343c0fa5477b81e3a997e6c44f54",
           "url": "https://static.wixstatic.com/media/1b6ca6_4768343c0fa5477b81e3a997e6c44f54~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_4768343c0fa5477b81e3a997e6c44f54~mv2.jpg",
           "alt": "Пролетно засаждане на цветя в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 8,
-          "assetId": "1b6ca6_828de272222b4848b5ef67916a5e022b",
-          "url": "https://static.wixstatic.com/media/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg",
-          "alt": "Рулонна тревна площ и Хвойники в Несебър",
+          "assetId": "1b6ca6_30ee169235af4bd5aa00667f60564373",
+          "url": "https://static.wixstatic.com/media/1b6ca6_30ee169235af4bd5aa00667f60564373~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_30ee169235af4bd5aa00667f60564373~mv2.jpg",
+          "alt": "Засаждане на иглолистни дървета в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 9,
+          "assetId": "1b6ca6_6a0b818cf4534bf0880185004827ec3d",
+          "url": "https://static.wixstatic.com/media/1b6ca6_6a0b818cf4534bf0880185004827ec3d~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_6a0b818cf4534bf0880185004827ec3d~mv2.jpg",
+          "alt": "Озеленяване с декоративна растителност Слънчев бряг",
+          "altStatus": "present"
+        },
+        {
+          "assetId": "1b6ca6_d362b7610daf496daebd9971fa552e1c",
+          "url": "https://static.wixstatic.com/media/1b6ca6_d362b7610daf496daebd9971fa552e1c~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_d362b7610daf496daebd9971fa552e1c~mv2.jpg",
+          "alt": "Засаждане на хвойна Несебър",
+          "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/MFGkmO-dIWc/sddefault.jpg",
+          "url": "https://i.ytimg.com/vi/MFGkmO-dIWc/sddefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_828de272222b4848b5ef67916a5e022b",
+          "url": "https://static.wixstatic.com/media/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,enc_auto/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg",
+          "alt": "Продължаваме озеленяването на обекта през пролетта в Несебър",
+          "altStatus": "present"
+        },
+        {
           "assetId": "1b6ca6_9a121a4e68584999bfe6899448a1b17a",
           "url": "https://static.wixstatic.com/media/1b6ca6_9a121a4e68584999bfe6899448a1b17a~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_9a121a4e68584999bfe6899448a1b17a~mv2.jpg",
           "alt": "Засадете коледна елха и оформете поляна в леха в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 10,
-          "assetId": "1b6ca6_828de272222b4848b5ef67916a5e022b",
-          "url": "https://static.wixstatic.com/media/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg/v1/fill/w_147,h_110,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_828de272222b4848b5ef67916a5e022b~mv2.jpg",
-          "alt": "Продължаваме озеленяването на обекта през пролетта в Несебър",
+          "assetId": "1b6ca6_cd560c73d6214bdfb58391da8efe1bf7",
+          "url": "https://static.wixstatic.com/media/1b6ca6_cd560c73d6214bdfb58391da8efe1bf7~mv2.jpg/v1/fill/w_960,h_960,al_c,q_85,enc_auto/1b6ca6_cd560c73d6214bdfb58391da8efe1bf7~mv2.jpg",
+          "alt": "Създаване на жив плет от туя в Несебър",
+          "altStatus": "present"
+        },
+        {
+          "assetId": "1b6ca6_c11c0aafe3574885bb942353fc16cd4f",
+          "url": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_242,h_242,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
+          "alt": "Ландшафтен проект в Несебър на етапи на проектиране",
           "altStatus": "present"
         }
       ],
-      "coverStatus": "verified from source og:image or Bulgarian listing"
+      "coverStatus": "verified from source og:image"
     },
     {
       "slug": "landshaften-proekt-zima-burgas",
       "title": "Зимата в Бургас е чудесно време за ландшафтен дизайн",
       "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-проект-през-зимата-в-бургас",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1000,h_638,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
       "coverAlt": "Ландшафтен проект през зимата в Бургас",
       "images": [
         {
-          "index": 1,
-          "assetId": "1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd",
-          "url": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_740,h_472,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
-          "alt": "Завършен ландшафтен проект. Бургас",
-          "altStatus": "present"
-        },
-        {
-          "index": 2,
-          "assetId": "1b6ca6_c11c0aafe3574885bb942353fc16cd4f",
-          "url": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_740,h_740,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
-          "alt": "Ландшафтен проект и дизайн на обект в Бургас",
-          "altStatus": "present"
-        },
-        {
-          "index": 3,
           "assetId": "1b6ca6_7161ab87fef3409ba0f073ab6d098514",
           "url": "https://static.wixstatic.com/media/1b6ca6_7161ab87fef3409ba0f073ab6d098514~mv2.jpg/v1/fill/w_740,h_561,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_7161ab87fef3409ba0f073ab6d098514~mv2.jpg",
           "alt": "Изработка на ландшафтен проект в Бургас",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_4a1c41f7a371405ab905bd22dbb83f91",
           "url": "https://static.wixstatic.com/media/1b6ca6_4a1c41f7a371405ab905bd22dbb83f91~mv2_d_1600_1600_s_2.jpg/v1/fill/w_147,h_147,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_4a1c41f7a371405ab905bd22dbb83f91~mv2_d_1600_1600_s_2.jpg",
           "alt": "Ландшафтен проект и озеленяване в Равда",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_fd10875822fd4c7984b65720dec5fc46",
           "url": "https://static.wixstatic.com/media/1b6ca6_fd10875822fd4c7984b65720dec5fc46~mv2.jpg/v1/fill/w_147,h_83,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_fd10875822fd4c7984b65720dec5fc46~mv2.jpg",
           "alt": "Ландшафтен дизайн с тревен чим Несебр",
           "altStatus": "present"
+        },
+        {
+          "assetId": "1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd",
+          "url": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_740,h_472,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
+          "alt": "Завършен ландшафтен проект. Бургас",
+          "altStatus": "present"
+        },
+        {
+          "assetId": "1b6ca6_c11c0aafe3574885bb942353fc16cd4f",
+          "url": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_740,h_740,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg",
+          "alt": "Ландшафтен проект и дизайн на обект в Бургас",
+          "altStatus": "present"
         }
       ],
-      "coverStatus": "verified from source og:image or Bulgarian listing"
+      "coverStatus": "verified from source og:image"
     },
     {
       "slug": "prodavane-traven-chim",
       "title": "Продава тревен чим Несебър",
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c1e42d5bcfb84d11963e6c06a5ad949b%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/1b6ca6_c1e42d5bcfb84d11963e6c06a5ad949b%7Emv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
       "coverAlt": "Рулонна тревна площ в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
-      "images": [
-        {
-          "index": 1,
-          "assetId": "1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed",
-          "url": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 1"
-        },
-        {
-          "index": 2,
-          "assetId": "1b6ca6_f5aa789481d44e1893ecd29301e89eb4",
-          "url": "https://static.wixstatic.com/media/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 2"
-        },
-        {
-          "index": 3,
-          "assetId": "1b6ca6_ea784ffe84fe4914b71bd550fac30706",
-          "url": "https://static.wixstatic.com/media/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 3"
-        },
-        {
-          "index": 4,
-          "assetId": "1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a",
-          "url": "https://static.wixstatic.com/media/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 4"
-        },
-        {
-          "index": 5,
-          "assetId": "1b6ca6_038ded03b31845899794604feef7e0c5",
-          "url": "https://static.wixstatic.com/media/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 5"
-        },
-        {
-          "index": 6,
-          "assetId": "1b6ca6_81f265cc490a4eb6b682cd9d6f68783f",
-          "url": "https://static.wixstatic.com/media/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg/v1/fill/w_147,h_156,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg",
-          "alt": "",
-          "altStatus": "missing",
-          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 6"
-        }
-      ]
+      "coverStatus": "verified from source og:image",
+      "images": []
     },
     {
       "slug": "izgrazhdane-tsvetni-lehi",
@@ -1078,5 +1011,5 @@
     "Two irrigation-cost article image alt texts mention Odesa; suggested Bulgaria-specific alt text is provided.",
     "Cover URLs are taken from source OG metadata or Bulgarian listing data. A candidate inline image is not substituted where the cover is not verified."
   ],
-  "uniqueWixAssetsIncludingVerifiedCovers": 122
+  "uniqueWixAssetsIncludingVerifiedCovers": 118
 }
