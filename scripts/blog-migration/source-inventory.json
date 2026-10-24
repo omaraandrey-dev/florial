@@ -3,13 +3,12 @@
   "retrievedAt": "2026-10-24",
   "status": "inventory-in-progress",
   "notes": [
-    "Nine Bulgarian source articles are now identified across the blog listing and its category pages; several older posts are not shown in the main listing.",
-    "Article timestamps were verified from article:published_time metadata for the nine identified Bulgarian pages.",
-    "One turf article appears in a category list but its linked article currently returns 404; its image was visible in the category listing, but no replacement content is invented.",
-    "Some category links are Russian/English variants, not distinct Bulgarian articles. Language mismatches are recorded separately.",
-    "Original images remain hosted on Wix static media. Image counts are source-page image candidates, including inline photos; per-image manifests and Sanity asset uploads remain pending.",
-    "Historical prices require owner review: 500 лв (misting system) and 25 лв (Sympathy roses). No prices have been changed.",
-    "No article documents or assets have been written to Sanity."
+    "Mapped 141 URLs on the source domain and inspected the main Bulgarian blog and its category/archive links. Nineteen distinct Bulgarian-language article pages are currently inventoried.",
+    "English/Russian variants with /bg/ paths are separated in languageMismatchCandidates to avoid duplicate posts.",
+    "Publication timestamps were captured from article:published_time metadata for saved source snapshots.",
+    "Original article snapshots are stored under scripts/blog-migration/source/. Original images remain on Wix static media; they have not been uploaded to Sanity.",
+    "Prices are not changed. All monetary values must be approved individually before the corresponding article is imported.",
+    "No Sanity production documents or assets were written."
   ],
   "posts": [
     {
@@ -93,20 +92,20 @@
       "coverAlt": "Палми в градински център Florial, Несебър"
     },
     {
-      "slug": "kiparis-totem",
+      "slug": "izgrazhdane-tsvetni-lehi",
       "title": {
-        "bg": "Кипарис тотем: перфектната декорация за вашата градина",
-        "ru": "Кипарис Тотем — идеальное украшение сада",
-        "en": "Cypress Totem: A Distinctive Garden Feature"
+        "bg": "Изграждане на цветни лехи в Слънчев бряг",
+        "ru": "Создание цветников в Солнечном Береге",
+        "en": "Creating Flower Beds in Sunny Beach"
       },
-      "sourceUrl": "https://bg.drop.od.ua/post/кипарис-тотем-перфектната-декорация-за-ваша-а-градина",
-      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
-      "coverAlt": "Кипарис тотем в градината",
-      "sourceImageCount": 1,
-      "publishedAt": "2024-11-19T07:40:12.703Z",
-      "dateStatus": "verified from article:published_time metadata",
-      "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price identified in captured metadata; review full body before import."
+      "sourceUrl": "https://www.drop.od.ua/bg/post/изграждане-на-цветни-лехи-в-слънчев-бряг",
+      "publishedAt": "2025-03-07T09:28:07.921Z",
+      "sourceImageCount": 7,
+      "coverUrl": null,
+      "coverAlt": "Цветна градина в Слънчев бряг",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
     },
     {
       "slug": "godishna-poddruzhka-avtomatichni-sistemi",
@@ -123,6 +122,134 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "Review any offer/pricing references individually before editing."
+    },
+    {
+      "slug": "remont-modernizatsiya-polivni-sistemi",
+      "title": {
+        "bg": "Ремонт и модернизация на поливни системи в Несебър",
+        "ru": "Ремонт и модернизация систем полива в Несебре",
+        "en": "Repair and Modernization of Irrigation Systems in Nessebar"
+      },
+      "sourceUrl": "https://www.drop.od.ua/bg/post/ремонт-и-модернизация-на-автоматични-поливни-системи-в-несебър",
+      "publishedAt": "2025-01-20T07:40:14.054Z",
+      "sourceImageCount": 4,
+      "coverUrl": null,
+      "coverAlt": "Ремонт на автоматични поливни системи в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
+    },
+    {
+      "slug": "maslina-sredizemnomorie",
+      "title": {
+        "bg": "Маслина — продажба и засаждане в градински център Несебър",
+        "ru": "Олива: продажа и посадка в садовом центре Несебра",
+        "en": "Olive Trees: Sales and Planting in Nessebar"
+      },
+      "sourceUrl": "https://www.drop.od.ua/bg/post/маслината-е-вечнозелен-символ-на-средиземноморието-във-вашата-градина",
+      "publishedAt": "2024-12-11T11:44:07.838Z",
+      "sourceImageCount": 6,
+      "coverUrl": null,
+      "coverAlt": "Маслиново дърво в градински център Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
+    },
+    {
+      "slug": "prodavane-traven-chim",
+      "title": {
+        "bg": "Продава тревен чим Несебър",
+        "ru": "Продажа рулонного газона в Несебре",
+        "en": "Rolled Turf for Sale in Nessebar"
+      },
+      "sourceUrl": "https://www.drop.od.ua/bg/post/продава-тревен-чим-несебър",
+      "publishedAt": "2024-11-20T04:58:08.487Z",
+      "sourceImageCount": 6,
+      "coverUrl": null,
+      "coverAlt": "Рулонна тревна площ в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review all source monetary references before import."
+    },
+    {
+      "slug": "kiparis-totem",
+      "title": {
+        "bg": "Кипарис тотем: перфектната декорация за вашата градина",
+        "ru": "Кипарис Тотем — идеальное украшение сада",
+        "en": "Cypress Totem: A Distinctive Garden Feature"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/кипарис-тотем-перфектната-декорация-за-ваша-а-градина",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg",
+      "coverAlt": "Кипарис тотем в градината",
+      "sourceImageCount": 1,
+      "publishedAt": "2024-11-19T07:40:12.703Z",
+      "dateStatus": "verified from article:published_time metadata",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "No price identified in captured metadata; review full body before import."
+    },
+    {
+      "slug": "podmyana-stara-travna-plosht",
+      "title": {
+        "bg": "Смяна на стара тревна площ с нова в Несебър",
+        "ru": "Замена старого газона на новый в Несебре",
+        "en": "Replacing an Old Lawn with New Turf in Nessebar"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/подмяна-на-стара-тревна-площ-несебър",
+      "publishedAt": "2024-11-17T05:23:37.092Z",
+      "sourceImageCount": 6,
+      "coverUrl": null,
+      "coverAlt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
+    },
+    {
+      "slug": "kupete-travna-plosht",
+      "title": {
+        "bg": "Купете качествена тревна площ в Слънчев бряг",
+        "ru": "Купить качественный рулонный газон в Солнечном Береге",
+        "en": "Quality Rolled Turf in Sunny Beach"
+      },
+      "sourceUrl": "https://www.drop.od.ua/bg/post/купете-тревна-площ-слънчев-бряг-трева-на-рула",
+      "publishedAt": "2024-11-16T05:16:58.246Z",
+      "sourceImageCount": 4,
+      "coverUrl": null,
+      "coverAlt": "Рулонна тревна площ в Слънчев бряг",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review all source monetary references before import."
+    },
+    {
+      "slug": "etapi-montazh-avtomatichna-polivna-instalatsiya",
+      "title": {
+        "bg": "Етапи на монтаж на автоматична поливна инсталация в Несебър",
+        "ru": "Этапы монтажа автоматической системы полива в Несебре",
+        "en": "Stages of Installing an Automatic Irrigation System in Nessebar"
+      },
+      "sourceUrl": "https://www.drop.od.ua/bg/post/етапи-на-монтаж-на-автоматични-поливки-в-несебър-и-района",
+      "publishedAt": "2024-08-22T13:35:50.217Z",
+      "sourceImageCount": 9,
+      "coverUrl": null,
+      "coverAlt": "Монтаж на автоматична поливна система в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
+    },
+    {
+      "slug": "rain-bird-oborudvane",
+      "title": {
+        "bg": "Преглед на оборудване Rain Bird за автоматично поливане",
+        "ru": "Обзор оборудования Rain Bird для автоматического полива",
+        "en": "Overview of Rain Bird Automatic Irrigation Equipment"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/rain-bird-оборудване-за-автоматични-системи-за-поливане-на-тревни-площи",
+      "publishedAt": "2024-08-22T12:58:55.802Z",
+      "sourceImageCount": 8,
+      "coverUrl": null,
+      "coverAlt": "Оборудване Rain Bird за автоматично поливане",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
     },
     {
       "slug": "landshaften-dizain-proekt-zasazhdenie",
@@ -155,39 +282,67 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "No price identified in captured metadata; review full body before import."
-    }
-  ],
-  "unavailableSources": [
+    },
     {
-      "title": "Продава тревен чим Несебър",
-      "url": "https://bg.drop.od.ua/post/продава-тревен-чим-несебър",
-      "status": "404 / page not found on live source",
-      "coverObservedOnCategory": "https://static.wixstatic.com/media/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg",
-      "action": "Do not invent replacement content; retry the original page or recover the source before migration."
+      "slug": "landshaften-proekt-nesebar",
+      "title": {
+        "bg": "Ландшафтен проект в Несебър от студио Florial",
+        "ru": "Ландшафтный проект в Несебре от студии Florial",
+        "en": "Landscape Design Project in Nessebar by Florial"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-проект-в-несебър",
+      "publishedAt": "2024-08-10T13:18:09.230Z",
+      "sourceImageCount": 6,
+      "coverUrl": null,
+      "coverAlt": "Ландшафтен проект в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
+    },
+    {
+      "slug": "etapi-landshaften-proekt-nesebar",
+      "title": {
+        "bg": "Етапи на създаване на ландшафтен проект в Несебър",
+        "ru": "Этапы создания ландшафтного проекта в Несебре",
+        "en": "Stages of Creating a Landscape Design Project in Nessebar"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-проект-несебър-етапи",
+      "publishedAt": "2024-08-10T08:19:11.940Z",
+      "sourceImageCount": 27,
+      "coverUrl": null,
+      "coverAlt": "Етапи на създаване на ландшафтен проект в Несебър",
+      "coverStatus": "OG cover not yet verified",
+      "translationStatus": "source snapshot saved; translations pending",
+      "priceReview": "Review any monetary references before import."
     }
   ],
+  "unavailableSources": [],
   "languageMismatchCandidates": [
     {
-      "title": "Repair and modernization of automatic irrigation systems in Nessebar",
+      "title": "Topiary Pruning of Plants",
+      "url": "https://www.drop.od.ua/bg/post/topiary-pruning-of-plants",
+      "observedLanguage": "English despite /bg/ path",
+      "relatedBulgarianVariant": "https://www.drop.od.ua/bg/post/топиарна-резитба-на-растения",
+      "action": "Use the Bulgarian article; do not import as a separate article."
+    },
+    {
+      "title": "Repair and modernization of irrigation systems in Nessebar",
       "url": "https://www.drop.od.ua/bg/post/repair-and-modernization-of-automatic-irrigation-systems-in-nessebar",
       "observedLanguage": "English despite /bg/ path",
-      "publishedAt": "2025-01-20T08:02:29.911Z",
-      "imageCount": 4,
-      "relatedRussianVariant": "https://bg.drop.od.ua/post/ремонт-и-модернизация-систем-автополива-в-несебре",
-      "action": "Not treated as a Bulgarian source article. Keep as a candidate; use the Russian variant only if it is determined to be the canonical source for this topic."
+      "relatedBulgarianVariant": "https://www.drop.od.ua/bg/post/ремонт-и-модернизация-на-автоматични-поливни-системи-в-несебър",
+      "action": "Use the Bulgarian version; treat English and Russian pages as language variants."
     },
     {
       "title": "Garden Center Florial Nessebar",
-      "url": "https://bg.drop.od.ua/post/garden-center-florial-nessebar",
+      "url": "https://www.drop.od.ua/bg/post/garden-center-florial-nessebar",
       "observedLanguage": "English",
-      "relatedRussianVariant": "https://bg.drop.od.ua/post/садовый-центр-флориал-несебр",
-      "action": "Language variants only; no separate Bulgarian article found in the inspected categories."
+      "action": "No separate Bulgarian source article found; exclude from Bulgarian article count."
     },
     {
-      "title": "Buy lawn Sunny Beach (rolled grass)",
-      "url": "https://bg.drop.od.ua/post/buy-lawn-sunny-beach-rolled-grass-1",
+      "title": "Spring garden care in Nessebar",
+      "url": "https://www.drop.od.ua/bg/post/gardencare",
       "observedLanguage": "English",
-      "action": "No Bulgarian original found; do not migrate as Bulgarian source without editorial decision."
+      "action": "No separate Bulgarian source article found; exclude from Bulgarian article count."
     }
   ]
 }
