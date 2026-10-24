@@ -2,7 +2,7 @@
   "source": "https://www.drop.od.ua/bg/blog and linked Bulgarian category/article pages",
   "createdAt": "2026-10-24",
   "articleCount": 19,
-  "imageOccurrences": 128,
+  "imageOccurrences": 139,
   "uniqueWixAssetsIncludingCovers": 39,
   "uploadedToSanity": 0,
   "articles": [
@@ -660,49 +660,49 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1000,h_638,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1920,h_1225,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
       "coverAlt": "Ландшафтен проект в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd",
           "url": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1920,h_1225,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
           "alt": "Направете ландшафтен проект през зимата в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_f36bb29f2f414c50b6f8cf19d293bc27",
           "url": "https://static.wixstatic.com/media/1b6ca6_f36bb29f2f414c50b6f8cf19d293bc27~mv2_d_1600_1600_s_2.jpg/v1/fill/w_1280,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f36bb29f2f414c50b6f8cf19d293bc27~mv2_d_1600_1600_s_2.jpg",
           "alt": "Озеленяване Слънчев бряг и ландшафтен проект",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_395078e18de74a14836bee8546e85872",
           "url": "https://static.wixstatic.com/media/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg/v1/fill/w_1280,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg",
           "alt": "Ландшафтен проект в Несебър. Етапи на проектиране",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_4a1c41f7a371405ab905bd22dbb83f91",
           "url": "https://static.wixstatic.com/media/1b6ca6_4a1c41f7a371405ab905bd22dbb83f91~mv2_d_1600_1600_s_2.jpg/v1/fill/w_1280,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_4a1c41f7a371405ab905bd22dbb83f91~mv2_d_1600_1600_s_2.jpg",
           "alt": "Ландшафтен дизайн и озеленяване в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_30266db83df54b6ba477bc37abbf5079",
           "url": "https://static.wixstatic.com/media/1b6ca6_30266db83df54b6ba477bc37abbf5079~mv2.jpg/v1/fill/w_640,h_1103,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_30266db83df54b6ba477bc37abbf5079~mv2.jpg",
           "alt": "Проект за озеленяване на Несебър и Разработка на обекта за 5 години.",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_ea2cd561a5794e31b302cc7c8e4021dd",
           "url": "https://static.wixstatic.com/media/1b6ca6_ea2cd561a5794e31b302cc7c8e4021dd~mv2_d_1280_1280_s_2.jpg/v1/fill/w_1280,h_1280,al_c,q_85,enc_auto/1b6ca6_ea2cd561a5794e31b302cc7c8e4021dd~mv2_d_1280_1280_s_2.jpg",
           "alt": "Озеленяване и Ландшафт Равда",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/n5JNLHxDksQ/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/n5JNLHxDksQ/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -713,196 +713,175 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg/v1/fill/w_179,h_131,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg",
       "coverAlt": "Етапи на създаване на ландшафтен проект в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066",
           "url": "https://static.wixstatic.com/media/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg/v1/fill/w_179,h_131,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg",
           "alt": "Ескизен план за озеленяване на парцел в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_42e3056dc03044539c6ebbde8833fe14",
           "url": "https://static.wixstatic.com/media/1b6ca6_42e3056dc03044539c6ebbde8833fe14~mv2.jpg/v1/fill/w_171,h_201,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_42e3056dc03044539c6ebbde8833fe14~mv2.jpg",
           "alt": "Общ план на парцела в Несебър за озеленяване",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_b3d747db006148baa9449aa8dba4ff84",
           "url": "https://static.wixstatic.com/media/1b6ca6_b3d747db006148baa9449aa8dba4ff84~mv2.jpg/v1/fill/w_187,h_144,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_b3d747db006148baa9449aa8dba4ff84~mv2.jpg",
           "alt": "Устройствен план на парцела за озеленяване в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_e0e204335e634e0a99080eb9af2acb87",
           "url": "https://static.wixstatic.com/media/1b6ca6_e0e204335e634e0a99080eb9af2acb87~mv2.jpg/v1/fill/w_171,h_187,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_e0e204335e634e0a99080eb9af2acb87~mv2.jpg",
           "alt": "Дендроплан Несебър",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_2a8980e4bdc445fa9376796047984a35",
           "url": "https://static.wixstatic.com/media/1b6ca6_2a8980e4bdc445fa9376796047984a35~mv2.jpg/v1/fill/w_163,h_215,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_2a8980e4bdc445fa9376796047984a35~mv2.jpg",
           "alt": "визуализация на проект за озеленяване на град Несебър",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_8755e901f03d4381a0b48fc6d9ecc6f2",
           "url": "https://static.wixstatic.com/media/1b6ca6_8755e901f03d4381a0b48fc6d9ecc6f2~mv2_d_3899_2944_s_4_2.jpeg/v1/fill/w_1920,h_1450,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_8755e901f03d4381a0b48fc6d9ecc6f2~mv2_d_3899_2944_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Несебър",
           "altStatus": "present"
         },
         {
-          "index": 7,
           "assetId": "1b6ca6_9f08e7bb850446729a140cc496b67a2c",
           "url": "https://static.wixstatic.com/media/1b6ca6_9f08e7bb850446729a140cc496b67a2c~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_9f08e7bb850446729a140cc496b67a2c~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Равда",
           "altStatus": "present"
         },
         {
-          "index": 8,
           "assetId": "1b6ca6_9fe34c7dde5d4077a184a9b43b2476aa",
           "url": "https://static.wixstatic.com/media/1b6ca6_9fe34c7dde5d4077a184a9b43b2476aa~mv2_d_3101_4439_s_4_2.jpeg/v1/fill/w_1920,h_2748,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_9fe34c7dde5d4077a184a9b43b2476aa~mv2_d_3101_4439_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 9,
           "assetId": "1b6ca6_1f84e022d7ea42c4a91576ebc715c8ce",
           "url": "https://static.wixstatic.com/media/1b6ca6_1f84e022d7ea42c4a91576ebc715c8ce~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_1f84e022d7ea42c4a91576ebc715c8ce~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Поморие",
           "altStatus": "present"
         },
         {
-          "index": 10,
           "assetId": "1b6ca6_97b4ba16776b4ea0a929351ecfdb6422",
           "url": "https://static.wixstatic.com/media/1b6ca6_97b4ba16776b4ea0a929351ecfdb6422~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_97b4ba16776b4ea0a929351ecfdb6422~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 11,
           "assetId": "1b6ca6_16f0f6f2cef54ae38c3a275bf6774562",
           "url": "https://static.wixstatic.com/media/1b6ca6_16f0f6f2cef54ae38c3a275bf6774562~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_16f0f6f2cef54ae38c3a275bf6774562~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект Ахелой",
           "altStatus": "present"
         },
         {
-          "index": 12,
           "assetId": "1b6ca6_0516169ec6f34080b86d4c5226f39d10",
           "url": "https://static.wixstatic.com/media/1b6ca6_0516169ec6f34080b86d4c5226f39d10~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0516169ec6f34080b86d4c5226f39d10~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на ландшафтен проект за Каблешково",
           "altStatus": "present"
         },
         {
-          "index": 13,
           "assetId": "1b6ca6_0bbd70cb5480411187f8fb2397e9a515",
           "url": "https://static.wixstatic.com/media/1b6ca6_0bbd70cb5480411187f8fb2397e9a515~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0bbd70cb5480411187f8fb2397e9a515~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на проект за благоустрояване на с. Кошарица",
           "altStatus": "present"
         },
         {
-          "index": 14,
           "assetId": "1b6ca6_1c40b34a0ed64530be2726a4662a11c5",
           "url": "https://static.wixstatic.com/media/1b6ca6_1c40b34a0ed64530be2726a4662a11c5~mv2_d_4522_3302_s_4_2.jpeg/v1/fill/w_1920,h_1402,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_1c40b34a0ed64530be2726a4662a11c5~mv2_d_4522_3302_s_4_2.jpeg",
           "alt": "Изготвяне на проект за благоустрояване Кошарица",
           "altStatus": "present"
         },
         {
-          "index": 15,
           "assetId": "1b6ca6_e12bfd3841074f5e90a22d0efcb82526",
           "url": "https://static.wixstatic.com/media/1b6ca6_e12bfd3841074f5e90a22d0efcb82526~mv2_d_4494_3355_s_4_2.jpeg/v1/fill/w_147,h_110,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_e12bfd3841074f5e90a22d0efcb82526~mv2_d_4494_3355_s_4_2.jpeg",
           "alt": "Готов ландшафтен проект в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 16,
           "assetId": "1b6ca6_b6ca8f634883450db4c8070e7b19975c",
           "url": "https://static.wixstatic.com/media/1b6ca6_b6ca8f634883450db4c8070e7b19975c~mv2.jpg/v1/fill/w_1280,h_894,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_b6ca8f634883450db4c8070e7b19975c~mv2.jpg",
           "alt": "ще извършим озеленяване на Кошарица",
           "altStatus": "present"
         },
         {
-          "index": 17,
           "assetId": "1b6ca6_8d68a19ec7594cbc9f6c3cb65c18ef56",
           "url": "https://static.wixstatic.com/media/1b6ca6_8d68a19ec7594cbc9f6c3cb65c18ef56~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_8d68a19ec7594cbc9f6c3cb65c18ef56~mv2.jpg",
           "alt": "ще извършим озеленяване в Каблешково",
           "altStatus": "present"
         },
         {
-          "index": 18,
           "assetId": "1b6ca6_b331165b95d74fe1a9ed0b2476286b2a",
           "url": "https://static.wixstatic.com/media/1b6ca6_b331165b95d74fe1a9ed0b2476286b2a~mv2.jpg/v1/fill/w_1280,h_979,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_b331165b95d74fe1a9ed0b2476286b2a~mv2.jpg",
           "alt": "ще извършим озеленяване Несебър",
           "altStatus": "present"
         },
         {
-          "index": 19,
           "assetId": "1b6ca6_4ed00422cd3848e2967600b9f8f90b4f",
           "url": "https://static.wixstatic.com/media/1b6ca6_4ed00422cd3848e2967600b9f8f90b4f~mv2.jpg/v1/fill/w_1280,h_597,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_4ed00422cd3848e2967600b9f8f90b4f~mv2.jpg",
           "alt": "ще извършим озеленяване Равда",
           "altStatus": "present"
         },
         {
-          "index": 20,
           "assetId": "1b6ca6_f085a5d43e6044bcaf3de08cff475835",
           "url": "https://static.wixstatic.com/media/1b6ca6_f085a5d43e6044bcaf3de08cff475835~mv2.jpg/v1/fill/w_1280,h_1301,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f085a5d43e6044bcaf3de08cff475835~mv2.jpg",
           "alt": "Ще извършим озеленяване в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 21,
           "assetId": "1b6ca6_fdabca8d39a14315833e07a05eb91de6",
           "url": "https://static.wixstatic.com/media/1b6ca6_fdabca8d39a14315833e07a05eb91de6~mv2.jpg/v1/fill/w_1280,h_597,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_fdabca8d39a14315833e07a05eb91de6~mv2.jpg",
           "alt": "Ще извършим озеленяване в Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 22,
           "assetId": "1b6ca6_924408b005bf4141b9b19aa092281d06",
           "url": "https://static.wixstatic.com/media/1b6ca6_924408b005bf4141b9b19aa092281d06~mv2.jpg/v1/fill/w_1280,h_912,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_924408b005bf4141b9b19aa092281d06~mv2.jpg",
           "alt": "Да направим ландшафтен дизайн в Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 23,
           "assetId": "1b6ca6_04b617de227d4b99844fcdd3aff80f0f",
           "url": "https://static.wixstatic.com/media/1b6ca6_04b617de227d4b99844fcdd3aff80f0f~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_04b617de227d4b99844fcdd3aff80f0f~mv2.jpg",
           "alt": "Да направим ландшафтен дизайн в Несебр",
           "altStatus": "present"
         },
         {
-          "index": 24,
           "assetId": "1b6ca6_d24468ca59b74b16831c98d6118be949",
           "url": "https://static.wixstatic.com/media/1b6ca6_d24468ca59b74b16831c98d6118be949~mv2.jpg/v1/fill/w_960,h_1107,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_d24468ca59b74b16831c98d6118be949~mv2.jpg",
           "alt": "Да направим ландшафтен дизайн в Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 25,
           "assetId": "1b6ca6_8c9cef04467e43e389dcf74e92da8cfd",
           "url": "https://static.wixstatic.com/media/1b6ca6_8c9cef04467e43e389dcf74e92da8cfd~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_8c9cef04467e43e389dcf74e92da8cfd~mv2.jpg",
           "alt": "Да направим ландшафтен дизайн в Кошарица",
           "altStatus": "present"
         },
         {
-          "index": 26,
           "assetId": "1b6ca6_1897824685da4396973bf1fc3d9e67e4",
           "url": "https://static.wixstatic.com/media/1b6ca6_1897824685da4396973bf1fc3d9e67e4~mv2.jpg/v1/fill/w_960,h_1483,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_1897824685da4396973bf1fc3d9e67e4~mv2.jpg",
           "alt": "Да направим ландшафтен дизайн в Коблешково",
           "altStatus": "present"
         },
         {
-          "index": 27,
           "assetId": "1b6ca6_32e9253431f24d41ba452c34e31658fb",
           "url": "https://static.wixstatic.com/media/1b6ca6_32e9253431f24d41ba452c34e31658fb~mv2.jpg/v1/fill/w_1280,h_960,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_32e9253431f24d41ba452c34e31658fb~mv2.jpg",
           "alt": "Да направим Ландшафтен дизайн в Поморие",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/_KqLxWnhBro/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/_KqLxWnhBro/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -913,31 +892,27 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
       "coverAlt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_2c228f1c7a564192b05b20bcbbf9af15",
           "url": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
           "alt": "подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_9fb720730254481094ae9d5f34166587",
           "url": "https://static.wixstatic.com/media/1b6ca6_9fb720730254481094ae9d5f34166587~mv2.jpg/v1/fill/w_960,h_1460,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_9fb720730254481094ae9d5f34166587~mv2.jpg",
           "alt": "Премахване на стара тревна настилка с фреза за трева Слънчев бряг",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_cb0fadd0d77146b7978c833146a25bb2",
           "url": "https://static.wixstatic.com/media/1b6ca6_cb0fadd0d77146b7978c833146a25bb2~mv2.jpg/v1/fill/w_640,h_1135,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_cb0fadd0d77146b7978c833146a25bb2~mv2.jpg",
           "alt": "почистване на стара тревна площ в Равда. Премахване на трева",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_dc06ec435448428eb1e45800da56bbd1",
           "url": "https://static.wixstatic.com/media/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg",
           "alt": "замена старого газона на новый рулонный газон в Одессе",
@@ -945,7 +920,6 @@
           "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_de6324bfda7d4cf181a6fa4822687cf1",
           "url": "https://static.wixstatic.com/media/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg",
           "alt": "ремонт и замена поврежденного газона в Одессе",
@@ -953,12 +927,29 @@
           "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_12e7169110c44bfbb38796bc39653370",
           "url": "https://static.wixstatic.com/media/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg",
           "alt": "замена плохого газона на новый рулонный газон Одесса",
           "altStatus": "contains Ukraine/Odesa reference",
           "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/aCB3XjbglUA/maxresdefault.jpg",
+          "url": "https://i.ytimg.com/vi/aCB3XjbglUA/maxresdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/6GZG4INx8qI/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/6GZG4INx8qI/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/C5oa3BCAzbI/maxresdefault.jpg",
+          "url": "https://i.ytimg.com/vi/C5oa3BCAzbI/maxresdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     },
@@ -969,63 +960,91 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_85999085285d4dce890b419189cbfbb3~mv2.gif",
       "coverAlt": "Оборудване Rain Bird за автоматично поливане",
-      "coverStatus": "verified from source og:image or Bulgarian listing",
+      "coverStatus": "verified from source og:image",
       "images": [
         {
-          "index": 1,
           "assetId": "1b6ca6_85999085285d4dce890b419189cbfbb3",
           "url": "https://static.wixstatic.com/media/1b6ca6_85999085285d4dce890b419189cbfbb3~mv2.gif",
           "alt": "Представяме оборудване Rain Bird в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 2,
           "assetId": "1b6ca6_36b9589bbc9943a4be87f296cfc17b87",
           "url": "https://static.wixstatic.com/media/1b6ca6_36b9589bbc9943a4be87f296cfc17b87~mv2.jpg/v1/fill/w_117,h_117,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_36b9589bbc9943a4be87f296cfc17b87~mv2.jpg",
           "alt": "магазин за оборудване и компоненти за поливанне",
           "altStatus": "present"
         },
         {
-          "index": 3,
           "assetId": "1b6ca6_615f8d017e404d78a968b939294f2988",
           "url": "https://static.wixstatic.com/media/1b6ca6_615f8d017e404d78a968b939294f2988~mv2.gif",
           "alt": "спрей разпръсквач Rain Bird Несебър",
           "altStatus": "present"
         },
         {
-          "index": 4,
           "assetId": "1b6ca6_b2ba9de045a147a08d025800edfc86ab",
           "url": "https://static.wixstatic.com/media/1b6ca6_b2ba9de045a147a08d025800edfc86ab~mv2.gif",
           "alt": "Rain Bird ротаторска работа в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 5,
           "assetId": "1b6ca6_98a3fbe9155b4f799c70837c78412cca",
           "url": "https://static.wixstatic.com/media/1b6ca6_98a3fbe9155b4f799c70837c78412cca~mv2.gif/v1/fill/w_80,h_169,al_c,usm_0.66_1.00_0.01,blur_2,pstr/1b6ca6_98a3fbe9155b4f799c70837c78412cca~mv2.gif",
           "alt": "работа на роторен тип разпръсквач Rain Bird в Свети Влас",
           "altStatus": "present"
         },
         {
-          "index": 6,
           "assetId": "1b6ca6_b8e7da60b5f84e0a9beab4e4bda88bd3",
           "url": "https://static.wixstatic.com/media/1b6ca6_b8e7da60b5f84e0a9beab4e4bda88bd3~mv2.jpg/v1/fill/w_88,h_88,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_b8e7da60b5f84e0a9beab4e4bda88bd3~mv2.jpg",
           "alt": "Електроклапан Rainbird в Несебър",
           "altStatus": "present"
         },
         {
-          "index": 7,
           "assetId": "1b6ca6_9f1c4c1adba84e9ea28795158ee0485b",
           "url": "https://static.wixstatic.com/media/1b6ca6_9f1c4c1adba84e9ea28795158ee0485b~mv2_d_1200_1600_s_2.jpg/v1/fill/w_147,h_196,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_9f1c4c1adba84e9ea28795158ee0485b~mv2_d_1200_1600_s_2.jpg",
           "alt": "Компютър за поливане Rain Bird ESP-RZX",
           "altStatus": "present"
         },
         {
-          "index": 8,
           "assetId": "1b6ca6_4ff9c4541926490bb5b6f2bb2175fcae",
           "url": "https://static.wixstatic.com/media/1b6ca6_4ff9c4541926490bb5b6f2bb2175fcae~mv2.jpg/v1/fill/w_94,h_69,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_4ff9c4541926490bb5b6f2bb2175fcae~mv2.jpg",
           "alt": "Микрокапкова тръба Rain Bird",
           "altStatus": "present"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/d-bOZ7tS8lg/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/d-bOZ7tS8lg/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/SVgG63Qvtao/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/SVgG63Qvtao/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/mUX-T5efXBM/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/mUX-T5efXBM/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/0z_JpD75UCA/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/0z_JpD75UCA/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/OgNUIjLX7ME/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/OgNUIjLX7ME/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "https://i.ytimg.com/vi/RvHMHwOHarE/hqdefault.jpg",
+          "url": "https://i.ytimg.com/vi/RvHMHwOHarE/hqdefault.jpg",
+          "alt": "",
+          "altStatus": "missing"
         }
       ]
     }
@@ -1036,5 +1055,5 @@
     "Two irrigation-cost article image alt texts mention Odesa; suggested Bulgaria-specific alt text is provided.",
     "Cover URLs are taken from source OG metadata or Bulgarian listing data. A candidate inline image is not substituted where the cover is not verified."
   ],
-  "uniqueWixAssetsIncludingVerifiedCovers": 127
+  "uniqueWixAssetsIncludingVerifiedCovers": 138
 }
