@@ -83,7 +83,7 @@ const translations: Record<string, Record<Language, string>> = {
   'Обаждане': { bg: 'Обаждане', en: 'Call us', ru: 'Позвонить' },
   'Работни дни': { bg: 'Работни дни', en: 'Working days', ru: 'Рабочие дни' },
   'Свържете се с нас за консултация и оглед': { bg: 'Свържете се с нас за консултация и оглед', en: 'Contact us for a consultation and site visit', ru: 'Свяжитесь с нами для консультации и осмотра объекта' },
-  'WhatsApp Контакт': { bg: 'WhatsApp Контакт', en: 'Contact on WhatsApp', ru: 'Связаться в WhatsApp' },
+  'WhatsApp чат с оператором': { bg: 'WhatsApp чат с оператор', en: 'WhatsApp chat with an operator', ru: 'WhatsApp-чат с оператором' },
   'За нас': { bg: 'За нас', en: 'About us', ru: 'О нас' },
   'Райони и населени места на обслужване:': { bg: 'Райони и населени места на обслужване:', en: 'Service areas:', ru: 'Районы обслуживания:' },
   'Количка за пазаруване': { bg: 'Количка за пазаруване', en: 'Shopping cart', ru: 'Корзина покупок' },
