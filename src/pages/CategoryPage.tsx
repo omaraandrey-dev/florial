@@ -115,7 +115,9 @@ export function CategoryPage({
         <a href={localizedHref(category.isPlantCategory ? '/category/rastenia' : '/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(category.isPlantCategory ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{category.isPlantCategory ? (language === 'ru' ? 'Растения' : language === 'en' ? 'Plants' : 'Растения') : t('Каталог')}</a>
         {(() => {
           const parent = category.parentId ? allCategories.find((item) => item._id === category.parentId) : undefined
-          const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+          const catalogRoot = category.isPlantCategory
+            ? allCategories.find((item) => item.slug?.current === 'rastenia' || item._id === 'plants-root')
+            : allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
           return parent && parent._id !== catalogRoot?._id ? (
             <>
               <span className="mx-2">/</span>
