@@ -259,6 +259,7 @@ export default function App() {
           translations,
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
+          "parentId": parent->_id,
           "imageUrl": image.asset->url,
           description,
           seo,
@@ -834,6 +835,7 @@ export default function App() {
           products={filteredProducts}
           onNavigateHome={navigateToHome}
           onNavigateCategory={navigateToCategory}
+          allCategories={visibleCategories}
           onSelectProduct={(product) =>
             navigateToProduct(product.slug?.current || product._id)
           }
@@ -848,6 +850,7 @@ export default function App() {
         ) : currentProduct ? (
           <ProductPage
             product={currentProduct}
+            allCategories={visibleCategories}
             onNavigateHome={navigateToHome}
             onNavigateCategory={navigateToCategory}
             onNavigateProduct={navigateToProduct}
