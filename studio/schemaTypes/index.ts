@@ -338,6 +338,7 @@ const blogPost = defineType({
     defineField({name: 'title', title: 'Заглавие (BG, за преглед)', type: 'string'}),
     slugField('URL адрес'),
     defineField({name: 'publishedAt', title: 'Дата на публикуване', type: 'datetime'}),
+    defineField({name: 'sourceUrl', title: 'Източник / оригинална публикация', type: 'url'}),
     defineField({name: 'isPublished', title: 'Публикувана', type: 'boolean', initialValue: false}),
     defineField({name: 'cover', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: [
       defineField({name: 'alt', title: 'Alt текст', type: 'string'}),
