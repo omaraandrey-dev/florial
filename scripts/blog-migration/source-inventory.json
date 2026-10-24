@@ -1,0 +1,89 @@
+{
+  "source": "https://www.drop.od.ua/bg/blog",
+  "retrievedAt": "2026-10-24",
+  "status": "inventory-in-progress",
+  "notes": [
+    "Unique Bulgarian article pages found on the blog listing: five.",
+    "The listing also links to Russian and English variants for some posts; those are language variants, not separate articles.",
+    "Publication dates were not reliably exposed in the retrieved page content. Do not invent dates; verify structured metadata before migration.",
+    "Original images remain hosted on Wix static media. They have not been downloaded or uploaded to Sanity production.",
+    "No article documents or assets have been written to Sanity."
+  ],
+  "posts": [
+    {
+      "slug": "cena-sistema-avtomatichno-napoyavane-burgas",
+      "title": {
+        "bg": "Цена на система за автоматично поливане в Бургаска област",
+        "ru": "Цена системы автоматического полива в Бургасской области",
+        "en": "Cost of an Automatic Irrigation System in Burgas Region"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/цена-на-система-за-автоматично-поливане-в-бургаска-област",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_b3b4565a82e7483dbfddfe4ea16a9100~mv2.jpg",
+      "sourceImageCount": 3,
+      "publishedAt": null,
+      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "Review every price and quote individually with owner before editing."
+    },
+    {
+      "slug": "sistema-magluvane-terasa-besedka",
+      "title": {
+        "bg": "Достъпна система за мъглуване за вашата тераса или беседка",
+        "ru": "Недорогая система туманообразования для террасы или беседки",
+        "en": "An Affordable Misting System for Your Terrace or Gazebo"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/достъпна-система-за-мъглуване-за-вашата-тераса-или-беседка",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_3b022d925f5d40088acffb57a373ec91~mv2.jpg",
+      "sourceImageCount": 7,
+      "publishedAt": null,
+      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "No price change proposed; retain factual figures (15 atm, 4–5 °C) unless owner approves edits."
+    },
+    {
+      "slug": "rozi-sympathy",
+      "title": {
+        "bg": "Продажба на рози от сорта Sympathy",
+        "ru": "Продажа розы сорта Симпатия",
+        "en": "Sympathy Climbing Roses"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/продажба-на-рози-от-сорта-sympathy",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_6f08a19246f04a61915df7ea088a9fb7~mv2.jpg",
+      "sourceImageCount": 5,
+      "publishedAt": null,
+      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "Any sale price must be reviewed separately; do not replace with current Florial pricing."
+    },
+    {
+      "slug": "topiarna-rezitba-rasteniya",
+      "title": {
+        "bg": "Топиарна резитба на растения",
+        "ru": "Топиарная стрижка растений",
+        "en": "Topiary Pruning of Plants"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/топиарна-резитба-на-растения",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_5f17d42d784c42b5924c4ed2ba42be67~mv2.jpg",
+      "sourceImageCount": 4,
+      "publishedAt": null,
+      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "No price change identified in the captured source excerpt."
+    },
+    {
+      "slug": "nov-vnos-palmi-2025",
+      "title": {
+        "bg": "Нов внос на палми в градински център Флориал – 2025 година",
+        "ru": "Новая поставка пальм в садовом центре Florial — 2025 год",
+        "en": "New Palm Tree Shipment at Florial Garden Centre — 2025"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/нов-внос-на-палми-в-градински-център-флориал-2025-година-1",
+      "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2bf67397b36e4d7f80aad5fb225e2790~mv2.jpg",
+      "sourceImageCount": 5,
+      "publishedAt": null,
+      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "translationStatus": "source extraction done; translation/edit review pending",
+      "priceReview": "No current price to be substituted without owner review."
+    }
+  ]
+}
