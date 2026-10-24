@@ -229,7 +229,7 @@ export function CategoryPage({
                   )}
                 </div>
                 <span className="text-xs text-emerald-600 font-semibold uppercase tracking-wider">
-                  {product.category || category.name}
+                  {product.categoryTranslations?.[language]?.name || (product.categoryId ? localize(allCategories.find((item) => item._id === product.categoryId), 'name') : undefined) || product.category || localize(category, 'name')}
                 </span>
                 <h3 className="text-lg font-bold text-slate-900 mt-1 mb-2 group-hover:text-emerald-700 transition-colors line-clamp-2">
                   {localize(product, 'name')}
