@@ -2,7 +2,7 @@
   "source": "https://www.drop.od.ua/bg/blog and linked Bulgarian category/article pages",
   "createdAt": "2026-10-24",
   "articleCount": 19,
-  "imageOccurrences": 119,
+  "imageOccurrences": 125,
   "uniqueWixAssetsIncludingCovers": 39,
   "uploadedToSanity": 0,
   "articles": [
@@ -361,7 +361,44 @@
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
       "coverAlt": "Рулонна тревна площ в Несебър",
       "coverStatus": "verified from source og:image",
-      "images": []
+      "images": [
+        {
+          "assetId": "1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed",
+          "url": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_f5aa789481d44e1893ecd29301e89eb4",
+          "url": "https://static.wixstatic.com/media/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_ea784ffe84fe4914b71bd550fac30706",
+          "url": "https://static.wixstatic.com/media/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a",
+          "url": "https://static.wixstatic.com/media/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_038ded03b31845899794604feef7e0c5",
+          "url": "https://static.wixstatic.com/media/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        },
+        {
+          "assetId": "1b6ca6_81f265cc490a4eb6b682cd9d6f68783f",
+          "url": "https://static.wixstatic.com/media/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg/v1/fill/w_147,h_156,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg",
+          "alt": "",
+          "altStatus": "missing"
+        }
+      ]
     },
     {
       "slug": "izgrazhdane-tsvetni-lehi",
@@ -1011,5 +1048,5 @@
     "Two irrigation-cost article image alt texts mention Odesa; suggested Bulgaria-specific alt text is provided.",
     "Cover URLs are taken from source OG metadata or Bulgarian listing data. A candidate inline image is not substituted where the cover is not verified."
   ],
-  "uniqueWixAssetsIncludingVerifiedCovers": 118
+  "uniqueWixAssetsIncludingVerifiedCovers": 124
 }
