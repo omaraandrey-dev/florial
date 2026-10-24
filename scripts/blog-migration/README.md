@@ -5,10 +5,13 @@
 - Unique Bulgarian article pages found: 5.
 - Some pages also link to RU/EN variants; these were deduplicated as language variants.
 - Some category-only posts were discovered beyond the main listing. One turf page currently returns 404 and several language variants are English/Russian despite /bg/ paths.
-- The image counts below are source-page image candidates, including inline photos; these are not yet deduplicated by underlying Wix asset ID.
+- The image manifest records 139 image references, including 17 YouTube thumbnails, and 121 unique Wix photo assets including covers. The counts are based on deduplicated asset IDs; cover assets are included in the unique-asset total.
 
 ## Files
-- `source-inventory.json`: source URL, observed title, original cover URL, image candidate count and unresolved metadata.
+- `source-inventory.json`: 19 source URLs, titles, publication timestamps, original covers, image counts and language/source notes.
+- `image-manifest.json`: source image URLs, source alt text, suggested Bulgarian alt text, OG cover status and video-thumbnail separation.
+- `editorial-change-report.json`: 82 old-domain link occurrences, recommended replacements, contact audit and all price values requiring owner approval.
+- `source/`: 19 full Markdown source snapshots, including source URL/date metadata and image manifests.
 - `prepared-posts.json`: intentionally starts as an empty array. Populate only after full article extraction, review of all price references, and BG/RU/EN translation.
 - `import-blog-posts.mjs`: validation-first, idempotent import script. Default execution is a dry run; it never writes unless `--write` is passed. Production requires `--confirm-production-write`. Existing documents are skipped unless `--overwrite-existing` is explicitly supplied.
 
@@ -19,4 +22,4 @@
 4. Only after explicit owner approval, configure `SANITY_API_TOKEN` in the local shell (never in a committed file) and run the import with the production confirmation flag.
 5. Documents are imported with `isPublished: false`; publication is a separate manual action in Sanity Studio.
 
-No Sanity production documents/assets were written by creating these files.
+No Sanity production documents/assets were written by creating these files. All 19 article bodies still require final Bulgarian editing, Russian/English translation, price approval and conversion to Portable Text before `prepared-posts.json` can be populated.
