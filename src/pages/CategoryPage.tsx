@@ -56,8 +56,8 @@ export function CategoryPage({
     const breadcrumbItems = [
       { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
       { name: t('Каталог'), item: new URL(localizedHref(`/category/${catalogRoot?.slug?.current || 'vsichko-za-polivane'}`, language), window.location.origin).toString() },
-      ...(parentCategory && category._id !== catalogRoot?._id ? [{ name: String(localize(parentCategory, 'name') || parentCategory.name), item: new URL(localizedHref(`/category/${encodeURIComponent(parentCategory.slug?.current || parentCategory._id)}`, language), window.location.origin).toString() }] : []),
-      ...(category._id === catalogRoot?._id ? [] : [{ name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() }]),
+      ...(parentCategory && parentCategory._id !== catalogRoot?._id ? [{ name: String(localize(parentCategory, 'name') || parentCategory.name), item: new URL(localizedHref(`/category/${encodeURIComponent(parentCategory.slug?.current || parentCategory._id)}`, language), window.location.origin).toString() }] : []),
+      { name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() },
     ]
     setStructuredData('breadcrumbs', {
       '@context': 'https://schema.org',
@@ -104,21 +104,18 @@ export function CategoryPage({
         <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-2">/</span>
         <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.('vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
-        {category.parentId && (
-          <>
-            <span className="mx-2">/</span>
-            {(() => {
-              const parent = allCategories.find((item) => item._id === category.parentId)
-              return parent ? <a href={localizedHref(`/category/${encodeURIComponent(parent.slug?.current || parent._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(parent.slug?.current, parent._id))} className="hover:text-emerald-700 transition-colors no-underline">{localize(parent, 'name')}</a> : null
-            })()}
-          </>
-        )}
-        {category.slug?.current !== 'vsichko-za-polivane' && (
-          <>
-            <span className="mx-2">/</span>
-            <span className="font-medium text-slate-800">{localize(category, 'name')}</span>
-          </>
-        )}
+        {(() => {
+          const parent = category.parentId ? allCategories.find((item) => item._id === category.parentId) : undefined
+          const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+          return parent && parent._id !== catalogRoot?._id ? (
+            <>
+              <span className="mx-2">/</span>
+              <a href={localizedHref(`/category/${encodeURIComponent(parent.slug?.current || parent._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(parent.slug?.current, parent._id))} className="hover:text-emerald-700 transition-colors no-underline">{localize(parent, 'name')}</a>
+            </>
+          ) : null
+        })()}
+        <span className="mx-2">/</span>
+        <span className="font-medium text-slate-800">{localize(category, 'name')}</span>
       </nav>
 
       {/* Заголовок категории */}
