@@ -220,7 +220,7 @@ export function CategoryPage({
         <div className="mb-8">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
             {isIrrigationCatalog
-              ? (language === 'ru' ? 'Категории оборудования:' : language === 'en' ? 'Equipment categories:' : 'Категории оборудване:')
+              ? (language === 'ru' ? 'Категории оборудования:' : language === 'en' ? 'Equipment categories:' : 'Категории на оборудването:')
               : (language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:')}
           </p>
           <div className="flex flex-wrap gap-2">
