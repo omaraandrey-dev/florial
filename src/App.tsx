@@ -280,6 +280,7 @@ export default function App() {
           // Normalize both Sanity slug objects ({ current }) and legacy plain strings.
           "slug": { "current": coalesce(slug.current, slug) },
           sku,
+          "brand": brand->name,
           priceEUR,
           oldPriceEUR,
           stockStatus,
