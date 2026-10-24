@@ -172,6 +172,8 @@ const translations: Record<string, Record<Language, string>> = {
 }
 
 const knownContentTranslations: Record<string, Record<Language, string>> = {
+  'Клапани': { bg: 'Клапани', en: 'Valves', ru: 'Клапаны' },
+  'Електромагнитни клапани за управление на зоните на автоматичните поливни системи. Изберете подходящ модел според захранването, диаметъра и изискванията на системата.': { bg: 'Електромагнитни клапани за управление на зоните на автоматичните поливни системи. Изберете подходящ модел според захранването, диаметъра и изискванията на системата.', en: 'Solenoid valves control the zones of an automatic irrigation system. Choose a model according to the power supply, connection size and system requirements.', ru: 'Электромагнитные клапаны управляют зонами автоматического полива. Выбирайте модель с учётом питания, диаметра подключения и требований системы.' },
   'Всичко за поливане': { bg: 'Всичко за поливане', en: 'All irrigation products', ru: 'Всё для полива' },
   'Капково напояване': { bg: 'Капково напояване', en: 'Drip irrigation', ru: 'Капельный полив' },
   'Дъждовални': { bg: 'Дъждовални', en: 'Sprinklers', ru: 'Дождеватели' },
@@ -179,6 +181,7 @@ const knownContentTranslations: Record<string, Record<Language, string>> = {
   'Статични разпръсквачи': { bg: 'Статични разпръсквачи', en: 'Spray sprinklers', ru: 'Статические дождеватели' },
   'Дюзи': { bg: 'Дюзи', en: 'Nozzles', ru: 'Форсунки' },
   'Електромагнитни клапани': { bg: 'Електромагнитни клапани', en: 'Solenoid valves', ru: 'Электромагнитные клапаны' },
+  'Клапани': { bg: 'Клапани', en: 'Valves', ru: 'Клапаны' },
   'Клапанни кутии': { bg: 'Клапанни кутии', en: 'Valve boxes', ru: 'Клапанные боксы' },
   'Контролери': { bg: 'Контролери', en: 'Controllers', ru: 'Контроллеры' },
   'Wi-Fi контролери': { bg: 'Wi-Fi контролери', en: 'Wi-Fi controllers', ru: 'Wi-Fi контроллеры' },
