@@ -8,6 +8,7 @@ interface CategoryPageProps {
   category: CategoryItem
   products: Product[]
   allCategories: CategoryItem[]
+  visibleCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory?: (slug?: string, id?: string) => void
   onSelectProduct: (product: Product) => void
@@ -17,6 +18,7 @@ export function CategoryPage({
   category,
   products,
   allCategories,
+  visibleCategories,
   onNavigateHome,
   onNavigateCategory,
   onSelectProduct,
@@ -78,10 +80,10 @@ export function CategoryPage({
     const linkGroupId = category.parentId && category.parentId !== catalogRoot?._id
       ? category.parentId
       : category._id
-    return allCategories
+    return visibleCategories
       .filter((item) => item.parentId === linkGroupId && item._id !== category._id)
       .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
-  }, [allCategories, category._id, category.parentId, language])
+  }, [allCategories, visibleCategories, category._id, category.parentId, language])
 
   const catalogGroups = useMemo(() => {
     if (!isIrrigationCatalog) return []
@@ -149,7 +151,7 @@ export function CategoryPage({
       {isIrrigationCatalog ? (
         <section className="mb-10 space-y-8" aria-label={language === 'ru' ? 'Категории каталога' : language === 'en' ? 'Catalogue categories' : 'Категории в каталога'}>
           {catalogGroups.map((group) => {
-            const children = allCategories
+            const children = visibleCategories
               .filter((item) => item.parentId === group._id)
               .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
             const groupHref = localizedHref(`/category/${encodeURIComponent(group.slug?.current || group._id)}`, language)
