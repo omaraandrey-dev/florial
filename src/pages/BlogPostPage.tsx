@@ -19,11 +19,20 @@ export function BlogPostPage({slug}: {slug: string}) {
   useEffect(() => {
     if (!post || !content) return
     const base = 'https://florial-bg.com/blog/' + encodeURIComponent(typeof post.slug === 'string' ? post.slug : post.slug?.current || post._id)
+    const selectedTranslation = post.translations?.[language]
+    const hasCompleteTranslation = language === 'bg' || Boolean(
+      selectedTranslation?.title &&
+      selectedTranslation?.shortDescription &&
+      selectedTranslation?.seoTitle &&
+      selectedTranslation?.seoDescription &&
+      selectedTranslation?.body?.length
+    )
     applyPageSeo({
       fallbackTitle: content.seoTitle || (content.title + ' | Florial'),
       fallbackDescription: content.seoDescription || content.shortDescription || content.title,
       pageType: 'article',
       imageUrl: post.cover?.asset?.url,
+      noIndex: language !== 'bg' && !hasCompleteTranslation,
       language,
       alternates: {bg:base,ru:base+'?lang=ru',en:base+'?lang=en','x-default':base},
     })
