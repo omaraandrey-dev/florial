@@ -34,7 +34,8 @@
           "alt": "Микрокапельный полив увеличивает стоимость системы орошения",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "sistema-magluvane-terasa-besedka",
@@ -92,7 +93,8 @@
           "alt": "Система туманообразования Несебр",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "rozi-sympathy",
@@ -106,37 +108,43 @@
           "assetId": "1b6ca6_6f08a19246f04a61915df7ea088a9fb7",
           "url": "https://static.wixstatic.com/media/1b6ca6_6f08a19246f04a61915df7ea088a9fb7~mv2.jpg/v1/fill/w_740,h_1603,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_6f08a19246f04a61915df7ea088a9fb7~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Катереща роза Sympathy (Симпатия), снимка 1"
         },
         {
           "index": 2,
           "assetId": "1b6ca6_7f92e05de6de4fcebcc58807eef1b783",
           "url": "https://static.wixstatic.com/media/1b6ca6_7f92e05de6de4fcebcc58807eef1b783~mv2.jpg/v1/fill/w_640,h_1387,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_7f92e05de6de4fcebcc58807eef1b783~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Катереща роза Sympathy (Симпатия), снимка 2"
         },
         {
           "index": 3,
           "assetId": "1b6ca6_eec32407927344c690c3ee3fb805888b",
           "url": "https://static.wixstatic.com/media/1b6ca6_eec32407927344c690c3ee3fb805888b~mv2.jpg/v1/fill/w_640,h_1387,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_eec32407927344c690c3ee3fb805888b~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Катереща роза Sympathy (Симпатия), снимка 3"
         },
         {
           "index": 4,
           "assetId": "1b6ca6_f87a6d068712415da5e928dc3a32f51b",
           "url": "https://static.wixstatic.com/media/1b6ca6_f87a6d068712415da5e928dc3a32f51b~mv2.jpg/v1/fill/w_640,h_1387,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f87a6d068712415da5e928dc3a32f51b~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Катереща роза Sympathy (Симпатия), снимка 4"
         },
         {
           "index": 5,
           "assetId": "1b6ca6_55c7c8c8a0844bbdb8b68fc82c0cae5a",
           "url": "https://static.wixstatic.com/media/1b6ca6_55c7c8c8a0844bbdb8b68fc82c0cae5a~mv2.jpg/v1/fill/w_640,h_1387,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_55c7c8c8a0844bbdb8b68fc82c0cae5a~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Катереща роза Sympathy (Симпатия), снимка 5"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "topiarna-rezitba-rasteniya",
@@ -159,7 +167,8 @@
           "alt": "Топиарна резитба на растения Свети Влас",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "nov-vnos-palmi-2025",
@@ -203,7 +212,8 @@
           "alt": "Палми за продажба в Свети Влас",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "kiparis-totem",
@@ -219,7 +229,8 @@
           "alt": "Купете Кипарис тотем Несебър",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "godishna-poddruzhka-avtomatichni-sistemi",
@@ -242,7 +253,8 @@
           "alt": "Специална оферта за годишна поддръжка на автоматични поливни системи",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "landshaften-dizain-proekt-zasazhdenie",
@@ -321,7 +333,8 @@
           "alt": "Продължаваме озеленяването на обекта през пролетта в Несебър",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "landshaften-proekt-zima-burgas",
@@ -365,7 +378,8 @@
           "alt": "Ландшафтен дизайн с тревен чим Несебр",
           "altStatus": "present"
         }
-      ]
+      ],
+      "coverStatus": "verified from source og:image or Bulgarian listing"
     },
     {
       "slug": "prodavane-traven-chim",
@@ -373,50 +387,56 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
-      "coverAlt": "Продава тревен чим Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Рулонна тревна площ в Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
           "assetId": "1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed",
           "url": "https://static.wixstatic.com/media/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_0671d74c9dda4848b63e1293f6c4b6ed~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 1"
         },
         {
           "index": 2,
           "assetId": "1b6ca6_f5aa789481d44e1893ecd29301e89eb4",
           "url": "https://static.wixstatic.com/media/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_f5aa789481d44e1893ecd29301e89eb4~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 2"
         },
         {
           "index": 3,
           "assetId": "1b6ca6_ea784ffe84fe4914b71bd550fac30706",
           "url": "https://static.wixstatic.com/media/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_ea784ffe84fe4914b71bd550fac30706~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 3"
         },
         {
           "index": 4,
           "assetId": "1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a",
           "url": "https://static.wixstatic.com/media/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_6d9c3997a6a748d0a45ed5f3ecb9a72a~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 4"
         },
         {
           "index": 5,
           "assetId": "1b6ca6_038ded03b31845899794604feef7e0c5",
           "url": "https://static.wixstatic.com/media/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg/v1/fill/w_1280,h_591,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_038ded03b31845899794604feef7e0c5~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 5"
         },
         {
           "index": 6,
           "assetId": "1b6ca6_81f265cc490a4eb6b682cd9d6f68783f",
           "url": "https://static.wixstatic.com/media/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg/v1/fill/w_147,h_156,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/1b6ca6_81f265cc490a4eb6b682cd9d6f68783f~mv2.jpg",
           "alt": "",
-          "altStatus": "missing"
+          "altStatus": "missing",
+          "suggestedAlt": "Рулонна тревна площ за двор и градина в Несебър, снимка 6"
         }
       ]
     },
@@ -426,8 +446,8 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%B8%D0%B7%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D1%86%D0%B2%D0%B5%D1%82%D0%BD%D0%B8-%D0%BB%D0%B5%D1%85%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
-      "coverAlt": "Изграждане на цветни лехи в Слънчев бряг",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Цветна градина в Слънчев бряг",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -486,8 +506,8 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BA%D1%83%D0%BF%D0%B5%D1%82%D0%B5-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B0-%D0%BF%D0%BB%D0%BE%D1%89-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D1%82%D1%80%D0%B5%D0%B2%D0%B0-%D0%BD%D0%B0-%D1%80%D1%83%D0%BB%D0%B0",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_616,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_270,h_438,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
-      "coverAlt": "Купете качествена тревна площ в Слънчев бряг",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Рулонна тревна площ в Слънчев бряг",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -525,8 +545,8 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%B5%D1%82%D0%B0%D0%BF%D0%B8-%D0%BD%D0%B0-%D0%BC%D0%BE%D0%BD%D1%82%D0%B0%D0%B6-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BA%D0%B8-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%D0%B0",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg/v1/fill/w_563,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg/v1/fill/w_1920,h_3412,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_5e5f76c2e7934c60a41134fbb7b62991~mv2_d_2368_4208_s_2.jpg",
-      "coverAlt": "Етапи на монтаж на автоматична поливна инсталация в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Монтаж на автоматична поливна система в Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -599,8 +619,8 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82-%D0%B8-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_233,h_233,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
-      "coverAlt": "Ремонт и модернизация на поливни системи в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Ремонт на автоматични поливни системи в Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -638,8 +658,8 @@
       "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BC%D0%B0%D1%81%D0%BB%D0%B8%D0%BD%D0%B0%D1%82%D0%B0-%D0%B5-%D0%B2%D0%B5%D1%87%D0%BD%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD-%D1%81%D0%B8%D0%BC%D0%B2%D0%BE%D0%BB-%D0%BD%D0%B0-%D1%81%D1%80%D0%B5%D0%B4%D0%B8%D0%B7%D0%B5%D0%BC%D0%BD%D0%BE%D0%BC%D0%BE%D1%80%D0%B8%D0%B5%D1%82%D0%BE-%D0%B2%D1%8A%D0%B2-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_600,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_640,h_1067,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
-      "coverAlt": "Маслина — продажба и засаждане в градински център Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Маслиново дърво в градински център Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -691,8 +711,8 @@
       "sourceUrl": "https://bg.drop.od.ua/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1000,h_638,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1920,h_1225,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
-      "coverAlt": "Ландшафтен проект в Несебър от студио Florial",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Ландшафтен проект в Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -745,7 +765,7 @@
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg/v1/fill/w_179,h_131,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg",
       "coverAlt": "Етапи на създаване на ландшафтен проект в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -944,8 +964,8 @@
       "sourceUrl": "https://bg.drop.od.ua/post/%D0%BF%D0%BE%D0%B4%D0%BC%D1%8F%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D1%82%D0%B0%D1%80%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B0-%D0%BF%D0%BB%D0%BE%D1%89-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,enc_auto/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
-      "coverAlt": "Смяна на стара тревна площ с нова в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -973,21 +993,24 @@
           "assetId": "1b6ca6_dc06ec435448428eb1e45800da56bbd1",
           "url": "https://static.wixstatic.com/media/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg",
           "alt": "замена старого газона на новый рулонный газон в Одессе",
-          "altStatus": "contains Ukraine/Odesa reference"
+          "altStatus": "contains Ukraine/Odesa reference",
+          "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
         },
         {
           "index": 5,
           "assetId": "1b6ca6_de6324bfda7d4cf181a6fa4822687cf1",
           "url": "https://static.wixstatic.com/media/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg",
           "alt": "ремонт и замена поврежденного газона в Одессе",
-          "altStatus": "contains Ukraine/Odesa reference"
+          "altStatus": "contains Ukraine/Odesa reference",
+          "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
         },
         {
           "index": 6,
           "assetId": "1b6ca6_12e7169110c44bfbb38796bc39653370",
           "url": "https://static.wixstatic.com/media/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg",
           "alt": "замена плохого газона на новый рулонный газон Одесса",
-          "altStatus": "contains Ukraine/Odesa reference"
+          "altStatus": "contains Ukraine/Odesa reference",
+          "suggestedAlt": "Влияние на градинските пътеки върху разположението и цената на автоматичното напояване"
         }
       ]
     },
@@ -997,8 +1020,8 @@
       "sourceUrl": "https://bg.drop.od.ua/post/rain-bird-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B7%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B8-%D0%BF%D0%BB%D0%BE%D1%89%D0%B8",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg",
       "coverCandidateUrl": "https://static.wixstatic.com/media/1b6ca6_85999085285d4dce890b419189cbfbb3~mv2.gif",
-      "coverAlt": "Преглед на оборудване Rain Bird за автоматично поливане",
-      "coverStatus": "verified from source og:image",
+      "coverAlt": "Оборудване Rain Bird за автоматично поливане",
+      "coverStatus": "verified from source og:image or Bulgarian listing",
       "images": [
         {
           "index": 1,
@@ -1060,8 +1083,10 @@
     }
   ],
   "notes": [
-    "URLs point to original Wix static media and have not been downloaded/uploaded to Sanity.",
-    "Images with missing alt text or Drop/Ukraine-specific alt text require editorial replacement before import."
+    "Original image URLs are retained; none have been uploaded to Sanity.",
+    "Eleven source images have no alt text (five rose photos and six turf photos); suggested Bulgarian alt text is provided for editorial review.",
+    "Two irrigation-cost article image alt texts mention Odesa; suggested Bulgaria-specific alt text is provided.",
+    "Cover URLs are taken from source OG metadata or Bulgarian listing data. A candidate inline image is not substituted where the cover is not verified."
   ],
-  "uniqueWixAssetsIncludingVerifiedCovers": 119
+  "uniqueWixAssetsIncludingVerifiedCovers": 120
 }
