@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -7,6 +7,7 @@ import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 interface CategoryPageProps {
   category: CategoryItem
   products: Product[]
+  allCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory?: (slug?: string, id?: string) => void
   onSelectProduct: (product: Product) => void
@@ -15,29 +16,13 @@ interface CategoryPageProps {
 export function CategoryPage({
   category,
   products,
+  allCategories,
   onNavigateHome,
   onNavigateCategory,
   onSelectProduct,
 }: CategoryPageProps) {
   const { t, language, localize } = useI18n()
-  // Локальные фильтры каталога: категория, поиск, бренд и сортировка.
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedBrand, setSelectedBrand] = useState('all')
-  const [selectedSpecification, setSelectedSpecification] = useState('all')
-  const [selectedSpecificationValue, setSelectedSpecificationValue] = useState('all')
-  const [sortOrder, setSortOrder] = useState<'name-asc' | 'price-asc' | 'price-desc'>('name-asc')
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
-
-  // Сбрасываем фильтры при переходе в другую категорию.
-  useEffect(() => {
-    setSelectedSubCategory('all')
-    setSearchTerm('')
-    setSelectedBrand('all')
-    setSelectedSpecification('all')
-    setSelectedSpecificationValue('all')
-    setSortOrder('name-asc')
-  }, [category?._id])
 
   // SEO is localized only when this category actually has translated content.
   useEffect(() => {
@@ -66,126 +51,74 @@ export function CategoryPage({
       alternates,
     })
 
+    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    const parentCategory = category.parentId ? allCategories.find((item) => item._id === category.parentId) : undefined
+    const breadcrumbItems = [
+      { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+      { name: t('Каталог'), item: new URL(localizedHref(`/category/${catalogRoot?.slug?.current || 'vsichko-za-polivane'}`, language), window.location.origin).toString() },
+      ...(parentCategory && category._id !== catalogRoot?._id ? [{ name: String(localize(parentCategory, 'name') || parentCategory.name), item: new URL(localizedHref(`/category/${encodeURIComponent(parentCategory.slug?.current || parentCategory._id)}`, language), window.location.origin).toString() }] : []),
+      ...(category._id === catalogRoot?._id ? [] : [{ name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() }]),
+    ]
     setStructuredData('breadcrumbs', {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-        { '@type': 'ListItem', position: 2, name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() },
-      ],
+      itemListElement: breadcrumbItems.map((item, index) => ({
+        '@type': 'ListItem', position: index + 1, name: item.name, item: item.item,
+      })),
     })
-  }, [category, language, localize, t])
+  }, [category, allCategories, language, localize, t])
 
-  // Показываем только реальные дочерние категории выбранной категории.
-  const subCategories = useMemo(() => {
-    const map = new Map<string, { id: string; name: string; slug?: string; translations?: Record<string, any> }>()
+  // Подкатегории берём из дерева категорий Sanity, а не создаём локальные фильтры.
+  const subCategories = useMemo(() => allCategories
+    .filter((item) => item.parentId === category._id)
+    .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)),
+  [allCategories, category._id, language])
 
-    products.forEach((product) => {
-      product.categories?.forEach((cat: any) => {
-        if (cat?._id && cat.parentId === category._id && cat.name) {
-          map.set(cat._id, {
-            id: cat._id,
-            name: cat.name,
-            slug: cat.slug?.current,
-            translations: cat.translations,
-          })
-        }
-      })
-
-      const parentId = (product as any).categoryParentId
-      if (product.categoryId && parentId === category._id && product.category) {
-        map.set(product.categoryId, {
-          id: product.categoryId,
-          name: product.category,
-          slug: product.categorySlug,
-          translations: product.categoryTranslations,
-        })
+  const catalogGroups = useMemo(() => {
+    if (!isIrrigationCatalog) return []
+    const preferredOrder = [
+      'controllers', 'sprinklers', 'nozzles', 'shahti', 'klapani',
+      'kapkovo-napoyavane', 'trabi-fitingi-aksesoari',
+      'drugi-komponenti-za-polivane', 'filtri-regulatori-nalyagane',
+    ]
+    return subCategories.slice().sort((a, b) => {
+      const ai = preferredOrder.indexOf(a.slug?.current || '')
+      const bi = preferredOrder.indexOf(b.slug?.current || '')
+      if (ai !== -1 || bi !== -1) {
+        if (ai === -1) return 1
+        if (bi === -1) return -1
+        return ai - bi
       }
+      return (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)
     })
+  }, [isIrrigationCatalog, subCategories, language])
 
-    return Array.from(map.values())
-  }, [products, category])
-
-  const brandOptions = useMemo(() => {
-    return Array.from(new Set(products.map((product) => product.brand).filter((brand): brand is string => Boolean(brand))))
-      .sort((a, b) => a.localeCompare(b, language))
-  }, [products, language])
-
-  const specificationOptions = useMemo(() => {
-    const names = products.flatMap((product) => {
-      const specs = localize(product, 'specifications')
-      return Array.isArray(specs) ? specs.map((spec: any) => String(localize(spec, 'name') || spec.name || '')).filter(Boolean) : []
-    })
-    return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b, language))
-  }, [products, language, localize])
-
-  const specificationValueOptions = useMemo(() => {
-    if (selectedSpecification === 'all') return []
-    const values = products.flatMap((product) => {
-      const specs = localize(product, 'specifications')
-      if (!Array.isArray(specs)) return []
-      return specs
-        .filter((spec: any) => String(localize(spec, 'name') || spec.name || '') === selectedSpecification)
-        .map((spec: any) => String(localize(spec, 'value') || spec.value || ''))
-        .filter(Boolean)
-    })
-    return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b, language))
-  }, [products, selectedSpecification, language, localize])
-
-  // Филтрите работят върху реалните данни от Sanity; не променят каталога в базата.
-  const displayedProducts = useMemo(() => {
-    let result = selectedSubCategory === 'all'
-      ? [...products]
-      : products.filter((product) =>
-          product.categoryId === selectedSubCategory ||
-          product.categories?.some((cat: any) => cat._id === selectedSubCategory)
-        )
-
-    const query = searchTerm.trim().toLocaleLowerCase(language)
-    if (query) {
-      result = result.filter((product) => {
-        const searchable = [
-          localize(product, 'name'),
-          product.sku,
-          product.brand,
-          localize(product, 'shortDescription'),
-        ].map((value) => String(value || '').toLocaleLowerCase(language)).join(' ')
-        return searchable.includes(query)
-      })
-    }
-
-    if (selectedBrand !== 'all') {
-      result = result.filter((product) => product.brand === selectedBrand)
-    }
-
-    if (selectedSpecification !== 'all') {
-      result = result.filter((product) => {
-        const specs = localize(product, 'specifications')
-        if (!Array.isArray(specs)) return false
-        return specs.some((spec: any) => {
-          const name = String(localize(spec, 'name') || spec.name || '')
-          const value = String(localize(spec, 'value') || spec.value || '')
-          return name === selectedSpecification && (selectedSpecificationValue === 'all' || value === selectedSpecificationValue)
-        })
-      })
-    }
-
-    return result.sort((a, b) => {
-      if (sortOrder === 'price-asc') return (a.priceEUR || 0) - (b.priceEUR || 0)
-      if (sortOrder === 'price-desc') return (b.priceEUR || 0) - (a.priceEUR || 0)
-      return String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
-    })
-  }, [products, selectedSubCategory, searchTerm, selectedBrand, selectedSpecification, selectedSpecificationValue, sortOrder, language, localize])
+  const displayedProducts = useMemo(() => [...products].sort((a, b) =>
+    String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
+  ), [products, language, localize])
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
-      {/* Хлебные крошки */}
-      <nav className="mb-6 flex items-center text-sm text-slate-500">
-        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
-          Начало
-        </a>
+      {/* Хлебни трохи: начало / каталог / родителска категория / текуща категория */}
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-y-1 text-sm text-slate-500">
+        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-2">/</span>
-        <span className="text-slate-800 font-medium">{localize(category, 'name')}</span>
+        <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.('vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
+        {category.parentId && (
+          <>
+            <span className="mx-2">/</span>
+            {(() => {
+              const parent = allCategories.find((item) => item._id === category.parentId)
+              return parent ? <a href={localizedHref(`/category/${encodeURIComponent(parent.slug?.current || parent._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(parent.slug?.current, parent._id))} className="hover:text-emerald-700 transition-colors no-underline">{localize(parent, 'name')}</a> : null
+            })()}
+          </>
+        )}
+        {category.slug?.current !== 'vsichko-za-polivane' && (
+          <>
+            <span className="mx-2">/</span>
+            <span className="font-medium text-slate-800">{localize(category, 'name')}</span>
+          </>
+        )}
       </nav>
 
       {/* Заголовок категории */}
@@ -204,120 +137,50 @@ export function CategoryPage({
         )}
       </div>
 
-      {isIrrigationCatalog && (
-        <section aria-label={language === 'ru' ? 'Фильтры каталога' : language === 'en' ? 'Catalogue filters' : 'Филтри на каталога'} className="mb-6 rounded-2xl border border-[#DDE3D0] bg-[#F7F8F1] p-4 md:p-5">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
-            <label className="block text-sm font-semibold text-slate-700">
-              {language === 'ru' ? 'Поиск по названию или артикулу' : language === 'en' ? 'Search by name or SKU' : 'Търсене по име или артикул'}
-              <input
-                type="search"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder={language === 'ru' ? 'Например, Rain Bird или A43905' : language === 'en' ? 'For example, Rain Bird or A43905' : 'Например Rain Bird или A43905'}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-              />
-            </label>
-            <label className="block text-sm font-semibold text-slate-700">
-              {language === 'ru' ? 'Бренд' : language === 'en' ? 'Brand' : 'Марка'}
-              <select
-                value={selectedBrand}
-                onChange={(event) => setSelectedBrand(event.target.value)}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-              >
-                <option value="all">{language === 'ru' ? 'Все бренды' : language === 'en' ? 'All brands' : 'Всички марки'}</option>
-                {brandOptions.map((brand) => <option key={brand} value={brand}>{brand}</option>)}
-              </select>
-            </label>
-            <label className="block text-sm font-semibold text-slate-700">
-              {language === 'ru' ? 'Характеристика' : language === 'en' ? 'Specification' : 'Характеристика'}
-              <select
-                value={selectedSpecification}
-                onChange={(event) => { setSelectedSpecification(event.target.value); setSelectedSpecificationValue('all') }}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-              >
-                <option value="all">{language === 'ru' ? 'Все характеристики' : language === 'en' ? 'All specifications' : 'Всички характеристики'}</option>
-                {specificationOptions.map((name) => <option key={name} value={name}>{name}</option>)}
-              </select>
-            </label>
-            <label className="block text-sm font-semibold text-slate-700">
-              {language === 'ru' ? 'Значение' : language === 'en' ? 'Value' : 'Стойност'}
-              <select
-                value={selectedSpecificationValue}
-                onChange={(event) => setSelectedSpecificationValue(event.target.value)}
-                disabled={selectedSpecification === 'all'}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 disabled:bg-slate-100 disabled:text-slate-400"
-              >
-                <option value="all">{language === 'ru' ? 'Любое значение' : language === 'en' ? 'Any value' : 'Всички стойности'}</option>
-                {specificationValueOptions.map((value) => <option key={value} value={value}>{value}</option>)}
-              </select>
-            </label>
-            <label className="block text-sm font-semibold text-slate-700">
-              {language === 'ru' ? 'Сортировка' : language === 'en' ? 'Sort by' : 'Подреждане'}
-              <select
-                value={sortOrder}
-                onChange={(event) => setSortOrder(event.target.value as 'name-asc' | 'price-asc' | 'price-desc')}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-              >
-                <option value="name-asc">{language === 'ru' ? 'Название: А–Я' : language === 'en' ? 'Name: A–Z' : 'Име: А–Я'}</option>
-                <option value="price-asc">{language === 'ru' ? 'Сначала дешевле' : language === 'en' ? 'Price: low to high' : 'Цена: възходяща'}</option>
-                <option value="price-desc">{language === 'ru' ? 'Сначала дороже' : language === 'en' ? 'Price: high to low' : 'Цена: низходяща'}</option>
-              </select>
-            </label>
-          </div>
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm text-slate-600">
-            <span>{language === 'ru' ? 'Найдено товаров: ' + displayedProducts.length : language === 'en' ? 'Products found: ' + displayedProducts.length : 'Намерени продукти: ' + displayedProducts.length}</span>
-            {(searchTerm || selectedBrand !== 'all' || selectedSubCategory !== 'all' || selectedSpecification !== 'all' || selectedSpecificationValue !== 'all') && (
-              <button type="button" onClick={() => { setSearchTerm(''); setSelectedBrand('all'); setSelectedSubCategory('all'); setSelectedSpecification('all'); setSelectedSpecificationValue('all') }} className="font-semibold text-emerald-800 underline underline-offset-2">
-                {language === 'ru' ? 'Сбросить фильтры' : language === 'en' ? 'Clear filters' : 'Изчисти филтрите'}
-              </button>
-            )}
-          </div>
+      {/* Категории каталога сгруппированы; ссылки открывают отдельные SEO-страницы. */}
+      {isIrrigationCatalog ? (
+        <section className="mb-10 space-y-8" aria-label={language === 'ru' ? 'Категории каталога' : language === 'en' ? 'Catalogue categories' : 'Категории в каталога'}>
+          {catalogGroups.map((group) => {
+            const children = allCategories
+              .filter((item) => item.parentId === group._id)
+              .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
+            const groupHref = localizedHref(`/category/${encodeURIComponent(group.slug?.current || group._id)}`, language)
+            return (
+              <section key={group._id} className="rounded-2xl border border-[#E2E6D8] bg-white p-4 md:p-5">
+                <a href={groupHref} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(group.slug?.current, group._id))} className="flex items-center gap-4 no-underline">
+                  <div className="h-20 w-24 shrink-0 overflow-hidden rounded-xl bg-[#F3F5EC] sm:h-24 sm:w-28">
+                    {group.imageUrl ? <img src={group.imageUrl} alt={localize(group, 'name')} className="h-full w-full object-contain p-2" loading="lazy" /> : null}
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-slate-900 sm:text-xl">{localize(group, 'name')}</h2>
+                    <span className="mt-1 inline-block text-sm font-semibold text-[#647746]">{language === 'ru' ? 'Открыть категорию' : language === 'en' ? 'Open category' : 'Разгледай категорията'} →</span>
+                  </div>
+                </a>
+                {children.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+                    {children.map((child) => (
+                      <a key={child._id} href={localizedHref(`/category/${encodeURIComponent(child.slug?.current || child._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(child.slug?.current, child._id))} className="rounded-full border border-[#DDE3D0] bg-[#F7F8F1] px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#EEF1E4]">
+                        {localize(child, 'name')} →
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )
+          })}
         </section>
-      )}
-
-      {/* Категории и подкатегории, определённые по связям товаров с Sanity */}
-      {subCategories.length > 0 && (
+      ) : subCategories.length > 0 ? (
         <div className="mb-8">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-            {isIrrigationCatalog
-              ? (language === 'ru' ? 'Категории оборудования:' : language === 'en' ? 'Equipment categories:' : 'Категории на оборудването:')
-              : (language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:')}
-          </p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}</p>
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedSubCategory('all')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
-                selectedSubCategory === 'all'
-                  ? 'bg-emerald-700 text-white shadow-sm'
-                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-              }`}
-            >
-              Всички ({products.length})
-            </button>
-
-            {subCategories.map((subCat) => {
-              const isSelected = selectedSubCategory === subCat.id
-              return (
-                <button
-                  key={subCat.id}
-                  onClick={() => {
-                    // Если передана функция глобального перехода на категорию, можем переходить,
-                    // либо фильтровать локально для удобства быстрого просмотра
-                    setSelectedSubCategory(subCat.id)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-emerald-700 text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {localize(subCat, 'name')}
-                </button>
-              )
-            })}
+            {subCategories.map((subCat) => (
+              <a key={subCat._id} href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#F7F8F1]">
+                {localize(subCat, 'name')} →
+              </a>
+            ))}
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Сетка товаров */}
       {displayedProducts.length === 0 ? (
