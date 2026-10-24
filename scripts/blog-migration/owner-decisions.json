@@ -1,0 +1,28 @@
+{
+  "updatedAt": "2026-10-24",
+  "decisions": [
+    {
+      "sourceFile": "03-rozi-sympathy.md",
+      "topic": "historical price in article",
+      "sourceValue": "25 лв.",
+      "approvedValue": "12.50 EUR",
+      "conversion": "2 BGN = 1 EUR",
+      "status": "approved-for-publication",
+      "note": "Apply only to the Florial editorial copy. Preserve the raw source snapshot unchanged."
+    },
+    {
+      "topic": "all other historical prices",
+      "status": "owner-authorized-to-publish-without-further-approval",
+      "note": "Retain each value exactly as recorded in the source article; do not silently convert or recalculate other prices."
+    }
+  ],
+  "publicationGate": {
+    "status": "workflow-validation-and-production-deployment",
+    "reasons": [
+      "Prepare Portable Text from saved source articles and upload inline images.",
+      "Deploy blogPost schema through the existing Studio source and app.",
+      "Run website and Studio builds plus migration script syntax checks.",
+      "Import and publish the 19 articles only after the validation and schema deployment steps succeed."
+    ]
+  }
+}

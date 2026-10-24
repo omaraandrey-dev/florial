@@ -332,8 +332,49 @@ const plantProduct = defineType({
   preview: {select: {title: 'name', subtitle: 'scientificName', media: 'mainImage'}},
 })
 
+const youtubeEmbed = defineType({
+  name: 'youtubeEmbed', title: 'YouTube видео', type: 'object',
+  fields: [
+    defineField({name: 'url', title: 'URL на видеото', type: 'url', validation: (Rule) => Rule.required()}),
+    defineField({name: 'title', title: 'Заглавие на видеото', type: 'string'}),
+    defineField({name: 'caption', title: 'Надпис', type: 'string'}),
+  ],
+})
+const blogPost = defineType({
+  name: 'blogPost', title: 'Статии в блога', type: 'document',
+  fields: [
+    defineField({name: 'title', title: 'Заглавие (BG, за преглед)', type: 'string'}),
+    defineField({name: 'slug', title: 'URL адрес (slug)', type: 'slug', options: {source: 'translations.bg.title', maxLength: 96}}),
+    defineField({name: 'publishedAt', title: 'Дата на публикуване', type: 'datetime'}),
+    defineField({name: 'sourceUrl', title: 'Източник / оригинална публикация', type: 'url'}),
+    defineField({name: 'isPublished', title: 'Публикувана', type: 'boolean', initialValue: false}),
+    defineField({name: 'cover', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: [
+      defineField({name: 'alt', title: 'Alt текст', type: 'string'}),
+      defineField({name: 'caption', title: 'Надпис', type: 'string'}),
+    ]}),
+    defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: [
+      defineField({name: 'alt', title: 'Alt текст', type: 'string'}),
+      defineField({name: 'caption', title: 'Надпис', type: 'string'}),
+    ]}]}),
+    defineField({name: 'tags', title: 'Тагове', type: 'array', of: [{type: 'string'}]}),
+    defineField({name: 'translations', title: 'Езикови версии', type: 'object', fields: ['bg', 'ru', 'en'].map((language) =>
+      defineField({name: language, title: language, type: 'object', fields: [
+        defineField({name: 'title', title: 'Заглавие', type: 'string'}),
+        defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
+        defineField({name: 'body', title: 'Текст на статията', type: 'array', of: [
+          {type: 'block', styles: [{title: 'Параграф', value: 'normal'}, {title: 'Заглавие 2', value: 'h2'}, {title: 'Заглавие 3', value: 'h3'}, {title: 'Заглавие 4', value: 'h4'}, {title: 'Цитат', value: 'blockquote'}], lists: [{title: 'Неномериран списък', value: 'bullet'}, {title: 'Номериран списък', value: 'number'}], marks: {decorators: [{title: 'Удебелен', value: 'strong'}, {title: 'Курсив', value: 'em'}, {title: 'Подчертан', value: 'underline'}], annotations: [{name: 'link', type: 'object', title: 'Връзка', fields: [{name: 'href', type: 'url', title: 'URL'}, {name: 'blank', type: 'boolean', title: 'Отваряне в нов прозорец', initialValue: true}]}]}},
+          {type: 'image', options: {hotspot: true}, fields: [{name: 'alt', type: 'string', title: 'Alt текст'}, {name: 'caption', type: 'string', title: 'Надпис'}]},
+          {type: 'youtubeEmbed', title: 'YouTube видео'},
+        ]}),
+        defineField({name: 'coverAlt', title: 'Alt на обложката', type: 'string'}),
+        defineField({name: 'seoTitle', title: 'SEO title', type: 'string'}),
+        defineField({name: 'seoDescription', title: 'SEO description', type: 'text', rows: 3}),
+      ]}))}),
+  ],
+  preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
+})
 export const irrigationSchemaTypes = [
   seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
-  irrigationProduct, service, page, photo, siteSettings,
+  irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
 export const plantSchemaTypes = [seoFields, plantCategory, plantProduct]

@@ -1,0 +1,1021 @@
+{
+  "createdAt": "2026-10-24",
+  "scope": "Audit of saved source snapshots; no source copy has been rewritten or imported.",
+  "articles": [
+    {
+      "sourceFile": "01-cena-sistema-avtomatichno-napoyavane.md",
+      "slug": "cena-sistema-avtomatichno-napoyavane-burgas",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA%D0%B0-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82",
+      "title": "Цена на автоматична поливна система в Несебър, Слънчев бряг и Бургас",
+      "oldDomainLinks": [
+        {
+          "anchor": "www.drop.od.ua/bg",
+          "url": "http://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%B2-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3%D0%B5-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Repair and modernization of automatic irrigation systems in Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/repair-and-modernization-of-automatic-irrigation-systems-in-nessebar",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        }
+      ],
+      "altTextReferences": [
+        {
+          "alt": "Влияние конфигурации участка на стоимость системы автополива газона в Одессе",
+          "url": "https://static.wixstatic.com/media/1b6ca6_7977ddb7f621437eb1a784a45e4c895c~mv2_d_2029_1312_s_2.jpg/v1/fill/w_350,h_226,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_7977ddb7f621437eb1a784a45e4c895c~mv2_d_2029_1312_s_2.jpg"
+        },
+        {
+          "alt": "Влияние наличия дорожек в газоне на цену системы автоматического полива в Одессе",
+          "url": "https://static.wixstatic.com/media/1b6ca6_b3b4565a82e7483dbfddfe4ea16a9100~mv2.jpg/v1/fill/w_350,h_167,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_b3b4565a82e7483dbfddfe4ea16a9100~mv2.jpg"
+        }
+      ],
+      "priceMentions": [
+        "👉 Това увеличава цената с **100–300 евро.**",
+        "- Минимална цена: **от 100–200 евро.**",
+        "- Средна цена: **около 400–600 евро.**"
+      ],
+      "otherBrandOrGeoReferences": [
+        "[image]",
+        "🌐 Уебсайт: [www.drop.od.ua/bg](http://www.drop.od.ua/bg)",
+        "[Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%8",
+        "[Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D",
+        "[Repair and modernization of automatic irrigation systems in Nessebar](https://www.drop.od.ua/bg/post/repair-and-modernization-of-automatic-irrigation-systems-in-nessebar)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +380674807486"
+      ]
+    },
+    {
+      "sourceFile": "02-sistema-magluvane.md",
+      "slug": "sistema-magluvane-terasa-besedka",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%B4%D0%BE%D1%81%D1%82%D1%8A%D0%BF%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%BC%D1%8A%D0%B3%D0%BB%D1%83%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D1%82%D0%B5%D1%80%D0%B0%D1%81%D0%B0-%D0%B8%D0%BB%D0%B8-%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0",
+      "title": "Система за мъглуване в Несебър и Слънчев бряг – монтаж и демонстрация",
+      "oldDomainLinks": [
+        {
+          "anchor": "Недорогая система туманообразования для вашей террасы или беседки",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BD%D0%B5%D0%B4%D0%BE%D1%80%D0%BE%D0%B3%D0%B0%D1%8F-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D1%82%D1%83%D0%BC%D0%B0%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%B2%D0%B0%D1%88%D0%B5%D0%B9-%D1%82%D0%B5%D1%80%D1%80%D0%B0%D1%81%D1%8B-%D0%B8%D0%BB%D0%B8-%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B8",
+          "recommendedReplacement": "/blog/sistema-magluvane-terasa-besedka",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [
+        "## 💰 Цена с монтаж — само **500 лева**",
+        "Цената от 500 лв е валидна за обекти, разположени в:"
+      ],
+      "otherBrandOrGeoReferences": [
+        "[Недорогая система туманообразования для вашей террасы или беседки](https://www.drop.od.ua/bg/post/%D0%BD%D0%B5%D0%B4%D0%BE%D1%80%D0%BE%D0%B3%D0%B0%D1%8F-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D1%82%D1%83%D0%BC%D0%B0%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%B2%D0%B0%D1%88%D0%B5%D0%B9-"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359 876 777 902"
+      ]
+    },
+    {
+      "sourceFile": "03-rozi-sympathy.md",
+      "slug": "rozi-sympathy",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B1%D0%B0-%D0%BD%D0%B0-%D1%80%D0%BE%D0%B7%D0%B8-%D0%BE%D1%82-%D1%81%D0%BE%D1%80%D1%82%D0%B0-sympathy",
+      "title": "Продажба на рози от сорта Sympathy",
+      "oldDomainLinks": [
+        {
+          "anchor": "Цена на система за автоматично поливане в Бургаска област",
+          "url": "https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA%D0%B0-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82",
+          "recommendedReplacement": "/blog/cena-sistema-avtomatichno-napoyavane-burgas",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "💨 Достъпна система за мъглуване за вашата тераса или беседка",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B4%D0%BE%D1%81%D1%82%D1%8A%D0%BF%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%BC%D1%8A%D0%B3%D0%BB%D1%83%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D1%82%D0%B5%D1%80%D0%B0%D1%81%D0%B0-%D0%B8%D0%BB%D0%B8-%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B0",
+          "recommendedReplacement": "/blog/sistema-magluvane-terasa-besedka",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Недорогая система туманообразования для вашей террасы или беседки",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BD%D0%B5%D0%B4%D0%BE%D1%80%D0%BE%D0%B3%D0%B0%D1%8F-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D1%82%D1%83%D0%BC%D0%B0%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%B2%D0%B0%D1%88%D0%B5%D0%B9-%D1%82%D0%B5%D1%80%D1%80%D0%B0%D1%81%D1%8B-%D0%B8%D0%BB%D0%B8-%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BA%D0%B8",
+          "recommendedReplacement": "/blog/sistema-magluvane-terasa-besedka",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [
+        "💰 Цена — само 25 лв за разсад."
+      ],
+      "otherBrandOrGeoReferences": [
+        "[Цена на система за автоматично поливане в Бургаска област](https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA",
+        "[💨 Достъпна система за мъглуване за вашата тераса или беседка](https://www.drop.od.ua/bg/post/%D0%B4%D0%BE%D1%81%D1%82%D1%8A%D0%BF%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%BC%D1%8A%D0%B3%D0%BB%D1%83%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D1%82%D0%B5%D1%80%D0%B0%D1%81%D0%B0-%D0%B8%D",
+        "[Недорогая система туманообразования для вашей террасы или беседки](https://www.drop.od.ua/bg/post/%D0%BD%D0%B5%D0%B4%D0%BE%D1%80%D0%BE%D0%B3%D0%B0%D1%8F-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D1%82%D1%83%D0%BC%D0%B0%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B4%D0%BB%D1%8F-%D0%B2%D0%B0%D1%88%D0%B5%D0%B9-"
+      ],
+      "contactCandidates": []
+    },
+    {
+      "sourceFile": "04-topiarna-rezitba.md",
+      "slug": "topiarna-rezitba-rasteniya",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0-%D1%80%D0%B5%D0%B7%D0%B8%D1%82%D0%B1%D0%B0-%D0%BD%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D1%8F",
+      "title": "Топиарна резитба на растения Несебър, Слънчев Бряг, Равда, Свети Влас",
+      "oldDomainLinks": [
+        {
+          "anchor": "www.drop.od.ua/bg",
+          "url": "http://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Продажа розы сорта Симпатия",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F",
+          "recommendedReplacement": "/blog/rozi-sympathy",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Topiary Pruning of Plants Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/topiary-pruning-of-plants",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Топиарная стрижка растений Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "🌐Нашият уеб-сайт: [www.drop.od.ua/bg](http://www.drop.od.ua/bg)",
+        "[Продажа розы сорта Симпатия](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F)",
+        "[Topiary Pruning of Plants Nessebar](https://www.drop.od.ua/bg/post/topiary-pruning-of-plants)",
+        "[Топиарная стрижка растений Несебр](https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "05-palmi-2025.md",
+      "slug": "nov-vnos-palmi-2025",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BD%D0%BE%D0%B2-%D0%B2%D0%BD%D0%BE%D1%81-%D0%BD%D0%B0-%D0%BF%D0%B0%D0%BB%D0%BC%D0%B8-%D0%B2-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D1%81%D0%BA%D0%B8-%D1%86%D0%B5%D0%BD%D1%82%D1%8A%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-2025-%D0%B3%D0%BE%D0%B4%D0%B8%D0%BD%D0%B0-1",
+      "title": "Палми за продажба в Несебър и Слънчев бряг | ГЦ Флориал",
+      "oldDomainLinks": [
+        {
+          "anchor": "Продажа розы сорта Симпатия",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F",
+          "recommendedReplacement": "/blog/rozi-sympathy",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Topiary Pruning of Plants Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/topiary-pruning-of-plants",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Топиарная стрижка растений Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "[Продажа розы сорта Симпатия](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F)",
+        "[Topiary Pruning of Plants Nessebar](https://www.drop.od.ua/bg/post/topiary-pruning-of-plants)",
+        "[Топиарная стрижка растений Несебр](https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3)"
+      ],
+      "contactCandidates": []
+    },
+    {
+      "sourceFile": "06-kiparis-totem.md",
+      "slug": "kiparis-totem",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BA%D0%B8%D0%BF%D0%B0%D1%80%D0%B8%D1%81-%D1%82%D0%BE%D1%82%D0%B5%D0%BC-%D0%BF%D0%B5%D1%80%D1%84%D0%B5%D0%BA%D1%82%D0%BD%D0%B0%D1%82%D0%B0-%D0%B4%D0%B5%D0%BA%D0%BE%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0-%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0",
+      "title": "Кипарис тотем: перфектната декорация за ваша а градина | Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Садовый Центр Флориал Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Юка Рострата в Центъра за цветни градини",
+          "url": "https://www.drop.od.ua/bg/post/%D1%8E%D0%BA%D0%B0%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B0",
+          "recommendedReplacement": "/category/palmi-yuki",
+          "replacementReason": "Verified plants category slug palmi-yuki."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [
+        "**Цена: 100 лв**"
+      ],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Садовый Центр Флориал Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Юка Рострата в Центъра за цветни градини](https://www.drop.od.ua/bg/post/%D1%8E%D0%BA%D0%B0%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B0)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "07-godishna-poddruzhka.md",
+      "slug": "godishna-poddruzhka-avtomatichni-sistemi",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+      "title": "Годишна профилактика на автоматични поливни системи - Флориал Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "www.drop.od.ua",
+          "url": "https://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Пролетна грижа за вашата градина Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%BB%D0%B5%D1%82%D0%BD%D0%B0-%D0%B3%D1%80%D0%B8%D0%B6%D0%B0-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0",
+          "recommendedReplacement": "/services/ozelenyavane",
+          "replacementReason": "No matching Bulgarian article was found; use the verified landscaping service route."
+        },
+        {
+          "anchor": "Ремонт и модернизация на автоматични поливни системи в Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82-%D0%B8-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/remont-modernizatsiya-polivni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Пускане на автоматична поливна система през пролетта. Деконсервация ",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%BF%D1%80%D0%B5%D0%B7-%D0%BF%D1%80%D0%BE%D0%BB%D0%B5%D1%82%D1%82%D0%B0-%D0%B4%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D0%B5%D1%80%D0%B2%D0%B0%D1%86%D0%B8%D1%8F",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [
+        "Цена от 270 евро.",
+        "Цена от 420 евро.",
+        "Цена от 620 евро."
+      ],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уеб-сайт: [www.drop.od.ua](https://www.drop.od.ua/bg)",
+        "[Пролетна грижа за вашата градина Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%BB%D0%B5%D1%82%D0%BD%D0%B0-%D0%B3%D1%80%D0%B8%D0%B6%D0%B0-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0)",
+        "[Ремонт и модернизация на автоматични поливни системи в Несебър](https://www.drop.od.ua/bg/post/%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82-%D0%B8-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D",
+        "[Пускане на автоматична поливна система през пролетта. Деконсервация ](https://www.drop.od.ua/bg/post/%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%BF%D1%80%D0%B5%D0%B7-%D0%BF%D1%80%D"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "08-landshaften-dizain.md",
+      "slug": "landshaften-dizain-proekt-zasazhdenie",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD-%D0%BE%D1%82-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%B4%D0%BE-%D0%B7%D0%B0%D1%81%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%D0%B5",
+      "title": "Създаване на ландшафтен дизайн от проект до озеленяване в Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "Необходимо е да се измисли ландшафтен проект",
+          "url": "https://www.drop.od.ua/bg/landscape",
+          "recommendedReplacement": "/services/landshaften-dizain",
+          "replacementReason": "Verified current Sanity service slug: landshaften-dizain."
+        },
+        {
+          "anchor": "системата за автоматично поливане",
+          "url": "https://www.drop.od.ua/bg/avtomaticheskij-poliv",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified current Sanity service slug: avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "Извършваме дейности по озеленяване",
+          "url": "https://www.drop.od.ua/bg/landscaping",
+          "recommendedReplacement": "/services/ozelenyavane",
+          "replacementReason": "Verified current Sanity service slug: ozelenyavane."
+        },
+        {
+          "anchor": "Продажа розы сорта Симпатия",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F",
+          "recommendedReplacement": "/blog/rozi-sympathy",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Topiary Pruning of Plants Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/topiary-pruning-of-plants",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Топиарная стрижка растений Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "[[image]](https://www.drop.od.ua/bg/landscape)",
+        "### [Необходимо е да се измисли ландшафтен проект](https://www.drop.od.ua/bg/landscape):",
+        "След като съгласуваме ландшафтния дизайн, започваме полагането на комуникациите за [системата за автоматично поливане](https://www.drop.od.ua/bg/avtomaticheskij-poliv). Това е важен етап, от който зависи ефективността и издръжливостта на системата.",
+        "## [Извършваме дейности по озеленяване](https://www.drop.od.ua/bg/landscaping)",
+        "[Продажа розы сорта Симпатия](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F)",
+        "[Topiary Pruning of Plants Nessebar](https://www.drop.od.ua/bg/post/topiary-pruning-of-plants)",
+        "[Топиарная стрижка растений Несебр](https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3)"
+      ],
+      "contactCandidates": []
+    },
+    {
+      "sourceFile": "09-landshaften-proekt-zima.md",
+      "slug": "landshaften-proekt-zima-burgas",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BF%D1%80%D0%B5%D0%B7-%D0%B7%D0%B8%D0%BC%D0%B0%D1%82%D0%B0-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81",
+      "title": "Зимата в Бургас е чудесно време за ландшафтен дизайн",
+      "oldDomainLinks": [
+        {
+          "anchor": "етапи на ландшафтния проект",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B5%D1%82%D0%B0%D0%BF%D0%B8",
+          "recommendedReplacement": "/blog/etapi-landshaften-proekt-nesebar",
+          "replacementReason": "Matched to the Bulgarian landscape-project stages article."
+        },
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Garden Center Florial Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/garden-center-florial-nessebar",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Система Автоматического полива Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "Първо, ландшафтният дизайн през зимата е възможност за ландшафтния архитект внимателно да обмисли концепцията, а може би и повече от една, за озеленяване и градински дизайн. Има повече време за одобрения и дискусии с клиента. През зимата няма бързане нито от страна на озеленителя, нито от страна на клиента. Обмислете всички [етапи на ландшафтния пр",
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Garden Center Florial Nessebar](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar)",
+        "[Система Автоматического полива Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "10-prodavane-traven-chim.md",
+      "slug": "prodavane-traven-chim",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+      "title": "Продава тревен чим | Градински ценър Флориал | Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "Садовый Центр Флориал Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Garden Center Florial Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/garden-center-florial-nessebar",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Buy lawn Sunny Beach (rolled grass)",
+          "url": "https://www.drop.od.ua/bg/post/buy-lawn-sunny-beach-rolled-grass-1",
+          "recommendedReplacement": "/blog/kupete-travna-plosht",
+          "replacementReason": "Matched to the Bulgarian rolled-turf article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[Садовый Центр Флориал Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Garden Center Florial Nessebar](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar)",
+        "[Buy lawn Sunny Beach (rolled grass)](https://www.drop.od.ua/bg/post/buy-lawn-sunny-beach-rolled-grass-1)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "11-tsvetni-lehi.md",
+      "slug": "izgrazhdane-tsvetni-lehi",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%B8%D0%B7%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D1%86%D0%B2%D0%B5%D1%82%D0%BD%D0%B8-%D0%BB%D0%B5%D1%85%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3",
+      "title": "Изграждане на цветни лехи в Слънчев Бряг от ГЦ Флориал",
+      "oldDomainLinks": [
+        {
+          "anchor": "www.drop.od.ua",
+          "url": "http://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Продажа розы сорта Симпатия",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F",
+          "recommendedReplacement": "/blog/rozi-sympathy",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Topiary Pruning of Plants Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/topiary-pruning-of-plants",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Топиарная стрижка растений Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3",
+          "recommendedReplacement": "/blog/topiarna-rezitba-rasteniya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уеб-сайт: [www.drop.od.ua](http://www.drop.od.ua/bg)",
+        "[Продажа розы сорта Симпатия](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0-%D1%80%D0%BE%D0%B7%D1%8B-%D1%81%D0%BE%D1%80%D1%82%D0%B0-%D1%81%D0%B8%D0%BC%D0%BF%D0%B0%D1%82%D0%B8%D1%8F)",
+        "[Topiary Pruning of Plants Nessebar](https://www.drop.od.ua/bg/post/topiary-pruning-of-plants)",
+        "[Топиарная стрижка растений Несебр](https://www.drop.od.ua/bg/post/%D1%82%D0%BE%D0%BF%D0%B8%D0%B0%D1%80%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%B0-%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D1%8B%D0%B9-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "12-kupete-travna-plosht.md",
+      "slug": "kupete-travna-plosht",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BA%D1%83%D0%BF%D0%B5%D1%82%D0%B5-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B0-%D0%BF%D0%BB%D0%BE%D1%89-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D1%82%D1%80%D0%B5%D0%B2%D0%B0-%D0%BD%D0%B0-%D1%80%D1%83%D0%BB%D0%B0",
+      "title": "Купете качествена тревна площ в Слънчев бряг от ГЦ Флориал",
+      "oldDomainLinks": [
+        {
+          "anchor": "закупите рулонна трева в Слънчев бряг",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "монтира автоматична система за поливане на тревата",
+          "url": "https://www.drop.od.ua/bg/avtomaticheskij-poliv",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified current Sanity service slug: avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "калкулатор за изчисляване на разходите за полагане на валцувана трева",
+          "url": "https://www.drop.od.ua/bg/grassprice",
+          "recommendedReplacement": "REMOVE_LINK",
+          "replacementReason": "No equivalent cost-calculator route exists in the current Florial site; remove the link rather than invent a route."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Садовый Центр Флориал Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Garden Center Florial Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/garden-center-florial-nessebar",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "Продажба и монтаж на тревни площи е основната специализация на нашия градински център Флориал, който се намира в Несебър. И ако търсите от къде можете да [закупите рулонна трева в Слънчев бряг](https://www.drop.od.ua/bg/grass), България, с безупречно качество, то ние можем да ви я предложим на най-добра цена.",
+        "[[image]](https://www.drop.od.ua/bg/grass)",
+        "Много хора се питат, твърде късно ли е да купувате рулонна тревна площ през ноември? На което ние отговаряме \\- не, есента е много подходящо време да създадете тревна площ в градината си. Пролетта също е страхотно време. Лятото също, но с малко условие: Трябва да се [монтира автоматична система за поливане на тревата](https://www.drop.od.ua/bg/avto",
+        "Можете да получите повече или по-малко точна оценка на разходите за създаване на тревна площ, като използвате нашия [калкулатор за изчисляване на разходите за полагане на валцувана трева](https://www.drop.od.ua/bg/grassprice)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Садовый Центр Флориал Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Garden Center Florial Nessebar](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "13-etapi-montazh-avtopoliv.md",
+      "slug": "etapi-montazh-avtomatichna-polivna-instalatsiya",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%B5%D1%82%D0%B0%D0%BF%D0%B8-%D0%BD%D0%B0-%D0%BC%D0%BE%D0%BD%D1%82%D0%B0%D0%B6-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BA%D0%B8-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%D0%B0",
+      "title": "Етапи на монтаж на автоматична поливна инсталация в Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "Проектиране на автоматична поливна система в Несебър",
+          "url": "https://www.drop.od.ua/bg/projectpoliv",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified current Sanity service slug: avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "изработи ландшафтен проект онлайн",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BF%D1%80%D0%B5%D0%B7-%D0%B7%D0%B8%D0%BC%D0%B0%D1%82%D0%B0-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81",
+          "recommendedReplacement": "/blog/landshaften-proekt-nesebar",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Rain Bird",
+          "url": "https://www.drop.od.ua/bg/post/rain-bird-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B7%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B8-%D0%BF%D0%BB%D0%BE%D1%89%D0%B8",
+          "recommendedReplacement": "/blog/rain-bird-oborudvane",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "а",
+          "url": "https://www.drop.od.ua/remontpoliva",
+          "recommendedReplacement": "/services/remont-i-poddrazhka",
+          "replacementReason": "Verified current Florial service slug for irrigation repair and maintenance."
+        },
+        {
+          "anchor": "Цена на система за автоматично поливане в Бургаска област",
+          "url": "https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA%D0%B0-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82",
+          "recommendedReplacement": "/blog/cena-sistema-avtomatichno-napoyavane-burgas",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%B2-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3%D0%B5-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "- [image]Установка поливалок системы полива в Одессе",
+        "### [Проектиране на автоматична поливна система в Несебър](https://www.drop.od.ua/bg/projectpoliv)",
+        "Първата стъпка в създаването на ефективна напоителна система е разработването на проект за напояване и изготвянето на списък с необходимото оборудване за напояване. Това се прави въз основа на ландшафтен дизайн или дендроплан, или след измервания на място. Нашият ландшафтен дизайнер може да Ви помогне с изработката на ландшафтен проект, с посещение",
+        "### Избор и покупка (продажба) на оборудване за поливане. Предимно [Rain Bird](https://www.drop.od.ua/bg/post/rain-bird-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B7%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0",
+        "### Пускане и настройка на система за автоматично поливане [а](https://www.drop.od.ua/remontpoliva)",
+        "[Цена на система за автоматично поливане в Бургаска област](https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA",
+        "[Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%8",
+        "[Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D"
+      ],
+      "contactCandidates": []
+    },
+    {
+      "sourceFile": "14-remont-modernizatsiya.md",
+      "slug": "remont-modernizatsiya-polivni-sistemi",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82-%D0%B8-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+      "title": "Ремонт и модернизация на поливни системи в Несебър, Слънчев бряг",
+      "oldDomainLinks": [
+        {
+          "anchor": "www.drop.od.ua",
+          "url": "https://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Пускане на автоматична поливна система през пролетта. Деконсервация ",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%BF%D1%80%D0%B5%D0%B7-%D0%BF%D1%80%D0%BE%D0%BB%D0%B5%D1%82%D1%82%D0%B0-%D0%B4%D0%B5%D0%BA%D0%BE%D0%BD%D1%81%D0%B5%D1%80%D0%B2%D0%B0%D1%86%D0%B8%D1%8F",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Монтаж на автоматична поливна система в Слънчев бряг",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BC%D0%BE%D0%BD%D1%82%D0%B0%D0%B6-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3",
+          "recommendedReplacement": "/blog/etapi-montazh-avtomatichna-polivna-instalatsiya",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [
+        "Цената на ремонта и модернизацията на поливната система **започва от 75 евро** и зависи от сложността на работата. Част от ремонтните дейности, които извършваме:",
+        "Минималната цена на услугата ремонт и поддръжка на поливна система е 75 евро."
+      ],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уебсайт: [www.drop.od.ua](https://www.drop.od.ua/bg)",
+        "[Пускане на автоматична поливна система през пролетта. Деконсервация ](https://www.drop.od.ua/bg/post/%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%BF%D1%80%D0%B5%D0%B7-%D0%BF%D1%80%D",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Монтаж на автоматична поливна система в Слънчев бряг](https://www.drop.od.ua/bg/post/%D0%BC%D0%BE%D0%BD%D1%82%D0%B0%D0%B6-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%8"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "15-maslina.md",
+      "slug": "maslina-sredizemnomorie",
+      "sourceUrl": "https://www.drop.od.ua/bg/post/%D0%BC%D0%B0%D1%81%D0%BB%D0%B8%D0%BD%D0%B0%D1%82%D0%B0-%D0%B5-%D0%B2%D0%B5%D1%87%D0%BD%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD-%D1%81%D0%B8%D0%BC%D0%B2%D0%BE%D0%BB-%D0%BD%D0%B0-%D1%81%D1%80%D0%B5%D0%B4%D0%B8%D0%B7%D0%B5%D0%BC%D0%BD%D0%BE%D0%BC%D0%BE%D1%80%D0%B8%D0%B5%D1%82%D0%BE-%D0%B2%D1%8A%D0%B2-%D0%B2%D0%B0%D1%88%D0%B0%D1%82%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0",
+      "title": "Маслина - продажба и засаждане в Градински център Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[[image]](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[[image]](https://www.drop.od.ua/bg/post/%D0%BA%D0%B8%D0%BF%D0%B0%D1%80%D0%B8%D1%81-%D1%82%D0%BE%D1%82%D0%B5%D0%BC-%D0%BF%D0%B5%D1%80%D1%84%D0%B5%D0%BA%D1%82%D0%BD%D0%B0%D1%82%D0%B0-%D0%B4%D0%B5%D0%BA%D0%BE%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B7%D0%B0-%D0%B2%D0%B0%D1%88%D0%B0-%D0%B0-%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D0%B0)",
+        "[[image]](https://www.drop.od.ua/bg/post/%D1%8E%D0%BA%D0%B0%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B0)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "16-landshaften-proekt-nesebar.md",
+      "slug": "landshaften-proekt-nesebar",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+      "title": "Ландшафтен проект в Несебър от ландшафтно студио Флориал",
+      "oldDomainLinks": [
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Система Автоматического полива Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "Озеленяване в Несебър и Слънчев бряг",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD%D1%8F%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3",
+          "recommendedReplacement": "/services/ozelenyavane",
+          "replacementReason": "Verified Florial service slug ozelenyavane."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "- [[image]](http://drop.od.ua/bg/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B5%D1%82%D0%B0%D0%BF%D0%B8) Ландшафтен проект в Несебър",
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Система Автоматического полива Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Озеленяване в Несебър и Слънчев бряг](https://www.drop.od.ua/bg/post/%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD%D1%8F%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "17-etapi-landshaften-proekt.md",
+      "slug": "etapi-landshaften-proekt-nesebar",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BB%D0%B0%D0%BD%D0%B4%D1%88%D0%B0%D1%84%D1%82%D0%B5%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B5%D1%82%D0%B0%D0%BF%D0%B8",
+      "title": "Етапи на създаване на ландшафтен проект в Несебър от студио Florial",
+      "oldDomainLinks": [
+        {
+          "anchor": "Градински ценър Florial",
+          "url": "https://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "създаването на ландшафтен проект",
+          "url": "https://www.drop.od.ua/bg/landscape",
+          "recommendedReplacement": "/services/landshaften-dizain",
+          "replacementReason": "Verified current Sanity service slug: landshaften-dizain."
+        },
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Система Автоматического полива Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified Florial service slug avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "Озеленяване в Несебър и Слънчев бряг",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD%D1%8F%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3",
+          "recommendedReplacement": "/services/ozelenyavane",
+          "replacementReason": "Verified Florial service slug ozelenyavane."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "Работата на ландшафтен архитект (дизайнер, градинар) на [Градински ценър Florial](https://www.drop.od.ua/bg) по [създаването на ландшафтен проект](https://www.drop.od.ua/bg/landscape) за озеленяване на територията",
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/grass)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Система Автоматического полива Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Озеленяване в Несебър и Слънчев бряг](https://www.drop.od.ua/bg/post/%D0%BE%D0%B7%D0%B5%D0%BB%D0%B5%D0%BD%D1%8F%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80-%D0%B8-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "18-podmyana-travna-plosht.md",
+      "slug": "podmyana-stara-travna-plosht",
+      "sourceUrl": "https://bg.drop.od.ua/post/%D0%BF%D0%BE%D0%B4%D0%BC%D1%8F%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D1%82%D0%B0%D1%80%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B0-%D0%BF%D0%BB%D0%BE%D1%89-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+      "title": "Смяна на стара тревна площ с нова от ГЦ Флориал Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "Градинският център Florial",
+          "url": "https://www.drop.od.ua/bg",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "нова рулонна тревна площ",
+          "url": "https://www.drop.od.ua/bg/grass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "нова рула тревна площ",
+          "url": "https://www.drop.od.ua/bg/greengrass",
+          "recommendedReplacement": "/services/rulonna-treva",
+          "replacementReason": "Verified current Sanity service slug: rulonna-treva."
+        },
+        {
+          "anchor": "монтират система за автоматично поливане",
+          "url": "https://www.drop.od.ua/bg/avtomaticheskij-poliv",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified current Sanity service slug: avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "ФЛОРИАЛ",
+          "url": "https://www.drop.od.ua/bg/",
+          "recommendedReplacement": "/",
+          "replacementReason": "Use Florial homepage instead of old source website root."
+        },
+        {
+          "anchor": "Продава тревен чим Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/prodavane-traven-chim",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Садовый Центр Флориал Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        },
+        {
+          "anchor": "Garden Center Florial Nessebar",
+          "url": "https://www.drop.od.ua/bg/post/garden-center-florial-nessebar",
+          "recommendedReplacement": "/contacts",
+          "replacementReason": "No matching Bulgarian article in the inventory; link to verified Florial contacts instead."
+        }
+      ],
+      "altTextReferences": [
+        {
+          "alt": "замена старого газона на новый рулонный газон в Одессе",
+          "url": "https://static.wixstatic.com/media/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg/v1/fill/w_960,h_1280,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_dc06ec435448428eb1e45800da56bbd1~mv2.jpg"
+        },
+        {
+          "alt": "ремонт и замена поврежденного газона в Одессе",
+          "url": "https://static.wixstatic.com/media/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_de6324bfda7d4cf181a6fa4822687cf1~mv2.jpg"
+        },
+        {
+          "alt": "замена плохого газона на новый рулонный газон Одесса",
+          "url": "https://static.wixstatic.com/media/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg/v1/fill/w_640,h_1138,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/1b6ca6_12e7169110c44bfbb38796bc39653370~mv2.jpg"
+        }
+      ],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "[Градинският център Florial](https://www.drop.od.ua/bg) предлага използването на нови технологии за полагане на тревни настилки \\- и няма да се налага да чакате седмици, докато черната почва се покрие с деликатна зелена трева. След един-два дни с механична резачка за трева ще премахнем старата тревна настилка, ще подготвим площта и ще поставим [нов",
+        "- [image]замена старого газона Одесса",
+        "- [image]ремонт и замена газона Одесса",
+        "- [image]замена газона в Одессе",
+        "След отстраняване на стария тревен чим се получава равна повърхност, готова за полагане на [нова рула тревна площ](https://www.drop.od.ua/bg/greengrass). Трябва само да добавите и рендосвате пясъка, да получите свежа и красива навита тревна площ и внимателно да я постелете. Вашата нова тревна площ е готова.",
+        "При извършване на дейности по възстановяване на тревни площи нашите специалисти могат да ремонтират или [монтират система за автоматично поливане](https://www.drop.od.ua/bg/avtomaticheskij-poliv).",
+        "🌐 Нашият уебсайт: [ФЛОРИАЛ](https://www.drop.od.ua/bg/)",
+        "[Продава тревен чим Несебър](https://www.drop.od.ua/bg/post/%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD-%D1%87%D0%B8%D0%BC-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80)",
+        "[Садовый Центр Флориал Несебр](https://www.drop.od.ua/bg/post/%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9-%D1%86%D0%B5%D0%BD%D1%82%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80)",
+        "[Garden Center Florial Nessebar](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar)"
+      ],
+      "contactCandidates": [
+        "📧 Имейл: [omaraandrey@gmail.com](mailto:omaraandrey@gmail.com)",
+        "📞 Телефон: +359876777902"
+      ]
+    },
+    {
+      "sourceFile": "19-rain-bird-oborudvane.md",
+      "slug": "rain-bird-oborudvane",
+      "sourceUrl": "https://bg.drop.od.ua/post/rain-bird-%D0%BE%D0%B1%D0%BE%D1%80%D1%83%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B7%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%BD%D0%B0-%D1%82%D1%80%D0%B5%D0%B2%D0%BD%D0%B8-%D0%BF%D0%BB%D0%BE%D1%89%D0%B8",
+      "title": "Преглед на поилна техника Rain Bird в Несебър",
+      "oldDomainLinks": [
+        {
+          "anchor": "инсталирането на системи за автоматично напояване",
+          "url": "https://www.drop.od.ua/bg/montajpoliva",
+          "recommendedReplacement": "/services/avtomatichno-napoyavane",
+          "replacementReason": "Verified current Sanity service slug: avtomatichno-napoyavane."
+        },
+        {
+          "anchor": "Цена на система за автоматично поливане в Бургаска област",
+          "url": "https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA%D0%B0-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82",
+          "recommendedReplacement": "/blog/cena-sistema-avtomatichno-napoyavane-burgas",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B8-%D0%B2-%D1%81%D0%BB%D1%8A%D0%BD%D1%87%D0%B5%D0%B2-%D0%B1%D1%80%D1%8F%D0%B3-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%8A%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        },
+        {
+          "anchor": "Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр",
+          "url": "https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0-%D0%B2-%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%BC-%D0%B1%D0%B5%D1%80%D0%B5%D0%B3%D0%B5-%D0%BD%D0%B5%D1%81%D0%B5%D0%B1%D1%80",
+          "recommendedReplacement": "/blog/godishna-poddruzhka-avtomatichni-sistemi",
+          "replacementReason": "Matched to the identified Bulgarian Florial blog article."
+        }
+      ],
+      "altTextReferences": [],
+      "priceMentions": [],
+      "otherBrandOrGeoReferences": [
+        "Въз основа на нашия опит в [инсталирането на системи за автоматично напояване](https://www.drop.od.ua/bg/montajpoliva) в района на Несебър, Rain Bird е най-доброто оборудване за системи за автоматично напояване на тревни площи и растения.",
+        "[Цена на система за автоматично поливане в Бургаска област](https://www.drop.od.ua/bg/post/%D1%86%D0%B5%D0%BD%D0%B0-%D0%BD%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B2-%D0%B1%D1%83%D1%80%D0%B3%D0%B0%D1%81%D0%BA",
+        "[Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B0-%D0%BF%D0%BE%D0%B4%D0%B4%D1%80%D1%8A%D0%B6%D0%BA%D0%B0-%D0%BD%D0%B0-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%B8-%D0%BF%D0%BE%D0%BB%D0%B8%D0%B2%D0%BD%D0%B8-%D1%81%D0%B8%D1%81%D1%8",
+        "[Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр](https://www.drop.od.ua/bg/post/%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BE%D0%B1%D1%81%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D"
+      ],
+      "contactCandidates": []
+    }
+  ],
+  "priceApprovalRequired": [
+    {
+      "slug": "cena-sistema-avtomatichno-napoyavane-burgas",
+      "values": [
+        "100–300 €",
+        "100–200 €",
+        "400–600 €"
+      ],
+      "status": "Owner decision required; unchanged."
+    },
+    {
+      "slug": "sistema-magluvane-terasa-besedka",
+      "values": [
+        "500 лв installed price"
+      ],
+      "status": "Owner decision required; unchanged."
+    },
+    {
+      "slug": "rozi-sympathy",
+      "values": [
+        "25 лв per seedling"
+      ],
+      "status": "Owner decision required; unchanged."
+    },
+    {
+      "slug": "kiparis-totem",
+      "values": [
+        "100 лв"
+      ],
+      "status": "Owner decision required; unchanged."
+    },
+    {
+      "slug": "godishna-poddruzhka-avtomatichni-sistemi",
+      "values": [
+        "270 €",
+        "420 €",
+        "620 €"
+      ],
+      "status": "Owner decision required; unchanged."
+    },
+    {
+      "slug": "remont-modernizatsiya-polivni-sistemi",
+      "values": [
+        "75 € starting price"
+      ],
+      "status": "Owner decision required; unchanged."
+    }
+  ],
+  "globalReplacements": [
+    "Replace all 82 source-domain links recorded article-by-article with the recommended Florial routes in each link record; old-domain links must not survive final imported copy.",
+    "Remove +380674807486 from the Bulgarian irrigation-cost article; current Florial contact details are +359876777902 and +359885834860 in the existing footer. The current contact email in Sanity is omaraandrey@gmail.com.",
+    "Replace the two image alt texts that refer to Odesa in the irrigation-cost article and the three Russian-language alt texts that refer to Odesa in the turf-replacement article with accurate Bulgarian descriptions.",
+    "Add descriptive Bulgarian alt text to the five Sympathy rose photos and six turf-sale photos with missing alt text; proposed text is recorded in image-manifest.json.",
+    "Do not change any price until the owner approves the six article price groups listed in priceApprovalRequired."
+  ],
+  "contactAudit": {
+    "confirmedCurrentEmail": "omaraandrey@gmail.com (verified in Sanity siteSettings contactEmail)",
+    "confirmedCurrentBulgarianPhones": [
+      "+359876777902",
+      "+359885834860 (ENG / UA / RU)"
+    ],
+    "sourceContactToRemove": [
+      "+380674807486 — Ukraine phone appearing in the irrigation-cost article; remove from Florial Bulgarian article and use verified Bulgarian contact details."
+    ],
+    "note": "The Bulgarian phone numbers were verified in src/components/Footer.tsx on main. SiteSettings does not store a phone field; do not treat the Sanity contact document alone as confirmation of phone numbers."
+  },
+  "verifiedCurrentRoutes": [
+    {
+      "purpose": "Automatic irrigation",
+      "path": "/services/avtomatichno-napoyavane",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Landscape design",
+      "path": "/services/landshaften-dizain",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Planting",
+      "path": "/services/zasazhdane-na-rasteniya",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Landscaping",
+      "path": "/services/ozelenyavane",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Rolled turf",
+      "path": "/services/rulonna-treva",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Irrigation repair and maintenance",
+      "path": "/services/remont-i-poddrazhka",
+      "evidence": "Sanity service slug verified in production read-only query."
+    },
+    {
+      "purpose": "Palms and yuccas",
+      "path": "/category/palmi-yuki",
+      "evidence": "Plants dataset category slug verified in production read-only query."
+    }
+  ]
+}

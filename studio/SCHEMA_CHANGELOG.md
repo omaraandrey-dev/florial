@@ -1,3 +1,10 @@
+## 2026-10-24 — Подготовка схемы блога Florial
+
+- Добавлен новый тип документа `blogPost`: BG/RU/EN заглавия, краткие описания, Portable Text с заглавиями, списъци, връзки и изображения, SEO title/description и alt на обложката.
+- Добавлены обложка, галерея, дата публикации, переключатель публикации и теги. Новые документы по умолчанию не опубликованы.
+- Добавлен объект `youtubeEmbed` для сохранения встроенных видео из исходных публикаций; фронтенд разрешает только YouTube URL и использует youtube-nocookie.com.
+- Изменён только исходник схемы. Документы Sanity не создавались и не изменялись; Studio не развёртывалась.
+
 ## 2026-10-23 — Уравнивание путей workspace Sanity
 
 - Следующий запуск CI выявил дополнительное требование CLI: у всех workspace должно быть одинаковое количество сегментов `basePath`. Пара `/` и `/plants` не проходила проверку.
@@ -116,3 +123,11 @@
 - Потвърдено е разминаване между изходния код и публикуваната схема: изходната схема съдържа `category.translations.en/ru.name` и `description`, но deployed workspace `florial-admin` не ги показва.
 - Обновено е заглавието на полето в Studio, за да е ясно, че трябва да се попълват и името, и описанието на категорията.
 - След този commit трябва да се провери автоматичното schema deploy преди публикуване на преводите. Не са променяни оригинални описания, цени, SKU или изображения.
+
+
+## 2026-10-24 — Blog publishing workflow
+
+- The existing `florial-admin` workspace includes `blogPost` and `youtubeEmbed` in the version-controlled Studio schema.
+- The workflow `.github/workflows/blog-studio.yml` deploys the schema through the existing Studio source and app ID in `studio/sanity.cli.ts`; it does not create a separate managed Studio.
+- Schema deployment is additive. No product, category, service, plant, or order documents are migrated by the schema step.
+- The workflow must pass website and Studio builds before deploying the schema. It requires the GitHub Actions secret `SANITY_AUTH_TOKEN`.

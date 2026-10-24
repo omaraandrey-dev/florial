@@ -11,6 +11,8 @@ import { ProductPage } from './pages/ProductPage'
 import { ContactsPage } from './pages/ContactsPage'
 import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
+import { BlogPage } from './pages/BlogPage'
+import { BlogPostPage } from './pages/BlogPostPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 
@@ -55,7 +57,7 @@ export default function App() {
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' &&
+      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -634,6 +636,8 @@ export default function App() {
       normalizedRoutePath !== '/services' &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
+      normalizedRoutePath !== '/blog' &&
+      !normalizedRoutePath.startsWith('/blog/') &&
       !normalizedRoutePath.startsWith('/product/') &&
       !normalizedRoutePath.startsWith('/products/') &&
       !normalizedRoutePath.startsWith('/services/') &&
@@ -807,6 +811,10 @@ export default function App() {
             </>
           )}
         </main>
+      ) : normalizedRoutePath === '/blog' ? (
+        <BlogPage />
+      ) : normalizedRoutePath.startsWith('/blog/') ? (
+        <BlogPostPage slug={decodeURIComponent(normalizedRoutePath.slice('/blog/'.length))} />
       ) : isNotFoundRoute ? (
         <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center">
           <h1 className="text-3xl font-bold text-slate-900">
