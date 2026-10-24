@@ -19,6 +19,7 @@ const queries = {
   categories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.description) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.description) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
   products: '*[_type == "product" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.shortDescription) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.shortDescription) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
   services: '*[_type == "service" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
+  blogPosts: '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] { _id, "path": "blog/" + coalesce(slug.current, slug, _id), "noIndex": false, "hasEnglishSeo": defined(translations.en.title) && defined(translations.en.shortDescription) && defined(translations.en.seoTitle) && defined(translations.en.seoDescription), "hasRussianSeo": defined(translations.ru.title) && defined(translations.ru.shortDescription) && defined(translations.ru.seoTitle) && defined(translations.ru.seoDescription), _updatedAt }',
   plantCategories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.description) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.description) && translations.ru.seo.noIndex != true, _updatedAt }',
   plantProducts: '*[_type == "product" && productType == "plant" && isActive != false] { _id, "path": coalesce(slug.current, slug, _id), "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.shortDescription) && defined(translations.en.seo.metaTitle) && defined(translations.en.seo.metaDescription) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.shortDescription) && defined(translations.ru.seo.metaTitle) && defined(translations.ru.seo.metaDescription) && translations.ru.seo.noIndex != true, _updatedAt }',
 }
@@ -129,12 +130,14 @@ export async function onRequestGet(): Promise<Response> {
       equipmentCategories,
       equipmentProducts,
       services,
+      blogPosts,
       plantCategories,
       plantProducts,
     ] = await Promise.all([
       querySanity('production', queries.categories),
       querySanity('production', queries.products),
       querySanity('production', queries.services),
+      querySanity('production', queries.blogPosts),
       querySanity('plants', queries.plantCategories),
       querySanity('plants', queries.plantProducts),
     ])
@@ -143,6 +146,15 @@ export async function onRequestGet(): Promise<Response> {
     addLocalizedUrls(urls, '')
     addLocalizedUrls(urls, 'contacts')
     addLocalizedUrls(urls, 'services')
+    addLocalizedUrls(urls, 'blog')
+
+    for (const document of blogPosts) {
+      if (!document.noIndex && document.path) {
+        addUrl(urls, document.path, document._updatedAt)
+        if (document.hasRussianSeo) addUrl(urls, document.path + '?lang=ru', document._updatedAt)
+        if (document.hasEnglishSeo) addUrl(urls, document.path + '?lang=en', document._updatedAt)
+      }
+    }
 
     for (const document of services) {
       if (!document.noIndex && document.path) {
