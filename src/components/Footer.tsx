@@ -20,12 +20,12 @@ export function Footer() {
               📞 {language === 'en' ? 'Call: +359885834860' : language === 'ru' ? 'Позвонить: +359885834860' : 'Обаждане: +359876777902'}
             </a>
             <a 
-              href={language === 'bg' ? 'https://wa.me/359876777902' : 'https://wa.me/380674807486'} 
+              href="https://wa.me/380674807486" 
               target="_blank" 
               rel="noreferrer" 
               className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition flex items-center justify-center gap-2 cursor-pointer"
             >
-              💬 {t('WhatsApp Контакт')}
+              💬 {t('WhatsApp чат с оператором')}
             </a>
           </div>
         </div>
@@ -44,9 +44,9 @@ export function Footer() {
           <div className="space-y-2 text-sm text-slate-400 md:text-right">
             <h4 className="text-white text-lg font-bold mb-2">{t('Контакти')}</h4>
             <p className="font-semibold text-slate-200">{language === 'en' ? 'Florial Garden Centre' : language === 'ru' ? 'Садовый центр Florial' : 'Градински център „Флориал“'}</p>
-            <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359876777902</a></p>
-            <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359885834860</a> (ENG / UA / RU)</p>
-            <p>{language === 'en' ? 'Phone:' : language === 'ru' ? 'Тел.:' : 'Тел:'} <a href="tel:+380674807486" className="text-emerald-400 hover:underline font-bold">+380674807486</a></p>
+            <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359876777902" className="text-emerald-400 hover:underline font-bold">+359 876 777 902</a> BG</p>
+            <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359885834860" className="text-emerald-400 hover:underline font-bold">+359 885 834 860</a> — ENG / UA / RU</p>
+            <p>{language === "en" ? "WhatsApp:" : language === "ru" ? "WhatsApp:" : "WhatsApp:"} <a href="https://wa.me/380674807486" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-bold">+380 67 480 74 86</a> — WhatsApp Chat BG / ENG / UA / RU</p>
             <p>{language === 'en' ? 'Nursery: Khan Krum St., 8230 Nessebar' : language === 'ru' ? 'Питомник: ул. Хан Крум, 8230 Несебр' : 'Разсадник: ул. „Хан Крум“, 8230 Несебър'}</p>
           </div>
         </div>
