@@ -11,6 +11,8 @@ export type BlogTextBlock = {
   assetUrl?: string
   alt?: string
   caption?: string
+  url?: string
+  title?: string
 }
 export type BlogTranslation = {
   title?: string
