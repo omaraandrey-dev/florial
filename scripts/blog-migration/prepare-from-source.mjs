@@ -16,10 +16,14 @@ if (dataset !== 'production' && dataset !== 'plants') throw new Error('Unexpecte
 const client = createClient({projectId, dataset, apiVersion: '2025-01-01', token, useCdn: false})
 const sourceFiles = await fs.readdir(sourceDir)
 const sourceByUrl = new Map()
+const sourceEntries = []
 for (const file of sourceFiles.filter(name => name.endsWith('.md'))) {
   const text = await fs.readFile(path.join(sourceDir, file), 'utf8')
   const url = text.match(/<!-- Source URL: ([^\n]+)/)?.[1]?.trim()
-  if (url) sourceByUrl.set(normalizeUrl(url), {file, text})
+  const title = text.match(/Source title: ([^\n]+)/)?.[1]?.trim()
+  const entry = {file, text, title}
+  sourceEntries.push(entry)
+  if (url) sourceByUrl.set(normalizeUrl(url), entry)
 }
 function normalizeUrl(value) {
   try { return decodeURIComponent(value).replace(/\/$/, '').replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/^bg\./, '') } catch { return value }
@@ -179,11 +183,14 @@ for (const article of manifest.articles || []) for (const image of article.image
 }
 const assetMap = new Map()
 const knownCovers = JSON.parse(await fs.readFile(path.join(root, 'scripts/blog-migration/known-cover-refs.json'), 'utf8')).covers
+const knownBodyRefsPath = path.join(root, 'scripts/blog-migration/body-image-refs.json')
+const knownBodyRefs = JSON.parse(await fs.readFile(knownBodyRefsPath, 'utf8')).assets
 for (const post of inventory.posts) {
   const ref = knownCovers[post.slug]
   const id = wixId(post.coverUrl)
   if (ref && id) assetMap.set(id, ref)
 }
+for (const [id, ref] of Object.entries(knownBodyRefs)) assetMap.set(id, ref)
 const failures = []
 const entries = [...imageUrls.entries()]
 let next = 0
@@ -193,6 +200,10 @@ async function uploadWorker() {
     const [id, url] = entries[index]
     if (assetMap.has(id)) {
       console.log('Using verified existing cover asset ' + id)
+      continue
+    }
+    if (process.env.UPLOAD_INLINE_IMAGES_WITH_API !== 'true') {
+      failures.push({id, url, error: 'No Sanity asset reference was preloaded; API upload disabled because the CI token is not a project user.'})
       continue
     }
     try {
@@ -215,7 +226,9 @@ await Promise.all(Array.from({length: 4}, () => uploadWorker()))
 
 const prepared = []
 for (const post of inventory.posts) {
-  const source = sourceByUrl.get(normalizeUrl(post.sourceUrl))
+  const source = sourceByUrl.get(normalizeUrl(post.sourceUrl)) || sourceEntries.find(entry =>
+    entry.title && Object.values(post.title || {}).some(title => title && title.trim().toLocaleLowerCase() === entry.title.trim().toLocaleLowerCase())
+  )
   if (!source) throw new Error('Could not match original Markdown source for ' + post.slug + ' (' + post.sourceUrl + ')')
   const markdown = cleanMarkdown(source.text, post)
   const body = parseMarkdown(markdown, post, assetMap)
