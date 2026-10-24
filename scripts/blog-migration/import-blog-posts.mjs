@@ -11,6 +11,7 @@ const args = new Set(process.argv.slice(2))
 const write = args.has('--write')
 const confirmProduction = args.has('--confirm-production-write')
 const overwriteExisting = args.has('--overwrite-existing')
+const publish = args.has('--publish')
 
 const posts = JSON.parse(await fs.readFile(inputPath, 'utf8'))
 if (!Array.isArray(posts) || posts.length === 0) throw new Error('prepared-posts.json is empty. Finish article extraction, translations and image uploads before importing.')
@@ -20,7 +21,7 @@ for (const [index, post] of posts.entries()) {
   if (!post.slug || !post.publishedAt || !post.translations) throw new Error('Post #' + (index + 1) + ' is incomplete: slug, publishedAt and translations are required.')
   for (const language of requiredLanguages) {
     const translation = post.translations[language]
-    if (!translation?.title || !translation?.shortDescription || !translation?.seoTitle || !translation?.seoDescription || !Array.isArray(translation.body) || translation.body.length === 0) {
+    if (!translation?.title || !translation?.shortDescription || !translation?.seoTitle || !translation?.seoDescription || !Array.isArray(translation.body) || (language === 'bg' && translation.body.length === 0)) {
       throw new Error('Post "' + post.slug + '" has incomplete ' + language + ' translation. No writes were performed.')
     }
   }
@@ -46,7 +47,7 @@ for (const post of posts) {
     title: post.translations.bg.title,
     slug: {_type: 'slug', current: post.slug},
     publishedAt: post.publishedAt,
-    isPublished: false,
+    isPublished: publish,
     sourceUrl: post.sourceUrl,
     cover: post.cover,
     gallery: post.gallery || [],
@@ -63,6 +64,6 @@ for (const post of posts) {
   }
   if (existing) await client.createOrReplace(document)
   else await client.createIfNotExists(document)
-  console.log((existing ? 'UPDATED ' : 'CREATED ') + document._id + ' (left unpublished)')
+  console.log((existing ? 'UPDATED ' : 'CREATED ') + document._id + (publish ? ' (published)' : ' (isPublished=false)'))
 }
-console.log('Import complete. Documents remain unpublished; publishing is a separate manual action.')
+console.log(publish ? 'Import complete. Published blog documents are available to the Florial website.' : 'Import complete. Documents are saved with isPublished=false.')
