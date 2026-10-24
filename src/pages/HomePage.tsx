@@ -176,7 +176,12 @@ export function HomePage({
       </section>
 
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
-        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">{t('Каталог продукти')}</h3>
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">{t('Каталог продукти')}</h2>
+          <a href={localizedHref('/category/vsichko-za-polivane', language)} className="inline-flex w-fit items-center rounded-lg bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 no-underline">
+            {language === 'ru' ? 'Все оборудование для полива' : language === 'en' ? 'Browse all irrigation equipment' : 'Всички продукти за напояване'} →
+          </a>
+        </div>
 
         {sortedCategories.length > 0 && (
           <div className="mb-12">
