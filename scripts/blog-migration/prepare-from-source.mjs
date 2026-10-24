@@ -41,7 +41,7 @@ function cleanMarkdown(source, post) {
   let text = source.replace(/^<!--[\s\S]*?-->\s*/m, '')
   text = text.replace(/^\s*(top of page|bottom of page|Търсене)\s*$/gim, '')
   text = text.replace(/\+380\s*\d[\d\s-]{7,}/g, '+359 876 777 902')
-  text = text.replace(/https?:\/\/(?:www\.)?drop\.od\.ua[^)\s]*/gi, '/')
+  text = text.replace(new RegExp('https?:[/][/](?:www[.])?drop[.]od[.]ua[^) ]*', 'gi'), '/')
   text = cleanLocality(text)
   if (post.slug === 'rozi-sympathy') text = text.replace(/25\s*(?:лв\.?|лева|левов)/gi, '12,50 €')
   // Article references to old Drop pages are replaced by Florial routes when the link text identifies another migrated post.
