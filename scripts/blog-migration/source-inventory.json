@@ -25,7 +25,8 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "Review all monetary amounts in full body individually with owner; do not replace automatically.",
-      "coverAlt": "Цена на система за автоматично поливане в Бургаска област"
+      "coverAlt": "Цена на система за автоматично поливане в Бургаска област",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "sistema-magluvane-terasa-besedka",
@@ -41,7 +42,8 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "Found historical price claim: 500 лв in SEO description. Review with owner; do not convert or replace automatically. Preserve technical figures 15 atm and 4–5 °C.",
-      "coverAlt": "Достъпна система за мъглуване за вашата тераса или беседка"
+      "coverAlt": "Достъпна система за мъглуване за вашата тераса или беседка",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "rozi-sympathy",
@@ -57,7 +59,8 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "Found historical price claim: 25 лв in article/SEO description. Review with owner; do not convert or replace automatically.",
-      "coverAlt": "Продажба на рози от сорта Sympathy"
+      "coverAlt": "Продажба на рози от сорта Sympathy",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "topiarna-rezitba-rasteniya",
@@ -73,7 +76,8 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "No price change identified in the captured source excerpt.",
-      "coverAlt": "Топиарна резитба на растения в Несебър"
+      "coverAlt": "Топиарна резитба на растения в Несебър",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "nov-vnos-palmi-2025",
@@ -89,7 +93,8 @@
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
       "priceReview": "Review any price references in the full body individually; preserve stated cold-tolerance figures unless verified otherwise.",
-      "coverAlt": "Палми в градински център Florial, Несебър"
+      "coverAlt": "Палми в градински център Florial, Несебър",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "izgrazhdane-tsvetni-lehi",
@@ -103,7 +108,7 @@
       "sourceImageCount": 7,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a28c432f9a3e4f94953328e0e4b02d69~mv2.jpg",
       "coverAlt": "Цветна градина в Слънчев бряг",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -121,7 +126,8 @@
       "publishedAt": "2025-01-28T07:09:34.557Z",
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "Review any offer/pricing references individually before editing."
+      "priceReview": "Review any offer/pricing references individually before editing.",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "remont-modernizatsiya-polivni-sistemi",
@@ -135,7 +141,7 @@
       "sourceImageCount": 4,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_c281bd1aac75495383fa612ff7ca2bfe~mv2.jpg",
       "coverAlt": "Ремонт на автоматични поливни системи в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -151,7 +157,7 @@
       "sourceImageCount": 6,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg/v1/fill/w_600,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_a373962b4b3e41918e6f46eb10a37c5e~mv2.jpg",
       "coverAlt": "Маслиново дърво в градински център Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -167,7 +173,7 @@
       "sourceImageCount": 6,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg",
       "coverAlt": "Рулонна тревна площ в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review all source monetary references before import."
     },
@@ -185,7 +191,8 @@
       "publishedAt": "2024-11-19T07:40:12.703Z",
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price identified in captured metadata; review full body before import."
+      "priceReview": "No price identified in captured metadata; review full body before import.",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "podmyana-stara-travna-plosht",
@@ -199,7 +206,7 @@
       "sourceImageCount": 6,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2c228f1c7a564192b05b20bcbbf9af15~mv2.jpg",
       "coverAlt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -215,7 +222,7 @@
       "sourceImageCount": 4,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg/v1/fill/w_616,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg",
       "coverAlt": "Рулонна тревна площ в Слънчев бряг",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review all source monetary references before import."
     },
@@ -231,7 +238,7 @@
       "sourceImageCount": 9,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg/v1/fill/w_563,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2d8d0d1225a443079afcf0d69e3ce6d1~mv2_d_2368_4208_s_2.jpg",
       "coverAlt": "Монтаж на автоматична поливна система в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -247,7 +254,7 @@
       "sourceImageCount": 8,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg/v1/fill/w_750,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_9a4f889743a241d1a5c2c7033a8d0169~mv2_d_3024_4032_s_4_2.jpeg",
       "coverAlt": "Оборудване Rain Bird за автоматично поливане",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -265,7 +272,8 @@
       "publishedAt": "2024-08-14T07:17:26.523Z",
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price identified in captured metadata; review full body before import."
+      "priceReview": "No price identified in captured metadata; review full body before import.",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "landshaften-proekt-zima-burgas",
@@ -281,7 +289,8 @@
       "publishedAt": "2024-08-11T06:53:02.708Z",
       "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price identified in captured metadata; review full body before import."
+      "priceReview": "No price identified in captured metadata; review full body before import.",
+      "coverStatus": "source cover verified"
     },
     {
       "slug": "landshaften-proekt-nesebar",
@@ -295,7 +304,7 @@
       "sourceImageCount": 6,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg/v1/fill/w_1000,h_638,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_2110ef2c8d86475d8ff4bd67a859d8fd~mv2.jpg",
       "coverAlt": "Ландшафтен проект в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     },
@@ -311,7 +320,7 @@
       "sourceImageCount": 27,
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg/v1/fill/w_1000,h_1000,al_c,q_85,usm_0.66_1.00_0.01/1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg",
       "coverAlt": "Етапи на създаване на ландшафтен проект в Несебър",
-      "coverStatus": "verified from source og:image",
+      "coverStatus": "source cover verified",
       "translationStatus": "source snapshot saved; translations pending",
       "priceReview": "Review any monetary references before import."
     }
