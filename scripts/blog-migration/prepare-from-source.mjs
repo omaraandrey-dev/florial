@@ -226,9 +226,12 @@ await Promise.all(Array.from({length: 4}, () => uploadWorker()))
 
 const prepared = []
 for (const post of inventory.posts) {
-  const source = sourceByUrl.get(normalizeUrl(post.sourceUrl)) || sourceEntries.find(entry =>
+  const titleMatch = sourceEntries.find(entry =>
     entry.title && Object.values(post.title || {}).some(title => title && title.trim().toLocaleLowerCase() === entry.title.trim().toLocaleLowerCase())
   )
+  const slugTokens = post.slug.toLocaleLowerCase().split('-').filter(token => token.length >= 4)
+  const filenameMatch = sourceEntries.find(entry => slugTokens.filter(token => entry.file.toLocaleLowerCase().includes(token)).length >= Math.min(2, slugTokens.length))
+  const source = sourceByUrl.get(normalizeUrl(post.sourceUrl)) || titleMatch || filenameMatch
   if (!source) throw new Error('Could not match original Markdown source for ' + post.slug + ' (' + post.sourceUrl + ')')
   const markdown = cleanMarkdown(source.text, post)
   const body = parseMarkdown(markdown, post, assetMap)
