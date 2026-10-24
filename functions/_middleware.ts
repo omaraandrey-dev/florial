@@ -23,6 +23,110 @@ type SeoDocument = {
   translations?: Record<string, Record<string, any>>
 }
 
+
+const categoryFallbacks: Record<string, Record<'ru' | 'en', { name: string; description: string }>> = {
+  controllers: {
+    ru: { name: 'Контроллеры', description: 'Контроллеры управляют расписанием автоматического полива: задают время, продолжительность и зоны полива. В категории представлены контроллеры Rain Bird для наружной и внутренней установки, а также автономные модели на батарейках.' },
+    en: { name: 'Controllers', description: 'Controllers automate irrigation schedules by setting when, how long and in which zones the system waters. This category includes Rain Bird outdoor, indoor and battery-powered controllers.' },
+  },
+  sprinklers: {
+    ru: { name: 'Дождеватели', description: 'Дождеватели для автоматического полива газонов и садов. Выбирайте роторные и статические модели Rain Bird с учётом площади, сектора полива и давления воды.' },
+    en: { name: 'Sprinklers', description: 'Sprinklers for automatic watering of lawns and gardens. Choose Rain Bird rotor and spray models to suit the area, watering arc and available water pressure.' },
+  },
+  'rotorni-razprskvachi': {
+    ru: { name: 'Роторные дождеватели', description: 'Роторные дождеватели Rain Bird равномерно поливают средние и большие газоны, сады и парки. Сектор полива регулируется; модели предназначены для подземных систем автоматического полива.' },
+    en: { name: 'Rotor Sprinklers', description: 'Rain Bird rotor sprinklers provide even coverage for medium and large lawns, gardens and parks. The watering arc is adjustable, and the models are designed for underground irrigation systems.' },
+  },
+  'static-sprinklers': {
+    ru: { name: 'Статические дождеватели', description: 'Статические дождеватели одновременно подают воду на всю выбранную зону. Они подходят для небольших и средних газонов, углов и узких полос в саду.' },
+    en: { name: 'Spray Sprinklers', description: 'Spray sprinklers water the selected area simultaneously and are well suited to small and medium lawns, corners and narrow garden strips.' },
+  },
+  'autonomous-controllers': {
+    ru: { name: 'Автономные контроллеры', description: 'Автономные контроллеры работают от батареек и не требуют подключения к электросети. Они подходят для участков без электричества и управляют поливом по заданной программе.' },
+    en: { name: 'Battery-Powered Controllers', description: 'Battery-powered controllers do not require mains electricity. They suit locations without a power supply and manage irrigation according to a programmed schedule.' },
+  },
+  nozzles: {
+    ru: { name: 'Форсунки', description: 'Форсунки определяют дальность, сектор и интенсивность подачи воды. В категории представлены веерные и ротаторные форсунки Rain Bird для точной настройки полива под форму газона.' },
+    en: { name: 'Nozzles', description: 'Nozzles determine spray distance, arc and application rate. This category includes Rain Bird spray and rotary nozzles for fine-tuning irrigation to the shape of the lawn.' },
+  },
+  'spray-nozzles': {
+    ru: { name: 'Веерные форсунки', description: 'Веерные форсунки создают равномерный поток на небольшом расстоянии. Они подходят для небольших участков, цветников и узких полос; у регулируемых моделей можно настроить сектор полива.' },
+    en: { name: 'Spray Nozzles', description: 'Spray nozzles create an even fan-shaped spray over short distances. They suit small areas, flower beds and narrow lawn strips; adjustable models allow the watering arc to be set.' },
+  },
+  'rotator-nozzles': {
+    ru: { name: 'Ротаторные форсунки', description: 'Ротаторные форсунки распределяют воду несколькими тонкими вращающимися струями, обеспечивая равномерный и бережный полив. Устанавливаются на корпуса статических дождевателей.' },
+    en: { name: 'Rotary Nozzles', description: 'Rotary nozzles distribute water through several thin, rotating streams for even and gentle application. They fit spray sprinkler bodies.' },
+  },
+  shahti: {
+    ru: { name: 'Клапанные боксы', description: 'Клапанные боксы защищают клапаны и соединения и обеспечивают удобный доступ для осмотра и обслуживания системы полива.' },
+    en: { name: 'Valve Boxes', description: 'Valve boxes protect valves and their connections while providing convenient access for inspection and irrigation system maintenance.' },
+  },
+  klapani: {
+    ru: { name: 'Клапаны', description: 'Электромагнитные клапаны по команде контроллера открывают и перекрывают воду в отдельных зонах. Выбирайте модель с учётом напряжения, диаметра подключения и требований системы.' },
+    en: { name: 'Valves', description: 'Solenoid valves open and shut off water to individual zones when commanded by the controller. Choose a model based on voltage, connection size and system requirements.' },
+  },
+  'electromagnetic-valves': {
+    ru: { name: 'Электромагнитные клапаны', description: 'Электромагнитные клапаны управляются контроллером и подают воду в отдельные зоны. В категории представлены клапаны Rain Bird серии 100, включая версии с соленоидом 9 В для автономных контроллеров.' },
+    en: { name: 'Solenoid Valves', description: 'Controller-operated solenoid valves supply water to individual irrigation zones. This category includes Rain Bird 100 Series valves, including 9V versions for battery-powered controllers.' },
+  },
+  'trabi-fitingi-aksesoari': {
+    ru: { name: 'Трубы, фитинги и аксессуары', description: 'Трубы, гибкие подводки, фитинги и соединители для надёжного монтажа и обслуживания систем автоматического полива.' },
+    en: { name: 'Pipes, Fittings and Accessories', description: 'Pipes, flexible connections, fittings and connectors for reliable installation and maintenance of automatic irrigation systems.' },
+  },
+  'drugi-komponenti-za-polivane': {
+    ru: { name: 'Другие компоненты для полива', description: 'Дополнительные комплектующие для сборки, соединения и обслуживания систем автоматического полива.' },
+    en: { name: 'Other Irrigation Components', description: 'Additional components for assembling, connecting and maintaining automatic irrigation systems.' },
+  },
+  'filtri-regulatori-nalyagane': {
+    ru: { name: 'Фильтры и регуляторы давления', description: 'Фильтры защищают компоненты капельного полива от загрязнений, а регуляторы поддерживают подходящее рабочее давление.' },
+    en: { name: 'Filters and Pressure Regulators', description: 'Filters protect drip irrigation components from debris, while pressure regulators maintain suitable operating pressure.' },
+  },
+  'kapkovo-napoyavane': {
+    ru: { name: 'Капельный полив', description: 'Капельные шланги, трубки и фитинги подают воду непосредственно к корням растений, обеспечивая точный и экономичный полив с меньшими потерями на испарение и сток.' },
+    en: { name: 'Drip Irrigation', description: 'Drip hoses, tubing and fittings deliver water directly to plant root zones for precise, water-efficient irrigation with less evaporation and runoff.' },
+  },
+  'vsichko-za-polivane': {
+    ru: { name: 'Всё для полива', description: 'Всё необходимое для создания и обслуживания системы автоматического полива в одном месте: дождеватели, форсунки, контроллеры, электромагнитные клапаны, трубы, фитинги и другие комплектующие.' },
+    en: { name: 'All Irrigation Equipment', description: 'Everything needed to build and maintain an automatic irrigation system in one place, including sprinklers, nozzles, controllers, solenoid valves, pipes, fittings and other components.' },
+  },
+  'electromagnetic-valves-24v': {
+    ru: { name: 'Электромагнитные клапаны 24 В', description: 'Электромагнитные клапаны с соленоидом 24 В для управления отдельными зонами автоматического полива.' },
+    en: { name: '24V Solenoid Valves', description: '24V solenoid valves for controlling individual zones in automatic irrigation systems.' },
+  },
+  'electromagnetic-valves-9v': {
+    ru: { name: 'Электромагнитные клапаны 9 В', description: 'Электромагнитные клапаны с соленоидом 9 В для зон полива, управляемых автономными контроллерами.' },
+    en: { name: '9V Solenoid Valves', description: '9V solenoid valves for irrigation zones controlled by battery-powered controllers.' },
+  },
+  'kapkovo-napoyavane-trabi': {
+    ru: { name: 'Трубы для капельного полива', description: 'Капельные и компенсированные трубки для точной подачи воды к растениям.' },
+    en: { name: 'Drip Irrigation Tubing', description: 'Drip and pressure-compensating tubing for precise, targeted irrigation of plants.' },
+  },
+  'kapkovo-napoyavane-fitingi': {
+    ru: { name: 'Фитинги для капельного полива', description: 'Фитинги и соединители для монтажа и расширения линий капельного полива.' },
+    en: { name: 'Drip Irrigation Fittings', description: 'Fittings and connectors for installing and extending drip irrigation tubing.' },
+  },
+  'kontroleri-vanshen-montazh': {
+    ru: { name: 'Контроллеры наружной установки', description: 'Контроллеры автоматического полива, предназначенные для установки на улице.' },
+    en: { name: 'Outdoor Controllers', description: 'Automatic irrigation controllers designed for outdoor installation.' },
+  },
+  'kontroleri-vatreshen-montazh': {
+    ru: { name: 'Контроллеры для помещений', description: 'Контроллеры автоматического полива, предназначенные для установки внутри помещений.' },
+    en: { name: 'Indoor Controllers', description: 'Automatic irrigation controllers designed for installation indoors.' },
+  },
+  'senzori-za-avtomatizatsiya': {
+    ru: { name: 'Датчики автоматизации полива', description: 'Датчики и аксессуары для контроля, дистанционного управления и автоматизации системы полива.' },
+    en: { name: 'Irrigation Automation Sensors', description: 'Sensors and accessories for monitoring, remote control and automation of irrigation systems.' },
+  },
+  'fitingi-za-klapani': {
+    ru: { name: 'Фитинги для клапанов', description: 'Коллекторы, адаптеры и фитинги для монтажа и подключения электромагнитных клапанов.' },
+    en: { name: 'Valve Fittings', description: 'Manifolds, adapters and fittings for installing and connecting solenoid valves.' },
+  },
+  'fitingi-za-praskachki': {
+    ru: { name: 'Фитинги для дождевателей', description: 'Гибкие соединения и фитинги для монтажа дождевателей в системах полива.' },
+    en: { name: 'Sprinkler Fittings', description: 'Flexible connections and fittings for installing sprinklers in irrigation systems.' },
+  },
+}
+
 function escapeHtml(value: unknown): string {
   return String(value ?? '').replace(/[&<>"']/g, (character) => ({
     '&': '&amp;',
@@ -162,7 +266,10 @@ function hasTranslation(doc: SeoDocument, type: string, language: string): boole
   if (language === 'bg') return true
   const translated = doc.translations?.[language]
   if (!translated?.name || translated.seo?.noIndex === true) return false
-  if (type === 'category') return Boolean(translated.description && translated.seo?.metaTitle && translated.seo?.metaDescription)
+  if (type === 'category') {
+    const fallback = categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en']
+    return Boolean((translated.name || fallback?.name) && (translated.description || fallback?.description) && translated.seo?.noIndex !== true)
+  }
   if (type === 'product') {
     return Boolean(translated.shortDescription && translated.seo?.metaTitle && translated.seo?.metaDescription)
   }
@@ -543,8 +650,9 @@ export async function onRequest(context: PagesContext): Promise<Response> {
 
       const localized = language === 'bg' ? null : doc.translations?.[language]
       const translatedIsComplete = hasTranslation(doc, type, language)
-      const name = String(localized?.name || doc.name || slug)
-      const translatedDescription = localized?.shortDescription || localized?.description
+      const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
+      const name = String(localized?.name || categoryFallback?.name || doc.name || slug)
+      const translatedDescription = localized?.shortDescription || localized?.description || categoryFallback?.description
       const description = plainText(translatedDescription || doc.shortDescription || doc.description)
       const seo = (language === 'bg' ? doc.seo : localized?.seo) as Record<string, any> | null | undefined
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
