@@ -35,7 +35,9 @@ export function ProductPage({
   ].filter(Boolean) as string[]
 
   const getProductCategoryTrail = (): CategoryItem[] => {
-    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    const catalogRoot = product.productType === 'plant'
+      ? allCategories.find((item) => item.slug?.current === 'rastenia' || item._id === 'plants-root')
+      : allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
     const assigned = (product.categories || [])
       .map((item: any) => allCategories.find((category) => category._id === item._id) || item)
       .filter((item: any) => item && item._id !== catalogRoot?._id && item.slug?.current !== 'vsichko-za-polivane')
