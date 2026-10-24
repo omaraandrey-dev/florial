@@ -69,10 +69,16 @@ export function CategoryPage({
   }, [category, allCategories, language, localize, t])
 
   // Подкатегории берём из дерева категорий Sanity, а не создаём локальные фильтры.
-  const subCategories = useMemo(() => allCategories
-    .filter((item) => item.parentId === category._id)
-    .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)),
-  [allCategories, category._id, language])
+  const subCategories = useMemo(() => {
+    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    // На странице подкатегории показываем соседние подкатегории того же родителя.
+    const linkGroupId = category.parentId && category.parentId !== catalogRoot?._id
+      ? category.parentId
+      : category._id
+    return allCategories
+      .filter((item) => item.parentId === linkGroupId && item._id !== category._id)
+      .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
+  }, [allCategories, category._id, category.parentId, language])
 
   const catalogGroups = useMemo(() => {
     if (!isIrrigationCatalog) return []
