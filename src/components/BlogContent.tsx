@@ -23,6 +23,21 @@ function youtubeId(value?: string) {
     return null
   }
 }
+function isContactOrLegacyLink(value?: string) {
+  if (!value) return false
+  return /(?:drop\.od\.ua|mailto:|tel:|wa\.me\/|@gmail\.com|@outlook\.|@yahoo\.|\+359[\s()-]*\d|\+380[\s()-]*\d)/i.test(value)
+}
+function blockText(block: BlogTextBlock) {
+  return (block.children || []).map((child) => child.text || '').join(' ').trim()
+}
+function isContactCta(block: BlogTextBlock) {
+  const text = blockText(block)
+  if (!text) return false
+  const hasContactLink = (block.markDefs || []).some((mark) => isContactOrLegacyLink(mark.href))
+  const hasContactDetails = isContactOrLegacyLink(text)
+  const isCta = /(?:свържете се с нас|свяжитесь с нами|contact us|get in touch|направете запитване|send us a message|обадете се|позвоните|call us|пишете ни|напишете ни|написать нам)/i.test(text)
+  return hasContactDetails || (hasContactLink && isCta)
+}
 function renderChildren(block: BlogTextBlock) {
   const marks = new Map((block.markDefs || []).map((mark) => [mark._key || '', mark]))
   return (block.children || []).map((child, index) => {
@@ -34,7 +49,7 @@ function renderChildren(block: BlogTextBlock) {
       else {
         const definition = marks.get(mark)
         const href = safeHref(definition?.href)
-        if (definition?._type === 'link' && href) content = <a key={mark} href={href} target={definition.blank ? '_blank' : undefined} rel={definition.blank ? 'noopener noreferrer' : undefined} className="text-emerald-800 underline underline-offset-4">{content}</a>
+        if (definition?._type === 'link' && href && !isContactOrLegacyLink(href)) content = <a key={mark} href={href} target={definition.blank ? '_blank' : undefined} rel={definition.blank ? 'noopener noreferrer' : undefined} className="text-emerald-800 underline underline-offset-4">{content}</a>
       }
     }
     return <React.Fragment key={child._key || index}>{content}</React.Fragment>
@@ -44,6 +59,7 @@ export function BlogContent({blocks}: {blocks: BlogTextBlock[]}) {
   return <div className="blog-content space-y-5 text-base leading-8 text-slate-700">
     {blocks.map((block, index) => {
       const key = block._key || index
+      if (isContactCta(block)) return null
       if (block._type === 'youtubeEmbed') {
         const id = youtubeId(block.url)
         return id ? <figure key={key} className="my-8"><div className="aspect-video overflow-hidden rounded-xl bg-slate-100"><iframe src={`https://www.youtube-nocookie.com/embed/${id}`} title={block.title || 'Florial video'} loading="lazy" className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /></div>{block.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{block.caption}</figcaption> : null}</figure> : null
