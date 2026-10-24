@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
+import { BlogSection } from '../components/BlogSection'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
@@ -236,6 +237,7 @@ export function HomePage({
           </div>
         )}
       </main>
+      <BlogSection />
     </div>
   )
 }
