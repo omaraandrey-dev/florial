@@ -835,7 +835,8 @@ export default function App() {
           products={filteredProducts}
           onNavigateHome={navigateToHome}
           onNavigateCategory={navigateToCategory}
-          allCategories={visibleCategories}
+          allCategories={categories}
+          visibleCategories={visibleCategories}
           onSelectProduct={(product) =>
             navigateToProduct(product.slug?.current || product._id)
           }
@@ -850,7 +851,7 @@ export default function App() {
         ) : currentProduct ? (
           <ProductPage
             product={currentProduct}
-            allCategories={visibleCategories}
+            allCategories={categories}
             onNavigateHome={navigateToHome}
             onNavigateCategory={navigateToCategory}
             onNavigateProduct={navigateToProduct}
