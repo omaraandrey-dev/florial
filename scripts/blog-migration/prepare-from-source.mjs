@@ -53,6 +53,7 @@ function cleanMarkdown(source, post) {
     if (/contact/i.test(href + ' ' + label)) return '[' + label + '](/contacts)'
     return '[' + label + '](/)'
   })
+  text = text.replace(/https?:\\/\\/(?:www\\.)?drop\\.od\\.ua[^)\\s]*/gi, '/')
   return text.trim()
 }
 function inlineChildren(text, post) {
