@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
-import type { Product } from '../types'
+import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
 interface ProductPageProps {
   product: Product
+  allCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateProduct: (slug: string) => void
@@ -15,6 +16,7 @@ interface ProductPageProps {
 
 export function ProductPage({
   product,
+  allCategories,
   onNavigateHome,
   onNavigateCategory,
   onNavigateProduct,
@@ -31,6 +33,37 @@ export function ProductPage({
     product.imageUrl,
     ...(product.galleryImages || [])
   ].filter(Boolean) as string[]
+
+  const getProductCategoryTrail = (): CategoryItem[] => {
+    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    const assigned = (product.categories || [])
+      .map((item: any) => allCategories.find((category) => category._id === item._id) || item)
+      .filter((item: any) => item && item._id !== catalogRoot?._id && item.slug?.current !== 'vsichko-za-polivane')
+    const depth = (candidate: any) => {
+      let current = candidate
+      let result = 0
+      const seen = new Set<string>()
+      while (current?.parentId && !seen.has(current._id)) {
+        seen.add(current._id)
+        current = allCategories.find((item) => item._id === current.parentId)
+        result += 1
+      }
+      return result
+    }
+    const primary = assigned.slice().sort((a: any, b: any) => depth(b) - depth(a))[0]
+      || (product.categoryId ? allCategories.find((item) => item._id === product.categoryId) : undefined)
+    const trail: CategoryItem[] = []
+    let current: any = primary
+    const seen = new Set<string>()
+    while (current && !seen.has(current._id)) {
+      seen.add(current._id)
+      if (current._id !== catalogRoot?._id && current.slug?.current !== 'vsichko-za-polivane') trail.unshift(current)
+      current = current.parentId ? allCategories.find((item) => item._id === current.parentId) : undefined
+    }
+    return trail
+  }
+  const productCategoryTrail = getProductCategoryTrail()
+  const productCatalogPath = product.productType === 'plant' ? '/category/rastenia' : '/category/vsichko-za-polivane'
 
   useEffect(() => {
     setSelectedImage(product.imageUrl || allImages[0] || '')
@@ -95,15 +128,13 @@ export function ProductPage({
 
     const breadcrumbItems: Array<{ name: string; item: string }> = [
       { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-      { name: t('Каталог'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
+      { name: t('Каталог'), item: new URL(localizedHref(productCatalogPath, language), window.location.origin).toString() },
+      ...productCategoryTrail.map((item) => ({
+        name: String(localize(item, 'name') || item.name),
+        item: new URL(localizedHref(`/category/${encodeURIComponent(item.slug?.current || item._id)}`, language), window.location.origin).toString(),
+      })),
+      { name: productName, item: productUrl },
     ]
-    if (product.category) {
-      breadcrumbItems.push({
-        name: String(localize(product, 'category') || product.category),
-        item: new URL(localizedHref(`/category/${encodeURIComponent(product.categorySlug || product.categoryId || '')}`, language), window.location.origin).toString(),
-      })
-    }
-    breadcrumbItems.push({ name: productName, item: productUrl })
     setStructuredData('breadcrumbs', {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -114,7 +145,7 @@ export function ProductPage({
         item: item.item,
       })),
     })
-  }, [product, language, localize])
+  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t])
 
   const handleAdd = () => {
     onAddToCart(product, quantity)
@@ -124,25 +155,21 @@ export function ProductPage({
 
   return (
     <main className="flex-grow container mx-auto px-4 py-6 max-w-7xl">
-      {/* Хлебные крошки */}
-      <nav className="mb-6 flex items-center text-sm text-slate-500 flex-wrap gap-1">
-        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
-          Начало
-        </a>
+      {/* Хлебни трохи: начало / каталог / категория / подкатегория / продукт */}
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center text-sm text-slate-500 gap-y-1">
+        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-1">/</span>
-        <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">
-          {t("Каталог")}
-        </a>
-        {product.category && (
-          <>
+        <a href={localizedHref(productCatalogPath, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(product.productType === 'plant' ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
+        {productCategoryTrail.map((item) => (
+          <React.Fragment key={item._id}>
             <span className="mx-1">/</span>
-            <a href={localizedHref(`/category/${encodeURIComponent(product.categorySlug || product.categoryId || '')}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(product.categorySlug, product.categoryId))} className="hover:text-emerald-700 transition-colors no-underline">
-              {localize(product, 'category')}
+            <a href={localizedHref(`/category/${encodeURIComponent(item.slug?.current || item._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(item.slug?.current, item._id))} className="hover:text-emerald-700 transition-colors no-underline">
+              {localize(item, 'name') || item.name}
             </a>
-          </>
-        )}
+          </React.Fragment>
+        ))}
         <span className="mx-1">/</span>
-        <span className="text-slate-800 font-medium truncate max-w-xs">{localize(product, 'name')}</span>
+        <span className="font-medium text-slate-800 truncate max-w-xs">{localize(product, 'name')}</span>
       </nav>
 
       {/* Основной блок товара и галерея */}
