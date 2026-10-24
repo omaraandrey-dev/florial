@@ -336,7 +336,7 @@ const blogPost = defineType({
   name: 'blogPost', title: 'Статии в блога', type: 'document',
   fields: [
     defineField({name: 'title', title: 'Заглавие (BG, за преглед)', type: 'string'}),
-    slugField('URL адрес'),
+    defineField({name: 'slug', title: 'URL адрес (slug)', type: 'slug', options: {source: 'title', maxLength: 96}}),
     defineField({name: 'publishedAt', title: 'Дата на публикуване', type: 'datetime'}),
     defineField({name: 'sourceUrl', title: 'Източник / оригинална публикация', type: 'url'}),
     defineField({name: 'isPublished', title: 'Публикувана', type: 'boolean', initialValue: false}),
