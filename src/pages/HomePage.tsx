@@ -63,13 +63,29 @@ export function HomePage({
     if (bRoot && !aRoot) return 1
     return (a.sortOrder || 0) - (b.sortOrder || 0) || a.name.localeCompare(b.name, 'bg')
   })
-  // Сортируем категории так, чтобы главная ("Всичко за поливане") всегда была первой
-  const sortedCategories = [...categories].sort((a, b) => {
-    const isAAll = a.slug?.current === 'vsichko-za-polivane' || a.name.includes('Всичко за поливане')
-    const isBAll = b.slug?.current === 'vsichko-za-polivane' || b.name.includes('Всичко за поливане')
-    if (isAAll) return -1
-    if (isBAll) return 1
-    return (a.sortOrder || 0) - (b.sortOrder || 0)
+  // На главной показываем только корневые категории, без подкатегорий.
+  const rootCategories = categories.filter((category) => !category.parentId)
+  const categoryOrder = [
+    'vsichko-za-polivane',
+    'controllers',
+    'sprinklers',
+    'nozzles',
+    'shahti',
+    'klapani',
+    'kapkovo-napoyavane',
+    'trabi-fitingi-aksesoari',
+    'drugi-komponenti-za-polivane',
+    'filtri-regulatori-nalyagane',
+  ]
+  const sortedCategories = [...rootCategories].sort((a, b) => {
+    const aIndex = categoryOrder.indexOf(a.slug?.current || '')
+    const bIndex = categoryOrder.indexOf(b.slug?.current || '')
+    if (aIndex !== -1 || bIndex !== -1) {
+      if (aIndex === -1) return 1
+      if (bIndex === -1) return -1
+      return aIndex - bIndex
+    }
+    return (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg')
   })
 
   return (
