@@ -26,7 +26,7 @@ for (const file of sourceFiles.filter(name => name.endsWith('.md'))) {
   if (url) sourceByUrl.set(normalizeUrl(url), entry)
 }
 function normalizeUrl(value) {
-  try { return decodeURIComponent(value).replace(/\/$/, '').replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/^bg\./, '') } catch { return value }
+  try { return decodeURIComponent(value).replace(/\/$/, '').replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/^bg\./, '').replace(/\/bg(?=\/)/, '') } catch { return value }
 }
 function wixId(url) {
   return url.match(/static\.wixstatic\.com\/media\/([^/~]+)/)?.[1] || null
