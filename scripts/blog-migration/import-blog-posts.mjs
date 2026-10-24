@@ -13,7 +13,7 @@ const confirmProduction = args.has('--confirm-production-write')
 const overwriteExisting = args.has('--overwrite-existing')
 
 const posts = JSON.parse(await fs.readFile(inputPath, 'utf8'))
-if (!Array.isArray(posts)) throw new Error('prepared-posts.json must contain an array.')
+if (!Array.isArray(posts) || posts.length === 0) throw new Error('prepared-posts.json is empty. Finish article extraction, translations and image uploads before importing.')
 
 const requiredLanguages = ['bg', 'ru', 'en']
 for (const [index, post] of posts.entries()) {
