@@ -37,7 +37,7 @@ export function BlogPostPage({slug}: {slug: string}) {
       alternates: {bg:base,ru:base+'?lang=ru',en:base+'?lang=en','x-default':base},
     })
   }, [post, language, content?.seoTitle, content?.seoDescription, content?.title, content?.shortDescription])
-  if (!loaded) return <main className="mx-auto w-full max-w-4xl flex-grow px-4 py-16 text-slate-500">{language === 'ru' ? 'Загрузка статьи…' : language === 'en' ? 'Loading article…' : 'Статията се зарежда…'}</main>
+  if (!loaded) return <main className="mx-auto w-full max-w-4xl flex-grow px-4 py-16 text-slate-500">{t('Зареждане на статия…')}</main>
   if (!post || !content) return <main className="mx-auto w-full max-w-4xl flex-grow px-4 py-16"><h1 className="text-2xl font-bold text-slate-900">{t('Статията не е намерена.')}</h1><a href={localizedHref('/blog', language)} className="mt-5 inline-flex font-semibold text-emerald-800">{t('Обратно към блога')} →</a></main>
   return <main className="mx-auto w-full max-w-4xl flex-grow px-4 py-8 md:py-12">
     <nav className="mb-6 text-sm text-slate-500"><a href={localizedHref('/', language)} className="text-[#647746] no-underline">{t('Начало')}</a><span className="mx-2">/</span><a href={localizedHref('/blog', language)} className="text-[#647746] no-underline">{t('Блог')}</a><span className="mx-2">/</span><span className="line-clamp-1">{content.title}</span></nav>
