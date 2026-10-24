@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -62,7 +62,7 @@ export function ProductPage({
     }
     return trail
   }
-  const productCategoryTrail = getProductCategoryTrail()
+  const productCategoryTrail = useMemo(() => getProductCategoryTrail(), [product, allCategories])
   const productCatalogPath = product.productType === 'plant' ? '/category/rastenia' : '/category/vsichko-za-polivane'
 
   useEffect(() => {
