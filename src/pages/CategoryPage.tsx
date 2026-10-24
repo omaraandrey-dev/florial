@@ -51,11 +51,14 @@ export function CategoryPage({
       alternates,
     })
 
-    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    const catalogRoot = category.isPlantCategory
+      ? allCategories.find((item) => item.slug?.current === 'rastenia' || item._id === 'plants-root')
+      : allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    const catalogPath = category.isPlantCategory ? '/category/rastenia' : '/category/vsichko-za-polivane'
     const parentCategory = category.parentId ? allCategories.find((item) => item._id === category.parentId) : undefined
     const breadcrumbItems = [
       { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-      { name: t('Каталог'), item: new URL(localizedHref(`/category/${catalogRoot?.slug?.current || 'vsichko-za-polivane'}`, language), window.location.origin).toString() },
+      { name: t('Каталог'), item: new URL(localizedHref(catalogPath, language), window.location.origin).toString() },
       ...(parentCategory && parentCategory._id !== catalogRoot?._id ? [{ name: String(localize(parentCategory, 'name') || parentCategory.name), item: new URL(localizedHref(`/category/${encodeURIComponent(parentCategory.slug?.current || parentCategory._id)}`, language), window.location.origin).toString() }] : []),
       { name: localizedName, item: new URL(localizedHref(categoryPath, language), window.location.origin).toString() },
     ]
@@ -109,7 +112,7 @@ export function CategoryPage({
       <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-y-1 text-sm text-slate-500">
         <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-2">/</span>
-        <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.('vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
+        <a href={localizedHref(category.isPlantCategory ? '/category/rastenia' : '/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(category.isPlantCategory ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{category.isPlantCategory ? (language === 'ru' ? 'Растения' : language === 'en' ? 'Plants' : 'Растения') : t('Каталог')}</a>
         {(() => {
           const parent = category.parentId ? allCategories.find((item) => item._id === category.parentId) : undefined
           const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
