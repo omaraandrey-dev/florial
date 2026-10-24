@@ -123,3 +123,11 @@
 - Потвърдено е разминаване между изходния код и публикуваната схема: изходната схема съдържа `category.translations.en/ru.name` и `description`, но deployed workspace `florial-admin` не ги показва.
 - Обновено е заглавието на полето в Studio, за да е ясно, че трябва да се попълват и името, и описанието на категорията.
 - След този commit трябва да се провери автоматичното schema deploy преди публикуване на преводите. Не са променяни оригинални описания, цени, SKU или изображения.
+
+
+## 2026-10-24 — Blog publishing workflow
+
+- The existing `florial-admin` workspace includes `blogPost` and `youtubeEmbed` in the version-controlled Studio schema.
+- The workflow `.github/workflows/blog-studio.yml` deploys the schema through the existing Studio source and app ID in `studio/sanity.cli.ts`; it does not create a separate managed Studio.
+- Schema deployment is additive. No product, category, service, plant, or order documents are migrated by the schema step.
+- The workflow must pass website and Studio builds before deploying the schema. It requires the GitHub Actions secret `SANITY_AUTH_TOKEN`.
