@@ -336,7 +336,7 @@ const blogPost = defineType({
   name: 'blogPost', title: 'Статии в блога', type: 'document',
   fields: [
     defineField({name: 'title', title: 'Заглавие (BG, за преглед)', type: 'string'}),
-    defineField({name: 'slug', title: 'URL адрес (slug)', type: 'slug', options: {source: 'title', maxLength: 96}}),
+    defineField({name: 'slug', title: 'URL адрес (slug)', type: 'slug', options: {source: 'translations.bg.title', maxLength: 96}}),
     defineField({name: 'publishedAt', title: 'Дата на публикуване', type: 'datetime'}),
     defineField({name: 'sourceUrl', title: 'Източник / оригинална публикация', type: 'url'}),
     defineField({name: 'isPublished', title: 'Публикувана', type: 'boolean', initialValue: false}),
@@ -362,7 +362,7 @@ const blogPost = defineType({
         defineField({name: 'seoDescription', title: 'SEO description', type: 'text', rows: 3}),
       ]}))),
   ],
-  preview: {select: {title: 'title', subtitle: 'publishedAt', media: 'cover'}},
+  preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
 export const irrigationSchemaTypes = [
   seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
