@@ -5,8 +5,9 @@
   "notes": [
     "Unique Bulgarian article pages found on the blog listing: five.",
     "The listing also links to Russian and English variants for some posts; those are language variants, not separate articles.",
-    "Publication dates were not reliably exposed in the retrieved page content. Do not invent dates; verify structured metadata before migration.",
-    "Original images remain hosted on Wix static media. They have not been downloaded or uploaded to Sanity production.",
+    "Publication timestamps verified from article:published_time metadata.",
+    "Original images remain hosted on Wix static media. Source page image candidates are counted below, but the full per-image URL/alt manifest still needs to be persisted before migration.",
+    "Price references in the misting and rose articles require owner review: 500 лв and 25 лв respectively. No price was changed.",
     "No article documents or assets have been written to Sanity."
   ],
   "posts": [
@@ -20,10 +21,11 @@
       "sourceUrl": "https://bg.drop.od.ua/post/цена-на-система-за-автоматично-поливане-в-бургаска-област",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_b3b4565a82e7483dbfddfe4ea16a9100~mv2.jpg",
       "sourceImageCount": 3,
-      "publishedAt": null,
-      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "publishedAt": "2026-03-13T08:35:39.675Z",
+      "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "Review every price and quote individually with owner before editing."
+      "priceReview": "Review all monetary amounts in full body individually with owner; do not replace automatically.",
+      "coverAlt": "Цена на система за автоматично поливане в Бургаска област"
     },
     {
       "slug": "sistema-magluvane-terasa-besedka",
@@ -35,10 +37,11 @@
       "sourceUrl": "https://bg.drop.od.ua/post/достъпна-система-за-мъглуване-за-вашата-тераса-или-беседка",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_3b022d925f5d40088acffb57a373ec91~mv2.jpg",
       "sourceImageCount": 7,
-      "publishedAt": null,
-      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "publishedAt": "2025-06-21T09:36:14.281Z",
+      "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price change proposed; retain factual figures (15 atm, 4–5 °C) unless owner approves edits."
+      "priceReview": "Found historical price claim: 500 лв in SEO description. Review with owner; do not convert or replace automatically. Preserve technical figures 15 atm and 4–5 °C.",
+      "coverAlt": "Достъпна система за мъглуване за вашата тераса или беседка"
     },
     {
       "slug": "rozi-sympathy",
@@ -50,10 +53,11 @@
       "sourceUrl": "https://bg.drop.od.ua/post/продажба-на-рози-от-сорта-sympathy",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_6f08a19246f04a61915df7ea088a9fb7~mv2.jpg",
       "sourceImageCount": 5,
-      "publishedAt": null,
-      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "publishedAt": "2025-06-08T06:45:20.211Z",
+      "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "Any sale price must be reviewed separately; do not replace with current Florial pricing."
+      "priceReview": "Found historical price claim: 25 лв in article/SEO description. Review with owner; do not convert or replace automatically.",
+      "coverAlt": "Продажба на рози от сорта Sympathy"
     },
     {
       "slug": "topiarna-rezitba-rasteniya",
@@ -65,10 +69,11 @@
       "sourceUrl": "https://bg.drop.od.ua/post/топиарна-резитба-на-растения",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_5f17d42d784c42b5924c4ed2ba42be67~mv2.jpg",
       "sourceImageCount": 4,
-      "publishedAt": null,
-      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "publishedAt": "2025-04-09T04:01:13.757Z",
+      "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No price change identified in the captured source excerpt."
+      "priceReview": "No price change identified in the captured source excerpt.",
+      "coverAlt": "Топиарна резитба на растения в Несебър"
     },
     {
       "slug": "nov-vnos-palmi-2025",
@@ -80,10 +85,11 @@
       "sourceUrl": "https://bg.drop.od.ua/post/нов-внос-на-палми-в-градински-център-флориал-2025-година-1",
       "coverUrl": "https://static.wixstatic.com/media/1b6ca6_2bf67397b36e4d7f80aad5fb225e2790~mv2.jpg",
       "sourceImageCount": 5,
-      "publishedAt": null,
-      "dateStatus": "НЕ ИЗВЕСТНО — нужно уточнить",
+      "publishedAt": "2025-03-31T05:15:06.021Z",
+      "dateStatus": "verified from article:published_time metadata",
       "translationStatus": "source extraction done; translation/edit review pending",
-      "priceReview": "No current price to be substituted without owner review."
+      "priceReview": "Review any price references in the full body individually; preserve stated cold-tolerance figures unless verified otherwise.",
+      "coverAlt": "Палми в градински център Florial, Несебър"
     }
   ]
 }
