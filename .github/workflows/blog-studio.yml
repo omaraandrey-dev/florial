@@ -1,0 +1,66 @@
+name: Blog and Studio validation
+
+on:
+  push:
+    branches:
+      - feature/florial-blog
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install website dependencies
+        run: npm ci
+      - name: Build website
+        run: npm run build
+      - name: Lint website
+        run: npm run lint
+      - name: Install Studio dependencies
+        working-directory: studio
+        run: npm install
+      - name: Build Studio
+        working-directory: studio
+        run: npm run build
+
+  deploy-existing-studio:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/feature/florial-blog'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Studio dependencies
+        working-directory: studio
+        run: npm install
+      - name: Deploy schema to existing Florial workspaces
+        working-directory: studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: |
+          test -n "$SANITY_AUTH_TOKEN" || (echo "Missing GitHub Actions secret SANITY_AUTH_TOKEN; Studio deployment was not attempted." && exit 1)
+          npx sanity schema deploy --workspace florial-admin
+          npx sanity schema deploy --workspace plants
+      - name: Deploy existing hosted Studio app
+        working-directory: studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity deploy --yes
