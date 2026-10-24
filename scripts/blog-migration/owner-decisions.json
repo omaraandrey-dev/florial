@@ -1,0 +1,65 @@
+{
+  "updatedAt": "2026-10-24",
+  "decisions": [
+    {
+      "sourceFile": "03-rozi-sympathy.md",
+      "topic": "historical price in article",
+      "sourceValue": "25 лв.",
+      "approvedValue": "12.50 EUR",
+      "conversion": "2 BGN = 1 EUR",
+      "status": "approved-for-editorial-copy",
+      "note": "Apply only to the Florial editorial copy. Preserve the raw source snapshot unchanged."
+    }
+  ],
+  "pendingPriceApprovals": [
+    {
+      "sourceFile": "01-cena-sistema-avtomatichno-napoyavane.md",
+      "values": [
+        "100–300 €",
+        "100–200 €",
+        "400–600 €"
+      ],
+      "status": "awaiting-owner-decision"
+    },
+    {
+      "sourceFile": "02-sistema-magluvane.md",
+      "values": [
+        "500 лв."
+      ],
+      "status": "awaiting-owner-decision"
+    },
+    {
+      "sourceFile": "06-kiparis-totem.md",
+      "values": [
+        "100 лв."
+      ],
+      "status": "awaiting-owner-decision"
+    },
+    {
+      "sourceFile": "07-godishna-poddruzhka.md",
+      "values": [
+        "270 €",
+        "420 €",
+        "620 €"
+      ],
+      "status": "awaiting-owner-decision"
+    },
+    {
+      "sourceFile": "14-remont-modernizatsiya.md",
+      "values": [
+        "от 75 €"
+      ],
+      "status": "awaiting-owner-decision"
+    }
+  ],
+  "publicationGate": {
+    "status": "blocked-pending-content-and-deployment-validation",
+    "reasons": [
+      "prepared-posts.json is empty; article bodies still need final BG copy, RU/EN translations, and Portable Text conversion",
+      "image assets have not been uploaded to Sanity",
+      "the currently deployed production schema has no blogPost document type",
+      "the existing Studio source must be deployed through its existing application, not by creating a duplicate managed Studio",
+      "the GitHub branch build has not been verified"
+    ]
+  }
+}
