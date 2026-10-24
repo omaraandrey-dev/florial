@@ -369,7 +369,7 @@ const blogPost = defineType({
         defineField({name: 'coverAlt', title: 'Alt на обложката', type: 'string'}),
         defineField({name: 'seoTitle', title: 'SEO title', type: 'string'}),
         defineField({name: 'seoDescription', title: 'SEO description', type: 'text', rows: 3}),
-      ]}))),
+      ]}))}),
   ],
   preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
