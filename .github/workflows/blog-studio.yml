@@ -29,6 +29,10 @@ jobs:
         run: npm run build
       - name: Lint website
         run: npm run lint
+      - name: Check migration script syntax
+        run: |
+          node --check scripts/blog-migration/prepare-from-source.mjs
+          node --check scripts/blog-migration/import-blog-posts.mjs
       - name: Install Studio dependencies
         working-directory: studio
         run: npm install
