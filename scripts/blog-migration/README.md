@@ -4,7 +4,7 @@
 - Source: https://www.drop.od.ua/bg/blog
 - Unique Bulgarian article pages found: 5.
 - Some pages also link to RU/EN variants; these were deduplicated as language variants.
-- The current Firecrawl extraction did not reliably expose publication dates. Do not populate dates until page metadata is verified.
+- Some category-only posts were discovered beyond the main listing. One turf page currently returns 404 and several language variants are English/Russian despite /bg/ paths.
 - The image counts below are source-page image candidates, including inline photos; these are not yet deduplicated by underlying Wix asset ID.
 
 ## Files
