@@ -178,6 +178,12 @@ for (const article of manifest.articles || []) for (const image of article.image
   if (image.kind !== 'youtube-thumbnail' && image.url && wixId(image.url)) imageUrls.set(wixId(image.url), image.url)
 }
 const assetMap = new Map()
+const knownCovers = JSON.parse(await fs.readFile(path.join(root, 'scripts/blog-migration/known-cover-refs.json'), 'utf8')).covers
+for (const post of inventory.posts) {
+  const ref = knownCovers[post.slug]
+  const id = wixId(post.coverUrl)
+  if (ref && id) assetMap.set(id, ref)
+}
 const failures = []
 const entries = [...imageUrls.entries()]
 let next = 0
@@ -185,6 +191,10 @@ async function uploadWorker() {
   while (next < entries.length) {
     const index = next++
     const [id, url] = entries[index]
+    if (assetMap.has(id)) {
+      console.log('Using verified existing cover asset ' + id)
+      continue
+    }
     try {
       const response = await fetch(url)
       if (!response.ok) throw new Error('HTTP ' + response.status)
