@@ -49,7 +49,7 @@ export function CategoryPage({
       language,
       fallbackTitle: `${localizedName} | Florial`,
       fallbackDescription: description,
-      noIndex: language !== 'bg' && !languageContentExists(language),
+      noIndex: false,
       alternates,
     })
 
