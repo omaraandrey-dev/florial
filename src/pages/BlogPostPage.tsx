@@ -49,7 +49,7 @@ export function BlogPostPage({slug}: {slug: string}) {
       fallbackDescription: content.seoDescription || content.shortDescription || content.title,
       pageType: 'article',
       imageUrl: post.cover?.asset?.url,
-      noIndex: language !== 'bg' && !hasCompleteTranslation,
+      noIndex: false,
       language,
       alternates: {bg:base,ru:base+'?lang=ru',en:base+'?lang=en','x-default':base},
     })
