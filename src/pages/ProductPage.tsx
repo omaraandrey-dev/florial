@@ -113,7 +113,7 @@ export function ProductPage({
       pageType: 'product',
       imageUrl: product.imageUrl,
       language,
-      noIndex: language !== 'bg' && !hasLocaleContent(language),
+      noIndex: false,
       alternates,
     })
 
