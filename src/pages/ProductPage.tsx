@@ -25,14 +25,23 @@ export function ProductPage({
 }: ProductPageProps) {
   const { t, language, localize } = useI18n()
   const [selectedImage, setSelectedImage] = useState<string>('')
+  const [failedImageUrls, setFailedImageUrls] = useState<string[]>([])
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
 
-  // Собираем все изображения: главное (imageUrl) + галерея (galleryImages)
-  const allImages = [
+  // Sanity gallery may contain URL strings or legacy objects { url, alt }.
+  // Normalize both formats, discard invalid values and deduplicate the main image.
+  const allImages = Array.from(new Set([
     product.imageUrl,
-    ...(product.galleryImages || [])
-  ].filter(Boolean) as string[]
+    ...(product.galleryImages || []).map((image) =>
+      typeof image === 'string' ? image : image && typeof image === 'object' ? image.url : undefined
+    ),
+  ].filter((image): image is string => typeof image === 'string' && /^https?:\/\//i.test(image))))
+    .filter((image) => !failedImageUrls.includes(image))
+
+  const handleImageError = (imageUrl: string) => {
+    setFailedImageUrls((previous) => previous.includes(imageUrl) ? previous : [...previous, imageUrl])
+  }
 
   const getProductCategoryTrail = (): CategoryItem[] => {
     const catalogRoot = product.productType === 'plant'
@@ -68,7 +77,8 @@ export function ProductPage({
   const productCatalogPath = product.productType === 'plant' ? '/category/rastenia' : '/category/vsichko-za-polivane'
 
   useEffect(() => {
-    setSelectedImage(product.imageUrl || allImages[0] || '')
+    setFailedImageUrls([])
+    setSelectedImage(product.imageUrl || '')
     setQuantity(1)
   }, [product, language])
 
@@ -178,8 +188,8 @@ export function ProductPage({
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
-            {selectedImage ? (
-              <img src={selectedImage} alt={localize(product, 'name')} className="h-full w-full object-contain p-4" />
+            {selectedImage && !failedImageUrls.includes(selectedImage) ? (
+              <img src={selectedImage} alt={localize(product, 'name')} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
@@ -201,7 +211,7 @@ export function ProductPage({
                     selectedImage === img ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-contain p-1" />
+                  <img src={img} alt="" onError={() => handleImageError(img)} className="w-full h-full object-contain p-1" />
                 </button>
               ))}
             </div>
