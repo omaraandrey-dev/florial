@@ -30,7 +30,7 @@ export interface Product {
   sku?: string
   brand?: string
   imageUrl?: string
-  galleryImages?: string[]
+  galleryImages?: Array<string | { url?: string | null; alt?: string | null } | null>
   category?: string
   categoryId?: string
   categorySlug?: string
