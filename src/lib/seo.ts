@@ -98,7 +98,7 @@ export function applyPageSeo(options: {
 
   document.title = title
   setMeta('description', description)
-  setMeta('robots', noIndex || seo?.noIndex ? 'noindex, nofollow' : 'index, follow')
+  setMeta('robots', noIndex ? 'noindex, nofollow' : 'index, follow')
   if (seo?.keywords?.length) setMeta('keywords', seo.keywords.join(', '))
   else document.head.querySelector('meta[name="keywords"]')?.remove()
 
