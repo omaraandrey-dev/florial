@@ -46,3 +46,8 @@ jobs:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schema deploy --workspace plants
 
+      - name: Backfill missing irrigation category translations
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: node ../scripts/backfill-irrigation-category-translations.mjs
+
