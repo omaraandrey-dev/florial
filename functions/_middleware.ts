@@ -668,7 +668,6 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       if (!doc) return notFoundResponse(language)
 
       const localized = language === 'bg' ? null : doc.translations?.[language]
-      const translatedIsComplete = hasTranslation(doc, type, language)
       const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
       const name = String(type === 'blogPost' ? (localized?.title || doc.translations?.bg?.title || doc.title || slug) : (localized?.name || categoryFallback?.name || doc.name || slug))
       const translatedDescription = localized?.shortDescription || localized?.description || categoryFallback?.description
