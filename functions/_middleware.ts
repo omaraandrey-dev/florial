@@ -678,7 +678,7 @@ export async function onRequest(context: PagesContext): Promise<Response> {
         : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
       const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
-      const noIndex = seo?.noIndex === true || (language !== 'bg' && !translatedIsComplete)
+      const noIndex = false
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, language)
