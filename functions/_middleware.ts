@@ -668,7 +668,6 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       if (!doc) return notFoundResponse(language)
 
       const localized = language === 'bg' ? null : doc.translations?.[language]
-      const translatedIsComplete = hasTranslation(doc, type, language)
       const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
       const name = String(type === 'blogPost' ? (localized?.title || doc.translations?.bg?.title || doc.title || slug) : (localized?.name || categoryFallback?.name || doc.name || slug))
       const translatedDescription = localized?.shortDescription || localized?.description || categoryFallback?.description
@@ -678,7 +677,7 @@ export async function onRequest(context: PagesContext): Promise<Response> {
         : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
       const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
       const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
-      const noIndex = seo?.noIndex === true || (language !== 'bg' && !translatedIsComplete)
+      const noIndex = false
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, language)
