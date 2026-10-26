@@ -782,7 +782,7 @@ export default function App() {
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl}
-                        alt={language === 'ru' ? (product.imageAltRu || localize(product, 'name')) : language === 'en' ? (product.imageAltEn || localize(product, 'name')) : (product.imageAlt || localize(product, 'name'))}
+                        alt={language === 'ru' ? (product.imageAltRu || `${localize(product, 'name')} — купить оборудование для полива в Несебре, Равде и Солнечном Берегу`) : language === 'en' ? (product.imageAltEn || `${localize(product, 'name')} — irrigation equipment for sale in Nessebar, Ravda and Sunny Beach`) : (product.imageAlt || `${localize(product, 'name')} — купете от Florial в Несебър, Равда и Слънчев бряг`)}
                         loading="lazy"
                         className="h-40 w-full bg-white object-contain p-3"
                       />
