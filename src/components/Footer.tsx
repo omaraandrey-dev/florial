@@ -28,6 +28,11 @@ export function Footer() {
               💬 {t('WhatsApp чат с оператором')}
             </a>
           </div>
+          <div className="mt-4 text-center">
+            <a href={language === 'ru' ? '/dostavka-poliv?lang=ru' : language === 'en' ? '/dostavka-poliv?lang=en' : '/dostavka-poliv'} className="inline-flex rounded-lg border border-emerald-500/50 px-4 py-2.5 text-sm font-semibold text-emerald-300 no-underline transition hover:bg-slate-700">
+              {language === 'en' ? 'Delivery & irrigation engineer consultation' : language === 'ru' ? 'Доставка и консультация инженера по поливу' : 'Доставка и консултация с инженер по напояването'} →
+            </a>
+          </div>
         </div>
 
         {/* Основная информация о компании "{t('За нас')}" */}
