@@ -29,15 +29,29 @@ export function ProductPage({
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
 
-  // Sanity gallery may contain URL strings or legacy objects { url, alt }.
-  // Normalize both formats, discard invalid values and deduplicate the main image.
-  const allImages = Array.from(new Set([
-    product.imageUrl,
-    ...(product.galleryImages || []).map((image) =>
-      typeof image === 'string' ? image : image && typeof image === 'object' ? image.url : undefined
-    ),
-  ].filter((image): image is string => typeof image === 'string' && /^https?:\/\//i.test(image))))
-    .filter((image) => !failedImageUrls.includes(image))
+  // Support legacy URL-only galleries and localized alt text on Sanity image objects.
+  const imageCandidates: Array<{ url?: string | null; alt?: string | null }> = [
+    {
+      url: product.imageUrl,
+      alt: language === 'ru' ? product.imageAltRu : language === 'en' ? product.imageAltEn : product.imageAlt,
+    },
+    ...(product.galleryImages || []).map((image) => {
+      if (typeof image === 'string') return { url: image, alt: localize(product, 'name') }
+      if (!image || typeof image !== 'object') return { url: undefined, alt: undefined }
+      return {
+        url: image.url,
+        alt: language === 'ru' ? (image.altRu || image.alt) : language === 'en' ? (image.altEn || image.alt) : image.alt,
+      }
+    }),
+  ]
+  const allImages = imageCandidates
+    .filter((image): image is { url: string; alt?: string | null } =>
+      typeof image.url === 'string' && /^https?:\/\//i.test(image.url) && !failedImageUrls.includes(image.url)
+    )
+    .filter((image, index, list) => list.findIndex((candidate) => candidate.url === image.url) === index)
+
+  const getImageAlt = (imageUrl: string) =>
+    allImages.find((image) => image.url === imageUrl)?.alt || localize(product, 'name')
 
   const handleImageError = (imageUrl: string) => {
     setFailedImageUrls((previous) => previous.includes(imageUrl) ? previous : [...previous, imageUrl])
@@ -189,7 +203,7 @@ export function ProductPage({
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage && !failedImageUrls.includes(selectedImage) ? (
-              <img src={selectedImage} alt={localize(product, 'name')} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
+              <img src={selectedImage} alt={getImageAlt(selectedImage)} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
@@ -203,15 +217,16 @@ export function ProductPage({
           {/* Миниатюры галереи */}
           {allImages.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {allImages.map((img, idx) => (
+              {allImages.map((img) => (
                 <button
-                  key={idx}
-                  onClick={() => setSelectedImage(img)}
+                  key={img.url}
+                  onClick={() => setSelectedImage(img.url)}
+                  aria-label={img.alt || localize(product, 'name')}
                   className={`w-20 h-20 rounded-lg border-2 overflow-hidden flex-shrink-0 bg-slate-50 transition-all cursor-pointer ${
-                    selectedImage === img ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
+                    selectedImage === img.url ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
-                  <img src={img} alt="" onError={() => handleImageError(img)} className="w-full h-full object-contain p-1" />
+                  <img src={img.url} alt={img.alt || localize(product, 'name')} onError={() => handleImageError(img.url)} className="w-full h-full object-contain p-1" />
                 </button>
               ))}
             </div>
