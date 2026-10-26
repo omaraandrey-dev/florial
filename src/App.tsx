@@ -288,7 +288,10 @@ export default function App() {
           oldPriceEUR,
           stockStatus,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "galleryImages": gallery[].asset->url,
+          "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+          "galleryImages": gallery[]{ "url": asset->url, alt, altEn, altRu },
           shortDescription,
           description,
           specifications,
@@ -779,7 +782,7 @@ export default function App() {
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl}
-                        alt={localize(product, 'name')}
+                        alt={language === 'ru' ? (product.imageAltRu || localize(product, 'name')) : language === 'en' ? (product.imageAltEn || localize(product, 'name')) : (product.imageAlt || localize(product, 'name'))}
                         loading="lazy"
                         className="h-40 w-full bg-white object-contain p-3"
                       />
