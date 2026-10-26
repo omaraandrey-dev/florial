@@ -547,6 +547,42 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     }))
   }
 
+  if (path === '/services/dostavka-poliv') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Доставка оборудования для полива и консультация инженера | Florial',
+          description: 'Доставка оборудования для автоматического полива в Солнечном Береге, Несебре, Равде, Святом Власе, Кошарице, Каблешково и Поморие. Бесплатная консультация инженера на объекте. Ремонт от 30 €.',
+          body: '<main><h1>Оборудование для полива с доставкой и помощью инженера</h1><p>Бесплатная доставка в Солнечном Береге. Несебр, Равда и Святой Влас — 10 €; Кошарица и Каблешково — 15 €; Поморие — 20 €. Бесплатная консультация инженера на объекте. Ремонт от 30 €.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Irrigation Equipment Delivery & Engineer Consultation | Florial',
+            description: 'Irrigation equipment delivered in Sunny Beach, Nessebar, Ravda, Sveti Vlas, Kosharitsa, Kableshkovo and Pomorie. Free on-site engineer consultation. Repairs from €30.',
+            body: '<main><h1>Irrigation equipment delivered, with help from an engineer</h1><p>Free delivery in Sunny Beach. Nessebar, Ravda and Sveti Vlas — €10; Kosharitsa and Kableshkovo — €15; Pomorie — €20. Free on-site engineer consultation. Repairs from €30.</p></main>',
+          }
+        : {
+            title: 'Доставка на оборудване за поливане и консултация с инженер | Florial',
+            description: 'Оборудване за автоматично напояване с доставка в Слънчев бряг, Несебър, Равда, Свети Влас, Кошарица, Каблешково и Поморие. Безплатна консултация с инженер на място. Ремонт от 30 €.',
+            body: '<main><h1>Оборудване за поливане с доставка и помощ от инженер</h1><p>Безплатна доставка в Слънчев бряг. Несебър, Равда и Свети Влас — 10 €; Кошарица и Каблешково — 15 €; Поморие — 20 €. Безплатна консултация с инженер на място. Ремонт от 30 €.</p></main>',
+          }
+    const base = SITE_URL + '/services/dostavka-poliv'
+    const canonical = localizedRouteUrl('/services/dostavka-poliv', language)
+    const alternates = {
+      bg: base,
+      ru: base + '?lang=ru',
+      en: base + '?lang=en',
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/' || path === '/contacts') {
     const meta = staticPageMetadata(path, language)
     const canonical = localizedRouteUrl(path === '/' ? '/' : '/contacts', language)

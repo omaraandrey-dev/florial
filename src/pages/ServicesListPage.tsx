@@ -97,6 +97,28 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
               </div>
             </a>
           ))}
+          <a
+            href={localizedHref('/services/dostavka-poliv', language)}
+            className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline"
+          >
+            <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
+              <img
+                src="https://cdn.sanity.io/images/bxvcy0qs/production/d8b65d940b3076d0d74c0e69117c88ba96ae3ef6-1254x1254.png"
+                alt={language === 'ru' ? 'Доставка оборудования и консультация инженера по поливу' : language === 'en' ? 'Irrigation equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер по напояване'}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex flex-1 flex-col p-5">
+              <h2 className="mb-2 text-xl font-bold text-slate-900">
+                {language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка и консултация с инженер'}
+              </h2>
+              <p className="flex-1 text-sm leading-6 text-slate-600">
+                {language === 'ru' ? 'Бесплатная доставка в Солнечном Береге, понятные тарифы по региону, консультация на объекте и ремонт от 30 €.' : language === 'en' ? 'Free delivery in Sunny Beach, clear local delivery rates, an on-site consultation and repairs from €30.' : 'Безплатна доставка в Слънчев бряг, ясни цени за района, консултация на място и ремонт от 30 €.'}
+              </p>
+              <span className="mt-4 font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
+            </div>
+          </a>
         </div>
       </section>
 

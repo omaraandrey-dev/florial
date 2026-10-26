@@ -13,6 +13,7 @@ import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
 import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 
@@ -646,7 +647,7 @@ export default function App() {
       !normalizedRoutePath.startsWith('/services/') &&
       !normalizedRoutePath.startsWith('/category/')
     ) ||
-    (normalizedRoutePath.startsWith('/services/') && !currentService) ||
+    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !currentService) ||
     (normalizedRoutePath.startsWith('/category/') && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
@@ -833,6 +834,8 @@ export default function App() {
             {language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'}
           </button>
         </main>
+       ) : normalizedRoutePath === '/services/dostavka-poliv' ? (
+        <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} />
       ) : activeServiceSlug && currentService ? (
