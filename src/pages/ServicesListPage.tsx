@@ -103,8 +103,8 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
           >
             <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
               <img
-                src="https://cdn.sanity.io/images/bxvcy0qs/production/d8b65d940b3076d0d74c0e69117c88ba96ae3ef6-1254x1254.png"
-                alt={language === 'ru' ? 'Доставка оборудования и консультация инженера по поливу' : language === 'en' ? 'Irrigation equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер по напояване'}
+                src="https://cdn.sanity.io/images/bxvcy0qs/production/7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585.jpg"
+                alt={language === 'ru' ? 'Автоматический полив сада и консультация инженера' : language === 'en' ? 'Garden irrigation and engineer consultation' : 'Автоматично напояване на градина и консултация с инженер'}
                 loading="lazy"
                 className="h-full w-full object-cover"
               />
