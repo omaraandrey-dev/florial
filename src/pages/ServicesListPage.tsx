@@ -103,7 +103,7 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
           >
             <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
               <img
-                src="https://cdn.sanity.io/images/bxvcy0qs/production/7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585.jpg"
+                src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg"
                 alt={language === 'ru' ? 'Автоматический полив сада и консультация инженера' : language === 'en' ? 'Garden irrigation and engineer consultation' : 'Автоматично напояване на градина и консултация с инженер'}
                 loading="lazy"
                 className="h-full w-full object-cover"
