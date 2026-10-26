@@ -143,7 +143,7 @@ export function IrrigationSupportPage() {
   const phoneHref = language === 'bg' ? 'tel:+359876777902' : 'tel:+359885834860'
   const whatsapp = 'https://wa.me/380674807486'
   const catalogHref = localizedHref('/category/vsichko-za-polivane', language)
-  const pageUrl = 'https://florial-bg.com/dostavka-polivane'
+  const pageUrl = 'https://florial-bg.com/services/dostavka-poliv'
 
   useEffect(() => {
     applyPageSeo({
