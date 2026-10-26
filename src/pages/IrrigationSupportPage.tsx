@@ -186,29 +186,6 @@ export function IrrigationSupportPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#E5E9DC] bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
-          <div className="mb-7 max-w-3xl">
-            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#71824F]">Florial</p>
-            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.galleryTitle}</h2>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <figure className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-[#F6F8F1] shadow-sm">
-              <img src="https://cdn.sanity.io/images/bxvcy0qs/production/7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585.jpg" alt={text.gallery1} loading="lazy" className="h-64 w-full object-cover" />
-              <figcaption className="p-4 font-semibold text-slate-800">{text.gallery1}</figcaption>
-            </figure>
-            <figure className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-[#F6F8F1] shadow-sm">
-              <img src="https://cdn.sanity.io/images/bxvcy0qs/production/5929135e9b96beba460890d9e0cf9407eebf5af2-369x372.jpg" alt={text.gallery2} loading="lazy" className="h-64 w-full object-cover" />
-              <figcaption className="p-4 font-semibold text-slate-800">{text.gallery2}</figcaption>
-            </figure>
-            <figure className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-[#F6F8F1] shadow-sm">
-              <img src="https://cdn.sanity.io/images/bxvcy0qs/production/048aeb8ad4cb9c4afcc493e7c7742945b8de793c-1037x1024.png" alt={text.gallery3} loading="lazy" className="h-64 w-full object-cover" />
-              <figcaption className="p-4 font-semibold text-slate-800">{text.gallery3}</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mb-7 max-w-3xl"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.deliveryTitle}</h2><p className="mt-3 leading-7 text-slate-600">{text.deliveryIntro}</p></div>
         <div className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
@@ -221,24 +198,38 @@ export function IrrigationSupportPage() {
       </section>
 
       <section className="border-y border-[#E5E9DC] bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16 lg:px-8">
-          <div><p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#71824F]">Florial</p><h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.engineerTitle}</h2><p className="mt-4 leading-7 text-slate-600">{text.engineerText}</p></div>
-          <ul className="space-y-3">{text.engineerBullets.map((item) => <li key={item} className="flex gap-3 rounded-xl bg-[#F6F8F1] p-4 text-slate-700"><span className="font-black text-[#71824F]" aria-hidden="true">✓</span><span>{item}</span></li>)}</ul>
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16 lg:px-8">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#71824F]">Florial</p>
+            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.engineerTitle}</h2>
+            <p className="mt-4 leading-7 text-slate-600">{text.engineerText}</p>
+            <ul className="mt-5 space-y-3">{text.engineerBullets.map((item) => <li key={item} className="flex gap-3 rounded-xl bg-[#F6F8F1] p-4 text-slate-700"><span className="font-black text-[#71824F]" aria-hidden="true">✓</span><span>{item}</span></li>)}</ul>
+          </div>
+          <figure className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-[#F6F8F1] shadow-sm">
+            <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={text.engineerTitle} loading="lazy" className="h-full min-h-[320px] w-full object-cover" />
+            <figcaption className="p-4 font-semibold text-slate-800">{text.engineerTitle}</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
-        <div className="rounded-3xl bg-[#EEF2E5] p-6 sm:p-9">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.repairTitle}</h2>
-          <p className="mt-4 max-w-3xl leading-7 text-slate-700">{text.repairText}</p>
-          <a href={phoneHref} className="mt-6 inline-flex rounded-xl bg-[#647746] px-6 py-3.5 font-bold text-white no-underline transition hover:bg-[#53643A]">{phone}</a>
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="grid items-center gap-8 rounded-3xl bg-[#EEF2E5] p-6 sm:p-9 md:grid-cols-2">
+          <div>
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.repairTitle}</h2>
+            <p className="mt-4 max-w-3xl leading-7 text-slate-700">{text.repairText}</p>
+            <a href={phoneHref} className="mt-6 inline-flex rounded-xl bg-[#647746] px-6 py-3.5 font-bold text-white no-underline transition hover:bg-[#53643A]">{phone}</a>
+          </div>
+          <figure className="overflow-hidden rounded-2xl border border-[#DCE4CE] bg-white shadow-sm">
+            <img src="https://cdn.sanity.io/images/bxvcy0qs/production/ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022.png" alt={text.repairTitle} loading="lazy" className="h-72 w-full object-cover" />
+            <figcaption className="p-4 font-semibold text-slate-800">{text.repairTitle}</figcaption>
+          </figure>
         </div>
       </section>
 
       <section className="border-t border-[#E5E9DC] bg-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.stepsTitle}</h2>
-          <ol className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[text.step1, text.step2, text.step3, text.step4].map((item, index) => <li key={item} className="rounded-2xl border border-[#E1E6D7] p-5"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8EDDC] font-extrabold text-[#53643A]">{index + 1}</span><p className="mt-4 leading-6 text-slate-700">{item}</p></li>)}</ol>
+          <ol className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[text.step1, text.step2, text.step3, text.step4].map((item, index) => <li key={item} className="rounded-2xl border border-[#E1E6D7] p-5"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8EDDC] font-extrabold text-[#53643A]">{index + 1}</span>{index === 2 && <img src="https://cdn.sanity.io/images/bxvcy0qs/production/ffa71c7029bfcff16498b12cdbbea5d12d0a2d13-1779x884.png" alt={text.step3} loading="lazy" className="mt-4 h-36 w-full rounded-xl object-cover" />}{index === 3 && <img src="https://cdn.sanity.io/images/bxvcy0qs/production/27e5e04d0d36c3c4df0d734a157581ee9e9b66e7-1503x1047.png" alt={text.step4} loading="lazy" className="mt-4 h-36 w-full rounded-xl object-cover" />}<p className="mt-4 leading-6 text-slate-700">{item}</p></li>)}</ol>
         </div>
       </section>
 
