@@ -141,8 +141,16 @@ const irrigationProduct = defineType({
     defineField({name: 'categories', title: 'Категории на продукта', type: 'array', of: [{type: 'reference', to: [{type: 'category'}]}]}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
     defineField({name: 'description', title: 'Пълно описание', type: 'array', of: [{type: 'block'}]}),
-    defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}}),
-    defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}}]}),
+    defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: [
+      defineField({name: 'alt', title: 'Alt текст (BG)', type: 'string'}),
+      defineField({name: 'altEn', title: 'Alt text (EN)', type: 'string'}),
+      defineField({name: 'altRu', title: 'Alt текст (RU)', type: 'string'}),
+    ]}),
+    defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: [
+      defineField({name: 'alt', title: 'Alt текст (BG)', type: 'string'}),
+      defineField({name: 'altEn', title: 'Alt text (EN)', type: 'string'}),
+      defineField({name: 'altRu', title: 'Alt текст (RU)', type: 'string'}),
+    ]}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
     defineField({name: 'oldPriceEUR', title: 'Стара цена (EUR)', type: 'number'}),
     defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
