@@ -50,8 +50,14 @@ export function ProductPage({
     )
     .filter((image, index, list) => list.findIndex((candidate) => candidate.url === image.url) === index)
 
-  const getImageAlt = (imageUrl: string) =>
-    allImages.find((image) => image.url === imageUrl)?.alt || localize(product, 'name')
+  const getImageAlt = (imageUrl: string) => {
+    const storedAlt = allImages.find((image) => image.url === imageUrl)?.alt
+    if (storedAlt) return storedAlt
+    const productName = String(localize(product, 'name') || product.name)
+    if (language === 'ru') return `${productName} — купить оборудование для полива в Несебре, Равде и Солнечном Берегу`
+    if (language === 'en') return `${productName} — irrigation equipment for sale in Nessebar, Ravda and Sunny Beach`
+    return `${productName} — купете от Florial в Несебър, Равда и Слънчев бряг`
+  }
 
   const handleImageError = (imageUrl: string) => {
     setFailedImageUrls((previous) => previous.includes(imageUrl) ? previous : [...previous, imageUrl])
