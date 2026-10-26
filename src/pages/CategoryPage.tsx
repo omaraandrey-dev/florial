@@ -216,7 +216,7 @@ export function CategoryPage({
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
-                      alt={localize(product, 'name')}
+                      alt={language === 'ru' ? (product.imageAltRu || localize(product, 'name')) : language === 'en' ? (product.imageAltEn || localize(product, 'name')) : (product.imageAlt || localize(product, 'name'))}
                       className="h-full w-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
