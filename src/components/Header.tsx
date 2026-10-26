@@ -280,13 +280,6 @@ export function Header({
             </div>
 
             <div className="border-t border-slate-100">
-              <a href={localizedHref('/dostavka-poliv', language)} onClick={closeMenu} className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-[#53643A] transition hover:bg-[#F0F3E8] no-underline">
-                <span>{language === 'ru' ? 'Доставка и консультация инженера' : language === 'en' ? 'Delivery & engineer consultation' : 'Доставка и консултация с инженер'}</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
-
-            <div className="border-t border-slate-100">
               <a href={localizedHref('/contacts', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateContacts() })} className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
                 {t("Контакти")}
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
