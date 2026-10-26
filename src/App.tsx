@@ -13,7 +13,6 @@ import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
 import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
-import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 
@@ -58,7 +57,7 @@ export default function App() {
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && path !== '/dostavka-poliv' && !path.startsWith('/blog/') &&
+      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -638,7 +637,6 @@ export default function App() {
       normalizedRoutePath !== '/index.html' &&
       normalizedRoutePath !== '/contacts' &&
       normalizedRoutePath !== '/services' &&
-      normalizedRoutePath !== '/dostavka-poliv' &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
       normalizedRoutePath !== '/blog' &&
@@ -816,8 +814,6 @@ export default function App() {
             </>
           )}
         </main>
-       ) : normalizedRoutePath === '/dostavka-poliv' ? (
-        <IrrigationSupportPage />
       ) : normalizedRoutePath === '/blog' ? (
         <BlogPage />
       ) : normalizedRoutePath.startsWith('/blog/') ? (
