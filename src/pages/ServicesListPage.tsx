@@ -73,6 +73,11 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <a href={localizedHref('/', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page" className="font-medium text-slate-700">{copy.all}</span>
+      </nav>
       <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
         <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">{copy.title}</h1>
         <p className="mb-4 text-lg leading-8 text-slate-600">{copy.intro}</p>
@@ -103,7 +108,7 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
           >
             <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
               <img
-                src="https://cdn.sanity.io/images/bxvcy0qs/production/7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585.jpg"
+                src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg"
                 alt={language === 'ru' ? 'Автоматический полив сада и консультация инженера' : language === 'en' ? 'Garden irrigation and engineer consultation' : 'Автоматично напояване на градина и консултация с инженер'}
                 loading="lazy"
                 className="h-full w-full object-cover"
