@@ -340,7 +340,7 @@ export const onRequestPost = async ({
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
       '<table role="presentation" style="width:100%;border-collapse:collapse"><thead><tr><th style="width:76px;padding:8px"></th><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
       itemsHtml + '</tbody></table><p style="text-align:right;font-size:18px"><strong>Общо: ' +
-      subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо с доставката: ' + grandTotal.toFixed(2) + ' €</strong></p>
+      subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо с доставката: ' + grandTotal.toFixed(2) + ' €</strong></p>'
 
     const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
     const mailTasks: Promise<void>[] = []
