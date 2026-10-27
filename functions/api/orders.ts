@@ -60,6 +60,8 @@ type ProformaOrder = {
   address: string | null
   items: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string }>
   subtotal: number
+  delivery_method?: string
+  delivery_fee?: number
   created_at: string
 }
 
@@ -108,7 +110,9 @@ const createProformaPdf = async (order: ProformaOrder, fontUrl?: string): Promis
     draw(line, 9)
   }
   y -= 8
-  draw('ОБЩО ЗА ПРОДУКТИТЕ: ' + Number(order.subtotal).toFixed(2) + ' EUR', 13, rgb(0.02, 0.39, 0.29))
+  draw('Продукти: ' + Number(order.subtotal).toFixed(2) + ' EUR', 10)
+  draw('Доставка: ' + Number(order.delivery_fee || 0).toFixed(2) + ' EUR', 10)
+  draw('ОБЩО: ' + (Number(order.subtotal) + Number(order.delivery_fee || 0)).toFixed(2) + ' EUR', 13, rgb(0.02, 0.39, 0.29))
   draw('Това е проформа / потвърждение на поръчка, а не данъчна фактура.', 8)
   draw('Разходите за доставка се потвърждават отделно, ако не са включени.', 8)
   return pdf.save()
@@ -156,12 +160,58 @@ export const onRequestPost = async ({
   const address = cleanText(body.address, 500)
   const comment = cleanText(body.comment, 2000)
 
-  if (!customerName || !phone || !city) {
-    return json({ error: 'Моля, попълнете име, телефон и населено място.' }, 400)
+  const deliveryMethodInput = cleanText(body.delivery_method, 40)
+  const courierRates: Record<string, number> = {
+    'Слънчев бряг': 0,
+    'Несебър': 10,
+    'Свети Влас': 10,
+    'Тънково': 10,
+    'Равда': 10,
+    'Кошарица': 10,
+    'Ахелой': 10,
+    'Александрово': 10,
+    'Оризаре': 10,
+    'Гюльовца': 10,
+    'Медово': 10,
+    'Порой': 10,
+    'Каблешково': 10,
+    'Поморие': 15,
+    'Каменар': 15,
+    'Лъка': 15,
+    'Баня': 15,
+    'Бата': 15,
+    'Гълъбец': 15,
+    'Габерово': 15,
+    'Дъбник': 17,
+    'Горица': 20,
+    'Белодол': 20,
+    'Емона': 20,
+    'Страцин': 20,
+    'Обзор': 20,
+    'Приселци': 25,
+    'Козичино': 25,
+    'Раковсково': 25,
+    'Паницово': 25,
   }
 
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!customerName || !phone) {
+    return json({ error: 'Моля, попълнете име и телефон.' }, 400)
+  }
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json({ error: 'Моля, въведете валиден имейл адрес.' }, 400)
+  }
+
+  if (!['pickup', 'courier'].includes(deliveryMethodInput)) {
+    return json({ error: 'Моля, изберете наличен начин на получаване.' }, 400)
+  }
+
+  if (deliveryMethodInput === 'courier' && (!city || !Object.prototype.hasOwnProperty.call(courierRates, city))) {
+    return json({ error: 'Моля, изберете населено място от списъка за куриерска доставка.' }, 400)
+  }
+
+  if (deliveryMethodInput === 'courier' && !address) {
+    return json({ error: 'Моля, въведете адрес за куриерска доставка.' }, 400)
   }
 
   if (!Array.isArray(body.items) || body.items.length === 0 || body.items.length > 100) {
@@ -234,6 +284,11 @@ export const onRequestPost = async ({
   }
 
   subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100
+  const deliveryFee = deliveryMethodInput === 'pickup' ? 0 : courierRates[city]
+  const deliveryMethodLabel = deliveryMethodInput === 'pickup'
+    ? 'Самовземане от магазин'
+    : 'Куриерска доставка — ' + city + ' (' + deliveryFee.toFixed(2) + ' EUR)'
+  const grandTotal = Math.round((subtotal + deliveryFee + Number.EPSILON) * 100) / 100
   if (!Number.isFinite(subtotal) || subtotal > 10000000) {
     return json({ error: 'Общата стойност на поръчката е невалидна.' }, 400)
   }
@@ -245,9 +300,9 @@ export const onRequestPost = async ({
     customer_name: customerName,
     phone,
     email: email || null,
-    city,
-    address: address || null,
-    delivery_method: cleanText(body.delivery_method, 100) || 'courier',
+    city: deliveryMethodInput === 'pickup' ? 'Самовземане от магазин' : city,
+    address: deliveryMethodInput === 'pickup' ? null : address,
+    delivery_method: deliveryMethodLabel,
     payment_method: cleanText(body.payment_method, 100) || 'cash_on_delivery',
     comment: comment || null,
     items: orderItems,
@@ -302,12 +357,13 @@ export const onRequestPost = async ({
       '<p><strong>Клиент:</strong> ' + escapeHtml(customerName) + '<br>' +
       '<strong>Телефон:</strong> ' + escapeHtml(phone) + '<br>' +
       '<strong>Имейл:</strong> ' + escapeHtml(email || 'Не е посочен') + '<br>' +
-      '<strong>Населено място:</strong> ' + escapeHtml(city) + '<br>' +
-      '<strong>Адрес:</strong> ' + escapeHtml(address || 'Не е посочен') + '</p>' +
+      '<strong>Получаване:</strong> ' + escapeHtml(deliveryMethodLabel) + '<br>' +
+      '<strong>Населено място:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Самовземане от магазин' : city) + '<br>' +
+      '<strong>Адрес:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Не е приложимо' : address) + '</p>' +
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
       '<table role="presentation" style="width:100%;border-collapse:collapse"><thead><tr><th style="width:76px;padding:8px"></th><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
       itemsHtml + '</tbody></table><p style="text-align:right;font-size:18px"><strong>Общо: ' +
-      subtotal.toFixed(2) + ' €</strong></p><p>Разходите за доставка, ако има такива, ще бъдат потвърдени допълнително.</p>'
+      subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо с доставката: ' + grandTotal.toFixed(2) + ' €</strong></p>'
 
     const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
     const mailTasks: Promise<void>[] = []
@@ -322,6 +378,8 @@ export const onRequestPost = async ({
         address: address || null,
         items: orderItems,
         subtotal,
+        delivery_method: deliveryMethodLabel,
+        delivery_fee: deliveryFee,
         created_at: String(order.created_at),
       }, env.PROFORMA_FONT_URL)
       pdfAttachment = [{

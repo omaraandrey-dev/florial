@@ -23,6 +23,42 @@ export function CartPage({
   const [orderNumber, setOrderNumber] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | ''>('')
+  const [selectedSettlement, setSelectedSettlement] = useState('')
+
+  const deliveryRates: Record<string, number> = {
+    'Слънчев бряг': 0,
+    'Несебър': 10,
+    'Свети Влас': 10,
+    'Тънково': 10,
+    'Равда': 10,
+    'Кошарица': 10,
+    'Ахелой': 10,
+    'Александрово': 10,
+    'Оризаре': 10,
+    'Гюльовца': 10,
+    'Медово': 10,
+    'Порой': 10,
+    'Каблешково': 10,
+    'Поморие': 15,
+    'Каменар': 15,
+    'Лъка': 15,
+    'Баня': 15,
+    'Бата': 15,
+    'Гълъбец': 15,
+    'Габерово': 15,
+    'Дъбник': 17,
+    'Горица': 20,
+    'Белодол': 20,
+    'Емона': 20,
+    'Страцин': 20,
+    'Обзор': 20,
+    'Приселци': 25,
+    'Козичино': 25,
+    'Раковсково': 25,
+    'Паницово': 25,
+  }
+  const deliveryRate = selectedSettlement ? deliveryRates[selectedSettlement] : undefined
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -49,8 +85,9 @@ export function CartPage({
         customer_name: formData.name.trim(),
         phone: formData.phone.trim(),
         email: formData.email.trim(),
-        city: formData.city.trim(),
-        address: formData.address.trim(),
+        city: deliveryMethod === 'pickup' ? 'Самовывоз из магазина' : selectedSettlement,
+        address: deliveryMethod === 'courier' ? formData.address.trim() : '',
+        delivery_method: deliveryMethod === 'pickup' ? 'pickup' : 'courier',
         comment: formData.comment.trim(),
         items: cart.map(({ product, quantity }) => ({
           productId: product._id,
@@ -205,7 +242,7 @@ export function CartPage({
                 <p className="mt-1 text-xs font-normal text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
               </div>
               <span className="text-2xl font-extrabold text-emerald-800">
-                {totalPrice.toFixed(2)} €
+                {(totalPrice + (deliveryMethod === 'courier' && deliveryRate !== undefined ? deliveryRate : 0)).toFixed(2)} €
               </span>
             </div>
 
@@ -240,10 +277,11 @@ export function CartPage({
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Имейл за потвърждение
+                  Имейл за потвърждение *
                 </label>
                 <input
                   type="email"
+                  required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -251,32 +289,99 @@ export function CartPage({
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  {t('Град / Населено място *')}
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder={language === 'en' ? 'Burgas / Sunny Beach' : language === 'ru' ? 'Бургас / Солнечный Берег' : 'Бургас / Слънчев бряг'}
-                />
-              </div>
+              <section className="space-y-3">
+                <h3 className="text-sm font-extrabold text-slate-800">
+                  {language === 'ru' ? 'Способ получения заказа *' : language === 'en' ? 'Delivery method *' : 'Начин на получаване *'}
+                </h3>
+                <div className="grid grid-cols-1 gap-3">
+                  <button
+                    type="button"
+                    aria-pressed={deliveryMethod === 'pickup'}
+                    onClick={() => setDeliveryMethod('pickup')}
+                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'pickup' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
+                  >
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🏬</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-bold text-slate-900">{language === 'ru' ? 'Самовывоз из магазина' : language === 'en' ? 'Store pickup' : 'Само вземане от магазина'}</span>
+                      <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Бесплатная консультация инженера' : language === 'en' ? 'Free engineer consultation' : 'Безплатна консултация с инженер'}</span>
+                    </span>
+                    <span className="shrink-0 text-sm font-extrabold text-emerald-700">{language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={deliveryMethod === 'courier'}
+                    onClick={() => setDeliveryMethod('courier')}
+                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'courier' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
+                  >
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🛵</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-bold text-slate-900">{language === 'ru' ? 'Курьерская доставка по адресу' : language === 'en' ? 'Courier delivery to address' : 'Куриерска доставка до адрес'}</span>
+                      <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Выберите населённый пункт и тариф' : language === 'en' ? 'Choose your settlement and delivery fee' : 'Изберете населено място и цена за доставка'}</span>
+                    </span>
+                    <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'courier' ? '✓' : '›'}</span>
+                  </button>
+                  <div aria-disabled="true" className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-60">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl grayscale" aria-hidden="true">📦</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-bold text-slate-600">Econt</span>
+                      <span className="mt-1 block text-sm text-slate-500">{language === 'ru' ? 'Пока недоступно' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
+                    </span>
+                  </div>
+                </div>
+              </section>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  {t('Адрес за доставка')}
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder={language === 'en' ? 'Street and number or courier office' : language === 'ru' ? 'Улица и номер или офис курьерской службы' : 'ул. Примерна №10 или офис на Еконт/Спиди'}
-                />
-              </div>
+              {deliveryMethod === 'courier' && (
+                <section className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
+                      {language === 'ru' ? 'Населённый пункт *' : language === 'en' ? 'Settlement *' : 'Населено място *'}
+                    </label>
+                    <select
+                      required
+                      value={selectedSettlement}
+                      onChange={(e) => {
+                        setSelectedSettlement(e.target.value)
+                        setFormData({ ...formData, city: e.target.value })
+                      }}
+                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    >
+                      <option value="">{language === 'ru' ? 'Выберите населённый пункт' : language === 'en' ? 'Select a settlement' : 'Изберете населено място'}</option>
+                      {Object.entries(deliveryRates).map(([settlement, rate]) => (
+                        <option key={settlement} value={settlement}>{settlement} — {rate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${rate.toFixed(2)} €`}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {deliveryRate !== undefined && (
+                    <div className="flex items-center justify-between rounded-lg bg-white p-3">
+                      <span className="text-sm text-slate-600">{language === 'ru' ? 'Стоимость доставки' : language === 'en' ? 'Delivery fee' : 'Цена за доставка'}</span>
+                      <strong className="text-lg text-emerald-800">{deliveryRate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${deliveryRate.toFixed(2)} €`}</strong>
+                    </div>
+                  )}
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
+                      {language === 'ru' ? 'Адрес доставки *' : language === 'en' ? 'Delivery address *' : 'Адрес за доставка *'}
+                    </label>
+                    <textarea
+                      rows={2}
+                      required
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      placeholder={language === 'en' ? 'Street, number, entrance, floor' : language === 'ru' ? 'Улица, номер, подъезд, этаж' : 'Улица, номер, вход, етаж'}
+                    />
+                  </div>
+                  <a href="https://florial-bg.com/services/dostavka-poliv?lang=bg" target="_blank" rel="noreferrer" className="inline-flex text-sm font-semibold text-emerald-800 underline underline-offset-2 hover:text-emerald-900">
+                    {language === 'ru' ? 'Условия доставки и бесплатной консультации инженера' : language === 'en' ? 'Delivery terms and free engineer consultation' : 'Условия за доставка и безплатна консултация с инженер'} ↗
+                  </a>
+                </section>
+              )}
+
+              {deliveryMethod === 'pickup' && (
+                <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm text-emerald-900">
+                  <strong>{language === 'ru' ? 'Бесплатная консультация инженера' : language === 'en' ? 'Free engineer consultation' : 'Безплатна консултация с инженер'}</strong>
+                  <p className="mt-1">{language === 'ru' ? 'При самовывозе можно получить консультацию по подбору оборудования для системы автоматического полива.' : language === 'en' ? 'When collecting your order, you can get advice on selecting irrigation system equipment.' : 'При получаване на поръчката можете да получите съвет за избор на оборудване за автоматизирана поливна система.'}</p>
+                </div>
+              )}
 
               {submitError && (
                 <p role="alert" className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-lg p-3">
@@ -285,7 +390,7 @@ export function CartPage({
               )}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'courier' && (!selectedSettlement || !formData.address.trim()))}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
                 {isSubmitting ? 'Изпращане...' : t('Изпрати поръчката')}
