@@ -214,8 +214,8 @@ export function IrrigationSupportPage() {
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mb-7 max-w-3xl"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.deliveryTitle}</h2><p className="mt-3 leading-7 text-slate-600">{text.deliveryIntro}</p></div>
-        <div className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
-          <table className="w-full border-collapse text-left">
+        <div className="overflow-x-auto rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
+          <table className="w-full min-w-[620px] border-collapse text-left">
             <thead className="bg-[#EEF2E5] text-sm text-slate-700"><tr><th className="px-5 py-4 font-bold">{text.location}</th><th className="px-5 py-4 text-right font-bold">{text.distance} (км)</th><th className="px-5 py-4 text-right font-bold">{text.price}</th></tr></thead>
             <tbody>{deliveryRows.map((row) => <tr key={row.key} className="border-t border-[#E8ECDF]"><td className="px-5 py-4 text-slate-800">{row.names[language] || row.names.bg}</td><td className="px-5 py-4 text-right text-slate-600">{row.distance}</td><td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{row.price === 0 ? text.freePrice : row.price + ' €'}</td></tr>)}</tbody>
           </table>
