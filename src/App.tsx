@@ -54,7 +54,7 @@ export default function App() {
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = !loadingProducts && (
       ((path.startsWith('/product/') || path.startsWith('/products/')) && Boolean(activeProductSlug) && !currentProduct) ||
-      (path.startsWith('/services/') && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
