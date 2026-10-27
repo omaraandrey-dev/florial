@@ -60,3 +60,16 @@ The selected primary public website URL is `https://florial-bg.com`.
 - Public catalog access is read-only for `public.products` and `public.product_categories`; their RLS policies expose active records only.
 - Never prefix server-side secrets with `VITE_` or commit them to Git. Configure them in Cloudflare Pages → Settings → Variables and Secrets.
 - The production permission changes are documented in `supabase/migrations/20261022003000_harden_public_table_privileges.sql`.
+
+
+## Checkout delivery options (2026-10-27)
+
+The checkout UI and `POST /api/orders` branch changes add two active delivery methods:
+
+- `pickup`: free store pickup with a free engineer consultation notice.
+- `courier`: requires one of the 30 published settlements and a street address. The server calculates the fee from its own allowlist; it does not trust a fee supplied by the browser.
+- Econt is displayed as disabled until the delivery arrangement is confirmed.
+
+The current settlement/rate allowlist matches `src/pages/IrrigationSupportPage.tsx`: Sunny Beach €0; 12 settlements at €10; 7 settlements at €15; Dubnik €17; 5 settlements at €20; 4 settlements at €25. The exact names and prices are enforced in both `src/pages/CartPage.tsx` and `functions/api/orders.ts`.
+
+Customer email is required in the UI and API so the order confirmation can be sent. Order email and PDF show the selected delivery method and delivery fee. No Supabase schema migration is included; the human-readable delivery method and fee are saved in the existing `delivery_method` field, while `subtotal` remains the product subtotal.
