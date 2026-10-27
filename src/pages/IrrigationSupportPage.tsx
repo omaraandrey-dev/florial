@@ -156,7 +156,7 @@ const deliveryRows = [
   { key: 'emona', names: { bg: 'Емона', ru: 'Емона', en: 'Emona' }, distance: '27,5', price: 20 },
   { key: 'stratsin', names: { bg: 'Страцин', ru: 'Страцин', en: 'Stratsin' }, distance: '29', price: 20 },
   { key: 'obzor', names: { bg: 'Обзор', ru: 'Обзор', en: 'Obzor' }, distance: '32,5', price: 20 },
-  { key: 'priseltci', names: { bg: 'Приселци', ru: 'Приселци', en: 'Prisелtsi' }, distance: '33,5', price: 25 },
+  { key: 'priseltci', names: { bg: 'Приселци', ru: 'Приселци', en: 'Priseltsi' }, distance: '33,5', price: 25 },
   { key: 'kozichino', names: { bg: 'Козичино', ru: 'Козичино', en: 'Kozichino' }, distance: '37,5', price: 25 },
   { key: 'rakovskovo', names: { bg: 'Раковсково', ru: 'Раковсково', en: 'Rakovskovo' }, distance: '36,5', price: 25 },
   { key: 'panitsovo', names: { bg: 'Паницово', ru: 'Паницово', en: 'Panitsovo' }, distance: '39', price: 25 },
