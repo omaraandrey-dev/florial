@@ -219,7 +219,7 @@ export function CartPage({
                 <p className="mt-1 text-xs font-normal text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
               </div>
               <span className="text-2xl font-extrabold text-emerald-800">
-                {totalPrice.toFixed(2)} €
+                {(totalPrice + (deliveryMethod === 'courier' && deliveryRate !== undefined ? deliveryRate : 0)).toFixed(2)} €
               </span>
             </div>
 
