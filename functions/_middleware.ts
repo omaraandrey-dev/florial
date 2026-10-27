@@ -551,19 +551,19 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     const meta = language === 'ru'
       ? {
           title: 'Доставка оборудования для полива и консультация инженера | Florial',
-          description: 'Доставка оборудования для автоматического полива в Солнечном Береге, Несебре, Равде, Святом Власе, Кошарице, Каблешково и Поморие. Бесплатная консультация инженера на объекте. Ремонт от 30 €.',
-          body: '<main><h1>Оборудование для полива с доставкой и помощью инженера</h1><p>Бесплатная доставка в Солнечном Береге. Несебр, Равда и Святой Влас — 10 €; Кошарица и Каблешково — 15 €; Поморие — 20 €. Бесплатная консультация инженера на объекте. Ремонт от 30 €.</p></main>',
+          description: 'Доставка оборудования для автоматического полива в 30 населённых пунктов района Несебра и Поморие: тарифы от 0 до 25 €. Бесплатная консультация инженера на объекте. Ремонт от 30 €.',
+          body: '<main><h1>Оборудование для полива с доставкой и помощью инженера</h1><p>Бесплатная доставка в Солнечном Береге. По 10 €: Несебр, Святой Влас, Тънково, Равда, Кошарица, Ахелой, Александрово, Оризаре, Гюльовца, Медово, Порой и Каблешково. По 15 €: Поморие, Каменар, Лъка, Баня, Бата, Гълъбец и Габерово. Дъбник — 17 €. По 20 €: Горица, Белодол, Емона, Страцин и Обзор. По 25 €: Приселци, Козичино, Раковсково и Паницово. Бесплатная консультация инженера на объекте. Ремонт от 30 €.</p></main>',
         }
       : language === 'en'
         ? {
             title: 'Irrigation Equipment Delivery & Engineer Consultation | Florial',
-            description: 'Irrigation equipment delivered in Sunny Beach, Nessebar, Ravda, Sveti Vlas, Kosharitsa, Kableshkovo and Pomorie. Free on-site engineer consultation. Repairs from €30.',
-            body: '<main><h1>Irrigation equipment delivered, with help from an engineer</h1><p>Free delivery in Sunny Beach. Nessebar, Ravda and Sveti Vlas — €10; Kosharitsa and Kableshkovo — €15; Pomorie — €20. Free on-site engineer consultation. Repairs from €30.</p></main>',
+            description: 'Irrigation equipment delivery to 30 locations around Nessebar and Pomorie, with rates from €0 to €25. Free on-site engineer consultation. Repairs from €30.',
+            body: '<main><h1>Irrigation equipment delivered, with help from an engineer</h1><p>Free delivery in Sunny Beach. €10: Nessebar, Sveti Vlas, Tankovo, Ravda, Kosharitsa, Aheloy, Alexandrovo, Orizare, Gyulyovtsa, Medovo, Poroy and Kableshkovo. €15: Pomorie, Kamenar, Laka, Banya, Bata, Galabets and Gaberovo. Dubnik — €17. €20: Goritsa, Belodol, Emona, Stratsin and Obzor. €25: Priseltsi, Kozichino, Rakovskovo and Panitsovo. Free on-site engineer consultation. Repairs from €30.</p></main>',
           }
         : {
             title: 'Доставка на оборудване за поливане и консултация с инженер | Florial',
-            description: 'Оборудване за автоматично напояване с доставка в Слънчев бряг, Несебър, Равда, Свети Влас, Кошарица, Каблешково и Поморие. Безплатна консултация с инженер на място. Ремонт от 30 €.',
-            body: '<main><h1>Оборудване за поливане с доставка и помощ от инженер</h1><p>Безплатна доставка в Слънчев бряг. Несебър, Равда и Свети Влас — 10 €; Кошарица и Каблешково — 15 €; Поморие — 20 €. Безплатна консултация с инженер на място. Ремонт от 30 €.</p></main>',
+            description: 'Доставка на оборудване за напояване до 30 населени места в района на Несебър и Поморие, с цени от 0 до 25 €. Безплатна консултация с инженер на място. Ремонт от 30 €.',
+            body: '<main><h1>Оборудване за поливане с доставка и помощ от инженер</h1><p>Безплатна доставка в Слънчев бряг. По 10 €: Несебър, Свети Влас, Тънково, Равда, Кошарица, Ахелой, Александрово, Оризаре, Гюльовца, Медово, Порой и Каблешково. По 15 €: Поморие, Каменар, Лъка, Баня, Бата, Гълъбец и Габерово. Дъбник — 17 €. По 20 €: Горица, Белодол, Емона, Страцин и Обзор. По 25 €: Приселци, Козичино, Раковсково и Паницово. Безплатна консултация с инженер на място. Ремонт от 30 €.</p></main>',
           }
     const base = SITE_URL + '/services/dostavka-poliv'
     const canonical = localizedRouteUrl('/services/dostavka-poliv', language)

@@ -20,6 +20,7 @@ const copy = {
     deliveryIntro: 'Ясни цени за доставка на поръчано оборудване. Уточняваме удобен ден и час предварително.',
     location: 'Населено място',
     price: 'Цена за доставка',
+    distance: 'Разстояние от Слънчев бряг',
     sunny: 'Слънчев бряг',
     nessebar: 'Несебър',
     ravda: 'Равда',
@@ -60,6 +61,7 @@ const copy = {
     deliveryIntro: 'Понятные тарифы на доставку заказанного оборудования. Заранее согласуем удобный день и время.',
     location: 'Населённый пункт',
     price: 'Стоимость доставки',
+    distance: 'Расстояние от Солнечного Берега',
     sunny: 'Солнечный Берег',
     nessebar: 'Несебр',
     ravda: 'Равда',
@@ -100,6 +102,7 @@ const copy = {
     deliveryIntro: 'Clear delivery rates for ordered equipment. We agree on a convenient day and time in advance.',
     location: 'Location',
     price: 'Delivery price',
+    distance: 'Distance from Sunny Beach',
     sunny: 'Sunny Beach',
     nessebar: 'Nessebar',
     ravda: 'Ravda',
@@ -127,13 +130,36 @@ const copy = {
 } as const
 
 const deliveryRows = [
-  { key: 'sunny', price: 0 },
-  { key: 'nessebar', price: 10 },
-  { key: 'ravda', price: 10 },
-  { key: 'svetivlas', price: 10 },
-  { key: 'kosharitsa', price: 15 },
-  { key: 'kableshkovo', price: 15 },
-  { key: 'pomorie', price: 20 },
+  { key: 'sunny', names: { bg: 'Слънчев бряг', ru: 'Солнечный Берег', en: 'Sunny Beach' }, distance: '0', price: 0 },
+  { key: 'nessebar', names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' }, distance: '4', price: 10 },
+  { key: 'svetivlas', names: { bg: 'Свети Влас', ru: 'Святой Влас', en: 'Sveti Vlas' }, distance: '5', price: 10 },
+  { key: 'tankovo', names: { bg: 'Тънково', ru: 'Тънково (Tankovo)', en: 'Tankovo' }, distance: '6', price: 10 },
+  { key: 'ravda', names: { bg: 'Равда', ru: 'Равда', en: 'Ravda' }, distance: '7', price: 10 },
+  { key: 'kosharitsa', names: { bg: 'Кошарица', ru: 'Кошарица', en: 'Kosharitsa' }, distance: '7', price: 10 },
+  { key: 'aheloy', names: { bg: 'Ахелой', ru: 'Ахелой', en: 'Aheloy' }, distance: '9', price: 10 },
+  { key: 'alexandrovo', names: { bg: 'Александрово', ru: 'Александрово', en: 'Alexandrovo' }, distance: '11', price: 10 },
+  { key: 'orizare', names: { bg: 'Оризаре', ru: 'Оризаре', en: 'Orizare' }, distance: '12', price: 10 },
+  { key: 'gyulyovtsa', names: { bg: 'Гюльовца', ru: 'Гюльовца', en: 'Gyulyovtsa' }, distance: '14', price: 10 },
+  { key: 'medovo', names: { bg: 'Медово', ru: 'Медово', en: 'Medovo' }, distance: '14', price: 10 },
+  { key: 'poroy', names: { bg: 'Порой', ru: 'Порой', en: 'Poroy' }, distance: '15', price: 10 },
+  { key: 'kableshkovo', names: { bg: 'Каблешково', ru: 'Каблешково', en: 'Kableshkovo' }, distance: '15', price: 10 },
+  { key: 'pomorie', names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' }, distance: '19', price: 15 },
+  { key: 'kamenar', names: { bg: 'Каменар', ru: 'Каменар', en: 'Kamenar' }, distance: '20', price: 15 },
+  { key: 'laka', names: { bg: 'Лъка', ru: 'Лъка', en: 'Laka' }, distance: '21', price: 15 },
+  { key: 'banya', names: { bg: 'Баня', ru: 'Баня', en: 'Banya' }, distance: '21', price: 15 },
+  { key: 'bata', names: { bg: 'Бата', ru: 'Бата', en: 'Bata' }, distance: '23', price: 15 },
+  { key: 'galabets', names: { bg: 'Гълъбец', ru: 'Гълъбец', en: 'Galabets' }, distance: '23,5', price: 15 },
+  { key: 'gaberovo', names: { bg: 'Габерово', ru: 'Габерово', en: 'Gaberovo' }, distance: '25', price: 15 },
+  { key: 'dubnik', names: { bg: 'Дъбник', ru: 'Дъбник', en: 'Dubnik' }, distance: '24', price: 17 },
+  { key: 'goritsa', names: { bg: 'Горица', ru: 'Горица', en: 'Goritsa' }, distance: '26,5', price: 20 },
+  { key: 'belodol', names: { bg: 'Белодол', ru: 'Белодол', en: 'Belodol' }, distance: '27', price: 20 },
+  { key: 'emona', names: { bg: 'Емона', ru: 'Емона', en: 'Emona' }, distance: '27,5', price: 20 },
+  { key: 'stratsin', names: { bg: 'Страцин', ru: 'Страцин', en: 'Stratsin' }, distance: '29', price: 20 },
+  { key: 'obzor', names: { bg: 'Обзор', ru: 'Обзор', en: 'Obzor' }, distance: '32,5', price: 20 },
+  { key: 'priseltci', names: { bg: 'Приселци', ru: 'Приселци', en: 'Priseltsi' }, distance: '33,5', price: 25 },
+  { key: 'kozichino', names: { bg: 'Козичино', ru: 'Козичино', en: 'Kozichino' }, distance: '37,5', price: 25 },
+  { key: 'rakovskovo', names: { bg: 'Раковсково', ru: 'Раковсково', en: 'Rakovskovo' }, distance: '36,5', price: 25 },
+  { key: 'panitsovo', names: { bg: 'Паницово', ru: 'Паницово', en: 'Panitsovo' }, distance: '39', price: 25 },
 ] as const
 
 export function IrrigationSupportPage() {
@@ -188,10 +214,10 @@ export function IrrigationSupportPage() {
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mb-7 max-w-3xl"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.deliveryTitle}</h2><p className="mt-3 leading-7 text-slate-600">{text.deliveryIntro}</p></div>
-        <div className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
-          <table className="w-full border-collapse text-left">
-            <thead className="bg-[#EEF2E5] text-sm text-slate-700"><tr><th className="px-5 py-4 font-bold">{text.location}</th><th className="px-5 py-4 text-right font-bold">{text.price}</th></tr></thead>
-            <tbody>{deliveryRows.map((row) => <tr key={row.key} className="border-t border-[#E8ECDF]"><td className="px-5 py-4 text-slate-800">{text[row.key]}</td><td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{row.price === 0 ? text.freePrice : row.price + ' €'}</td></tr>)}</tbody>
+        <div className="overflow-x-auto rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
+          <table className="w-full min-w-[620px] border-collapse text-left">
+            <thead className="bg-[#EEF2E5] text-sm text-slate-700"><tr><th className="px-5 py-4 font-bold">{text.location}</th><th className="px-5 py-4 text-right font-bold">{text.distance} (км)</th><th className="px-5 py-4 text-right font-bold">{text.price}</th></tr></thead>
+            <tbody>{deliveryRows.map((row) => <tr key={row.key} className="border-t border-[#E8ECDF]"><td className="px-5 py-4 text-slate-800">{row.names[language] || row.names.bg}</td><td className="px-5 py-4 text-right text-slate-600">{row.distance}</td><td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{row.price === 0 ? text.freePrice : row.price + ' €'}</td></tr>)}</tbody>
           </table>
         </div>
         <p className="mt-4 text-sm leading-6 text-slate-500">{text.other}: {text.otherText}</p>
