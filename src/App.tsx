@@ -723,7 +723,9 @@ export default function App() {
         siteSettings={siteSettings}
       />
 
-      {isCartOpen ? (
+      {normalizedRoutePath === '/about' ? (
+        <AboutPage />
+      ) : isCartOpen ? (
         <CartPage
           cart={cart}
           onUpdateQuantity={handleUpdateQuantity}
@@ -819,8 +821,6 @@ export default function App() {
             </>
           )}
         </main>
-      ) : normalizedRoutePath === '/about' ? (
-        <AboutPage />
       ) : normalizedRoutePath === '/blog' ? (
         <BlogPage />
       ) : normalizedRoutePath.startsWith('/blog/') ? (
