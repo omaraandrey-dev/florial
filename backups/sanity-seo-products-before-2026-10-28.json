@@ -1,0 +1,2759 @@
+{
+  "snapshotDate": "2026-10-28",
+  "purpose": "Rollback snapshot before Florial irrigation equipment SEO metadata update",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "fieldsIncluded": [
+    "_id",
+    "_rev",
+    "sku",
+    "name",
+    "metaTitle",
+    "metaDescription",
+    "seo",
+    "imageAlt",
+    "mainImageAsset",
+    "mainImageUrl",
+    "gallery[]._key",
+    "gallery[].alt",
+    "gallery[].assetId",
+    "gallery[].url"
+  ],
+  "note": "This is a field-level backup of all 116 published product documents and their referenced media identifiers/URLs. Media binaries and image assets are not modified by the planned SEO update.",
+  "documents": [
+    {
+      "_id": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallery1804sam20261026",
+          "alt": null,
+          "assetId": "image-eab4326d6b70f595104e5e091af72bf17e797ed6-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/eab4326d6b70f595104e5e091af72bf17e797ed6-800x800.jpg"
+        },
+        {
+          "_key": "gallery1804samdetail20261026",
+          "alt": null,
+          "assetId": "image-87af37e95c2959de913ebce425a5cb5adb3b6dfa-1000x1000-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/87af37e95c2959de913ebce425a5cb5adb3b6dfa-1000x1000.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a8bd676a0e437b680294023051b4ce72ffa54de3-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a8bd676a0e437b680294023051b4ce72ffa54de3-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1804-SAM — статичен разпръсквач с антидренажен клапан",
+      "seo": null,
+      "sku": "A43905"
+    },
+    {
+      "_id": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallery1806sam20261026",
+          "alt": null,
+          "assetId": "image-b6217a0c74008fb7ec5cb5e5a0e5074eb4c8f99d-957x961-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b6217a0c74008fb7ec5cb5e5a0e5074eb4c8f99d-957x961.png"
+        },
+        {
+          "_key": "gallery1806sam20261026",
+          "alt": null,
+          "assetId": "image-045cfd208bb25980ab7ae2dc7578fb226865a0df-700x700-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/045cfd208bb25980ab7ae2dc7578fb226865a0df-700x700.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-3bcb31663837e1201f3d7ac8e6c1a11dfe31f0ae-700x700-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/3bcb31663837e1201f3d7ac8e6c1a11dfe31f0ae-700x700.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1806-SAM — статичен разпръсквач с антидренажен клапан",
+      "seo": null,
+      "sku": "A43912"
+    },
+    {
+      "_id": "65730615-f75c-4c80-a5b3-2622c9997f61",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "1812sam-extra-20261026",
+          "alt": null,
+          "assetId": "image-976694d279ce6c68f631fe55f95ad992109cec97-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/976694d279ce6c68f631fe55f95ad992109cec97-600x600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-92826dced4565db03fc47ed56eeb8ed59cf23b67-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/92826dced4565db03fc47ed56eeb8ed59cf23b67-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1812-SAM — висок статичен разпръсквач с антидренажен клапан",
+      "seo": null,
+      "sku": "A43930"
+    },
+    {
+      "_id": "97436060-98f6-430e-ba36-3fa11b085b24",
+      "_rev": "GL33UsxvoudOQcqMyN2mPg",
+      "gallery": [
+        {
+          "_key": "extra1802view20261026",
+          "alt": null,
+          "assetId": "image-cc87df79f15ea54d5bcf337660de8d16bfc39f36-531x531-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/cc87df79f15ea54d5bcf337660de8d16bfc39f36-531x531.png"
+        },
+        {
+          "_key": "gallery1802supplystop20261026",
+          "alt": null,
+          "assetId": "image-7e1f0897d108c21221a1a9244e0a49302c754960-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7e1f0897d108c21221a1a9244e0a49302c754960-1200x1200.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-05d4186ea1d7ce658a46919916e70b258f3ac9a4-700x700-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/05d4186ea1d7ce658a46919916e70b258f3ac9a4-700x700.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1802 — статичен разпръсквач",
+      "seo": null,
+      "sku": "A44020"
+    },
+    {
+      "_id": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+      "_rev": "4qQSOPZrrnG4fRMFXMd7jN",
+      "gallery": [
+        {
+          "_key": "1804gallery",
+          "alt": null,
+          "assetId": "image-a8bd676a0e437b680294023051b4ce72ffa54de3-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a8bd676a0e437b680294023051b4ce72ffa54de3-600x600.jpg"
+        },
+        {
+          "_key": "gallery1804extended20261026",
+          "alt": null,
+          "assetId": "image-542de49cfdd73f4e33434cfef099e64a9327f0e2-1000x1000-webp",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/542de49cfdd73f4e33434cfef099e64a9327f0e2-1000x1000.webp"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-1e7167d4392aece872880a380fdf350e07f5f8a7-1536x1229-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/1e7167d4392aece872880a380fdf350e07f5f8a7-1536x1229.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1804 — статичен разпръсквач",
+      "seo": null,
+      "sku": "A44120"
+    },
+    {
+      "_id": "556bb59c-ec52-4884-b811-5687d2310343",
+      "_rev": "GL33UsxvoudOQcqMyN2mPg",
+      "gallery": [
+        {
+          "_key": "extra1806view20261026",
+          "alt": null,
+          "assetId": "image-2cdb4d54ea35060a1dd0c8e94e8712e300bd94c5-1009x1009-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2cdb4d54ea35060a1dd0c8e94e8712e300bd94c5-1009x1009.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-b2cc9567b87a6ce791281352ef3e67a74b569f49-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/b2cc9567b87a6ce791281352ef3e67a74b569f49-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1806 — статичен разпръсквач",
+      "seo": null,
+      "sku": "A44205"
+    },
+    {
+      "_id": "5f6c0504-3cf9-4439-adda-a147d8178799",
+      "_rev": "GL33UsxvoudOQcqMyQoPSb",
+      "gallery": [
+        {
+          "_key": "gallery1812extra20261026",
+          "alt": null,
+          "assetId": "image-bc414a37c5aef24e9c7c05a821f1cbead5011178-1024x1024-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/bc414a37c5aef24e9c7c05a821f1cbead5011178-1024x1024.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-f0a7c4cafe9f72439ff50238f5e300e6a2ae077c-1152x1536-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/f0a7c4cafe9f72439ff50238f5e300e6a2ae077c-1152x1536.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1812 — статичен разпръсквач",
+      "seo": null,
+      "sku": "A44305"
+    },
+    {
+      "_id": "352762fe-5d73-4c9e-b411-46823183d066",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "gallerysbe05020261026",
+          "alt": null,
+          "assetId": "image-091f98e237755e952132b0a51f54916f56fc0259-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/091f98e237755e952132b0a51f54916f56fc0259-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7c460d72617d9c3dc50f6de7d94a8ff9cee6f15f-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7c460d72617d9c3dc50f6de7d94a8ff9cee6f15f-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird SBE-050 — коляно 1/2″ за гъвкава връзка",
+      "seo": null,
+      "sku": "A46010"
+    },
+    {
+      "_id": "28fda0a8-8a4e-4ad1-91e1-f1108800c666",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "gallerysbe07520261026",
+          "alt": null,
+          "assetId": "image-5d8e043a2404183b12349178fa217c637a2f7752-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5d8e043a2404183b12349178fa217c637a2f7752-1000x1000.jpg"
+        },
+        {
+          "_key": "gallerysbe075install20261026",
+          "alt": null,
+          "assetId": "image-2205ad8774530a9353461ae7b85c63a9a1451701-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2205ad8774530a9353461ae7b85c63a9a1451701-600x600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-b8a40aeef2b0734ce850bc39ffde7bb7f9abf277-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/b8a40aeef2b0734ce850bc39ffde7bb7f9abf277-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird SBE-075 — коляно 3/4″ за гъвкава връзка",
+      "seo": null,
+      "sku": "A46011"
+    },
+    {
+      "_id": "ccbd32bb-7f3f-4109-8928-4518f21e7ec4",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15est",
+          "alt": null,
+          "assetId": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a073202413ccedd72e1a2fb09104effe83ce350a-660x660-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a073202413ccedd72e1a2fb09104effe83ce350a-660x660.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+      "seo": null,
+      "sku": "A47006"
+    },
+    {
+      "_id": "a365a2c3-1936-4076-a7a7-ba462b21c07f",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "cst-detail-20261026",
+          "alt": null,
+          "assetId": "image-1d028b5c0ccfce0c88889831ad2121cf6ca68166-1024x1024-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d028b5c0ccfce0c88889831ad2121cf6ca68166-1024x1024.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-52c7cee860b3cb739c5413aec7696b8fe66875b0-2048x2048-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/52c7cee860b3cb739c5413aec7696b8fe66875b0-2048x2048.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 15-CST — дюза за централна ивица",
+      "seo": null,
+      "sku": "A47007"
+    },
+    {
+      "_id": "6f45d30e-1d6b-48e5-8ffd-c72faeb733b0",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15sst",
+          "alt": null,
+          "assetId": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-b4808a131d07ea2b1ba792022dcb80f2dfa534b4-1200x1200-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/b4808a131d07ea2b1ba792022dcb80f2dfa534b4-1200x1200.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 15-SST — дюза за странична ивица",
+      "seo": null,
+      "sku": "A47008"
+    },
+    {
+      "_id": "f6a7da86-77fd-4b8d-b761-1d86569a12ae",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15lcs",
+          "alt": null,
+          "assetId": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-9125195be7e5b64a4a083600c37f6baad01bb862-515x515-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/9125195be7e5b64a4a083600c37f6baad01bb862-515x515.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+      "seo": null,
+      "sku": "A47033A"
+    },
+    {
+      "_id": "c8902118-2d87-4f8d-aa3e-bbcafdc5593a",
+      "_rev": "GL33UsxvoudOQcqMyN4413",
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15rcs",
+          "alt": null,
+          "assetId": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a6863fb3817dc445f5cc37098f8060ed741c6096-609x440-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a6863fb3817dc445f5cc37098f8060ed741c6096-609x440.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 15-RCS — дюза за десен ъгъл",
+      "seo": null,
+      "sku": "A47034A"
+    },
+    {
+      "_id": "3f5c3d95-ec09-40f7-b5ab-86337b3a362a",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallerymprcompare9sst",
+          "alt": null,
+          "assetId": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0cc1a8326067fddf85bc42e587d8f0448c6cfd7c-1200x1200-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0cc1a8326067fddf85bc42e587d8f0448c6cfd7c-1200x1200.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 9-SST — дюза за странична ивица",
+      "seo": null,
+      "sku": "A47047"
+    },
+    {
+      "_id": "16a6def3-6cbe-4a76-aa73-46c0cc4ec81a",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "galleryspxflex3020261026",
+          "alt": null,
+          "assetId": "image-a284a931ea667895dfb1bd9912b3691770974bf8-1000x1000-webp",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a284a931ea667895dfb1bd9912b3691770974bf8-1000x1000.webp"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-527bd4209eaaca3ec3ff9dd987ec3d1ce09f3cee-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/527bd4209eaaca3ec3ff9dd987ec3d1ce09f3cee-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird SPX-FLEX30 — гъвкава тръба за разпръсквачи, ролка 30 m",
+      "seo": null,
+      "sku": "A82060"
+    },
+    {
+      "_id": "3e435ac6-f184-4637-bf06-c34822cc93dc",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-f9e39873e3a07b83ea6557803b5f3b7e11f29044-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f9e39873e3a07b83ea6557803b5f3b7e11f29044-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-cee2e0dad1266cf13d316b76bf505353f44499bb-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/cee2e0dad1266cf13d316b76bf505353f44499bb-1000x1000.jpg"
+        },
+        {
+          "_key": "rvan-overview-14-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-16bcdad00a78b61c309fe99144198d3b46f52458-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/16bcdad00a78b61c309fe99144198d3b46f52458-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-14 — ротаторна дюза",
+      "seo": null,
+      "sku": "A84659"
+    },
+    {
+      "_id": "678c8039-dda2-4873-a7cb-98083c4ef971",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-71ee21a535a1d1e6a11e79a46071bf8096f71b6c-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/71ee21a535a1d1e6a11e79a46071bf8096f71b6c-600x600.jpg"
+        },
+        {
+          "_key": "rvan-overview-18-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7d43c58f456ed50c3aa001c93ad9a90adfa3ee07-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7d43c58f456ed50c3aa001c93ad9a90adfa3ee07-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-18 — ротаторна дюза",
+      "seo": null,
+      "sku": "A84660"
+    },
+    {
+      "_id": "20fce09d-ffd6-49f5-b5ca-f4945136014a",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-5adb62eff8dbb3c53f82b21e48d0eb17b1c4f90d-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5adb62eff8dbb3c53f82b21e48d0eb17b1c4f90d-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-ef36a5b0a8c86e2effc71e94850a45e747c53019-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ef36a5b0a8c86e2effc71e94850a45e747c53019-600x600.jpg"
+        },
+        {
+          "_key": "rvan-overview-24-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-70dd459766704287c192181a08bca9bdde819665-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/70dd459766704287c192181a08bca9bdde819665-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-24 — ротаторна дюза",
+      "seo": null,
+      "sku": "A84661"
+    },
+    {
+      "_id": "96daa552-e9b6-4d1f-b858-c8bb24dc1cc2",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-fb4efdf3997fc19c337eefc994e02bcf12f2761f-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/fb4efdf3997fc19c337eefc994e02bcf12f2761f-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-eff8d6650c4b77f7134222eaac5bc3a36a99f067-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/eff8d6650c4b77f7134222eaac5bc3a36a99f067-600x600.jpg"
+        },
+        {
+          "_key": "rvan-overview-14f-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-5b18f8a1febb9cef98953d3b4e8dfb92fcec241d-1254x1254-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/5b18f8a1febb9cef98953d3b4e8dfb92fcec241d-1254x1254.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-14F — ротаторна дюза, 360°",
+      "seo": null,
+      "sku": "A84664"
+    },
+    {
+      "_id": "816a0665-1e3e-484c-b08f-fdcf8a68e9d2",
+      "_rev": "GL33UsxvoudOQcqMyQm1bp",
+      "gallery": [
+        {
+          "_key": "rvan18f-extra-20261026",
+          "alt": null,
+          "assetId": "image-814d73e361be90001cf9cc70f853d3af21274192-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/814d73e361be90001cf9cc70f853d3af21274192-1000x1000.jpg"
+        },
+        {
+          "_key": "rvan-overview-18f-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-db271a48e8aa828cf38ff9a9ac492f1fbf98b900-1536x1536-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/db271a48e8aa828cf38ff9a9ac492f1fbf98b900-1536x1536.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-18F — ротаторна дюза, 360°",
+      "seo": null,
+      "sku": "A84665"
+    },
+    {
+      "_id": "6eac9b54-c3e7-41b1-aa6c-560e64012ef4",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "galleryrvan24f20261026",
+          "alt": null,
+          "assetId": "image-bd70a1788498ebe0813a34cffc5e5f04313d999a-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/bd70a1788498ebe0813a34cffc5e5f04313d999a-600x600.jpg"
+        },
+        {
+          "_key": "rvan-overview-24f-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-f262b2ea46adfd3f0071bbc1d3286fa54c2b7496-1254x1254-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/f262b2ea46adfd3f0071bbc1d3286fa54c2b7496-1254x1254.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-24F — ротаторна дюза, 360°",
+      "seo": null,
+      "sku": "A84666"
+    },
+    {
+      "_id": "fce79548-830a-4bcd-9ff5-8e9a85f39ab5",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "rvanlcs20261026",
+          "alt": null,
+          "assetId": "image-c750c56485eb889fd0ebc619dda7909a82eec972-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c750c56485eb889fd0ebc619dda7909a82eec972-1000x1000.jpg"
+        },
+        {
+          "_key": "rvan-overview-lcs-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4ed26b3653bb14d0c0767ffc972cf492512407d6-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4ed26b3653bb14d0c0767ffc972cf492512407d6-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-LCS — дюза за ляв ъгъл",
+      "seo": null,
+      "sku": "A84667"
+    },
+    {
+      "_id": "42f54182-8fc4-41ee-9b8c-2c50b504907d",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "rvanrcs20261026",
+          "alt": null,
+          "assetId": "image-949f2de6bfab7e369d415c789139a364f8ce8695-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/949f2de6bfab7e369d415c789139a364f8ce8695-1000x1000.jpg"
+        },
+        {
+          "_key": "rvan-overview-rcs-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-5955fffd504ac40f0dcc2fa84d2274665356977e-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/5955fffd504ac40f0dcc2fa84d2274665356977e-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-RCS — дюза за десен ъгъл",
+      "seo": null,
+      "sku": "A84668"
+    },
+    {
+      "_id": "4f4a7e6b-7df5-4ee4-94f1-346b68fc75a9",
+      "_rev": "GL33UsxvoudOQcqMyPP7FU",
+      "gallery": [
+        {
+          "_key": "rvanSST20261026",
+          "alt": null,
+          "assetId": "image-cece0f427e785eeb35fefae638f06e222d0ea82d-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/cece0f427e785eeb35fefae638f06e222d0ea82d-1200x1200.jpg"
+        },
+        {
+          "_key": "rvan-overview-sst-20261027",
+          "alt": null,
+          "assetId": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f4946209942b53ae656d9f65171fc00864a8bb16-1536x678.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-ff66e6c390ff91d9e197d6bd82a2430625b711ec-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/ff66e6c390ff91d9e197d6bd82a2430625b711ec-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird R-VAN-SST — ротаторна дюза за странична ивица",
+      "seo": null,
+      "sku": "A84669"
+    },
+    {
+      "_id": "e5af2cc5-ba27-4040-8c52-23c67ca00edd",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallerypsim20261026",
+          "alt": null,
+          "assetId": "image-bde98fd99d65cfd360aaf80d58057673d30534e8-800x800-webp",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/bde98fd99d65cfd360aaf80d58057673d30534e8-800x800.webp"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PSI-M20 — регулатор на налягане 1,4 bar",
+      "seo": null,
+      "sku": "A8860020"
+    },
+    {
+      "_id": "6804de6d-74c8-48d3-89c9-9e035cba44ca",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallerypsim25photo20261026",
+          "alt": null,
+          "assetId": "image-2d0bad1dc78fb7d9ea24fdc7d9964be542014bdb-800x800-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2d0bad1dc78fb7d9ea24fdc7d9964be542014bdb-800x800.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PSI-M25 — регулатор на налягане 1,8 bar",
+      "seo": null,
+      "sku": "A8860025"
+    },
+    {
+      "_id": "bd5f3c9a-51fb-45f1-9fb8-4023d33f017e",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallerypsim30m40family20261026",
+          "alt": null,
+          "assetId": "image-216b50ad698c87d3f2a6c42c2b7860553ab15166-550x550-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/216b50ad698c87d3f2a6c42c2b7860553ab15166-550x550.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PSI-M30 — регулатор на налягане 2,1 bar",
+      "seo": null,
+      "sku": "A8860030"
+    },
+    {
+      "_id": "c9f6aeed-90e0-4fb7-85be-bb24c646f70b",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallerypsim40m30family20261026",
+          "alt": null,
+          "assetId": "image-216b50ad698c87d3f2a6c42c2b7860553ab15166-550x550-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/216b50ad698c87d3f2a6c42c2b7860553ab15166-550x550.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/49dbe2afd981848df86affc2cdd39fb917af0fcf-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PSI-M40 — регулатор на налягане 2,8 bar",
+      "seo": null,
+      "sku": "A8860040"
+    },
+    {
+      "_id": "6feafb22-5f1a-4515-8da6-9012d33620a0",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallery100pga20261026",
+          "alt": null,
+          "assetId": "image-f927e1ceba42677b0691d4ee9838e907939f2372-599x599-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f927e1ceba42677b0691d4ee9838e907939f2372-599x599.jpg"
+        },
+        {
+          "_key": "gallery100pgaangle20261026",
+          "alt": null,
+          "assetId": "image-ef6f5e533359fc4d4cd39b3f4f1e3a28946c3747-913x913-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ef6f5e533359fc4d4cd39b3f4f1e3a28946c3747-913x913.jpg"
+        },
+        {
+          "_key": "gallery100pgacutaway20261026",
+          "alt": null,
+          "assetId": "image-bff04c67ce2d5c6c17706e2790a7a751b33ab366-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/bff04c67ce2d5c6c17706e2790a7a751b33ab366-800x800.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-PGA — електромагнитен клапан 1″, 24 V",
+      "seo": null,
+      "sku": "B31410"
+    },
+    {
+      "_id": "064ded5c-2865-487f-883c-f6b61c5a7606",
+      "_rev": "GL33UsxvoudOQcqMyN4Hjt",
+      "gallery": [
+        {
+          "_key": "gallery100pga9v20261026",
+          "alt": null,
+          "assetId": "image-0c821394164ae28212baaf70a8808bd3e832dc5e-1500x1500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/0c821394164ae28212baaf70a8808bd3e832dc5e-1500x1500.jpg"
+        },
+        {
+          "_key": "gallery100pga9v20261026",
+          "alt": null,
+          "assetId": "image-0c821394164ae28212baaf70a8808bd3e832dc5e-1500x1500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/0c821394164ae28212baaf70a8808bd3e832dc5e-1500x1500.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-PGA-9V — електромагнитен клапан 1″, 9 V",
+      "seo": null,
+      "sku": "B31440"
+    },
+    {
+      "_id": "59bba3a3-0ed7-4c93-b8e4-9f74929bef0f",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery150pga20261026",
+          "alt": null,
+          "assetId": "image-0b9088ab89511a108113a1017596511a2fa6772b-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/0b9088ab89511a108113a1017596511a2fa6772b-1000x1000.jpg"
+        },
+        {
+          "_key": "gallery150pgaangle20261026",
+          "alt": null,
+          "assetId": "image-d5f327fd388d507decb01115644c5e23e7625524-1024x1024-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/d5f327fd388d507decb01115644c5e23e7625524-1024x1024.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 150-PGA — електромагнитен клапан 1 1/2″, 24 V",
+      "seo": null,
+      "sku": "B31510"
+    },
+    {
+      "_id": "21d7ac62-0ed9-4e68-ad82-4684a932f215",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery150pga9v20261026",
+          "alt": null,
+          "assetId": "image-14670320d40211c8fe36334e25ccfb9d31ba35a5-1540x1600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/14670320d40211c8fe36334e25ccfb9d31ba35a5-1540x1600.jpg"
+        },
+        {
+          "_key": "gallery150pga9vdetail20261026",
+          "alt": null,
+          "assetId": "image-a6d22f9c0de9830bf7230599eaf4a626ec9c90dd-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a6d22f9c0de9830bf7230599eaf4a626ec9c90dd-800x800.jpg"
+        },
+        {
+          "_key": "gallery150pga9vcutaway20261026",
+          "alt": null,
+          "assetId": "image-41ac697a3063f13cd46f3c5422d92b48b21d5f9e-900x900-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/41ac697a3063f13cd46f3c5422d92b48b21d5f9e-900x900.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 150-PGA-9V — електромагнитен клапан 1 1/2″, 9 V",
+      "seo": null,
+      "sku": "B31540"
+    },
+    {
+      "_id": "94b743bb-e6d5-467d-902d-80e3d9bee440",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery200pga20261026",
+          "alt": null,
+          "assetId": "image-58b87a384a699c48a289ba456f968bc6c96621cf-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/58b87a384a699c48a289ba456f968bc6c96621cf-550x550.jpg"
+        },
+        {
+          "_key": "gallery200pga20261026",
+          "alt": null,
+          "assetId": "image-a1e4193e6e0fa968f061b8f3e0874a2c9bbd86ca-1000x1000-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a1e4193e6e0fa968f061b8f3e0874a2c9bbd86ca-1000x1000.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 200-PGA — електромагнитен клапан 2″, 24 V",
+      "seo": null,
+      "sku": "B31610"
+    },
+    {
+      "_id": "abe53e4e-9f4b-4ead-a1d7-47a1d23bb31d",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery200pga9v20261026",
+          "alt": null,
+          "assetId": "image-ddb2076736adcf157fccdc4d5899290a6868d178-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ddb2076736adcf157fccdc4d5899290a6868d178-800x800.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/68af1a6850010fde771f625588506eaae9a05d90-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 200-PGA-9V — електромагнитен клапан 2″, 9 V",
+      "seo": null,
+      "sku": "B31640"
+    },
+    {
+      "_id": "38cd6fbd-73b3-4902-adc0-f67ab25a2547",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery100peb20261026",
+          "alt": null,
+          "assetId": "image-b4168c2f2c6f1094ad4d179257deb320e3bc2aa4-700x700-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b4168c2f2c6f1094ad4d179257deb320e3bc2aa4-700x700.jpg"
+        },
+        {
+          "_key": "gallery100pebcutaway20261026",
+          "alt": null,
+          "assetId": "image-35e014df5356615d73d4d44cd6df9b46a912242e-728x728-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/35e014df5356615d73d4d44cd6df9b46a912242e-728x728.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V",
+      "seo": null,
+      "sku": "B34073"
+    },
+    {
+      "_id": "6f00ce33-a6a0-4d69-9646-7c1e558d6963",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery150peb20261026",
+          "alt": null,
+          "assetId": "image-6ec1a6852ac9b47989f4749cb3988e96ac460e2e-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/6ec1a6852ac9b47989f4749cb3988e96ac460e2e-1200x1200.jpg"
+        },
+        {
+          "_key": "gallery150peb20261026",
+          "alt": null,
+          "assetId": "image-db79d708a55f1f0105423ffc8601df78ad829223-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/db79d708a55f1f0105423ffc8601df78ad829223-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7d5f8905ab006ef1239fa4e903bc956c9aef051f-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7d5f8905ab006ef1239fa4e903bc956c9aef051f-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 150-PEB — електромагнитен клапан 1 1/2″, 24 V",
+      "seo": null,
+      "sku": "B34083"
+    },
+    {
+      "_id": "43028c39-487a-40aa-9af4-cf3795c25c31",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "gallery200peb20261026",
+          "alt": null,
+          "assetId": "image-21aa049c8970747d4ea67883b16d733a183050a8-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/21aa049c8970747d4ea67883b16d733a183050a8-1000x1000.jpg"
+        },
+        {
+          "_key": "gallery200pebcutaway20261026",
+          "alt": null,
+          "assetId": "image-e4f24c68d1e3dd70dbb66337fab25021ea40ea07-1946x1990-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e4f24c68d1e3dd70dbb66337fab25021ea40ea07-1946x1990.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7d5f8905ab006ef1239fa4e903bc956c9aef051f-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7d5f8905ab006ef1239fa4e903bc956c9aef051f-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 200-PEB — електромагнитен клапан 2″, 24 V",
+      "seo": null,
+      "sku": "B34093"
+    },
+    {
+      "_id": "9c6ab885-2daa-4c2c-896d-7b76814ca633",
+      "_rev": "HuyabooAsxxg6L2lnGqbur",
+      "gallery": [
+        {
+          "_key": "galleryfalconpcphoto20261026",
+          "alt": null,
+          "assetId": "image-cd65f5780f3861636dc415024a88c77e1a30fb6a-945x945-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/cd65f5780f3861636dc415024a88c77e1a30fb6a-945x945.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-137131e7c2c0738070c59023917596abbea1d727-800x800-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/137131e7c2c0738070c59023917596abbea1d727-800x800.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird FALCON PC — роторен разпръсквач, регулируем сектор",
+      "seo": null,
+      "sku": "B65301"
+    },
+    {
+      "_id": "9863df6e-0a8e-4e1e-b5ae-7c6e1450493e",
+      "_rev": "HuyabooAsxxg6L2lnGqqrZ",
+      "gallery": [
+        {
+          "_key": "galleryfalconfc20261026",
+          "alt": null,
+          "assetId": "image-22d61f523ee3b32bb55565541c1f3dc11fe3deec-600x600-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/22d61f523ee3b32bb55565541c1f3dc11fe3deec-600x600.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-137131e7c2c0738070c59023917596abbea1d727-800x800-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/137131e7c2c0738070c59023917596abbea1d727-800x800.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird FALCON FC — роторен разпръсквач, пълен кръг",
+      "seo": null,
+      "sku": "B65311"
+    },
+    {
+      "_id": "780cf027-033f-4431-8176-b2f482614ccd",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "gallery100dvf20261026",
+          "alt": null,
+          "assetId": "image-4ff40087b0901dc28f9a488fdfcc1171a3d20c73-727x727-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/4ff40087b0901dc28f9a488fdfcc1171a3d20c73-727x727.jpg"
+        },
+        {
+          "_key": "gallery100dvfside20261026",
+          "alt": null,
+          "assetId": "image-792a1188cfdf2d25499791465afd491d97762c6a-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/792a1188cfdf2d25499791465afd491d97762c6a-800x800.jpg"
+        },
+        {
+          "_key": "gallery100dvfcutaway20261026",
+          "alt": null,
+          "assetId": "image-f06e68cec0affe3d2102a2100703ca0f9baecb89-1216x1216-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f06e68cec0affe3d2102a2100703ca0f9baecb89-1216x1216.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-b993e41be6bb32aac8330254815d132ceb9c9aaa-1122x1402-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/b993e41be6bb32aac8330254815d132ceb9c9aaa-1122x1402.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-DVF — електромагнитен клапан 1″, 24 V с регулатор на дебита",
+      "seo": null,
+      "sku": "B70311"
+    },
+    {
+      "_id": "9b0a1df7-64a3-4215-9dad-c057cfe3a69b",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "dvftbos-extra-20261026",
+          "alt": null,
+          "assetId": "image-41fee426039765ec6d1099db6cd80522d5dd92e0-1024x1024-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/41fee426039765ec6d1099db6cd80522d5dd92e0-1024x1024.png"
+        },
+        {
+          "_key": "gallery100dvftbos20261026",
+          "alt": null,
+          "assetId": "image-1bccce11a3d0d27b3c8057c9a3df09d6612bfbf4-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1bccce11a3d0d27b3c8057c9a3df09d6612bfbf4-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7e5bd7e18e97fd02c104393758f948ab41a76728-1122x1402-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7e5bd7e18e97fd02c104393758f948ab41a76728-1122x1402.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-DVF-TBOS — електромагнитен клапан 1″, 9 V с регулатор на дебита",
+      "seo": null,
+      "sku": "B70350"
+    },
+    {
+      "_id": "08e19ebf-5048-4987-8c9a-fd7361784ac5",
+      "_rev": "HuyabooAsxxg6L2lnGqqrZ",
+      "gallery": [
+        {
+          "_key": "dvmm-extra-20261026",
+          "alt": null,
+          "assetId": "image-9282dfa61a5d17d4822474644a5bec34e15c4b97-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/9282dfa61a5d17d4822474644a5bec34e15c4b97-800x800.jpg"
+        },
+        {
+          "_key": "gallery100dvmm20261026",
+          "alt": null,
+          "assetId": "image-663697987c6d596be2de176b0cfde1ee1ec7f7df-1400x1400-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/663697987c6d596be2de176b0cfde1ee1ec7f7df-1400x1400.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a84ab9ccaccab27965b49a8d11e2f54b09376188-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a84ab9ccaccab27965b49a8d11e2f54b09376188-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-DV-MM — електромагнитен клапан 1″, 24 V",
+      "seo": null,
+      "sku": "B70500"
+    },
+    {
+      "_id": "ec9baf44-b3f5-4b96-9672-7b580b12539b",
+      "_rev": "GL33UsxvoudOQcqMyN5ETH",
+      "gallery": [
+        {
+          "_key": "gallery8005cutaway20261026",
+          "alt": null,
+          "assetId": "image-4998ec395e9bc4dbe0b6099de8cf366e2718e4b5-389x486-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/4998ec395e9bc4dbe0b6099de8cf366e2718e4b5-389x486.jpg"
+        },
+        {
+          "_key": "gallery8005cutaway20261026",
+          "alt": null,
+          "assetId": "image-69d85b0ddede4fd75c4cd09ffbc09ae7c7309b8a-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/69d85b0ddede4fd75c4cd09ffbc09ae7c7309b8a-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-756da7f37758c2ff53a0ec48717600d79a8326ee-863x970-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/756da7f37758c2ff53a0ec48717600d79a8326ee-863x970.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 8005 — професионален роторен разпръсквач",
+      "seo": null,
+      "sku": "B8120018"
+    },
+    {
+      "_id": "b905cfab-56da-4367-b623-4e7718886ef7",
+      "_rev": "HuyabooAsxxg6L2lnGqqrZ",
+      "gallery": [
+        {
+          "_key": "gallery8005ss20261026",
+          "alt": null,
+          "assetId": "image-c6e7fa4f908ff092dd783454e5d3770a3324c423-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c6e7fa4f908ff092dd783454e5d3770a3324c423-800x800.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4ba7fc743ad9bbb0ab7f8f9e46414f9d28640fc2-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4ba7fc743ad9bbb0ab7f8f9e46414f9d28640fc2-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 8005SS — роторен разпръсквач с метален щок",
+      "seo": null,
+      "sku": "B8140018"
+    },
+    {
+      "_id": "6c33f78b-2607-474d-9b70-34b6607a3db6",
+      "_rev": "HuyabooAsxxg6L2lnHno2q",
+      "gallery": [
+        {
+          "_key": "bt1gallery",
+          "alt": null,
+          "assetId": "image-8574f90d245dbea020f54f776a72575740176026-1602x1260-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/8574f90d245dbea020f54f776a72575740176026-1602x1260.jpg"
+        },
+        {
+          "_key": "galleryespbatbt20261026",
+          "alt": null,
+          "assetId": "image-3170a5cba805ebaa2e7687bb7374e85a276d4860-1280x854-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3170a5cba805ebaa2e7687bb7374e85a276d4860-1280x854.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-BAT-BT, 1 зона",
+      "seo": null,
+      "sku": "ESP-BAT-BT1"
+    },
+    {
+      "_id": "93187163-1e34-4583-8eb2-9ef195b0ea73",
+      "_rev": "HuyabooAsxxg6L2lnHno2q",
+      "gallery": [
+        {
+          "_key": "bt2gallery",
+          "alt": null,
+          "assetId": "image-f5c1d0ab93be8b97edfa73af5d17f10adbbd4a01-1800x1260-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f5c1d0ab93be8b97edfa73af5d17f10adbbd4a01-1800x1260.jpg"
+        },
+        {
+          "_key": "gallerybatbt2lifestyle20261026",
+          "alt": null,
+          "assetId": "image-b1131ac5538ec284e653740ff08ee5adb9deaed5-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b1131ac5538ec284e653740ff08ee5adb9deaed5-1000x1000.jpg"
+        },
+        {
+          "_key": "gallerybatbt2installed20261026",
+          "alt": null,
+          "assetId": "image-e61c8c41cd08db33650aa443c03754afc8295523-8192x5464-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e61c8c41cd08db33650aa443c03754afc8295523-8192x5464.jpg"
+        },
+        {
+          "_key": "gallerybatbt2diagram20261026",
+          "alt": null,
+          "assetId": "image-2740e9431aa515352c753e8f3924cef60ed1d2b2-1011x700-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2740e9431aa515352c753e8f3924cef60ed1d2b2-1011x700.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-BAT-BT, 2 зони",
+      "seo": null,
+      "sku": "ESP-BAT-BT2"
+    },
+    {
+      "_id": "c821b95d-b82b-4d2e-9cc8-ca634272423e",
+      "_rev": "HuyabooAsxxg6L2lnHno2q",
+      "gallery": [
+        {
+          "_key": "bt4gallery",
+          "alt": null,
+          "assetId": "image-5a3c8faf77d906f47d20f680b1caa63dd9416d29-1800x1260-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5a3c8faf77d906f47d20f680b1caa63dd9416d29-1800x1260.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-BAT-BT, 4 зони",
+      "seo": null,
+      "sku": "ESP-BAT-BT4"
+    },
+    {
+      "_id": "a5de1f22-3dba-495b-8b56-87f998ac308a",
+      "_rev": "HuyabooAsxxg6L2lnHno2q",
+      "gallery": [
+        {
+          "_key": "bt6gallery",
+          "alt": null,
+          "assetId": "image-a9cf514976024cacd874f3a82212aef8a1f76e50-1800x1260-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a9cf514976024cacd874f3a82212aef8a1f76e50-1800x1260.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/66d29ab89d4f51791a2ed3282453b67f5821e133-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-BAT-BT, 6 зони",
+      "seo": null,
+      "sku": "ESP-BAT-BT6"
+    },
+    {
+      "_id": "83a9b0c7-7e85-44d5-921c-552b55b0ec81",
+      "_rev": "4qQSOPZrrnG4fRMFXMc6Hu",
+      "gallery": [
+        {
+          "_key": "esp9v1-extra-20261026",
+          "alt": null,
+          "assetId": "image-1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050.png"
+        },
+        {
+          "_key": "galleryesp9vfront20261026",
+          "alt": null,
+          "assetId": "image-7078b36ba7f54e071a0b0a930269ff8895fc24c7-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7078b36ba7f54e071a0b0a930269ff8895fc24c7-1400x1050.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-9V-1 — автономен контролер 1 зона",
+      "seo": null,
+      "sku": "F48351"
+    },
+    {
+      "_id": "f5698f3a-65c4-406b-9887-f199199a9959",
+      "_rev": "4qQSOPZrrnG4fRMFXMc6Hu",
+      "gallery": [
+        {
+          "_key": "esp9v2-extra-20261026",
+          "alt": null,
+          "assetId": "image-1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-9V-2 — автономен контролер 2 зони",
+      "seo": null,
+      "sku": "F48352"
+    },
+    {
+      "_id": "709d27d0-c870-4d2d-941e-6048a7ac3668",
+      "_rev": "4qQSOPZrrnG4fRMFXMc6Hu",
+      "gallery": [
+        {
+          "_key": "esp9v4-extra-20261026",
+          "alt": null,
+          "assetId": "image-1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-9V-4 — автономен контролер 4 зони",
+      "seo": null,
+      "sku": "F48354"
+    },
+    {
+      "_id": "de0b790a-d0ba-4e75-9b7e-099930f9140e",
+      "_rev": "4qQSOPZrrnG4fRMFXMc6Hu",
+      "gallery": [
+        {
+          "_key": "esp9v6-extra-20261026",
+          "alt": null,
+          "assetId": "image-1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4f93f1773503068539bb2f1b1ffa45b29762d73f-1536x1152.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-9V-6 — автономен контролер 6 зони",
+      "seo": null,
+      "sku": "F48356"
+    },
+    {
+      "_id": "8e3d59c4-8ef5-42cf-89c5-9a257da639a5",
+      "_rev": "4qQSOPZrrnG4fRMFXJhBoX",
+      "gallery": [
+        {
+          "_key": "esp9vkit-extra-20261026",
+          "alt": null,
+          "assetId": "image-1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1d83d0f7e791ca518c681679fbd6b06c205eb9c9-1400x1050.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0bfaac14e840b44a1f04c4f4431ad9b2fa938fdd-550x399-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0bfaac14e840b44a1f04c4f4431ad9b2fa938fdd-550x399.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-9V-DVF-KIT — контролер 1 зона с клапан 100-DVF 9V",
+      "seo": null,
+      "sku": "F48373"
+    },
+    {
+      "_id": "bac970d8-4f3a-4712-9224-5d58a2bd0261",
+      "_rev": "HuyabooAsxxg6L2lnHn2iG",
+      "gallery": [
+        {
+          "_key": "esp-tm2-wix",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-TM2-4-230 — контролер 4 зони, външен монтаж",
+      "seo": null,
+      "sku": "F54224"
+    },
+    {
+      "_id": "dab181a4-8f18-4e8f-8ee1-19d950eb7e67",
+      "_rev": "HuyabooAsxxg6L2lnHn2iG",
+      "gallery": [
+        {
+          "_key": "esp-tm2-wix",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-TM2-6-230 — контролер 6 зони, външен монтаж",
+      "seo": null,
+      "sku": "F54226"
+    },
+    {
+      "_id": "0bb2fc6f-f752-49e3-a6ef-85eeed080625",
+      "_rev": "HuyabooAsxxg6L2lnHn2iG",
+      "gallery": [
+        {
+          "_key": "esp-tm2-official",
+          "alt": null,
+          "assetId": "image-b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-TM2, 8 зони, външен",
+      "seo": null,
+      "sku": "F54228"
+    },
+    {
+      "_id": "1b47605e-225d-4343-87cb-e9721bec74ea",
+      "_rev": "HuyabooAsxxg6L2lnHn2iG",
+      "gallery": [
+        {
+          "_key": "esp-tm2-official",
+          "alt": null,
+          "assetId": "image-b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550.jpg"
+        },
+        {
+          "_key": "galleryesptm212zonefront20261026",
+          "alt": null,
+          "assetId": "image-28bfb6288188dee077d0672dc3425c605c7280cd-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/28bfb6288188dee077d0672dc3425c605c7280cd-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a93f314db9b0aeb73fafa4763679ff6df515aafc-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-TM2, 12 зони, външен",
+      "seo": null,
+      "sku": "F54232"
+    },
+    {
+      "_id": "8ad09d10-59f2-4b38-a36d-8fe9484c6be1",
+      "_rev": "GL33UsxvoudOQcqMyOAcS5",
+      "gallery": [
+        {
+          "_key": "wixverified",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        },
+        {
+          "_key": "esp-tm2-official",
+          "alt": null,
+          "assetId": "image-b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-TM2, 4 зони, вътрешен",
+      "seo": null,
+      "sku": "F54234"
+    },
+    {
+      "_id": "be547e5b-3348-4724-922b-4e0ce495564e",
+      "_rev": "GL33UsxvoudOQcqMyOAcS5",
+      "gallery": [
+        {
+          "_key": "wixverified",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        },
+        {
+          "_key": "esp-tm2-official",
+          "alt": null,
+          "assetId": "image-b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-TM2, 6 зони, вътрешен",
+      "seo": null,
+      "sku": "F54236"
+    },
+    {
+      "_id": "fb41136d-e54d-4987-950d-4c11a69de944",
+      "_rev": "GL33UsxvoudOQcqMyOAcS5",
+      "gallery": [
+        {
+          "_key": "esp-tm2-wix",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        },
+        {
+          "_key": "esp-tm2-official",
+          "alt": null,
+          "assetId": "image-b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b0ee9733ee2a9ca341b109b427209f36ce97d0b1-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "ESP-TM2, 8 зони, вътрешен",
+      "seo": null,
+      "sku": "F54238"
+    },
+    {
+      "_id": "fb24649f-3488-4747-a672-58cd5f693682",
+      "_rev": "GL33UsxvoudOQcqMyOAcS5",
+      "gallery": [
+        {
+          "_key": "esp-tm2-wix",
+          "alt": null,
+          "assetId": "image-a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a3024338a9b2677cf9b90cd5ff5c5f23cd2d37fc-1448x1086.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/21d6ed089832bea312dbdb5093a9c643a6d77970-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-TM2I12-230 — контролер 12 зони, вътрешен монтаж",
+      "seo": null,
+      "sku": "F54242"
+    },
+    {
+      "_id": "413e285c-9b24-4bb5-b13c-e306d881592f",
+      "_rev": "4qQSOPZrrnG4fRMFXJhBoX",
+      "gallery": [
+        {
+          "_key": "gallerylnk2app20261026",
+          "alt": null,
+          "assetId": "image-f5d1725023ca8fa61f13e251f29675cdbfd75f38-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/f5d1725023ca8fa61f13e251f29675cdbfd75f38-600x600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-ac78fd8776413d89aa044247a301101dfc755eda-1200x1200-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/ac78fd8776413d89aa044247a301101dfc755eda-1200x1200.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird LNK2 Wi‑Fi — модул за дистанционно управление",
+      "seo": null,
+      "sku": "F55005"
+    },
+    {
+      "_id": "c5f77076-3243-4327-8463-51b6b1070e9d",
+      "_rev": "4qQSOPZrrnG4fRMFXJhBoX",
+      "gallery": [
+        {
+          "_key": "galleryesprc2wifi20261026",
+          "alt": null,
+          "assetId": "image-3b93182fe968d22875817284e79e629237b7d881-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3b93182fe968d22875817284e79e629237b7d881-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-73f23aa5d69a0935f7dda30fa66a00885e54e1e5-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/73f23aa5d69a0935f7dda30fa66a00885e54e1e5-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-RC2-230V — контролер 8 зони с Wi‑Fi, външен монтаж",
+      "seo": null,
+      "sku": "F56128"
+    },
+    {
+      "_id": "bf20d782-3101-4feb-8f3b-3a26a6bedbb0",
+      "_rev": "GL33UsxvoudOQcqMyN34Dk",
+      "gallery": [
+        {
+          "_key": "rc2i4-extra-20261026",
+          "alt": null,
+          "assetId": "image-1982f87eb40621742b87b96b351343ab06cbe767-5600x5600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1982f87eb40621742b87b96b351343ab06cbe767-5600x5600.jpg"
+        },
+        {
+          "_key": "galleryrc2indoorfront20261026",
+          "alt": null,
+          "assetId": "image-a0d81fd7a4131091ae638bdc61e13a625b1c0348-930x930-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a0d81fd7a4131091ae638bdc61e13a625b1c0348-930x930.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-9c7b1c48ef63e28f690c20b950c75c74233fd17d-1369x1149-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/9c7b1c48ef63e28f690c20b950c75c74233fd17d-1369x1149.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "RC2 Indoor, 4 зони",
+      "seo": null,
+      "sku": "F56154"
+    },
+    {
+      "_id": "f5b089b5-d428-4b7a-88c2-aec98c1c4071",
+      "_rev": "GL33UsxvoudOQcqMyN34Dk",
+      "gallery": [
+        {
+          "_key": "rc2i6-extra-20261026",
+          "alt": null,
+          "assetId": "image-1982f87eb40621742b87b96b351343ab06cbe767-5600x5600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1982f87eb40621742b87b96b351343ab06cbe767-5600x5600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-9c7b1c48ef63e28f690c20b950c75c74233fd17d-1369x1149-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/9c7b1c48ef63e28f690c20b950c75c74233fd17d-1369x1149.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "RC2 Indoor, 6 зони",
+      "seo": null,
+      "sku": "F56156"
+    },
+    {
+      "_id": "586681fb-2a5a-4011-95f3-7b075ea84313",
+      "_rev": "4qQSOPZrrnG4fRMFXJhBoX",
+      "gallery": [
+        {
+          "_key": "galleryesprc2wifi20261026",
+          "alt": null,
+          "assetId": "image-3b93182fe968d22875817284e79e629237b7d881-550x550-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3b93182fe968d22875817284e79e629237b7d881-550x550.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-73f23aa5d69a0935f7dda30fa66a00885e54e1e5-1000x1000-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/73f23aa5d69a0935f7dda30fa66a00885e54e1e5-1000x1000.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird ESP-RC2I8-230 — контролер 8 зони с вграден Wi‑Fi",
+      "seo": null,
+      "sku": "F56158"
+    },
+    {
+      "_id": "a5c07339-5036-44b6-bc85-0b65cb08228a",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "gallery100hvextra20261026",
+          "alt": null,
+          "assetId": "image-fe2365aea6b68f4196fc34cfb566d2adca15291b-800x800-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/fe2365aea6b68f4196fc34cfb566d2adca15291b-800x800.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a570f2281cf295d5bbe7ddc8fa31ffc8d76a176e-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a570f2281cf295d5bbe7ddc8fa31ffc8d76a176e-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-HV — електромагнитен клапан 1″, 24 V",
+      "seo": null,
+      "sku": "H01000"
+    },
+    {
+      "_id": "a473f223-3fac-44bb-bbad-bf640609c951",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "gallery100hvf20261026",
+          "alt": null,
+          "assetId": "image-8e92bb43d9b3b944a1749485b855cb046bfba497-700x700-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/8e92bb43d9b3b944a1749485b855cb046bfba497-700x700.png"
+        },
+        {
+          "_key": "gallery100hvfside20261026",
+          "alt": null,
+          "assetId": "image-3ffe05cae4a5f1175b9317c58a99ebe9bc05ab84-1000x1000-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3ffe05cae4a5f1175b9317c58a99ebe9bc05ab84-1000x1000.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-HVF — електромагнитен клапан 1″ с регулатор на дебита, 24 V",
+      "seo": null,
+      "sku": "H01010"
+    },
+    {
+      "_id": "30cbe6a0-c871-4ceb-8111-73790fea66fd",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "hv9v20261026",
+          "alt": null,
+          "assetId": "image-d03e3af2bef50810eafce2680985ff97b98c9597-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/d03e3af2bef50810eafce2680985ff97b98c9597-800x800.jpg"
+        },
+        {
+          "_key": "gallery100hv9v20261026",
+          "alt": null,
+          "assetId": "image-c5abfa9db04c28958c9d84417b40edbea131c799-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c5abfa9db04c28958c9d84417b40edbea131c799-800x800.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-f8e2d1279c57cd2604c38c93ec71b35da91e8247-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/f8e2d1279c57cd2604c38c93ec71b35da91e8247-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 100-HV-9V — електромагнитен клапан 1″ за контролери на батерии",
+      "seo": null,
+      "sku": "H01040"
+    },
+    {
+      "_id": "21e4bb9f-c635-4d6f-882d-c9fefb70b8d3",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-b2a006fcfe48087cf7e9d06ddcc1cf23b0d56e09-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b2a006fcfe48087cf7e9d06ddcc1cf23b0d56e09-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-4e2ad95c8ef671277812c2883ec5bce30b87aa1d-896x879-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/4e2ad95c8ef671277812c2883ec5bce30b87aa1d-896x879.jpg"
+        },
+        {
+          "_key": "hevan8-main-view",
+          "alt": null,
+          "assetId": "image-c5019dbd54b186e6cc29f00e0aeafc5a664ed05c-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c5019dbd54b186e6cc29f00e0aeafc5a664ed05c-1086x1448.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0c885234466857066180898d3e542f874811fc71-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0c885234466857066180898d3e542f874811fc71-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird HE-VAN-8 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "HE0801"
+    },
+    {
+      "_id": "e25925d0-b54f-45fa-844e-ad4fde8e6440",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-08b2832860c754b37ef40332351ec4698a06d0da-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/08b2832860c754b37ef40332351ec4698a06d0da-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-41cfa5c1dcb7f4677f747847d438379440d171fc-906x866-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/41cfa5c1dcb7f4677f747847d438379440d171fc-906x866.jpg"
+        },
+        {
+          "_key": "hevan10-main-view",
+          "alt": null,
+          "assetId": "image-54752060702a43f4ebc2909e91b28b1676f064f1-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/54752060702a43f4ebc2909e91b28b1676f064f1-1448x1086.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-3ceba79abf842d5ce54096a4230c5d733552ecd9-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/3ceba79abf842d5ce54096a4230c5d733552ecd9-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird HE-VAN-10 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "HE1001"
+    },
+    {
+      "_id": "de88e310-c33d-4111-9ad6-c638b49a2ed8",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-ff73ea9736057e28fcc08db3e238b413fcc0af8f-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ff73ea9736057e28fcc08db3e238b413fcc0af8f-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-e110c493ae7313e7abfe263c65935dae3ba52584-893x873-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e110c493ae7313e7abfe263c65935dae3ba52584-893x873.jpg"
+        },
+        {
+          "_key": "hevan12-main-view",
+          "alt": null,
+          "assetId": "image-6eadd580c341192d400f052986a3765e6bc8094c-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/6eadd580c341192d400f052986a3765e6bc8094c-1086x1448.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-04295b2dca19171bdccdbaba0fd528e8962463ec-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/04295b2dca19171bdccdbaba0fd528e8962463ec-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird HE-VAN-12 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "HE1201"
+    },
+    {
+      "_id": "63289ec9-c0dd-4f13-ae4d-1f7f00a442c6",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-7f88ca95116f9da9346f7c28f4270cb30ead34d8-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7f88ca95116f9da9346f7c28f4270cb30ead34d8-600x600.jpg"
+        },
+        {
+          "_key": "g3",
+          "alt": null,
+          "assetId": "image-721dc0966d79c1e1819d5b1fa003d77464b45d42-896x872-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/721dc0966d79c1e1819d5b1fa003d77464b45d42-896x872.jpg"
+        },
+        {
+          "_key": "hevan15-main-view",
+          "alt": null,
+          "assetId": "image-992fca56a682e0685bfe989c7a71948449881071-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/992fca56a682e0685bfe989c7a71948449881071-1086x1448.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-cd4ce780375591626d09342e8aefa2be274e624b-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/cd4ce780375591626d09342e8aefa2be274e624b-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird HE-VAN-15 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "HE1501"
+    },
+    {
+      "_id": "ca6f1767-67a3-4054-a9b5-9ea093d02737",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "gallerymtt10020261026",
+          "alt": null,
+          "assetId": "image-548796d1e0cad45fed3cc451960de2e733763ca2-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/548796d1e0cad45fed3cc451960de2e733763ca2-1200x1200.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-da70e7cdaaa06748e76178134a8d8b018fcd854e-1280x1253-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/da70e7cdaaa06748e76178134a8d8b018fcd854e-1280x1253.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird MTT-100 — тройник за клапанен колектор 1″",
+      "seo": null,
+      "sku": "L06300"
+    },
+    {
+      "_id": "65b12add-bc1d-42fd-a3ec-8180a1ee8cb9",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryp33photo20261026",
+          "alt": null,
+          "assetId": "image-7e0b11b5edc538fb1a3de84f4de73b35ebc7c7c2-500x500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7e0b11b5edc538fb1a3de84f4de73b35ebc7c7c2-500x500.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-8beb9638d2637b14a6db753c3dc7ade6bbe95c90-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/8beb9638d2637b14a6db753c3dc7ade6bbe95c90-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird P33 — пластмасов хидрант 3/4″",
+      "seo": null,
+      "sku": "LP3300"
+    },
+    {
+      "_id": "f9508163-0841-4928-af40-275cef2da2a6",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryp33dk20261026",
+          "alt": null,
+          "assetId": "image-5c94df65d2daa380d482458baddd019a47249dcb-800x800-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5c94df65d2daa380d482458baddd019a47249dcb-800x800.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-2c59c04070d3c3da8e521e9e5bcf53b67b27a209-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/2c59c04070d3c3da8e521e9e5bcf53b67b27a209-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird P33DK — ключ за хидрант P33",
+      "seo": null,
+      "sku": "LP3310"
+    },
+    {
+      "_id": "11a27fdf-2904-40b8-9ba3-264bc22a4359",
+      "_rev": "4qQSOPZrrnG4fRMFXJfsO9",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-6be88d3cdc606435d1e79be356c9b3e7697c1c2d-711x712-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/6be88d3cdc606435d1e79be356c9b3e7697c1c2d-711x712.jpg"
+        },
+        {
+          "_key": "gallery4van20261026",
+          "alt": null,
+          "assetId": "image-a5dba6a19dba13181c0ab3a27c630df1f1d42e0f-515x515-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a5dba6a19dba13181c0ab3a27c630df1f1d42e0f-515x515.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-6c634ef4e2ec193ba46a233e87c31844ec464dea-992x855-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/6c634ef4e2ec193ba46a233e87c31844ec464dea-992x855.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 4-VAN — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P10004"
+    },
+    {
+      "_id": "1d4a4b1d-aea5-4d1e-bd19-1f4933de98d4",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-0230f94fd742d7c36b8eababde08ebf2355a394a-741x743-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/0230f94fd742d7c36b8eababde08ebf2355a394a-741x743.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-1380b3627d028aea1601be1f36390bcaf3633623-1010x904-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/1380b3627d028aea1601be1f36390bcaf3633623-1010x904.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 6-VAN — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P10006"
+    },
+    {
+      "_id": "47d220db-38af-4b22-9995-dc52de55efb7",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-2b58793dae6b2e035f6ee2d2f43a2f4c6a23d5bf-838x816-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2b58793dae6b2e035f6ee2d2f43a2f4c6a23d5bf-838x816.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a71063048871afe769fea812a797d0f20198f11d-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a71063048871afe769fea812a797d0f20198f11d-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VAN-8 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P10008"
+    },
+    {
+      "_id": "2e200586-8866-4526-adc7-ae0becb35601",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-21fa6c5b2f5258cf96162fcf0898f2bc8353c0c5-835x801-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/21fa6c5b2f5258cf96162fcf0898f2bc8353c0c5-835x801.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-85fbcce4f9c441cdd775ce406fc7d28784f7e05e-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/85fbcce4f9c441cdd775ce406fc7d28784f7e05e-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VAN-10 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P1001001"
+    },
+    {
+      "_id": "81dfc913-3bfe-451b-9c76-fa468366cdbb",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-1cfb98bfc53acd7dfbd0817ee224fc4a296764d9-818x804-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1cfb98bfc53acd7dfbd0817ee224fc4a296764d9-818x804.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a2cfad66a24609a73b2e7934760d9b7e0708d828-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a2cfad66a24609a73b2e7934760d9b7e0708d828-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VAN-12 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P1001201"
+    },
+    {
+      "_id": "f36e2aff-6c5b-4544-a6c0-a7c413fbb181",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-5be2a03bf17552e28ddc37783e3acc36144a18a4-824x793-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5be2a03bf17552e28ddc37783e3acc36144a18a4-824x793.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-27aede5e8b8ec59975df6a85635157d707b591a4-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/27aede5e8b8ec59975df6a85635157d707b591a4-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VAN-15 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P1001501"
+    },
+    {
+      "_id": "a6e7016e-7bba-4078-b76c-6afef30661d6",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "g2",
+          "alt": null,
+          "assetId": "image-737d4ade6ef743ba43e8c279e3653ca4f0881b80-817x817-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/737d4ade6ef743ba43e8c279e3653ca4f0881b80-817x817.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-262298743094f6dee498ef25cbd1347eaac14306-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/262298743094f6dee498ef25cbd1347eaac14306-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VAN-18 — регулируема веерна дюза",
+      "seo": null,
+      "sku": "P10018"
+    },
+    {
+      "_id": "bd82a0c0-b259-42d6-9b27-d2a412925513",
+      "_rev": "4qQSOPZrrnG4fRMFXJhBoX",
+      "gallery": [
+        {
+          "_key": "galleryus400extra20261026",
+          "alt": null,
+          "assetId": "image-15a3ab4fa7bf601f3485d7ae8a1845fc7cc0ca77-800x800-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/15a3ab4fa7bf601f3485d7ae8a1845fc7cc0ca77-800x800.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-7fc6886a7697d084bbff8df811c605d5d5517853-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/7fc6886a7697d084bbff8df811c605d5d5517853-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird US-400 — статичен разпръсквач",
+      "seo": null,
+      "sku": "P40000"
+    },
+    {
+      "_id": "d353f503-4ce8-479c-b548-771ed58d590c",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "hevan10-detail-2",
+          "alt": null,
+          "assetId": "image-08b2832860c754b37ef40332351ec4698a06d0da-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/08b2832860c754b37ef40332351ec4698a06d0da-600x600.jpg"
+        },
+        {
+          "_key": "hevan10-detail-3",
+          "alt": null,
+          "assetId": "image-41cfa5c1dcb7f4677f747847d438379440d171fc-906x866-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/41cfa5c1dcb7f4677f747847d438379440d171fc-906x866.jpg"
+        },
+        {
+          "_key": "hevan10-nozzle",
+          "alt": null,
+          "assetId": "image-54752060702a43f4ebc2909e91b28b1676f064f1-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/54752060702a43f4ebc2909e91b28b1676f064f1-1448x1086.png"
+        },
+        {
+          "_key": "hevan10-bg",
+          "alt": null,
+          "assetId": "image-3ceba79abf842d5ce54096a4230c5d733552ecd9-1448x1086-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3ceba79abf842d5ce54096a4230c5d733552ecd9-1448x1086.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-387eee3faf57dd9e54c60a46c525b27d1620722c-500x500-webp",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/387eee3faf57dd9e54c60a46c525b27d1620722c-500x500.webp",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird US-410HE — разпръсквач с дюза HE-VAN-10",
+      "seo": null,
+      "sku": "P40010"
+    },
+    {
+      "_id": "59c0c78f-a1d7-4948-bd0f-572b82b83e54",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "hevan12-detail-2",
+          "alt": null,
+          "assetId": "image-ff73ea9736057e28fcc08db3e238b413fcc0af8f-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ff73ea9736057e28fcc08db3e238b413fcc0af8f-600x600.jpg"
+        },
+        {
+          "_key": "hevan12-detail-3",
+          "alt": null,
+          "assetId": "image-e110c493ae7313e7abfe263c65935dae3ba52584-893x873-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e110c493ae7313e7abfe263c65935dae3ba52584-893x873.jpg"
+        },
+        {
+          "_key": "hevan12-nozzle",
+          "alt": null,
+          "assetId": "image-6eadd580c341192d400f052986a3765e6bc8094c-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/6eadd580c341192d400f052986a3765e6bc8094c-1086x1448.png"
+        },
+        {
+          "_key": "hevan12-bg",
+          "alt": null,
+          "assetId": "image-04295b2dca19171bdccdbaba0fd528e8962463ec-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/04295b2dca19171bdccdbaba0fd528e8962463ec-1086x1448.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-9b2bf9ea40c999e26ac6a447ddca5c22fc12c7de-500x500-webp",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/9b2bf9ea40c999e26ac6a447ddca5c22fc12c7de-500x500.webp",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird US-412HE — разпръсквач с дюза HE-VAN-12",
+      "seo": null,
+      "sku": "P40012"
+    },
+    {
+      "_id": "16804f4a-04c9-49bd-a8c9-05c6fc612b2f",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "hevan15-detail-2",
+          "alt": null,
+          "assetId": "image-7f88ca95116f9da9346f7c28f4270cb30ead34d8-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7f88ca95116f9da9346f7c28f4270cb30ead34d8-600x600.jpg"
+        },
+        {
+          "_key": "hevan15-detail-3",
+          "alt": null,
+          "assetId": "image-721dc0966d79c1e1819d5b1fa003d77464b45d42-896x872-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/721dc0966d79c1e1819d5b1fa003d77464b45d42-896x872.jpg"
+        },
+        {
+          "_key": "hevan15-nozzle",
+          "alt": null,
+          "assetId": "image-992fca56a682e0685bfe989c7a71948449881071-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/992fca56a682e0685bfe989c7a71948449881071-1086x1448.png"
+        },
+        {
+          "_key": "hevan15-bg",
+          "alt": null,
+          "assetId": "image-cd4ce780375591626d09342e8aefa2be274e624b-1086x1448-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/cd4ce780375591626d09342e8aefa2be274e624b-1086x1448.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4eda4a2b2df15ae99169f9370d19a9e189408783-500x500-webp",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4eda4a2b2df15ae99169f9370d19a9e189408783-500x500.webp",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird US-415HE — разпръсквач с дюза HE-VAN-15",
+      "seo": null,
+      "sku": "P40015"
+    },
+    {
+      "_id": "090dd217-badb-47a0-bbed-e7c123063f59",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "galleryus41820261026",
+          "alt": null,
+          "assetId": "image-c1469a26f994f100682331c12aae4c0202b8e091-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c1469a26f994f100682331c12aae4c0202b8e091-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4e8fd41a5718f891958d39cc43e695368aba70c5-700x700-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4e8fd41a5718f891958d39cc43e695368aba70c5-700x700.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird US-418 — разпръсквач с дюза 18-VAN",
+      "seo": null,
+      "sku": "P41018"
+    },
+    {
+      "_id": "97df3a43-ed85-434e-a064-0119374dc140",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb123401020261026",
+          "alt": null,
+          "assetId": "image-3d54ba954a3d99ed109950f25ef9e8e541562e32-600x600-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3d54ba954a3d99ed109950f25ef9e8e541562e32-600x600.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-10ce9f2e83e79da7af97bfc975b74977637e565e-800x800-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/10ce9f2e83e79da7af97bfc975b74977637e565e-800x800.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1234-010 — адаптор за клапан 1″",
+      "seo": null,
+      "sku": "V54272"
+    },
+    {
+      "_id": "090122e8-185e-4abe-87be-6b617fd2b9eb",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb134801020261026",
+          "alt": null,
+          "assetId": "image-2f7308d0b3b5d43510d1ab6a388f194222b83c8d-1280x1006-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2f7308d0b3b5d43510d1ab6a388f194222b83c8d-1280x1006.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-6eca20110761b8e1b6cb652140f63239600a1095-800x800-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/6eca20110761b8e1b6cb652140f63239600a1095-800x800.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1348-010 — капа за колектор 1″",
+      "seo": null,
+      "sku": "V54280"
+    },
+    {
+      "_id": "8625a364-c72b-4a1b-b957-b48b5e0f5ef1",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb130121020261026",
+          "alt": null,
+          "assetId": "image-b2f96754c82ed0429f2453fe744f7fd717cda150-800x800-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b2f96754c82ed0429f2453fe744f7fd717cda150-800x800.jpg"
+        },
+        {
+          "_key": "galleryrb1301210detail20261026",
+          "alt": null,
+          "assetId": "image-3cf56bf727d988fee7d0babe451ee4a639f9f380-1024x1024-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3cf56bf727d988fee7d0babe451ee4a639f9f380-1024x1024.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-2e9ad0d99a8f97a6cf220797df8cce8da3041c52-360x232-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/2e9ad0d99a8f97a6cf220797df8cce8da3041c52-360x232.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1301-210 — колектор за 2 клапана",
+      "seo": null,
+      "sku": "V54282"
+    },
+    {
+      "_id": "1ca2120e-744f-4aff-9d7e-affa2122a4fb",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb130131020261026",
+          "alt": null,
+          "assetId": "image-290c53fc629ad0a73f3f29391cdcb6416a342154-500x500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/290c53fc629ad0a73f3f29391cdcb6416a342154-500x500.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-5d105c60103f27463163280c02e9b69d95f1dec4-616x368-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/5d105c60103f27463163280c02e9b69d95f1dec4-616x368.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1301-310 — колектор за 3 клапана",
+      "seo": null,
+      "sku": "V54283"
+    },
+    {
+      "_id": "ef0a57bc-d0ff-4ceb-98ce-55da7be19586",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb130141020261026",
+          "alt": null,
+          "assetId": "image-7b15882949c1cb8915202df4d74fbc392fbf88e1-1500x1500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7b15882949c1cb8915202df4d74fbc392fbf88e1-1500x1500.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-6fffdd633d36d7fb0cf76082e4d4c32c1e140400-819x455-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/6fffdd633d36d7fb0cf76082e4d4c32c1e140400-819x455.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1301-410 — колектор за 4 клапана",
+      "seo": null,
+      "sku": "V54284"
+    },
+    {
+      "_id": "f1f2e4a9-6e4c-4d57-8991-29edaffbc787",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": null,
+      "imageAlt": null,
+      "mainImageAsset": "image-bb54c28aa28f528f1eca54fd25cbe9e267f822f9-500x500-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/bb54c28aa28f528f1eca54fd25cbe9e267f822f9-500x500.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1312-010 — коляно-холендър за клапани 1″",
+      "seo": null,
+      "sku": "V54288"
+    },
+    {
+      "_id": "7e5ec186-4a89-419a-a0b1-900ff83ea02f",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryrb132001020261026",
+          "alt": null,
+          "assetId": "image-2ed4e64b2337851837aec200fc2e58115d62f829-800x733-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/2ed4e64b2337851837aec200fc2e58115d62f829-800x733.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-2ed4e64b2337851837aec200fc2e58115d62f829-800x733-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/2ed4e64b2337851837aec200fc2e58115d62f829-800x733.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird RB1320-010 — четворник за клапанен колектор 1″",
+      "seo": null,
+      "sku": "V54289"
+    },
+    {
+      "_id": "e45dc0a0-615d-4fe6-b6e7-085436aa7cb0",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryvba02672extra20261026",
+          "alt": null,
+          "assetId": "image-a99bbafe17a3eb3b344020195ae4717626045e32-700x700-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a99bbafe17a3eb3b344020195ae4717626045e32-700x700.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VBA02672 — кръгла клапанна шахта",
+      "seo": null,
+      "sku": "VBA02672"
+    },
+    {
+      "_id": "b8501351-cc10-45af-a0bb-e5f3dceadf66",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryvba0267320261026",
+          "alt": null,
+          "assetId": "image-73ce1f475601ef04d2da03c0dda04983cc93e3b2-1600x1600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/73ce1f475601ef04d2da03c0dda04983cc93e3b2-1600x1600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-cb518fe03d1d299f87a7cd9670f85a24bbae01f8-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/cb518fe03d1d299f87a7cd9670f85a24bbae01f8-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VBA02673 — кръгла клапанна шахта за до 3 клапана",
+      "seo": null,
+      "sku": "VBA02673"
+    },
+    {
+      "_id": "67423247-b334-4b53-99a7-6cc0cfbb3259",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryvba02674extra20261026",
+          "alt": null,
+          "assetId": "image-1651d9e10a5125769dc3afbc10c530a338883656-400x400-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/1651d9e10a5125769dc3afbc10c530a338883656-400x400.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-759ffd504ff7ed7d45b3a45dbb5f81a7f5f9b2a7-300x300-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/759ffd504ff7ed7d45b3a45dbb5f81a7f5f9b2a7-300x300.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VBA02674 — правоъгълна клапанна шахта L",
+      "seo": null,
+      "sku": "VBA02674"
+    },
+    {
+      "_id": "938d6008-52d5-46b0-b965-91ae2c372354",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryvba02675xl20261026",
+          "alt": null,
+          "assetId": "image-642ce1731a2c75d878b10b7b11a15ee6b36779ce-1280x1280-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/642ce1731a2c75d878b10b7b11a15ee6b36779ce-1280x1280.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-fbd8a23f393381f9afc2eb522227fa47b60e4eae-310x250-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/fbd8a23f393381f9afc2eb522227fa47b60e4eae-310x250.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VBA02675 — правоъгълна клапанна шахта XL",
+      "seo": null,
+      "sku": "VBA02675"
+    },
+    {
+      "_id": "2ba7fcbb-76cf-40ab-a516-6863d865f720",
+      "_rev": "GL33UsxvoudOQcqMyN2Gxq",
+      "gallery": [
+        {
+          "_key": "galleryvba17186extra20261026",
+          "alt": null,
+          "assetId": "image-7b907819d5a80c54cfaddb711636bd90be5f32ca-591x640-webp",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/7b907819d5a80c54cfaddb711636bd90be5f32ca-591x640.webp"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-f8e348d23d6db7ec234502241590343d754aeba7-1448x1086-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/f8e348d23d6db7ec234502241590343d754aeba7-1448x1086.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″",
+      "seo": null,
+      "sku": "VBA17186"
+    },
+    {
+      "_id": "433b1190-beaf-4eb4-a66c-db2c6b24cc35",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "gallerylfv07520261026",
+          "alt": null,
+          "assetId": "image-b8a32f18e913a1d8b5c6157c2c51e36e52904c2c-1400x1400-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/b8a32f18e913a1d8b5c6157c2c51e36e52904c2c-1400x1400.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0065d3f610c7acdc07d2622b43beaf6a96f4d24d-1400x1400-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0065d3f610c7acdc07d2622b43beaf6a96f4d24d-1400x1400.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V",
+      "seo": null,
+      "sku": "X12100"
+    },
+    {
+      "_id": "98b699ac-0bbf-4857-8084-76913a67b570",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "gallerylfv0759v20261026",
+          "alt": null,
+          "assetId": "image-06918653061d6378d8a1e761403a0781a86a3a54-1000x1000-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/06918653061d6378d8a1e761403a0781a86a3a54-1000x1000.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-a61a33189821e169a218914adfeead57719297fe-800x800-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/a61a33189821e169a218914adfeead57719297fe-800x800.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird LFV-075-9V — електромагнитен клапан 3/4″, 9 V",
+      "seo": null,
+      "sku": "X12105"
+    },
+    {
+      "_id": "d453b980-ec2c-4e2b-a2fe-8b977640aa68",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "galleryprf100rby20261026",
+          "alt": null,
+          "assetId": "image-a0ffd427bd30363e4dabcb252039c675db8bd981-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a0ffd427bd30363e4dabcb252039c675db8bd981-1200x1200.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-bfb45ea1f9bacc9617457c72bba3fa2ba9de79a5-500x500-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/bfb45ea1f9bacc9617457c72bba3fa2ba9de79a5-500x500.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PRF-100-RBY — филтър с регулатор на налягането",
+      "seo": null,
+      "sku": "X13013"
+    },
+    {
+      "_id": "3f96175c-2e23-49d4-9697-97df5cf68cd0",
+      "_rev": "4qQSOPZrrnG4fRMFXJhJaO",
+      "gallery": [
+        {
+          "_key": "galleryxffcoup20261026",
+          "alt": null,
+          "assetId": "image-0f1092c88100f9469315d53c6644bfa2e62a05c8-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/0f1092c88100f9469315d53c6644bfa2e62a05c8-1200x1200.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-1d2e970151a7e996a30b01da48f3a4c1d4a92c28-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/1d2e970151a7e996a30b01da48f3a4c1d4a92c28-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFF COUP — права муфа за капкова тръба 17 mm",
+      "seo": null,
+      "sku": "X36370"
+    },
+    {
+      "_id": "fcfe9234-992e-4c2a-ae5f-500d14afbf16",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "galleryxffelbowextra20261026",
+          "alt": null,
+          "assetId": "image-46cb89ba0cb05cf92b5b5a9d9be107bc75759173-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/46cb89ba0cb05cf92b5b5a9d9be107bc75759173-1200x1200.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-4e4c9d5737deed94adfff737ffdf92945ff6179a-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/4e4c9d5737deed94adfff737ffdf92945ff6179a-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFF ELBOW — коляно за капкова тръба 17 mm",
+      "seo": null,
+      "sku": "X36372"
+    },
+    {
+      "_id": "0693b9f5-bf1b-4479-a218-8e8d7ff409ae",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "galleryxffteeextra20261026",
+          "alt": null,
+          "assetId": "image-e688a1733fa50b2ba144752d74d5a85375b9eb1b-800x800-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e688a1733fa50b2ba144752d74d5a85375b9eb1b-800x800.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-2df4e7a3b1324f1bfe7306d5b59a3525512111bd-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/2df4e7a3b1324f1bfe7306d5b59a3525512111bd-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFF TEE — тройник за капкова тръба 17 mm",
+      "seo": null,
+      "sku": "X36373"
+    },
+    {
+      "_id": "73b45db4-4fc3-455f-86ff-35bd8a0e330a",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "galleryxffma07520261026",
+          "alt": null,
+          "assetId": "image-ad9443efdb10bea1e6ad14b93b211e54c8e66a44-986x986-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ad9443efdb10bea1e6ad14b93b211e54c8e66a44-986x986.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-c165c6f59ffba4ca45dda1a40d4d6956d4b7a65a-600x600-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/c165c6f59ffba4ca45dda1a40d4d6956d4b7a65a-600x600.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFF-MA-075 — преходник за капкова тръба 17 mm към 3/4″",
+      "seo": null,
+      "sku": "X36375"
+    },
+    {
+      "_id": "9c7da8ea-ac30-4faf-afe3-75301a4c250b",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "xfd-lifestyle",
+          "alt": null,
+          "assetId": "image-8918b67b437c365a8b07be3e53f1ba5137b523ad-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/8918b67b437c365a8b07be3e53f1ba5137b523ad-1000x1000.jpg"
+        },
+        {
+          "_key": "xfd-flexibility",
+          "alt": null,
+          "assetId": "image-a35fb14f347da84dbdb0068bf08817ebf45998b6-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/a35fb14f347da84dbdb0068bf08817ebf45998b6-1000x1000.jpg"
+        },
+        {
+          "_key": "xfd-flow",
+          "alt": null,
+          "assetId": "image-4897a4475edd9cc3b27026a4cc6aaaddd3f1086c-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/4897a4475edd9cc3b27026a4cc6aaaddd3f1086c-1000x1000.jpg"
+        },
+        {
+          "_key": "xfd-specification",
+          "alt": null,
+          "assetId": "image-ba4466edb208c384716fc0e93bd3da9d7eab08aa-371x366-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ba4466edb208c384716fc0e93bd3da9d7eab08aa-371x366.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-3413227674efa1302c9da8866f933f24d5523020-709x720-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/3413227674efa1302c9da8866f933f24d5523020-709x720.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFD-2333-100 — капкова тръба XFD, 100 m",
+      "seo": null,
+      "sku": "X44202"
+    },
+    {
+      "_id": "fb4c4f20-4299-41fb-97ce-badb13b04eac",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "pcd-lifestyle",
+          "alt": null,
+          "assetId": "image-32efdacc2f338aeeaa3151de3604f2b6e5e7ee69-1425x930-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/32efdacc2f338aeeaa3151de3604f2b6e5e7ee69-1425x930.png"
+        },
+        {
+          "_key": "pcd-emitter",
+          "alt": null,
+          "assetId": "image-017bd62d3ebcc23dc21207fcec2b14521f52c977-3262x3502-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/017bd62d3ebcc23dc21207fcec2b14521f52c977-3262x3502.jpg"
+        },
+        {
+          "_key": "pcd-application",
+          "alt": null,
+          "assetId": "image-26ba277ba7dca81717f4c70fd9824b29332a14dc-3600x1943-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/26ba277ba7dca81717f4c70fd9824b29332a14dc-3600x1943.jpg"
+        },
+        {
+          "_key": "pcd-detail",
+          "alt": null,
+          "assetId": "image-c5a462e338ccde497ee66b4d5ddff06617a785a9-2773x4461-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/c5a462e338ccde497ee66b4d5ddff06617a785a9-2773x4461.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-b3b56f3030405c7541d2992107c731e2bfdaf6d3-2915x2915-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/b3b56f3030405c7541d2992107c731e2bfdaf6d3-2915x2915.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird PCD-2333-100 — компенсираща капкова тръба, 100 m",
+      "seo": null,
+      "sku": "X44402"
+    },
+    {
+      "_id": "cce8b863-a3b8-4945-9db8-33236ce8f40a",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "galleryxfd1600100extra20261026",
+          "alt": null,
+          "assetId": "image-3a52460b44caf5112927703308b7ac24f38585c1-1000x1000-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3a52460b44caf5112927703308b7ac24f38585c1-1000x1000.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0b888aad8b5cc9baf3ec5c38116b0fe993242413-812x702-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0b888aad8b5cc9baf3ec5c38116b0fe993242413-812x702.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFD1600-100 — глуха тръба 16 mm, 100 m",
+      "seo": null,
+      "sku": "X45009"
+    },
+    {
+      "_id": "9d2784c8-f36b-471e-afc3-4927c5dd22d8",
+      "_rev": "GL33UsxvoudOQcqMyN4wa9",
+      "gallery": [
+        {
+          "_key": "galleryxfs233310020261026",
+          "alt": null,
+          "assetId": "image-9d5b1954c95ac34758a656d73b68ff7ea7769a6b-900x900-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/9d5b1954c95ac34758a656d73b68ff7ea7769a6b-900x900.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-0193415997afe4641bbb0c6a35f4f9b33632781f-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/0193415997afe4641bbb0c6a35f4f9b33632781f-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird XFS-2333-100 — подземна капкова тръба XFS, 100 m",
+      "seo": null,
+      "sku": "X48201"
+    },
+    {
+      "_id": "de179416-ef68-48c5-aa70-56a4c528885f",
+      "_rev": "GL33UsxvoudOQcqMyQo6xU",
+      "gallery": [
+        {
+          "_key": "3504gallery",
+          "alt": null,
+          "assetId": "image-3896496ea42fcef6bb4811b76ed79b714f2ee849-600x600-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/3896496ea42fcef6bb4811b76ed79b714f2ee849-600x600.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-412caf782d6f2fcd5eb099cad5bf9956edcde8d7-1536x1229-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/412caf782d6f2fcd5eb099cad5bf9956edcde8d7-1536x1229.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 3504-PC — роторен разпръсквач",
+      "seo": null,
+      "sku": "Y34001"
+    },
+    {
+      "_id": "d1a1a13d-31dc-4635-a666-21283e58abbd",
+      "_rev": "4qQSOPZrrnG4fRMFXJgArJ",
+      "gallery": [
+        {
+          "_key": "gallery3504pc20261026",
+          "alt": null,
+          "assetId": "image-5f140766b1ab6502246de6ead72fd6390dbf8ffc-1500x1500-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/5f140766b1ab6502246de6ead72fd6390dbf8ffc-1500x1500.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-92d4f0389013cb6e6e02d75f03bbb4af5b578313-1086x1448-png",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/92d4f0389013cb6e6e02d75f03bbb4af5b578313-1086x1448.png",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 3504-PC-SAM — роторен разпръсквач",
+      "seo": null,
+      "sku": "Y34500"
+    },
+    {
+      "_id": "b70be356-b0cf-45a1-9e9c-82414b428122",
+      "_rev": "GL33UsxvoudOQcqMyN3uSV",
+      "gallery": [
+        {
+          "_key": "extra5004fcview20261026",
+          "alt": null,
+          "assetId": "image-189f1b101515e625af6997894ddfaad00934b4da-1200x1200-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/189f1b101515e625af6997894ddfaad00934b4da-1200x1200.jpg"
+        },
+        {
+          "_key": "gallery5004plusrotor20261026",
+          "alt": null,
+          "assetId": "image-e68febbb9641b57d191f0d49a5be5754efa5fbd8-1080x1080-jpg",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/e68febbb9641b57d191f0d49a5be5754efa5fbd8-1080x1080.jpg"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-ed736970a77b6e585c04cb736b8310524d361d12-550x550-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/ed736970a77b6e585c04cb736b8310524d361d12-550x550.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 5004+FC — роторен разпръсквач",
+      "seo": null,
+      "sku": "Y45010"
+    },
+    {
+      "_id": "a7f98456-700d-4fb6-924c-8acf84cf3809",
+      "_rev": "HuyabooAsxxg6L2lnK1ZFM",
+      "gallery": [
+        {
+          "_key": "gallery1zehtmr20261026",
+          "alt": null,
+          "assetId": "image-ef282bcd8b2546048c074c7f409c24691392c08a-600x600-png",
+          "url": "https://cdn.sanity.io/images/bxvcy0qs/production/ef282bcd8b2546048c074c7f409c24691392c08a-600x600.png"
+        }
+      ],
+      "imageAlt": null,
+      "mainImageAsset": "image-aaae33364dcd6b72d91aa3b26f549100a632284f-1536x1229-jpg",
+      "mainImageUrl": "https://cdn.sanity.io/images/bxvcy0qs/production/aaae33364dcd6b72d91aa3b26f549100a632284f-1536x1229.jpg",
+      "metaDescription": null,
+      "metaTitle": null,
+      "name": "Rain Bird 1ZEHTMR — едноканален таймер за кран с LCD",
+      "seo": null,
+      "sku": "ZA84007"
+    }
+  ]
+}
