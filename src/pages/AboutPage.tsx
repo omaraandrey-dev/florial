@@ -191,15 +191,15 @@ export function AboutPage({ services }: AboutPageProps) {
 
         <article className={sectionClass}>
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">04</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.irrigation}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.irrigation, copy.irrigationTitle)}<p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
-            <div><p className="leading-8 text-slate-600">{copy.irrigation}</p><ul className="mt-5 grid gap-3 sm:grid-cols-2">{copy.irrigationItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}</ul></div>
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">04</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.turf}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.turfTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.turf, copy.turfTitle)}</div>
+            <div><p className="leading-8 text-slate-600">{copy.turf}</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{copy.turfBenefits.map((item) => <li key={item} className="rounded-xl bg-[#F3F5EC] p-4 text-sm font-semibold leading-6 text-[#53643A]">{item}</li>)}</ul></div>
           </div>
         </article>
 
         <article className={sectionClass}>
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">05</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.turf}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.turfTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.turf, copy.turfTitle)}</div>
-            <div><p className="leading-8 text-slate-600">{copy.turf}</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{copy.turfBenefits.map((item) => <li key={item} className="rounded-xl bg-[#F3F5EC] p-4 text-sm font-semibold leading-6 text-[#53643A]">{item}</li>)}</ul></div>
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">05</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.irrigation}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.irrigation, copy.irrigationTitle)}<p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
+            <div><p className="leading-8 text-slate-600">{copy.irrigation}</p><ul className="mt-5 grid gap-3 sm:grid-cols-2">{copy.irrigationItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}</ul></div>
           </div>
         </article>
 
