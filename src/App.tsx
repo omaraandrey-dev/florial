@@ -16,6 +16,7 @@ import { BlogPostPage } from './pages/BlogPostPage'
 import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
+import { getProductImageText } from './lib/productImageSeo'
 
 import type {
   CategoryItem,
@@ -783,7 +784,8 @@ export default function App() {
                     {product.imageUrl ? (
                       <img
                         src={product.imageUrl}
-                        alt={language === 'ru' ? (product.imageAltRu || `${localize(product, 'name')} — купить оборудование для полива в Несебре, Равде и Солнечном Берегу`) : language === 'en' ? (product.imageAltEn || `${localize(product, 'name')} — irrigation equipment for sale in Nessebar, Ravda and Sunny Beach`) : (product.imageAlt || `${localize(product, 'name')} — купете от Florial в Несебър, Равда и Слънчев бряг`)}
+                        alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
+                        title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
                         loading="lazy"
                         className="h-40 w-full bg-white object-contain p-3"
                       />
