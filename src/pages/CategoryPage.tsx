@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
+import { getProductImageText } from '../lib/productImageSeo'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -216,7 +217,8 @@ export function CategoryPage({
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
-                      alt={language === 'ru' ? (product.imageAltRu || `${localize(product, 'name')} — купить оборудование для полива в Несебре, Равде и Солнечном Берегу`) : language === 'en' ? (product.imageAltEn || `${localize(product, 'name')} — irrigation equipment for sale in Nessebar, Ravda and Sunny Beach`) : (product.imageAlt || `${localize(product, 'name')} — купете от Florial в Несебър, Равда и Слънчев бряг`)}
+                      alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
+                      title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
                       className="h-full w-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
