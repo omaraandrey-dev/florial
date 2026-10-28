@@ -386,6 +386,23 @@ async function transformHtmlResponse(response: Response, transform: (html: strin
 }
 
 function staticPageMetadata(path: string, language: string) {
+  if (path === '/about') {
+    if (language === 'ru') return {
+      title: 'О нас — Florial | Садовый центр и автоматический полив в Болгарии',
+      description: 'Florial: ландшафтный дизайн, озеленение, системы автоматического полива, рулонный газон и обслуживание садов в Несебре, Равде и по Черноморскому побережью Болгарии.',
+      body: '<main><h1>О нас — Florial</h1><p>Ландшафтный дизайн, озеленение, автоматический полив и уход за садами в Болгарии.</p></main>',
+    }
+    if (language === 'en') return {
+      title: 'About Florial | Garden Centre & Irrigation in Bulgaria',
+      description: 'Florial provides landscape design, planting, automatic irrigation systems, roll turf and garden maintenance in Nessebar, Ravda and along Bulgaria’s Black Sea coast.',
+      body: '<main><h1>About Florial</h1><p>Landscape design, planting, automatic irrigation and garden care in Bulgaria.</p></main>',
+    }
+    return {
+      title: 'За нас — Florial | Градински център и автоматично напояване',
+      description: 'Florial предлага ландшафтен дизайн, озеленяване, системи за автоматично напояване, тревен чим и поддръжка на градини в Несебър, Равда и по българското Черноморие.',
+      body: '<main><h1>За нас — Florial</h1><p>Ландшафтен дизайн, озеленяване, автоматично напояване и поддръжка на градини в България.</p></main>',
+    }
+  }
   if (path === '/contacts') {
     if (language === 'ru') return {
       title: 'Контакты Florial — садовые центры в Несебре и Равде',
@@ -583,14 +600,14 @@ export async function onRequest(context: PagesContext): Promise<Response> {
     }))
   }
 
-  if (path === '/' || path === '/contacts') {
+  if (path === '/' || path === '/contacts' || path === '/about') {
     const meta = staticPageMetadata(path, language)
-    const canonical = localizedRouteUrl(path === '/' ? '/' : '/contacts', language)
+    const canonical = localizedRouteUrl(path, language)
     const alternates = {
-      bg: SITE_URL + (path === '/' ? '/' : '/contacts'),
-      ru: SITE_URL + (path === '/' ? '/' : '/contacts') + '?lang=ru',
-      en: SITE_URL + (path === '/' ? '/' : '/contacts') + '?lang=en',
-      'x-default': SITE_URL + (path === '/' ? '/' : '/contacts'),
+      bg: SITE_URL + path,
+      ru: SITE_URL + path + '?lang=ru',
+      en: SITE_URL + path + '?lang=en',
+      'x-default': SITE_URL + path,
     }
     return transformHtmlResponse(await context.next(), (html) => {
       const root = renderRoot(html, meta.body)
