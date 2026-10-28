@@ -11,3 +11,8 @@
 ## Unreleased — Fix `/about` middleware routing
 - Allow `/about` through the Cloudflare Pages middleware instead of returning the edge-generated 404 page.
 - Add localized Bulgarian, Russian, and English SEO metadata and canonical/hreflang URLs for the About page.
+
+## Unreleased — About page service navigation
+- Link the five About page service headings and matching service images to their published `/services/<slug>` pages.
+- Load service images from the existing Sanity service records and add localized image `alt`/`title` text with relevant Black Sea coast locations.
+- No Sanity or Supabase data was modified.
