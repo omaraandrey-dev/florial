@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
+import type { ServiceItem } from '../types'
 
 const content = {
   bg: {
@@ -90,9 +91,48 @@ const content = {
   }
 } as const
 
-export function AboutPage() {
+interface AboutPageProps {
+  services: ServiceItem[]
+}
+
+const aboutServiceSlugs = {
+  design: 'landshaften-dizain',
+  planting: 'zasazhdane-na-rasteniya',
+  landscaping: 'ozelenyavane',
+  turf: 'rulonna-treva',
+  irrigation: 'avtomatichno-napoyavane',
+} as const
+
+export function AboutPage({ services }: AboutPageProps) {
   const { language } = useI18n()
   const copy = content[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
+  const locations = language === 'ru'
+    ? 'Несебр, Равда, Солнечный Берег и Святой Влас'
+    : language === 'en'
+      ? 'Nessebar, Ravda, Sunny Beach and Sveti Vlas'
+      : 'Несебър, Равда, Слънчев бряг и Свети Влас'
+
+  const renderServiceImage = (slug: string, serviceName: string) => {
+    const service = services.find((item) => item.slug?.current === slug)
+    if (!service?.imageUrl) return null
+    const imageTitle = `${serviceName} — ${locations} | Florial`
+
+    return (
+      <a
+        href={localizedHref(`/services/${encodeURIComponent(slug)}`, language)}
+        aria-label={serviceName}
+        className="mt-5 block overflow-hidden rounded-2xl no-underline shadow-sm transition hover:shadow-md"
+      >
+        <img
+          src={service.imageUrl}
+          alt={imageTitle}
+          title={imageTitle}
+          loading="lazy"
+          className="h-52 w-full object-cover sm:h-64"
+        />
+      </a>
+    )
+  }
 
   useEffect(() => {
     const base = 'https://florial-bg.com/about'
@@ -123,7 +163,7 @@ export function AboutPage() {
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
             <div>
               <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">01</p>
-              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">{copy.designTitle}</h2>
+              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.design}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.designTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.design, copy.designTitle)}
               <p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.designLead}</p>
             </div>
             <div>
@@ -137,21 +177,28 @@ export function AboutPage() {
 
         <article className={sectionClass}>
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">02</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">{copy.plantingTitle}</h2></div>
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">02</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.planting}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantingTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.planting, copy.plantingTitle)}</div>
             <div><p className="leading-8 text-slate-600">{copy.planting}</p><p className="mt-4 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.plantingNote}</p></div>
           </div>
         </article>
 
         <article className={sectionClass}>
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">03</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">{copy.irrigationTitle}</h2><p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">03</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.landscaping}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{language === 'ru' ? 'Озеленение территории' : language === 'en' ? 'Landscaping' : 'Озеленяване на терени'}</a></h2>{renderServiceImage(aboutServiceSlugs.landscaping, language === 'ru' ? 'Озеленение территории' : language === 'en' ? 'Landscaping' : 'Озеленяване на терени')}</div>
+            <div><p className="leading-8 text-slate-600">{language === 'ru' ? 'Комплексное озеленение частных садов, гостиниц и коммерческих территорий: подготовка участка, оформление клумб, посадка деревьев и кустарников, создание живых изгородей и сочетание посадок с газоном и автоматическим поливом.' : language === 'en' ? 'Complete landscaping for private gardens, hotels and commercial properties, including site preparation, flower beds, planting trees and shrubs, creating hedges and combining planting with lawns and automatic irrigation.' : 'Извършваме цялостно озеленяване на частни градини, хотели и търговски обекти — подготовка на терена, оформяне на цветни лехи, засаждане на дървета и храсти, живи плетове и съчетаване на растителността с тревни площи и автоматично напояване.'}</p></div>
+          </div>
+        </article>
+
+        <article className={sectionClass}>
+          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">04</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.irrigation}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.irrigation, copy.irrigationTitle)}<p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
             <div><p className="leading-8 text-slate-600">{copy.irrigation}</p><ul className="mt-5 grid gap-3 sm:grid-cols-2">{copy.irrigationItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}</ul></div>
           </div>
         </article>
 
         <article className={sectionClass}>
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">04</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">{copy.turfTitle}</h2></div>
+            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">05</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.turf}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.turfTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.turf, copy.turfTitle)}</div>
             <div><p className="leading-8 text-slate-600">{copy.turf}</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{copy.turfBenefits.map((item) => <li key={item} className="rounded-xl bg-[#F3F5EC] p-4 text-sm font-semibold leading-6 text-[#53643A]">{item}</li>)}</ul></div>
           </div>
         </article>
