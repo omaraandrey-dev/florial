@@ -1,5 +1,6 @@
 import React from 'react'
 import { useI18n } from '../lib/i18n'
+import { localizedHref } from '../lib/navigation'
 
 export function Footer() {
   const { t, language } = useI18n()
@@ -34,7 +35,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-slate-800">
           <div>
             <h4 className="text-white text-xl font-extrabold mb-3 tracking-wide">
-              {t("За нас")}
+              <a href={localizedHref('/about', language)} className="text-inherit no-underline transition hover:text-emerald-400">{t("За нас")}</a>
             </h4>
             <p className="text-slate-400 text-sm leading-relaxed">
               {language === 'en' ? 'Florial Landscape has been operating since 2000. We provide landscaping and garden improvement services, including landscape design, planting, turf installation and automatic irrigation systems.' : language === 'ru' ? 'Florial Landscape работает с 2000 года. Мы предлагаем услуги по благоустройству и озеленению: ландшафтный дизайн, посадки, укладка рулонного газона и монтаж систем автоматического полива.' : 'Florial Landscape работи от 2000 г. Предлагаме широк спектър от дейности по озеленяване и благоустрояване: ландшафтен дизайн, засаждане, изграждане на тревни площи с готови чимове и монтаж на системи за автоматично поливане.'}

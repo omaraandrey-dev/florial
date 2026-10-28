@@ -13,6 +13,7 @@ import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
 import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { AboutPage } from './pages/AboutPage'
 import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
@@ -59,7 +60,7 @@ export default function App() {
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
+      path !== '/contacts' && path !== '/about' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -638,6 +639,7 @@ export default function App() {
       normalizedRoutePath !== '/' &&
       normalizedRoutePath !== '/index.html' &&
       normalizedRoutePath !== '/contacts' &&
+      normalizedRoutePath !== '/about' &&
       normalizedRoutePath !== '/services' &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
@@ -709,7 +711,7 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
         services={services}
-        categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
+        categories={categories.filter((category) => !category._id.startsWith('plants-'))}
         plantCategories={plantCategories}
         cart={cart}
         onNavigateHome={navigateToHome}
@@ -817,6 +819,8 @@ export default function App() {
             </>
           )}
         </main>
+      ) : normalizedRoutePath === '/about' ? (
+        <AboutPage />
       ) : normalizedRoutePath === '/blog' ? (
         <BlogPage />
       ) : normalizedRoutePath.startsWith('/blog/') ? (

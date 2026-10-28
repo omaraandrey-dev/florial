@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useI18n, type Language } from '../lib/i18n'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
+import { blogSlug, blogTranslation, fetchBlogPosts, type BlogPost } from '../lib/blog'
 import type {
   ServiceItem,
   CategoryItem,
@@ -40,7 +41,15 @@ export function Header({
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const [isPlantsOpen, setIsPlantsOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    let active = true
+    fetchBlogPosts(3).then((posts) => { if (active) setBlogPosts(posts) }).catch((error) => console.error('Florial recent blog posts could not load:', error))
+    return () => { active = false }
+  }, [])
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalCartPrice = cart.reduce(
@@ -55,6 +64,7 @@ export function Header({
     setIsCategoriesOpen(false)
     setIsPlantsOpen(false)
     setIsServicesOpen(false)
+    setIsPortfolioOpen(false)
   }
 
   const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,18 +79,40 @@ export function Header({
     setIsCategoriesOpen((previous) => !previous)
     setIsPlantsOpen(false)
     setIsServicesOpen(false)
+    setIsPortfolioOpen(false)
   }
 
   const togglePlants = () => {
     setIsPlantsOpen((previous) => !previous)
     setIsCategoriesOpen(false)
     setIsServicesOpen(false)
+    setIsPortfolioOpen(false)
   }
 
   const toggleServices = () => {
     setIsServicesOpen((previous) => !previous)
     setIsCategoriesOpen(false)
     setIsPlantsOpen(false)
+    setIsPortfolioOpen(false)
+  }
+
+  const togglePortfolio = () => {
+    setIsPortfolioOpen((previous) => !previous)
+    setIsCategoriesOpen(false)
+    setIsPlantsOpen(false)
+    setIsServicesOpen(false)
+  }
+
+  const renderCategory = (category: CategoryItem, depth = 0): React.ReactNode => {
+    const children = categories.filter((item) => item.parentId === category._id)
+    return (
+      <div key={category._id} className={depth > 0 ? 'ml-4 border-l border-emerald-100 pl-3' : ''}>
+        <a href={localizedHref('/category/' + encodeURIComponent(category.slug?.current || category._id), language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className={'block w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-emerald-50 hover:text-emerald-800 no-underline ' + (depth === 0 ? 'text-sm font-medium text-slate-700' : 'text-sm text-slate-600')}>
+          {category.name}
+        </a>
+        {children.map((child) => renderCategory(child, depth + 1))}
+      </div>
+    )
   }
 
   return (
@@ -170,6 +202,7 @@ export function Header({
                 setIsCategoriesOpen(false)
                 setIsPlantsOpen(false)
                 setIsServicesOpen(false)
+                setIsPortfolioOpen(false)
               }}
               aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : language === 'ru' ? 'Закрыть меню' : 'Затвори менюто') : (language === 'en' ? 'Open menu' : language === 'ru' ? 'Открыть меню' : 'Отвори менюто')}
               aria-expanded={isMenuOpen}
@@ -195,10 +228,6 @@ export function Header({
           <nav aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
             <a href={localizedHref('/', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
               {t('Начало')}
-            </a>
-
-            <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg border-t border-slate-100 px-4 py-3 text-left font-bold text-emerald-800 transition hover:bg-emerald-50 no-underline">
-              {language === 'ru' ? 'Каталог оборудования для полива' : language === 'en' ? 'Irrigation equipment catalogue' : 'Каталог за автоматично напояване'}
             </a>
 
             <div className="border-t border-slate-100">
@@ -244,11 +273,11 @@ export function Header({
                   <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('vsichko-za-polivane') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Цялото оборудване за поливане')}
                   </a>
-                  {categories.filter((category) => category.slug?.current !== 'vsichko-za-polivane').map((category) => (
-                    <a key={category._id} href={localizedHref(`/category/${encodeURIComponent(category.slug?.current || category._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
-                      {category.name}
-                    </a>
-                  ))}
+                  {categories
+                    .filter((category) => category.slug?.current !== 'vsichko-za-polivane')
+                    .filter((category) => !category.parentId || category.parentId === categories.find((item) => item.slug?.current === 'vsichko-za-polivane')?._id)
+                    .sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg'))
+                    .map((category) => renderCategory(category))}
                 </div>
               )}
             </div>
@@ -277,6 +306,30 @@ export function Header({
                   ))}
                 </div>
               )}
+            </div>
+
+            <div className="border-t border-slate-100">
+              <button type="button" onClick={togglePortfolio} aria-expanded={isPortfolioOpen} className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800">
+                <span>{language === 'ru' ? 'Портфолио' : language === 'en' ? 'Portfolio' : 'Портфолио'}</span>
+                <svg className={`h-5 w-5 transition-transform ${isPortfolioOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              {isPortfolioOpen && (
+                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+                  {blogPosts.map((post) => {
+                    const content = blogTranslation(post, language)
+                    return <a key={post._id} href={localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">{content.title}</a>
+                  })}
+                  <a href={localizedHref('/blog', language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
+                    {language === 'ru' ? 'Все статьи блога' : language === 'en' ? 'All blog articles' : 'Всички статии в блога'} →
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-slate-100">
+              <a href={localizedHref('/about', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
+                {language === 'ru' ? 'О нас' : language === 'en' ? 'About us' : 'За нас'}
+              </a>
             </div>
 
             <div className="border-t border-slate-100">

@@ -103,10 +103,11 @@ export function HomePage({
           <p className="text-slate-600 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-5 mt-7 text-left max-w-4xl mx-auto">
-            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Индивидуален проект')}</span><p className="text-sm text-slate-600 mt-1">{t('според вашите желания')}</p></div>
-            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Пълен цикъл')}</span><p className="text-sm text-slate-600 mt-1">{t('от концепцията до поддръжката')}</p></div>
-            <div className="rounded-xl bg-white/90 border border-[#E5E8DB] p-4 shadow-sm"><span className="font-bold text-[#53643A]">{t('Премиум качество')}</span><p className="text-sm text-slate-600 mt-1">{t('и висок професионализъм')}</p></div>
+          <div className="mt-7 flex justify-center">
+            <a href={localizedHref('/about', language)} className="group inline-flex items-center gap-3 rounded-xl bg-[#647746] px-7 py-4 text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline">
+              <span>{language === 'ru' ? 'Подробнее о нас' : language === 'en' ? 'Learn more about us' : 'Научете повече за нас'}</span>
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+            </a>
           </div>
         </div>
       </section>
