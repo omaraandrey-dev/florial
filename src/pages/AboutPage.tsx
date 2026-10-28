@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
-import type { ServiceItem } from '../types'
+import type { CategoryItem, ServiceItem } from '../types'
 
 const content = {
   bg: {
@@ -24,6 +24,14 @@ const content = {
     turfTitle: 'Рулонен тревен чим',
     turf: 'Тревната площ е важна част от озеленяването — допълва архитектурата, разширява визуално пространството и обединява градината в цялостна композиция. Рулонният тревен чим осигурява бързо равна зелена повърхност и завършен вид. Предлагаме продажба, подготовка на основата, полагане и последваща грижа при спазване на технологията за успешно вкореняване.',
     turfBenefits: ['Бързо благоустрояване на терена', 'Равен и естетичен вид', 'Продажба, полагане и поддръжка'],
+    plantSalesTitle: 'Продажба на растения',
+    plantSalesIntro: 'Мечтаете за красив зелен кът около дома си? Градински център Florial предлага богат избор от качествени растения за вашата градина, тераса или ландшафтен проект в Несебър и Равда.',
+    plantSalesItems: ['Палми, юки и маслини', 'Декоративни храсти и цветя, адаптирани към местния климат', 'Иглолистни растения и красиви многогодишни цветя', 'Фиданки за средиземноморски градини и живи плетове'],
+    plantSalesOutro: 'Посетете нашите градински центрове в Несебър и Равда — ще ви помогнем да изберете подходящите растения и ще споделим професионални съвети за грижата за тях.',
+    irrigationEquipmentTitle: 'Професионално оборудване за автоматично напояване',
+    irrigationEquipmentIntro: 'Искате градината ви винаги да бъде зелена и добре поддържана без излишни усилия? Градински център Florial в Несебър и Равда предлага надеждно и модерно оборудване за напояване на дворове, тревни площи и тераси.',
+    irrigationEquipmentItems: ['Надеждни разпръсквачи, контролери и сензори за дъжд', 'Капкови тръби, фитинги и компоненти за прецизно напояване', 'Маркучи, макари и аксесоари за ръчна грижа за градината'],
+    irrigationEquipmentOutro: 'Посетете нашите градински центрове в Несебър и Равда — специалистите ни ще ви помогнат да изберете подходящото оборудване и да комплектовате системата си за напояване.',
     approachTitle: 'От идеята до грижата за градината',
     steps: ['Обсъждаме вашите желания и особеностите на терена', 'Изготвяме проект и подбираме подходящи растения, материали и оборудване', 'Изпълняваме договорените дейности по озеленяване и монтаж', 'При необходимост осигуряваме последваща грижа и поддръжка'],
     areasTitle: 'Работим по Българското Черноморие',
@@ -52,6 +60,14 @@ const content = {
     turfTitle: 'Рулонный газон',
     turf: 'Газон — важная часть озеленения: он расширяет пространство, дополняет архитектуру участка и объединяет сад в единую композицию. Рулонный газон позволяет быстро получить ровную зелёную поверхность и ухоженный внешний вид. Мы предлагаем продажу рулонного газона, подготовку основания, укладку и дальнейший уход с соблюдением технологии укоренения.',
     turfBenefits: ['Быстрое благоустройство участка', 'Ровный и эстетичный вид', 'Продажа, укладка и уход'],
+    plantSalesTitle: 'Продажа растений',
+    plantSalesIntro: 'Мечтаете об идеальном зелёном уголке у дома? Садовый центр Florial предлагает широкий выбор качественных растений для сада, террасы и ландшафтного дизайна в Несебре и Равде.',
+    plantSalesItems: ['Пальмы, юкки и маслины', 'Декоративные кустарники и цветы, адаптированные к местному климату', 'Хвойные растения и изящные многолетники', 'Саженцы для средиземноморских садов и живых изгородей'],
+    plantSalesOutro: 'Приходите в наши садовые центры в Несебре и Равде — мы поможем подобрать подходящие растения и поделимся профессиональными советами по уходу.',
+    irrigationEquipmentTitle: 'Профессиональное оборудование для автополива',
+    irrigationEquipmentIntro: 'Хотите, чтобы сад оставался зелёным и ухоженным без лишних хлопот? Садовый центр Florial в Несебре и Равде предлагает надёжное современное оборудование для полива частных участков, газонов и террас.',
+    irrigationEquipmentItems: ['Надёжные дождеватели, контроллеры и датчики дождя', 'Капельные трубки, фитинги и комплектующие для точечного полива', 'Шланги, катушки и аксессуары для ручного ухода за садом'],
+    irrigationEquipmentOutro: 'Посетите наши садовые центры в Несебре и Равде — специалисты помогут подобрать оптимальное оборудование и собрать комплект для вашей системы полива.',
     approachTitle: 'От идеи до ухода за садом',
     steps: ['Обсуждаем ваши пожелания и особенности участка', 'Разрабатываем проект и подбираем растения, материалы и оборудование', 'Выполняем согласованные работы по озеленению и монтажу', 'При необходимости обеспечиваем последующий уход и обслуживание'],
     areasTitle: 'Работаем на Черноморском побережье Болгарии',
@@ -80,6 +96,14 @@ const content = {
     turfTitle: 'Rolled turf',
     turf: 'A lawn is an important part of a landscaped garden: it opens up the space, complements the architecture and brings the overall design together. Rolled turf provides an even green surface and a finished look quickly. We offer turf sales, base preparation, installation and ongoing care, following the correct methods to help it root successfully.',
     turfBenefits: ['Fast garden transformation', 'An even, attractive finish', 'Turf sales, installation and care'],
+    plantSalesTitle: 'Plant sales',
+    plantSalesIntro: 'Dreaming of a beautiful green space at home? Florial Garden Centre offers a wide selection of quality plants for gardens, terraces and landscape projects in Nessebar and Ravda.',
+    plantSalesItems: ['Palms, yuccas and olive trees', 'Ornamental shrubs and flowers suited to the local climate', 'Conifers and elegant perennial plants', 'Young plants for Mediterranean gardens and living hedges'],
+    plantSalesOutro: 'Visit our garden centres in Nessebar and Ravda. We will help you choose the right plants and share professional care advice.',
+    irrigationEquipmentTitle: 'Professional automatic irrigation equipment',
+    irrigationEquipmentIntro: 'Would you like your garden to stay green and well cared for with less effort? Florial Garden Centre in Nessebar and Ravda offers reliable, modern irrigation equipment for private gardens, lawns and terraces.',
+    irrigationEquipmentItems: ['Reliable sprinklers, controllers and rain sensors', 'Drip tubing, fittings and components for precise watering', 'Garden hoses, hose reels and accessories for manual garden care'],
+    irrigationEquipmentOutro: 'Visit our garden centres in Nessebar and Ravda. Our specialists will help you choose suitable equipment and put together a set for your irrigation system.',
     approachTitle: 'From the first idea to garden care',
     steps: ['Discuss your goals and the characteristics of your site', 'Plan the design and choose suitable plants, materials and equipment', 'Carry out the agreed landscaping and installation work', 'Provide ongoing care and maintenance when needed'],
     areasTitle: 'Serving Bulgaria’s Black Sea coast',
@@ -93,6 +117,7 @@ const content = {
 
 interface AboutPageProps {
   services: ServiceItem[]
+  categories: CategoryItem[]
 }
 
 const aboutServiceSlugs = {
@@ -103,7 +128,7 @@ const aboutServiceSlugs = {
   irrigation: 'avtomatichno-napoyavane',
 } as const
 
-export function AboutPage({ services }: AboutPageProps) {
+export function AboutPage({ services, categories }: AboutPageProps) {
   const { language } = useI18n()
   const copy = content[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
   const locations = language === 'ru'
@@ -125,6 +150,28 @@ export function AboutPage({ services }: AboutPageProps) {
       >
         <img
           src={service.imageUrl}
+          alt={imageTitle}
+          title={imageTitle}
+          loading="lazy"
+          className="h-52 w-full object-cover sm:h-64"
+        />
+      </a>
+    )
+  }
+
+  const renderCatalogImage = (slug: string, title: string) => {
+    const category = categories.find((item) => item.slug?.current === slug)
+    if (!category?.imageUrl) return null
+    const imageTitle = `${title} — ${locations} | Florial`
+
+    return (
+      <a
+        href={localizedHref(`/category/${encodeURIComponent(slug)}`, language)}
+        aria-label={title}
+        className="mt-5 block overflow-hidden rounded-2xl no-underline shadow-sm transition hover:shadow-md"
+      >
+        <img
+          src={category.imageUrl}
           alt={imageTitle}
           title={imageTitle}
           loading="lazy"
@@ -200,6 +247,44 @@ export function AboutPage({ services }: AboutPageProps) {
           <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
             <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">05</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.irrigation}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.irrigation, copy.irrigationTitle)}<p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
             <div><p className="leading-8 text-slate-600">{copy.irrigation}</p><ul className="mt-5 grid gap-3 sm:grid-cols-2">{copy.irrigationItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}</ul></div>
+          </div>
+        </article>
+
+        <article className={sectionClass}>
+          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
+            <div>
+              <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">06</p>
+              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">
+                <a href={localizedHref('/category/rastenia', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantSalesTitle}</a>
+              </h2>
+              {renderCatalogImage('rastenia', copy.plantSalesTitle)}
+            </div>
+            <div>
+              <p className="leading-8 text-slate-600">{copy.plantSalesIntro}</p>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {copy.plantSalesItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}
+              </ul>
+              <p className="mt-5 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.plantSalesOutro}</p>
+            </div>
+          </div>
+        </article>
+
+        <article className={sectionClass}>
+          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
+            <div>
+              <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">07</p>
+              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">
+                <a href={localizedHref('/category/vsichko-za-polivane', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationEquipmentTitle}</a>
+              </h2>
+              {renderCatalogImage('vsichko-za-polivane', copy.irrigationEquipmentTitle)}
+            </div>
+            <div>
+              <p className="leading-8 text-slate-600">{copy.irrigationEquipmentIntro}</p>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {copy.irrigationEquipmentItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}
+              </ul>
+              <p className="mt-5 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.irrigationEquipmentOutro}</p>
+            </div>
           </div>
         </article>
 
