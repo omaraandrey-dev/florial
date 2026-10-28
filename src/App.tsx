@@ -60,7 +60,7 @@ export default function App() {
       (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
+      path !== '/contacts' && path !== '/about' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -711,7 +711,7 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
         services={services}
-        categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
+        categories={categories.filter((category) => !category._id.startsWith('plants-'))}
         plantCategories={plantCategories}
         cart={cart}
         onNavigateHome={navigateToHome}
