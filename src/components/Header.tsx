@@ -79,12 +79,14 @@ export function Header({
     setIsCategoriesOpen((previous) => !previous)
     setIsPlantsOpen(false)
     setIsServicesOpen(false)
+    setIsPortfolioOpen(false)
   }
 
   const togglePlants = () => {
     setIsPlantsOpen((previous) => !previous)
     setIsCategoriesOpen(false)
     setIsServicesOpen(false)
+    setIsPortfolioOpen(false)
   }
 
   const toggleServices = () => {
