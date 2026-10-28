@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
+import { getProductImageText } from '../lib/productImageSeo'
 
 interface ProductPageProps {
   product: Product
@@ -50,13 +51,10 @@ export function ProductPage({
     )
     .filter((image, index, list) => list.findIndex((candidate) => candidate.url === image.url) === index)
 
-  const getImageAlt = (imageUrl: string) => {
-    const storedAlt = allImages.find((image) => image.url === imageUrl)?.alt
-    if (storedAlt) return storedAlt
+  const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
+    const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
     const productName = String(localize(product, 'name') || product.name)
-    if (language === 'ru') return `${productName} — купить оборудование для полива в Несебре, Равде и Солнечном Берегу`
-    if (language === 'en') return `${productName} — irrigation equipment for sale in Nessebar, Ravda and Sunny Beach`
-    return `${productName} — купете от Florial в Несебър, Равда и Слънчев бряг`
+    return getProductImageText(productName, language, Math.max(0, imageIndex), kind)
   }
 
   const handleImageError = (imageUrl: string) => {
@@ -209,7 +207,7 @@ export function ProductPage({
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage && !failedImageUrls.includes(selectedImage) ? (
-              <img src={selectedImage} alt={getImageAlt(selectedImage)} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
+              <img src={selectedImage} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
@@ -232,7 +230,7 @@ export function ProductPage({
                     selectedImage === img.url ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
-                  <img src={img.url} alt={img.alt || localize(product, 'name')} onError={() => handleImageError(img.url)} className="w-full h-full object-contain p-1" />
+                  <img src={img.url} alt={getImageText(img.url, "alt")} title={getImageText(img.url, "title")} onError={() => handleImageError(img.url)} className="w-full h-full object-contain p-1" />
                 </button>
               ))}
             </div>
@@ -431,7 +429,7 @@ export function ProductPage({
                 <div>
                   <div className="h-40 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
                     {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={localize(item, 'name')} className="h-full w-full object-contain p-2" />
+                      <img src={item.imageUrl} alt={getProductImageText(String(localize(item, "name") || item.name), language, 0, "alt")} title={getProductImageText(String(localize(item, "name") || item.name), language, 0, "title")} className="h-full w-full object-contain p-2" />
                     ) : (
                       <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
