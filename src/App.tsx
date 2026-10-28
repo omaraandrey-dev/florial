@@ -13,6 +13,7 @@ import { ServicesListPage } from './pages/ServicesListPage'
 import { CartPage } from './pages/CartPage'
 import { BlogPage } from './pages/BlogPage'
 import { BlogPostPage } from './pages/BlogPostPage'
+import { AboutPage } from './pages/AboutPage'
 import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
@@ -638,6 +639,7 @@ export default function App() {
       normalizedRoutePath !== '/' &&
       normalizedRoutePath !== '/index.html' &&
       normalizedRoutePath !== '/contacts' &&
+      normalizedRoutePath !== '/about' &&
       normalizedRoutePath !== '/services' &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
@@ -817,6 +819,8 @@ export default function App() {
             </>
           )}
         </main>
+      ) : normalizedRoutePath === '/about' ? (
+        <AboutPage />
       ) : normalizedRoutePath === '/blog' ? (
         <BlogPage />
       ) : normalizedRoutePath.startsWith('/blog/') ? (
