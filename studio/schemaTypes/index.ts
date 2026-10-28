@@ -7,6 +7,12 @@ const slugField = (title = 'URL адрес') => defineField({
   options: {source: 'name', maxLength: 96},
 })
 
+const localizedAltFields = () => [
+  defineField({name: 'alt', title: 'Alt текст (BG)', type: 'string'}),
+  defineField({name: 'altEn', title: 'Alt text (EN)', type: 'string'}),
+  defineField({name: 'altRu', title: 'Alt текст (RU)', type: 'string'}),
+]
+
 const seoFields = defineType({
   name: 'seoFields', title: 'SEO', type: 'object',
   fields: [
@@ -31,7 +37,7 @@ const serviceContentBlock = defineType({
   fields: [
     defineField({name: 'title', title: 'Заглавие', type: 'string'}),
     defineField({name: 'text', title: 'Текст', type: 'text', rows: 4}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'imagePosition', title: 'Позиция на снимката', type: 'string', options: {list: [
       {title: 'Ляво', value: 'left'}, {title: 'Дясно', value: 'right'},
     ]}, initialValue: 'left'}),
@@ -95,7 +101,7 @@ const irrigationCategory = defineType({
     defineField({name: 'name', title: 'Име на категорията (BG)', type: 'string'}),
     slugField(),
     defineField({name: 'parent', title: 'Родителска категория', type: 'reference', to: [{type: 'category'}]}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     categoryTranslations,
@@ -121,7 +127,7 @@ const brand = defineType({
   fields: [
     defineField({name: 'name', title: 'Име на марката', type: 'string'}),
     slugField('URL адрес'),
-    defineField({name: 'logo', title: 'Лого', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'logo', title: 'Лого', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'website', title: 'Официален сайт', type: 'url'}),
     defineField({name: 'isFeatured', title: 'Препоръчана марка', type: 'boolean'}),
@@ -182,8 +188,8 @@ const service = defineType({
     defineField({name: 'sourcePageUrl', title: 'Източник / стара страница DROP', type: 'url'}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
     defineField({name: 'description', title: 'Пълно описание', type: 'array', of: [{type: 'block'}]}),
-    defineField({name: 'image', title: 'Основна снимка', type: 'image', options: {hotspot: true}}),
-    defineField({name: 'gallery', title: 'Галерия снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}}]}),
+    defineField({name: 'image', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+    defineField({name: 'gallery', title: 'Галерия снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
     defineField({name: 'contentBlocks', title: 'Съдържание: снимка и текст', type: 'array', of: [{type: 'serviceContentBlock'}]}),
     defineField({name: 'advantages', title: 'Предимства', type: 'array', of: [{type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
@@ -192,7 +198,7 @@ const service = defineType({
     defineField({name: 'hero', title: 'Hero блок', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
       defineField({name: 'subtitle', title: 'Подзаглавие', type: 'text', rows: 3}),
-      defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}}),
+      defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     ]}),
     defineField({name: 'callToAction', title: 'Призив към действие', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
@@ -230,7 +236,7 @@ const page = defineType({
     slugField('URL адрес'),
     defineField({name: 'excerpt', title: 'Кратко описание', type: 'text', rows: 3}),
     defineField({name: 'body', title: 'Съдържание', type: 'array', of: [{type: 'block'}]}),
-    defineField({name: 'heroImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'heroImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
 })
@@ -240,7 +246,7 @@ const photo = defineType({
   fields: [
     defineField({name: 'title', title: 'Заглавие', type: 'string'}),
     defineField({name: 'slug', title: 'Уникален код за търсене', type: 'string'}),
-    defineField({name: 'image', title: 'Изображение', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'image', title: 'Изображение', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'logoUrl', title: 'URL на логото (старо поле)', type: 'url'}),
     defineField({name: 'seoDescription', title: 'Описание за SEO', type: 'text', rows: 3}),
     defineField({name: 'category', title: 'Категория', type: 'string', options: {list: [
@@ -258,7 +264,7 @@ const siteSettings = defineType({
   name: 'siteSettings', title: 'Настройки на сайта', type: 'document',
   fields: [
     defineField({name: 'siteName', title: 'Име на сайта', type: 'string'}),
-    defineField({name: 'logo', title: 'Лого на сайта', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'logo', title: 'Лого на сайта', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'logoUrl', title: 'URL на логото (резервно)', type: 'url'}),
     defineField({name: 'defaultLocale', title: 'Основен език', type: 'string', initialValue: 'bg'}),
     defineField({name: 'supportedLocales', title: 'Езици', type: 'array', of: [{type: 'string'}]}),
@@ -278,7 +284,7 @@ const plantCategory = defineType({
     defineField({name: 'name', title: 'Име на категорията (BG)', type: 'string'}),
     slugField(),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'externalImageUrl', title: 'Външен URL на снимката', type: 'url'}),
     defineField({name: 'parent', title: 'Родителска категория', type: 'reference', to: [{type: 'category'}]}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
@@ -308,8 +314,8 @@ const plantProduct = defineType({
     defineField({name: 'categories', title: 'Категории', type: 'array', of: [{type: 'reference', to: [{type: 'category'}]}]}),
     defineField({name: 'shortDescription', title: 'Кратко описание (BG)', type: 'text', rows: 3}),
     defineField({name: 'description', title: 'Пълно описание (BG)', type: 'text', rows: 8}),
-    defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}}),
-    defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}}]}),
+    defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+    defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
     defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
@@ -357,11 +363,11 @@ const blogPost = defineType({
     defineField({name: 'sourceUrl', title: 'Източник / оригинална публикация', type: 'url'}),
     defineField({name: 'isPublished', title: 'Публикувана', type: 'boolean', initialValue: false}),
     defineField({name: 'cover', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: [
-      defineField({name: 'alt', title: 'Alt текст', type: 'string'}),
+      ...localizedAltFields(),
       defineField({name: 'caption', title: 'Надпис', type: 'string'}),
     ]}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: [
-      defineField({name: 'alt', title: 'Alt текст', type: 'string'}),
+      ...localizedAltFields(),
       defineField({name: 'caption', title: 'Надпис', type: 'string'}),
     ]}]}),
     defineField({name: 'tags', title: 'Тагове', type: 'array', of: [{type: 'string'}]}),
@@ -371,7 +377,7 @@ const blogPost = defineType({
         defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
         defineField({name: 'body', title: 'Текст на статията', type: 'array', of: [
           {type: 'block', styles: [{title: 'Параграф', value: 'normal'}, {title: 'Заглавие 2', value: 'h2'}, {title: 'Заглавие 3', value: 'h3'}, {title: 'Заглавие 4', value: 'h4'}, {title: 'Цитат', value: 'blockquote'}], lists: [{title: 'Неномериран списък', value: 'bullet'}, {title: 'Номериран списък', value: 'number'}], marks: {decorators: [{title: 'Удебелен', value: 'strong'}, {title: 'Курсив', value: 'em'}, {title: 'Подчертан', value: 'underline'}], annotations: [{name: 'link', type: 'object', title: 'Връзка', fields: [{name: 'href', type: 'url', title: 'URL'}, {name: 'blank', type: 'boolean', title: 'Отваряне в нов прозорец', initialValue: true}]}]}},
-          {type: 'image', options: {hotspot: true}, fields: [{name: 'alt', type: 'string', title: 'Alt текст'}, {name: 'caption', type: 'string', title: 'Надпис'}]},
+          {type: 'image', options: {hotspot: true}, fields: [...localizedAltFields(), {name: 'caption', type: 'string', title: 'Надпис'}]},
           {type: 'youtubeEmbed', title: 'YouTube видео'},
         ]}),
         defineField({name: 'coverAlt', title: 'Alt на обложката', type: 'string'}),
