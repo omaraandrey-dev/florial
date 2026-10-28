@@ -724,7 +724,7 @@ export default function App() {
       />
 
       {normalizedRoutePath === '/about' ? (
-        <AboutPage services={services} />
+        <AboutPage services={services} categories={categories} />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}
