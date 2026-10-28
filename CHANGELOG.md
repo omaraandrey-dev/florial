@@ -6,3 +6,8 @@
 - Расширена страница «За нас» на болгарском, русском и английском: добавлены полные тематические разделы о ландшафтном проектировании, посадке растений и озеленении, автоматическом поливе, рулонном газоне, этапах работы и географии услуг.
 - Дублирующая верхнеуровневая категория «Електромагнитни клапани» исключена из отображаемых категорий каталога и меню. Документ Sanity и связанные товары не удаляются; подкатегории «Електромагнитни клапани 24 V» и «Електромагнитни клапани 9 V» остаются под «Клапани».
 - Изменения не затрагивают данные Sanity и Supabase.
+
+
+## Unreleased — Fix `/about` middleware routing
+- Allow `/about` through the Cloudflare Pages middleware instead of returning the edge-generated 404 page.
+- Add localized Bulgarian, Russian, and English SEO metadata and canonical/hreflang URLs for the About page.
