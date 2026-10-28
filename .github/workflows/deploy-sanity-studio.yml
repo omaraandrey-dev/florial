@@ -45,4 +45,12 @@ jobs:
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: npx sanity@latest schema deploy --workspace plants
-
+      - name: Deploy existing Florial Studio application
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: |
+          if [ -z "$SANITY_AUTH_TOKEN" ]; then
+            echo "::error::Add SANITY_AUTH_TOKEN in GitHub repository Actions secrets. Refusing to deploy without the existing Studio token."
+            exit 1
+          fi
+          npx sanity deploy --no-prompt
