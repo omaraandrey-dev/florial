@@ -1,3 +1,8 @@
+## Unreleased — About page sales sections
+- Add localized plant-sales and irrigation-equipment sections after the automatic-irrigation service block on the About page.
+- Link section headings and category images to the existing Sanity catalog roots for plants and irrigation equipment; use existing category images with localized geographic alt/title text.
+- No Sanity or Supabase documents were modified.
+
 ## Unreleased
 - Fix About page routing by rendering `/about` before other route and not-found checks.
 
