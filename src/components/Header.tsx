@@ -36,7 +36,7 @@ export function Header({
   onNavigateCart,
   onSearch,
 }: HeaderProps) {
-  const { t, language, setLanguage } = useI18n()
+  const { t, language, setLanguage, localize } = useI18n()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const [isPlantsOpen, setIsPlantsOpen] = useState(false)
@@ -108,7 +108,7 @@ export function Header({
     return (
       <div key={category._id} className={depth > 0 ? 'ml-4 border-l border-emerald-100 pl-3' : ''}>
         <a href={localizedHref('/category/' + encodeURIComponent(category.slug?.current || category._id), language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className={'block w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-emerald-50 hover:text-emerald-800 no-underline ' + (depth === 0 ? 'text-sm font-medium text-slate-700' : 'text-sm text-slate-600')}>
-          {category.name}
+          {localize(category, 'name') || category.name}
         </a>
         {children.map((child) => renderCategory(child, depth + 1))}
       </div>
@@ -249,7 +249,7 @@ export function Header({
                   </a>
                   {plantCategories.filter((category) => category.slug?.current !== 'rastenia').map((category) => (
                     <a key={category._id} href={localizedHref(`/category/${encodeURIComponent(category.slug?.current || category._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
-                      {category.name}
+                      {localize(category, 'name') || category.name}
                     </a>
                   ))}
                 </div>
@@ -301,7 +301,7 @@ export function Header({
                   </a>
                   {services.map((service) => (
                     <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateService(service.slug?.current, service._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
-                      {service.name}
+                      {localize(service, 'name') || service.name}
                     </a>
                   ))}
                 </div>
