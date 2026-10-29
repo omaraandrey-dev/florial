@@ -1,9 +1,9 @@
 ## Unreleased — Consolidate Sanity Studio and schema deployment
-- Confirmed the cause of the recurring schema mismatch: the existing workflow's `sanity deploy --no-prompt` opened an interactive hostname chooser and did not complete the hosted Studio upload, despite the job appearing successful.
-- Corrected the Sanity CLI command to the project's installed v3 syntax (`sanity schema deploy`) for both `florial-admin` and `plants` workspaces.
-- Follow-up verification found the hosted Studio deployment still prompts for a hostname despite `deployment.appId`, and `undeploy` exits successfully with `Nothing to undeploy`; the previous green run did not update or remove hosted Studio applications.
-- Updated the workflow to use the current `npx sanity@latest schemas deploy` command for both workspaces, and removed interactive Studio deployment/deletion steps until the actual hosted hostname can be verified. No registered Studio apps are deleted by the workflow.
-- No Sanity Content Lake documents are changed by these workflow updates. The hosted Studio deployment is not complete until `SANITY_STUDIO_HOST` is set to the verified existing hostname and the workflow succeeds.
+- Verified that the latest schema-only workflow run completed successfully but wrote legacy schema records (`_.schemas.florial-admin` and `_.schemas.plants`); it did not update the active Studio-deployed schema snapshots.
+- Updated `.github/workflows/deploy-sanity-studio.yml` to build the existing multi-workspace Studio, deploy the canonical app identified by `studio/sanity.cli.ts` using the current Sanity CLI, and only after successful deployment undeploy the two verified duplicate hosted app IDs.
+- The canonical app deployment must succeed before duplicate removal begins. If build/deploy fails, the workflow stops before removal, preserving the previous hosted apps as rollback options.
+- Hosted Studio removal does not delete Sanity datasets or Content Lake documents. No catalog, service, plant, order, or customer documents are intentionally modified by this workflow.
+- Final completion is conditional on the latest GitHub Actions result and a fresh Sanity API check confirming one remaining app and the expected active schema fields. Do not treat the workflow's success alone as proof of schema synchronization.
 
 ## Unreleased — First-party analytics
 - Add `public.site_events` migration draft with strict event/language constraints, service-role-only table privileges, RLS enabled, and timestamp/event indexes.
@@ -26,11 +26,9 @@
 - Fix About page routing by rendering `/about` before other route and not-found checks.
 
 ## 2026-10-28 — Уточнение страницы «За нас» и категорий
-
 - Расширена страница «За нас» на болгарском, русском и английском: добавлены полные тематические разделы о ландшафтном проектировании, посадке растений и озеленении, автоматическом поливе, рулонном газоне, этапах работы и географии услуг.
 - Дублирующая верхнеуровневая категория «Електромагнитни клапани» исключена из отображаемых категорий каталога и меню. Документ Sanity и связанные товары не удаляются; подкатегории «Електромагнитни клапани 24 V» и «Електромагнитни клапани 9 V» остаются под «Клапани».
 - Изменения не затрагивают данные Sanity и Supabase.
-
 
 ## Unreleased — Fix `/about` middleware routing
 - Allow `/about` through the Cloudflare Pages middleware instead of returning the edge-generated 404 page.
