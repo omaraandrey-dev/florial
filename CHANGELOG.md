@@ -1,3 +1,9 @@
+## 2026-10-29 — Restore additional image-and-text blocks on service pages
+- Render regular Sanity `contentBlocks` with an image, title and/or text at the bottom of the service page, after the existing call-to-action section.
+- Respect each block's image position and Bulgarian/Russian/English title and text fields; retain localized image alt text and responsive layout.
+- Keep special `__gallery:...` marker blocks in their existing article sections so the irrigation installation photo groups are not duplicated or moved.
+- No Sanity documents, site-wide header, menu, footer, or unrelated pages were changed.
+
 ## 2026-10-29 — Related product recommendations on product pages
 - Extended the existing Sanity product query to fetch each product's `relatedProducts` references and the fields required for recommendation cards.
 - Added a localized “Често купувани заедно” / “С этим товаром покупают” / “Frequently bought together” card section to the product detail page only, with product image, name, SKU, VAT-inclusive price, product link, and add-to-cart action.
