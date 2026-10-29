@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
+import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { applyPageSeo } from '../lib/seo'
 import { BlogSection } from '../components/BlogSection'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
@@ -130,37 +131,56 @@ export function HomePage({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-              {services.map(srv => (
-                <a
-                  key={srv._id}
-                  href={localizedHref(`/services/${encodeURIComponent(srv.slug?.current || srv._id)}`, language)}
-                  onClick={(event) => handleInternalLinkClick(event, () => onNavigateService(srv.slug?.current, srv._id))}
-                  className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline"
-                >
-                  <div>
-                    <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
-                      {srv.imageUrl ? (
-                        <img src={srv.imageUrl} alt={localize(srv, 'name')} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="p-2 text-center">
-                          <span className="font-bold text-slate-800 text-xs md:text-base block">{localize(srv, 'name')}</span>
+              {getOrderedServiceEntries(services).map((entry) => {
+                if (entry.kind === 'delivery') {
+                  return (
+                    <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline">
+                      <div>
+                        <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
+                          <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} className="w-full h-full object-cover" loading="lazy" />
                         </div>
-                      )}
+                        <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
+                      </div>
+                      <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
+                        <span className="text-[10px] md:text-xs text-[#71824F]">{language === 'ru' ? 'Бесплатная доставка в Солнечном Береге' : language === 'en' ? 'Free delivery in Sunny Beach' : 'Безплатна доставка в Слънчев бряг'}</span>
+                        <span className="hidden md:inline-block bg-[#879663] text-white text-xs font-bold px-3 py-1.5 rounded-lg">{t('Детайли →')}</span>
+                      </div>
+                    </a>
+                  )
+                }
+                const srv = entry.service
+                return (
+                  <a
+                    key={srv._id}
+                    href={localizedHref(`/services/${encodeURIComponent(srv.slug?.current || srv._id)}`, language)}
+                    onClick={(event) => handleInternalLinkClick(event, () => onNavigateService(srv.slug?.current, srv._id))}
+                    className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline"
+                  >
+                    <div>
+                      <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
+                        {srv.imageUrl ? (
+                          <img src={srv.imageUrl} alt={localize(srv, 'name')} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="p-2 text-center">
+                            <span className="font-bold text-slate-800 text-xs md:text-base block">{localize(srv, 'name')}</span>
+                          </div>
+                        )}
+                      </div>
+                      <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
                     </div>
-                    <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
-                  </div>
-                  <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
-                    {srv.startingPriceEUR ? (
-                      <span className="text-[10px] md:text-xs text-[#71824F]">{t('От')} <strong className="text-slate-900 text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
-                    ) : (
-                      <span className="text-[10px] md:text-xs text-[#71824F]">{t('По оферта')}</span>
-                    )}
-                    <span className="hidden md:inline-block bg-[#879663] hover:bg-[#71814F] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
-                      {t("Детайли →")}
-                    </span>
-                  </div>
-                </a>
-              ))}
+                    <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
+                      {srv.startingPriceEUR ? (
+                        <span className="text-[10px] md:text-xs text-[#71824F]">{t('От')} <strong className="text-slate-900 text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
+                      ) : (
+                        <span className="text-[10px] md:text-xs text-[#71824F]">{t('По оферта')}</span>
+                      )}
+                      <span className="hidden md:inline-block bg-[#879663] hover:bg-[#71814F] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
+                        {t("Детайли →")}
+                      </span>
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           </div>
         </div>
