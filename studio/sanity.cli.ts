@@ -5,6 +5,7 @@ import {defineCliConfig} from 'sanity/cli'
  * Both workspaces are configured in sanity.config.ts and deploy together.
  */
 export default defineCliConfig({
+  studioHost: 'florial-admin-bg',
   api: {
     projectId: 'bxvcy0qs',
     dataset: 'production',
