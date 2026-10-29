@@ -9,6 +9,40 @@ interface ServicePageProps {
   onNavigateHome: () => void
 }
 
+const isLocalizedHeading = (value: string, language: string) => {
+  const normalized = value.trim().toLocaleLowerCase()
+  const headings: Record<string, string[]> = {
+    bg: [
+      'какво включва монтажът на автоматична поливна система',
+      'полагане на тръби и кабели',
+      'монтаж на разпръсквачи и капково напояване',
+      'клапани, филтри и управление',
+      'настройка и пускане в експлоатация',
+      'за кои обекти изграждаме системи',
+      'защо да изберете florial',
+    ],
+    ru: [
+      'что включает монтаж системы автоматического полива',
+      'прокладка труб и кабелей',
+      'монтаж дождевателей и капельного полива',
+      'клапаны, фильтры и управление',
+      'настройка и запуск системы',
+      'для каких объектов мы устанавливаем системы',
+      'почему выбирают florial',
+    ],
+    en: [
+      'what is included in an automatic irrigation system installation',
+      'pipe and cable installation',
+      'sprinkler and drip irrigation installation',
+      'valves, filters and controls',
+      'system setup and commissioning',
+      'where we install irrigation systems',
+      'why choose florial',
+    ],
+  }
+  return (headings[language] || headings.bg).includes(normalized)
+}
+
 const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
@@ -73,7 +107,7 @@ function renderPortableText(
   if (typeof content === 'string') {
     return content.split('\n').map((paragraph, index) => paragraph.trim()).filter(Boolean).map((paragraph, index) => {
       const section = sectionForHeading(paragraph, language)
-      if (section) {
+      if (section || isLocalizedHeading(paragraph, language)) {
         return (
           <React.Fragment key={`paragraph-${index}`}>
             <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{paragraph}</h2>
