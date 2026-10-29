@@ -18,6 +18,7 @@ import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
+import { trackEvent } from './services/trackingService'
 
 import type {
   CategoryItem,
@@ -47,6 +48,16 @@ export default function App() {
 
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const lastTrackedPage = useRef<string | null>(null)
+
+  useEffect(() => {
+    const pagePath = window.location.pathname.replace(/\/+$/, '') || '/'
+    const pageKey = language + ':' + pagePath
+    if (lastTrackedPage.current === pageKey) return
+    lastTrackedPage.current = pageKey
+    trackEvent('page_view', language, pagePath)
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen])
 
   // Keep the HTML language and let page-level SEO decide canonical/hreflang URLs.
   useEffect(() => {
