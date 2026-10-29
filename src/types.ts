@@ -57,6 +57,8 @@ export interface ServiceContentBlock {
   text?: any
   imageUrl?: string
   imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
   imagePosition?: 'left' | 'right'
 }
 
