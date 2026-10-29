@@ -23,14 +23,24 @@ export const onRequestPost = async ({
     return errorResponse(400)
   }
 
-  let rawBody: string
+  let rawBody = ''
   try {
-    rawBody = await request.text()
+    const reader = request.body?.getReader()
+    if (!reader) return errorResponse(400)
+    const decoder = new TextDecoder()
+    let totalBytes = 0
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      totalBytes += value.byteLength
+      if (totalBytes > MAX_BODY_BYTES) {
+        await reader.cancel()
+        return errorResponse(400)
+      }
+      rawBody += decoder.decode(value, { stream: true })
+    }
+    rawBody += decoder.decode()
   } catch {
-    return errorResponse(400)
-  }
-
-  if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
     return errorResponse(400)
   }
 
