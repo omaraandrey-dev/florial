@@ -208,6 +208,12 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     return groups
   }, {})
   const hasIntroGallery = Boolean(imageGroups.intro?.length)
+  // Keep legacy gallery-marker blocks in their article sections; render regular
+  // image-and-text blocks as a separate section at the bottom of every service page.
+  const additionalContentBlocks = sourceBlocks.filter((block) =>
+    !/^__gallery:(intro|trenches|pipeline|equipment|automation)$/.test(block.title || '') &&
+    Boolean(block.imageUrl || block.title || block.text),
+  )
 
   return (
     <main className="w-full flex-grow bg-white">
@@ -277,6 +283,40 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             >
               {t("Свържете се с нас")}
             </a>
+          </section>
+        )}
+
+        {additionalContentBlocks.length > 0 && (
+          <section aria-label={language === 'ru' ? 'Дополнительная информация' : language === 'en' ? 'Additional information' : 'Допълнителна информация'}
+            className="mx-auto mt-10 max-w-5xl space-y-8 md:mt-14">
+            {additionalContentBlocks.map((block, index) => {
+              const translated = language === 'bg' ? undefined : block.translations?.[language]
+              const title = translated?.title || block.title
+              const text = translated?.text || block.text
+              const imageAlt = language === 'ru'
+                ? (block.imageAltRu || block.imageAlt || title || '')
+                : language === 'en'
+                  ? (block.imageAltEn || block.imageAlt || title || '')
+                  : (block.imageAlt || title || '')
+              const imageFirst = block.imagePosition !== 'right'
+              return (
+                <article key={block._key || `service-content-${index}`}
+                  className="grid items-center gap-5 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sm:p-6 md:grid-cols-2 md:gap-8">
+                  {block.imageUrl && (
+                    <div className={imageFirst ? 'md:order-1' : 'md:order-2'}>
+                      <img src={block.imageUrl} alt={imageAlt} loading="lazy"
+                        className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />
+                    </div>
+                  )}
+                  {(title || text) && (
+                    <div className={imageFirst ? 'md:order-2' : 'md:order-1'}>
+                      {title && <h2 className="mb-3 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">{title}</h2>}
+                      {text && <p className="whitespace-pre-line leading-7 text-slate-600">{text}</p>}
+                    </div>
+                  )}
+                </article>
+              )
+            })}
           </section>
         )}
       </div>
