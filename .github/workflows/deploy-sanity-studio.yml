@@ -39,12 +39,12 @@ jobs:
       - name: Deploy irrigation and services schema
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@latest schema deploy --workspace florial-admin
+        run: npx sanity schema deploy --workspace florial-admin
 
       - name: Deploy plants schema
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@latest schema deploy --workspace plants
+        run: npx sanity schema deploy --workspace plants
       - name: Deploy existing Florial Studio application
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
