@@ -1,3 +1,9 @@
+## 2026-10-29 — Related product recommendations on product pages
+- Extended the existing Sanity product query to fetch each product's `relatedProducts` references and the fields required for recommendation cards.
+- Added a localized “Често купувани заедно” / “С этим товаром покупают” / “Frequently bought together” card section to the product detail page only, with product image, name, SKU, VAT-inclusive price, product link, and add-to-cart action.
+- Kept the existing “Съвместими продукти” block separate. No header, navigation, footer, or other page layouts were changed.
+- Automatically populated `relatedProducts` references for existing irrigation products in Sanity using category/subcategory and product-name heuristics as an editable first pass; review and refine manually.
+
 ## 2026-10-29 — Automatic irrigation installation service gallery and localized SEO
 - Imported 14 original photos from the Bulgarian DROP installation page into the existing Sanity production dataset, preserving source attribution and adding Bulgarian, Russian and English alt text.
 - Grouped the photos as intro, trench excavation, pipework, sprinkler/drip equipment, and automation/controller sections. The service renderer places each photo group within the corresponding part of the article instead of appending unrelated images at the end.
