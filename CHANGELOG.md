@@ -49,6 +49,10 @@
 - Hosted Studio removal does not delete Sanity datasets or Content Lake documents. No catalog, service, plant, order, or customer documents are intentionally modified by this workflow.
 - Final completion is conditional on the latest GitHub Actions result and a fresh Sanity API check confirming one remaining app and the expected active schema fields. Do not treat the workflow's success alone as proof of schema synchronization.
 
+## 2026-10-29 — Make phone destinations explicit in analytics reports
+- Updated the analytics SQL report to label phone-click counts with the exact destination number (`+359 876 777 902` or `+359 885 834 860`) and the WhatsApp number, grouped by day and interface language.
+- Added a compact report comparing the two phone numbers over the last 30 days. The number is derived from the existing event type, so no database schema change or additional visitor data is required.
+
 ## 2026-10-29 — Enable first-party analytics storage
 - Applied the `site_events` schema to the production Supabase project `florial-shop` using the reviewed migration: event types and languages are constrained, page paths are limited to 200 characters, and indexes support time/event reports.
 - Enabled RLS and confirmed that `anon` and `authenticated` cannot read or write analytics events; `service_role` can insert events for the server-side `/api/track` function.
