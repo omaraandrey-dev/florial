@@ -1,3 +1,9 @@
+## Unreleased — Consolidate Sanity Studio and schema deployment
+- Confirmed the cause of the recurring schema mismatch: the existing workflow's `sanity deploy --no-prompt` opened an interactive hostname chooser and did not complete the hosted Studio upload, despite the job appearing successful.
+- Switched schema publishing to explicit workspace deployments with verbose output and made hosted Studio deployment require the exact existing hostname via the `SANITY_STUDIO_HOST` repository variable.
+- The workflow will remove only the obsolete duplicate catalog Studio after the canonical existing Studio has successfully deployed; it preserves the canonical app and plants Studio.
+- No Sanity Content Lake documents are changed by these workflow updates. The hosted Studio deployment is not complete until `SANITY_STUDIO_HOST` is set to the verified existing hostname and the workflow succeeds.
+
 ## Unreleased — First-party analytics
 - Add `public.site_events` migration draft with strict event/language constraints, service-role-only table privileges, RLS enabled, and timestamp/event indexes.
 - Add `POST /api/track` with an allowlist, request body size limit, and server-side Supabase credentials; the handler does not log event payloads or request metadata.
