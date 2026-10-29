@@ -1,7 +1,8 @@
 ## Unreleased — Consolidate Sanity Studio and schema deployment
 - Confirmed the cause of the recurring schema mismatch: the existing workflow's `sanity deploy --no-prompt` opened an interactive hostname chooser and did not complete the hosted Studio upload, despite the job appearing successful.
-- Switched schema publishing to explicit workspace deployments with verbose output and made hosted Studio deployment require the exact existing hostname via the `SANITY_STUDIO_HOST` repository variable.
-- The workflow will remove only the obsolete duplicate catalog Studio after the canonical existing Studio has successfully deployed; it preserves the canonical app and plants Studio.
+- Corrected the Sanity CLI command to the project's installed v3 syntax (`sanity schema deploy`) for both `florial-admin` and `plants` workspaces.
+- The workflow deploys the Studio app ID already configured in `studio/sanity.cli.ts`, so it does not depend on an invented hostname or create a new canonical app.
+- After successful deployment, the workflow removes the obsolete duplicate catalog app and the separate plants app; the canonical app contains both catalog/services and plants workspaces.
 - No Sanity Content Lake documents are changed by these workflow updates. The hosted Studio deployment is not complete until `SANITY_STUDIO_HOST` is set to the verified existing hostname and the workflow succeeds.
 
 ## Unreleased — First-party analytics
