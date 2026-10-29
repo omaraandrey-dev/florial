@@ -1,3 +1,9 @@
+## 2026-10-29 — Consistent service ordering and delivery-page breadcrumbs
+- Added one shared service-ordering rule for the homepage, the All Services page, and the navigation menu: landscape design, planting, automatic irrigation, rolled turf, site landscaping, drip irrigation, irrigation repair and maintenance, automatic irrigation installation in Nessebar, then equipment delivery and engineer consultation.
+- Added the custom delivery/engineer page as the ninth service entry in all three places. Future service records are placed after the nine prioritized services and use a stable alphabetical fallback order.
+- Added visible localized breadcrumbs to the delivery/engineer page: Home → All services → current service.
+- No Sanity or Supabase documents were changed.
+
 ## 2026-10-29 — Localize navigation labels
 - Use the existing `localize()` helper for service names, irrigation equipment categories, and plant categories in the mobile navigation menu.
 - Preserve Bulgarian source names as a fallback when a translation is missing; links, menu structure, styling, and open/close behavior remain unchanged.
