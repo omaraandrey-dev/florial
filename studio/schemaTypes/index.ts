@@ -190,8 +190,7 @@ const service = defineType({
   name: 'service', title: 'Услуги', type: 'document',
   fields: [
     defineField({name: 'name', title: 'Име на услугата', type: 'string'}),
-    // Plain text by request: no slug generator and no slug validation.
-    defineField({name: 'slug', title: 'URL адрес (обикновен текст)', type: 'string'}),
+    slugField(),
     defineField({name: 'sourcePageUrl', title: 'Източник / стара страница DROP', type: 'url'}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
     defineField({name: 'description', title: 'Пълно описание', type: 'array', of: [{type: 'block'}]}),
