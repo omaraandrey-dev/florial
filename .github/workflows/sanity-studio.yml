@@ -32,13 +32,19 @@ jobs:
         run: npm install
       - name: Validate and build both Studio workspaces
         run: npm run build
-      - name: Deploy existing Florial Studio
-        if: github.event_name == 'workflow_dispatch'
+      - name: Check deployment token
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: |
           if [ -z "$SANITY_AUTH_TOKEN" ]; then
-            echo "::error::Add SANITY_AUTH_TOKEN in GitHub repository Actions secrets. This workflow intentionally fails rather than creating a new Studio or deploying to an unknown app."
+            echo "::error::Add SANITY_AUTH_TOKEN in GitHub repository Actions secrets. Refusing to deploy without the existing Studio token."
             exit 1
           fi
-          npx sanity deploy --no-prompt
+      - name: Deploy irrigation and services schema to the existing workspace
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity schema deploy --workspace florial-admin
+      - name: Deploy existing Florial Studio application
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity deploy --no-prompt
