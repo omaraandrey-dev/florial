@@ -29,28 +29,46 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      - name: Deploy irrigation and services schema
+      - name: Deploy irrigation and services schema from GitHub
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity schema deploy --workspace florial-admin
+        run: npx sanity schemas deploy --workspace florial-admin --verbose
 
-      - name: Deploy plants schema
+      - name: Deploy plants schema from GitHub
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity schema deploy --workspace plants
-      - name: Deploy existing Florial Studio application
+        run: npx sanity schemas deploy --workspace plants --verbose
+
+      - name: Require the canonical existing Studio hostname
         env:
+          SANITY_STUDIO_HOST: ${{ vars.SANITY_STUDIO_HOST }}
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         run: |
           if [ -z "$SANITY_AUTH_TOKEN" ]; then
-            echo "::error::Add SANITY_AUTH_TOKEN in GitHub repository Actions secrets. Refusing to deploy without the existing Studio token."
+            echo "::error::Missing SANITY_AUTH_TOKEN repository secret."
             exit 1
           fi
-          npx sanity deploy --no-prompt
+          if [ -z "$SANITY_STUDIO_HOST" ]; then
+            echo "::error::Set the repository Actions variable SANITY_STUDIO_HOST to the existing canonical Studio hostname (without https://), then rerun this workflow. Do not guess the hostname."
+            exit 1
+          fi
+
+      - name: Deploy the existing canonical Florial Studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          SANITY_STUDIO_HOST: ${{ vars.SANITY_STUDIO_HOST }}
+        run: npx sanity deploy --url "$SANITY_STUDIO_HOST" --yes --schema-required
+
+      - name: Remove the obsolete duplicate catalog Studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity undeploy hviai8hravffsm8kiqzze6sb --yes
