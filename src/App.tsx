@@ -49,15 +49,15 @@ export default function App() {
   const [isContactsOpen, setIsContactsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
+  const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const lastTrackedPage = useRef<string | null>(null)
 
   useEffect(() => {
-    const pagePath = window.location.pathname.replace(/\/+$/, '') || '/'
-    const pageKey = language + ':' + pagePath
+    const pageKey = language + ':' + normalizedRoutePath
     if (lastTrackedPage.current === pageKey) return
     lastTrackedPage.current = pageKey
-    trackEvent('page_view', language, pagePath)
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen])
+    trackEvent('page_view', language, normalizedRoutePath)
+  }, [language, normalizedRoutePath])
 
 
 
@@ -646,7 +646,6 @@ export default function App() {
       category._id === activeCategorySlug
   )
 
-  const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const isNotFoundRoute = !loadingProducts && (
     (
       normalizedRoutePath !== '/' &&
