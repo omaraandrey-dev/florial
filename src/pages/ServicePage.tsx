@@ -71,7 +71,7 @@ function renderPortableText(
   if (!content) return null
 
   if (typeof content === 'string') {
-    return content.split('\\n').map((paragraph, index) => paragraph.trim()).filter(Boolean).map((paragraph, index) => {
+    return content.split('\x5cn').map((paragraph, index) => paragraph.trim()).filter(Boolean).map((paragraph, index) => {
       const section = sectionForHeading(paragraph, language)
       if (section) {
         return (
