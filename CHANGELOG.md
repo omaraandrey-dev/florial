@@ -1,3 +1,8 @@
+## 2026-10-29 — Localize navigation labels
+- Use the existing `localize()` helper for service names, irrigation equipment categories, and plant categories in the mobile navigation menu.
+- Preserve Bulgarian source names as a fallback when a translation is missing; links, menu structure, styling, and open/close behavior remain unchanged.
+- No Sanity or Supabase data was modified.
+
 ## 2026-10-29 — Normalize service slugs for Sanity Studio
 - Standardized the service schema on Sanity's native `slug` type to match the active Studio schema and most existing service documents.
 - Converted the two published service slugs that were plain strings into Sanity slug objects, preserving their exact URL values. Full document snapshots were saved before editing; comparisons confirmed no other fields changed.
