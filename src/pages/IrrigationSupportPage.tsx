@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
+import { trackEvent } from '../services/trackingService'
 
 const copy = {
   bg: {
