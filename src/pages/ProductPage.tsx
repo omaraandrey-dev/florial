@@ -414,6 +414,47 @@ export function ProductPage({
         </section>
       )}
 
+      {/* Често купувани заедно — редактират се чрез relatedProducts в Sanity */}
+      {product.relatedProducts && product.relatedProducts.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-slate-900 mb-6">
+            {language === 'ru' ? 'С этим товаром покупают' : language === 'en' ? 'Frequently bought together' : 'Често купувани заедно'}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {product.relatedProducts.filter(item => item._id !== product._id).slice(0, 5).map(item => (
+              <article key={item._id} className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm hover:shadow-md transition flex flex-col">
+                <a
+                  href={localizedHref(`/product/${encodeURIComponent(item.slug?.current || item._id)}`, language)}
+                  onClick={(event) => handleInternalLinkClick(event, () => onNavigateProduct(item.slug?.current || item._id))}
+                  className="no-underline flex-1"
+                >
+                  <div className="h-36 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'alt')} title={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'title')} className="h-full w-full object-contain p-2" loading="lazy" />
+                    ) : (
+                      <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
+                    )}
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-sm leading-snug line-clamp-3 mb-2">{localize(item, 'name')}</h3>
+                  {item.sku && <p className="text-xs text-slate-400 mb-2">{t('Артикул (SKU):')} {item.sku}</p>}
+                </a>
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <p className="font-bold text-emerald-800 mb-1">{(item.priceEUR || 0).toFixed(2)} €</p>
+                  <p className="text-xs text-slate-500 mb-3">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+                  <button
+                    type="button"
+                    onClick={() => onAddToCart(item, 1)}
+                    className="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-semibold py-2.5 px-3 rounded-lg transition-colors"
+                  >
+                    {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Совместимые продукты */}
       {product.compatibleProducts && product.compatibleProducts.length > 0 && (
         <section className="mb-12">
