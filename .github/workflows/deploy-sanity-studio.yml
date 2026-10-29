@@ -36,17 +36,23 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      - name: Deploy irrigation and services schema from GitHub
+      # deployment.appId in sanity.cli.ts targets the canonical existing app.
+      # Deploy it successfully before removing duplicate hosted apps. A failure
+      # here stops the job, preserving the old apps as a rollback path.
+      - name: Deploy canonical multi-workspace Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@latest schemas deploy --workspace florial-admin --verbose
+        run: npx sanity@latest deploy --yes --schema-required
 
-      - name: Deploy plants schema from GitHub
+      # These are the two previously verified duplicate app IDs. Undeploying
+      # hosted apps does not delete datasets or Content Lake documents.
+      # Keep these steps after successful canonical deployment only.
+      - name: Remove duplicate irrigation Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@latest schemas deploy --workspace plants --verbose
+        run: npx sanity@latest undeploy hviai8hravffsm8kiqzze6sb --yes
 
-      # The existing Sanity Studio applications do not expose their hosted hostname
-      # through the available project API. Do not run interactive deploy/undeploy commands
-      # here: the CLI may exit 0 without deploying when it reaches a hostname prompt.
-      # Keep all registered apps intact until the canonical hosted URL is verified.
+      - name: Remove duplicate plants Studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: npx sanity@latest undeploy g1957r1p52277jhtc60dlgi5 --yes
