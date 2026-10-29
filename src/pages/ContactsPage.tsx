@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { sanityClient } from '../lib/sanity'
 import { applyPageSeo } from '../lib/seo'
+import { trackEvent } from '../services/trackingService'
 
 interface ContactsPageProps {
   onNavigateHome: () => void
@@ -175,8 +176,8 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6 space-y-4">
         <h2 className="text-xl font-bold text-slate-900">{t('Адрес и контакти')}</h2>
         <div className="space-y-2 text-sm">
-          <p><a href="tel:+359876777902" className="text-emerald-800 font-bold hover:underline">+359876777902</a></p>
-          <p><a href="tel:+359885834860" className="text-emerald-800 font-bold hover:underline">+359885834860</a> (ENG / UA / RU)</p>
+          <p><a href="tel:+359876777902" onClick={() => trackEvent('call_bg', language, window.location.pathname)} className="text-emerald-800 font-bold hover:underline">+359876777902</a></p>
+          <p><a href="tel:+359885834860" onClick={() => trackEvent('call_en_ru', language, window.location.pathname)} className="text-emerald-800 font-bold hover:underline">+359885834860</a> (ENG / UA / RU)</p>
           {language !== 'bg' && <p><a href="tel:+380674807486" className="text-emerald-800 font-bold hover:underline">+38 067 480 74 86</a></p>}
         </div>
       </div>
