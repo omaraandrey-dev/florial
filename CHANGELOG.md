@@ -1,3 +1,8 @@
+## Unreleased — Repair Sanity schema deployment for service translations
+- Update the existing Studio workflow to deploy the `florial-admin` schema and the existing Florial Studio application after a successful build on changes to `studio/**`.
+- Fail clearly when `SANITY_AUTH_TOKEN` is not configured; do not create a new Studio or workspace.
+- No Sanity Content Lake documents are modified by this workflow change.
+
 ## Unreleased — About page sales sections
 - Add localized plant-sales and irrigation-equipment sections after the automatic-irrigation service block on the About page.
 - Link section headings and category images to the existing Sanity catalog roots for plants and irrigation equipment; use existing category images with localized geographic alt/title text.
