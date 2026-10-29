@@ -370,7 +370,10 @@ export default function App() {
           shortDescription,
           description,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url),
-          "galleryImages": gallery[].asset->url,
+          "imageAlt": coalesce(image.alt, mainImage.alt),
+          "imageAltEn": coalesce(image.altEn, mainImage.altEn),
+          "imageAltRu": coalesce(image.altRu, mainImage.altRu),
+          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
           "contentBlocks": contentBlocks[]{
             _key,
             title,
@@ -378,6 +381,8 @@ export default function App() {
             imagePosition,
             "imageUrl": image.asset->url,
             "imageAlt": image.alt,
+            "imageAltEn": image.altEn,
+            "imageAltRu": image.altRu,
             translations
           },
           startingPriceEUR,

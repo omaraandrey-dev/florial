@@ -57,6 +57,8 @@ export interface ServiceContentBlock {
   text?: any
   imageUrl?: string
   imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
   imagePosition?: 'left' | 'right'
 }
 
@@ -64,6 +66,8 @@ export interface ServiceGalleryImage {
   _key?: string
   url?: string
   alt?: string
+  altEn?: string
+  altRu?: string
 }
 
 export interface ServiceItem {
@@ -74,6 +78,9 @@ export interface ServiceItem {
   shortDescription?: string
   description?: any
   imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
   galleryImages?: ServiceGalleryImage[]
   contentBlocks?: ServiceContentBlock[]
   startingPriceEUR?: number

@@ -1,3 +1,10 @@
+## 2026-10-29 — Automatic irrigation installation service gallery and localized SEO
+- Imported 14 original photos from the Bulgarian DROP installation page into the existing Sanity production dataset, preserving source attribution and adding Bulgarian, Russian and English alt text.
+- Grouped the photos as intro, trench excavation, pipework, sprinkler/drip equipment, and automation/controller sections. The service renderer places each photo group within the corresponding part of the article instead of appending unrelated images at the end.
+- Kept the existing service copy intact; improved BG/RU/EN meta titles, descriptions and keywords, with indexability enabled for all three translated versions.
+- Updated the service query to fetch localized image alt text and gallery metadata, and ensured translated section titles render as semantic H2 headings.
+- No header, navigation structure, footer, catalog, orders or unrelated Sanity documents were changed.
+
 ## 2026-10-29 — Consistent service ordering and delivery-page breadcrumbs
 - Added one shared service-ordering rule for the homepage, the All Services page, and the navigation menu: landscape design, planting, automatic irrigation, rolled turf, site landscaping, drip irrigation, irrigation repair and maintenance, automatic irrigation installation in Nessebar, then equipment delivery and engineer consultation.
 - Added the custom delivery/engineer page as the ninth service entry in all three places. Future service records are placed after the nine prioritized services and use a stable alphabetical fallback order.

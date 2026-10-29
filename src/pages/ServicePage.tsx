@@ -9,13 +9,114 @@ interface ServicePageProps {
   onNavigateHome: () => void
 }
 
-function renderPortableText(content: any) {
+const isLocalizedHeading = (value: string, language: string) => {
+  const normalized = value.trim().toLocaleLowerCase()
+  const headings: Record<string, string[]> = {
+    bg: [
+      'какво включва монтажът на автоматична поливна система',
+      'полагане на тръби и кабели',
+      'монтаж на разпръсквачи и капково напояване',
+      'клапани, филтри и управление',
+      'настройка и пускане в експлоатация',
+      'за кои обекти изграждаме системи',
+      'защо да изберете florial',
+    ],
+    ru: [
+      'что включает монтаж системы автоматического полива',
+      'прокладка труб и кабелей',
+      'монтаж дождевателей и капельного полива',
+      'клапаны, фильтры и управление',
+      'настройка и запуск системы',
+      'для каких объектов мы устанавливаем системы',
+      'почему выбирают florial',
+    ],
+    en: [
+      'what is included in an automatic irrigation system installation',
+      'pipe and cable installation',
+      'sprinkler and drip irrigation installation',
+      'valves, filters and controls',
+      'system setup and commissioning',
+      'where we install irrigation systems',
+      'why choose florial',
+    ],
+  }
+  return (headings[language] || headings.bg).includes(normalized)
+}
+
+const sectionForHeading = (value: string, language: string) => {
+  const normalized = value.trim().toLocaleLowerCase()
+  const headings: Record<string, Record<string, string[]>> = {
+    bg: {
+      trenches: ['какво включва монтажът на автоматична поливна система'],
+      pipeline: ['полагане на тръби и кабели'],
+      equipment: ['монтаж на разпръсквачи и капково напояване'],
+      automation: ['клапани, филтри и управление'],
+    },
+    ru: {
+      trenches: ['что включает монтаж системы автоматического полива'],
+      pipeline: ['прокладка труб и кабелей'],
+      equipment: ['монтаж дождевателей и капельного полива'],
+      automation: ['клапаны, фильтры и управление'],
+    },
+    en: {
+      trenches: ['what is included in an automatic irrigation system installation'],
+      pipeline: ['pipe and cable installation'],
+      equipment: ['sprinkler and drip irrigation installation'],
+      automation: ['valves, filters and controls'],
+    },
+  }
+  const languageHeadings = headings[language] || headings.bg
+  return Object.entries(languageHeadings).find(([, values]) => values.some((heading) => normalized === heading))?.[0]
+}
+
+function renderImageGallery(images: ServiceContentBlock[], group: string, language: string) {
+  if (!images.length) return null
+  return (
+    <section key={`gallery-${group}`} aria-label={group === 'intro' ? 'Снимки от монтажа на поливна система' : undefined}
+      className={group === 'intro'
+        ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4'
+        : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}>
+      {images.map((image, index) => {
+        const alt = language === 'ru'
+          ? (image.imageAltRu || image.imageAlt || '')
+          : language === 'en'
+            ? (image.imageAltEn || image.imageAlt || '')
+            : (image.imageAlt || '')
+        return (
+          <figure key={image._key || `${group}-${index}`} className="min-w-0 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
+            {image.imageUrl && <img src={image.imageUrl} alt={alt} loading="lazy"
+              className={group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />}
+            {alt && <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>}
+          </figure>
+        )
+      })}
+    </section>
+  )
+}
+
+function renderPortableText(
+  content: any,
+  language = 'bg',
+  imageGroups: Record<string, ServiceContentBlock[]> = {},
+) {
+  const withGallery = (section: string | undefined) =>
+    section ? renderImageGallery(imageGroups[section] || [], section, language) : null
+
   if (!content) return null
 
   if (typeof content === 'string') {
-    return content.split('\n').filter(Boolean).map((paragraph, index) => (
-      <p key={index} className="mb-4 leading-7 text-slate-600">{paragraph}</p>
-    ))
+    return content.split('\n').map((paragraph, index) => paragraph.trim()).filter(Boolean).map((paragraph, index) => {
+      const section = sectionForHeading(paragraph, language)
+      if (section || isLocalizedHeading(paragraph, language)) {
+        return (
+          <React.Fragment key={`paragraph-${index}`}>
+            <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{paragraph}</h2>
+            {withGallery(section)}
+          </React.Fragment>
+        )
+      }
+      return <p key={index} className="mb-4 leading-7 text-slate-600">{paragraph}</p>
+    })
   }
 
   if (!Array.isArray(content)) return null
@@ -28,7 +129,13 @@ function renderPortableText(content: any) {
     const key = block._key || index
 
     if (block.style === 'h2') {
-      return <h2 key={key} className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{text}</h2>
+      const section = sectionForHeading(text, language)
+      return (
+        <React.Fragment key={key}>
+          <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{text}</h2>
+          {withGallery(section)}
+        </React.Fragment>
+      )
     }
     if (block.style === 'h3') {
       return <h3 key={key} className="mb-3 mt-6 text-xl font-bold text-slate-900">{text}</h3>
@@ -39,43 +146,6 @@ function renderPortableText(content: any) {
 
     return <p key={key} className="mb-4 leading-7 text-slate-600">{text}</p>
   })
-}
-
-function ContentBlock({ block, index }: { block: ServiceContentBlock; index: number }) {
-  const { t } = useI18n()
-  const imageLeft = block.imagePosition === 'left' || (!block.imagePosition && index % 2 === 0)
-
-  return (
-    <section className="grid items-center gap-6 py-8 md:grid-cols-2 md:gap-10 md:py-12">
-      <div className={imageLeft ? 'order-1' : 'order-1 md:order-2'}>
-        {block.imageUrl ? (
-          <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm">
-            <img
-              src={block.imageUrl}
-              alt={block.imageAlt || block.title || ''}
-              loading="lazy"
-              className="h-64 w-full object-cover sm:h-80 md:h-[360px]"
-            />
-          </div>
-        ) : (
-          <div className="flex h-56 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
-            <span className="text-sm font-medium">{t("Florial")}</span>
-          </div>
-        )}
-      </div>
-
-      <div className={imageLeft ? 'order-2' : 'order-2 md:order-1'}>
-        {block.title && (
-          <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            {block.title}
-          </h2>
-        )}
-        <div className="text-base md:text-lg">
-          {renderPortableText(block.text)}
-        </div>
-      </div>
-    </section>
-  )
 }
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
@@ -127,38 +197,17 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     }
   }, [service, language, localize, t])
 
-  // Text and images inside contentBlocks belong together. Do not merge the
-  // separate gallery by array index: gallery order is independent and that
-  // was causing duplicate photos and empty text sections.
+  // Photos imported from DROP are tagged by section in contentBlocks.title.
+  // Render each group inside the matching article section, not at the page end.
   const sourceBlocks = Array.isArray(service.contentBlocks) ? service.contentBlocks : []
-  const galleryImages = Array.isArray(service.galleryImages)
-    ? service.galleryImages.filter((image) => image?.url)
-    : []
-
-  const contentBlocks = sourceBlocks
-    .map((block) => ({
-      ...block,
-      title: localize(block, 'title'),
-      text: localize(block, 'text'),
-      imageAlt: localize(block, 'imageAlt'),
-    }))
-    .filter((block) => block.imageUrl || block.title || block.text)
-
-  // Add only gallery photos not already used by a content block. Their Sanity
-  // alt text is shown as a caption, so every extra photo has accompanying text.
-  const usedImageUrls = new Set(contentBlocks.map((block) => block.imageUrl).filter(Boolean))
-  const galleryOnlyBlocks = galleryImages
-    .filter((image) => image.url && !usedImageUrls.has(image.url))
-    .map((image, index) => ({
-      _key: image._key || `gallery-${index}`,
-      imageUrl: image.url,
-      imageAlt: image.alt || '',
-      title: '',
-      text: image.alt || '',
-      imagePosition: index % 2 === 0 ? 'left' as const : 'right' as const,
-    }))
-
-  const allContentBlocks = [...contentBlocks, ...galleryOnlyBlocks]
+  const imageGroups = sourceBlocks.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
+    const match = typeof block.title === 'string' ? block.title.match(/^__gallery:(intro|trenches|pipeline|equipment|automation)$/) : null
+    if (!match || !block.imageUrl) return groups
+    const group = match[1]
+    groups[group] = [...(groups[group] || []), block]
+    return groups
+  }, {})
+  const hasIntroGallery = Boolean(imageGroups.intro?.length)
 
   return (
     <main className="w-full flex-grow bg-white">
@@ -193,28 +242,26 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           )}
         </header>
 
-        {service.imageUrl && (
-          <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
-            <img
-              src={service.imageUrl}
-              alt={localize(service, 'name')}
-              fetchPriority="high"
-              className="max-h-[560px] min-h-[220px] w-full object-cover"
-            />
-          </div>
-        )}
+        {hasIntroGallery
+          ? renderImageGallery(imageGroups.intro || [], 'intro', language)
+          : service.imageUrl && (
+            <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
+              <img
+                src={service.imageUrl}
+                alt={language === 'ru'
+                  ? (service.imageAltRu || localize(service, 'name'))
+                  : language === 'en'
+                    ? (service.imageAltEn || localize(service, 'name'))
+                    : (service.imageAlt || localize(service, 'name'))}
+                fetchPriority="high"
+                className="max-h-[560px] min-h-[220px] w-full object-cover"
+              />
+            </div>
+          )}
 
         {service.description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
-            {renderPortableText(localize(service, 'description'))}
-          </div>
-        )}
-
-        {allContentBlocks.length > 0 && (
-          <div className="divide-y divide-slate-100">
-            {allContentBlocks.map((block, index) => (
-              <ContentBlock key={block._key || index} block={block} index={index} />
-            ))}
+            {renderPortableText(localize(service, 'description'), language, imageGroups)}
           </div>
         )}
 
