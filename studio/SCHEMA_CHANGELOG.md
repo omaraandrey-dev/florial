@@ -153,3 +153,10 @@
 - The workflow `.github/workflows/blog-studio.yml` deploys the schema through the existing Studio source and app ID in `studio/sanity.cli.ts`; it does not create a separate managed Studio.
 - Schema deployment is additive. No product, category, service, plant, or order documents are migrated by the schema step.
 - The workflow must pass website and Studio builds before deploying the schema. It requires the GitHub Actions secret `SANITY_AUTH_TOKEN`.
+
+
+## 2026-10-29 — Локализация блоков услуг и восстановление схемы
+
+- В тип `serviceContentBlock` добавлено вложенное поле `translations` с полями `title` и `text` для английского и русского языков.
+- Это дополнение сохраняет существующие болгарские поля и данные; миграция/перезапись документов не выполняется.
+- GitHub Actions должен развернуть схему `florial-admin` из актуального исходника. После workflow необходимо проверить фактическую активную схему Sanity и возможность записи переводов; наличие исходного поля в GitHub само по себе не подтверждает развёртывание.
