@@ -60,6 +60,7 @@ export interface ServiceContentBlock {
   imageAltEn?: string
   imageAltRu?: string
   imagePosition?: 'left' | 'right'
+  translations?: Record<string, { title?: string; text?: string }>
 }
 
 export interface ServiceGalleryImage {
