@@ -2,9 +2,9 @@
 
 - Проверены фактические схемы Sanity по точным schemaId. В проекте зарегистрированы два workspace для каталога/услуг (default и florial-admin), три Studio-приложения, а также legacy schema records и записи MCP-managed.
 - Корневая причина повторяющегося рассогласования: workflow сообщал об успехе шага Studio deployment, хотя команда npx sanity deploy --no-prompt в установленном CLI открывала интерактивный выбор hostname. Лог доходил до выбора приложения, но не подтверждал реальную загрузку Studio.
-- Исправлена команда схемы на синтаксис установленного Sanity CLI v3: `npx sanity schema deploy --workspace ... --verbose` (единственное число `schema`).
-- Studio разворачивается с app ID `owtr7mlnn6xm33qah9z2wop6`, уже указанным в `studio/sanity.cli.ts`; hostname не угадывается и отдельная новая каноническая Studio не создаётся.
-- После успешного deployment workflow удаляет дублирующее приложение каталога `hviai8hravffsm8kiqzze6sb` и отдельное приложение растений `g1957r1p52277jhtc60dlgi5`, потому что workspace `plants` включён в каноническую Studio. Данные Content Lake не удаляются.
+- Проверка журналов выявила, что `sanity schema deploy` записал в legacy `_.schemas.*`, а `sanity deploy --yes` всё ещё открывал выбор hostname и не выполнял загрузку; `undeploy` завершался сообщением `Nothing to undeploy`. Зелёный статус workflow был ложноположительным для этих операций.
+- Workflow обновлён на `npx sanity@latest schemas deploy --workspace ... --verbose`, который документирован для публикации схем Studio workspace.
+- Интерактивный deploy и оба undeploy удалены из автоматизации до подтверждения реального hosted hostname. Ни одно зарегистрированное приложение Studio этим изменением не удаляется. Данные Content Lake не удаляются.
 - Убрана зависимость от `SANITY_STUDIO_HOST`: для этой Studio используется существующий `appId` из конфигурации репозитория.
 - До подтверждения следующего workflow нельзя считать схему полностью синхронизированной. После запуска проверить service.translations, serviceContentBlock.translations, тип поля service.slug и оба workspace; не мигрировать значения slug без отдельной проверки совместимости.
 
