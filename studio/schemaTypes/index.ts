@@ -37,6 +37,13 @@ const serviceContentBlock = defineType({
   fields: [
     defineField({name: 'title', title: 'Заглавие', type: 'string'}),
     defineField({name: 'text', title: 'Текст', type: 'text', rows: 4}),
+    defineField({name: 'translations', title: 'Преводи на блока', type: 'object', fields: ['en', 'ru'].map((language) => defineField({
+      name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object',
+      fields: [
+        defineField({name: 'title', title: language === 'en' ? 'Title' : 'Заглавие', type: 'string'}),
+        defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 4}),
+      ],
+    }))}),
     defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'imagePosition', title: 'Позиция на снимката', type: 'string', options: {list: [
       {title: 'Ляво', value: 'left'}, {title: 'Дясно', value: 'right'},
