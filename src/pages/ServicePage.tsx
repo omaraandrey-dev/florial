@@ -114,43 +114,6 @@ function renderPortableText(
   })
 }
 
-function ContentBlock({ block, index }: { block: ServiceContentBlock; index: number }) {
-  const { t } = useI18n()
-  const imageLeft = block.imagePosition === 'left' || (!block.imagePosition && index % 2 === 0)
-
-  return (
-    <section className="grid items-center gap-6 py-8 md:grid-cols-2 md:gap-10 md:py-12">
-      <div className={imageLeft ? 'order-1' : 'order-1 md:order-2'}>
-        {block.imageUrl ? (
-          <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm">
-            <img
-              src={block.imageUrl}
-              alt={block.imageAlt || block.title || ''}
-              loading="lazy"
-              className="h-64 w-full object-cover sm:h-80 md:h-[360px]"
-            />
-          </div>
-        ) : (
-          <div className="flex h-56 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
-            <span className="text-sm font-medium">{t("Florial")}</span>
-          </div>
-        )}
-      </div>
-
-      <div className={imageLeft ? 'order-2' : 'order-2 md:order-1'}>
-        {block.title && (
-          <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            {block.title}
-          </h2>
-        )}
-        <div className="text-base md:text-lg">
-          {renderPortableText(block.text)}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
 
