@@ -1,3 +1,6 @@
+## Unreleased — First-party analytics
+- Added anonymous site event tracking endpoint and SQL migration draft. Migration is not applied to the database.
+
 ## Unreleased — Repair Sanity schema deployment for service translations
 - Update the existing Studio workflow to deploy the `florial-admin` schema and the existing Florial Studio application after a successful build on changes to `studio/**`.
 - Fail clearly when `SANITY_AUTH_TOKEN` is not configured; do not create a new Studio or workspace.
