@@ -326,6 +326,22 @@ export default function App() {
             translations,
             "slug": { "current": coalesce(slug.current, slug) },
             "parentId": parent->_id
+          },
+          "relatedProducts": relatedProducts[]->{
+            _id,
+            name,
+            translations,
+            "productType": "equipment",
+            "slug": { "current": coalesce(slug.current, slug) },
+            sku,
+            priceEUR,
+            oldPriceEUR,
+            stockStatus,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+            "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+            "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+            shortDescription
           }
         }
       `
