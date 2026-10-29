@@ -64,6 +64,8 @@ export interface ServiceGalleryImage {
   _key?: string
   url?: string
   alt?: string
+  altEn?: string
+  altRu?: string
 }
 
 export interface ServiceItem {
