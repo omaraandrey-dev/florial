@@ -59,25 +59,7 @@ export default function App() {
     trackEvent('page_view', language, pagePath)
   }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen])
 
-  useEffect(() => {
-    const handleContactClick = (event: MouseEvent) => {
-      if (!window.location.pathname.startsWith('/services/dostavka-poliv')) return
-      const target = event.target
-      if (!(target instanceof Element)) return
-      const link = target.closest('a[href]')
-      if (!link) return
-      const href = link.getAttribute('href') || ''
-      if (href === 'tel:+359876777902') {
-        trackEvent('call_bg', language, window.location.pathname)
-      } else if (href === 'tel:+359885834860') {
-        trackEvent('call_en_ru', language, window.location.pathname)
-      } else if (href.startsWith('https://wa.me/380674807486')) {
-        trackEvent('chat_click', language, window.location.pathname)
-      }
-    }
-    document.addEventListener('click', handleContactClick, true)
-    return () => document.removeEventListener('click', handleContactClick, true)
-  }, [language])
+
 
   // Keep the HTML language and let page-level SEO decide canonical/hreflang URLs.
   useEffect(() => {
