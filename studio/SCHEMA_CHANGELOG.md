@@ -1,3 +1,9 @@
+## 2026-10-29 — Автоматическое развёртывание схемы услуг
+
+- Исправлен существующий workflow `.github/workflows/sanity-studio.yml`: раньше push выполнял только сборку, а публикация Studio была доступна только при ручном запуске; отдельный шаг `schema deploy` отсутствовал.
+- Теперь после успешной сборки workflow проверяет `SANITY_AUTH_TOKEN`, развёртывает схему workspace `florial-admin` и публикует существующее приложение Studio через конфигурацию `studio/sanity.cli.ts`.
+- Новая Studio и новые workspace не создаются. Данные Content Lake не изменяются. После workflow необходимо перечитать deployed schema и проверить, что поля `service.translations` и `serviceContentBlock.translations` доступны для записи.
+
 ## 2026-10-28 — ALT полета за всички изображения и синхронизация на Studio
 
 - В общата схема Sanity добавен повторно използваем набор от ALT полета за BG, EN и RU.
