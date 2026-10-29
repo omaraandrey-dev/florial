@@ -1,6 +1,10 @@
 ## Unreleased — First-party analytics
-- Added anonymous site event tracking endpoint and SQL migration draft. Migration is not applied to the database.
-
+- Add `public.site_events` migration draft with strict event/language constraints, service-role-only table privileges, RLS enabled, and timestamp/event indexes.
+- Add `POST /api/track` with an allowlist, request body size limit, and server-side Supabase credentials; the handler does not log event payloads or request metadata.
+- Add a client tracking helper using `sendBeacon` with a `fetch(keepalive)` fallback; analytics failures do not interrupt site actions.
+- Track distinct route/language page views and phone/WhatsApp clicks in the footer, contacts page, and irrigation delivery/support page.
+- Add an SQL report and unpublished BG/RU/EN privacy notice draft.
+- The migration has not been applied to Supabase. Cloudflare production variables, rate limiting, deployment, and live event insertion remain to be verified.
 ## Unreleased — Repair Sanity schema deployment for service translations
 - Update the existing Studio workflow to deploy the `florial-admin` schema and the existing Florial Studio application after a successful build on changes to `studio/**`.
 - Fail clearly when `SANITY_AUTH_TOKEN` is not configured; do not create a new Studio or workspace.
