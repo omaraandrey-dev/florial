@@ -1,3 +1,9 @@
+## 2026-10-29 — Normalize service slugs for Sanity Studio
+- Standardized the service schema on Sanity's native `slug` type to match the active Studio schema and most existing service documents.
+- Converted the two published service slugs that were plain strings into Sanity slug objects, preserving their exact URL values. Full document snapshots were saved before editing; comparisons confirmed no other fields changed.
+- Verified the latest hosted Studio build and deployment workflow succeeded on commit `4e3980e2bcbda7923733024e2244eb6630b4c6e1`.
+- The Studio schema API still omits six service fields present in source, so the unknown-field warnings require further investigation; deployment success is not treated as proof that the schema snapshot synchronized.
+
 ## 2026-10-29 — Sanity Studio: устранение ложноположительного деплоя
 
 - В run `40828538433` сборка прошла, но CLI v4 показал интерактивный выбор hostname; в CI это не приводило к фактической загрузке Studio, хотя workflow получил статус success.
