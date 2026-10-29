@@ -74,6 +74,9 @@ export interface ServiceItem {
   shortDescription?: string
   description?: any
   imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
   galleryImages?: ServiceGalleryImage[]
   contentBlocks?: ServiceContentBlock[]
   startingPriceEUR?: number
