@@ -1,3 +1,11 @@
+## 2026-10-29 — Деплой существующей Studio и безопасное удаление дублей
+
+- После проверки логов установлено: предыдущий зелёный workflow использовал `schemas deploy` и создал/обновил legacy schema records, но не обновил активный Studio-deployed schema snapshot.
+- Workflow переведён на `npx sanity@latest deploy --yes --schema-required` из папки `studio`. Конфигурация `studio/sanity.cli.ts` указывает на существующее основное приложение `owtr7mlnn6xm33qah9z2wop6`; конфигурация включает два workspace: `florial-admin` и `plants`.
+- Только после успешного деплоя основной Studio workflow выполняет `undeploy` для двух ранее проверенных дублей: `hviai8hravffsm8kiqzze6sb` и `g1957r1p52277jhtc60dlgi5`. Если сборка или деплой основного приложения завершается ошибкой, шаги удаления не выполняются.
+- Удаление hosted Studio-приложений не удаляет datasets и документы Content Lake. Никаких миграций/изменений документов в рамках этой операции нет.
+- Финальное подтверждение требует проверить результат нового workflow, список Studio-приложений и активные поля `service.translations` / `serviceContentBlock.translations`. До такой проверки консолидация не считается завершённой.
+
 ## 2026-10-29 — Устранение конфликта источников схемы
 
 - Проверены фактические схемы Sanity по точным schemaId. В проекте зарегистрированы два workspace для каталога/услуг (default и florial-admin), три Studio-приложения, а также legacy schema records и записи MCP-managed.
