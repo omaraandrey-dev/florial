@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import type { ServiceItem } from '../types'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
+import { getOrderedServiceEntries } from '../lib/servicesOrder'
 
 interface ServicesListPageProps {
   services: ServiceItem[]
@@ -86,44 +87,35 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
 
       <section aria-label={copy.all}>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <a
-              key={service._id}
-              href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)}
-              className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline"
-            >
-              <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
-                {service.imageUrl ? <img src={service.imageUrl} alt={String(localize(service, 'name') || '')} loading="lazy" className="h-full w-full object-cover" /> : <span className="p-4 text-center font-semibold text-slate-700">{localize(service, 'name')}</span>}
-              </div>
-              <div className="flex flex-1 flex-col p-5">
-                <h2 className="mb-2 text-xl font-bold text-slate-900">{localize(service, 'name')}</h2>
-                <p className="flex-1 text-sm leading-6 text-slate-600">{localize(service, 'shortDescription')}</p>
-                <span className="mt-4 font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
-              </div>
-            </a>
-          ))}
-          <a
-            href={localizedHref('/services/dostavka-poliv', language)}
-            className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline"
-          >
-            <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
-              <img
-                src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg"
-                alt={language === 'ru' ? 'Автоматический полив сада и консультация инженера' : language === 'en' ? 'Garden irrigation and engineer consultation' : 'Автоматично напояване на градина и консултация с инженер'}
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="flex flex-1 flex-col p-5">
-              <h2 className="mb-2 text-xl font-bold text-slate-900">
-                {language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка и консултация с инженер'}
-              </h2>
-              <p className="flex-1 text-sm leading-6 text-slate-600">
-                {language === 'ru' ? 'Бесплатная доставка в Солнечном Береге, понятные тарифы по региону, консультация на объекте и ремонт от 30 €.' : language === 'en' ? 'Free delivery in Sunny Beach, clear local delivery rates, an on-site consultation and repairs from €30.' : 'Безплатна доставка в Слънчев бряг, ясни цени за района, консултация на място и ремонт от 30 €.'}
-              </p>
-              <span className="mt-4 font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
-            </div>
-          </a>
+          {getOrderedServiceEntries(services).map((entry) => {
+            if (entry.kind === 'delivery') {
+              return (
+                <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline">
+                  <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
+                    <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} loading="lazy" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h2 className="mb-2 text-xl font-bold text-slate-900">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h2>
+                    <p className="flex-1 text-sm leading-6 text-slate-600">{language === 'ru' ? 'Бесплатная доставка в Солнечном Береге, понятные тарифы по региону, консультация на объекте и ремонт от 30 €.' : language === 'en' ? 'Free delivery in Sunny Beach, clear local delivery rates, an on-site consultation and repairs from €30.' : 'Безплатна доставка в Слънчев бряг, ясни цени за района, консултация на място и ремонт от 30 €.'}</p>
+                    <span className="mt-4 font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
+                  </div>
+                </a>
+              )
+            }
+            const service = entry.service
+            return (
+              <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline">
+                <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
+                  {service.imageUrl ? <img src={service.imageUrl} alt={String(localize(service, 'name') || '')} loading="lazy" className="h-full w-full object-cover" /> : <span className="p-4 text-center font-semibold text-slate-700">{localize(service, 'name')}</span>}
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h2 className="mb-2 text-xl font-bold text-slate-900">{localize(service, 'name')}</h2>
+                  <p className="flex-1 text-sm leading-6 text-slate-600">{localize(service, 'shortDescription')}</p>
+                  <span className="mt-4 font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
+                </div>
+              </a>
+            )
+          })}
         </div>
       </section>
 
