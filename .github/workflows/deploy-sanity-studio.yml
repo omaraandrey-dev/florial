@@ -39,24 +39,14 @@ jobs:
       - name: Deploy irrigation and services schema from GitHub
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity schema deploy --workspace florial-admin --verbose
+        run: npx sanity@latest schemas deploy --workspace florial-admin --verbose
 
       - name: Deploy plants schema from GitHub
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity schema deploy --workspace plants --verbose
+        run: npx sanity@latest schemas deploy --workspace plants --verbose
 
-      - name: Deploy the canonical Florial Studio configured in GitHub
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity deploy --yes --schema-required
-
-      - name: Remove the obsolete duplicate catalog Studio
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity undeploy hviai8hravffsm8kiqzze6sb --yes
-
-      - name: Remove the separate plants Studio now covered by the canonical workspace
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity undeploy g1957r1p52277jhtc60dlgi5 --yes
+      # The existing Sanity Studio applications do not expose their hosted hostname
+      # through the available project API. Do not run interactive deploy/undeploy commands
+      # here: the CLI may exit 0 without deploying when it reaches a hostname prompt.
+      # Keep all registered apps intact until the canonical hosted URL is verified.
