@@ -2,9 +2,10 @@
 
 - Проверены фактические схемы Sanity по точным schemaId. В проекте зарегистрированы два workspace для каталога/услуг (default и florial-admin), три Studio-приложения, а также legacy schema records и записи MCP-managed.
 - Корневая причина повторяющегося рассогласования: workflow сообщал об успехе шага Studio deployment, хотя команда npx sanity deploy --no-prompt в установленном CLI открывала интерактивный выбор hostname. Лог доходил до выбора приложения, но не подтверждал реальную загрузку Studio.
-- Workflow теперь использует явное развёртывание схем через npx sanity schemas deploy --workspace ... --verbose и требует точный hostname существующей Studio. Отсутствующий hostname приводит к явной ошибке вместо случайного создания новой Studio.
-- После успешного обновления канонической Studio workflow удалит только устаревшее дублирующее приложение hviai8hravffsm8kiqzze6sb; основной app ID owtr7mlnn6xm33qah9z2wop6 и приложение растений сохраняются. Данные Content Lake не удаляются.
-- Для завершения публикации нужно задать GitHub Actions repository variable SANITY_STUDIO_HOST точным существующим hostname канонической Studio. НЕ ИЗВЕСТНО — точное имя hosted hostname не возвращается доступными данными проекта, поэтому оно намеренно не выдумано.
+- Исправлена команда схемы на синтаксис установленного Sanity CLI v3: `npx sanity schema deploy --workspace ... --verbose` (единственное число `schema`).
+- Studio разворачивается с app ID `owtr7mlnn6xm33qah9z2wop6`, уже указанным в `studio/sanity.cli.ts`; hostname не угадывается и отдельная новая каноническая Studio не создаётся.
+- После успешного deployment workflow удаляет дублирующее приложение каталога `hviai8hravffsm8kiqzze6sb` и отдельное приложение растений `g1957r1p52277jhtc60dlgi5`, потому что workspace `plants` включён в каноническую Studio. Данные Content Lake не удаляются.
+- Убрана зависимость от `SANITY_STUDIO_HOST`: для этой Studio используется существующий `appId` из конфигурации репозитория.
 - До подтверждения следующего workflow нельзя считать схему полностью синхронизированной. После запуска проверить service.translations, serviceContentBlock.translations, тип поля service.slug и оба workspace; не мигрировать значения slug без отдельной проверки совместимости.
 
 ## 2026-10-29 — Единый CLI для развёртывания схемы
