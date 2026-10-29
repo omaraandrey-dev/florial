@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useI18n, type Language } from '../lib/i18n'
+import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { blogSlug, blogTranslation, fetchBlogPosts, type BlogPost } from '../lib/blog'
 import type {
@@ -299,11 +300,21 @@ export function Header({
                   <a href={localizedHref('/services', language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}
                   </a>
-                  {services.map((service) => (
-                    <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateService(service.slug?.current, service._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
-                      {localize(service, 'name') || service.name}
-                    </a>
-                  ))}
+                  {getOrderedServiceEntries(services).map((entry) => {
+                    if (entry.kind === 'delivery') {
+                      return (
+                        <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
+                          {language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}
+                        </a>
+                      )
+                    }
+                    const service = entry.service
+                    return (
+                      <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateService(service.slug?.current, service._id) })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
+                        {localize(service, 'name') || service.name}
+                      </a>
+                    )
+                  })}
                 </div>
               )}
             </div>
