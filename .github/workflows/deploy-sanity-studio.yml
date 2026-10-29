@@ -36,13 +36,13 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      # Use JSON mode in CI so interactive app selection cannot leave the
-      # workflow green without a completed deployment.
+      # Use the CLI installed from studio/package.json. A separately fetched
+      # Sanity v4 CLI still opened an interactive selector despite --url.
       - name: Deploy canonical multi-workspace Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           CI: "true"
-        run: npx sanity@4 deploy --url florial-admin-bg --yes --schema-required --json
+        run: npm exec -- sanity deploy --url florial-admin-bg --yes --schema-required --json
 
       # Duplicate app registrations are intentionally not removed by this
       # workflow: CLI undeploy attempts against their app IDs reported
