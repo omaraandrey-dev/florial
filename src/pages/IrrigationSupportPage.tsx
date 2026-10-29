@@ -187,6 +187,13 @@ export function IrrigationSupportPage() {
 
   return (
     <main className="flex-grow bg-[#FAFBF7]">
+      <nav aria-label="Breadcrumb" className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-2 px-4 pt-5 text-sm text-slate-500 sm:px-6 lg:px-8">
+        <a href={localizedHref('/', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}</a>
+        <span aria-hidden="true">/</span>
+        <a href={localizedHref('/services', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page" className="font-medium text-slate-700">{text.title}</span>
+      </nav>
       <section className="relative overflow-hidden bg-gradient-to-br from-[#F0F3E8] via-white to-[#E6ECD8]">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:py-20 lg:px-8">
           <div>
