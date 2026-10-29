@@ -40,45 +40,4 @@ jobs:
         working-directory: studio
         run: npm run build
 
-  deploy-existing-studio:
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/feature/florial-blog') || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'feature/florial-blog')
-    needs: validate
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install Studio dependencies
-        working-directory: studio
-        run: npm install
-      - name: Deploy schema to existing Florial workspaces
-        working-directory: studio
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: |
-          test -n "$SANITY_AUTH_TOKEN" || (echo "Missing GitHub Actions secret SANITY_AUTH_TOKEN; Studio deployment was not attempted." && exit 1)
-          npx sanity schema deploy --workspace florial-admin
-          npx sanity schema deploy --workspace plants
-      - name: Deploy existing hosted Studio app
-        working-directory: studio
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity deploy --yes
-      - name: Install website dependencies for the importer
-        run: npm install
-      - name: Prepare article bodies and upload source images
-        env:
-          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
-        run: node scripts/blog-migration/prepare-from-source.mjs
-      - name: Validate all prepared articles before writing documents
-        env:
-          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
-        run: node scripts/blog-migration/import-blog-posts.mjs
-      - name: Import and publish blog articles
-        env:
-          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
-        run: node scripts/blog-migration/import-blog-posts.mjs --write --confirm-production-write --publish
+# Deployment and production content writes are handled only by deploy-sanity-studio.yml.
