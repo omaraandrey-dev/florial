@@ -49,13 +49,11 @@
 - Hosted Studio removal does not delete Sanity datasets or Content Lake documents. No catalog, service, plant, order, or customer documents are intentionally modified by this workflow.
 - Final completion is conditional on the latest GitHub Actions result and a fresh Sanity API check confirming one remaining app and the expected active schema fields. Do not treat the workflow's success alone as proof of schema synchronization.
 
-## Unreleased — First-party analytics
-- Add `public.site_events` migration draft with strict event/language constraints, service-role-only table privileges, RLS enabled, and timestamp/event indexes.
-- Add `POST /api/track` with an allowlist, request body size limit, and server-side Supabase credentials; the handler does not log event payloads or request metadata.
-- Add a client tracking helper using `sendBeacon` with a `fetch(keepalive)` fallback; analytics failures do not interrupt site actions.
-- Track distinct route/language page views and phone/WhatsApp clicks in the footer, contacts page, and irrigation delivery/support page.
-- Add an SQL report and unpublished BG/RU/EN privacy notice draft.
-- The migration has not been applied to Supabase. Cloudflare production variables, rate limiting, deployment, and live event insertion remain to be verified.
+## 2026-10-29 — Enable first-party analytics storage
+- Applied the `site_events` schema to the production Supabase project `florial-shop` using the reviewed migration: event types and languages are constrained, page paths are limited to 200 characters, and indexes support time/event reports.
+- Enabled RLS and confirmed that `anon` and `authenticated` cannot read or write analytics events; `service_role` can insert events for the server-side `/api/track` function.
+- Confirmed the Cloudflare Pages production configuration has `SUPABASE_URL` pointing to the intended Supabase project and that `SUPABASE_SERVICE_ROLE_KEY` is configured. Secret values were not displayed.
+- Existing first-party client tracking, `/api/track`, SQL reporting query, and unpublished BG/RU/EN privacy draft remain in place. A live POST from the public site and rate-limit configuration are still pending verification.
 ## Unreleased — Repair Sanity schema deployment for service translations
 - Update the existing Studio workflow to deploy the `florial-admin` schema and the existing Florial Studio application after a successful build on changes to `studio/**`.
 - Fail clearly when `SANITY_AUTH_TOKEN` is not configured; do not create a new Studio or workspace.
