@@ -1,3 +1,11 @@
+## 2026-10-29 — Sanity Studio: устранение ложноположительного деплоя
+
+- В run `40828538433` сборка прошла, но CLI v4 показал интерактивный выбор hostname; в CI это не приводило к фактической загрузке Studio, хотя workflow получил статус success.
+- Исправлен `.github/workflows/deploy-sanity-studio.yml`: deployment задаёт существующий hostname явно (`--url florial-admin-bg`).
+- Убраны шаги `undeploy`, которые завершались `Nothing to undeploy` и не удаляли записи из Sanity Manage. Очистка приложений считается завершённой только после проверки списка Studios.
+- Целевой вариант — существующая Studio `Florial — Каталог и настройки` с двумя workspace: `florial-admin` (dataset `production`) и `plants` (dataset `plants`). Не создавать новые datasets и не удалять документы.
+- Каталог, растения, услуги, переводы, медиа и заказы в этой операции не изменялись. Следующий шаг — проверить новый запуск и фактические активные схемы.
+
 ## Unreleased — Consolidate Sanity Studio and schema deployment
 - Verified that the latest schema-only workflow run completed successfully but wrote legacy schema records (`_.schemas.florial-admin` and `_.schemas.plants`); it did not update the active Studio-deployed schema snapshots.
 - Updated `.github/workflows/deploy-sanity-studio.yml` to build the existing multi-workspace Studio, deploy the canonical app identified by `studio/sanity.cli.ts` using the current Sanity CLI, and only after successful deployment undeploy the two verified duplicate hosted app IDs.
