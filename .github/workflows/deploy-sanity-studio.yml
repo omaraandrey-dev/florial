@@ -36,13 +36,14 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      # Use the CLI installed from studio/package.json. A separately fetched
-      # Sanity v4 CLI still opened an interactive selector despite --url.
+      # The Sanity CLI ignores --url for the existing-app selector in CI.
+      # A pseudo-terminal selects the only existing Studio (one item below
+      # "Create new studio hostname"); it never selects creating a new app.
       - name: Deploy canonical multi-workspace Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           CI: "true"
-        run: npm exec -- sanity deploy --url florial-admin-bg --yes --schema-required --json
+        run: printf '\033[B\n' | script -qec 'npm exec -- sanity deploy --url florial-admin-bg --yes --schema-required --json' /dev/null
 
       # Duplicate app registrations are intentionally not removed by this
       # workflow: CLI undeploy attempts against their app IDs reported
