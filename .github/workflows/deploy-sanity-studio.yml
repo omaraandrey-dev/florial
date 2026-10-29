@@ -36,22 +36,16 @@ jobs:
       - name: Validate and build both Studio workspaces
         run: npm run build
 
-      # CLI v6 refuses the current React 18 dependencies. CLI v4 supports
-      # React 18 and is used to deploy the existing app ID without a major
-      # dependency migration. If deployment fails, cleanup steps are skipped.
+      # Use the existing canonical hostname explicitly. Without --url the CLI
+      # opens an interactive hostname picker; in CI this can exit without
+      # deploying while the job incorrectly appears successful.
       - name: Deploy canonical multi-workspace Studio
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@4 deploy --yes --schema-required
+        run: npx sanity@4 deploy --url florial-admin-bg --yes --schema-required
 
-      # Remove only verified duplicate app IDs after canonical deploy succeeds.
-      # Hosted Studio removal does not delete datasets or Content Lake documents.
-      - name: Remove duplicate irrigation Studio
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@4 undeploy hviai8hravffsm8kiqzze6sb --yes
-
-      - name: Remove duplicate plants Studio
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: npx sanity@4 undeploy g1957r1p52277jhtc60dlgi5 --yes
+      # Duplicate app registrations are intentionally not removed by this
+      # workflow: CLI undeploy attempts against their app IDs reported
+      # "Nothing to undeploy" and did not remove dashboard registrations.
+      # Remove those exact entries through Sanity Manage after verifying the
+      # canonical hosted Studio and both workspaces.
