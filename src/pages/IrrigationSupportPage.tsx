@@ -195,7 +195,7 @@ export function IrrigationSupportPage() {
             <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">{text.intro}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a href={catalogHref} className="inline-flex items-center justify-center rounded-xl bg-[#647746] px-6 py-3.5 text-center font-bold text-white no-underline shadow-sm transition hover:bg-[#53643A]">{text.catalog} <span className="ml-2" aria-hidden="true">→</span></a>
-              <a href={whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl border border-[#B8C59F] bg-white px-6 py-3.5 text-center font-bold text-[#53643A] no-underline transition hover:bg-[#F3F5ED]">{text.consult}</a>
+              <a href={whatsapp} onClick={() => trackEvent('chat_click', language, window.location.pathname)} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl border border-[#B8C59F] bg-white px-6 py-3.5 text-center font-bold text-[#53643A] no-underline transition hover:bg-[#F3F5ED]">{text.consult}</a>
             </div>
             <p className="mt-4 text-xs leading-5 text-slate-500">{text.note}</p>
           </div>
@@ -244,7 +244,7 @@ export function IrrigationSupportPage() {
           <div>
             <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.repairTitle}</h2>
             <p className="mt-4 max-w-3xl leading-7 text-slate-700">{text.repairText}</p>
-            <a href={phoneHref} className="mt-6 inline-flex rounded-xl bg-[#647746] px-6 py-3.5 font-bold text-white no-underline transition hover:bg-[#53643A]">{phone}</a>
+            <a href={phoneHref} onClick={() => trackEvent(language === 'bg' ? 'call_bg' : 'call_en_ru', language, window.location.pathname)} className="mt-6 inline-flex rounded-xl bg-[#647746] px-6 py-3.5 font-bold text-white no-underline transition hover:bg-[#53643A]">{phone}</a>
           </div>
           <figure className="overflow-hidden rounded-2xl border border-[#DCE4CE] bg-white shadow-sm">
             <img src="https://cdn.sanity.io/images/bxvcy0qs/production/ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022.png" alt={text.repairTitle} loading="lazy" className="h-72 w-full object-cover" />
