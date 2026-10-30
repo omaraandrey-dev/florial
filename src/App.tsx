@@ -732,11 +732,26 @@ export default function App() {
 
   // Не показываем в навигации пустые категории; документы Sanity при этом не удаляются.
   const visibleCategories = useMemo(() => {
-    return categories.filter((category) => category.slug?.current !== 'electromagnetic-valves').filter((category) =>
-      products.some((product) =>
-        product.categoryId === category._id ||
-        product.categories?.some((item: any) => item._id === category._id)
-      )
+    // Keep a category visible when it or any descendant contains a product.
+    const byId = new Map(categories.map((item) => [item._id, item]))
+    const visibleIds = new Set<string>()
+    products.forEach((product) => {
+      const assignedIds = [
+        product.categoryId,
+        ...(product.categories || []).map((item: any) => item?._id),
+      ].filter((id): id is string => Boolean(id))
+      assignedIds.forEach((id) => {
+        let current = byId.get(id)
+        const visited = new Set<string>()
+        while (current && !visited.has(current._id)) {
+          visited.add(current._id)
+          visibleIds.add(current._id)
+          current = current.parentId ? byId.get(current.parentId) : undefined
+        }
+      })
+    })
+    return categories.filter((category) =>
+      category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
     )
   }, [categories, products])
 

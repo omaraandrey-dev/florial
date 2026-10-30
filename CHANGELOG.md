@@ -1,3 +1,9 @@
+## 2026-10-30 — Поддержка вложенных категорий любой глубины
+
+- В src/App.tsx видимость категорий теперь вычисляется с подъёмом от назначенных товаров по всей цепочке родителей; категории с товарами в потомках не исчезают из каталога.
+- В src/pages/CategoryPage.tsx вложенные категории выводятся рекурсивно; на странице категории в первую очередь показываются её собственные дочерние ветки, а для конечной категории сохраняются ссылки на соседние категории.
+- Изменения ограничены отображением дерева каталога; документы Sanity и общие элементы сайта не изменялись.
+
 ## 2026-10-29 — Restore additional image-and-text blocks on service pages
 - Render regular Sanity `contentBlocks` with an image, title and/or text at the bottom of the service page, after the existing call-to-action section.
 - Respect each block's image position and Bulgarian/Russian/English title and text fields; retain localized image alt text and responsive layout.
