@@ -76,15 +76,15 @@ export function CategoryPage({
 
   // Подкатегории берём из дерева категорий Sanity, а не создаём локальные фильтры.
   const subCategories = useMemo(() => {
-    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
-    // На странице подкатегории показываем соседние подкатегории того же родителя.
-    const linkGroupId = category.parentId && category.parentId !== catalogRoot?._id
-      ? category.parentId
-      : category._id
-    return visibleCategories
-      .filter((item) => item.parentId === linkGroupId && item._id !== category._id)
-      .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
-  }, [allCategories, visibleCategories, category._id, category.parentId, language])
+    // Prefer this category's own children; for a leaf, retain sibling shortcuts.
+    const children = visibleCategories.filter((item) => item.parentId === category._id)
+    const candidates = children.length > 0
+      ? children
+      : visibleCategories.filter((item) => item.parentId === category.parentId && item._id !== category._id)
+    return candidates.sort((a, b) =>
+      (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)
+    )
+  }, [visibleCategories, category._id, category.parentId, language])
 
   const catalogGroups = useMemo(() => {
     if (!isIrrigationCatalog) return []
@@ -104,6 +104,29 @@ export function CategoryPage({
       return (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)
     })
   }, [isIrrigationCatalog, subCategories, language])
+
+  const renderCategoryBranch = (parentId: string, depth = 0): React.ReactNode => {
+    const children = visibleCategories
+      .filter((item) => item.parentId === parentId)
+      .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
+    if (children.length === 0) return null
+    return (
+      <div className={depth === 0 ? 'mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4' : 'ml-4 mt-2 flex flex-wrap gap-2 border-l border-[#E2E6D8] pl-3'}>
+        {children.map((child) => (
+          <div key={child._id} className="min-w-0">
+            <a
+              href={localizedHref(`/category/${encodeURIComponent(child.slug?.current || child._id)}`, language)}
+              onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(child.slug?.current, child._id))}
+              className="inline-flex rounded-full border border-[#DDE3D0] bg-[#F7F8F1] px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#EEF1E4]"
+            >
+              {localize(child, 'name')} →
+            </a>
+            {renderCategoryBranch(child._id, depth + 1)}
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   const displayedProducts = useMemo(() => [...products].sort((a, b) =>
     String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
@@ -167,15 +190,7 @@ export function CategoryPage({
                     <span className="mt-1 inline-block text-sm font-semibold text-[#647746]">{language === 'ru' ? 'Открыть категорию' : language === 'en' ? 'Open category' : 'Разгледай категорията'} →</span>
                   </div>
                 </a>
-                {children.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
-                    {children.map((child) => (
-                      <a key={child._id} href={localizedHref(`/category/${encodeURIComponent(child.slug?.current || child._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(child.slug?.current, child._id))} className="rounded-full border border-[#DDE3D0] bg-[#F7F8F1] px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#EEF1E4]">
-                        {localize(child, 'name')} →
-                      </a>
-                    ))}
-                  </div>
-                )}
+                {children.length > 0 && renderCategoryBranch(group._id)}
               </section>
             )
           })}
