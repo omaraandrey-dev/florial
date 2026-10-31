@@ -4,6 +4,7 @@ import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
+import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
 
 interface ProductPageProps {
   product: Product
@@ -413,6 +414,8 @@ export function ProductPage({
           </div>
         </section>
       )}
+
+      <ValveServiceCrosslink product={product} language={language} />
 
       {/* Често купувани заедно — редактират се чрез relatedProducts в Sanity */}
       {product.relatedProducts && product.relatedProducts.length > 0 && (
