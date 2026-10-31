@@ -342,6 +342,21 @@ export default function App() {
             "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
             "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
             shortDescription
+          },
+          "relatedContent": relatedContent[]->{
+            _id,
+            _type,
+            name,
+            title,
+            translations,
+            "slug": { "current": coalesce(slug.current, slug) },
+            shortDescription,
+            isActive,
+            isPublished,
+            "imageUrl": coalesce(image.asset->url, cover.asset->url, hero.image.asset->url),
+            "imageAlt": coalesce(image.alt, cover.alt, name, translations.bg.title, title),
+            "imageAltEn": coalesce(image.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+            "imageAltRu": coalesce(image.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
           }
         }
       `

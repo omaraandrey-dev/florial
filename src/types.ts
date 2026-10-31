@@ -16,6 +16,22 @@ export interface CartItem {
   product: Product
   quantity: number
 }
+export interface RelatedContentItem {
+  _id: string
+  _type: 'service' | 'blogPost'
+  name?: string
+  title?: string
+  slug?: { current: string }
+  shortDescription?: string
+  translations?: Record<string, Record<string, any>>
+  imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+  isActive?: boolean
+  isPublished?: boolean
+}
+
 export interface Product {
   categoryTranslations?: Record<string, any>
   translations?: Record<string, Record<string, any>>
@@ -49,6 +65,7 @@ export interface Product {
   documents?: Array<{ title: string; fileUrl: string }>
   compatibleProducts?: Product[]
   relatedProducts?: Product[]
+  relatedContent?: RelatedContentItem[]
 }
 
 export interface ServiceContentBlock {
