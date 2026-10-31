@@ -1,3 +1,9 @@
+## 2026-10-31 — Solenoid valve service article with linked product images
+- Extended blog article image blocks with an optional internal link destination; linked images remain responsive and preserve their localized alt text and captions.
+- Added the optional `linkUrl` field to the existing blog Portable Text image schema. Existing image blocks remain valid and unchanged.
+- Added the Florial solenoid-valve installation, repair, cleaning and replacement article in BG/RU/EN, with localized SEO, regional search context, product image links and an internal link to the general irrigation maintenance service.
+- No header, navigation, footer, product documents, order data or existing articles were changed.
+
 ## 2026-10-30 — Поддержка вложенных категорий любой глубины
 
 - В src/App.tsx видимость категорий теперь вычисляется с подъёмом от назначенных товаров по всей цепочке родителей; категории с товарами в потомках не исчезают из каталога.
