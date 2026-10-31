@@ -11,6 +11,7 @@ export type BlogTextBlock = {
   assetUrl?: string
   alt?: string
   caption?: string
+  linkUrl?: string
   url?: string
   title?: string
 }
