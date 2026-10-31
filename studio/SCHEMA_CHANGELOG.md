@@ -1,3 +1,8 @@
+## 2026-10-31 — Linked product images in blog articles
+- Added optional `linkUrl` to image blocks inside localized `blogPost.translations.*.body` Portable Text arrays.
+- The field enables an article image to link directly to a matching product or internal service page; it is optional and backward-compatible with existing content.
+- No existing Sanity documents were migrated or overwritten.
+
 ## 2026-10-29 — Исправление детерминированного деплоя Studio
 
 - По логам run `40828538433` подтверждено: сборка обоих workspace завершилась успешно, но команда `npx sanity@4 deploy --yes --schema-required` открыла интерактивный выбор hostname и не выполнила реальный deploy. Команды `undeploy` для двух app ID завершились `Nothing to undeploy`; записи Studio в Sanity Manage остались.
