@@ -417,8 +417,6 @@ export function ProductPage({
 
       <ValveServiceCrosslink product={product} language={language} />
 
-      <ValveServiceCrosslink product={product} language={language} />
-
       {/* Често купувани заедно — редактират се чрез relatedProducts в Sanity */}
       {product.relatedProducts && product.relatedProducts.length > 0 && (
         <section className="mb-12">
