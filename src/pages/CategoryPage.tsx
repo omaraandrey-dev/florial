@@ -74,17 +74,15 @@ export function CategoryPage({
     })
   }, [category, allCategories, language, localize, t])
 
-  // Подкатегории берём из дерева категорий Sanity, а не создаём локальные фильтры.
+  // Показываем только непосредственные дочерние категории текущей категории.
+  // Для конечной категории не подставляем соседние разделы каталога.
   const subCategories = useMemo(() => {
-    // Prefer this category's own children; for a leaf, retain sibling shortcuts.
-    const children = visibleCategories.filter((item) => item.parentId === category._id)
-    const candidates = children.length > 0
-      ? children
-      : visibleCategories.filter((item) => item.parentId === category.parentId && item._id !== category._id)
-    return candidates.sort((a, b) =>
-      (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)
-    )
-  }, [visibleCategories, category._id, category.parentId, language])
+    return visibleCategories
+      .filter((item) => item.parentId === category._id)
+      .sort((a, b) =>
+        (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language)
+      )
+  }, [visibleCategories, category._id, language])
 
   const catalogGroups = useMemo(() => {
     if (!isIrrigationCatalog) return []
