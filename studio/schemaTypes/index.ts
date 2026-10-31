@@ -177,6 +177,13 @@ const irrigationProduct = defineType({
     defineField({name: 'manualPDF', title: 'Инструкция / PDF', type: 'file', options: {accept: '.pdf'}}),
     defineField({name: 'catalogPDF', title: 'Каталог / PDF', type: 'file', options: {accept: '.pdf'}}),
     defineField({name: 'relatedProducts', title: 'Свързани продукти', type: 'array', of: [{type: 'reference', to: [{type: 'product'}]}]}),
+    defineField({
+      name: 'relatedContent',
+      title: 'Свързани услуги и материали',
+      description: 'Изберете активни услуги на Florial и публикувани статии, свързани с продукта.',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'service'}, {type: 'blogPost'}]}],
+    }),
     defineField({name: 'isFeatured', title: 'Препоръчан продукт', type: 'boolean'}),
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
