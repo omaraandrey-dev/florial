@@ -11,6 +11,7 @@ export default defineCliConfig({
     dataset: 'production',
   },
   deployment: {
-    appId: 'owtr7mlnn6xm33qah9z2wop6',
+    // Verified against the single Studio application currently registered in Sanity.
+    appId: 'fdy0ldwl717qtp5pikl7715l',
   },
 })
