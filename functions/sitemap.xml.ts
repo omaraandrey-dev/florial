@@ -112,8 +112,8 @@ function xmlResponse(urls: Map<string, string | undefined>): Response {
     const alternateLinks = alternate
       ? [
           ['bg', alternate.bg],
-          ...(alternate.ru ? [['ru', alternate.ru] : []),
-          ...(alternate.en ? [['en', alternate.en] : []),
+          ...(alternate.ru ? [['ru', alternate.ru]] : []),
+          ...(alternate.en ? [['en', alternate.en]] : []),
           ['x-default', alternate.bg],
         ].map(([language, href]) =>
           '\n    <xhtml:link rel="alternate" hreflang="' + language + '" href="' + escapeXml(href) + '" />',
