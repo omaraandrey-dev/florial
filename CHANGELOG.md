@@ -1,3 +1,11 @@
+## 2026-10-31 — Sitemap: indexability and multilingual URL accuracy
+
+- Exclude catalog documents when their Bulgarian/global SEO setting has `noIndex: true`.
+- Include RU/EN product, category, service and plant URLs only when the translation exists and that language's SEO setting does not disable indexing.
+- Include blog translations only when title, short description, body, SEO title and SEO description are present.
+- Add `lastmod` and hreflang alternates only for localized URLs included in the sitemap.
+- Sitemap remains dynamic from Sanity `production` and `plants`. No Sanity/Supabase data, header, menu, footer or store structure changed.
+
 ## 2026-10-31 — Связанные услуги и статьи на карточках товаров
 
 - В схему товара добавлено отдельное поле Sanity «Свързани услуги и материали» с reference-ссылками на типы `service` и `blogPost`.
