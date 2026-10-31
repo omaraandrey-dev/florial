@@ -1,3 +1,10 @@
+## 2026-10-31 — Complete RU/EN translations for irrigation kits and category
+
+- Published complete Russian and English localizations for the 13 irrigation products that previously had no translated product names: localized names, short descriptions, full product descriptions, kit contents, component quantities, installation notes, water-flow/pressure requirements where present, and SEO titles, descriptions and keywords.
+- Published Russian and English localization for the category `Готови комплекти за автоматично поливане`, including category name, description and SEO metadata.
+- Preserved Bulgarian source content, product prices, VAT settings, images, slugs, product/category references and other existing fields. No schema, frontend, Supabase, header, menu or footer changes.
+- Verified that all 13 target products have RU/EN names, short descriptions, full descriptions and localized SEO title/description; verified that no equipment category is missing RU/EN names or descriptions.
+
 ## 2026-10-31 — Sitemap: indexability and multilingual URL accuracy
 
 - Exclude catalog documents when their Bulgarian/global SEO setting has `noIndex: true`.
