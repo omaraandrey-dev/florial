@@ -104,17 +104,16 @@ export function Header({
     setIsServicesOpen(false)
   }
 
-  const renderCategory = (category: CategoryItem, depth = 0): React.ReactNode => {
-    const children = categories.filter((item) => item.parentId === category._id)
-    return (
-      <div key={category._id} className={depth > 0 ? 'ml-4 border-l border-emerald-100 pl-3' : ''}>
-        <a href={localizedHref('/category/' + encodeURIComponent(category.slug?.current || category._id), language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })} className={'block w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-emerald-50 hover:text-emerald-800 no-underline ' + (depth === 0 ? 'text-sm font-medium text-slate-700' : 'text-sm text-slate-600')}>
-          {localize(category, 'name') || category.name}
-        </a>
-        {children.map((child) => renderCategory(child, depth + 1))}
-      </div>
-    )
-  }
+  const renderCategory = (category: CategoryItem): React.ReactNode => (
+    <a
+      key={category._id}
+      href={localizedHref('/category/' + encodeURIComponent(category.slug?.current || category._id), language)}
+      onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory(category.slug?.current, category._id) })}
+      className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline"
+    >
+      {localize(category, 'name') || category.name}
+    </a>
+  )
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
@@ -275,8 +274,8 @@ export function Header({
                     {t('Цялото оборудване за поливане')}
                   </a>
                   {categories
-                    .filter((category) => category.slug?.current !== 'vsichko-za-polivane')
-                    .filter((category) => !category.parentId || category.parentId === categories.find((item) => item.slug?.current === 'vsichko-za-polivane')?._id)
+                    .filter((category) => category.parentId === categories.find((item) => item.slug?.current === 'vsichko-za-polivane')?._id)
+                    .filter((category) => !category.isPlantCategory)
                     .sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg'))
                     .map((category) => renderCategory(category))}
                 </div>
