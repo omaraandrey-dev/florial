@@ -5,6 +5,7 @@ import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
+import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
 
 interface ProductPageProps {
   product: Product
@@ -414,6 +415,8 @@ export function ProductPage({
           </div>
         </section>
       )}
+
+      <ValveServiceCrosslink product={product} language={language} />
 
       <ValveServiceCrosslink product={product} language={language} />
 
