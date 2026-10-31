@@ -52,6 +52,12 @@ export function ProductPage({
     )
     .filter((image, index, list) => list.findIndex((candidate) => candidate.url === image.url) === index)
 
+  const relatedContentItems = (product.relatedContent || [])
+    .filter((item) => item.slug?.current && (
+      item._type === 'service' ? item.isActive !== false : item.isPublished === true
+    ))
+    .slice(0, 4)
+
   const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
     const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
     const productName = String(localize(product, 'name') || product.name)
@@ -415,7 +421,59 @@ export function ProductPage({
         </section>
       )}
 
-      <ValveServiceCrosslink product={product} language={language} />
+      {relatedContentItems.length > 0 ? (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-slate-900 mb-6">
+            {language === 'ru' ? 'Полезные материалы и услуги' : language === 'en' ? 'Useful resources and services' : 'Полезни материали и услуги'}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {relatedContentItems.map((item) => {
+              const itemTitle = item._type === 'blogPost'
+                ? (item.translations?.[language]?.title || item.translations?.bg?.title || item.title || '')
+                : (item.translations?.[language]?.name || item.name || '')
+              const itemDescription = item.translations?.[language]?.shortDescription
+                || item.translations?.bg?.shortDescription
+                || item.shortDescription
+              const itemImageAlt = language === 'ru'
+                ? (item.imageAltRu || item.imageAlt || itemTitle)
+                : language === 'en'
+                  ? (item.imageAltEn || item.imageAlt || itemTitle)
+                  : (item.imageAlt || itemTitle)
+              const itemHref = item._type === 'service'
+                ? `/services/${encodeURIComponent(item.slug!.current)}`
+                : `/blog/${encodeURIComponent(item.slug!.current)}`
+
+              return (
+                <a
+                  key={item._id}
+                  href={localizedHref(itemHref, language)}
+                  className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition no-underline"
+                >
+                  {item.imageUrl ? (
+                    <img src={item.imageUrl} alt={itemImageAlt} title={itemImageAlt} className="h-40 w-full object-cover" loading="lazy" />
+                  ) : (
+                    <div className="h-40 bg-slate-100" />
+                  )}
+                  <div className="p-4">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                      {item._type === 'service'
+                        ? (language === 'ru' ? 'Услуга Florial' : language === 'en' ? 'Florial service' : 'Услуга Florial')
+                        : (language === 'ru' ? 'Статья' : language === 'en' ? 'Article' : 'Статия')}
+                    </span>
+                    <h3 className="mt-2 font-bold text-slate-900 leading-snug group-hover:text-emerald-800">{itemTitle}</h3>
+                    {itemDescription && <p className="mt-2 text-sm text-slate-600 line-clamp-3">{itemDescription}</p>}
+                    <span className="mt-3 inline-block text-sm font-semibold text-emerald-700">
+                      {language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Read more →' : 'Научете повече →'}
+                    </span>
+                  </div>
+                </a>
+              )
+            })}
+          </div>
+        </section>
+      ) : (
+        <ValveServiceCrosslink product={product} language={language} />
+      )}
 
       {/* Често купувани заедно — редактират се чрез relatedProducts в Sanity */}
       {product.relatedProducts && product.relatedProducts.length > 0 && (
