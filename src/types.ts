@@ -30,6 +30,7 @@ export interface RelatedContentItem {
   imageAltRu?: string
   isActive?: boolean
   isPublished?: boolean
+  linkLabel?: string
 }
 
 export type PlantProductType =
@@ -86,6 +87,7 @@ export interface Product {
     irrigationType?: 'drip' | 'rotator' | 'root' | 'mist'
     productSlug?: string
   }
+  recommendedIrrigationProduct?: Product
   relatedContentBySlug?: Array<{
     contentType: 'service' | 'blogPost'
     slug: string
