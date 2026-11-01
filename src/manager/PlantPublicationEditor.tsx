@@ -236,6 +236,8 @@ export default function PlantPublicationEditor({
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
   const [careResearching, setCareResearching] = useState(false)
+  const [careDebug, setCareDebug] = useState('')
+  const [careDebugStatus, setCareDebugStatus] = useState<number | null>(null)
   const [careSuggestionDecisions, setCareSuggestionDecisions] = useState<Record<string, 'accepted' | 'rejected'>>({})
   const hasPublication = Boolean(submission.payload.publication)
   const plantCareResearch = submission.payload.plantCareResearch && typeof submission.payload.plantCareResearch === 'object' ? submission.payload.plantCareResearch as Record<string, unknown> : null
@@ -318,17 +320,36 @@ export default function PlantPublicationEditor({
   const researchPlantCare = async () => {
     if (!hasAiDraft || hasPublication || imageFiles.length === 0 || imagesLoading) return
     setCareResearching(true)
+    setCareDebug('')
+    setCareDebugStatus(null)
+    setError('')
     try {
-      const response = await fetch('/api/manager/enrich-plant-care', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() } }) })
-      const result = await response.json() as { error?: string; careDraft?: Record<string, unknown> }
-      if (!response.ok || !result.careDraft) throw new Error(result.error || 'Не удалось подготовить характеристики.')
-      const identity = result.careDraft.identity as Record<string, unknown> | undefined
+      const requestInfo = {
+        endpoint: '/api/manager/enrich-plant-care',
+        method: 'POST',
+        submissionId: submission.id,
+        reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() },
+        startedAt: new Date().toISOString(),
+      }
+      const response = await fetch(requestInfo.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: requestInfo.reviewInput }) })
+      const responseText = await response.text()
+      let result: Record<string, unknown>
+      try { result = JSON.parse(responseText) as Record<string, unknown> }
+      catch { result = { unparsedResponse: responseText } }
+      setCareDebugStatus(response.status)
+      setCareDebug(JSON.stringify({ request: requestInfo, response: { httpStatus: response.status, httpOk: response.ok, body: result } }, null, 2))
+      const careDraft = result.careDraft && typeof result.careDraft === 'object' ? result.careDraft as Record<string, unknown> : null
+      if (!response.ok || !careDraft) throw new Error(String(result.error || result.message || 'Сервер не вернул careDraft. Полный ответ показан ниже.'))
+      const identity = careDraft.identity as Record<string, unknown> | undefined
       setNotice(identity?.photoAssessment === 'mismatch'
         ? 'Внимание: фотография может не соответствовать названию продавца. Проверьте предложенное ботаническое имя и характеристики перед сохранением.'
-        : 'Проверка завершена. Сверьте название с фотографией и проверьте предложенные характеристики.')
+        : 'Проверка завершена. Технический ответ сервера показан ниже.')
       await onSaved()
-    } catch (err) { setError(err instanceof Error ? err.message : 'Ошибка проверки характеристик.') }
-    finally { setCareResearching(false) }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message)
+      setCareDebug((current) => current || JSON.stringify({ request: { endpoint: '/api/manager/enrich-plant-care', submissionId: submission.id }, clientError: message, note: 'Ответ HTTP не получен. Возможны ошибка сети, исключение Cloudflare или прерывание запроса.' }, null, 2))
+    } finally { setCareResearching(false) }
   }
 
   const removeImage = async (index: number) => {
@@ -536,6 +557,17 @@ export default function PlantPublicationEditor({
             <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
           </div>
         })()}
+      </div>
+      <div className="mt-3 rounded-xl border border-slate-300 bg-slate-50 p-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm font-semibold text-slate-800">Технический ответ ботанической проверки</p>
+          <div className="flex items-center gap-2">
+            {careDebugStatus !== null && <span className={careDebugStatus >= 200 && careDebugStatus < 300 ? 'text-xs font-semibold text-emerald-700' : 'text-xs font-semibold text-red-700'}>HTTP {careDebugStatus}</span>}
+            {careDebug && <button type="button" onClick={() => void navigator.clipboard?.writeText(careDebug)} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700">Копировать ответ</button>}
+          </div>
+        </div>
+        <p className="mt-1 text-xs text-slate-600">Временный диагностический блок: показывает параметры запроса без токена авторизации и полный JSON-ответ сервера, включая ошибку или результат AI/GBIF.</p>
+        {careDebug ? <pre className="mt-3 max-h-[560px] overflow-auto whitespace-pre-wrap break-words rounded-lg bg-slate-950 p-3 text-xs text-slate-100">{careDebug}</pre> : <p className="mt-2 text-xs text-slate-500">Нажмите «Проверить и предложить характеристики», чтобы увидеть ответ сервера.</p>}
       </div>
       {researchCareValues && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <h4 className="font-semibold text-amber-950">Предложени ботанически характеристики от AI</h4>
