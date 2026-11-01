@@ -239,3 +239,30 @@ API должен валидировать JSON по allowlist полей цел�
 - Sanity documents, schemas и assets не изменялись;
 - Cloudflare Pages и Secrets не изменялись;
 - production не развёртывался.
+
+
+## 16. Реализация первой версии — 01.11.2026
+
+Ветка `feature/florial-manager-architecture` содержит первую реализацию закрытого интерфейса приёмки растений:
+
+- `src/manager/ManagerApp.tsx`: мобильный экран входа, форма создания черновика растения, загрузка фотографий, список заявок, просмотр фотографий и истории, одобрение владельцем и возврат на исправление менеджером.
+- `src/main.tsx`: точное выделение маршрута `/manager` до монтирования публичного `App`; публичная оболочка не изменена.
+- `functions/api/manager/notify.ts`: серверная проверка bearer session, staff role и принадлежности заявки; отправка email владельцу через Resend; адрес берётся из `CATALOG_REVIEW_EMAIL` или fallback `ORDER_NOTIFICATION_EMAIL`.
+- `supabase/migrations/20261101080000_create_florial_manager.sql`: staff roles, submissions, audit events, RLS, RPC для возврата на исправление, private Storage bucket и политики.
+- `docs/FLORIAL_MANAGER_SETUP.md`: порядок первичного включения и тестирования.
+
+### Границы первой версии
+
+- Форма принимает новые растения и один вариант продажи; множественные варианты, выбор Sanity-категории по ID и предложения об изменении существующих опубликованных карточек ещё не реализованы.
+- Владелец может одобрить заявку, но автоматическая публикация в Sanity ещё не включена. Статус `approved` означает только решение владельца.
+- Роли хранятся в `catalog_staff_profiles`; первое назначение владельца/сотрудников выполняется вручную после создания Auth accounts.
+- Код использует текущие production server bindings; Preview secrets не добавляются и Preview не настраивается.
+
+### Фактический статус на момент коммита
+
+- Код и миграция добавлены только в feature branch; PR #38 остаётся Draft.
+- SQL migration не применялась к Supabase production.
+- Auth users/roles не создавались; Storage bucket не создавался в живом проекте.
+- Cloudflare production secrets/variables не менялись; Sanity documents и datasets не менялись.
+- Production deployment не запускался.
+- Supabase Auth provider/signup/redirect configuration остаётся **НЕ ИЗВЕСТНО — нужно уточнить**.
