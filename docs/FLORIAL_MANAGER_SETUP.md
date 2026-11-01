@@ -102,6 +102,6 @@
 ### Задължителна серверна настройка
 
 - Cloudflare Pages Production трябва да съдържа Secret `SANITY_API_TOKEN` с правомощия за запис в Sanity project `bxvcy0qs`, dataset `plants`.
-- Към 01.11.2026 binding липсва. Владелецът създава токен в Sanity и добавя го директно в Cloudflare Pages → Settings → Variables and Secrets → Production. Не изпращайте токен в чат и не записвайте в GitHub.
+- Проверка на Cloudflare Pages API към 01.11.2026: `SANITY_API_TOKEN` липсва сред Production bindings. Съществуващата Sanity административна връзка не се използва автоматично от Cloudflare runtime. Собственикът добавя отделен write token директно в Cloudflare Pages → Settings → Variables and Secrets → Production с име `SANITY_API_TOKEN`. Не изпращайте токена в чат и не го записвайте в GitHub.
 - Preview secrets не се добавят. До настройки Production Secret endpoint возвращает 503 и оставя заявката в `approved`.
 - Нова SQL migration и Sanity schema deployment не са необходими.
