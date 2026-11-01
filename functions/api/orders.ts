@@ -41,6 +41,7 @@ type SanityProduct = {
   sku?: string
   priceEUR?: number
   imageUrl?: string
+  _dataset?: 'production' | 'plants'
   saleVariants?: SanityVariant[]
 }
 
@@ -123,7 +124,7 @@ const createProformaPdf = async (order: ProformaOrder, fontUrl?: string): Promis
   }
   y -= 8
   draw('Продукти: ' + Number(order.subtotal).toFixed(2) + ' EUR', 10)
-  draw('Доставка: ' + Number(order.delivery_fee || 0).toFixed(2) + ' EUR', 10)
+  draw(order.delivery_method?.includes('уточняване') ? 'Доставка: ще бъде уточнена с Florial' : 'Доставка: ' + Number(order.delivery_fee || 0).toFixed(2) + ' EUR', 10)
   draw('ОБЩО: ' + (Number(order.subtotal) + Number(order.delivery_fee || 0)).toFixed(2) + ' EUR', 13, rgb(0.02, 0.39, 0.29))
   draw('Това е проформа / потвърждение на поръчка, а не данъчна фактура.', 8)
   draw('Разходите за доставка се потвърждават отделно, ако не са включени.', 8)
@@ -269,7 +270,7 @@ export const onRequestPost = async ({
     const response = await fetch(url.toString())
     if (!response.ok) throw new Error('Sanity catalog query failed')
     const result = (await response.json()) as { result?: SanityProduct[] }
-    return Array.isArray(result.result) ? result.result : []
+    return Array.isArray(result.result) ? result.result.map((product) => ({ ...product, _dataset: dataset })) : []
   })
 
   let products: SanityProduct[]
@@ -279,17 +280,21 @@ export const onRequestPost = async ({
     return json({ error: 'Не успяхме да проверим цените и вариантите в каталога. Моля, опитайте отново.' }, 502)
   }
 
-  const productMap = new Map(products.map((product) => [product._id, product]))
+  const productMap = new Map(products.map((product) => [product._dataset + '::' + product._id, product]))
   const hasPlantItems = requestedItems.some((item) => item.catalog === 'plants')
   if (hasPlantItems && deliveryMethodInput === 'courier') {
     return json({ error: 'За поръчки с растения доставката се уточнява индивидуално с Florial.' }, 400)
+  }
+
+  if (deliveryMethodInput === 'agree' && !hasPlantItems) {
+    return json({ error: 'Този начин на доставка е наличен само за поръчки с растения.' }, 400)
   }
 
   const orderItems: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string; catalog: string; variantKey?: string; variantName?: string; saleHeightCm?: number; containerVolumeL?: number }> = []
   let subtotal = 0
 
   for (const requested of requestedItems) {
-    const product = productMap.get(requested.productId)
+    const product = productMap.get(requested.catalog + '::' + requested.productId)
     if (!product) return json({ error: 'Един или повече продукти вече не са налични. Обновете количката и опитайте отново.' }, 409)
     let price = Number(product.priceEUR)
     let sku = cleanText(product.sku, 100)
@@ -327,7 +332,7 @@ export const onRequestPost = async ({
   const deliveryMethodLabel = deliveryMethodInput === 'pickup'
     ? 'Самовземане от магазин'
     : deliveryMethodInput === 'agree'
-      ? 'Доставка — уточнить с Florial'
+      ? 'Доставка — за уточняване с Florial'
       : 'Куриерска доставка — ' + city + ' (' + deliveryFee.toFixed(2) + ' EUR)'
   const grandTotal = Math.round((subtotal + deliveryFee + Number.EPSILON) * 100) / 100
   if (!Number.isFinite(subtotal) || subtotal > 10000000) {
