@@ -504,6 +504,10 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
   const path = url.pathname.replace(/\/+$/, '') || '/'
   const languageParam = url.searchParams.get('lang')
+
+  // The internal Manager is a separate SPA entry selected in src/main.tsx.
+  // Let Cloudflare Pages serve the SPA fallback for /manager instead of the public-site 404.
+  if (path === '/manager' || path.startsWith('/manager/')) return context.next()
   const language = languageParam === 'ru' || languageParam === 'en' ? languageParam : 'bg'
 
   if (
