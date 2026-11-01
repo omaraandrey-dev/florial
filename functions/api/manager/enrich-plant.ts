@@ -242,7 +242,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const sku = textValue(reviewInput.sku ?? payload.sku, 100)
     const sellerDescription = textValue(reviewInput.description ?? payload.description, 1200)
     const imageDescriptions: Array<{ bg: string; en: string; ru: string }> = []
-    for (let index = 0; index < images.length; index += 1) {
+    // Only the first selected photo (main image) is sent to Workers AI Vision.
+    // Other seller photos remain attached to the submission/product but are not analysed.
+    const imagesForAi = images.slice(0, 1)
+    for (let index = 0; index < imagesForAi.length; index += 1) {
       const image = images[index]
       imageIndex = index
       stage = 'download_image'
@@ -394,7 +397,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
         from_status: submission.status, to_status: submission.status,
         note: 'ИИ създаде чернова за текстове, alt и характеристики; чака проверка от собственика.',
-        metadata: { models: { vision: visionModel, text: textModel }, imageCount: images.length, scientificNameCandidateCount: scientificNameCandidates.length } }),
+        metadata: { models: { vision: visionModel, text: textModel }, imageCount: imagesForAi.length, totalSelectedImageCount: images.length, scientificNameCandidateCount: scientificNameCandidates.length } }),
     })
     return json({ ok: true, draft: publication })
   } catch (error) {
