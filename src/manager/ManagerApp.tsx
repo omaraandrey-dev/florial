@@ -330,8 +330,29 @@ export default function ManagerApp() {
     if (!potVolume.trim() || !Number.isFinite(Number(potVolume)) || Number(potVolume) <= 0) missing.push('положителен обем на контейнера')
     if (!stockQuantity.trim() || !Number.isInteger(quantity) || quantity < 0) missing.push('цяло количество (0 или повече)')
     if (missing.length) { setError('Не може да изпратите заявката. Попълнете задължителните данни: ' + missing.join(', ') + '.'); return }
+    const previousVariant = (selected?.payload?.saleVariants as Array<Record<string, unknown>> | undefined)?.[0] || {}
+    const submissionPayload = {
+      ...(selected?.payload || {}),
+      name: title.trim(),
+      latinName: latinName.trim(),
+      productType,
+      sku: sku.trim(),
+      categoryId: category,
+      categoryName: selectedCategory?.name || '',
+      description: description.trim(),
+      saleVariants: [{
+        _key: String(previousVariant._key || crypto.randomUUID()),
+        name: variantName.trim(),
+        saleHeightCm: Number(height),
+        containerVolumeL: Number(potVolume),
+        priceEUR: Number(price),
+        stockStatus,
+        stockQuantity: quantity,
+      }],
+    }
     setSaving(true); setError(''); setNotice('')
     const { error: updateError } = await supabase.from('catalog_submissions').update({
+      title: title.trim(), sku: sku.trim() || null, payload: submissionPayload,
       status: 'submitted', submitted_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', selectedId).in('status', ['draft', 'changes_requested'])
     if (updateError) {
