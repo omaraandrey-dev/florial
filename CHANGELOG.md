@@ -1,3 +1,15 @@
+## 2026-11-01 — Florial Manager: первая версия приёмки растений (feature branch)
+
+- Добавлен отдельный `/manager`, монтируемый до публичного App и без Header/Footer.
+- Реализован мобильный вход через Supabase Auth и проверка роли по серверно управляемой таблице `catalog_staff_profiles`.
+- Добавлена форма черновика растения с SKU, категорией, латинским названием, описанием, вариантом продажи, ценой EUR с ДДС, количеством, наличием и фотографиями.
+- Фотографии загружаются в закрытый Supabase Storage bucket; доступ к файлам ограничивается RLS и user UUID.
+- Добавлены таблицы заявок и audit history, политики RLS и RPC для возврата заявки на исправление.
+- Добавлена Cloudflare Pages Function для проверки сессии/роли и отправки email владельцу через существующий Resend binding.
+- Добавлена инструкция первичного включения `docs/FLORIAL_MANAGER_SETUP.md`.
+- Preview secrets не добавлялись. Существующие production bindings не менялись.
+- Миграция не применялась, Auth users/roles не создавались, Sanity не изменялся, production не публиковался. PR #38 остаётся Draft до ревью.
+
 ## 2026-11-01 — Plant checkout integration and verified production order flow
 
 - Merged PR #36 (`6bc3ee305cc1f50a23d3df036cf628af54704556`) to add plant sale variants to the shared cart while preserving the existing irrigation-equipment cart behavior.
