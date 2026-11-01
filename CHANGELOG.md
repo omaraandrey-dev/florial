@@ -1,3 +1,11 @@
+## 2026-11-01 — Reduce plant AI photo input and route Workflow to Pages project hostname
+
+- Both plant AI stages now send only the first selected photo (the main image) to Workers AI Vision. Additional seller photos remain preserved in the submission/product and are not sent for AI analysis.
+- Diagnostic metadata distinguishes the one image sent to AI from the total number of selected photos.
+- The background Workflow now calls the confirmed stable Pages project hostname `https://florial.pages.dev` instead of the custom domain `https://florial-bg.com`, avoiding the custom-domain route that returned plain HTTP 502 from the Worker. The project hostname is confirmed by the Cloudflare Pages project configuration.
+- No Supabase SQL migration, Sanity schema/document change, photo deletion, or changes to Header/menu/Footer were made.
+- End-to-end botanical processing must be re-tested after deployment; the route change is intended to resolve the Worker-to-Pages 502 but is not considered proven until a real Workflow reaches completion.
+
 ## 2026-11-01 — Временная диагностика ботанической проверки растений
 
 - В редакторе растения добавлен временный диагностический блок под кнопкой «Проверить и предложить характеристики»: отображаются endpoint, безопасные параметры запроса, HTTP-статус и полный JSON-ответ сервера; токен авторизации в блок не попадает.
