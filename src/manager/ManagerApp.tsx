@@ -298,8 +298,10 @@ export default function ManagerApp() {
       await staffRequest('PATCH', { userId, ...body })
       setStaffNotice(successMessage)
       await loadStaff()
+      return true
     } catch (err) {
       setStaffError(err instanceof Error ? err.message : 'Не удалось обновить сотрудника.')
+      return false
     } finally {
       setStaffSaving(false)
     }
@@ -307,9 +309,11 @@ export default function ManagerApp() {
 
   const saveStaffPassword = async (event: FormEvent, userId: string) => {
     event.preventDefault()
-    await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Пароль сотрудника обновлён.')
-    setPasswordTarget(null)
-    setReplacementPassword('')
+    const saved = await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Пароль сотрудника обновлён.')
+    if (saved) {
+      setPasswordTarget(null)
+      setReplacementPassword('')
+    }
   }
 
   const signOut = async () => { await supabase.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
