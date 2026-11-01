@@ -239,7 +239,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const payload = parseObject(submission.payload) || {}
   const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
-  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(caller.id + '/' + submissionId + '/'))) {
+  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(submission.created_by + '/' + submissionId + '/'))) {
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
