@@ -292,6 +292,11 @@ export default function PlantPublicationEditor({
     return ''
   }
 
+  const researchPlantCare = async () => {
+    setCareResearching(true)
+    setCareResearching(false)
+  }
+
   const removeImage = async (index: number) => {
     const image = imageFiles[index]
     if (!image) return
