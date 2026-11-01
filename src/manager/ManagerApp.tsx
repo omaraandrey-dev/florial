@@ -11,6 +11,7 @@ type Submission = {
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
+type LocalPreview = { file: File; url: string }
 type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at?: string }
 type AnalyticsReport = {
   period_days: number
@@ -45,6 +46,12 @@ export default function ManagerApp() {
   const [latinName, setLatinName] = useState('')
   const [sku, setSku] = useState('')
   const [category, setCategory] = useState('')
+  const [plantCategories, setPlantCategories] = useState<PlantCategory[]>([])
+  const [categoriesLoading, setCategoriesLoading] = useState(true)
+  const [categoriesError, setCategoriesError] = useState('')
+  const [filePreviews, setFilePreviews] = useState<LocalPreview[]>([])
+  const [uploadProgress, setUploadProgress] = useState('')
+  const [previewLoading, setPreviewLoading] = useState(false)
   const [description, setDescription] = useState('')
   const [variantName, setVariantName] = useState('')
   const [height, setHeight] = useState('')
@@ -123,6 +130,22 @@ export default function ManagerApp() {
 
   useEffect(() => { void loadSubmissions() }, [loadSubmissions])
 
+  useEffect(() => {
+    let active = true
+    setCategoriesLoading(true)
+    getPlantCategories()
+      .then((items) => { if (active) { setPlantCategories(items || []); setCategoriesError('') } })
+      .catch((err) => { if (active) setCategoriesError(err instanceof Error ? err.message : 'Не успяхме да заредим категориите.') })
+      .finally(() => { if (active) setCategoriesLoading(false) })
+    return () => { active = false }
+  }, [])
+
+  useEffect(() => {
+    const previews = files.map((file) => ({ file, url: URL.createObjectURL(file) }))
+    setFilePreviews(previews)
+    return () => previews.forEach((preview) => URL.revokeObjectURL(preview.url))
+  }, [files])
+
   const loadStaff = useCallback(async () => {
     if (!session || profile?.role !== 'owner') return
     setStaffLoading(true)
@@ -177,6 +200,15 @@ export default function ManagerApp() {
   }, [])
 
   const selected = useMemo(() => submissions.find((item) => item.id === selectedId) || null, [submissions, selectedId])
+  const selectedCategory = useMemo(() => plantCategories.find((item) => item._id === category) || null, [plantCategories, category])
+  const categoryGroups = useMemo(() => {
+    const groups = new Map<string, PlantCategory[]>()
+    for (const item of plantCategories) {
+      const groupName = item.parent?.name || 'Основни категории'
+      groups.set(groupName, [...(groups.get(groupName) || []), item])
+    }
+    return Array.from(groups.entries())
+  }, [plantCategories])
 
   const loadEvents = async (id: string) => {
     setSelectedId(id)
