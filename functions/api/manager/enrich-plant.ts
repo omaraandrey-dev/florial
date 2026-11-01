@@ -18,6 +18,33 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 const object = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
+type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
+const stageLabels: Record<AiStage, string> = {
+  validate: 'Проверка заявки и доступа',
+  download_image: 'Загрузка фотографии из хранилища',
+  analyze_image: 'Анализ фотографии моделью AI',
+  parse_image_result: 'Разбор ответа AI по фотографии',
+  generate_text: 'Генерация текстов и характеристик',
+  parse_text_result: 'Проверка и разбор текстового ответа AI',
+  save_draft: 'Сохранение AI-черновика в заявке',
+}
+function errorDetails(error: unknown) {
+  if (error instanceof Error) return error.message.slice(0, 700)
+  try { return JSON.stringify(error).slice(0, 700) } catch { return String(error).slice(0, 700) }
+}
+function classifyAiError(message: string) {
+  const lower = message.toLowerCase()
+  if (/license|licence|accept.*(term|policy)|prompt.*agree|llama.*agree/.test(lower)) {
+    return { code: 'MODEL_LICENSE_REQUIRED', hint: 'Cloudflare сообщает, что для этой модели необходимо принять лицензию Meta. Генерация остановлена; бесплатная квота не является причиной этой ошибки.' }
+  }
+  if (/neurons|daily.*limit|quota|exceeded.*limit|too many requests|429/.test(lower)) {
+    return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Модель отклонила запрос из-за лимита или ограничения частоты. Проверьте Usage в Workers AI.' }
+  }
+  if (/binding|not configured/.test(lower)) {
+    return { code: 'AI_BINDING_MISSING', hint: 'В этой среде не найдена привязка Cloudflare Workers AI.' }
+  }
+  return { code: 'AI_REQUEST_FAILED', hint: 'Сбой запроса к модели. Технический ответ сохранён в диагностике.' }
+}
 
 function slugify(value: string) {
   const transliteration: Record<string, string> = {
@@ -155,7 +182,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const bytes = new Uint8Array(await download.arrayBuffer())
       if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error('Photo ' + (index + 1) + ' is empty or too large.')
       const dataUrl = 'data:' + contentType + ';base64,' + bytesToBase64(bytes)
-      const response = await env.AI.run(model, {
+      stage = 'analyze_image'\n      let response: unknown\n      try { response = await env.AI.run(model, {
         messages: [
           { role: 'system', content: 'You write accessible product image alt text. Do not identify a plant species from an image. Do not invent visible details. Return JSON only.' },
           { role: 'user', content: 'The seller says the plant is "' + name + '"' + (latinName ? ' (' + latinName + ')' : '') +
@@ -177,7 +204,7 @@ Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
-    const generated = parseModelJson(await env.AI.run(model, { messages: [
+    stage = 'generate_text'\n    let textResponse: unknown\n    try { textResponse = await env.AI.run(model, { messages: [
       { role: 'system', content: 'You are a careful horticultural product copywriter for Bulgaria. Return valid JSON only. Never invent facts or commercial data.' },
       { role: 'user', content: prompt },
     ] }))
@@ -224,7 +251,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       careGuide: textValue(generated.careGuide, 4000),
       aiReviewNote: 'ИИ подготви текст и предложени грижи. Проверете ботаническата идентичност, светлината, поливането, листната маса и сезоните преди публикуване. Зимоустойчивостта, минималната температура и пригодността за Черноморието са оставени за проверка.',
     }
-    const nextPayload = { ...payload, aiDraft: publication }
+    stage = 'save_draft'\n    const nextPayload = { ...payload, aiDraft: publication }
     const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
