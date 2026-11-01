@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
+import { getPlantCategories, type PlantCategory } from './plantCategories'
+import SubmissionDetails from './SubmissionDetails'
 
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean }
 type Submission = {
@@ -10,6 +12,7 @@ type Submission = {
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
+type LocalPreview = { file: File; url: string }
 type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at?: string }
 type AnalyticsReport = {
   period_days: number
@@ -44,6 +47,12 @@ export default function ManagerApp() {
   const [latinName, setLatinName] = useState('')
   const [sku, setSku] = useState('')
   const [category, setCategory] = useState('')
+  const [plantCategories, setPlantCategories] = useState<PlantCategory[]>([])
+  const [categoriesLoading, setCategoriesLoading] = useState(true)
+  const [categoriesError, setCategoriesError] = useState('')
+  const [filePreviews, setFilePreviews] = useState<LocalPreview[]>([])
+  const [uploadProgress, setUploadProgress] = useState('')
+  const [previewLoading, setPreviewLoading] = useState(false)
   const [description, setDescription] = useState('')
   const [variantName, setVariantName] = useState('')
   const [height, setHeight] = useState('')
@@ -122,6 +131,22 @@ export default function ManagerApp() {
 
   useEffect(() => { void loadSubmissions() }, [loadSubmissions])
 
+  useEffect(() => {
+    let active = true
+    setCategoriesLoading(true)
+    getPlantCategories()
+      .then((items) => { if (active) { setPlantCategories(items || []); setCategoriesError('') } })
+      .catch((err) => { if (active) setCategoriesError(err instanceof Error ? err.message : 'Не успяхме да заредим категориите.') })
+      .finally(() => { if (active) setCategoriesLoading(false) })
+    return () => { active = false }
+  }, [])
+
+  useEffect(() => {
+    const previews = files.map((file) => ({ file, url: URL.createObjectURL(file) }))
+    setFilePreviews(previews)
+    return () => previews.forEach((preview) => URL.revokeObjectURL(preview.url))
+  }, [files])
+
   const loadStaff = useCallback(async () => {
     if (!session || profile?.role !== 'owner') return
     setStaffLoading(true)
@@ -176,15 +201,32 @@ export default function ManagerApp() {
   }, [])
 
   const selected = useMemo(() => submissions.find((item) => item.id === selectedId) || null, [submissions, selectedId])
+  const selectedCategory = useMemo(() => plantCategories.find((item) => item._id === category) || null, [plantCategories, category])
+  const categoryGroups = useMemo(() => {
+    const groups = new Map<string, PlantCategory[]>()
+    for (const item of plantCategories) {
+      const groupName = item.parent?.name || 'Основни категории'
+      groups.set(groupName, [...(groups.get(groupName) || []), item])
+    }
+    return Array.from(groups.entries())
+  }, [plantCategories])
 
-  const loadEvents = async (id: string) => {
+  const loadEvents = async (id: string, imagesOverride?: IntakeImage[]) => {
     setSelectedId(id)
     const selectedSubmission = submissions.find((item) => item.id === id)
-    const imageItems = (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    const imageItems = imagesOverride || (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    setPreviewImages([])
+    setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
-      const { data: signed } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
-      setPreviewImages((signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url))
-    } else setPreviewImages([])
+      const { data: signed, error: signedError } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
+      if (signedError) setError('Не удалось открыть фотографии заявки: ' + signedError.message)
+      else {
+        const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
+        setPreviewImages(mapped)
+        if (mapped.length !== imageItems.length) setError('Часть фотографий недоступна для просмотра. Проверьте файлы в хранилище.')
+      }
+    }
+    setPreviewLoading(false)
     const { data } = await supabase.from('catalog_submission_events')
       .select('id,event_type,from_status,to_status,note,created_at')
       .eq('submission_id', id).order('created_at', { ascending: false })
@@ -192,7 +234,7 @@ export default function ManagerApp() {
   }
 
   const resetForm = () => {
-    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory('')
+    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
     setPrice(''); setStockQuantity('1'); setStockStatus('inStock'); setFiles([])
   }
@@ -201,11 +243,13 @@ export default function ManagerApp() {
     event?.preventDefault()
     if (!session || !profile) return
     if (!title.trim()) { setError('Въведете име на растението.'); return }
-    setSaving(true); setError(''); setNotice('')
+    if (!category) { setError('Изберете категория от списъка.'); return }
+    if (files.length + (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) > 8) { setError('Максимумът е 8 снимки за една заявка.'); return }
+    setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
       const payload = {
         name: title.trim(), latinName: latinName.trim(), sku: sku.trim(),
-        categoryName: category.trim(), description: description.trim(),
+        categoryId: category, categoryName: selectedCategory?.name || '', description: description.trim(),
         images: (selected?.payload?.images as IntakeImage[] | undefined) || [],
         saleVariants: [{
           _key: crypto.randomUUID(), name: variantName.trim(),
@@ -226,7 +270,10 @@ export default function ManagerApp() {
         setSelectedId(submissionId)
       }
       const currentImages = [...(selected?.payload?.images as IntakeImage[] | undefined || [])]
-      for (const file of files) {
+      const filesToUpload = [...files]
+      for (let index = 0; index < filesToUpload.length; index += 1) {
+        const file = filesToUpload[index]
+        setUploadProgress(`Загружане на снимка ${index + 1} от ${filesToUpload.length}…`)
         if (!file.type.startsWith('image/') || file.size > 10 * 1024 * 1024) {
           throw new Error('Снимките трябва да са до 10 MB и във формат на изображение.')
         }
@@ -235,22 +282,32 @@ export default function ManagerApp() {
         const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
         if (uploadError) throw uploadError
         currentImages.push({ path, name: file.name, size: file.size, type: file.type })
+        const partialPayload = { ...payload, images: currentImages }
+        const { error: imageRecordError } = await supabase.from('catalog_submissions').update({ payload: partialPayload, updated_at: new Date().toISOString() }).eq('id', submissionId)
+        if (imageRecordError) throw new Error('Снимката е качена, но не успяхме да запазим връзката ѝ: ' + imageRecordError.message)
+        const uploadedFiles = filesToUpload.slice(0, index + 1)
+        setFiles((pending) => pending.filter((item) => !uploadedFiles.includes(item)))
       }
+      setUploadProgress('Запазване на данните…')
       const finalPayload = { ...payload, images: currentImages }
       const { error: updateError } = await supabase.from('catalog_submissions').update({
         title: title.trim(), sku: sku.trim() || null, payload: finalPayload, updated_at: new Date().toISOString(),
       }).eq('id', submissionId)
       if (updateError) throw updateError
       setFiles([])
-      setNotice('Черновата е запазена.')
+      setUploadProgress('')
+      setNotice(`Черновата е запазена. Снимки в заявката: ${currentImages.length}.`)
       await loadSubmissions()
+      if (submissionId) await loadEvents(submissionId, currentImages)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Възникна грешка при запис.')
-    } finally { setSaving(false) }
+      await loadSubmissions()
+    } finally { setUploadProgress(''); setSaving(false) }
   }
 
   const submitForReview = async () => {
     if (!session || !selectedId) { setError('Първо запазете черновата.'); return }
+    if (files.length > 0) { setError('Първо запазете и качете избраните снимки.'); return }
     setSaving(true); setError(''); setNotice('')
     const { error: updateError } = await supabase.from('catalog_submissions').update({
       status: 'submitted', submitted_at: new Date().toISOString(), updated_at: new Date().toISOString(),
@@ -272,11 +329,24 @@ export default function ManagerApp() {
 
   const approve = async (id: string) => {
     if (!profile || profile.role !== 'owner') return
+    if (!window.confirm('Потвърждавате ли одобрението? Заявката ще бъде готова за следващия етап, но няма да се публикува автоматично в магазина.')) return
     const { error: approveError } = await supabase.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
     if (approveError) setError(approveError.message)
     else { setNotice('Заявката е одобрена. Публикацията в Sanity ще бъде включена в следващия етап.'); await loadSubmissions() }
+  }
+
+  const rejectSubmission = async (id: string) => {
+    if (!profile || profile.role !== 'owner') return
+    if (reviewNote.trim().length < 3) { setError('Добавете причина за отказ (поне 3 символа).'); return }
+    if (!window.confirm('Сигурни ли сте, че искате да отхвърлите тази заявка?')) return
+    const { error: rejectError } = await supabase.from('catalog_submissions').update({
+      status: 'rejected', review_note: reviewNote.trim(), reviewed_by: profile.user_id,
+      reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    }).eq('id', id).in('status', ['submitted', 'in_review'])
+    if (rejectError) setError('Не удалось отклонить заявку: ' + rejectError.message)
+    else { setReviewNote(''); setNotice('Заявката е отхвърлена.'); await loadSubmissions(); await loadEvents(id) }
   }
 
   const requestChanges = async (id: string) => {
@@ -400,7 +470,7 @@ export default function ManagerApp() {
                 <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="напр. Маслина" /></label>
                 <label className={labelClass}>Латинско име<input className={inputClass} value={latinName} onChange={(e) => setLatinName(e.target.value)} placeholder="Olea europaea" /></label>
                 <label className={labelClass}>Артикулен код / SKU<input className={inputClass} value={sku} onChange={(e) => setSku(e.target.value)} /></label>
-                <label className={labelClass}>Категория<input className={inputClass} value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Декоративни дървета" /></label>
+                <label className={labelClass}>Категория на растението *<select className={inputClass} value={category} onChange={(e) => setCategory(e.target.value)} required disabled={categoriesLoading || plantCategories.length === 0}><option value="">{categoriesLoading ? 'Зареждане на категориите…' : 'Изберете категория'}</option>{categoryGroups.map(([groupName, items]) => <optgroup key={groupName} label={groupName}>{items.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}</optgroup>)}</select>{categoriesError && <span className="mt-1 block text-xs font-normal text-red-700">{categoriesError}</span>}</label>
                 <label className={labelClass}>Вариант / размер<input className={inputClass} value={variantName} onChange={(e) => setVariantName(e.target.value)} placeholder="C 25, 160–180 cm" /></label>
                 <label className={labelClass}>Височина при продажба (cm)<input className={inputClass} type="number" min="0" step="1" value={height} onChange={(e) => setHeight(e.target.value)} /></label>
                 <label className={labelClass}>Обем на контейнера (L)<input className={inputClass} type="number" min="0" step="0.5" value={potVolume} onChange={(e) => setPotVolume(e.target.value)} /></label>
@@ -409,11 +479,13 @@ export default function ManagerApp() {
                 <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="preorder">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
-              <label className={labelClass + ' mt-4'}>Снимки (до 10 MB на файл)<input className={inputClass} type="file" accept="image/*" capture="environment" multiple onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 8))} /></label>
-              {files.length > 0 && <p className="mt-2 text-sm text-stone-500">Избрани снимки: {files.map((file) => file.name).join(', ')}</p>}
+              <label className={labelClass + ' mt-4'}>Снимки (до 8 файла, 10 MB всеки)<input className={inputClass} type="file" accept="image/*" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount))); e.currentTarget.value = '' }} /></label>
+              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от галерията или направете нова снимка с камерата на телефона.</p>
+              {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
+              {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
               <div className="mt-5 flex flex-wrap gap-3">
                 <button disabled={saving} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : 'Запази черновата'}</button>
-                {selectedId && <button type="button" disabled={saving} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
+                {selectedId && <button type="button" disabled={saving || files.length > 0 || !category} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
               </div>
             </form>
           )}
@@ -424,7 +496,7 @@ export default function ManagerApp() {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <button onClick={() => {
                     setSelectedId(item.id); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || ''))
-                    setSku(item.sku || ''); setCategory(String(item.payload.categoryName || '')); setDescription(String(item.payload.description || ''))
+                    setSku(item.sku || ''); setCategory(String(item.payload.categoryId || plantCategories.find((candidate) => candidate.name.toLocaleLowerCase() === String(item.payload.categoryName || '').toLocaleLowerCase())?._id || '')); setDescription(String(item.payload.description || ''))
                     const variant = (item.payload.saleVariants as Array<Record<string, unknown>> | undefined)?.[0]
                     setVariantName(String(variant?.name || '')); setHeight(variant?.saleHeightCm ? String(variant.saleHeightCm) : '')
                     setPotVolume(variant?.containerVolumeL ? String(variant.containerVolumeL) : '')
@@ -435,17 +507,15 @@ export default function ManagerApp() {
                   <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold">{statusLabels[item.status] || item.status}</span>
                 </div>
                 {item.review_note && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Коментар: {item.review_note}</p>}
-                {profile.role === 'owner' && ['submitted', 'in_review'].includes(item.status) && <button onClick={() => void approve(item.id)} className="mt-3 rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри</button>}
+                {profile.role === 'owner' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
                 {profile.role !== 'seller' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
           </div>
         </section>
         <aside className="h-fit rounded-2xl border border-stone-200 bg-white p-5">
-          <h2 className="font-semibold">История на заявката</h2>
-          {!selectedId && <p className="mt-2 text-sm text-stone-500">Изберете заявка, за да видите историята.</p>}
-          {selected && <p className="mt-2 text-sm text-stone-500">{selected.title}</p>}
-          {previewImages.length > 0 && <div className="mt-4 grid grid-cols-2 gap-2">{previewImages.map((photo) => <a key={photo.url} href={photo.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-stone-200"><img src={photo.url} alt={photo.name} className="h-28 w-full object-cover" /><span className="block truncate p-2 text-xs">{photo.name}</span></a>)}</div>}
+          <SubmissionDetails submission={selected} images={previewImages} loading={previewLoading} />
+          <h2 className="mt-6 border-t border-stone-100 pt-4 font-semibold">История на действията</h2>
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
