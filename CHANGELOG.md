@@ -7,7 +7,7 @@
 - plantDetails.scientificName помечено deprecated/hidden/readOnly; поле не удалялось. В GROQ оставлено только plantDetails.availabilityNote.
 - Проверка опубликованного dataset plants: 30 товаров, 17 категорий; root scientificName заполнен у всех 30, gallery пока отсутствует у всех 30.
 - Контент Sanity не изменялся. Миграция scientificName не запускалась, так как опубликованные документы не нуждаются в переносе.
-- Studio build, deployment и production проверка ожидают выполнения на feature-ветке и отдельного подтверждения активной Studio schema.
+- Studio build, deployment и production проверка ожидают выполнения на feature-ветке и отдельного подтверждения активной Studio schema. Sanity Manage подтверждает, что `fdy0ldwl717qtp5pikl7715l` — единственное Studio приложение проекта; API пока показывает только legacy schema record для plants, поэтому deployment не запускался.
 
 ## 2026-10-31 — Complete RU/EN translations for irrigation kits and category
 
