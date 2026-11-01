@@ -210,14 +210,22 @@ export default function ManagerApp() {
     return Array.from(groups.entries())
   }, [plantCategories])
 
-  const loadEvents = async (id: string) => {
+  const loadEvents = async (id: string, imagesOverride?: IntakeImage[]) => {
     setSelectedId(id)
     const selectedSubmission = submissions.find((item) => item.id === id)
-    const imageItems = (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    const imageItems = imagesOverride || (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    setPreviewImages([])
+    setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
-      const { data: signed } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
-      setPreviewImages((signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url))
-    } else setPreviewImages([])
+      const { data: signed, error: signedError } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
+      if (signedError) setError('Не удалось открыть фотографии заявки: ' + signedError.message)
+      else {
+        const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
+        setPreviewImages(mapped)
+        if (mapped.length !== imageItems.length) setError('Часть фотографий недоступна для просмотра. Проверьте файлы в хранилище.')
+      }
+    }
+    setPreviewLoading(false)
     const { data } = await supabase.from('catalog_submission_events')
       .select('id,event_type,from_status,to_status,note,created_at')
       .eq('submission_id', id).order('created_at', { ascending: false })
@@ -234,11 +242,13 @@ export default function ManagerApp() {
     event?.preventDefault()
     if (!session || !profile) return
     if (!title.trim()) { setError('Въведете име на растението.'); return }
-    setSaving(true); setError(''); setNotice('')
+    if (!category) { setError('Изберете категория от списъка.'); return }
+    if (files.length + (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) > 8) { setError('Максимумът е 8 снимки за една заявка.'); return }
+    setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
       const payload = {
         name: title.trim(), latinName: latinName.trim(), sku: sku.trim(),
-        categoryName: category.trim(), description: description.trim(),
+        categoryId: category, categoryName: selectedCategory?.name || '', description: description.trim(),
         images: (selected?.payload?.images as IntakeImage[] | undefined) || [],
         saleVariants: [{
           _key: crypto.randomUUID(), name: variantName.trim(),
@@ -259,7 +269,10 @@ export default function ManagerApp() {
         setSelectedId(submissionId)
       }
       const currentImages = [...(selected?.payload?.images as IntakeImage[] | undefined || [])]
-      for (const file of files) {
+      const filesToUpload = [...files]
+      for (let index = 0; index < filesToUpload.length; index += 1) {
+        const file = filesToUpload[index]
+        setUploadProgress(`Загружане на снимка ${index + 1} от ${filesToUpload.length}…`)
         if (!file.type.startsWith('image/') || file.size > 10 * 1024 * 1024) {
           throw new Error('Снимките трябва да са до 10 MB и във формат на изображение.')
         }
@@ -268,22 +281,31 @@ export default function ManagerApp() {
         const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
         if (uploadError) throw uploadError
         currentImages.push({ path, name: file.name, size: file.size, type: file.type })
+        const partialPayload = { ...payload, images: currentImages }
+        const { error: imageRecordError } = await supabase.from('catalog_submissions').update({ payload: partialPayload, updated_at: new Date().toISOString() }).eq('id', submissionId)
+        if (imageRecordError) throw new Error('Снимката е качена, но не успяхме да запазим връзката ѝ: ' + imageRecordError.message)
+        const uploadedFiles = filesToUpload.slice(0, index + 1)
+        setFiles((pending) => pending.filter((item) => !uploadedFiles.includes(item)))
       }
+      setUploadProgress('Запазване на данните…')
       const finalPayload = { ...payload, images: currentImages }
       const { error: updateError } = await supabase.from('catalog_submissions').update({
         title: title.trim(), sku: sku.trim() || null, payload: finalPayload, updated_at: new Date().toISOString(),
       }).eq('id', submissionId)
       if (updateError) throw updateError
       setFiles([])
-      setNotice('Черновата е запазена.')
+      setUploadProgress('')
+      setNotice(`Черновата е запазена. Снимки в заявката: ${currentImages.length}.`)
       await loadSubmissions()
+      if (submissionId) await loadEvents(submissionId, currentImages)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Възникна грешка при запис.')
-    } finally { setSaving(false) }
+    } finally { setUploadProgress(''); setSaving(false) }
   }
 
   const submitForReview = async () => {
     if (!session || !selectedId) { setError('Първо запазете черновата.'); return }
+    if (files.length > 0) { setError('Първо запазете и качете избраните снимки.'); return }
     setSaving(true); setError(''); setNotice('')
     const { error: updateError } = await supabase.from('catalog_submissions').update({
       status: 'submitted', submitted_at: new Date().toISOString(), updated_at: new Date().toISOString(),
