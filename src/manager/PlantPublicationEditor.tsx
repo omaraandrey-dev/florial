@@ -122,10 +122,8 @@ function makeDraft(submission: Submission): Draft {
   const savedAltsEn = Array.isArray(saved.imageAltsEn) ? saved.imageAltsEn as string[] : []
   const savedAltsRu = Array.isArray(saved.imageAltsRu) ? saved.imageAltsRu as string[] : []
   const savedPlantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
-  const researchData = payload.plantCareResearch && typeof payload.plantCareResearch === 'object' ? payload.plantCareResearch as Record<string, unknown> : {}
-  const researchValues = researchData.plantCare && typeof researchData.plantCare === 'object' ? researchData.plantCare as Record<string, unknown> : {}
-  const plantCare = payload.publication ? savedPlantCare : { ...savedPlantCare, ...researchValues }
-  // Research suggestions are merged with the saved draft values above.
+  // Botanical research remains separate until the owner explicitly accepts a suggestion.
+  const plantCare = savedPlantCare
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
@@ -238,8 +236,10 @@ export default function PlantPublicationEditor({
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
   const [careResearching, setCareResearching] = useState(false)
+  const [careSuggestionDecisions, setCareSuggestionDecisions] = useState<Record<string, 'accepted' | 'rejected'>>({})
   const hasPublication = Boolean(submission.payload.publication)
   const plantCareResearch = submission.payload.plantCareResearch && typeof submission.payload.plantCareResearch === 'object' ? submission.payload.plantCareResearch as Record<string, unknown> : null
+  const researchCareValues = plantCareResearch?.plantCare && typeof plantCareResearch.plantCare === 'object' ? plantCareResearch.plantCare as Record<string, unknown> : null
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -247,6 +247,7 @@ export default function PlantPublicationEditor({
   useEffect(() => {
     const next = makeDraft(submission)
     setDraft(next)
+    setCareSuggestionDecisions({})
     const hasSaved = !!(submission.payload.publication && typeof submission.payload.publication === 'object')
     setSavedFingerprint(hasSaved ? JSON.stringify(toPublication(next, categories)) : '')
     setSlugTouched(!!(submission.payload.publication as Record<string, unknown> | undefined)?.slug)
@@ -271,6 +272,28 @@ export default function PlantPublicationEditor({
 
   const update = <K extends keyof Draft>(key: K, value: Draft[K]) => {
     setDraft((current) => ({ ...current, [key]: value }))
+  }
+
+  const acceptCareSuggestion = (field: string, value: unknown) => {
+    setDraft((current) => {
+      const plantCare = { ...current.plantCare }
+      switch (field) {
+        case 'light': plantCare.light = String(value); break
+        case 'waterNeeds': plantCare.waterNeeds = String(value); break
+        case 'minWinterTempC': plantCare.minWinterTempC = numberText(value); break
+        case 'adultHeightCm': plantCare.adultHeightCm = numberText(value); break
+        case 'foliageType': plantCare.foliageType = String(value); break
+        case 'floweringSeason': plantCare.floweringSeason = Array.isArray(value) ? value.map(String) : []; break
+        case 'plantingSeason': plantCare.plantingSeason = Array.isArray(value) ? value.map(String) : []; break
+      }
+      return { ...current, plantCare }
+    })
+    setCareSuggestionDecisions((current) => ({ ...current, [field]: 'accepted' }))
+    setNotice('Предложението е прието в редактираната карта. Проверете стойността и запазете финалната версия.')
+  }
+
+  const rejectCareSuggestion = (field: string) => {
+    setCareSuggestionDecisions((current) => ({ ...current, [field]: 'rejected' }))
   }
 
   const validate = (requireImages = false) => {
@@ -514,6 +537,25 @@ export default function PlantPublicationEditor({
           </div>
         })()}
       </div>
+      {researchCareValues && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+        <h4 className="font-semibold text-amber-950">Предложени ботанически характеристики от AI</h4>
+        <p className="mt-1 text-xs text-amber-900">Предложенията не са приложени автоматично. Приемете всяка стойност поотделно или отхвърлете я. Приетите стойности се прехвърлят в редактираната карта, но се публикуват само след вашето запазване и отделно одобрение.</p>
+        <div className="mt-3 space-y-2">
+          {Object.entries(researchCareValues).filter(([field, value]) => field !== 'blackSeaCoast' && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0)).map(([field, value]) => {
+            const labels: Record<string, string> = { light: 'Светлина', waterNeeds: 'Нужда от поливане', minWinterTempC: 'Минимална зимна температура', adultHeightCm: 'Височина на възрастното растение', foliageType: 'Тип листна маса', floweringSeason: 'Сезон на цъфтеж', plantingSeason: 'Сезон на засаждане' }
+            const enums: Record<string, string> = { sun: 'Пълно слънце', partialShade: 'Полусянка', shade: 'Сянка', low: 'Ниска', medium: 'Средна', high: 'Висока', evergreen: 'Вечнозелено', deciduous: 'Листопадно', spring: 'Пролет', summer: 'Лято', autumn: 'Есен', winter: 'Зима', yearRound: 'Целогодишно' }
+            const formatted = Array.isArray(value) ? value.map((item) => enums[String(item)] || String(item)).join(', ') : (field === 'minWinterTempC' ? String(value) + ' °C' : field === 'adultHeightCm' ? String(value) + ' см' : enums[String(value)] || String(value))
+            const decision = careSuggestionDecisions[field]
+            return <div key={field} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-white p-3">
+              <div className="min-w-0"><p className="text-xs font-semibold text-stone-600">{labels[field] || field}</p><p className="text-sm text-stone-900">{formatted}</p></div>
+              {decision === 'accepted' ? <span className="text-xs font-semibold text-emerald-700">Прието в черновата</span> : decision === 'rejected' ? <span className="text-xs font-semibold text-stone-500">Отхвърлено</span> : <div className="flex gap-2">
+                <button type="button" onClick={() => acceptCareSuggestion(field, value)} className="rounded-lg bg-lime-800 px-3 py-2 text-xs font-semibold text-white">Приеми</button>
+                <button type="button" onClick={() => rejectCareSuggestion(field)} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold text-stone-700">Отхвърли</button>
+              </div>}
+            </div>
+          })}
+        </div>
+      </div>}
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
