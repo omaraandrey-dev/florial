@@ -230,3 +230,9 @@
 - Link the five About page service headings and matching service images to their published `/services/<slug>` pages.
 - Load service images from the existing Sanity service records and add localized image `alt`/`title` text with relevant Black Sea coast locations.
 - No Sanity or Supabase data was modified.
+
+## 2026-11-01 — Fix direct access to Florial Manager
+
+- Fixed the Pages middleware route handling so `/manager` and nested `/manager/*` requests pass through to the SPA entry selected by `src/main.tsx` instead of receiving the public site's custom 404 response.
+- The change is isolated to `functions/_middleware.ts`; public Header, menu, Footer, public routes, Supabase data, Sanity data and Cloudflare environment variables are unchanged.
+- Validation and production deployment status are to be recorded after the pull request checks and merge.
