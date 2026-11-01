@@ -466,7 +466,7 @@ export default function PlantPublicationEditor({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h3 className="font-semibold text-sky-950">Проверка ботанических характеристик</h3>
-            <p className="mt-1 text-sm text-sky-900">GBIF проверяет латинское название, затем AI предлагает значения для проверки владельцем.</p>
+            <p className="mt-1 text-sm text-sky-900">AI независимо анализира до три снимки и предлага вероятен вид. Системата сравнява предположението с името на продавача и проверява латинските кандидати чрез GBIF. След това AI може да предложи агротехнически характеристики за ваша проверка.</p>
           </div>
           <button type="button" disabled={!hasAiDraft || hasPublication || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
@@ -492,7 +492,9 @@ export default function PlantPublicationEditor({
               ? 'Возможное несоответствие фотографии и названия'
               : photoAssessment === 'multiple'
                 ? 'На фотографиях получены разные предположения'
-                : 'AI не смог уверенно определить вид по фотографии'
+                : photoAssessment === 'candidate_only'
+                  ? 'Название продавца не подтверждено; есть кандидат по фотографии'
+                  : 'AI не смог уверенно определить вид по фотографии'
           return <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
             <p className="font-semibold">{taxonomyLabel}</p>
             <p className="mt-2"><span className="font-semibold">Название продавца:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
@@ -503,6 +505,7 @@ export default function PlantPublicationEditor({
             <p className="mt-2">{String(identity.canonicalName || '')}</p>
             {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
             <p className="mt-1 text-xs text-slate-600">Основа агротехнических предложений: {String(identity.careTaxon || 'не подтверждена')}. {identity.careIsProvisional === true ? 'Предложения предварительные: ботаническое имя требует подтверждения владельцем.' : ''}</p>
+            <p className="mt-1 text-xs text-slate-600">Проверено фотографий: {String(identity.imageCountAnalysed || 0)}</p>
             <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
             <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
           </div>
