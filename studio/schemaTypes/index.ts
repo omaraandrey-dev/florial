@@ -394,7 +394,7 @@ const plantCare = defineType({
         {title: 'Есен', value: 'autumn'},
         {title: 'Зима', value: 'winter'},
       ]}}],
-      validation: Rule => Rule.unique().max(4).custom(value => !value || value.every(item => ['spring', 'summer', 'autumn', 'winter'].includes(String(item))) || 'Изберете валиден сезон на цъфтеж.'),
+      validation: Rule => Rule.unique().max(4).custom(value => !Array.isArray(value) || value.every(item => ['spring', 'summer', 'autumn', 'winter'].includes(String(item))) || 'Изберете валиден сезон на цъфтеж.'),
     }),
     defineField({
       name: 'plantingSeason',
@@ -408,7 +408,7 @@ const plantCare = defineType({
         {title: 'Зима', value: 'winter'},
         {title: 'През цялата година', value: 'yearRound'},
       ]}}],
-      validation: Rule => Rule.unique().max(5).custom(value => !value || value.every(item => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(item))) || 'Изберете валиден сезон за засаждане.'),
+      validation: Rule => Rule.unique().max(5).custom(value => !Array.isArray(value) || value.every(item => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(item))) || 'Изберете валиден сезон за засаждане.'),
     }),
     defineField({
       name: 'saleFormat',
