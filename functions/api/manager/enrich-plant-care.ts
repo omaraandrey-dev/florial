@@ -73,6 +73,10 @@ function boundedPlantCare(value: unknown) {
 }
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
+  const requestId = crypto.randomUUID()
+  let stage = 'request_validation'
+  let submissionId = ''
+  try {
   const requestUrl = new URL(request.url)
   const origin = request.headers.get('Origin')
   if (origin) {
@@ -88,23 +92,27 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!accessToken) return json({ error: 'Authentication required.' }, 401)
   const base = env.SUPABASE_URL.replace(/\/+$/, '')
   const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+  stage = 'supabase_auth'
   const userResponse = await fetch(base + '/auth/v1/user', { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken } })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+  stage = 'owner_authorization'
   const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
   const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
   if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
 
+  stage = 'parse_request'
   let body: Record<string, unknown>
   try {
     const parsed = object(await request.json())
     if (!parsed) return json({ error: 'Invalid request body.' }, 400)
     body = parsed
   } catch { return json({ error: 'Invalid request body.' }, 400) }
-  const submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
+  submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
+  stage = 'load_submission'
   const submissionResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,status,created_by,updated_at,payload', { headers: adminHeaders })
   if (!submissionResponse.ok) return json({ error: 'Unable to load submission.' }, 502)
   const rows = await submissionResponse.json() as SubmissionRow[]
@@ -130,6 +138,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return !/^[0-9a-f-]{36}[-_][A-Za-z0-9._-]+$/i.test(filename)
   })) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
 
+  stage = 'validate_images'
   const diagnosticSteps: Array<Record<string, unknown>> = [{ stage: 'request_validated', ok: true, plantNameProvided: !!plantName, scientificNameProvided: !!scientificName, selectedImageCount: selectedImages.length }]
   const visualResults: Array<Record<string, unknown>> = []
   const visualNames: Array<{ name: string; confidence: string; count: number; evidence: string[] }> = []
@@ -138,12 +147,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     for (let index = 0; index < imagesToAnalyse.length; index += 1) {
       const image = imagesToAnalyse[index]
       const path = image.path.split('/').map((part) => encodeURIComponent(part)).join('/')
+      stage = 'load_photo_' + (index + 1)
       const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + path, { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } })
       if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из закрытого хранилища.' }, 502)
       const contentType = (download.headers.get('content-type') || image.type || '').split(';')[0].trim().toLowerCase()
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) return json({ error: 'Для ботанического распознавания используйте JPG, PNG или WebP. Преобразуйте HEIC в JPG и загрузите фото повторно.' }, 400)
       const bytes = new Uint8Array(await download.arrayBuffer())
       if (!bytes.length || bytes.length > 10 * 1024 * 1024) return json({ error: 'Фотография ' + (index + 1) + ' пуста или превышает 10 MB.' }, 400)
+      stage = 'vision_image_' + (index + 1)
       const visionResponse = await env.AI.run(visionModel, {
         messages: [
           { role: 'system', content: 'You are a cautious botanical image-assessment assistant. Independently assess the visible plant; do not assume the seller botanical name is correct. A photograph is not sufficient to confirm a species. Never claim certainty, never identify a cultivar from an image, and return valid JSON only.' },
@@ -189,6 +200,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const visualDisagreement = rankedVisual.length > 1 && rankedVisual[0].count === rankedVisual[1].count
   const commonNameCandidates: Array<{ name: string; confidence: string; reason: string }> = []
   if (!sellerBinomial) {
+    stage = 'generate_common_name_candidates'
     try {
       const nameResponse = await env.AI.run(textModel, {
         messages: [
@@ -228,6 +240,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   let sellerMatch: GbifMatch | null = null
   let visualMatch: GbifMatch | null = null
   let nameCandidateMatches: Array<{ candidate: { name: string; confidence: string; reason: string }; match: GbifMatch | null }> = []
+  stage = 'gbif_taxonomy'
   try {
     if (sellerBinomial) sellerMatch = await matchGbif(sellerBinomial)
     if (visualCandidate && !visualDisagreement) visualMatch = await matchGbif(visualCandidate.name)
@@ -266,6 +279,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   let careGuide = ''
   let fieldConfidence: Record<string, string> = {}
   if (careMatch && careTaxon) {
+    stage = 'care_generation'
     const prompt = [
       'Prepare cautious horticultural characteristics for this accepted plant species. This is a suggestion for a human horticulturist, not a verified care database.',
       'Plant common/display name: ' + plantName,
@@ -331,10 +345,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   const nextAiDraft = {
     ...aiDraft,
-    scientificName: textValue(aiDraft.scientificName, 160) || (careIsProvisional ? careTaxon : ''),
+    scientificName: scientificName || (careIsProvisional ? careTaxon : (sellerAccepted ? sellerCanonical : '')),
     careGuide: textValue(aiDraft.careGuide, 4000) || careGuide,
   }
   const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft }
+  stage = 'save_submission'
   const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
     body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
@@ -342,6 +357,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!save.ok) return json({ error: 'Не удалось сохранить результат ботанической проверки.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, httpStatus: save.status }] }, 502)
   const savedRows = await save.json() as Array<{ id: string }>
   if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, reason: 'optimistic_lock_conflict' }] }, 409)
+  stage = 'write_audit_event'
   await fetch(base + '/rest/v1/catalog_submission_events', {
     method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
@@ -355,5 +371,28 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }),
   }).catch(() => undefined)
   diagnosticSteps.push({ stage: 'save_submission', ok: true }, { stage: 'completed', ok: true })
-  return json({ ok: true, careDraft, diagnostics: diagnosticSteps })
+  stage = 'completed'
+  return json({ ok: true, careDraft, diagnostics: diagnosticSteps, requestId })
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
+    const errorName = error instanceof Error ? error.name : 'UnknownError'
+    console.error('[florial:plant-care-unhandled]', JSON.stringify({
+      requestId, stage, submissionId: submissionId || null, errorName, detail: detail.slice(0, 500),
+    }))
+    return new Response(JSON.stringify({
+      error: 'Ботаническая проверка прервалась до формирования штатного ответа.',
+      diagnostics: [{
+        stage, ok: false, code: 'BOTANICAL_UNHANDLED_ERROR', requestId,
+        errorName, detail: detail.slice(0, 500),
+      }],
+      requestId,
+    }), {
+      status: 502,
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        'cache-control': 'no-store',
+        'x-florial-request-id': requestId,
+      },
+    })
+  }
 }

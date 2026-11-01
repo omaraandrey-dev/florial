@@ -400,3 +400,12 @@
 - The owner can accept or reject each proposed care value individually. Accepted values are copied into the editable publication draft; rejected values are not applied. Publishing still requires the normal owner save and separate publish action.
 - Existing manually entered/published care fields are preserved and are not overwritten by new research results.
 - Production deployment for this refinement: `efb8572c-f64d-49c2-85c9-60b947ff8223`, commit `d65920914b01ba46c5e8a1c1202c5d3f1c4c8a30`, build and deploy stages successful.
+
+## 2026-11-01 — Выбор ботанического имени и устойчивые ошибки проверки
+
+- Первая AI-подготовка теперь возвращает до трёх отдельных вариантов латинского биноминального названия на основе названия, типа, категории и описания продавца. Фотографии не используются для генерации этих вариантов.
+- Поле `scientificName` больше не заполняется догадкой текстовой модели. Варианты показываются владельцу отдельно; выбранный вариант передаётся вместе с фотографиями в `/api/manager/enrich-plant-care` для независимого визуального анализа и проверки таксономии через GBIF.
+- Подтверждённое GBIF название сохраняется в AI-черновике только после проверки; при несоответствии фотографии и имени выбранное владельцем имя не подменяется автоматически.
+- Добавлен общий обработчик неожиданных исключений ботанической функции: этап, безопасная техническая деталь и request ID возвращаются JSON; серверный журнал не содержит токенов или содержимого фотографий.
+- Проверены production binding Workers AI и прямой inference-тест обеих моделей. Тест использовал синтетический текст и пустой тестовый пиксель, а не реальное растение; end-to-end Manager workflow требует отдельной проверки владельцем.
+- Изменения затрагивают только Manager AI plant preparation/research и документацию. SQL/Sanity migrations, существующие заявки, опубликованные товары, Header/menu/Footer и checkout не менялись.

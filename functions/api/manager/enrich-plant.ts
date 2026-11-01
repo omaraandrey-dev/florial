@@ -19,6 +19,11 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 const object = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
+function latinBinomial(value: unknown) {
+  const candidate = textValue(value, 120)
+  const match = candidate.match(/\\b([A-Z][A-Za-z-]+)\\s+([a-z][A-Za-z-]+)\\b/)
+  return match ? match[1] + ' ' + match[2] : ''
+}
 type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
 const stageLabels: Record<AiStage, string> = {
   validate: 'Проверка заявки и доступа',
@@ -244,6 +249,8 @@ HORTICULTURAL CONTENT:
 FACTUAL SAFETY:
 - Never change or fabricate price, stock, sale size, pot volume, SKU, category or delivery terms.
 - Do not identify a species solely from photos. If botanical identity is uncertain, keep scientificName empty and use cautious generic copy.
+- Never fill scientificName with a guessed value. If the owner supplied a botanical name, preserve that exact input; otherwise scientificName must be an empty string.
+- Add scientificNameCandidates: up to 3 possible Latin binomials based ONLY on the seller's entered plant name, selected plant type, category and seller description. Ignore all photo observations for this field. If the common name is incomplete or ambiguous, offer distinct plausible species with medium/low confidence or return an empty array. Never invent a cultivar. Each candidate must contain scientificName, confidence (high|medium|low), and a short reason in Russian. These are suggestions only, not verified names.
 - Do not invent precise hardiness, minimum winter temperature, adult height, flowering months, toxicity, pet safety or care requirements. You may suggest minWinterTempC, adultHeightCm and blackSeaCoast only when well-established for the confirmed botanical species; these are AI suggestions and MUST be checked by the owner before publication. Otherwise return null / "needsVerification".
 - Care fields are suggestions for owner verification. If uncertain use null. Do not add irrigation product slugs.
 SHORT COPY AND IMAGES:
@@ -254,7 +261,7 @@ SEO:
 - translations.en.seo and translations.ru.seo each contain their own localized title and meta description.
 - Each SEO description identifies Florial as a local plant offer in Nesebar / Несебър and nearby towns naturally, without keyword stuffing.
 Return only valid JSON with this shape:
-{"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
+{"name":"","scientificName":"","scientificNameCandidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Възможно съответствие с общото име; видът трябва да се провери"}],"productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a useful Bulgarian care guide with practical points where known: planting, watering, light, soil/drainage, feeding, pruning and winter protection. Avoid unsupported exact schedules or quantities. If species identity is uncertain, state that detailed care must be confirmed after verifying the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown
@@ -270,10 +277,27 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     stage = 'parse_text_result'
     const generated = parseModelJson(textResponse)
     const care = object(generated.plantCare) || {}
+    const seenScientificCandidates = new Set<string>()
+    const scientificNameCandidates = (Array.isArray(generated.scientificNameCandidates) ? generated.scientificNameCandidates : [])
+      .slice(0, 6)
+      .map((entry) => object(entry) || {})
+      .map((entry) => ({
+        scientificName: latinBinomial(entry.scientificName),
+        confidence: ['high', 'medium', 'low'].includes(String(entry.confidence).toLowerCase()) ? String(entry.confidence).toLowerCase() : 'low',
+        reason: textValue(entry.reason, 240),
+      }))
+      .filter((entry) => {
+        const key = entry.scientificName.toLocaleLowerCase('en')
+        if (!entry.scientificName || seenScientificCandidates.has(key)) return false
+        seenScientificCandidates.add(key)
+        return true
+      })
+      .slice(0, 3)
     const publication = {
       name: textValue(generated.name, 160) || name,
       slug: slugify(textValue(generated.name, 160) || name) || 'plant-' + submissionId.slice(0, 8),
-      scientificName: textValue(generated.scientificName, 160) || latinName,
+      scientificName: latinName,
+      scientificNameCandidates,
       productType: sellerProductType || textValue(generated.productType, 40) || 'plant',
       categoryId,
       categoryName,
@@ -310,7 +334,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
         plantingSeason: Array.isArray(care.plantingSeason) ? care.plantingSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(v))) : [],
       },
       careGuide: textValue(generated.careGuide, 4000),
-      aiReviewNote: 'ИИ подготви разширени локализирани описания и SEO за Несебър и зоната на Florial. Проверете ботаническата идентичност, всички грижи, възрастните размери, зимоустойчивостта и пригодността за Черноморието преди публикуване. Предложените от ИИ стойности не са потвърдени факти.',
+      aiReviewNote: 'ИИ подготви разширени локализирани описания и SEO за Несебър и зоната на Florial. Латинските имена в scientificNameCandidates са само предложения по името на продавача; изберете подходящо и проверете го с GBIF и снимките. Проверете всички грижи, възрастните размери, зимоустойчивостта и пригодността за Черноморието преди публикуване. Предложените от ИИ стойности не са потвърдени факти.',
     }
     stage = 'save_draft'
     const nextPayload = { ...payload, aiDraft: publication, plantCareResearch: null }
@@ -326,7 +350,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
         from_status: submission.status, to_status: submission.status,
         note: 'ИИ създаде чернова за текстове, alt и характеристики; чака проверка от собственика.',
-        metadata: { models: { vision: visionModel, text: textModel }, imageCount: images.length } }),
+        metadata: { models: { vision: visionModel, text: textModel }, imageCount: images.length, scientificNameCandidateCount: scientificNameCandidates.length } }),
     })
     return json({ ok: true, draft: publication })
   } catch (error) {

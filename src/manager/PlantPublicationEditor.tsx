@@ -260,6 +260,12 @@ export default function PlantPublicationEditor({
   const imageFiles = (Array.isArray(submission.payload.reviewImages) ? submission.payload.reviewImages : submission.payload.images) as IntakeImage[] | undefined || []
   const imageCountMatches = images.length === imageFiles.length
   const hasAiDraft = !!(submission.payload.aiDraft && typeof submission.payload.aiDraft === 'object')
+  const savedAiDraft = submission.payload.aiDraft && typeof submission.payload.aiDraft === 'object'
+    ? submission.payload.aiDraft as Record<string, unknown>
+    : null
+  const scientificNameCandidates = Array.isArray(savedAiDraft?.scientificNameCandidates)
+    ? (savedAiDraft.scientificNameCandidates as Array<Record<string, unknown>>).filter((candidate) => typeof candidate.scientificName === 'string' && candidate.scientificName.trim())
+    : []
   const currentPublication = useMemo(() => toPublication(draft, categories), [draft, categories])
   const currentFingerprint = JSON.stringify(currentPublication)
   const isSaved = savedFingerprint !== '' && savedFingerprint === currentFingerprint
@@ -600,7 +606,25 @@ export default function PlantPublicationEditor({
             const value = event.target.value
             setDraft((current) => ({ ...current, name: value, slug: slugTouched ? current.slug : slugify(value) }))
           }} required /></label>
-          <label className={labelClass}>Ботаническо име<input className={inputClass} value={draft.scientificName} onChange={(event) => update('scientificName', event.target.value)} placeholder="Olea europaea" /></label>
+          <div>
+            <label className={labelClass}>Ботаническо име<input className={inputClass} value={draft.scientificName} onChange={(event) => update('scientificName', event.target.value)} placeholder="Olea europaea" /></label>
+            {scientificNameCandidates.length > 0 && <div className="mt-2 rounded-lg border border-violet-200 bg-violet-50 p-3">
+              <p className="text-xs font-semibold text-violet-950">ИИ предлага възможни латински имена</p>
+              <p className="mt-1 text-xs text-violet-900">Изберете най-подходящото. Това е предположение по името и описанието на продавача, а не ботаническо потвърждение. След избора снимките и името ще бъдат проверени отделно чрез GBIF.</p>
+              <div className="mt-2 space-y-2">
+                {scientificNameCandidates.map((candidate, index) => {
+                  const candidateName = String(candidate.scientificName)
+                  const confidence = String(candidate.confidence || 'low')
+                  const confidenceLabel = confidence === 'high' ? 'высокая' : confidence === 'medium' ? 'средняя' : 'низкая'
+                  const selected = draft.scientificName.trim().toLowerCase() === candidateName.toLowerCase()
+                  return <button key={candidateName + '-' + index} type="button" onClick={() => update('scientificName', candidateName)} className={'block w-full rounded-lg border px-3 py-2 text-left ' + (selected ? 'border-violet-500 bg-white ring-1 ring-violet-300' : 'border-violet-200 bg-white')}>
+                    <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Уверенность AI: {confidenceLabel}{selected ? ' · выбрано' : ''}</span></span>
+                    {typeof candidate.reason === 'string' && candidate.reason && <span className="mt-1 block text-xs text-slate-600">{candidate.reason}</span>}
+                  </button>
+                })}
+              </div>
+            </div>}
+          </div>
           <label className={labelClass}>URL адрес (slug) *<input className={inputClass} value={draft.slug} onChange={(event) => { setSlugTouched(true); update('slug', event.target.value.toLowerCase()) }} required /></label>
           <label className={labelClass}>Тип на растението *<select className={inputClass} value={draft.productType} onChange={(event) => update('productType', event.target.value)} required><option value="">Изберете тип</option>{productTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
           <label className={labelClass}>Категория *<select className={inputClass} value={draft.categoryId} onChange={(event) => update('categoryId', event.target.value)} required><option value="">Изберете категория</option>{categoryGroups.map(([group, items]) => <optgroup key={group} label={group}>{items.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}</optgroup>)}</select></label>
