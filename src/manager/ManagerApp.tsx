@@ -215,7 +215,7 @@ export default function ManagerApp() {
   const loadEvents = async (id: string, imagesOverride?: IntakeImage[]) => {
     setSelectedId(id)
     const selectedSubmission = submissions.find((item) => item.id === id)
-    const imageItems = imagesOverride || (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    const imageItems = imagesOverride || ((Array.isArray(selectedSubmission?.payload?.reviewImages) ? selectedSubmission.payload.reviewImages : selectedSubmission?.payload?.images) as IntakeImage[] | undefined) || []
     setPreviewImages([])
     setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
@@ -479,9 +479,9 @@ export default function ManagerApp() {
               imagesLoading={previewLoading}
               publishError={selected.publish_error}
               accessToken={session.access_token}
-              onSaved={async () => {
+              onSaved={async (imagesOverride) => {
                 await loadSubmissions()
-                if (selectedId) await loadEvents(selectedId)
+                if (selectedId) await loadEvents(selectedId, imagesOverride)
               }}
               onPublished={async () => {
                 await loadSubmissions()
