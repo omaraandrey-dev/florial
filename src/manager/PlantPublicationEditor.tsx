@@ -329,36 +329,63 @@ export default function PlantPublicationEditor({
 
   const researchPlantCare = async () => {
     if (!hasAiDraft || hasPublication || imageFiles.length === 0 || imagesLoading) return
-    setCareResearching(true)
-    setCareDebug('')
-    setCareDebugStatus(null)
-    setError('')
+    setCareResearching(true); setCareDebug(''); setCareDebugStatus(null); setError(''); setNotice('')
+    const requestInfo = {
+      endpoint: '/api/manager/enrich-plant-care',
+      method: 'POST',
+      submissionId: submission.id,
+      reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() },
+      startedAt: new Date().toISOString(),
+    }
     try {
-      const requestInfo = {
-        endpoint: '/api/manager/enrich-plant-care',
+      const response = await fetch(requestInfo.endpoint, {
         method: 'POST',
-        submissionId: submission.id,
-        reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() },
-        startedAt: new Date().toISOString(),
-      }
-      const response = await fetch(requestInfo.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: requestInfo.reviewInput }) })
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken },
+        body: JSON.stringify({ submissionId: submission.id, reviewInput: requestInfo.reviewInput }),
+      })
       const responseText = await response.text()
       let result: Record<string, unknown>
-      try { result = JSON.parse(responseText) as Record<string, unknown> }
-      catch { result = { unparsedResponse: responseText } }
+      try { result = JSON.parse(responseText) as Record<string, unknown> } catch { result = { unparsedResponse: responseText } }
       setCareDebugStatus(response.status)
-      setCareDebug(JSON.stringify({ request: requestInfo, response: { httpStatus: response.status, httpOk: response.ok, body: result } }, null, 2))
-      const careDraft = result.careDraft && typeof result.careDraft === 'object' ? result.careDraft as Record<string, unknown> : null
-      if (!response.ok || !careDraft) throw new Error(String(result.error || result.message || 'Сервер не вернул careDraft. Полный ответ показан ниже.'))
-      const identity = careDraft.identity as Record<string, unknown> | undefined
-      setNotice(identity?.photoAssessment === 'mismatch'
-        ? 'Внимание: фотография может не соответствовать названию продавца. Проверьте предложенное ботаническое имя и характеристики перед сохранением.'
-        : 'Проверка завершена. Технический ответ сервера показан ниже.')
-      await onSaved()
+      if (!response.ok || typeof result.workflowId !== 'string') {
+        setCareDebug(JSON.stringify({ request: requestInfo, response: { httpStatus: response.status, body: result } }, null, 2))
+        throw new Error(String(result.error || 'Не удалось запустить фоновую проверку.'))
+      }
+      const workflowId = result.workflowId
+      setNotice('Проверка принята и выполняется в фоновом режиме.')
+      let lastStatus: Record<string, unknown> = {}
+      for (let attempt = 0; attempt < 180; attempt += 1) {
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+        const statusUrl = '/api/manager/enrich-plant-care?submissionId=' + encodeURIComponent(submission.id) + '&workflowId=' + encodeURIComponent(workflowId)
+        const statusResponse = await fetch(statusUrl, { headers: { Authorization: 'Bearer ' + accessToken } })
+        const statusText = await statusResponse.text()
+        let statusBody: Record<string, unknown>
+        try { statusBody = JSON.parse(statusText) as Record<string, unknown> } catch { statusBody = { unparsedResponse: statusText } }
+        if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не удалось получить состояние проверки.'))
+        const workflow = statusBody.status && typeof statusBody.status === 'object' ? statusBody.status as Record<string, unknown> : {}
+        const state = String(workflow.status || '')
+        lastStatus = statusBody
+        if (attempt % 8 === 0) setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
+        if (state === 'complete' || state === 'completed') {
+          setCareDebugStatus(200)
+          setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
+          setNotice('Проверка завершена. Обновляем карточку.')
+          await onSaved()
+          return
+        }
+        if (state === 'errored' || state === 'failed' || state === 'terminated') {
+          setCareDebugStatus(502)
+          setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
+          throw new Error(JSON.stringify(workflow.error || workflow))
+        }
+      }
+      setCareDebugStatus(504)
+      setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, lastWorkflowStatus: lastStatus, timeout: true }, null, 2))
+      throw new Error('Фоновая проверка ещё выполняется. Задание сохранено; обновите карточку позже.')
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       setError(message)
-      setCareDebug((current) => current || JSON.stringify({ request: { endpoint: '/api/manager/enrich-plant-care', submissionId: submission.id }, clientError: message, note: 'Ответ HTTP не получен. Возможны ошибка сети, исключение Cloudflare или прерывание запроса.' }, null, 2))
+      setCareDebug((current) => current || JSON.stringify({ request: requestInfo, clientError: message }, null, 2))
     } finally { setCareResearching(false) }
   }
 
