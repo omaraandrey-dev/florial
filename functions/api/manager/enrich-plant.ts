@@ -182,7 +182,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const bytes = new Uint8Array(await download.arrayBuffer())
       if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error('Photo ' + (index + 1) + ' is empty or too large.')
       const dataUrl = 'data:' + contentType + ';base64,' + bytesToBase64(bytes)
-      stage = 'analyze_image'\n      let response: unknown\n      try { response = await env.AI.run(model, {
+      stage = 'analyze_image'
+      let response: unknown
+      try { response = await env.AI.run(model, {
         messages: [
           { role: 'system', content: 'You write accessible product image alt text. Do not identify a plant species from an image. Do not invent visible details. Return JSON only.' },
           { role: 'user', content: 'The seller says the plant is "' + name + '"' + (latinName ? ' (' + latinName + ')' : '') +
@@ -204,7 +206,9 @@ Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
-    stage = 'generate_text'\n    let textResponse: unknown\n    try { textResponse = await env.AI.run(model, { messages: [
+    stage = 'generate_text'
+    let textResponse: unknown
+    try { textResponse = await env.AI.run(model, { messages: [
       { role: 'system', content: 'You are a careful horticultural product copywriter for Bulgaria. Return valid JSON only. Never invent facts or commercial data.' },
       { role: 'user', content: prompt },
     ] }))
@@ -251,7 +255,8 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       careGuide: textValue(generated.careGuide, 4000),
       aiReviewNote: 'ИИ подготви текст и предложени грижи. Проверете ботаническата идентичност, светлината, поливането, листната маса и сезоните преди публикуване. Зимоустойчивостта, минималната температура и пригодността за Черноморието са оставени за проверка.',
     }
-    stage = 'save_draft'\n    const nextPayload = { ...payload, aiDraft: publication }
+    stage = 'save_draft'
+    const nextPayload = { ...payload, aiDraft: publication }
     const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
