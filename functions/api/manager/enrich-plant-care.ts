@@ -2,6 +2,7 @@ type Env = {
   SUPABASE_URL?: string
   SUPABASE_SERVICE_ROLE_KEY?: string
   AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
+  PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
 }
 type IntakeImage = { path: string; name?: string; size?: number; type?: string }
 type SubmissionRow = { id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string; payload: Record<string, unknown> }
@@ -12,6 +13,7 @@ const bucket = 'florial-manager-intake'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } })
 const object = (value: unknown): Record<string, unknown> | null => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
+const isPlaceholderPlantName = (value: string) => /^(эта страница|this page|page title|страница|untitled|new page)$/i.test(value.trim())
 function modelText(response: unknown) {
   const result = object(response)
   const value = result?.response ?? result?.result ?? result?.output_text ?? result?.text
@@ -87,22 +89,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
-  const authorization = request.headers.get('Authorization') || ''
-  const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
-  if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-  const base = env.SUPABASE_URL.replace(/\/+$/, '')
-  const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
-  stage = 'supabase_auth'
-  const userResponse = await fetch(base + '/auth/v1/user', { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken } })
-  if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
-  const caller = await userResponse.json() as { id?: string }
-  if (!caller.id) return json({ error: 'Invalid session.' }, 401)
-  stage = 'owner_authorization'
-  const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
-  if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
-  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
-  if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
-
+  const isWorkflowProcess = requestUrl.pathname.endsWith('/process')
   stage = 'parse_request'
   let body: Record<string, unknown>
   try {
@@ -110,6 +97,32 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (!parsed) return json({ error: 'Invalid request body.' }, 400)
     body = parsed
   } catch { return json({ error: 'Invalid request body.' }, 400) }
+
+  const workflowJobToken = request.headers.get('x-florial-job-token') || ''
+  let callerId = ''
+  let workflowId = ''
+  if (isWorkflowProcess) {
+    callerId = textValue(body.callerId, 80)
+    workflowId = textValue(body.workflowId, 100)
+    if (workflowJobToken.length < 64 || !callerId || !workflowId) return json({ error: 'Invalid workflow authorization.' }, 403)
+  } else {
+    const authorization = request.headers.get('Authorization') || ''
+    const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
+    if (!accessToken) return json({ error: 'Authentication required.' }, 401)
+    stage = 'supabase_auth'
+    const userResponse = await fetch(base + '/auth/v1/user', { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken } })
+    if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
+    const caller = await userResponse.json() as { id?: string }
+    if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+    callerId = caller.id
+  }
+
+  stage = 'owner_authorization'
+  const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active', { headers: adminHeaders })
+  if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
+  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
+  if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+
   submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
   stage = 'load_submission'
@@ -124,7 +137,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!aiDraft) return json({ error: 'Сначала подгответе основната AI-карта.' }, 409)
 
   const reviewInput = object(body.reviewInput) || {}
-  const plantName = textValue(reviewInput.name ?? aiDraft.name ?? payload.name ?? submission.id, 160)
+  const requestedPlantName = textValue(reviewInput.name, 160)
+  const storedPlantName = textValue(aiDraft.name ?? payload.name ?? payload.title, 160)
+  const plantName = isPlaceholderPlantName(requestedPlantName) ? (storedPlantName || submission.id) : (requestedPlantName || storedPlantName || submission.id)
   const scientificName = textValue(reviewInput.scientificName ?? aiDraft.scientificName ?? payload.latinName, 160)
   const sellerBinomial = speciesBinomial(scientificName) || scientificName
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
@@ -137,6 +152,63 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const filename = image.path.slice(prefix.length)
     return !/^[0-9a-f-]{36}[-_][A-Za-z0-9._-]+$/i.test(filename)
   })) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
+
+  if (isWorkflowProcess) {
+    const activeJob = object(payload.plantCareJob) || {}
+    if (activeJob.token !== workflowJobToken || activeJob.workflowId !== workflowId || activeJob.requestedBy !== callerId) {
+      return json({ error: 'Ботаническое задание недействительно или уже завершено.' }, 403)
+    }
+  } else {
+    if (payload.plantCareResearch) return json({ error: 'Ботаническая проверка уже завершена. Обновите карточку.' }, 409)
+    if (!env.PLANT_CARE_WORKFLOW?.fetch) return json({ error: 'Фоновая служба ботанической проверки не подключена.' }, 503)
+
+    const existingJob = object(payload.plantCareJob) || {}
+    const existingWorkflowId = textValue(existingJob.workflowId, 100)
+    if (existingWorkflowId && existingJob.status === 'queued') {
+      try {
+        const statusResponse = await env.PLANT_CARE_WORKFLOW.fetch(new Request('https://plant-care-workflow/status?id=' + encodeURIComponent(existingWorkflowId)))
+        const statusBody = object(await statusResponse.json())
+        const status = object(statusBody?.status)
+        if (['queued', 'running', 'paused'].includes(String(status?.status || ''))) {
+          return json({ ok: true, queued: true, workflowId: existingWorkflowId, status: status?.status || 'queued' }, 202)
+        }
+      } catch { /* A stale workflow may be replaced with a new instance below. */ }
+    }
+
+    const jobToken = crypto.randomUUID() + crypto.randomUUID()
+    workflowId = submissionId + '-' + crypto.randomUUID()
+    const startedAt = new Date().toISOString()
+    const queuedPayload = {
+      ...payload,
+      plantCareJob: { status: 'queued', workflowId, token: jobToken, requestedBy: callerId, startedAt },
+    }
+    const queueSave = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
+      method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
+      body: JSON.stringify({ payload: queuedPayload, updated_at: startedAt }),
+    })
+    if (!queueSave.ok) return json({ error: 'Не удалось сохранить ботаническое задание перед запуском.' }, 502)
+    const queuedRows = await queueSave.json() as Array<{ id: string }>
+    if (!queuedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.' }, 409)
+
+    const startResponse = await env.PLANT_CARE_WORKFLOW.fetch(new Request('https://plant-care-workflow/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ submissionId, callerId, workflowId, jobToken, reviewInput: { name: plantName, scientificName } }),
+    }))
+    const startBody = object(await startResponse.json().catch(() => ({}))) || {}
+    if (!startResponse.ok) {
+      const failedPayload = {
+        ...queuedPayload,
+        plantCareJob: { status: 'failed', workflowId, token: null, requestedBy: callerId, startedAt, error: textValue(startBody.error, 300) || 'Workflow start failed.' },
+      }
+      await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
+        method: 'PATCH', headers: adminHeaders,
+        body: JSON.stringify({ payload: failedPayload, updated_at: new Date().toISOString() }),
+      }).catch(() => undefined)
+      return json({ error: textValue(startBody.error, 300) || 'Не удалось запустить фоновую ботаническую проверку.', detail: startBody.detail || null }, 503)
+    }
+    return json({ ok: true, queued: true, workflowId, status: startBody.status || 'queued', message: 'Ботаническая проверка принята и выполняется в фоне.' }, 202)
+  }
 
   stage = 'validate_images'
   const diagnosticSteps: Array<Record<string, unknown>> = [{ stage: 'request_validated', ok: true, plantNameProvided: !!plantName, scientificNameProvided: !!scientificName, selectedImageCount: selectedImages.length }]
@@ -348,7 +420,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     scientificName: scientificName || (careIsProvisional ? careTaxon : (sellerAccepted ? sellerCanonical : '')),
     careGuide: textValue(aiDraft.careGuide, 4000) || careGuide,
   }
-  const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft }
+  const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft, plantCareJob: { status: 'completed', workflowId, token: null, requestedBy: callerId, finishedAt: new Date().toISOString() } }
   stage = 'save_submission'
   const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -361,7 +433,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   await fetch(base + '/rest/v1/catalog_submission_events', {
     method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
-      submission_id: submissionId, actor_id: caller.id, event_type: 'plant_care_researched',
+      submission_id: submissionId, actor_id: callerId, event_type: 'plant_care_researched',
       from_status: submission.status, to_status: submission.status,
       note: photoMismatch ? 'AI photo check suggests a different botanical species; owner review required.' :
         photoMatchesSeller ? 'GBIF taxonomy and AI photo assessment are visually consistent; care suggestions prepared for owner review.' :
