@@ -112,11 +112,17 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const rows = await submissionResponse.json() as SubmissionRow[]
   const submission = rows[0]
   if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Plant submission not found.' }, 404)
-  if (!['approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Only an approved plant submission can be enriched.' }, 409)
+  if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) {
+    return json({ error: 'Only a plant submission under owner review can be enriched.' }, 409)
+  }
 
   const payload = object(submission.payload) || {}
   const existingDraft = object(payload.aiDraft)
   if (existingDraft) return json({ ok: true, draft: existingDraft, reused: true })
+  const reviewInput = object(body.reviewInput) || {}
+  const originalVariant = (Array.isArray(payload.saleVariants) ? object(payload.saleVariants[0]) : null) || {}
+  const reviewedVariant = Array.isArray(reviewInput.saleVariants) ? object(reviewInput.saleVariants[0]) : null
+  const variant = reviewedVariant || originalVariant
   const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   if (images.length < 1 || images.length > 8) return json({ error: 'The submission must contain between 1 and 8 photos.' }, 400)
   const prefix = submission.created_by + '/' + submissionId + '/'
@@ -127,9 +133,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   try {
-    const name = textValue(payload.name ?? submission.title, 160)
-    const latinName = textValue(payload.latinName, 160)
-    const variant = (Array.isArray(payload.saleVariants) ? object(payload.saleVariants[0]) : null) || {}
+    const name = textValue(reviewInput.name ?? payload.name ?? submission.title, 160)
+    const latinName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
+    const categoryId = textValue(reviewInput.categoryId ?? payload.categoryId, 128)
+    const categoryName = textValue(reviewInput.categoryName ?? payload.categoryName, 120)
+    const sku = textValue(reviewInput.sku ?? payload.sku, 100)
+    const sellerDescription = textValue(reviewInput.description ?? payload.description, 1200)
     const imageDescriptions: Array<{ bg: string; en: string; ru: string }> = []
     for (let index = 0; index < images.length; index += 1) {
       const image = images[index]
@@ -163,7 +172,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     const prompt = `Prepare a draft plant product listing for Florial, a Bulgarian garden store.
-Seller input (authoritative commercial data): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${textValue(payload.categoryName, 120)}; seller description: ${textValue(payload.description, 1200)}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}.
+Owner-checked input (authoritative commercial data): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
 Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU, or category. Do not identify a species solely from photos. If the botanical identity is uncertain, keep scientificName empty and use cautious generic copy. Generate natural, commercially useful BG, RU and EN names, short descriptions (max 300 chars), and descriptions (max 1400 chars). Bulgarian is the source language. Do not claim frost hardiness, minimum winter temperature, adult height, or suitability for the Bulgarian Black Sea coast unless the fact is certain from established botanical knowledge; in this MVP always set minWinterTempC and adultHeightCm to null and blackSeaCoast to "needsVerification". Care fields may be suggested but must be marked for owner verification; if uncertain use null. Do not add irrigation product slugs.
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
@@ -178,9 +187,9 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       slug: slugify(textValue(generated.name, 160) || name) || 'plant-' + submissionId.slice(0, 8),
       scientificName: textValue(generated.scientificName, 160) || latinName,
       productType: textValue(generated.productType, 40) || 'plant',
-      categoryId: textValue(payload.categoryId, 128),
-      categoryName: textValue(payload.categoryName, 120),
-      sku: textValue(payload.sku, 100),
+      categoryId,
+      categoryName,
+      sku,
       shortDescription: textValue(generated.shortDescription, 500),
       description: textValue(generated.description, 5000),
       mainImageIndex: 0,
