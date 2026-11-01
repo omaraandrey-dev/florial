@@ -68,6 +68,20 @@ export interface PlantCare {
   }
 }
 
+export interface PlantSaleVariant {
+  _key?: string
+  name: string
+  nameEn?: string
+  nameRu?: string
+  sku?: string
+  saleHeightCm?: number
+  containerVolumeL?: number
+  priceEUR?: number
+  oldPriceEUR?: number
+  stockStatus?: 'inStock' | 'onRequest' | 'outOfStock'
+  stockQuantity?: number
+}
+
 export interface Product {
   categoryTranslations?: Record<string, any>
   translations?: Record<string, Record<string, any>>
@@ -82,6 +96,9 @@ export interface Product {
     [key: string]: any
   }
   plantCare?: PlantCare
+  saleVariants?: PlantSaleVariant[]
+  vatIncluded?: boolean
+  stockQuantity?: number
   careGuide?: any[]
   recommendedIrrigation?: {
     irrigationType?: 'drip' | 'rotator' | 'root' | 'mist'
