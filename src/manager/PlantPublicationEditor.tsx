@@ -587,6 +587,7 @@ export default function PlantPublicationEditor({
             {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
           </button>
         </div>
+        {careResearching && <p className="mt-3 text-sm text-sky-900">Проверка выполняется как отдельное серверное задание. Состояние обновляется автоматически; повторно запускать её не нужно.</p>}
         {plantCareResearch && (() => {
           const identity = (plantCareResearch.identity as Record<string, unknown> | undefined) || {}
           const photoAssessment = String(identity.photoAssessment || 'inconclusive')
