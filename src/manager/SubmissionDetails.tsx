@@ -6,22 +6,22 @@ type Props = {
 
 export default function SubmissionDetails({ submission, images, loading }: Props) {
   const variant = (submission?.payload.saleVariants as Array<Record<string, unknown>> | undefined)?.[0]
-  if (!submission) return <p className="mt-2 text-sm text-stone-500">Выберите заявку, чтобы увидеть подробности.</p>
+  if (!submission) return <p className="mt-2 text-sm text-stone-500">Изберете заявка, за да видите подробностите.</p>
   return <div className="mt-3 space-y-3 text-sm">
     <div><span className="text-stone-500">Растение: </span><strong>{String(submission.payload.name || submission.title || '—')}</strong></div>
-    <div><span className="text-stone-500">Латинское имя: </span>{String(submission.payload.latinName || '—')}</div>
-    <div><span className="text-stone-500">Категория: </span>{String(submission.payload.categoryName || 'Не выбрана')}</div>
+    <div><span className="text-stone-500">Латинско име: </span>{String(submission.payload.latinName || '—')}</div>
+    <div><span className="text-stone-500">Категория: </span>{String(submission.payload.categoryName || 'Не е избрана')}</div>
     <div><span className="text-stone-500">SKU: </span>{submission.sku || '—'}</div>
     <div><span className="text-stone-500">Вариант: </span>{String(variant?.name || '—')}</div>
-    <div><span className="text-stone-500">Высота: </span>{variant?.saleHeightCm == null ? '—' : String(variant.saleHeightCm) + ' cm'}</div>
-    <div><span className="text-stone-500">Объём контейнера: </span>{variant?.containerVolumeL == null ? '—' : String(variant.containerVolumeL) + ' L'}</div>
-    <div><span className="text-stone-500">Цена с ДДС: </span>{variant?.priceEUR == null ? 'По запросу' : Number(variant.priceEUR).toFixed(2) + ' EUR'}</div>
+    <div><span className="text-stone-500">Височина: </span>{variant?.saleHeightCm == null ? '—' : String(variant.saleHeightCm) + ' cm'}</div>
+    <div><span className="text-stone-500">Обем на контейнера: </span>{variant?.containerVolumeL == null ? '—' : String(variant.containerVolumeL) + ' L'}</div>
+    <div><span className="text-stone-500">Цена с ДДС: </span>{variant?.priceEUR == null ? 'По запитване' : Number(variant.priceEUR).toFixed(2) + ' EUR'}</div>
     <div><span className="text-stone-500">Количество: </span>{String(variant?.stockQuantity ?? '—')}</div>
-    <div><span className="text-stone-500">Наличие: </span>{String(variant?.stockStatus || '—')}</div>
+    <div><span className="text-stone-500">Наличност: </span>{String(variant?.stockStatus || '—')}</div>
     <div><span className="text-stone-500">Описание:</span><p className="whitespace-pre-wrap">{String(submission.payload.description || '—')}</p></div>
     <div className="border-t border-stone-100 pt-3"><strong>Снимки ({images.length})</strong>
-      {loading && <p>Загрузка фотографий…</p>}
-      {!loading && images.length === 0 && <p className="mt-2 rounded-lg bg-amber-50 p-3 text-amber-900">Нет загруженных фотографий.</p>}
+      {loading && <p>Зареждане на снимките…</p>}
+      {!loading && images.length === 0 && <p className="mt-2 rounded-lg bg-amber-50 p-3 text-amber-900">Няма качени снимки към тази заявка.</p>}
       <div className="mt-2 grid gap-2">{images.map((photo) => <a key={photo.url} href={photo.url} target="_blank" rel="noreferrer" className="overflow-hidden rounded-xl border border-stone-200"><img src={photo.url} alt={photo.name} className="h-36 w-full object-cover" /><span className="block truncate p-2 text-xs">{photo.name}</span></a>)}</div>
     </div>
   </div>
