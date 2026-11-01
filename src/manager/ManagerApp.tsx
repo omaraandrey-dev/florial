@@ -10,6 +10,7 @@ type Submission = {
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
+type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at: string }
 
 const bucket = 'florial-manager-intake'
 const statusLabels: Record<string, string> = {
@@ -46,6 +47,18 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
+  const [activeTab, setActiveTab] = useState<'submissions' | 'staff'>('submissions')
+  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
+  const [staffLoading, setStaffLoading] = useState(false)
+  const [staffSaving, setStaffSaving] = useState(false)
+  const [staffError, setStaffError] = useState('')
+  const [staffNotice, setStaffNotice] = useState('')
+  const [newStaffEmail, setNewStaffEmail] = useState('')
+  const [newStaffName, setNewStaffName] = useState('')
+  const [newStaffRole, setNewStaffRole] = useState<'seller' | 'manager'>('seller')
+  const [newStaffPassword, setNewStaffPassword] = useState('')
+  const [passwordTarget, setPasswordTarget] = useState<string | null>(null)
+  const [replacementPassword, setReplacementPassword] = useState('')
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
     if (!currentSession) {
@@ -96,6 +109,29 @@ export default function ManagerApp() {
   }, [loadProfile])
 
   useEffect(() => { void loadSubmissions() }, [loadSubmissions])
+
+  const loadStaff = useCallback(async () => {
+    if (!session || profile?.role !== 'owner') return
+    setStaffLoading(true)
+    setStaffError('')
+    try {
+      const response = await fetch('/api/manager/staff', {
+        headers: { Authorization: 'Bearer ' + session.access_token },
+        cache: 'no-store',
+      })
+      const result = await response.json() as { staff?: StaffMember[]; error?: string }
+      if (!response.ok) throw new Error(result.error || 'Не удалось загрузить сотрудников.')
+      setStaffMembers(result.staff || [])
+    } catch (err) {
+      setStaffError(err instanceof Error ? err.message : 'Не удалось загрузить сотрудников.')
+    } finally {
+      setStaffLoading(false)
+    }
+  }, [session, profile])
+
+  useEffect(() => {
+    if (profile?.role === 'owner') void loadStaff()
+  }, [loadStaff, profile])
 
   useEffect(() => {
     document.title = 'Florial Manager — вътрешна система'
@@ -221,6 +257,61 @@ export default function ManagerApp() {
     else { setReviewNote(''); setNotice('Заявката е върната за корекция.'); await loadSubmissions(); await loadEvents(id) }
   }
 
+  const staffRequest = async (method: 'POST' | 'PATCH', body: Record<string, unknown>) => {
+    if (!session) throw new Error('Нужна активная сессия.')
+    const response = await fetch('/api/manager/staff', {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + session.access_token,
+      },
+      body: JSON.stringify(body),
+    })
+    const result = await response.json().catch(() => ({})) as { error?: string }
+    if (!response.ok) throw new Error(result.error || 'Не удалось выполнить действие.')
+  }
+
+  const createStaff = async (event: FormEvent) => {
+    event.preventDefault()
+    setStaffSaving(true); setStaffError(''); setStaffNotice('')
+    try {
+      await staffRequest('POST', {
+        action: 'create',
+        email: newStaffEmail,
+        displayName: newStaffName,
+        role: newStaffRole,
+        password: newStaffPassword,
+      })
+      setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword('')
+      setStaffNotice('Сотрудник создан. Передайте ему email и установленный вами пароль.')
+      await loadStaff()
+    } catch (err) {
+      setStaffError(err instanceof Error ? err.message : 'Не удалось создать сотрудника.')
+    } finally {
+      setStaffSaving(false)
+    }
+  }
+
+  const updateStaff = async (userId: string, body: Record<string, unknown>, successMessage: string) => {
+    setStaffSaving(true); setStaffError(''); setStaffNotice('')
+    try {
+      await staffRequest('PATCH', { userId, ...body })
+      setStaffNotice(successMessage)
+      await loadStaff()
+    } catch (err) {
+      setStaffError(err instanceof Error ? err.message : 'Не удалось обновить сотрудника.')
+    } finally {
+      setStaffSaving(false)
+    }
+  }
+
+  const saveStaffPassword = async (event: FormEvent, userId: string) => {
+    event.preventDefault()
+    await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Пароль сотрудника обновлён.')
+    setPasswordTarget(null)
+    setReplacementPassword('')
+  }
+
   const signOut = async () => { await supabase.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
 
   if (loading) return <div className="min-h-screen bg-[#f5f6ef] grid place-items-center text-stone-600">Зареждане на Florial Manager…</div>
@@ -254,7 +345,11 @@ export default function ManagerApp() {
           <button onClick={signOut} className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold">Изход</button>
         </div>
       </header>
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+      <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
+        <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
+        {profile.role === 'owner' && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Сотрудники</button>}
+      </nav>
+      <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px] ' + (activeTab === 'submissions' ? '' : 'hidden')}>
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div><h1 className="text-2xl font-semibold">Заявки за каталог „Растения“</h1><p className="mt-1 text-sm text-stone-600">Черновите не се виждат в публичния магазин.</p></div>
@@ -321,6 +416,61 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. Одобрението в тази версия не публикува автоматично в публичния каталог.</p>
         </aside>
       </div>
+      <section className={activeTab === 'staff' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+          <div className="space-y-4">
+            <div>
+              <h1 className="text-2xl font-semibold">Управление на служителите</h1>
+              <p className="mt-1 text-sm text-stone-600">Само собственикът може да добавя служители, задава пароли и управлява достъпа.</p>
+            </div>
+            {staffError && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{staffError}</div>}
+            {staffNotice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{staffNotice}</div>}
+            {staffLoading && <p className="text-sm text-stone-500">Зареждане на служителите…</p>}
+            <div className="space-y-3">
+              {staffMembers.map((staff) => (
+                <article key={staff.user_id} className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="font-semibold">{staff.display_name || staff.email || 'Без име'}</div>
+                      <div className="mt-1 break-all text-sm text-stone-500">{staff.email || staff.user_id}</div>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                        <span className="rounded-full bg-stone-100 px-2 py-1">{staff.role === 'owner' ? 'Собственик' : staff.role === 'manager' ? 'Мениджър' : 'Продавач'}</span>
+                        <span className={'rounded-full px-2 py-1 ' + (staff.is_active ? 'bg-lime-100 text-lime-900' : 'bg-stone-200 text-stone-600')}>{staff.is_active ? 'Активен' : 'Деактивиран'}</span>
+                      </div>
+                    </div>
+                    {staff.role !== 'owner' && <div className="flex flex-wrap gap-2">
+                      <select aria-label={'Роля на ' + staff.email} className="rounded-lg border border-stone-300 bg-white px-2 py-2 text-sm" value={staff.role} disabled={staffSaving} onChange={(event) => void updateStaff(staff.user_id, { action: 'update', role: event.target.value }, 'Ролята е обновена.')}>
+                        <option value="seller">Продавач</option>
+                        <option value="manager">Мениджър</option>
+                      </select>
+                      <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
+                      <button type="button" disabled={staffSaving} onClick={() => {
+                        const action = staff.is_active ? 'deactivate' : 'activate'
+                        if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return
+                        void updateStaff(staff.user_id, { action }, staff.is_active ? 'Достъпът е изключен. Историята е запазена.' : 'Достъпът е възстановен.')
+                      }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">{staff.is_active ? 'Изключи достъп' : 'Активирай'}</button>
+                    </div>}
+                  </div>
+                  {passwordTarget === staff.user_id && <form onSubmit={(event) => void saveStaffPassword(event, staff.user_id)} className="mt-4 flex flex-col gap-2 sm:flex-row">
+                    <input className={inputClass + ' mt-0'} type="password" minLength={12} maxLength={128} autoComplete="new-password" placeholder="Нов пароль — минимум 12 символов" value={replacementPassword} onChange={(event) => setReplacementPassword(event.target.value)} required />
+                    <button disabled={staffSaving} className="shrink-0 rounded-lg bg-stone-800 px-4 py-2 text-sm font-semibold text-white">Сохранить</button>
+                  </form>}
+                </article>
+              ))}
+              {!staffLoading && staffMembers.length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Сотрудники ещё не добавлены.</div>}
+            </div>
+          </div>
+          <form onSubmit={createStaff} className="h-fit rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 className="text-lg font-semibold">Добавить сотрудника</h2>
+            <label className={labelClass + ' mt-4'}>Имя сотрудника<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
+            <label className={labelClass + ' mt-4'}>Email<input className={inputClass} type="email" autoComplete="off" value={newStaffEmail} onChange={(event) => setNewStaffEmail(event.target.value)} required /></label>
+            <label className={labelClass + ' mt-4'}>Роль<select className={inputClass} value={newStaffRole} onChange={(event) => setNewStaffRole(event.target.value as 'seller' | 'manager')}><option value="seller">Продавач</option><option value="manager">Мениджър</option></select></label>
+            <label className={labelClass + ' mt-4'}>Пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символов. После сохранения пароль не отображается повторно.</span></label>
+            <button disabled={staffSaving} className="mt-5 w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{staffSaving ? 'Запазване…' : 'Създай служител'}</button>
+          </form>
+        </div>
+        <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">При изключване на достъпа профилът се запазва, за да остане историята на заявките. Паролите не се съхраняват в каталожните таблици. В интерфейса няма функция за самостоятелна смяна или възстановяване на парола.</p>
+      </section>
     </main>
   )
 }
