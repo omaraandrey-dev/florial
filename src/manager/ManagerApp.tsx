@@ -330,12 +330,12 @@ export default function ManagerApp() {
 
   const approve = async (id: string) => {
     if (!profile || profile.role !== 'owner') return
-    if (!window.confirm('Потвърждавате ли одобрението? Заявката ще бъде готова за следващия етап, но няма да се публикува автоматично в магазина.')) return
+    if (!window.confirm('Потвърждавате ли одобрението? След това ще можете да проверите финалната карточка и отделно да публикувате растението в магазина.')) return
     const { error: approveError } = await supabase.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
     if (approveError) setError(approveError.message)
-    else { setNotice('Заявката е одобрена. Публикацията в Sanity ще бъде включена в следващия етап.'); await loadSubmissions() }
+    else { setNotice('Заявката е одобрена. Отворете я отново, проверете финалната карточка и публикувайте растението отделно.'); await loadSubmissions() }
   }
 
   const rejectSubmission = async (id: string) => {
