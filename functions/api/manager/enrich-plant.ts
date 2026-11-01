@@ -190,26 +190,33 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       let response: unknown
       try { response = await env.AI.run(model, {
         messages: [
-          { role: 'system', content: 'You write accessible product image alt text. Do not identify a plant species from an image. Do not invent visible details. Return JSON only.' },
+          { role: 'system', content: 'Describe visible image details for accessible alt text. Do not identify a plant species. Do not invent details. Reply with one concise sentence in Bulgarian only, without JSON, labels, quotes or markdown.' },
           { role: 'user', content: 'The seller says the plant is "' + name + '"' + (latinName ? ' (' + latinName + ')' : '') +
-            '. Describe only what is visibly apparent in this photo. Return JSON with keys bg, en, ru. Each value must be a concise natural alt text, maximum 180 characters. Do not mention image number or SEO keywords.' },
+            '. Describe only what is visibly apparent in this photo. Write one natural Bulgarian alt description, maximum 180 characters. Do not mention image number or SEO keywords.' },
         ],
         image: dataUrl,
       }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
       stage = 'parse_image_result'
-      const alt = parseModelJson(response)
+      const rawAlt = modelText(response).trim()
+        .replace(/^\`\`\`(?:text|json)?\\s*/i, '')
+        .replace(/\\s*\`\`\`$/, '')
+        .replace(/^["'“”]+|["'“”]+$/g, '')
+        .replace(/\\s+/g, ' ')
+        .slice(0, 180)
+      if (!rawAlt) throw new Error('AI image model returned an empty description.')
       imageDescriptions.push({
-        bg: textValue(alt.bg, 180) || name + ' — снимка на растението',
-        en: textValue(alt.en, 180) || name + ' — plant photo',
-        ru: textValue(alt.ru, 180) || name + ' — фотография растения',
+        bg: rawAlt,
+        en: name + ' — plant photo',
+        ru: name + ' — фотография растения',
       })
     }
 
     const prompt = `Prepare a draft plant product listing for Florial, a Bulgarian garden store.
 Owner-checked input (authoritative commercial data): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
-Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU, or category. Do not identify a species solely from photos. If the botanical identity is uncertain, keep scientificName empty and use cautious generic copy. Generate natural, commercially useful BG, RU and EN names, short descriptions (max 300 chars), and descriptions (max 1400 chars). Bulgarian is the source language. Do not claim frost hardiness, minimum winter temperature, adult height, or suitability for the Bulgarian Black Sea coast unless the fact is certain from established botanical knowledge; in this MVP always set minWinterTempC and adultHeightCm to null and blackSeaCoast to "needsVerification". Care fields may be suggested but must be marked for owner verification; if uncertain use null. Do not add irrigation product slugs.
+Visual observations from the product photos (use only these visible details; do not infer species): ${imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ')}.
+Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU, or category. Do not identify a species solely from photos. If the botanical identity is uncertain, keep scientificName empty and use cautious generic copy. Generate natural, commercially useful BG, RU and EN names, short descriptions (max 300 chars), and descriptions (max 1400 chars). Bulgarian is the source language. Create imageAlts, imageAltsEn and imageAltsRu arrays with one concise translation per photo, based only on the visual observations above; each item max 180 characters and preserve the same photo order. Do not claim frost hardiness, minimum winter temperature, adult height, or suitability for the Bulgarian Black Sea coast unless the fact is certain from established botanical knowledge; in this MVP always set minWinterTempC and adultHeightCm to null and blackSeaCoast to "needsVerification". Care fields may be suggested but must be marked for owner verification; if uncertain use null. Do not add irrigation product slugs.
 Return only valid JSON with this shape:
-{"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
+{"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown
@@ -231,9 +238,9 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       shortDescription: textValue(generated.shortDescription, 500),
       description: textValue(generated.description, 5000),
       mainImageIndex: 0,
-      imageAlts: imageDescriptions.map((item) => item.bg),
-      imageAltsEn: imageDescriptions.map((item) => item.en),
-      imageAltsRu: imageDescriptions.map((item) => item.ru),
+      imageAlts: imageDescriptions.map((item, index) => textValue((generated.imageAlts as unknown[] | undefined)?.[index], 180) || item.bg),
+      imageAltsEn: imageDescriptions.map((item, index) => textValue((generated.imageAltsEn as unknown[] | undefined)?.[index], 180) || item.en),
+      imageAltsRu: imageDescriptions.map((item, index) => textValue((generated.imageAltsRu as unknown[] | undefined)?.[index], 180) || item.ru),
       saleVariants: [{
         name: textValue(variant.name, 100) || 'Стандартен размер',
         saleHeightCm: typeof variant.saleHeightCm === 'number' ? variant.saleHeightCm : null,
