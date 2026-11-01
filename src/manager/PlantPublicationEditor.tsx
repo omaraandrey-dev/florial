@@ -310,7 +310,7 @@ export default function PlantPublicationEditor({
     if (!image) return
     if (!window.confirm('Да премахна ли тази снимка от продуктовата карта? Оригиналният файл и първоначалната заявка на продавача ще останат запазени. AI-черновата и финалната карта ще бъдат обновени.')) return
     const nextImages = imageFiles.filter((_, imageIndex) => imageIndex !== index)
-    const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null }
+    const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null, plantCareResearch: null }
     setUpdatingImages(true); setError(''); setNotice('')
     try {
       const { data, error: updateError } = await supabase.from('catalog_submissions')
