@@ -383,3 +383,11 @@
 - Supabase migration is tracked in Git as `20261101173649_require_complete_plant_submission.sql`, matching the applied production migration version. No existing submissions were changed.
 - Production deployment for commit `e57f214ebc0d4477d12f11b7f7b61bc9c30931f6` succeeded: `c7042ff6-04fb-4d47-ae75-d9450cc27883`; aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
 - Manual owner end-to-end verification with a new seller submission and real plant photos remains pending.
+
+
+## 2026-11-01 — Explicit owner decision for AI care suggestions
+
+- Botanical research results are displayed separately from editable plant-care fields. AI values are no longer copied into the owner draft automatically.
+- The owner can accept or reject each proposed care value individually. Accepted values are copied into the editable publication draft; rejected values are not applied. Publishing still requires the normal owner save and separate publish action.
+- Existing manually entered/published care fields are preserved and are not overwritten by new research results.
+- Production deployment for this refinement: `efb8572c-f64d-49c2-85c9-60b947ff8223`, commit `d65920914b01ba46c5e8a1c1202c5d3f1c4c8a30`, build and deploy stages successful.
