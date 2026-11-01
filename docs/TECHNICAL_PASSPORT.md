@@ -281,3 +281,11 @@
 
 - Retry safety: the Workflow normalizes object/string event payloads and the Pages process route returns the saved botanical result idempotently if a retry arrives after the first successful save.
 - Deployment note: the Pages site auto-deploys from main. The auxiliary Worker and its Workflow are separate Cloudflare resources; this initial Worker version was deployed through the Cloudflare API and must be redeployed separately when workers/plant-care-workflow/src/index.js changes. The Worker has no workers.dev public subdomain; Pages reaches it through the service binding.
+
+
+## 2026-11-01 — Botanical Workflow follow-up: main-photo-only AI and Pages routing
+
+- First plant AI preparation (`/api/manager/enrich-plant`) and second botanical verification (`/api/manager/enrich-plant-care`) send only the first selected image (the main photo) to Workers AI Vision. Additional submitted photos remain stored and available for the product; they are not passed to Vision. Diagnostics record the selected-photo count separately from the AI image count.
+- The Cloudflare Workflow now calls the verified Pages project hostname `https://florial.pages.dev` for its protected processing endpoint. The previous call to the custom domain `https://florial-bg.com` returned plain HTTP 502 during both real test runs, before the Pages handler returned its structured JSON diagnostics.
+- The actual production Workflow must be tested after both the Pages deployment and separate Worker redeployment. Until the test completes and `plantCareResearch` is saved, end-to-end success remains unconfirmed.
+- No SQL/Sanity migration or existing photo/data deletion is involved.
