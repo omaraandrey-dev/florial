@@ -62,7 +62,7 @@ export default function ManagerApp() {
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
     if (!currentSession) {
-      setSession(null); setProfile(null); setSubmissions([]); setLoading(false); return
+      setSession(null); setProfile(null); setSubmissions([]); setActiveTab('submissions'); setLoading(false); return
     }
     setSession(currentSession)
     const { data, error: profileError } = await supabase
