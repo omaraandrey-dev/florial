@@ -239,6 +239,7 @@ export default function PlantPublicationEditor({
   const [enriching, setEnriching] = useState(false)
   const [careResearching, setCareResearching] = useState(false)
   const hasPublication = Boolean(submission.payload.publication)
+  const plantCareResearch = submission.payload.plantCareResearch && typeof submission.payload.plantCareResearch === 'object' ? submission.payload.plantCareResearch as Record<string, unknown> : null
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
