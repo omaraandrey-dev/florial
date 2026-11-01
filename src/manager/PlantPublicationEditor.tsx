@@ -295,7 +295,14 @@ export default function PlantPublicationEditor({
   const researchPlantCare = async () => {
     if (!hasAiDraft || hasPublication || !draft.scientificName.trim()) return
     setCareResearching(true)
-    setCareResearching(false)
+    try {
+      const response = await fetch('/api/manager/enrich-plant-care', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() } }) })
+      const result = await response.json() as { error?: string; careDraft?: Record<string, unknown> }
+      if (!response.ok || !result.careDraft) throw new Error(result.error || 'Не удалось подготовить характеристики.')
+      setNotice('Таксономическая проверка завершена. Проверьте предложенные характеристики.')
+      await onSaved()
+    } catch (err) { setError(err instanceof Error ? err.message : 'Ошибка проверки характеристик.') }
+    finally { setCareResearching(false) }
   }
 
   const removeImage = async (index: number) => {
