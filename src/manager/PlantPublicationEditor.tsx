@@ -543,7 +543,7 @@ export default function PlantPublicationEditor({
                     <p className="font-medium">{item.label}: {item.display}</p>
                     <p className="text-xs text-slate-600">Увереност на AI: {item.confidence}</p>
                   </div>
-                  <button type="button" onClick={() => applyCareSuggestion(item.key)} className="rounded-lg border border-sky-300 bg-white px-3 py-2 text-xs font-semibold text-sky-900">Приложи</button>
+                  <button type="button" onClick={() => applyCareSuggestion(item.key)} className="rounded-lg border border-sky-300 bg-white px-3 py-2 text-xs font-semibold text-sky-900">Приеми</button>
                 </div>)}
               </div> : <p className="mt-2 text-xs text-amber-800">Няма достатъчно надеждно видово съвпадение за агротехнически предложения. Уточнете ботаническото име или проверете растението ръчно.</p>}
             </div>
