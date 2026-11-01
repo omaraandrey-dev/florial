@@ -278,3 +278,6 @@
 - No SQL migration or Sanity schema change. No existing seller submission fields, image objects, prices, publication data or published catalog documents are intentionally deleted or overwritten. The job metadata is stored in the existing catalog_submissions.payload.
 - Cloudflare Workflows is included in Workers Free limits; no Workers Paid plan, card, or billing upgrade was enabled. Free-plan usage limits still apply.
 - Production validation required: test the actual submission in Manager, confirm the Workflow status becomes complete, inspect the plantCareResearch object in the same submission, and verify that the manager UI reloads the suggestions. Until this manual test passes, end-to-end success remains unconfirmed.
+
+- Retry safety: the Workflow normalizes object/string event payloads and the Pages process route returns the saved botanical result idempotently if a retry arrives after the first successful save.
+- Deployment note: the Pages site auto-deploys from main. The auxiliary Worker and its Workflow are separate Cloudflare resources; this initial Worker version was deployed through the Cloudflare API and must be redeployed separately when workers/plant-care-workflow/src/index.js changes. The Worker has no workers.dev public subdomain; Pages reaches it through the service binding.
