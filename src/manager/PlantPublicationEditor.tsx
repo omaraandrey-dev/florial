@@ -293,6 +293,7 @@ export default function PlantPublicationEditor({
   }
 
   const researchPlantCare = async () => {
+    if (!hasAiDraft || hasPublication || !draft.scientificName.trim()) return
     setCareResearching(true)
     setCareResearching(false)
   }
