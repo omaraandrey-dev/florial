@@ -458,6 +458,22 @@ export default function PlantPublicationEditor({
         {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Повторното генериране е изключено, за да не се изразходва квота. Можете да редактирате резултата ръчно.</p>}
         <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
       </div>
+      <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="font-semibold text-sky-950">Проверка ботанических характеристик</h3>
+            <p className="mt-1 text-sm text-sky-900">GBIF проверяет латинское название, затем AI предлагает значения для проверки владельцем.</p>
+          </div>
+          <button type="button" disabled={!hasAiDraft || hasPublication || careResearching || enriching || saving || publishing || !draft.scientificName.trim()} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+            {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
+          </button>
+        </div>
+        {plantCareResearch && <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
+          <p className="font-semibold">{(plantCareResearch.identity as Record<string, unknown> | undefined)?.status === 'verified' ? 'Таксономия подтверждена GBIF' : 'Требуется уточнить ботаническое имя'}</p>
+          <p className="mt-1">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.canonicalName || '')}</p>
+          <p className="mt-2 text-xs text-slate-600">GBIF подтверждает таксономию, но не агротехнические свойства. Уверенность AI — самооценка модели, а не независимое подтверждение. Проверьте значения перед публикацией.</p>
+        </div>}
+      </div>
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
