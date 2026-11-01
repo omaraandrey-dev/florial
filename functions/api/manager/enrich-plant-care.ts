@@ -220,7 +220,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
           })
         }
       }
-    } catch {
+    } catch (error) {
       diagnosticSteps.push({ stage: 'common_name_candidates', ok: false, model: textModel, detail: error instanceof Error ? error.message : String(error) })
     }
   }
