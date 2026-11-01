@@ -10,7 +10,7 @@ type Submission = {
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
-type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at: string }
+type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at?: string }
 
 const bucket = 'florial-manager-intake'
 const statusLabels: Record<string, string> = {
