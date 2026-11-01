@@ -83,7 +83,7 @@ function modelText(response: unknown) {
 }
 function parseModelJson(response: unknown) {
   const raw = modelText(response).trim().replace(/^\uFEFF/, '')
-  const clean = raw.replace(/^\`\`\`(?:json)?\s*/i, '').replace(/\s*\`\`\`$/, '')
+  const clean = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const start = clean.indexOf('{')
   const end = clean.lastIndexOf('}')
   if (start < 0 || end <= start) throw new Error('AI model did not return valid JSON.')
@@ -206,7 +206,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
       stage = 'parse_image_result'
       const rawAlt = modelText(response).trim()
-        .replace(/\`\`\`(?:text|json)?/gi, '')
+        .replace(/```(?:text|json)?/gi, '')
         .replace(/^["'“”]+|["'“”]+$/g, '')
         .replace(/\s+/g, ' ')
         .slice(0, 180)
@@ -219,10 +219,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     imageIndex = -1
-    const prompt = \`Prepare a high-quality, detailed, locally optimized plant product listing for Florial, a Bulgarian garden and plant retailer.
+    const prompt = `Prepare a high-quality, detailed, locally optimized plant product listing for Florial, a Bulgarian garden and plant retailer.
 LANGUAGE: Bulgarian is the source language and must read like polished native Bulgarian horticultural commerce copy. Then write genuinely fluent Russian and English versions adapted to each language, not literal translations.
-OWNER-VERIFIED INPUT (the only authority for commercial facts): name: \${name}; botanical name: \${latinName || 'not supplied'}; category: \${categoryName}; owner description: \${sellerDescription}; SKU: \${sku || 'not supplied'}; sale variant: \${textValue(variant.name, 100)}; sale height cm: \${variant.saleHeightCm ?? 'not supplied'}; pot volume L: \${variant.containerVolumeL ?? 'not supplied'}; price EUR: \${variant.priceEUR ?? 'not supplied'}; stock status: \${textValue(variant.stockStatus, 40)}; stock quantity: \${variant.stockQuantity ?? 'not supplied'}.
-VISIBLE PHOTO OBSERVATIONS (visual evidence only; never identify a species from photos alone): \${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected. Do not infer visual details.'}.
+OWNER-VERIFIED INPUT (the only authority for commercial facts): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
+VISIBLE PHOTO OBSERVATIONS (visual evidence only; never identify a species from photos alone): ${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected. Do not infer visual details.'}.
 FLORIAL LOCAL SERVICE AREA — use these exact boundaries:
 - Main local reference: Несебър (Nesebar).
 - Service and sales area: Несебър, Равда, Слънчев бряг, Свети Влас, Кошарица, Поморие and Бургас.
@@ -254,7 +254,7 @@ SEO:
 - Each SEO description identifies Florial as a local plant offer in Nesebar / Несебър and nearby towns naturally, without keyword stuffing.
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
-careGuide should be a useful Bulgarian care guide with practical points where known: planting, watering, light, soil/drainage, feeding, pruning and winter protection. Avoid unsupported exact schedules or quantities. If species identity is uncertain, state that detailed care must be confirmed after verifying the botanical name.\`
+careGuide should be a useful Bulgarian care guide with practical points where known: planting, watering, light, soil/drainage, feeding, pruning and winter protection. Avoid unsupported exact schedules or quantities. If species identity is uncertain, state that detailed care must be confirmed after verifying the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown
     try { textResponse = await env.AI.run(textModel, {
