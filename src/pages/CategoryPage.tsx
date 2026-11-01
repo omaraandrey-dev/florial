@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -26,6 +26,12 @@ export function CategoryPage({
 }: CategoryPageProps) {
   const { t, language, localize } = useI18n()
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
+  const [plantSearch, setPlantSearch] = useState('')
+  const [plantTypeFilter, setPlantTypeFilter] = useState('')
+  const [plantLightFilter, setPlantLightFilter] = useState('')
+  const [plantWaterFilter, setPlantWaterFilter] = useState('')
+  const [plantCoastFilter, setPlantCoastFilter] = useState('')
+  const [plantWinterFilter, setPlantWinterFilter] = useState('')
 
   // SEO is localized only when this category actually has translated content.
   useEffect(() => {
@@ -126,9 +132,95 @@ export function CategoryPage({
     )
   }
 
-  const displayedProducts = useMemo(() => [...products].sort((a, b) =>
-    String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
-  ), [products, language, localize])
+  const plantFilterOptions = useMemo(() => ({
+    types: [...new Set(products.map((product) => product.productType).filter((value): value is string => Boolean(value)))].sort(),
+    lights: [...new Set(products.map((product) => product.plantCare?.light).filter((value): value is string => Boolean(value)))].sort(),
+    waterNeeds: [...new Set(products.map((product) => product.plantCare?.waterNeeds).filter((value): value is string => Boolean(value)))].sort(),
+    coast: [...new Set(products.map((product) => product.plantCare?.blackSeaCoast).filter((value): value is string => Boolean(value)))].sort(),
+    winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
+  }), [products])
+
+  const plantFilterLabel = (kind: string, value: string) => {
+    const labels: Record<string, Record<string, { bg: string; ru: string; en: string }>> = {
+      type: {
+        citrus: { bg: 'Цитруси', ru: 'Цитрусовые', en: 'Citrus' },
+        conifer: { bg: 'Иглолистни', ru: 'Хвойные', en: 'Conifers' },
+        flower: { bg: 'Цветя', ru: 'Цветы', en: 'Flowers' },
+        other: { bg: 'Други', ru: 'Другие', en: 'Other' },
+        palm: { bg: 'Палми', ru: 'Пальмы', en: 'Palms' },
+        perennial: { bg: 'Многогодишни', ru: 'Многолетники', en: 'Perennials' },
+        tree: { bg: 'Дървета', ru: 'Деревья', en: 'Trees' },
+        shrub: { bg: 'Храсти', ru: 'Кустарники', en: 'Shrubs' },
+        indoor: { bg: 'Интериорни', ru: 'Комнатные', en: 'Indoor plants' },
+        fruit: { bg: 'Плодни', ru: 'Плодовые', en: 'Fruit plants' },
+        succulent: { bg: 'Сукуленти', ru: 'Суккуленты', en: 'Succulents' },
+        climber: { bg: 'Катерливи', ru: 'Вьющиеся', en: 'Climbers' },
+        ornamentalGrass: { bg: 'Декоративни треви', ru: 'Декоративные травы', en: 'Ornamental grasses' },
+        groundcover: { bg: 'Почвопокривни', ru: 'Почвопокровные', en: 'Groundcovers' },
+        bulb: { bg: 'Луковични', ru: 'Луковичные', en: 'Bulbs' },
+        herb: { bg: 'Билки', ru: 'Травы', en: 'Herbs' },
+        aquatic: { bg: 'Водни', ru: 'Водные', en: 'Aquatic plants' },
+        plant: { bg: 'Растения', ru: 'Растения', en: 'Plants' },
+      },
+      light: {
+        sun: { bg: 'Слънце', ru: 'Солнце', en: 'Full sun' },
+        partialShade: { bg: 'Полусянка', ru: 'Полутень', en: 'Partial shade' },
+        shade: { bg: 'Сянка', ru: 'Тень', en: 'Shade' },
+      },
+      water: {
+        low: { bg: 'Ниска', ru: 'Низкая', en: 'Low' },
+        medium: { bg: 'Умерена', ru: 'Средняя', en: 'Medium' },
+        high: { bg: 'Висока', ru: 'Высокая', en: 'High' },
+      },
+      coast: {
+        suitable: { bg: 'Подходящо', ru: 'Подходит', en: 'Suitable' },
+        notSuitable: { bg: 'Неподходящо', ru: 'Не подходит', en: 'Not suitable' },
+        needsVerification: { bg: 'Нужна проверка', ru: 'Требует проверки', en: 'Needs verification' },
+      },
+    }
+    return labels[kind]?.[value]?.[language] || value
+  }
+
+  const hasActivePlantFilters = Boolean(
+    plantSearch.trim() || plantTypeFilter || plantLightFilter ||
+    plantWaterFilter || plantCoastFilter || plantWinterFilter
+  )
+
+  const resetPlantFilters = () => {
+    setPlantSearch('')
+    setPlantTypeFilter('')
+    setPlantLightFilter('')
+    setPlantWaterFilter('')
+    setPlantCoastFilter('')
+    setPlantWinterFilter('')
+  }
+
+  const displayedProducts = useMemo(() => {
+    const search = plantSearch.trim().toLocaleLowerCase(language)
+    return [...products]
+      .filter((product) => {
+        if (search) {
+          const searchableText = [
+            localize(product, 'name'),
+            product.name,
+            product.scientificName,
+          ].filter(Boolean).join(' ').toLocaleLowerCase(language)
+          if (!searchableText.includes(search)) return false
+        }
+        if (plantTypeFilter && product.productType !== plantTypeFilter) return false
+        if (plantLightFilter && product.plantCare?.light !== plantLightFilter) return false
+        if (plantWaterFilter && product.plantCare?.waterNeeds !== plantWaterFilter) return false
+        if (plantCoastFilter && product.plantCare?.blackSeaCoast !== plantCoastFilter) return false
+        if (plantWinterFilter) {
+          const minimumTemperature = product.plantCare?.minWinterTempC
+          if (typeof minimumTemperature !== 'number' || minimumTemperature > Number(plantWinterFilter)) return false
+        }
+        return true
+      })
+      .sort((a, b) =>
+        String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
+      )
+  }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
@@ -206,12 +298,101 @@ export function CategoryPage({
         </div>
       ) : null}
 
+      {category.isPlantCategory && products.length > 0 && (
+        <section className="mb-7 rounded-2xl border border-[#E2E6D8] bg-[#F8F9F4] p-4 md:p-5" aria-label={language === 'ru' ? 'Фильтры растений' : language === 'en' ? 'Plant filters' : 'Филтри за растения'}>
+          <details>
+            <summary className="cursor-pointer list-none text-base font-semibold text-slate-800">
+              <span className="inline-flex items-center gap-2">
+                {language === 'ru' ? 'Подобрать растения' : language === 'en' ? 'Find the right plants' : 'Избери подходящи растения'}
+                <span className="rounded-full bg-white px-2.5 py-1 text-xs font-medium text-[#647746]">
+                  {language === 'ru' ? 'Фильтры' : language === 'en' ? 'Filters' : 'Филтри'}
+                </span>
+              </span>
+            </summary>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Поиск по названию' : language === 'en' ? 'Search by name' : 'Търсене по име'}
+                <input
+                  type="search"
+                  value={plantSearch}
+                  onChange={(event) => setPlantSearch(event.target.value)}
+                  placeholder={language === 'ru' ? 'Название или латинское имя' : language === 'en' ? 'Common or botanical name' : 'Име или латинско наименование'}
+                  className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal outline-none focus:border-[#91A66B] focus:ring-2 focus:ring-[#DDE6CE]"
+                />
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Тип растения' : language === 'en' ? 'Plant type' : 'Тип растение'}
+                <select value={plantTypeFilter} onChange={(event) => setPlantTypeFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="">{language === 'ru' ? 'Все типы' : language === 'en' ? 'All types' : 'Всички типове'}</option>
+                  {plantFilterOptions.types.map((value) => <option key={value} value={value}>{plantFilterLabel('type', value)}</option>)}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Освещение' : language === 'en' ? 'Light' : 'Осветеност'}
+                <select value={plantLightFilter} onChange={(event) => setPlantLightFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="">{language === 'ru' ? 'Любое' : language === 'en' ? 'Any' : 'Всички'}</option>
+                  {plantFilterOptions.lights.map((value) => <option key={value} value={value}>{plantFilterLabel('light', value)}</option>)}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Потребность в воде' : language === 'en' ? 'Water needs' : 'Нужда от вода'}
+                <select value={plantWaterFilter} onChange={(event) => setPlantWaterFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="">{language === 'ru' ? 'Любая' : language === 'en' ? 'Any' : 'Всички'}</option>
+                  {plantFilterOptions.waterNeeds.map((value) => <option key={value} value={value}>{plantFilterLabel('water', value)}</option>)}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Подходит для Черноморского побережья' : language === 'en' ? 'Black Sea coast suitability' : 'Подходящо за Черноморието'}
+                <select value={plantCoastFilter} onChange={(event) => setPlantCoastFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="">{language === 'ru' ? 'Все оценки' : language === 'en' ? 'All assessments' : 'Всички оценки'}</option>
+                  {plantFilterOptions.coast.map((value) => <option key={value} value={value}>{plantFilterLabel('coast', value)}</option>)}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Зимоустойчивость' : language === 'en' ? 'Winter hardiness' : 'Зимоустойчивост'}
+                <select value={plantWinterFilter} onChange={(event) => setPlantWinterFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="">{language === 'ru' ? 'Без ограничения' : language === 'en' ? 'Any' : 'Всички растения'}</option>
+                  {plantFilterOptions.winterTemps.map((value) => (
+                    <option key={value} value={String(value)}>
+                      {language === 'ru' ? `Выдерживает до ${value}°C или ниже` : language === 'en' ? `Tolerates ${value}°C or colder` : `Издържа до ${value}°C или по-ниско`}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm text-slate-600">
+                {language === 'ru' ? 'Найдено растений:' : language === 'en' ? 'Plants found:' : 'Намерени растения:'}
+                {' '}<strong className="text-slate-900">{displayedProducts.length}</strong>
+                {' '}{language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'}{' '}
+                <strong className="text-slate-900">{products.length}</strong>
+              </p>
+              <button type="button" onClick={resetPlantFilters} disabled={!hasActivePlantFilters} className="rounded-lg border border-[#DDE3D0] bg-white px-4 py-2 text-sm font-semibold text-[#52643A] transition hover:bg-[#EEF1E4] disabled:cursor-not-allowed disabled:opacity-40">
+                {language === 'ru' ? 'Сбросить фильтры' : language === 'en' ? 'Clear filters' : 'Изчисти филтрите'}
+              </button>
+            </div>
+          </details>
+        </section>
+      )}
+
       {/* Сетка товаров */}
       {displayedProducts.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-xl border border-slate-100 shadow-sm">
           <p className="text-slate-500 text-lg">
-            В тази категория все още няма налични продукти.
+            {category.isPlantCategory && products.length > 0
+              ? language === 'ru' ? 'По выбранным параметрам растения не найдены.' : language === 'en' ? 'No plants match the selected filters.' : 'Няма растения, които да отговарят на избраните филтри.'
+              : 'В тази категория все още няма налични продукти.'}
           </p>
+          {category.isPlantCategory && products.length > 0 && (
+            <button type="button" onClick={resetPlantFilters} className="mt-4 rounded-lg bg-[#647746] px-5 py-2.5 font-semibold text-white transition hover:bg-[#52643A]">
+              {language === 'ru' ? 'Сбросить фильтры' : language === 'en' ? 'Clear filters' : 'Изчисти филтрите'}
+            </button>
+          )}
           <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="mt-4 inline-block bg-emerald-600 text-white font-medium px-6 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors no-underline">
             {t("Към началната страница")}
           </a>
