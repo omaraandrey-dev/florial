@@ -165,25 +165,6 @@ const irrigationProduct = defineType({
       defineField({name: 'altRu', title: 'Alt текст (RU)', type: 'string'}),
     ]}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
-    defineField({
-      name: 'oldPriceEUR',
-      title: 'Стара цена (EUR)',
-      description: 'Предишна цена преди намалението. Оставете празно, ако няма намаление.',
-      type: 'number',
-      validation: Rule => Rule.min(0).custom((value, context) => {
-        if (value == null) return true
-        const document = context.document as {priceEUR?: number}
-        if (typeof document.priceEUR !== 'number') return 'Първо въведете текущата цена.'
-        return value > document.priceEUR ? true : 'Старата цена трябва да е по-висока от текущата цена.'
-      }),
-    }),
-    defineField({
-      name: 'isFeatured',
-      title: 'Препоръчано растение',
-      description: 'Отбележете, ако растението трябва да се показва сред препоръчаните продукти.',
-      type: 'boolean',
-      initialValue: false,
-    }),
     defineField({name: 'oldPriceEUR', title: 'Стара цена (EUR)', type: 'number'}),
     defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
@@ -596,6 +577,25 @@ const plantProduct = defineType({
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
+    defineField({
+      name: 'oldPriceEUR',
+      title: 'Стара цена (EUR)',
+      description: 'Предишна цена преди намалението. Оставете празно, ако няма намаление.',
+      type: 'number',
+      validation: Rule => Rule.min(0).custom((value, context) => {
+        if (value == null) return true
+        const document = context.document as {priceEUR?: number}
+        if (typeof document.priceEUR !== 'number') return 'Първо въведете текущата цена.'
+        return value > document.priceEUR ? true : 'Старата цена трябва да е по-висока от текущата цена.'
+      }),
+    }),
+    defineField({
+      name: 'isFeatured',
+      title: 'Препоръчано растение',
+      description: 'Отбележете, ако растението трябва да се показва сред препоръчаните продукти.',
+      type: 'boolean',
+      initialValue: false,
+    }),
     defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
       {title: 'В наличност', value: 'inStock'}, {title: 'По заявка', value: 'onRequest'}, {title: 'Изчерпан', value: 'outOfStock'},
