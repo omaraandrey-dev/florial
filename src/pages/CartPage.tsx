@@ -5,8 +5,8 @@ import { createOrder } from '../services/orderService'
 
 interface CartPageProps {
   cart: CartItem[]
-  onUpdateQuantity: (productId: string, quantity: number) => void
-  onRemoveItem: (productId: string) => void
+  onUpdateQuantity: (itemKey: string, quantity: number) => void
+  onRemoveItem: (itemKey: string) => void
   onClearCart: () => void
   onNavigateHome: () => void
 }
@@ -23,7 +23,7 @@ export function CartPage({
   const [orderNumber, setOrderNumber] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | ''>('')
+  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | 'agree' | ''>('')
   const [selectedSettlement, setSelectedSettlement] = useState('')
 
   const deliveryRates: Record<string, number> = {
@@ -59,6 +59,10 @@ export function CartPage({
     'Паницово': 25,
   }
   const deliveryRate = selectedSettlement ? deliveryRates[selectedSettlement] : undefined
+  const hasPlantItems = cart.some(({ product }) => product.productType !== 'equipment')
+  const getCartItemKey = (item: CartItem) => item.product._id + '::' + (item.saleVariant?._key || item.saleVariant?.sku || item.saleVariant?.name || '')
+  const getItemPrice = (item: CartItem) => item.saleVariant?.priceEUR ?? item.product.priceEUR ?? 0
+  const getVariantName = (item: CartItem) => item.saleVariant ? (language === 'ru' ? (item.saleVariant.nameRu || item.saleVariant.name) : language === 'en' ? (item.saleVariant.nameEn || item.saleVariant.name) : item.saleVariant.name) : ''
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -68,10 +72,7 @@ export function CartPage({
     comment: '',
   })
 
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + (item.product.priceEUR || 0) * item.quantity,
-    0
-  )
+  const totalPrice = cart.reduce((sum, item) => sum + getItemPrice(item) * item.quantity, 0)
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,14 +86,16 @@ export function CartPage({
         customer_name: formData.name.trim(),
         phone: formData.phone.trim(),
         email: formData.email.trim(),
-        city: deliveryMethod === 'pickup' ? 'Самовывоз из магазина' : selectedSettlement,
-        address: deliveryMethod === 'courier' ? formData.address.trim() : '',
-        delivery_method: deliveryMethod === 'pickup' ? 'pickup' : 'courier',
+        city: deliveryMethod === 'pickup' ? '' : deliveryMethod === 'courier' ? selectedSettlement : formData.city.trim(),
+        address: deliveryMethod === 'pickup' ? '' : formData.address.trim(),
+        delivery_method: deliveryMethod,
         comment: formData.comment.trim(),
-        items: cart.map(({ product, quantity }) => ({
-          productId: product._id,
-          qty: quantity,
-          expectedPrice: product.priceEUR || 0,
+        items: cart.map((item) => ({
+          productId: item.product._id,
+          qty: item.quantity,
+          expectedPrice: getItemPrice(item),
+          catalog: item.product.productType === 'equipment' ? 'production' : 'plants',
+          ...(item.saleVariant?._key ? { variantKey: item.saleVariant._key } : {}),
         })),
       })
 
@@ -166,9 +169,13 @@ export function CartPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Список товаров в корзине */}
           <div className="lg:col-span-2 space-y-4">
-            {cart.map(({ product, quantity }) => (
+            {cart.map((item) => {
+              const { product, quantity, saleVariant } = item
+              const itemPrice = getItemPrice(item)
+              const variantName = getVariantName(item)
+              return (
               <div
-                key={product._id}
+                key={getCartItemKey(item)}
                 className="bg-white rounded-2xl border border-slate-100 p-4 md:p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-4 w-full sm:w-auto">
@@ -187,8 +194,9 @@ export function CartPage({
                     <h3 className="font-bold text-slate-900 text-base mb-1 line-clamp-2">
                       {localize(product, 'name')}
                     </h3>
+                    {variantName && <p className="text-sm text-slate-600 mb-1">{variantName}{typeof saleVariant?.saleHeightCm === 'number' ? ' · ' + (language === 'ru' ? 'Высота' : language === 'en' ? 'Height' : 'Височина') + ': ' + saleVariant.saleHeightCm + ' cm' : ''}{typeof saleVariant?.containerVolumeL === 'number' ? ' · ' + saleVariant.containerVolumeL + ' L' : ''}</p>}
                     <p className="text-emerald-800 font-extrabold text-sm">
-                      {(product.priceEUR || 0).toFixed(2)} € / бр.
+                      {itemPrice.toFixed(2)} € / бр.
                     </p>
                     <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
                   </div>
@@ -198,7 +206,7 @@ export function CartPage({
                   {/* Переключатель количества */}
                   <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
                     <button
-                      onClick={() => onUpdateQuantity(product._id, quantity - 1)}
+                      onClick={() => onUpdateQuantity(getCartItemKey(item), quantity - 1)}
                       className="px-3 py-1.5 text-slate-600 hover:bg-slate-200 transition cursor-pointer font-bold"
                     >
                       -
@@ -207,7 +215,7 @@ export function CartPage({
                       {quantity}
                     </span>
                     <button
-                      onClick={() => onUpdateQuantity(product._id, quantity + 1)}
+                      onClick={() => onUpdateQuantity(getCartItemKey(item), quantity + 1)}
                       className="px-3 py-1.5 text-slate-600 hover:bg-slate-200 transition cursor-pointer font-bold"
                     >
                       +
@@ -215,11 +223,11 @@ export function CartPage({
                   </div>
 
                   <span className="font-extrabold text-slate-900 text-lg w-24 text-right">
-                    {((product.priceEUR || 0) * quantity).toFixed(2)} €
+                    {(itemPrice * quantity).toFixed(2)} €
                   </span>
 
                   <button
-                    onClick={() => onRemoveItem(product._id)}
+                    onClick={() => onRemoveItem(getCartItemKey(item))}
                     className="text-slate-400 hover:text-red-600 transition cursor-pointer text-xl font-bold px-2"
                     title={t('Премахни')}
                   >
@@ -227,7 +235,8 @@ export function CartPage({
                   </button>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Итоговая сумма и форма заказа */}
@@ -307,7 +316,7 @@ export function CartPage({
                     </span>
                     <span className="shrink-0 text-sm font-extrabold text-emerald-700">{language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно'}</span>
                   </button>
-                  <button
+                  {!hasPlantItems && <button
                     type="button"
                     aria-pressed={deliveryMethod === 'courier'}
                     onClick={() => setDeliveryMethod('courier')}
@@ -319,7 +328,20 @@ export function CartPage({
                       <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Выберите населённый пункт и тариф' : language === 'en' ? 'Choose your settlement and delivery fee' : 'Изберете населено място и цена за доставка'}</span>
                     </span>
                     <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'courier' ? '✓' : '›'}</span>
-                  </button>
+                  </button>}
+                  {hasPlantItems && <button
+                    type="button"
+                    aria-pressed={deliveryMethod === 'agree'}
+                    onClick={() => setDeliveryMethod('agree')}
+                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'agree' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
+                  >
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🌿</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-bold text-slate-900">{language === 'ru' ? 'Доставка — согласовать с Florial' : language === 'en' ? 'Delivery — arrange with Florial' : 'Доставка — уточнить с Florial'}</span>
+                      <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Мы уточним возможность и стоимость после заказа' : language === 'en' ? 'We will confirm the option and cost after your order' : 'Ще уточним възможността и цената след поръчката'}</span>
+                    </span>
+                    <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'agree' ? '✓' : '›'}</span>
+                  </button>}
                   <div aria-disabled="true" className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-60">
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl grayscale" aria-hidden="true">📦</span>
                     <span className="min-w-0 flex-1">
@@ -330,7 +352,21 @@ export function CartPage({
                 </div>
               </section>
 
-              {deliveryMethod === 'courier' && (
+              {deliveryMethod === 'agree' && hasPlantItems && (
+                <section className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm text-slate-700">{language === 'ru' ? 'Укажите населённый пункт. Специалист Florial свяжется с вами и согласует способ и стоимость доставки растений.' : language === 'en' ? 'Enter your settlement. A Florial specialist will contact you to agree on the delivery method and cost for the plants.' : 'Посочете населено място. Специалист на Florial ще се свърже с вас, за да уточните начина и цената за доставка на растенията.'}</p>
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">{language === 'ru' ? 'Населённый пункт *' : language === 'en' ? 'Settlement *' : 'Населено място *'}</label>
+                    <input required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm" placeholder={language === 'ru' ? 'Например, Несебр' : language === 'en' ? 'e.g. Nessebar' : 'Напр. Несебър'} />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">{language === 'ru' ? 'Адрес (если известен)' : language === 'en' ? 'Address (if known)' : 'Адрес (ако е известен)'}</label>
+                    <textarea rows={2} value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm" />
+                  </div>
+                </section>
+              )}
+
+              {deliveryMethod === 'courier' && !hasPlantItems && (
                 <section className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
                   <div>
                     <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
@@ -390,7 +426,7 @@ export function CartPage({
               )}
               <button
                 type="submit"
-                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'courier' && (!selectedSettlement || !formData.address.trim()))}
+                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'courier' && (!selectedSettlement || !formData.address.trim())) || (deliveryMethod === 'agree' && !formData.city.trim())}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
                 {isSubmitting ? 'Изпращане...' : t('Изпрати поръчката')}
