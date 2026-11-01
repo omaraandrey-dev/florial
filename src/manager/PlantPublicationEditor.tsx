@@ -194,7 +194,7 @@ function toPublication(draft: Draft) {
 }
 
 export default function PlantPublicationEditor({
-  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished,
+  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished, publishError,
 }: Props) {
   const [draft, setDraft] = useState<Draft>(() => makeDraft(submission))
   const [savedFingerprint, setSavedFingerprint] = useState('')
