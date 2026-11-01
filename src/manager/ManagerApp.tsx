@@ -120,10 +120,10 @@ export default function ManagerApp() {
         cache: 'no-store',
       })
       const result = await response.json() as { staff?: StaffMember[]; error?: string }
-      if (!response.ok) throw new Error(result.error || 'Не удалось загрузить сотрудников.')
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да заредим служителите.')
       setStaffMembers(result.staff || [])
     } catch (err) {
-      setStaffError(err instanceof Error ? err.message : 'Не удалось загрузить сотрудников.')
+      setStaffError(err instanceof Error ? err.message : 'Не успяхме да заредим служителите.')
     } finally {
       setStaffLoading(false)
     }
@@ -258,7 +258,7 @@ export default function ManagerApp() {
   }
 
   const staffRequest = async (method: 'POST' | 'PATCH', body: Record<string, unknown>) => {
-    if (!session) throw new Error('Нужна активная сессия.')
+    if (!session) throw new Error('Необходима е активна сесия.')
     const response = await fetch('/api/manager/staff', {
       method,
       headers: {
@@ -283,10 +283,10 @@ export default function ManagerApp() {
         password: newStaffPassword,
       })
       setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword('')
-      setStaffNotice('Сотрудник создан. Передайте ему email и установленный вами пароль.')
+      setStaffNotice('Служителят е създаден. Предайте му email адреса и зададената от вас парола.')
       await loadStaff()
     } catch (err) {
-      setStaffError(err instanceof Error ? err.message : 'Не удалось создать сотрудника.')
+      setStaffError(err instanceof Error ? err.message : 'Не успяхме да създадем служителя.')
     } finally {
       setStaffSaving(false)
     }
@@ -300,7 +300,7 @@ export default function ManagerApp() {
       await loadStaff()
       return true
     } catch (err) {
-      setStaffError(err instanceof Error ? err.message : 'Не удалось обновить сотрудника.')
+      setStaffError(err instanceof Error ? err.message : 'Не успяхме да обновим служителя.')
       return false
     } finally {
       setStaffSaving(false)
@@ -309,7 +309,7 @@ export default function ManagerApp() {
 
   const saveStaffPassword = async (event: FormEvent, userId: string) => {
     event.preventDefault()
-    const saved = await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Пароль сотрудника обновлён.')
+    const saved = await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Паролата на служителя е обновена.')
     if (saved) {
       setPasswordTarget(null)
       setReplacementPassword('')
@@ -456,12 +456,12 @@ export default function ManagerApp() {
                     </div>}
                   </div>
                   {passwordTarget === staff.user_id && <form onSubmit={(event) => void saveStaffPassword(event, staff.user_id)} className="mt-4 flex flex-col gap-2 sm:flex-row">
-                    <input className={inputClass + ' mt-0'} type="password" minLength={12} maxLength={128} autoComplete="new-password" placeholder="Нов пароль — минимум 12 символов" value={replacementPassword} onChange={(event) => setReplacementPassword(event.target.value)} required />
-                    <button disabled={staffSaving} className="shrink-0 rounded-lg bg-stone-800 px-4 py-2 text-sm font-semibold text-white">Сохранить</button>
+                    <input className={inputClass + ' mt-0'} type="password" minLength={12} maxLength={128} autoComplete="new-password" placeholder="Нова парола — минимум 12 символа" value={replacementPassword} onChange={(event) => setReplacementPassword(event.target.value)} required />
+                    <button disabled={staffSaving} className="shrink-0 rounded-lg bg-stone-800 px-4 py-2 text-sm font-semibold text-white">Запази</button>
                   </form>}
                 </article>
               ))}
-              {!staffLoading && staffMembers.length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Сотрудники ещё не добавлены.</div>}
+              {!staffLoading && staffMembers.length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Все още няма добавени служители.</div>}
             </div>
           </div>
           <form onSubmit={createStaff} className="h-fit rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
@@ -469,7 +469,7 @@ export default function ManagerApp() {
             <label className={labelClass + ' mt-4'}>Имя сотрудника<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
             <label className={labelClass + ' mt-4'}>Email<input className={inputClass} type="email" autoComplete="off" value={newStaffEmail} onChange={(event) => setNewStaffEmail(event.target.value)} required /></label>
             <label className={labelClass + ' mt-4'}>Роль<select className={inputClass} value={newStaffRole} onChange={(event) => setNewStaffRole(event.target.value as 'seller' | 'manager')}><option value="seller">Продавач</option><option value="manager">Мениджър</option></select></label>
-            <label className={labelClass + ' mt-4'}>Пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символов. После сохранения пароль не отображается повторно.</span></label>
+            <label className={labelClass + ' mt-4'}>Парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символа. След запис паролата няма да се показва повторно.</span></label>
             <button disabled={staffSaving} className="mt-5 w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{staffSaving ? 'Запазване…' : 'Създай служител'}</button>
           </form>
         </div>
