@@ -165,4 +165,5 @@
 - Новая SQL migration не требуется; используются существующие таблицы и RLS без изменения.
 - Preview secrets, Sanity, публичные Header/menu/Footer, корзина, checkout и `orders` не менялись.
 - Supabase Auth ограничение: пользователь технически может вызвать стандартный endpoint обновления собственного пароля напрямую. Manager не показывает self-service UI, но строгая блокировка прямого Auth API в этой версии не реализована.
-- PR, проверки GitHub Actions и production deployment: будут зафиксированы после завершения проверки ветки.
+- PR #41 открыт: https://github.com/omaraandrey-dev/florial/pull/41; актуальный head `7bdd676ae7c314e20d87e188fcf305efa24e8db4`, base `main` (`f73b03b17d5bc3cf8d14b96364677b245ab042b2`), branch не отстаёт от main, GitHub сообщает `mergeable=true`.
+- GitHub Actions run/status для актуального head пока не возвращён инструментами проверки; успешная сборка не подтверждена. PR не объединён и production deployment не выполнялся.
