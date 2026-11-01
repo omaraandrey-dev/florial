@@ -107,10 +107,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const plantName = textValue(reviewInput.name ?? payload.name ?? submission.id, 160)
   const scientificName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
   if (!scientificName) return json({ error: 'Введите проверенное латинское ботаническое название.' }, 400)
+  // GBIF matches species taxa, not horticultural cultivar epithets; retain the full owner name but verify its species binomial.
+  const speciesBinomial = scientificName.match(/^([A-Z][A-Za-z-]*\\s+[a-z][A-Za-z-]*)/)?.[1] || scientificName
 
   let match: Record<string, unknown>
   try {
-    const gbifUrl = 'https://api.gbif.org/v1/species/match?name=' + encodeURIComponent(scientificName) + '&kingdom=Plantae&verbose=true'
+    const gbifUrl = 'https://api.gbif.org/v1/species/match?name=' + encodeURIComponent(speciesBinomial) + '&kingdom=Plantae&verbose=true'
     const gbifResponse = await fetch(gbifUrl, { headers: { Accept: 'application/json', 'User-Agent': 'Florial/1.0 (+https://florial-bg.com)' } })
     if (!gbifResponse.ok) return json({ error: 'GBIF временно недоступен. Повторите проверку позже.' }, 502)
     match = await gbifResponse.json() as Record<string, unknown>
@@ -128,6 +130,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const identity = {
     status: exactSpeciesMatch ? 'verified' : 'needs_review',
     submittedName: scientificName,
+    searchedName: speciesBinomial,
     canonicalName,
     rank,
     confidence,
