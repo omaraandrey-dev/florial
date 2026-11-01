@@ -253,7 +253,6 @@ export default function ManagerApp() {
     event?.preventDefault()
     if (!session || !profile) return
     if (!title.trim()) { setError('Въведете име на растението.'); return }
-    if (!category) { setError('Изберете категория от списъка.'); return }
     if (files.length + (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) > 8) { setError('Максимумът е 8 снимки за една заявка.'); return }
     setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
