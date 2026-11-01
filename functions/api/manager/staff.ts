@@ -106,7 +106,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     }
     const profiles = await profilesResponse.json() as StaffProfile[]
     const authData = await usersResponse.json() as { users?: AuthUser[] }
-    const usersById = new Map((authData.users || []).map((user) => [user.id, user]))
+    const usersById = new Map<string, AuthUser>((authData.users || []).map((user): [string, AuthUser] => [user.id, user]))
     const staff = profiles.map((profile) => {
       const authUser = usersById.get(profile.user_id)
       return {
