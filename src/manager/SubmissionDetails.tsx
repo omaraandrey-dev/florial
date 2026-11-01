@@ -23,13 +23,13 @@ export default function SubmissionDetails({ submission, images, loading }: Props
   return <div className="mt-3 space-y-3 text-sm">
     <div><span className="text-stone-500">Растение: </span><strong>{name}</strong></div>
     <div><span className="text-stone-500">Латинско име: </span>{scientificName}</div>
-    <div><span className="text-stone-500">Тип растение: </span>{productType}</div>
+    <div><span className="text-stone-500">Тип на растението: </span>{productType}</div>
     <div><span className="text-stone-500">Категория: </span>{categoryName}</div>
     <div><span className="text-stone-500">SKU: </span>{sku}</div>
     {shortDescription && <div><span className="text-stone-500">Кратко описание: </span>{shortDescription}</div>}
     <div><span className="text-stone-500">Вариант: </span>{String(variant.name || '—')}</div>
-    <div><span className="text-stone-500">Височина: </span>{variant.saleHeightCm == null ? '—' : String(variant.saleHeightCm) + ' cm'}</div>
-    <div><span className="text-stone-500">Обем на контейнера: </span>{variant.containerVolumeL == null ? '—' : String(variant.containerVolumeL) + ' L'}</div>
+    <div><span className="text-stone-500">Височина: </span>{variant.saleHeightCm == null ? '—' : String(variant.saleHeightCm) + ' см'}</div>
+    <div><span className="text-stone-500">Обем на контейнера: </span>{variant.containerVolumeL == null ? '—' : String(variant.containerVolumeL) + ' л'}</div>
     <div><span className="text-stone-500">Цена с ДДС: </span>{variant.priceEUR == null ? 'По запитване' : Number(variant.priceEUR).toFixed(2) + ' EUR'}</div>
     <div><span className="text-stone-500">Количество: </span>{String(variant.stockQuantity ?? '—')}</div>
     <div><span className="text-stone-500">Наличност: </span>{variant.stockStatus === 'inStock' ? 'В наличност' : variant.stockStatus === 'onRequest' ? 'По заявка' : variant.stockStatus === 'outOfStock' ? 'Изчерпан' : '—'}</div>
