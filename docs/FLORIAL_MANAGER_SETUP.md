@@ -56,20 +56,13 @@
 ## Production статус — 01.11.2026
 
 - GitHub PR #39 е MERGED; PR #38 е CLOSED (superseded).
-- Cloudflare Pages production deployment е успешен: `98ba0318-dfc6-419a-9906-62e90f7980de`.
+- Cloudflare Pages production deployment за първата версия е успешен: `98ba0318-dfc6-419a-9906-62e90f7980de`.
 - Supabase migration `create_florial_manager` version `20261101080656` е приложена.
-- Проверени са таблиците, RLS и private bucket. Данни в тях няма; Auth accounts/roles още не са създадени.
-- Преди да се използва панелът, създайте акаунт на собственика в Supabase Dashboard → Authentication → Users и добавете неговия UUID с роля `owner` чрез SQL:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values ('UUID_FROM_AUTH_USERS', 'owner', 'Florial Owner');
-```
-
-- Не използвайте placeholder UUID. След това създайте отделни Auth accounts за служителите и добавете им роли `seller` или `manager`.
+- Проверени са трите Manager таблици, RLS policies и private Storage bucket.
+- В `catalog_staff_profiles` е създаден и проверен един активен профил с роля `owner`. Таблиците със заявки и събития са празни към последната read-only проверка.
+- Не изпълнявайте отново bootstrap SQL за owner. След merge и production deployment PR #41 служителите ще се създават от owner-only раздела «Сотрудники».
+- Сквозната проверка на създаване на служител, вход с неговия акаунт и получаване на email остава предстояща.
 - Не изпращайте пароли, access tokens или service-role keys в чат. Публичната регистрация не трябва да се използва за добавяне на служители.
-- Проверка на Auth signup/redirect settings и реално получаване на email остават **НЕ ИЗВЕСТНО — нужно уточнить**.
-
 
 ## Отстраняване на проблем с директния адрес `/manager`
 
