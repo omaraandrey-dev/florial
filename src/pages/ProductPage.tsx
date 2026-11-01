@@ -15,6 +15,31 @@ const PLANT_PRODUCT_TYPES = new Set([
 const isPlantProduct = (product: Product) =>
   PLANT_PRODUCT_TYPES.has(product.productType || '')
 
+const formatPlantHeight = (value: number, language: string) => {
+  if (value >= 100) return `${(value / 100).toLocaleString(language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG', { maximumFractionDigits: 1 })} m`
+  return `${value} cm`
+}
+
+const renderCareGuideBlocks = (blocks: any[]) => blocks.map((block, index) => {
+  if (block?._type !== 'block' || !Array.isArray(block.children)) return null
+  const content = block.children.map((child: any, childIndex: number) => {
+    let node: React.ReactNode = child.text || ''
+    const marks: string[] = child.marks || []
+    if (marks.includes('strong')) node = <strong>{node}</strong>
+    if (marks.includes('em')) node = <em>{node}</em>
+    const link = (block.markDefs || []).find((definition: any) => marks.includes(definition._key) && definition._type === 'link')
+    if (link?.href) {
+      const external = /^https?:\\/\\//i.test(link.href)
+      node = <a href={link.href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} className="text-emerald-700 underline underline-offset-2">{node}</a>
+    }
+    return <React.Fragment key={child._key || childIndex}>{node}</React.Fragment>
+  })
+  if (block.style === 'h2') return <h3 key={block._key || index} className="text-lg font-bold text-slate-900 mt-5 mb-2">{content}</h3>
+  if (block.style === 'h3') return <h4 key={block._key || index} className="font-bold text-slate-800 mt-4 mb-2">{content}</h4>
+  if (block.listItem) return <p key={block._key || index} className="pl-5 relative before:content-['•'] before:absolute before:left-1">{content}</p>
+  return <p key={block._key || index}>{content}</p>
+})
+
 
 interface ProductPageProps {
   product: Product
@@ -67,6 +92,49 @@ export function ProductPage({
       item._type === 'service' ? item.isActive !== false : item.isPublished === true
     ))
     .slice(0, 4)
+
+  const plantCare = isPlantProduct(product) ? product.plantCare : undefined
+  const noCareData = language === 'ru' ? 'Нет подтверждённых данных' : language === 'en' ? 'No verified data' : 'Няма потвърдени данни'
+  const careLabels: Record<string, Record<string, string>> = {
+    light: {
+      sun: language === 'ru' ? 'Полное солнце' : language === 'en' ? 'Full sun' : 'Пълно слънце',
+      partialShade: language === 'ru' ? 'Полутень' : language === 'en' ? 'Partial shade' : 'Полусянка',
+      shade: language === 'ru' ? 'Тень' : language === 'en' ? 'Shade' : 'Сянка',
+    },
+    waterNeeds: {
+      low: language === 'ru' ? 'Низкая' : language === 'en' ? 'Low' : 'Ниска',
+      medium: language === 'ru' ? 'Средняя' : language === 'en' ? 'Medium' : 'Средна',
+      high: language === 'ru' ? 'Высокая' : language === 'en' ? 'High' : 'Висока',
+    },
+    foliageType: {
+      evergreen: language === 'ru' ? 'Вечнозелёное' : language === 'en' ? 'Evergreen' : 'Вечнозелено',
+      deciduous: language === 'ru' ? 'Листопадное' : language === 'en' ? 'Deciduous' : 'Листопадно',
+    },
+    blackSeaCoast: {
+      suitable: language === 'ru' ? 'Подходит для Черноморья' : language === 'en' ? 'Suitable for the Black Sea coast' : 'Подходящо за Черноморието',
+      notSuitable: language === 'ru' ? 'Не подходит для Черноморья' : language === 'en' ? 'Not suitable for the Black Sea coast' : 'Неподходящо за Черноморието',
+      needsVerification: language === 'ru' ? 'Требуется проверка' : language === 'en' ? 'Needs verification' : 'Нужна проверка',
+    },
+  }
+  const seasonLabels: Record<string, string> = {
+    spring: language === 'ru' ? 'Весна' : language === 'en' ? 'Spring' : 'Пролет',
+    summer: language === 'ru' ? 'Лето' : language === 'en' ? 'Summer' : 'Лято',
+    autumn: language === 'ru' ? 'Осень' : language === 'en' ? 'Autumn' : 'Есен',
+    winter: language === 'ru' ? 'Зима' : language === 'en' ? 'Winter' : 'Зима',
+    yearRound: language === 'ru' ? 'Круглый год' : language === 'en' ? 'Year-round' : 'През цялата година',
+  }
+  const formatSeasons = (values?: string[]) => values?.length ? values.map((value) => seasonLabels[value] || value).join(', ') : noCareData
+  const renderLevelIndicator = (level?: number) => (
+    <div className="mt-3 flex gap-1.5" aria-hidden="true">
+      {[1, 2, 3].map((step) => (
+        <span key={step} className={`h-1.5 flex-1 rounded-full ${level && step <= level ? 'bg-emerald-600' : 'bg-slate-200'}`} />
+      ))}
+    </div>
+  )
+  const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
+  const hasDiscount = Number(product.oldPriceEUR) > Number(product.priceEUR) && Number(product.priceEUR) > 0
+  const discountPercent = hasDiscount ? Math.round((Number(product.oldPriceEUR) - Number(product.priceEUR)) / Number(product.oldPriceEUR) * 100) : 0
+  const discountSaving = hasDiscount ? Number(product.oldPriceEUR) - Number(product.priceEUR) : 0
 
   const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
     const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
@@ -278,12 +346,14 @@ export function ProductPage({
                 <span className="text-3xl font-extrabold text-emerald-800">
                   {(product.priceEUR || 0).toFixed(2)} €
                 </span>
-                {product.oldPriceEUR && (
+                {hasDiscount && (
                   <span className="text-lg text-slate-400 line-through">
                     {product.oldPriceEUR.toFixed(2)} €
                   </span>
                 )}
+                {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
               </div>
+              {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? `Экономия: ${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: ${discountSaving.toFixed(2)} €` : `Спестявате: ${discountSaving.toFixed(2)} €`}</p>}
               <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
             </div>
 
@@ -365,6 +435,91 @@ export function ProductPage({
         </section>
       )}
 
+
+      {/* Plant-specific structured care profile from Sanity */}
+      {isPlantProduct(product) && (
+        <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-slate-900">{language === 'ru' ? 'Характеристики и условия выращивания' : language === 'en' ? 'Plant characteristics and growing conditions' : 'Характеристики и условия на отглеждане'}</h2>
+            <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Данные приведены по профилю растения в каталоге Florial.' : language === 'en' ? 'Information is based on the plant profile in the Florial catalogue.' : 'Информацията е според профила на растението в каталога на Florial.'}</p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <article className="rounded-xl border border-amber-100 bg-amber-50/50 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">☀️</span>{language === 'ru' ? 'Освещение' : language === 'en' ? 'Light' : 'Осветление'}</div>
+              <p className="mt-2 font-bold text-slate-900">{plantCare?.light ? careLabels.light[plantCare.light] || noCareData : noCareData}</p>
+              {renderLevelIndicator(plantCare?.light === 'sun' ? 3 : plantCare?.light === 'partialShade' ? 2 : plantCare?.light === 'shade' ? 1 : undefined)}
+            </article>
+            <article className="rounded-xl border border-sky-100 bg-sky-50/50 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">💧</span>{language === 'ru' ? 'Потребность в воде' : language === 'en' ? 'Water needs' : 'Нужда от поливане'}</div>
+              <p className="mt-2 font-bold text-slate-900">{plantCare?.waterNeeds ? careLabels.waterNeeds[plantCare.waterNeeds] || noCareData : noCareData}</p>
+              {renderLevelIndicator(plantCare?.waterNeeds === 'low' ? 1 : plantCare?.waterNeeds === 'medium' ? 2 : plantCare?.waterNeeds === 'high' ? 3 : undefined)}
+            </article>
+            <article className="rounded-xl border border-blue-100 bg-blue-50/50 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">❄️</span>{language === 'ru' ? 'Минимальная зимняя температура' : language === 'en' ? 'Minimum winter temperature' : 'Минимална зимна температура'}</div>
+              <p className="mt-2 text-xl font-extrabold text-slate-900">{typeof plantCare?.minWinterTempC === 'number' ? `${plantCare.minWinterTempC < 0 ? '−' : '+'}${Math.abs(plantCare.minWinterTempC)} °C` : noCareData}</p>
+              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Значение из профиля растения; фактическая устойчивость зависит от условий.' : language === 'en' ? 'Profile value; actual hardiness depends on growing conditions.' : 'Стойността е от профила; реалната устойчивост зависи от условията.'}</p>
+            </article>
+            <article className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">📏</span>{language === 'ru' ? 'Высота взрослого растения' : language === 'en' ? 'Mature plant height' : 'Височина на възрастното растение'}</div>
+              <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.adultHeightCm === 'number' ? formatPlantHeight(plantCare.adultHeightCm, language) : noCareData}</p>
+              {typeof plantCare?.saleFormat?.saleHeightCm === 'number' && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {formatPlantHeight(plantCare.saleFormat.saleHeightCm, language)}</p>}
+            </article>
+            <article className="rounded-xl border border-green-100 bg-green-50/40 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🍃</span>{language === 'ru' ? 'Тип листвы' : language === 'en' ? 'Foliage type' : 'Тип листна маса'}</div>
+              <p className="mt-2 font-bold text-slate-900">{plantCare?.foliageType ? careLabels.foliageType[plantCare.foliageType] || noCareData : noCareData}</p>
+            </article>
+            <article className="rounded-xl border border-pink-100 bg-pink-50/40 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌸</span>{language === 'ru' ? 'Период цветения' : language === 'en' ? 'Flowering season' : 'Период на цъфтеж'}</div>
+              <p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare?.floweringSeason)}</p>
+            </article>
+            <article className="rounded-xl border border-lime-100 bg-lime-50/40 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌱</span>{language === 'ru' ? 'Период посадки' : language === 'en' ? 'Planting season' : 'Период на засаждане'}</div>
+              <p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare?.plantingSeason)}</p>
+            </article>
+            <article className="rounded-xl border border-cyan-100 bg-cyan-50/40 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌊</span>{language === 'ru' ? 'Подходит для Черноморского побережья' : language === 'en' ? 'Black Sea coast suitability' : 'Пригодност за Черноморието'}</div>
+              <p className="mt-2 font-bold text-slate-900">{plantCare?.blackSeaCoast ? careLabels.blackSeaCoast[plantCare.blackSeaCoast] || noCareData : noCareData}</p>
+              <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${plantCare?.blackSeaCoast === 'suitable' ? 'bg-emerald-100 text-emerald-800' : plantCare?.blackSeaCoast === 'notSuitable' ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-600'}`}>{plantCare?.blackSeaCoast === 'suitable' ? (language === 'ru' ? 'Подходит' : language === 'en' ? 'Suitable' : 'Подходящо') : plantCare?.blackSeaCoast === 'notSuitable' ? (language === 'ru' ? 'Не подходит' : language === 'en' ? 'Not suitable' : 'Неподходящо') : (language === 'ru' ? 'Не проверено' : language === 'en' ? 'Not verified' : 'Непроверено')}</span>
+            </article>
+            <article className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🪴</span>{language === 'ru' ? 'Формат продажи' : language === 'en' ? 'Sale format' : 'Формат на продажба'}</div>
+              <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.saleFormat?.containerVolumeL === 'number' ? `${plantCare.saleFormat.containerVolumeL} L` : noCareData}</p>
+              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}</p>
+            </article>
+          </div>
+        </section>
+      )}
+
+      {isPlantProduct(product) && careGuideBlocks.length > 0 && (
+        <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="mb-3 text-xl font-bold text-slate-900">{language === 'ru' ? 'Руководство по уходу' : language === 'en' ? 'Plant care guide' : 'Ръководство за отглеждане'}</h2>
+          {language !== 'bg' && <p className="mb-4 text-xs text-slate-500">{language === 'ru' ? 'Это руководство предоставлено на болгарском языке.' : 'This guide is provided in Bulgarian.'}</p>}
+          <div className="space-y-3 text-sm leading-7 text-slate-600">{renderCareGuideBlocks(careGuideBlocks)}</div>
+        </section>
+      )}
+
+      {isPlantProduct(product) && product.recommendedIrrigation && (
+        <section className="mb-12 rounded-2xl border border-emerald-100 bg-emerald-50/40 p-6 shadow-sm md:p-8">
+          <h2 className="mb-3 text-xl font-bold text-slate-900">{language === 'ru' ? 'Рекомендуемая система полива' : language === 'en' ? 'Recommended irrigation system' : 'Препоръчителна система за напояване'}</h2>
+          <p className="mb-4 text-sm text-slate-600">{({
+            drip: language === 'ru' ? 'Капельный полив' : language === 'en' ? 'Drip irrigation' : 'Капково напояване',
+            rotator: language === 'ru' ? 'Ротаторные форсунки' : language === 'en' ? 'Rotator nozzles' : 'Ротаторни дюзи',
+            root: language === 'ru' ? 'Корневой полив' : language === 'en' ? 'Root irrigation' : 'Кореново напояване',
+            mist: language === 'ru' ? 'Туманообразование' : language === 'en' ? 'Misting' : 'Мъглуване',
+          } as Record<string, string>)[product.recommendedIrrigation.irrigationType || ''] || noCareData}</p>
+          {product.recommendedIrrigationProduct ? (
+            <a href={localizedHref(`/product/${encodeURIComponent(product.recommendedIrrigationProduct.slug?.current || product.recommendedIrrigationProduct._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateProduct(product.recommendedIrrigationProduct!.slug?.current || product.recommendedIrrigationProduct!._id))} className="flex flex-col gap-3 rounded-xl border border-emerald-100 bg-white p-4 no-underline transition hover:shadow-md sm:flex-row sm:items-center">
+              {product.recommendedIrrigationProduct.imageUrl && <img src={product.recommendedIrrigationProduct.imageUrl} alt={localize(product.recommendedIrrigationProduct, 'name')} className="h-24 w-24 rounded-lg bg-slate-50 object-contain p-2" loading="lazy" />}
+              <span className="flex-1 font-semibold text-slate-900">{localize(product.recommendedIrrigationProduct, 'name')}</span>
+              <span className="font-bold text-emerald-800">{Number(product.recommendedIrrigationProduct.priceEUR || 0).toFixed(2)} €</span>
+              <span className="text-sm font-semibold text-emerald-700">{language === 'ru' ? 'Посмотреть товар →' : language === 'en' ? 'View product →' : 'Виж продукта →'}</span>
+            </a>
+          ) : product.recommendedIrrigation.productSlug ? (
+            <p className="text-xs text-amber-700">{language === 'ru' ? 'Связанный товар полива пока не найден в каталоге.' : language === 'en' ? 'The linked irrigation product was not found in the catalogue.' : 'Свързаният продукт за напояване не е намерен в каталога.'}</p>
+          ) : null}
+        </section>
+      )}
+
       {/* Полное описание товара */}
       {product.description && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
@@ -442,9 +597,9 @@ export function ProductPage({
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {relatedContentItems.map((item) => {
-              const itemTitle = item._type === 'blogPost'
+              const itemTitle = item.linkLabel || (item._type === 'blogPost'
                 ? (item.translations?.[language]?.title || item.translations?.bg?.title || item.title || '')
-                : (item.translations?.[language]?.name || item.name || '')
+                : (item.translations?.[language]?.name || item.name || ''))
               const itemDescription = item.translations?.[language]?.shortDescription
                 || item.translations?.bg?.shortDescription
                 || item.shortDescription
