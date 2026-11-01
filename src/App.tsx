@@ -490,7 +490,73 @@ export default function App() {
 
       const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
       const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
-      setProducts([...equipmentProducts, ...plantProductData])
+
+      // Resolve plant cross-links against the production dataset without changing Sanity documents.
+      const plantRelatedSlugs = Array.from(new Set(
+        plantProductData.flatMap((plant: any) =>
+          Array.isArray(plant.relatedContentBySlug)
+            ? plant.relatedContentBySlug.map((item: any) => item?.slug).filter((slug: any): slug is string => typeof slug === 'string' && slug.length > 0)
+            : []
+        )
+      ))
+      let plantRelatedDocuments: any[] = []
+      if (plantRelatedSlugs.length > 0) {
+        const plantRelatedQuery = `
+          *[
+            _type in ["service", "blogPost"] &&
+            coalesce(slug.current, slug) in $slugs
+          ] {
+            _id,
+            _type,
+            name,
+            title,
+            "slug": { "current": coalesce(slug.current, slug) },
+            shortDescription,
+            isActive,
+            isPublished,
+            translations {
+              bg { name, title, shortDescription },
+              ru { name, title, shortDescription },
+              en { name, title, shortDescription }
+            },
+            "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
+            "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
+            "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+            "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+          }
+        `
+        try {
+          const result = await sanityClient.fetch(plantRelatedQuery, { slugs: plantRelatedSlugs })
+          plantRelatedDocuments = Array.isArray(result) ? result : []
+        } catch (error) {
+          console.error('Sanity: не удалось разрешить связанные услуги и статьи растений:', error)
+        }
+      }
+
+      const enrichedPlantProducts = plantProductData.map((plant: any) => {
+        const relatedContent = (Array.isArray(plant.relatedContentBySlug) ? plant.relatedContentBySlug : [])
+          .map((reference: any) => {
+            const item = plantRelatedDocuments.find((candidate) =>
+              candidate._type === reference.contentType &&
+              candidate.slug?.current === reference.slug &&
+              (candidate._type === 'service' ? candidate.isActive !== false : candidate.isPublished === true)
+            )
+            return item ? { ...item, linkLabel: reference.label || undefined } : null
+          })
+          .filter(Boolean)
+
+        const recommendedIrrigationProduct = plant.recommendedIrrigation?.productSlug
+          ? equipmentProducts.find((item: any) => item.slug?.current === plant.recommendedIrrigation.productSlug)
+          : undefined
+
+        return {
+          ...plant,
+          relatedContent,
+          recommendedIrrigationProduct,
+        }
+      })
+
+      setProducts([...equipmentProducts, ...enrichedPlantProducts])
 
       if (productResult.status !== 'fulfilled') {
         console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
