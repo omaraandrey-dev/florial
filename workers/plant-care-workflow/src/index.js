@@ -20,7 +20,7 @@ export class PlantCareWorkflow extends WorkflowEntrypoint {
         retries: { limit: 1, delay: "10 seconds", backoff: "exponential" },
       },
       async () => {
-        const response = await fetch("https://florial-bg.com/api/manager/enrich-plant-care/process", {
+        const response = await fetch("https://florial.pages.dev/api/manager/enrich-plant-care/process", {
           method: "POST",
           headers: {
             "content-type": "application/json",
