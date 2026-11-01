@@ -327,11 +327,24 @@ export default function ManagerApp() {
 
   const approve = async (id: string) => {
     if (!profile || profile.role !== 'owner') return
+    if (!window.confirm('Потвърждавате ли одобрението? Заявката ще бъде готова за следващия етап, но няма да се публикува автоматично в магазина.')) return
     const { error: approveError } = await supabase.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
     if (approveError) setError(approveError.message)
     else { setNotice('Заявката е одобрена. Публикацията в Sanity ще бъде включена в следващия етап.'); await loadSubmissions() }
+  }
+
+  const rejectSubmission = async (id: string) => {
+    if (!profile || profile.role !== 'owner') return
+    if (reviewNote.trim().length < 3) { setError('Добавете причина за отказ (поне 3 символа).'); return }
+    if (!window.confirm('Сигурни ли сте, че искате да отхвърлите тази заявка?')) return
+    const { error: rejectError } = await supabase.from('catalog_submissions').update({
+      status: 'rejected', review_note: reviewNote.trim(), reviewed_by: profile.user_id,
+      reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+    }).eq('id', id).in('status', ['submitted', 'in_review'])
+    if (rejectError) setError('Не удалось отклонить заявку: ' + rejectError.message)
+    else { setReviewNote(''); setNotice('Заявката е отхвърлена.'); await loadSubmissions(); await loadEvents(id) }
   }
 
   const requestChanges = async (id: string) => {
