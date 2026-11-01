@@ -153,3 +153,17 @@
 - The public SEO middleware previously intercepted unknown paths and returned its custom 404 before the Manager SPA could load. The targeted fix in `functions/_middleware.ts` explicitly passes `/manager` and nested Manager paths to Cloudflare Pages' SPA fallback.
 - This route exception does not add Manager links to the public Header/menu/Footer and does not alter public-site routing, database data, or environment variables.
 - Production runtime verification must be recorded separately after deployment; a successful build alone does not prove successful login or Manager API operation.
+
+
+## 2026-11-01 — Florial Manager: owner staff administration
+
+- GitHub branch: `feature/florial-manager-staff-admin-2026-11-01`.
+- Добавлен owner-only раздел сотрудников в `src/manager/ManagerApp.tsx`.
+- Серверный endpoint `functions/api/manager/staff.ts` использует существующие production bindings `SUPABASE_URL` и `SUPABASE_SERVICE_ROLE_KEY`; секреты не передаются в frontend.
+- Создание Auth users, установка пароля, смена роли и отключение/восстановление доступа разрешены только при проверке активной серверной роли `owner`.
+- Отключение реализовано как `is_active=false`, а не физическое удаление, чтобы сохранить ссылки заявок на `auth.users` и историю.
+- Новая SQL migration не требуется; используются существующие таблицы и RLS без изменения.
+- Preview secrets, Sanity, публичные Header/menu/Footer, корзина, checkout и `orders` не менялись.
+- Supabase Auth ограничение: пользователь технически может вызвать стандартный endpoint обновления собственного пароля напрямую. Manager не показывает self-service UI, но строгая блокировка прямого Auth API в этой версии не реализована.
+- PR #41 открыт: https://github.com/omaraandrey-dev/florial/pull/41; актуальный head `7bdd676ae7c314e20d87e188fcf305efa24e8db4`, base `main` (`f73b03b17d5bc3cf8d14b96364677b245ab042b2`), branch не отстаёт от main, GitHub сообщает `mergeable=true`.
+- GitHub Actions run/status для актуального head пока не возвращён инструментами проверки; успешная сборка не подтверждена. PR не объединён и production deployment не выполнялся.

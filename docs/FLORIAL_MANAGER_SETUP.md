@@ -1,6 +1,6 @@
 # Florial Manager — първоначално активиране
 
-**Статус към 01.11.2026:** кодът е обединен в `main` чрез PR #39, production deployment е успешен и SQL миграцията е приложена. Auth потребителите и ролите още не са създадени.
+**Статус към 01.11.2026:** първата версия е публикувана чрез PR #39, SQL миграцията е приложена към production, а owner Auth акаунтът и профилът с роля `owner` са създадени и проверени. Създаването на служители се предвижда чрез owner-only раздела, описан по-долу, след публикуването на PR #41.
 
 ## Какво влиза в първата версия
 
@@ -16,35 +16,10 @@
 
 1. Кодът вече е публикуван в production чрез PR #39 (merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`); Cloudflare deployment `98ba0318-dfc6-419a-9906-62e90f7980de` е със статус success.
 2. Миграцията `create_florial_manager` вече е приложена към Supabase production project `shzbflgqfffgzzgpwjxt`, version `20261101080656`. Таблиците и private Storage bucket са създадени.
-3. В Supabase Auth създайте първо акаунта на собственика и потвърдете email адреса. След това създайте акаунтите на служителите. Не включвайте публична регистрация.
-4. В SQL Editor изпълнете bootstrap insert за собственика, като замените UUID с реалния Auth user ID от Supabase Dashboard → Authentication → Users:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values ('REPLACE_WITH_OWNER_AUTH_USER_UUID', 'owner', 'Florial Owner');
-```
-
-5. Добавете служителите със същия принцип и роля `seller` или `manager`:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values
-  ('REPLACE_WITH_SELLER_AUTH_USER_UUID', 'seller', 'Име на служителя'),
-  ('REPLACE_WITH_MANAGER_AUTH_USER_UUID', 'manager', 'Име на мениджъра');
-```
-
-Не изпълнявайте примерите с placeholder текст; използвайте реалните UUID от Auth. Не давайте роля `owner` на служители.
-
-6. В Cloudflare production environment трябва да присъстват съществуващите сървърни bindings:
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY` (Secret)
-   - `RESEND_API_KEY` (Secret)
-   - `EMAIL_FROM`
-   - `ORDER_NOTIFICATION_EMAIL`
-
-   При проверката на 01.11.2026 тези bindings бяха открити в production. `CATALOG_REVIEW_EMAIL` не беше открита; функцията използва `ORDER_NOTIFICATION_EMAIL` като fallback. Не добавяйте Preview secrets и не копирайте production secrets в Preview.
-
-7. Отворете `https://florial-bg.com/manager` и влезте с един от създадените акаунти. Първо проверете собственика, след това отделен seller account.
+3. Owner Auth акаунтът и профилът с роля `owner` вече са създадени и проверени в production. Не изпълняйте повторно bootstrap SQL и не създавайте втори owner акаунт без отделно решение.
+4. След merge и production deployment PR #41 добавляйте служители през owner-only раздела **«Сотрудники»** в Manager. Не създавайте Auth users и профили служители ръчно в SQL.
+5. Съществуващите Cloudflare production bindings са проверени: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (Secret), `RESEND_API_KEY` (Secret), `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`. Не променяйте стойностите им и не добавяйте Preview secrets за тази задача.
+6. Отворете `https://florial-bg.com/manager`, влезте под owner акаунта и проверете раздела «Сотрудники» след публикуването на PR #41. Не създавайте тестови Auth users без реална необходимост.
 
 ## Права
 
@@ -57,14 +32,14 @@ values
 | Връщане за корекция | Не | Да | Да |
 | Одобрение | Не | Не | Да |
 | Публикация в Sanity | Не | Не | Не е включена в тази итерация |
-| Управление на роли | Не | Не | Чрез администраторска процедура |
+| Управление на роли | Не | Не | Да, чрез раздела «Сотрудники» |
 
 ## Ограничения и оставащи задачи
 
 - Първата форма създава нови растения. Предложенията за промяна на вече публикувано растение ще бъдат добавени след реализиране на търсене и безопасно сравнение на Sanity revision.
 - Категорията засега се записва като текстово предложение; свързването с точните Sanity category IDs е следваща стъпка.
 - Един вариант за продажба се въвежда във формата; интерфейсът за множество варианти ще бъде разширен.
-- Не е правено реално изпращане на email от production и не са създавани Auth users/roles. Миграцията вече е приложена.
+- Owner Auth акаунтът и профилът `owner` са създадени и проверени. Сквозната проверка на добавяне на служител и изпращане на email остава след публикуването на PR #41.
 - Настройките Supabase Auth (разрешени доставчици, signup policy и URL allowlist) не са потвърдени през API; проверете ги в Dashboard преди пилота.
 
 ## Контролен тест преди използване
@@ -81,21 +56,35 @@ values
 ## Production статус — 01.11.2026
 
 - GitHub PR #39 е MERGED; PR #38 е CLOSED (superseded).
-- Cloudflare Pages production deployment е успешен: `98ba0318-dfc6-419a-9906-62e90f7980de`.
+- Cloudflare Pages production deployment за първата версия е успешен: `98ba0318-dfc6-419a-9906-62e90f7980de`.
 - Supabase migration `create_florial_manager` version `20261101080656` е приложена.
-- Проверени са таблиците, RLS и private bucket. Данни в тях няма; Auth accounts/roles още не са създадени.
-- Преди да се използва панелът, създайте акаунт на собственика в Supabase Dashboard → Authentication → Users и добавете неговия UUID с роля `owner` чрез SQL:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values ('UUID_FROM_AUTH_USERS', 'owner', 'Florial Owner');
-```
-
-- Не използвайте placeholder UUID. След това създайте отделни Auth accounts за служителите и добавете им роли `seller` или `manager`.
+- Проверени са трите Manager таблици, RLS policies и private Storage bucket.
+- В `catalog_staff_profiles` е създаден и проверен един активен профил с роля `owner`. Таблиците със заявки и събития са празни към последната read-only проверка.
+- Не изпълнявайте отново bootstrap SQL за owner. След merge и production deployment PR #41 служителите ще се създават от owner-only раздела «Сотрудники».
+- Сквозната проверка на създаване на служител, вход с неговия акаунт и получаване на email остава предстояща.
 - Не изпращайте пароли, access tokens или service-role keys в чат. Публичната регистрация не трябва да се използва за добавяне на служители.
-- Проверка на Auth signup/redirect settings и реално получаване на email остават **НЕ ИЗВЕСТНО — нужно уточнить**.
-
 
 ## Отстраняване на проблем с директния адрес `/manager`
 
 Ако вместо формата за вход се показва публичната страница 404, проверете, че production deployment включва поправката в `functions/_middleware.ts`: маршрутите `/manager` и `/manager/*` трябва да преминават към SPA fallback, който избира `ManagerApp` в `src/main.tsx`. Тази поправка не изисква промени в Supabase, нови secrets или публичното меню.
+
+
+## Управление сотрудниками владельцем — 01.11.2026
+
+После публикации соответствующей версии кода владелец управляет сотрудниками непосредственно в `/manager`:
+
+1. Войти под активной учётной записью с ролью `owner`.
+2. Открыть вкладку **«Сотрудники»**. Она не отображается для ролей `seller` и `manager`.
+3. При создании указать имя, email, роль `seller` или `manager` и первоначальный пароль (12–128 символов). Аккаунт подтверждается сервером, без публичной регистрации и без письма с временной ссылкой.
+4. Для действующего сотрудника можно изменить роль, задать новый пароль, отключить или восстановить доступ.
+5. Пароль показывается только во время ввода и не возвращается API после сохранения. Передавать пароль сотруднику следует безопасным личным способом.
+
+### Безопасность и ограничения
+
+- Все операции выполняются через `functions/api/manager/staff.ts`; браузер никогда не получает `SUPABASE_SERVICE_ROLE_KEY`.
+- Сервер проверяет bearer-сессию через Supabase Auth и затем проверяет активную роль `owner` в `catalog_staff_profiles`. Наличие только URL или входа в Manager недостаточно.
+- При отключении меняется только `is_active=false`. Профиль и история заявок остаются в базе; RLS helper `private.has_catalog_role` отказывает деактивированному пользователю в Manager-доступе.
+- Физическое удаление Auth-пользователя не выполняется, поскольку заявки ссылаются на `auth.users`; отключение доступа сохраняет историю и целостность связей.
+- В интерфейсе сотрудников нет функции смены/восстановления пароля. **Ограничение Supabase Auth:** стандартный Auth API всё ещё технически позволяет авторизованному пользователю вызвать смену собственного пароля напрямую. Поэтому эта версия обеспечивает owner-only управление в интерфейсе и серверной панели, но не заявляет абсолютный запрет прямого вызова Supabase Auth API.
+- SQL schema changes не требуются. Используются существующие таблицы `catalog_staff_profiles`, `catalog_submissions` и текущие RLS policies.
+- Preview secrets не добавляются; production variables не изменяются.
