@@ -1,3 +1,11 @@
+## 2026-11-01 — Verify Workflow-to-Pages route and production deployment
+
+- Updated Worker `florial-plant-care-workflow` was deployed separately (deployment ID `ec92531b847f489e973f21c78696103f`, version tag `d7e658388df34ab594d00d1a889b2fc6`); workers.dev and preview subdomains remain disabled.
+- A synthetic Workflow probe called the new `https://florial.pages.dev/api/manager/enrich-plant-care/process` route and received the expected structured HTTP 403 `Owner access required`. This confirms the Worker can reach the Pages Function through the project hostname; the fake owner was rejected before submission lookup or data writes. The probe instance was deleted.
+- Production Pages deployment for main commit `1f8a97da5ef0473463832eaf25549a79c7b0a492` initially hit a Cloudflare internal publish error; the same deployment was retried and completed successfully as `ee6b8700-99bd-4343-8164-b4a6300496b7` (all stages success).
+- This validates Worker-to-Pages routing and deployment, not the full AI/GBIF flow. The two earlier real runs remain errored; a new owner-triggered run is still required to confirm AI Vision, GBIF, care generation and saving `plantCareResearch`.
+- No existing submission or plant data was changed by the synthetic probe.
+
 ## 2026-11-01 — Reduce plant AI photo input and route Workflow to Pages project hostname
 
 - Both plant AI stages now send only the first selected photo (the main image) to Workers AI Vision. Additional seller photos remain preserved in the submission/product and are not sent for AI analysis.
