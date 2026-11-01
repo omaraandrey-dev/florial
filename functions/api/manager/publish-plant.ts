@@ -241,7 +241,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const payload = parseObject(submission.payload) || {}
   const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
-  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(submission.created_by + '/' + submissionId + '/'))) {
+  const imagePathPrefix = submission.created_by + '/' + submissionId + '/'
+  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(imagePathPrefix) ||
+      !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)) &&
+      !/^[0-9a-f-]{36}-[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)))) {
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
@@ -405,8 +408,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       name: variant.name,
       stockStatus: variant.stockStatus,
     }
-    if (publication.translations.en?.name) variantDocument.nameEn = publication.translations.en.name
-    if (publication.translations.ru?.name) variantDocument.nameRu = publication.translations.ru.name
     if (publication.sku) variantDocument.sku = publication.sku
     if (variant.saleHeightCm !== null) variantDocument.saleHeightCm = variant.saleHeightCm
     if (variant.containerVolumeL !== null) variantDocument.containerVolumeL = variant.containerVolumeL
