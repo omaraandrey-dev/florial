@@ -121,7 +121,11 @@ function makeDraft(submission: Submission): Draft {
   const savedAlts = Array.isArray(saved.imageAlts) ? saved.imageAlts as string[] : []
   const savedAltsEn = Array.isArray(saved.imageAltsEn) ? saved.imageAltsEn as string[] : []
   const savedAltsRu = Array.isArray(saved.imageAltsRu) ? saved.imageAltsRu as string[] : []
-  const plantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
+  const savedPlantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
+  const researchData = payload.plantCareResearch && typeof payload.plantCareResearch === 'object' ? payload.plantCareResearch as Record<string, unknown> : {}
+  const researchValues = researchData.plantCare && typeof researchData.plantCare === 'object' ? researchData.plantCare as Record<string, unknown> : {}
+  const plantCare = payload.publication ? savedPlantCare : { ...savedPlantCare, ...researchValues }
+  // Research suggestions are merged with the saved draft values above.
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
@@ -233,6 +237,9 @@ export default function PlantPublicationEditor({
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
+  const [careResearching, setCareResearching] = useState(false)
+  const hasPublication = Boolean(submission.payload.publication)
+  const plantCareResearch = submission.payload.plantCareResearch && typeof submission.payload.plantCareResearch === 'object' ? submission.payload.plantCareResearch as Record<string, unknown> : null
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -285,12 +292,25 @@ export default function PlantPublicationEditor({
     return ''
   }
 
+  const researchPlantCare = async () => {
+    if (!hasAiDraft || hasPublication || !draft.scientificName.trim()) return
+    setCareResearching(true)
+    try {
+      const response = await fetch('/api/manager/enrich-plant-care', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() } }) })
+      const result = await response.json() as { error?: string; careDraft?: Record<string, unknown> }
+      if (!response.ok || !result.careDraft) throw new Error(result.error || 'Не удалось подготовить характеристики.')
+      setNotice('Таксономическая проверка завершена. Проверьте предложенные характеристики.')
+      await onSaved()
+    } catch (err) { setError(err instanceof Error ? err.message : 'Ошибка проверки характеристик.') }
+    finally { setCareResearching(false) }
+  }
+
   const removeImage = async (index: number) => {
     const image = imageFiles[index]
     if (!image) return
     if (!window.confirm('Да премахна ли тази снимка от продуктовата карта? Оригиналният файл и първоначалната заявка на продавача ще останат запазени. AI-черновата и финалната карта ще бъдат обновени.')) return
     const nextImages = imageFiles.filter((_, imageIndex) => imageIndex !== index)
-    const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null }
+    const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null, plantCareResearch: null }
     setUpdatingImages(true); setError(''); setNotice('')
     try {
       const { data, error: updateError } = await supabase.from('catalog_submissions')
@@ -438,6 +458,24 @@ export default function PlantPublicationEditor({
         {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Повторното генериране е изключено, за да не се изразходва квота. Можете да редактирате резултата ръчно.</p>}
         <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
       </div>
+      <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="font-semibold text-sky-950">Проверка ботанических характеристик</h3>
+            <p className="mt-1 text-sm text-sky-900">GBIF проверяет латинское название, затем AI предлагает значения для проверки владельцем.</p>
+          </div>
+          <button type="button" disabled={!hasAiDraft || hasPublication || careResearching || enriching || saving || publishing || !draft.scientificName.trim()} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+            {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
+          </button>
+        </div>
+        {plantCareResearch && <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
+          <p className="font-semibold">{(plantCareResearch.identity as Record<string, unknown> | undefined)?.status === 'verified' ? 'Таксономия подтверждена GBIF' : 'Требуется уточнить ботаническое имя'}</p>
+          <p className="mt-1">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.canonicalName || '')}</p>
+          <p className="mt-1 break-all text-xs text-slate-600">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.url || '')}</p>
+          <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'не указана'}</p>
+          <p className="mt-2 text-xs text-slate-600">GBIF подтверждает таксономию, но не агротехнические свойства. Уверенность AI — самооценка модели, а не независимое подтверждение. Проверьте значения перед публикацией.</p>
+        </div>}
+      </div>
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
@@ -534,3 +572,4 @@ export default function PlantPublicationEditor({
     </section>
   )
 }
+

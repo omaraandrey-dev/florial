@@ -126,6 +126,13 @@ export function ProductPage({
     .slice(0, 4)
 
   const plantCare = isPlantProduct(product) ? product.plantCare : undefined
+  const saleHeightCm = typeof selectedSaleVariant?.saleHeightCm === 'number'
+    ? selectedSaleVariant.saleHeightCm
+    : plantCare?.saleFormat?.saleHeightCm
+  const containerVolumeL = typeof selectedSaleVariant?.containerVolumeL === 'number'
+    ? selectedSaleVariant.containerVolumeL
+    : plantCare?.saleFormat?.containerVolumeL
+  const selectedSaleVariantLabel = selectedSaleVariant ? getSaleVariantName(selectedSaleVariant) : ''
   const noCareData = language === 'ru' ? 'Нет подтверждённых данных' : language === 'en' ? 'No verified data' : 'Няма потвърдени данни'
   const careLabels: Record<string, Record<string, string>> = {
     light: {
@@ -563,7 +570,7 @@ export function ProductPage({
             <article className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4">
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">📏</span>{language === 'ru' ? 'Высота взрослого растения' : language === 'en' ? 'Mature plant height' : 'Височина на възрастното растение'}</div>
               <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.adultHeightCm === 'number' ? formatPlantHeight(plantCare.adultHeightCm, language) : noCareData}</p>
-              {typeof plantCare?.saleFormat?.saleHeightCm === 'number' && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {formatPlantHeight(plantCare.saleFormat.saleHeightCm, language)}</p>}
+              {typeof saleHeightCm === 'number' && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {formatPlantHeight(saleHeightCm, language)}</p>}
             </article>
             <article className="rounded-xl border border-green-100 bg-green-50/40 p-4">
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🍃</span>{language === 'ru' ? 'Тип листвы' : language === 'en' ? 'Foliage type' : 'Тип листна маса'}</div>
@@ -584,9 +591,10 @@ export function ProductPage({
             </article>
             <article className="rounded-xl border border-slate-100 bg-slate-50 p-4">
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🪴</span>{language === 'ru' ? 'Формат продажи' : language === 'en' ? 'Sale format' : 'Формат на продажба'}</div>
-              <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.saleFormat?.containerVolumeL === 'number' ? `${plantCare.saleFormat.containerVolumeL} L` : noCareData}</p>
-              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}</p>
-              <p className="mt-2 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {typeof plantCare?.saleFormat?.saleHeightCm === 'number' ? formatPlantHeight(plantCare.saleFormat.saleHeightCm, language) : noCareData}</p>
+              <p className="mt-2 font-bold text-slate-900">{selectedSaleVariantLabel || noCareData}</p>
+              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Выбранный вариант продажи' : language === 'en' ? 'Selected sale option' : 'Избран вариант за продажба'}</p>
+              <p className="mt-2 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}: {typeof containerVolumeL === 'number' ? `${containerVolumeL} L` : noCareData}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {typeof saleHeightCm === 'number' ? formatPlantHeight(saleHeightCm, language) : noCareData}</p>
             </article>
           </div>
         </section>
