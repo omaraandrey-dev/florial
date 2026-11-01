@@ -80,7 +80,7 @@ const parseNumber = (value: unknown, label: string, minimum: number, integer = f
 const safeFilename = (value: string, index: number) =>
   (value.replace(/[^a-zA-Z0-9._-]/g, '-').slice(-80) || 'plant-image-' + (index + 1) + '.jpg')
 
-function validatePublication(input: unknown, images: IntakeImage[]): Publication {
+function validatePublication(input: unknown, images: IntakeImage[], requireImages = true): Publication {
   const source = parseObject(input)
   if (!source) throw new Error('Липсват данни за окончателните данни на продукта.')
 
@@ -92,16 +92,17 @@ function validatePublication(input: unknown, images: IntakeImage[]): Publication
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Невалиден URL адрес (slug).')
   if (!productTypes.has(productType)) throw new Error('Изберете валиден тип на растението.')
   if (!categoryId || !/^[a-zA-Z0-9_-]+$/.test(categoryId)) throw new Error('Изберете категория от каталога.')
-  if (images.length < 1 || images.length > 8) throw new Error('За публикуване са необходими от 1 до 8 снимки.')
+  if ((requireImages && images.length < 1) || images.length > 8) throw new Error('За публикуване е необходима поне една снимка; максимумът е 8.')
   if (images.some((image) => !image || typeof image.path !== 'string' || !image.name ||
       !imageTypes.has(image.type) || !Number.isFinite(image.size) || image.size <= 0 || image.size > 10 * 1024 * 1024)) {
     throw new Error('Една или повече снимки не отговарят на изискванията за формат или размер.')
   }
 
   const mainImageIndex = Number(source.mainImageIndex)
-  if (!Number.isInteger(mainImageIndex) || mainImageIndex < 0 || mainImageIndex >= images.length) {
+  if (images.length > 0 && (!Number.isInteger(mainImageIndex) || mainImageIndex < 0 || mainImageIndex >= images.length)) {
     throw new Error('Изберете основна снимка.')
   }
+  if (images.length === 0 && mainImageIndex !== 0) throw new Error('Невалиден индекс на основната снимка.')
   const imageAlts = Array.isArray(source.imageAlts) ? source.imageAlts.slice(0, images.length).map((item) => cleanText(item, 240)) : []
   const imageAltsEn = Array.isArray(source.imageAltsEn) ? source.imageAltsEn.slice(0, images.length).map((item) => cleanText(item, 240)) : []
   const imageAltsRu = Array.isArray(source.imageAltsRu) ? source.imageAltsRu.slice(0, images.length).map((item) => cleanText(item, 240)) : []
@@ -266,7 +267,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   const payload = parseObject(submission.payload) || {}
-  const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
+  const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
+  const images = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
+  if (images.some((image) => !sellerImages.some((original) => original.path === image.path))) {
+    return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
+  }
   const imagePathPrefix = submission.created_by + '/' + submissionId + '/'
   if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(imagePathPrefix) ||
       !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)) &&
@@ -278,7 +283,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (submission.status === 'published') return json({ error: 'This plant has already been published.' }, 409)
     let publication: Publication
     try {
-      publication = validatePublication(body.publication, images)
+      publication = validatePublication(body.publication, images, false)
     } catch (error) {
       return json({ error: error instanceof Error ? error.message : 'Invalid publication data.' }, 400)
     }
