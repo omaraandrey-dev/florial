@@ -12,6 +12,7 @@ const isUuid = (value) =>
 
 export class PlantCareWorkflow extends WorkflowEntrypoint {
   async run(event, step) {
+    const payload = typeof event.payload === 'string' ? JSON.parse(event.payload) : event.payload
     return await step.do(
       "run-botanical-inspection",
       {
@@ -23,9 +24,9 @@ export class PlantCareWorkflow extends WorkflowEntrypoint {
           method: "POST",
           headers: {
             "content-type": "application/json",
-            "x-florial-job-token": event.payload.jobToken,
+            "x-florial-job-token": payload.jobToken,
           },
-          body: JSON.stringify(event.payload),
+          body: JSON.stringify(payload),
         });
         const responseText = await response.text();
         let body;
