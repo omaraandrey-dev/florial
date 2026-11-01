@@ -188,3 +188,14 @@
 - Link the five About page service headings and matching service images to their published `/services/<slug>` pages.
 - Load service images from the existing Sanity service records and add localized image `alt`/`title` text with relevant Black Sea coast locations.
 - No Sanity or Supabase data was modified.
+
+
+## 2026-11-01 — Plant sale variants and Sanity Studio deployment
+
+- Merged PR #34: added commercial sale variants to plant products and localized plant enquiry flow.
+- Added `plantSaleVariant` with localized names, SKU, sale height, container volume, EUR price/old price, stock status and quantity; added `plantProduct.saleVariants` array (maximum 30 variants).
+- Updated plant product/category UI to use confirmed variant prices only; otherwise show a price-on-request state. Product JSON-LD does not publish an offer without a confirmed price.
+- Added localized WhatsApp enquiry details for selected plant variant or requested size.
+- Sanity documents were not modified and real sale variants have not yet been populated. Legacy plant price values 3000/4000 EUR are not confirmed retail prices.
+- Studio deployment workflow run 41280176924 completed successfully and deployed both workspaces. Cloudflare Pages production deployment 084dcaad-eff4-4f8a-ab7c-6de0d0c7ece6 completed successfully.
+- No header, menu, footer, global navigation, Supabase order data or database schema changes were made.
