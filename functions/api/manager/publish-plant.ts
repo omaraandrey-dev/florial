@@ -258,8 +258,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') {
     return json({ error: 'Plant submission not found.' }, 404)
   }
-  if (!['approved', 'publish_failed', 'published'].includes(submission.status)) {
-    return json({ error: 'Only an approved plant submission can be prepared or published.' }, 409)
+  if (action === 'save' && !['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) {
+    return json({ error: 'This plant submission cannot be prepared in its current status.' }, 409)
+  }
+  if (action === 'publish' && !['approved', 'publish_failed', 'published'].includes(submission.status)) {
+    return json({ error: 'Only an approved plant submission can be published.' }, 409)
   }
 
   const payload = parseObject(submission.payload) || {}
