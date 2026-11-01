@@ -358,7 +358,7 @@ export default function PlantPublicationEditor({
     <section className="rounded-2xl border border-lime-300 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold">{reviewMode ? 'Проверка на заявката и подготовка на карточката' : 'Окончателна проверка преди публикуване'}</h2>
+          <h2 className="text-xl font-semibold">{reviewMode ? 'Проверка на заявката и подготовка на картата' : 'Окончателна проверка преди публикуване'}</h2>
           <p className="mt-1 text-sm text-stone-600">{reviewMode ? 'Първо проверете и поправете подадените от продавача данни. След това стартирайте ИИ с бутона по-долу. ИИ не се изпълнява автоматично и не променя търговските данни.' : 'Одобрената заявка е отделена от окончателните данни за продукта. Промените тук не редактират първоначалната заявка на служителя.'}</p>
         </div>
         <span className="rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-900">{isSaved ? 'Финалната версия е запазена' : 'Има неприключени промени'}</span>
@@ -371,11 +371,11 @@ export default function PlantPublicationEditor({
       <div className="mt-5 rounded-xl border border-lime-200 bg-lime-50 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="font-semibold text-lime-950">Подготовка на карточката с помощта на ИИ</h3>
+            <h3 className="font-semibold text-lime-950">Подготовка на картата с помощта на ИИ</h3>
             <p className="mt-1 text-sm text-lime-900">След като проверите данните, натиснете бутона. ИИ ще подготви BG/RU/EN текстове, SEO, ALT за снимките и предложения за грижи.</p>
           </div>
           <button type="button" disabled={enriching || saving || publishing || imagesLoading || images.length === 0 || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
-            {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви карточката' : 'Подготви карточката с ИИ'}
+            {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви картата' : 'Подготви картата с ИИ'}
           </button>
         </div>
         {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Повторното генериране е изключено, за да не се изразходва квота. Можете да редактирате резултата ръчно.</p>}
@@ -463,7 +463,7 @@ export default function PlantPublicationEditor({
         </details>
 
         <div className="flex flex-wrap gap-3">
-          <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карточка' : 'Запази финалната версия'}</button>
+          <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карта' : 'Запази финалната версия'}</button>
           {!reviewMode && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
         </div>
       </form>
