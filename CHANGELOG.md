@@ -1,3 +1,13 @@
+## 2026-11-01 — Florial Manager: owner-only analytics
+
+- Added owner-only Analytics tab to `/manager`: page views, phone/WhatsApp clicks, language breakdown, popular pages, and daily page-view chart.
+- Added 7/30/90-day periods with daily grouping in `Europe/Sofia`.
+- Added migration `supabase/migrations/20261101100000_add_owner_site_analytics.sql`; its RPC returns aggregate JSON only and enforces the active owner role.
+- Frontend calls the RPC through the current Supabase session. No privileged key is included in browser code and no new Cloudflare bindings are required.
+- Reuses existing `public.site_events`; no collection schema or stored events are changed, and no additional visitor data is collected.
+- Migration is prepared in the feature branch but has not been applied to production Supabase. The tab needs that migration before data can load.
+- Public Header/menu/Footer, catalog, cart, checkout, orders, Sanity, and Cloudflare secrets are unchanged.
+
 ## 2026-11-01 — Florial Manager: управление сотрудниками владельцем
 
 - Добавлен отдельный раздел «Сотрудники» внутри закрытого `/manager`; вкладка отображается только для активной роли `owner`.
