@@ -191,7 +191,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
             'If the name is incomplete or ambiguous, offer distinct candidates with medium/low confidence and explain the uncertainty in Russian. If there is no defensible candidate, return an empty array.',
             'Each candidate must have a Latin binomial, confidence high|medium|low, and a short reason in Russian.',
             'JSON shape: {"candidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Возможное соответствие; требуется проверка по GBIF и фотографии."}]}',
-          ].join('\\n') },
+          ].join('\n') },
         ],
         response_format: { type: 'json_object' }, max_tokens: 900, temperature: 0.1,
       })

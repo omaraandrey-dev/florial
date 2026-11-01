@@ -547,7 +547,7 @@ export default function PlantPublicationEditor({
           </button>
         </div>
         {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Пълното генериране не се повтаря, за да се запази черновикът и да не се изразходва квота.</p>}
-        {hasAiDraft && scientificNameCandidates.length === 0 && <button type="button" disabled={suggestingNames || enriching || careResearching || saving || publishing} onClick={() => void suggestBotanicalNames()} className="mt-3 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-900 disabled:opacity-50">{suggestingNames ? 'Търсене на латински варианти…' : 'Предложить латинские названия'}</button>}
+        {hasAiDraft && scientificNameCandidates.length === 0 && <button type="button" disabled={suggestingNames || enriching || careResearching || saving || publishing} onClick={() => void suggestBotanicalNames()} className="mt-3 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-900 disabled:opacity-50">{suggestingNames ? 'Търсене на латински варианти…' : 'Предложи латински имена'}</button>}
         <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
       </div>
       <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">
