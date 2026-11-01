@@ -144,7 +144,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const storedPlantName = textValue(aiDraft.name ?? payload.name ?? payload.title, 160)
   const plantName = isPlaceholderPlantName(requestedPlantName) ? (storedPlantName || submission.id) : (requestedPlantName || storedPlantName || submission.id)
   const scientificName = textValue(reviewInput.scientificName ?? aiDraft.scientificName ?? payload.latinName, 160)
-  const sellerBinomial = speciesBinomial(scientificName) || scientificName
+  const sellerBinomial = speciesBinomial(scientificName)
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   const selectedImages = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
   if (!selectedImages.length) return json({ error: 'Для проверки ботанического имени нужна хотя бы одна фотография растения.' }, 400)
