@@ -235,6 +235,8 @@ export default function PlantPublicationEditor({
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
+  const [suggestingNames, setSuggestingNames] = useState(false)
+  const [botanicalNameSuggestions, setBotanicalNameSuggestions] = useState<Array<Record<string, unknown>>>([])
   const [careResearching, setCareResearching] = useState(false)
   const [careDebug, setCareDebug] = useState('')
   const [careDebugStatus, setCareDebugStatus] = useState<number | null>(null)
@@ -249,6 +251,7 @@ export default function PlantPublicationEditor({
   useEffect(() => {
     const next = makeDraft(submission)
     setDraft(next)
+    setBotanicalNameSuggestions([])
     setCareSuggestionDecisions({})
     const hasSaved = !!(submission.payload.publication && typeof submission.payload.publication === 'object')
     setSavedFingerprint(hasSaved ? JSON.stringify(toPublication(next, categories)) : '')
@@ -263,9 +266,10 @@ export default function PlantPublicationEditor({
   const savedAiDraft = submission.payload.aiDraft && typeof submission.payload.aiDraft === 'object'
     ? submission.payload.aiDraft as Record<string, unknown>
     : null
-  const scientificNameCandidates = Array.isArray(savedAiDraft?.scientificNameCandidates)
+  const savedScientificNameCandidates = Array.isArray(savedAiDraft?.scientificNameCandidates)
     ? (savedAiDraft.scientificNameCandidates as Array<Record<string, unknown>>).filter((candidate) => typeof candidate.scientificName === 'string' && candidate.scientificName.trim())
     : []
+  const scientificNameCandidates = botanicalNameSuggestions.length > 0 ? botanicalNameSuggestions : savedScientificNameCandidates
   const currentPublication = useMemo(() => toPublication(draft, categories), [draft, categories])
   const currentFingerprint = JSON.stringify(currentPublication)
   const isSaved = savedFingerprint !== '' && savedFingerprint === currentFingerprint
@@ -445,6 +449,39 @@ export default function PlantPublicationEditor({
     finally { setEnriching(false) }
   }
 
+  const suggestBotanicalNames = async () => {
+    setSuggestingNames(true); setError(''); setNotice('')
+    try {
+      const categoryName = categories.find((category) => category._id === draft.categoryId)?.name || ''
+      const response = await fetch('/api/manager/enrich-plant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken },
+        body: JSON.stringify({
+          submissionId: submission.id,
+          reviewInput: {
+            name: draft.name.trim(),
+            scientificName: draft.scientificName.trim(),
+            productType: draft.productType,
+            categoryId: draft.categoryId,
+            categoryName,
+            description: draft.description.trim(),
+          },
+        }),
+      })
+      const result = await response.json().catch(() => ({})) as { error?: string; draft?: Record<string, unknown> }
+      if (!response.ok || !result.draft) throw new Error(result.error || 'Не удалось получить варианты ботанического имени.')
+      const candidates = Array.isArray(result.draft.scientificNameCandidates)
+        ? result.draft.scientificNameCandidates as Array<Record<string, unknown>>
+        : []
+      setBotanicalNameSuggestions(candidates)
+      setNotice(candidates.length
+        ? 'ИИ предложил варианты. Выберите один — затем запустите ботаническую проверку фотографий и GBIF.'
+        : 'ИИ не смог предложить надёжное латинское название. Введите его вручную или уточните название растения.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось предложить ботаническое имя.')
+    } finally { setSuggestingNames(false) }
+  }
+
   const request = async (action: 'save' | 'publish') => {
     const validationError = validate(action === 'publish')
     if (validationError) { setError(validationError); return }
@@ -509,7 +546,8 @@ export default function PlantPublicationEditor({
             {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви картата' : 'Подготви картата с ИИ'}
           </button>
         </div>
-        {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Повторното генериране е изключено, за да не се изразходва квота. Можете да редактирате резултата ръчно.</p>}
+        {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Пълното генериране не се повтаря, за да се запази черновикът и да не се изразходва квота.</p>}
+        {hasAiDraft && scientificNameCandidates.length === 0 && <button type="button" disabled={suggestingNames || enriching || careResearching || saving || publishing} onClick={() => void suggestBotanicalNames()} className="mt-3 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-900 disabled:opacity-50">{suggestingNames ? 'Търсене на латински варианти…' : 'Предложить латинские названия'}</button>}
         <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
       </div>
       <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">

@@ -6,9 +6,10 @@ type Env = {
 
 type IntakeImage = { path: string; name: string; size: number; type: string }
 type SubmissionRow = {
-  id: string; catalog: string; operation: string; status: string; created_by: string
+  id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string
   payload: Record<string, unknown>
 }
+type ScientificCandidate = { scientificName: string; confidence: string; reason: string }
 
 const bucket = 'florial-manager-intake'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
@@ -23,6 +24,24 @@ function latinBinomial(value: unknown) {
   const candidate = textValue(value, 120)
   const match = candidate.match(/\b([A-Z][A-Za-z-]+)\s+([a-z][A-Za-z-]+)\b/)
   return match ? match[1] + ' ' + match[2] : ''
+}
+function normalizeScientificCandidates(value: unknown): ScientificCandidate[] {
+  const seen = new Set<string>()
+  return (Array.isArray(value) ? value : [])
+    .slice(0, 6)
+    .map((entry) => object(entry) || {})
+    .map((entry) => ({
+      scientificName: latinBinomial(entry.scientificName),
+      confidence: ['high', 'medium', 'low'].includes(String(entry.confidence).toLowerCase()) ? String(entry.confidence).toLowerCase() : 'low',
+      reason: textValue(entry.reason, 240),
+    }))
+    .filter((entry) => {
+      const key = entry.scientificName.toLocaleLowerCase('en')
+      if (!entry.scientificName || seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .slice(0, 3)
 }
 type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
 const stageLabels: Record<AiStage, string> = {
@@ -141,7 +160,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   const submissionResponse = await fetch(
     base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
-      '&select=id,catalog,operation,status,created_by,payload',
+      '&select=id,catalog,operation,status,created_by,updated_at,payload',
     { headers: adminHeaders },
   )
   if (!submissionResponse.ok) return json({ error: 'Unable to load submission.' }, 502)
@@ -154,8 +173,48 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const payload = object(submission.payload) || {}
   const existingDraft = object(payload.aiDraft)
-  if (existingDraft) return json({ ok: true, draft: existingDraft, reused: true })
   const reviewInput = object(body.reviewInput) || {}
+  if (existingDraft) {
+    const existingCandidates = normalizeScientificCandidates(existingDraft.scientificNameCandidates)
+    if (existingCandidates.length > 0) return json({ ok: true, draft: existingDraft, reused: true })
+    try {
+      const plantName = textValue(reviewInput.name ?? existingDraft.name ?? payload.name ?? submission.title, 160)
+      const candidateResponse = await env.AI.run(textModel, {
+        messages: [
+          { role: 'system', content: 'You are a cautious botanical nomenclature assistant. Return valid JSON only. Never invent a cultivar or claim certainty.' },
+          { role: 'user', content: [
+            'Suggest up to 3 possible Latin species binomials based ONLY on the seller-provided common/display name and seller text. Do not use photographs or visual assumptions.',
+            'Plant name: ' + plantName,
+            'Plant type: ' + textValue(reviewInput.productType ?? existingDraft.productType ?? payload.productType, 40),
+            'Category: ' + textValue(reviewInput.categoryName ?? existingDraft.categoryName ?? payload.categoryName, 120),
+            'Seller description: ' + textValue(reviewInput.description ?? existingDraft.description ?? payload.description, 700),
+            'If the name is incomplete or ambiguous, offer distinct candidates with medium/low confidence and explain the uncertainty in Russian. If there is no defensible candidate, return an empty array.',
+            'Each candidate must have a Latin binomial, confidence high|medium|low, and a short reason in Russian.',
+            'JSON shape: {"candidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Возможное соответствие; требуется проверка по GBIF и фотографии."}]}',
+          ].join('\\n') },
+        ],
+        response_format: { type: 'json_object' }, max_tokens: 900, temperature: 0.1,
+      })
+      const suggested = parseModelJson(candidateResponse)
+      const candidates = normalizeScientificCandidates(suggested.candidates)
+      const nextDraft = { ...existingDraft, scientificNameCandidates: candidates }
+      const nextPayload = { ...payload, aiDraft: nextDraft }
+      const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+        '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
+        method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
+        body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
+      })
+      if (!save.ok) return json({ error: 'Не удалось сохранить варианты ботанического имени.', diagnostic: { stage: 'save_botanical_candidates', httpStatus: save.status } }, 502)
+      const savedRows = await save.json() as Array<{ id: string }>
+      if (!savedRows.length) return json({ error: 'Заявка изменилась. Обновите страницу и повторите запрос.' }, 409)
+      return json({ ok: true, draft: nextDraft, reused: true, botanicalCandidatesGenerated: true })
+    } catch (error) {
+      return json({ error: 'Не удалось предложить латинские названия. Существующий AI-черновик не изменён.', diagnostic: {
+        stage: 'generate_botanical_candidates', code: 'BOTANICAL_CANDIDATES_FAILED',
+        technical: errorDetails(error).slice(0, 350),
+      } }, 502)
+    }
+  }
   const originalVariant = (Array.isArray(payload.saleVariants) ? object(payload.saleVariants[0]) : null) || {}
   const reviewedVariant = Array.isArray(reviewInput.saleVariants) ? object(reviewInput.saleVariants[0]) : null
   const variant = reviewedVariant || originalVariant
@@ -277,22 +336,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     stage = 'parse_text_result'
     const generated = parseModelJson(textResponse)
     const care = object(generated.plantCare) || {}
-    const seenScientificCandidates = new Set<string>()
-    const scientificNameCandidates = (Array.isArray(generated.scientificNameCandidates) ? generated.scientificNameCandidates : [])
-      .slice(0, 6)
-      .map((entry) => object(entry) || {})
-      .map((entry) => ({
-        scientificName: latinBinomial(entry.scientificName),
-        confidence: ['high', 'medium', 'low'].includes(String(entry.confidence).toLowerCase()) ? String(entry.confidence).toLowerCase() : 'low',
-        reason: textValue(entry.reason, 240),
-      }))
-      .filter((entry) => {
-        const key = entry.scientificName.toLocaleLowerCase('en')
-        if (!entry.scientificName || seenScientificCandidates.has(key)) return false
-        seenScientificCandidates.add(key)
-        return true
-      })
-      .slice(0, 3)
+    const scientificNameCandidates = normalizeScientificCandidates(generated.scientificNameCandidates)
     const publication = {
       name: textValue(generated.name, 160) || name,
       slug: slugify(textValue(generated.name, 160) || name) || 'plant-' + submissionId.slice(0, 8),
