@@ -24,7 +24,7 @@ begin
   end if;
 
   if length(trim(coalesce(new.payload->>'name', new.title, ''))) < 2 then
-    raise exception 'Укажите название растения.';
+    raise exception 'Въведете име на растението.';
   end if;
 
   if length(trim(coalesce(new.payload->>'productType', ''))) = 0
@@ -33,16 +33,19 @@ begin
        'palm', 'conifer', 'fruit', 'succulent', 'climber', 'ornamentalGrass',
        'groundcover', 'bulb', 'herb', 'aquatic', 'other'
      ) then
-    raise exception 'Выберите корректный тип растения.';
+    raise exception 'Изберете валиден тип растение.';
   end if;
 
   if length(trim(coalesce(new.payload->>'categoryId', ''))) = 0 then
-    raise exception 'Выберите категорию растения.';
+    raise exception 'Изберете категория на растението.';
   end if;
 
   v_images := new.payload->'images';
-  if jsonb_typeof(v_images) is distinct from 'array' or jsonb_array_length(v_images) = 0 then
-    raise exception 'Добавьте хотя бы одну фотографию растения.';
+  if jsonb_typeof(v_images) is distinct from 'array' then
+    raise exception 'Добавете поне една снимка на растението.';
+  end if;
+  if jsonb_array_length(v_images) = 0 then
+    raise exception 'Добавете поне една снимка на растението.';
   end if;
 
   select exists (
@@ -56,47 +59,51 @@ begin
   ) into v_has_uploaded_image;
 
   if not v_has_uploaded_image then
-    raise exception 'Фотография не найдена в хранилище. Загрузите изображение повторно.';
+    raise exception 'Снимката не е намерена в хранилището. Качете я отново.';
   end if;
 
-  if jsonb_typeof(new.payload->'saleVariants') is distinct from 'array'
-     or jsonb_array_length(new.payload->'saleVariants') = 0
-     or jsonb_typeof(new.payload->'saleVariants'->0) is distinct from 'object' then
-    raise exception 'Заполните данные варианта продажи растения.';
+  if jsonb_typeof(new.payload->'saleVariants') is distinct from 'array' then
+    raise exception 'Попълнете данните за продажба на растението.';
+  end if;
+  if jsonb_array_length(new.payload->'saleVariants') = 0 then
+    raise exception 'Попълнете данните за продажба на растението.';
+  end if;
+  if jsonb_typeof(new.payload->'saleVariants'->0) is distinct from 'object' then
+    raise exception 'Попълнете данните за продажба на растението.';
   end if;
 
   v_variant := new.payload->'saleVariants'->0;
 
   if jsonb_typeof(v_variant->'priceEUR') is distinct from 'number' then
-    raise exception 'Укажите цену в EUR.';
+    raise exception 'Въведете цена в EUR.';
   end if;
   v_price := (v_variant->>'priceEUR')::numeric;
   if v_price <= 0 then
-    raise exception 'Цена должна быть больше 0 EUR.';
+    raise exception 'Цената трябва да е по-голяма от 0 EUR.';
   end if;
 
   if jsonb_typeof(v_variant->'saleHeightCm') is distinct from 'number' then
-    raise exception 'Укажите высоту растения при продаже.';
+    raise exception 'Въведете височината на растението при продажба.';
   end if;
   v_height := (v_variant->>'saleHeightCm')::numeric;
   if v_height <= 0 then
-    raise exception 'Высота растения должна быть больше 0 см.';
+    raise exception 'Височината трябва да е по-голяма от 0 см.';
   end if;
 
   if jsonb_typeof(v_variant->'containerVolumeL') is distinct from 'number' then
-    raise exception 'Укажите объём контейнера.';
+    raise exception 'Въведете обема на контейнера.';
   end if;
   v_volume := (v_variant->>'containerVolumeL')::numeric;
   if v_volume <= 0 then
-    raise exception 'Объём контейнера должен быть больше 0 литров.';
+    raise exception 'Обемът на контейнера трябва да е по-голям от 0 литра.';
   end if;
 
   if jsonb_typeof(v_variant->'stockQuantity') is distinct from 'number' then
-    raise exception 'Укажите количество растений.';
+    raise exception 'Въведете количеството растения.';
   end if;
   v_quantity := (v_variant->>'stockQuantity')::numeric;
   if v_quantity < 0 or v_quantity <> trunc(v_quantity) then
-    raise exception 'Количество должно быть целым числом от 0 и выше.';
+    raise exception 'Количеството трябва да е цяло число от 0 нагоре.';
   end if;
 
   return new;
