@@ -1,0 +1,16 @@
+{
+  "name": "florial-plant-care-workflow",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "ai": {
+    "binding": "AI"
+  },
+  "workflows": [
+    {
+      "name": "florial-plant-care-workflow",
+      "binding": "PLANT_CARE_WORKFLOW",
+      "class_name": "PlantCareWorkflow"
+    }
+  ]
+}
