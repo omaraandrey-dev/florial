@@ -252,10 +252,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       status: identityStatus, submittedName: scientificName, sellerGbif: gbifSummary(sellerMatch),
       visualCandidates, visualResults, visualSuggestedScientificName: visualDisagreement ? '' : visualCandidate?.name || '',
       visualGbif: gbifSummary(visualMatch), photoAssessment, imageCountAnalysed: imagesToAnalyse.length,
-      canonicalName: careTaxon || sellerCanonical || visualCanonical, rank: careMatch?.rank || sellerMatch?.rank || visualMatch?.rank || '',
-      confidence: careMatch?.confidence || sellerMatch?.confidence || visualMatch?.confidence || 0,
-      matchType: careMatch?.matchType || sellerMatch?.matchType || visualMatch?.matchType || '',
-      url: typeof careMatch?.usageKey === 'number' ? 'https://www.gbif.org/species/' + careMatch.usageKey : typeof sellerMatch?.usageKey === 'number' ? 'https://www.gbif.org/species/' + sellerMatch.usageKey : '',
+      canonicalName: careTaxon || (sellerAccepted ? sellerCanonical : ''),
+      rank: (careMatch || (sellerAccepted ? sellerMatch : null))?.rank || '',
+      confidence: (careMatch || (sellerAccepted ? sellerMatch : null))?.confidence || 0,
+      matchType: (careMatch || (sellerAccepted ? sellerMatch : null))?.matchType || '',
+      url: typeof (careMatch || (sellerAccepted ? sellerMatch : null))?.usageKey === 'number'
+        ? 'https://www.gbif.org/species/' + (careMatch || sellerMatch)!.usageKey
+        : '',
       careTaxon, careIsProvisional, source: 'GBIF + Cloudflare Workers AI Vision',
       note: 'GBIF confirms taxonomy only. Image recognition is a preliminary AI suggestion and must be checked by the owner.',
     },
