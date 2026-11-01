@@ -2,7 +2,7 @@
 
 - Расширена схема dataset plants: plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured и oldPriceEUR.
 - В productType добавлены значения типов растений при сохранении существующего значения plant и строкового типа поля.
-- Существующие mainImage и gallery не изменялись; GROQ теперь передаёт галерею с локализованными alt-полями в уже поддерживаемый ProductPage формат.
+- Существующие mainImage и gallery не изменялись; GROQ теперь передаёт галерею с локализованными alt-полями в уже поддерживаемый ProductPage формат. Карточка использует ALT из Sanity на выбранном языке.
 - Frontend распознаёт все поддерживаемые типы растений для каталожной навигации и карточки товара.
 - plantDetails.scientificName помечено deprecated/hidden/readOnly; поле не удалялось. В GROQ оставлено только plantDetails.availabilityNote.
 - Проверка опубликованного dataset plants: 30 товаров, 17 категорий; root scientificName заполнен у всех 30, gallery пока отсутствует у всех 30.
