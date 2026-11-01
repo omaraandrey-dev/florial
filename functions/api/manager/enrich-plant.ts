@@ -11,7 +11,8 @@ type SubmissionRow = {
 }
 
 const bucket = 'florial-manager-intake'
-const model = '@cf/meta/llama-3.2-11b-vision-instruct'
+const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
+const textModel = '@cf/meta/llama-3.1-8b-instruct'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
 })
@@ -188,7 +189,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const dataUrl = 'data:' + contentType + ';base64,' + bytesToBase64(bytes)
       stage = 'analyze_image'
       let response: unknown
-      try { response = await env.AI.run(model, {
+      try { response = await env.AI.run(visionModel, {
         messages: [
           { role: 'system', content: 'Describe visible image details for accessible alt text. Do not identify a plant species. Do not invent details. Reply with one concise sentence in Bulgarian only, without JSON, labels, quotes or markdown.' },
           { role: 'user', content: 'The seller says the plant is "' + name + '"' + (latinName ? ' (' + latinName + ')' : '') +
@@ -219,10 +220,15 @@ Return only valid JSON with this shape:
 careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown
-    try { textResponse = await env.AI.run(model, { messages: [
+    try { textResponse = await env.AI.run(textModel, {
+      messages: [
       { role: 'system', content: 'You are a careful horticultural product copywriter for Bulgaria. Return valid JSON only. Never invent facts or commercial data.' },
       { role: 'user', content: prompt },
-    ] }) } catch (error) { throw new Error('AI_TEXT_REQUEST: ' + errorDetails(error)) }
+    ],
+    response_format: { type: 'json_object' },
+    max_tokens: 4096,
+    temperature: 0.2,
+    }) } catch (error) { throw new Error('AI_TEXT_REQUEST: ' + errorDetails(error)) }
     stage = 'parse_text_result'
     const generated = parseModelJson(textResponse)
     const care = object(generated.plantCare) || {}
@@ -282,7 +288,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
         from_status: submission.status, to_status: submission.status,
         note: 'ИИ създаде чернова за текстове, alt и характеристики; чака проверка от собственика.',
-        metadata: { model, imageCount: images.length } }),
+        metadata: { models: { vision: visionModel, text: textModel }, imageCount: images.length } }),
     })
     return json({ ok: true, draft: publication })
   } catch (error) {
@@ -301,7 +307,8 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
         submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_failed',
         from_status: submission.status, to_status: submission.status,
         note: 'AI подготовката е прекъсната на етап: ' + stageLabel + '. Код: ' + classification.code + '.',
-        metadata: { diagnosticId, stage: failedStage, stageLabel, code: classification.code, imageNumber, model,
+        metadata: { diagnosticId, stage: failedStage, stageLabel, code: classification.code, imageNumber,
+          model: failedStage === 'generate_text' || failedStage === 'parse_text_result' ? textModel : visionModel,
           technical: technical.slice(0, 700) },
       }),
     }).catch(() => undefined)
