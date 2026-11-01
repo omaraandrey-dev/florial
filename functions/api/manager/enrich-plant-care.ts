@@ -191,8 +191,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const visualAccepted = acceptedSpecies(visualMatch)
   const sellerCanonical = textValue(sellerMatch?.canonicalName ?? sellerMatch?.scientificName, 180)
   const visualCanonical = textValue(visualMatch?.canonicalName ?? visualMatch?.scientificName, 180)
-  const photoMatchesSeller = sellerAccepted && visualAccepted && normalizedName(sellerCanonical) === normalizedName(visualCanonical)
-  const photoMismatch = !!visualCandidate && !visualDisagreement && sellerAccepted && visualAccepted && !photoMatchesSeller
+  const visualHasUsefulConfidence = !!visualCandidate && visualCandidate.confidence !== 'low'
+  const photoMatchesSeller = sellerAccepted && visualAccepted && visualHasUsefulConfidence && normalizedName(sellerCanonical) === normalizedName(visualCanonical)
+  const photoMismatch = !!visualCandidate && !visualDisagreement && visualHasUsefulConfidence && sellerAccepted && visualAccepted && !photoMatchesSeller
   const photoAssessment = visualDisagreement ? 'multiple' : photoMatchesSeller ? 'match' : photoMismatch ? 'mismatch' : !sellerAccepted && visualAccepted ? 'candidate_only' : 'inconclusive'
 
   let careMatch: GbifMatch | null = null
