@@ -16,19 +16,23 @@ export default function SubmissionDetails({ submission, images, loading }: Props
   const scientificName = String(publication.scientificName || submission.payload.latinName || '—')
   const categoryName = String(publication.categoryName || submission.payload.categoryName || publication.categoryId || 'Не е избрана')
   const sku = String(publication.sku || submission.sku || '—')
+  const productType = String(publication.productType || '—')
+  const shortDescription = String(publication.shortDescription || '')
   const description = String(publication.description || submission.payload.description || '—')
   const documentId = String(publication.sanityDocumentId || '')
   return <div className="mt-3 space-y-3 text-sm">
     <div><span className="text-stone-500">Растение: </span><strong>{name}</strong></div>
     <div><span className="text-stone-500">Латинско име: </span>{scientificName}</div>
+    <div><span className="text-stone-500">Тип растение: </span>{productType}</div>
     <div><span className="text-stone-500">Категория: </span>{categoryName}</div>
     <div><span className="text-stone-500">SKU: </span>{sku}</div>
+    {shortDescription && <div><span className="text-stone-500">Кратко описание: </span>{shortDescription}</div>}
     <div><span className="text-stone-500">Вариант: </span>{String(variant.name || '—')}</div>
     <div><span className="text-stone-500">Височина: </span>{variant.saleHeightCm == null ? '—' : String(variant.saleHeightCm) + ' cm'}</div>
     <div><span className="text-stone-500">Обем на контейнера: </span>{variant.containerVolumeL == null ? '—' : String(variant.containerVolumeL) + ' L'}</div>
     <div><span className="text-stone-500">Цена с ДДС: </span>{variant.priceEUR == null ? 'По запитване' : Number(variant.priceEUR).toFixed(2) + ' EUR'}</div>
     <div><span className="text-stone-500">Количество: </span>{String(variant.stockQuantity ?? '—')}</div>
-    <div><span className="text-stone-500">Наличност: </span>{String(variant.stockStatus || '—')}</div>
+    <div><span className="text-stone-500">Наличност: </span>{variant.stockStatus === 'inStock' ? 'В наличност' : variant.stockStatus === 'onRequest' ? 'По заявка' : variant.stockStatus === 'outOfStock' ? 'Изчерпан' : '—'}</div>
     <div><span className="text-stone-500">Описание:</span><p className="whitespace-pre-wrap">{description}</p></div>
     {documentId && <div className="rounded-lg bg-lime-50 p-3 text-xs text-lime-950"><strong>Sanity document ID:</strong><p className="mt-1 break-all">{documentId}</p></div>}
     <div className="border-t border-stone-100 pt-3"><strong>Снимки ({images.length})</strong>
