@@ -139,7 +139,7 @@ function makeDraft(submission: Submission): Draft {
     name,
     slug: String(saved.slug || slugify(name)),
     scientificName: String(saved.scientificName ?? payload.latinName ?? ''),
-    productType: String(saved.productType ?? ''),
+    productType: String(saved.productType ?? payload.productType ?? ''),
     categoryId: String(saved.categoryId ?? payload.categoryId ?? ''),
     sku: String(saved.sku ?? submission.sku ?? ''),
     shortDescription: String(saved.shortDescription ?? ''),
@@ -352,6 +352,7 @@ export default function PlantPublicationEditor({
           reviewInput: {
             name: draft.name.trim(),
             scientificName: draft.scientificName.trim(),
+            productType: draft.productType,
             categoryId: draft.categoryId,
             categoryName,
             sku: draft.sku.trim(),
@@ -467,7 +468,7 @@ export default function PlantPublicationEditor({
             <h3 className="font-semibold text-sky-950">Проверка ботанических характеристик</h3>
             <p className="mt-1 text-sm text-sky-900">GBIF проверяет латинское название, затем AI предлагает значения для проверки владельцем.</p>
           </div>
-          <button type="button" disabled={!hasAiDraft || hasPublication || careResearching || enriching || saving || publishing || !draft.scientificName.trim()} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+          <button type="button" disabled={!hasAiDraft || hasPublication || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
           </button>
         </div>
