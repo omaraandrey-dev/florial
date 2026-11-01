@@ -19,6 +19,24 @@ const object = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
 
+function slugify(value: string) {
+  const transliteration: Record<string, string> = {
+    а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y',
+    к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u',
+    ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sht', ъ: 'a', ь: 'y', ю: 'yu', я: 'ya',
+    ё: 'yo', ы: 'y', э: 'e',
+  }
+  return value.toLocaleLowerCase('bg-BG')
+    .split('')
+    .map((character) => transliteration[character] ?? character)
+    .join('')
+    .normalize('NFD')
+    .replace(/[\\u0300-\\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 96)
+}
+
 function bytesToBase64(bytes: Uint8Array) {
   let binary = ''
   const chunk = 0x8000
@@ -97,6 +115,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!['approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Only an approved plant submission can be enriched.' }, 409)
 
   const payload = object(submission.payload) || {}
+  const existingDraft = object(payload.aiDraft)
+  if (existingDraft) return json({ ok: true, draft: existingDraft, reused: true })
   const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   if (images.length < 1 || images.length > 8) return json({ error: 'The submission must contain between 1 and 8 photos.' }, 400)
   const prefix = submission.created_by + '/' + submissionId + '/'
@@ -155,7 +175,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
     const care = object(generated.plantCare) || {}
     const publication = {
       name: textValue(generated.name, 160) || name,
-      slug: textValue(payload.name, 160).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 96),
+      slug: slugify(textValue(generated.name, 160) || name) || 'plant-' + submissionId.slice(0, 8),
       scientificName: textValue(generated.scientificName, 160) || latinName,
       productType: textValue(generated.productType, 40) || 'plant',
       categoryId: textValue(payload.categoryId, 128),
