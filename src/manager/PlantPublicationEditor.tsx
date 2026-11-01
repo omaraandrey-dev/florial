@@ -534,3 +534,4 @@ export default function PlantPublicationEditor({
     </section>
   )
 }
+
