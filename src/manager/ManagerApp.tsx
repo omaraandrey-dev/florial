@@ -301,6 +301,7 @@ export default function ManagerApp() {
       if (submissionId) await loadEvents(submissionId, currentImages)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Възникна грешка при запис.')
+      await loadSubmissions()
     } finally { setUploadProgress(''); setSaving(false) }
   }
 
