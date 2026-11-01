@@ -30,6 +30,7 @@ type Publication = {
   scientificName: string
   productType: string
   categoryId: string
+  categoryName: string
   sku: string
   shortDescription: string
   description: string
@@ -140,6 +141,7 @@ function validatePublication(input: unknown, images: IntakeImage[]): Publication
     scientificName: cleanText(source.scientificName, 160),
     productType,
     categoryId,
+    categoryName: cleanText(source.categoryName, 120),
     sku: cleanText(source.sku, 100),
     shortDescription: cleanText(source.shortDescription, 500),
     description: cleanText(source.description, 5000),
@@ -348,6 +350,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       { categoryId: publication.categoryId },
     ) as { _id?: string; name?: string; parent?: { _id?: string; name?: string; parent?: unknown } } | null
     if (!category?._id || category._id === 'plants-root') throw new Error('Избраната категория не съществува или не може да се използва за растение.')
+    publication.categoryName = cleanText(category.name, 120)
+    await persistPublication()
 
     const slugCount = await sanity.fetch(
       'count(*[_type == "product" && slug.current == $slug && _id != $documentId])',
