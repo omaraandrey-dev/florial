@@ -32,14 +32,66 @@ export interface RelatedContentItem {
   isPublished?: boolean
 }
 
+export type PlantProductType =
+  | 'plant'
+  | 'tree'
+  | 'shrub'
+  | 'flower'
+  | 'perennial'
+  | 'indoor'
+  | 'citrus'
+  | 'palm'
+  | 'conifer'
+  | 'fruit'
+  | 'succulent'
+  | 'climber'
+  | 'ornamentalGrass'
+  | 'groundcover'
+  | 'bulb'
+  | 'herb'
+  | 'aquatic'
+  | 'other'
+
+export interface PlantCare {
+  light?: 'sun' | 'partialShade' | 'shade'
+  waterNeeds?: 'low' | 'medium' | 'high'
+  minWinterTempC?: number
+  blackSeaCoast?: 'suitable' | 'notSuitable' | 'needsVerification'
+  adultHeightCm?: number
+  foliageType?: 'evergreen' | 'deciduous'
+  floweringSeason?: Array<'spring' | 'summer' | 'autumn' | 'winter'>
+  plantingSeason?: Array<'spring' | 'summer' | 'autumn' | 'winter' | 'yearRound'>
+  saleFormat?: {
+    containerVolumeL?: number
+    saleHeightCm?: number
+  }
+}
+
 export interface Product {
   categoryTranslations?: Record<string, any>
   translations?: Record<string, Record<string, any>>
   _id: string
   name: string
-  productType?: 'plant' | 'equipment'
+  productType?: PlantProductType | 'equipment'
   scientificName?: string
-  plantDetails?: { scientificName?: string; availabilityNote?: string; [key: string]: any }
+  plantDetails?: {
+    /** @deprecated Use Product.scientificName */
+    scientificName?: string
+    availabilityNote?: string
+    [key: string]: any
+  }
+  plantCare?: PlantCare
+  careGuide?: any[]
+  recommendedIrrigation?: {
+    irrigationType?: 'drip' | 'rotator' | 'root' | 'mist'
+    productSlug?: string
+  }
+  relatedContentBySlug?: Array<{
+    contentType: 'service' | 'blogPost'
+    slug: string
+    label?: string
+  }>
+  isFeatured?: boolean
   slug?: { current: string }
   priceEUR: number
   oldPriceEUR?: number
