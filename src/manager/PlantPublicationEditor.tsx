@@ -124,8 +124,8 @@ function makeDraft(submission: Submission): Draft {
   const savedPlantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
   const researchData = payload.plantCareResearch && typeof payload.plantCareResearch === 'object' ? payload.plantCareResearch as Record<string, unknown> : {}
   const researchValues = researchData.plantCare && typeof researchData.plantCare === 'object' ? researchData.plantCare as Record<string, unknown> : {}
-  const plantCare = payload.publication ? savedPlantCare : { ...savedPlantCare, ...researchValues }
-  // Research suggestions are merged with the saved draft values above.
+  // Research suggestions remain separate until the owner explicitly applies each field.
+  const plantCare = savedPlantCare
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
