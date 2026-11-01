@@ -494,6 +494,15 @@ export default function PlantPublicationEditor({
           const visualCandidates = Array.isArray(identity.visualCandidates) ? identity.visualCandidates as Array<Record<string, unknown>> : []
           const sellerGbif = (identity.sellerGbif as Record<string, unknown> | null | undefined) || null
           const otherVisualCandidates = visualCandidates.filter((candidate) => String(candidate.scientificName || '') !== suggestedName)
+          const suggestedCare = (plantCareResearch.plantCare as Record<string, unknown> | undefined) || {}
+          const careConfidence = (plantCareResearch.confidence as Record<string, string> | undefined) || {}
+          const careLabels: Record<string, string> = { light: 'Осветеност', waterNeeds: 'Нужда от поливане', minWinterTempC: 'Минимална зимна температура', adultHeightCm: 'Височина на възрастното растение', foliageType: 'Тип листна маса', floweringSeason: 'Сезон на цъфтеж', plantingSeason: 'Сезон на засаждане' }
+          const careOptions: Record<string, Record<string, string>> = { light: { sun: 'Пълно слънце', partialShade: 'Полусянка', shade: 'Сянка' }, waterNeeds: { low: 'Ниска', medium: 'Средна', high: 'Висока' }, foliageType: { evergreen: 'Вечнозелено', deciduous: 'Листопадно' } }
+          const careRows = Object.entries(careLabels).map(([key, label]) => {
+            const value = suggestedCare[key]
+            const display = Array.isArray(value) ? value.join(', ') : key === 'minWinterTempC' && typeof value === 'number' ? value + ' °C' : key === 'adultHeightCm' && typeof value === 'number' ? value + ' см' : careOptions[key]?.[String(value)] || (value == null ? '' : String(value))
+            return { key: key as keyof Draft['plantCare'], label, value, display, confidence: careConfidence[key] || 'не е посочена' }
+          }).filter((item) => item.value !== null && item.value !== undefined && item.value !== '' && (!Array.isArray(item.value) || item.value.length > 0))
           const taxonomyLabel = identity.status === 'verified'
             ? 'Таксономия подтверждена GBIF'
             : identity.status === 'photo_name_mismatch'
