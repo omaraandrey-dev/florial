@@ -8,7 +8,7 @@
 - Добавлена Cloudflare Pages Function для проверки сессии/роли и отправки email владельцу через существующий Resend binding.
 - Добавлена инструкция первичного включения `docs/FLORIAL_MANAGER_SETUP.md`.
 - Preview secrets не добавлялись. Существующие production bindings не менялись.
-- Миграция не применялась, Auth users/roles не создавались, Sanity не изменялся, production не публиковался. PR #38 остаётся Draft до ревью.
+- GitHub Actions validation (lint, website build, migration script checks, Sanity Studio build) завершилась успешно для реализации. Миграция не применялась, Auth users/roles не создавались, Sanity не изменялся, production не публиковался. PR #38 остаётся Draft до согласования production rollout.
 
 ## 2026-11-01 — Plant checkout integration and verified production order flow
 
