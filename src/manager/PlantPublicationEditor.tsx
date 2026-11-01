@@ -233,6 +233,7 @@ export default function PlantPublicationEditor({
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
+  const [careResearching, setCareResearching] = useState(false)
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
