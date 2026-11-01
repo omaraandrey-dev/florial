@@ -1,6 +1,6 @@
 # Florial Manager — архитектура закрытой приёмки товаров
 
-**Статус:** первая версия реализована в feature branch; production не изменялся  
+**Статус:** первая версия объединена в main, production deployment и Supabase migration выполнены 01.11.2026  
 **Дата:** 01.11.2026  
 **Базовый commit:** `466a9e7913455a3ede5ddb86db2a3cbd637be16a`  
 **Ветка:** `feature/florial-manager-architecture`
@@ -259,9 +259,20 @@ API должен валидировать JSON по allowlist полей цел�
 
 ### Фактический статус на момент коммита
 
-- Код и миграция добавлены только в feature branch; PR #38 остаётся Draft.
-- SQL migration не применялась к Supabase production.
-- Auth users/roles не создавались; Storage bucket не создавался в живом проекте.
-- Cloudflare production secrets/variables не менялись; Sanity documents и datasets не менялись.
-- Production deployment не запускался.
+- Код объединён PR #39 в main (merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`); PR #38 закрыт без объединения.
+- SQL migration `create_florial_manager` применена к Supabase production, version `20261101080656`.
+- Storage bucket и политики созданы; таблицы и RLS подтверждены read-only проверкой.
+- Auth users/roles пока не созданы; Cloudflare production deployment `98ba0318-dfc6-419a-9906-62e90f7980de` завершился успешно.
+- Cloudflare production secrets/variables не менялись; Preview secrets не добавлялись; Sanity documents и datasets не менялись.
 - Supabase Auth provider/signup/redirect configuration остаётся **НЕ ИЗВЕСТНО — нужно уточнить**.
+
+
+## 17. Production rollout — 01.11.2026
+
+- PR #39: `https://github.com/omaraandrey-dev/florial/pull/39`; merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`.
+- GitHub Actions run `41287365219`: все этапы успешны — lint, website build, migration script syntax check, Sanity Studio build.
+- Cloudflare Pages production deployment `98ba0318-dfc6-419a-9906-62e90f7980de` завершён успешно, commit совпадает с merge commit.
+- Supabase migration `create_florial_manager` version `20261101080656` применена к production project `shzbflgqfffgzzgpwjxt`.
+- Подтверждены 3 таблицы, 6 RLS policies, private Storage bucket, 4 Storage policies, role helper и review RPC.
+- Таблицы пока пусты; owner/seller/manager Auth accounts не созданы. До первого входа требуется создать владельца в Supabase Auth и добавить профиль с ролью `owner`.
+- Публикация одобренных заявок в Sanity не включена. Email delivery и вход пользователя ещё требуют ручного end-to-end теста.
