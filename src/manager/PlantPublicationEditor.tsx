@@ -256,7 +256,7 @@ export default function PlantPublicationEditor({
     setError('')
     setNotice('')
     if (action === 'publish' && !isSaved) {
-      setError('Първо запазете финалната версия на карточката.')
+      setError('Първо запазете окончателните данни за продукта.')
       return
     }
     if (action === 'publish' && !window.confirm('Публикуване в публичния каталог на Florial? След потвърждение растението ще стане видимо в магазина.')) return
@@ -295,7 +295,7 @@ export default function PlantPublicationEditor({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold">Окончателна проверка преди публикуване</h2>
-          <p className="mt-1 text-sm text-stone-600">Одобрената заявка е отделена от финалната карточка. Промените тук не редактират първоначалната заявка на служителя.</p>
+          <p className="mt-1 text-sm text-stone-600">Одобрената заявка е отделена от окончателните данни за продукта. Промените тук не редактират първоначалната заявка на служителя.</p>
         </div>
         <span className="rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-900">{isSaved ? 'Финалната версия е запазена' : 'Има неприключени промени'}</span>
       </div>
