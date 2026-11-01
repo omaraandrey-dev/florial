@@ -36,7 +36,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
   const origin = request.headers.get('Origin')
   if (origin) {
     try {
-      if (new URL(origin).host !== url.host) return json({ error: 'Origin not allowed.' }, 403)
+      if (new URL(origin).origin !== url.origin) return json({ error: 'Origin not allowed.' }, 403)
     } catch {
       return json({ error: 'Invalid origin.' }, 403)
     }
@@ -51,6 +51,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     return json({ error: 'Staff administration is not configured.' }, 503)
   }
 
+  const base = SUPABASE_URL.replace(/\\/+$/, '')
   const authorization = request.headers.get('Authorization') || ''
   const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
   if (!accessToken) return json({ error: 'Authentication required.' }, 401)
@@ -66,13 +67,13 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
   }
 
   // Validate the caller's real Supabase session, then check the server-managed owner profile.
-  const userResponse = await fetch(SUPABASE_URL + '/auth/v1/user', { headers: authHeaders })
+  const userResponse = await fetch(base + '/auth/v1/user', { headers: authHeaders })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
 
   const callerProfileResponse = await fetch(
-    SUPABASE_URL + '/rest/v1/catalog_staff_profiles?user_id=eq.' +
+    base + '/rest/v1/catalog_staff_profiles?user_id=eq.' +
       encodeURIComponent(caller.id) + '&select=user_id,role,is_active',
     { headers: adminHeaders },
   )
