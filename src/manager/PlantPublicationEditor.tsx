@@ -293,7 +293,7 @@ export default function PlantPublicationEditor({
   }
 
   const researchPlantCare = async () => {
-    if (!hasAiDraft || hasPublication || !draft.scientificName.trim()) return
+    if (!hasAiDraft || hasPublication || imageFiles.length === 0 || imagesLoading) return
     setCareResearching(true)
     try {
       const response = await fetch('/api/manager/enrich-plant-care', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() } }) })
