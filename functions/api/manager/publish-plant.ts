@@ -78,7 +78,7 @@ const safeFilename = (value: string, index: number) =>
 
 function validatePublication(input: unknown, images: IntakeImage[]): Publication {
   const source = parseObject(input)
-  if (!source) throw new Error('Липсват данни за финалната карточка.')
+  if (!source) throw new Error('Липсват данни за окончателните данни на продукта.')
 
   const name = cleanText(source.name, 160)
   const slug = cleanText(source.slug, 96)
