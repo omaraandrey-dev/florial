@@ -1,6 +1,6 @@
 # Florial Manager — архитектура закрытой приёмки товаров
 
-**Статус:** проектирование, без изменений production  
+**Статус:** первая версия реализована в feature branch; production не изменялся  
 **Дата:** 01.11.2026  
 **Базовый commit:** `466a9e7913455a3ede5ddb86db2a3cbd637be16a`  
 **Ветка:** `feature/florial-manager-architecture`
@@ -232,13 +232,12 @@ API должен валидировать JSON по allowlist полей цел�
 
 ## 15. Ограничения текущей работы
 
-Этот документ фиксирует архитектурное решение. На этом этапе:
-- код приложения не изменён;
-- SQL не выполнялся на запись;
-- Supabase schema, Auth и Storage не изменялись;
+Реализация и границы первой версии зафиксированы в разделе 16. Production rollout остаётся отдельным шагом после ревью:
+- SQL migration подготовлена в репозитории, но не применена к Supabase production;
+- Supabase Auth users/roles и Storage bucket в живом проекте ещё не созданы;
 - Sanity documents, schemas и assets не изменялись;
 - Cloudflare Pages и Secrets не изменялись;
-- production не развёртывался.
+- production deployment не выполнялся.
 
 
 ## 16. Реализация первой версии — 01.11.2026
