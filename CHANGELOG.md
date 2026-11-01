@@ -218,3 +218,11 @@
 - Предусмотрена поддержка Sanity datasets `plants` и `production`; первый пилот рекомендован для растений.
 - Предусмотрены Supabase Auth, таблицы заявок/событий с RLS, private Storage, Cloudflare Pages Functions и email-уведомления.
 - Публичный Header, меню, Footer, checkout, существующие таблицы, Sanity documents/schemas и production не менялись. SQL и Cloudflare Secrets не изменялись.
+
+
+## 2026-11-01 — Дополнительный аудит Cloudflare для Florial Manager
+
+- Проверены только имена и типы переменных Cloudflare Pages project `florial`; секретные значения не читались и не выводились.
+- Production имеет существующие Resend и Supabase server bindings, но не содержит `SANITY_WRITE_TOKEN` и `CATALOG_REVIEW_EMAIL`.
+- Preview содержит только публичные `VITE_*` настройки; server secrets и Resend bindings не обнаружены.
+- Проверка Supabase Auth settings остаётся открытой. Production, Supabase и Sanity не изменялись.
