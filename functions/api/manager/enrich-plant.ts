@@ -172,6 +172,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   try {
     const name = textValue(reviewInput.name ?? payload.name ?? submission.title, 160)
     const latinName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
+    const sellerProductType = textValue(reviewInput.productType ?? payload.productType, 40)
     const categoryId = textValue(reviewInput.categoryId ?? payload.categoryId, 128)
     const categoryName = textValue(reviewInput.categoryName ?? payload.categoryName, 120)
     const sku = textValue(reviewInput.sku ?? payload.sku, 100)
@@ -221,7 +222,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     imageIndex = -1
     const prompt = `Prepare a high-quality, detailed, locally optimized plant product listing for Florial, a Bulgarian garden and plant retailer.
 LANGUAGE: Bulgarian is the source language and must read like polished native Bulgarian horticultural commerce copy. Then write genuinely fluent Russian and English versions adapted to each language, not literal translations.
-OWNER-VERIFIED INPUT (the only authority for commercial facts): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
+OWNER-VERIFIED INPUT (the only authority for commercial facts): name: ${name}; botanical name: ${latinName || 'not supplied'}; seller-selected plant type: ${sellerProductType || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
 VISIBLE PHOTO OBSERVATIONS (visual evidence only; never identify a species from photos alone): ${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected. Do not infer visual details.'}.
 FLORIAL LOCAL SERVICE AREA — use these exact boundaries:
 - Main local reference: Несебър (Nesebar).
@@ -273,7 +274,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       name: textValue(generated.name, 160) || name,
       slug: slugify(textValue(generated.name, 160) || name) || 'plant-' + submissionId.slice(0, 8),
       scientificName: textValue(generated.scientificName, 160) || latinName,
-      productType: textValue(generated.productType, 40) || 'plant',
+      productType: sellerProductType || textValue(generated.productType, 40) || 'plant',
       categoryId,
       categoryName,
       sku,
