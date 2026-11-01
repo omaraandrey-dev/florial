@@ -234,6 +234,7 @@ export default function PlantPublicationEditor({
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
   const [careResearching, setCareResearching] = useState(false)
+  const hasPublication = Boolean(submission.payload.publication)
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
