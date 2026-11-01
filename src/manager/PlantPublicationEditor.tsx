@@ -125,7 +125,7 @@ function makeDraft(submission: Submission): Draft {
   const stockStatus = String(savedVariant.stockStatus ?? originalVariant.stockStatus ?? 'onRequest')
   return {
     name,
-    slug: String(saved.slug ?? slugify(name)),
+    slug: String(saved.slug || slugify(name)),
     scientificName: String(saved.scientificName ?? payload.latinName ?? ''),
     productType: String(saved.productType ?? ''),
     categoryId: String(saved.categoryId ?? payload.categoryId ?? ''),
