@@ -416,7 +416,7 @@ export function ProductPage({
                 </div>
                 {hasPrice && product.vatIncluded !== false && <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>}
                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className={\`rounded-full px-3 py-1.5 text-xs font-bold \${plantStockStatus === 'inStock' ? 'bg-emerald-100 text-emerald-800' : plantStockStatus === 'outOfStock' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'}\`}>
+                  <span className={`rounded-full px-3 py-1.5 text-xs font-bold \${plantStockStatus === 'inStock' ? 'bg-emerald-100 text-emerald-800' : plantStockStatus === 'outOfStock' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'}`}>
                     {plantStockLabels[plantStockStatus] || plantStockLabels.onRequest}
                   </span>
                   {plantStockStatus === 'inStock' && typeof plantStockQuantity === 'number' && (
@@ -431,7 +431,7 @@ export function ProductPage({
                   {hasDiscount && <span className="text-lg text-slate-400 line-through">{Number(currentOldPrice).toFixed(2)} €</span>}
                   {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
                 </div>
-                {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? \`Экономия: \${discountSaving.toFixed(2)} €\` : language === 'en' ? \`You save: \${discountSaving.toFixed(2)} €\` : \`Спестявате: \${discountSaving.toFixed(2)} €\`}</p>}
+                {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? `Экономия: \${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: \${discountSaving.toFixed(2)} €` : `Спестявате: \${discountSaving.toFixed(2)} €`}</p>}
                 <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
               </div>
             )}
@@ -474,6 +474,7 @@ export function ProductPage({
             )}
 
             {isPlantProduct(product) ? (
+              <>
               <a
                 href={plantWhatsAppUrl}
                 target="_blank"
@@ -486,6 +487,7 @@ export function ProductPage({
               <button type="button" onClick={onNavigateContacts} className="text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition cursor-pointer">
                 {language === 'ru' ? 'Другие способы связи' : language === 'en' ? 'Other contact options' : 'Други начини за връзка'}
               </button>
+              </>
             ) : (
             <button
               onClick={handleAdd}
