@@ -545,7 +545,13 @@ export default function PlantPublicationEditor({
             const labels: Record<string, string> = { light: 'Светлина', waterNeeds: 'Нужда от поливане', minWinterTempC: 'Минимална зимна температура', adultHeightCm: 'Височина на възрастното растение', foliageType: 'Тип листна маса', floweringSeason: 'Сезон на цъфтеж', plantingSeason: 'Сезон на засаждане' }
             const enums: Record<string, string> = { sun: 'Пълно слънце', partialShade: 'Полусянка', shade: 'Сянка', low: 'Ниска', medium: 'Средна', high: 'Висока', evergreen: 'Вечнозелено', deciduous: 'Листопадно', spring: 'Пролет', summer: 'Лято', autumn: 'Есен', winter: 'Зима', yearRound: 'Целогодишно' }
             const formatted = Array.isArray(value) ? value.map((item) => enums[String(item)] || String(item)).join(', ') : (field === 'minWinterTempC' ? String(value) + ' °C' : field === 'adultHeightCm' ? String(value) + ' см' : enums[String(value)] || String(value))
-            const decision = careSuggestionDecisions[field]
+            const currentCareValue = (draft.plantCare as unknown as Record<string, unknown>)[field]
+            const alreadyApplied = Array.isArray(value)
+              ? JSON.stringify(currentCareValue) === JSON.stringify(value)
+              : field === 'minWinterTempC' || field === 'adultHeightCm'
+                ? String(currentCareValue ?? '').trim() !== '' && Number(currentCareValue) === Number(value)
+                : String(currentCareValue ?? '') === String(value)
+            const decision = careSuggestionDecisions[field] || (alreadyApplied ? 'accepted' : undefined)
             return <div key={field} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-white p-3">
               <div className="min-w-0"><p className="text-xs font-semibold text-stone-600">{labels[field] || field}</p><p className="text-sm text-stone-900">{formatted}</p></div>
               {decision === 'accepted' ? <span className="text-xs font-semibold text-emerald-700">Прието в черновата</span> : decision === 'rejected' ? <span className="text-xs font-semibold text-stone-500">Отхвърлено</span> : <div className="flex gap-2">
