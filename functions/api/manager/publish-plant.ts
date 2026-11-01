@@ -362,16 +362,16 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     ) as number
     if (slugCount > 0) throw new Error('Вече съществува растение с URL адрес „' + publication.slug + '“. Изберете друг slug.')
 
-    const categoryRefs: Array<{ _type: 'reference'; _ref: string }> = []
+    const categoryRefs: Array<{ _key: string; _type: 'reference'; _ref: string }> = []
     let categoryNode: { _id?: string; parent?: unknown } | null = category
     const seenCategories = new Set<string>()
     while (categoryNode?._id && !seenCategories.has(categoryNode._id)) {
       seenCategories.add(categoryNode._id)
-      categoryRefs.push({ _type: 'reference', _ref: categoryNode._id })
+      categoryRefs.push({ _key: 'category-' + crypto.randomUUID(), _type: 'reference', _ref: categoryNode._id })
       categoryNode = parseObject(categoryNode.parent) as { _id?: string; parent?: unknown } | null
     }
     if (!categoryRefs.some((reference) => reference._ref === 'plants-root')) {
-      categoryRefs.push({ _type: 'reference', _ref: 'plants-root' })
+      categoryRefs.push({ _key: 'category-' + crypto.randomUUID(), _type: 'reference', _ref: 'plants-root' })
     }
 
     for (let index = 0; index < images.length; index += 1) {
