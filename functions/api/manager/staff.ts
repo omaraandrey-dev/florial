@@ -51,7 +51,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     return json({ error: 'Staff administration is not configured.' }, 503)
   }
 
-  const base = SUPABASE_URL.replace(/\\/+$/, '')
+  const base = SUPABASE_URL.replace(/\/+$/, '')
   const authorization = request.headers.get('Authorization') || ''
   const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
   if (!accessToken) return json({ error: 'Authentication required.' }, 401)
@@ -83,7 +83,6 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     return json({ error: 'Owner access required.' }, 403)
   }
 
-  const base = SUPABASE_URL.replace(/\/+$/, '')
   const getTargetProfile = async (userId: string) => {
     const response = await fetch(
       base + '/rest/v1/catalog_staff_profiles?user_id=eq.' +
