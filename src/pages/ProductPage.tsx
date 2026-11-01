@@ -47,7 +47,7 @@ interface ProductPageProps {
   onNavigateHome: () => void
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateProduct: (slug: string) => void
-  onAddToCart: (product: Product, quantity: number) => void
+  onAddToCart: (product: Product, quantity: number, saleVariant?: PlantSaleVariant) => void
   onNavigateContacts: () => void
 }
 
@@ -302,7 +302,7 @@ export function ProductPage({
   }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t, currentPrice, hasPrice, plantStockStatus])
 
   const handleAdd = () => {
-    onAddToCart(product, quantity)
+    onAddToCart(product, quantity, isPlantProduct(product) ? selectedSaleVariant : undefined)
     setAddedNotification(true)
     setTimeout(() => setAddedNotification(false), 2500)
   }
@@ -484,6 +484,19 @@ export function ProductPage({
                 <span aria-hidden="true">◉</span>
                 {language === 'ru' ? 'Запросить через WhatsApp' : language === 'en' ? 'Enquire via WhatsApp' : 'Запитайте чрез WhatsApp'}
               </a>
+              <button
+                type="button"
+                onClick={handleAdd}
+                disabled={!hasPrice || plantStockStatus === 'outOfStock' || !selectedSaleVariant}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
+              </button>
+              {addedNotification && (
+                <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium">
+                  {language === 'ru' ? 'Растение добавлено в корзину.' : language === 'en' ? 'Plant added to cart.' : 'Растението е добавено в количката.'}
+                </div>
+              )}
               <button type="button" onClick={onNavigateContacts} className="text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition cursor-pointer">
                 {language === 'ru' ? 'Другие способы связи' : language === 'en' ? 'Other contact options' : 'Други начини за връзка'}
               </button>
