@@ -11,6 +11,14 @@ type Submission = {
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
 type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at?: string }
+type AnalyticsReport = {
+  period_days: number
+  totals: { page_views: number; call_bg: number; call_en_ru: number; chat_click: number; contact_clicks: number; total_events: number }
+  daily: Array<{ event_day: string; page_views: number; call_bg: number; call_en_ru: number; chat_click: number }>
+  by_event: Array<{ event_type: string; event_count: number }>
+  by_language: Array<{ lang: string; event_count: number }>
+  top_pages: Array<{ page_path: string; page_views: number }>
+}
 
 const bucket = 'florial-manager-intake'
 const statusLabels: Record<string, string> = {
@@ -47,7 +55,11 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'staff'>('submissions')
+  const [activeTab, setActiveTab] = useState<'submissions' | 'staff' | 'analytics'>('submissions')
+  const [analyticsDays, setAnalyticsDays] = useState<7 | 30 | 90>(30)
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
+  const [analyticsLoading, setAnalyticsLoading] = useState(false)
+  const [analyticsError, setAnalyticsError] = useState('')
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
   const [staffLoading, setStaffLoading] = useState(false)
   const [staffSaving, setStaffSaving] = useState(false)
@@ -132,6 +144,25 @@ export default function ManagerApp() {
   useEffect(() => {
     if (profile?.role === 'owner') void loadStaff()
   }, [loadStaff, profile])
+
+  const loadAnalytics = useCallback(async () => {
+    if (!session || profile?.role !== 'owner') return
+    setAnalyticsLoading(true)
+    setAnalyticsError('')
+    try {
+      const { data, error: rpcError } = await supabase.rpc('manager_site_analytics', { p_days: analyticsDays })
+      if (rpcError) throw rpcError
+      setAnalyticsData(data as AnalyticsReport)
+    } catch (err) {
+      setAnalyticsError(err instanceof Error ? err.message : 'Не успяхме да заредим аналитиката.')
+    } finally {
+      setAnalyticsLoading(false)
+    }
+  }, [session, profile, analyticsDays])
+
+  useEffect(() => {
+    if (activeTab === 'analytics' && profile?.role === 'owner') void loadAnalytics()
+  }, [activeTab, profile, loadAnalytics])
 
   useEffect(() => {
     document.title = 'Florial Manager — вътрешна система'
@@ -351,7 +382,8 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
-        {profile.role === 'owner' && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Сотрудники</button>}
+        {profile.role === 'owner' && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
+        {profile.role === 'owner' && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px] ' + (activeTab === 'submissions' ? '' : 'hidden')}>
         <section className="space-y-5">
@@ -420,6 +452,66 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. Одобрението в тази версия не публикува автоматично в публичния каталог.</p>
         </aside>
       </div>
+      <section className={activeTab === 'analytics' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div><h1 className="text-2xl font-semibold">Аналитика на сайта</h1><p className="mt-1 text-sm text-stone-600">Анонимни обобщени събития по българско местно време.</p></div>
+          <div className="flex flex-wrap items-center gap-2">
+            <select aria-label="Период на аналитиката" className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm" value={analyticsDays} onChange={(event) => setAnalyticsDays(Number(event.target.value) as 7 | 30 | 90)}>
+              <option value={7}>Последни 7 дни</option><option value={30}>Последни 30 дни</option><option value={90}>Последни 90 дни</option>
+            </select>
+            <button type="button" onClick={() => void loadAnalytics()} disabled={analyticsLoading} className="rounded-xl bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">{analyticsLoading ? 'Обновяване…' : 'Обнови'}</button>
+          </div>
+        </div>
+        {analyticsError && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{analyticsError}</div>}
+        {analyticsLoading && !analyticsData && <p className="mt-6 text-sm text-stone-500">Зареждане на аналитиката…</p>}
+        {analyticsData && <>
+          <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {[
+              { label: 'Прегледи на страници', value: analyticsData.totals.page_views },
+              { label: 'Общо контактни действия', value: analyticsData.totals.contact_clicks },
+              { label: 'WhatsApp кликове', value: analyticsData.totals.chat_click },
+              { label: 'Всички събития', value: analyticsData.totals.total_events },
+            ].map((item) => <article key={item.label} className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm"><div className="text-sm text-stone-500">{item.label}</div><div className="mt-2 text-3xl font-semibold tabular-nums">{item.value.toLocaleString('bg-BG')}</div></article>)}
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(280px,1fr)]">
+            <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <h2 className="font-semibold">Прегледи по дни</h2>
+              <p className="mt-1 text-xs text-stone-500">Датите са по часовата зона Europe/Sofia.</p>
+              {analyticsData.daily.length === 0 ? <p className="py-8 text-center text-sm text-stone-500">Няма събития за избрания период.</p> : <div className="mt-5 flex h-48 items-end gap-1.5 overflow-x-auto pb-7">
+                {analyticsData.daily.map((day) => {
+                  const maxViews = Math.max(1, ...analyticsData.daily.map((item) => item.page_views))
+                  const barHeight = Math.max(day.page_views > 0 ? 4 : 0, Math.round((day.page_views / maxViews) * 100))
+                  return <div key={day.event_day} className="flex h-full min-w-7 flex-1 flex-col items-center justify-end gap-2" title={`${day.event_day}: ${day.page_views} прегледа, ${day.call_bg + day.call_en_ru + day.chat_click} контакта`}>
+                    <div className="flex w-full flex-1 items-end"><div className="w-full rounded-t-md bg-lime-700" style={{ height: `${barHeight}%` }} /></div>
+                    <span className="whitespace-nowrap text-[10px] text-stone-500">{day.event_day.slice(5)}</span>
+                  </div>
+                })}
+              </div>}
+            </section>
+            <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <h2 className="font-semibold">Контактни действия</h2>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-center justify-between gap-3"><span>Телефон BG · +359 876 777 902</span><strong className="tabular-nums">{analyticsData.totals.call_bg}</strong></div>
+                <div className="flex items-center justify-between gap-3"><span>Телефон ENG / UA / RU · +359 885 834 860</span><strong className="tabular-nums">{analyticsData.totals.call_en_ru}</strong></div>
+                <div className="flex items-center justify-between gap-3"><span>WhatsApp · +380 67 480 7486</span><strong className="tabular-nums">{analyticsData.totals.chat_click}</strong></div>
+              </div>
+              <h3 className="mt-6 font-semibold">Език на интерфейса</h3>
+              <div className="mt-3 space-y-2">{analyticsData.by_language.map((item) => <div key={item.lang} className="flex justify-between text-sm"><span>{item.lang.toUpperCase()}</span><strong className="tabular-nums">{item.event_count}</strong></div>)}</div>
+            </section>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <h2 className="font-semibold">Най-посещавани страници</h2>
+              <div className="mt-3 space-y-2">{analyticsData.top_pages.length ? analyticsData.top_pages.map((item) => <div key={item.page_path} className="flex items-center justify-between gap-3 border-b border-stone-100 py-2 text-sm"><span className="min-w-0 break-all">{item.page_path}</span><strong className="shrink-0 tabular-nums">{item.page_views}</strong></div>) : <p className="text-sm text-stone-500">Няма прегледи за избрания период.</p>}</div>
+            </section>
+            <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <h2 className="font-semibold">Събития</h2>
+              <div className="mt-3 space-y-2">{analyticsData.by_event.map((item) => <div key={item.event_type} className="flex items-center justify-between gap-3 border-b border-stone-100 py-2 text-sm"><span>{({ page_view: 'Преглед на страница', call_bg: 'Обаждане BG', call_en_ru: 'Обаждане ENG / UA / RU', chat_click: 'WhatsApp' } as Record<string, string>)[item.event_type] || item.event_type}</span><strong className="tabular-nums">{item.event_count}</strong></div>)}</div>
+            </section>
+          </div>
+          <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">Отчетът показва броя на записаните събития, а не уникални посетители. Не се събират IP адреси, user-agent, referrer, идентификатори на посетители или съдържание на формуляри.</p>
+        </>}
+      </section>
       <section className={activeTab === 'staff' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
           <div className="space-y-4">
