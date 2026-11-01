@@ -130,6 +130,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return !/^[0-9a-f-]{36}[-_][A-Za-z0-9._-]+$/i.test(filename)
   })) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
 
+  const diagnosticSteps: Array<Record<string, unknown>> = [{ stage: 'request_validated', ok: true, plantNameProvided: !!plantName, scientificNameProvided: !!scientificName, selectedImageCount: selectedImages.length }]
   const visualResults: Array<Record<string, unknown>> = []
   const visualNames: Array<{ name: string; confidence: string; count: number; evidence: string[] }> = []
   const imagesToAnalyse = selectedImages.slice(0, 3)
@@ -153,6 +154,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         temperature: 0.1,
       })
       const visual = parseModelJson(visionResponse)
+      diagnosticSteps.push({ stage: 'vision_image_' + (index + 1), ok: true, model: visionModel, responseParsed: true })
       const likelyName = textValue(visual.likelyScientificName, 120)
       const binomial = speciesBinomial(likelyName)
       const confidenceRaw = String(visual.confidence || 'low').toLowerCase()
@@ -179,7 +181,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     if (/license|licence|acceptable use|prompt.*agree/i.test(message)) return json({ error: 'Cloudflare требует предварительно принять лицензию Meta для модели распознавания изображений. Фото-проверка пока недоступна; данные заявки не изменены.' }, 503)
-    return json({ error: 'Не удалось проанализировать фотографию растения. Повторите попытку позже. Данные заявки не изменены.' }, 502)
+    return json({ error: 'Не удалось проанализировать фотографию растения. Повторите попытку позже. Данные заявки не изменены.', diagnostics: [...diagnosticSteps, { stage: 'vision_analysis', ok: false, model: visionModel, detail: message }] }, 502)
   }
 
   const rankedVisual = visualNames.filter((entry) => entry.count > 0).sort((a, b) => b.count - a.count || ['high', 'medium', 'low'].indexOf(a.confidence) - ['high', 'medium', 'low'].indexOf(b.confidence))
@@ -219,9 +221,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         }
       }
     } catch {
-      // Name-based suggestions are optional; the visual and seller-name checks remain available.
+      diagnosticSteps.push({ stage: 'common_name_candidates', ok: false, model: textModel, detail: error instanceof Error ? error.message : String(error) })
     }
   }
+  if (!diagnosticSteps.some((step) => step.stage === 'common_name_candidates')) diagnosticSteps.push({ stage: 'common_name_candidates', ok: true, candidateCount: commonNameCandidates.length, model: textModel })
   let sellerMatch: GbifMatch | null = null
   let visualMatch: GbifMatch | null = null
   let nameCandidateMatches: Array<{ candidate: { name: string; confidence: string; reason: string }; match: GbifMatch | null }> = []
@@ -231,8 +234,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     nameCandidateMatches = await Promise.all(commonNameCandidates.map(async (candidate) => ({
       candidate, match: await matchGbif(candidate.name),
     })))
-  } catch (error) { return json({ error: error instanceof Error ? error.message : 'Не удалось проверить название через GBIF.' }, 502) }
+  } catch (error) { return json({ error: error instanceof Error ? error.message : 'Не удалось проверить название через GBIF.', diagnostics: [...diagnosticSteps, { stage: 'gbif_taxonomy', ok: false, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
 
+  diagnosticSteps.push({ stage: 'gbif_taxonomy', ok: true, sellerAccepted: acceptedSpecies(sellerMatch), visualAccepted: acceptedSpecies(visualMatch), commonNameCandidateCount: nameCandidateMatches.length, acceptedCommonNameCandidateCount: nameCandidateMatches.filter((entry) => acceptedSpecies(entry.match)).length })
   const sellerAccepted = acceptedSpecies(sellerMatch)
   const visualAccepted = acceptedSpecies(visualMatch)
   const sellerCanonical = textValue(sellerMatch?.canonicalName ?? sellerMatch?.scientificName, 180)
@@ -297,9 +301,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         const value = String(confidenceInput[key] || 'low')
         fieldConfidence[key] = ['high', 'medium', 'low'].includes(value) ? value : 'low'
       }
-    } catch { return json({ error: 'Таксономический кандидат определён, но AI не смог подготовить характеристики. Данные заявки не изменены.' }, 502) }
+    } catch (error) { return json({ error: 'Таксономический кандидат определён, но AI не смог подготовить характеристики. Данные заявки не изменены.', diagnostics: [...diagnosticSteps, { stage: 'care_generation', ok: false, model: textModel, selectedTaxon: careTaxon, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
   }
 
+  diagnosticSteps.push({ stage: 'care_generation', ok: true, generatedCareFieldCount: Object.keys(plantCare).length, careGuideGenerated: !!careGuide, selectedTaxon: careTaxon || null, careSource })
   const identityStatus = photoMismatch ? 'photo_name_mismatch' : photoAssessment === 'candidate_only' ? 'photo_candidate_suggested' : photoMatchesSeller ? 'verified' : sellerAccepted ? 'taxonomy_verified_photo_inconclusive' : careSource === 'common_name' && careTaxon ? 'taxonomy_verified_photo_inconclusive' : 'needs_review'
   const displayMatch = careMatch || (sellerAccepted ? sellerMatch : null)
   const visualCandidates = [...rankedVisual.slice(0, 3), ...visualNames.filter((entry) => entry.count === 0).slice(0, 2)].map((entry) => ({ scientificName: entry.name, confidence: entry.confidence, photoCount: entry.count, visualEvidence: entry.evidence.slice(0, 4) }))
@@ -334,9 +339,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
     body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
   })
-  if (!save.ok) return json({ error: 'Не удалось сохранить результат ботанической проверки.' }, 502)
+  if (!save.ok) return json({ error: 'Не удалось сохранить результат ботанической проверки.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, httpStatus: save.status }] }, 502)
   const savedRows = await save.json() as Array<{ id: string }>
-  if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.' }, 409)
+  if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, reason: 'optimistic_lock_conflict' }] }, 409)
   await fetch(base + '/rest/v1/catalog_submission_events', {
     method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
@@ -349,5 +354,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       metadata: { identityStatus, photoAssessment, careTaxon, imageCountAnalysed: imagesToAnalyse.length, source: 'GBIF + Cloudflare Workers AI Vision' },
     }),
   }).catch(() => undefined)
-  return json({ ok: true, careDraft })
+  diagnosticSteps.push({ stage: 'save_submission', ok: true }, { stage: 'completed', ok: true })
+  return json({ ok: true, careDraft, diagnostics: diagnosticSteps })
 }
