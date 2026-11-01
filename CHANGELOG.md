@@ -7,7 +7,7 @@
 - Физическое удаление учётной записи не выполняется: существующие заявки ссылаются на Auth user, поэтому безопасный вариант — отключить доступ и сохранить аудит.
 - Не добавлялись Preview secrets, не менялись существующие Cloudflare bindings, Sanity, публичные Header/menu/Footer, checkout или таблицы заказов. SQL migration не требуется: используются существующие `catalog_staff_profiles` и RLS.
 - Ограничение Supabase Auth: стандартный endpoint `auth.updateUser({ password })` остаётся доступен авторизованному пользователю напрямую. В Manager не предоставляется self-service смена/восстановление пароля; строгая блокировка прямого вызова требует отдельной архитектуры авторизации и не считается выполненной этой задачей.
-- Проверки и production deployment фиксируются после PR и GitHub Actions; изменения в production не выполняются до отдельного согласования merge.
+- Изменения подготовлены в PR #41: https://github.com/omaraandrey-dev/florial/pull/41. Ветка основана на актуальном `main` без отставания; GitHub сообщает `mergeable=true`. GitHub Actions run/status для актуального head пока не возвращён; PR не объединён, production deployment не выполнялся.
 
 ## 2026-11-01 — Florial Manager: объединение и production rollout
 
