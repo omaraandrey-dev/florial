@@ -6,7 +6,7 @@
 - Добавлен серверный endpoint `POST /api/manager/publish-plant`: он проверяет bearer-сессию и активную роль owner, переносит фотографии в Sanity Assets, создаёт документ `product` в dataset `plants`, перечитывает его и только затем ставит `published`.
 - Повторная публикация использует сохранённый Sanity document ID и asset IDs. При ошибке заявка получает `publish_failed`; исходные фото остаются в Supabase для повторной попытки.
 - Используются существующие поля таблицы `catalog_submissions` и JSONB payload; SQL migration не требуется. Sanity schema не меняется. Sanity document ID хранится в `payload.publication.sanityDocumentId`, поскольку действующее ограничение БД резервирует `target_document_id` для заявок типа update.
-- Production Cloudflare сейчас не содержит Secret `SANITY_API_TOKEN`. До добавления этого серверного секрета публикация вернёт понятную ошибку и не изменит статус approved. Preview secrets не добавляются.
+- Проверка Cloudflare Pages project `florial` (01.11.2026): в Production env bindings присутствуют `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` и публичные `VITE_SANITY_*`, но отсутствует серверный Secret `SANITY_API_TOKEN`. Подключённый Sanity management connector позволяет работать с dataset из административного инструмента, однако не предоставляет токен серверной функции сайта. До добавления отдельного Cloudflare Production Secret публикация безопасно вернёт 503 и оставит статус `approved`. Preview secrets не добавляются.
 - PR #45: https://github.com/omaraandrey-dev/florial/pull/45. Ветка отдельная; merge и production deployment не выполнялись. Публичные страницы, Header/menu/Footer, checkout и заказы не менялись.
 
 ## 2026-11-01 — Florial Manager: мобильная приёмка и проверка растений (PR #44, объединён в main)
