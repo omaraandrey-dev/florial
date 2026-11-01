@@ -477,6 +477,7 @@ export default function PlantPublicationEditor({
           const photoAssessment = String(identity.photoAssessment || 'inconclusive')
           const suggestedName = String(identity.visualSuggestedScientificName || '')
           const visualCandidates = Array.isArray(identity.visualCandidates) ? identity.visualCandidates as Array<Record<string, unknown>> : []
+          const otherVisualCandidates = visualCandidates.filter((candidate) => String(candidate.scientificName || '') !== suggestedName)
           const taxonomyLabel = identity.status === 'verified'
             ? 'Таксономия подтверждена GBIF'
             : identity.status === 'photo_name_mismatch'
@@ -500,7 +501,7 @@ export default function PlantPublicationEditor({
             <p className="mt-2"><span className="font-semibold">Название продавца:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
             <p className="mt-1"><span className="font-semibold">Анализ фотографии:</span> {photoLabel}</p>
             {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение AI по фото:</span> {suggestedName}</p>}
-            {visualCandidates.length > 1 && <p className="mt-1 text-xs text-slate-600">Другие варианты: {visualCandidates.slice(1).map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
+            {otherVisualCandidates.length > 0 && <p className="mt-1 text-xs text-slate-600">{suggestedName ? 'Другие варианты: ' : 'Варианты по фотографиям: '}{otherVisualCandidates.map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
             {suggestedName && suggestedName !== draft.scientificName && <button type="button" onClick={() => update('scientificName', suggestedName)} className="mt-3 rounded-lg border border-sky-300 px-3 py-2 text-xs font-semibold text-sky-900">Подставить предложенное латинское название (проверить и сохранить вручную)</button>}
             <p className="mt-2">{String(identity.canonicalName || '')}</p>
             {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
