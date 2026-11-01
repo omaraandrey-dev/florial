@@ -131,3 +131,13 @@
 - Проверка 01.11.2026: Supabase project `shzbflgqfffgzzgpwjxt` активен; workflow-таблицы не обнаружены; в списке Storage buckets нет записей. Sanity `plants` содержит 17 категорий; тип опубликованного товара — `product`.
 - На этом этапе не изменялись код, SQL, Supabase Auth/Storage, Sanity schemas/documents/assets, Cloudflare configuration/Secrets и production.
 - До реализации проверить Supabase Auth/redirects, Cloudflare variables/secrets (без вывода значений), Sanity write token, Resend sender, список сотрудников и сроки хранения файлов.
+
+
+### Дополнительная проверка Cloudflare Pages для Florial Manager — 01.11.2026
+
+- Проверены только имена и типы переменных проекта Pages `florial`; секретные значения не читались и не выводились.
+- Production содержит `RESEND_API_KEY` (secret), `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (secret) и публичные `VITE_*` настройки.
+- В production не обнаружены `SANITY_WRITE_TOKEN` и `CATALOG_REVIEW_EMAIL`; их наличие/значения не предполагаются.
+- Preview содержит только публичные `VITE_*` настройки; server secrets и Resend bindings не обнаружены.
+- Перед preview-тестом Manager необходимо отдельно подготовить необходимые preview secrets/variables. Не копировать production-секреты автоматически.
+- Конфигурация Supabase Auth (провайдеры, redirect URLs, MFA, пользователи) остаётся непроверенной.
