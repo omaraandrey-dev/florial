@@ -414,7 +414,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (variant.priceEUR !== null) variantDocument.priceEUR = variant.priceEUR
     if (variant.stockQuantity !== null) variantDocument.stockQuantity = variant.stockQuantity
 
-    const document: Record<string, unknown> = {
+    const document: { _type: 'product'; [key: string]: unknown } = {
       _type: 'product',
       name: publication.name,
       slug: { _type: 'slug', current: publication.slug },
