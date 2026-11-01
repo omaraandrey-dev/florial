@@ -56,6 +56,7 @@ type Props = {
   onSaved: () => Promise<void>
   onPublished: () => Promise<void>
   publishError?: string | null
+  reviewMode?: boolean
 }
 
 const productTypes = [
@@ -210,7 +211,7 @@ function toPublication(draft: Draft, categories: PlantCategory[] = []) {
 }
 
 export default function PlantPublicationEditor({
-  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished, publishError,
+  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished, publishError, reviewMode = false,
 }: Props) {
   const [draft, setDraft] = useState<Draft>(() => makeDraft(submission))
   const [savedFingerprint, setSavedFingerprint] = useState('')
@@ -233,6 +234,7 @@ export default function PlantPublicationEditor({
 
   const imageFiles = (submission.payload.images as IntakeImage[] | undefined) || []
   const imageCountMatches = images.length === imageFiles.length && imageFiles.length > 0
+  const hasAiDraft = !!(submission.payload.aiDraft && typeof submission.payload.aiDraft === 'object')
   const currentPublication = useMemo(() => toPublication(draft, categories), [draft, categories])
   const currentFingerprint = JSON.stringify(currentPublication)
   const isSaved = savedFingerprint !== '' && savedFingerprint === currentFingerprint
@@ -270,10 +272,33 @@ export default function PlantPublicationEditor({
   const generateAiDraft = async () => {
     setEnriching(true); setError(''); setNotice('')
     try {
-      const response = await fetch('/api/manager/enrich-plant', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id }) })
+      const categoryName = categories.find((category) => category._id === draft.categoryId)?.name || ''
+      const response = await fetch('/api/manager/enrich-plant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken },
+        body: JSON.stringify({
+          submissionId: submission.id,
+          reviewInput: {
+            name: draft.name.trim(),
+            scientificName: draft.scientificName.trim(),
+            categoryId: draft.categoryId,
+            categoryName,
+            sku: draft.sku.trim(),
+            description: draft.description.trim(),
+            saleVariants: [{
+              name: draft.variantName.trim(),
+              saleHeightCm: draft.heightCm.trim() ? Number(draft.heightCm) : null,
+              containerVolumeL: draft.containerVolumeL.trim() ? Number(draft.containerVolumeL) : null,
+              priceEUR: draft.priceEUR.trim() ? Number(draft.priceEUR) : null,
+              stockStatus: draft.stockStatus,
+              stockQuantity: draft.stockQuantity.trim() ? Number(draft.stockQuantity) : null,
+            }],
+          },
+        }),
+      })
       const result = await response.json().catch(() => ({})) as { error?: string; draft?: Record<string, unknown> }
       if (!response.ok || !result.draft) throw new Error(result.error || 'Не удалось подготовить AI-черновик.')
-      setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft } }))
+      setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft, publication: undefined } }))
       setSlugTouched(false); setSavedFingerprint('')
       setNotice('ИИ подготви текстовете, ALT описанията и предложените грижи. Проверете ботаническите данни и запазете финалната версия.')
       await onSaved()
@@ -325,8 +350,8 @@ export default function PlantPublicationEditor({
     <section className="rounded-2xl border border-lime-300 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold">Окончателна проверка преди публикуване</h2>
-          <p className="mt-1 text-sm text-stone-600">Одобрената заявка е отделена от окончателните данни за продукта. Промените тук не редактират първоначалната заявка на служителя.</p>
+          <h2 className="text-xl font-semibold">{reviewMode ? 'Проверка на заявката и подготовка на карточката' : 'Окончателна проверка преди публикуване'}</h2>
+          <p className="mt-1 text-sm text-stone-600">{reviewMode ? 'Първо проверете и поправете подадените от продавача данни. След това стартирайте ИИ с бутона по-долу. ИИ не се изпълнява автоматично и не променя търговските данни.' : 'Одобрената заявка е отделена от окончателните данни за продукта. Промените тук не редактират първоначалната заявка на служителя.'}</p>
         </div>
         <span className="rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-900">{isSaved ? 'Финалната версия е запазена' : 'Има неприключени промени'}</span>
       </div>
@@ -335,7 +360,19 @@ export default function PlantPublicationEditor({
       {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
       {notice && <div role="status" className="mt-4 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
 
-      <div className="mt-5 rounded-xl border border-lime-200 bg-lime-50 p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-lime-950">Автоматична подготовка с ИИ</h3><p className="mt-1 text-sm text-lime-900">Текстове на BG/RU/EN, SEO, ALT за всяка снимка и предложени характеристики за грижи. Резултатът остава чернова за проверка.</p></div><button type="button" disabled={enriching || saving || publishing || imagesLoading || images.length === 0} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{enriching ? 'Подготовка…' : 'Подготви с ИИ'}</button></div><p className="mt-2 text-xs text-lime-900">ИИ не променя цена, наличност, размер при продажба, обем на саксията или артикул. Зимоустойчивостта и пригодността за Черноморието изискват отделна проверка.</p></div>
+      <div className="mt-5 rounded-xl border border-lime-200 bg-lime-50 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="font-semibold text-lime-950">Подготовка на карточката с помощта на ИИ</h3>
+            <p className="mt-1 text-sm text-lime-900">След като проверите данните, натиснете бутона. ИИ ще подготви BG/RU/EN текстове, SEO, ALT за снимките и предложения за грижи.</p>
+          </div>
+          <button type="button" disabled={enriching || saving || publishing || imagesLoading || images.length === 0 || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+            {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви карточката' : 'Подготви карточката с ИИ'}
+          </button>
+        </div>
+        {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Повторното генериране е изключено, за да не се изразходва квота. Можете да редактирате резултата ръчно.</p>}
+        <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
+      </div>
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
@@ -418,8 +455,8 @@ export default function PlantPublicationEditor({
         </details>
 
         <div className="flex flex-wrap gap-3">
-          <button type="submit" disabled={saving || publishing} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : 'Запази финалната версия'}</button>
-          <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>
+          <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карточка' : 'Запази финалната версия'}</button>
+          {!reviewMode && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
         </div>
       </form>
     </section>
