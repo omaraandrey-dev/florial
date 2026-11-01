@@ -20,6 +20,14 @@ import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { trackEvent } from './services/trackingService'
 
+import type {
+  CategoryItem,
+  Product,
+  ServiceItem,
+  SiteSettings,
+  CartItem,
+} from './types'
+
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
   'palm', 'conifer', 'fruit', 'succulent', 'climber', 'ornamentalGrass',
@@ -28,15 +36,6 @@ const PLANT_PRODUCT_TYPES = new Set([
 
 const isPlantProductType = (productType?: string) =>
   PLANT_PRODUCT_TYPES.has(productType || '')
-
-
-import type {
-  CategoryItem,
-  Product,
-  ServiceItem,
-  SiteSettings,
-  CartItem,
-} from './types'
 
 export default function App() {
   const { t, language, localize } = useI18n()
