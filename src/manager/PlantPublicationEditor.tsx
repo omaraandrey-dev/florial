@@ -299,7 +299,10 @@ export default function PlantPublicationEditor({
       const response = await fetch('/api/manager/enrich-plant-care', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id, reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() } }) })
       const result = await response.json() as { error?: string; careDraft?: Record<string, unknown> }
       if (!response.ok || !result.careDraft) throw new Error(result.error || 'Не удалось подготовить характеристики.')
-      setNotice('Таксономическая проверка завершена. Проверьте предложенные характеристики.')
+      const identity = result.careDraft.identity as Record<string, unknown> | undefined
+      setNotice(identity?.photoAssessment === 'mismatch'
+        ? 'Внимание: фотография может не соответствовать названию продавца. Проверьте предложенное ботаническое имя и характеристики перед сохранением.'
+        : 'Проверка завершена. Сверьте название с фотографией и проверьте предложенные характеристики.')
       await onSaved()
     } catch (err) { setError(err instanceof Error ? err.message : 'Ошибка проверки характеристик.') }
     finally { setCareResearching(false) }
@@ -468,13 +471,41 @@ export default function PlantPublicationEditor({
             {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
           </button>
         </div>
-        {plantCareResearch && <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
-          <p className="font-semibold">{(plantCareResearch.identity as Record<string, unknown> | undefined)?.status === 'verified' ? 'Таксономия подтверждена GBIF' : 'Требуется уточнить ботаническое имя'}</p>
-          <p className="mt-1">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.canonicalName || '')}</p>
-          <p className="mt-1 break-all text-xs text-slate-600">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.url || '')}</p>
-          <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'не указана'}</p>
-          <p className="mt-2 text-xs text-slate-600">GBIF подтверждает таксономию, но не агротехнические свойства. Уверенность AI — самооценка модели, а не независимое подтверждение. Проверьте значения перед публикацией.</p>
-        </div>}
+        {plantCareResearch && (() => {
+          const identity = (plantCareResearch.identity as Record<string, unknown> | undefined) || {}
+          const photoAssessment = String(identity.photoAssessment || 'inconclusive')
+          const suggestedName = String(identity.visualSuggestedScientificName || '')
+          const visualCandidates = Array.isArray(identity.visualCandidates) ? identity.visualCandidates as Array<Record<string, unknown>> : []
+          const taxonomyLabel = identity.status === 'verified'
+            ? 'Таксономия подтверждена GBIF'
+            : identity.status === 'photo_name_mismatch'
+              ? 'Внимание: название продавца не совпадает с анализом фотографии'
+              : identity.status === 'photo_candidate_suggested'
+                ? 'Есть альтернативное предположение по фотографии'
+                : identity.status === 'taxonomy_verified_photo_inconclusive'
+                  ? 'GBIF подтвердил название; фото не дало точного определения'
+                  : 'Требуется уточнить ботаническое имя'
+          const photoLabel = photoAssessment === 'match'
+            ? 'Фотография визуально согласуется с названием'
+            : photoAssessment === 'mismatch'
+              ? 'Возможное несоответствие фотографии и названия'
+              : photoAssessment === 'multiple'
+                ? 'На фотографиях получены разные предположения'
+                : 'AI не смог уверенно определить вид по фотографии'
+          return <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
+            <p className="font-semibold">{taxonomyLabel}</p>
+            <p className="mt-2"><span className="font-semibold">Название продавца:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
+            <p className="mt-1"><span className="font-semibold">Анализ фотографии:</span> {photoLabel}</p>
+            {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение AI по фото:</span> {suggestedName}</p>}
+            {visualCandidates.length > 1 && <p className="mt-1 text-xs text-slate-600">Другие варианты: {visualCandidates.slice(1).map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
+            {suggestedName && suggestedName !== draft.scientificName && <button type="button" onClick={() => update('scientificName', suggestedName)} className="mt-3 rounded-lg border border-sky-300 px-3 py-2 text-xs font-semibold text-sky-900">Подставить предложенное латинское название (проверить и сохранить вручную)</button>}
+            <p className="mt-2">{String(identity.canonicalName || '')}</p>
+            {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
+            <p className="mt-1 text-xs text-slate-600">Основа агротехнических предложений: {String(identity.careTaxon || 'не подтверждена')}. {identity.careIsProvisional === true ? 'Предложения предварительные: ботаническое имя требует подтверждения владельцем.' : ''}</p>
+            <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
+            <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
+          </div>
+        })()}
       </div>
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
