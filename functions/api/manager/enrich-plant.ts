@@ -12,7 +12,7 @@ type SubmissionRow = {
 
 const bucket = 'florial-manager-intake'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
-const textModel = '@cf/meta/llama-3.1-8b-instruct'
+const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
 })
@@ -37,6 +37,9 @@ function classifyAiError(message: string) {
   const lower = message.toLowerCase()
   if (/license|licence|accept.*(term|policy)|prompt.*agree|llama.*agree/.test(lower)) {
     return { code: 'MODEL_LICENSE_REQUIRED', hint: 'Cloudflare сообщает, что для этой модели необходимо принять лицензию Meta. Генерация остановлена; бесплатная квота не является причиной этой ошибки.' }
+  }
+  if (/deprecated|removed|unknown model|model.*not found/.test(lower)) {
+    return { code: 'AI_MODEL_UNAVAILABLE', hint: 'Cloudflare не принимает выбранную модель. Проверьте актуальный каталог Workers AI; запрос остановлен без изменения данных карточки.' }
   }
   if (/neurons|daily.*limit|quota|exceeded.*limit|too many requests|429/.test(lower)) {
     return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Модель отклонила запрос из-за лимита или ограничения частоты. Проверьте Usage в Workers AI.' }
@@ -151,8 +154,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const originalVariant = (Array.isArray(payload.saleVariants) ? object(payload.saleVariants[0]) : null) || {}
   const reviewedVariant = Array.isArray(reviewInput.saleVariants) ? object(reviewInput.saleVariants[0]) : null
   const variant = reviewedVariant || originalVariant
-  const images = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
-  if (images.length < 1 || images.length > 8) return json({ error: 'The submission must contain between 1 and 8 photos.' }, 400)
+  const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
+  const images = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
+  if (images.length > 8) return json({ error: 'The submission can contain no more than 8 selected photos.' }, 400)
+  if (images.some((image) => !sellerImages.some((sellerImage) => sellerImage.path === image?.path))) {
+    return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
+  }
   const prefix = submission.created_by + '/' + submissionId + '/'
   if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(prefix) ||
       !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(prefix.length)) &&
@@ -211,9 +218,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       })
     }
 
+    imageIndex = -1
     const prompt = `Prepare a draft plant product listing for Florial, a Bulgarian garden store.
 Owner-checked input (authoritative commercial data): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
-Visual observations from the product photos (use only these visible details; do not infer species): ${imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ')}.
+Visual observations from the owner-selected product photos (use only these visible details; do not infer species): ${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected for this card. Do not infer visual details.'}.
 Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU, or category. Do not identify a species solely from photos. If the botanical identity is uncertain, keep scientificName empty and use cautious generic copy. Generate natural, commercially useful BG, RU and EN names, short descriptions (max 300 chars), and descriptions (max 1400 chars). Bulgarian is the source language. Create imageAlts, imageAltsEn and imageAltsRu arrays with one concise translation per photo, based only on the visual observations above; each item max 180 characters and preserve the same photo order. Do not claim frost hardiness, minimum winter temperature, adult height, or suitability for the Bulgarian Black Sea coast unless the fact is certain from established botanical knowledge; in this MVP always set minWinterTempC and adultHeightCm to null and blackSeaCoast to "needsVerification". Care fields may be suggested but must be marked for owner verification; if uncertain use null. Do not add irrigation product slugs.
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
