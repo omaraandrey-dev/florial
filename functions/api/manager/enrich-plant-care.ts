@@ -248,7 +248,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const identityStatus = photoMismatch ? 'photo_name_mismatch' : photoAssessment === 'candidate_only' ? 'photo_candidate_suggested' : photoMatchesSeller ? 'verified' : sellerAccepted ? 'taxonomy_verified_photo_inconclusive' : 'needs_review'
   const displayMatch = careMatch || (sellerAccepted ? sellerMatch : null)
-  const visualCandidates = rankedVisual.slice(0, 3).map((entry) => ({ scientificName: entry.name, confidence: entry.confidence, photoCount: entry.count, visualEvidence: entry.evidence.slice(0, 4) }))
+  const visualCandidates = [...rankedVisual.slice(0, 3), ...visualNames.filter((entry) => entry.count === 0).slice(0, 2)].map((entry) => ({ scientificName: entry.name, confidence: entry.confidence, photoCount: entry.count, visualEvidence: entry.evidence.slice(0, 4) }))
   const careDraft = {
     identity: {
       status: identityStatus, submittedName: scientificName, sellerGbif: gbifSummary(sellerMatch),
