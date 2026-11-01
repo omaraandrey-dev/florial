@@ -165,5 +165,7 @@
 - Новая SQL migration не требуется; используются существующие таблицы и RLS без изменения.
 - Preview secrets, Sanity, публичные Header/menu/Footer, корзина, checkout и `orders` не менялись.
 - Supabase Auth ограничение: пользователь технически может вызвать стандартный endpoint обновления собственного пароля напрямую. Manager не показывает self-service UI, но строгая блокировка прямого Auth API в этой версии не реализована.
-- PR #41 открыт: https://github.com/omaraandrey-dev/florial/pull/41; актуальный head `7bdd676ae7c314e20d87e188fcf305efa24e8db4`, base `main` (`f73b03b17d5bc3cf8d14b96364677b245ab042b2`), branch не отстаёт от main, GitHub сообщает `mergeable=true`.
-- GitHub Actions run/status для актуального head пока не возвращён инструментами проверки; успешная сборка не подтверждена. PR не объединён и production deployment не выполнялся.
+- PR #41 MERGED в `main`; merge commit `ee410ab48900ffab75b28089f21404f7c4a29325`.
+- GitHub Actions run #161 завершился успешно: lint, website build, migration syntax check и Sanity Studio build.
+- Cloudflare Pages production deployment `1cf6d82e-fc02-403b-902e-2cf80a27497c` завершился со статусом `success`; production aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Сквозная проверка действий в интерфейсе (создание первого сотрудника, вход под его учётной записью, деактивация) остаётся за владельцем.
