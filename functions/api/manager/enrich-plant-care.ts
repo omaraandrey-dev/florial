@@ -108,7 +108,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const scientificName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
   if (!scientificName) return json({ error: 'Введите проверенное латинское ботаническое название.' }, 400)
   // GBIF matches species taxa, not horticultural cultivar epithets; retain the full owner name but verify its species binomial.
-  const speciesBinomial = scientificName.match(/^([A-Z][A-Za-z-]*\\s+[a-z][A-Za-z-]*)/)?.[1] || scientificName
+  const speciesBinomial = scientificName.match(/^([A-Z][A-Za-z-]*\s+[a-z][A-Za-z-]*)/)?.[1] || scientificName
 
   let match: Record<string, unknown>
   try {
