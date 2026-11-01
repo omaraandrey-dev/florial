@@ -11,6 +11,8 @@ export interface OrderData {
     productId: string
     qty: number
     expectedPrice: number
+    catalog?: 'production' | 'plants'
+    variantKey?: string
   }>
 }
 

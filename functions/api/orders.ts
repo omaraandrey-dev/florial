@@ -24,12 +24,25 @@ type RuntimeEnv = {
   PROFORMA_FONT_URL?: string
 }
 
+type SanityVariant = {
+  _key: string
+  name?: string
+  nameEn?: string
+  nameRu?: string
+  sku?: string
+  saleHeightCm?: number
+  containerVolumeL?: number
+  priceEUR?: number
+  stockStatus?: string
+}
 type SanityProduct = {
   _id: string
   name?: string
   sku?: string
   priceEUR?: number
   imageUrl?: string
+  _dataset?: 'production' | 'plants'
+  saleVariants?: SanityVariant[]
 }
 
 const json = (body: Record<string, unknown>, status = 200) =>
@@ -111,7 +124,7 @@ const createProformaPdf = async (order: ProformaOrder, fontUrl?: string): Promis
   }
   y -= 8
   draw('Продукти: ' + Number(order.subtotal).toFixed(2) + ' EUR', 10)
-  draw('Доставка: ' + Number(order.delivery_fee || 0).toFixed(2) + ' EUR', 10)
+  draw(order.delivery_method?.includes('уточняване') ? 'Доставка: ще бъде уточнена с Florial' : 'Доставка: ' + Number(order.delivery_fee || 0).toFixed(2) + ' EUR', 10)
   draw('ОБЩО: ' + (Number(order.subtotal) + Number(order.delivery_fee || 0)).toFixed(2) + ' EUR', 13, rgb(0.02, 0.39, 0.29))
   draw('Това е проформа / потвърждение на поръчка, а не данъчна фактура.', 8)
   draw('Разходите за доставка се потвърждават отделно, ако не са включени.', 8)
@@ -202,8 +215,11 @@ export const onRequestPost = async ({
     return json({ error: 'Моля, въведете валиден имейл адрес.' }, 400)
   }
 
-  if (!['pickup', 'courier'].includes(deliveryMethodInput)) {
+  if (!['pickup', 'courier', 'agree'].includes(deliveryMethodInput)) {
     return json({ error: 'Моля, изберете наличен начин на получаване.' }, 400)
+  }
+  if (deliveryMethodInput === 'agree' && !city) {
+    return json({ error: 'Моля, посочете населено място за уточняване на доставката.' }, 400)
   }
 
   if (deliveryMethodInput === 'courier' && (!city || !Object.prototype.hasOwnProperty.call(courierRates, city))) {
@@ -218,7 +234,7 @@ export const onRequestPost = async ({
     return json({ error: 'Количката е празна или съдържа твърде много артикули.' }, 400)
   }
 
-  const requestedItems: Array<{ productId: string; qty: number; expectedPrice: number }> = []
+  const requestedItems: Array<{ productId: string; qty: number; expectedPrice: number; catalog: 'production' | 'plants'; variantKey?: string }> = []
   for (const item of body.items) {
     if (!item || typeof item !== 'object') {
       return json({ error: 'Невалиден артикул в количката.' }, 400)
@@ -226,10 +242,13 @@ export const onRequestPost = async ({
     const productId = cleanText((item as { productId?: unknown }).productId, 120)
     const qty = (item as { qty?: unknown }).qty
     const expectedPrice = (item as { expectedPrice?: unknown }).expectedPrice
-    if (!productId || !Number.isInteger(qty) || (qty as number) < 1 || (qty as number) > 999 || typeof expectedPrice !== 'number' || !Number.isFinite(expectedPrice) || expectedPrice < 0) {
-      return json({ error: 'Невалиден артикул или количество.' }, 400)
+    const catalogInput = (item as { catalog?: unknown }).catalog
+    const catalog: 'production' | 'plants' = catalogInput === 'plants' ? 'plants' : 'production'
+    const variantKey = cleanText((item as { variantKey?: unknown }).variantKey, 120)
+    if (!productId || !Number.isInteger(qty) || (qty as number) < 1 || (qty as number) > 999 || typeof expectedPrice !== 'number' || !Number.isFinite(expectedPrice) || expectedPrice < 0 || (catalog === 'plants' && !variantKey)) {
+      return json({ error: 'Невалиден артикул, вариант или количество.' }, 400)
     }
-    requestedItems.push({ productId, qty: qty as number, expectedPrice })
+    requestedItems.push({ productId, qty: qty as number, expectedPrice, catalog, ...(variantKey ? { variantKey } : {}) })
   }
 
   const supabaseUrl = env.SUPABASE_URL
@@ -239,55 +258,82 @@ export const onRequestPost = async ({
   }
 
   const sanityProjectId = env.SANITY_PROJECT_ID || 'bxvcy0qs'
-  const sanityDataset = env.SANITY_DATASET || 'production'
-  const productIds = [...new Set(requestedItems.map((item) => item.productId))]
-  const groq = '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(mainImage.asset->url, image.asset->url, externalImageUrl) }'
-  const sanityUrl = new URL(
-    `https://${sanityProjectId}.api.sanity.io/v2024-01-01/data/query/${encodeURIComponent(sanityDataset)}`
-  )
-  sanityUrl.searchParams.set('query', groq)
-  sanityUrl.searchParams.set('$ids', JSON.stringify(productIds))
+  const datasetRequests = (['production', 'plants'] as const).map(async (dataset) => {
+    const ids = [...new Set(requestedItems.filter((item) => item.catalog === dataset).map((item) => item.productId))]
+    if (!ids.length) return [] as SanityProduct[]
+    const query = dataset === 'plants'
+      ? '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, stockStatus}, "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl) }'
+      : '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(mainImage.asset->url, image.asset->url, externalImageUrl) }'
+    const url = new URL(`https://${sanityProjectId}.api.sanity.io/v2024-01-01/data/query/${encodeURIComponent(dataset)}`)
+    url.searchParams.set('query', query)
+    url.searchParams.set('$ids', JSON.stringify(ids))
+    const response = await fetch(url.toString())
+    if (!response.ok) throw new Error('Sanity catalog query failed')
+    const result = (await response.json()) as { result?: SanityProduct[] }
+    return Array.isArray(result.result) ? result.result.map((product) => ({ ...product, _dataset: dataset })) : []
+  })
 
   let products: SanityProduct[]
   try {
-    const sanityResponse = await fetch(sanityUrl.toString())
-    if (!sanityResponse.ok) {
-      return json({ error: 'Не успяхме да проверим цените на продуктите. Моля, опитайте отново.' }, 502)
-    }
-    const sanityResult = (await sanityResponse.json()) as { result?: SanityProduct[] }
-    products = Array.isArray(sanityResult.result) ? sanityResult.result : []
+    products = (await Promise.all(datasetRequests)).flat()
   } catch {
-    return json({ error: 'Временно не можем да проверим каталога. Моля, опитайте отново.' }, 502)
+    return json({ error: 'Не успяхме да проверим цените и вариантите в каталога. Моля, опитайте отново.' }, 502)
   }
 
-  const productMap = new Map(products.map((product) => [product._id, product]))
-  const orderItems: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string }> = []
+  const productMap = new Map(products.map((product) => [product._dataset + '::' + product._id, product]))
+  const hasPlantItems = requestedItems.some((item) => item.catalog === 'plants')
+  if (hasPlantItems && deliveryMethodInput === 'courier') {
+    return json({ error: 'За поръчки с растения доставката се уточнява индивидуално с Florial.' }, 400)
+  }
+
+  if (deliveryMethodInput === 'agree' && !hasPlantItems) {
+    return json({ error: 'Този начин на доставка е наличен само за поръчки с растения.' }, 400)
+  }
+
+  const orderItems: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string; catalog: string; variantKey?: string; variantName?: string; saleHeightCm?: number; containerVolumeL?: number }> = []
   let subtotal = 0
 
   for (const requested of requestedItems) {
-    const product = productMap.get(requested.productId)
-    const price = Number(product?.priceEUR)
-    if (!product || !Number.isFinite(price) || price < 0) {
-      return json({ error: 'Един или повече продукти вече не са налични. Обновете количката и опитайте отново.' }, 409)
+    const product = productMap.get(requested.catalog + '::' + requested.productId)
+    if (!product) return json({ error: 'Един или повече продукти вече не са налични. Обновете количката и опитайте отново.' }, 409)
+    let price = Number(product.priceEUR)
+    let sku = cleanText(product.sku, 100)
+    let itemName = cleanText(product.name, 250) || 'Продукт'
+    let variant: SanityVariant | undefined
+    if (requested.catalog === 'plants') {
+      variant = product.saleVariants?.find((candidate) => candidate._key === requested.variantKey)
+      if (!variant || variant.stockStatus === 'outOfStock') {
+        return json({ error: 'Избраният вариант на растението вече не е наличен. Обновете количката и опитайте отново.' }, 409)
+      }
+      price = Number(variant.priceEUR)
+      if (!Number.isFinite(price) || price <= 0) {
+        return json({ error: 'За избрания размер все още не е потвърдена цена. Свържете се с Florial.' }, 409)
+      }
+      sku = cleanText(variant.sku, 100) || sku
+      const variantName = cleanText(variant.name, 200)
+      if (variantName) itemName += ' — ' + variantName
+      const size = [typeof variant.saleHeightCm === 'number' ? variant.saleHeightCm + ' cm' : '', typeof variant.containerVolumeL === 'number' ? variant.containerVolumeL + ' L' : ''].filter(Boolean).join(', ')
+      if (size) itemName += ' (' + size + ')'
     }
+    if (!Number.isFinite(price) || price < 0) return json({ error: 'Един или повече продукти вече не са налични. Обновете количката и опитайте отново.' }, 409)
     if (Math.abs(price - requested.expectedPrice) > 0.009) {
       return json({ error: 'Цената на продукт се е променила. Обновете страницата и проверете количката отново.' }, 409)
     }
     orderItems.push({
-      sku: cleanText(product.sku, 100),
-      name: cleanText(product.name, 250) || 'Продукт',
-      qty: requested.qty,
-      price,
+      sku, name: itemName, qty: requested.qty, price, catalog: requested.catalog,
+      ...(variant ? { variantKey: requested.variantKey, variantName: cleanText(variant.name, 200), saleHeightCm: variant.saleHeightCm, containerVolumeL: variant.containerVolumeL } : {}),
       imageUrl: typeof product.imageUrl === 'string' && /^https:\/\//i.test(product.imageUrl) ? product.imageUrl : undefined,
     })
     subtotal += price * requested.qty
   }
 
   subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100
-  const deliveryFee = deliveryMethodInput === 'pickup' ? 0 : courierRates[city]
+  const deliveryFee = deliveryMethodInput === 'courier' ? courierRates[city] : 0
   const deliveryMethodLabel = deliveryMethodInput === 'pickup'
     ? 'Самовземане от магазин'
-    : 'Куриерска доставка — ' + city + ' (' + deliveryFee.toFixed(2) + ' EUR)'
+    : deliveryMethodInput === 'agree'
+      ? 'Доставка — за уточняване с Florial'
+      : 'Куриерска доставка — ' + city + ' (' + deliveryFee.toFixed(2) + ' EUR)'
   const grandTotal = Math.round((subtotal + deliveryFee + Number.EPSILON) * 100) / 100
   if (!Number.isFinite(subtotal) || subtotal > 10000000) {
     return json({ error: 'Общата стойност на поръчката е невалидна.' }, 400)
@@ -363,7 +409,7 @@ export const onRequestPost = async ({
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
       '<table role="presentation" style="width:100%;border-collapse:collapse"><thead><tr><th style="width:76px;padding:8px"></th><th style="text-align:left;padding:8px">Продукт</th><th style="padding:8px">Брой</th><th style="text-align:right;padding:8px">Сума</th></tr></thead><tbody>' +
       itemsHtml + '</tbody></table><p style="text-align:right;font-size:18px"><strong>Общо: ' +
-      subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо с доставката: ' + grandTotal.toFixed(2) + ' €</strong></p>'
+      subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryMethodInput === 'agree' ? 'Ще бъде уточнена с Florial' : deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо с доставката: ' + (deliveryMethodInput === 'agree' ? 'Ще бъде уточнена' : grandTotal.toFixed(2) + ' €') + '</strong></p>'
 
     const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
     const mailTasks: Promise<void>[] = []
