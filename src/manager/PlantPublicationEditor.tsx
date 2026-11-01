@@ -125,7 +125,7 @@ function makeDraft(submission: Submission): Draft {
   const researchData = payload.plantCareResearch && typeof payload.plantCareResearch === 'object' ? payload.plantCareResearch as Record<string, unknown> : {}
   const researchValues = researchData.plantCare && typeof researchData.plantCare === 'object' ? researchData.plantCare as Record<string, unknown> : {}
   const plantCare = { ...savedPlantCare, ...researchValues }
-  const plantCare = savedPlantCare
+  // Research suggestions are merged with the saved draft values above.
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
