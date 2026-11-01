@@ -123,7 +123,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!selectedImages.length) return json({ error: 'Для проверки ботанического имени нужна хотя бы одна фотография растения.' }, 400)
   if (selectedImages.length > 8 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Список фотографий заявки некорректен. Обновите карточку и повторите проверку.' }, 400)
   const prefix = submission.created_by + '/' + submissionId + '/'
-  if (selectedImages.some((image) => typeof image.path !== 'string' || !image.path.startsWith(prefix))) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
+  if (selectedImages.some((image) => {
+    if (typeof image.path !== 'string' || !image.path.startsWith(prefix)) return true
+    const filename = image.path.slice(prefix.length)
+    return !/^[0-9a-f-]{36}[-_][A-Za-z0-9._-]+$/i.test(filename)
+  })) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
 
   const visualResults: Array<Record<string, unknown>> = []
   const visualNames: Array<{ name: string; confidence: string; count: number; evidence: string[] }> = []
