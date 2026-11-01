@@ -435,6 +435,30 @@ const plantCare = defineType({
   ],
 })
 
+
+const plantSaleVariant = defineType({
+  name: 'plantSaleVariant',
+  title: 'Вариант за продажба на растение',
+  type: 'object',
+  fields: [
+    defineField({name: 'name', title: 'Размер / вариант (BG)', description: 'Например: Компактно, Средно, Голямо или конкретен търговски размер.', type: 'string', validation: Rule => Rule.required().min(2).max(100)}),
+    defineField({name: 'nameEn', title: 'Размер / вариант (EN)', type: 'string'}),
+    defineField({name: 'nameRu', title: 'Размер / вариант (RU)', type: 'string'}),
+    defineField({name: 'sku', title: 'Артикул на варианта', type: 'string'}),
+    defineField({name: 'saleHeightCm', title: 'Височина при продажба (см)', type: 'number', validation: Rule => Rule.min(0).max(10000)}),
+    defineField({name: 'containerVolumeL', title: 'Обем на контейнера (литри)', type: 'number', validation: Rule => Rule.min(0.1).max(10000)}),
+    defineField({name: 'priceEUR', title: 'Цена с ДДС (EUR)', description: 'Крайна продажна цена за този вариант.', type: 'number', validation: Rule => Rule.min(0.01)}),
+    defineField({name: 'oldPriceEUR', title: 'Стара цена (EUR)', type: 'number', validation: Rule => Rule.min(0)}),
+    defineField({name: 'stockStatus', title: 'Наличност на варианта', type: 'string', options: {list: [
+      {title: 'В наличност', value: 'inStock'},
+      {title: 'По заявка', value: 'onRequest'},
+      {title: 'Изчерпан', value: 'outOfStock'},
+    ]}}),
+    defineField({name: 'stockQuantity', title: 'Количество на склад', type: 'number', validation: Rule => Rule.integer().min(0)}),
+  ],
+  preview: {select: {title: 'name', subtitle: 'priceEUR'}},
+})
+
 const plantCareGuideBlock = {
   type: 'block',
   styles: [
@@ -576,6 +600,14 @@ const plantProduct = defineType({
     defineField({name: 'description', title: 'Пълно описание (BG)', type: 'text', rows: 8}),
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
+    defineField({
+      name: 'saleVariants',
+      title: 'Размери и варианти за продажба',
+      description: 'Добавете отделен вариант за всеки реално предлаган размер. Посочете измерената височина, контейнера, крайната цена и наличността. Не попълвайте предполагаеми стойности.',
+      type: 'array',
+      of: [{type: 'plantSaleVariant'}],
+      validation: Rule => Rule.max(30),
+    }),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
     defineField({
       name: 'oldPriceEUR',
@@ -679,4 +711,4 @@ export const irrigationSchemaTypes = [
   seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, plantCare, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, plantCare, plantSaleVariant, plantCategory, plantProduct]

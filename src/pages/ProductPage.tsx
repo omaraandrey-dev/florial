@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '../lib/i18n'
-import type { CategoryItem, Product } from '../types'
+import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
@@ -65,6 +65,38 @@ export function ProductPage({
   const [failedImageUrls, setFailedImageUrls] = useState<string[]>([])
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
+  const [selectedSaleVariantKey, setSelectedSaleVariantKey] = useState<string>('0')
+  const [requestedPlantSize, setRequestedPlantSize] = useState<string>('')
+
+  const plantSaleVariants = isPlantProduct(product) && Array.isArray(product.saleVariants) ? product.saleVariants : []
+  const selectedSaleVariantIndex = plantSaleVariants.findIndex((variant, index) => (variant._key || String(index)) === selectedSaleVariantKey)
+  const selectedSaleVariant = plantSaleVariants[selectedSaleVariantIndex >= 0 ? selectedSaleVariantIndex : 0]
+  const currentPrice = isPlantProduct(product) ? selectedSaleVariant?.priceEUR : product.priceEUR
+  const currentOldPrice = isPlantProduct(product) ? selectedSaleVariant?.oldPriceEUR : product.oldPriceEUR
+  const plantStockStatus = selectedSaleVariant?.stockStatus || product.stockStatus || 'onRequest'
+  const plantStockQuantity = selectedSaleVariant?.stockQuantity ?? product.stockQuantity
+  const hasPrice = typeof currentPrice === 'number' && Number.isFinite(currentPrice) && currentPrice > 0
+  const plantStockLabels: Record<string, string> = {
+    inStock: language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност',
+    onRequest: language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка',
+    outOfStock: language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан',
+  }
+  const getSaleVariantName = (variant: PlantSaleVariant) =>
+    language === 'ru' ? (variant.nameRu || variant.name) : language === 'en' ? (variant.nameEn || variant.name) : variant.name
+  const selectedVariantDescription = selectedSaleVariant
+    ? [
+        getSaleVariantName(selectedSaleVariant),
+        typeof selectedSaleVariant.saleHeightCm === 'number' ? (language === 'ru' ? 'Высота' : language === 'en' ? 'Height' : 'Височина') + ': ' + formatPlantHeight(selectedSaleVariant.saleHeightCm, language) : '',
+        typeof selectedSaleVariant.containerVolumeL === 'number' ? (language === 'ru' ? 'Контейнер' : language === 'en' ? 'Container' : 'Контейнер') + ': ' + selectedSaleVariant.containerVolumeL + ' L' : '',
+        selectedSaleVariant.sku ? 'SKU: ' + selectedSaleVariant.sku : '',
+      ].filter(Boolean).join(', ')
+    : requestedPlantSize.trim() || (language === 'ru' ? 'Прошу предложить доступные размеры' : language === 'en' ? 'Please suggest available sizes' : 'Моля, предложете наличните размери')
+  const plantWhatsAppMessage = language === 'ru'
+    ? 'Здравствуйте! Интересует растение: ' + String(localize(product, 'name') || product.name) + '. Размер: ' + selectedVariantDescription + '. Количество: ' + quantity + ' шт. Пожалуйста, подтвердите актуальную цену и наличие.'
+    : language === 'en'
+      ? 'Hello! I am interested in: ' + String(localize(product, 'name') || product.name) + '. Size: ' + selectedVariantDescription + '. Quantity: ' + quantity + '. Please confirm the current price and availability.'
+      : 'Здравейте! Интересувам се от растение: ' + String(localize(product, 'name') || product.name) + '. Размер: ' + selectedVariantDescription + '. Количество: ' + quantity + ' бр. Моля, потвърдете актуалната цена и наличността.'
+  const plantWhatsAppUrl = 'https://wa.me/380674807486?text=' + encodeURIComponent(plantWhatsAppMessage)
 
   // Support legacy URL-only galleries and localized alt text on Sanity image objects.
   const imageCandidates: Array<{ url?: string | null; alt?: string | null }> = [
@@ -132,9 +164,9 @@ export function ProductPage({
     </div>
   )
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
-  const hasDiscount = Number(product.oldPriceEUR) > Number(product.priceEUR) && Number(product.priceEUR) > 0
-  const discountPercent = hasDiscount ? Math.round((Number(product.oldPriceEUR) - Number(product.priceEUR)) / Number(product.oldPriceEUR) * 100) : 0
-  const discountSaving = hasDiscount ? Number(product.oldPriceEUR) - Number(product.priceEUR) : 0
+  const hasDiscount = hasPrice && typeof currentOldPrice === 'number' && currentOldPrice > Number(currentPrice)
+  const discountPercent = hasDiscount ? Math.round((Number(currentOldPrice) - Number(currentPrice)) / Number(currentOldPrice) * 100) : 0
+  const discountSaving = hasDiscount ? Number(currentOldPrice) - Number(currentPrice) : 0
 
   const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
     const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
@@ -187,6 +219,8 @@ export function ProductPage({
     setFailedImageUrls([])
     setSelectedImage(product.imageUrl || '')
     setQuantity(1)
+    setSelectedSaleVariantKey(product.saleVariants?.[0]?._key || '0')
+    setRequestedPlantSize('')
   }, [product, language])
 
   useEffect(() => {
@@ -227,12 +261,13 @@ export function ProductPage({
     const offer: Record<string, unknown> = {
       '@type': 'Offer',
       priceCurrency: 'EUR',
-      price: Number(product.priceEUR || 0).toFixed(2),
       url: productUrl,
       itemCondition: 'https://schema.org/NewCondition',
     }
-    if (product.stockStatus === 'inStock') offer.availability = 'https://schema.org/InStock'
-    if (product.stockStatus === 'outOfStock') offer.availability = 'https://schema.org/OutOfStock'
+    if (hasPrice) offer.price = Number(currentPrice).toFixed(2)
+    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'inStock') offer.availability = 'https://schema.org/InStock'
+    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'outOfStock') offer.availability = 'https://schema.org/OutOfStock'
+    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'onRequest') offer.availability = 'https://schema.org/PreOrder'
 
     setStructuredData('product', {
       '@context': 'https://schema.org',
@@ -242,7 +277,7 @@ export function ProductPage({
       url: productUrl,
       ...(product.imageUrl ? { image: [product.imageUrl] } : {}),
       ...(product.sku ? { sku: product.sku } : {}),
-      offers: offer,
+      ...(hasPrice ? { offers: offer } : {}),
     })
 
     const breadcrumbItems: Array<{ name: string; item: string }> = [
@@ -264,7 +299,7 @@ export function ProductPage({
         item: item.item,
       })),
     })
-  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t])
+  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t, currentPrice, hasPrice, plantStockStatus])
 
   const handleAdd = () => {
     onAddToCart(product, quantity)
@@ -341,36 +376,75 @@ export function ProductPage({
               <p className="text-sm italic text-slate-500 -mt-2 mb-4">{product.scientificName}</p>
             )}
 
-            <div className="mb-6">
-              <div className="flex items-baseline gap-4">
-                <span className="text-3xl font-extrabold text-emerald-800">
-                  {(product.priceEUR || 0).toFixed(2)} €
-                </span>
-                {hasDiscount && (
-                  <span className="text-lg text-slate-400 line-through">
-                    {Number(product.oldPriceEUR).toFixed(2)} €
-                  </span>
+            {isPlantProduct(product) ? (
+              <div className="mb-6 rounded-xl border border-[#E2E6D8] bg-[#F8F9F4] p-4">
+                {plantSaleVariants.length > 0 && (
+                  <label className="flex flex-col gap-2 text-sm font-semibold text-slate-700">
+                    {language === 'ru' ? 'Выберите размер' : language === 'en' ? 'Choose a size' : 'Изберете размер'}
+                    <select
+                      value={selectedSaleVariantKey || (plantSaleVariants[0]._key || '0')}
+                      onChange={(event) => setSelectedSaleVariantKey(event.target.value)}
+                      className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-3 font-medium outline-none focus:border-[#91A66B]"
+                    >
+                      {plantSaleVariants.map((variant, index) => {
+                        const optionName = getSaleVariantName(variant)
+                        const optionDetails = [
+                          optionName,
+                          typeof variant.saleHeightCm === 'number' ? formatPlantHeight(variant.saleHeightCm, language) : '',
+                          typeof variant.containerVolumeL === 'number' ? variant.containerVolumeL + ' L' : '',
+                        ].filter(Boolean).join(' · ')
+                        return <option key={variant._key || index} value={variant._key || String(index)}>{optionDetails}</option>
+                      })}
+                    </select>
+                  </label>
                 )}
-                {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
+                {selectedSaleVariant && (
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium text-slate-600">
+                    {typeof selectedSaleVariant.saleHeightCm === 'number' && <span className="rounded-full bg-white px-3 py-1.5">{language === 'ru' ? 'Высота' : language === 'en' ? 'Height' : 'Височина'}: {formatPlantHeight(selectedSaleVariant.saleHeightCm, language)}</span>}
+                    {typeof selectedSaleVariant.containerVolumeL === 'number' && <span className="rounded-full bg-white px-3 py-1.5">{language === 'ru' ? 'Контейнер' : language === 'en' ? 'Container' : 'Контейнер'}: {selectedSaleVariant.containerVolumeL} L</span>}
+                    {selectedSaleVariant.sku && <span className="rounded-full bg-white px-3 py-1.5">SKU: {selectedSaleVariant.sku}</span>}
+                  </div>
+                )}
+                <div className="mt-4 flex flex-wrap items-baseline gap-3">
+                  {hasPrice ? (
+                    <span className="text-3xl font-extrabold text-emerald-800">{Number(currentPrice).toFixed(2)} €</span>
+                  ) : (
+                    <span className="text-2xl font-extrabold text-emerald-800">{language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване'}</span>
+                  )}
+                  {hasDiscount && <span className="text-lg text-slate-400 line-through">{Number(currentOldPrice).toFixed(2)} €</span>}
+                  {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
+                </div>
+                {hasPrice && product.vatIncluded !== false && <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>}
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className={`rounded-full px-3 py-1.5 text-xs font-bold ${plantStockStatus === 'inStock' ? 'bg-emerald-100 text-emerald-800' : plantStockStatus === 'outOfStock' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'}`}>
+                    {plantStockLabels[plantStockStatus] || plantStockLabels.onRequest}
+                  </span>
+                  {plantStockStatus === 'inStock' && typeof plantStockQuantity === 'number' && (
+                    <span className="text-xs text-slate-600">{language === 'ru' ? 'Количество' : language === 'en' ? 'Quantity' : 'Количество'}: {plantStockQuantity}</span>
+                  )}
+                </div>
               </div>
-              {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? `Экономия: ${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: ${discountSaving.toFixed(2)} €` : `Спестявате: ${discountSaving.toFixed(2)} €`}</p>}
-              <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
-            </div>
+            ) : (
+              <div className="mb-6">
+                <div className="flex items-baseline gap-4">
+                  <span className="text-3xl font-extrabold text-emerald-800">{(product.priceEUR || 0).toFixed(2)} €</span>
+                  {hasDiscount && <span className="text-lg text-slate-400 line-through">{Number(currentOldPrice).toFixed(2)} €</span>}
+                  {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
+                </div>
+                {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? `Экономия: ${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: ${discountSaving.toFixed(2)} €` : `Спестявате: ${discountSaving.toFixed(2)} €`}</p>}
+                <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+              </div>
+            )}
 
             {product.shortDescription && (
               <p className="text-slate-600 text-base mb-6 leading-relaxed">
                 {localize(product, 'shortDescription')}
               </p>
             )}
-            {isPlantProduct(product) && (
-              <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
-                {t('Наличност, размер и актуална цена се потвърждават при запитване.')}
-              </p>
-            )}
+
           </div>
 
           <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
-            {!isPlantProduct(product) && (
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-slate-700">{t('Количество:')}</span>
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
@@ -391,15 +465,29 @@ export function ProductPage({
                 </button>
               </div>
             </div>
+
+            {isPlantProduct(product) && plantSaleVariants.length === 0 && (
+              <label className="flex flex-col gap-2 text-sm font-semibold text-slate-700">
+                {language === 'ru' ? 'Желаемый размер (необязательно)' : language === 'en' ? 'Preferred size (optional)' : 'Желан размер (по желание)'}
+                <input type="text" value={requestedPlantSize} onChange={(event) => setRequestedPlantSize(event.target.value)} maxLength={120} placeholder={language === 'ru' ? 'Например: высота 100–120 см, контейнер 20 л' : language === 'en' ? 'E.g. 100–120 cm tall, 20 L container' : 'Напр. височина 100–120 см, контейнер 20 л'} className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 font-normal outline-none focus:border-emerald-500" />
+              </label>
             )}
 
             {isPlantProduct(product) ? (
-              <button
-                onClick={onNavigateContacts}
-                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              <>
+              <a
+                href={plantWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 no-underline"
               >
-                {t('Запитайте за цена и наличност')}
+                <span aria-hidden="true">◉</span>
+                {language === 'ru' ? 'Запросить через WhatsApp' : language === 'en' ? 'Enquire via WhatsApp' : 'Запитайте чрез WhatsApp'}
+              </a>
+              <button type="button" onClick={onNavigateContacts} className="text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition cursor-pointer">
+                {language === 'ru' ? 'Другие способы связи' : language === 'en' ? 'Other contact options' : 'Други начини за връзка'}
               </button>
+              </>
             ) : (
             <button
               onClick={handleAdd}
