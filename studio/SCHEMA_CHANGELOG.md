@@ -241,3 +241,21 @@
 - В тип `serviceContentBlock` добавлено вложенное поле `translations` с полями `title` и `text` для английского и русского языков.
 - Это дополнение сохраняет существующие болгарские поля и данные; миграция/перезапись документов не выполняется.
 - GitHub Actions должен развернуть схему `florial-admin` из актуального исходника. После workflow необходимо проверить фактическую активную схему Sanity и возможность записи переводов; наличие исходного поля в GitHub само по себе не подтверждает развёртывание.
+
+
+## 2026-11-01 — Plant commercial sale variants deployed
+
+- Added schema type `plantSaleVariant` with:
+  - `name` (BG), `nameEn`, `nameRu`
+  - `sku`
+  - `saleHeightCm`
+  - `containerVolumeL`
+  - `priceEUR`, `oldPriceEUR`
+  - `stockStatus`: `inStock`, `onRequest`, `outOfStock`
+  - `stockQuantity`
+- Added `plantProduct.saleVariants` as an array of up to 30 sale variants.
+- PR #34 merged at commit `e112825c5f1e4b8e9c4172c2dff085d88b1b928e`.
+- GitHub Actions Studio deployment run 41280176924 succeeded; logs confirm `Deployed 2/2 schemas` and hosted Studio URL `https://florial-admin-bg.sanity.studio/`.
+- Sanity API verification confirmed `plantProduct.saleVariants` and registered `plantSaleVariant` in dataset `plants`.
+- No Content Lake documents were migrated, overwritten or deleted. Real sale variant data is still pending owner-supplied price/stock details.
+- The currently registered Studio ID reported by Sanity API is `fdy0ldwl717qtp5pikl7715l`; canonical Studio URL: `https://florial-admin-bg.sanity.studio/`.
