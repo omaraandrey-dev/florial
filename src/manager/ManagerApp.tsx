@@ -9,7 +9,7 @@ type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; dis
 type Submission = {
   id: string; title: string; sku: string | null; payload: Record<string, unknown>;
   status: string; created_by: string; created_at: string; updated_at: string;
-  review_note: string | null; notification_sent_at: string | null
+  review_note: string | null; notification_sent_at: string | null; publish_error: string | null
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
@@ -106,7 +106,7 @@ export default function ManagerApp() {
   const loadSubmissions = useCallback(async () => {
     if (!profile) return
     let query = supabase.from('catalog_submissions')
-      .select('id,title,sku,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at')
+      .select('id,title,sku,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at,publish_error')
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
       .limit(100)
@@ -470,6 +470,7 @@ export default function ManagerApp() {
               categories={plantCategories}
               images={previewImages}
               imagesLoading={previewLoading}
+              publishError={selected.publish_error}
               accessToken={session.access_token}
               onSaved={async () => {
                 await loadSubmissions()
