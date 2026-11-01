@@ -1,3 +1,14 @@
+## 2026-11-01 — Расширение модели каталога растений
+
+- Расширена схема dataset plants: plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured и oldPriceEUR.
+- В productType добавлены значения типов растений при сохранении существующего значения plant и строкового типа поля.
+- Существующие mainImage и gallery не изменялись; GROQ теперь передаёт галерею с локализованными alt-полями в уже поддерживаемый ProductPage формат.
+- Frontend распознаёт все поддерживаемые типы растений для каталожной навигации и карточки товара.
+- plantDetails.scientificName помечено deprecated/hidden/readOnly; поле не удалялось. В GROQ оставлено только plantDetails.availabilityNote.
+- Проверка опубликованного dataset plants: 30 товаров, 17 категорий; root scientificName заполнен у всех 30, gallery пока отсутствует у всех 30.
+- Контент Sanity не изменялся. Миграция scientificName не запускалась, так как опубликованные документы не нуждаются в переносе.
+- Studio build, deployment и production проверка ожидают выполнения на feature-ветке и отдельного подтверждения активной Studio schema.
+
 ## 2026-10-31 — Complete RU/EN translations for irrigation kits and category
 
 - Published complete Russian and English localizations for the 13 irrigation products that previously had no translated product names: localized names, short descriptions, full product descriptions, kit contents, component quantities, installation notes, water-flow/pressure requirements where present, and SEO titles, descriptions and keywords.
