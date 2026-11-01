@@ -9,7 +9,7 @@ type StaffProfile = {
   role: StaffRole
   display_name: string
   is_active: boolean
-  created_at: string
+  created_at?: string
 }
 type AuthUser = { id: string; email?: string; created_at?: string }
 
@@ -102,7 +102,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
       fetch(base + '/auth/v1/admin/users?page=1&per_page=1000', { headers: adminHeaders }),
     ])
     if (!profilesResponse.ok || !usersResponse.ok) {
-      return json({ error: 'Не успяхме да заредим списъка със служители.' }, 502)
+      return json({ error: 'Не успяхме да заредим списъка със служителите.' }, 502)
     }
     const profiles = await profilesResponse.json() as StaffProfile[]
     const authData = await usersResponse.json() as { users?: AuthUser[] }
@@ -132,7 +132,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     const role = body.role
     if (!validEmail(email) || password.length < 12 || password.length > 128 ||
         !displayName || (role !== 'seller' && role !== 'manager')) {
-      return json({ error: 'Въведете валиден email, име, роля и парола от поне 12 символа.' }, 400)
+      return json({ error: 'Въведете валиден email, име, роля и парола с поне 12 символа.' }, 400)
     }
 
     const createResponse = await fetch(base + '/auth/v1/admin/users', {
@@ -146,10 +146,10 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
       }),
     })
     if (!createResponse.ok) {
-      return json({ error: 'Не удалось создать учётную запись. Проверьте email, пароль и настройки Auth.' }, 400)
+      return json({ error: 'Не успяхме да създадем профила. Проверете email адреса, паролата и настройките на Auth.' }, 400)
     }
     const created = await createResponse.json() as { id?: string }
-    if (!created.id) return json({ error: 'Auth не вернул идентификатор созданного пользователя.' }, 502)
+    if (!created.id) return json({ error: 'Auth не върна идентификатор на създадения потребител.' }, 502)
 
     const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles', {
       method: 'POST',
@@ -167,7 +167,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
         method: 'DELETE',
         headers: adminHeaders,
       })
-      return json({ error: 'Аккаунт создан, но профиль сотрудника не сохранился. Создание отменено.' }, 502)
+      return json({ error: 'Акаунтът е създаден, но профилът на служителя не беше записан. Създаването е отменено.' }, 502)
     }
     return json({ ok: true, user_id: created.id }, 201)
   }
@@ -175,23 +175,23 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
   const action = body.action
   const userId = typeof body.userId === 'string' ? body.userId : ''
   if (!uuidPattern.test(userId) || userId === caller.id) {
-    return json({ error: 'Нельзя изменить эту учётную запись.' }, 400)
+    return json({ error: 'Този акаунт не може да бъде променян.' }, 400)
   }
   const { response: targetResponse, profile: target } = await getTargetProfile(userId)
   if (!targetResponse.ok) return json({ error: 'Unable to load employee profile.' }, 502)
-  if (!target || target.role === 'owner') return json({ error: 'Owner accounts cannot be changed here.' }, 403)
+  if (!target || target.role === 'owner') return json({ error: 'Акаунтите на собственика не могат да се променят от този екран.' }, 403)
 
   if (action === 'set_password') {
     const password = typeof body.password === 'string' ? body.password : ''
     if (password.length < 12 || password.length > 128) {
-      return json({ error: 'Пароль должен содержать от 12 до 128 символов.' }, 400)
+      return json({ error: 'Паролата трябва да съдържа между 12 и 128 символа.' }, 400)
     }
     const passwordResponse = await fetch(base + '/auth/v1/admin/users/' + encodeURIComponent(userId), {
       method: 'PUT',
       headers: adminHeaders,
       body: JSON.stringify({ password }),
     })
-    if (!passwordResponse.ok) return json({ error: 'Не удалось установить новый пароль.' }, 502)
+    if (!passwordResponse.ok) return json({ error: 'Не успяхме да зададем новата парола.' }, 502)
     return json({ ok: true })
   }
 
@@ -204,16 +204,16 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
         body: JSON.stringify({ is_active: action === 'activate', updated_at: new Date().toISOString() }),
       },
     )
-    if (!updateResponse.ok) return json({ error: 'Не удалось изменить доступ сотрудника.' }, 502)
+    if (!updateResponse.ok) return json({ error: 'Не успяхме да променим достъпа на служителя.' }, 502)
     return json({ ok: true })
   }
 
   if (action === 'update') {
     const patch: Record<string, unknown> = { updated_at: new Date().toISOString() }
     if (body.role === 'seller' || body.role === 'manager') patch.role = body.role
-    else if (body.role !== undefined) return json({ error: 'Недопустимая роль.' }, 400)
+    else if (body.role !== undefined) return json({ error: 'Невалидна роля.' }, 400)
     if (typeof body.displayName === 'string') patch.display_name = body.displayName.trim().slice(0, 120)
-    if (Object.keys(patch).length === 1) return json({ error: 'Нет изменений для сохранения.' }, 400)
+    if (Object.keys(patch).length === 1) return json({ error: 'Няма промени за запис.' }, 400)
     const updateResponse = await fetch(
       base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(userId),
       {
@@ -222,7 +222,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
         body: JSON.stringify(patch),
       },
     )
-    if (!updateResponse.ok) return json({ error: 'Не удалось обновить профиль сотрудника.' }, 502)
+    if (!updateResponse.ok) return json({ error: 'Не успяхме да обновим профила на служителя.' }, 502)
     return json({ ok: true })
   }
 
