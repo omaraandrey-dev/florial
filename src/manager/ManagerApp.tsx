@@ -318,7 +318,8 @@ export default function ManagerApp() {
   const submitForReview = async () => {
     if (!session || !selectedId) { setError('Първо запазете черновата.'); return }
     if (files.length > 0) { setError('Първо запазете и качете избраните снимки.'); return }
-    const savedImages = Array.isArray(selected?.payload?.images) ? selected.payload.images as IntakeImage[] : []
+    const selectedImagesValue = selected?.payload?.images
+    const savedImages = Array.isArray(selectedImagesValue) ? selectedImagesValue as IntakeImage[] : []
     const quantity = Number(stockQuantity)
     const missing: string[] = []
     if (!title.trim()) missing.push('име на растението')
