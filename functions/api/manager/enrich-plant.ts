@@ -198,10 +198,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
       stage = 'parse_image_result'
       const rawAlt = modelText(response).trim()
-        .replace(/^\`\`\`(?:text|json)?\\s*/i, '')
-        .replace(/\\s*\`\`\`$/, '')
+        .replace(/\`\`\`(?:text|json)?/gi, '')
         .replace(/^["'“”]+|["'“”]+$/g, '')
-        .replace(/\\s+/g, ' ')
+        .replace(/\s+/g, ' ')
         .slice(0, 180)
       if (!rawAlt) throw new Error('AI image model returned an empty description.')
       imageDescriptions.push({
