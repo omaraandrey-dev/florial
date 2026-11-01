@@ -10,16 +10,9 @@ const isUuid = (value) =>
   typeof value === "string" &&
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 
-const secureEquals = (left, right) => {
-  if (typeof left !== "string" || typeof right !== "string" || left.length !== right.length) return false;
-  let mismatch = 0;
-  for (let index = 0; index < left.length; index += 1) mismatch |= left.charCodeAt(index) ^ right.charCodeAt(index);
-  return mismatch === 0;
-};
-
 export class PlantCareWorkflow extends WorkflowEntrypoint {
   async run(event, step) {
-    const result = await step.do(
+    return await step.do(
       "run-botanical-inspection",
       {
         timeout: "10 minutes",
@@ -30,7 +23,7 @@ export class PlantCareWorkflow extends WorkflowEntrypoint {
           method: "POST",
           headers: {
             "content-type": "application/json",
-            "x-florial-workflow-token": this.env.PLANT_CARE_WORKFLOW_SECRET,
+            "x-florial-job-token": event.payload.jobToken,
           },
           body: JSON.stringify(event.payload),
         });
@@ -47,18 +40,11 @@ export class PlantCareWorkflow extends WorkflowEntrypoint {
         return body;
       },
     );
-    return result;
   }
 }
 
 export default {
   async fetch(request, env) {
-    const expected = env.PLANT_CARE_WORKFLOW_SECRET || "";
-    const authorization = request.headers.get("authorization") || "";
-    if (!expected || !secureEquals(authorization, "Bearer " + expected)) {
-      return json({ error: "Unauthorized." }, 401);
-    }
-
     const url = new URL(request.url);
     if (url.pathname === "/start" && request.method === "POST") {
       let body;
@@ -68,11 +54,13 @@ export default {
       const submissionId = body?.submissionId;
       const callerId = body?.callerId;
       const workflowId = body?.workflowId;
+      const jobToken = body?.jobToken;
       const reviewInput = body?.reviewInput;
       if (!isUuid(submissionId) || !isUuid(callerId) ||
           typeof workflowId !== "string" ||
           !workflowId.startsWith(submissionId + "-") ||
           workflowId.length > 100 ||
+          typeof jobToken !== "string" || jobToken.length < 64 ||
           !reviewInput || typeof reviewInput !== "object") {
         return json({ error: "Invalid workflow parameters." }, 400);
       }
@@ -80,7 +68,7 @@ export default {
       try {
         const instance = await env.PLANT_CARE_WORKFLOW.create({
           id: workflowId,
-          params: { submissionId, callerId, reviewInput },
+          params: { submissionId, callerId, workflowId, jobToken, reviewInput },
         });
         return json({ workflowId: instance.id, status: (await instance.status()).status }, 202);
       } catch (error) {
