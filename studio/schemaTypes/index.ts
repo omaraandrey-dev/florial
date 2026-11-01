@@ -315,21 +315,288 @@ const plantCategory = defineType({
   preview: {select: {title: 'name', media: 'image'}},
 })
 
+
+const plantCare = defineType({
+  name: 'plantCare',
+  title: 'Грижи и характеристики на растението',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'light',
+      title: 'Светлина',
+      description: 'Предпочитано изложение: пълно слънце, полусянка или сянка.',
+      type: 'string',
+      options: {list: [
+        {title: 'Пълно слънце', value: 'sun'},
+        {title: 'Полусянка', value: 'partialShade'},
+        {title: 'Сянка', value: 'shade'},
+      ]},
+      validation: Rule => Rule.custom(value => value == null || ['sun', 'partialShade', 'shade'].includes(String(value)) || 'Изберете една от посочените стойности за светлина.'),
+    }),
+    defineField({
+      name: 'waterNeeds',
+      title: 'Нужда от поливане',
+      description: 'Обичайна потребност от вода при подходящи условия на отглеждане.',
+      type: 'string',
+      options: {list: [
+        {title: 'Ниска', value: 'low'},
+        {title: 'Средна', value: 'medium'},
+        {title: 'Висока', value: 'high'},
+      ]},
+      validation: Rule => Rule.custom(value => value == null || ['low', 'medium', 'high'].includes(String(value)) || 'Изберете ниска, средна или висока нужда от поливане.'),
+    }),
+    defineField({
+      name: 'minWinterTempC',
+      title: 'Минимална зимна температура (°C)',
+      description: 'Минималната температура, която растението може да понесе според проверен ботанически източник.',
+      type: 'number',
+      validation: Rule => Rule.min(-60).max(60),
+    }),
+    defineField({
+      name: 'blackSeaCoast',
+      title: 'Пригодност за Черноморието',
+      description: 'Оценка за отглеждане при климатичните условия на българското Черноморие.',
+      type: 'string',
+      options: {list: [
+        {title: 'Подходящо', value: 'suitable'},
+        {title: 'Неподходящо', value: 'notSuitable'},
+        {title: 'Непроверено', value: 'needsVerification'},
+      ]},
+      validation: Rule => Rule.custom(value => value == null || ['suitable', 'notSuitable', 'needsVerification'].includes(String(value)) || 'Изберете валидна оценка за Черноморието.'),
+      initialValue: 'needsVerification',
+    }),
+    defineField({
+      name: 'adultHeightCm',
+      title: 'Височина на възрастното растение (см)',
+      description: 'Очаквана височина на зряло растение при подходящи условия.',
+      type: 'number',
+      validation: Rule => Rule.min(0),
+    }),
+    defineField({
+      name: 'foliageType',
+      title: 'Тип листна маса',
+      description: 'Посочете дали растението е вечнозелено или листопадно.',
+      type: 'string',
+      options: {list: [
+        {title: 'Вечнозелено', value: 'evergreen'},
+        {title: 'Листопадно', value: 'deciduous'},
+      ]},
+      validation: Rule => Rule.custom(value => value == null || ['evergreen', 'deciduous'].includes(String(value)) || 'Изберете вечнозелено или листопадно растение.'),
+    }),
+    defineField({
+      name: 'floweringSeason',
+      title: 'Сезон на цъфтеж',
+      description: 'Един или повече основни сезони на цъфтеж.',
+      type: 'array',
+      of: [{type: 'string', options: {list: [
+        {title: 'Пролет', value: 'spring'},
+        {title: 'Лято', value: 'summer'},
+        {title: 'Есен', value: 'autumn'},
+        {title: 'Зима', value: 'winter'},
+      ]}}],
+      validation: Rule => Rule.unique().max(4).custom(value => !Array.isArray(value) || value.every(item => ['spring', 'summer', 'autumn', 'winter'].includes(String(item))) || 'Изберете валиден сезон на цъфтеж.'),
+    }),
+    defineField({
+      name: 'plantingSeason',
+      title: 'Сезон на засаждане',
+      description: 'Препоръчителен сезон или сезони за засаждане според вида и условията.',
+      type: 'array',
+      of: [{type: 'string', options: {list: [
+        {title: 'Пролет', value: 'spring'},
+        {title: 'Лято', value: 'summer'},
+        {title: 'Есен', value: 'autumn'},
+        {title: 'Зима', value: 'winter'},
+        {title: 'През цялата година', value: 'yearRound'},
+      ]}}],
+      validation: Rule => Rule.unique().max(5).custom(value => !Array.isArray(value) || value.every(item => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(item))) || 'Изберете валиден сезон за засаждане.'),
+    }),
+    defineField({
+      name: 'saleFormat',
+      title: 'Размер при продажба',
+      description: 'Размер на конкретното растение при предлагане за продажба.',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'containerVolumeL',
+          title: 'Обем на контейнера (литри)',
+          description: 'Обем на саксията или контейнера в литри.',
+          type: 'number',
+          validation: Rule => Rule.min(0.1).max(10000),
+        }),
+        defineField({
+          name: 'saleHeightCm',
+          title: 'Височина при продажба (см)',
+          description: 'Височина на растението при продажба в сантиметри.',
+          type: 'number',
+          validation: Rule => Rule.min(0).max(10000),
+        }),
+      ],
+    }),
+  ],
+})
+
+const plantCareGuideBlock = {
+  type: 'block',
+  styles: [
+    {title: 'Параграф', value: 'normal'},
+    {title: 'Заглавие 2', value: 'h2'},
+    {title: 'Заглавие 3', value: 'h3'},
+  ],
+  lists: [
+    {title: 'Неномериран списък', value: 'bullet'},
+    {title: 'Номериран списък', value: 'number'},
+  ],
+  marks: {
+    decorators: [
+      {title: 'Удебелен', value: 'strong'},
+      {title: 'Курсив', value: 'em'},
+    ],
+  },
+}
+
+const plantProductTypes = [
+  {title: 'Растение (съществуващ тип)', value: 'plant'},
+  {title: 'Дърво', value: 'tree'},
+  {title: 'Храст', value: 'shrub'},
+  {title: 'Цвете', value: 'flower'},
+  {title: 'Многогодишно растение', value: 'perennial'},
+  {title: 'Стайно растение', value: 'indoor'},
+  {title: 'Цитрус', value: 'citrus'},
+  {title: 'Палма', value: 'palm'},
+  {title: 'Иглолистно растение', value: 'conifer'},
+  {title: 'Плодово растение', value: 'fruit'},
+  {title: 'Сукулент', value: 'succulent'},
+  {title: 'Катерливо растение', value: 'climber'},
+  {title: 'Декоративна трева', value: 'ornamentalGrass'},
+  {title: 'Почвопокривно растение', value: 'groundcover'},
+  {title: 'Луковично растение', value: 'bulb'},
+  {title: 'Билка', value: 'herb'},
+  {title: 'Водно растение', value: 'aquatic'},
+  {title: 'Друг вид растение', value: 'other'},
+]
+
 const plantProduct = defineType({
   name: 'product', title: 'Растения', type: 'document',
   fields: [
     defineField({name: 'name', title: 'Име на растението (BG)', type: 'string', validation: r => r.required()}),
     slugField(),
     defineField({name: 'sku', title: 'Артикул', type: 'string'}),
-    defineField({name: 'productType', title: 'Тип продукт', type: 'string'}),
+    defineField({
+      name: 'productType',
+      title: 'Тип на растението',
+      description: 'Ботаническа или търговска група на растението. Стойността plant се запазва за съществуващите продукти.',
+      type: 'string',
+      options: {list: plantProductTypes},
+      validation: Rule => Rule.valid(plantProductTypes.map(item => item.value)),
+    }),
     defineField({name: 'scientificName', title: 'Ботаническо име', type: 'string'}),
     defineField({name: 'category', title: 'Основна категория', type: 'reference', to: [{type: 'category'}]}),
     defineField({name: 'categories', title: 'Категории', type: 'array', of: [{type: 'reference', to: [{type: 'category'}]}]}),
     defineField({name: 'shortDescription', title: 'Кратко описание (BG)', type: 'text', rows: 3}),
+    defineField({
+      name: 'plantCare',
+      title: 'Грижи и характеристики',
+      description: 'Структурирани характеристики за филтриране и представяне на растението.',
+      type: 'plantCare',
+    }),
+    defineField({
+      name: 'careGuide',
+      title: 'Ръководство за отглеждане (BG)',
+      description: 'Подробни инструкции за засаждане, поливане, подрязване, торене и зимна защита на български език.',
+      type: 'array',
+      of: [plantCareGuideBlock],
+      validation: Rule => Rule.max(100),
+    }),
+    defineField({
+      name: 'recommendedIrrigation',
+      title: 'Препоръчителна система за поливане',
+      description: 'Метод за поливане и незадължителен slug на съответен продукт или комплект от каталога за поливане.',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'irrigationType',
+          title: 'Тип поливане',
+          description: 'Препоръчителен метод за напояване на растението.',
+          type: 'string',
+          options: {list: [
+            {title: 'Капково напояване', value: 'drip'},
+            {title: 'Ротаторни дюзи', value: 'rotator'},
+            {title: 'Кореново напояване', value: 'root'},
+            {title: 'Мъглуване', value: 'mist'},
+          ]},
+          validation: Rule => Rule.custom(value => value == null || ['drip', 'rotator', 'root', 'mist'].includes(String(value)) || 'Изберете валиден тип поливане.'),
+        }),
+        defineField({
+          name: 'productSlug',
+          title: 'Slug на продукт или комплект',
+          description: 'Точният slug на продукт или комплект в dataset production. Не е Sanity reference.',
+          type: 'string',
+          validation: Rule => Rule.max(120).custom(value => value == null || /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(value)) || 'Въведете валиден slug с малки латински букви и тирета.'),
+        }),
+      ],
+    }),
+    defineField({
+      name: 'relatedContentBySlug',
+      title: 'Свързани услуги и статии',
+      description: 'Връзки към услуги и статии в блога чрез техния slug, без cross-dataset reference.',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'contentType',
+            title: 'Тип съдържание',
+            description: 'Изберете дали връзката води към услуга или статия в блога.',
+            type: 'string',
+            options: {list: [
+              {title: 'Услуга', value: 'service'},
+              {title: 'Статия в блога', value: 'blogPost'},
+            ]},
+            validation: Rule => Rule.required().custom(value => ['service', 'blogPost'].includes(String(value)) || 'Изберете услуга или статия в блога.'),
+          }),
+          defineField({
+            name: 'slug',
+            title: 'Slug на страницата',
+            description: 'Точният slug на услугата или статията.',
+            type: 'string',
+            validation: Rule => Rule.required().max(160).custom(value => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(value)) || 'Въведете валиден slug с малки латински букви и тирета.'),
+          }),
+          defineField({
+            name: 'label',
+            title: 'Текст на връзката',
+            description: 'Незадължителен текст на връзката. Ако е празен, frontend използва заглавието на страницата.',
+            type: 'string',
+            validation: Rule => Rule.max(100),
+          }),
+        ],
+      }],
+      validation: Rule => Rule.max(10).unique(),
+    }),
+
     defineField({name: 'description', title: 'Пълно описание (BG)', type: 'text', rows: 8}),
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
     defineField({name: 'priceEUR', title: 'Цена (EUR)', type: 'number'}),
+    defineField({
+      name: 'oldPriceEUR',
+      title: 'Стара цена (EUR)',
+      description: 'Предишна цена преди намалението. Оставете празно, ако няма намаление.',
+      type: 'number',
+      validation: Rule => Rule.min(0).custom((value, context) => {
+        if (value == null) return true
+        const document = context.document as {priceEUR?: number}
+        if (typeof document.priceEUR !== 'number') return 'Първо въведете текущата цена.'
+        return value > document.priceEUR ? true : 'Старата цена трябва да е по-висока от текущата цена.'
+      }),
+    }),
+    defineField({
+      name: 'isFeatured',
+      title: 'Препоръчано растение',
+      description: 'Отбележете, ако растението трябва да се показва сред препоръчаните продукти.',
+      type: 'boolean',
+      initialValue: false,
+      validation: Rule => Rule.custom(value => value === undefined || typeof value === 'boolean' || 'Стойността трябва да бъде Да или Не.'),
+    }),
     defineField({name: 'vatIncluded', title: 'Цената включва ДДС', description: 'За крайните потребителски цени това поле трябва да остане включено.', type: 'boolean', initialValue: true}),
     defineField({name: 'stockStatus', title: 'Наличност', type: 'string', options: {list: [
       {title: 'В наличност', value: 'inStock'}, {title: 'По заявка', value: 'onRequest'}, {title: 'Изчерпан', value: 'outOfStock'},
@@ -340,7 +607,15 @@ const plantProduct = defineType({
     defineField({name: 'sourcePageUrl', title: 'Източник / референтна страница', type: 'url'}),
     defineField({name: 'sourceImageGroup', title: 'Група на източника на снимката', type: 'string'}),
     defineField({name: 'plantDetails', title: 'Подробности за растението', type: 'object', fields: [
-      defineField({name: 'scientificName', title: 'Ботаническо име', type: 'string'}),
+      defineField({
+        name: 'scientificName',
+        title: 'Ботаническо име (остаряло)',
+        description: 'ОСТАРЯЛО ПОЛЕ: използвайте основното поле „Ботаническо име“ на продукта. Съществуващите стойности се запазват до приключване на миграцията.',
+        type: 'string',
+        deprecated: {reason: 'Използвайте кореновото поле scientificName. Стойностите не се изтриват.'},
+        readOnly: true,
+        hidden: true,
+      }),
       defineField({name: 'availabilityNote', title: 'Бележка за наличност', type: 'text', rows: 3}),
     ]}),
     defineField({name: 'seo', title: 'SEO (BG)', type: 'object', fields: [
@@ -404,4 +679,4 @@ export const irrigationSchemaTypes = [
   seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, plantCare, plantCategory, plantProduct]

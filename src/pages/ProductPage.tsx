@@ -6,6 +6,16 @@ import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
 
+const PLANT_PRODUCT_TYPES = new Set([
+  'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
+  'palm', 'conifer', 'fruit', 'succulent', 'climber', 'ornamentalGrass',
+  'groundcover', 'bulb', 'herb', 'aquatic', 'other',
+])
+
+const isPlantProduct = (product: Product) =>
+  PLANT_PRODUCT_TYPES.has(product.productType || '')
+
+
 interface ProductPageProps {
   product: Product
   allCategories: CategoryItem[]
@@ -60,7 +70,11 @@ export function ProductPage({
 
   const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
     const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
+    const image = allImages.find((candidate) => candidate.url === imageUrl)
     const productName = String(localize(product, 'name') || product.name)
+
+    if (kind === 'alt' && image?.alt) return image.alt
+
     return getProductImageText(productName, language, Math.max(0, imageIndex), kind)
   }
 
@@ -69,7 +83,7 @@ export function ProductPage({
   }
 
   const getProductCategoryTrail = (): CategoryItem[] => {
-    const catalogRoot = product.productType === 'plant'
+    const catalogRoot = isPlantProduct(product)
       ? allCategories.find((item) => item.slug?.current === 'rastenia' || item._id === 'plants-root')
       : allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
     const assigned = (product.categories || [])
@@ -99,7 +113,7 @@ export function ProductPage({
     return trail
   }
   const productCategoryTrail = useMemo(() => getProductCategoryTrail(), [product, allCategories])
-  const productCatalogPath = product.productType === 'plant' ? '/category/rastenia' : '/category/vsichko-za-polivane'
+  const productCatalogPath = isPlantProduct(product) ? '/category/rastenia' : '/category/vsichko-za-polivane'
 
   useEffect(() => {
     setFailedImageUrls([])
@@ -196,7 +210,7 @@ export function ProductPage({
       <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center text-sm text-slate-500 gap-y-1">
         <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-1">/</span>
-        <a href={localizedHref(productCatalogPath, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(product.productType === 'plant' ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
+        <a href={localizedHref(productCatalogPath, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(isPlantProduct(product) ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
         {productCategoryTrail.map((item) => (
           <React.Fragment key={item._id}>
             <span className="mx-1">/</span>
@@ -255,7 +269,7 @@ export function ProductPage({
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
               {localize(product, 'name')}
             </h1>
-            {product.productType === 'plant' && product.scientificName && (
+            {isPlantProduct(product) && product.scientificName && (
               <p className="text-sm italic text-slate-500 -mt-2 mb-4">{product.scientificName}</p>
             )}
 
@@ -278,7 +292,7 @@ export function ProductPage({
                 {localize(product, 'shortDescription')}
               </p>
             )}
-            {product.productType === 'plant' && (
+            {isPlantProduct(product) && (
               <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
                 {t('Наличност, размер и актуална цена се потвърждават при запитване.')}
               </p>
@@ -286,7 +300,7 @@ export function ProductPage({
           </div>
 
           <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
-            {product.productType !== 'plant' && (
+            {!isPlantProduct(product) && (
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-slate-700">{t('Количество:')}</span>
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
@@ -309,7 +323,7 @@ export function ProductPage({
             </div>
             )}
 
-            {product.productType === 'plant' ? (
+            {isPlantProduct(product) ? (
               <button
                 onClick={onNavigateContacts}
                 className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
@@ -325,7 +339,7 @@ export function ProductPage({
             </button>
             )}
 
-            {product.productType !== 'plant' && addedNotification && (
+            {!isPlantProduct(product) && addedNotification && (
               <div className="p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg text-center font-medium">
                 {t('Продуктът е добавен успешно в кошницата!')}
               </div>

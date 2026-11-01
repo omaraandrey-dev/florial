@@ -28,6 +28,15 @@ import type {
   CartItem,
 } from './types'
 
+const PLANT_PRODUCT_TYPES = new Set([
+  'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
+  'palm', 'conifer', 'fruit', 'succulent', 'climber', 'ornamentalGrass',
+  'groundcover', 'bulb', 'herb', 'aquatic', 'other',
+])
+
+const isPlantProductType = (productType?: string) =>
+  PLANT_PRODUCT_TYPES.has(productType || '')
+
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
@@ -376,13 +385,17 @@ export default function App() {
       `
 
       const plantProductQuery = `
-        *[_type == "product" && productType == "plant" && isActive != false] | order(sortOrder asc) {
+        *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
           _id, name, translations,
-          "productType": "plant",
+          productType,
           "slug": { "current": coalesce(slug.current, slug) },
           sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
-          scientificName, plantDetails, sourcePageUrl,
+          scientificName, plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured, plantDetails { availabilityNote }, sourcePageUrl,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+          "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
+          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
           "category": category->name,
           "categoryTranslations": category->translations,
           "categoryId": category->_id,
@@ -713,10 +726,10 @@ export default function App() {
     // Equipment and plants have separate root categories and must never leak
     // into each other's category listings.
     if (currentCategory._id === 'plants-root' || currentCategory.slug?.current === 'rastenia') {
-      return products.filter((product) => product.productType === 'plant')
+      return products.filter((product) => isPlantProductType(product.productType))
     }
     if (currentCategory.slug?.current === 'vsichko-za-polivane') {
-      return products.filter((product) => product.productType !== 'plant')
+      return products.filter((product) => !isPlantProductType(product.productType))
     }
 
     // A parent plant category includes products assigned to its descendants.
@@ -733,7 +746,7 @@ export default function App() {
     }
 
     return products.filter((product) => {
-      const productIsPlant = product.productType === 'plant'
+      const productIsPlant = isPlantProductType(product.productType)
       const categoryIsPlant = currentCategory._id.startsWith('plants-')
       if (productIsPlant !== categoryIsPlant) return false
 
