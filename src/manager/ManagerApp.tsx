@@ -32,6 +32,14 @@ const statusLabels: Record<string, string> = {
 }
 const inputClass = 'mt-1 w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none transition focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const labelClass = 'block text-sm font-semibold text-stone-700'
+const sellerPlantTypes = [
+  ['plant', 'Растение'], ['tree', 'Дърво'], ['shrub', 'Храст'], ['flower', 'Цвете'],
+  ['perennial', 'Многогодишно растение'], ['indoor', 'Стайно растение'], ['citrus', 'Цитрус'],
+  ['palm', 'Палма'], ['conifer', 'Иглолистно растение'], ['fruit', 'Плодово растение'],
+  ['succulent', 'Сукулент'], ['climber', 'Катерливо растение'], ['ornamentalGrass', 'Декоративна трева'],
+  ['groundcover', 'Почвопокривно растение'], ['bulb', 'Луковично растение'], ['herb', 'Билка'],
+  ['aquatic', 'Водно растение'], ['other', 'Друг вид растение'],
+] as const
 
 export default function ManagerApp() {
   const [session, setSession] = useState<Session | null>(null)
@@ -46,6 +54,7 @@ export default function ManagerApp() {
   const [events, setEvents] = useState<Array<{ id: number; event_type: string; from_status: string | null; to_status: string | null; note: string | null; created_at: string }>>([])
   const [title, setTitle] = useState('')
   const [latinName, setLatinName] = useState('')
+  const [productType, setProductType] = useState('')
   const [sku, setSku] = useState('')
   const [category, setCategory] = useState('')
   const [plantCategories, setPlantCategories] = useState<PlantCategory[]>([])
@@ -59,7 +68,7 @@ export default function ManagerApp() {
   const [height, setHeight] = useState('')
   const [potVolume, setPotVolume] = useState('')
   const [price, setPrice] = useState('')
-  const [stockQuantity, setStockQuantity] = useState('1')
+  const [stockQuantity, setStockQuantity] = useState('')
   const [stockStatus, setStockStatus] = useState('inStock')
   const [files, setFiles] = useState<File[]>([])
   const [saving, setSaving] = useState(false)
@@ -235,9 +244,9 @@ export default function ManagerApp() {
   }
 
   const resetForm = () => {
-    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
+    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setProductType(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
-    setPrice(''); setStockQuantity('1'); setStockStatus('inStock'); setFiles([])
+    setPrice(''); setStockQuantity(''); setStockStatus('inStock'); setFiles([])
   }
 
   const saveDraft = async (event?: FormEvent) => {
@@ -249,7 +258,7 @@ export default function ManagerApp() {
     setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
       const payload = {
-        name: title.trim(), latinName: latinName.trim(), sku: sku.trim(),
+        name: title.trim(), latinName: latinName.trim(), productType, sku: sku.trim(),
         categoryId: category, categoryName: selectedCategory?.name || '', description: description.trim(),
         images: (selected?.payload?.images as IntakeImage[] | undefined) || [],
         saleVariants: [{
@@ -257,7 +266,7 @@ export default function ManagerApp() {
           saleHeightCm: height ? Number(height) : null,
           containerVolumeL: potVolume ? Number(potVolume) : null,
           priceEUR: price ? Number(price) : null,
-          stockStatus, stockQuantity: Number(stockQuantity || 0),
+          stockStatus, stockQuantity: stockQuantity.trim() ? Number(stockQuantity) : null,
         }],
       }
       let submissionId = selectedId
@@ -275,8 +284,8 @@ export default function ManagerApp() {
       for (let index = 0; index < filesToUpload.length; index += 1) {
         const file = filesToUpload[index]
         setUploadProgress(`Загружане на снимка ${index + 1} от ${filesToUpload.length}…`)
-        if (!file.type.startsWith('image/') || file.size > 10 * 1024 * 1024) {
-          throw new Error('Снимките трябва да са до 10 MB и във формат на изображение.')
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size <= 0 || file.size > 10 * 1024 * 1024) {
+          throw new Error('Снимките трябва да са JPG, PNG или WebP и до 10 MB всяка.')
         }
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').slice(-90)
         const path = session.user.id + '/' + submissionId + '/' + crypto.randomUUID() + '-' + safeName
@@ -309,8 +318,42 @@ export default function ManagerApp() {
   const submitForReview = async () => {
     if (!session || !selectedId) { setError('Първо запазете черновата.'); return }
     if (files.length > 0) { setError('Първо запазете и качете избраните снимки.'); return }
+    const selectedImagesValue = selected?.payload?.images
+    const savedImages = Array.isArray(selectedImagesValue) ? selectedImagesValue as IntakeImage[] : []
+    const quantity = Number(stockQuantity)
+    const missing: string[] = []
+    if (!title.trim()) missing.push('име на растението')
+    if (!productType) missing.push('тип растение')
+    if (!category || !plantCategories.some((item) => item._id === category)) missing.push('категория')
+    if (savedImages.length === 0) missing.push('поне една качена фотография')
+    if (!price.trim() || !Number.isFinite(Number(price)) || Number(price) <= 0) missing.push('положителна цена в EUR')
+    if (!height.trim() || !Number.isFinite(Number(height)) || Number(height) <= 0) missing.push('положителна височина при продажба')
+    if (!potVolume.trim() || !Number.isFinite(Number(potVolume)) || Number(potVolume) <= 0) missing.push('положителен обем на контейнера')
+    if (!stockQuantity.trim() || !Number.isInteger(quantity) || quantity < 0) missing.push('цяло количество (0 или повече)')
+    if (missing.length) { setError('Не може да изпратите заявката. Попълнете задължителните данни: ' + missing.join(', ') + '.'); return }
+    const previousVariant = (selected?.payload?.saleVariants as Array<Record<string, unknown>> | undefined)?.[0] || {}
+    const submissionPayload = {
+      ...(selected?.payload || {}),
+      name: title.trim(),
+      latinName: latinName.trim(),
+      productType,
+      sku: sku.trim(),
+      categoryId: category,
+      categoryName: selectedCategory?.name || '',
+      description: description.trim(),
+      saleVariants: [{
+        _key: String(previousVariant._key || crypto.randomUUID()),
+        name: variantName.trim(),
+        saleHeightCm: Number(height),
+        containerVolumeL: Number(potVolume),
+        priceEUR: Number(price),
+        stockStatus,
+        stockQuantity: quantity,
+      }],
+    }
     setSaving(true); setError(''); setNotice('')
     const { error: updateError } = await supabase.from('catalog_submissions').update({
+      title: title.trim(), sku: sku.trim() || null, payload: submissionPayload,
       status: 'submitted', submitted_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', selectedId).in('status', ['draft', 'changes_requested'])
     if (updateError) {
@@ -497,22 +540,23 @@ export default function ManagerApp() {
                 <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="напр. Маслина" /></label>
                 <label className={labelClass}>Латинско име<input className={inputClass} value={latinName} onChange={(e) => setLatinName(e.target.value)} placeholder="Olea europaea" /></label>
                 <label className={labelClass}>Артикулен код / SKU<input className={inputClass} value={sku} onChange={(e) => setSku(e.target.value)} /></label>
+                <label className={labelClass}>Тип на растението *<select className={inputClass} value={productType} onChange={(e) => setProductType(e.target.value)}><option value="">Изберете тип растение</option>{sellerPlantTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
                 <label className={labelClass}>Категория на растението *<select className={inputClass} value={category} onChange={(e) => setCategory(e.target.value)} required disabled={categoriesLoading || plantCategories.length === 0}><option value="">{categoriesLoading ? 'Зареждане на категориите…' : 'Изберете категория'}</option>{categoryGroups.map(([groupName, items]) => <optgroup key={groupName} label={groupName}>{items.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}</optgroup>)}</select>{categoriesError && <span className="mt-1 block text-xs font-normal text-red-700">{categoriesError}</span>}</label>
                 <label className={labelClass}>Вариант / размер<input className={inputClass} value={variantName} onChange={(e) => setVariantName(e.target.value)} placeholder="C 25, 160–180 cm" /></label>
-                <label className={labelClass}>Височина при продажба (cm)<input className={inputClass} type="number" min="0" step="1" value={height} onChange={(e) => setHeight(e.target.value)} /></label>
-                <label className={labelClass}>Обем на контейнера (L)<input className={inputClass} type="number" min="0" step="0.5" value={potVolume} onChange={(e) => setPotVolume(e.target.value)} /></label>
-                <label className={labelClass}>Продажна цена (EUR с ДДС)<input className={inputClass} type="number" min="0" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} /></label>
-                <label className={labelClass}>Количество<input className={inputClass} type="number" min="0" step="1" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} /></label>
+                <label className={labelClass}>Височина при продажба (cm) *<input className={inputClass} type="number" min="0.1" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} /></label>
+                <label className={labelClass}>Обем на контейнера (L) *<input className={inputClass} type="number" min="0.1" step="0.1" value={potVolume} onChange={(e) => setPotVolume(e.target.value)} /></label>
+                <label className={labelClass}>Продажна цена (EUR с ДДС) *<input className={inputClass} type="number" min="0.01" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} /></label>
+                <label className={labelClass}>Количество *<input className={inputClass} type="number" min="0" step="1" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} /></label>
                 <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="onRequest">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
-              <label className={labelClass + ' mt-4'}>Снимки (до 8 файла, 10 MB всеки)<input className={inputClass} type="file" accept="image/*" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount))); e.currentTarget.value = '' }} /></label>
-              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от галерията или направете нова снимка с камерата на телефона.</p>
+              <label className={labelClass + ' mt-4'}>Снимки (задължително, до 8 файла, 10 MB всеки) *<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount))); e.currentTarget.value = '' }} /></label>
+              <p className="mt-1 text-xs font-normal text-stone-500">Задължително е поне едно качено изображение. Поддържат се JPG, PNG и WebP до 10 MB на файл.</p>
               {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
               {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
               <div className="mt-5 flex flex-wrap gap-3">
                 <button disabled={saving} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : 'Запази черновата'}</button>
-                {selectedId && <button type="button" disabled={saving || files.length > 0 || !category} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
+                {selectedId && <button type="button" disabled={saving || files.length > 0} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
               </div>
             </form>
           )}
@@ -522,13 +566,13 @@ export default function ManagerApp() {
               <article key={item.id} className={'rounded-2xl border bg-white p-4 ' + (selectedId === item.id ? 'border-lime-700' : 'border-stone-200')}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <button onClick={() => {
-                    setSelectedId(item.id); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || ''))
+                    setSelectedId(item.id); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || '')); setProductType(String(item.payload.productType || ''))
                     setSku(item.sku || ''); setCategory(String(item.payload.categoryId || plantCategories.find((candidate) => candidate.name.toLocaleLowerCase() === String(item.payload.categoryName || '').toLocaleLowerCase())?._id || '')); setDescription(String(item.payload.description || ''))
                     const variant = (item.payload.saleVariants as Array<Record<string, unknown>> | undefined)?.[0]
                     setVariantName(String(variant?.name || '')); setHeight(variant?.saleHeightCm ? String(variant.saleHeightCm) : '')
                     setPotVolume(variant?.containerVolumeL ? String(variant.containerVolumeL) : '')
                     setPrice(variant?.priceEUR ? String(variant.priceEUR) : '')
-                    setStockQuantity(String(variant?.stockQuantity ?? 1)); setStockStatus(String(variant?.stockStatus || 'inStock'))
+                    setStockQuantity(variant?.stockQuantity == null ? '' : String(variant.stockQuantity)); setStockStatus(String(variant?.stockStatus || 'inStock'))
                     void loadEvents(item.id)
                   }} className="text-left"><div className="font-semibold">{item.title || 'Без име'}</div><div className="mt-1 text-xs text-stone-500">SKU: {item.sku || '—'} · {new Date(item.updated_at).toLocaleString('bg-BG')}</div></button>
                   <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold">{statusLabels[item.status] || item.status}</span>
