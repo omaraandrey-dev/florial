@@ -18,6 +18,33 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 const object = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
+type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
+const stageLabels: Record<AiStage, string> = {
+  validate: 'Проверка заявки и доступа',
+  download_image: 'Загрузка фотографии из хранилища',
+  analyze_image: 'Анализ фотографии моделью AI',
+  parse_image_result: 'Разбор ответа AI по фотографии',
+  generate_text: 'Генерация текстов и характеристик',
+  parse_text_result: 'Проверка и разбор текстового ответа AI',
+  save_draft: 'Сохранение AI-черновика в заявке',
+}
+function errorDetails(error: unknown) {
+  if (error instanceof Error) return error.message.slice(0, 700)
+  try { return JSON.stringify(error).slice(0, 700) } catch { return String(error).slice(0, 700) }
+}
+function classifyAiError(message: string) {
+  const lower = message.toLowerCase()
+  if (/license|licence|accept.*(term|policy)|prompt.*agree|llama.*agree/.test(lower)) {
+    return { code: 'MODEL_LICENSE_REQUIRED', hint: 'Cloudflare сообщает, что для этой модели необходимо принять лицензию Meta. Генерация остановлена; бесплатная квота не является причиной этой ошибки.' }
+  }
+  if (/neurons|daily.*limit|quota|exceeded.*limit|too many requests|429/.test(lower)) {
+    return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Модель отклонила запрос из-за лимита или ограничения частоты. Проверьте Usage в Workers AI.' }
+  }
+  if (/binding|not configured/.test(lower)) {
+    return { code: 'AI_BINDING_MISSING', hint: 'В этой среде не найдена привязка Cloudflare Workers AI.' }
+  }
+  return { code: 'AI_REQUEST_FAILED', hint: 'Сбой запроса к модели. Технический ответ сохранён в диагностике.' }
+}
 
 function slugify(value: string) {
   const transliteration: Record<string, string> = {
@@ -132,6 +159,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
+  let stage: AiStage = 'validate'
+  let imageIndex = -1
   try {
     const name = textValue(reviewInput.name ?? payload.name ?? submission.title, 160)
     const latinName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
@@ -142,6 +171,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const imageDescriptions: Array<{ bg: string; en: string; ru: string }> = []
     for (let index = 0; index < images.length; index += 1) {
       const image = images[index]
+      imageIndex = index
+      stage = 'download_image'
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type) || image.size <= 0 || image.size > 10 * 1024 * 1024) {
         throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
       }
@@ -155,14 +186,17 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const bytes = new Uint8Array(await download.arrayBuffer())
       if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error('Photo ' + (index + 1) + ' is empty or too large.')
       const dataUrl = 'data:' + contentType + ';base64,' + bytesToBase64(bytes)
-      const response = await env.AI.run(model, {
+      stage = 'analyze_image'
+      let response: unknown
+      try { response = await env.AI.run(model, {
         messages: [
           { role: 'system', content: 'You write accessible product image alt text. Do not identify a plant species from an image. Do not invent visible details. Return JSON only.' },
           { role: 'user', content: 'The seller says the plant is "' + name + '"' + (latinName ? ' (' + latinName + ')' : '') +
             '. Describe only what is visibly apparent in this photo. Return JSON with keys bg, en, ru. Each value must be a concise natural alt text, maximum 180 characters. Do not mention image number or SEO keywords.' },
         ],
         image: dataUrl,
-      })
+      }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
+      stage = 'parse_image_result'
       const alt = parseModelJson(response)
       imageDescriptions.push({
         bg: textValue(alt.bg, 180) || name + ' — снимка на растението',
@@ -177,10 +211,14 @@ Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU
 Return only valid JSON with this shape:
 {"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
-    const generated = parseModelJson(await env.AI.run(model, { messages: [
+    stage = 'generate_text'
+    let textResponse: unknown
+    try { textResponse = await env.AI.run(model, { messages: [
       { role: 'system', content: 'You are a careful horticultural product copywriter for Bulgaria. Return valid JSON only. Never invent facts or commercial data.' },
       { role: 'user', content: prompt },
-    ] }))
+    ] }) } catch (error) { throw new Error('AI_TEXT_REQUEST: ' + errorDetails(error)) }
+    stage = 'parse_text_result'
+    const generated = parseModelJson(textResponse)
     const care = object(generated.plantCare) || {}
     const publication = {
       name: textValue(generated.name, 160) || name,
@@ -224,6 +262,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       careGuide: textValue(generated.careGuide, 4000),
       aiReviewNote: 'ИИ подготви текст и предложени грижи. Проверете ботаническата идентичност, светлината, поливането, листната маса и сезоните преди публикуване. Зимоустойчивостта, минималната температура и пригодността за Черноморието са оставени за проверка.',
     }
+    stage = 'save_draft'
     const nextPayload = { ...payload, aiDraft: publication }
     const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -241,7 +280,32 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
     })
     return json({ ok: true, draft: publication })
   } catch (error) {
-    const message = error instanceof Error ? error.message.slice(0, 350) : 'AI enrichment failed.'
-    return json({ error: message }, 502)
+    const technical = errorDetails(error)
+    const failedStage = stage
+    const aiError = technical.startsWith('AI_IMAGE_REQUEST: ') || technical.startsWith('AI_TEXT_REQUEST: ')
+      ? technical.replace(/^AI_(IMAGE|TEXT)_REQUEST: /, '')
+      : technical
+    const classification = classifyAiError(aiError)
+    const diagnosticId = crypto.randomUUID()
+    const stageLabel = stageLabels[failedStage]
+    const imageNumber = imageIndex >= 0 ? imageIndex + 1 : null
+    await fetch(base + '/rest/v1/catalog_submission_events', {
+      method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
+      body: JSON.stringify({
+        submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_failed',
+        from_status: submission.status, to_status: submission.status,
+        note: 'AI подготовката е прекъсната на етап: ' + stageLabel + '. Код: ' + classification.code + '.',
+        metadata: { diagnosticId, stage: failedStage, stageLabel, code: classification.code, imageNumber, model,
+          technical: technical.slice(0, 700) },
+      }),
+    }).catch(() => undefined)
+    return json({
+      error: 'Не удалось подготовить проект документа с помощью ИИ.',
+      diagnostic: {
+        id: diagnosticId, stage: failedStage, stageLabel, code: classification.code,
+        imageNumber, hint: classification.hint,
+        technical: technical.slice(0, 350),
+      },
+    }, 502)
   }
 }
