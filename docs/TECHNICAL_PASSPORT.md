@@ -234,3 +234,11 @@
 - Production migration применена 01.11.2026: Supabase migration version `20261101173649`. Read-only проверка подтвердила активный trigger `catalog_submission_validate_plant_before_submit` на `public.catalog_submissions`; количество заявок осталось 6, данные не обновлялись.
 - PR #56 объединён в `main`: merge commit `4da94c347fb89d7de48a9e2c3e9063a383b79e52`. GitHub Actions run `41332093561` успешно завершил lint, site build, migration syntax check и Sanity Studio build. Cloudflare Pages production check успешен; deployment ID `807cec79-44f1-4532-8a19-8307360d42bd`.
 - Ручной end-to-end тест с реальной новой заявкой и фотографиями остаётся pending. До такого теста нельзя считать распознавание изображения и генерацию характеристик полностью проверенными в production.
+
+
+## 16. Явное принятие агротехнических предложений владельцем — 01.11.2026
+
+- `plantCareResearch.plantCare` и `plantCareResearch.confidence` остаются отдельным исследовательским результатом и не подмешиваются автоматически в `aiDraft` или `publication`.
+- В `PlantPublicationEditor` каждое непустое предложение выводится отдельно с оценкой уверенности. Кнопка «Приложи» переносит только выбранное поле в редактируемый `draft.plantCare`; владелец может применить часть значений, отклонить остальные или вручную исправить применённые.
+- Черновик не публикуется автоматически. Принятие происходит только после явной проверки владельцем, сохранения финальной версии и отдельной команды публикации.
+- `blackSeaCoast` остаётся `needsVerification` и не предлагается как подтверждённое AI-значение.
