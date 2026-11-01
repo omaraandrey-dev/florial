@@ -534,6 +534,19 @@ export default function PlantPublicationEditor({
             <p className="mt-1 text-xs text-slate-600">Основа агротехнических предложений: {String(identity.careTaxon || 'не подтверждена')}. {identity.careIsProvisional === true ? 'Предложения предварительные: ботаническое имя требует подтверждения владельцем.' : ''}</p>
             <p className="mt-1 text-xs text-slate-600">Проверено фотографий: {String(identity.imageCountAnalysed || 0)}</p>
             <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
+            <div className="mt-3 border-t border-sky-100 pt-3">
+              <p className="font-semibold">Предложени агротехнически характеристики</p>
+              <p className="mt-1 text-xs text-slate-600">Нито една стойност не се приема автоматично. Натиснете „Приложи“ само за характеристиките, които одобрявате; след това проверете редактираните полета по-долу и запазете финалната версия.</p>
+              {careRows.length > 0 ? <div className="mt-2 space-y-2">
+                {careRows.map((item) => <div key={item.key} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-sky-50 p-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium">{item.label}: {item.display}</p>
+                    <p className="text-xs text-slate-600">Увереност на AI: {item.confidence}</p>
+                  </div>
+                  <button type="button" onClick={() => applyCareSuggestion(item.key)} className="rounded-lg border border-sky-300 bg-white px-3 py-2 text-xs font-semibold text-sky-900">Приложи</button>
+                </div>)}
+              </div> : <p className="mt-2 text-xs text-amber-800">Няма достатъчно надеждно видово съвпадение за агротехнически предложения. Уточнете ботаническото име или проверете растението ръчно.</p>}
+            </div>
             <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
           </div>
         })()}
