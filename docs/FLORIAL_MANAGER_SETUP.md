@@ -16,35 +16,10 @@
 
 1. Кодът вече е публикуван в production чрез PR #39 (merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`); Cloudflare deployment `98ba0318-dfc6-419a-9906-62e90f7980de` е със статус success.
 2. Миграцията `create_florial_manager` вече е приложена към Supabase production project `shzbflgqfffgzzgpwjxt`, version `20261101080656`. Таблиците и private Storage bucket са създадени.
-3. Owner Auth акаунтът вече е създаден. След публикуването на PR #41 създавайте служителите през owner-only раздела „Сотрудники“ в Manager; не създавайте служителски профили ръчно в SQL.
-4. В SQL Editor изпълнете bootstrap insert за собственика, като замените UUID с реалния Auth user ID от Supabase Dashboard → Authentication → Users:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values ('REPLACE_WITH_OWNER_AUTH_USER_UUID', 'owner', 'Florial Owner');
-```
-
-5. Добавете служителите със същия принцип и роля `seller` или `manager`:
-
-```sql
-insert into public.catalog_staff_profiles (user_id, role, display_name)
-values
-  ('REPLACE_WITH_SELLER_AUTH_USER_UUID', 'seller', 'Име на служителя'),
-  ('REPLACE_WITH_MANAGER_AUTH_USER_UUID', 'manager', 'Име на мениджъра');
-```
-
-Не изпълнявайте примерите с placeholder текст; използвайте реалните UUID от Auth. Не давайте роля `owner` на служители.
-
-6. В Cloudflare production environment трябва да присъстват съществуващите сървърни bindings:
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY` (Secret)
-   - `RESEND_API_KEY` (Secret)
-   - `EMAIL_FROM`
-   - `ORDER_NOTIFICATION_EMAIL`
-
-   При проверката на 01.11.2026 тези bindings бяха открити в production. `CATALOG_REVIEW_EMAIL` не беше открита; функцията използва `ORDER_NOTIFICATION_EMAIL` като fallback. Не добавяйте Preview secrets и не копирайте production secrets в Preview.
-
-7. Отворете `https://florial-bg.com/manager` и влезте с един от създадените акаунти. Първо проверете собственика, след това отделен seller account.
+3. Owner Auth акаунтът и профилът с роля `owner` вече са създадени и проверени в production. Не изпълняйте повторно bootstrap SQL и не създавайте втори owner акаунт без отделно решение.
+4. След merge и production deployment PR #41 добавляйте служители през owner-only раздела **«Сотрудники»** в Manager. Не създавайте Auth users и профили служители ръчно в SQL.
+5. Съществуващите Cloudflare production bindings са проверени: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (Secret), `RESEND_API_KEY` (Secret), `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`. Не променяйте стойностите им и не добавяйте Preview secrets за тази задача.
+6. Отворете `https://florial-bg.com/manager`, влезте под owner акаунта и проверете раздела «Сотрудники» след публикуването на PR #41. Не създавайте тестови Auth users без реална необходимост.
 
 ## Права
 
@@ -57,14 +32,14 @@ values
 | Връщане за корекция | Не | Да | Да |
 | Одобрение | Не | Не | Да |
 | Публикация в Sanity | Не | Не | Не е включена в тази итерация |
-| Управление на роли | Не | Не | Чрез администраторска процедура |
+| Управление на роли | Не | Не | Да, чрез раздела «Сотрудники» |
 
 ## Ограничения и оставащи задачи
 
 - Първата форма създава нови растения. Предложенията за промяна на вече публикувано растение ще бъдат добавени след реализиране на търсене и безопасно сравнение на Sanity revision.
 - Категорията засега се записва като текстово предложение; свързването с точните Sanity category IDs е следваща стъпка.
 - Един вариант за продажба се въвежда във формата; интерфейсът за множество варианти ще бъде разширен.
-- Не е правено реално изпращане на email от production и не са създавани Auth users/roles. Миграцията вече е приложена.
+- Owner Auth акаунтът и профилът `owner` са създадени и проверени. Сквозната проверка на добавяне на служител и изпращане на email остава след публикуването на PR #41.
 - Настройките Supabase Auth (разрешени доставчици, signup policy и URL allowlist) не са потвърдени през API; проверете ги в Dashboard преди пилота.
 
 ## Контролен тест преди използване
