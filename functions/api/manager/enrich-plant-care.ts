@@ -358,7 +358,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const prompt = [
       'Prepare cautious horticultural characteristics for this accepted plant species. This is a suggestion for a human horticulturist, not a verified care database.',
       'Plant common/display name: ' + plantName,
-      'Seller botanical name: ' + (scientificName || 'not supplied'),
+      'Seller botanical name: ' + (sellerBinomial || 'not supplied'),
       'Selected accepted GBIF species for this suggestion: ' + careTaxon,
       'Basis: ' + (careIsProvisional ? (careSource === 'common_name' ? 'provisional candidate suggested from the seller common name and matched to an accepted GBIF species; owner must confirm identity' : 'provisional candidate suggested from the plant photograph; owner must confirm species identity') : 'seller botanical name accepted by GBIF and visually consistent with the photograph') + '.',
       'GBIF verifies taxonomic identity only. It does NOT provide horticultural traits. Do not cite GBIF for light, watering, flowering, mature height, winter hardiness or planting season. Do not claim the photo confirms the species.',
@@ -420,7 +420,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   const nextAiDraft = {
     ...aiDraft,
-    scientificName: scientificName || (careIsProvisional ? careTaxon : (sellerAccepted ? sellerCanonical : '')),
+    scientificName: sellerBinomial || (careIsProvisional ? careTaxon : (sellerAccepted ? sellerCanonical : '')),
     careGuide: textValue(aiDraft.careGuide, 4000) || careGuide,
   }
   const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft, plantCareJob: { status: 'completed', workflowId, token: null, requestedBy: callerId, finishedAt: new Date().toISOString() } }
