@@ -145,7 +145,7 @@ function makeDraft(submission: Submission): Draft {
   }
 }
 
-function toPublication(draft: Draft) {
+function toPublication(draft: Draft, categories: PlantCategory[] = []) {
   const numeric = (value: string) => value.trim() === '' ? null : Number(value)
   const translations: Record<string, Record<string, string>> = {
     bg: {
@@ -174,6 +174,7 @@ function toPublication(draft: Draft) {
     scientificName: draft.scientificName.trim(),
     productType: draft.productType,
     categoryId: draft.categoryId,
+    categoryName: categories.find((category) => category._id === draft.categoryId)?.name || '',
     sku: draft.sku.trim(),
     shortDescription: draft.shortDescription.trim(),
     description: draft.description.trim(),
@@ -208,15 +209,15 @@ export default function PlantPublicationEditor({
     const next = makeDraft(submission)
     setDraft(next)
     const hasSaved = !!(submission.payload.publication && typeof submission.payload.publication === 'object')
-    setSavedFingerprint(hasSaved ? JSON.stringify(toPublication(next)) : '')
+    setSavedFingerprint(hasSaved ? JSON.stringify(toPublication(next, categories)) : '')
     setSlugTouched(!!(submission.payload.publication as Record<string, unknown> | undefined)?.slug)
     setError('')
     setNotice('')
-  }, [submission.id, submission.updated_at])
+  }, [submission.id, submission.updated_at, categories])
 
   const imageFiles = (submission.payload.images as IntakeImage[] | undefined) || []
   const imageCountMatches = images.length === imageFiles.length && imageFiles.length > 0
-  const currentPublication = useMemo(() => toPublication(draft), [draft])
+  const currentPublication = useMemo(() => toPublication(draft, categories), [draft, categories])
   const currentFingerprint = JSON.stringify(currentPublication)
   const isSaved = savedFingerprint !== '' && savedFingerprint === currentFingerprint
   const categoryGroups = useMemo(() => {
