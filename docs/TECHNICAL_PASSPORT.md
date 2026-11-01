@@ -265,3 +265,16 @@
 - Не менялись Supabase schema/data, Sanity schema/documents, коммерческие данные заявок, публичный каталог, Header/menu/Footer или checkout. SQL migration не требуется.
 - После push в `main` требуется подтвердить GitHub validation и Cloudflare Pages production deployment; затем владелец выполняет повторный тест ботанической проверки на своей заявке.
 - Для уже созданных до обновления AI-черновиков предусмотрен отдельный owner action для генерации вариантов ботанического имени. Он сохраняет только `aiDraft.scientificNameCandidates` с проверкой `updated_at`, не запускает повторную полную генерацию и не заменяет существующие поля.
+
+
+## 19. Durable botanical inspection — Cloudflare Workflows (01.11.2026)
+
+- The owner-facing POST /api/manager/enrich-plant-care no longer performs photo inference in the browser request lifecycle. It validates the authenticated owner, validates the plant submission and selected photos, stores a plantCareJob object with a random one-job token and starts a Cloudflare Workflow through the Pages service binding PLANT_CARE_WORKFLOW.
+- The endpoint returns HTTP 202 with a workflow ID. The Manager polls the owner-authenticated GET /api/manager/enrich-plant-care?submissionId=...&workflowId=... endpoint. When the Workflow completes, the UI reloads the existing submission and renders the saved plantCareResearch.
+- A separate private Worker is stored in workers/plant-care-workflow/ and deployed as florial-plant-care-workflow. It exposes only the /start and /status handlers through the Pages service binding; its workers.dev subdomain is disabled. The Workflow calls /api/manager/enrich-plant-care/process on the Pages app.
+- The process route requires the per-job token stored in the corresponding submission payload, verifies the workflow ID and requester, and re-checks that the requester is an active owner. The token is cleared when the inspection result is successfully saved. The workflow retries a failed processing step once.
+- The existing AI Vision, GBIF taxonomy, AI care-generation, optimistic-lock save and audit event logic remain in the Pages function. The workflow does not bypass owner authorization and does not publish plant data.
+- Placeholder display labels are not treated as plant names. If the submitted name is a known UI placeholder, the server uses the saved AI draft/submission name. A non-Latin value in the botanical-name field is not sent to GBIF as a binomial; common-name candidate generation is used instead.
+- No SQL migration or Sanity schema change. No existing seller submission fields, image objects, prices, publication data or published catalog documents are intentionally deleted or overwritten. The job metadata is stored in the existing catalog_submissions.payload.
+- Cloudflare Workflows is included in Workers Free limits; no Workers Paid plan, card, or billing upgrade was enabled. Free-plan usage limits still apply.
+- Production validation required: test the actual submission in Manager, confirm the Workflow status becomes complete, inspect the plantCareResearch object in the same submission, and verify that the manager UI reloads the suggestions. Until this manual test passes, end-to-end success remains unconfirmed.
