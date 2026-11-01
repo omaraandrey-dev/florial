@@ -38,8 +38,8 @@ function boundedPlantCare(value: unknown) {
   if (typeof source.minWinterTempC === 'number' && Number.isFinite(source.minWinterTempC) && source.minWinterTempC >= -40 && source.minWinterTempC <= 20) care.minWinterTempC = source.minWinterTempC
   if (typeof source.adultHeightCm === 'number' && Number.isFinite(source.adultHeightCm) && source.adultHeightCm >= 1 && source.adultHeightCm <= 100000) care.adultHeightCm = source.adultHeightCm
   if (['evergreen', 'deciduous'].includes(String(source.foliageType))) care.foliageType = source.foliageType
-  if (Array.isArray(source.floweringSeason)) care.floweringSeason = source.floweringSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter'].includes(String(v)))
-  if (Array.isArray(source.plantingSeason)) care.plantingSeason = source.plantingSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(v)))
+  if (Array.isArray(source.floweringSeason)) { const seasons = source.floweringSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter'].includes(String(v))); if (seasons.length) care.floweringSeason = seasons }
+  if (Array.isArray(source.plantingSeason)) { const seasons = source.plantingSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(v))); if (seasons.length) care.plantingSeason = seasons }
   care.blackSeaCoast = 'needsVerification'
   return care
 }
