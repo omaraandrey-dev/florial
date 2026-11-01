@@ -1,3 +1,13 @@
+## 2026-11-01 — Plant product detail: structured care profile and cross-links
+
+- Added a responsive plant-care profile to plant product pages, with localized labels and visual indicators for light and water needs, plus frost temperature, mature height, foliage, flowering, planting season, Black Sea coast suitability, and sale format.
+- Rendered the Bulgarian Sanity care guide consistently on Bulgarian, Russian, and English product pages, preserving headings, emphasis, lists, and links.
+- Added discount percentage and savings display only when the old price is greater than the current price.
+- Resolved `relatedContentBySlug` entries to published services and blog posts in the production dataset, preserving optional link labels and localized card content.
+- Resolved `recommendedIrrigation.productSlug` to an existing irrigation equipment product when a matching product is present.
+- Updated all 30 published plant documents in Sanity dataset `plants`: `oldPriceEUR: 4000`, drip irrigation recommendation linked to `rain-bird-xfd-2333-100`, and related service slug `avtomatizirano-kapkovo-napoyavane`. Existing price, VAT, availability, descriptions, translations, and plant-care values were preserved.
+- Header, menu, footer, and global navigation were not modified.
+
 ## 2026-11-01 — Расширение модели каталога растений
 
 - Расширена схема dataset plants: plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured и oldPriceEUR.
