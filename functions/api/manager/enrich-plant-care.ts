@@ -217,12 +217,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   stage = 'validate_images'
-  const diagnosticSteps: Array<Record<string, unknown>> = [{ stage: 'request_validated', ok: true, plantNameProvided: !!plantName, scientificNameProvided: !!scientificName, selectedImageCount: selectedImages.length, imageCountSentToAI: imagesToAnalyse.length }]
-  const visualResults: Array<Record<string, unknown>> = []
-  const visualNames: Array<{ name: string; confidence: string; count: number; evidence: string[] }> = []
   // Only the first selected photo (main image) is sent to Workers AI Vision.
   // Keep all selected photos intact in the seller submission and publication payload.
   const imagesToAnalyse = selectedImages.slice(0, 1)
+  const diagnosticSteps: Array<Record<string, unknown>> = [{ stage: 'request_validated', ok: true, plantNameProvided: !!plantName, scientificNameProvided: !!scientificName, selectedImageCount: selectedImages.length, imageCountSentToAI: imagesToAnalyse.length }]
+  const visualResults: Array<Record<string, unknown>> = []
+  const visualNames: Array<{ name: string; confidence: string; count: number; evidence: string[] }> = []
   try {
     for (let index = 0; index < imagesToAnalyse.length; index += 1) {
       const image = imagesToAnalyse[index]
