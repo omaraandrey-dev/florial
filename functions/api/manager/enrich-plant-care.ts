@@ -89,6 +89,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
+  const base = env.SUPABASE_URL.replace(/\\/+$/, '')
+  const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+
   const isWorkflowProcess = requestUrl.pathname.endsWith('/process')
   stage = 'parse_request'
   let body: Record<string, unknown>
