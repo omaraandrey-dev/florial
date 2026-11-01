@@ -29,7 +29,7 @@ const renderCareGuideBlocks = (blocks: any[]) => blocks.map((block, index) => {
     if (marks.includes('em')) node = <em>{node}</em>
     const link = (block.markDefs || []).find((definition: any) => marks.includes(definition._key) && definition._type === 'link')
     if (link?.href) {
-      const external = /^https?:\\/\\//i.test(link.href)
+      const external = link.href.startsWith('http://') || link.href.startsWith('https://')
       node = <a href={link.href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} className="text-emerald-700 underline underline-offset-2">{node}</a>
     }
     return <React.Fragment key={child._key || childIndex}>{node}</React.Fragment>
@@ -348,7 +348,7 @@ export function ProductPage({
                 </span>
                 {hasDiscount && (
                   <span className="text-lg text-slate-400 line-through">
-                    {product.oldPriceEUR.toFixed(2)} €
+                    {Number(product.oldPriceEUR).toFixed(2)} €
                   </span>
                 )}
                 {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
@@ -485,6 +485,7 @@ export function ProductPage({
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🪴</span>{language === 'ru' ? 'Формат продажи' : language === 'en' ? 'Sale format' : 'Формат на продажба'}</div>
               <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.saleFormat?.containerVolumeL === 'number' ? `${plantCare.saleFormat.containerVolumeL} L` : noCareData}</p>
               <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}</p>
+              <p className="mt-2 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {typeof plantCare?.saleFormat?.saleHeightCm === 'number' ? formatPlantHeight(plantCare.saleFormat.saleHeightCm, language) : noCareData}</p>
             </article>
           </div>
         </section>
