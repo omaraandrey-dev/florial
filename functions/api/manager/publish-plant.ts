@@ -41,7 +41,7 @@ type Publication = {
   plantCare: Record<string, unknown>
   careGuide: string
   saleVariants: SaleVariant[]
-  translations: Record<string, Record<string, string>>
+  translations: Record<string, Record<string, unknown>>
   isFeatured: boolean
   seo: { title: string; description: string }
   sanityDocumentId?: string
@@ -137,24 +137,35 @@ function validatePublication(input: unknown, images: IntakeImage[], requireImage
     throw new Error('За наличен продукт въведете цена и количество поне 1.')
   }
 
-  const translations: Record<string, Record<string, string>> = {}
+  const translations: Record<string, Record<string, unknown>> = {}
   for (const language of ['bg', 'en', 'ru']) {
     const translation = parseObject(parseObject(source.translations)?.[language])
     if (!translation) continue
-    const fields = {
+    const fields: Record<string, unknown> = {
       name: cleanText(translation.name, 160),
       shortDescription: cleanText(translation.shortDescription, 500),
       description: cleanText(translation.description, 5000),
     }
-    if (language === 'bg' || Object.values(fields).some(Boolean)) translations[language] = fields
+    const localizedSeo = parseObject(translation.seo) || {}
+    const localizedSeoFields = {
+      title: cleanText(localizedSeo.title, 160),
+      description: cleanText(localizedSeo.description, 320),
+    }
+    if (Object.values(localizedSeoFields).some(Boolean)) fields.seo = localizedSeoFields
+    if (language === 'bg' || Object.values(fields).some((value) => typeof value === 'string' ? Boolean(value) : value !== undefined)) {
+      translations[language] = fields
+    }
   }
+  const seoSource = parseObject(source.seo) || {}
   translations.bg = {
     name,
     shortDescription: cleanText(source.shortDescription, 500),
     description: cleanText(source.description, 5000),
+    seo: {
+      title: cleanText(seoSource.title, 160),
+      description: cleanText(seoSource.description, 320),
+    },
   }
-
-  const seoSource = parseObject(source.seo) || {}
   return {
     name,
     slug,

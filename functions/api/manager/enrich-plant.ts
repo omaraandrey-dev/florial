@@ -83,7 +83,7 @@ function modelText(response: unknown) {
 }
 function parseModelJson(response: unknown) {
   const raw = modelText(response).trim().replace(/^\uFEFF/, '')
-  const clean = raw.replace(/^\`\`\`(?:json)?\s*/i, '').replace(/\s*\`\`\`$/, '')
+  const clean = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const start = clean.indexOf('{')
   const end = clean.lastIndexOf('}')
   if (start < 0 || end <= start) throw new Error('AI model did not return valid JSON.')
@@ -206,7 +206,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
       stage = 'parse_image_result'
       const rawAlt = modelText(response).trim()
-        .replace(/\`\`\`(?:text|json)?/gi, '')
+        .replace(/```(?:text|json)?/gi, '')
         .replace(/^["'“”]+|["'“”]+$/g, '')
         .replace(/\s+/g, ' ')
         .slice(0, 180)
@@ -219,13 +219,42 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     imageIndex = -1
-    const prompt = `Prepare a draft plant product listing for Florial, a Bulgarian garden store.
-Owner-checked input (authoritative commercial data): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
-Visual observations from the owner-selected product photos (use only these visible details; do not infer species): ${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected for this card. Do not infer visual details.'}.
-Rules: never change, infer or fabricate price, stock, sale size, pot volume, SKU, or category. Do not identify a species solely from photos. If the botanical identity is uncertain, keep scientificName empty and use cautious generic copy. Generate natural, commercially useful BG, RU and EN names, short descriptions (max 300 chars), and descriptions (max 1400 chars). Bulgarian is the source language. Create imageAlts, imageAltsEn and imageAltsRu arrays with one concise translation per photo, based only on the visual observations above; each item max 180 characters and preserve the same photo order. Do not claim frost hardiness, minimum winter temperature, adult height, or suitability for the Bulgarian Black Sea coast unless the fact is certain from established botanical knowledge; in this MVP always set minWinterTempC and adultHeightCm to null and blackSeaCoast to "needsVerification". Care fields may be suggested but must be marked for owner verification; if uncertain use null. Do not add irrigation product slugs.
+    const prompt = `Prepare a high-quality, detailed, locally optimized plant product listing for Florial, a Bulgarian garden and plant retailer.
+LANGUAGE: Bulgarian is the source language and must read like polished native Bulgarian horticultural commerce copy. Then write genuinely fluent Russian and English versions adapted to each language, not literal translations.
+OWNER-VERIFIED INPUT (the only authority for commercial facts): name: ${name}; botanical name: ${latinName || 'not supplied'}; category: ${categoryName}; owner description: ${sellerDescription}; SKU: ${sku || 'not supplied'}; sale variant: ${textValue(variant.name, 100)}; sale height cm: ${variant.saleHeightCm ?? 'not supplied'}; pot volume L: ${variant.containerVolumeL ?? 'not supplied'}; price EUR: ${variant.priceEUR ?? 'not supplied'}; stock status: ${textValue(variant.stockStatus, 40)}; stock quantity: ${variant.stockQuantity ?? 'not supplied'}.
+VISIBLE PHOTO OBSERVATIONS (visual evidence only; never identify a species from photos alone): ${imageDescriptions.length ? imageDescriptions.map((item, index) => 'Photo ' + (index + 1) + ': ' + item.bg).join(' | ') : 'No photos were selected. Do not infer visual details.'}.
+FLORIAL LOCAL SERVICE AREA — use these exact boundaries:
+- Main local reference: Несебър (Nesebar).
+- Service and sales area: Несебър, Равда, Слънчев бряг, Свети Влас, Кошарица, Поморие and Бургас.
+- Бургас is the outermost city in this service area.
+- NEVER mention Созопол / Sozopol or imply service farther south.
+LOCAL SEO:
+- Make it clear naturally that the plant is offered by Florial in Несебър and the nearby service area.
+- In the Bulgarian description, include one natural local-availability sentence where relevant. Vary nearby towns, e.g. Равда, Слънчев бряг, Свети Влас, Кошарица or Поморие. Do not insert the entire town list into every paragraph.
+- Use Несебър as the primary location signal in the Bulgarian SEO title and meta description. Add only 1–3 additional service-area towns when it fits naturally.
+- Localize SEO title and meta description separately for BG, RU and EN, using the natural local place names in each language.
+- Never claim free/same-day delivery, stock availability, installation, or delivery prices unless owner input explicitly confirms it.
+HORTICULTURAL CONTENT:
+- Full description normally about 2,500–3,500 characters in BG and 2,000–3,000 characters in RU and EN. Do not pad or repeat just to hit a length. If reliable species information is limited, write a shorter accurate description and say what needs checking.
+- Write a substantial, useful product description with clear paragraphs and short section headings. Cover when applicable and known: botanical identity and plant group; appearance, foliage, flowering/fruiting and seasonal interest; growth habit and typical mature size; light; soil and drainage; watering and drought tolerance; feeding, pruning and maintenance; planting and container growing; landscape uses in private gardens, courtyards, hotels and commercial green areas; suitability and practical considerations for the Bulgarian Black Sea climate.
+- Explain practical benefits and limitations for buyers. Avoid generic sales filler, unsupported superlatives and keyword repetition.
+- Distinguish verified sale height/container volume from typical mature size.
+- For coastal adaptation, discuss defensible factors such as summer heat, sun, wind, salt influence, drainage and winter cold. Do not claim the species is suitable for the coast without a sound botanical basis.
+FACTUAL SAFETY:
+- Never change or fabricate price, stock, sale size, pot volume, SKU, category or delivery terms.
+- Do not identify a species solely from photos. If botanical identity is uncertain, keep scientificName empty and use cautious generic copy.
+- Do not invent precise hardiness, minimum winter temperature, adult height, flowering months, toxicity, pet safety or care requirements. You may suggest minWinterTempC, adultHeightCm and blackSeaCoast only when well-established for the confirmed botanical species; these are AI suggestions and MUST be checked by the owner before publication. Otherwise return null / "needsVerification".
+- Care fields are suggestions for owner verification. If uncertain use null. Do not add irrigation product slugs.
+SHORT COPY AND IMAGES:
+- Short descriptions: max 300 characters per language.
+- Create imageAlts, imageAltsEn and imageAltsRu arrays with one concise translation per selected photo, based only on visible observations; max 180 characters per item and preserve photo order. ALT describes the image; do not add city keywords artificially.
+SEO:
+- BG seo.title and seo.description are Bulgarian SEO title and meta description. Target title 50–65 characters and meta 140–160 characters; hard limits 160 and 320.
+- translations.en.seo and translations.ru.seo each contain their own localized title and meta description.
+- Each SEO description identifies Florial as a local plant offer in Nesebar / Несебър and nearby towns naturally, without keyword stuffing.
 Return only valid JSON with this shape:
-{"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":""}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
-careGuide should be a short Bulgarian care note with cautious wording. Use only known general care; if species is uncertain, say it should be tailored after confirming the botanical name.`
+{"name":"","scientificName":"","productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
+careGuide should be a useful Bulgarian care guide with practical points where known: planting, watering, light, soil/drainage, feeding, pruning and winter protection. Avoid unsupported exact schedules or quantities. If species identity is uncertain, state that detailed care must be confirmed after verifying the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown
     try { textResponse = await env.AI.run(textModel, {
@@ -234,7 +263,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       { role: 'user', content: prompt },
     ],
     response_format: { type: 'json_object' },
-    max_tokens: 4096,
+    max_tokens: 8192,
     temperature: 0.2,
     }) } catch (error) { throw new Error('AI_TEXT_REQUEST: ' + errorDetails(error)) }
     stage = 'parse_text_result'
@@ -263,7 +292,7 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
         stockQuantity: typeof variant.stockQuantity === 'number' ? variant.stockQuantity : 0,
       }],
       translations: {
-        bg: { name: textValue(generated.name, 160) || name, shortDescription: textValue(generated.shortDescription, 500), description: textValue(generated.description, 5000) },
+        bg: { name: textValue(generated.name, 160) || name, shortDescription: textValue(generated.shortDescription, 500), description: textValue(generated.description, 5000), seo: { title: textValue(object(generated.seo)?.title, 160), description: textValue(object(generated.seo)?.description, 320) } },
         en: object(generated.translations) && object(object(generated.translations)?.en) || {},
         ru: object(generated.translations) && object(object(generated.translations)?.ru) || {},
       },
@@ -272,15 +301,15 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
       plantCare: {
         light: ['sun', 'partialShade', 'shade'].includes(String(care.light)) ? care.light : null,
         waterNeeds: ['low', 'medium', 'high'].includes(String(care.waterNeeds)) ? care.waterNeeds : null,
-        minWinterTempC: null,
-        blackSeaCoast: 'needsVerification',
-        adultHeightCm: null,
+        minWinterTempC: typeof care.minWinterTempC === 'number' && Number.isFinite(care.minWinterTempC) && care.minWinterTempC >= -60 && care.minWinterTempC <= 30 ? care.minWinterTempC : null,
+        blackSeaCoast: ['suitable', 'notSuitable', 'needsVerification'].includes(String(care.blackSeaCoast)) ? care.blackSeaCoast : 'needsVerification',
+        adultHeightCm: typeof care.adultHeightCm === 'number' && Number.isFinite(care.adultHeightCm) && care.adultHeightCm >= 0 && care.adultHeightCm <= 100000 ? care.adultHeightCm : null,
         foliageType: ['evergreen', 'deciduous'].includes(String(care.foliageType)) ? care.foliageType : null,
         floweringSeason: Array.isArray(care.floweringSeason) ? care.floweringSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter'].includes(String(v))) : [],
         plantingSeason: Array.isArray(care.plantingSeason) ? care.plantingSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(v))) : [],
       },
       careGuide: textValue(generated.careGuide, 4000),
-      aiReviewNote: 'ИИ подготви текст и предложени грижи. Проверете ботаническата идентичност, светлината, поливането, листната маса и сезоните преди публикуване. Зимоустойчивостта, минималната температура и пригодността за Черноморието са оставени за проверка.',
+      aiReviewNote: 'ИИ подготви разширени локализирани описания и SEO за Несебър и зоната на Florial. Проверете ботаническата идентичност, всички грижи, възрастните размери, зимоустойчивостта и пригодността за Черноморието преди публикуване. Предложените от ИИ стойности не са потвърдени факти.',
     }
     stage = 'save_draft'
     const nextPayload = { ...payload, aiDraft: publication }

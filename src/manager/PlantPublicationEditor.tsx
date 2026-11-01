@@ -46,6 +46,10 @@ type Draft = {
   descriptionRu: string
   seoTitle: string
   seoDescription: string
+  seoTitleEn: string
+  seoDescriptionEn: string
+  seoTitleRu: string
+  seoDescriptionRu: string
 }
 
 type Props = {
@@ -124,6 +128,8 @@ function makeDraft(submission: Submission): Draft {
   const en = translations.en || {}
   const ru = translations.ru || {}
   const seo = saved.seo && typeof saved.seo === 'object' ? saved.seo as Record<string, unknown> : {}
+  const seoEn = en.seo && typeof en.seo === 'object' ? en.seo as Record<string, unknown> : {}
+  const seoRu = ru.seo && typeof ru.seo === 'object' ? ru.seo as Record<string, unknown> : {}
   const stockStatus = String(savedVariant.stockStatus ?? originalVariant.stockStatus ?? 'onRequest')
   return {
     name,
@@ -155,32 +161,39 @@ function makeDraft(submission: Submission): Draft {
     descriptionRu: String(ru.description || ''),
     seoTitle: String(seo.title || ''),
     seoDescription: String(seo.description || ''),
+    seoTitleEn: String(seoEn.title || ''),
+    seoDescriptionEn: String(seoEn.description || ''),
+    seoTitleRu: String(seoRu.title || ''),
+    seoDescriptionRu: String(seoRu.description || ''),
   }
 }
 
 function toPublication(draft: Draft, categories: PlantCategory[] = []) {
   const numeric = (value: string) => value.trim() === '' ? null : Number(value)
-  const translations: Record<string, Record<string, string>> = {
+  const translations: Record<string, Record<string, unknown>> = {
     bg: {
       name: draft.name.trim(),
       shortDescription: draft.shortDescription.trim(),
       description: draft.description.trim(),
     },
   }
-  if (draft.nameEn.trim() || draft.shortDescriptionEn.trim() || draft.descriptionEn.trim()) {
+  if (draft.nameEn.trim() || draft.shortDescriptionEn.trim() || draft.descriptionEn.trim() || draft.seoTitleEn.trim() || draft.seoDescriptionEn.trim()) {
     translations.en = {
       name: draft.nameEn.trim(),
       shortDescription: draft.shortDescriptionEn.trim(),
       description: draft.descriptionEn.trim(),
+      seo: { title: draft.seoTitleEn.trim(), description: draft.seoDescriptionEn.trim() },
     }
   }
-  if (draft.nameRu.trim() || draft.shortDescriptionRu.trim() || draft.descriptionRu.trim()) {
+  if (draft.nameRu.trim() || draft.shortDescriptionRu.trim() || draft.descriptionRu.trim() || draft.seoTitleRu.trim() || draft.seoDescriptionRu.trim()) {
     translations.ru = {
       name: draft.nameRu.trim(),
       shortDescription: draft.shortDescriptionRu.trim(),
       description: draft.descriptionRu.trim(),
+      seo: { title: draft.seoTitleRu.trim(), description: draft.seoDescriptionRu.trim() },
     }
   }
+  translations.bg.seo = { title: draft.seoTitle.trim(), description: draft.seoDescription.trim() }
   return {
     name: draft.name.trim(),
     slug: draft.slug.trim(),
@@ -503,8 +516,12 @@ export default function PlantPublicationEditor({
         <details className="rounded-xl border border-stone-200 p-4">
           <summary className="cursor-pointer font-semibold">SEO и дополнительные настройки</summary>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className={labelClass}>SEO заглавие<input className={inputClass} value={draft.seoTitle} onChange={(event) => update('seoTitle', event.target.value)} /></label>
-            <label className={labelClass}>SEO описание<textarea className={inputClass} rows={3} value={draft.seoDescription} onChange={(event) => update('seoDescription', event.target.value)} /></label>
+            <label className={labelClass}>SEO заглавие (BG)<input className={inputClass} maxLength={160} value={draft.seoTitle} onChange={(event) => update('seoTitle', event.target.value)} /></label>
+            <label className={labelClass}>SEO описание (BG)<textarea className={inputClass} rows={3} maxLength={320} value={draft.seoDescription} onChange={(event) => update('seoDescription', event.target.value)} /></label>
+            <label className={labelClass}>SEO title (EN)<input className={inputClass} maxLength={160} value={draft.seoTitleEn} onChange={(event) => update('seoTitleEn', event.target.value)} /></label>
+            <label className={labelClass}>SEO description (EN)<textarea className={inputClass} rows={3} maxLength={320} value={draft.seoDescriptionEn} onChange={(event) => update('seoDescriptionEn', event.target.value)} /></label>
+            <label className={labelClass}>SEO заголовок (RU)<input className={inputClass} maxLength={160} value={draft.seoTitleRu} onChange={(event) => update('seoTitleRu', event.target.value)} /></label>
+            <label className={labelClass}>SEO описание (RU)<textarea className={inputClass} rows={3} maxLength={320} value={draft.seoDescriptionRu} onChange={(event) => update('seoDescriptionRu', event.target.value)} /></label>
             <label className="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" checked={draft.isFeatured} onChange={(event) => update('isFeatured', event.target.checked)} /> Препоръчано растение</label>
           </div>
         </details>
