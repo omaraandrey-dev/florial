@@ -312,7 +312,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       aiReviewNote: 'ИИ подготви разширени локализирани описания и SEO за Несебър и зоната на Florial. Проверете ботаническата идентичност, всички грижи, възрастните размери, зимоустойчивостта и пригодността за Черноморието преди публикуване. Предложените от ИИ стойности не са потвърдени факти.',
     }
     stage = 'save_draft'
-    const nextPayload = { ...payload, aiDraft: publication }
+    const nextPayload = { ...payload, aiDraft: publication, plantCareResearch: null }
     const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
