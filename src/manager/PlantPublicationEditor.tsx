@@ -285,7 +285,7 @@ export default function PlantPublicationEditor({
         ? typeof value === 'number' ? String(value) : ''
         : typeof value === 'string' ? value : ''
     setDraft((current) => ({ ...current, plantCare: { ...current.plantCare, [key]: nextValue } as Draft['plantCare'] }))
-    setNotice('Предложението е приложено в редактора. Проверете стойността и запазете финалната версия, за да я приемете.')
+    setNotice('Предложението е приложено в редактора. Проверете стойността и запазете окончателната версия, за да я приемете.')
   }
 
   const validate = (requireImages = false) => {
@@ -536,7 +536,7 @@ export default function PlantPublicationEditor({
             <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
             <div className="mt-3 border-t border-sky-100 pt-3">
               <p className="font-semibold">Предложени агротехнически характеристики</p>
-              <p className="mt-1 text-xs text-slate-600">Нито една стойност не се приема автоматично. Натиснете „Приложи“ само за характеристиките, които одобрявате; след това проверете редактираните полета по-долу и запазете финалната версия.</p>
+              <p className="mt-1 text-xs text-slate-600">Нито една стойност не се приема автоматично. Натиснете „Приложи“ само за характеристиките, които одобрявате. След това проверете полетата по-долу и запазете окончателната версия.</p>
               {careRows.length > 0 ? <div className="mt-2 space-y-2">
                 {careRows.map((item) => <div key={item.key} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-sky-50 p-2">
                   <div className="min-w-0 flex-1">
