@@ -118,3 +118,16 @@
 - Серверная функция валидирует растения и варианты по dataset `plants`, оборудование — по `production`; сохраняет состав в существующий Supabase orders JSONB.
 - Владелец подтвердил production checkout на BG/RU/EN, формирование PDF и получение email как администратором, так и клиентом.
 - Изменения не затрагивали Sanity schemas/documents, Supabase schema/data, header, menu и footer.
+
+
+## 6. Florial Manager — закрытая приёмка товаров (проектирование, 01.11.2026)
+
+- Подготовлен отдельный архитектурный документ `docs/FLORIAL_MANAGER_ARCHITECTURE.md` в ветке `feature/florial-manager-architecture`.
+- Цель: закрытая панель сотрудников для черновиков новых товаров и предложений об изменении существующих карточек; окончательное одобрение и публикация — владельцем.
+- Поддерживаются два направления: Sanity dataset `plants` и `production`; рекомендуемый первый эксплуатационный пилот — растения.
+- Предусмотрена изоляция панели на уровне `src/main.tsx`, без публичного Header/Footer и без ссылок в меню. Публичная оболочка и маршрутизация не менялись.
+- Предложены таблицы заявок и аудита в Supabase, закрытое временное хранилище, Supabase Auth, RLS, серверные Cloudflare Pages Functions и публикация в Sanity после одобрения.
+- Контрольная точка проектирования: GitHub main commit `466a9e7913455a3ede5ddb86db2a3cbd637be16a`.
+- Проверка 01.11.2026: Supabase project `shzbflgqfffgzzgpwjxt` активен; workflow-таблицы не обнаружены; в списке Storage buckets нет записей. Sanity `plants` содержит 17 категорий; тип опубликованного товара — `product`.
+- На этом этапе не изменялись код, SQL, Supabase Auth/Storage, Sanity schemas/documents/assets, Cloudflare configuration/Secrets и production.
+- До реализации проверить Supabase Auth/redirects, Cloudflare variables/secrets (без вывода значений), Sanity write token, Resend sender, список сотрудников и сроки хранения файлов.
