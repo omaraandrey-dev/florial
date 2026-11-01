@@ -252,8 +252,6 @@ export default function ManagerApp() {
   const saveDraft = async (event?: FormEvent) => {
     event?.preventDefault()
     if (!session || !profile) return
-    if (!title.trim()) { setError('Въведете име на растението.'); return }
-    if (!category) { setError('Изберете категория от списъка.'); return }
     if (files.length + (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) > 8) { setError('Максимумът е 8 снимки за една заявка.'); return }
     setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
@@ -536,12 +534,13 @@ export default function ManagerApp() {
           {profile.role === 'seller' && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
+              <p className="mt-2 text-sm text-stone-600">Полетата със * са задължителни преди изпращане за проверка. Можете да запазите чернова и да ги попълните по-късно.</p>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="напр. Маслина" /></label>
+                <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="напр. Маслина" /></label>
                 <label className={labelClass}>Латинско име<input className={inputClass} value={latinName} onChange={(e) => setLatinName(e.target.value)} placeholder="Olea europaea" /></label>
                 <label className={labelClass}>Артикулен код / SKU<input className={inputClass} value={sku} onChange={(e) => setSku(e.target.value)} /></label>
                 <label className={labelClass}>Тип на растението *<select className={inputClass} value={productType} onChange={(e) => setProductType(e.target.value)}><option value="">Изберете тип растение</option>{sellerPlantTypes.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-                <label className={labelClass}>Категория на растението *<select className={inputClass} value={category} onChange={(e) => setCategory(e.target.value)} required disabled={categoriesLoading || plantCategories.length === 0}><option value="">{categoriesLoading ? 'Зареждане на категориите…' : 'Изберете категория'}</option>{categoryGroups.map(([groupName, items]) => <optgroup key={groupName} label={groupName}>{items.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}</optgroup>)}</select>{categoriesError && <span className="mt-1 block text-xs font-normal text-red-700">{categoriesError}</span>}</label>
+                <label className={labelClass}>Категория на растението *<select className={inputClass} value={category} onChange={(e) => setCategory(e.target.value)} disabled={categoriesLoading || plantCategories.length === 0}><option value="">{categoriesLoading ? 'Зареждане на категориите…' : 'Изберете категория'}</option>{categoryGroups.map(([groupName, items]) => <optgroup key={groupName} label={groupName}>{items.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}</optgroup>)}</select>{categoriesError && <span className="mt-1 block text-xs font-normal text-red-700">{categoriesError}</span>}</label>
                 <label className={labelClass}>Вариант / размер<input className={inputClass} value={variantName} onChange={(e) => setVariantName(e.target.value)} placeholder="C 25, 160–180 cm" /></label>
                 <label className={labelClass}>Височина при продажба (cm) *<input className={inputClass} type="number" min="0.1" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} /></label>
                 <label className={labelClass}>Обем на контейнера (L) *<input className={inputClass} type="number" min="0.1" step="0.1" value={potVolume} onChange={(e) => setPotVolume(e.target.value)} /></label>
