@@ -124,7 +124,7 @@ create policy "seller edits own drafts"
   with check (
     created_by = (select auth.uid())
     and private.has_catalog_role(array['seller', 'manager', 'owner'])
-    and status in ('draft', 'changes_requested')
+    and status in ('draft', 'changes_requested', 'submitted')
   );
 
 drop policy if exists "owner manages submissions" on public.catalog_submissions;
