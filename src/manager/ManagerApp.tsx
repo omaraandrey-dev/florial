@@ -125,7 +125,7 @@ export default function ManagerApp() {
   }
 
   const resetForm = () => {
-    setSelectedId(null); setTitle(''); setLatinName(''); setSku(''); setCategory('')
+    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
     setPrice(''); setStockQuantity('1'); setStockStatus('inStock'); setFiles([])
   }
