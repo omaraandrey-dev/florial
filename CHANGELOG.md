@@ -422,3 +422,5 @@
 - No Supabase SQL migration, Sanity schema/document change, new paid Cloudflare plan, payment method, or public site navigation change. Existing submission data is extended only with a plantCareJob object for the active job/result status; seller payload, prices, publication data and photos are preserved.
 - Production Cloudflare Pages binding PLANT_CARE_WORKFLOW was added while preserving existing environment variables and the Workers AI AI binding. Worker source is stored under workers/plant-care-workflow/.
 - Validation still required: run a real Manager inspection with the existing Thuja submission and confirm the Workflow completes, the plantCareResearch result is saved, and the UI displays the suggestions. A successful deployment alone does not prove end-to-end AI/GBIF completion.
+
+- Follow-up hardening: Workflow event payload accepts object or JSON-string form; successful processing is idempotent if the Workflow retries after the database save.
