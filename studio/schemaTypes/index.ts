@@ -485,15 +485,7 @@ const plantProduct = defineType({
       options: {list: plantProductTypes},
       validation: Rule => Rule.valid(plantProductTypes.map(item => item.value)),
     }),
-    defineField({
-        name: 'scientificName',
-        title: 'Ботаническо име (остаряло)',
-        description: 'ОСТАРЯЛО ПОЛЕ: използвайте основното поле „Ботаническо име“ на продукта. Съществуващите стойности се запазват до приключване на миграцията.',
-        type: 'string',
-        deprecated: {reason: 'Използвайте кореновото поле scientificName. Стойностите не се изтриват.'},
-        readOnly: true,
-        hidden: true,
-      }),
+    defineField({name: 'scientificName', title: 'Ботаническо име', type: 'string'}),
     defineField({name: 'category', title: 'Основна категория', type: 'reference', to: [{type: 'category'}]}),
     defineField({name: 'categories', title: 'Категории', type: 'array', of: [{type: 'reference', to: [{type: 'category'}]}]}),
     defineField({name: 'shortDescription', title: 'Кратко описание (BG)', type: 'text', rows: 3}),
@@ -606,7 +598,15 @@ const plantProduct = defineType({
     defineField({name: 'sourcePageUrl', title: 'Източник / референтна страница', type: 'url'}),
     defineField({name: 'sourceImageGroup', title: 'Група на източника на снимката', type: 'string'}),
     defineField({name: 'plantDetails', title: 'Подробности за растението', type: 'object', fields: [
-      defineField({name: 'scientificName', title: 'Ботаническо име', type: 'string'}),
+      defineField({
+        name: 'scientificName',
+        title: 'Ботаническо име (остаряло)',
+        description: 'ОСТАРЯЛО ПОЛЕ: използвайте основното поле „Ботаническо име“ на продукта. Съществуващите стойности се запазват до приключване на миграцията.',
+        type: 'string',
+        deprecated: {reason: 'Използвайте кореновото поле scientificName. Стойностите не се изтриват.'},
+        readOnly: true,
+        hidden: true,
+      }),
       defineField({name: 'availabilityNote', title: 'Бележка за наличност', type: 'text', rows: 3}),
     ]}),
     defineField({name: 'seo', title: 'SEO (BG)', type: 'object', fields: [
