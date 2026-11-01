@@ -1,3 +1,14 @@
+## 2026-11-01 — Florial Manager: объединение и production rollout
+
+- PR #39 объединён в `main`: merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`. Первоначальный конфликтующий PR #38 закрыт без объединения.
+- GitHub Actions validation run `41287365219` завершился успешно: lint, website build, migration syntax check, Sanity Studio build.
+- Cloudflare Pages production deployment `98ba0318-dfc6-419a-9906-62e90f7980de` завершился успешно; deployment связан с merge commit и production branch `main`.
+- Supabase migration `create_florial_manager` применена к production project `shzbflgqfffgzzgpwjxt`, version `20261101080656`.
+- Проверено: созданы три таблицы Manager, 6 table RLS policies, 4 Storage policies, helper function, review RPC и один private bucket `florial-manager-intake`.
+- Проверено: staff profiles, submissions и audit events пока пусты; Auth users/roles не создавались.
+- Production Cloudflare secrets/variables не менялись; Preview secrets не добавлялись. Sanity documents и datasets не изменялись.
+- Security Advisor: предупреждения по `orders` и `site_events` без RLS policies соответствуют существующей модели deny-by-default; предупреждение по SECURITY DEFINER RPC ожидаемо, поскольку функция проверяет роль manager/owner внутри себя.
+- До фактического входа требуется создать Auth user владельца и назначить ему роль `owner`; email-уведомление и авторизация не прошли сквозной пользовательский тест.
 ## 2026-11-01 — Florial Manager: первая версия приёмки растений
 
 - Добавлен отдельный закрытый маршрут `/manager`, изолированный от публичной оболочки Header/Footer.
