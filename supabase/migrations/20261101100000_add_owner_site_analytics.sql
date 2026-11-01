@@ -16,7 +16,7 @@ begin
     raise exception 'Owner access required' using errcode = '42501';
   end if;
 
-  if p_days not in (7, 30, 90) then
+  if p_days is null or p_days not in (7, 30, 90) then
     raise exception 'Unsupported analytics period' using errcode = '22023';
   end if;
 
