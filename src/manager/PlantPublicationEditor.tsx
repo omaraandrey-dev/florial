@@ -32,6 +32,10 @@ type Draft = {
   stockQuantity: string
   mainImageIndex: number
   imageAlts: string[]
+  imageAltsEn: string[]
+  imageAltsRu: string[]
+  plantCare: { light: string; waterNeeds: string; minWinterTempC: string; blackSeaCoast: string; adultHeightCm: string; foliageType: string; floweringSeason: string[]; plantingSeason: string[] }
+  careGuide: string
   isFeatured: boolean
   nameEn: string
   shortDescriptionEn: string
@@ -103,12 +107,15 @@ function makeDraft(submission: Submission): Draft {
   const payload = submission.payload
   const saved = payload.publication && typeof payload.publication === 'object'
     ? payload.publication as Record<string, unknown>
-    : {}
+    : payload.aiDraft && typeof payload.aiDraft === 'object' ? payload.aiDraft as Record<string, unknown> : {}
   const originalVariant = (payload.saleVariants as Variant[] | undefined)?.[0] || {}
   const savedVariant = (saved.saleVariants as Variant[] | undefined)?.[0] || {}
   const name = String(saved.name ?? payload.name ?? submission.title ?? '')
   const images = (payload.images as IntakeImage[] | undefined) || []
   const savedAlts = Array.isArray(saved.imageAlts) ? saved.imageAlts as string[] : []
+  const savedAltsEn = Array.isArray(saved.imageAltsEn) ? saved.imageAltsEn as string[] : []
+  const savedAltsRu = Array.isArray(saved.imageAltsRu) ? saved.imageAltsRu as string[] : []
+  const plantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
@@ -118,7 +125,7 @@ function makeDraft(submission: Submission): Draft {
   const stockStatus = String(savedVariant.stockStatus ?? originalVariant.stockStatus ?? 'onRequest')
   return {
     name,
-    slug: String(saved.slug ?? slugify(name)),
+    slug: String(saved.slug || slugify(name)),
     scientificName: String(saved.scientificName ?? payload.latinName ?? ''),
     productType: String(saved.productType ?? ''),
     categoryId: String(saved.categoryId ?? payload.categoryId ?? ''),
@@ -133,6 +140,10 @@ function makeDraft(submission: Submission): Draft {
     stockQuantity: numberText(savedVariant.stockQuantity ?? originalVariant.stockQuantity ?? 1),
     mainImageIndex: Number.isInteger(saved.mainImageIndex) ? Number(saved.mainImageIndex) : 0,
     imageAlts: images.map((image, index) => String(savedAlts[index] || name + ' — снимка ' + (index + 1))),
+    imageAltsEn: images.map((image, index) => String(savedAltsEn[index] || name + ' — plant photo ' + (index + 1))),
+    imageAltsRu: images.map((image, index) => String(savedAltsRu[index] || name + ' — фотография растения ' + (index + 1))),
+    plantCare: { light: String(plantCare.light || ''), waterNeeds: String(plantCare.waterNeeds || ''), minWinterTempC: numberText(plantCare.minWinterTempC), blackSeaCoast: String(plantCare.blackSeaCoast || 'needsVerification'), adultHeightCm: numberText(plantCare.adultHeightCm), foliageType: String(plantCare.foliageType || ''), floweringSeason: Array.isArray(plantCare.floweringSeason) ? plantCare.floweringSeason as string[] : [], plantingSeason: Array.isArray(plantCare.plantingSeason) ? plantCare.plantingSeason as string[] : [] },
+    careGuide: String(saved.careGuide || ''),
     isFeatured: saved.isFeatured === true,
     nameEn: String(en.name || ''),
     shortDescriptionEn: String(en.shortDescription || ''),
@@ -180,6 +191,10 @@ function toPublication(draft: Draft, categories: PlantCategory[] = []) {
     description: draft.description.trim(),
     mainImageIndex: draft.mainImageIndex,
     imageAlts: draft.imageAlts.map((alt) => alt.trim()),
+    imageAltsEn: draft.imageAltsEn.map((alt) => alt.trim()),
+    imageAltsRu: draft.imageAltsRu.map((alt) => alt.trim()),
+    plantCare: { light: draft.plantCare.light || null, waterNeeds: draft.plantCare.waterNeeds || null, minWinterTempC: draft.plantCare.minWinterTempC.trim() ? Number(draft.plantCare.minWinterTempC) : null, blackSeaCoast: draft.plantCare.blackSeaCoast || 'needsVerification', adultHeightCm: draft.plantCare.adultHeightCm.trim() ? Number(draft.plantCare.adultHeightCm) : null, foliageType: draft.plantCare.foliageType || null, floweringSeason: draft.plantCare.floweringSeason, plantingSeason: draft.plantCare.plantingSeason },
+    careGuide: draft.careGuide.trim(),
     saleVariants: [{
       name: draft.variantName.trim(),
       saleHeightCm: numeric(draft.heightCm),
@@ -202,6 +217,7 @@ export default function PlantPublicationEditor({
   const [slugTouched, setSlugTouched] = useState(false)
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
+  const [enriching, setEnriching] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
@@ -249,6 +265,20 @@ export default function PlantPublicationEditor({
     if (!imageCountMatches || imagesLoading) return 'Преди публикация всички снимки трябва да са достъпни за преглед.'
     if (draft.mainImageIndex < 0 || draft.mainImageIndex >= imageFiles.length) return 'Изберете основна снимка.'
     return ''
+  }
+
+  const generateAiDraft = async () => {
+    setEnriching(true); setError(''); setNotice('')
+    try {
+      const response = await fetch('/api/manager/enrich-plant', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken }, body: JSON.stringify({ submissionId: submission.id }) })
+      const result = await response.json().catch(() => ({})) as { error?: string; draft?: Record<string, unknown> }
+      if (!response.ok || !result.draft) throw new Error(result.error || 'Не удалось подготовить AI-черновик.')
+      setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft } }))
+      setSlugTouched(false); setSavedFingerprint('')
+      setNotice('ИИ подготви текстовете, ALT описанията и предложените грижи. Проверете ботаническите данни и запазете финалната версия.')
+      await onSaved()
+    } catch (err) { setError(err instanceof Error ? err.message : 'Възникна грешка при AI подготовката.') }
+    finally { setEnriching(false) }
   }
 
   const request = async (action: 'save' | 'publish') => {
@@ -305,6 +335,7 @@ export default function PlantPublicationEditor({
       {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
       {notice && <div role="status" className="mt-4 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
 
+      <div className="mt-5 rounded-xl border border-lime-200 bg-lime-50 p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-lime-950">Автоматична подготовка с ИИ</h3><p className="mt-1 text-sm text-lime-900">Текстове на BG/RU/EN, SEO, ALT за всяка снимка и предложени характеристики за грижи. Резултатът остава чернова за проверка.</p></div><button type="button" disabled={enriching || saving || publishing || imagesLoading || images.length === 0} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{enriching ? 'Подготовка…' : 'Подготви с ИИ'}</button></div><p className="mt-2 text-xs text-lime-900">ИИ не променя цена, наличност, размер при продажба, обем на саксията или артикул. Зимоустойчивостта и пригодността за Черноморието изискват отделна проверка.</p></div>
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
@@ -347,6 +378,8 @@ export default function PlantPublicationEditor({
                 <div className="space-y-2 p-3">
                   <label className="flex items-center gap-2 text-sm font-semibold"><input type="radio" name={'main-image-' + submission.id} checked={draft.mainImageIndex === index} onChange={() => update('mainImageIndex', index)} /> Основна снимка</label>
                   <label className={labelClass}>Alt текст (BG)<input className={inputClass} value={draft.imageAlts[index] || ''} onChange={(event) => update('imageAlts', draft.imageAlts.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
+                  <label className={labelClass}>Alt text (EN)<input className={inputClass} value={draft.imageAltsEn[index] || ''} onChange={(event) => update('imageAltsEn', draft.imageAltsEn.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
+                  <label className={labelClass}>Alt текст (RU)<input className={inputClass} value={draft.imageAltsRu[index] || ''} onChange={(event) => update('imageAltsRu', draft.imageAltsRu.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
                 </div>
               </div>
             ))}
@@ -365,6 +398,16 @@ export default function PlantPublicationEditor({
           </div>
         </details>
 
+        <details className="rounded-xl border border-stone-200 p-4"><summary className="cursor-pointer font-semibold">Характеристики и грижи за растението</summary><p className="mt-2 text-xs text-amber-800">Предложенията на ИИ трябва да бъдат проверени. Не попълвайте минимална зимна температура или височина на възрастно растение без надежден източник.</p><div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className={labelClass}>Светлина<select className={inputClass} value={draft.plantCare.light} onChange={(event) => update('plantCare', { ...draft.plantCare, light: event.target.value })}><option value="">Не е посочено</option><option value="sun">Пълно слънце</option><option value="partialShade">Полусянка</option><option value="shade">Сянка</option></select></label>
+          <label className={labelClass}>Нужда от поливане<select className={inputClass} value={draft.plantCare.waterNeeds} onChange={(event) => update('plantCare', { ...draft.plantCare, waterNeeds: event.target.value })}><option value="">Не е посочено</option><option value="low">Ниска</option><option value="medium">Средна</option><option value="high">Висока</option></select></label>
+          <label className={labelClass}>Листна маса<select className={inputClass} value={draft.plantCare.foliageType} onChange={(event) => update('plantCare', { ...draft.plantCare, foliageType: event.target.value })}><option value="">Не е посочено</option><option value="evergreen">Вечнозелено</option><option value="deciduous">Листопадно</option></select></label>
+          <label className={labelClass}>Пригодност за Черноморието<select className={inputClass} value={draft.plantCare.blackSeaCoast} onChange={(event) => update('plantCare', { ...draft.plantCare, blackSeaCoast: event.target.value })}><option value="needsVerification">Непроверено</option><option value="suitable">Подходящо</option><option value="notSuitable">Неподходящо</option></select></label>
+          <label className={labelClass}>Минимална зимна температура (°C)<input className={inputClass} type="number" value={draft.plantCare.minWinterTempC} onChange={(event) => update('plantCare', { ...draft.plantCare, minWinterTempC: event.target.value })} /></label>
+          <label className={labelClass}>Височина на възрастното растение (см)<input className={inputClass} type="number" min="0" value={draft.plantCare.adultHeightCm} onChange={(event) => update('plantCare', { ...draft.plantCare, adultHeightCm: event.target.value })} /></label>
+          <label className={labelClass}>Сезон на цъфтеж (spring, summer, autumn, winter)<input className={inputClass} value={draft.plantCare.floweringSeason.join(', ')} onChange={(event) => update('plantCare', { ...draft.plantCare, floweringSeason: event.target.value.split(',').map((v) => v.trim()).filter(Boolean) })} /></label>
+          <label className={labelClass}>Сезон на засаждане (добавете yearRound при нужда)<input className={inputClass} value={draft.plantCare.plantingSeason.join(', ')} onChange={(event) => update('plantCare', { ...draft.plantCare, plantingSeason: event.target.value.split(',').map((v) => v.trim()).filter(Boolean) })} /></label>
+        </div><label className={labelClass + ' mt-4'}>Ръководство за отглеждане (BG)<textarea className={inputClass} rows={5} value={draft.careGuide} onChange={(event) => update('careGuide', event.target.value)} /></label></details>
         <details className="rounded-xl border border-stone-200 p-4">
           <summary className="cursor-pointer font-semibold">SEO и дополнительные настройки</summary>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
