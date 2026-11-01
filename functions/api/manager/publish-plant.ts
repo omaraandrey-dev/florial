@@ -286,11 +286,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ ok: true, saved: true })
   }
 
-  if (!env.SANITY_API_TOKEN) return json({ error: 'Липсва SANITY_API_TOKEN в Cloudflare Production. Добавете го като Secret, за да активирате публикуването.' }, 503)
   if (submission.status === 'published') {
     const published = parseObject(payload.publication)
     return json({ ok: true, alreadyPublished: true, documentId: published?.sanityDocumentId || null })
   }
+  if (!env.SANITY_API_TOKEN) return json({ error: 'Липсва SANITY_API_TOKEN в Cloudflare Production. Добавете го като Secret, за да активирате публикуването.' }, 503)
 
   const lockResponse = await fetch(
     base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
