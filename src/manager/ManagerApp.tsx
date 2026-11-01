@@ -68,7 +68,7 @@ export default function ManagerApp() {
   const [height, setHeight] = useState('')
   const [potVolume, setPotVolume] = useState('')
   const [price, setPrice] = useState('')
-  const [stockQuantity, setStockQuantity] = useState('1')
+  const [stockQuantity, setStockQuantity] = useState('')
   const [stockStatus, setStockStatus] = useState('inStock')
   const [files, setFiles] = useState<File[]>([])
   const [saving, setSaving] = useState(false)
@@ -246,7 +246,7 @@ export default function ManagerApp() {
   const resetForm = () => {
     setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setProductType(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
-    setPrice(''); setStockQuantity('1'); setStockStatus('inStock'); setFiles([])
+    setPrice(''); setStockQuantity(''); setStockStatus('inStock'); setFiles([])
   }
 
   const saveDraft = async (event?: FormEvent) => {
@@ -266,7 +266,7 @@ export default function ManagerApp() {
           saleHeightCm: height ? Number(height) : null,
           containerVolumeL: potVolume ? Number(potVolume) : null,
           priceEUR: price ? Number(price) : null,
-          stockStatus, stockQuantity: Number(stockQuantity || 0),
+          stockStatus, stockQuantity: stockQuantity.trim() ? Number(stockQuantity) : null,
         }],
       }
       let submissionId = selectedId
@@ -572,7 +572,7 @@ export default function ManagerApp() {
                     setVariantName(String(variant?.name || '')); setHeight(variant?.saleHeightCm ? String(variant.saleHeightCm) : '')
                     setPotVolume(variant?.containerVolumeL ? String(variant.containerVolumeL) : '')
                     setPrice(variant?.priceEUR ? String(variant.priceEUR) : '')
-                    setStockQuantity(String(variant?.stockQuantity ?? 1)); setStockStatus(String(variant?.stockStatus || 'inStock'))
+                    setStockQuantity(variant?.stockQuantity == null ? '' : String(variant.stockQuantity)); setStockStatus(String(variant?.stockStatus || 'inStock'))
                     void loadEvents(item.id)
                   }} className="text-left"><div className="font-semibold">{item.title || 'Без име'}</div><div className="mt-1 text-xs text-stone-500">SKU: {item.sku || '—'} · {new Date(item.updated_at).toLocaleString('bg-BG')}</div></button>
                   <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold">{statusLabels[item.status] || item.status}</span>
