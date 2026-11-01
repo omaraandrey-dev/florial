@@ -1,3 +1,13 @@
+## Unreleased — Add plant variants to the shared shopping cart
+
+- Preserve the existing irrigation-equipment cart and checkout flow; extend cart line identity so different sale variants of the same plant remain separate items.
+- Add a plant add-to-cart action below the existing WhatsApp enquiry, carrying the selected Sanity sale variant and quantity.
+- Display selected plant size, height, container volume and variant price in the shared cart.
+- Validate plant product and variant prices server-side against Sanity dataset `plants`; continue validating irrigation equipment against dataset `production`.
+- Store catalog and selected variant details in the existing `orders.items` JSONB payload; no Supabase schema or data migration.
+- For baskets containing plants, offer pickup or delivery to be agreed with Florial; retain existing courier rates and validation unchanged for equipment-only baskets.
+- No changes to header, menu, footer, Sanity documents, Sanity schemas, or existing equipment product pricing logic.
+
 ## 2026-11-01 — Коммерческая карточка растения и запрос варианта
 
 - Добавлена аддитивная схема plantSaleVariant: название размера на BG/EN/RU, SKU, высота при продаже, объём контейнера, цена в EUR, старая цена, статус и количество на складе.
