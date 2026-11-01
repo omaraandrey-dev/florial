@@ -233,7 +233,7 @@ export default function ManagerApp() {
   }
 
   const resetForm = () => {
-    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory('')
+    setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
     setPrice(''); setStockQuantity('1'); setStockStatus('inStock'); setFiles([])
   }
@@ -464,11 +464,13 @@ export default function ManagerApp() {
                 <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="preorder">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
-              <label className={labelClass + ' mt-4'}>Снимки (до 10 MB на файл)<input className={inputClass} type="file" accept="image/*" capture="environment" multiple onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 8))} /></label>
-              {files.length > 0 && <p className="mt-2 text-sm text-stone-500">Избрани снимки: {files.map((file) => file.name).join(', ')}</p>}
+              <label className={labelClass + ' mt-4'}>Снимки (до 8 файла, 10 MB всеки)<input className={inputClass} type="file" accept="image/*" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount))); e.currentTarget.value = '' }} /></label>
+              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от галерията или направете нова снимка с камерата на телефона.</p>
+              {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
+              {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
               <div className="mt-5 flex flex-wrap gap-3">
                 <button disabled={saving} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : 'Запази черновата'}</button>
-                {selectedId && <button type="button" disabled={saving} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
+                {selectedId && <button type="button" disabled={saving || files.length > 0 || !category} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
               </div>
             </form>
           )}
@@ -479,7 +481,7 @@ export default function ManagerApp() {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <button onClick={() => {
                     setSelectedId(item.id); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || ''))
-                    setSku(item.sku || ''); setCategory(String(item.payload.categoryName || '')); setDescription(String(item.payload.description || ''))
+                    setSku(item.sku || ''); setCategory(String(item.payload.categoryId || plantCategories.find((candidate) => candidate.name.toLocaleLowerCase() === String(item.payload.categoryName || '').toLocaleLowerCase())?._id || '')); setDescription(String(item.payload.description || ''))
                     const variant = (item.payload.saleVariants as Array<Record<string, unknown>> | undefined)?.[0]
                     setVariantName(String(variant?.name || '')); setHeight(variant?.saleHeightCm ? String(variant.saleHeightCm) : '')
                     setPotVolume(variant?.containerVolumeL ? String(variant.containerVolumeL) : '')
