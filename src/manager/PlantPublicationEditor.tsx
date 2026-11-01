@@ -122,10 +122,8 @@ function makeDraft(submission: Submission): Draft {
   const savedAltsEn = Array.isArray(saved.imageAltsEn) ? saved.imageAltsEn as string[] : []
   const savedAltsRu = Array.isArray(saved.imageAltsRu) ? saved.imageAltsRu as string[] : []
   const savedPlantCare = saved.plantCare && typeof saved.plantCare === 'object' ? saved.plantCare as Record<string, unknown> : {}
-  const researchData = payload.plantCareResearch && typeof payload.plantCareResearch === 'object' ? payload.plantCareResearch as Record<string, unknown> : {}
-  const researchValues = researchData.plantCare && typeof researchData.plantCare === 'object' ? researchData.plantCare as Record<string, unknown> : {}
-  // Research suggestions remain separate until the owner explicitly applies each field.
-  const plantCare = savedPlantCare
+  // AI-generated care values from aiDraft are not accepted automatically. Only an already saved owner publication is loaded here.
+  const plantCare = payload.publication ? savedPlantCare : {}
   const translations = saved.translations && typeof saved.translations === 'object'
     ? saved.translations as Record<string, Record<string, unknown>>
     : {}
