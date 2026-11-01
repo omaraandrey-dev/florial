@@ -94,3 +94,8 @@ values ('UUID_FROM_AUTH_USERS', 'owner', 'Florial Owner');
 - Не използвайте placeholder UUID. След това създайте отделни Auth accounts за служителите и добавете им роли `seller` или `manager`.
 - Не изпращайте пароли, access tokens или service-role keys в чат. Публичната регистрация не трябва да се използва за добавяне на служители.
 - Проверка на Auth signup/redirect settings и реално получаване на email остават **НЕ ИЗВЕСТНО — нужно уточнить**.
+
+
+## Отстраняване на проблем с директния адрес `/manager`
+
+Ако вместо формата за вход се показва публичната страница 404, проверете, че production deployment включва поправката в `functions/_middleware.ts`: маршрутите `/manager` и `/manager/*` трябва да преминават към SPA fallback, който избира `ManagerApp` в `src/main.tsx`. Тази поправка не изисква промени в Supabase, нови secrets или публичното меню.
