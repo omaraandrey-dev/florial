@@ -66,7 +66,7 @@ export default function ManagerApp() {
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
   const [activeTab, setActiveTab] = useState<'submissions' | 'staff' | 'analytics'>('submissions')
-  const [analyticsDays, setAnalyticsDays] = useState<7 | 30 | 90>(30)
+  const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
@@ -546,8 +546,8 @@ export default function ManagerApp() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><h1 className="text-2xl font-semibold">Аналитика на сайта</h1><p className="mt-1 text-sm text-stone-600">Анонимни обобщени събития по българско местно време.</p></div>
           <div className="flex flex-wrap items-center gap-2">
-            <select aria-label="Период на аналитиката" className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm" value={analyticsDays} onChange={(event) => setAnalyticsDays(Number(event.target.value) as 7 | 30 | 90)}>
-              <option value={7}>Последни 7 дни</option><option value={30}>Последни 30 дни</option><option value={90}>Последни 90 дни</option>
+            <select aria-label="Период на аналитиката" className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm" value={analyticsDays} onChange={(event) => setAnalyticsDays(Number(event.target.value) as 1 | 7 | 30 | 90)}>
+              <option value={1}>Днес</option><option value={7}>Последни 7 дни</option><option value={30}>Последни 30 дни</option><option value={90}>Последни 90 дни</option>
             </select>
             <button type="button" onClick={() => void loadAnalytics()} disabled={analyticsLoading} className="rounded-xl bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">{analyticsLoading ? 'Обновяване…' : 'Обнови'}</button>
           </div>

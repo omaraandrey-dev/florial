@@ -12,7 +12,7 @@ The function is exposed through the Supabase Data API because it lives in `publi
 
 ## Reporting
 
-Supported periods are 7, 30, and 90 days. Day grouping uses `Europe/Sofia`. Event types map to:
+Supported periods are today, 7, 30, and 90 days. “Today” starts at 00:00 in `Europe/Sofia` and runs through the current moment; the other periods retain the existing rolling-window behavior. Day grouping uses `Europe/Sofia`. Event types map to:
 - `page_view`: page view
 - `call_bg`: +359 876 777 902 (BG)
 - `call_en_ru`: +359 885 834 860 (ENG / UA / RU)
