@@ -436,8 +436,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     const existing = await sanity.getDocument(documentId)
-    if (existing) await sanity.patch(documentId).set(document).commit()
-    else await sanity.create({ _id: documentId, ...document })
+    const { _type: documentType, ...documentFields } = document
+    if (existing) await sanity.patch(documentId).set(documentFields).commit()
+    else await sanity.create({ _id: documentId, _type: documentType, ...documentFields })
 
     const published = await sanity.getDocument(documentId) as Record<string, unknown> | null
     const publishedMainImage = parseObject(published?.mainImage)
