@@ -439,13 +439,20 @@ export function CategoryPage({
               <div className="pt-4 border-t border-slate-100">
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-emerald-800">
-                    {(product.priceEUR || 0).toFixed(2)} €
+                    {category.isPlantCategory
+                      ? (() => {
+                          const prices = (product.saleVariants || []).map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && price > 0)
+                          return prices.length
+                            ? (language === 'ru' ? 'от ' : language === 'en' ? 'From ' : 'от ') + Math.min(...prices).toFixed(2) + ' €'
+                            : (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')
+                        })()
+                      : (product.priceEUR || 0).toFixed(2) + ' €'}
                   </span>
                   <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-2 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                     {t("Виж детайли")}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+                {(!category.isPlantCategory || product.saleVariants?.some((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)) && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>}
               </div>
             </a>
           ))}
