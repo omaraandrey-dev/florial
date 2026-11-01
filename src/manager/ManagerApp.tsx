@@ -45,6 +45,7 @@ export default function ManagerApp() {
   const [files, setFiles] = useState<File[]>([])
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
+  const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
     if (!currentSession) {
@@ -111,6 +112,12 @@ export default function ManagerApp() {
 
   const loadEvents = async (id: string) => {
     setSelectedId(id)
+    const selectedSubmission = submissions.find((item) => item.id === id)
+    const imageItems = (selectedSubmission?.payload?.images as IntakeImage[] | undefined) || []
+    if (imageItems.length) {
+      const { data: signed } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
+      setPreviewImages((signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url))
+    } else setPreviewImages([])
     const { data } = await supabase.from('catalog_submission_events')
       .select('id,event_type,from_status,to_status,note,created_at')
       .eq('submission_id', id).order('created_at', { ascending: false })
@@ -185,8 +192,6 @@ export default function ManagerApp() {
       setError('Не успяхме да изпратим заявката: ' + updateError.message)
       setSaving(false); return
     }
-    const { error: notifyError } = await supabase.functions.invoke('unused')
-    void notifyError
     const response = await fetch('/api/manager/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token },
@@ -309,6 +314,7 @@ export default function ManagerApp() {
           <h2 className="font-semibold">История на заявката</h2>
           {!selectedId && <p className="mt-2 text-sm text-stone-500">Изберете заявка, за да видите историята.</p>}
           {selected && <p className="mt-2 text-sm text-stone-500">{selected.title}</p>}
+          {previewImages.length > 0 && <div className="mt-4 grid grid-cols-2 gap-2">{previewImages.map((photo) => <a key={photo.url} href={photo.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-stone-200"><img src={photo.url} alt={photo.name} className="h-28 w-full object-cover" /><span className="block truncate p-2 text-xs">{photo.name}</span></a>)}</div>}
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
