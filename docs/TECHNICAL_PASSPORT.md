@@ -141,3 +141,16 @@
 - Preview содержит только публичные `VITE_*` настройки; server secrets и Resend bindings не обнаружены.
 - Перед preview-тестом Manager необходимо отдельно подготовить необходимые preview secrets/variables. Не копировать production-секреты автоматически.
 - Конфигурация Supabase Auth (провайдеры, redirect URLs, MFA, пользователи) остаётся непроверенной.
+
+
+## Florial Manager — первая версия (01.11.2026)
+
+- Изолиран вътрешен интерфейс `/manager` се монтира в `src/main.tsx`, извън публичния Header/Footer.
+- Frontend използва съществуващия `VITE_SUPABASE_URL` и `VITE_SUPABASE_PUBLISHABLE_KEY`; service-role key остава само в Cloudflare Pages Functions.
+- Таблици за служители, заявки и audit events са описани в `supabase/migrations/20261101080000_create_florial_manager.sql`; всички имат RLS.
+- Private bucket `florial-manager-intake` е предвиден за временни снимки; достъпът е ограничен чрез Storage RLS и папка с user UUID.
+- `functions/api/manager/notify.ts` проверява Supabase Auth access token и staff role, след което изпраща известие през вече конфигурирания Resend.
+- `ORDER_NOTIFICATION_EMAIL` е fallback адрес за известия; нова променлива не е задължителна. Preview secrets не се добавят.
+- Първата форма създава нови растения с един вариант за продажба. Собственикът може да одобри, мениджърът — да върне за корекция. Публикацията в Sanity не е част от тази версия.
+- Миграцията не е приложена, роли и Auth users не са създадени, production deployment не е изпълнен. Публичните Header, меню, Footer, checkout, Sanity documents и production база не са променяни.
+- Подробности и bootstrap процедура: `docs/FLORIAL_MANAGER_SETUP.md` и `docs/FLORIAL_MANAGER_ARCHITECTURE.md`.
