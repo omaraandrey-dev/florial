@@ -1,3 +1,13 @@
+## 2026-11-01 — Florial Manager: первая версия приёмки растений
+
+- Добавлен отдельный закрытый маршрут `/manager`, изолированный от публичной оболочки Header/Footer.
+- Реализованы Supabase Auth login, роли `seller`, `manager`, `owner`, форма черновика растений, загрузка фотографий в private Storage и журнал заявок.
+- Добавлена Cloudflare Pages Function для уведомления владельца через существующий Resend.
+- Добавлена additive SQL migration для staff profiles, submissions, audit events, RLS и private Storage.
+- GitHub Actions validation: lint, website build, migration syntax check и Sanity Studio build — успешно.
+- Preview secrets не добавлялись. Production Supabase migration будет применена отдельно после merge; пользователи и роли ещё не созданы.
+- Автоматическая публикация в Sanity и изменение существующих карточек не входят в первую версию.
+
 ## 2026-11-01 — Plant checkout integration and verified production order flow
 
 - Merged PR #36 (`6bc3ee305cc1f50a23d3df036cf628af54704556`) to add plant sale variants to the shared cart while preserving the existing irrigation-equipment cart behavior.
