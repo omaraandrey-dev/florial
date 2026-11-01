@@ -80,7 +80,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const title = escapeHtml(submission.title || 'Без име')
   const sku = escapeHtml(submission.sku || '—')
-  const role = escapeHtml(profiles[0].role)
   const author = escapeHtml(user.email || user.id)
   const managerUrl = new URL('/manager', requestUrl.origin).toString()
   const html = `
