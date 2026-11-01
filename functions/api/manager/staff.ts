@@ -125,6 +125,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
   if (!body || typeof body.action !== 'string') return json({ error: 'Invalid request body.' }, 400)
 
   if (request.method === 'POST') {
+    if (body.action !== 'create') return json({ error: 'Unknown action.' }, 400)
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
     const password = typeof body.password === 'string' ? body.password : ''
     const displayName = typeof body.displayName === 'string' ? body.displayName.trim().slice(0, 120) : ''
