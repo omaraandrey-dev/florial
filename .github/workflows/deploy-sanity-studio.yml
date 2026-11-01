@@ -42,7 +42,7 @@ jobs:
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           CI: "true"
-        run: npx sanity@4 deploy --yes --schema-required --json
+        run: npx sanity deploy --yes --schema-required --json
 
       # Duplicate app registrations are intentionally not removed by this
       # workflow: CLI undeploy attempts against their app IDs reported
