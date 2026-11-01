@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { supabase } from '../lib/supabase'
 import type { PlantCategory } from './plantCategories'
 
 type IntakeImage = { path: string; name: string; size: number; type: string }
@@ -53,7 +54,7 @@ type Props = {
   images: PreviewImage[]
   imagesLoading: boolean
   accessToken: string
-  onSaved: () => Promise<void>
+  onSaved: (images?: IntakeImage[]) => Promise<void>
   onPublished: () => Promise<void>
   publishError?: string | null
   reviewMode?: boolean
@@ -219,6 +220,7 @@ export default function PlantPublicationEditor({
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [enriching, setEnriching] = useState(false)
+  const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
@@ -232,8 +234,8 @@ export default function PlantPublicationEditor({
     setNotice('')
   }, [submission.id, submission.updated_at, categories])
 
-  const imageFiles = (submission.payload.images as IntakeImage[] | undefined) || []
-  const imageCountMatches = images.length === imageFiles.length && imageFiles.length > 0
+  const imageFiles = (Array.isArray(submission.payload.reviewImages) ? submission.payload.reviewImages : submission.payload.images) as IntakeImage[] | undefined || []
+  const imageCountMatches = images.length === imageFiles.length
   const hasAiDraft = !!(submission.payload.aiDraft && typeof submission.payload.aiDraft === 'object')
   const currentPublication = useMemo(() => toPublication(draft, categories), [draft, categories])
   const currentFingerprint = JSON.stringify(currentPublication)
@@ -251,7 +253,7 @@ export default function PlantPublicationEditor({
     setDraft((current) => ({ ...current, [key]: value }))
   }
 
-  const validate = () => {
+  const validate = (requireImages = false) => {
     if (draft.name.trim().length < 2) return 'Въведете име на растението.'
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(draft.slug.trim())) return 'URL адресът трябва да съдържа малки латински букви и тирета.'
     if (!draft.productType) return 'Изберете тип на растението.'
@@ -264,9 +266,34 @@ export default function PlantPublicationEditor({
     if (draft.stockStatus === 'inStock' && (!draft.priceEUR || Number(draft.priceEUR) <= 0)) return 'За налично растение въведете цена или изберете „По заявка“.'
     if (draft.stockStatus === 'inStock' && Number(draft.stockQuantity || 0) < 1) return 'При статус „В наличност“ количеството трябва да е поне 1.'
     if (imageFiles.some((image) => !['image/jpeg', 'image/png', 'image/webp'].includes(image.type))) return 'За публикуване използвайте JPG, PNG или WebP. HEIC снимките първо трябва да бъдат преобразувани в JPG.'
-    if (!imageCountMatches || imagesLoading) return 'Преди публикация всички снимки трябва да са достъпни за преглед.'
-    if (draft.mainImageIndex < 0 || draft.mainImageIndex >= imageFiles.length) return 'Изберете основна снимка.'
+    if (requireImages && imageFiles.length === 0) return 'За публикуване е необходима поне една снимка.'
+    if (!imageCountMatches || imagesLoading) return 'Преди запазване всички избрани снимки трябва да са достъпни за преглед.'
+    if (imageFiles.length > 0 && (draft.mainImageIndex < 0 || draft.mainImageIndex >= imageFiles.length)) return 'Изберете основна снимка.'
     return ''
+  }
+
+  const removeImage = async (index: number) => {
+    const image = imageFiles[index]
+    if (!image) return
+    if (!window.confirm('Да премахна ли тази снимка от продуктовата карта? Оригиналният файл и първоначалната заявка на продавача ще останат запазени. AI-черновата и финалната карта ще бъдат обновени.')) return
+    const nextImages = imageFiles.filter((_, imageIndex) => imageIndex !== index)
+    const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null }
+    setUpdatingImages(true); setError(''); setNotice('')
+    try {
+      const { data, error: updateError } = await supabase.from('catalog_submissions')
+        .update({ payload: nextPayload, updated_at: new Date().toISOString() })
+        .eq('id', submission.id).eq('status', submission.status).eq('updated_at', submission.updated_at)
+        .select('id').maybeSingle()
+      if (updateError) throw updateError
+      if (!data) throw new Error('Заявката е променена. Обновете екрана и опитайте отново.')
+      setSavedFingerprint('')
+      await onSaved(nextImages)
+      setNotice(nextImages.length === 0
+        ? 'Всички снимки са изключени от картата. ИИ може да подготви текстовете без снимки; за публикуване ще е необходима поне една снимка.'
+        : 'Снимката е премахната от картата. Оригиналната заявка на продавача е запазена; подгответе AI-черновата отново.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не успяхме да премахнем снимката от продуктовата карта.')
+    } finally { setUpdatingImages(false) }
   }
 
   const generateAiDraft = async () => {
@@ -332,7 +359,7 @@ export default function PlantPublicationEditor({
   }
 
   const request = async (action: 'save' | 'publish') => {
-    const validationError = validate()
+    const validationError = validate(action === 'publish')
     if (validationError) { setError(validationError); return }
     setError('')
     setNotice('')
@@ -389,9 +416,9 @@ export default function PlantPublicationEditor({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h3 className="font-semibold text-lime-950">Подготовка на картата с помощта на ИИ</h3>
-            <p className="mt-1 text-sm text-lime-900">След като проверите данните, натиснете бутона. ИИ ще подготви BG/RU/EN текстове, SEO, ALT за снимките и предложения за грижи.</p>
+            <p className="mt-1 text-sm text-lime-900">След като проверите данните, натиснете бутона. ИИ ще подготви BG/RU/EN текстове, SEO и предложения за грижи; ALT ще бъде създаден само за снимките, които са оставени в картата.</p>
           </div>
-          <button type="button" disabled={enriching || saving || publishing || imagesLoading || images.length === 0 || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+          <button type="button" disabled={enriching || saving || publishing || updatingImages || imagesLoading || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви картата' : 'Подготви картата с ИИ'}
           </button>
         </div>
@@ -431,14 +458,17 @@ export default function PlantPublicationEditor({
             <h3 className="font-semibold">Фотографии за каталога ({imageFiles.length})</h3>
             <span className="text-xs text-stone-500">{imagesLoading ? 'Зареждане…' : imageCountMatches ? 'Всички снимки са достъпни' : 'Не всички снимки могат да бъдат отворени'}</span>
           </div>
-          {imageFiles.length === 0 && <p className="mt-3 text-sm text-red-700">Няма снимки. Добавете ги в заявката и изпратете отново за проверка.</p>}
+          {imageFiles.length === 0 && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Няма избрани снимки за продуктовата карта. Можете да подготвите и запазите текстовете без снимки. За публикуване в каталога ще е необходима поне една снимка.</p>}
           {!imageCountMatches && imageFiles.length > 0 && !imagesLoading && <p className="mt-3 text-sm text-red-700">Не публикувайте, докато всяка снимка не се визуализира успешно.</p>}
           <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {images.map((image, index) => (
               <div key={image.url} className="overflow-hidden rounded-xl border border-stone-200">
                 <img src={image.url} alt={image.name} className="h-40 w-full object-cover" />
                 <div className="space-y-2 p-3">
-                  <label className="flex items-center gap-2 text-sm font-semibold"><input type="radio" name={'main-image-' + submission.id} checked={draft.mainImageIndex === index} onChange={() => update('mainImageIndex', index)} /> Основна снимка</label>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <label className="flex items-center gap-2 text-sm font-semibold"><input type="radio" name={'main-image-' + submission.id} checked={draft.mainImageIndex === index} onChange={() => update('mainImageIndex', index)} /> Основна снимка</label>
+                    <button type="button" disabled={updatingImages || enriching || saving || publishing} onClick={() => void removeImage(index)} className="rounded-lg border border-red-300 px-3 py-2 text-xs font-semibold text-red-700 disabled:opacity-50">Премахни от картата</button>
+                  </div>
                   <label className={labelClass}>Alt текст (BG)<input className={inputClass} value={draft.imageAlts[index] || ''} onChange={(event) => update('imageAlts', draft.imageAlts.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
                   <label className={labelClass}>Alt text (EN)<input className={inputClass} value={draft.imageAltsEn[index] || ''} onChange={(event) => update('imageAltsEn', draft.imageAltsEn.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
                   <label className={labelClass}>Alt текст (RU)<input className={inputClass} value={draft.imageAltsRu[index] || ''} onChange={(event) => update('imageAltsRu', draft.imageAltsRu.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
