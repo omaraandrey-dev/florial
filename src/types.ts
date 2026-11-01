@@ -15,6 +15,7 @@ export interface CategoryItem {
 export interface CartItem {
   product: Product
   quantity: number
+  saleVariant?: PlantSaleVariant
 }
 export interface RelatedContentItem {
   _id: string
