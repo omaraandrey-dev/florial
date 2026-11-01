@@ -273,6 +273,21 @@ export default function PlantPublicationEditor({
     setDraft((current) => ({ ...current, [key]: value }))
   }
 
+  const applyCareSuggestion = (key: keyof Draft['plantCare']) => {
+    const research = submission.payload.plantCareResearch as Record<string, unknown> | undefined
+    const suggestions = research?.plantCare as Record<string, unknown> | undefined
+    if (!suggestions || !(key in suggestions)) return
+    const value = suggestions[key]
+    if (value === null || value === undefined || value === '') return
+    const nextValue = Array.isArray(value)
+      ? value.map((item) => String(item))
+      : key === 'minWinterTempC' || key === 'adultHeightCm'
+        ? typeof value === 'number' ? String(value) : ''
+        : typeof value === 'string' ? value : ''
+    setDraft((current) => ({ ...current, plantCare: { ...current.plantCare, [key]: nextValue } as Draft['plantCare'] }))
+    setNotice('Предложението е приложено в редактора. Проверете стойността и запазете финалната версия, за да я приемете.')
+  }
+
   const validate = (requireImages = false) => {
     if (draft.name.trim().length < 2) return 'Въведете име на растението.'
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(draft.slug.trim())) return 'URL адресът трябва да съдържа малки латински букви и тирета.'
