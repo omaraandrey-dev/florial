@@ -306,3 +306,15 @@ API должен валидировать JSON по allowlist полей цел�
 - Новая SQL migration не требуется: используются существующие таблицы и RLS.
 - Не изменяются Header, menu, Footer, публичные страницы, checkout, заказы, Sanity и Cloudflare variables.
 - Preview secrets не добавляются.
+
+## 19. Финальная проверка и публикация растений — PR #45
+
+- Owner-only редактор `src/manager/PlantPublicationEditor.tsx` появляется для одобренных заявок и заявок с ошибкой публикации. Владелец проверяет и редактирует финальные данные отдельно от исходной заявки сотрудника.
+- Финальная версия хранится в `catalog_submissions.payload.publication`; оригинальные `payload` поля и список фотографий не перезаписываются.
+- Перед публикацией обязательны валидные название, slug, productType, категория из dataset `plants`, название варианта, корректная цена/наличие и доступность всех фотографий. Первая фотография по умолчанию становится главной; владелец может выбрать другую.
+- Endpoint `POST /api/manager/publish-plant` доступен только активной роли owner. Он загружает исходные фото из private Supabase Storage, отправляет их в Sanity Assets и создаёт документ `product` в dataset `plants`.
+- Сервер сохраняет случайный Sanity document ID и asset IDs в `payload.publication` до/по мере выполнения записи. Это позволяет безопасно повторить попытку без создания второго документа и повторной загрузки уже сохранённых assets.
+- Статусы: `approved → publishing → published`; при ошибке — `publish_failed`. Одобрение остаётся отдельным действием и не публикует товар.
+- Новая SQL migration и изменение Sanity schema не нужны. Действующее поле `target_document_id` не используется для create-операции из-за CHECK constraint в таблице; опубликованный Sanity ID сохраняется в JSONB payload.
+- Production Cloudflare должен иметь Secret `SANITY_API_TOKEN` с правом записи в Sanity dataset `plants`. На момент подготовки PR такого binding нет. Токен добавляет владелец напрямую в Cloudflare Dashboard; не передавать его в чат, репозиторий или frontend. Preview secrets не добавляются.
+- PR #45 не объединён и не развёрнут; CI и production smoke test будут зафиксированы после проверки. Header/menu/Footer и публичный магазин не меняются.
