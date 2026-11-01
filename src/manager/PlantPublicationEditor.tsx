@@ -471,6 +471,8 @@ export default function PlantPublicationEditor({
         {plantCareResearch && <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
           <p className="font-semibold">{(plantCareResearch.identity as Record<string, unknown> | undefined)?.status === 'verified' ? 'Таксономия подтверждена GBIF' : 'Требуется уточнить ботаническое имя'}</p>
           <p className="mt-1">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.canonicalName || '')}</p>
+          <p className="mt-1 break-all text-xs text-slate-600">{String((plantCareResearch.identity as Record<string, unknown> | undefined)?.url || '')}</p>
+          <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'не указана'}</p>
           <p className="mt-2 text-xs text-slate-600">GBIF подтверждает таксономию, но не агротехнические свойства. Уверенность AI — самооценка модели, а не независимое подтверждение. Проверьте значения перед публикацией.</p>
         </div>}
       </div>
