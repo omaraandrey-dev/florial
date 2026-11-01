@@ -389,7 +389,7 @@ export default function App() {
           _id, name, translations,
           productType,
           "slug": { "current": coalesce(slug.current, slug) },
-          sku, priceEUR, oldPriceEUR, stockStatus, shortDescription, description,
+          sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity, saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity}, shortDescription, description,
           scientificName, plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured, plantDetails { availabilityNote }, sourcePageUrl,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
           "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
