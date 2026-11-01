@@ -1,11 +1,22 @@
-## 2026-11-01 — Florial Manager: мобильная приёмка и проверка растений (PR #44, ожидает проверки)
+## 2026-11-01 — Florial Manager: финальная карточка растения и публикация в Sanity (PR #45, ожидает ревью)
+
+- Добавлена owner-only форма окончательной проверки одобренной заявки: название, ботаническое имя, URL slug, тип и категория растения, описание, SKU, вариант продажи, цена EUR с ДДС, наличие и количество.
+- Владелец может выбрать главную фотографию, проверить все фотографии из закрытого Supabase Storage и задать BG alt-текст. Добавлены необязательные поля переводов EN/RU и SEO.
+- Финальная версия сохраняется отдельно в `payload.publication`; исходные данные сотрудника и его фотографии не перезаписываются.
+- Добавлен серверный endpoint `POST /api/manager/publish-plant`: он проверяет bearer-сессию и активную роль owner, переносит фотографии в Sanity Assets, создаёт документ `product` в dataset `plants`, перечитывает его и только затем ставит `published`.
+- Повторная публикация использует сохранённый Sanity document ID и asset IDs. При ошибке заявка получает `publish_failed`; исходные фото остаются в Supabase для повторной попытки.
+- Используются существующие поля таблицы `catalog_submissions` и JSONB payload; SQL migration не требуется. Sanity schema не меняется. Sanity document ID хранится в `payload.publication.sanityDocumentId`, поскольку действующее ограничение БД резервирует `target_document_id` для заявок типа update.
+- Проверка Cloudflare Pages project `florial` (01.11.2026): в Production env bindings присутствуют `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` и публичные `VITE_SANITY_*`, но отсутствует серверный Secret `SANITY_API_TOKEN`. Подключённый Sanity management connector позволяет работать с dataset из административного инструмента, однако не предоставляет токен серверной функции сайта. До добавления отдельного Cloudflare Production Secret публикация безопасно вернёт 503 и оставит статус `approved`. Preview secrets не добавляются.
+- PR #45: https://github.com/omaraandrey-dev/florial/pull/45. GitHub Actions run `41300128784` завершился success (lint, website build, migration syntax, Studio build). Cloudflare Pages Preview deployment для актуального head `6aae07ed2ea22770579f2c4ddcb8982624b4a262` завершился success (`https://feature-florial-manager-plan.florial.pages.dev`). Preview не содержит server-side Supabase secrets, поэтому функциональный Manager smoke test не выполнялся. PR не объединён; production deployment не выполнялся. Публичные страницы, Header/menu/Footer, checkout и заказы не менялись.
+
+## 2026-11-01 — Florial Manager: мобильная приёмка и проверка растений (PR #44, объединён в main)
 
 - Категория растения выбирается из актуального списка Sanity dataset `plants`; корневая категория «Всички растения» исключена. В payload сохраняются ID категории и её болгарское название.
 - В форме сотрудника добавлены предварительный просмотр выбранных фотографий, удаление снимка до загрузки и понятный статус загрузки. Допускается до 8 изображений размером до 10 MB каждое.
 - После успешной загрузки путь каждой фотографии сохраняется в payload заявки отдельно; отправка на проверку недоступна, пока остаются несохранённые фотографии.
 - Добавлена карточка просмотра заявки с основными полями растения, варианта продажи, цены, наличия, описания и фотографиями из закрытого Supabase Storage.
 - Одобрение требует подтверждения; владелец может отклонить заявку с обязательной причиной; менеджер/владелец могут вернуть её на исправление.
-- PR #44: https://github.com/omaraandrey-dev/florial/pull/44. Изменения находятся в отдельной ветке и не опубликованы в production.
+- PR #44: https://github.com/omaraandrey-dev/florial/pull/44; merge commit `60890351509b1a4c7916596adc2bb573eccd7484`. Cloudflare Pages production deployment `ba4845b0-5846-480b-9b22-74e380bf6ec6` завершился успешно.
 - SQL migration и изменение Sanity schema не требуются. Данные Sanity/Supabase не мигрировались и не удалялись; Header/menu/Footer и публичные страницы не затрагивались.
 
 ## 2026-11-01 — Florial Manager: owner-only analytics

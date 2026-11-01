@@ -3,12 +3,13 @@ import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { getPlantCategories, type PlantCategory } from './plantCategories'
 import SubmissionDetails from './SubmissionDetails'
+import PlantPublicationEditor from './PlantPublicationEditor'
 
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean }
 type Submission = {
   id: string; title: string; sku: string | null; payload: Record<string, unknown>;
   status: string; created_by: string; created_at: string; updated_at: string;
-  review_note: string | null; notification_sent_at: string | null
+  review_note: string | null; notification_sent_at: string | null; publish_error: string | null
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
@@ -105,7 +106,7 @@ export default function ManagerApp() {
   const loadSubmissions = useCallback(async () => {
     if (!profile) return
     let query = supabase.from('catalog_submissions')
-      .select('id,title,sku,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at')
+      .select('id,title,sku,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at,publish_error')
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
       .limit(100)
@@ -329,12 +330,12 @@ export default function ManagerApp() {
 
   const approve = async (id: string) => {
     if (!profile || profile.role !== 'owner') return
-    if (!window.confirm('Потвърждавате ли одобрението? Заявката ще бъде готова за следващия етап, но няма да се публикува автоматично в магазина.')) return
+    if (!window.confirm('Потвърждавате ли одобрението? След това ще можете да проверите окончателните данни за продукта и отделно да публикувате растението в магазина.')) return
     const { error: approveError } = await supabase.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
     if (approveError) setError(approveError.message)
-    else { setNotice('Заявката е одобрена. Публикацията в Sanity ще бъде включена в следващия етап.'); await loadSubmissions() }
+    else { setNotice('Заявката е одобрена. Отворете я отново, проверете данните за продукта и публикувайте растението отделно.'); await loadSubmissions() }
   }
 
   const rejectSubmission = async (id: string) => {
@@ -463,6 +464,25 @@ export default function ManagerApp() {
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
+          {profile.role === 'owner' && selected && ['approved', 'publish_failed'].includes(selected.status) && (
+            <PlantPublicationEditor
+              submission={selected}
+              categories={plantCategories}
+              images={previewImages}
+              imagesLoading={previewLoading}
+              publishError={selected.publish_error}
+              accessToken={session.access_token}
+              onSaved={async () => {
+                await loadSubmissions()
+                if (selectedId) await loadEvents(selectedId)
+              }}
+              onPublished={async () => {
+                await loadSubmissions()
+                if (selectedId) await loadEvents(selectedId)
+                setNotice('Растението е публикувано в каталога на Florial.')
+              }}
+            />
+          )}
           {profile.role === 'seller' && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
@@ -476,7 +496,7 @@ export default function ManagerApp() {
                 <label className={labelClass}>Обем на контейнера (L)<input className={inputClass} type="number" min="0" step="0.5" value={potVolume} onChange={(e) => setPotVolume(e.target.value)} /></label>
                 <label className={labelClass}>Продажна цена (EUR с ДДС)<input className={inputClass} type="number" min="0" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} /></label>
                 <label className={labelClass}>Количество<input className={inputClass} type="number" min="0" step="1" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} /></label>
-                <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="preorder">По заявка</option></select></label>
+                <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="onRequest">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
               <label className={labelClass + ' mt-4'}>Снимки (до 8 файла, 10 MB всеки)<input className={inputClass} type="file" accept="image/*" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount))); e.currentTarget.value = '' }} /></label>
@@ -519,7 +539,7 @@ export default function ManagerApp() {
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
-          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. Одобрението в тази версия не публикува автоматично в публичния каталог.</p>
+          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
         </aside>
       </div>
       <section className={activeTab === 'analytics' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
