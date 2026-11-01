@@ -1,3 +1,14 @@
+## 2026-11-01 — Plant checkout integration and verified production order flow
+
+- Merged PR #36 (`6bc3ee305cc1f50a23d3df036cf628af54704556`) to add plant sale variants to the shared cart while preserving the existing irrigation-equipment cart behavior.
+- Added server-side Sanity validation for plant variants in dataset `plants`; irrigation products continue to be validated against `production`.
+- Persisted selected plant variant metadata in the existing Supabase `orders.items` JSONB payload; no database schema migration or data rewrite.
+- Plant orders use pickup or delivery arranged individually with Florial; equipment-only checkout retains its existing delivery options.
+- Production deployment `1ae5a537-6628-4ce0-bf02-97171a5df490` completed successfully.
+- Owner manually confirmed production orders on Bulgarian, Russian and English interfaces; PDF generation and delivery of email to both administrator and customer succeeded.
+- Updated `docs/TECHNICAL_PASSPORT.md` with the current architecture, order flow, deployment checkpoint, verification scope and remaining unknowns.
+- No Sanity schema/document, Supabase schema/data, header, menu or footer changes in PR #36.
+
 ## Unreleased — Add plant variants to the shared shopping cart
 
 - Preserve the existing irrigation-equipment cart and checkout flow; extend cart line identity so different sale variants of the same plant remain separate items.
