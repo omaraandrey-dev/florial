@@ -1,6 +1,6 @@
 # Florial Manager — първоначално активиране
 
-**Статус:** кодът е в отделен GitHub branch; тази инструкция не означава, че production базата вече е мигрирана.
+**Статус към 01.11.2026:** кодът е обединен в `main` чрез PR #39, production deployment е успешен и SQL миграцията е приложена. Auth потребителите и ролите още не са създадени.
 
 ## Какво влиза в първата версия
 
@@ -14,8 +14,8 @@
 
 ## Задължителни стъпки за включване
 
-1. Публикувайте кода от правилния production branch след преглед на PR.
-2. Приложете миграцията `supabase/migrations/20261101080000_create_florial_manager.sql` към правилния Supabase проект. Тя е additive; не променя съществуващи таблици или данни.
+1. Кодът вече е публикуван в production чрез PR #39 (merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`); Cloudflare deployment `98ba0318-dfc6-419a-9906-62e90f7980de` е със статус success.
+2. Миграцията `create_florial_manager` вече е приложена към Supabase production project `shzbflgqfffgzzgpwjxt`, version `20261101080656`. Таблиците и private Storage bucket са създадени.
 3. В Supabase Auth създайте първо акаунта на собственика и потвърдете email адреса. След това създайте акаунтите на служителите. Не включвайте публична регистрация.
 4. В SQL Editor изпълнете bootstrap insert за собственика, като замените UUID с реалния Auth user ID от Supabase Dashboard → Authentication → Users:
 
@@ -64,7 +64,7 @@ values
 - Първата форма създава нови растения. Предложенията за промяна на вече публикувано растение ще бъдат добавени след реализиране на търсене и безопасно сравнение на Sanity revision.
 - Категорията засега се записва като текстово предложение; свързването с точните Sanity category IDs е следваща стъпка.
 - Един вариант за продажба се въвежда във формата; интерфейсът за множество варианти ще бъде разширен.
-- Не е правено реално изпращане на email от production, не е прилагана миграцията и не са създавани Auth users в рамките на тази кодова промяна.
+- Не е правено реално изпращане на email от production и не са създавани Auth users/roles. Миграцията вече е приложена.
 - Настройките Supabase Auth (разрешени доставчици, signup policy и URL allowlist) не са потвърдени през API; проверете ги в Dashboard преди пилота.
 
 ## Контролен тест преди използване
@@ -76,3 +76,21 @@ values
 5. Manager може да върне заявката с коментар, но не може да я одобри.
 6. Owner може да одобри; публичният каталог Sanity остава непроменен.
 7. Изходът прекратява сесията; анонимен посетител не вижда съдържанието на панела или API.
+
+
+## Production статус — 01.11.2026
+
+- GitHub PR #39 е MERGED; PR #38 е CLOSED (superseded).
+- Cloudflare Pages production deployment е успешен: `98ba0318-dfc6-419a-9906-62e90f7980de`.
+- Supabase migration `create_florial_manager` version `20261101080656` е приложена.
+- Проверени са таблиците, RLS и private bucket. Данни в тях няма; Auth accounts/roles още не са създадени.
+- Преди да се използва панелът, създайте акаунт на собственика в Supabase Dashboard → Authentication → Users и добавете неговия UUID с роля `owner` чрез SQL:
+
+```sql
+insert into public.catalog_staff_profiles (user_id, role, display_name)
+values ('UUID_FROM_AUTH_USERS', 'owner', 'Florial Owner');
+```
+
+- Не използвайте placeholder UUID. След това създайте отделни Auth accounts за служителите и добавете им роли `seller` или `manager`.
+- Не изпращайте пароли, access tokens или service-role keys в чат. Публичната регистрация не трябва да се използва за добавяне на служители.
+- Проверка на Auth signup/redirect settings и реално получаване на email остават **НЕ ИЗВЕСТНО — нужно уточнить**.
