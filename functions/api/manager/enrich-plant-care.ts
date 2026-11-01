@@ -112,11 +112,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Plant submission not found.' }, 404)
   if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Only a plant submission under owner review can be researched.' }, 409)
   const payload = object(submission.payload) || {}
-  if (!object(payload.aiDraft)) return json({ error: 'Сначала подгответе основната AI-карта.' }, 409)
+  const aiDraft = object(payload.aiDraft)
+  if (!aiDraft) return json({ error: 'Сначала подгответе основната AI-карта.' }, 409)
 
   const reviewInput = object(body.reviewInput) || {}
-  const plantName = textValue(reviewInput.name ?? payload.name ?? submission.id, 160)
-  const scientificName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
+  const plantName = textValue(reviewInput.name ?? aiDraft.name ?? payload.name ?? submission.id, 160)
+  const scientificName = textValue(reviewInput.scientificName ?? aiDraft.scientificName ?? payload.latinName, 160)
   const sellerBinomial = speciesBinomial(scientificName) || scientificName
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   const selectedImages = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
@@ -184,11 +185,52 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const rankedVisual = visualNames.filter((entry) => entry.count > 0).sort((a, b) => b.count - a.count || ['high', 'medium', 'low'].indexOf(a.confidence) - ['high', 'medium', 'low'].indexOf(b.confidence))
   const visualCandidate = rankedVisual[0] || null
   const visualDisagreement = rankedVisual.length > 1 && rankedVisual[0].count === rankedVisual[1].count
+  const commonNameCandidates: Array<{ name: string; confidence: string; reason: string }> = []
+  if (!sellerBinomial) {
+    try {
+      const nameResponse = await env.AI.run(textModel, {
+        messages: [
+          { role: 'system', content: 'You are a cautious botanical nomenclature assistant. Return valid JSON only. Never infer a species from a photograph.' },
+          { role: 'user', content: [
+            'Suggest possible botanical species from the seller-provided common/display name only. Do not use photographs or visual assumptions.',
+            'Plant name exactly as entered: ' + plantName,
+            'Plant type: ' + textValue(aiDraft.productType ?? payload.productType, 40),
+            'Category: ' + textValue(aiDraft.categoryName ?? payload.categoryName, 120),
+            'Description supplied by seller: ' + textValue(aiDraft.description ?? payload.description, 500),
+            'Return up to 3 plausible species candidates, each with a Latin binomial, confidence (high, medium, low), and a short reason in Russian.',
+            'If the common name is ambiguous, return multiple candidates with medium/low confidence. If there is no defensible candidate, return an empty array. Never invent a cultivar.',
+            'JSON shape: {"candidates":[{"scientificName":"Olea europaea","confidence":"high","reason":"Общепринятое ботаническое соответствие названию маслина"}]}',
+          ].join('\\n') },
+        ],
+        response_format: { type: 'json_object' }, max_tokens: 700, temperature: 0.1,
+      })
+      const suggested = parseModelJson(nameResponse)
+      if (Array.isArray(suggested.candidates)) {
+        for (const item of suggested.candidates.slice(0, 3)) {
+          const candidate = object(item) || {}
+          const name = speciesBinomial(textValue(candidate.scientificName, 120))
+          const confidence = String(candidate.confidence || 'low').toLowerCase()
+          if (!name || commonNameCandidates.some((entry) => normalizedName(entry.name) === normalizedName(name))) continue
+          commonNameCandidates.push({
+            name,
+            confidence: ['high', 'medium', 'low'].includes(confidence) ? confidence : 'low',
+            reason: textValue(candidate.reason, 180),
+          })
+        }
+      }
+    } catch {
+      // Name-based suggestions are optional; the visual and seller-name checks remain available.
+    }
+  }
   let sellerMatch: GbifMatch | null = null
   let visualMatch: GbifMatch | null = null
+  let nameCandidateMatches: Array<{ candidate: { name: string; confidence: string; reason: string }; match: GbifMatch | null }> = []
   try {
     if (sellerBinomial) sellerMatch = await matchGbif(sellerBinomial)
     if (visualCandidate && !visualDisagreement) visualMatch = await matchGbif(visualCandidate.name)
+    nameCandidateMatches = await Promise.all(commonNameCandidates.map(async (candidate) => ({
+      candidate, match: await matchGbif(candidate.name),
+    })))
   } catch (error) { return json({ error: error instanceof Error ? error.message : 'Не удалось проверить название через GBIF.' }, 502) }
 
   const sellerAccepted = acceptedSpecies(sellerMatch)
@@ -196,6 +238,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const sellerCanonical = textValue(sellerMatch?.canonicalName ?? sellerMatch?.scientificName, 180)
   const visualCanonical = textValue(visualMatch?.canonicalName ?? visualMatch?.scientificName, 180)
   const visualHasUsefulConfidence = !!visualCandidate && visualCandidate.confidence !== 'low'
+  const acceptedNameCandidates = nameCandidateMatches.filter((entry) => acceptedSpecies(entry.match))
   const photoMatchesSeller = sellerAccepted && visualAccepted && visualHasUsefulConfidence && normalizedName(sellerCanonical) === normalizedName(visualCanonical)
   const photoMismatch = !!visualCandidate && !visualDisagreement && visualHasUsefulConfidence && sellerAccepted && visualAccepted && !photoMatchesSeller
   const photoAssessment = visualDisagreement ? 'multiple' : photoMatchesSeller ? 'match' : photoMismatch ? 'mismatch' : !sellerAccepted && visualAccepted ? 'candidate_only' : 'inconclusive'
@@ -203,15 +246,20 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   let careMatch: GbifMatch | null = null
   let careTaxon = ''
   let careIsProvisional = false
-  if (photoMismatch || photoAssessment === 'candidate_only') {
-    if (visualAccepted && visualCandidate && visualCandidate.confidence !== 'low') {
-      careMatch = visualMatch; careTaxon = visualCanonical; careIsProvisional = true
-    }
+  let careSource = 'seller_name'
+  if ((photoMismatch || photoAssessment === 'candidate_only') && visualAccepted && visualCandidate && visualCandidate.confidence !== 'low') {
+    careMatch = visualMatch; careTaxon = visualCanonical; careIsProvisional = true; careSource = 'photo'
   } else if (sellerAccepted) {
     careMatch = sellerMatch; careTaxon = sellerCanonical; careIsProvisional = photoAssessment !== 'match'
+  } else if (acceptedNameCandidates.length === 1 && acceptedNameCandidates[0].candidate.confidence === 'high') {
+    careMatch = acceptedNameCandidates[0].match
+    careTaxon = textValue(careMatch?.canonicalName ?? careMatch?.scientificName, 180)
+    careIsProvisional = true
+    careSource = 'common_name'
   }
 
   let plantCare: Record<string, unknown> = {}
+  let careGuide = ''
   let fieldConfidence: Record<string, string> = {}
   if (careMatch && careTaxon) {
     const prompt = [
@@ -219,7 +267,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       'Plant common/display name: ' + plantName,
       'Seller botanical name: ' + (scientificName || 'not supplied'),
       'Selected accepted GBIF species for this suggestion: ' + careTaxon,
-      'Basis: ' + (careIsProvisional ? 'provisional candidate suggested from the plant photograph; owner must confirm species identity' : 'seller botanical name accepted by GBIF and visually consistent with the photograph') + '.',
+      'Basis: ' + (careIsProvisional ? (careSource === 'common_name' ? 'provisional candidate suggested from the seller common name and matched to an accepted GBIF species; owner must confirm identity' : 'provisional candidate suggested from the plant photograph; owner must confirm species identity') : 'seller botanical name accepted by GBIF and visually consistent with the photograph') + '.',
       'GBIF verifies taxonomic identity only. It does NOT provide horticultural traits. Do not cite GBIF for light, watering, flowering, mature height, winter hardiness or planting season. Do not claim the photo confirms the species.',
       'Return JSON only. Provide only traits well established for this species and not cultivar-specific. For uncertain fields use null or empty arrays. Never invent values.',
       'light: sun, partialShade or shade; waterNeeds: low, medium or high.',
@@ -229,8 +277,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       'floweringSeason: spring, summer, autumn, winter; empty if unknown or not applicable.',
       'plantingSeason: spring, summer, autumn, winter, yearRound; account for container-grown plants and Bulgarian climate; empty if uncertain.',
       'blackSeaCoast must always be needsVerification. No verified local coastal trial data was supplied.',
+      'Also prepare a concise practical careGuide in Bulgarian, covering light, watering, soil/drainage, feeding, pruning and winter protection only where defensible. State that species identity is provisional when applicable. Do not invent fixed schedules or quantities.',
       'Return confidence for each trait as high, medium or low; this is model self-assessment, not independent evidence.',
-      '{"plantCare":{"light":null,"waterNeeds":null,"minWinterTempC":null,"adultHeightCm":null,"foliageType":null,"floweringSeason":[],"plantingSeason":[],"blackSeaCoast":"needsVerification"},"confidence":{"light":"low","waterNeeds":"low","minWinterTempC":"low","adultHeightCm":"low","foliageType":"low","floweringSeason":"low","plantingSeason":"low"}}',
+      '{"plantCare":{"light":null,"waterNeeds":null,"minWinterTempC":null,"adultHeightCm":null,"foliageType":null,"floweringSeason":[],"plantingSeason":[],"blackSeaCoast":"needsVerification"},"confidence":{"light":"low","waterNeeds":"low","minWinterTempC":"low","adultHeightCm":"low","foliageType":"low","floweringSeason":"low","plantingSeason":"low"},"careGuide":""}',
     ].join('\n')
     try {
       const response = await env.AI.run(textModel, {
@@ -243,6 +292,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const generated = parseModelJson(response)
       plantCare = boundedPlantCare(generated.plantCare)
       const confidenceInput = object(generated.confidence) || {}
+      careGuide = textValue(generated.careGuide, 4000)
       for (const key of ['light', 'waterNeeds', 'minWinterTempC', 'adultHeightCm', 'foliageType', 'floweringSeason', 'plantingSeason']) {
         const value = String(confidenceInput[key] || 'low')
         fieldConfidence[key] = ['high', 'medium', 'low'].includes(value) ? value : 'low'
@@ -250,26 +300,36 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     } catch { return json({ error: 'Таксономический кандидат определён, но AI не смог подготовить характеристики. Данные заявки не изменены.' }, 502) }
   }
 
-  const identityStatus = photoMismatch ? 'photo_name_mismatch' : photoAssessment === 'candidate_only' ? 'photo_candidate_suggested' : photoMatchesSeller ? 'verified' : sellerAccepted ? 'taxonomy_verified_photo_inconclusive' : 'needs_review'
+  const identityStatus = photoMismatch ? 'photo_name_mismatch' : photoAssessment === 'candidate_only' ? 'photo_candidate_suggested' : photoMatchesSeller ? 'verified' : sellerAccepted ? 'taxonomy_verified_photo_inconclusive' : careSource === 'common_name' && careTaxon ? 'taxonomy_verified_photo_inconclusive' : 'needs_review'
   const displayMatch = careMatch || (sellerAccepted ? sellerMatch : null)
   const visualCandidates = [...rankedVisual.slice(0, 3), ...visualNames.filter((entry) => entry.count === 0).slice(0, 2)].map((entry) => ({ scientificName: entry.name, confidence: entry.confidence, photoCount: entry.count, visualEvidence: entry.evidence.slice(0, 4) }))
+  const nameCandidates = nameCandidateMatches.map(({ candidate, match }) => ({
+    scientificName: candidate.name, confidence: candidate.confidence, reason: candidate.reason,
+    gbif: gbifSummary(match), accepted: acceptedSpecies(match),
+  }))
   const careDraft = {
     identity: {
       status: identityStatus, submittedName: scientificName, sellerGbif: gbifSummary(sellerMatch),
-      visualCandidates, visualResults, visualSuggestedScientificName: visualDisagreement ? '' : visualCandidate?.name || '',
+      visualCandidates, nameCandidates, visualResults, visualSuggestedScientificName: visualDisagreement ? '' : visualCandidate?.name || '',
+      suggestedScientificName: careIsProvisional ? careTaxon : '',
       visualGbif: gbifSummary(visualMatch), photoAssessment, imageCountAnalysed: imagesToAnalyse.length,
       canonicalName: careTaxon || (sellerAccepted ? sellerCanonical : ''),
       rank: displayMatch?.rank || '',
       confidence: displayMatch?.confidence || 0,
       matchType: displayMatch?.matchType || '',
       url: typeof displayMatch?.usageKey === 'number' ? 'https://www.gbif.org/species/' + displayMatch.usageKey : '',
-      careTaxon, careIsProvisional, source: 'GBIF + Cloudflare Workers AI Vision',
-      note: 'GBIF confirms taxonomy only. Image recognition is a preliminary AI suggestion and must be checked by the owner.',
+      careTaxon, careIsProvisional, careSource, source: 'GBIF + Cloudflare Workers AI',
+      note: 'GBIF confirms taxonomy only. Image recognition and common-name matching are preliminary AI suggestions and must be checked by the owner.',
     },
-    plantCare, confidence: fieldConfidence, generatedAt: new Date().toISOString(),
+    plantCare, careGuide, confidence: fieldConfidence, generatedAt: new Date().toISOString(),
     careDataNotice: 'Агротехническите характеристики са AI предложения по приетото таксономично име. GBIF потвърждава само таксономията. Разпознаването по снимка е предварително. Всички стойности и идентичността на растението трябва да бъдат проверени от собственика преди публикация.',
   }
-  const nextPayload = { ...payload, plantCareResearch: careDraft }
+  const nextAiDraft = {
+    ...aiDraft,
+    scientificName: textValue(aiDraft.scientificName, 160) || (careIsProvisional ? careTaxon : ''),
+    careGuide: textValue(aiDraft.careGuide, 4000) || careGuide,
+  }
+  const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft }
   const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
     body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
