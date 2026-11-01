@@ -21,7 +21,7 @@ const object = (value: unknown): Record<string, unknown> | null =>
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
 function latinBinomial(value: unknown) {
   const candidate = textValue(value, 120)
-  const match = candidate.match(/\\b([A-Z][A-Za-z-]+)\\s+([a-z][A-Za-z-]+)\\b/)
+  const match = candidate.match(/\b([A-Z][A-Za-z-]+)\s+([a-z][A-Za-z-]+)\b/)
   return match ? match[1] + ' ' + match[2] : ''
 }
 type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
@@ -261,7 +261,7 @@ SEO:
 - translations.en.seo and translations.ru.seo each contain their own localized title and meta description.
 - Each SEO description identifies Florial as a local plant offer in Nesebar / Несебър and nearby towns naturally, without keyword stuffing.
 Return only valid JSON with this shape:
-{"name":"","scientificName":"","scientificNameCandidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Възможно съответствие с общото име; видът трябва да се провери"}],"productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
+{"name":"","scientificName":"","scientificNameCandidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Возможное соответствие общему названию; вид требует проверки"}],"productType":"plant|tree|shrub|flower|perennial|indoor|citrus|palm|conifer|fruit|succulent|climber|ornamentalGrass|groundcover|bulb|herb|aquatic|other","shortDescription":"","description":"","translations":{"en":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}},"ru":{"name":"","shortDescription":"","description":"","seo":{"title":"","description":""}}},"imageAlts":[],"imageAltsEn":[],"imageAltsRu":[],"seo":{"title":"","description":""},"plantCare":{"light":"sun|partialShade|shade|null","waterNeeds":"low|medium|high|null","minWinterTempC":null,"blackSeaCoast":"suitable|notSuitable|needsVerification","adultHeightCm":null,"foliageType":"evergreen|deciduous|null","floweringSeason":[],"plantingSeason":[]},"careGuide":""}
 careGuide should be a useful Bulgarian care guide with practical points where known: planting, watering, light, soil/drainage, feeding, pruning and winter protection. Avoid unsupported exact schedules or quantities. If species identity is uncertain, state that detailed care must be confirmed after verifying the botanical name.`
     stage = 'generate_text'
     let textResponse: unknown

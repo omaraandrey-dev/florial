@@ -615,7 +615,7 @@ export default function PlantPublicationEditor({
                 {scientificNameCandidates.map((candidate, index) => {
                   const candidateName = String(candidate.scientificName)
                   const confidence = String(candidate.confidence || 'low')
-                  const confidenceLabel = confidence === 'high' ? 'высокая' : confidence === 'medium' ? 'средняя' : 'низкая'
+                  const confidenceLabel = confidence === 'high' ? 'висока' : confidence === 'medium' ? 'средна' : 'ниска'
                   const selected = draft.scientificName.trim().toLowerCase() === candidateName.toLowerCase()
                   return <button key={candidateName + '-' + index} type="button" onClick={() => update('scientificName', candidateName)} className={'block w-full rounded-lg border px-3 py-2 text-left ' + (selected ? 'border-violet-500 bg-white ring-1 ring-violet-300' : 'border-violet-200 bg-white')}>
                     <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Уверенность AI: {confidenceLabel}{selected ? ' · выбрано' : ''}</span></span>
