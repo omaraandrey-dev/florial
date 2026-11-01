@@ -209,3 +209,12 @@
 - Link the five About page service headings and matching service images to their published `/services/<slug>` pages.
 - Load service images from the existing Sanity service records and add localized image `alt`/`title` text with relevant Black Sea coast locations.
 - No Sanity or Supabase data was modified.
+
+
+## 2026-11-01 — Проектирование Florial Manager
+
+- Добавлен архитектурный документ `docs/FLORIAL_MANAGER_ARCHITECTURE.md` в отдельной ветке `feature/florial-manager-architecture`.
+- Спроектирована закрытая панель приёмки новых товаров и предложений об изменении существующих карточек с ролями seller/manager/owner, очередью проверки, аудитом и публикацией только после одобрения владельцем.
+- Предусмотрена поддержка Sanity datasets `plants` и `production`; первый пилот рекомендован для растений.
+- Предусмотрены Supabase Auth, таблицы заявок/событий с RLS, private Storage, Cloudflare Pages Functions и email-уведомления.
+- Публичный Header, меню, Footer, checkout, существующие таблицы, Sanity documents/schemas и production не менялись. SQL и Cloudflare Secrets не изменялись.
