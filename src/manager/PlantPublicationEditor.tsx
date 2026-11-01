@@ -51,6 +51,7 @@ type Props = {
   accessToken: string
   onSaved: () => Promise<void>
   onPublished: () => Promise<void>
+  publishError?: string | null
 }
 
 const productTypes = [
@@ -281,6 +282,7 @@ export default function PlantPublicationEditor({
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Възникна неочаквана грешка.')
+      if (action === 'publish') await onSaved().catch(() => undefined)
     } finally {
       setSaving(false)
       setPublishing(false)
@@ -297,6 +299,7 @@ export default function PlantPublicationEditor({
         <span className="rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-900">{isSaved ? 'Финалната версия е запазена' : 'Има неприключени промени'}</span>
       </div>
 
+      {publishError && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Последен опит за публикуване: {publishError}</div>}
       {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
       {notice && <div role="status" className="mt-4 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
 
