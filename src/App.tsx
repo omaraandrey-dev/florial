@@ -228,45 +228,32 @@ export default function App() {
   }
 
   // Добавление товара в корзину
-  const handleAddToCart = (product: Product, qty: number) => {
+  const getCartItemKey = (product: Product, saleVariant?: CartItem['saleVariant']) =>
+    product._id + '::' + (saleVariant?._key || saleVariant?.sku || saleVariant?.name || '')
+
+  // Одна корзина для оборудования и растений; разные варианты растения — отдельные строки.
+  const handleAddToCart = (product: Product, qty: number, saleVariant?: CartItem['saleVariant']) => {
+    const itemKey = getCartItemKey(product, saleVariant)
     setCart((prev) => {
-      const existing = prev.find(
-        (item) => item.product._id === product._id
+      const existing = prev.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
+      if (existing) return prev.map((item) =>
+        getCartItemKey(item.product, item.saleVariant) === itemKey
+          ? { ...item, quantity: item.quantity + qty }
+          : item
       )
-
-      if (existing) {
-        return prev.map((item) =>
-          item.product._id === product._id
-            ? { ...item, quantity: item.quantity + qty }
-            : item
-        )
-      }
-
-      return [...prev, { product, quantity: qty }]
+      return [...prev, { product, quantity: qty, ...(saleVariant ? { saleVariant } : {}) }]
     })
   }
 
-  // Изменение количества товара в корзине
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveFromCart(productId)
-      return
-    }
-
-    setCart((prev) =>
-      prev.map((item) =>
-        item.product._id === productId
-          ? { ...item, quantity }
-          : item
-      )
-    )
+  const handleUpdateQuantity = (itemKey: string, quantity: number) => {
+    if (quantity <= 0) return handleRemoveFromCart(itemKey)
+    setCart((prev) => prev.map((item) =>
+      getCartItemKey(item.product, item.saleVariant) === itemKey ? { ...item, quantity } : item
+    ))
   }
 
-  // Удаление товара из корзины
-  const handleRemoveFromCart = (productId: string) => {
-    setCart((prev) =>
-      prev.filter((item) => item.product._id !== productId)
-    )
+  const handleRemoveFromCart = (itemKey: string) => {
+    setCart((prev) => prev.filter((item) => getCartItemKey(item.product, item.saleVariant) !== itemKey))
   }
 
   // Очистка корзины
