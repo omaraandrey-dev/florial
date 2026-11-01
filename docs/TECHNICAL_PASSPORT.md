@@ -289,3 +289,12 @@
 - The Cloudflare Workflow now calls the verified Pages project hostname `https://florial.pages.dev` for its protected processing endpoint. The previous call to the custom domain `https://florial-bg.com` returned plain HTTP 502 during both real test runs, before the Pages handler returned its structured JSON diagnostics.
 - The actual production Workflow must be tested after both the Pages deployment and separate Worker redeployment. Until the test completes and `plantCareResearch` is saved, end-to-end success remains unconfirmed.
 - No SQL/Sanity migration or existing photo/data deletion is involved.
+
+
+### 01.11.2026 — Проверка исправленного Worker → Pages соединения
+
+- Auxiliary Worker `florial-plant-care-workflow` повторно опубликован отдельно; deployment ID `ec92531b847f489e973f21c78696103f`, version tag `d7e658388df34ab594d00d1a889b2fc6`. workers.dev и preview subdomains остались отключены.
+- Синтетический Workflow probe вызвал `https://florial.pages.dev/api/manager/enrich-plant-care/process` и получил ожидаемый структурированный HTTP 403 `Owner access required`. Это подтверждает, что Worker достигает Pages Function через проектный hostname. Тестовый caller отклонён проверкой роли до чтения заявки и любых записей; тестовый Workflow instance удалён.
+- Production Pages deployment для commit `1f8a97da5ef0473463832eaf25549a79c7b0a492` после временной внутренней ошибки публикации был повторён и завершился успешно: `ee6b8700-99bd-4343-8164-b4a6300496b7`, все этапы success.
+- Подтверждено соединение Worker → Pages и успешная публикация. Полный AI/GBIF сценарий ещё не подтверждён: два предыдущих реальных запуска завершились ошибкой; требуется один новый запуск владельцем после обновления Manager. Успехом будет только завершение Workflow и сохранение `plantCareResearch`.
+- Синтетический probe не изменял существующие заявки или данные растений.
