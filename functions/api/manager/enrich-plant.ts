@@ -268,7 +268,32 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
     })
     return json({ ok: true, draft: publication })
   } catch (error) {
-    const message = error instanceof Error ? error.message.slice(0, 350) : 'AI enrichment failed.'
-    return json({ error: message }, 502)
+    const technical = errorDetails(error)
+    const failedStage = stage
+    const aiError = technical.startsWith('AI_IMAGE_REQUEST: ') || technical.startsWith('AI_TEXT_REQUEST: ')
+      ? technical.replace(/^AI_(IMAGE|TEXT)_REQUEST: /, '')
+      : technical
+    const classification = classifyAiError(aiError)
+    const diagnosticId = crypto.randomUUID()
+    const stageLabel = stageLabels[failedStage]
+    const imageNumber = imageIndex >= 0 ? imageIndex + 1 : null
+    await fetch(base + '/rest/v1/catalog_submission_events', {
+      method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
+      body: JSON.stringify({
+        submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_failed',
+        from_status: submission.status, to_status: submission.status,
+        note: 'AI подготовката е прекъсната на етап: ' + stageLabel + '. Код: ' + classification.code + '.',
+        metadata: { diagnosticId, stage: failedStage, stageLabel, code: classification.code, imageNumber, model,
+          technical: technical.slice(0, 700) },
+      }),
+    }).catch(() => undefined)
+    return json({
+      error: 'Не удалось подготовить проект документа с помощью ИИ.',
+      diagnostic: {
+        id: diagnosticId, stage: failedStage, stageLabel, code: classification.code,
+        imageNumber, hint: classification.hint,
+        technical: technical.slice(0, 350),
+      },
+    }, 502)
   }
 }
