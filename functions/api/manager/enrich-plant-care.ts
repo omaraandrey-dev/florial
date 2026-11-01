@@ -468,3 +468,55 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     })
   }
 }
+
+
+export const onRequestGet = async ({ request, env }: { request: Request; env: Env }) => {
+  try {
+    const requestUrl = new URL(request.url)
+    const origin = request.headers.get('Origin')
+    if (origin) {
+      try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
+      catch { return json({ error: 'Invalid origin.' }, 403) }
+    }
+    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.PLANT_CARE_WORKFLOW?.fetch) {
+      return json({ error: 'Manager workflow service is not configured.' }, 503)
+    }
+    const authorization = request.headers.get('Authorization') || ''
+    const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
+    if (!accessToken) return json({ error: 'Authentication required.' }, 401)
+    const base = env.SUPABASE_URL.replace(/\\/+$/, '')
+    const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY }
+    const userResponse = await fetch(base + '/auth/v1/user', {
+      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
+    })
+    if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
+    const caller = await userResponse.json() as { id?: string }
+    if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+    const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
+    if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
+    const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
+    if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+
+    const submissionId = requestUrl.searchParams.get('submissionId') || ''
+    const workflowId = requestUrl.searchParams.get('workflowId') || ''
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId) || !workflowId.startsWith(submissionId + '-') || workflowId.length > 100) {
+      return json({ error: 'Invalid botanical workflow reference.' }, 400)
+    }
+    const submissionResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,payload', { headers: adminHeaders })
+    if (!submissionResponse.ok) return json({ error: 'Unable to verify botanical workflow.' }, 502)
+    const rows = await submissionResponse.json() as Array<{ id: string; catalog: string; operation: string; payload: Record<string, unknown> }>
+    const submission = rows[0]
+    const job = object(object(submission?.payload)?.plantCareJob)
+    if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create' || job?.workflowId !== workflowId || job?.requestedBy !== caller.id) {
+      return json({ error: 'Botanical workflow not found for this submission.' }, 404)
+    }
+
+    const statusResponse = await env.PLANT_CARE_WORKFLOW.fetch(new Request('https://plant-care-workflow/status?id=' + encodeURIComponent(workflowId)))
+    const statusBody = await statusResponse.json().catch(() => ({})) as Record<string, unknown>
+    return json(statusBody, statusResponse.status)
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
+    console.error('[florial:plant-care-workflow-status]', detail.slice(0, 400))
+    return json({ error: 'Не удалось получить состояние фоновой ботанической проверки.', detail: detail.slice(0, 400) }, 502)
+  }
+}
