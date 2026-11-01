@@ -246,6 +246,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   const identityStatus = photoMismatch ? 'photo_name_mismatch' : photoAssessment === 'candidate_only' ? 'photo_candidate_suggested' : photoMatchesSeller ? 'verified' : sellerAccepted ? 'taxonomy_verified_photo_inconclusive' : 'needs_review'
+  const displayMatch = careMatch || (sellerAccepted ? sellerMatch : null)
   const visualCandidates = rankedVisual.slice(0, 3).map((entry) => ({ scientificName: entry.name, confidence: entry.confidence, photoCount: entry.count, visualEvidence: entry.evidence.slice(0, 4) }))
   const careDraft = {
     identity: {
@@ -253,12 +254,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       visualCandidates, visualResults, visualSuggestedScientificName: visualDisagreement ? '' : visualCandidate?.name || '',
       visualGbif: gbifSummary(visualMatch), photoAssessment, imageCountAnalysed: imagesToAnalyse.length,
       canonicalName: careTaxon || (sellerAccepted ? sellerCanonical : ''),
-      rank: (careMatch || (sellerAccepted ? sellerMatch : null))?.rank || '',
-      confidence: (careMatch || (sellerAccepted ? sellerMatch : null))?.confidence || 0,
-      matchType: (careMatch || (sellerAccepted ? sellerMatch : null))?.matchType || '',
-      url: typeof (careMatch || (sellerAccepted ? sellerMatch : null))?.usageKey === 'number'
-        ? 'https://www.gbif.org/species/' + (careMatch || sellerMatch)!.usageKey
-        : '',
+      rank: displayMatch?.rank || '',
+      confidence: displayMatch?.confidence || 0,
+      matchType: displayMatch?.matchType || '',
+      url: typeof displayMatch?.usageKey === 'number' ? 'https://www.gbif.org/species/' + displayMatch.usageKey : '',
       careTaxon, careIsProvisional, source: 'GBIF + Cloudflare Workers AI Vision',
       note: 'GBIF confirms taxonomy only. Image recognition is a preliminary AI suggestion and must be checked by the owner.',
     },
