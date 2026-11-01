@@ -1,3 +1,14 @@
+## 2026-11-01 — Florial Manager: owner-only управление на служители
+
+- PR #41 е обединён в `main`; merge commit: `ee410ab48900ffab75b28089f21404f7c4a29325`.
+- GitHub Actions run #161 завершился успешно: Lint, build сайта, проверка migration syntax и build Sanity Studio.
+- Cloudflare Pages production deployment `1cf6d82e-fc02-403b-902e-2cf80a27497c` завершился со статусом `success`; commit `ee410ab48900ffab75b28089f21404f7c4a29325` опубликован в production, aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Владелец получает вкладку «Служители» в `/manager`: список, создание аккаунта с email и задаваемым владельцем паролем, назначение роли `seller`/`manager`, смена роли и пароля, отключение/восстановление доступа.
+- Отключение доступа сохраняет Auth user, профиль и историю заявок; физическое удаление не применяется.
+- Новая SQL migration не требуется. Существующие Supabase таблици и RLS используются без изменений.
+- Не менялись Cloudflare bindings/secrets, Preview secrets, Sanity data, public Header/menu/Footer, checkout и orders.
+- Важно: Supabase Auth по умолчанию допускает прямой вызов авторизованным пользователем API смены собственного пароля. В интерфейсе Manager self-service смены пароля нет, но абсолютная блокировка прямого API этим релизом не обеспечивается.
+
 ## 2026-11-01 — Florial Manager: управление сотрудниками владельцем
 
 - Добавлен отдельный раздел «Сотрудники» внутри закрытого `/manager`; вкладка отображается только для активной роли `owner`.

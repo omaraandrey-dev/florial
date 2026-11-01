@@ -306,3 +306,13 @@ API должен валидировать JSON по allowlist полей цел�
 - Новая SQL migration не требуется: используются существующие таблицы и RLS.
 - Не изменяются Header, menu, Footer, публичные страницы, checkout, заказы, Sanity и Cloudflare variables.
 - Preview secrets не добавляются.
+
+
+## 19. Production rollout — owner staff administration — 01.11.2026
+
+- PR #41 е обединён в `main`: merge commit `ee410ab48900ffab75b28089f21404f7c4a29325`.
+- GitHub Actions run #161 е успешен: lint, website build, migration syntax и Sanity Studio build.
+- Cloudflare Pages deployment `1cf6d82e-fc02-403b-902e-2cf80a27497c` е публикуван в production със статус `success`; production aliases включват `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Нова Supabase migration не е необходима и не е изпълнявана; използват се съществуващите таблици и RLS.
+- Не са променяни production bindings/secrets, Preview secrets, Sanity, публичните Header/menu/Footer, checkout или orders.
+- Практическата проверка на създаване на служител, login и деактивация остава след rollout.
