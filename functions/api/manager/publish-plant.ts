@@ -36,6 +36,10 @@ type Publication = {
   description: string
   mainImageIndex: number
   imageAlts: string[]
+  imageAltsEn: string[]
+  imageAltsRu: string[]
+  plantCare: Record<string, unknown>
+  careGuide: string
   saleVariants: SaleVariant[]
   translations: Record<string, Record<string, string>>
   isFeatured: boolean
@@ -98,10 +102,25 @@ function validatePublication(input: unknown, images: IntakeImage[]): Publication
   if (!Number.isInteger(mainImageIndex) || mainImageIndex < 0 || mainImageIndex >= images.length) {
     throw new Error('Изберете основна снимка.')
   }
-  const imageAlts = Array.isArray(source.imageAlts)
-    ? source.imageAlts.slice(0, images.length).map((item) => cleanText(item, 240))
-    : []
+  const imageAlts = Array.isArray(source.imageAlts) ? source.imageAlts.slice(0, images.length).map((item) => cleanText(item, 240)) : []
+  const imageAltsEn = Array.isArray(source.imageAltsEn) ? source.imageAltsEn.slice(0, images.length).map((item) => cleanText(item, 240)) : []
+  const imageAltsRu = Array.isArray(source.imageAltsRu) ? source.imageAltsRu.slice(0, images.length).map((item) => cleanText(item, 240)) : []
   while (imageAlts.length < images.length) imageAlts.push(name)
+  while (imageAltsEn.length < images.length) imageAltsEn.push(name)
+  while (imageAltsRu.length < images.length) imageAltsRu.push(name)
+  const careInput = parseObject(source.plantCare) || {}
+  const plantCare: Record<string, unknown> = {
+    light: ['sun', 'partialShade', 'shade'].includes(String(careInput.light)) ? careInput.light : undefined,
+    waterNeeds: ['low', 'medium', 'high'].includes(String(careInput.waterNeeds)) ? careInput.waterNeeds : undefined,
+    minWinterTempC: parseNumber(careInput.minWinterTempC, 'Минимална зимна температура', -60),
+    blackSeaCoast: ['suitable', 'notSuitable', 'needsVerification'].includes(String(careInput.blackSeaCoast)) ? careInput.blackSeaCoast : 'needsVerification',
+    adultHeightCm: parseNumber(careInput.adultHeightCm, 'Височина на възрастното растение', 0),
+    foliageType: ['evergreen', 'deciduous'].includes(String(careInput.foliageType)) ? careInput.foliageType : undefined,
+    floweringSeason: Array.isArray(careInput.floweringSeason) ? careInput.floweringSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter'].includes(String(v))) : [],
+    plantingSeason: Array.isArray(careInput.plantingSeason) ? careInput.plantingSeason.filter((v) => ['spring', 'summer', 'autumn', 'winter', 'yearRound'].includes(String(v))) : [],
+  }
+  Object.keys(plantCare).forEach((key) => { if (plantCare[key] === undefined || plantCare[key] === null || plantCare[key] === '') delete plantCare[key] })
+  const careGuide = cleanText(source.careGuide, 4000)
 
   const variantsInput = Array.isArray(source.saleVariants) ? source.saleVariants : []
   if (variantsInput.length !== 1) throw new Error('В тази версия е необходимо да има точно един вариант за продажба.')
@@ -147,6 +166,10 @@ function validatePublication(input: unknown, images: IntakeImage[]): Publication
     description: cleanText(source.description, 5000),
     mainImageIndex,
     imageAlts,
+    imageAltsEn,
+    imageAltsRu,
+    plantCare,
+    careGuide,
     saleVariants: [{
       name: variantName,
       saleHeightCm: parseNumber(variantSource.saleHeightCm, 'Височина', 0),
@@ -398,6 +421,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       _key: 'intake-image-' + index,
       asset: { _type: 'reference', _ref: assetId },
       alt: publication.imageAlts[index] || publication.name,
+      altEn: publication.imageAltsEn[index] || publication.name,
+      altRu: publication.imageAltsRu[index] || publication.name,
     }))
     const mainImage = imageDocuments[publication.mainImageIndex]
     const gallery = imageDocuments.filter((_image, index) => index !== publication.mainImageIndex)
@@ -434,6 +459,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (publication.sku) document.sku = publication.sku
     if (publication.shortDescription) document.shortDescription = publication.shortDescription
     if (publication.description) document.description = publication.description
+    if (Object.keys(publication.plantCare).length) document.plantCare = publication.plantCare
+    if (publication.careGuide) document.careGuide = publication.careGuide.split(/\\n+/).map((paragraph, index) => ({
+      _type: 'block', _key: 'care-' + index, style: 'normal', markDefs: [],
+      children: [{ _type: 'span', _key: 'care-span-' + index, text: paragraph.trim(), marks: [] }],
+    })).filter((block) => block.children[0].text)
     if (variant.priceEUR !== null) document.priceEUR = variant.priceEUR
     if (variant.stockQuantity !== null) document.stockQuantity = variant.stockQuantity
     if (publication.seo.title || publication.seo.description) {
