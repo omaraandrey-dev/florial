@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { getPlantCategories, type PlantCategory } from './plantCategories'
+import SubmissionDetails from './SubmissionDetails'
 
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean }
 type Submission = {
@@ -505,17 +506,15 @@ export default function ManagerApp() {
                   <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold">{statusLabels[item.status] || item.status}</span>
                 </div>
                 {item.review_note && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Коментар: {item.review_note}</p>}
-                {profile.role === 'owner' && ['submitted', 'in_review'].includes(item.status) && <button onClick={() => void approve(item.id)} className="mt-3 rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри</button>}
+                {profile.role === 'owner' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
                 {profile.role !== 'seller' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
           </div>
         </section>
         <aside className="h-fit rounded-2xl border border-stone-200 bg-white p-5">
-          <h2 className="font-semibold">История на заявката</h2>
-          {!selectedId && <p className="mt-2 text-sm text-stone-500">Изберете заявка, за да видите историята.</p>}
-          {selected && <p className="mt-2 text-sm text-stone-500">{selected.title}</p>}
-          {previewImages.length > 0 && <div className="mt-4 grid grid-cols-2 gap-2">{previewImages.map((photo) => <a key={photo.url} href={photo.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-stone-200"><img src={photo.url} alt={photo.name} className="h-28 w-full object-cover" /><span className="block truncate p-2 text-xs">{photo.name}</span></a>)}</div>}
+          <SubmissionDetails submission={selected} images={previewImages} loading={previewLoading} />
+          <h2 className="mt-6 border-t border-stone-100 pt-4 font-semibold">История на действията</h2>
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
