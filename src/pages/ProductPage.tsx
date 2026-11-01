@@ -70,7 +70,11 @@ export function ProductPage({
 
   const getImageText = (imageUrl: string, kind: 'title' | 'alt') => {
     const imageIndex = allImages.findIndex((image) => image.url === imageUrl)
+    const image = allImages.find((candidate) => candidate.url === imageUrl)
     const productName = String(localize(product, 'name') || product.name)
+
+    if (kind === 'alt' && image?.alt) return image.alt
+
     return getProductImageText(productName, language, Math.max(0, imageIndex), kind)
   }
 
