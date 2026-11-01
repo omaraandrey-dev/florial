@@ -372,3 +372,14 @@
 - Fixed the Pages middleware route handling so `/manager` and nested `/manager/*` requests pass through to the SPA entry selected by `src/main.tsx` instead of receiving the public site's custom 404 response.
 - The change is isolated to `functions/_middleware.ts`; public Header, menu, Footer, public routes, Supabase data, Sanity data and Cloudflare environment variables are unchanged.
 - Validation and production deployment status are to be recorded after the pull request checks and merge.
+
+
+## 2026-11-01 — Plant intake validation and independent photo identification
+
+- Seller plant drafts can now be saved without a name or category; the mandatory-field gate applies only when submitting for owner review.
+- Submission requires an uploaded photo, plant type, category, positive EUR price, sale height, container volume, and an explicitly entered integer quantity (0 or greater). The same rules are enforced by the active Supabase trigger.
+- Photo Vision analysis no longer receives the seller's Latin name in its prompt, reducing anchoring bias. The visual candidate and seller-entered name are evaluated independently and then checked against GBIF.
+- Owner review shows the seller name, visual candidate(s), GBIF match status, and provisional horticultural suggestions. AI-generated botanical values are never published automatically.
+- Supabase migration is tracked in Git as `20261101173649_require_complete_plant_submission.sql`, matching the applied production migration version. No existing submissions were changed.
+- Production deployment for commit `e57f214ebc0d4477d12f11b7f7b61bc9c30931f6` succeeded: `c7042ff6-04fb-4d47-ae75-d9450cc27883`; aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Manual owner end-to-end verification with a new seller submission and real plant photos remains pending.
