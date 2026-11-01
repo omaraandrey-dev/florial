@@ -5,7 +5,8 @@
 - Added discount percentage and savings display only when the old price is greater than the current price.
 - Resolved `relatedContentBySlug` entries to published services and blog posts in the production dataset, preserving optional link labels and localized card content.
 - Resolved `recommendedIrrigation.productSlug` to an existing irrigation equipment product when a matching product is present.
-- No Sanity or Supabase documents were changed. Header, menu, footer, and global navigation were not modified.
+- Updated all 30 published plant documents in Sanity dataset `plants`: `oldPriceEUR: 4000`, drip irrigation recommendation linked to `rain-bird-xfd-2333-100`, and related service slug `avtomatizirano-kapkovo-napoyavane`. Existing price, VAT, availability, descriptions, translations, and plant-care values were preserved.
+- Header, menu, footer, and global navigation were not modified.
 
 ## 2026-11-01 — Расширение модели каталога растений
 
