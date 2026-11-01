@@ -410,3 +410,15 @@
 - Проверены production binding Workers AI и прямой inference-тест обеих моделей. Тест использовал синтетический текст и пустой тестовый пиксель, а не реальное растение; end-to-end Manager workflow требует отдельной проверки владельцем.
 - Изменения затрагивают только Manager AI plant preparation/research и документацию. SQL/Sanity migrations, существующие заявки, опубликованные товары, Header/menu/Footer и checkout не менялись.
 - Для AI-черновиков, созданных до этого обновления, добавлена отдельная кнопка получения латинских вариантов. Сервер дописывает только `scientificNameCandidates` в существующий `aiDraft` с optimistic lock; описания, фотографии, цены, исходная заявка и финальная публикация не перезаписываются.
+
+
+## 01.11.2026 — durable botanical inspection workflow
+
+- Replaced the long synchronous Manager request for plant-care inspection with a Cloudflare Workflows job. The Pages endpoint validates the owner, persists a per-job random token and workflow ID in the existing submission payload, then returns HTTP 202.
+- Added a private Cloudflare Worker florial-plant-care-workflow with a Workflow entrypoint, retry handling and status endpoint. The Worker is not exposed through workers.dev; it is called through the Pages service binding PLANT_CARE_WORKFLOW.
+- The Workflow invokes the protected Pages process route. That route validates the per-job token against the current submission and re-checks the active owner role before running the existing photo, GBIF and Workers AI logic.
+- Added owner-authenticated status polling to /api/manager/enrich-plant-care; the Manager UI polls until the Workflow completes or reports an error, then reloads the saved submission.
+- Fixed placeholder plant names such as “Эта страница”: the server now falls back to the saved AI draft / submission name. Non-Latin botanical labels are no longer sent to GBIF as if they were Latin binomials; they enter the common-name candidate flow.
+- No Supabase SQL migration, Sanity schema/document change, new paid Cloudflare plan, payment method, or public site navigation change. Existing submission data is extended only with a plantCareJob object for the active job/result status; seller payload, prices, publication data and photos are preserved.
+- Production Cloudflare Pages binding PLANT_CARE_WORKFLOW was added while preserving existing environment variables and the Workers AI AI binding. Worker source is stored under workers/plant-care-workflow/.
+- Validation still required: run a real Manager inspection with the existing Thuja submission and confirm the Workflow completes, the plantCareResearch result is saved, and the UI displays the suggestions. A successful deployment alone does not prove end-to-end AI/GBIF completion.
