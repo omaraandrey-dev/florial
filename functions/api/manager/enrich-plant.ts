@@ -159,6 +159,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
+  let stage: AiStage = 'validate'
+  let imageIndex = -1
   try {
     const name = textValue(reviewInput.name ?? payload.name ?? submission.title, 160)
     const latinName = textValue(reviewInput.scientificName ?? payload.latinName, 160)
@@ -169,6 +171,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const imageDescriptions: Array<{ bg: string; en: string; ru: string }> = []
     for (let index = 0; index < images.length; index += 1) {
       const image = images[index]
+      imageIndex = index
+      stage = 'download_image'
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type) || image.size <= 0 || image.size > 10 * 1024 * 1024) {
         throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
       }
@@ -191,7 +195,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
             '. Describe only what is visibly apparent in this photo. Return JSON with keys bg, en, ru. Each value must be a concise natural alt text, maximum 180 characters. Do not mention image number or SEO keywords.' },
         ],
         image: dataUrl,
-      })
+      }) } catch (error) { throw new Error('AI_IMAGE_REQUEST: ' + errorDetails(error)) }
+      stage = 'parse_image_result'
       const alt = parseModelJson(response)
       imageDescriptions.push({
         bg: textValue(alt.bg, 180) || name + ' — снимка на растението',
@@ -211,7 +216,9 @@ careGuide should be a short Bulgarian care note with cautious wording. Use only 
     try { textResponse = await env.AI.run(model, { messages: [
       { role: 'system', content: 'You are a careful horticultural product copywriter for Bulgaria. Return valid JSON only. Never invent facts or commercial data.' },
       { role: 'user', content: prompt },
-    ] }))
+    ] }) } catch (error) { throw new Error('AI_TEXT_REQUEST: ' + errorDetails(error)) }
+    stage = 'parse_text_result'
+    const generated = parseModelJson(textResponse)
     const care = object(generated.plantCare) || {}
     const publication = {
       name: textValue(generated.name, 160) || name,
