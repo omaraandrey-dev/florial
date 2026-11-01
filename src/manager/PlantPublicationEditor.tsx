@@ -270,6 +270,14 @@ export default function PlantPublicationEditor({
   }
 
   const generateAiDraft = async () => {
+    if (draft.name.trim().length < 2) { setError('Проверете името на растението преди подготовката с ИИ.'); return }
+    if (!draft.categoryId || !categories.some((category) => category._id === draft.categoryId)) { setError('Изберете и проверете категорията преди подготовката с ИИ.'); return }
+    if (draft.priceEUR.trim() && (!Number.isFinite(Number(draft.priceEUR)) || Number(draft.priceEUR) <= 0)) { setError('Проверете цената. Тя трябва да е положителна сума в EUR.'); return }
+    if (draft.stockQuantity.trim() && (!Number.isInteger(Number(draft.stockQuantity)) || Number(draft.stockQuantity) < 0)) { setError('Проверете складовото количество.'); return }
+    if (draft.stockStatus === 'inStock' && (!draft.priceEUR.trim() || Number(draft.priceEUR) <= 0 || Number(draft.stockQuantity || 0) < 1)) { setError('За налично растение въведете положителна цена и количество поне 1.'); return }
+    if (draft.heightCm.trim() && (!Number.isFinite(Number(draft.heightCm)) || Number(draft.heightCm) < 0)) { setError('Проверете височината при продажба.'); return }
+    if (draft.containerVolumeL.trim() && (!Number.isFinite(Number(draft.containerVolumeL)) || Number(draft.containerVolumeL) <= 0)) { setError('Проверете обема на контейнера.'); return }
+    if (draft.variantName.trim().length < 2) { setError('Проверете името на варианта за продажба.'); return }
     setEnriching(true); setError(''); setNotice('')
     try {
       const categoryName = categories.find((category) => category._id === draft.categoryId)?.name || ''
