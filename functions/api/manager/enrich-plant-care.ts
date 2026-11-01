@@ -158,6 +158,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   if (isWorkflowProcess) {
     const activeJob = object(payload.plantCareJob) || {}
+    if (activeJob.workflowId === workflowId && activeJob.requestedBy === callerId && activeJob.status === 'completed' && payload.plantCareResearch) {
+      return json({ ok: true, careDraft: payload.plantCareResearch, idempotent: true })
+    }
     if (activeJob.token !== workflowJobToken || activeJob.workflowId !== workflowId || activeJob.requestedBy !== callerId) {
       return json({ error: 'Ботаническое задание недействительно или уже завершено.' }, 403)
     }
