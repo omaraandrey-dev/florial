@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck:app": "tsc -p tsconfig.app.json",
+    "typecheck:functions": "tsc -p tsconfig.functions.json"
   },
   "dependencies": {
     "@sanity/client": "^6.20.0",
