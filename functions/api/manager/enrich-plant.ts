@@ -125,17 +125,17 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
   const base = 'https://florial-d1.local'
-  const SUPABASE_SERVICE_ROLE_KEY = 'D1-compat'
-  const adminHeaders = { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+  const D1_INTERNAL_HEADER = 'D1-compat'
+  const adminHeaders = { apikey: D1_INTERNAL_HEADER, Authorization: 'Bearer ' + D1_INTERNAL_HEADER, 'Content-Type': 'application/json' }
   const accessToken = 'cookie-session'
-  const userResponse = await fetch(base + '/auth/v1/user', {
-    headers: { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
+  const userResponse = await fetch(base + '/internal-d1/auth/user', {
+    headers: { apikey: D1_INTERNAL_HEADER, Authorization: 'Bearer ' + accessToken },
   })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
   const profileResponse = await fetch(
-    base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
@@ -153,7 +153,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ error: 'Invalid submission ID.' }, 400)
   }
   const submissionResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
       '&select=id,catalog,operation,status,created_by,updated_at,payload',
     { headers: adminHeaders },
   )
@@ -193,7 +193,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const candidates = normalizeScientificCandidates(suggested.candidates)
       const nextDraft = { ...existingDraft, scientificNameCandidates: candidates }
       const nextPayload = { ...payload, aiDraft: nextDraft }
-      const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+      const save = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
         '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
         method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
         body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
@@ -378,14 +378,14 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     }
     stage = 'save_draft'
     const nextPayload = { ...payload, aiDraft: publication, plantCareResearch: null }
-    const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
+    const save = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
     })
     if (!save.ok) throw new Error('AI draft was generated but could not be saved.')
     const savedRows = await save.json() as Array<{ id: string }>
     if (!savedRows.length) return json({ error: 'The submission changed. Reload and try again.' }, 409)
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
         from_status: submission.status, to_status: submission.status,
@@ -403,7 +403,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     const diagnosticId = crypto.randomUUID()
     const stageLabel = stageLabels[failedStage]
     const imageNumber = imageIndex >= 0 ? imageIndex + 1 : null
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
         submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_failed',
