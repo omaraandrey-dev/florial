@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { managerApi } from '../lib/managerApi'
 import type { PlantCategory } from './plantCategories'
 
 type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
@@ -374,7 +374,7 @@ export default function PlantPublicationEditor({
     const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null, plantCareResearch: null }
     setUpdatingImages(true); setError(''); setNotice('')
     try {
-      const { data, error: updateError } = await supabase.from('catalog_submissions')
+      const { data, error: updateError } = await managerApi.from('catalog_submissions')
         .update({ payload: nextPayload, updated_at: new Date().toISOString() })
         .eq('id', submission.id).eq('status', submission.status).eq('updated_at', submission.updated_at)
         .select('id').maybeSingle()
