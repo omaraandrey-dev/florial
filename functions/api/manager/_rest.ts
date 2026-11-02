@@ -19,15 +19,23 @@ const parseFilter = (value:string) => {
   return null
 }
 
-export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:RequestInfo|URL, init?:RequestInit):Promise<Response> => {
+export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:RequestInfo|URL, init?:RequestInit, trustedUserId?:string):Promise<Response> => {
   const url = new URL(typeof input==='string'?input:input instanceof URL?input.toString():input.url)
   if(url.origin!=='https://florial-d1.local')return fetch(input,init)
   if(!env.DB)return response({message:'D1 database is not configured.'},503)
   const method=(init?.method||'GET').toUpperCase()
-  if(url.pathname==='/auth/v1/user'){
+  const getIdentity = async () => {
+    if(trustedUserId){
+      const row=await env.DB!.prepare('SELECT user_id,email,role,is_active FROM catalog_staff_profiles WHERE user_id=? AND is_active=1').bind(trustedUserId).first<{user_id:string;email:string;role:string;is_active:number}>()
+      return row?{user_id:row.user_id,email:row.email,role:row.role}:null
+    }
     const auth=await authenticate(incoming,env)
-    if(auth.error||!auth.user)return response({message:'Invalid or expired session.'},401)
-    return response({id:auth.user.user_id,email:auth.user.email})
+    return auth.error||!auth.user?null:{user_id:auth.user.user_id,email:auth.user.email,role:auth.user.role}
+  }
+  if(url.pathname==='/auth/v1/user'){
+    const identity=await getIdentity()
+    if(!identity)return response({message:'Invalid or expired session.'},401)
+    return response({id:identity.user_id,email:identity.email})
   }
   const match=url.pathname.match(/^\/rest\/v1\/(catalog_staff_profiles|catalog_submissions|catalog_submission_events)$/)
   if(!match)return response({message:'Unsupported D1 compatibility endpoint.'},404)
@@ -47,8 +55,8 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
         else{where.push(key+' IN ('+filter.values.map(()=>'?').join(',')+')');values.push(...filter.values)}
       }
       if(table==='catalog_staff_profiles'){
-        const auth=await authenticate(incoming,env);if(auth.error||!auth.user)return response({message:'Authentication required.'},401)
-        where.push('user_id=?');values.push(auth.user.user_id)
+        const identity=await getIdentity();if(!identity)return response({message:'Authentication required.'},401)
+        where.push('user_id=?');values.push(identity.user_id)
       }
       let sql='SELECT '+selected.join(',')+' FROM '+table+(where.length?' WHERE '+where.join(' AND '):'')
       const order=url.searchParams.get('order')
@@ -64,11 +72,11 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
       const keys=Object.keys(body)
       if(!keys.length||keys.some(x=>!allowed.has(x)))return response({message:'Invalid insert fields.'},400)
       if(table==='catalog_staff_profiles')return response({message:'Staff profiles can only be managed through the staff API.'},403)
-      const auth=await authenticate(incoming,env);if(auth.error||!auth.user)return response({message:'Authentication required.'},401)
+      const identity=await getIdentity();if(!identity)return response({message:'Authentication required.'},401)
       const now=nowIso()
       const values=keys.map(key=>jsonFields.has(key)?JSON.stringify(body[key]):body[key])
       if(table==='catalog_submissions'){
-        body.id=body.id||crypto.randomUUID();body.idempotency_key=body.idempotency_key||crypto.randomUUID();body.created_by=auth.user.user_id;body.created_at=body.created_at||now;body.updated_at=body.updated_at||now
+        body.id=body.id||crypto.randomUUID();body.idempotency_key=body.idempotency_key||crypto.randomUUID();body.created_by=identity.user_id;body.created_at=body.created_at||now;body.updated_at=body.updated_at||now
         for(const key of ['id','idempotency_key','created_by','created_at','updated_at'])if(!keys.includes(key)){keys.push(key);values.push(body[key])}
       }
       const sql='INSERT INTO '+table+' ('+keys.join(',')+') VALUES ('+keys.map(()=>'?').join(',')+')'
@@ -82,7 +90,7 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
     }
     if(method==='PATCH'){
       if(table!=='catalog_submissions')return response({message:'Updates are not allowed for this table.'},403)
-      const auth=await authenticate(incoming,env);if(auth.error||!auth.user)return response({message:'Authentication required.'},401)
+      const identity=await getIdentity();if(!identity)return response({message:'Authentication required.'},401)
       const body=JSON.parse(String(init?.body||'{}')) as Record<string,unknown>,keys=Object.keys(body)
       const updatable=new Set(['title','sku','payload','status','reviewed_by','review_note','submitted_at','reviewed_at','published_at','publish_error','notification_sent_at','notification_error','updated_at'])
       if(!keys.length||keys.some(x=>!updatable.has(x)))return response({message:'Invalid update fields.'},400)
@@ -94,7 +102,7 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
         if(filter.op==='eq'){where.push(key+'=?');values.push(filter.values[0])}
         else{where.push(key+' IN ('+filter.values.map(()=>'?').join(',')+')');values.push(...filter.values)}
       }
-      if(auth.user.role==='seller'){where.push('created_by=?');values.push(auth.user.user_id);where.push("status IN ('draft','changes_requested')")}
+      if(identity.role==='seller'){where.push('created_by=?');values.push(identity.user_id);where.push("status IN ('draft','changes_requested')")}
       if(!where.length)return response({message:'An update filter is required.'},400)
       const sets=keys.map(key=>key+'=?')
       const params=[...keys.map(key=>jsonFields.has(key)?JSON.stringify(body[key]):body[key]),...values]
