@@ -28,7 +28,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   const table = typeof body.table === 'string' ? body.table : ''
   if (!tables.has(table)) return json({ error: 'Table is not available.' }, 400)
   const db = env.DB
-  if (request.method === 'GET') {
+  if (request.method === 'GET' || (request.method === 'POST' && body.action === 'select')) {
     const select = typeof body.select === 'string' ? body.select.split(',').map(x=>x.trim()).filter(Boolean) : []
     if (!select.length || select.some(x=>!columns[table].has(x))) return json({ error: 'Invalid columns.' }, 400)
     const filters = Array.isArray(body.filters) ? body.filters as Array<{column?:string;op?:string;value?:unknown}> : []
@@ -80,7 +80,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const next=String(values.status)
     const sellerAllowed=['draft','submitted']
     const reviewerAllowed=['in_review','changes_requested','approved','rejected','publishing','published','publish_failed']
-    if (user.role==='seller'?!sellerAllowed.includes(next):!reviewerAllowed.includes(next)) return json({error:'Invalid status transition.'},403)
+    if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !['in_review','changes_requested'].includes(next) : !reviewerAllowed.includes(next)) return json({error:'Invalid status transition.'},403)
   }
   const assignments:string[]=[], params:unknown[]=[]
   for(const key of keys){
