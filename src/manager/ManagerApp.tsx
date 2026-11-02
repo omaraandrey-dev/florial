@@ -50,6 +50,12 @@ export default function ManagerApp() {
   const [notice, setNotice] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [bootstrapSecret, setBootstrapSecret] = useState('')
+  const [bootstrapAvailable, setBootstrapAvailable] = useState(false)
+  const [bootstrapConfigured, setBootstrapConfigured] = useState(false)
+  const [bootstrapError, setBootstrapError] = useState('')
+  const [bootstrapSaving, setBootstrapSaving] = useState(false)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [events, setEvents] = useState<Array<{ id: number; event_type: string; from_status: string | null; to_status: string | null; note: string | null; created_at: string }>>([])
@@ -139,6 +145,15 @@ export default function ManagerApp() {
     })
     return () => { alive = false; listener.subscription.unsubscribe() }
   }, [loadProfile])
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/manager/auth/bootstrap-status', { cache: 'no-store' }).then(async (response) => {
+      const result = await response.json().catch(() => ({})) as { available?: boolean; configured?: boolean }
+      if (active) { setBootstrapAvailable(result.available === true); setBootstrapConfigured(result.configured === true) }
+    }).catch(() => undefined)
+    return () => { active = false }
+  }, [])
 
   useEffect(() => { void loadSubmissions() }, [loadSubmissions])
 
@@ -487,18 +502,43 @@ export default function ManagerApp() {
     <main className="min-h-screen bg-[#f5f6ef] px-4 py-10 flex items-center justify-center">
       <section className="w-full max-w-md rounded-3xl bg-white p-7 shadow-sm border border-stone-200">
         <div className="text-xs font-bold tracking-[.24em] text-lime-800">FLORIAL / INTERNAL</div>
-        <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
-        <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Регистрацията е достъпна само чрез покана от собственика.</p>
-        <form className="mt-7 space-y-4" onSubmit={async (event) => {
-          event.preventDefault(); setError(''); setLoading(true)
-          const { error: loginError } = await managerApi.auth.signInWithPassword({ email, password })
-          if (loginError) { setError('Невалиден имейл или парола.'); setLoading(false) }
-        }}>
-          <label className={labelClass}>Имейл<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-          <label className={labelClass}>Парола<input className={inputClass} type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
-          {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-          <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={loading}>Вход</button>
-        </form>
+        {bootstrapAvailable ? <>
+          <h1 className="mt-3 text-3xl font-semibold text-stone-900">Първоначална настройка</h1>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Създайте първия собственик на Florial Manager. Тази форма се показва само докато в D1 няма owner акаунт.</p>
+          {!bootstrapConfigured && <p role="status" className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">Първо добавете secret MANAGER_BOOTSTRAP_SECRET в Cloudflare Pages → Settings → Variables and Secrets (Production), след това презаредете тази страница.</p>}
+          <form className="mt-7 space-y-4" onSubmit={async (event) => {
+            event.preventDefault(); setBootstrapError(''); setBootstrapSaving(true)
+            try {
+              const response = await fetch('/api/manager/auth/bootstrap', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Florial-Bootstrap-Secret': bootstrapSecret }, body: JSON.stringify({ displayName: ownerName, email, password }) })
+              const result = await response.json().catch(() => ({})) as { error?: string }
+              if (!response.ok) throw new Error(result.error || 'Не удалось создать владельца.')
+              const login = await managerApi.auth.signInWithPassword({ email, password })
+              if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
+              setBootstrapAvailable(false)
+            } catch (err) { setBootstrapError(err instanceof Error ? err.message : 'Не удалось создать владельца.') }
+            finally { setBootstrapSaving(false) }
+          }}>
+            <label className={labelClass}>Имя владельца<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
+            <label className={labelClass}>Email<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+            <label className={labelClass}>Постоянный пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            <label className={labelClass}>Одноразовый секрет первичной настройки<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
+            {bootstrapError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{bootstrapError}</p>}
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създать владельца'}</button>
+          </form>
+        </> : <>
+          <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Учетную запись создаёт владелец.</p>
+          <form className="mt-7 space-y-4" onSubmit={async (event) => {
+            event.preventDefault(); setError(''); setLoading(true)
+            const { error: loginError } = await managerApi.auth.signInWithPassword({ email, password })
+            if (loginError) { setError('Невалиден имейл или парола.'); setLoading(false) }
+          }}>
+            <label className={labelClass}>Имейл<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+            <label className={labelClass}>Парола<input className={inputClass} type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={loading}>Вход</button>
+          </form>
+        </>}
       </section>
     </main>
   )
