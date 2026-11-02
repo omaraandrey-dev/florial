@@ -55,7 +55,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const result=await db.prepare(sql).bind(...values).all<Record<string,unknown>>()
     return json({ data: result.results.map(parseJsonFields), error: null })
   }
-  if (request.method==='POST') {
+  if (request.method==='POST' && body.action === 'insert') {
     if (table!=='catalog_submissions' || user.role==='seller' && !user.permissionsObject.canCreatePlant) return json({ error: 'Not authorized.' },403)
     const values=body.values && typeof body.values==='object'&&!Array.isArray(body.values)?body.values as Record<string,unknown>:null
     if (!values) return json({ error:'Invalid insert values.'},400)
