@@ -1,4 +1,6 @@
-type Env={SUPABASE_URL?:string;SUPABASE_SERVICE_ROLE_KEY?:string;SANITY_API_TOKEN?:string}
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
+type Env=ManagerEnv
 type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
 type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
@@ -10,14 +12,16 @@ const str=(v:unknown,max=160)=>typeof v==='string'?v.trim().slice(0,max):''
 const num=(v:unknown,min:number,integer=false):number|null=>{if(v==null||v==='')return null;const n=Number(v);if(!Number.isFinite(n)||n<min||(integer&&!Number.isInteger(n)))throw new Error('Проверете въведената числова стойност.');return n}
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 export const onRequest=async({request,env}:{request:Request;env:Env})=>{
+ const fetch=(input:RequestInfo|URL,init?:RequestInit)=>d1RestFetch(env,request,input,init)
+ const base='https://florial-d1.local'
+ const SUPABASE_SERVICE_ROLE_KEY='D1-compat'
  const url=new URL(request.url),origin=request.headers.get('Origin')
  if(origin){try{if(new URL(origin).origin!==url.origin)return json({error:'Origin not allowed.'},403)}catch{return json({error:'Invalid origin.'},403)}}
  if(!['GET','POST'].includes(request.method))return json({error:'Method not allowed.'},405)
- const {SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SANITY_API_TOKEN}=env
- if(!SUPABASE_URL||!SUPABASE_SERVICE_ROLE_KEY||!SANITY_API_TOKEN)return json({error:'Plant catalogue service is not configured.'},503)
+ const {SANITY_API_TOKEN}=env
+ if(!env.DB||!SANITY_API_TOKEN)return json({error:'Plant catalogue service is not configured.'},503)
  const token=(request.headers.get('Authorization')||'').replace(/^Bearer /,'')
  if(!token)return json({error:'Authentication required.'},401)
- const base=SUPABASE_URL.replace(/\/+$/,'')
  const admin={apikey:SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'}
  const auth=await fetch(base+'/auth/v1/user',{headers:{apikey:SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+token}})
  if(!auth.ok)return json({error:'Invalid or expired session.'},401)
