@@ -74,10 +74,9 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
       if(table==='catalog_staff_profiles')return response({message:'Staff profiles can only be managed through the staff API.'},403)
       const identity=await getIdentity();if(!identity)return response({message:'Authentication required.'},401)
       const now=nowIso()
-      const values=keys.map(key=>jsonFields.has(key)?JSON.stringify(body[key]):body[key])
       if(table==='catalog_submissions'){
         body.id=body.id||crypto.randomUUID();body.idempotency_key=body.idempotency_key||crypto.randomUUID();body.created_by=identity.user_id;body.created_at=body.created_at||now;body.updated_at=body.updated_at||now
-        for(const key of ['id','idempotency_key','created_by','created_at','updated_at'])if(!keys.includes(key)){keys.push(key);values.push(body[key])}
+        for(const key of ['id','idempotency_key','created_by','created_at','updated_at'])if(!keys.includes(key)){keys.push(key)}
       }
       const sql='INSERT INTO '+table+' ('+keys.join(',')+') VALUES ('+keys.map(()=>'?').join(',')+')'
       await db.prepare(sql).bind(...keys.map(key=>jsonFields.has(key)?JSON.stringify(body[key]):body[key])).run()
