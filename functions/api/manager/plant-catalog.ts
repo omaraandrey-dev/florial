@@ -14,7 +14,7 @@ const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]
 export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const fetch=(input:RequestInfo|URL,init?:RequestInit)=>d1RestFetch(env,request,input,init)
  const base='https://florial-d1.local'
- const SUPABASE_SERVICE_ROLE_KEY='D1-compat'
+ const D1_INTERNAL_HEADER='D1-compat'
  const url=new URL(request.url),origin=request.headers.get('Origin')
  if(origin){try{if(new URL(origin).origin!==url.origin)return json({error:'Origin not allowed.'},403)}catch{return json({error:'Invalid origin.'},403)}}
  if(!['GET','POST'].includes(request.method))return json({error:'Method not allowed.'},405)
@@ -22,12 +22,12 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  if(!env.DB||!SANITY_API_TOKEN)return json({error:'Plant catalogue service is not configured.'},503)
  const token=(request.headers.get('Authorization')||'').replace(/^Bearer /,'')
  if(!token)return json({error:'Authentication required.'},401)
- const admin={apikey:SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'}
- const auth=await fetch(base+'/auth/v1/user',{headers:{apikey:SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+token}})
+ const admin={apikey:D1_INTERNAL_HEADER,Authorization:'Bearer '+D1_INTERNAL_HEADER,'Content-Type':'application/json'}
+ const auth=await fetch(base+'/internal-d1/auth/user',{headers:{apikey:D1_INTERNAL_HEADER,Authorization:'Bearer '+token}})
  if(!auth.ok)return json({error:'Invalid or expired session.'},401)
  const user=await auth.json() as {id?:string}
  if(!user.id)return json({error:'Invalid session.'},401)
- const pr=await fetch(base+'/rest/v1/catalog_staff_profiles?user_id=eq.'+encodeURIComponent(user.id)+'&select=role,is_active,permissions',{headers:admin})
+ const pr=await fetch(base+'/internal-d1/data/catalog_staff_profiles?user_id=eq.'+encodeURIComponent(user.id)+'&select=role,is_active,permissions',{headers:admin})
  if(!pr.ok)return json({error:'Unable to verify staff permissions.'},503)
  const profiles=await pr.json() as Profile[],profile=profiles[0]
  if(!profile||!profile.is_active)return json({error:'Active staff access required.'},403)
@@ -42,7 +42,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  if(body.action==='approve'){
   if(profile.role!=='owner')return json({error:'Owner access required.'},403)
   const id=str(body.submissionId,64);if(!uuid.test(id))return json({error:'Invalid submission ID.'},400)
-  const sr=await fetch(base+'/rest/v1/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
+  const sr=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
   if(!sr.ok)return json({error:'Unable to load the change request.'},502)
   const subs=await sr.json() as Array<{id:string;operation:string;status:string;target_document_id:string;target_revision:string;payload:Record<string,unknown>}>
   const sub=subs[0];if(!sub||sub.operation!=='update'||!['submitted','in_review'].includes(sub.status))return json({error:'Change request is not available for approval.'},409)
@@ -62,9 +62,9 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
     next=variants.map(x=>x._key===key?{...x,priceEUR:price}:x)
    }else return json({error:'Unknown change type.'},400)
    await mutate(next,current._id,current._rev)
-   const updated=await fetch(base+'/rest/v1/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(submitted,in_review)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'published',reviewed_by:user.id,reviewed_at:new Date().toISOString(),published_at:new Date().toISOString(),updated_at:new Date().toISOString()})})
+   const updated=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(submitted,in_review)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'published',reviewed_by:user.id,reviewed_at:new Date().toISOString(),published_at:new Date().toISOString(),updated_at:new Date().toISOString()})})
    if(!updated.ok)return json({error:'Каталогът е променен, но статусът на заявката не се обнови. Проверете заявката преди повторение.'},502)
-   await fetch(base+'/rest/v1/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_published',from_status:sub.status,to_status:'published',note:payload.changeType==='addVariant'?'Добавен е вариант към съществуващо растение.':'Обновена е цената на вариант.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
+   await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_published',from_status:sub.status,to_status:'published',note:payload.changeType==='addVariant'?'Добавен е вариант към съществуващо растение.':'Обновена е цената на вариант.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
    return json({ok:true})
   }catch(e){return json({error:e instanceof Error?e.message:'Не удалось применить изменение.'},502)}
  }
@@ -92,7 +92,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
    if(!variant||price===null)return json({error:'Изберете вариант и положителна цена.'},400)
    payload={changeType:'editPrice',targetName:plant.name,variantKey:key,variantName:variant.name||'',oldPriceEUR:variant.priceEUR??null,newPriceEUR:price}
   }
-  const insert=await fetch(base+'/rest/v1/catalog_submissions',{method:'POST',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({catalog:'plants',operation:'update',target_document_id:targetId,target_revision:rev,title:plant.name,sku:plant.sku||null,payload,status:'submitted',created_by:user.id,submitted_at:new Date().toISOString()})})
+  const insert=await fetch(base+'/internal-d1/data/catalog_submissions',{method:'POST',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({catalog:'plants',operation:'update',target_document_id:targetId,target_revision:rev,title:plant.name,sku:plant.sku||null,payload,status:'submitted',created_by:user.id,submitted_at:new Date().toISOString()})})
   if(!insert.ok)return json({error:'Не удалось создать заявку на изменение каталога.'},502)
   const rows=await insert.json() as Array<{id:string}>;if(!rows[0]?.id)return json({error:'Заявка создана без идентификатора.'},502)
   return json({ok:true,submissionId:rows[0].id},201)
