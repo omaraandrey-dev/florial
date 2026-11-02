@@ -59,6 +59,8 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
     }
     if(method==='POST'){
       const body=JSON.parse(String(init?.body||'{}')) as Record<string,unknown>
+      if(table==='catalog_submission_events'&&!body.created_at)body.created_at=nowIso()
+      if(table==='catalog_submission_events'&&!body.metadata)body.metadata={}
       const keys=Object.keys(body)
       if(!keys.length||keys.some(x=>!allowed.has(x)))return response({message:'Invalid insert fields.'},400)
       if(table==='catalog_staff_profiles')return response({message:'Staff profiles can only be managed through the staff API.'},403)
