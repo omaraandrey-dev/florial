@@ -51,7 +51,7 @@ export function CartPage({
         customer_name: formData.name.trim(),
         phone: formData.phone.trim(),
         email: formData.email.trim(),
-        city: deliveryMethod === 'pickup' ? '' : deliveryMethod === 'courier' ? selectedSettlement : formData.city.trim(),
+        city: deliveryMethod === 'pickup' ? '' : formData.city.trim(),
         address: deliveryMethod === 'pickup' ? '' : formData.address.trim(),
         delivery_method: deliveryMethod,
         payment_method: 'pay_in_store',
