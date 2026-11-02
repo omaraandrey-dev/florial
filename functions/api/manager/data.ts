@@ -1,4 +1,4 @@
-import { json, newId, nowIso, requireUser, type ManagerEnv, type D1Database, type ManagerIdentity } from './_lib'
+import { json, newId, nowIso, requireUser, type ManagerEnv } from './_lib'
 
 const tables = new Set(['catalog_staff_profiles','catalog_submissions','catalog_submission_events'])
 const columns: Record<string, Set<string>> = {
