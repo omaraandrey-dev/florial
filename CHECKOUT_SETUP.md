@@ -2,11 +2,9 @@
 
 The checkout API is implemented as a Cloudflare Pages Function at `functions/api/orders.ts` and is available at `POST /api/orders`. Order persistence uses Cloudflare D1; Sanity remains the authoritative source for current product prices and availability.
 
-## Required Cloudflare Pages variables
+## Required Cloudflare Pages binding
 
-In **Cloudflare Dashboard → Workers & Pages → Florial project → Settings → Variables and Secrets**, add these for the production environment (and preview environment if you want to test preview deployments):
-
-- `DB` — Cloudflare Pages D1 database binding for the `florial-db` production database. It must be bound as `DB` in the production environment.
+In **Cloudflare Dashboard → Workers & Pages → Florial project → Settings → Functions → D1 database bindings**, bind the production D1 database `florial-db` using the binding name `DB`. This is a D1 binding, not a text variable or secret. Preview should use a separate test database before any preview checkout testing.
 
 Optional variables (the current public catalog defaults are already configured in the function):
 
