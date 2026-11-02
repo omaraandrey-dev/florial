@@ -129,7 +129,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const adminHeaders = { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
   const accessToken = 'cookie-session'
   const userResponse = await fetch(base + '/auth/v1/user', {
-    headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
+    headers: { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
   })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
