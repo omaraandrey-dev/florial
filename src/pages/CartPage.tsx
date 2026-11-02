@@ -23,7 +23,7 @@ export function CartPage({
   const [orderNumber, setOrderNumber] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | 'agree' | ''>('')
+  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'agree' | ''>('')
   const hasPlantItems = cart.some(({ product }) => product.productType !== 'equipment')
   const getCartItemKey = (item: CartItem) => item.product._id + '::' + (item.saleVariant?._key || item.saleVariant?.sku || item.saleVariant?.name || '')
   const getItemPrice = (item: CartItem) => item.saleVariant?.priceEUR ?? item.product.priceEUR ?? 0
@@ -220,6 +220,9 @@ export function CartPage({
                 {totalPrice.toFixed(2)} €
               </span>
             </div>
+            {deliveryMethod === 'agree' && (
+              <p className="text-xs text-slate-500">{language === 'ru' ? 'Стоимость доставки и окончательная сумма будут согласованы с вами по телефону.' : language === 'en' ? 'The delivery fee and final total will be agreed with you by phone.' : 'Цената за доставка и крайната сума ще бъдат уточнени с вас по телефона.'}</p>
+            )}
 
             <form onSubmit={handleSubmitOrder} className="space-y-4 pt-2">
               <div>
@@ -302,13 +305,6 @@ export function CartPage({
                     </span>
                     <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'agree' ? '✓' : '›'}</span>
                   </button>}
-                  <div aria-disabled="true" className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-60">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl grayscale" aria-hidden="true">📦</span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-bold text-slate-600">Econt</span>
-                      <span className="mt-1 block text-sm text-slate-500">{language === 'ru' ? 'Пока недоступно' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
-                    </span>
-                  </div>
                 </div>
               </section>
 
