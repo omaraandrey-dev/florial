@@ -23,7 +23,41 @@ export function CartPage({
   const [orderNumber, setOrderNumber] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'agree' | ''>('')
+  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | 'agree' | ''>('')
+  const [selectedSettlement, setSelectedSettlement] = useState('')
+  const deliveryRates: Record<string, number> = {
+    'Слънчев бряг': 0,
+    'Несебър': 10,
+    'Свети Влас': 10,
+    'Тънково': 10,
+    'Равда': 10,
+    'Кошарица': 10,
+    'Ахелой': 10,
+    'Александрово': 10,
+    'Оризаре': 10,
+    'Гюльовца': 10,
+    'Медово': 10,
+    'Порой': 10,
+    'Каблешково': 10,
+    'Поморие': 15,
+    'Каменар': 15,
+    'Лъка': 15,
+    'Баня': 15,
+    'Бата': 15,
+    'Гълъбец': 15,
+    'Габерово': 15,
+    'Дъбник': 17,
+    'Горица': 20,
+    'Белодол': 20,
+    'Емона': 20,
+    'Страцин': 20,
+    'Обзор': 20,
+    'Приселци': 25,
+    'Козичино': 25,
+    'Раковсково': 25,
+    'Паницово': 25,
+  }
+  const deliveryRate = selectedSettlement ? deliveryRates[selectedSettlement] : undefined
   const hasPlantItems = cart.some(({ product }) => product.productType !== 'equipment')
   const getCartItemKey = (item: CartItem) => item.product._id + '::' + (item.saleVariant?._key || item.saleVariant?.sku || item.saleVariant?.name || '')
   const getItemPrice = (item: CartItem) => item.saleVariant?.priceEUR ?? item.product.priceEUR ?? 0
@@ -51,7 +85,7 @@ export function CartPage({
         customer_name: formData.name.trim(),
         phone: formData.phone.trim(),
         email: formData.email.trim(),
-        city: deliveryMethod === 'pickup' ? '' : formData.city.trim(),
+        city: deliveryMethod === 'pickup' ? '' : deliveryMethod === 'courier' ? selectedSettlement : formData.city.trim(),
         address: deliveryMethod === 'pickup' ? '' : formData.address.trim(),
         delivery_method: deliveryMethod,
         payment_method: 'pay_in_store',
@@ -220,6 +254,18 @@ export function CartPage({
                 {totalPrice.toFixed(2)} €
               </span>
             </div>
+            {deliveryMethod === 'courier' && deliveryRate !== undefined && (
+              <>
+                <div className="flex justify-between items-center text-sm text-slate-700">
+                  <span>{language === 'ru' ? 'Доставка:' : language === 'en' ? 'Delivery:' : 'Доставка:'}</span>
+                  <strong>{deliveryRate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${deliveryRate.toFixed(2)} €`}</strong>
+                </div>
+                <div className="flex justify-between items-center border-t border-slate-100 pt-3 text-lg font-extrabold text-slate-900">
+                  <span>{language === 'ru' ? 'Итого:' : language === 'en' ? 'Total:' : 'Общо:'}</span>
+                  <span className="text-2xl text-emerald-800">{(totalPrice + deliveryRate).toFixed(2)} €</span>
+                </div>
+              </>
+            )}
             {deliveryMethod === 'agree' && (
               <p className="text-xs text-slate-500">{language === 'ru' ? 'Стоимость доставки и окончательная сумма будут согласованы с вами по телефону.' : language === 'en' ? 'The delivery fee and final total will be agreed with you by phone.' : 'Цената за доставка и крайната сума ще бъдат уточнени с вас по телефона.'}</p>
             )}
@@ -285,13 +331,19 @@ export function CartPage({
                     </span>
                     <span className="shrink-0 text-sm font-extrabold text-emerald-700">{language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно'}</span>
                   </button>
-                  <div aria-disabled="true" className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-60">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl grayscale" aria-hidden="true">📦</span>
+                  {!hasPlantItems && <button
+                    type="button"
+                    aria-pressed={deliveryMethod === 'courier'}
+                    onClick={() => setDeliveryMethod('courier')}
+                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'courier' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
+                  >
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🚚</span>
                     <span className="min-w-0 flex-1">
-                      <span className="block font-bold text-slate-600">{language === 'ru' ? 'Доставка курьером / Econt' : language === 'en' ? 'Courier delivery / Econt' : 'Куриерска доставка / Econt'}</span>
-                      <span className="mt-1 block text-sm text-slate-500">{language === 'ru' ? 'Скоро. Цена будет рассчитана по тарифам выбранного перевозчика.' : language === 'en' ? 'Coming soon. The fee will be calculated using the selected carrier’s rates.' : 'Очаквайте скоро. Цената ще се изчислява по тарифите на избрания превозвач.'}</span>
+                      <span className="block font-bold text-slate-900">{language === 'ru' ? 'Курьерская доставка по адресу' : language === 'en' ? 'Courier delivery to address' : 'Куриерска доставка до адрес'}</span>
+                      <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Оборудование доставит инженер Florial' : language === 'en' ? 'Your equipment will be delivered by a Florial engineer' : 'Оборудването ще бъде доставено от инженер на Florial'}</span>
                     </span>
-                  </div>
+                    <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'courier' ? '✓' : '›'}</span>
+                  </button>}
                   {hasPlantItems && <button
                     type="button"
                     aria-pressed={deliveryMethod === 'agree'}
@@ -319,6 +371,52 @@ export function CartPage({
                     <label className="mb-1 block text-xs font-bold uppercase text-slate-700">{language === 'ru' ? 'Адрес (если известен)' : language === 'en' ? 'Address (if known)' : 'Адрес (ако е известен)'}</label>
                     <textarea rows={2} value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm" />
                   </div>
+                </section>
+              )}
+
+              {deliveryMethod === 'courier' && !hasPlantItems && (
+                <section className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
+                      {language === 'ru' ? 'Населённый пункт *' : language === 'en' ? 'Settlement *' : 'Населено място *'}
+                    </label>
+                    <select
+                      required
+                      value={selectedSettlement}
+                      onChange={(e) => {
+                        setSelectedSettlement(e.target.value)
+                        setFormData({ ...formData, city: e.target.value })
+                      }}
+                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    >
+                      <option value="">{language === 'ru' ? 'Выберите населённый пункт' : language === 'en' ? 'Select a settlement' : 'Изберете населено място'}</option>
+                      {Object.entries(deliveryRates).map(([settlement, rate]) => (
+                        <option key={settlement} value={settlement}>{settlement} — {rate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${rate.toFixed(2)} €`}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {deliveryRate !== undefined && (
+                    <div className="flex items-center justify-between rounded-lg bg-white p-3">
+                      <span className="text-sm text-slate-600">{language === 'ru' ? 'Стоимость доставки' : language === 'en' ? 'Delivery fee' : 'Цена за доставка'}</span>
+                      <strong className="text-lg text-emerald-800">{deliveryRate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${deliveryRate.toFixed(2)} €`}</strong>
+                    </div>
+                  )}
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
+                      {language === 'ru' ? 'Адрес доставки *' : language === 'en' ? 'Delivery address *' : 'Адрес за доставка *'}
+                    </label>
+                    <textarea
+                      rows={2}
+                      required
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      placeholder={language === 'en' ? 'Street, number, entrance, floor' : language === 'ru' ? 'Улица, номер, подъезд, этаж' : 'Улица, номер, вход, етаж'}
+                    />
+                  </div>
+                  <a href="https://florial-bg.com/services/dostavka-poliv?lang=bg" target="_blank" rel="noreferrer" className="inline-flex text-sm font-semibold text-emerald-800 underline underline-offset-2 hover:text-emerald-900">
+                    {language === 'ru' ? 'Условия доставки и бесплатной консультации инженера' : language === 'en' ? 'Delivery terms and free engineer consultation' : 'Условия за доставка и безплатна консултация с инженер'} ↗
+                  </a>
                 </section>
               )}
 
@@ -362,7 +460,7 @@ export function CartPage({
               )}
               <button
                 type="submit"
-                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'agree' && !formData.city.trim())}
+                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'courier' && (!selectedSettlement || !formData.address.trim())) || (deliveryMethod === 'agree' && !formData.city.trim())}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
                 {isSubmitting ? 'Изпращане...' : t('Изпрати поръчката')}
