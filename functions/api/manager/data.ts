@@ -70,7 +70,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   const filters=Array.isArray(body.filters)?body.filters as Array<{column?:string;op?:string;value?:unknown}>:[]
   if (!values || table!=='catalog_submissions' || !filters.length) return json({error:'Invalid update request.'},400)
   const keys=Object.keys(values)
-  if (!keys.length || keys.some(key=>!allowedUpdate.has(key))) return json({error:'Invalid update fields.'},400)
+  const roleUpdate = user.role==='seller' ? new Set(['title','sku','payload','status','submitted_at','updated_at']) : user.role==='manager' ? new Set(['status','reviewed_by','review_note','reviewed_at','updated_at']) : allowedUpdate
+  if (!keys.length || keys.some(key=>!allowedUpdate.has(key)||!roleUpdate.has(key))) return json({error:'Invalid update fields.'},400)
   const idFilter=filters.find(x=>x.column==='id'&&x.op==='eq')
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
   const existing=await db.prepare('SELECT id,created_by,status FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string}>()
