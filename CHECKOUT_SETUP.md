@@ -1,13 +1,12 @@
 # Checkout deployment setup
 
-The checkout API is implemented as a Cloudflare Pages Function at `functions/api/orders.ts` and is available at `POST /api/orders`.
+The checkout API is implemented as a Cloudflare Pages Function at `functions/api/orders.ts` and is available at `POST /api/orders`. Order persistence uses Cloudflare D1; Sanity remains the authoritative source for current product prices and availability.
 
 ## Required Cloudflare Pages variables
 
 In **Cloudflare Dashboard → Workers & Pages → Florial project → Settings → Variables and Secrets**, add these for the production environment (and preview environment if you want to test preview deployments):
 
-- `SUPABASE_URL` — Supabase project URL, for example `https://YOUR_PROJECT_REF.supabase.co`.
-- `SUPABASE_SERVICE_ROLE_KEY` — the Supabase **service_role** secret. Store it as a secret; never add it to a `VITE_...` variable or frontend code.
+- `DB` — Cloudflare Pages D1 database binding for the `florial-db` production database. It must be bound as `DB` in the production environment.
 
 Optional variables (the current public catalog defaults are already configured in the function):
 
@@ -29,12 +28,12 @@ Redeploy after adding or changing variables.
 
 - Validates customer contact fields and cart quantities.
 - Re-reads active product IDs and current prices from Sanity; client-supplied prices are only compared to detect stale carts, never used to calculate the saved subtotal.
-- Inserts the order into `public.orders` using the existing `subtotal` column and the server-side Supabase secret.
+- Inserts the order into `D1 `orders`` using a prepared statement against the server-side D1 binding.
 - Returns an order number only after Supabase confirms the insert. The cart is cleared only after that response.
 
 ## Before launch
 
-- Test a successful order and verify the record in Supabase.
+- Test a successful order and verify the record in Cloudflare D1.
 - Test a changed product price, inactive/missing product, invalid quantity, and missing server variables.
 - Configure transactional email with a verified sender domain and test both seller and customer delivery.
 - Verify the generated Bulgarian proforma PDF, including Cyrillic text, on the deployed environment before using it with customers. Bank details are not included until confirmed.
