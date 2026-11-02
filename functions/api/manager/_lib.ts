@@ -38,6 +38,7 @@ export type ManagerEnv = {
   ORDER_NOTIFICATION_EMAIL?: string
   MANAGER_BOOTSTRAP_SECRET?: string
   AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
+  PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
 }
 export type ManagerIdentity = StaffProfile & { id: string; permissionsObject: StaffPermissions }
 
