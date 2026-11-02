@@ -119,3 +119,11 @@
 - Сотрудники далее входят обычным способом по email и постоянному паролю; одноразовая почта для входа не используется.
 - Фото продавцов загружаются напрямую в публичный Sanity dataset `plants`; JPEG/PNG/WebP, максимум 10 MB. R2 для этих фотографий не нужен.
 - Production test orders и любые тесты, которые отправляют email клиентам, не запускать без отдельного разрешения владельца.
+
+
+### Проверка Cloudflare Production — 02.11.2026
+
+- Через Cloudflare API подтверждено наличие production secret name `SANITY_API_TOKEN`; значение секрета не читалось и не раскрывалось. Секрет не изменялся.
+- Подтверждены production bindings `DB` (D1), `AI` (Workers AI) и service binding `PLANT_CARE_WORKFLOW` (существующий Worker).
+- В production по-прежнему присутствуют прежние Supabase variables/secrets для rollback; их не удалять до завершения периода наблюдения и отдельного согласования.
+- `MANAGER_BOOTSTRAP_SECRET` пока отсутствует. Его нужно добавить отдельно перед созданием первого owner после deployment.
