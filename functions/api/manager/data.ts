@@ -97,11 +97,13 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     else if(filter.op==='in'&&Array.isArray(filter.value)&&filter.value.length>0&&filter.value.length<=20){where.push(filter.column+' IN ('+filter.value.map(()=>'?').join(',')+')');params.push(...filter.value)}
     else return json({error:'Invalid filter.'},400)
   }
-  const result=await db.prepare('UPDATE catalog_submissions SET '+assignments.join(',')+' WHERE '+where.join(' AND ')).bind(...params).run()
-  if(!result.meta?.changes)return json({error:'Заявката е променена. Обновете екрана и опитайте отново.'},409)
+  const returning=typeof body.select==='string'?body.select.split(',').map(x=>x.trim()):[]
+  if(returning.some(x=>!columns[table].has(x)))return json({error:'Invalid return columns.'},400)
+  const result=await db.prepare('UPDATE catalog_submissions SET '+assignments.join(',')+' WHERE '+where.join(' AND ')+(returning.length?' RETURNING '+returning.join(','):' RETURNING id')).bind(...params).all<Record<string,unknown>>()
+  if(!result.results.length)return json({error:'Заявката е променена. Обновете екрана и опитайте отново.'},409)
   if(values.status && values.status!==existing.status) {
     await db.prepare('INSERT INTO catalog_submission_events (submission_id,actor_id,event_type,from_status,to_status,note,metadata,created_at) VALUES (?,?,?,?,?,?,?,?)')
       .bind(existing.id,user.user_id,'status_changed',existing.status,String(values.status),typeof values.review_note==='string'?values.review_note:null,'{}',nowIso()).run()
   }
-  return json({data:null,error:null})
+  return json({data:result.results.map(parseJsonFields),error:null})
 }
