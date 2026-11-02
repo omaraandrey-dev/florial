@@ -365,13 +365,14 @@ export const onRequestPost = async ({
     await env.DB.prepare(`
       INSERT INTO orders (
         id,order_number,customer_name,phone,email,city,address,delivery_method,
-        payment_method,comment,items,subtotal,currency,status,created_at,delivery_fee,total
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        payment_method,comment,items,subtotal,subtotal_cents,currency,status,created_at,delivery_fee,total,delivery_fee_cents,total_cents
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     `).bind(
       crypto.randomUUID(), order.order_number, order.customer_name, order.phone, order.email,
       order.city, order.address, order.delivery_method, order.payment_method, order.comment,
-      JSON.stringify(order.items), order.subtotal, order.currency, order.status, order.created_at,
-      order.delivery_fee, order.total,
+      JSON.stringify(order.items), order.subtotal, Math.round(order.subtotal * 100), order.currency, order.status, order.created_at,
+      order.delivery_fee, order.total, order.delivery_fee == null ? null : Math.round(order.delivery_fee * 100),
+      order.total == null ? null : Math.round(order.total * 100),
     ).run()
   } catch (error) {
     console.error('D1 order insert failed:', error instanceof Error ? error.message : 'unknown')
