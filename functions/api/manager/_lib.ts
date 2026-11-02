@@ -41,7 +41,7 @@ export type ManagerEnv = {
   AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
   PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
 }
-export type ManagerIdentity = StaffProfile & { id: string; permissionsObject: StaffPermissions }
+export type ManagerIdentity = StaffProfile & { id: string; session_id: string; permissionsObject: StaffPermissions }
 
 export const json = (body: Record<string, unknown>, status = 200, extraHeaders: Record<string,string> = {}) =>
   new Response(JSON.stringify(body), {
