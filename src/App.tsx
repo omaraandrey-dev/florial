@@ -19,6 +19,7 @@ import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { trackEvent } from './services/trackingService'
+import { loadCart, saveCart } from './lib/cartStorage'
 
 import type {
   CategoryItem,
@@ -44,7 +45,7 @@ export default function App() {
   const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
-  const [cart, setCart] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
   const [loadingProducts, setLoadingProducts] = useState(true)
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
@@ -60,6 +61,11 @@ export default function App() {
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const lastTrackedPage = useRef<string | null>(null)
+
+  // Persist the customer's cart between visits on this browser/device.
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
 
   useEffect(() => {
     const pageKey = language + ':' + normalizedRoutePath
