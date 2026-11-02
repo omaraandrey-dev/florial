@@ -450,4 +450,4 @@ API должен валидировать JSON по allowlist полей цел�
 - Создана EU D1 database `florial-db`, UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`; production Pages binding `DB` добавлен.
 - SQL миграции 0001–0005 находятся в `functions/migrations/`; все пять версий подтверждены в `schema_migrations` созданной D1.
 - Тестовые строки Supabase не переносятся. Supabase не отключается до успешного rollout и отдельного согласования.
-- Production deployment нового runtime, создание owner, сквозные проверки и отключение старых Supabase secrets ещё не завершены.
+- Production deployment нового runtime завершён: Cloudflare Pages deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906`, commit `f1ff703025b5d60538c0d9c3b6050d36b458964a`, status success. Создание owner, сквозные проверки и отключение старых Supabase secrets ещё не завершены.
