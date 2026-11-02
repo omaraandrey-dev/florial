@@ -15,7 +15,8 @@ class QueryBuilder implements PromiseLike<Result<any>> {
   private ordering: { column: string; ascending: boolean } | null = null
   private rowLimit = 100
   private singleMode: 'single' | 'maybeSingle' | null = null
-  constructor(private table: string) {}
+  private table: string
+  constructor(table: string) { this.table = table }
   select(columns = '*') { this.columns = columns; return this }
   insert(values: Record<string, unknown> | Record<string, unknown>[]) { this.action = 'insert'; this.values = Array.isArray(values) ? values[0] || {} : values; return this }
   update(values: Record<string, unknown>) { this.action = 'update'; this.values = values; return this }
@@ -96,6 +97,6 @@ export const managerApi = {
             return response.ok ? { data: { path: data.path, id: data.assetId, url: data.url }, error: null } : { data: null, error: errorFrom(data, response.status) }
           } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Upload failed.' } } }
         },
-        async createUrls(paths: string[]) { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
+        async createUrls(paths: string[]): Promise<Result<Array<{ signedUrl: string }>>> { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
   },
 }
