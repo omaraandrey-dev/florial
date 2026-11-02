@@ -519,12 +519,12 @@ export default function ManagerApp() {
                   password_hash: 'подготовка пароля',
                   owner_insert: 'запись владельца в D1',
                 }
-                const details = result.error || \`Сервер вернул HTTP \${response.status} без подробного ответа.\`
+                const details = result.error || `Сервер вернул HTTP \${response.status} без подробного ответа.`
                 const diagnostic = [
-                  result.stage ? \`этап: \${stageLabels[result.stage] || result.stage}\` : '',
-                  result.requestId ? \`код проверки: \${result.requestId}\` : '',
+                  result.stage ? `этап: \${stageLabels[result.stage] || result.stage}` : '',
+                  result.requestId ? `код проверки: \${result.requestId}` : '',
                 ].filter(Boolean).join('; ')
-                throw new Error(diagnostic ? \`\${details} (\${diagnostic})\` : details)
+                throw new Error(diagnostic ? `\${details} (\${diagnostic})` : details)
               }
               const login = await managerApi.auth.signInWithPassword({ email, password })
               if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
