@@ -18,8 +18,8 @@ const isValidProduct = (value: unknown): value is Product => {
   return typeof value._id === 'string' &&
     value._id.length > 0 &&
     typeof value.name === 'string' &&
-    typeof value.priceEUR === 'number' &&
-    Number.isFinite(value.priceEUR)
+    (value.priceEUR === undefined ||
+      (typeof value.priceEUR === 'number' && Number.isFinite(value.priceEUR)))
 }
 
 const isValidSaleVariant = (value: unknown): boolean => {
