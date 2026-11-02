@@ -112,7 +112,7 @@
 
 - D1 database: `florial-db`, UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`, jurisdiction `eu`.
 - В Cloudflare Pages project `florial` создана production binding `DB` на эту базу.
-- Миграции 0001–0004 применены; миграция 0005 добавляет ограничение единственной owner-учётной записи и должна быть применена после успешной проверки SQL.
+- Миграции 0001–0005 применены; индекс `idx_catalog_staff_single_owner` гарантирует не более одной owner-учётной записи.
 - Перенос тестовых строк из Supabase не выполняется. Supabase project остаётся нетронутым для rollback.
 - Перед запуском нового runtime необходимо пройти GitHub Actions build/lint/function syntax checks, объединить PR и дождаться успешного Cloudflare Pages production deployment.
 - Затем установить production secret `MANAGER_BOOTSTRAP_SECRET` (не помещать в Git или frontend), открыть `/manager` и создать первого owner. Это одноразовая первичная настройка владельца, не код входа сотрудников. После создания owner bootstrap навсегда закрывается.
