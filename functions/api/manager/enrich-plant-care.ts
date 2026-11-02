@@ -1,10 +1,7 @@
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
-  PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
-}
-type IntakeImage = { path: string; name?: string; size?: number; type?: string }
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
+type Env = ManagerEnv
+type IntakeImage = { path: string; url?: string; assetId?: string; name?: string; size?: number; type?: string }
 type SubmissionRow = { id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string; payload: Record<string, unknown> }
 type GbifMatch = { confidence?: number; matchType?: string; rank?: string; status?: string; canonicalName?: string; scientificName?: string; usageKey?: number }
 const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
@@ -116,11 +113,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     catch { return json({ error: 'Invalid origin.' }, 403) }
   }
   if (Number(request.headers.get('Content-Length') || 0) > 5000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
+  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
-  const base = env.SUPABASE_URL.replace(/\/+$/, '')
-  const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+  let trustedWorkflowUserId = ''
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init, trustedWorkflowUserId || undefined)
+  const base = 'https://florial-d1.local'
+  const adminHeaders = { apikey: 'D1-compat', Authorization: 'Bearer D1-compat', 'Content-Type': 'application/json' }
 
   const isWorkflowProcess = requestUrl.pathname.endsWith('/process')
   stage = 'parse_request'
@@ -138,12 +137,18 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     callerId = textValue(body.callerId, 80)
     workflowId = textValue(body.workflowId, 100)
     if (workflowJobToken.length < 64 || !callerId || !workflowId) return json({ error: 'Invalid workflow authorization.' }, 403)
+    const jobRow = await env.DB.prepare('SELECT payload FROM catalog_submissions WHERE id=?').bind(textValue(body.submissionId,80)).first<{payload:string}>()
+    let savedPayload:Record<string,unknown>={}
+    try{savedPayload=typeof jobRow?.payload==='string'?JSON.parse(jobRow.payload):object(jobRow?.payload)||{}}catch{savedPayload={}}
+    const savedJob=object(savedPayload.plantCareJob)
+    if(!savedJob||savedJob.token!==workflowJobToken||savedJob.workflowId!==workflowId||savedJob.requestedBy!==callerId)return json({error:'Invalid workflow authorization.'},403)
+    trustedWorkflowUserId=callerId
   } else {
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
     if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-    stage = 'supabase_auth'
-    const userResponse = await fetch(base + '/auth/v1/user', { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken } })
+    stage = 'manager_auth'
+    const userResponse = await fetch(base + '/auth/v1/user', { headers: { Authorization: 'Bearer ' + accessToken } })
     if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
     const caller = await userResponse.json() as { id?: string }
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
@@ -256,10 +261,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   try {
     for (let index = 0; index < imagesToAnalyse.length; index += 1) {
       const image = imagesToAnalyse[index]
-      const path = image.path.split('/').map((part) => encodeURIComponent(part)).join('/')
+      const imageUrl = image.url || image.path
       stage = 'load_photo_' + (index + 1)
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + path, { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } })
-      if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из закрытого хранилища.' }, 502)
+      if (!/^https:\/\//i.test(imageUrl)) return json({ error: 'Фотография ' + (index + 1) + ' не содержит ссылки на Sanity Asset.' }, 400)
+      const download = await fetch(imageUrl)
+      if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из Sanity Assets.' }, 502)
       const contentType = (download.headers.get('content-type') || image.type || '').split(';')[0].trim().toLowerCase()
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) return json({ error: 'Для ботанического распознавания используйте JPG, PNG или WebP. Преобразуйте HEIC в JPG и загрузите фото повторно.' }, 400)
       const bytes = new Uint8Array(await download.arrayBuffer())
@@ -523,17 +529,16 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
       try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
       catch { return json({ error: 'Invalid origin.' }, 403) }
     }
-    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.PLANT_CARE_WORKFLOW?.fetch) {
+    if (!env.DB || !env.PLANT_CARE_WORKFLOW?.fetch) {
       return json({ error: 'Manager workflow service is not configured.' }, 503)
     }
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
     if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-    const base = env.SUPABASE_URL.replace(/\/+$/, '')
-    const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY }
-    const userResponse = await fetch(base + '/auth/v1/user', {
-      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
-    })
+    const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+    const base = 'https://florial-d1.local'
+    const adminHeaders = { apikey: 'D1-compat', Authorization: 'Bearer D1-compat' }
+    const userResponse = await fetch(base + '/auth/v1/user', { headers: { Authorization: 'Bearer ' + accessToken } })
     if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
     const caller = await userResponse.json() as { id?: string }
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
