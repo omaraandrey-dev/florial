@@ -114,7 +114,7 @@
 - В Cloudflare Pages project `florial` создана production binding `DB` на эту базу.
 - Миграции 0001–0005 применены; индекс `idx_catalog_staff_single_owner` гарантирует не более одной owner-учётной записи.
 - Перенос тестовых строк из Supabase не выполняется. Supabase project остаётся нетронутым для rollback.
-- Перед запуском нового runtime необходимо пройти GitHub Actions build/lint/function syntax checks, объединить PR и дождаться успешного Cloudflare Pages production deployment.
+- Новый runtime уже объединён в `main` (commit `f1ff703025b5d60538c0d9c3b6050d36b458964a`) и опубликован в Cloudflare Pages Production: deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906`, status success. GitHub Actions lint, build, Pages Functions syntax и Studio build завершились успешно.
 - Затем установить production secret `MANAGER_BOOTSTRAP_SECRET` (не помещать в Git или frontend), открыть `/manager` и создать первого owner. Это одноразовая первичная настройка владельца, не код входа сотрудников. После создания owner bootstrap навсегда закрывается.
 - Сотрудники далее входят обычным способом по email и постоянному паролю; одноразовая почта для входа не используется.
 - Фото продавцов загружаются напрямую в публичный Sanity dataset `plants`; JPEG/PNG/WebP, максимум 10 MB. R2 для этих фотографий не нужен.
