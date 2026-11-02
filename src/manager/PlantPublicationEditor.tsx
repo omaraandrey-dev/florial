@@ -238,8 +238,6 @@ export default function PlantPublicationEditor({
   const [suggestingNames, setSuggestingNames] = useState(false)
   const [botanicalNameSuggestions, setBotanicalNameSuggestions] = useState<Array<Record<string, unknown>>>([])
   const [careResearching, setCareResearching] = useState(false)
-  const [careDebug, setCareDebug] = useState('')
-  const [careDebugStatus, setCareDebugStatus] = useState<number | null>(null)
   const [careSuggestionDecisions, setCareSuggestionDecisions] = useState<Record<string, 'accepted' | 'rejected'>>({})
   const hasPublication = Boolean(submission.payload.publication)
   const plantCareResearch = submission.payload.plantCareResearch && typeof submission.payload.plantCareResearch === 'object' ? submission.payload.plantCareResearch as Record<string, unknown> : null
@@ -329,63 +327,42 @@ export default function PlantPublicationEditor({
 
   const researchPlantCare = async () => {
     if (!hasAiDraft || hasPublication || imageFiles.length === 0 || imagesLoading) return
-    setCareResearching(true); setCareDebug(''); setCareDebugStatus(null); setError(''); setNotice('')
-    const requestInfo = {
-      endpoint: '/api/manager/enrich-plant-care',
-      method: 'POST',
-      submissionId: submission.id,
-      reviewInput: { name: draft.name.trim(), scientificName: draft.scientificName.trim() },
-      startedAt: new Date().toISOString(),
-    }
+    setCareResearching(true); setError(''); setNotice('')
+    const reviewInput = { name: draft.name.trim(), scientificName: draft.scientificName.trim() }
     try {
-      const response = await fetch(requestInfo.endpoint, {
+      const response = await fetch('/api/manager/enrich-plant-care', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken },
-        body: JSON.stringify({ submissionId: submission.id, reviewInput: requestInfo.reviewInput }),
+        body: JSON.stringify({ submissionId: submission.id, reviewInput }),
       })
-      const responseText = await response.text()
-      let result: Record<string, unknown>
-      try { result = JSON.parse(responseText) as Record<string, unknown> } catch { result = { unparsedResponse: responseText } }
-      setCareDebugStatus(response.status)
+      const result = await response.json().catch(() => ({})) as Record<string, unknown>
       if (!response.ok || typeof result.workflowId !== 'string') {
-        setCareDebug(JSON.stringify({ request: requestInfo, response: { httpStatus: response.status, body: result } }, null, 2))
         throw new Error(String(result.error || 'Не удалось запустить фоновую проверку.'))
       }
       const workflowId = result.workflowId
       setNotice('Проверка принята и выполняется в фоновом режиме.')
-      let lastStatus: Record<string, unknown> = {}
       for (let attempt = 0; attempt < 180; attempt += 1) {
         await new Promise((resolve) => setTimeout(resolve, 1500))
         const statusUrl = '/api/manager/enrich-plant-care?submissionId=' + encodeURIComponent(submission.id) + '&workflowId=' + encodeURIComponent(workflowId)
         const statusResponse = await fetch(statusUrl, { headers: { Authorization: 'Bearer ' + accessToken } })
-        const statusText = await statusResponse.text()
-        let statusBody: Record<string, unknown>
-        try { statusBody = JSON.parse(statusText) as Record<string, unknown> } catch { statusBody = { unparsedResponse: statusText } }
+        const statusBody = await statusResponse.json().catch(() => ({})) as Record<string, unknown>
         if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не удалось получить состояние проверки.'))
         const workflow = statusBody.status && typeof statusBody.status === 'object' ? statusBody.status as Record<string, unknown> : {}
         const state = String(workflow.status || '')
-        lastStatus = statusBody
-        if (attempt % 8 === 0) setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
         if (state === 'complete' || state === 'completed') {
-          setCareDebugStatus(200)
-          setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
           setNotice('Проверка завершена. Обновляем карточку.')
           await onSaved()
           return
         }
         if (state === 'errored' || state === 'failed' || state === 'terminated') {
-          setCareDebugStatus(502)
-          setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, workflow: statusBody }, null, 2))
-          throw new Error(JSON.stringify(workflow.error || workflow))
+          const detail = workflow.error
+          const message = typeof detail === 'string' ? detail : detail ? JSON.stringify(detail) : 'Фоновая проверка завершилась с ошибкой.'
+          throw new Error(message)
         }
       }
-      setCareDebugStatus(504)
-      setCareDebug(JSON.stringify({ request: requestInfo, accepted: result, lastWorkflowStatus: lastStatus, timeout: true }, null, 2))
       throw new Error('Фоновая проверка ещё выполняется. Задание сохранено; обновите карточку позже.')
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err)
-      setError(message)
-      setCareDebug((current) => current || JSON.stringify({ request: requestInfo, clientError: message }, null, 2))
+      setError(err instanceof Error ? err.message : String(err))
     } finally { setCareResearching(false) }
   }
 
@@ -618,17 +595,6 @@ export default function PlantPublicationEditor({
             <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
           </div>
         })()}
-      </div>
-      <div className="mt-3 rounded-xl border border-slate-300 bg-slate-50 p-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-sm font-semibold text-slate-800">Технический ответ ботанической проверки</p>
-          <div className="flex items-center gap-2">
-            {careDebugStatus !== null && <span className={careDebugStatus >= 200 && careDebugStatus < 300 ? 'text-xs font-semibold text-emerald-700' : 'text-xs font-semibold text-red-700'}>HTTP {careDebugStatus}</span>}
-            {careDebug && <button type="button" onClick={() => void navigator.clipboard?.writeText(careDebug)} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700">Копировать ответ</button>}
-          </div>
-        </div>
-        <p className="mt-1 text-xs text-slate-600">Временный диагностический блок: показывает параметры запроса без токена авторизации и полный JSON-ответ сервера, включая ошибку или результат AI/GBIF.</p>
-        {careDebug ? <pre className="mt-3 max-h-[560px] overflow-auto whitespace-pre-wrap break-words rounded-lg bg-slate-950 p-3 text-xs text-slate-100">{careDebug}</pre> : <p className="mt-2 text-xs text-slate-500">Нажмите «Проверить и предложить характеристики», чтобы увидеть ответ сервера.</p>}
       </div>
       {researchCareValues && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <h4 className="font-semibold text-amber-950">Предложени ботанически характеристики от AI</h4>
