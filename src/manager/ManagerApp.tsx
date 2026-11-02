@@ -701,11 +701,11 @@ export default function ManagerApp() {
                         <option value="manager">Мениджър</option>
                       </select>
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
-                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                      {staff.role !== 'owner' && <div className="mt-3 grid gap-2 sm:grid-cols-3">
                         <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canCreatePlant: !staff.permissions.canCreatePlant } }, 'Правото за създаване е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canCreatePlant ? '✓ Създаване разрешено' : 'Създаване забранено'}</button>
                         <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canAddPlantVariant: !staff.permissions.canAddPlantVariant } }, 'Правото за добавяне на варианти е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canAddPlantVariant ? '✓ Нов размер разрешен' : 'Нов размер забранен'}</button>
                         <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canEditPlantPrice: !staff.permissions.canEditPlantPrice } }, 'Правото за промяна на цени е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canEditPlantPrice ? '✓ Цена разрешена' : 'Цена забранена'}</button>
-                      </div>
+                      </div>}
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return
