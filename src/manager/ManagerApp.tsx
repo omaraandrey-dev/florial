@@ -507,17 +507,37 @@ export default function ManagerApp() {
             event.preventDefault(); setBootstrapError(''); setBootstrapSaving(true)
             try {
               const response = await fetch('/api/manager/auth/bootstrap', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Florial-Bootstrap-Secret': bootstrapSecret }, body: JSON.stringify({ displayName: ownerName, email, password }) })
-              const result = await response.json().catch(() => ({})) as { error?: string }
-              if (!response.ok) throw new Error(result.error || 'Не удалось создать владельца.')
+              const responseText = await response.text()
+              let result: { error?: string; requestId?: string; stage?: string } = {}
+              try { result = JSON.parse(responseText) as typeof result } catch { /* A non-JSON response is reported by HTTP status below. */ }
+              if (!response.ok) {
+                const stageLabels: Record<string, string> = {
+                  configuration: 'проверка настроек',
+                  origin_check: 'проверка источника запроса',
+                  owner_lookup: 'проверка существующего владельца',
+                  request_body: 'чтение формы',
+                  password_hash: 'подготовка пароля',
+                  owner_insert: 'запись владельца в D1',
+                }
+                const details = result.error || `Сервер вернул HTTP \${response.status} без подробного ответа.`
+                const diagnostic = [
+                  result.stage ? `этап: \${stageLabels[result.stage] || result.stage}` : '',
+                  result.requestId ? `код проверки: \${result.requestId}` : '',
+                ].filter(Boolean).join('; ')
+                throw new Error(diagnostic ? `\${details} (\${diagnostic})` : details)
+              }
               const login = await managerApi.auth.signInWithPassword({ email, password })
               if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
               setBootstrapAvailable(false)
-            } catch (err) { setBootstrapError(err instanceof Error ? err.message : 'Не удалось создать владельца.') }
+            } catch (err) {
+              setBootstrapError(err instanceof TypeError ? 'Не удалось связаться с сервером. Проверьте подключение и обновите страницу.' : err instanceof Error ? err.message : 'Не удалось создать владельца.')
+            }
             finally { setBootstrapSaving(false) }
           }}>
             <label className={labelClass}>Имя владельца<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
             <label className={labelClass}>Email<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-            <label className={labelClass}>Постоянный пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            <label className={labelClass}>Постоянный пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            <p className="-mt-3 text-xs text-stone-500">Пароль должен содержать от 12 до 128 символов.</p>
             <label className={labelClass}>Одноразовый секрет первичной настройки<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
             {bootstrapError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{bootstrapError}</p>}
             <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създать владельца'}</button>
