@@ -25,7 +25,6 @@ type AnalyticsReport = {
   top_pages: Array<{ page_path: string; page_views: number }>
 }
 
-const bucket = 'florial-manager-intake'
 const statusLabels: Record<string, string> = {
   draft: 'Чернова', submitted: 'Изпратена за проверка', in_review: 'В процес на проверка',
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
@@ -244,7 +243,7 @@ export default function ManagerApp() {
     setPreviewImages([])
     setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
-      const { data: signed, error: signedError } = await managerApi.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
+      const { data: signed, error: signedError } = await managerApi.images.createUrls(imageItems.map((item) => item.path))
       if (signedError) setError('Не удалось открыть фотографии заявки: ' + signedError.message)
       else {
         const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
