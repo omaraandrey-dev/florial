@@ -1,3 +1,4 @@
+import type { ManagerEnv } from './manager/_lib'
 import { PDFDocument, rgb } from 'pdf-lib'
 import fontkit from '@pdf-lib/fontkit'
 
@@ -13,16 +14,7 @@ type OrderRequest = {
   items?: unknown
 }
 
-type RuntimeEnv = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  SANITY_PROJECT_ID?: string
-  SANITY_DATASET?: string
-  RESEND_API_KEY?: string
-  EMAIL_FROM?: string
-  ORDER_NOTIFICATION_EMAIL?: string
-  PROFORMA_FONT_URL?: string
-}
+type RuntimeEnv = ManagerEnv & { PROFORMA_FONT_URL?: string }
 
 type SanityVariant = {
   _key: string
@@ -258,11 +250,7 @@ export const onRequestPost = async ({
     return json({ error: 'Моля, изберете населено място от списъка и въведете адрес за куриерска доставка.' }, 400)
   }
 
-  const supabaseUrl = env.SUPABASE_URL
-  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY
-  if (!supabaseUrl || !serviceKey) {
-    return json({ error: 'Сървърът за поръчки не е конфигуриран. Моля, свържете се с нас.' }, 503)
-  }
+  if (!env.DB) return json({ error: 'Сървърът за поръчки не е конфигуриран. Моля, свържете се с нас.' }, 503)
 
   const sanityProjectId = env.SANITY_PROJECT_ID || 'bxvcy0qs'
   const datasetRequests = (['production', 'plants'] as const).map(async (dataset) => {
@@ -374,31 +362,20 @@ export const onRequestPost = async ({
   }
 
   try {
-    const response = await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/orders`, {
-      method: 'POST',
-      headers: (() => {
-        const headers: Record<string, string> = {
-          apikey: serviceKey,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        }
-        // New Supabase sb_secret_ keys are not JWTs and must not be sent as Bearer tokens.
-        if (!serviceKey.startsWith('sb_secret_')) {
-          headers.Authorization = `Bearer ${serviceKey}`
-        }
-        return headers
-      })(),
-      body: JSON.stringify(order),
-    })
-
-    if (!response.ok) {
-      const details = await response.text()
-      console.error('Supabase order insert failed:', response.status, details)
-      return json({ error: 'Не успяхме да запазим поръчката. Моля, опитайте отново след малко.' }, 502)
-    }
+    await env.DB.prepare(`
+      INSERT INTO orders (
+        id,order_number,customer_name,phone,email,city,address,delivery_method,
+        payment_method,comment,items,subtotal,currency,status,created_at,delivery_fee,total
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    `).bind(
+      crypto.randomUUID(), order.order_number, order.customer_name, order.phone, order.email,
+      order.city, order.address, order.delivery_method, order.payment_method, order.comment,
+      JSON.stringify(order.items), order.subtotal, order.currency, order.status, order.created_at,
+      order.delivery_fee, order.total,
+    ).run()
   } catch (error) {
-    console.error('Order endpoint network error:', error)
-    return json({ error: 'Временно не можем да запазим поръчката. Моля, опитайте отново.' }, 502)
+    console.error('D1 order insert failed:', error instanceof Error ? error.message : 'unknown')
+    return json({ error: 'Не успяхме да запазим поръчката. Моля, опитайте отново след малко.' }, 502)
   }
 
 
