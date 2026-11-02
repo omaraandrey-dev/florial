@@ -6,7 +6,6 @@ type SubmissionRow = { id: string; catalog: string; operation: string; status: s
 type GbifMatch = { confidence?: number; matchType?: string; rank?: string; status?: string; canonicalName?: string; scientificName?: string; usageKey?: number }
 const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
-const bucket = 'florial-manager-intake'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } })
 const object = (value: unknown): Record<string, unknown> | null => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
