@@ -9,7 +9,6 @@ type SubmissionRow = {
 }
 type ScientificCandidate = { scientificName: string; confidence: string; reason: string }
 
-const bucket = 'florial-manager-intake'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
 const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
