@@ -7,6 +7,8 @@
 - Фотографии заявок переводятся в Sanity Assets dataset plants; проверяются JPEG/PNG/WebP и сигнатура файла.
 - Добавлен D1 compatibility adapter для существующих manager workflows, чтобы сохранить optimistic locking, статусы и audit events при поэтапной миграции.
 - Существующие тестовые записи Supabase не копируются и не удаляются. Supabase не должен получать новые записи после production cutover; отключение оставлено на отдельный rollback-период.
+- Создана EU D1 database florial-db (UUID 5fbb0e47-8439-493c-821a-6945eef7d8b2), применены обе SQL-миграции, production Pages binding DB добавлен без изменения существующих secrets.
+- Добавлена первая настройка owner в интерфейсе; MANAGER_BOOTSTRAP_SECRET ещё не установлен, owner пока не создан.
 - Изменения выполняются без правок Header, menu, Footer, публичной навигации и Sanity schemas.
 
 ## 2026-11-02 — Checkout: способы получения, оплаты и расчёт доставки
