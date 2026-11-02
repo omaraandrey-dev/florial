@@ -24,41 +24,6 @@ export function CartPage({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | 'agree' | ''>('')
-  const [selectedSettlement, setSelectedSettlement] = useState('')
-
-  const deliveryRates: Record<string, number> = {
-    'Слънчев бряг': 0,
-    'Несебър': 10,
-    'Свети Влас': 10,
-    'Тънково': 10,
-    'Равда': 10,
-    'Кошарица': 10,
-    'Ахелой': 10,
-    'Александрово': 10,
-    'Оризаре': 10,
-    'Гюльовца': 10,
-    'Медово': 10,
-    'Порой': 10,
-    'Каблешково': 10,
-    'Поморие': 15,
-    'Каменар': 15,
-    'Лъка': 15,
-    'Баня': 15,
-    'Бата': 15,
-    'Гълъбец': 15,
-    'Габерово': 15,
-    'Дъбник': 17,
-    'Горица': 20,
-    'Белодол': 20,
-    'Емона': 20,
-    'Страцин': 20,
-    'Обзор': 20,
-    'Приселци': 25,
-    'Козичино': 25,
-    'Раковсково': 25,
-    'Паницово': 25,
-  }
-  const deliveryRate = selectedSettlement ? deliveryRates[selectedSettlement] : undefined
   const hasPlantItems = cart.some(({ product }) => product.productType !== 'equipment')
   const getCartItemKey = (item: CartItem) => item.product._id + '::' + (item.saleVariant?._key || item.saleVariant?.sku || item.saleVariant?.name || '')
   const getItemPrice = (item: CartItem) => item.saleVariant?.priceEUR ?? item.product.priceEUR ?? 0
@@ -89,6 +54,7 @@ export function CartPage({
         city: deliveryMethod === 'pickup' ? '' : deliveryMethod === 'courier' ? selectedSettlement : formData.city.trim(),
         address: deliveryMethod === 'pickup' ? '' : formData.address.trim(),
         delivery_method: deliveryMethod,
+        payment_method: 'pay_in_store',
         comment: formData.comment.trim(),
         items: cart.map((item) => ({
           productId: item.product._id,
@@ -247,11 +213,11 @@ export function CartPage({
 
             <div className="flex justify-between items-center text-lg font-bold text-slate-900">
               <div>
-                <span>{t('Общо:')}</span>
+                <span>{language === 'ru' ? 'Сумма товаров:' : language === 'en' ? 'Products subtotal:' : 'Стойност на продуктите:'}</span>
                 <p className="mt-1 text-xs font-normal text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
               </div>
               <span className="text-2xl font-extrabold text-emerald-800">
-                {(totalPrice + (deliveryMethod === 'courier' && deliveryRate !== undefined ? deliveryRate : 0)).toFixed(2)} €
+                {totalPrice.toFixed(2)} €
               </span>
             </div>
 
@@ -316,19 +282,13 @@ export function CartPage({
                     </span>
                     <span className="shrink-0 text-sm font-extrabold text-emerald-700">{language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно'}</span>
                   </button>
-                  {!hasPlantItems && <button
-                    type="button"
-                    aria-pressed={deliveryMethod === 'courier'}
-                    onClick={() => setDeliveryMethod('courier')}
-                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'courier' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
-                  >
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🛵</span>
+                  <div aria-disabled="true" className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-60">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl grayscale" aria-hidden="true">📦</span>
                     <span className="min-w-0 flex-1">
-                      <span className="block font-bold text-slate-900">{language === 'ru' ? 'Курьерская доставка по адресу' : language === 'en' ? 'Courier delivery to address' : 'Куриерска доставка до адрес'}</span>
-                      <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Выберите населённый пункт и тариф' : language === 'en' ? 'Choose your settlement and delivery fee' : 'Изберете населено място и цена за доставка'}</span>
+                      <span className="block font-bold text-slate-600">{language === 'ru' ? 'Доставка курьером / Econt' : language === 'en' ? 'Courier delivery / Econt' : 'Куриерска доставка / Econt'}</span>
+                      <span className="mt-1 block text-sm text-slate-500">{language === 'ru' ? 'Скоро. Цена будет рассчитана по тарифам выбранного перевозчика.' : language === 'en' ? 'Coming soon. The fee will be calculated using the selected carrier’s rates.' : 'Очаквайте скоро. Цената ще се изчислява по тарифите на избрания превозвач.'}</span>
                     </span>
-                    <span className="text-xl text-slate-400" aria-hidden="true">{deliveryMethod === 'courier' ? '✓' : '›'}</span>
-                  </button>}
+                  </div>
                   {hasPlantItems && <button
                     type="button"
                     aria-pressed={deliveryMethod === 'agree'}
@@ -366,51 +326,31 @@ export function CartPage({
                 </section>
               )}
 
-              {deliveryMethod === 'courier' && !hasPlantItems && (
-                <section className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <div>
-                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
-                      {language === 'ru' ? 'Населённый пункт *' : language === 'en' ? 'Settlement *' : 'Населено място *'}
-                    </label>
-                    <select
-                      required
-                      value={selectedSettlement}
-                      onChange={(e) => {
-                        setSelectedSettlement(e.target.value)
-                        setFormData({ ...formData, city: e.target.value })
-                      }}
-                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    >
-                      <option value="">{language === 'ru' ? 'Выберите населённый пункт' : language === 'en' ? 'Select a settlement' : 'Изберете населено място'}</option>
-                      {Object.entries(deliveryRates).map(([settlement, rate]) => (
-                        <option key={settlement} value={settlement}>{settlement} — {rate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${rate.toFixed(2)} €`}</option>
-                      ))}
-                    </select>
+              <section className="space-y-3">
+                <h3 className="text-sm font-extrabold text-slate-800">{language === 'ru' ? 'Способ оплаты *' : language === 'en' ? 'Payment method *' : 'Начин на плащане *'}</h3>
+                <div className="flex items-center gap-3 rounded-xl border border-emerald-600 bg-emerald-50 p-3 ring-1 ring-emerald-600">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-2xl" aria-hidden="true">🏪</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-bold text-slate-900">{language === 'ru' ? 'Оплата в магазине' : language === 'en' ? 'Pay in store' : 'Плащане в магазина'}</span>
+                    <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Единственный доступный способ оплаты сейчас' : language === 'en' ? 'The only available payment method for now' : 'Единственият наличен начин на плащане засега'}</span>
+                  </span>
+                  <span className="text-emerald-700 font-bold" aria-hidden="true">✓</span>
+                </div>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
+                    <span className="block text-sm font-semibold text-slate-500">{language === 'ru' ? 'Наложенный платёж' : language === 'en' ? 'Cash on delivery' : 'Наложен платеж'}</span>
+                    <span className="mt-1 block text-xs text-slate-400">{language === 'ru' ? 'Скоро' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
                   </div>
-                  {deliveryRate !== undefined && (
-                    <div className="flex items-center justify-between rounded-lg bg-white p-3">
-                      <span className="text-sm text-slate-600">{language === 'ru' ? 'Стоимость доставки' : language === 'en' ? 'Delivery fee' : 'Цена за доставка'}</span>
-                      <strong className="text-lg text-emerald-800">{deliveryRate === 0 ? (language === 'en' ? 'Free' : language === 'ru' ? 'Бесплатно' : 'Безплатно') : `${deliveryRate.toFixed(2)} €`}</strong>
-                    </div>
-                  )}
-                  <div>
-                    <label className="mb-1 block text-xs font-bold uppercase text-slate-700">
-                      {language === 'ru' ? 'Адрес доставки *' : language === 'en' ? 'Delivery address *' : 'Адрес за доставка *'}
-                    </label>
-                    <textarea
-                      rows={2}
-                      required
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full rounded-lg border border-slate-200 bg-white p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                      placeholder={language === 'en' ? 'Street, number, entrance, floor' : language === 'ru' ? 'Улица, номер, подъезд, этаж' : 'Улица, номер, вход, етаж'}
-                    />
+                  <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
+                    <span className="block text-sm font-semibold text-slate-500">{language === 'ru' ? 'Банковский перевод' : language === 'en' ? 'Bank transfer' : 'Банков превод'}</span>
+                    <span className="mt-1 block text-xs text-slate-400">{language === 'ru' ? 'Скоро' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
                   </div>
-                  <a href="https://florial-bg.com/services/dostavka-poliv?lang=bg" target="_blank" rel="noreferrer" className="inline-flex text-sm font-semibold text-emerald-800 underline underline-offset-2 hover:text-emerald-900">
-                    {language === 'ru' ? 'Условия доставки и бесплатной консультации инженера' : language === 'en' ? 'Delivery terms and free engineer consultation' : 'Условия за доставка и безплатна консултация с инженер'} ↗
-                  </a>
-                </section>
-              )}
+                  <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
+                    <span className="block text-sm font-semibold text-slate-500">{language === 'ru' ? 'Онлайн-оплата картой' : language === 'en' ? 'Online card payment' : 'Онлайн плащане с карта'}</span>
+                    <span className="mt-1 block text-xs text-slate-400">{language === 'ru' ? 'Скоро' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
+                  </div>
+                </div>
+              </section>
 
               {deliveryMethod === 'pickup' && (
                 <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm text-emerald-900">
@@ -426,7 +366,7 @@ export function CartPage({
               )}
               <button
                 type="submit"
-                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'courier' && (!selectedSettlement || !formData.address.trim())) || (deliveryMethod === 'agree' && !formData.city.trim())}
+                disabled={isSubmitting || !deliveryMethod || (deliveryMethod === 'agree' && !formData.city.trim())}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold py-3.5 px-4 rounded-xl transition shadow-sm cursor-pointer mt-4"
               >
                 {isSubmitting ? 'Изпращане...' : t('Изпрати поръчката')}
