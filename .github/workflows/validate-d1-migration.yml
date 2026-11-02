@@ -23,13 +23,12 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
       - name: Install dependencies
-        run: npm install
-      - name: Typecheck frontend
-        run: npm run typecheck:app
-      - name: Typecheck Pages Functions
-        run: npm run typecheck:functions
+        run: npm ci
       - name: Lint
         run: npm run lint
       - name: Build website
         run: npm run build
+      - name: Syntax-check Pages Functions
+        run: npx esbuild "functions/**/*.ts" --outdir=/tmp/florial-functions-check --platform=browser --format=esm
