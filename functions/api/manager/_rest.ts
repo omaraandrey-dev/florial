@@ -1,4 +1,4 @@
-import { authenticate, json, nowIso, type D1Database, type ManagerEnv } from './_lib'
+import { authenticate, nowIso, type ManagerEnv } from './_lib'
 
 const tableColumns: Record<string, Set<string>> = {
   catalog_staff_profiles: new Set(['user_id','email','role','display_name','is_active','permissions','created_at','updated_at']),
@@ -32,7 +32,7 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
     const auth=await authenticate(incoming,env)
     return auth.error||!auth.user?null:{user_id:auth.user.user_id,email:auth.user.email,role:auth.user.role}
   }
-  if(url.pathname==='/auth/v1/user'){
+  if(url.pathname==='/internal-d1/auth/user'){
     const identity=await getIdentity()
     if(!identity)return response({message:'Invalid or expired session.'},401)
     return response({id:identity.user_id,email:identity.email})
