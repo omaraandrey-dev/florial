@@ -90,7 +90,7 @@ export const managerApi = {
   storage: {
     from(_bucket: string) {
       return {
-        async upload(_path: string, file: File) {
+        async upload(_path: string, file: File, _options?: Record<string, unknown>) {
           try {
             const form = new FormData(); form.append('file', file, file.name)
             const response = await fetch('/api/manager/upload-image', { method: 'POST', credentials: 'same-origin', body: form })
@@ -98,7 +98,7 @@ export const managerApi = {
             return response.ok ? { data: { path: data.path, id: data.assetId, url: data.url }, error: null } : { data: null, error: errorFrom(data, response.status) }
           } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Upload failed.' } } }
         },
-        async createSignedUrls(paths: string[]) { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
+        async createSignedUrls(paths: string[], _expiresIn?: number) { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
       }
     },
   },
