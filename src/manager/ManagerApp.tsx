@@ -97,7 +97,7 @@ export default function ManagerApp() {
       setSession(null); setProfile(null); setSubmissions([]); setActiveTab('submissions'); setLoading(false); return
     }
     setSession(currentSession)
-    const { data, error: profileError } = await supabase
+    const { data, error: profileError } = await managerApi
       .from('catalog_staff_profiles')
       .select('user_id,role,display_name,is_active,permissions')
       .eq('user_id', currentSession.user.id)
