@@ -13,7 +13,7 @@ type Submission = {
   review_note: string | null; notification_sent_at: string | null; publish_error: string | null
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type LocalPreview = { file: File; url: string }
 type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean }; created_at?: string }
 type AnalyticsReport = {
@@ -288,9 +288,10 @@ export default function ManagerApp() {
         }
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').slice(-90)
         const path = session.user.id + '/' + submissionId + '/' + crypto.randomUUID() + '-' + safeName
-        const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
+        const { data: uploaded, error: uploadError } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
         if (uploadError) throw uploadError
-        currentImages.push({ path, name: file.name, size: file.size, type: file.type })
+        if (!uploaded?.url || !uploaded?.id) throw new Error('Sanity не върна връзка към качената снимка.')
+        currentImages.push({ path: uploaded.path, url: uploaded.url, assetId: uploaded.id, name: file.name, size: file.size, type: file.type })
         const partialPayload = { ...payload, images: currentImages }
         const { error: imageRecordError } = await supabase.from('catalog_submissions').update({ payload: partialPayload, updated_at: new Date().toISOString() }).eq('id', submissionId)
         if (imageRecordError) throw new Error('Снимката е качена, но не успяхме да запазим връзката ѝ: ' + imageRecordError.message)
@@ -610,7 +611,7 @@ export default function ManagerApp() {
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
-          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
+          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
         </aside>
       </div>
       <section className={activeTab === 'analytics' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
