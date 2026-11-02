@@ -448,6 +448,6 @@ API должен валидировать JSON по allowlist полей цел�
 - Cloudflare Pages Functions используют D1 binding `DB`. Supabase не используется в целевой runtime-архитектуре, но его проект и данные пока не удаляются.
 - Существующий Cloudflare Workflow для ботанической проверки и Workers AI сохраняются; Resend остаётся провайдером почты.
 - Создана EU D1 database `florial-db`, UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`; production Pages binding `DB` добавлен.
-- SQL миграции 0001–0005 подготовлены в `functions/migrations/`. Миграции 0001–0004 применены к созданной D1; миграция 0005 ожидает применения.
+- SQL миграции 0001–0005 находятся в `functions/migrations/`; все пять версий подтверждены в `schema_migrations` созданной D1.
 - Тестовые строки Supabase не переносятся. Supabase не отключается до успешного rollout и отдельного согласования.
 - Production deployment нового runtime, создание owner, сквозные проверки и отключение старых Supabase secrets ещё не завершены.
