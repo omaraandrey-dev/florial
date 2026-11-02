@@ -1,4 +1,4 @@
-import { checkSameOrigin, json, newId, nowIso, randomHex, sessionCookie, sha256Hex, verifyPassword, type ManagerEnv } from '../_lib'
+import { authenticate, checkSameOrigin, json, newId, nowIso, randomHex, sessionCookie, sha256Hex, verifyPassword, type ManagerEnv } from '../_lib'
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: ManagerEnv }) => {
   if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
@@ -34,7 +34,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 }
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: ManagerEnv }) => {
-  const { authenticate } = await import('../_lib')
   const result = await authenticate(request, env)
   if (result.error || !result.user) return result.error || json({ error: 'Authentication required.' }, 401)
   return json({ user: { id: result.user.user_id, email: result.user.email }, profile: { user_id: result.user.user_id, role: result.user.role, display_name: result.user.display_name, is_active: true, permissions: result.user.permissionsObject } })
