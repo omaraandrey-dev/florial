@@ -30,7 +30,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const query=async<T>(q:string):Promise<T>=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}});if(!r.ok)throw new Error('Не удалось прочитать каталог растений в Sanity.');return (await r.json() as {result:T}).result}
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не принял изменение. Возможно, документ уже изменён; обновите заявку.')}
  if(request.method==='GET'){
-  if(profile.role==='seller'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
+  if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
   try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,sku,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не удалось загрузить каталог.'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
