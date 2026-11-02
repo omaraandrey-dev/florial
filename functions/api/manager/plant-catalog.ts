@@ -31,7 +31,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не принял изменение. Возможно, документ уже изменён; обновите заявку.')}
  if(request.method==='GET'){
   if(profile.role==='seller'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false]|order(name asc){_id,_rev,name,sku,saleVariants[]{_key,name,saleHeightCm,containerVolumeL,priceEUR,stockStatus,stockQuantity}}')})}catch(e){return json({error:e instanceof Error?e.message:'Не удалось загрузить каталог.'},502)}
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false]|order(name asc){_id,_rev,name,sku,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не удалось загрузить каталог.'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
@@ -43,7 +43,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
   const subs=await sr.json() as Array<{id:string;operation:string;status:string;target_document_id:string;target_revision:string;payload:Record<string,unknown>}>
   const sub=subs[0];if(!sub||sub.operation!=='update'||!['submitted','in_review'].includes(sub.status))return json({error:'Change request is not available for approval.'},409)
   try{
-   const current=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(sub.target_document_id)+'][0]{_id,_rev,name,saleVariants[]{_key,name,saleHeightCm,containerVolumeL,priceEUR,stockStatus,stockQuantity}}')
+   const current=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(sub.target_document_id)+'][0]{_id,_rev,name,saleVariants}')
    if(!current)return json({error:'Растението вече не е намерено.'},404)
    if(current._rev!==sub.target_revision)return json({error:'Растението е променено след създаването на заявката. Проверете актуалните данни.'},409)
    const variants=current.saleVariants||[],payload=obj(sub.payload)||{}
@@ -72,7 +72,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const targetId=str(body.targetDocumentId,128),rev=str(body.targetRevision,128)
  if(!targetId||!rev)return json({error:'Изберете растение от каталога.'},400)
  try{
-  const plant=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(targetId)+'][0]{_id,_rev,name,sku,saleVariants[]{_key,name,saleHeightCm,containerVolumeL,priceEUR,stockStatus,stockQuantity}}')
+  const plant=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(targetId)+'][0]{_id,_rev,name,sku,saleVariants}')
   if(!plant||plant._rev!==rev)return json({error:'Каталогът е обновен. Презаредете списъка и опитайте отново.'},409)
   const variants=plant.saleVariants||[];let payload:Record<string,unknown>
   if(action==='submitVariant'){
