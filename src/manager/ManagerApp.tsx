@@ -300,9 +300,7 @@ export default function ManagerApp() {
         if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size <= 0 || file.size > 10 * 1024 * 1024) {
           throw new Error('Снимките трябва да са JPG, PNG или WebP и до 10 MB всяка.')
         }
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').slice(-90)
-        const path = session.user.id + '/' + submissionId + '/' + crypto.randomUUID() + '-' + safeName
-        const { data: uploaded, error: uploadError } = await managerApi.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
+        const { data: uploaded, error: uploadError } = await managerApi.images.upload(file)
         if (uploadError) throw uploadError
         if (!uploaded?.url || !uploaded?.id) throw new Error('Sanity не върна връзка към качената снимка.')
         currentImages.push({ path: uploaded.path, url: uploaded.url, assetId: uploaded.id, name: file.name, size: file.size, type: file.type })
