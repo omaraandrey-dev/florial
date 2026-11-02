@@ -1,10 +1,8 @@
+import type { D1Database } from './manager/_lib'
 type TrackingEventType = 'page_view' | 'call_bg' | 'call_en_ru' | 'chat_click'
 type TrackingLanguage = 'bg' | 'ru' | 'en'
 
-type RuntimeEnv = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-}
+type RuntimeEnv = { DB?: D1Database }
 
 const MAX_BODY_BYTES = 4096
 const MAX_PAGE_PATH_LENGTH = 200
@@ -68,27 +66,14 @@ export const onRequestPost = async ({
     return errorResponse(400)
   }
 
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!env.DB) {
     return errorResponse(500)
   }
 
   try {
-    const response = await fetch(env.SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/site_events', {
-      method: 'POST',
-      headers: {
-        apikey: env.SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({
-        event_type: eventType,
-        lang,
-        page_path: pagePath,
-      }),
-    })
-
-    return response.ok ? new Response(null, { status: 204 }) : errorResponse(500)
+    await env.DB.prepare('INSERT INTO site_events (id,created_at,event_type,lang,page_path) VALUES (?,?,?,?,?)')
+      .bind(crypto.randomUUID(), new Date().toISOString(), eventType, lang, pagePath).run()
+    return new Response(null, { status: 204 })
   } catch {
     // Do not log request headers, IP addresses, or request payloads.
     return errorResponse(500)
