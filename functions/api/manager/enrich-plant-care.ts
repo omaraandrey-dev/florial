@@ -24,10 +24,40 @@ function modelText(response: unknown) {
 function parseModelJson(response: unknown) {
   const raw = modelText(response).trim().replace(/^\uFEFF/, '')
   const clean = raw.replace(/^\s*\x60{3}(?:json)?/i, '').replace(/\x60{3}\s*$/, '').trim()
+  try { return JSON.parse(clean) as Record<string, unknown> } catch { /* extract the first complete JSON object */ }
   const start = clean.indexOf('{')
-  const end = clean.lastIndexOf('}')
-  if (start < 0 || end <= start) throw new Error('AI model returned invalid JSON.')
-  return JSON.parse(clean.slice(start, end + 1)) as Record<string, unknown>
+  if (start >= 0) {
+    let depth = 0
+    let inString = false
+    let escaped = false
+    for (let index = start; index < clean.length; index += 1) {
+      const character = clean[index]
+      if (inString) {
+        if (escaped) escaped = false
+        else if (character === '\\') escaped = true
+        else if (character === '"') inString = false
+      } else if (character === '"') inString = true
+      else if (character === '{') depth += 1
+      else if (character === '}') {
+        depth -= 1
+        if (depth === 0) return JSON.parse(clean.slice(start, index + 1)) as Record<string, unknown>
+      }
+    }
+  }
+  throw new Error('AI model returned invalid JSON.')
+}
+async function repairVisionJson(env: Env, response: unknown) {
+  const raw = modelText(response).slice(0, 2500)
+  const repaired = await env.AI!.run(textModel, {
+    messages: [
+      { role: 'system', content: 'Convert the supplied vision-model response into exactly one valid JSON object. Do not add facts. If a value is absent or uncertain, use null, an empty string or an empty array as appropriate. Output JSON only.' },
+      { role: 'user', content: 'Extract these keys: likelyScientificName (Latin binomial or null), commonName (string), confidence (high, medium or low), alternatives (array up to 2 objects with scientificName and reason), visualEvidence (array up to 3 strings). Preserve uncertainty. Source response:\n' + raw },
+    ],
+    response_format: { type: 'json_object' },
+    max_tokens: 500,
+    temperature: 0,
+  })
+  return parseModelJson(repaired)
 }
 function bytesToBase64(bytes: Uint8Array) {
   let binary = ''
@@ -237,14 +267,21 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       stage = 'vision_image_' + (index + 1)
       const visionResponse = await env.AI.run(visionModel, {
         messages: [
-          { role: 'system', content: 'You are a cautious botanical image-assessment assistant. Independently assess the visible plant; do not assume the seller botanical name is correct. A photograph is not sufficient to confirm a species. Never claim certainty, never identify a cultivar from an image, and return valid JSON only.' },
-          { role: 'user', content: 'Independently inspect this plant photograph without using or assuming any name supplied by the seller. Identify only visible botanical characteristics. Return JSON with: likelyScientificName (a Latin binomial only if you can reasonably suggest one, otherwise null), commonName, confidence (high, medium, or low), alternatives (up to 2 objects with scientificName and short reason), visualEvidence (up to 3 short visible botanical clues). If exact species cannot be distinguished from this photo, return likelyScientificName null and confidence low. Do not guess cultivar or variety.' },
+          { role: 'system', content: 'You are a cautious botanical image-assessment assistant. Independently assess the visible plant; do not assume the seller botanical name is correct. A photograph is not sufficient to confirm a species. Never claim certainty, never identify a cultivar from an image. Return exactly one valid JSON object and no prose or markdown.' },
+          { role: 'user', content: 'Inspect only visible botanical characteristics in this photo. Return JSON with exactly these keys: likelyScientificName (Latin binomial or null), commonName (string), confidence (high, medium, or low), alternatives (array of up to 2 objects with scientificName and reason), visualEvidence (array of up to 3 short visible clues). If species is unclear, use null and low. Never guess cultivar or variety. Output JSON only.' },
         ],
         image: 'data:' + contentType + ';base64,' + bytesToBase64(bytes),
         max_tokens: 500,
-        temperature: 0.1,
+        temperature: 0,
       })
-      const visual = parseModelJson(visionResponse)
+      let visual: Record<string, unknown>
+      try {
+        visual = parseModelJson(visionResponse)
+      } catch {
+        // Vision model does not consistently emit parseable JSON; normalize its response with the supported text-model JSON mode.
+        visual = await repairVisionJson(env, visionResponse)
+        diagnosticSteps.push({ stage: 'vision_json_repair', ok: true, model: textModel })
+      }
       diagnosticSteps.push({ stage: 'vision_image_' + (index + 1), ok: true, model: visionModel, responseParsed: true })
       const likelyName = textValue(visual.likelyScientificName, 120)
       const binomial = speciesBinomial(likelyName)
