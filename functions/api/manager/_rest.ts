@@ -37,7 +37,7 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
     if(!identity)return response({message:'Invalid or expired session.'},401)
     return response({id:identity.user_id,email:identity.email})
   }
-  const match=url.pathname.match(/^\/rest\/v1\/(catalog_staff_profiles|catalog_submissions|catalog_submission_events)$/)
+  const match=url.pathname.match(/^\/internal-d1\/data\/(catalog_staff_profiles|catalog_submissions|catalog_submission_events)$/)
   if(!match)return response({message:'Unsupported D1 compatibility endpoint.'},404)
   const table=match[1],allowed=tableColumns[table]
   const db=env.DB
