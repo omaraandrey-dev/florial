@@ -175,6 +175,38 @@ export const onRequestPost = async ({
   const comment = cleanText(body.comment, 2000)
 
   const deliveryMethodInput = cleanText(body.delivery_method, 40)
+  const courierRates: Record<string, number> = {
+    'Слънчев бряг': 0,
+    'Несебър': 10,
+    'Свети Влас': 10,
+    'Тънково': 10,
+    'Равда': 10,
+    'Кошарица': 10,
+    'Ахелой': 10,
+    'Александрово': 10,
+    'Оризаре': 10,
+    'Гюльовца': 10,
+    'Медово': 10,
+    'Порой': 10,
+    'Каблешково': 10,
+    'Поморие': 15,
+    'Каменар': 15,
+    'Лъка': 15,
+    'Баня': 15,
+    'Бата': 15,
+    'Гълъбец': 15,
+    'Габерово': 15,
+    'Дъбник': 17,
+    'Горица': 20,
+    'Белодол': 20,
+    'Емона': 20,
+    'Страцин': 20,
+    'Обзор': 20,
+    'Приселци': 25,
+    'Козичино': 25,
+    'Раковсково': 25,
+    'Паницово': 25,
+  }
   if (!customerName || !phone) {
     return json({ error: 'Моля, попълнете име и телефон.' }, 400)
   }
@@ -183,8 +215,8 @@ export const onRequestPost = async ({
     return json({ error: 'Моля, въведете валиден имейл адрес.' }, 400)
   }
 
-  if (!['pickup', 'agree'].includes(deliveryMethodInput)) {
-    return json({ error: 'Този начин на доставка все още не е наличен. Моля, изберете самовземане или уточняване на доставката с Florial.' }, 400)
+  if (!['pickup', 'courier', 'agree'].includes(deliveryMethodInput)) {
+    return json({ error: 'Моля, изберете наличен начин на получаване.' }, 400)
   }
   const paymentMethodInput = cleanText(body.payment_method, 40) || 'pay_in_store'
   if (paymentMethodInput !== 'pay_in_store') {
@@ -216,8 +248,14 @@ export const onRequestPost = async ({
   }
 
   const containsPlants = requestedItems.some((item) => item.catalog === 'plants')
+  if (containsPlants && deliveryMethodInput === 'courier') {
+    return json({ error: 'За поръчки с растения доставката се уточнява индивидуално с Florial.' }, 400)
+  }
   if (deliveryMethodInput === 'agree' && !containsPlants) {
-    return json({ error: 'Уточняване на доставката по телефона е налично за поръчки с растения.' }, 400)
+    return json({ error: 'Уточняване на доставката по телефона е налично само за поръчки с растения.' }, 400)
+  }
+  if (deliveryMethodInput === 'courier' && (!Object.prototype.hasOwnProperty.call(courierRates, city) || !address)) {
+    return json({ error: 'Моля, изберете населено място от списъка и въведете адрес за куриерска доставка.' }, 400)
   }
 
   const supabaseUrl = env.SUPABASE_URL
@@ -297,10 +335,16 @@ export const onRequestPost = async ({
   }
 
   subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100
-  const deliveryFee: number | null = deliveryMethodInput === 'pickup' ? 0 : null
+  const deliveryFee: number | null = deliveryMethodInput === 'pickup'
+    ? 0
+    : deliveryMethodInput === 'courier'
+      ? courierRates[city]
+      : null
   const deliveryMethodLabel = deliveryMethodInput === 'pickup'
     ? 'Самовземане от магазин'
-    : 'Доставка на растения — за уточняване с Florial'
+    : deliveryMethodInput === 'courier'
+      ? 'Куриерска доставка от инженер Florial — ' + city + ' (' + deliveryFee!.toFixed(2) + ' EUR)'
+      : 'Доставка на растения — за уточняване с Florial'
   const grandTotal: number | null = deliveryFee === null
     ? null
     : Math.round((subtotal + deliveryFee + Number.EPSILON) * 100) / 100
