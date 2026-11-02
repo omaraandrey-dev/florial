@@ -1,15 +1,11 @@
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
-  PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
-}
-type IntakeImage = { path: string; name?: string; size?: number; type?: string }
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
+type Env = ManagerEnv
+type IntakeImage = { path: string; url?: string; assetId?: string; name?: string; size?: number; type?: string }
 type SubmissionRow = { id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string; payload: Record<string, unknown> }
 type GbifMatch = { confidence?: number; matchType?: string; rank?: string; status?: string; canonicalName?: string; scientificName?: string; usageKey?: number }
 const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
-const bucket = 'florial-manager-intake'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } })
 const object = (value: unknown): Record<string, unknown> | null => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null
 const textValue = (value: unknown, max: number) => typeof value === 'string' ? value.trim().slice(0, max) : ''
@@ -116,11 +112,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     catch { return json({ error: 'Invalid origin.' }, 403) }
   }
   if (Number(request.headers.get('Content-Length') || 0) > 5000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
+  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
-  const base = env.SUPABASE_URL.replace(/\/+$/, '')
-  const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+  let trustedWorkflowUserId = ''
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init, trustedWorkflowUserId || undefined)
+  const base = 'https://florial-d1.local'
+  const adminHeaders = { apikey: 'D1-compat', Authorization: 'Bearer D1-compat', 'Content-Type': 'application/json' }
 
   const isWorkflowProcess = requestUrl.pathname.endsWith('/process')
   stage = 'parse_request'
@@ -138,12 +136,18 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     callerId = textValue(body.callerId, 80)
     workflowId = textValue(body.workflowId, 100)
     if (workflowJobToken.length < 64 || !callerId || !workflowId) return json({ error: 'Invalid workflow authorization.' }, 403)
+    const jobRow = await env.DB.prepare('SELECT payload FROM catalog_submissions WHERE id=?').bind(textValue(body.submissionId,80)).first<{payload:string}>()
+    let savedPayload:Record<string,unknown>={}
+    try{savedPayload=typeof jobRow?.payload==='string'?JSON.parse(jobRow.payload):object(jobRow?.payload)||{}}catch{savedPayload={}}
+    const savedJob=object(savedPayload.plantCareJob)
+    if(!savedJob||savedJob.token!==workflowJobToken||savedJob.workflowId!==workflowId||savedJob.requestedBy!==callerId)return json({error:'Invalid workflow authorization.'},403)
+    trustedWorkflowUserId=callerId
   } else {
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
     if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-    stage = 'supabase_auth'
-    const userResponse = await fetch(base + '/auth/v1/user', { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken } })
+    stage = 'manager_auth'
+    const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: { Authorization: 'Bearer ' + accessToken } })
     if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
     const caller = await userResponse.json() as { id?: string }
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
@@ -151,7 +155,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   stage = 'owner_authorization'
-  const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active', { headers: adminHeaders })
+  const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active', { headers: adminHeaders })
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
   const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
   if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
@@ -159,7 +163,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
   stage = 'load_submission'
-  const submissionResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,status,created_by,updated_at,payload', { headers: adminHeaders })
+  const submissionResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,status,created_by,updated_at,payload', { headers: adminHeaders })
   if (!submissionResponse.ok) return json({ error: 'Unable to load submission.' }, 502)
   const rows = await submissionResponse.json() as SubmissionRow[]
   const submission = rows[0]
@@ -179,12 +183,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const selectedImages = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
   if (!selectedImages.length) return json({ error: 'Для проверки ботанического имени нужна хотя бы одна фотография растения.' }, 400)
   if (selectedImages.length > 8 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Список фотографий заявки некорректен. Обновите карточку и повторите проверку.' }, 400)
-  const prefix = submission.created_by + '/' + submissionId + '/'
-  if (selectedImages.some((image) => {
-    if (typeof image.path !== 'string' || !image.path.startsWith(prefix)) return true
-    const filename = image.path.slice(prefix.length)
-    return !/^[0-9a-f-]{36}[-_][A-Za-z0-9._-]+$/i.test(filename)
-  })) return json({ error: 'Путь фотографии не относится к этой заявке.' }, 400)
+  if (selectedImages.some((image) => typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
+      typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
+    return json({ error: 'Фотография не относится к Sanity Assets каталога растений.' }, 400)
+  }
 
   if (isWorkflowProcess) {
     const activeJob = object(payload.plantCareJob) || {}
@@ -218,7 +220,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       ...payload,
       plantCareJob: { status: 'queued', workflowId, token: jobToken, requestedBy: callerId, startedAt },
     }
-    const queueSave = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
+    const queueSave = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: queuedPayload, updated_at: startedAt }),
     })
@@ -237,7 +239,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         ...queuedPayload,
         plantCareJob: { status: 'failed', workflowId, token: null, requestedBy: callerId, startedAt, error: textValue(startBody.error, 300) || 'Workflow start failed.' },
       }
-      await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
+      await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
         method: 'PATCH', headers: adminHeaders,
         body: JSON.stringify({ payload: failedPayload, updated_at: new Date().toISOString() }),
       }).catch(() => undefined)
@@ -256,10 +258,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   try {
     for (let index = 0; index < imagesToAnalyse.length; index += 1) {
       const image = imagesToAnalyse[index]
-      const path = image.path.split('/').map((part) => encodeURIComponent(part)).join('/')
+      const imageUrl = image.url || image.path
       stage = 'load_photo_' + (index + 1)
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + path, { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY } })
-      if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из закрытого хранилища.' }, 502)
+      if (!/^https:\/\//i.test(imageUrl)) return json({ error: 'Фотография ' + (index + 1) + ' не содержит ссылки на Sanity Asset.' }, 400)
+      const download = await fetch(imageUrl)
+      if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из Sanity Assets.' }, 502)
       const contentType = (download.headers.get('content-type') || image.type || '').split(';')[0].trim().toLowerCase()
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) return json({ error: 'Для ботанического распознавания используйте JPG, PNG или WebP. Преобразуйте HEIC в JPG и загрузите фото повторно.' }, 400)
       const bytes = new Uint8Array(await download.arrayBuffer())
@@ -467,7 +470,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   const nextPayload = { ...payload, aiDraft: nextAiDraft, plantCareResearch: careDraft, plantCareJob: { status: 'completed', workflowId, token: null, requestedBy: callerId, finishedAt: new Date().toISOString() } }
   stage = 'save_submission'
-  const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
+  const save = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
     body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
   })
@@ -475,7 +478,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const savedRows = await save.json() as Array<{ id: string }>
   if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, reason: 'optimistic_lock_conflict' }] }, 409)
   stage = 'write_audit_event'
-  await fetch(base + '/rest/v1/catalog_submission_events', {
+  await fetch(base + '/internal-d1/data/catalog_submission_events', {
     method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
       submission_id: submissionId, actor_id: callerId, event_type: 'plant_care_researched',
@@ -523,21 +526,20 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
       try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
       catch { return json({ error: 'Invalid origin.' }, 403) }
     }
-    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.PLANT_CARE_WORKFLOW?.fetch) {
+    if (!env.DB || !env.PLANT_CARE_WORKFLOW?.fetch) {
       return json({ error: 'Manager workflow service is not configured.' }, 503)
     }
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
     if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-    const base = env.SUPABASE_URL.replace(/\/+$/, '')
-    const adminHeaders = { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY }
-    const userResponse = await fetch(base + '/auth/v1/user', {
-      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
-    })
+    const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+    const base = 'https://florial-d1.local'
+    const adminHeaders = { apikey: 'D1-compat', Authorization: 'Bearer D1-compat' }
+    const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: { Authorization: 'Bearer ' + accessToken } })
     if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
     const caller = await userResponse.json() as { id?: string }
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
-    const profileResponse = await fetch(base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
+    const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
     if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
     const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
     if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
@@ -547,7 +549,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId) || !workflowId.startsWith(submissionId + '-') || workflowId.length > 100) {
       return json({ error: 'Invalid botanical workflow reference.' }, 400)
     }
-    const submissionResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,payload', { headers: adminHeaders })
+    const submissionResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,payload', { headers: adminHeaders })
     if (!submissionResponse.ok) return json({ error: 'Unable to verify botanical workflow.' }, 502)
     const rows = await submissionResponse.json() as Array<{ id: string; catalog: string; operation: string; payload: Record<string, unknown> }>
     const submission = rows[0]

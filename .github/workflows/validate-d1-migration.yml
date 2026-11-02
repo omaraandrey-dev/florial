@@ -1,0 +1,33 @@
+name: Florial D1 migration validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: florial-d1-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Build website
+        run: npm run build
+      - name: Syntax-check Pages Functions
+        run: npx esbuild "functions/**/*.ts" --outdir=/tmp/florial-functions-check --platform=browser --format=esm

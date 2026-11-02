@@ -1,17 +1,14 @@
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
-}
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
+type Env = ManagerEnv
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type SubmissionRow = {
   id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string
   payload: Record<string, unknown>
 }
 type ScientificCandidate = { scientificName: string; confidence: string; reason: string }
 
-const bucket = 'florial-manager-intake'
 const visionModel = '@cf/meta/llama-3.2-11b-vision-instruct'
 const textModel = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
@@ -122,26 +119,22 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     catch { return json({ error: 'Invalid origin.' }, 403) }
   }
   if (Number(request.headers.get('Content-Length') || 0) > 10000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
+  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
-  const authorization = request.headers.get('Authorization') || ''
-  const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
-  if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-  const base = env.SUPABASE_URL.replace(/\/+$/, '')
-  const adminHeaders = {
-    apikey: env.SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY,
-    'Content-Type': 'application/json',
-  }
-  const userResponse = await fetch(base + '/auth/v1/user', {
-    headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+  const base = 'https://florial-d1.local'
+  const D1_INTERNAL_HEADER = 'D1-compat'
+  const adminHeaders = { apikey: D1_INTERNAL_HEADER, Authorization: 'Bearer ' + D1_INTERNAL_HEADER, 'Content-Type': 'application/json' }
+  const accessToken = 'cookie-session'
+  const userResponse = await fetch(base + '/internal-d1/auth/user', {
+    headers: { apikey: D1_INTERNAL_HEADER, Authorization: 'Bearer ' + accessToken },
   })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
   const profileResponse = await fetch(
-    base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
@@ -159,7 +152,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ error: 'Invalid submission ID.' }, 400)
   }
   const submissionResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
       '&select=id,catalog,operation,status,created_by,updated_at,payload',
     { headers: adminHeaders },
   )
@@ -199,7 +192,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const candidates = normalizeScientificCandidates(suggested.candidates)
       const nextDraft = { ...existingDraft, scientificNameCandidates: candidates }
       const nextPayload = { ...payload, aiDraft: nextDraft }
-      const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+      const save = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
         '&status=eq.' + encodeURIComponent(submission.status) + '&updated_at=eq.' + encodeURIComponent(submission.updated_at), {
         method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
         body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
@@ -224,10 +217,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (images.some((image) => !sellerImages.some((sellerImage) => sellerImage.path === image?.path))) {
     return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
   }
-  const prefix = submission.created_by + '/' + submissionId + '/'
-  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(prefix) ||
-      !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(prefix.length)) &&
-      !/^[0-9a-f-]{36}-[A-Za-z0-9._-]+$/.test(image.path.slice(prefix.length)))) {
+  if (images.some((image) => !image || typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
+      typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
@@ -252,11 +243,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type) || image.size <= 0 || image.size > 10 * 1024 * 1024) {
         throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
       }
-      const path = image.path.split('/').map((part) => encodeURIComponent(part)).join('/')
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + path, {
-        headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY },
-      })
-      if (!download.ok) throw new Error('Could not read photo ' + (index + 1) + ' from private storage.')
+      const imageUrl = image.url || image.path
+      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Photo ' + (index + 1) + ' has no valid Sanity asset URL.')
+      const download = await fetch(imageUrl)
+      if (!download.ok) throw new Error('Could not read photo ' + (index + 1) + ' from Sanity Assets.')
       const contentType = (download.headers.get('content-type') || image.type).split(';')[0].trim().toLowerCase()
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) throw new Error('Photo ' + (index + 1) + ' is not a supported image.')
       const bytes = new Uint8Array(await download.arrayBuffer())
@@ -385,14 +375,14 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     }
     stage = 'save_draft'
     const nextPayload = { ...payload, aiDraft: publication, plantCareResearch: null }
-    const save = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
+    const save = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status), {
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
     })
     if (!save.ok) throw new Error('AI draft was generated but could not be saved.')
     const savedRows = await save.json() as Array<{ id: string }>
     if (!savedRows.length) return json({ error: 'The submission changed. Reload and try again.' }, 409)
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
         from_status: submission.status, to_status: submission.status,
@@ -410,7 +400,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
     const diagnosticId = crypto.randomUUID()
     const stageLabel = stageLabels[failedStage]
     const imageNumber = imageIndex >= 0 ? imageIndex + 1 : null
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
         submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_failed',

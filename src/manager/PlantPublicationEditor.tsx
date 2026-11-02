@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { managerApi } from '../lib/managerApi'
 import type { PlantCategory } from './plantCategories'
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type PreviewImage = { name: string; url: string }
 type Variant = Record<string, unknown>
 
@@ -149,9 +149,9 @@ function makeDraft(submission: Submission): Draft {
     stockStatus: stockStatus === 'preorder' ? 'onRequest' : stockStatus,
     stockQuantity: numberText(savedVariant.stockQuantity ?? originalVariant.stockQuantity ?? 1),
     mainImageIndex: Number.isInteger(saved.mainImageIndex) ? Number(saved.mainImageIndex) : 0,
-    imageAlts: images.map((image, index) => String(savedAlts[index] || name + ' — снимка ' + (index + 1))),
-    imageAltsEn: images.map((image, index) => String(savedAltsEn[index] || name + ' — plant photo ' + (index + 1))),
-    imageAltsRu: images.map((image, index) => String(savedAltsRu[index] || name + ' — фотография растения ' + (index + 1))),
+    imageAlts: images.map((_, index) => String(savedAlts[index] || name + ' — снимка ' + (index + 1))),
+    imageAltsEn: images.map((_, index) => String(savedAltsEn[index] || name + ' — plant photo ' + (index + 1))),
+    imageAltsRu: images.map((_, index) => String(savedAltsRu[index] || name + ' — фотография растения ' + (index + 1))),
     plantCare: { light: String(plantCare.light || ''), waterNeeds: String(plantCare.waterNeeds || ''), minWinterTempC: numberText(plantCare.minWinterTempC), blackSeaCoast: String(plantCare.blackSeaCoast || 'needsVerification'), adultHeightCm: numberText(plantCare.adultHeightCm), foliageType: String(plantCare.foliageType || ''), floweringSeason: Array.isArray(plantCare.floweringSeason) ? plantCare.floweringSeason as string[] : [], plantingSeason: Array.isArray(plantCare.plantingSeason) ? plantCare.plantingSeason as string[] : [] },
     careGuide: String(saved.careGuide || ''),
     isFeatured: saved.isFeatured === true,
@@ -374,7 +374,7 @@ export default function PlantPublicationEditor({
     const nextPayload = { ...submission.payload, reviewImages: nextImages, aiDraft: null, publication: null, plantCareResearch: null }
     setUpdatingImages(true); setError(''); setNotice('')
     try {
-      const { data, error: updateError } = await supabase.from('catalog_submissions')
+      const { data, error: updateError } = await managerApi.from('catalog_submissions')
         .update({ payload: nextPayload, updated_at: new Date().toISOString() })
         .eq('id', submission.id).eq('status', submission.status).eq('updated_at', submission.updated_at)
         .select('id').maybeSingle()

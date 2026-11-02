@@ -1,12 +1,10 @@
 import { createClient } from '@sanity/client'
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
 
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  SANITY_API_TOKEN?: string
-}
+type Env = ManagerEnv
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type SubmissionRow = {
   id: string
   catalog: string
@@ -48,7 +46,6 @@ type Publication = {
   sanityAssetIds?: string[]
 }
 
-const bucket = 'florial-manager-intake'
 const productTypes = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus', 'palm', 'conifer',
   'fruit', 'succulent', 'climber', 'ornamentalGrass', 'groundcover', 'bulb', 'herb', 'aquatic', 'other',
@@ -211,31 +208,32 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   if (Number(request.headers.get('Content-Length') || 0) > 30000) return json({ error: 'Request is too large.' }, 413)
 
-  const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = env
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager publishing service is not configured.' }, 503)
+  if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Manager publishing service is not configured.' }, 503)
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+  const D1_INTERNAL_HEADER = 'D1-compat'
 
   const authorization = request.headers.get('Authorization') || ''
   const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
   if (!accessToken) return json({ error: 'Authentication required.' }, 401)
 
-  const base = SUPABASE_URL.replace(/\/+$/, '')
+  const base = 'https://florial-d1.local'
   const authHeaders = {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
+    apikey: D1_INTERNAL_HEADER,
     Authorization: 'Bearer ' + accessToken,
   }
   const adminHeaders = {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY,
+    apikey: D1_INTERNAL_HEADER,
+    Authorization: 'Bearer ' + D1_INTERNAL_HEADER,
     'Content-Type': 'application/json',
   }
 
-  const userResponse = await fetch(base + '/auth/v1/user', { headers: authHeaders })
+  const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: authHeaders })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
 
   const profileResponse = await fetch(
-    base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
@@ -260,7 +258,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (action !== 'save' && action !== 'publish') return json({ error: 'Unknown action.' }, 400)
 
   const submissionResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
       '&select=id,catalog,operation,status,created_by,payload,idempotency_key',
     { headers: adminHeaders },
   )
@@ -283,10 +281,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (images.some((image) => !sellerImages.some((original) => original.path === image.path))) {
     return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
   }
-  const imagePathPrefix = submission.created_by + '/' + submissionId + '/'
-  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(imagePathPrefix) ||
-      !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)) &&
-      !/^[0-9a-f-]{36}-[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)))) {
+  if (images.some((image) => !image || typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
+      typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
@@ -305,7 +301,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       : undefined
     const nextPayload = { ...payload, publication }
     const saveResponse = await fetch(
-      base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
+      base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
       {
         method: 'PATCH',
         headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -315,7 +311,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (!saveResponse.ok) return json({ error: 'Не успяхме да запазим финалната версия.' }, 502)
     const savedRows = await saveResponse.json() as Array<{ id: string }>
     if (!savedRows.length) return json({ error: 'Заявката се промени. Обновете екрана и опитайте отново.' }, 409)
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
@@ -338,7 +334,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!env.SANITY_API_TOKEN) return json({ error: 'Липсва SANITY_API_TOKEN в Cloudflare Production. Добавете го като Secret, за да активирате публикуването.' }, 503)
 
   const lockResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
     {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -349,7 +345,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const lockedRows = await lockResponse.json() as Array<{ id: string }>
   if (!lockedRows.length) return json({ error: 'Заявката вече се обработва. Обновете екрана.' }, 409)
 
-  await fetch(base + '/rest/v1/catalog_submission_events', {
+  await fetch(base + '/internal-d1/data/catalog_submission_events', {
     method: 'POST',
     headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
@@ -381,7 +377,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
     const persistPublication = async () => {
       const nextPayload = { ...payload, publication }
-      const response = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId), {
+      const response = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId), {
         method: 'PATCH',
         headers: { ...adminHeaders, Prefer: 'return=minimal' },
         body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
@@ -418,11 +414,15 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
     for (let index = 0; index < images.length; index += 1) {
       if (publication.sanityAssetIds[index]) continue
-      const storagePath = images[index].path.split('/').map((part) => encodeURIComponent(part)).join('/')
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + storagePath, {
-        headers: { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY },
-      })
-      if (!download.ok) throw new Error('Не удалось получить снимка ' + (index + 1) + ' от затвореното хранилище.')
+      if (images[index].assetId && /^image-[a-zA-Z0-9-]+$/.test(images[index].assetId)) {
+        publication.sanityAssetIds[index] = images[index].assetId
+        await persistPublication()
+        continue
+      }
+      const imageUrl = images[index].url || images[index].path
+      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Снимка ' + (index + 1) + ' няма валиден публичен Sanity URL.')
+      const download = await fetch(imageUrl)
+      if (!download.ok) throw new Error('Не удалось получить снимка ' + (index + 1) + ' из Sanity Assets.')
       const contentType = (download.headers.get('content-type') || images[index].type).split(';')[0].trim().toLowerCase()
       if (!imageTypes.has(contentType)) throw new Error('Снимка ' + (index + 1) + ' е в неподдържан формат.')
       const blob = await download.blob()
@@ -506,7 +506,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     const finalPayload = { ...payload, publication }
-    const finishResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
+    const finishResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({
@@ -521,7 +521,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const finishedRows = await finishResponse.json() as Array<{ id: string }>
     if (!finishedRows.length) throw new Error('Растението е записано в Sanity, но заявката вече не е в очаквания статус.')
 
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
@@ -534,12 +534,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ ok: true, published: true, documentId })
   } catch (error) {
     const message = error instanceof Error ? error.message.slice(0, 400) : 'Неизвестна грешка при публикуване.'
-    await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
+    await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({ status: 'publish_failed', publish_error: message, updated_at: new Date().toISOString() }),
     })
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({

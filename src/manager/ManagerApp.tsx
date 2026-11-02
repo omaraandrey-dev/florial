@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
-import { supabase } from '../lib/supabase'
+import { managerApi } from '../lib/managerApi'
 import { getPlantCategories, type PlantCategory } from './plantCategories'
 import SubmissionDetails from './SubmissionDetails'
 import PlantPublicationEditor from './PlantPublicationEditor'
@@ -13,7 +13,7 @@ type Submission = {
   review_note: string | null; notification_sent_at: string | null; publish_error: string | null
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type LocalPreview = { file: File; url: string }
 type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean }; created_at?: string }
 type AnalyticsReport = {
@@ -25,7 +25,6 @@ type AnalyticsReport = {
   top_pages: Array<{ page_path: string; page_views: number }>
 }
 
-const bucket = 'florial-manager-intake'
 const statusLabels: Record<string, string> = {
   draft: 'Чернова', submitted: 'Изпратена за проверка', in_review: 'В процес на проверка',
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
@@ -50,6 +49,12 @@ export default function ManagerApp() {
   const [notice, setNotice] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [bootstrapSecret, setBootstrapSecret] = useState('')
+  const [bootstrapAvailable, setBootstrapAvailable] = useState(false)
+  const [bootstrapConfigured, setBootstrapConfigured] = useState(false)
+  const [bootstrapError, setBootstrapError] = useState('')
+  const [bootstrapSaving, setBootstrapSaving] = useState(false)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [events, setEvents] = useState<Array<{ id: number; event_type: string; from_status: string | null; to_status: string | null; note: string | null; created_at: string }>>([])
@@ -97,7 +102,7 @@ export default function ManagerApp() {
       setSession(null); setProfile(null); setSubmissions([]); setActiveTab('submissions'); setLoading(false); return
     }
     setSession(currentSession)
-    const { data, error: profileError } = await supabase
+    const { data, error: profileError } = await managerApi
       .from('catalog_staff_profiles')
       .select('user_id,role,display_name,is_active,permissions')
       .eq('user_id', currentSession.user.id)
@@ -115,7 +120,7 @@ export default function ManagerApp() {
 
   const loadSubmissions = useCallback(async () => {
     if (!profile) return
-    let query = supabase.from('catalog_submissions')
+    let query = managerApi.from('catalog_submissions')
       .select('id,title,sku,operation,target_document_id,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at,publish_error')
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
@@ -128,10 +133,10 @@ export default function ManagerApp() {
 
   useEffect(() => {
     let alive = true
-    supabase.auth.getSession().then(({ data }) => {
+    managerApi.auth.getSession().then(({ data }) => {
       if (alive) void loadProfile(data.session as Session | null)
     })
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: listener } = managerApi.auth.onAuthStateChange((_event, nextSession) => {
       if (alive) {
         setLoading(true)
         void loadProfile(nextSession as Session | null)
@@ -139,6 +144,15 @@ export default function ManagerApp() {
     })
     return () => { alive = false; listener.subscription.unsubscribe() }
   }, [loadProfile])
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/manager/auth/bootstrap-status', { cache: 'no-store' }).then(async (response) => {
+      const result = await response.json().catch(() => ({})) as { available?: boolean; configured?: boolean }
+      if (active) { setBootstrapAvailable(result.available === true); setBootstrapConfigured(result.configured === true) }
+    }).catch(() => undefined)
+    return () => { active = false }
+  }, [])
 
   useEffect(() => { void loadSubmissions() }, [loadSubmissions])
 
@@ -186,7 +200,7 @@ export default function ManagerApp() {
     setAnalyticsLoading(true)
     setAnalyticsError('')
     try {
-      const { data, error: rpcError } = await supabase.rpc('manager_site_analytics', { p_days: analyticsDays })
+      const { data, error: rpcError } = await managerApi.rpc('manager_site_analytics', { p_days: analyticsDays })
       if (rpcError) throw rpcError
       setAnalyticsData(data as AnalyticsReport)
     } catch (err) {
@@ -229,7 +243,7 @@ export default function ManagerApp() {
     setPreviewImages([])
     setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
-      const { data: signed, error: signedError } = await supabase.storage.from(bucket).createSignedUrls(imageItems.map((item) => item.path), 3600)
+      const { data: signed, error: signedError } = await managerApi.images.createUrls(imageItems.map((item) => item.path))
       if (signedError) setError('Не удалось открыть фотографии заявки: ' + signedError.message)
       else {
         const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
@@ -238,7 +252,7 @@ export default function ManagerApp() {
       }
     }
     setPreviewLoading(false)
-    const { data } = await supabase.from('catalog_submission_events')
+    const { data } = await managerApi.from('catalog_submission_events')
       .select('id,event_type,from_status,to_status,note,created_at')
       .eq('submission_id', id).order('created_at', { ascending: false })
     setEvents(data || [])
@@ -270,7 +284,7 @@ export default function ManagerApp() {
       }
       let submissionId = selectedId
       if (!submissionId) {
-        const { data, error: insertError } = await supabase.from('catalog_submissions').insert({
+        const { data, error: insertError } = await managerApi.from('catalog_submissions').insert({
           catalog: 'plants', operation: 'create', title: title.trim(), sku: sku.trim() || null,
           payload, status: 'draft', created_by: session.user.id,
         }).select('id').single()
@@ -286,20 +300,19 @@ export default function ManagerApp() {
         if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size <= 0 || file.size > 10 * 1024 * 1024) {
           throw new Error('Снимките трябва да са JPG, PNG или WebP и до 10 MB всяка.')
         }
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').slice(-90)
-        const path = session.user.id + '/' + submissionId + '/' + crypto.randomUUID() + '-' + safeName
-        const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false })
+        const { data: uploaded, error: uploadError } = await managerApi.images.upload(file)
         if (uploadError) throw uploadError
-        currentImages.push({ path, name: file.name, size: file.size, type: file.type })
+        if (!uploaded?.url || !uploaded?.id) throw new Error('Sanity не върна връзка към качената снимка.')
+        currentImages.push({ path: uploaded.path, url: uploaded.url, assetId: uploaded.id, name: file.name, size: file.size, type: file.type })
         const partialPayload = { ...payload, images: currentImages }
-        const { error: imageRecordError } = await supabase.from('catalog_submissions').update({ payload: partialPayload, updated_at: new Date().toISOString() }).eq('id', submissionId)
+        const { error: imageRecordError } = await managerApi.from('catalog_submissions').update({ payload: partialPayload, updated_at: new Date().toISOString() }).eq('id', submissionId)
         if (imageRecordError) throw new Error('Снимката е качена, но не успяхме да запазим връзката ѝ: ' + imageRecordError.message)
         const uploadedFiles = filesToUpload.slice(0, index + 1)
         setFiles((pending) => pending.filter((item) => !uploadedFiles.includes(item)))
       }
       setUploadProgress('Запазване на данните…')
       const finalPayload = { ...payload, images: currentImages }
-      const { error: updateError } = await supabase.from('catalog_submissions').update({
+      const { error: updateError } = await managerApi.from('catalog_submissions').update({
         title: title.trim(), sku: sku.trim() || null, payload: finalPayload, updated_at: new Date().toISOString(),
       }).eq('id', submissionId)
       if (updateError) throw updateError
@@ -351,7 +364,7 @@ export default function ManagerApp() {
       }],
     }
     setSaving(true); setError(''); setNotice('')
-    const { error: updateError } = await supabase.from('catalog_submissions').update({
+    const { error: updateError } = await managerApi.from('catalog_submissions').update({
       title: title.trim(), sku: sku.trim() || null, payload: submissionPayload,
       status: 'submitted', submitted_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', selectedId).in('status', ['draft', 'changes_requested'])
@@ -379,7 +392,7 @@ export default function ManagerApp() {
       return
     }
     if (!window.confirm('Потвърждавате ли одобрението на вече подготвената и запазена карточка? След това ще можете отделно да публикувате растението в магазина.')) return
-    const { error: approveError } = await supabase.from('catalog_submissions').update({
+    const { error: approveError } = await managerApi.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
     if (approveError) setError(approveError.message)
@@ -390,7 +403,7 @@ export default function ManagerApp() {
     if (!profile || profile.role !== 'owner') return
     if (reviewNote.trim().length < 3) { setError('Добавете причина за отказ (поне 3 символа).'); return }
     if (!window.confirm('Сигурни ли сте, че искате да отхвърлите тази заявка?')) return
-    const { error: rejectError } = await supabase.from('catalog_submissions').update({
+    const { error: rejectError } = await managerApi.from('catalog_submissions').update({
       status: 'rejected', review_note: reviewNote.trim(), reviewed_by: profile.user_id,
       reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
@@ -400,7 +413,7 @@ export default function ManagerApp() {
 
   const requestChanges = async (id: string) => {
     if (reviewNote.trim().length < 3) { setError('Добавете коментар за корекциите (поне 3 символа).'); return }
-    const { error: rpcError } = await supabase.rpc('manager_request_catalog_changes', {
+    const { error: rpcError } = await managerApi.rpc('manager_request_catalog_changes', {
       submission_id: id, request_note: reviewNote.trim(),
     })
     if (rpcError) setError(rpcError.message)
@@ -478,7 +491,7 @@ export default function ManagerApp() {
     } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось применить изменение.') }
   }
 
-  const signOut = async () => { await supabase.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
+  const signOut = async () => { await managerApi.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
 
   if (loading) return <div className="min-h-screen bg-[#f5f6ef] grid place-items-center text-stone-600">Зареждане на Florial Manager…</div>
 
@@ -486,18 +499,43 @@ export default function ManagerApp() {
     <main className="min-h-screen bg-[#f5f6ef] px-4 py-10 flex items-center justify-center">
       <section className="w-full max-w-md rounded-3xl bg-white p-7 shadow-sm border border-stone-200">
         <div className="text-xs font-bold tracking-[.24em] text-lime-800">FLORIAL / INTERNAL</div>
-        <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
-        <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Регистрацията е достъпна само чрез покана от собственика.</p>
-        <form className="mt-7 space-y-4" onSubmit={async (event) => {
-          event.preventDefault(); setError(''); setLoading(true)
-          const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-          if (loginError) { setError('Невалиден имейл или парола.'); setLoading(false) }
-        }}>
-          <label className={labelClass}>Имейл<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-          <label className={labelClass}>Парола<input className={inputClass} type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
-          {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-          <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={loading}>Вход</button>
-        </form>
+        {bootstrapAvailable ? <>
+          <h1 className="mt-3 text-3xl font-semibold text-stone-900">Първоначална настройка</h1>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Създайте първия собственик на Florial Manager. Тази форма се показва само докато в D1 няма owner акаунт.</p>
+          {!bootstrapConfigured && <p role="status" className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">Първо добавете secret MANAGER_BOOTSTRAP_SECRET в Cloudflare Pages → Settings → Variables and Secrets (Production), след това презаредете тази страница.</p>}
+          <form className="mt-7 space-y-4" onSubmit={async (event) => {
+            event.preventDefault(); setBootstrapError(''); setBootstrapSaving(true)
+            try {
+              const response = await fetch('/api/manager/auth/bootstrap', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Florial-Bootstrap-Secret': bootstrapSecret }, body: JSON.stringify({ displayName: ownerName, email, password }) })
+              const result = await response.json().catch(() => ({})) as { error?: string }
+              if (!response.ok) throw new Error(result.error || 'Не удалось создать владельца.')
+              const login = await managerApi.auth.signInWithPassword({ email, password })
+              if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
+              setBootstrapAvailable(false)
+            } catch (err) { setBootstrapError(err instanceof Error ? err.message : 'Не удалось создать владельца.') }
+            finally { setBootstrapSaving(false) }
+          }}>
+            <label className={labelClass}>Имя владельца<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
+            <label className={labelClass}>Email<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+            <label className={labelClass}>Постоянный пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            <label className={labelClass}>Одноразовый секрет первичной настройки<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
+            {bootstrapError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{bootstrapError}</p>}
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създать владельца'}</button>
+          </form>
+        </> : <>
+          <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Учетную запись создаёт владелец.</p>
+          <form className="mt-7 space-y-4" onSubmit={async (event) => {
+            event.preventDefault(); setError(''); setLoading(true)
+            const { error: loginError } = await managerApi.auth.signInWithPassword({ email, password })
+            if (loginError) { setError('Невалиден имейл или парола.'); setLoading(false) }
+          }}>
+            <label className={labelClass}>Имейл<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+            <label className={labelClass}>Парола<input className={inputClass} type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={loading}>Вход</button>
+          </form>
+        </>}
       </section>
     </main>
   )
@@ -610,7 +648,7 @@ export default function ManagerApp() {
           <ol className="mt-4 space-y-4">
             {events.map((event) => <li key={event.id} className="border-l-2 border-lime-700 pl-3"><div className="text-sm font-semibold">{event.to_status ? statusLabels[event.to_status] || event.event_type : event.event_type}</div><div className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</div>{event.note && <p className="mt-1 text-sm">{event.note}</p>}</li>)}
           </ol>
-          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Системата пази черновите и снимките в затворено хранилище. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
+          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
         </aside>
       </div>
       <section className={activeTab === 'analytics' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>

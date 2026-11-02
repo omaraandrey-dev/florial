@@ -1,3 +1,5 @@
+> **Актуализация 02.11.2026:** данный файл содержит исходную инструкцию первого включения Manager на Supabase. Она сохранена как историческая справка. Для актуальной целевой архитектуры D1 используйте дополнение в конце документа. Не выполняйте старые шаги Supabase как новые настройки.
+
 # Florial Manager — първоначално активиране
 
 **Статус към 01.11.2026:** първата версия е публикувана чрез PR #39, SQL миграцията е приложена към production, а owner Auth акаунтът и профилът с роля `owner` са създадени и проверени. Създаването на служители се предвижда чрез owner-only раздела, описан по-долу, след публикуването на PR #41.
@@ -105,3 +107,23 @@
 - Проверка на Cloudflare Pages API към 01.11.2026: `SANITY_API_TOKEN` липсва сред Production bindings. Съществуващата Sanity административна връзка не се използва автоматично от Cloudflare runtime. Собственикът добавя отделен write token директно в Cloudflare Pages → Settings → Variables and Secrets → Production с име `SANITY_API_TOKEN`. Не изпращайте токена в чат и не го записвайте в GitHub.
 - Preview secrets не се добавят. До настройки Production Secret endpoint возвращает 503 и оставя заявката в `approved`.
 - Нова SQL migration и Sanity schema deployment не са необходими.
+
+## Актуальная настройка Cloudflare D1 — 02.11.2026
+
+- D1 database: `florial-db`, UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`, jurisdiction `eu`.
+- В Cloudflare Pages project `florial` создана production binding `DB` на эту базу.
+- Миграции 0001–0005 применены; индекс `idx_catalog_staff_single_owner` гарантирует не более одной owner-учётной записи.
+- Перенос тестовых строк из Supabase не выполняется. Supabase project остаётся нетронутым для rollback.
+- Перед запуском нового runtime необходимо пройти GitHub Actions build/lint/function syntax checks, объединить PR и дождаться успешного Cloudflare Pages production deployment.
+- Затем установить production secret `MANAGER_BOOTSTRAP_SECRET` (не помещать в Git или frontend), открыть `/manager` и создать первого owner. Это одноразовая первичная настройка владельца, не код входа сотрудников. После создания owner bootstrap навсегда закрывается.
+- Сотрудники далее входят обычным способом по email и постоянному паролю; одноразовая почта для входа не используется.
+- Фото продавцов загружаются напрямую в публичный Sanity dataset `plants`; JPEG/PNG/WebP, максимум 10 MB. R2 для этих фотографий не нужен.
+- Production test orders и любые тесты, которые отправляют email клиентам, не запускать без отдельного разрешения владельца.
+
+
+### Проверка Cloudflare Production — 02.11.2026
+
+- Через Cloudflare API подтверждено наличие production secret name `SANITY_API_TOKEN`; значение секрета не читалось и не раскрывалось. Секрет не изменялся.
+- Подтверждены production bindings `DB` (D1), `AI` (Workers AI) и service binding `PLANT_CARE_WORKFLOW` (существующий Worker).
+- В production по-прежнему присутствуют прежние Supabase variables/secrets для rollback; их не удалять до завершения периода наблюдения и отдельного согласования.
+- `MANAGER_BOOTSTRAP_SECRET` пока отсутствует. Его нужно добавить отдельно перед созданием первого owner после deployment.
