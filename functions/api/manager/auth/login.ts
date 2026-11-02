@@ -26,7 +26,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   }
   await env.DB.prepare('DELETE FROM manager_login_attempts WHERE attempt_key=?').bind(attemptKey).run()
   const token = randomHex(32)
-  const now = nowIso()
   const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
   await env.DB.prepare('INSERT INTO manager_sessions (id,user_id,token_hash,created_at,last_seen_at,expires_at) VALUES (?,?,?,?,?,?)')
     .bind(newId(), staff.user_id, await sha256Hex(token), now, now, expires).run()
