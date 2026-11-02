@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { PlantCategory } from './plantCategories'
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type PreviewImage = { name: string; url: string }
 type Variant = Record<string, unknown>
 
