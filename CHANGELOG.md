@@ -440,3 +440,13 @@
 - Validation still required: run a real Manager inspection with the existing Thuja submission and confirm the Workflow completes, the plantCareResearch result is saved, and the UI displays the suggestions. A successful deployment alone does not prove end-to-end AI/GBIF completion.
 
 - Follow-up hardening: Workflow event payload accepts object or JSON-string form; successful processing is idempotent if the Workflow retries after the database save.
+
+
+## 2026-11-02 — Устойчивый разбор ответа ботанического Vision AI
+
+- В `functions/api/manager/enrich-plant-care.ts` усилен разбор ответа Cloudflare Workers AI Vision: сначала принимается чистый JSON, затем извлекается первый полный JSON-объект с учётом вложенности и кавычек.
+- Если Vision-модель всё же возвращает невалидный JSON, её текстовый ответ нормализуется текстовой моделью `@cf/meta/llama-3.3-70b-instruct-fp8-fast` в JSON Mode. Исходный визуальный анализ не повторяется, фотография по-прежнему передаётся только одна — главная.
+- Инструкция Vision-модели уточнена: один JSON-объект без Markdown и пояснений; температура снижена до 0.
+- В диагностические этапы добавляется `vision_json_repair` при успешном восстановлении формата. При ошибке исходного Vision-ответа данные заявки не изменяются.
+- Не менялись Workflow/Worker, UI Manager, Sanity, Supabase, существующие заявки и фотографии, Header/menu/Footer.
+- Требуется подтвердить Cloudflare Pages production build/deploy и затем выполнить ручной end-to-end запуск владельцем.
