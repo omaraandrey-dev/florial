@@ -46,7 +46,6 @@ type Publication = {
   sanityAssetIds?: string[]
 }
 
-const bucket = 'florial-manager-intake'
 const productTypes = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus', 'palm', 'conifer',
   'fruit', 'succulent', 'climber', 'ornamentalGrass', 'groundcover', 'bulb', 'herb', 'aquatic', 'other',
