@@ -1,10 +1,8 @@
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
-}
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
+type Env = ManagerEnv
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type SubmissionRow = {
   id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string
   payload: Record<string, unknown>
@@ -122,18 +120,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     catch { return json({ error: 'Invalid origin.' }, 403) }
   }
   if (Number(request.headers.get('Content-Length') || 0) > 10000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager service is not configured.' }, 503)
+  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
   if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
 
-  const authorization = request.headers.get('Authorization') || ''
-  const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
-  if (!accessToken) return json({ error: 'Authentication required.' }, 401)
-  const base = env.SUPABASE_URL.replace(/\/+$/, '')
-  const adminHeaders = {
-    apikey: env.SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY,
-    'Content-Type': 'application/json',
-  }
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+  const base = 'https://florial-d1.local'
+  const SUPABASE_SERVICE_ROLE_KEY = 'D1-compat'
+  const adminHeaders = { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' }
+  const accessToken = 'cookie-session'
   const userResponse = await fetch(base + '/auth/v1/user', {
     headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + accessToken },
   })
@@ -252,11 +246,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type) || image.size <= 0 || image.size > 10 * 1024 * 1024) {
         throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
       }
-      const path = image.path.split('/').map((part) => encodeURIComponent(part)).join('/')
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + path, {
-        headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_ROLE_KEY },
-      })
-      if (!download.ok) throw new Error('Could not read photo ' + (index + 1) + ' from private storage.')
+      const imageUrl = image.url || image.path
+      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Photo ' + (index + 1) + ' has no valid Sanity asset URL.')
+      const download = await fetch(imageUrl)
+      if (!download.ok) throw new Error('Could not read photo ' + (index + 1) + ' from Sanity Assets.')
       const contentType = (download.headers.get('content-type') || image.type).split(';')[0].trim().toLowerCase()
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) throw new Error('Photo ' + (index + 1) + ' is not a supported image.')
       const bytes = new Uint8Array(await download.arrayBuffer())
