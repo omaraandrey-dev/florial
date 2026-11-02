@@ -372,9 +372,9 @@
 
 - Создана Cloudflare D1 database: имя `florial-db`, database UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`, jurisdiction `eu`.
 - Созданная база расположена в EU jurisdiction. Cloudflare API подтвердил регион обработки EEUR при тестовом запросе.
-- К базе применены миграции `functions/migrations/0001_initial.sql` и `functions/migrations/0002_login_rate_limit.sql`; таблица `schema_migrations` содержит обе версии.
+- К базе применены миграции `0001_initial.sql`, `0002_login_rate_limit.sql`, `0003_integrity_triggers.sql` и `0004_order_money_cents.sql`; таблица `schema_migrations` содержит эти версии. Миграция `0005_single_owner.sql` подготовлена и ожидает применения.
 - Проверено наличие таблиц: `orders`, `site_events`, `catalog_staff_profiles`, `manager_sessions`, `manager_login_attempts`, `catalog_submissions`, `catalog_submission_events`, `schema_migrations`.
-- D1 database пока не содержит перенесённых тестовых заказов, аналитики, заявок, профилей или пользователей.
+- D1 database не содержит перенесённых тестовых заказов, аналитики, заявок, профилей или пользователей.
 - В Cloudflare Pages project `florial` сохранена production binding `DB` → эта D1 database. Binding вступит в действие для Functions после deployment новой версии кода.
 - Production code ещё не переключён: работа идёт в ветке `feature/cloudflare-d1-migration`; до merge сайт продолжает использовать прежнюю версию main. Preview D1 binding не настроен намеренно, чтобы preview не писал в production database.
 
@@ -401,7 +401,7 @@
 ### Незавершённые действия и ограничения
 
 1. Изменения в ветке должны пройти сборку, lint и review; после этого согласованный код объединяется в main и выпускается через Cloudflare Pages.
-2. После deployment нужно установить production secret `MANAGER_BOOTSTRAP_SECRET`, создать первого owner через страницу первичной настройки и проверить вход.
+2. После deployment нужно установить production secret `MANAGER_BOOTSTRAP_SECRET`, создать первого owner через страницу первичной настройки и проверить вход. Это только защита одноразового первичного создания владельца; сотрудники далее входят email и постоянным паролем без одноразовых email-кодов.
 3. Провести end-to-end проверки: сотрудник, пароль, роли, черновик, загрузка Sanity Asset, AI-обработка, проверка владельцем, публикация, заказ, email/PDF и аналитика.
 4. Убедиться, что все manager endpoints используют D1 и не обращаются к Supabase; затем оставить старый Supabase без записей на rollback-период.
 5. Настроить независимые резервные копии D1 и проверить восстановление. Time Travel не считать единственной резервной копией.
