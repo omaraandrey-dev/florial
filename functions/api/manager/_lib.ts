@@ -66,14 +66,20 @@ export const randomHex = (length = 32) => {
 }
 export const sha256Hex = async (value: string) => bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value))))
 
+// Cloudflare Workers Web Crypto rejects PBKDF2 derivations above 100,000 iterations.
+const CLOUDFLARE_PBKDF2_MAX_ITERATIONS = 100_000
+
 const derivePassword = async (password: string, saltHex: string, iterations: number) => {
+  if (!Number.isInteger(iterations) || iterations < 1 || iterations > CLOUDFLARE_PBKDF2_MAX_ITERATIONS) {
+    throw new Error('PBKDF2 iteration count is outside the supported Cloudflare Workers range')
+  }
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits'])
   const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: hexToBytes(saltHex), iterations }, key, 256)
   return bytesToHex(new Uint8Array(bits))
 }
 export const hashPassword = async (password: string) => {
   const salt = randomHex(16)
-  const iterations = 310000
+  const iterations = CLOUDFLARE_PBKDF2_MAX_ITERATIONS
   return { salt, hash: await derivePassword(password, salt, iterations), iterations }
 }
 export const verifyPassword = async (password: string, salt: string, expected: string, iterations: number) => {
