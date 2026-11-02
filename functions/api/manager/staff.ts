@@ -97,7 +97,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
 
   if (request.method === 'GET') {
     const [profilesResponse, usersResponse] = await Promise.all([
-      fetch(base + '/rest/v1/catalog_staff_profiles?select=user_id,role,display_name,is_active,created_at&order=created_at.asc', {
+      fetch(base + '/rest/v1/catalog_staff_profiles?select=user_id,role,display_name,is_active,permissions,created_at&order=created_at.asc', {
         headers: adminHeaders,
       }),
       fetch(base + '/auth/v1/admin/users?page=1&per_page=1000', { headers: adminHeaders }),
