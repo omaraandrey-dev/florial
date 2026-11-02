@@ -1,12 +1,10 @@
 import { createClient } from '@sanity/client'
+import { d1RestFetch } from './_rest'
+import type { ManagerEnv } from './_lib'
 
-type Env = {
-  SUPABASE_URL?: string
-  SUPABASE_SERVICE_ROLE_KEY?: string
-  SANITY_API_TOKEN?: string
-}
+type Env = ManagerEnv
 
-type IntakeImage = { path: string; name: string; size: number; type: string }
+type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type SubmissionRow = {
   id: string
   catalog: string
@@ -211,14 +209,15 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
   if (Number(request.headers.get('Content-Length') || 0) > 30000) return json({ error: 'Request is too large.' }, 413)
 
-  const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = env
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return json({ error: 'Manager publishing service is not configured.' }, 503)
+  if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Manager publishing service is not configured.' }, 503)
+  const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
+  const SUPABASE_SERVICE_ROLE_KEY = 'D1-compat'
 
   const authorization = request.headers.get('Authorization') || ''
   const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
   if (!accessToken) return json({ error: 'Authentication required.' }, 401)
 
-  const base = SUPABASE_URL.replace(/\/+$/, '')
+  const base = 'https://florial-d1.local'
   const authHeaders = {
     apikey: SUPABASE_SERVICE_ROLE_KEY,
     Authorization: 'Bearer ' + accessToken,
@@ -418,11 +417,15 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
     for (let index = 0; index < images.length; index += 1) {
       if (publication.sanityAssetIds[index]) continue
-      const storagePath = images[index].path.split('/').map((part) => encodeURIComponent(part)).join('/')
-      const download = await fetch(base + '/storage/v1/object/' + bucket + '/' + storagePath, {
-        headers: { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY },
-      })
-      if (!download.ok) throw new Error('Не удалось получить снимка ' + (index + 1) + ' от затвореното хранилище.')
+      if (images[index].assetId && /^image-[a-zA-Z0-9-]+$/.test(images[index].assetId)) {
+        publication.sanityAssetIds[index] = images[index].assetId
+        await persistPublication()
+        continue
+      }
+      const imageUrl = images[index].url || images[index].path
+      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Снимка ' + (index + 1) + ' няма валиден публичен Sanity URL.')
+      const download = await fetch(imageUrl)
+      if (!download.ok) throw new Error('Не удалось получить снимка ' + (index + 1) + ' из Sanity Assets.')
       const contentType = (download.headers.get('content-type') || images[index].type).split(';')[0].trim().toLowerCase()
       if (!imageTypes.has(contentType)) throw new Error('Снимка ' + (index + 1) + ' е в неподдържан формат.')
       const blob = await download.blob()
