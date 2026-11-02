@@ -80,7 +80,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
    const name=str(body.name,100),height=num(body.saleHeightCm,.1),container=num(body.containerVolumeL,.1),price=num(body.priceEUR,.01),qty=num(body.stockQuantity,0,true),status=str(body.stockStatus,20)
    if(name.length<2||(height===null&&container===null)||!['inStock','onRequest','outOfStock'].includes(status))return json({error:'Въведете име, размер и валидна наличност.'},400)
    if(status==='inStock'&&(price===null||qty===null||qty<1))return json({error:'За наличен вариант въведете цена и количество поне 1.'},400)
-   const duplicate=variants.some(v=>(v.name||'').trim().toLocaleLowerCase()===name.toLocaleLowerCase()&&v.saleHeightCm===height&&v.containerVolumeL===container)
+   const duplicate=variants.some(v=>(v.name||'').trim().toLocaleLowerCase()===name.toLocaleLowerCase()&&(v.saleHeightCm??null)===height&&(v.containerVolumeL??null)===container)
    if(duplicate)return json({error:'Този вариант вече съществува за избраното растение.'},409)
    payload={changeType:'addVariant',targetName:plant.name,proposedVariant:{_type:'plantSaleVariant',_key:crypto.randomUUID().replace(/-/g,''),name,saleHeightCm:height,containerVolumeL:container,priceEUR:price,stockStatus:status,stockQuantity:qty}}
   }else{
