@@ -375,8 +375,8 @@
 - К базе применены миграции `0001_initial.sql`, `0002_login_rate_limit.sql`, `0003_integrity_triggers.sql` и `0004_order_money_cents.sql`; таблица `schema_migrations` содержит эти версии. Миграция `0005_single_owner.sql` применена; уникальный индекс `idx_catalog_staff_single_owner` подтверждён запросом к D1.
 - Проверено наличие таблиц: `orders`, `site_events`, `catalog_staff_profiles`, `manager_sessions`, `manager_login_attempts`, `catalog_submissions`, `catalog_submission_events`, `schema_migrations`.
 - D1 database не содержит перенесённых тестовых заказов, аналитики, заявок, профилей или пользователей.
-- В Cloudflare Pages project `florial` сохранена production binding `DB` → эта D1 database. Binding вступит в действие для Functions после deployment новой версии кода.
-- Production code ещё не переключён: работа идёт в ветке `feature/cloudflare-d1-migration`; до merge сайт продолжает использовать прежнюю версию main. Preview D1 binding не настроен намеренно, чтобы preview не писал в production database.
+- В Cloudflare Pages project `florial` настроена production binding `DB` → эта D1 database. После merge PR #60 production deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906` завершился успешно на commit `f1ff703025b5d60538c0d9c3b6050d36b458964a`; канонический deployment включает `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Production runtime переключён на D1 после merge PR #60. Preview D1 binding не настроен намеренно, чтобы preview не писал в production database.
 
 ### Целевая архитектура
 
@@ -400,7 +400,7 @@
 
 ### Незавершённые действия и ограничения
 
-1. Изменения в ветке должны пройти сборку, lint и review; после этого согласованный код объединяется в main и выпускается через Cloudflare Pages.
+1. PR #60 объединён squash merge; GitHub Actions run `41411916368` и `41411916380` завершились успешно (lint, Vite build, Pages Functions syntax, Studio build). Cloudflare Pages production deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906` завершился success.
 2. После deployment нужно установить production secret `MANAGER_BOOTSTRAP_SECRET`, создать первого owner через страницу первичной настройки и проверить вход. Это только защита одноразового первичного создания владельца; сотрудники далее входят email и постоянным паролем без одноразовых email-кодов.
 3. Провести end-to-end проверки: сотрудник, пароль, роли, черновик, загрузка Sanity Asset, AI-обработка, проверка владельцем, публикация, заказ, email/PDF и аналитика.
 4. Убедиться, что все manager endpoints используют D1 и не обращаются к Supabase; затем оставить старый Supabase без записей на rollback-период.
