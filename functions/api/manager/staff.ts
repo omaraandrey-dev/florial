@@ -116,6 +116,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
         display_name: profile.display_name,
         role: profile.role,
         is_active: profile.is_active,
+        permissions: profile.permissions || { canCreatePlant: true, canAddPlantVariant: false, canEditPlantPrice: false },
         created_at: profile.created_at,
       }
     })
