@@ -282,10 +282,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (images.some((image) => !sellerImages.some((original) => original.path === image.path))) {
     return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
   }
-  const imagePathPrefix = submission.created_by + '/' + submissionId + '/'
-  if (images.some((image) => !image || typeof image.path !== 'string' || !image.path.startsWith(imagePathPrefix) ||
-      !/^[0-9a-f-]{36}_[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)) &&
-      !/^[0-9a-f-]{36}-[A-Za-z0-9._-]+$/.test(image.path.slice(imagePathPrefix.length)))) {
+  if (images.some((image) => !image || typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
+      typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
     return json({ error: 'A photo path does not belong to this submission.' }, 400)
   }
 
