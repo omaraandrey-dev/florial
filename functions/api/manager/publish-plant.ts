@@ -211,7 +211,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Manager publishing service is not configured.' }, 503)
   const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
-  const SUPABASE_SERVICE_ROLE_KEY = 'D1-compat'
+  const D1_INTERNAL_HEADER = 'D1-compat'
 
   const authorization = request.headers.get('Authorization') || ''
   const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
@@ -219,22 +219,22 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const base = 'https://florial-d1.local'
   const authHeaders = {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
+    apikey: D1_INTERNAL_HEADER,
     Authorization: 'Bearer ' + accessToken,
   }
   const adminHeaders = {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY,
+    apikey: D1_INTERNAL_HEADER,
+    Authorization: 'Bearer ' + D1_INTERNAL_HEADER,
     'Content-Type': 'application/json',
   }
 
-  const userResponse = await fetch(base + '/auth/v1/user', { headers: authHeaders })
+  const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: authHeaders })
   if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
 
   const profileResponse = await fetch(
-    base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
@@ -259,7 +259,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (action !== 'save' && action !== 'publish') return json({ error: 'Unknown action.' }, 400)
 
   const submissionResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
       '&select=id,catalog,operation,status,created_by,payload,idempotency_key',
     { headers: adminHeaders },
   )
@@ -304,7 +304,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       : undefined
     const nextPayload = { ...payload, publication }
     const saveResponse = await fetch(
-      base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
+      base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
       {
         method: 'PATCH',
         headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -314,7 +314,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     if (!saveResponse.ok) return json({ error: 'Не успяхме да запазим финалната версия.' }, 502)
     const savedRows = await saveResponse.json() as Array<{ id: string }>
     if (!savedRows.length) return json({ error: 'Заявката се промени. Обновете екрана и опитайте отново.' }, 409)
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
@@ -337,7 +337,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!env.SANITY_API_TOKEN) return json({ error: 'Липсва SANITY_API_TOKEN в Cloudflare Production. Добавете го като Secret, за да активирате публикуването.' }, 503)
 
   const lockResponse = await fetch(
-    base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
+    base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
     {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=representation' },
@@ -348,7 +348,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const lockedRows = await lockResponse.json() as Array<{ id: string }>
   if (!lockedRows.length) return json({ error: 'Заявката вече се обработва. Обновете екрана.' }, 409)
 
-  await fetch(base + '/rest/v1/catalog_submission_events', {
+  await fetch(base + '/internal-d1/data/catalog_submission_events', {
     method: 'POST',
     headers: { ...adminHeaders, Prefer: 'return=minimal' },
     body: JSON.stringify({
@@ -380,7 +380,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
     const persistPublication = async () => {
       const nextPayload = { ...payload, publication }
-      const response = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId), {
+      const response = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId), {
         method: 'PATCH',
         headers: { ...adminHeaders, Prefer: 'return=minimal' },
         body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
@@ -509,7 +509,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     const finalPayload = { ...payload, publication }
-    const finishResponse = await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
+    const finishResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({
@@ -524,7 +524,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const finishedRows = await finishResponse.json() as Array<{ id: string }>
     if (!finishedRows.length) throw new Error('Растението е записано в Sanity, но заявката вече не е в очаквания статус.')
 
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
@@ -537,12 +537,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return json({ ok: true, published: true, documentId })
   } catch (error) {
     const message = error instanceof Error ? error.message.slice(0, 400) : 'Неизвестна грешка при публикуване.'
-    await fetch(base + '/rest/v1/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
+    await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.publishing', {
       method: 'PATCH',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({ status: 'publish_failed', publish_error: message, updated_at: new Date().toISOString() }),
     })
-    await fetch(base + '/rest/v1/catalog_submission_events', {
+    await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST',
       headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({
