@@ -9,6 +9,8 @@
 - Существующие тестовые записи Supabase не копируются и не удаляются. Supabase не должен получать новые записи после production cutover; отключение оставлено на отдельный rollback-период.
 - Создана EU D1 database florial-db (UUID 5fbb0e47-8439-493c-821a-6945eef7d8b2), применены SQL-миграции 0001–0005, включая ограничение одной owner-учётной записи, production Pages binding DB добавлен без изменения существующих secrets.
 - Добавлена первая настройка owner в интерфейсе; MANAGER_BOOTSTRAP_SECRET ещё не установлен, owner пока не создан.
+- PR #60 объединён в `main` (commit `f1ff703025b5d60538c0d9c3b6050d36b458964a`); Cloudflare Pages Production deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906` завершился успешно, aliases включают основной домен.
+- GitHub Actions подтвердил lint, Vite build, синтаксис Pages Functions и сборку Sanity Studio. Первичный owner ещё не создан; `MANAGER_BOOTSTRAP_SECRET` нужно добавить перед первичной настройкой.
 - Изменения выполняются без правок Header, menu, Footer, публичной навигации и Sanity schemas.
 
 ## 2026-11-02 — Checkout: способы получения, оплаты и расчёт доставки
