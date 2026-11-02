@@ -28,7 +28,7 @@ Redeploy after adding or changing variables.
 
 - Validates customer contact fields and cart quantities.
 - Re-reads active product IDs and current prices from Sanity; client-supplied prices are only compared to detect stale carts, never used to calculate the saved subtotal.
-- Inserts the order into `D1 table `orders`` using a prepared statement against the server-side D1 binding.
+- Inserts the order into таблицу `orders` using a prepared statement against the server-side D1 binding.
 - Returns an order number only after D1 confirms the insert. The cart is cleared only after that response.
 
 ## Before launch
@@ -54,7 +54,7 @@ The selected primary public website URL is `https://florial-bg.com`.
 
 ## Database security
 
-- - The browser must submit orders only to `POST /api/orders`; it has no direct D1 access.
+- The browser must submit orders only to `POST /api/orders`; it has no direct D1 access.
 - The Cloudflare Pages Function validates product IDs, prices, stock, quantities and delivery details, then writes through the server-side D1 binding.
 - D1 binding name is `DB`; never expose a D1 binding or server-side API token in browser code.
 - Sanity remains the authoritative source for catalog products, plants, current prices and images.
