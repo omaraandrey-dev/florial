@@ -2,9 +2,9 @@ CREATE TRIGGER IF NOT EXISTS trg_staff_permissions_insert
 BEFORE INSERT ON catalog_staff_profiles
 WHEN json_valid(NEW.permissions)=0
   OR json_type(NEW.permissions)<>'object'
-  OR json_type(NEW.permissions,'$.canCreatePlant')<>'true' AND json_type(NEW.permissions,'$.canCreatePlant')<>'false'
-  OR json_type(NEW.permissions,'$.canAddPlantVariant')<>'true' AND json_type(NEW.permissions,'$.canAddPlantVariant')<>'false'
-  OR json_type(NEW.permissions,'$.canEditPlantPrice')<>'true' AND json_type(NEW.permissions,'$.canEditPlantPrice')<>'false'
+  OR COALESCE(json_type(NEW.permissions,'$.canCreatePlant'),'') NOT IN ('true','false')
+  OR COALESCE(json_type(NEW.permissions,'$.canAddPlantVariant'),'') NOT IN ('true','false')
+  OR COALESCE(json_type(NEW.permissions,'$.canEditPlantPrice'),'') NOT IN ('true','false')
 BEGIN
   SELECT RAISE(ABORT,'Invalid staff permissions JSON shape');
 END;
@@ -13,9 +13,9 @@ CREATE TRIGGER IF NOT EXISTS trg_staff_permissions_update
 BEFORE UPDATE OF permissions ON catalog_staff_profiles
 WHEN json_valid(NEW.permissions)=0
   OR json_type(NEW.permissions)<>'object'
-  OR json_type(NEW.permissions,'$.canCreatePlant')<>'true' AND json_type(NEW.permissions,'$.canCreatePlant')<>'false'
-  OR json_type(NEW.permissions,'$.canAddPlantVariant')<>'true' AND json_type(NEW.permissions,'$.canAddPlantVariant')<>'false'
-  OR json_type(NEW.permissions,'$.canEditPlantPrice')<>'true' AND json_type(NEW.permissions,'$.canEditPlantPrice')<>'false'
+  OR COALESCE(json_type(NEW.permissions,'$.canCreatePlant'),'') NOT IN ('true','false')
+  OR COALESCE(json_type(NEW.permissions,'$.canAddPlantVariant'),'') NOT IN ('true','false')
+  OR COALESCE(json_type(NEW.permissions,'$.canEditPlantPrice'),'') NOT IN ('true','false')
 BEGIN
   SELECT RAISE(ABORT,'Invalid staff permissions JSON shape');
 END;
