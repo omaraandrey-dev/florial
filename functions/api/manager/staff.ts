@@ -9,6 +9,7 @@ type StaffProfile = {
   role: StaffRole
   display_name: string
   is_active: boolean
+  permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean }
   created_at?: string
 }
 type AuthUser = { id: string; email?: string; created_at?: string }
@@ -86,7 +87,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
   const getTargetProfile = async (userId: string) => {
     const response = await fetch(
       base + '/rest/v1/catalog_staff_profiles?user_id=eq.' +
-        encodeURIComponent(userId) + '&select=user_id,role,display_name,is_active',
+        encodeURIComponent(userId) + '&select=user_id,role,display_name,is_active,permissions',
       { headers: adminHeaders },
     )
     if (!response.ok) return { response, profile: null as StaffProfile | null }
@@ -159,6 +160,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
         role,
         display_name: displayName,
         is_active: true,
+        permissions: { canCreatePlant: true, canAddPlantVariant: false, canEditPlantPrice: false },
       }),
     })
     if (!profileResponse.ok) {
@@ -213,6 +215,11 @@ export const onRequest = async ({ request, env }: { request: Request; env: Env }
     if (body.role === 'seller' || body.role === 'manager') patch.role = body.role
     else if (body.role !== undefined) return json({ error: 'Невалидна роля.' }, 400)
     if (typeof body.displayName === 'string') patch.display_name = body.displayName.trim().slice(0, 120)
+    if (body.permissions !== undefined) {
+      const permissions = body.permissions && typeof body.permissions === 'object' && !Array.isArray(body.permissions) ? body.permissions as Record<string, unknown> : null
+      if (!permissions || typeof permissions.canCreatePlant !== 'boolean' || typeof permissions.canAddPlantVariant !== 'boolean' || typeof permissions.canEditPlantPrice !== 'boolean') return json({ error: 'Невалидни права на служителя.' }, 400)
+      patch.permissions = { canCreatePlant: permissions.canCreatePlant, canAddPlantVariant: permissions.canAddPlantVariant, canEditPlantPrice: permissions.canEditPlantPrice }
+    }
     if (Object.keys(patch).length === 1) return json({ error: 'Няма промени за запис.' }, 400)
     const updateResponse = await fetch(
       base + '/rest/v1/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(userId),

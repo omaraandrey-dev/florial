@@ -4,17 +4,18 @@ import { supabase } from '../lib/supabase'
 import { getPlantCategories, type PlantCategory } from './plantCategories'
 import SubmissionDetails from './SubmissionDetails'
 import PlantPublicationEditor from './PlantPublicationEditor'
+import PlantCatalogChangeForm from './PlantCatalogChangeForm'
 
-type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean }
+type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean } }
 type Submission = {
-  id: string; title: string; sku: string | null; payload: Record<string, unknown>;
+  id: string; title: string; sku: string | null; operation: 'create' | 'update'; target_document_id: string | null; payload: Record<string, unknown>;
   status: string; created_by: string; created_at: string; updated_at: string;
   review_note: string | null; notification_sent_at: string | null; publish_error: string | null
 }
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; name: string; size: number; type: string }
 type LocalPreview = { file: File; url: string }
-type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; created_at?: string }
+type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean }; created_at?: string }
 type AnalyticsReport = {
   period_days: number
   totals: { page_views: number; call_bg: number; call_en_ru: number; chat_click: number; contact_clicks: number; total_events: number }
@@ -98,7 +99,7 @@ export default function ManagerApp() {
     setSession(currentSession)
     const { data, error: profileError } = await supabase
       .from('catalog_staff_profiles')
-      .select('user_id,role,display_name,is_active')
+      .select('user_id,role,display_name,is_active,permissions')
       .eq('user_id', currentSession.user.id)
       .maybeSingle()
     if (profileError || !data || !data.is_active) {
@@ -115,7 +116,7 @@ export default function ManagerApp() {
   const loadSubmissions = useCallback(async () => {
     if (!profile) return
     let query = supabase.from('catalog_submissions')
-      .select('id,title,sku,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at,publish_error')
+      .select('id,title,sku,operation,target_document_id,payload,status,created_by,created_at,updated_at,review_note,notification_sent_at,publish_error')
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
       .limit(100)
@@ -465,6 +466,18 @@ export default function ManagerApp() {
     }
   }
 
+  const approvePlantChange = async (id: string) => {
+    if (!session || profile?.role !== 'owner') return
+    if (!window.confirm('Одобрить изменение существующего растения? Будет обновлён только выбранный вариант в каталоге.')) return
+    try {
+      const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'approve', submissionId: id }) })
+      const result = await response.json().catch(() => ({})) as { error?: string }
+      if (!response.ok) throw new Error(result.error || 'Не удалось применить изменение.')
+      setNotice('Изменение успешно применено к каталогу растений.')
+      await loadSubmissions(); await loadEvents(id)
+    } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось применить изменение.') }
+  }
+
   const signOut = async () => { await supabase.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
 
   if (loading) return <div className="min-h-screen bg-[#f5f6ef] grid place-items-center text-stone-600">Зареждане на Florial Manager…</div>
@@ -507,11 +520,11 @@ export default function ManagerApp() {
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div><h1 className="text-2xl font-semibold">Заявки за каталог „Растения“</h1><p className="mt-1 text-sm text-stone-600">Черновите не се виждат в публичния магазин.</p></div>
-            {profile.role === 'seller' && <button onClick={resetForm} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
+            {profile.role === 'seller' && profile.permissions.canCreatePlant && <button onClick={resetForm} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
-          {profile.role === 'owner' && selected && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
+          {profile.role === 'owner' && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
             <PlantPublicationEditor
               submission={selected}
               reviewMode={['submitted', 'in_review'].includes(selected.status)}
@@ -531,7 +544,8 @@ export default function ManagerApp() {
               }}
             />
           )}
-          {profile.role === 'seller' && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
+          {profile.role === 'seller' && (profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.permissions.canAddPlantVariant} canEditPrice={profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
+          {profile.role === 'seller' && profile.permissions.canCreatePlant && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
               <p className="mt-2 text-sm text-stone-600">Полетата със * са задължителни преди изпращане за проверка. Можете да запазите чернова и да ги попълните по-късно.</p>
@@ -577,7 +591,8 @@ export default function ManagerApp() {
                   <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold">{statusLabels[item.status] || item.status}</span>
                 </div>
                 {item.review_note && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Коментар: {item.review_note}</p>}
-                {profile.role === 'owner' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
+                {profile.role === 'owner' && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
+                {profile.role === 'owner' && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
                 {profile.role !== 'seller' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
@@ -680,6 +695,11 @@ export default function ManagerApp() {
                         <option value="manager">Мениджър</option>
                       </select>
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
+                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canCreatePlant: !staff.permissions.canCreatePlant } }, 'Правото за създаване е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canCreatePlant ? '✓ Създаване разрешено' : 'Създаване забранено'}</button>
+                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canAddPlantVariant: !staff.permissions.canAddPlantVariant } }, 'Правото за добавяне на варианти е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canAddPlantVariant ? '✓ Нов размер разрешен' : 'Нов размер забранен'}</button>
+                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canEditPlantPrice: !staff.permissions.canEditPlantPrice } }, 'Правото за промяна на цени е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canEditPlantPrice ? '✓ Цена разрешена' : 'Цена забранена'}</button>
+                      </div>
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return

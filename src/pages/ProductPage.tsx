@@ -171,6 +171,18 @@ export function ProductPage({
     </div>
   )
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
+  const hasBotanicalCare = Boolean(plantCare && (
+    ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
+    ['low', 'medium', 'high'].includes(String(plantCare.waterNeeds || '')) ||
+    typeof plantCare.minWinterTempC === 'number' ||
+    (typeof plantCare.adultHeightCm === 'number' && plantCare.adultHeightCm > 0) ||
+    ['evergreen', 'deciduous'].includes(String(plantCare.foliageType || '')) ||
+    (Array.isArray(plantCare.floweringSeason) && plantCare.floweringSeason.length > 0) ||
+    (Array.isArray(plantCare.plantingSeason) && plantCare.plantingSeason.length > 0) ||
+    ['suitable', 'notSuitable'].includes(String(plantCare.blackSeaCoast || ''))
+  ))
+  const hasSaleInfo = Boolean(selectedSaleVariantLabel || (typeof saleHeightCm === 'number' && saleHeightCm > 0) || (typeof containerVolumeL === 'number' && containerVolumeL > 0))
+
   const hasDiscount = hasPrice && typeof currentOldPrice === 'number' && currentOldPrice > Number(currentPrice)
   const discountPercent = hasDiscount ? Math.round((Number(currentOldPrice) - Number(currentPrice)) / Number(currentOldPrice) * 100) : 0
   const discountSaving = hasDiscount ? Number(currentOldPrice) - Number(currentPrice) : 0
@@ -544,58 +556,28 @@ export function ProductPage({
       )}
 
 
-      {/* Plant-specific structured care profile from Sanity */}
-      {isPlantProduct(product) && (
+      {isPlantProduct(product) && hasBotanicalCare && (
         <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
-          <div className="mb-6">
-            <h2 className="text-xl font-bold text-slate-900">{language === 'ru' ? 'Характеристики и условия выращивания' : language === 'en' ? 'Plant characteristics and growing conditions' : 'Характеристики и условия на отглеждане'}</h2>
-            <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Данные приведены по профилю растения в каталоге Florial.' : language === 'en' ? 'Information is based on the plant profile in the Florial catalogue.' : 'Информацията е според профила на растението в каталога на Florial.'}</p>
-          </div>
+          <div className="mb-6"><h2 className="text-xl font-bold text-slate-900">{language === 'ru' ? 'Характеристики и условия выращивания' : language === 'en' ? 'Plant characteristics and growing conditions' : 'Характеристики и условия на отглеждане'}</h2><p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Показаны только заполненные характеристики.' : language === 'en' ? 'Only available characteristics are shown.' : 'Показани са само попълнените характеристики.'}</p></div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <article className="rounded-xl border border-amber-100 bg-amber-50/50 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">☀️</span>{language === 'ru' ? 'Освещение' : language === 'en' ? 'Light' : 'Осветление'}</div>
-              <p className="mt-2 font-bold text-slate-900">{plantCare?.light ? careLabels.light[plantCare.light] || noCareData : noCareData}</p>
-              {renderLevelIndicator(plantCare?.light === 'sun' ? 3 : plantCare?.light === 'partialShade' ? 2 : plantCare?.light === 'shade' ? 1 : undefined)}
-            </article>
-            <article className="rounded-xl border border-sky-100 bg-sky-50/50 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">💧</span>{language === 'ru' ? 'Потребность в воде' : language === 'en' ? 'Water needs' : 'Нужда от поливане'}</div>
-              <p className="mt-2 font-bold text-slate-900">{plantCare?.waterNeeds ? careLabels.waterNeeds[plantCare.waterNeeds] || noCareData : noCareData}</p>
-              {renderLevelIndicator(plantCare?.waterNeeds === 'low' ? 1 : plantCare?.waterNeeds === 'medium' ? 2 : plantCare?.waterNeeds === 'high' ? 3 : undefined)}
-            </article>
-            <article className="rounded-xl border border-blue-100 bg-blue-50/50 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">❄️</span>{language === 'ru' ? 'Минимальная зимняя температура' : language === 'en' ? 'Minimum winter temperature' : 'Минимална зимна температура'}</div>
-              <p className="mt-2 text-xl font-extrabold text-slate-900">{typeof plantCare?.minWinterTempC === 'number' ? `${plantCare.minWinterTempC < 0 ? '−' : '+'}${Math.abs(plantCare.minWinterTempC)} °C` : noCareData}</p>
-              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Значение из профиля растения; фактическая устойчивость зависит от условий.' : language === 'en' ? 'Profile value; actual hardiness depends on growing conditions.' : 'Стойността е от профила; реалната устойчивост зависи от условията.'}</p>
-            </article>
-            <article className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">📏</span>{language === 'ru' ? 'Высота взрослого растения' : language === 'en' ? 'Mature plant height' : 'Височина на възрастното растение'}</div>
-              <p className="mt-2 font-bold text-slate-900">{typeof plantCare?.adultHeightCm === 'number' ? formatPlantHeight(plantCare.adultHeightCm, language) : noCareData}</p>
-              {typeof saleHeightCm === 'number' && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {formatPlantHeight(saleHeightCm, language)}</p>}
-            </article>
-            <article className="rounded-xl border border-green-100 bg-green-50/40 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🍃</span>{language === 'ru' ? 'Тип листвы' : language === 'en' ? 'Foliage type' : 'Тип листна маса'}</div>
-              <p className="mt-2 font-bold text-slate-900">{plantCare?.foliageType ? careLabels.foliageType[plantCare.foliageType] || noCareData : noCareData}</p>
-            </article>
-            <article className="rounded-xl border border-pink-100 bg-pink-50/40 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌸</span>{language === 'ru' ? 'Период цветения' : language === 'en' ? 'Flowering season' : 'Период на цъфтеж'}</div>
-              <p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare?.floweringSeason)}</p>
-            </article>
-            <article className="rounded-xl border border-lime-100 bg-lime-50/40 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌱</span>{language === 'ru' ? 'Период посадки' : language === 'en' ? 'Planting season' : 'Период на засаждане'}</div>
-              <p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare?.plantingSeason)}</p>
-            </article>
-            <article className="rounded-xl border border-cyan-100 bg-cyan-50/40 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🌊</span>{language === 'ru' ? 'Подходит для Черноморского побережья' : language === 'en' ? 'Black Sea coast suitability' : 'Пригодност за Черноморието'}</div>
-              <p className="mt-2 font-bold text-slate-900">{plantCare?.blackSeaCoast ? careLabels.blackSeaCoast[plantCare.blackSeaCoast] || noCareData : noCareData}</p>
-              <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${plantCare?.blackSeaCoast === 'suitable' ? 'bg-emerald-100 text-emerald-800' : plantCare?.blackSeaCoast === 'notSuitable' ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-600'}`}>{plantCare?.blackSeaCoast === 'suitable' ? (language === 'ru' ? 'Подходит' : language === 'en' ? 'Suitable' : 'Подходящо') : plantCare?.blackSeaCoast === 'notSuitable' ? (language === 'ru' ? 'Не подходит' : language === 'en' ? 'Not suitable' : 'Неподходящо') : (language === 'ru' ? 'Не проверено' : language === 'en' ? 'Not verified' : 'Непроверено')}</span>
-            </article>
-            <article className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700"><span className="text-xl">🪴</span>{language === 'ru' ? 'Формат продажи' : language === 'en' ? 'Sale format' : 'Формат на продажба'}</div>
-              <p className="mt-2 font-bold text-slate-900">{selectedSaleVariantLabel || noCareData}</p>
-              <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Выбранный вариант продажи' : language === 'en' ? 'Selected sale option' : 'Избран вариант за продажба'}</p>
-              <p className="mt-2 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}: {typeof containerVolumeL === 'number' ? `${containerVolumeL} L` : noCareData}</p>
-              <p className="mt-1 text-sm font-semibold text-slate-800">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}: {typeof saleHeightCm === 'number' ? formatPlantHeight(saleHeightCm, language) : noCareData}</p>
-            </article>
+            {plantCare?.light && careLabels.light[plantCare.light] && <article className="rounded-xl border border-amber-100 bg-amber-50/50 p-4"><div className="text-sm font-semibold text-slate-700">☀️ {language === 'ru' ? 'Освещение' : language === 'en' ? 'Light' : 'Осветление'}</div><p className="mt-2 font-bold text-slate-900">{careLabels.light[plantCare.light]}</p>{renderLevelIndicator(plantCare.light === 'sun' ? 3 : plantCare.light === 'partialShade' ? 2 : 1)}</article>}
+            {plantCare?.waterNeeds && careLabels.waterNeeds[plantCare.waterNeeds] && <article className="rounded-xl border border-sky-100 bg-sky-50/50 p-4"><div className="text-sm font-semibold text-slate-700">💧 {language === 'ru' ? 'Потребность в воде' : language === 'en' ? 'Water needs' : 'Нужда от поливане'}</div><p className="mt-2 font-bold text-slate-900">{careLabels.waterNeeds[plantCare.waterNeeds]}</p>{renderLevelIndicator(plantCare.waterNeeds === 'low' ? 1 : plantCare.waterNeeds === 'medium' ? 2 : 3)}</article>}
+            {typeof plantCare?.minWinterTempC === 'number' && <article className="rounded-xl border border-blue-100 bg-blue-50/50 p-4"><div className="text-sm font-semibold text-slate-700">❄️ {language === 'ru' ? 'Минимальная зимняя температура' : language === 'en' ? 'Minimum winter temperature' : 'Минимална зимна температура'}</div><p className="mt-2 text-xl font-extrabold text-slate-900">{plantCare.minWinterTempC < 0 ? '−' : '+'}{Math.abs(plantCare.minWinterTempC)} °C</p></article>}
+            {typeof plantCare?.adultHeightCm === 'number' && plantCare.adultHeightCm > 0 && <article className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-4"><div className="text-sm font-semibold text-slate-700">📏 {language === 'ru' ? 'Высота взрослого растения' : language === 'en' ? 'Mature plant height' : 'Височина на възрастното растение'}</div><p className="mt-2 font-bold text-slate-900">{formatPlantHeight(plantCare.adultHeightCm, language)}</p></article>}
+            {plantCare?.foliageType && careLabels.foliageType[plantCare.foliageType] && <article className="rounded-xl border border-green-100 bg-green-50/40 p-4"><div className="text-sm font-semibold text-slate-700">🍃 {language === 'ru' ? 'Тип листвы' : language === 'en' ? 'Foliage type' : 'Тип листна маса'}</div><p className="mt-2 font-bold text-slate-900">{careLabels.foliageType[plantCare.foliageType]}</p></article>}
+            {Array.isArray(plantCare?.floweringSeason) && plantCare.floweringSeason.length > 0 && <article className="rounded-xl border border-pink-100 bg-pink-50/40 p-4"><div className="text-sm font-semibold text-slate-700">🌸 {language === 'ru' ? 'Период цветения' : language === 'en' ? 'Flowering season' : 'Период на цъфтеж'}</div><p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare.floweringSeason)}</p></article>}
+            {Array.isArray(plantCare?.plantingSeason) && plantCare.plantingSeason.length > 0 && <article className="rounded-xl border border-lime-100 bg-lime-50/40 p-4"><div className="text-sm font-semibold text-slate-700">🌱 {language === 'ru' ? 'Период посадки' : language === 'en' ? 'Planting season' : 'Период на засаждане'}</div><p className="mt-2 font-bold text-slate-900">{formatSeasons(plantCare.plantingSeason)}</p></article>}
+            {['suitable', 'notSuitable'].includes(String(plantCare?.blackSeaCoast || '')) && <article className="rounded-xl border border-cyan-100 bg-cyan-50/40 p-4"><div className="text-sm font-semibold text-slate-700">🌊 {language === 'ru' ? 'Пригодность для Черноморья' : language === 'en' ? 'Black Sea coast suitability' : 'Пригодност за Черноморието'}</div><p className="mt-2 font-bold text-slate-900">{careLabels.blackSeaCoast[plantCare!.blackSeaCoast!]}</p></article>}
+          </div>
+        </section>
+      )}
+      {isPlantProduct(product) && hasSaleInfo && (
+        <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="mb-4 text-xl font-bold text-slate-900">{language === 'ru' ? 'Вариант продажи' : language === 'en' ? 'Available sale option' : 'Вариант за продажба'}</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {selectedSaleVariantLabel && <div className="rounded-xl bg-slate-50 p-4"><div className="text-sm text-slate-500">{language === 'ru' ? 'Размер / вариант' : language === 'en' ? 'Size / option' : 'Размер / вариант'}</div><div className="mt-1 font-bold text-slate-900">{selectedSaleVariantLabel}</div></div>}
+            {typeof saleHeightCm === 'number' && saleHeightCm > 0 && <div className="rounded-xl bg-slate-50 p-4"><div className="text-sm text-slate-500">{language === 'ru' ? 'Высота при продаже' : language === 'en' ? 'Height at sale' : 'Височина при продажба'}</div><div className="mt-1 font-bold text-slate-900">{formatPlantHeight(saleHeightCm, language)}</div></div>}
+            {typeof containerVolumeL === 'number' && containerVolumeL > 0 && <div className="rounded-xl bg-slate-50 p-4"><div className="text-sm text-slate-500">{language === 'ru' ? 'Объём контейнера' : language === 'en' ? 'Container volume' : 'Обем на контейнера'}</div><div className="mt-1 font-bold text-slate-900">{containerVolumeL} L</div></div>}
           </div>
         </section>
       )}

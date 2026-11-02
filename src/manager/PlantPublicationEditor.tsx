@@ -452,21 +452,10 @@ export default function PlantPublicationEditor({
       const result = await response.json().catch(() => ({})) as {
         error?: string
         draft?: Record<string, unknown>
-        diagnostic?: { id?: string; stageLabel?: string; code?: string; imageNumber?: number | null; hint?: string; technical?: string }
+        
       }
       if (!response.ok || !result.draft) {
-        const diagnostic = result.diagnostic
-        const details = diagnostic
-          ? [
-              result.error || 'Не удалось подготовить AI-черновик.',
-              'Этап: ' + (diagnostic.stageLabel || 'не определён') + (diagnostic.imageNumber ? ' (фото ' + diagnostic.imageNumber + ')' : ''),
-              'Код: ' + (diagnostic.code || 'AI_UNKNOWN'),
-              diagnostic.hint || '',
-              diagnostic.technical ? 'Ответ модели: ' + diagnostic.technical : '',
-              diagnostic.id ? 'Диагностика: ' + diagnostic.id : '',
-            ].filter(Boolean).join(' — ')
-          : result.error || 'Не удалось подготовить AI-черновик.'
-        throw new Error(details)
+        throw new Error(result.error || 'Не удалось подготовить AI-черновик. Проверьте данные и попробуйте позже.')
       }
       setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft, publication: undefined } }))
       setSlugTouched(false); setSavedFingerprint('')
