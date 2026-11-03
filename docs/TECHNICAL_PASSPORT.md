@@ -551,3 +551,12 @@ Manager-only permissions are rejected for seller accounts by the central permiss
 The latest Manager permission implementation and Bulgarian UI/API copy were included in Production Cloudflare Pages deployment for commit `b1ccfe7aeb076118bac5c2924ec95fb9fd89e279`. Deployment `dcde054a-b193-42cb-99a9-941bad9b3ae4` completed with queued, initialize, clone, build and deploy stages all successful; `uses_functions=true`. The deployment is associated with the Production branch `main`.
 
 No separate GitHub CI status checks were returned for this commit. Pages build/deploy succeeded. Authenticated manual role-matrix testing is still pending because it requires an owner session; no test employees or submissions were created in Production.
+
+
+### Active manager permission grant — 03.11.2026
+
+Following the owner's explicit approval, the existing active manager profile was updated in Production D1. The role was not changed and no staff account was created.
+
+Enabled: `canManageStaff`, `canDelegatePermissions`, `canReviewPlantSubmissions`, `canApprovePlantSubmission`, `canPublishPlant`.
+
+Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain true; `canEditPlantCard` and `canViewAnalytics` remain false. The updated profile was read back from Production D1 and the change was recorded in `catalog_staff_permission_events` with the owner as actor. The manager can manage only staff profiles created directly by her and can delegate only permissions she personally holds.
