@@ -3,7 +3,7 @@ const S=['new','processing','preparing','ready','dispatched','completed','cancel
 const P=['unpaid','pending','paid','partially_refunded','refunded'] as const
 type Item={name:string;qty:number;price:number;sku?:string;imageUrl?:string;[key:string]:unknown}
 type Row=Record<string,unknown>&{id:string;order_number:string;items:string;status:string;is_test:number;subtotal_cents:number;delivery_fee_cents:number|null;total_cents:number|null;created_at:string}
-const can=(u:ManagerIdentity,k:'canViewOrders'|'canEditOrders'|'canDeleteTestOrders')=>u.role==='owner'||u.role==='manager'&&hasPermission(u,k)
+const can=(u:ManagerIdentity,k:'canViewOrders'|'canEditOrders'|'canDeleteTestOrders')=>u.role==='owner'||u.role==='manager'&&(k==='canViewOrders'?(hasPermission(u,'canViewOrders')||hasPermission(u,'canEditOrders')||hasPermission(u,'canDeleteTestOrders')):hasPermission(u,k))
 const get=(db:NonNullable<ManagerEnv['DB']>,id:string)=>db.prepare('SELECT * FROM orders WHERE id=?').bind(id).first<Row>()
 const clean=(v:unknown,n:number,req=false):string|null=>{if(v==null&&!req)return null;if(typeof v!=='string')return null;const x=v.trim();return req&&!x?null:x.slice(0,n)}
 const ev=(db:NonNullable<ManagerEnv['DB']>,r:Row,u:ManagerIdentity,t:string,n:string|null,from:string|null,to:string|null,meta:Record<string,unknown>={})=>db.prepare('INSERT INTO order_events(id,order_id,order_number,actor_id,actor_role,event_type,from_status,to_status,note,metadata,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(newId(),r.id,r.order_number,u.user_id,u.role,t,from,to,n,JSON.stringify(meta),nowIso())

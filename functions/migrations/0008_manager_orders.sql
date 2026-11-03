@@ -7,6 +7,8 @@ ALTER TABLE orders ADD COLUMN cancelled_reason TEXT;
 ALTER TABLE orders ADD COLUMN archived_at TEXT;
 ALTER TABLE orders ADD COLUMN paid_at TEXT;
 UPDATE orders SET updated_at=created_at WHERE updated_at IS NULL;
+CREATE TRIGGER trg_orders_updated_at_insert AFTER INSERT ON orders WHEN NEW.updated_at IS NULL
+BEGIN UPDATE orders SET updated_at=NEW.created_at WHERE id=NEW.id; END;
 UPDATE orders SET is_test=1 WHERE order_number IN('FL-TEST-20261103-01','FL-TEST-20261103-02','FL-TEST-20261103-03','FL-TEST-20261103-04');
 INSERT INTO catalog_staff_permission_events(actor_id,target_user_id,action,previous_permissions,new_permissions,created_at)
 SELECT o.user_id,m.user_id,'updated',m.permissions,json_patch(m.permissions,'{"canViewOrders":true,"canEditOrders":true,"canDeleteTestOrders":true}'),datetime('now')

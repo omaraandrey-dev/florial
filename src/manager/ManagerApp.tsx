@@ -631,7 +631,7 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Растения</button>
-        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
@@ -785,8 +785,8 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
-      <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
-        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
+      <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
       </section>
       <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
