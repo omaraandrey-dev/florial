@@ -272,8 +272,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') {
     return json({ error: 'Plant submission not found.' }, 404)
   }
-  if (action === 'save' && !isOwner && permissions.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате финалната карта.' }, 403)
-  if (action === 'publish' && !isOwner && permissions.canPublishPlant !== true) return json({ error: 'Нямате право да публикувате растения.' }, 403)
+  if (action === 'save' && !isOwner && (staffProfile.role !== 'manager' || permissions.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате финалната карта.' }, 403)
+  if (action === 'publish' && !isOwner && (staffProfile.role !== 'manager' || permissions.canPublishPlant !== true)) return json({ error: 'Нямате право да публикувате растения.' }, 403)
   if (action === 'save' && !['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) {
     return json({ error: 'This plant submission cannot be prepared in its current status.' }, 409)
   }
