@@ -7,7 +7,30 @@ import PlantPublicationEditor from './PlantPublicationEditor'
 import PlantCatalogChangeForm from './PlantCatalogChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
 
-type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean } }
+type StaffPermissions = {
+  canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean;
+  canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
+  canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
+}
+type StaffPermissionKey = keyof StaffPermissions
+const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
+  { key: 'canCreatePlant', label: 'Създаване на растения' },
+  { key: 'canEditPlantCard', label: 'Подготовка и редактиране на карточки' },
+  { key: 'canAddPlantVariant', label: 'Добавяне на варианти' },
+  { key: 'canEditPlantPrice', label: 'Промяна на цени' },
+  { key: 'canReviewPlantSubmissions', label: 'Проверка и връщане на заявки' },
+  { key: 'canApprovePlantSubmission', label: 'Одобрение на заявки' },
+  { key: 'canPublishPlant', label: 'Публикация в каталога' },
+  { key: 'canManageStaff', label: 'Управление на служители' },
+  { key: 'canDelegatePermissions', label: 'Делегиране на права' },
+  { key: 'canViewAnalytics', label: 'Преглед на аналитиката' },
+]
+const emptyPermissions: StaffPermissions = {
+  canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false,
+  canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
+  canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
+}
+type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: StaffPermissions }
 type Submission = {
   id: string; title: string; sku: string | null; operation: 'create' | 'update'; target_document_id: string | null; payload: Record<string, unknown>;
   status: string; created_by: string; created_at: string; updated_at: string;
@@ -16,7 +39,7 @@ type Submission = {
 type Session = { access_token: string; user: { id: string; email?: string } }
 type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type LocalPreview = { file: File; url: string }
-type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; permissions: { canCreatePlant: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean }; created_at?: string }
+type StaffMember = { user_id: string; email: string; display_name: string; role: 'seller' | 'manager' | 'owner'; is_active: boolean; permissions: StaffPermissions; created_at?: string; created_by?: string | null }
 type AnalyticsReport = {
   period_days: number
   totals: { page_views: number; call_bg: number; call_en_ru: number; chat_click: number; contact_clicks: number; total_events: number }
@@ -98,6 +121,7 @@ export default function ManagerApp() {
   const [newStaffPassword, setNewStaffPassword] = useState('')
   const [passwordTarget, setPasswordTarget] = useState<string | null>(null)
   const [replacementPassword, setReplacementPassword] = useState('')
+  const [newStaffPermissions, setNewStaffPermissions] = useState<StaffPermissions>({ ...emptyPermissions })
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
     if (!currentSession) {
@@ -175,7 +199,7 @@ export default function ManagerApp() {
   }, [files])
 
   const loadStaff = useCallback(async () => {
-    if (!session || profile?.role !== 'owner') return
+    if (!session || !profile || (profile.role !== 'owner' && !profile.permissions.canManageStaff)) return
     setStaffLoading(true)
     setStaffError('')
     try {
@@ -194,11 +218,11 @@ export default function ManagerApp() {
   }, [session, profile])
 
   useEffect(() => {
-    if (profile?.role === 'owner') void loadStaff()
+    if (profile?.role === 'owner' || profile?.permissions.canManageStaff) void loadStaff()
   }, [loadStaff, profile])
 
   const loadAnalytics = useCallback(async () => {
-    if (!session || profile?.role !== 'owner') return
+    if (!session || !profile || (profile.role !== 'owner' && !profile.permissions.canViewAnalytics)) return
     setAnalyticsLoading(true)
     setAnalyticsError('')
     try {
@@ -213,7 +237,7 @@ export default function ManagerApp() {
   }, [session, profile, analyticsDays])
 
   useEffect(() => {
-    if (activeTab === 'analytics' && profile?.role === 'owner') void loadAnalytics()
+    if (activeTab === 'analytics' && (profile?.role === 'owner' || profile?.permissions.canViewAnalytics)) void loadAnalytics()
   }, [activeTab, profile, loadAnalytics])
 
   useEffect(() => {
@@ -389,7 +413,7 @@ export default function ManagerApp() {
   }
 
   const approve = async (id: string) => {
-    if (!profile || profile.role !== 'owner') return
+    if (!profile || (profile.role !== 'owner' && !profile.permissions.canApprovePlantSubmission)) return
     const submission = submissions.find((item) => item.id === id)
     const publication = submission?.payload?.publication
     if (!publication || typeof publication !== 'object') {
@@ -405,7 +429,7 @@ export default function ManagerApp() {
   }
 
   const rejectSubmission = async (id: string) => {
-    if (!profile || profile.role !== 'owner') return
+    if (!profile || (profile.role !== 'owner' && !profile.permissions.canReviewPlantSubmissions)) return
     if (reviewNote.trim().length < 3) { setError('Добавете причина за отказ (поне 3 символа).'); return }
     if (!window.confirm('Сигурни ли сте, че искате да отхвърлите тази заявка?')) return
     const { error: rejectError } = await managerApi.from('catalog_submissions').update({
@@ -485,7 +509,7 @@ export default function ManagerApp() {
   }
 
   const approvePlantChange = async (id: string) => {
-    if (!session || profile?.role !== 'owner') return
+    if (!session || !profile || (profile.role !== 'owner' && (!profile.permissions.canApprovePlantSubmission || !profile.permissions.canPublishPlant))) return
     if (!window.confirm('Одобрить изменение существующего растения? Будет обновлён только выбранный вариант в каталоге.')) return
     try {
       const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'approve', submissionId: id }) })
@@ -576,8 +600,8 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
-        {profile.role === 'owner' && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
-        {profile.role === 'owner' && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
+        {(profile.role === 'owner' || profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
+        {(profile.role === 'owner' || profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px] ' + (activeTab === 'submissions' ? '' : 'hidden')}>
         <section className="space-y-5">
@@ -587,7 +611,7 @@ export default function ManagerApp() {
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
-          {profile.role === 'owner' && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
+          {(profile.role === 'owner' || profile.permissions.canEditPlantCard) && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
             <PlantPublicationEditor
               submission={selected}
               reviewMode={['submitted', 'in_review'].includes(selected.status)}
@@ -595,6 +619,7 @@ export default function ManagerApp() {
               images={previewImages}
               imagesLoading={previewLoading}
               publishError={selected.publish_error}
+              canPublish={profile.role === 'owner' || profile.permissions.canPublishPlant}
               accessToken={session.access_token}
               onSaved={async (imagesOverride) => {
                 await loadSubmissions()
@@ -607,8 +632,8 @@ export default function ManagerApp() {
               }}
             />
           )}
-          {profile.role === 'seller' && (profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.permissions.canAddPlantVariant} canEditPrice={profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
-          {profile.role === 'seller' && profile.permissions.canCreatePlant && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
+          {(profile.role === 'seller' || profile.role === 'manager') && (profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.permissions.canAddPlantVariant} canEditPrice={profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
+          {profile.permissions.canCreatePlant && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
               <p className="mt-2 text-sm text-stone-600">Полетата със * са задължителни преди изпращане за проверка. Можете да запазите чернова и да ги попълните по-късно.</p>
@@ -669,7 +694,7 @@ export default function ManagerApp() {
                 </div>}
                 {profile.role === 'owner' && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
                 {profile.role === 'owner' && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2"><button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button><button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button></div>}
-                {profile.role !== 'seller' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
+                {(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
           </div>
@@ -683,7 +708,7 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение собственикът проверява финалната карточка и публикува отделно в каталога.</p>
         </aside>
       </div>
-      <section className={activeTab === 'analytics' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+      <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><h1 className="text-2xl font-semibold">Аналитика на сайта</h1><p className="mt-1 text-sm text-stone-600">Анонимни обобщени събития по българско местно време.</p></div>
           <div className="flex flex-wrap items-center gap-2">
@@ -743,7 +768,7 @@ export default function ManagerApp() {
           <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">Отчетът показва броя на записаните събития, а не уникални посетители. Не се събират IP адреси, user-agent, referrer, идентификатори на посетители или съдържание на формуляри.</p>
         </>}
       </section>
-      <section className={activeTab === 'staff' && profile.role === 'owner' ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+      <section className={activeTab === 'staff' && (profile.role === 'owner' || profile.permissions.canManageStaff) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
           <div className="space-y-4">
             <div>
