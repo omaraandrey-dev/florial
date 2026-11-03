@@ -593,7 +593,7 @@ export default function ManagerApp() {
                 }
                 const details = result.error || `Сервер вернул HTTP ${response.status} без подробного ответа.`
                 const diagnostic = [
-                  result.stage ? `этап: ${stageLabels[result.stage] || result.stage}` : '',
+                  result.stage ? `етап: ${stageLabels[result.stage] || result.stage}` : '',
                   result.requestId ? `код проверки: ${result.requestId}` : '',
                 ].filter(Boolean).join('; ')
                 throw new Error(diagnostic ? `${details} (${diagnostic})` : details)
@@ -641,7 +641,7 @@ export default function ManagerApp() {
           <button onClick={signOut} className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold">Изход</button>
         </div>
       </header>
-      <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
+      <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
         {(profile.role === 'owner' || profile.role === 'manager') && <button onClick={() => { setActiveTab('orders'); setOrdersError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
