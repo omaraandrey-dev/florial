@@ -4,6 +4,7 @@ export type StaffPermissions = {
   canEditPlantCard: boolean
   canAddPlantVariant: boolean
   canEditPlantPrice: boolean
+  canEditPlantStock: boolean
   canReviewPlantSubmissions: boolean
   canApprovePlantSubmission: boolean
   canPublishPlant: boolean
@@ -13,12 +14,12 @@ export type StaffPermissions = {
 }
 export type StaffPermissionKey = keyof StaffPermissions
 export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
-  'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice',
+  'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock',
   'canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant',
   'canManageStaff','canDelegatePermissions','canViewAnalytics',
 ]
 export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
-  canCreatePlant: true, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false,
+  canCreatePlant: true, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
 }
