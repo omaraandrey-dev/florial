@@ -4,7 +4,7 @@ type Env=ManagerEnv
 type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
 type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
-type Plant={_id:string;_rev:string;name:string;sku?:string;saleVariants?:Variant[]}
+type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;saleVariants?:Variant[]}
 const project='bxvcy0qs',dataset='plants'
 const json=(body:Record<string,unknown>,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})
 const obj=(v:unknown):Record<string,unknown>|null=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:null
