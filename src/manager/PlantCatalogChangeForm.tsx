@@ -109,7 +109,7 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
     </div>
     {error && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
     {notice && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{notice}</p>}
-    {loading ? <p className="mt-4 text-sm text-stone-500">Зареждане на каталога…</p> : error ? null : !plants.length ? <p className="mt-4 text-sm text-stone-500">В каталога няма активни растения.</p> : <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.4fr)]">
+    {loading ? <p className="mt-4 text-sm text-stone-500">Зареждане на каталога…</p> : error ? null : !plants.length ? <p className="mt-4 text-sm text-stone-500">В каталога няма активни растения.</p> : plant ? null : <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.4fr)]">
       <aside className="space-y-3">
         <label className={label}>Търсене по име, латинско име или SKU<input className={field} type="search" value={search} onChange={(event) => { setSearch(event.target.value); setPlantId('') }} placeholder="Въведете име или артикулен код…" /></label>
         <div className="rounded-xl border border-stone-200 p-3">
