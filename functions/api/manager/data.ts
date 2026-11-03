@@ -74,7 +74,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (!keys.length || keys.some(key=>!allowedUpdate.has(key)||!roleUpdate.has(key))) return json({error:'Invalid update fields.'},400)
   const idFilter=filters.find(x=>x.column==='id'&&x.op==='eq')
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
-  const existing=await db.prepare('SELECT id,created_by,status,payload FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string}>()
+  const existing=await db.prepare('SELECT id,created_by,status,payload,operation FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string;operation:string}>()
   if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
   const editsCard=keys.some(key=>['title','sku','payload','submitted_at'].includes(key))
   if(user.role==='manager'&&editsCard&&!(hasPermission(user,'canEditPlantCard')||existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant')))return json({error:'Нямате право да редактирате тази заявка.'},403)
@@ -86,7 +86,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const canApprove=hasPermission(user,'canApprovePlantSubmission')
     const managerAllowed=((next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview) || (next==='approved'&&canApprove) || (next==='submitted'&&existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant'))
     if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !managerAllowed : !['in_review','changes_requested','approved','rejected','publishing','published','publish_failed'].includes(next)) return json({error:'Invalid status transition.'},403)
-    if (user.role==='manager' && next==='approved') {
+    if (user.role==='manager' && next==='approved' && existing.operation==='create') {
       let payload:Record<string,unknown>={}
       try { payload=JSON.parse(existing.payload) as Record<string,unknown> } catch {}
       if (!payload.publication || typeof payload.publication!=='object') return json({error:'Първо подгответе и запазете финалната карта.'},409)
