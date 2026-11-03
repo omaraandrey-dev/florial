@@ -5,6 +5,16 @@ import type { PlantCategory } from './plantCategories'
 type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type PreviewImage = { name: string; url: string }
 type Variant = Record<string, unknown>
+type DiagnosticReport = { title: string; status: 'success' | 'error'; summary: string; steps: Array<Record<string, unknown>>; changes?: Array<{ label: string; value: string }>; technical?: string }
+const diagnosticStageNames: Record<string, string> = {
+  request_validated: 'Проверка исходных данных', request_validation: 'Проверка запроса', manager_auth: 'Проверка доступа',
+  vision_json_repair: 'Подготовка ответа анализа изображения', vision_image_1: 'Анализ фотографии', image_analysis: 'Анализ фотографий',
+  common_name_candidates: 'Поиск вариантов ботанического названия', generate_common_name_candidates: 'Поиск вариантов ботанического названия',
+  gbif_taxonomy: 'Проверка таксономии в GBIF', care_generation: 'Подготовка характеристик растения',
+  text_generation: 'Создание описаний и SEO', generate_text: 'Создание описаний и SEO', parse_text_result: 'Проверка ответа ИИ',
+  save_submission: 'Сохранение результата', draft_saved: 'Сохранение AI-черновика', completed: 'Завершение проверки',
+}
+const diagnosticText = (value: unknown): string => value == null ? '—' : typeof value === 'boolean' ? (value ? 'Да' : 'Нет') : Array.isArray(value) ? value.map((item) => String(item)).join(', ') : typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)
 
 type Submission = {
   id: string
@@ -247,6 +257,7 @@ export default function PlantPublicationEditor({
   const [updatingImages, setUpdatingImages] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null)
 
   useEffect(() => {
     const next = makeDraft(submission)
