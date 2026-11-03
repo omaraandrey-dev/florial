@@ -15,7 +15,7 @@ function modelText(response: unknown) {
   const value = result?.response ?? result?.result ?? result?.output_text ?? result?.text
   if (typeof value === 'string') return value
   if (value && typeof value === 'object') return JSON.stringify(value)
-  throw new Error('AI model returned an empty response.')
+  throw new Error('Моделът с ИИ не върна отговор.')
 }
 function parseModelJson(response: unknown) {
   const raw = modelText(response).trim().replace(/^\uFEFF/, '')
@@ -40,7 +40,7 @@ function parseModelJson(response: unknown) {
       }
     }
   }
-  throw new Error('AI model returned invalid JSON.')
+  throw new Error('Моделът с ИИ не върна валиден JSON.')
 }
 async function repairVisionJson(env: Env, response: unknown) {
   const raw = modelText(response).slice(0, 2500)
@@ -70,7 +70,7 @@ async function matchGbif(name: string): Promise<GbifMatch | null> {
   const response = await fetch('https://api.gbif.org/v1/species/match?name=' + encodeURIComponent(name) + '&kingdom=Plantae&verbose=true', {
     headers: { Accept: 'application/json', 'User-Agent': 'Florial/1.0 (+https://florial-bg.com)' },
   })
-  if (!response.ok) throw new Error('GBIF временно недоступен. Повторите проверку позже.')
+  if (!response.ok) throw new Error('GBIF временно не е достъпен. Опитайте проверката по-късно.')
   return await response.json() as GbifMatch
 }
 function gbifSummary(match: GbifMatch | null) {
@@ -108,12 +108,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const requestUrl = new URL(request.url)
   const origin = request.headers.get('Origin')
   if (origin) {
-    try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
-    catch { return json({ error: 'Invalid origin.' }, 403) }
+    try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Заявката е от неразрешен източник.' }, 403) }
+    catch { return json({ error: 'Невалиден източник на заявката.' }, 403) }
   }
-  if (Number(request.headers.get('Content-Length') || 0) > 5000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
-  if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
+  if (Number(request.headers.get('Content-Length') || 0) > 5000) return json({ error: 'Заявката е твърде голяма.' }, 413)
+  if (!env.DB) return json({ error: 'Базата данни D1 не е конфигурирана.' }, 503)
+  if (!env.AI?.run) return json({ error: 'Cloudflare Workers AI не е конфигуриран за тази среда.' }, 503)
 
   let trustedWorkflowUserId = ''
   const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init, trustedWorkflowUserId || undefined)
@@ -125,9 +125,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   let body: Record<string, unknown>
   try {
     const parsed = object(await request.json())
-    if (!parsed) return json({ error: 'Invalid request body.' }, 400)
+    if (!parsed) return json({ error: 'Невалидни данни в заявката.' }, 400)
     body = parsed
-  } catch { return json({ error: 'Invalid request body.' }, 400) }
+  } catch { return json({ error: 'Невалидни данни в заявката.' }, 400) }
 
   const workflowJobToken = request.headers.get('x-florial-job-token') || ''
   let callerId = ''
@@ -135,22 +135,22 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (isWorkflowProcess) {
     callerId = textValue(body.callerId, 80)
     workflowId = textValue(body.workflowId, 100)
-    if (workflowJobToken.length < 64 || !callerId || !workflowId) return json({ error: 'Invalid workflow authorization.' }, 403)
+    if (workflowJobToken.length < 64 || !callerId || !workflowId) return json({ error: 'Невалидно разрешение за изпълнение на работния процес.' }, 403)
     const jobRow = await env.DB.prepare('SELECT payload FROM catalog_submissions WHERE id=?').bind(textValue(body.submissionId,80)).first<{payload:string}>()
     let savedPayload:Record<string,unknown>={}
     try{savedPayload=typeof jobRow?.payload==='string'?JSON.parse(jobRow.payload):object(jobRow?.payload)||{}}catch{savedPayload={}}
     const savedJob=object(savedPayload.plantCareJob)
-    if(!savedJob||savedJob.token!==workflowJobToken||savedJob.workflowId!==workflowId||savedJob.requestedBy!==callerId)return json({error:'Invalid workflow authorization.'},403)
+    if(!savedJob||savedJob.token!==workflowJobToken||savedJob.workflowId!==workflowId||savedJob.requestedBy!==callerId)return json({error:'Невалидно разрешение за изпълнение на работния процес.'},403)
     trustedWorkflowUserId=callerId
   } else {
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
-    if (!accessToken) return json({ error: 'Authentication required.' }, 401)
+    if (!accessToken) return json({ error: 'Необходима е автентикация.' }, 401)
     stage = 'manager_auth'
     const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: { Authorization: 'Bearer ' + accessToken } })
-    if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
+    if (!userResponse.ok) return json({ error: 'Сесията е невалидна или е изтекла.' }, 401)
     const caller = await userResponse.json() as { id?: string }
-    if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+    if (!caller.id) return json({ error: 'Невалидна сесия.' }, 401)
     callerId = caller.id
   }
 
@@ -524,22 +524,22 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     const requestUrl = new URL(request.url)
     const origin = request.headers.get('Origin')
     if (origin) {
-      try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
-      catch { return json({ error: 'Invalid origin.' }, 403) }
+      try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Заявката е от неразрешен източник.' }, 403) }
+      catch { return json({ error: 'Невалиден източник на заявката.' }, 403) }
     }
     if (!env.DB || !env.PLANT_CARE_WORKFLOW?.fetch) {
-      return json({ error: 'Manager workflow service is not configured.' }, 503)
+      return json({ error: 'Услугата за фонови процеси на Manager не е конфигурирана.' }, 503)
     }
     const authorization = request.headers.get('Authorization') || ''
     const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7) : ''
-    if (!accessToken) return json({ error: 'Authentication required.' }, 401)
+    if (!accessToken) return json({ error: 'Необходима е автентикация.' }, 401)
     const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
     const base = 'https://florial-d1.local'
     const adminHeaders = { apikey: 'D1-compat', Authorization: 'Bearer D1-compat' }
     const userResponse = await fetch(base + '/internal-d1/auth/user', { headers: { Authorization: 'Bearer ' + accessToken } })
-    if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
+    if (!userResponse.ok) return json({ error: 'Сесията е невалидна или е изтекла.' }, 401)
     const caller = await userResponse.json() as { id?: string }
-    if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+    if (!caller.id) return json({ error: 'Невалидна сесия.' }, 401)
     const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
     if (!profileResponse.ok) return json({ error: 'Не успяхме да проверим правата за достъп.' }, 503)
     const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
@@ -549,15 +549,15 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     const submissionId = requestUrl.searchParams.get('submissionId') || ''
     const workflowId = requestUrl.searchParams.get('workflowId') || ''
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId) || !workflowId.startsWith(submissionId + '-') || workflowId.length > 100) {
-      return json({ error: 'Invalid botanical workflow reference.' }, 400)
+      return json({ error: 'Невалидна препратка към ботаническата проверка.' }, 400)
     }
     const submissionResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,payload', { headers: adminHeaders })
-    if (!submissionResponse.ok) return json({ error: 'Unable to verify botanical workflow.' }, 502)
+    if (!submissionResponse.ok) return json({ error: 'Не успяхме да проверим ботаническата задача.' }, 502)
     const rows = await submissionResponse.json() as Array<{ id: string; catalog: string; operation: string; payload: Record<string, unknown> }>
     const submission = rows[0]
     const job = object(object(submission?.payload)?.plantCareJob)
     if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create' || job?.workflowId !== workflowId || job?.requestedBy !== caller.id) {
-      return json({ error: 'Botanical workflow not found for this submission.' }, 404)
+      return json({ error: 'Не е намерена ботаническа задача за тази заявка.' }, 404)
     }
 
     const statusResponse = await env.PLANT_CARE_WORKFLOW.fetch(new Request('https://plant-care-workflow/status?id=' + encodeURIComponent(workflowId)))
