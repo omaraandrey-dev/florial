@@ -599,3 +599,9 @@
 - Central permission evaluation now blocks manager-only permissions for the seller role. Staff demotion from manager to seller automatically removes manager-only permissions and records the change.
 - Tightened submission event access, notification ownership, image-library and image-upload permissions; retained owner bypass for all Manager operations.
 - Confirmed Production D1 migration 0006 remains additive; no test staff or catalog submissions were created.
+
+### Production release — 03.11.2026
+
+- Cloudflare Pages Production deployment completed successfully for `main` commit `b1ccfe7aeb076118bac5c2924ec95fb9fd89e279` (deployment `dcde054a-b193-42cb-99a9-941bad9b3ae4`); build and deploy stages succeeded and Pages Functions are included.
+- Remaining Russian Manager interface and surfaced API error text were translated into Bulgarian.
+- Authenticated owner/manager/seller role-matrix tests remain to be completed in the live Manager panel. No test staff or catalog records were created.
