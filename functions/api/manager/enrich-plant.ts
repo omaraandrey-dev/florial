@@ -43,7 +43,7 @@ function normalizeScientificCandidates(value: unknown): ScientificCandidate[] {
 type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
 const stageLabels: Record<AiStage, string> = {
   validate: 'Проверка заявки и доступа',
-  download_image: 'Загрузка фотографии из хранилища',
+  download_image: 'Зареждане на снимката от хранилището',
   analyze_image: 'Анализ фотографии моделью AI',
   parse_image_result: 'Разбор ответа AI по фотографии',
   generate_text: 'Генерация текстов и характеристик',
