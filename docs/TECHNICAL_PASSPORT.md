@@ -663,4 +663,4 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - При ошибке Workflow исходный JSON может находиться внутри `status.error.message`. UI теперь разбирает этот вложенный JSON и извлекает `httpStatus`, `response.error`, `response.diagnostics`, а также тип ошибки Workflow.
 - Диагностические ключи показываются с русскими поясняющими подписями; технические значения модели, выбранного таксона и этапа сохраняются без искажения.
 - Исправление ограничено `src/manager/PlantPublicationEditor.tsx`. Данные заявок, права, AI/GBIF алгоритмы и публичные компоненты не изменялись.
-- Production build/deployment для commit `ba750d0c27eeba0e30a6e482d22ac47529e7d291` выполняется; окончательный статус будет добавлен после проверки.
+- Production build/deployment для commit `ba750d0c27eeba0e30a6e482d22ac47529e7d291` завершены успешно; deployment ID `4a921314-46c2-4b9f-acde-2b8e63464923`.
