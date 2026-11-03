@@ -11,10 +11,11 @@ const obj=(v:unknown):Record<string,unknown>|null=>v&&typeof v==='object'&&!Arra
 const str=(v:unknown,max=160)=>typeof v==='string'?v.trim().slice(0,max):''
 const num=(v:unknown,min:number,integer=false):number|null=>{if(v==null||v==='')return null;const n=Number(v);if(!Number.isFinite(n)||n<min||(integer&&!Number.isInteger(n)))throw new Error('Проверете въведената числова стойност.');return n}
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-export const onRequest=async({request,env}:{request:Request;env:Env})=>{
+const handleRequest=async({request,env,setStage}:{request:Request;env:Env;setStage:(stage:string)=>void})=>{
  const fetch=(input:RequestInfo|URL,init?:RequestInit)=>d1RestFetch(env,request,input,init)
  const base='https://florial-d1.local'
  const D1_INTERNAL_HEADER='D1-compat'
+ setStage('origin_check')
  const url=new URL(request.url),origin=request.headers.get('Origin')
  if(origin){try{if(new URL(origin).origin!==url.origin)return json({error:'Origin not allowed.'},403)}catch{return json({error:'Invalid origin.'},403)}}
  if(!['GET','POST'].includes(request.method))return json({error:'Method not allowed.'},405)
@@ -23,10 +24,12 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const token=(request.headers.get('Authorization')||'').replace(/^Bearer /,'')
  if(!token)return json({error:'Authentication required.'},401)
  const admin={apikey:D1_INTERNAL_HEADER,Authorization:'Bearer '+D1_INTERNAL_HEADER,'Content-Type':'application/json'}
+ setStage('session_authentication')
  const auth=await fetch(base+'/internal-d1/auth/user',{headers:{apikey:D1_INTERNAL_HEADER,Authorization:'Bearer '+token}})
  if(!auth.ok)return json({error:'Invalid or expired session.'},401)
  const user=await auth.json() as {id?:string}
  if(!user.id)return json({error:'Invalid session.'},401)
+ setStage('staff_permissions')
  const pr=await fetch(base+'/internal-d1/data/catalog_staff_profiles?user_id=eq.'+encodeURIComponent(user.id)+'&select=role,is_active,permissions',{headers:admin})
  if(!pr.ok)return json({error:'Unable to verify staff permissions.'},503)
  const profiles=await pr.json() as Profile[],profile=profiles[0]
@@ -34,6 +37,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const query=async<T>(q:string):Promise<T>=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}});if(!r.ok)throw new Error('Не успяхме да прочетем каталога с растения в Sanity.');return (await r.json() as {result:T}).result}
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
+  setStage('sanity_catalog_query');
   if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
   try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,categoryId:category->_id,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да заредим каталога.'},502)}
  }
@@ -138,4 +142,17 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
   const rows=await insert.json() as Array<{id:string}>;if(!rows[0]?.id)return json({error:'Заявката е създадена без идентификатор.'},502)
   return json({ok:true,submissionId:rows[0].id},201)
  }catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да подготвим заявката.'},400)}
+}
+
+
+export const onRequest=async({request,env}:{request:Request;env:Env})=>{
+ const requestId=crypto.randomUUID()
+ let stage='initialization'
+ try{
+  return await handleRequest({request,env,setStage:(next)=>{stage=next}})
+ }catch(error){
+  const message=error instanceof Error?error.message:String(error)
+  console.error('[manager-plant-catalog]',JSON.stringify({requestId,stage,errorName:error instanceof Error?error.name:'UnknownError',message:message.slice(0,300)}))
+  return json({error:'Възникна вътрешна грешка при обработката на каталога. Уведомете администратора с кода за проверка.',requestId,stage},500)
+ }
 }
