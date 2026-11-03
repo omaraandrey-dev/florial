@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
 import type { PlantCategory } from './plantCategories'
 
 type Variant = {
@@ -128,7 +129,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
     setNotice('')
   }
 
-  const save = async (event: React.FormEvent<HTMLFormElement>) => {
+  const save = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!selected) return
     const quantity = Number(newQuantity)
@@ -153,9 +154,13 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
       })
       const result = await response.json() as { error?: string; stockQuantity?: number }
       if (!response.ok || result.ok !== true) throw new Error(result.error || 'Количеството не беше променено.')
-      await loadCatalog()
-      setNotice('Количеството е обновено директно в каталога.')
       setNewQuantity(String(quantity))
+      try {
+        await loadCatalog()
+        setNotice('Количеството е обновено директно в каталога.')
+      } catch {
+        setNotice('Количеството е записано. Обновете каталога, за да видите актуалната версия.')
+      }
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Не успяхме да запазим количеството.')
     } finally {
