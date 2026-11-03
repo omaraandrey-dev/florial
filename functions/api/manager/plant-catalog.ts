@@ -11,7 +11,7 @@ const obj=(v:unknown):Record<string,unknown>|null=>v&&typeof v==='object'&&!Arra
 const str=(v:unknown,max=160)=>typeof v==='string'?v.trim().slice(0,max):''
 const num=(v:unknown,min:number,integer=false):number|null=>{if(v==null||v==='')return null;const n=Number(v);if(!Number.isFinite(n)||n<min||(integer&&!Number.isInteger(n)))throw new Error('Проверете въведената числова стойност.');return n}
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const handleRequest=async({request,env,setStage}:{request:Request;env:Env;setStage:(stage:string)=>void})=>{
+const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:Env;requestId:string;setStage:(stage:string)=>void})=>{
  const fetch=(input:RequestInfo|URL,init?:RequestInit)=>d1RestFetch(env,request,input,init)
  const base='https://florial-d1.local'
  const D1_INTERNAL_HEADER='D1-compat'
@@ -34,12 +34,28 @@ const handleRequest=async({request,env,setStage}:{request:Request;env:Env;setSta
  if(!pr.ok)return json({error:'Unable to verify staff permissions.'},503)
  const profiles=await pr.json() as Profile[],profile=profiles[0]
  if(!profile||!profile.is_active)return json({error:'Active staff access required.'},403)
- const query=async<T>(q:string):Promise<T>=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}});if(!r.ok)throw new Error('Не успяхме да прочетем каталога с растения в Sanity.');return (await r.json() as {result:T}).result}
+ const query=async<T>(q:string):Promise<T>=>{
+  setStage('sanity_catalog_query')
+  const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}})
+  if(!r.ok){
+   const contentType=r.headers.get('content-type')||'unknown'
+   const raw=await r.text().catch(()=>'')
+   const detail=raw
+    .replace(/Bearer\\s+[^\\s"'<>]+/gi,'Bearer [REDACTED]')
+    .replace(/(?:sk|rk)[a-zA-Z0-9_-]{20,}/g,'[REDACTED_TOKEN]')
+    .replace(/(token|secret|password|authorization)\\s*[:=]\\s*[^,\\s"'<>]+/gi,'$1=[REDACTED]')
+    .replace(/\\s+/g,' ')
+    .slice(0,600)
+   console.error('[manager-plant-catalog-sanity]',JSON.stringify({requestId,stage:'sanity_catalog_query',upstreamStatus:r.status,upstreamStatusText:r.statusText,contentType,responseBody:detail||undefined}))
+   throw new Error('Sanity API вернул HTTP '+r.status+'.')
+  }
+  return (await r.json() as {result:T}).result
+ }
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
   setStage('sanity_catalog_query');
   if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,categoryId:category->_id,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да заредим каталога.'},502)}
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,categoryId:category->_id,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
@@ -149,7 +165,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const requestId=crypto.randomUUID()
  let stage='initialization'
  try{
-  return await handleRequest({request,env,setStage:(next)=>{stage=next}})
+  return await handleRequest({request,env,requestId,setStage:(next)=>{stage=next}})
  }catch(error){
   const message=error instanceof Error?error.message:String(error)
   console.error('[manager-plant-catalog]',JSON.stringify({requestId,stage,errorName:error instanceof Error?error.name:'UnknownError',message:message.slice(0,300)}))
