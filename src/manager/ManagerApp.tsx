@@ -88,6 +88,10 @@ export default function ManagerApp() {
   const [bootstrapSaving, setBootstrapSaving] = useState(false)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [sellerWorkspace, setSellerWorkspace] = useState<'home' | 'create' | 'variant' | 'price'>('home')
+  const [ownerRequestFilter, setOwnerRequestFilter] = useState<'create' | 'variant' | 'price'>('create')
+  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [imageLibraryOpen, setImageLibraryOpen] = useState(false)
   const [events, setEvents] = useState<Array<{ id: number; event_type: string; from_status: string | null; to_status: string | null; note: string | null; created_at: string }>>([])
   const [title, setTitle] = useState('')
   const [latinName, setLatinName] = useState('')
@@ -647,11 +651,24 @@ export default function ManagerApp() {
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
-      <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px] ' + (activeTab === 'submissions' ? '' : 'hidden')}>
+      <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
+          {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-3">
+            <button type="button" onClick={() => { resetForm(); setSellerWorkspace('create'); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'create' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Добавить новое растение</span><span className="mt-1 block text-sm text-stone-600">Создать карточку растения</span></button>
+            <button type="button" onClick={() => { setSellerWorkspace('variant'); setSelectedId(null); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'variant' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Изменить размер растения</span><span className="mt-1 block text-sm text-stone-600">Добавить вариант или размер</span></button>
+            <button type="button" onClick={() => { setSellerWorkspace('price'); setSelectedId(null); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'price' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Изменить цену растения</span><span className="mt-1 block text-sm text-stone-600">Отправить цену на согласование</span></button>
+          </div>}
+          {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canReviewPlantSubmissions || profile.permissions.canApprovePlantSubmission)) && <div className="rounded-2xl border border-stone-200 bg-white p-4">
+            <h2 className="font-semibold">Заявки от продавцов</h2>
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              <button type="button" onClick={() => { setOwnerRequestFilter('create'); setSelectedId(null) }} className={'rounded-xl px-4 py-3 text-sm font-semibold ' + (ownerRequestFilter === 'create' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white')}>Новые растения</button>
+              <button type="button" onClick={() => { setOwnerRequestFilter('variant'); setSelectedId(null) }} className={'rounded-xl px-4 py-3 text-sm font-semibold ' + (ownerRequestFilter === 'variant' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white')}>Изменение размеров</button>
+              <button type="button" onClick={() => { setOwnerRequestFilter('price'); setSelectedId(null) }} className={'rounded-xl px-4 py-3 text-sm font-semibold ' + (ownerRequestFilter === 'price' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white')}>Изменение цен</button>
+            </div>
+          </div>}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div><h1 className="text-2xl font-semibold">Заявки за каталог „Растения“</h1><p className="mt-1 text-sm text-stone-600">Черновите не се виждат в публичния магазин.</p></div>
-            {(profile.role === 'owner' || profile.permissions.canCreatePlant) && <button onClick={resetForm} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
+            {(profile.role === 'owner' || profile.permissions.canCreatePlant) && profile.role !== 'seller' && <button onClick={() => { resetForm(); setShowCreateForm(true); setSelectedId(null) }} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
@@ -677,8 +694,9 @@ export default function ManagerApp() {
               }}
             />
           )}
-          {(profile.role === 'owner' || profile.role === 'seller' || profile.role === 'manager') && (profile.role === 'owner' || profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.role === 'owner' || profile.permissions.canAddPlantVariant} canEditPrice={profile.role === 'owner' || profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
-          {(profile.role === 'owner' || profile.permissions.canCreatePlant) && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
+          {profile.role === 'seller' && sellerWorkspace === 'variant' && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.permissions.canAddPlantVariant} canEditPrice={false} onSubmitted={loadSubmissions} />}
+          {profile.role === 'seller' && sellerWorkspace === 'price' && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={false} canEditPrice={profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
+          {(profile.role === 'seller' ? profile.permissions.canCreatePlant && sellerWorkspace === 'create' : (profile.role === 'owner' || profile.permissions.canCreatePlant) && showCreateForm) && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
               <p className="mt-2 text-sm text-stone-600">Полетата със * са задължителни преди изпращане за проверка. Можете да запазите чернова и да ги попълните по-късно.</p>
@@ -698,13 +716,14 @@ export default function ManagerApp() {
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
               <label className={labelClass + ' mt-4'}>Качи нови снимки (до 10 общо, 10 MB всяка)<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 10 - savedCount - selectedLibraryImages.length))); e.currentTarget.value = '' }} /></label>
               <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от библиотеката по-долу или качете нови JPG, PNG и WebP файлове до 10 MB всеки. Максимум 10 снимки за една заявка.</p>
-              <PlantImageLibrary
+              <button type="button" onClick={() => setImageLibraryOpen((open) => !open)} disabled={saving} className="mt-3 rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 disabled:opacity-50">{imageLibraryOpen ? 'Затвори библиотеката' : 'Избери от галерията Florial'}</button>
+              {imageLibraryOpen && <PlantImageLibrary
                 selectedAssetIds={selectedLibraryImages.map((image) => image.assetId || '')}
                 usedAssetIds={(((selected?.payload?.images as IntakeImage[] | undefined) || []).map((image) => image.assetId).filter(Boolean)) as string[]}
                 maxSelectable={Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length)}
                 disabled={saving}
                 onToggle={(image) => setSelectedLibraryImages((current) => current.some((item) => item.assetId === image.assetId) ? current.filter((item) => item.assetId !== image.assetId) : current.length < Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length) ? [...current, image] : current)}
-              />
+              />}
               {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
               {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
               <div className="mt-5 flex flex-wrap gap-3">
@@ -713,9 +732,9 @@ export default function ManagerApp() {
               </div>
             </form>
           )}
-          <div className="space-y-3">
-            {submissions.length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Все още няма заявки.</div>}
-            {submissions.map((item) => (
+          {(profile.role !== 'seller' || sellerWorkspace !== 'home') && <div className="space-y-3">
+            {submissions.filter((item) => profile.role !== 'owner' && profile.role !== 'manager' ? true : ownerRequestFilter === 'create' ? item.operation === 'create' : item.operation === 'update' && (ownerRequestFilter === 'variant' ? item.payload.changeType === 'addVariant' : item.payload.changeType === 'editPrice')).length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">В този раздел все още няма заявки.</div>}
+            {submissions.filter((item) => profile.role !== 'owner' && profile.role !== 'manager' ? true : ownerRequestFilter === 'create' ? item.operation === 'create' : item.operation === 'update' && (ownerRequestFilter === 'variant' ? item.payload.changeType === 'addVariant' : item.payload.changeType === 'editPrice')).map((item) => (
               <article key={item.id} className={'rounded-2xl border bg-white p-4 ' + (selectedId === item.id ? 'border-lime-700' : 'border-stone-200')}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <button onClick={() => {
@@ -743,9 +762,9 @@ export default function ManagerApp() {
                 {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
-          </div>
+          </div>}
         </section>
-        <aside className="h-fit rounded-2xl border border-stone-200 bg-white p-5">
+        <aside className={selected ? 'h-fit rounded-2xl border border-stone-200 bg-white p-5' : 'hidden'}>
           <SubmissionDetails submission={selected} images={previewImages} loading={previewLoading} />
           <h2 className="mt-6 border-t border-stone-100 pt-4 font-semibold">История на действията</h2>
           <ol className="mt-4 space-y-4">
