@@ -510,15 +510,27 @@ export default function ManagerApp() {
   }
 
   const approvePlantChange = async (id: string) => {
-    if (!session || !profile || (profile.role !== 'owner' && (!profile.permissions.canApprovePlantSubmission || !profile.permissions.canPublishPlant))) return
-    if (!window.confirm('Одобрить изменение существующего растения? Будет обновлён только выбранный вариант в каталоге.')) return
+    if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canApprovePlantSubmission))) return
+    if (!window.confirm('Одобрявате ли промяната? След това тя ще бъде публикувана отделно в каталога.')) return
     try {
       const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'approve', submissionId: id }) })
       const result = await response.json().catch(() => ({})) as { error?: string }
       if (!response.ok) throw new Error(result.error || 'Не удалось применить изменение.')
-      setNotice('Изменение успешно применено к каталогу растений.')
+      setNotice('Промяната е одобрена и очаква отделна публикация.')
       await loadSubmissions(); await loadEvents(id)
     } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось применить изменение.') }
+  }
+
+  const publishPlantChange = async (id: string) => {
+    if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canPublishPlant))) return
+    if (!window.confirm('Публикувате ли одобрената промяна в каталога на растенията?')) return
+    try {
+      const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'publish', submissionId: id }) })
+      const result = await response.json().catch(() => ({})) as { error?: string; alreadyApplied?: boolean }
+      if (!response.ok) throw new Error(result.error || 'Не удалось опубликовать изменение.')
+      setNotice(result.alreadyApplied ? 'Публикацията е потвърдена — промяната вече присъства в каталога.' : 'Промяната е публикувана в каталога на растенията.')
+      await loadSubmissions(); await loadEvents(id)
+    } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось опубликовать изменение.') }
   }
 
   const signOut = async () => { await managerApi.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
@@ -694,7 +706,8 @@ export default function ManagerApp() {
                     ? <>Добавяне на вариант <strong>{String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.name || '—')}</strong>; височина: {String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.saleHeightCm ?? '—')} см; контейнер: {String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.containerVolumeL ?? '—')} л; цена: {typeof (item.payload.proposedVariant as Record<string, unknown> | undefined)?.priceEUR === 'number' ? Number((item.payload.proposedVariant as Record<string, unknown>).priceEUR).toFixed(2) + ' €' : 'по запитване'}.</>
                     : <>Промяна на цена за вариант <strong>{String(item.payload.variantName || '—')}</strong>: {typeof item.payload.oldPriceEUR === 'number' ? item.payload.oldPriceEUR.toFixed(2) + ' €' : 'не е зададена'} → <strong>{typeof item.payload.newPriceEUR === 'number' ? item.payload.newPriceEUR.toFixed(2) + ' €' : '—'}</strong>.</>}
                 </div>}
-                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant) && <button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
+                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
+                {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canPublishPlant) && item.operation === 'update' && ['approved', 'publish_failed'].includes(item.status) && <div className="mt-3"><button onClick={() => void publishPlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Публикувай промяната</button></div>}
                 {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button>}{(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
                 {(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
