@@ -19,7 +19,7 @@ export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
   'canManageStaff','canDelegatePermissions','canViewAnalytics',
 ]
 export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
-  canCreatePlant: true, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
+  canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
 }
