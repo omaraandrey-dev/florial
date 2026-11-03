@@ -330,7 +330,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         event_type: 'publication_prepared',
         from_status: submission.status,
         to_status: approvalInvalidated ? 'in_review' : submission.status,
-        note: 'Финалната версия на карточката е запазена.',
+        note: 'Финалната версия на картата е запазена.',
         metadata: { categoryId: publication.categoryId, slug: publication.slug },
       }),
     })
@@ -366,7 +366,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   let publication = parseObject(payload.publication) as Publication | null
   try {
-    if (!publication) throw new Error('Първо запазете финалната версия на карточката.')
+    if (!publication) throw new Error('Първо запазете финалната версия на картата.')
     publication = validatePublication(publication, images)
     const documentId = typeof (payload.publication as Record<string, unknown>).sanityDocumentId === 'string'
       ? String((payload.publication as Record<string, unknown>).sanityDocumentId)
@@ -432,7 +432,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const imageUrl = images[index].url || images[index].path
       if (!/^https:\/\//i.test(imageUrl)) throw new Error('Снимка ' + (index + 1) + ' няма валиден публичен Sanity URL.')
       const download = await fetch(imageUrl)
-      if (!download.ok) throw new Error('Не успяхме да получим снимка ' + (index + 1) + ' из Sanity Assets.')
+      if (!download.ok) throw new Error('Не успяхме да получим снимка ' + (index + 1) + ' от Sanity Assets.')
       const contentType = (download.headers.get('content-type') || images[index].type).split(';')[0].trim().toLowerCase()
       if (!imageTypes.has(contentType)) throw new Error('Снимка ' + (index + 1) + ' е в неподдържан формат.')
       const blob = await download.blob()
