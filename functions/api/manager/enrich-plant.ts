@@ -42,13 +42,13 @@ function normalizeScientificCandidates(value: unknown): ScientificCandidate[] {
 }
 type AiStage = 'validate' | 'download_image' | 'analyze_image' | 'parse_image_result' | 'generate_text' | 'parse_text_result' | 'save_draft'
 const stageLabels: Record<AiStage, string> = {
-  validate: 'Проверка заявки и доступа',
+  validate: 'Проверка на заявката и достъпа',
   download_image: 'Зареждане на снимката от хранилището',
   analyze_image: 'Анализ на снимката чрез ИИ',
-  parse_image_result: 'Разбор ответа AI по фотографии',
-  generate_text: 'Генерация текстов и характеристик',
-  parse_text_result: 'Проверка и разбор текстового ответа AI',
-  save_draft: 'Сохранение AI-черновика в заявке',
+  parse_image_result: 'Обработка на резултата от анализа на снимката',
+  generate_text: 'Генериране на текстове и характеристики',
+  parse_text_result: 'Проверка и обработка на текстовия отговор от ИИ',
+  save_draft: 'Запазване на AI черновата в заявката',
 }
 function errorDetails(error: unknown) {
   if (error instanceof Error) return error.message.slice(0, 700)
