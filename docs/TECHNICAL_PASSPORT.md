@@ -733,3 +733,11 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Клиенту возвращается JSON HTTP 502 с requestId и stage, чтобы связать сообщение Manager с записью Cloudflare. Технические детали upstream-ответа не передаются клиенту.
 - Commit с изменением кода: `2bafb18a668da4d1d79e79586dd8fa4fca4057ce`; последующее обновление документации фиксирует этот диагностический шаг. Production deployment и ручная проверка ещё ожидаются.
 - Не изменялись D1 schema/records, роли/права, документы и assets Sanity, публичный каталог или checkout.
+
+
+## 2026-11-03 — Manager: управление заказами
+
+- API: `functions/api/manager/orders.ts`; UI: `src/manager/OrdersManager.tsx`, подключён из `src/manager/ManagerApp.tsx`.
+- Migration `0008_manager_orders` добавляет `is_test`, `payment_status`, `manager_note`, даты изменения/оплаты/архива/отмены и таблицу `order_events`. Только четыре утверждённых тестовых номера помечаются `is_test=1`.
+- Права `canViewOrders`, `canEditOrders`, `canDeleteTestOrders`; owner — полный доступ, active manager — три согласованных права, seller — без доступа.
+- Денежные поля `*_cents` являются источником истины; legacy decimal поля синхронизируются. Реальные заказы физически не удаляются.
