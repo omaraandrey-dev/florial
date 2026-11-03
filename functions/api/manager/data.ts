@@ -84,7 +84,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const sellerAllowed=['draft','submitted']
     const canReview=hasPermission(user,'canReviewPlantSubmissions')
     const canApprove=hasPermission(user,'canApprovePlantSubmission')
-    const managerAllowed=((next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview) || (next==='approved'&&canApprove)
+    const managerAllowed=((next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview) || (next==='approved'&&canApprove) || (next==='submitted'&&existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant'))
     if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !managerAllowed : !['in_review','changes_requested','approved','rejected','publishing','published','publish_failed'].includes(next)) return json({error:'Invalid status transition.'},403)
     if (user.role==='manager' && next==='approved') {
       let payload:Record<string,unknown>={}
