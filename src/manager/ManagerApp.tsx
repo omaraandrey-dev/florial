@@ -295,7 +295,7 @@ export default function ManagerApp() {
     if (!session || !profile) return
     const savedImages = (selected?.payload?.images as IntakeImage[] | undefined) || []
     const newLibraryImages = selectedLibraryImages.filter((image) => !savedImages.some((saved) => saved.assetId === image.assetId))
-    if (files.length + savedImages.length + newLibraryImages.length > 8) { setError('Максимумът е 8 снимки за една заявка.'); return }
+    if (files.length + savedImages.length + newLibraryImages.length > 10) { setError('Максимумът е 10 снимки за една заявка.'); return }
     setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
       const payload = {
@@ -665,14 +665,14 @@ export default function ManagerApp() {
                 <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="onRequest">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
-              <label className={labelClass + ' mt-4'}>Качи нови снимки (до 8 общо, 10 MB всяка)<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 8 - savedCount - selectedLibraryImages.length))); e.currentTarget.value = '' }} /></label>
-              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от библиотеката по-долу или качете нови JPG, PNG и WebP файлове до 10 MB всеки. Максимум 8 снимки за една заявка.</p>
+              <label className={labelClass + ' mt-4'}>Качи нови снимки (до 10 общо, 10 MB всяка)<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 10 - savedCount - selectedLibraryImages.length))); e.currentTarget.value = '' }} /></label>
+              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от библиотеката по-долу или качете нови JPG, PNG и WebP файлове до 10 MB всеки. Максимум 10 снимки за една заявка.</p>
               <PlantImageLibrary
                 selectedAssetIds={selectedLibraryImages.map((image) => image.assetId || '')}
                 usedAssetIds={(((selected?.payload?.images as IntakeImage[] | undefined) || []).map((image) => image.assetId).filter(Boolean)) as string[]}
-                maxSelectable={Math.max(0, 8 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length)}
+                maxSelectable={Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length)}
                 disabled={saving}
-                onToggle={(image) => setSelectedLibraryImages((current) => current.some((item) => item.assetId === image.assetId) ? current.filter((item) => item.assetId !== image.assetId) : current.length < Math.max(0, 8 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length) ? [...current, image] : current)}
+                onToggle={(image) => setSelectedLibraryImages((current) => current.some((item) => item.assetId === image.assetId) ? current.filter((item) => item.assetId !== image.assetId) : current.length < Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length) ? [...current, image] : current)}
               />
               {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
               {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
