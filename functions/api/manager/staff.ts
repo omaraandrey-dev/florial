@@ -89,18 +89,23 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
   }else if(body.role!==undefined)return json({error:'Невалидна роля.'},400)
   if(typeof body.displayName==='string'){sets.push('display_name=?');values.push(body.displayName.trim().slice(0,120))}
   let after=before
+  let permissionsChanged=false
   if(body.permissions!==undefined){
    if(!owner&&!actorPermissions.canDelegatePermissions)return json({error:'Нямате право да делегирате разрешения.'},403)
    const parsed=allPermissions(body.permissions)
    if(!parsed)return json({error:'Невалидни права на служителя.'},400)
    if(!owner)for(const key of STAFF_PERMISSION_KEYS as StaffPermissionKey[])if(parsed[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
    if(nextRole==='seller'&&(parsed.canEditPlantCard||parsed.canReviewPlantSubmissions||parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
-   after=parsed;sets.push('permissions=?');values.push(JSON.stringify(parsed))
+   after=parsed;permissionsChanged=true
+  }else if(nextRole==='seller'){
+   after={...before,canEditPlantCard:false,canReviewPlantSubmissions:false,canApprovePlantSubmission:false,canPublishPlant:false,canManageStaff:false,canDelegatePermissions:false,canViewAnalytics:false}
+   permissionsChanged=STAFF_PERMISSION_KEYS.some(key=>after[key]!==before[key])
   }
+  if(permissionsChanged){sets.push('permissions=?');values.push(JSON.stringify(after))}
   if(!sets.length)return json({error:'Няма промени за запис.'},400)
   sets.push('updated_at=?');values.push(nowIso(),userId)
   await env.DB.prepare('UPDATE catalog_staff_profiles SET '+sets.join(',')+' WHERE user_id=?').bind(...values).run()
-  if(body.permissions!==undefined)await logPermissions(env,actor.user_id,userId,'updated',before,after)
+  if(permissionsChanged)await logPermissions(env,actor.user_id,userId,'updated',before,after)
   return json({ok:true})
  }
  return json({error:'Unknown action.'},400)
