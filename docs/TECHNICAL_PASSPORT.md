@@ -597,3 +597,10 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Видимите диагностични съобщения от `functions/api/manager/enrich-plant.ts` и `functions/api/manager/enrich-plant-care.ts` са преведени на български.
 - Включени са съобщенията за сесии, заявки, D1/Workers AI конфигурация, GBIF, изображения и ограничения/лицензи на модела.
 - Променени са само текстове на съобщенията. Не са променяни алгоритмите, разрешенията, статусите, D1 или Sanity.
+
+## 2026-11-03 — Последна проверка Manager
+
+- `src/manager/PlantPublicationEditor.tsx` проверява максимум 10 снимки преди запис/публикация; сървърните проверки в `enrich-plant.ts`, `enrich-plant-care.ts` и `publish-plant.ts` също ограничават до 10.
+- Съобщенията за грешки, които се показват от AI/GBIF endpoint-ите, са локализирани на български.
+- `GET /api/manager/orders` и панелът «Поръчки» са read-only. Production D1 показва 1 поръчка със статус `new`; checkout кодът създава поръчки с този статус. Други статуси и правила за тях не са потвърдени, затова мутацията на поръчки не е реализирана.
+- Production D1 е проверена само чрез агрегирана SELECT заявка; без промяна на записи. Sanity също не е променян.
