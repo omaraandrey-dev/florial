@@ -324,7 +324,7 @@ export default function ManagerApp() {
       const filesToUpload = [...files]
       for (let index = 0; index < filesToUpload.length; index += 1) {
         const file = filesToUpload[index]
-        setUploadProgress(`Загружане на снимка ${index + 1} от ${filesToUpload.length}…`)
+        setUploadProgress(`Качване на снимка ${index + 1} от ${filesToUpload.length}…`)
         if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size <= 0 || file.size > 10 * 1024 * 1024) {
           throw new Error('Снимките трябва да са JPG, PNG или WebP и до 10 MB всяка.')
         }
@@ -586,7 +586,7 @@ export default function ManagerApp() {
           </form>
         </> : <>
           <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
-          <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Учетную запись создаёт владелец.</p>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Затворен достъп до системата за приемане на растения. Профилът се създава от собственика.</p>
           <form className="mt-7 space-y-4" onSubmit={async (event) => {
             event.preventDefault(); setError(''); setLoading(true)
             const { error: loginError } = await managerApi.auth.signInWithPassword({ email, password })
