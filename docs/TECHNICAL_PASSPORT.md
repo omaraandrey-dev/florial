@@ -481,3 +481,59 @@
 - **Не обращаться к Supabase ни при каких обстоятельствах в рамках работы над Florial.** Если в исходниках обнаружен старый Supabase-код, анализировать его статически в GitHub; не запускать и не подключать его.
 - Перед изменениями Manager представить владельцу перечень конкретных изменений UI, API, D1 schema/migrations и прав; не затрагивать публичные Header/menu/Footer без отдельного согласования.
 - После изменений проверять матрицу owner/manager/seller и каждое право на серверном уровне, сборку, production deployment и журнал изменений.
+
+## 2026-11-03 — Manager permissions and D1 state
+
+The active Manager authorization model is Cloudflare D1, not Supabase Auth/SDK. Session authentication remains in the existing Cloudflare Manager implementation. The `managerApi` frontend client calls `/api/manager/*`.
+
+### Permission keys
+
+`catalog_staff_profiles.permissions` contains ten boolean keys:
+- `canCreatePlant`
+- `canEditPlantCard`
+- `canAddPlantVariant`
+- `canEditPlantPrice`
+- `canReviewPlantSubmissions`
+- `canApprovePlantSubmission`
+- `canPublishPlant`
+- `canManageStaff`
+- `canDelegatePermissions`
+- `canViewAnalytics`
+
+The owner role bypasses these flags and retains all permissions. For managers, all permissions are checked in the server API; client-side visibility is not an authorization boundary.
+
+### Delegation rules
+
+- `canManageStaff` permits management of staff accounts created directly by that manager.
+- `canDelegatePermissions` is additionally required to assign or change permissions and to create another manager.
+- A manager cannot delegate a permission they do not personally hold.
+- Managers cannot modify the owner profile. Existing profiles without `created_by` remain owner-managed.
+- Permission grants and changes are recorded in `catalog_staff_permission_events`.
+
+### D1 migration 0006
+
+Applied to Production D1 database `florial-db` (EU jurisdiction) as `0006_manager_permissions`.
+- Adds nullable `catalog_staff_profiles.created_by`.
+- Normalizes existing permission JSON without changing the legacy three permission values.
+- Replaces staff permission triggers to require all ten boolean fields.
+- Adds staff-creator indexes and `catalog_staff_permission_events`.
+- Existing staff profiles, password hashes, sessions, catalog submissions and published Sanity documents were preserved.
+
+Production verification confirmed migration marker `0006_manager_permissions`, the new column, indexes, triggers and audit table. At verification there were two staff profiles: one owner and one manager. New permission flags on the existing manager default to false until explicitly granted by the owner; legacy permissions are retained.
+
+### Approval and publication workflow
+
+- Plant creation and draft submission are allowed with `canCreatePlant`.
+- Final card preparation and botanical AI preparation require `canEditPlantCard`.
+- Review, approval and Sanity publication are separate permissions.
+- `canApprovePlantSubmission` allows approval only after a final publication payload has been saved.
+- `canPublishPlant` allows publication only for an approved submission.
+- Existing-plant variant/price operations retain their dedicated permissions; applying those changes to Sanity requires both approval and publication rights.
+- Analytics requires `canViewAnalytics`.
+
+### Operational notes
+
+- The D1 migration is applied in Production; Preview still has no D1 binding, as previously observed.
+- No changes were made to old Cloudflare Supabase environment variables or to any Supabase data.
+- Production build/deployment must be confirmed against the latest `main` commit before treating the release as complete.
+- Role-matrix functional tests (owner, manager with partial rights, delegated manager, seller) require an authenticated owner session and should be completed in the Manager UI.
