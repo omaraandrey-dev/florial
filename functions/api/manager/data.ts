@@ -98,7 +98,9 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     else if(filter.op==='in'&&Array.isArray(filter.value)&&filter.value.length>0&&filter.value.length<=20){where.push(filter.column+' IN ('+filter.value.map(()=>'?').join(',')+')');params.push(...filter.value)}
     else return json({error:'Invalid filter.'},400)
   }
-  const returning=typeof body.select==='string'?body.select.split(',').map(x=>x.trim()):[]
+  const requestedReturning=typeof body.select==='string'?body.select.split(',').map(x=>x.trim()).filter(Boolean):[]
+  // The client QueryBuilder defaults select to '*'. D1 UPDATE must return an explicit allowlisted column.
+  const returning=requestedReturning.length===1&&requestedReturning[0]==='*'?['id']:requestedReturning
   if(returning.some(x=>!columns[table].has(x)))return json({error:'Invalid return columns.'},400)
   const result=await db.prepare('UPDATE catalog_submissions SET '+assignments.join(',')+' WHERE '+where.join(' AND ')+(returning.length?' RETURNING '+returning.join(','):' RETURNING id')).bind(...params).all<Record<string,unknown>>()
   if(!result.results.length)return json({error:'Заявката е променена. Обновете екрана и опитайте отново.'},409)

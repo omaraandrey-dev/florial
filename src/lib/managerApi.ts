@@ -1,6 +1,7 @@
 type ApiError = { message: string; status?: number }
 type Result<T> = { data: T | null; error: ApiError | null }
 type Session = { access_token: string; user: { id: string; email?: string } }
+type ManagerImageAsset = { assetId: string; url: string; name: string; size: number; type: string; createdAt: string; width?: number; height?: number }
 type AuthListener = (event: string, session: Session | null) => void
 const listeners = new Set<AuthListener>()
 const notify = (event: string, session: Session | null) => listeners.forEach((listener) => listener(event, session))
@@ -96,6 +97,15 @@ export const managerApi = {
             const data = await response.json().catch(() => ({}))
             return response.ok ? { data: { path: data.path, id: data.assetId, url: data.url }, error: null } : { data: null, error: errorFrom(data, response.status) }
           } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Upload failed.' } } }
+        },
+        async list(): Promise<Result<ManagerImageAsset[]>> {
+          try {
+            const response = await fetch('/api/manager/image-library', { credentials: 'same-origin', cache: 'no-store' })
+            const result = await response.json().catch(() => ({}))
+            return response.ok
+              ? { data: Array.isArray(result.data) ? result.data as ManagerImageAsset[] : [], error: null }
+              : { data: null, error: errorFrom(result, response.status) }
+          } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Не удалось загрузить библиотеку фотографий.' } } }
         },
         async createUrls(paths: string[]): Promise<Result<Array<{ signedUrl: string }>>> { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
   },
