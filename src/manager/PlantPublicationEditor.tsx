@@ -676,7 +676,7 @@ export default function PlantPublicationEditor({
             <span className="text-xs text-stone-500">{imagesLoading ? 'Зареждане…' : imageCountMatches ? 'Всички снимки са достъпни' : 'Не всички снимки могат да бъдат отворени'}</span>
           </div>
           {imageFiles.length === 0 && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Няма избрани снимки за продуктовата карта. Можете да подготвите и запазите текстовете без снимки. За публикуване в каталога ще е необходима поне една снимка.</p>}
-          {!imageCountMatches && imageFiles.length > 0 && !imagesLoading && <p className="mt-3 text-sm text-red-700">Не публикувайте, докато всяка снимка не се визуализира успешно.</p>}
+          {!imageCountMatches && imageFiles.length > 0 && !imagesLoading && <p className="mt-3 text-sm text-red-700">Не публикувайте, докато всички снимки не се визуализират успешно.</p>}
           <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {images.map((image, index) => (
               <div key={image.url} className="overflow-hidden rounded-xl border border-stone-200">
