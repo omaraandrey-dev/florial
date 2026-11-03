@@ -3,7 +3,7 @@ import {
   type ManagerEnv, type StaffPermissionKey, type StaffPermissions, type StaffRole,
 } from './_lib'
 
-const validEmail=(value:string)=>/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)
+const validEmail=(value:string)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 const isObject=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value)
 const allPermissions=(value:unknown):StaffPermissions|null=>{
  if(!isObject(value)||STAFF_PERMISSION_KEYS.some(key=>typeof value[key]!=='boolean'))return null
@@ -41,7 +41,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
   const role=body.role
   if(!validEmail(email)||password.length<12||password.length>128||!displayName||(role!=='seller'&&role!=='manager'))return json({error:'Въведете валиден email, име, роля и парола с поне 12 символа.'},400)
   if(!owner&&role==='manager'&&!actorPermissions.canDelegatePermissions)return json({error:'Нямате право да създавате мениджъри и да делегирате права.'},403)
-  const requested=body.permissions===undefined?{...DEFAULT_STAFF_PERMISSIONS}:allPermissions(body.permissions)
+  const requested=body.permissions===undefined?(owner?{...DEFAULT_STAFF_PERMISSIONS}:{...DEFAULT_STAFF_PERMISSIONS,canCreatePlant:false}):allPermissions(body.permissions)
   if(!requested)return json({error:'Невалиден набор от права.'},400)
   if(!owner){
    if(!actorPermissions.canDelegatePermissions&&body.permissions!==undefined)return json({error:'Нямате право да задавате разрешения.'},403)
