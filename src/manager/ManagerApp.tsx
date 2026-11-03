@@ -151,7 +151,7 @@ export default function ManagerApp() {
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
       .limit(100)
-    if (profile.role === 'seller' || profile.role === 'manager' && !profile.permissions.canReviewPlantSubmissions && !profile.permissions.canApprovePlantSubmission && !profile.permissions.canPublishPlant) query = query.eq('created_by', profile.user_id)
+    if (profile.role === 'seller' || profile.role === 'manager' && !profile.permissions.canReviewPlantSubmissions && !profile.permissions.canApprovePlantSubmission && !profile.permissions.canPublishPlant && !profile.permissions.canEditPlantCard) query = query.eq('created_by', profile.user_id)
     const { data, error: listError } = await query
     if (listError) { setError('Не успяхме да заредим заявките. ' + listError.message); return }
     setSubmissions((data || []) as Submission[])
@@ -608,7 +608,7 @@ export default function ManagerApp() {
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div><h1 className="text-2xl font-semibold">Заявки за каталог „Растения“</h1><p className="mt-1 text-sm text-stone-600">Черновите не се виждат в публичния магазин.</p></div>
-            {profile.role === 'seller' && profile.permissions.canCreatePlant && <button onClick={resetForm} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
+            {(profile.role === 'owner' || profile.permissions.canCreatePlant) && <button onClick={resetForm} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white">+ Ново растение</button>}
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
@@ -634,8 +634,8 @@ export default function ManagerApp() {
               }}
             />
           )}
-          {(profile.role === 'seller' || profile.role === 'manager') && (profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.permissions.canAddPlantVariant} canEditPrice={profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
-          {profile.permissions.canCreatePlant && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
+          {(profile.role === 'owner' || profile.role === 'seller' || profile.role === 'manager') && (profile.role === 'owner' || profile.permissions.canAddPlantVariant || profile.permissions.canEditPlantPrice) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={profile.role === 'owner' || profile.permissions.canAddPlantVariant} canEditPrice={profile.role === 'owner' || profile.permissions.canEditPlantPrice} onSubmitted={loadSubmissions} />}
+          {(profile.role === 'owner' || profile.permissions.canCreatePlant) && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
               <p className="mt-2 text-sm text-stone-600">Полетата със * са задължителни преди изпращане за проверка. Можете да запазите чернова и да ги попълните по-късно.</p>
