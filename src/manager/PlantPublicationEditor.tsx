@@ -320,6 +320,7 @@ export default function PlantPublicationEditor({
     if (draft.stockQuantity && (!Number.isInteger(Number(draft.stockQuantity)) || Number(draft.stockQuantity) < 0)) return 'Количеството трябва да е цяло число от 0 нагоре.'
     if (draft.stockStatus === 'inStock' && (!draft.priceEUR || Number(draft.priceEUR) <= 0)) return 'За налично растение въведете цена или изберете „По заявка“.'
     if (draft.stockStatus === 'inStock' && Number(draft.stockQuantity || 0) < 1) return 'При статус „В наличност“ количеството трябва да е поне 1.'
+    if (imageFiles.length > 10) return 'Една продуктова карта може да съдържа максимум 10 снимки.'
     if (imageFiles.some((image) => !['image/jpeg', 'image/png', 'image/webp'].includes(image.type))) return 'За публикуване използвайте JPG, PNG или WebP. HEIC снимките първо трябва да бъдат преобразувани в JPG.'
     if (requireImages && imageFiles.length === 0) return 'За публикуване е необходима поне една снимка.'
     if (!imageCountMatches || imagesLoading) return 'Преди запазване всички избрани снимки трябва да са достъпни за преглед.'
