@@ -81,6 +81,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if ((user.role==='seller'||user.role==='manager'&&editsCard) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
   if (values.status!==undefined) {
     const next=String(values.status)
+    if (['publishing','published','publish_failed'].includes(next) || next==='approved'&&existing.operation==='update') return json({error:'Този статус може да бъде променен само чрез защитения API за одобрение и публикация.'},403)
     const sellerAllowed=['draft','submitted']
     const canReview=hasPermission(user,'canReviewPlantSubmissions')
     const canApprove=hasPermission(user,'canApprovePlantSubmission')
