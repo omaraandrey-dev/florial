@@ -799,15 +799,15 @@ export default function PlantPublicationEditor({
           </div>
           {imageFiles.length === 0 && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Няма избрани снимки за продуктовата карта. Можете да подготвите и запазите текстовете без снимки. За публикуване в каталога ще е необходима поне една снимка.</p>}
           {!imageCountMatches && imageFiles.length > 0 && !imagesLoading && <p className="mt-3 text-sm text-red-700">Не публикувайте, докато всички снимки не се визуализират успешно.</p>}
-          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5">
             {images.map((image, index) => (
-              <div key={image.url} className="overflow-hidden rounded-xl border border-stone-200">
-                <img src={image.url} alt={image.name} className="h-40 w-full object-cover" />
-                <div className="space-y-2 p-3">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <label className="flex items-center gap-2 text-sm font-semibold"><input type="radio" name={'main-image-' + submission.id} checked={draft.mainImageIndex === index} onChange={() => update('mainImageIndex', index)} /> Основна снимка</label>
-                    <button type="button" disabled={updatingImages || enriching || saving || publishing} onClick={() => void removeImage(index)} className="rounded-lg border border-red-300 px-3 py-2 text-xs font-semibold text-red-700 disabled:opacity-50">Премахни от картата</button>
-                  </div>
+              <div key={image.url} className="min-w-0 rounded-xl border border-stone-200 bg-white p-2">
+                <div className="relative aspect-square overflow-hidden rounded-lg bg-stone-100">
+                  <img src={image.url} alt={image.name} className="h-full w-full object-cover" />
+                  <button type="button" title="Премахни снимката от картата" aria-label="Премахни снимката от картата" disabled={updatingImages || enriching || saving || publishing} onClick={() => void removeImage(index)} className="absolute right-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-white/95 text-lg font-bold leading-none text-red-700 shadow disabled:opacity-50">×</button>
+                </div>
+                <div className="space-y-2 pt-2">
+                  <label className="flex items-center gap-2 text-xs font-semibold"><input type="radio" name={'main-image-' + submission.id} checked={draft.mainImageIndex === index} onChange={() => update('mainImageIndex', index)} /> Основна снимка</label>
                   <label className={labelClass}>Alt текст (BG)<input className={inputClass} value={draft.imageAlts[index] || ''} onChange={(event) => update('imageAlts', draft.imageAlts.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
                   <label className={labelClass}>Alt text (EN)<input className={inputClass} value={draft.imageAltsEn[index] || ''} onChange={(event) => update('imageAltsEn', draft.imageAltsEn.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
                   <label className={labelClass}>Alt текст (RU)<input className={inputClass} value={draft.imageAltsRu[index] || ''} onChange={(event) => update('imageAltsRu', draft.imageAltsRu.map((alt, altIndex) => altIndex === index ? event.target.value : alt))} /></label>
