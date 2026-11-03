@@ -48,12 +48,19 @@ type AnalyticsReport = {
   by_language: Array<{ lang: string; event_count: number }>
   top_pages: Array<{ page_path: string; page_views: number }>
 }
+type ManagerOrder = {
+  id: string; order_number: string; customer_name: string; phone: string; email: string | null;
+  city: string | null; address: string | null; delivery_method: string; payment_method: string;
+  comment: string | null; items: Array<{ name: string; sku?: string; qty: number; price: number }>;
+  subtotal: number; currency: string; status: string; delivery_fee: number | null; total: number | null; created_at: string
+}
 
 const statusLabels: Record<string, string> = {
   draft: 'Чернова', submitted: 'Изпратена за проверка', in_review: 'В процес на проверка',
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
   published: 'Публикувана', publish_failed: 'Грешка при публикуване', rejected: 'Отхвърлена',
 }
+const orderStatusLabels: Record<string, string> = { new: 'Нова' }
 const inputClass = 'mt-1 w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none transition focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const labelClass = 'block text-sm font-semibold text-stone-700'
 const sellerPlantTypes = [
@@ -105,12 +112,15 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'staff' | 'analytics'>('submissions')
+  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics'>('submissions')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
+  const [orders, setOrders] = useState<ManagerOrder[]>([])
+  const [ordersLoading, setOrdersLoading] = useState(false)
+  const [ordersError, setOrdersError] = useState('')
   const [staffLoading, setStaffLoading] = useState(false)
   const [staffSaving, setStaffSaving] = useState(false)
   const [staffError, setStaffError] = useState('')
@@ -220,6 +230,26 @@ export default function ManagerApp() {
   useEffect(() => {
     if (profile?.role === 'owner' || profile?.role === 'manager' && profile?.permissions.canManageStaff) void loadStaff()
   }, [loadStaff, profile])
+
+  const loadOrders = useCallback(async () => {
+    if (!session || !profile || !['owner', 'manager'].includes(profile.role)) return
+    setOrdersLoading(true)
+    setOrdersError('')
+    try {
+      const response = await fetch('/api/manager/orders?limit=100', { credentials: 'same-origin', cache: 'no-store' })
+      const result = await response.json().catch(() => ({})) as { orders?: ManagerOrder[]; error?: string }
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да заредим поръчките.')
+      setOrders(Array.isArray(result.orders) ? result.orders : [])
+    } catch (err) {
+      setOrdersError(err instanceof Error ? err.message : 'Не успяхме да заредим поръчките.')
+    } finally {
+      setOrdersLoading(false)
+    }
+  }, [session, profile])
+
+  useEffect(() => {
+    if (activeTab === 'orders') void loadOrders()
+  }, [activeTab, loadOrders])
 
   const loadAnalytics = useCallback(async () => {
     if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canViewAnalytics))) return
@@ -557,7 +587,7 @@ export default function ManagerApp() {
                   configuration: 'проверка настроек',
                   origin_check: 'проверка источника запроса',
                   owner_lookup: 'проверка существующего владельца',
-                  request_body: 'чтение формы',
+                  request_body: 'прочитане на формуляра',
                   password_hash: 'подготовка на паролата',
                   owner_insert: 'запись владельца в D1',
                 }
@@ -576,13 +606,13 @@ export default function ManagerApp() {
             }
             finally { setBootstrapSaving(false) }
           }}>
-            <label className={labelClass}>Имя владельца<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
+            <label className={labelClass}>Име на собственика<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
             <label className={labelClass}>Email<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
             <label className={labelClass}>Парола за достъп<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
             <p className="-mt-3 text-xs text-stone-500">Паролата трябва да съдържа между 12 и 128 символа.</p>
-            <label className={labelClass}>Одноразовый секрет первичной настройки<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
+            <label className={labelClass}>Еднократен секрет за първоначална настройка<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
             {bootstrapError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{bootstrapError}</p>}
-            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създать владельца'}</button>
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създай профил на собственик'}</button>
           </form>
         </> : <>
           <h1 className="mt-3 text-3xl font-semibold text-stone-900">Вход за служители</h1>
@@ -613,6 +643,7 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
+        {(profile.role === 'owner' || profile.role === 'manager') && <button onClick={() => { setActiveTab('orders'); setOrdersError(''); void loadOrders() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
@@ -723,6 +754,58 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
+      <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager') ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-semibold">Поръчки</h1>
+            <p className="mt-1 text-sm text-stone-600">Последните до 100 поръчки от магазина. Прегледът не променя данните или статуса на поръчката.</p>
+          </div>
+          <button type="button" onClick={() => void loadOrders()} disabled={ordersLoading} className="rounded-xl bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">{ordersLoading ? 'Обновяване…' : 'Обнови поръчките'}</button>
+        </div>
+        {ordersError && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{ordersError}</div>}
+        {ordersLoading && orders.length === 0 && <p className="mt-6 text-sm text-stone-500">Зареждане на поръчките…</p>}
+        {!ordersLoading && !ordersError && orders.length === 0 && <div className="mt-5 rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Все още няма поръчки.</div>}
+        <div className="mt-5 space-y-4">
+          {orders.map((order) => (
+            <article key={order.id} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-lg font-semibold">{order.order_number}</h2>
+                  <p className="mt-1 text-xs text-stone-500">{new Date(order.created_at).toLocaleString('bg-BG')}</p>
+                </div>
+                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">{orderStatusLabels[order.status] || order.status}</span>
+              </div>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <div className="space-y-1 text-sm">
+                  <h3 className="font-semibold">Клиент</h3>
+                  <p>{order.customer_name}</p>
+                  <p><a className="text-lime-800 underline" href={'tel:' + order.phone}>{order.phone}</a></p>
+                  {order.email && <p><a className="text-lime-800 underline" href={'mailto:' + order.email}>{order.email}</a></p>}
+                  <p>{order.city || '—'}{order.address ? ', ' + order.address : ''}</p>
+                  {order.comment && <p className="mt-2 whitespace-pre-wrap text-stone-600">Бележка: {order.comment}</p>}
+                </div>
+                <div className="space-y-1 text-sm">
+                  <h3 className="font-semibold">Доставка и плащане</h3>
+                  <p>{order.delivery_method}</p>
+                  <p>Плащане: {order.payment_method === 'pay_in_store' ? 'В магазина' : order.payment_method}</p>
+                  <p>Продукти: {Number(order.subtotal).toFixed(2)} €</p>
+                  <p>Доставка: {order.delivery_fee == null ? 'За уточняване' : Number(order.delivery_fee).toFixed(2) + ' €'}</p>
+                  <p className="pt-1 text-base font-semibold">Общо: {order.total == null ? 'За уточняване' : Number(order.total).toFixed(2) + ' €'}</p>
+                </div>
+              </div>
+              <div className="mt-4 border-t border-stone-100 pt-3">
+                <h3 className="font-semibold">Артикули</h3>
+                <div className="mt-2 space-y-2">
+                  {order.items.map((item, index) => <div key={order.id + '-' + index} className="flex flex-wrap justify-between gap-2 text-sm">
+                    <span>{item.name}{item.sku ? ' · SKU ' + item.sku : ''} × {item.qty}</span>
+                    <strong>{(Number(item.price) * Number(item.qty)).toFixed(2)} €</strong>
+                  </div>)}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><h1 className="text-2xl font-semibold">Аналитика на сайта</h1><p className="mt-1 text-sm text-stone-600">Анонимни обобщени събития по българско местно време.</p></div>
