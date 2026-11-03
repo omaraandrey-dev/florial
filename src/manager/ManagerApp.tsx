@@ -473,7 +473,7 @@ export default function ManagerApp() {
         displayName: newStaffName,
         role: newStaffRole,
         password: newStaffPassword,
-        permissions: newStaffPermissions,
+        permissions: profile?.role === 'owner' || profile?.permissions.canDelegatePermissions ? newStaffPermissions : undefined,
       })
       setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword(''); setNewStaffPermissions({ ...emptyPermissions })
       setStaffNotice('Служителят е създаден. Предайте му email адреса и зададената от вас парола.')
@@ -612,7 +612,7 @@ export default function ManagerApp() {
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
-          {(profile.role === 'owner' || profile.permissions.canEditPlantCard) && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
+          {(profile.role === 'owner' || profile.permissions.canEditPlantCard || profile.permissions.canPublishPlant) && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
             <PlantPublicationEditor
               submission={selected}
               reviewMode={['submitted', 'in_review'].includes(selected.status)}
@@ -621,6 +621,7 @@ export default function ManagerApp() {
               imagesLoading={previewLoading}
               publishError={selected.publish_error}
               canPublish={profile.role === 'owner' || profile.permissions.canPublishPlant}
+              canEdit={profile.role === 'owner' || profile.permissions.canEditPlantCard}
               accessToken={session.access_token}
               onSaved={async (imagesOverride) => {
                 await loadSubmissions()
