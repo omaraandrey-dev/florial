@@ -1,9 +1,35 @@
 export type StaffRole = 'seller' | 'manager' | 'owner'
 export type StaffPermissions = {
   canCreatePlant: boolean
+  canEditPlantCard: boolean
   canAddPlantVariant: boolean
   canEditPlantPrice: boolean
+  canReviewPlantSubmissions: boolean
+  canApprovePlantSubmission: boolean
+  canPublishPlant: boolean
+  canManageStaff: boolean
+  canDelegatePermissions: boolean
+  canViewAnalytics: boolean
 }
+export type StaffPermissionKey = keyof StaffPermissions
+export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
+  'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice',
+  'canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant',
+  'canManageStaff','canDelegatePermissions','canViewAnalytics',
+]
+export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
+  canCreatePlant: true, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false,
+  canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
+  canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
+}
+export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
+  let source: Record<string, unknown> = {}
+  if (typeof value === 'string') { try { source = JSON.parse(value) as Record<string, unknown> } catch { source = {} } }
+  else if (value && typeof value === 'object' && !Array.isArray(value)) source = value as Record<string, unknown>
+  return Object.fromEntries(STAFF_PERMISSION_KEYS.map((key) => [key, typeof source[key] === 'boolean' ? source[key] : DEFAULT_STAFF_PERMISSIONS[key]])) as unknown as StaffPermissions
+}
+export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) =>
+  user.role === 'owner' || user.permissionsObject[key] === true
 export type StaffProfile = {
   user_id: string
   email: string
@@ -126,7 +152,7 @@ export const authenticate = async (request: Request, env: ManagerEnv): Promise<{
     LIMIT 1
   `).bind(tokenHash, now).first<StaffProfile & { session_id: string }>()
   if (!row) return { user: null, error: json({ error: 'Session expired or access disabled.' }, 401) }
-  const permissions = typeof row.permissions === 'string' ? JSON.parse(row.permissions) as StaffPermissions : row.permissions as StaffPermissions
+  const permissions = normalizeStaffPermissions(row.permissions)
   const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
   await env.DB.prepare('UPDATE manager_sessions SET last_seen_at=?,expires_at=? WHERE id=?').bind(now, expires, row.session_id).run()
   return { user: { ...row, id: row.user_id, permissionsObject: permissions }, error: null }
