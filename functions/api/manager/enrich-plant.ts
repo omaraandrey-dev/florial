@@ -134,12 +134,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const caller = await userResponse.json() as { id?: string }
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
   const profileResponse = await fetch(
-    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active,permissions',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
-  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
-  if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
+  const profile = profiles[0]
+  if (!profile || profile.is_active !== true || profile.role !== 'owner' && profile.permissions?.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
 
   let body: Record<string, unknown>
   try {
