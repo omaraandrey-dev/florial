@@ -156,20 +156,20 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   stage = 'owner_authorization'
   const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active,permissions', { headers: adminHeaders })
-  if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
+  if (!profileResponse.ok) return json({ error: 'Не успяхме да проверим правата за достъп.' }, 503)
   const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
   const profile = profiles[0]
   if (!profile || profile.is_active !== true || profile.role !== 'owner' && (profile.role !== 'manager' || profile.permissions?.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате картата на растението.' }, 403)
 
   submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Невалиден идентификатор на заявката.' }, 400)
   stage = 'load_submission'
   const submissionResponse = await fetch(base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&select=id,catalog,operation,status,created_by,updated_at,payload', { headers: adminHeaders })
-  if (!submissionResponse.ok) return json({ error: 'Unable to load submission.' }, 502)
+  if (!submissionResponse.ok) return json({ error: 'Не успяхме да заредим заявката.' }, 502)
   const rows = await submissionResponse.json() as SubmissionRow[]
   const submission = rows[0]
-  if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Plant submission not found.' }, 404)
-  if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Only a plant submission under owner review can be researched.' }, 409)
+  if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Заявката за растението не е намерена.' }, 404)
+  if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Ботаническа проверка е възможна само за заявка за растение, която е в процес на преглед.' }, 409)
   const payload = object(submission.payload) || {}
   const aiDraft = object(payload.aiDraft)
   if (!aiDraft) return json({ error: 'Сначала подгответе основната AI-карта.' }, 409)
@@ -312,7 +312,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
-    if (/license|licence|acceptable use|prompt.*agree/i.test(message)) return json({ error: 'Cloudflare требует предварительно принять лицензию Meta для модели распознавания изображений. Фото-проверка пока недоступна; данные заявки не изменены.' }, 503)
+    if (/license|licence|acceptable use|prompt.*agree/i.test(message)) return json({ error: 'Cloudflare изисква предварително приемане на лиценза на Meta за модела за разпознаване на изображения. Проверката по снимка временно не е достъпна; данните по заявката не са променени.' }, 503)
     return json({ error: 'Не успяхме да анализираме снимката на растението. Опитайте отново по-късно. Данните по заявката не са променени.', diagnostics: [...diagnosticSteps, { stage: 'vision_analysis', ok: false, model: visionModel, detail: message }] }, 502)
   }
 
@@ -436,7 +436,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         const value = String(confidenceInput[key] || 'low')
         fieldConfidence[key] = ['high', 'medium', 'low'].includes(value) ? value : 'low'
       }
-    } catch (error) { return json({ error: 'Таксономический кандидат определён, но AI не смог подготовить характеристики. Данные заявки не изменены.', diagnostics: [...diagnosticSteps, { stage: 'care_generation', ok: false, model: textModel, selectedTaxon: careTaxon, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
+    } catch (error) { return json({ error: 'Таксономичният кандидат е определен, но ИИ не успя да подготви характеристиките. Данните по заявката не са променени.', diagnostics: [...diagnosticSteps, { stage: 'care_generation', ok: false, model: textModel, selectedTaxon: careTaxon, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
   }
 
   diagnosticSteps.push({ stage: 'care_generation', ok: true, generatedCareFieldCount: Object.keys(plantCare).length, careGuideGenerated: !!careGuide, selectedTaxon: careTaxon || null, careSource })
@@ -541,7 +541,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     const caller = await userResponse.json() as { id?: string }
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
     const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
-    if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
+    if (!profileResponse.ok) return json({ error: 'Не успяхме да проверим правата за достъп.' }, 503)
     const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
     const profile = profiles[0]
     if (!profile || profile.is_active !== true || profile.role !== 'owner' && (profile.role !== 'manager' || profile.permissions?.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате картата на растението.' }, 403)
