@@ -477,3 +477,11 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Order lifecycle and payment are independent. `order_events` preserves audit records even after test-order deletion.
 - Migration `0008_manager_orders` marks only four exact approved test orders. Real orders cannot be physically deleted; only cancel/archive are available.
 - Amount calculations use integer EUR cents and synchronize legacy decimal fields.
+
+
+## Production rollout — 2026-11-03
+
+- PR #74 merged into `main` as `7af470ea1f7493e034f7cf2e96f62bc396ad1639`.
+- GitHub Actions passed: website lint/build, Pages Functions syntax, migration validation and Sanity Studio build.
+- D1 migration `0008_manager_orders` applied and verified in Production. Four exact approved test orders are marked `is_test=1`; all other existing orders remain `is_test=0`. Active manager has the three approved order permissions.
+- Cloudflare Pages Production deployment `c7b20168-cf3b-4bea-ab12-ca3bd6ad2392` completed successfully at 2026-11-03 18:44:29 UTC.
