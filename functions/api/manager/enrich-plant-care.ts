@@ -183,7 +183,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   const selectedImages = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
   if (!selectedImages.length) return json({ error: 'За ботаническата проверка е необходима поне една снимка на растението.' }, 400)
-  if (selectedImages.length > 8 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Списъкът със снимки към заявката е невалиден. Обновете картата и повторете проверката.' }, 400)
+  if (selectedImages.length > 10 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Списъкът със снимки към заявката е невалиден (максимум 10). Обновете картата и повторете проверката.' }, 400)
   if (selectedImages.some((image) => typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
       typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
     return json({ error: 'Снимката не принадлежи към Sanity Assets на каталога с растения.' }, 400)
