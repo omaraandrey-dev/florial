@@ -4,7 +4,7 @@ type Env=ManagerEnv
 type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
 type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
-type Plant={_id:string;_rev:string;name:string;sku?:string;saleVariants?:Variant[]}
+type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;saleVariants?:Variant[]}
 const project='bxvcy0qs',dataset='plants'
 const json=(body:Record<string,unknown>,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})
 const obj=(v:unknown):Record<string,unknown>|null=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:null
@@ -35,7 +35,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
   if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,sku,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да заредим каталога.'},502)}
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,categoryId:category->_id,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да заредим каталога.'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
