@@ -473,7 +473,7 @@ export default function ManagerApp() {
         displayName: newStaffName,
         role: newStaffRole,
         password: newStaffPassword,
-        permissions: profile?.role === 'owner' || profile?.permissions.canDelegatePermissions ? newStaffPermissions : undefined,
+        permissions: profile?.role === 'owner' || profile?.role === 'manager' && profile.permissions.canDelegatePermissions ? newStaffPermissions : undefined,
       })
       setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword(''); setNewStaffPermissions({ ...emptyPermissions })
       setStaffNotice('Служителят е създаден. Предайте му email адреса и зададената от вас парола.')
@@ -632,8 +632,8 @@ export default function ManagerApp() {
               images={previewImages}
               imagesLoading={previewLoading}
               publishError={selected.publish_error}
-              canPublish={profile.role === 'owner' || profile.permissions.canPublishPlant}
-              canEdit={profile.role === 'owner' || profile.permissions.canEditPlantCard}
+              canPublish={profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canPublishPlant}
+              canEdit={profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canEditPlantCard}
               accessToken={session.access_token}
               onSaved={async (imagesOverride) => {
                 await loadSubmissions()
@@ -723,7 +723,7 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
-      <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+      <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><h1 className="text-2xl font-semibold">Аналитика на сайта</h1><p className="mt-1 text-sm text-stone-600">Анонимни обобщени събития по българско местно време.</p></div>
           <div className="flex flex-wrap items-center gap-2">
@@ -783,7 +783,7 @@ export default function ManagerApp() {
           <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">Отчетът показва броя на записаните събития, а не уникални посетители. Не се събират IP адреси, user-agent, referrer, идентификатори на посетители или съдържание на формуляри.</p>
         </>}
       </section>
-      <section className={activeTab === 'staff' && (profile.role === 'owner' || profile.permissions.canManageStaff) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+      <section className={activeTab === 'staff' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
           <div className="space-y-4">
             <div>
@@ -806,7 +806,7 @@ export default function ManagerApp() {
                       </div>
                     </div>
                     {staff.role !== 'owner' && <div className="flex flex-wrap gap-2">
-                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <select aria-label={'Роля на ' + staff.email} className="rounded-lg border border-stone-300 bg-white px-2 py-2 text-sm" value={staff.role} disabled={staffSaving} onChange={(event) => void updateStaff(staff.user_id, { action: 'update', role: event.target.value }, 'Ролята е обновена.')}>
+                      {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canDelegatePermissions) && <select aria-label={'Роля на ' + staff.email} className="rounded-lg border border-stone-300 bg-white px-2 py-2 text-sm" value={staff.role} disabled={staffSaving} onChange={(event) => void updateStaff(staff.user_id, { action: 'update', role: event.target.value }, 'Ролята е обновена.')}>
                         <option value="seller">Продавач</option>
                         <option value="manager">Мениджър</option>
                       </select>}
