@@ -618,3 +618,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - AI diagnostic stage label and sample botanical candidate explanation were localized.
 - A targeted source scan across the main Manager UI and AI/GBIF endpoints found no remaining matches for the checked Russian UI/error phrases.
 - No authorization rules, data records, Sanity documents, AI/GBIF decision thresholds or public storefront components were changed.
+
+
+## 2026-11-03 — Manager editor permission safeguards
+
+- `PlantPublicationEditor` receives `canEdit` and `canPublish` independently.
+- If `canEditPlantCard=false`, the form controls are disabled, AI draft generation, scientific-name suggestions, botanical/GBIF research and image removal are disabled. The UI explains the missing permission in Bulgarian.
+- If `canPublishPlant=true`, the separate publish action remains available outside the disabled fieldset, so an authorized manager can publish an already prepared and approved card without receiving edit permission.
+- This preserves the active manager's existing D1 permissions; no permission flags, D1 rows, Sanity documents or assets were changed.
+- AI diagnostic stage labels were localized to Bulgarian.
+
