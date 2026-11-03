@@ -159,11 +159,12 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
       const result = await response.json() as { ok?: boolean; error?: string; stockQuantity?: number; auditStatus?: 'success' | 'pending' }
       if (!response.ok || result.ok !== true) throw new Error(result.error || 'Количеството не беше променено.')
       setNewQuantity(String(quantity))
+      const auditPending = result.auditStatus === 'pending'
       try {
         await loadCatalog()
-        setNotice(result.auditStatus === 'pending' ? 'Количеството е записано в каталога, но записът в журнала очаква потвърждение. Уведомете собственика.' : 'Количеството е обновено директно в каталога.')
+        setNotice(auditPending ? 'Количеството е записано в каталога, но записът в журнала очаква потвърждение. Уведомете собственика.' : 'Количеството е обновено директно в каталога.')
       } catch {
-        setNotice('Количеството е записано. Обновете каталога, за да видите актуалната версия.')
+        setNotice(auditPending ? 'Количеството е записано, но записът в журнала очаква потвърждение. Обновете каталога и уведомете собственика.' : 'Количеството е записано. Обновете каталога, за да видите актуалната версия.')
       }
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Не успяхме да запазим количеството.')
