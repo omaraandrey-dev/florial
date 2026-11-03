@@ -90,7 +90,7 @@ function validatePublication(input: unknown, images: IntakeImage[], requireImage
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Невалиден URL адрес (slug).')
   if (!productTypes.has(productType)) throw new Error('Изберете валиден тип на растението.')
   if (!categoryId || !/^[a-zA-Z0-9_-]+$/.test(categoryId)) throw new Error('Изберете категория от каталога.')
-  if ((requireImages && images.length < 1) || images.length > 8) throw new Error('За публикуване е необходима поне една снимка; максимумът е 8.')
+  if ((requireImages && images.length < 1) || images.length > 10) throw new Error('За публикуване е необходима поне една снимка; максимумът е 10.')
   if (images.some((image) => !image || typeof image.path !== 'string' || !image.name ||
       !imageTypes.has(image.type) || !Number.isFinite(image.size) || image.size <= 0 || image.size > 10 * 1024 * 1024)) {
     throw new Error('Една или повече снимки не отговарят на изискванията за формат или размер.')
