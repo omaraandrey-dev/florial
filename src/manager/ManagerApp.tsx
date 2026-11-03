@@ -15,7 +15,7 @@ type StaffPermissions = {
 type StaffPermissionKey = keyof StaffPermissions
 const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canCreatePlant', label: 'Създаване на растения' },
-  { key: 'canEditPlantCard', label: 'Подготовка и редактиране на карточки' },
+  { key: 'canEditPlantCard', label: 'Подготовка и редактиране на продуктови карти' },
   { key: 'canAddPlantVariant', label: 'Добавяне на варианти' },
   { key: 'canEditPlantPrice', label: 'Промяна на цени' },
   { key: 'canReviewPlantSubmissions', label: 'Проверка и връщане на заявки' },
@@ -270,7 +270,7 @@ export default function ManagerApp() {
     setPreviewLoading(imageItems.length > 0)
     if (imageItems.length) {
       const { data: signed, error: signedError } = await managerApi.images.createUrls(imageItems.map((item) => item.path))
-      if (signedError) setError('Не удалось открыть фотографии заявки: ' + signedError.message)
+      if (signedError) setError('Не успяхме да отворим снимките към заявката: ' + signedError.message)
       else {
         const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
         setPreviewImages(mapped)
@@ -407,7 +407,7 @@ export default function ManagerApp() {
       body: JSON.stringify({ submissionId: selectedId }),
     })
     const notification = await response.json().catch(() => ({})) as { error?: string }
-    setNotice(response.ok ? 'Заявката е изпратена на собственика.' : 'Заявката е изпратена, но email известието не е потвърдено. ' + (notification.error || 'Проверете настройките на известията.'))
+    setNotice(response.ok ? 'Заявката е изпратена за проверка.' : 'Заявката е изпратена, но email известието не е потвърдено. ' + (notification.error || 'Проверете настройките на известията.'))
     await loadSubmissions()
     setSaving(false)
   }
@@ -420,7 +420,7 @@ export default function ManagerApp() {
       setError('Първо подгответе картата на растението, проверете данните и запазете финалната версия. След това можете да одобрите заявката.')
       return
     }
-    if (!window.confirm('Потвърждавате ли одобрението на вече подготвената и запазена карточка? След това ще можете отделно да публикувате растението в магазина.')) return
+    if (!window.confirm('Потвърждавате ли одобрението на вече подготвената и запазена карта на растението? След това ще можете отделно да публикувате растението в магазина.')) return
     const { error: approveError } = await managerApi.from('catalog_submissions').update({
       status: 'approved', reviewed_by: profile.user_id, reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
@@ -436,7 +436,7 @@ export default function ManagerApp() {
       status: 'rejected', review_note: reviewNote.trim(), reviewed_by: profile.user_id,
       reviewed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
     }).eq('id', id).in('status', ['submitted', 'in_review'])
-    if (rejectError) setError('Не удалось отклонить заявку: ' + rejectError.message)
+    if (rejectError) setError('Не успяхме да отхвърлим заявката: ' + rejectError.message)
     else { setReviewNote(''); setNotice('Заявката е отхвърлена.'); await loadSubmissions(); await loadEvents(id) }
   }
 
@@ -460,7 +460,7 @@ export default function ManagerApp() {
       body: JSON.stringify(body),
     })
     const result = await response.json().catch(() => ({})) as { error?: string }
-    if (!response.ok) throw new Error(result.error || 'Не удалось выполнить действие.')
+    if (!response.ok) throw new Error(result.error || 'Не успяхме да изпълним действието.')
   }
 
   const createStaff = async (event: FormEvent) => {
@@ -515,10 +515,10 @@ export default function ManagerApp() {
     try {
       const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'approve', submissionId: id }) })
       const result = await response.json().catch(() => ({})) as { error?: string }
-      if (!response.ok) throw new Error(result.error || 'Не удалось применить изменение.')
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да приложим промяната.')
       setNotice('Промяната е одобрена и очаква отделна публикация.')
       await loadSubmissions(); await loadEvents(id)
-    } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось применить изменение.') }
+    } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да приложим промяната.') }
   }
 
   const publishPlantChange = async (id: string) => {
@@ -527,10 +527,10 @@ export default function ManagerApp() {
     try {
       const response = await fetch('/api/manager/plant-catalog', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify({ action: 'publish', submissionId: id }) })
       const result = await response.json().catch(() => ({})) as { error?: string; alreadyApplied?: boolean }
-      if (!response.ok) throw new Error(result.error || 'Не удалось опубликовать изменение.')
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да публикуваме промяната.')
       setNotice(result.alreadyApplied ? 'Публикацията е потвърдена — промяната вече присъства в каталога.' : 'Промяната е публикувана в каталога на растенията.')
       await loadSubmissions(); await loadEvents(id)
-    } catch (err) { setError(err instanceof Error ? err.message : 'Не удалось опубликовать изменение.') }
+    } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да публикуваме промяната.') }
   }
 
   const signOut = async () => { await managerApi.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
@@ -572,14 +572,14 @@ export default function ManagerApp() {
               if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
               setBootstrapAvailable(false)
             } catch (err) {
-              setBootstrapError(err instanceof TypeError ? 'Не удалось связаться с сервером. Проверьте подключение и обновите страницу.' : err instanceof Error ? err.message : 'Не удалось создать владельца.')
+              setBootstrapError(err instanceof TypeError ? 'Не успяхме да се свържем със сървъра. Проверете връзката и обновете страницата.' : err instanceof Error ? err.message : 'Не успяхме да създадем профил на собственик.')
             }
             finally { setBootstrapSaving(false) }
           }}>
             <label className={labelClass}>Имя владельца<input className={inputClass} value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" required /></label>
             <label className={labelClass}>Email<input className={inputClass} type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-            <label className={labelClass}>Постоянный пароль<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
-            <p className="-mt-3 text-xs text-stone-500">Пароль должен содержать от 12 до 128 символов.</p>
+            <label className={labelClass}>Парола за достъп<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+            <p className="-mt-3 text-xs text-stone-500">Паролата трябва да съдържа между 12 и 128 символа.</p>
             <label className={labelClass}>Одноразовый секрет первичной настройки<input className={inputClass} type="password" autoComplete="off" value={bootstrapSecret} onChange={(e) => setBootstrapSecret(e.target.value)} required /></label>
             {bootstrapError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{bootstrapError}</p>}
             <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={bootstrapSaving || !bootstrapConfigured || password.length < 12}>{bootstrapSaving ? 'Създаване…' : 'Създать владельца'}</button>
@@ -708,7 +708,7 @@ export default function ManagerApp() {
                 </div>}
                 {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
                 {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canPublishPlant) && item.operation === 'update' && ['approved', 'publish_failed'].includes(item.status) && <div className="mt-3"><button onClick={() => void publishPlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Публикувай промяната</button></div>}
-                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
+                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карта'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
                 {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
