@@ -5,10 +5,11 @@ import { getPlantCategories, type PlantCategory } from './plantCategories'
 import SubmissionDetails from './SubmissionDetails'
 import PlantPublicationEditor from './PlantPublicationEditor'
 import PlantCatalogChangeForm from './PlantCatalogChangeForm'
+import PlantStockChangeForm from './PlantStockChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
 
 type StaffPermissions = {
-  canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean;
+  canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
   canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
   canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
 }
@@ -18,6 +19,7 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canEditPlantCard', label: 'Подготовка и редактиране на продуктови карти' },
   { key: 'canAddPlantVariant', label: 'Добавяне на варианти' },
   { key: 'canEditPlantPrice', label: 'Промяна на цени' },
+  { key: 'canEditPlantStock', label: 'Промяна на количеството на растенията' },
   { key: 'canReviewPlantSubmissions', label: 'Проверка и връщане на заявки' },
   { key: 'canApprovePlantSubmission', label: 'Одобрение на заявки' },
   { key: 'canPublishPlant', label: 'Публикация в каталога' },
@@ -26,7 +28,7 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canViewAnalytics', label: 'Преглед на аналитиката' },
 ]
 const emptyPermissions: StaffPermissions = {
-  canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false,
+  canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
 }
@@ -88,7 +90,7 @@ export default function ManagerApp() {
   const [bootstrapSaving, setBootstrapSaving] = useState(false)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [sellerWorkspace, setSellerWorkspace] = useState<'home' | 'requests' | 'create' | 'variant' | 'price'>('home')
+  const [sellerWorkspace, setSellerWorkspace] = useState<'home' | 'requests' | 'create' | 'variant' | 'price' | 'stock'>('home')
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [imageLibraryOpen, setImageLibraryOpen] = useState(false)
   const [events, setEvents] = useState<Array<{ id: number; event_type: string; from_status: string | null; to_status: string | null; note: string | null; created_at: string }>>([])
@@ -659,16 +661,18 @@ export default function ManagerApp() {
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
-          {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-3">
+          {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <button type="button" onClick={() => { resetForm(); setSellerWorkspace('create'); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'create' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Добавяне на ново растение</span><span className="mt-1 block text-sm text-stone-600">Създаване на продуктова карта</span></button>
             <button type="button" onClick={() => { setSellerWorkspace('variant'); setSelectedId(null); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'variant' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Добавяне на размер на растение</span><span className="mt-1 block text-sm text-stone-600">Добавяне на нов размер или вариант</span></button>
             <button type="button" onClick={() => { setSellerWorkspace('price'); setSelectedId(null); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'price' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Промяна на цена на растение</span><span className="mt-1 block text-sm text-stone-600">Изпращане на новата цена за одобрение</span></button>
+            {profile.permissions.canEditPlantStock && <button type="button" onClick={() => { setSellerWorkspace('stock'); setSelectedId(null); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'stock' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Промяна на количеството на растенията</span><span className="mt-1 block text-sm text-stone-600">Директно обновяване на наличностите</span></button>}
           </div>}
           {profile.role !== 'seller' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <button type="button" disabled={profile.role === 'manager' && !(profile.permissions.canReviewPlantSubmissions || profile.permissions.canApprovePlantSubmission || profile.permissions.canPublishPlant || profile.permissions.canEditPlantCard)} onClick={() => { setSellerWorkspace('requests'); setShowCreateForm(false); setSelectedId(null) }} className={'rounded-2xl border p-4 text-left shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60 ' + (sellerWorkspace === 'requests' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block font-semibold">Заявки на растения</span><span className="mt-1 block text-sm text-stone-600">{profile.role === 'manager' && !(profile.permissions.canReviewPlantSubmissions || profile.permissions.canApprovePlantSubmission || profile.permissions.canPublishPlant || profile.permissions.canEditPlantCard) ? 'Достъпът се предоставя от собственика.' : 'Преглед и обработка на заявките от продавачите.'}</span></button>
             {(profile.role === 'owner' || profile.permissions.canCreatePlant) && <button type="button" onClick={() => { resetForm(); setSellerWorkspace('create'); setShowCreateForm(true); setSelectedId(null) }} className={'rounded-2xl border p-4 text-left shadow-sm transition ' + (sellerWorkspace === 'create' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block font-semibold">Добавяне на ново растение</span><span className="mt-1 block text-sm text-stone-600">Създаване на нова продуктова карта.</span></button>}
             {(profile.role === 'owner' || profile.permissions.canAddPlantVariant) && <button type="button" onClick={() => { setSellerWorkspace('variant'); setSelectedId(null); setShowCreateForm(false) }} className={'rounded-2xl border p-4 text-left shadow-sm transition ' + (sellerWorkspace === 'variant' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block font-semibold">Добавяне на височина</span><span className="mt-1 block text-sm text-stone-600">Избор на растение и добавяне на нов размер.</span></button>}
             {(profile.role === 'owner' || profile.permissions.canEditPlantPrice) && <button type="button" onClick={() => { setSellerWorkspace('price'); setSelectedId(null); setShowCreateForm(false) }} className={'rounded-2xl border p-4 text-left shadow-sm transition ' + (sellerWorkspace === 'price' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block font-semibold">Промяна на цена на растение</span><span className="mt-1 block text-sm text-stone-600">Избор на растение и конкретен вариант.</span></button>}
+            {(profile.role === 'owner' || profile.permissions.canEditPlantStock) && <button type="button" onClick={() => { setSellerWorkspace('stock'); setSelectedId(null); setShowCreateForm(false) }} className={'rounded-2xl border p-4 text-left shadow-sm transition ' + (sellerWorkspace === 'stock' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block font-semibold">Промяна на количеството на растенията</span><span className="mt-1 block text-sm text-stone-600">Директно обновяване на наличностите без одобрение.</span></button>}
           </div>}
           {(profile.role === 'seller' || sellerWorkspace === 'requests') && <div className="flex flex-wrap items-center justify-between gap-3"><div><h1 className="text-2xl font-semibold">Заявки на растения</h1><p className="mt-1 text-sm text-stone-600">Всички заявки са в един списък. Изберете заявка, за да видите подробностите и наличните действия.</p></div>{profile.role !== 'seller' && <button type="button" onClick={() => setSellerWorkspace('home')} className="rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold">Назад към действията</button>}</div>}
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
@@ -697,6 +701,7 @@ export default function ManagerApp() {
           )}
           {(profile.role === 'seller' ? sellerWorkspace === 'variant' && profile.permissions.canAddPlantVariant : sellerWorkspace === 'variant' && (profile.role === 'owner' || profile.permissions.canAddPlantVariant)) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={true} canEditPrice={false} initialMode="variant" categories={plantCategories} onSubmitted={loadSubmissions} onBack={() => setSellerWorkspace('home')} />}
           {(profile.role === 'seller' ? sellerWorkspace === 'price' && profile.permissions.canEditPlantPrice : sellerWorkspace === 'price' && (profile.role === 'owner' || profile.permissions.canEditPlantPrice)) && <PlantCatalogChangeForm accessToken={session.access_token} canAddVariant={false} canEditPrice={true} initialMode="price" categories={plantCategories} onSubmitted={loadSubmissions} onBack={() => setSellerWorkspace('home')} />}
+          {(profile.role === 'owner' || profile.permissions.canEditPlantStock) && sellerWorkspace === 'stock' && <PlantStockChangeForm accessToken={session.access_token} categories={plantCategories} onBack={() => setSellerWorkspace('home')} />}
           {(profile.role === 'seller' ? profile.permissions.canCreatePlant && sellerWorkspace === 'create' : (profile.role === 'owner' || profile.permissions.canCreatePlant) && showCreateForm) && (!selected || ['draft', 'changes_requested'].includes(selected.status)) && (
             <form onSubmit={saveDraft} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-semibold">{selectedId ? 'Редактиране на чернова' : 'Нова приемка на растение'}</h2>
