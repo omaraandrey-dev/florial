@@ -199,7 +199,7 @@ export default function ManagerApp() {
   }, [files])
 
   const loadStaff = useCallback(async () => {
-    if (!session || !profile || (profile.role !== 'owner' && !profile.permissions.canManageStaff)) return
+    if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canManageStaff))) return
     setStaffLoading(true)
     setStaffError('')
     try {
@@ -218,11 +218,11 @@ export default function ManagerApp() {
   }, [session, profile])
 
   useEffect(() => {
-    if (profile?.role === 'owner' || profile?.permissions.canManageStaff) void loadStaff()
+    if (profile?.role === 'owner' || profile?.role === 'manager' && profile?.permissions.canManageStaff) void loadStaff()
   }, [loadStaff, profile])
 
   const loadAnalytics = useCallback(async () => {
-    if (!session || !profile || (profile.role !== 'owner' && !profile.permissions.canViewAnalytics)) return
+    if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canViewAnalytics))) return
     setAnalyticsLoading(true)
     setAnalyticsError('')
     try {
@@ -237,7 +237,7 @@ export default function ManagerApp() {
   }, [session, profile, analyticsDays])
 
   useEffect(() => {
-    if (activeTab === 'analytics' && (profile?.role === 'owner' || profile?.permissions.canViewAnalytics)) void loadAnalytics()
+    if (activeTab === 'analytics' && (profile?.role === 'owner' || profile?.role === 'manager' && profile?.permissions.canViewAnalytics)) void loadAnalytics()
   }, [activeTab, profile, loadAnalytics])
 
   useEffect(() => {
@@ -601,8 +601,8 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки</button>
-        {(profile.role === 'owner' || profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
-        {(profile.role === 'owner' || profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px] ' + (activeTab === 'submissions' ? '' : 'hidden')}>
         <section className="space-y-5">
@@ -612,7 +612,7 @@ export default function ManagerApp() {
           </div>
           {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
           {notice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
-          {(profile.role === 'owner' || profile.permissions.canEditPlantCard || profile.permissions.canPublishPlant) && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
+          {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canEditPlantCard || profile.permissions.canPublishPlant)) && selected && selected.operation === 'create' && ['submitted', 'in_review', 'approved', 'publish_failed'].includes(selected.status) && (
             <PlantPublicationEditor
               submission={selected}
               reviewMode={['submitted', 'in_review'].includes(selected.status)}
@@ -694,8 +694,8 @@ export default function ManagerApp() {
                     ? <>Добавяне на вариант <strong>{String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.name || '—')}</strong>; височина: {String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.saleHeightCm ?? '—')} см; контейнер: {String((item.payload.proposedVariant as Record<string, unknown> | undefined)?.containerVolumeL ?? '—')} л; цена: {typeof (item.payload.proposedVariant as Record<string, unknown> | undefined)?.priceEUR === 'number' ? Number((item.payload.proposedVariant as Record<string, unknown>).priceEUR).toFixed(2) + ' €' : 'по запитване'}.</>
                     : <>Промяна на цена за вариант <strong>{String(item.payload.variantName || '—')}</strong>: {typeof item.payload.oldPriceEUR === 'number' ? item.payload.oldPriceEUR.toFixed(2) + ' €' : 'не е зададена'} → <strong>{typeof item.payload.newPriceEUR === 'number' ? item.payload.newPriceEUR.toFixed(2) + ' €' : '—'}</strong>.</>}
                 </div>}
-                {(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant || profile.permissions.canReviewPlantSubmissions) && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant) && <button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button>}{(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
-                {(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions) && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission) && <button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button>}{(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
+                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'update' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.permissions.canApprovePlantSubmission && profile.permissions.canPublishPlant) && <button onClick={() => void approvePlantChange(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white">Одобри промяната</button>}{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
+                {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canApprovePlantSubmission || profile.permissions.canReviewPlantSubmissions)) && item.operation === 'create' && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-wrap gap-2">{(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canApprovePlantSubmission) && <button disabled={!item.payload.publication || typeof item.payload.publication !== 'object'} title={!item.payload.publication ? 'Първо подгответе и запазете финалната карта.' : 'Одобрете подготвената карточка'} onClick={() => void approve(item.id)} className="rounded-lg bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">Одобри</button>}{(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && <button onClick={() => void rejectSubmission(item.id)} className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Отхвърли</button>}</div>}
                 {(profile.role === 'owner' || profile.permissions.canReviewPlantSubmissions) && ['submitted', 'in_review'].includes(item.status) && <div className="mt-3 flex flex-col gap-2 sm:flex-row"><input className={inputClass + ' mt-0'} placeholder="Коментар за корекции" value={selectedId === item.id ? reviewNote : ''} onChange={(e) => { setSelectedId(item.id); setReviewNote(e.target.value) }} /><button onClick={() => void requestChanges(item.id)} className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold">Върни за корекция</button></div>}
               </article>
             ))}
