@@ -113,6 +113,7 @@ export default function ManagerApp() {
   const [stockStatus, setStockStatus] = useState('inStock')
   const [files, setFiles] = useState<File[]>([])
   const [selectedLibraryImages, setSelectedLibraryImages] = useState<IntakeImage[]>([])
+  const [removedSavedImageIds, setRemovedSavedImageIds] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
@@ -286,6 +287,11 @@ export default function ManagerApp() {
   }, [])
 
   const selected = useMemo(() => submissions.find((item) => item.id === selectedId) || null, [submissions, selectedId])
+  const savedImages = (selected?.payload?.images as IntakeImage[] | undefined) || []
+  const removedSavedImageIdSet = new Set(removedSavedImageIds)
+  const activeSavedImages = savedImages.filter((image) => !removedSavedImageIdSet.has(image.assetId || image.path))
+  const pendingLibraryImages = selectedLibraryImages.filter((image) => !activeSavedImages.some((saved) => saved.assetId && saved.assetId === image.assetId))
+  const selectedImageCount = activeSavedImages.length + pendingLibraryImages.length + files.length
   const selectedCategory = useMemo(() => plantCategories.find((item) => item._id === category) || null, [plantCategories, category])
   const categoryGroups = useMemo(() => {
     const groups = new Map<string, PlantCategory[]>()
@@ -321,14 +327,14 @@ export default function ManagerApp() {
   const resetForm = () => {
     setSelectedId(null); setPreviewImages([]); setTitle(''); setLatinName(''); setProductType(''); setSku(''); setCategory(''); setReviewNote(''); setError(''); setNotice('')
     setDescription(''); setVariantName(''); setHeight(''); setPotVolume('')
-    setPrice(''); setStockQuantity(''); setStockStatus('inStock'); setFiles([]); setSelectedLibraryImages([])
+    setPrice(''); setStockQuantity(''); setStockStatus('inStock'); setFiles([]); setSelectedLibraryImages([]); setRemovedSavedImageIds([])
   }
 
   const saveDraft = async (event?: FormEvent) => {
     event?.preventDefault()
     if (!session || !profile) return
-    const savedImages = (selected?.payload?.images as IntakeImage[] | undefined) || []
-    const newLibraryImages = selectedLibraryImages.filter((image) => !savedImages.some((saved) => saved.assetId === image.assetId))
+    const savedImages = activeSavedImages
+    const newLibraryImages = pendingLibraryImages
     if (files.length + savedImages.length + newLibraryImages.length > 10) { setError('Максимумът е 10 снимки за една заявка.'); return }
     setSaving(true); setError(''); setNotice(''); setUploadProgress('Подготовка на снимките…')
     try {
@@ -380,6 +386,7 @@ export default function ManagerApp() {
       if (updateError) throw updateError
       setFiles([])
       setSelectedLibraryImages([])
+      setRemovedSavedImageIds([])
       setUploadProgress('')
       setNotice(`Черновата е запазена. Снимки в заявката: ${currentImages.length}.`)
       await loadSubmissions()
@@ -392,7 +399,7 @@ export default function ManagerApp() {
 
   const submitForReview = async () => {
     if (!session || !selectedId) { setError('Първо запазете черновата.'); return }
-    if (files.length > 0) { setError('Първо запазете и качете избраните снимки.'); return }
+    if (files.length > 0 || selectedLibraryImages.length > 0 || removedSavedImageIds.length > 0) { setError('Първо запазете всички добавени или премахнати снимки в черновата.'); return }
     const selectedImagesValue = selected?.payload?.images
     const savedImages = Array.isArray(selectedImagesValue) ? selectedImagesValue as IntakeImage[] : []
     const quantity = Number(stockQuantity)
@@ -714,21 +721,51 @@ export default function ManagerApp() {
                 <label className={labelClass}>Наличност<select className={inputClass} value={stockStatus} onChange={(e) => setStockStatus(e.target.value)}><option value="inStock">Наличен</option><option value="outOfStock">Изчерпан</option><option value="onRequest">По заявка</option></select></label>
               </div>
               <label className={labelClass + ' mt-4'}>Описание<textarea className={inputClass} rows={4} value={description} onChange={(e) => setDescription(e.target.value)} /></label>
-              <label className={labelClass + ' mt-4'}>Качи нови снимки (до 10 общо, 10 MB всяка)<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); const savedCount = ((selected?.payload?.images as IntakeImage[] | undefined) || []).length; setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 10 - savedCount - selectedLibraryImages.length))); e.currentTarget.value = '' }} /></label>
-              <p className="mt-1 text-xs font-normal text-stone-500">Изберете снимки от библиотеката по-долу или качете нови JPG, PNG и WebP файлове до 10 MB всеки. Максимум 10 снимки за една заявка.</p>
-              <button type="button" onClick={() => setImageLibraryOpen((open) => !open)} disabled={saving} className="mt-3 rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 disabled:opacity-50">{imageLibraryOpen ? 'Затвори библиотеката' : 'Избери от галерията Florial'}</button>
+              <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+                <label className={labelClass}>Добави снимки от телефона или компютъра<input className={inputClass} type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={saving || selectedImageCount >= 10} onChange={(e) => { const chosen = Array.from(e.currentTarget.files || []); setFiles((current) => [...current, ...chosen].slice(0, Math.max(0, 10 - activeSavedImages.length - pendingLibraryImages.length))); e.currentTarget.value = '' }} /></label>
+                <span className="rounded-full bg-lime-50 px-3 py-2 text-sm font-semibold text-lime-900">Избрани снимки: {selectedImageCount} / 10</span>
+              </div>
+              <p className="mt-1 text-xs font-normal text-stone-500">Снимките от библиотеката и устройството се показват заедно. Проверете миниатюрите и премахнете ненужните с кръстчето.</p>
+              <button type="button" onClick={() => setImageLibraryOpen((open) => !open)} disabled={saving || selectedImageCount >= 10} className="mt-3 rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 disabled:opacity-50">{imageLibraryOpen ? 'Затвори библиотеката' : 'Избери от галереята Florial'}</button>
               {imageLibraryOpen && <PlantImageLibrary
-                selectedAssetIds={selectedLibraryImages.map((image) => image.assetId || '')}
-                usedAssetIds={(((selected?.payload?.images as IntakeImage[] | undefined) || []).map((image) => image.assetId).filter(Boolean)) as string[]}
-                maxSelectable={Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length)}
+                selectedAssetIds={pendingLibraryImages.map((image) => image.assetId || '')}
+                usedAssetIds={activeSavedImages.map((image) => image.assetId).filter(Boolean) as string[]}
+                maxSelectable={Math.max(0, 10 - activeSavedImages.length - files.length)}
                 disabled={saving}
-                onToggle={(image) => setSelectedLibraryImages((current) => current.some((item) => item.assetId === image.assetId) ? current.filter((item) => item.assetId !== image.assetId) : current.length < Math.max(0, 10 - (((selected?.payload?.images as IntakeImage[] | undefined) || []).length) - files.length) ? [...current, image] : current)}
+                onToggle={(image) => setSelectedLibraryImages((current) => {
+                  const without = current.filter((item) => item.assetId !== image.assetId)
+                  if (current.some((item) => item.assetId === image.assetId)) return without
+                  return activeSavedImages.length + without.length + files.length < 10 ? [...without, image] : current
+                })}
               />}
-              {filePreviews.length > 0 && <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">{filePreviews.map((preview, index) => <div key={`${preview.file.name}-${index}`} className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50"><img src={preview.url} alt={preview.file.name} className="h-32 w-full object-cover" /><div className="flex items-center justify-between gap-2 p-2"><span className="min-w-0 truncate text-xs" title={preview.file.name}>{preview.file.name}</span><button type="button" onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-xs">Премахни</button></div></div>)}</div>}
+              {selectedImageCount > 0 && <div className="mt-4">
+                <div className="mb-2 flex items-center justify-between gap-2"><h3 className="text-sm font-semibold text-stone-800">Снимки към заявката</h3><span className="text-xs text-stone-500">{selectedImageCount} от 10</span></div>
+                <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5">
+                  {savedImages.map((image, index) => {
+                    const imageKey = image.assetId || image.path
+                    if (removedSavedImageIdSet.has(imageKey)) return null
+                    const url = image.url || previewImages[index]?.url || ''
+                    return <div key={'saved-' + imageKey} className="min-w-0">
+                      <div className="relative aspect-square overflow-hidden rounded-xl border border-stone-200 bg-stone-100">
+                        {url ? <img src={url} alt={image.name || 'Снимка'} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-xs text-stone-500">Снимка</div>}
+                        <button type="button" title="Премахни снимката" aria-label="Премахни снимката" disabled={saving} onClick={() => setRemovedSavedImageIds((current) => [...current, imageKey])} className="absolute right-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-white/95 text-lg font-bold leading-none text-red-700 shadow">×</button>
+                      </div><p className="mt-1 truncate text-center text-[11px] text-stone-500">В черновата</p>
+                    </div>
+                  })}
+                  {pendingLibraryImages.map((image) => <div key={'library-' + image.assetId} className="min-w-0">
+                    <div className="relative aspect-square overflow-hidden rounded-xl border border-lime-200 bg-stone-100"><img src={image.url} alt={image.name} className="h-full w-full object-cover" /><button type="button" title="Премахни снимката" aria-label="Премахни снимката" disabled={saving} onClick={() => setSelectedLibraryImages((current) => current.filter((item) => item.assetId !== image.assetId))} className="absolute right-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-white/95 text-lg font-bold leading-none text-red-700 shadow">×</button></div>
+                    <p className="mt-1 truncate text-center text-[11px] text-stone-500">Галерея Florial</p>
+                  </div>)}
+                  {filePreviews.map((preview, index) => <div key={'device-' + preview.file.name + '-' + index} className="min-w-0">
+                    <div className="relative aspect-square overflow-hidden rounded-xl border border-stone-200 bg-stone-100"><img src={preview.url} alt={preview.file.name} className="h-full w-full object-cover" /><button type="button" title="Премахни снимката" aria-label="Премахни снимката" disabled={saving} onClick={() => setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="absolute right-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-white/95 text-lg font-bold leading-none text-red-700 shadow">×</button></div>
+                    <p className="mt-1 truncate text-center text-[11px] text-stone-500" title={preview.file.name}>От устройството</p>
+                  </div>)}
+                </div>
+              </div>}
               {uploadProgress && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{uploadProgress}</p>}
               <div className="mt-5 flex flex-wrap gap-3">
                 <button disabled={saving} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : 'Запази черновата'}</button>
-                {selectedId && <button type="button" disabled={saving || files.length > 0} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
+                {selectedId && <button type="button" disabled={saving || files.length > 0 || selectedLibraryImages.length > 0 || removedSavedImageIds.length > 0} onClick={submitForReview} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">Изпрати на проверка</button>}
               </div>
             </form>
           )}
@@ -738,7 +775,7 @@ export default function ManagerApp() {
               <article key={item.id} className={'rounded-2xl border bg-white p-4 ' + (selectedId === item.id ? 'border-lime-700' : 'border-stone-200')}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <button onClick={() => {
-                    setSelectedId(item.id); setSelectedLibraryImages([]); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || '')); setProductType(String(item.payload.productType || ''))
+                    setSelectedId(item.id); setSelectedLibraryImages([]); setRemovedSavedImageIds([]); setFiles([]); setTitle(String(item.payload.name || item.title)); setLatinName(String(item.payload.latinName || '')); setProductType(String(item.payload.productType || ''))
                     setSku(item.sku || ''); setCategory(String(item.payload.categoryId || plantCategories.find((candidate) => candidate.name.toLocaleLowerCase() === String(item.payload.categoryName || '').toLocaleLowerCase())?._id || '')); setDescription(String(item.payload.description || ''))
                     const variant = (item.payload.saleVariants as Array<Record<string, unknown>> | undefined)?.[0]
                     setVariantName(String(variant?.name || '')); setHeight(variant?.saleHeightCm ? String(variant.saleHeightCm) : '')
