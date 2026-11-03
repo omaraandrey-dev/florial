@@ -182,11 +182,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const sellerBinomial = speciesBinomial(scientificName)
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   const selectedImages = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
-  if (!selectedImages.length) return json({ error: 'Для проверки ботанического имени нужна хотя бы одна фотография растения.' }, 400)
-  if (selectedImages.length > 8 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Список фотографий заявки некорректен. Обновите карточку и повторите проверку.' }, 400)
+  if (!selectedImages.length) return json({ error: 'За ботаническата проверка е необходима поне една снимка на растението.' }, 400)
+  if (selectedImages.length > 8 || selectedImages.some((image) => !image || !sellerImages.some((original) => original.path === image.path))) return json({ error: 'Списъкът със снимки към заявката е невалиден. Обновете картата и повторете проверката.' }, 400)
   if (selectedImages.some((image) => typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
       typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
-    return json({ error: 'Фотография не относится к Sanity Assets каталога растений.' }, 400)
+    return json({ error: 'Снимката не принадлежи към Sanity Assets на каталога с растения.' }, 400)
   }
 
   if (isWorkflowProcess) {
@@ -195,11 +195,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       return json({ ok: true, careDraft: payload.plantCareResearch, idempotent: true })
     }
     if (activeJob.token !== workflowJobToken || activeJob.workflowId !== workflowId || activeJob.requestedBy !== callerId) {
-      return json({ error: 'Ботаническое задание недействительно или уже завершено.' }, 403)
+      return json({ error: 'Ботаническата задача е невалидна или вече е приключила.' }, 403)
     }
   } else {
-    if (payload.plantCareResearch) return json({ error: 'Ботаническая проверка уже завершена. Обновите карточку.' }, 409)
-    if (!env.PLANT_CARE_WORKFLOW?.fetch) return json({ error: 'Фоновая служба ботанической проверки не подключена.' }, 503)
+    if (payload.plantCareResearch) return json({ error: 'Ботаническата проверка вече е завършена. Обновете картата.' }, 409)
+    if (!env.PLANT_CARE_WORKFLOW?.fetch) return json({ error: 'Фоновата услуга за ботаническа проверка не е свързана.' }, 503)
 
     const existingJob = object(payload.plantCareJob) || {}
     const existingWorkflowId = textValue(existingJob.workflowId, 100)
@@ -225,7 +225,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: queuedPayload, updated_at: startedAt }),
     })
-    if (!queueSave.ok) return json({ error: 'Не удалось сохранить ботаническое задание перед запуском.' }, 502)
+    if (!queueSave.ok) return json({ error: 'Не успяхме да запазим ботаническата задача преди стартирането.' }, 502)
     const queuedRows = await queueSave.json() as Array<{ id: string }>
     if (!queuedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.' }, 409)
 
@@ -244,9 +244,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         method: 'PATCH', headers: adminHeaders,
         body: JSON.stringify({ payload: failedPayload, updated_at: new Date().toISOString() }),
       }).catch(() => undefined)
-      return json({ error: textValue(startBody.error, 300) || 'Не удалось запустить фоновую ботаническую проверку.', detail: startBody.detail || null }, 503)
+      return json({ error: textValue(startBody.error, 300) || 'Не успяхме да стартираме фоновата ботаническа проверка.', detail: startBody.detail || null }, 503)
     }
-    return json({ ok: true, queued: true, workflowId, status: startBody.status || 'queued', message: 'Ботаническая проверка принята и выполняется в фоне.' }, 202)
+    return json({ ok: true, queued: true, workflowId, status: startBody.status || 'queued', message: 'Ботаническата проверка е приета и се изпълнява във фонов режим.' }, 202)
   }
 
   stage = 'validate_images'
@@ -261,13 +261,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       const image = imagesToAnalyse[index]
       const imageUrl = image.url || image.path
       stage = 'load_photo_' + (index + 1)
-      if (!/^https:\/\//i.test(imageUrl)) return json({ error: 'Фотография ' + (index + 1) + ' не содержит ссылки на Sanity Asset.' }, 400)
+      if (!/^https:\/\//i.test(imageUrl)) return json({ error: 'Снимка ' + (index + 1) + ' не съдържа връзка към Sanity Asset.' }, 400)
       const download = await fetch(imageUrl)
-      if (!download.ok) return json({ error: 'Не удалось открыть фотографию ' + (index + 1) + ' из Sanity Assets.' }, 502)
+      if (!download.ok) return json({ error: 'Не успяхме да отворим снимка ' + (index + 1) + ' от Sanity Assets.' }, 502)
       const contentType = (download.headers.get('content-type') || image.type || '').split(';')[0].trim().toLowerCase()
-      if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) return json({ error: 'Для ботанического распознавания используйте JPG, PNG или WebP. Преобразуйте HEIC в JPG и загрузите фото повторно.' }, 400)
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) return json({ error: 'За ботаническо разпознаване използвайте JPG, PNG или WebP. Преобразувайте HEIC в JPG и качете снимката отново.' }, 400)
       const bytes = new Uint8Array(await download.arrayBuffer())
-      if (!bytes.length || bytes.length > 10 * 1024 * 1024) return json({ error: 'Фотография ' + (index + 1) + ' пуста или превышает 10 MB.' }, 400)
+      if (!bytes.length || bytes.length > 10 * 1024 * 1024) return json({ error: 'Снимка ' + (index + 1) + ' е празна или надвишава 10 MB.' }, 400)
       stage = 'vision_image_' + (index + 1)
       const visionResponse = await env.AI.run(visionModel, {
         messages: [
@@ -313,7 +313,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     if (/license|licence|acceptable use|prompt.*agree/i.test(message)) return json({ error: 'Cloudflare требует предварительно принять лицензию Meta для модели распознавания изображений. Фото-проверка пока недоступна; данные заявки не изменены.' }, 503)
-    return json({ error: 'Не удалось проанализировать фотографию растения. Повторите попытку позже. Данные заявки не изменены.', diagnostics: [...diagnosticSteps, { stage: 'vision_analysis', ok: false, model: visionModel, detail: message }] }, 502)
+    return json({ error: 'Не успяхме да анализираме снимката на растението. Опитайте отново по-късно. Данните по заявката не са променени.', diagnostics: [...diagnosticSteps, { stage: 'vision_analysis', ok: false, model: visionModel, detail: message }] }, 502)
   }
 
   const rankedVisual = visualNames.filter((entry) => entry.count > 0).sort((a, b) => b.count - a.count || ['high', 'medium', 'low'].indexOf(a.confidence) - ['high', 'medium', 'low'].indexOf(b.confidence))
@@ -368,7 +368,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     nameCandidateMatches = await Promise.all(commonNameCandidates.map(async (candidate) => ({
       candidate, match: await matchGbif(candidate.name),
     })))
-  } catch (error) { return json({ error: error instanceof Error ? error.message : 'Не удалось проверить название через GBIF.', diagnostics: [...diagnosticSteps, { stage: 'gbif_taxonomy', ok: false, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
+  } catch (error) { return json({ error: error instanceof Error ? error.message : 'Не успяхме да проверим името чрез GBIF.', diagnostics: [...diagnosticSteps, { stage: 'gbif_taxonomy', ok: false, detail: error instanceof Error ? error.message : String(error) }] }, 502) }
 
   diagnosticSteps.push({ stage: 'gbif_taxonomy', ok: true, sellerAccepted: acceptedSpecies(sellerMatch), visualAccepted: acceptedSpecies(visualMatch), commonNameCandidateCount: nameCandidateMatches.length, acceptedCommonNameCandidateCount: nameCandidateMatches.filter((entry) => acceptedSpecies(entry.match)).length })
   const sellerAccepted = acceptedSpecies(sellerMatch)
@@ -475,7 +475,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
     body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
   })
-  if (!save.ok) return json({ error: 'Не удалось сохранить результат ботанической проверки.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, httpStatus: save.status }] }, 502)
+  if (!save.ok) return json({ error: 'Не успяхме да запазим резултата от ботаническата проверка.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, httpStatus: save.status }] }, 502)
   const savedRows = await save.json() as Array<{ id: string }>
   if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете екрана и опитайте отново.', diagnostics: [...diagnosticSteps, { stage: 'save_submission', ok: false, reason: 'optimistic_lock_conflict' }] }, 409)
   stage = 'write_audit_event'
@@ -566,6 +566,6 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error)
     console.error('[florial:plant-care-workflow-status]', detail.slice(0, 400))
-    return json({ error: 'Не удалось получить состояние фоновой ботанической проверки.', detail: detail.slice(0, 400) }, 502)
+    return json({ error: 'Не успяхме да получим състоянието на фоновата ботаническа проверка.', detail: detail.slice(0, 400) }, 502)
   }
 }
