@@ -39,34 +39,73 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
- if(body.action==='approve'){
-  if(profile.role!=='owner'&&(!profile.permissions?.canApprovePlantSubmission||!profile.permissions?.canPublishPlant))return json({error:'Нямате право да одобрявате и публикувате промени в каталога.'},403)
+ if(body.action==='approve'||body.action==='publish'){
+  const action=body.action
+  if(action==='approve'&&profile.role!=='owner'&&!profile.permissions?.canApprovePlantSubmission)return json({error:'Нямате право да одобрявате промени в каталога.'},403)
+  if(action==='publish'&&profile.role!=='owner'&&!profile.permissions?.canPublishPlant)return json({error:'Нямате право да публикувате промени в каталога.'},403)
   const id=str(body.submissionId,64);if(!uuid.test(id))return json({error:'Invalid submission ID.'},400)
   const sr=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
   if(!sr.ok)return json({error:'Unable to load the change request.'},502)
   const subs=await sr.json() as Array<{id:string;operation:string;status:string;target_document_id:string;target_revision:string;payload:Record<string,unknown>}>
-  const sub=subs[0];if(!sub||sub.operation!=='update'||!['submitted','in_review'].includes(sub.status))return json({error:'Change request is not available for approval.'},409)
-  try{
-   const current=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(sub.target_document_id)+'][0]{_id,_rev,name,saleVariants}')
-   if(!current)return json({error:'Растението вече не е намерено.'},404)
-   if(current._rev!==sub.target_revision)return json({error:'Растението е променено след създаването на заявката. Проверете актуалните данни.'},409)
-   const variants=current.saleVariants||[],payload=obj(sub.payload)||{}
-   let next:Variant[]
+  const sub=subs[0]
+  if(!sub||sub.operation!=='update')return json({error:'Change request is not available.'},404)
+  const payload=obj(sub.payload)||{}
+  const current=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(sub.target_document_id)+'][0]{_id,_rev,name,saleVariants}')
+  if(!current)return json({error:'Растението вече не е намерено.'},404)
+  const variants=current.saleVariants||[]
+  if(action==='approve'){
+   if(!['submitted','in_review'].includes(sub.status))return json({error:'Заявката вече е обработена.'},409)
+   if(current._rev!==sub.target_revision)return json({error:'Растението е променено след създаването на заявката. Обновете заявката преди одобрение.'},409)
    if(payload.changeType==='addVariant'){
-    const v=obj(payload.proposedVariant);if(!v||variants.length>=30)return json({error:'Невалиден вариант или достигнат лимит от 30.'},400)
-    const key=str(v._key,80);if(!key||variants.some(x=>x._key===key))return json({error:'Невалиден ключ на варианта.'},409)
-    next=[...variants,v as Variant]
+    const v=obj(payload.proposedVariant),key=str(v?._key,80)
+    if(!v||!key||variants.some(x=>x._key===key)||variants.length>=30)return json({error:'Предложеният вариант вече съществува или не е валиден.'},409)
    }else if(payload.changeType==='editPrice'){
     const key=str(payload.variantKey,80),price=num(payload.newPriceEUR,.01)
-    if(!variants.some(x=>x._key===key)||price===null)return json({error:'Вариантът или цената са невалидни.'},400)
-    next=variants.map(x=>x._key===key?{...x,priceEUR:price}:x)
+    if(!variants.some(x=>x._key===key)||price===null)return json({error:'Вариантът или новата цена са невалидни.'},400)
    }else return json({error:'Unknown change type.'},400)
-   await mutate(next,current._id,current._rev)
-   const updated=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(submitted,in_review)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'published',reviewed_by:user.id,reviewed_at:new Date().toISOString(),published_at:new Date().toISOString(),updated_at:new Date().toISOString()})})
-   if(!updated.ok)return json({error:'Каталогът е променен, но статусът на заявката не се обнови. Проверете заявката преди повторение.'},502)
-   await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_published',from_status:sub.status,to_status:'published',note:payload.changeType==='addVariant'?'Добавен е вариант към съществуващо растение.':'Обновена е цената на вариант.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
-   return json({ok:true})
-  }catch(e){return json({error:e instanceof Error?e.message:'Не удалось применить изменение.'},502)}
+   const now=new Date().toISOString()
+   const approved=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(submitted,in_review)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'approved',reviewed_by:user.id,reviewed_at:now,updated_at:now})})
+   if(!approved.ok)return json({error:'Заявката не можа да бъде одобрена. Обновете списъка и опитайте отново.'},409)
+   await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_approved',from_status:sub.status,to_status:'approved',note:'Промяната е одобрена и очаква отделна публикация.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
+   return json({ok:true,status:'approved'})
+  }
+  if(!['approved','publish_failed'].includes(sub.status))return json({error:'Първо одобрете заявката. Публикуването е отделна стъпка.'},409)
+  let next:Variant[]|null=null
+  let alreadyApplied=false
+  if(payload.changeType==='addVariant'){
+   const v=obj(payload.proposedVariant) as Variant|null,key=str(v?._key,80)
+   if(!v||!key)return json({error:'Невалиден вариант в заявката.'},400)
+   const existing=variants.find(x=>x._key===key)
+   if(existing){
+    alreadyApplied=existing.name===v.name&&(existing.saleHeightCm??null)===(v.saleHeightCm??null)&&(existing.containerVolumeL??null)===(v.containerVolumeL??null)&&(existing.priceEUR??null)===(v.priceEUR??null)&&existing.stockStatus===v.stockStatus&&(existing.stockQuantity??null)===(v.stockQuantity??null)
+    if(!alreadyApplied)return json({error:'Ключът на варианта вече използван с други данни. Нужна е ръчна проверка.'},409)
+   }else{
+    if(current._rev!==sub.target_revision)return json({error:'Растението е променено след одобрението. Проверете каталога и създайте нова заявка.'},409)
+    if(variants.length>=30)return json({error:'Достигнат е лимитът от 30 варианта.'},409)
+    next=[...variants,v]
+   }
+  }else if(payload.changeType==='editPrice'){
+   const key=str(payload.variantKey,80),price=num(payload.newPriceEUR,.01),variant=variants.find(x=>x._key===key)
+   if(!variant||price===null)return json({error:'Вариантът или новата цена са невалидни.'},409)
+   alreadyApplied=variant.priceEUR===price
+   if(!alreadyApplied){
+    if(current._rev!==sub.target_revision)return json({error:'Растението е променено след одобрението. Проверете каталога и създайте нова заявка.'},409)
+    next=variants.map(x=>x._key===key?{...x,priceEUR:price}:x)
+   }
+  }else return json({error:'Unknown change type.'},400)
+  if(!alreadyApplied&&next){
+   try{await mutate(next,current._id,current._rev)}
+   catch(e){
+    const message=e instanceof Error?e.message:'Не удалось применить изменение.'
+    await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(approved,publish_failed)',{method:'PATCH',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({status:'publish_failed',publish_error:message,updated_at:new Date().toISOString()})})
+    return json({error:message},502)
+   }
+  }
+  const now=new Date().toISOString()
+  const published=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(approved,publish_failed)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'published',published_at:now,publish_error:null,updated_at:now})})
+  if(!published.ok)return json({error:'Каталогът е променен, но статусът на заявката не се обнови. Повторното публикуване е безопасно.'},502)
+  await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_published',from_status:sub.status,to_status:'published',note:alreadyApplied?'Публикацията е потвърдена при повторна проверка.':'Промяната е публикувана в каталога.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
+  return json({ok:true,status:'published',alreadyApplied})
  }
  if(profile.role!=='owner'&&profile.role!=='seller'&&profile.role!=='manager')return json({error:'Staff access required.'},403)
  const action=body.action
