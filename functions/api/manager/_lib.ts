@@ -28,8 +28,9 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   else if (value && typeof value === 'object' && !Array.isArray(value)) source = value as Record<string, unknown>
   return Object.fromEntries(STAFF_PERMISSION_KEYS.map((key) => [key, typeof source[key] === 'boolean' ? source[key] : DEFAULT_STAFF_PERMISSIONS[key]])) as unknown as StaffPermissions
 }
+const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics']
 export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) =>
-  user.role === 'owner' || user.permissionsObject[key] === true
+  user.role === 'owner' || (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
 export type StaffProfile = {
   user_id: string
   email: string
