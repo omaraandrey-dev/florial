@@ -1,4 +1,4 @@
-import { json, nowIso, requireUser, type ManagerEnv } from './_lib'
+import { hasPermission, json, nowIso, requireUser, type ManagerEnv } from './_lib'
 
 type Submission = { id:string; title:string; sku:string|null; catalog:string; operation:string; status:string; created_by:string; submitted_at:string|null; notification_sent_at:string|null }
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]||char))
@@ -13,7 +13,8 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
  const id=typeof body.submissionId==='string'?body.submissionId:''
  if(!/^[0-9a-f-]{36}$/i.test(id))return json({error:'Invalid submission.'},400)
  const submission=await env.DB.prepare('SELECT id,title,sku,catalog,operation,status,created_by,submitted_at,notification_sent_at FROM catalog_submissions WHERE id=?').bind(id).first<Submission>()
- if(!submission||(auth.user.role==='seller'&&submission.created_by!==auth.user.user_id))return json({error:'Submission not found.'},404)
+ if(!submission||(submission.created_by!==auth.user.user_id&&!hasPermission(auth.user,'canReviewPlantSubmissions')))return json({error:'Submission not found.'},404)
+ if(submission.created_by===auth.user.user_id&&!hasPermission(auth.user,'canCreatePlant'))return json({error:'Нямате право да изпращате заявки за растения.'},403)
  if(submission.status!=='submitted')return json({error:'Submission is not awaiting review.'},409)
  if(submission.notification_sent_at)return json({ok:true,alreadySent:true})
  const recipient=env.CATALOG_REVIEW_EMAIL||env.ORDER_NOTIFICATION_EMAIL
