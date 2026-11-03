@@ -9,6 +9,9 @@ type Props = { accessToken: string; canAddVariant: boolean; canEditPrice: boolea
 const field = 'mt-1 w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const label = 'block text-sm font-semibold text-stone-700'
 const categoryId = (item: PlantCategory) => item._id
+function collectCategoryIds(id: string, children: Map<string, PlantCategory[]>): string[] {
+  return [id, ...(children.get(id) || []).flatMap((item) => collectCategoryIds(item._id, children))]
+}
 export default function PlantCatalogChangeForm({ accessToken, canAddVariant, canEditPrice, initialMode, categories, onSubmitted, onBack }: Props) {
   const [plants, setPlants] = useState<Plant[]>([])
   const [plantId, setPlantId] = useState('')
@@ -37,13 +40,9 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
     })
     return result
   }, [categories])
-  const descendants = (id: string): string[] => {
-    const children = categoryChildren.get(id) || []
-    return [id, ...children.flatMap((child) => descendants(categoryId(child)))]
-  }
   const visiblePlants = useMemo(() => {
     const term = search.trim().toLocaleLowerCase()
-    const allowed = activeCategory ? new Set(descendants(activeCategory)) : null
+    const allowed = activeCategory ? new Set(collectCategoryIds(activeCategory, categoryChildren)) : null
     return plants.filter((item) => {
       const matchesSearch = !term || [item.name, item.scientificName, item.sku].some((value) => value?.toLocaleLowerCase().includes(term))
       return matchesSearch && (!allowed || (item.categoryId && allowed.has(item.categoryId)))
@@ -131,6 +130,7 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
         <label className={label}>Наличност<select className={field} value={stockStatus} onChange={(event) => setStockStatus(event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Изчерпан</option></select></label>
         <label className={label}>Количество<input className={field} type="number" min="0" step="1" value={quantity} onChange={(event) => setQuantity(event.target.value)} /></label>
       </div> : <>
+        {!variants.length && <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900">За това растение все още няма добавени размери или варианти. Използвайте „Добавяне на размер“.</p>}
         <label className={label}>Вариант<select className={field} value={variantKey} onChange={(event) => setVariantKey(event.target.value)}>{variants.map((item) => <option key={item._key} value={item._key}>{item.name || item._key} · {typeof item.priceEUR === 'number' ? item.priceEUR.toFixed(2) + ' €' : 'Няма зададена цена'}</option>)}</select></label>
         {selected && <p className="text-sm text-stone-600">Текуща цена: {typeof selected.priceEUR === 'number' ? selected.priceEUR.toFixed(2) + ' €' : 'не е зададена'}</p>}
         <label className={label}>Нова цена с ДДС (EUR) *<input className={field} type="number" min="0.01" step="0.01" value={price} onChange={(event) => setPrice(event.target.value)} required /></label>
