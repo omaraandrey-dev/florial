@@ -159,7 +159,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
   const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
   const profile = profiles[0]
-  if (!profile || profile.is_active !== true || profile.role !== 'owner' && profile.permissions?.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
+  if (!profile || profile.is_active !== true || profile.role !== 'owner' && (profile.role !== 'manager' || profile.permissions?.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
 
   submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
