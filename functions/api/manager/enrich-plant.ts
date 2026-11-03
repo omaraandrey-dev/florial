@@ -100,14 +100,14 @@ function modelText(response: unknown) {
   const value = result?.response ?? result?.result ?? result?.output_text ?? result?.text
   if (typeof value === 'string') return value
   if (value && typeof value === 'object') return JSON.stringify(value)
-  throw new Error('AI model returned an empty response.')
+  throw new Error('Моделът с ИИ не върна отговор.')
 }
 function parseModelJson(response: unknown) {
   const raw = modelText(response).trim().replace(/^\uFEFF/, '')
   const clean = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const start = clean.indexOf('{')
   const end = clean.lastIndexOf('}')
-  if (start < 0 || end <= start) throw new Error('AI model did not return valid JSON.')
+  if (start < 0 || end <= start) throw new Error('Моделът с ИИ не върна валиден JSON.')
   return JSON.parse(clean.slice(start, end + 1)) as Record<string, unknown>
 }
 
@@ -130,14 +130,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const userResponse = await fetch(base + '/internal-d1/auth/user', {
     headers: { apikey: D1_INTERNAL_HEADER, Authorization: 'Bearer ' + accessToken },
   })
-  if (!userResponse.ok) return json({ error: 'Invalid or expired session.' }, 401)
+  if (!userResponse.ok) return json({ error: 'Сесията е невалидна или е изтекла.' }, 401)
   const caller = await userResponse.json() as { id?: string }
-  if (!caller.id) return json({ error: 'Invalid session.' }, 401)
+  if (!caller.id) return json({ error: 'Невалидна сесия.' }, 401)
   const profileResponse = await fetch(
     base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active,permissions',
     { headers: adminHeaders },
   )
-  if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
+  if (!profileResponse.ok) return json({ error: 'Не успяхме да проверим правата за достъп.' }, 503)
   const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
   const profile = profiles[0]
   if (!profile || profile.is_active !== true || profile.role !== 'owner' && (profile.role !== 'manager' || profile.permissions?.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате карти на растения.' }, 403)
@@ -145,24 +145,24 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   let body: Record<string, unknown>
   try {
     const parsed = object(await request.json())
-    if (!parsed) return json({ error: 'Invalid request body.' }, 400)
+    if (!parsed) return json({ error: 'Невалидни данни в заявката.' }, 400)
     body = parsed
-  } catch { return json({ error: 'Invalid request body.' }, 400) }
+  } catch { return json({ error: 'Невалидни данни в заявката.' }, 400) }
   const submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) {
-    return json({ error: 'Invalid submission ID.' }, 400)
+    return json({ error: 'Невалиден идентификатор на заявката.' }, 400)
   }
   const submissionResponse = await fetch(
     base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) +
       '&select=id,catalog,operation,status,created_by,updated_at,payload',
     { headers: adminHeaders },
   )
-  if (!submissionResponse.ok) return json({ error: 'Unable to load submission.' }, 502)
+  if (!submissionResponse.ok) return json({ error: 'Не успяхме да заредим заявката.' }, 502)
   const rows = await submissionResponse.json() as SubmissionRow[]
   const submission = rows[0]
-  if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Plant submission not found.' }, 404)
+  if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') return json({ error: 'Заявката за растението не е намерена.' }, 404)
   if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) {
-    return json({ error: 'Only a plant submission under owner review can be enriched.' }, 409)
+    return json({ error: 'Подготовка с ИИ е възможна само за заявка за растение, която е в процес на преглед.' }, 409)
   }
 
   const payload = object(submission.payload) || {}
@@ -216,11 +216,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const images = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
   if (images.length > 10) return json({ error: 'Заявката може да съдържа максимум 10 избрани снимки.' }, 400)
   if (images.some((image) => !sellerImages.some((sellerImage) => sellerImage.path === image?.path))) {
-    return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
+    return json({ error: 'Избраната снимка не принадлежи към първоначалната заявка на продавача.' }, 400)
   }
   if (images.some((image) => !image || typeof image.assetId !== 'string' || !/^image-[A-Za-z0-9-]+$/.test(image.assetId) ||
       typeof (image.url || image.path) !== 'string' || !/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(image.url || image.path))) {
-    return json({ error: 'A photo path does not belong to this submission.' }, 400)
+    return json({ error: 'Пътят към снимката не принадлежи към тази заявка.' }, 400)
   }
 
   let stage: AiStage = 'validate'
@@ -242,7 +242,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       imageIndex = index
       stage = 'download_image'
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.type) || image.size <= 0 || image.size > 10 * 1024 * 1024) {
-        throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
+        throw new Error('Снимка ' + (index + 1) + ' е в неподдържан формат или размер.')
       }
       const imageUrl = image.url || image.path
       if (!/^https:\/\//i.test(imageUrl)) throw new Error('Снимка ' + (index + 1) + ' няма валиден адрес към Sanity Asset.')
@@ -269,7 +269,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         .replace(/^["'“”]+|["'“”]+$/g, '')
         .replace(/\s+/g, ' ')
         .slice(0, 180)
-      if (!rawAlt) throw new Error('AI image model returned an empty description.')
+      if (!rawAlt) throw new Error('Моделът за изображения не върна описание.')
       imageDescriptions.push({
         bg: rawAlt,
         en: name + ' — plant photo',
@@ -380,9 +380,9 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
       body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
     })
-    if (!save.ok) throw new Error('AI draft was generated but could not be saved.')
+    if (!save.ok) throw new Error('Черновата на ИИ е генерирана, но не успяхме да я запазим.')
     const savedRows = await save.json() as Array<{ id: string }>
-    if (!savedRows.length) return json({ error: 'The submission changed. Reload and try again.' }, 409)
+    if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете страницата и опитайте отново.' }, 409)
     await fetch(base + '/internal-d1/data/catalog_submission_events', {
       method: 'POST', headers: { ...adminHeaders, Prefer: 'return=minimal' },
       body: JSON.stringify({ submission_id: submissionId, actor_id: caller.id, event_type: 'ai_draft_generated',
