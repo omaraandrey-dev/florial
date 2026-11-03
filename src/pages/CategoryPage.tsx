@@ -286,16 +286,55 @@ export function CategoryPage({
           })}
         </section>
       ) : subCategories.length > 0 ? (
-        <div className="mb-8">
+        <section className="mb-9" aria-label={language === 'ru' ? 'Подкатегории растений' : language === 'en' ? 'Plant subcategories' : 'Подкатегории растения'}>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}</p>
-          <div className="flex flex-wrap gap-2">
-            {subCategories.map((subCat) => (
-              <a key={subCat._id} href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#F7F8F1]">
-                {localize(subCat, 'name')} →
-              </a>
-            ))}
-          </div>
-        </div>
+          {category.isPlantCategory ? (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+              {subCategories.map((subCat) => {
+                const name = String(localize(subCat, 'name') || subCat.name)
+                return (
+                  <a
+                    key={subCat._id}
+                    href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)}
+                    onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))}
+                    className="group overflow-hidden rounded-2xl border border-[#E5E8DC] bg-white text-slate-800 no-underline shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2"
+                  >
+                    <div className="aspect-[5/4] overflow-hidden bg-[#F3F5EC]">
+                      {subCat.imageUrl ? (
+                        <img
+                          src={subCat.imageUrl}
+                          alt={name}
+                          title={name}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center px-2 text-center text-xs text-slate-400">
+                          {language === 'ru' ? 'Фото скоро появится' : language === 'en' ? 'Photo coming soon' : 'Снимката скоро ще бъде добавена'}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex min-h-[58px] items-center justify-between gap-2 px-3 py-3 sm:px-4">
+                      <span className="text-sm font-semibold leading-snug text-slate-800 transition-colors group-hover:text-[#647746] sm:text-base">
+                        {name}
+                      </span>
+                      <span aria-hidden="true" className="shrink-0 text-lg leading-none text-[#82936A] transition-transform group-hover:translate-x-0.5">→</span>
+                    </div>
+                  </a>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {subCategories.map((subCat) => (
+                <a key={subCat._id} href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#F7F8F1]">
+                  {localize(subCat, 'name')} →
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
       ) : null}
 
       {category.isPlantCategory && products.length > 0 && (
