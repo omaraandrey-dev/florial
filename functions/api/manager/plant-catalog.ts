@@ -31,11 +31,11 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  if(!pr.ok)return json({error:'Unable to verify staff permissions.'},503)
  const profiles=await pr.json() as Profile[],profile=profiles[0]
  if(!profile||!profile.is_active)return json({error:'Active staff access required.'},403)
- const query=async<T>(q:string):Promise<T>=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}});if(!r.ok)throw new Error('Не удалось прочитать каталог растений в Sanity.');return (await r.json() as {result:T}).result}
- const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не принял изменение. Возможно, документ уже изменён; обновите заявку.')}
+ const query=async<T>(q:string):Promise<T>=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}});if(!r.ok)throw new Error('Не успяхме да прочетем каталога с растения в Sanity.');return (await r.json() as {result:T}).result}
+ const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
   if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,sku,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не удалось загрузить каталог.'},502)}
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && defined(saleVariants) && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,sku,saleVariants}')})}catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да заредим каталога.'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
@@ -97,7 +97,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
   if(!alreadyApplied&&next){
    try{await mutate(next,current._id,current._rev)}
    catch(e){
-    const message=e instanceof Error?e.message:'Не удалось применить изменение.'
+    const message=e instanceof Error?e.message:'Не успяхме да приложим промяната.'
     await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(approved,publish_failed)',{method:'PATCH',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({status:'publish_failed',publish_error:message,updated_at:new Date().toISOString()})})
     return json({error:message},502)
    }
@@ -134,8 +134,8 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
    payload={changeType:'editPrice',targetName:plant.name,variantKey:key,variantName:variant.name||'',oldPriceEUR:variant.priceEUR??null,newPriceEUR:price}
   }
   const insert=await fetch(base+'/internal-d1/data/catalog_submissions',{method:'POST',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({catalog:'plants',operation:'update',target_document_id:targetId,target_revision:rev,title:plant.name,sku:plant.sku||null,payload,status:'submitted',created_by:user.id,submitted_at:new Date().toISOString()})})
-  if(!insert.ok)return json({error:'Не удалось создать заявку на изменение каталога.'},502)
-  const rows=await insert.json() as Array<{id:string}>;if(!rows[0]?.id)return json({error:'Заявка создана без идентификатора.'},502)
+  if(!insert.ok)return json({error:'Не успяхме да създадем заявка за промяна на каталога.'},502)
+  const rows=await insert.json() as Array<{id:string}>;if(!rows[0]?.id)return json({error:'Заявката е създадена без идентификатор.'},502)
   return json({ok:true,submissionId:rows[0].id},201)
- }catch(e){return json({error:e instanceof Error?e.message:'Не удалось подготовить заявку.'},400)}
+ }catch(e){return json({error:e instanceof Error?e.message:'Не успяхме да подготвим заявката.'},400)}
 }
