@@ -5,6 +5,7 @@ import type { PlantCategory } from './plantCategories'
 type Variant = {
   _key: string
   name?: string
+  sku?: string
   saleHeightCm?: number
   containerVolumeL?: number
   stockQuantity?: number | null
@@ -24,6 +25,7 @@ type StockRow = {
   plant: Plant
   variantKey: string
   label: string
+  sku?: string
   quantity: number | null
 }
 type Props = { accessToken: string; categories: PlantCategory[]; onBack: () => void }
@@ -103,6 +105,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
       plant,
       variantKey: variant._key,
       label: variantLabel(variant),
+      sku: variant.sku || plant.sku,
       quantity: typeof variant.stockQuantity === 'number' ? variant.stockQuantity : null,
     }))
     return [{
@@ -110,11 +113,12 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
       plant,
       variantKey: '',
       label: 'Стандартен размер',
+      sku: plant.sku,
       quantity: typeof plant.stockQuantity === 'number' ? plant.stockQuantity : null,
     }]
   }).filter((row) => {
     const term = search.trim().toLocaleLowerCase()
-    const matchesSearch = !term || [row.plant.name, row.plant.scientificName, row.plant.sku, row.label]
+    const matchesSearch = !term || [row.plant.name, row.plant.scientificName, row.sku, row.label]
       .some((value) => value?.toLocaleLowerCase().includes(term))
     const matchesCategory = !allowedCategoryIds || (!!row.plant.categoryId && allowedCategoryIds.has(row.plant.categoryId))
     return matchesSearch && matchesCategory
@@ -202,7 +206,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
             <span className="w-12 shrink-0 text-center text-lg font-semibold tabular-nums text-stone-900">{row.quantity ?? '—'}</span>
             <span className="min-w-0 flex-1">
               <span className="block truncate font-semibold text-stone-900">{row.plant.name}</span>
-              <span className="mt-0.5 block truncate text-sm text-stone-600">{row.plant.saleVariants?.length ? row.label : row.label}{row.plant.sku ? ' · SKU ' + row.plant.sku : ''}</span>
+              <span className="mt-0.5 block truncate text-sm text-stone-600">{row.plant.saleVariants?.length ? row.label : row.label}{row.sku ? ' · SKU ' + row.sku : ''}</span>
               {row.plant.scientificName && <span className="mt-0.5 block truncate text-xs italic text-stone-500">{row.plant.scientificName}</span>}
             </span>
             <span className="shrink-0 text-sm font-semibold text-lime-800">Избери</span>
@@ -216,7 +220,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
           <h3 className="mt-1 text-lg font-semibold">{selected.plant.name}</h3>
           <p className="mt-1 text-sm text-stone-700">{selected.label}</p>
           {selected.plant.scientificName && <p className="text-sm italic text-stone-500">{selected.plant.scientificName}</p>}
-          {selected.plant.sku && <p className="mt-1 text-xs text-stone-500">SKU: {selected.plant.sku}</p>}
+          {selected.sku && <p className="mt-1 text-xs text-stone-500">SKU: {selected.sku}</p>}
         </div>
         <button type="button" onClick={() => { setSelectedId(''); setError(''); setNotice('') }} className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-semibold">Назад к каталогу</button>
       </div>
