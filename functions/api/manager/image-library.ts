@@ -33,7 +33,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
     })
     if (!response.ok) return json({ error: 'Не успяхме да получим библиотеката със снимки от Sanity.' }, 502)
     const body = await response.json() as { result?: SanityAsset[] }
-    const data = (Array.isArray(body.result) ? body.result : []).flatMap((asset) => {
+    const rawAssets = Array.isArray(body.result) ? body.result : []
+    const data = rawAssets.flatMap((asset) => {
       const assetId = typeof asset._id === 'string' ? asset._id : ''
       const url = typeof asset.url === 'string' ? asset.url : ''
       if (!/^image-[A-Za-z0-9-]+$/.test(assetId) || !url.startsWith('https://cdn.sanity.io/images/' + project + '/' + dataset + '/')) return []
@@ -51,7 +52,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
         height: typeof asset.height === 'number' ? asset.height : undefined,
       }]
     })
-    return json({ data, error: null, hasMore: data.length === pageSize, nextOffset: offset + data.length })
+    return json({ data, error: null, hasMore: rawAssets.length === pageSize, nextOffset: offset + rawAssets.length })
   } catch {
     return json({ error: 'Не успяхме да се свържем с библиотеката със снимки в Sanity.' }, 502)
   }
