@@ -182,9 +182,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
             'Plant type: ' + textValue(reviewInput.productType ?? existingDraft.productType ?? payload.productType, 40),
             'Category: ' + textValue(reviewInput.categoryName ?? existingDraft.categoryName ?? payload.categoryName, 120),
             'Seller description: ' + textValue(reviewInput.description ?? existingDraft.description ?? payload.description, 700),
-            'If the name is incomplete or ambiguous, offer distinct candidates with medium/low confidence and explain the uncertainty in Russian. If there is no defensible candidate, return an empty array.',
-            'Each candidate must have a Latin binomial, confidence high|medium|low, and a short reason in Russian.',
-            'JSON shape: {"candidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Возможное соответствие; требуется проверка по GBIF и фотографии."}]}',
+            'If the name is incomplete or ambiguous, offer distinct candidates with medium/low confidence and explain the uncertainty in Bulgarian. If there is no defensible candidate, return an empty array.',
+            'Each candidate must have a Latin binomial, confidence high|medium|low, and a short reason in Bulgarian.',
+            'JSON shape: {"candidates":[{"scientificName":"Thuja occidentalis","confidence":"medium","reason":"Възможно съответствие; необходима е проверка чрез GBIF и снимка."}]}',
           ].join('\n') },
         ],
         response_format: { type: 'json_object' }, max_tokens: 900, temperature: 0.1,
@@ -303,7 +303,7 @@ FACTUAL SAFETY:
 - Never change or fabricate price, stock, sale size, pot volume, SKU, category or delivery terms.
 - Do not identify a species solely from photos. If botanical identity is uncertain, keep scientificName empty and use cautious generic copy.
 - Never fill scientificName with a guessed value. If the owner supplied a botanical name, preserve that exact input; otherwise scientificName must be an empty string.
-- Add scientificNameCandidates: up to 3 possible Latin binomials based ONLY on the seller's entered plant name, selected plant type, category and seller description. Ignore all photo observations for this field. If the common name is incomplete or ambiguous, offer distinct plausible species with medium/low confidence or return an empty array. Never invent a cultivar. Each candidate must contain scientificName, confidence (high|medium|low), and a short reason in Russian. These are suggestions only, not verified names.
+- Add scientificNameCandidates: up to 3 possible Latin binomials based ONLY on the seller's entered plant name, selected plant type, category and seller description. Ignore all photo observations for this field. If the common name is incomplete or ambiguous, offer distinct plausible species with medium/low confidence or return an empty array. Never invent a cultivar. Each candidate must contain scientificName, confidence (high|medium|low), and a short reason in Bulgarian. These are suggestions only, not verified names.
 - Do not invent precise hardiness, minimum winter temperature, adult height, flowering months, toxicity, pet safety or care requirements. You may suggest minWinterTempC, adultHeightCm and blackSeaCoast only when well-established for the confirmed botanical species; these are AI suggestions and MUST be checked by the owner before publication. Otherwise return null / "needsVerification".
 - Care fields are suggestions for owner verification. If uncertain use null. Do not add irrigation product slugs.
 SHORT COPY AND IMAGES:
