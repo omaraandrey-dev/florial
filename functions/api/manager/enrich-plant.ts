@@ -214,7 +214,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const variant = reviewedVariant || originalVariant
   const sellerImages = Array.isArray(payload.images) ? payload.images as IntakeImage[] : []
   const images = Array.isArray(payload.reviewImages) ? payload.reviewImages as IntakeImage[] : sellerImages
-  if (images.length > 8) return json({ error: 'The submission can contain no more than 8 selected photos.' }, 400)
+  if (images.length > 10) return json({ error: 'Заявката може да съдържа максимум 10 избрани снимки.' }, 400)
   if (images.some((image) => !sellerImages.some((sellerImage) => sellerImage.path === image?.path))) {
     return json({ error: 'A selected photo does not belong to the original seller submission.' }, 400)
   }
