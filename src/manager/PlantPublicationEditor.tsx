@@ -568,6 +568,7 @@ export default function PlantPublicationEditor({
   }
 
   return (
+    <>
     <section className="rounded-2xl border border-lime-300 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -788,6 +789,27 @@ export default function PlantPublicationEditor({
         </div>
       </form>
     </section>
+      {diagnosticReport && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-3" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDiagnosticReport(null) }}>
+        <section role="dialog" aria-modal="true" aria-labelledby="diagnostic-title" className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl">
+          <div className="flex items-start justify-between gap-3">
+            <div><h2 id="diagnostic-title" className="text-lg font-semibold text-stone-900">{diagnosticReport.title}</h2><p className="mt-2 text-sm text-stone-600">{diagnosticReport.summary}</p></div>
+            <button type="button" onClick={() => setDiagnosticReport(null)} aria-label="Затвори диагностиката" className="rounded-full border border-stone-300 px-3 py-1 text-xl leading-6 text-stone-600">×</button>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-sm font-semibold">Етапи на обработката</h3>
+            {diagnosticReport.steps.length === 0 ? <p className="mt-2 text-sm text-stone-500">Списокът с етапи не е върнат от сървъра.</p> : <ol className="mt-2 space-y-2">
+              {diagnosticReport.steps.map((step, index) => <li key={index} className="rounded-xl border border-stone-200 p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-sm font-semibold">{diagnosticStageNames[String(step.stage || '')] || String(step.stage || 'Етап')}</span><span className={'text-xs font-semibold ' + (step.ok === false ? 'text-red-700' : 'text-emerald-700')}>{step.ok === false ? 'Неуспешно' : 'Успешно'}</span></div>
+                <dl className="mt-2 grid gap-x-4 gap-y-1 sm:grid-cols-2">{Object.entries(step).filter(([key, value]) => !['stage', 'ok'].includes(key) && value != null && value !== '').map(([key, value]) => <div key={key} className="min-w-0"><dt className="text-[11px] uppercase tracking-wide text-stone-500">{key}</dt><dd className="break-words whitespace-pre-wrap text-xs text-stone-800">{diagnosticText(value)}</dd></div>)}</dl>
+              </li>)}
+            </ol>}
+          </div>
+          {diagnosticReport.changes && diagnosticReport.changes.length > 0 && <div className="mt-4"><h3 className="text-sm font-semibold">Какво е намерено или подготвено</h3><dl className="mt-2 space-y-2">{diagnosticReport.changes.map((change, index) => <div key={index} className="rounded-lg bg-stone-50 p-3"><dt className="text-xs font-semibold text-stone-500">{change.label}</dt><dd className="mt-1 break-words whitespace-pre-wrap text-sm text-stone-900">{change.value}</dd></div>)}</dl></div>}
+          {diagnosticReport.technical && diagnosticReport.technical !== '—' && <details className="mt-4 rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer text-sm font-semibold">Технические подробности</summary><pre className="mt-2 whitespace-pre-wrap break-words text-xs text-stone-600">{diagnosticReport.technical}</pre></details>}
+          <div className="mt-5 flex justify-end"><button type="button" onClick={() => setDiagnosticReport(null)} className="rounded-xl bg-stone-800 px-5 py-2.5 text-sm font-semibold text-white">Закрыть</button></div>
+        </section>
+      </div>}
+    </>
   )
 }
 
