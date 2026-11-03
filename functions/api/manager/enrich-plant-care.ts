@@ -463,6 +463,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     },
     plantCare, careGuide, confidence: fieldConfidence, generatedAt: new Date().toISOString(),
     careDataNotice: 'Агротехническите характеристики са AI предложения по приетото таксономично име. GBIF потвърждава само таксономията. Разпознаването по снимка е предварително. Всички стойности и идентичността на растението трябва да бъдат проверени от собственика преди публикация.',
+    diagnostics: [...diagnosticSteps],
   }
   const nextAiDraft = {
     ...aiDraft,
@@ -562,7 +563,9 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
 
     const statusResponse = await env.PLANT_CARE_WORKFLOW.fetch(new Request('https://plant-care-workflow/status?id=' + encodeURIComponent(workflowId)))
     const statusBody = await statusResponse.json().catch(() => ({})) as Record<string, unknown>
-    return json(statusBody, statusResponse.status)
+    const savedCareDraft = object(object(submission.payload)?.plantCareResearch)
+    const savedDiagnostics = Array.isArray(savedCareDraft?.diagnostics) ? savedCareDraft.diagnostics : []
+    return json({ ...statusBody, careDraft: savedCareDraft, diagnostics: savedDiagnostics }, statusResponse.status)
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error)
     console.error('[florial:plant-care-workflow-status]', detail.slice(0, 400))
