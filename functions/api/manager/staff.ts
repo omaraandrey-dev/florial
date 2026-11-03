@@ -45,6 +45,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
   if(!requested)return json({error:'Невалиден набор от права.'},400)
   if(!owner){
    if(!actorPermissions.canDelegatePermissions&&body.permissions!==undefined)return json({error:'Нямате право да задавате разрешения.'},403)
+   if(requested.canEditPlantStock)return json({error:'Правото за промяна на количествата може да бъде предоставено само от собственика.'},403)
    for(const key of STAFF_PERMISSION_KEYS){
     if(requested[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
    }
@@ -94,6 +95,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
    if(!owner&&!actorPermissions.canDelegatePermissions)return json({error:'Нямате право да делегирате разрешения.'},403)
    const parsed=allPermissions(body.permissions)
    if(!parsed)return json({error:'Невалидни права на служителя.'},400)
+   if(!owner&&parsed.canEditPlantStock!==before.canEditPlantStock)return json({error:'Правото за промяна на количествата може да бъде променено само от собственика.'},403)
    if(!owner)for(const key of STAFF_PERMISSION_KEYS as StaffPermissionKey[])if(parsed[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
    if(nextRole==='seller'&&(parsed.canEditPlantCard||parsed.canReviewPlantSubmissions||parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
    after=parsed;permissionsChanged=true
