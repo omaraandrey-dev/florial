@@ -560,3 +560,32 @@ Following the owner's explicit approval, the existing active manager profile was
 Enabled: `canManageStaff`, `canDelegatePermissions`, `canReviewPlantSubmissions`, `canApprovePlantSubmission`, `canPublishPlant`.
 
 Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain true; `canEditPlantCard` and `canViewAnalytics` remain false. The updated profile was read back from Production D1 and the change was recorded in `catalog_staff_permission_events` with the owner as actor. The manager can manage only staff profiles created directly by her and can delegate only permissions she personally holds.
+
+
+## 2026-11-03 — Manager: фотографии, AI-проверка и просмотр заказов
+
+### Лимит фотографий растений
+- На одну заявку/карточку допускается максимум 10 фотографий.
+- Ограничение синхронизировано в `src/manager/ManagerApp.tsx`, `functions/api/manager/enrich-plant.ts`, `functions/api/manager/enrich-plant-care.ts` и `functions/api/manager/publish-plant.ts`.
+- Размер каждого файла по-прежнему ограничен 10 MB; разрешены JPEG, PNG и WebP.
+- Общая библиотека изображений остаётся в Sanity dataset `plants`; выбор существующего asset не удаляет оригинал из Sanity.
+
+### AI и ботаническая проверка
+- Видимые подписи и сообщения по результатам фотоанализа/GBIF в редакторе Manager приведены к болгарскому языку.
+- Генерация предложений латинского имени просит AI возвращать пояснения на болгарском языке.
+- AI/GBIF результаты по-прежнему являются подсказками для сотрудника, а не автоматическим подтверждением вида или автоматической публикацией.
+- Ботаническая проверка остаётся отдельным процессом; агротехнические значения принимаются вручную по каждому полю.
+
+### Просмотр заказов
+- В D1 таблица `orders` подтверждена read-only проверкой; текущая схема включает номер, покупателя, контакты, адрес/город, способ доставки и оплаты, позиции, суммы, статус и дату.
+- Добавлен `GET /api/manager/orders` в `functions/api/manager/orders.ts`.
+- API использует `requireUser` и допускает только активные роли `owner` и `manager`; возвращает до 100 последних заказов, позиции разбираются из JSON.
+- В `src/manager/ManagerApp.tsx` добавлена вкладка «Поръчки» с контактами клиента, товарами, доставкой, оплатой и итоговыми суммами.
+- Раздел является только просмотром. API для изменения статуса, оплаты, доставки или содержимого заказа не добавлялся.
+
+### Границы и статус проверки
+- D1 проверялась только read-only; подтверждены структура таблицы `orders` и наличие одной записи со статусом `new` без чтения персональных данных.
+- Миграции D1 не запускались; записи заказов не создавались и не менялись.
+- Требуется ручная проверка вкладки под реальной owner и manager сессиями и production build/deployment confirmation.
+- Header, публичное меню, Footer, checkout и публичный каталог не изменялись.
+
