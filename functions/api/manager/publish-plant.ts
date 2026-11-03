@@ -5,6 +5,7 @@ import type { ManagerEnv } from './_lib'
 type Env = ManagerEnv
 
 type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
+type StaffPermissions = { canEditPlantCard?: boolean; canPublishPlant?: boolean }
 type SubmissionRow = {
   id: string
   catalog: string
@@ -233,12 +234,15 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!caller.id) return json({ error: 'Invalid session.' }, 401)
 
   const profileResponse = await fetch(
-    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active',
+    base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active,permissions',
     { headers: adminHeaders },
   )
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
-  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
-  if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: StaffPermissions }>
+  const staffProfile = profiles[0]
+  if (!staffProfile || staffProfile.is_active !== true) return json({ error: 'Active staff access required.' }, 403)
+  const isOwner = staffProfile.role === 'owner'
+  const permissions = staffProfile.permissions || {}
 
   let body: Record<string, unknown>
   try {
@@ -268,6 +272,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!submission || submission.catalog !== 'plants' || submission.operation !== 'create') {
     return json({ error: 'Plant submission not found.' }, 404)
   }
+  if (action === 'save' && !isOwner && permissions.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате финалната карта.' }, 403)
+  if (action === 'publish' && !isOwner && permissions.canPublishPlant !== true) return json({ error: 'Нямате право да публикувате растения.' }, 403)
   if (action === 'save' && !['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) {
     return json({ error: 'This plant submission cannot be prepared in its current status.' }, 409)
   }
