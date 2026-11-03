@@ -68,11 +68,11 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
    return json({ok:true})
   }catch(e){return json({error:e instanceof Error?e.message:'Не удалось применить изменение.'},502)}
  }
- if(profile.role!=='seller'&&profile.role!=='manager')return json({error:'Seller or manager access required.'},403)
+ if(profile.role!=='owner'&&profile.role!=='seller'&&profile.role!=='manager')return json({error:'Staff access required.'},403)
  const action=body.action
  if(action!=='submitVariant'&&action!=='submitPrice')return json({error:'Unknown action.'},400)
- if(action==='submitVariant'&&!profile.permissions?.canAddPlantVariant)return json({error:'Нямате право да добавяте размери и варианти.'},403)
- if(action==='submitPrice'&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте цени.'},403)
+ if(profile.role!=='owner'&&action==='submitVariant'&&!profile.permissions?.canAddPlantVariant)return json({error:'Нямате право да добавяте размери и варианти.'},403)
+ if(profile.role!=='owner'&&action==='submitPrice'&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте цени.'},403)
  const targetId=str(body.targetDocumentId,128),rev=str(body.targetRevision,128)
  if(!targetId||!rev)return json({error:'Изберете растение от каталога.'},400)
  try{
