@@ -9,7 +9,7 @@ const allPermissions=(value:unknown):StaffPermissions|null=>{
  if(!isObject(value)||STAFF_PERMISSION_KEYS.some(key=>typeof value[key]!=='boolean'))return null
  return Object.fromEntries(STAFF_PERMISSION_KEYS.map(key=>[key,value[key]])) as StaffPermissions
 }
-const canManage=(role:StaffRole,permissions:StaffPermissions)=>role==='owner'||permissions.canManageStaff
+const canManage=(role:StaffRole,permissions:StaffPermissions)=>role==='owner'||role==='manager'&&permissions.canManageStaff
 const logPermissions=async(env:ManagerEnv,actorId:string,targetId:string,action:string,before:StaffPermissions|null,after:StaffPermissions|null)=>{
  await env.DB!.prepare('INSERT INTO catalog_staff_permission_events (actor_id,target_user_id,action,previous_permissions,new_permissions,created_at) VALUES (?,?,?,?,?,?)')
   .bind(actorId,targetId,action,before?JSON.stringify(before):null,after?JSON.stringify(after):null,nowIso()).run()
