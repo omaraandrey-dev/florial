@@ -730,7 +730,7 @@ export default function PlantPublicationEditor({
         </details>
 
         <div className="flex flex-wrap gap-3">
-          {canEdit && <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карта' : 'Запази финалната версия'}</button>
+          {canEdit && <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карта' : 'Запази финалната версия'}</button>}
           {!reviewMode && canPublish && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
         </div>
       </form>
