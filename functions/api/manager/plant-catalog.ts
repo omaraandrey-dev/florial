@@ -41,10 +41,10 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
    const contentType=r.headers.get('content-type')||'unknown'
    const raw=await r.text().catch(()=>'')
    const detail=raw
-    .replace(/Bearer\\s+[^\\s"'<>]+/gi,'Bearer [REDACTED]')
+    .replace(/Bearer\s+[^\s"'<>]+/gi,'Bearer [REDACTED]')
     .replace(/(?:sk|rk)[a-zA-Z0-9_-]{20,}/g,'[REDACTED_TOKEN]')
-    .replace(/(token|secret|password|authorization)\\s*[:=]\\s*[^,\\s"'<>]+/gi,'$1=[REDACTED]')
-    .replace(/\\s+/g,' ')
+    .replace(/(token|secret|password|authorization)\s*[:=]\s*[^,\s"'<>]+/gi,'$1=[REDACTED]')
+    .replace(/\s+/g,' ')
     .slice(0,600)
    console.error('[manager-plant-catalog-sanity]',JSON.stringify({requestId,stage:'sanity_catalog_query',upstreamStatus:r.status,upstreamStatusText:r.statusText,contentType,responseBody:detail||undefined}))
    throw new Error('Sanity API вернул HTTP '+r.status+'.')
