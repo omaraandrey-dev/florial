@@ -28,7 +28,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
       headers: { Authorization: 'Bearer ' + env.SANITY_API_TOKEN, Accept: 'application/json' },
       cache: 'no-store',
     })
-    if (!response.ok) return json({ error: 'Не удалось получить библиотеку фотографий из Sanity.' }, 502)
+    if (!response.ok) return json({ error: 'Не успяхме да получим библиотеката със снимки от Sanity.' }, 502)
     const body = await response.json() as { result?: SanityAsset[] }
     const data = (Array.isArray(body.result) ? body.result : []).flatMap((asset) => {
       const assetId = typeof asset._id === 'string' ? asset._id : ''
@@ -50,6 +50,6 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
     })
     return json({ data, error: null })
   } catch {
-    return json({ error: 'Не удалось связаться с библиотекой фотографий Sanity.' }, 502)
+    return json({ error: 'Не успяхме да се свържем с библиотеката със снимки в Sanity.' }, 502)
   }
 }
