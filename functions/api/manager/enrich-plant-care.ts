@@ -155,10 +155,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   }
 
   stage = 'owner_authorization'
-  const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active', { headers: adminHeaders })
+  const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(callerId) + '&select=role,is_active,permissions', { headers: adminHeaders })
   if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
-  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
-  if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+  const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
+  const profile = profiles[0]
+  if (!profile || profile.is_active !== true || profile.role !== 'owner' && profile.permissions?.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
 
   submissionId = typeof body.submissionId === 'string' ? body.submissionId : ''
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId)) return json({ error: 'Invalid submission ID.' }, 400)
@@ -541,8 +542,9 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     if (!caller.id) return json({ error: 'Invalid session.' }, 401)
     const profileResponse = await fetch(base + '/internal-d1/data/catalog_staff_profiles?user_id=eq.' + encodeURIComponent(caller.id) + '&select=role,is_active', { headers: adminHeaders })
     if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
-    const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean }>
-    if (profiles[0]?.role !== 'owner' || profiles[0]?.is_active !== true) return json({ error: 'Owner access required.' }, 403)
+    const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
+    const profile = profiles[0]
+    if (!profile || profile.is_active !== true || profile.role !== 'owner' && profile.permissions?.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
 
     const submissionId = requestUrl.searchParams.get('submissionId') || ''
     const workflowId = requestUrl.searchParams.get('workflowId') || ''
