@@ -70,14 +70,14 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   const filters=Array.isArray(body.filters)?body.filters as Array<{column?:string;op?:string;value?:unknown}>:[]
   if (!values || table!=='catalog_submissions' || !filters.length) return json({error:'Invalid update request.'},400)
   const keys=Object.keys(values)
-  const roleUpdate = user.role==='seller' ? new Set(['title','sku','payload','status','submitted_at','updated_at']) : user.role==='manager' ? new Set(['title','sku','payload','status','review_note','reviewed_at','submitted_at','updated_at']) : allowedUpdate
+  const roleUpdate = user.role==='seller' ? new Set(['title','sku','payload','status','submitted_at','updated_at']) : user.role==='manager' ? new Set(['title','sku','payload','status','reviewed_by','review_note','reviewed_at','submitted_at','updated_at']) : allowedUpdate
   if (!keys.length || keys.some(key=>!allowedUpdate.has(key)||!roleUpdate.has(key))) return json({error:'Invalid update fields.'},400)
   const idFilter=filters.find(x=>x.column==='id'&&x.op==='eq')
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
   const existing=await db.prepare('SELECT id,created_by,status,payload FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string}>()
   if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
   const editsCard=keys.some(key=>['title','sku','payload','submitted_at'].includes(key))
-  if(user.role==='manager'&&editsCard&&(!hasPermission(user,'canEditPlantCard')||existing.created_by!==user.user_id))return json({error:'Нямате право да редактирате тази заявка.'},403)
+  if(user.role==='manager'&&editsCard&&!(hasPermission(user,'canEditPlantCard')||existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant')))return json({error:'Нямате право да редактирате тази заявка.'},403)
   if ((user.role==='seller'||user.role==='manager'&&editsCard) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
   if (values.status!==undefined) {
     const next=String(values.status)
