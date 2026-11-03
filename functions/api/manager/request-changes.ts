@@ -1,8 +1,9 @@
-import { json, nowIso, requireUser, type ManagerEnv } from './_lib'
+import { hasPermission, json, nowIso, requireUser, type ManagerEnv } from './_lib'
 export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})=>{
  if(!env.DB)return json({error:'D1 database is not configured.'},503)
- const auth=await requireUser(request,env,['manager','owner'])
+ const auth=await requireUser(request,env)
  if(auth.response||!auth.user)return auth.response||json({error:'Authentication required.'},401)
+ if(!hasPermission(auth.user,'canReviewPlantSubmissions'))return json({error:'Нямате право да проверявате заявки.'},403)
  let body:{submission_id?:unknown;request_note?:unknown}
  try{body=await request.json() as typeof body}catch{return json({error:'Invalid request.'},400)}
  const id=typeof body.submission_id==='string'?body.submission_id:'',note=typeof body.request_note==='string'?body.request_note.trim().slice(0,1000):''
