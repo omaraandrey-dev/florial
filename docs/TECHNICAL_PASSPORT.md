@@ -685,3 +685,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Ограничение: внутренний Manager UI и документация; публичные страницы, Header, меню, Footer, корзина, checkout, права и D1 schema/data не меняются.
 - Ручные проверки перед production: комбинация 2 фото из библиотеки + 1 с телефона; удаление каждого типа фото; сохранение и повторное открытие черновика; проверка owner и manager.
 
+
+
+## 2026-11-03 — Диагностика upstream-ошибок Sanity в Manager plant catalogue API
+
+- `GET /api/manager/plant-catalog` загружает список активных растений из Sanity project `bxvcy0qs`, dataset `plants`.
+- Если Sanity отвечает неуспешным HTTP-статусом, Pages Function пишет в Cloudflare Real-time Logs структурированную запись с request ID, этапом `sanity_catalog_query`, HTTP status/statusText, content-type и безопасным фрагментом тела ответа (до 600 символов).
+- Фрагмент проходит маскирование распространённых Bearer/API-токенов и значений полей token/secret/password/authorization. Не логируются входные заголовки, cookie, токены, payload растений или изображения.
+- Клиенту возвращается JSON HTTP 502 с requestId и stage, чтобы связать сообщение Manager с записью Cloudflare. Технические детали upstream-ответа не передаются клиенту.
+- Commit с изменением кода: `2bafb18a668da4d1d79e79586dd8fa4fca4057ce`; последующее обновление документации фиксирует этот диагностический шаг. Production deployment и ручная проверка ещё ожидаются.
+- Не изменялись D1 schema/records, роли/права, документы и assets Sanity, публичный каталог или checkout.
