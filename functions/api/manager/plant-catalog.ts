@@ -3,7 +3,7 @@ import type { ManagerEnv } from './_lib'
 type Env=ManagerEnv
 type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canEditPlantStock?:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
-type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
+type Variant={_key:string;name?:string;sku?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
 type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;stockQuantity?:number|null;stockStatus?:string;saleVariants?:Variant[]}
 const project='bxvcy0qs',dataset='plants'
 const json=(body:Record<string,unknown>,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})
@@ -145,12 +145,14 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
    if(plant._rev!==expectedRevision)return json({error:'Каталогът е променен от друг служител. Обновете списъка и опитайте отново.'},409)
    const variants=plant.saleVariants||[]
    let previousQuantity:number|null=null
+   let targetSku=plant.sku||null
    let variantLabel='Общо количество'
    let setPatch:Record<string,unknown>
    if(variants.length){
     const index=variants.findIndex(item=>item._key===variantKey)
     if(index<0)return json({error:'Избраният вариант вече не съществува. Обновете каталога.'},409)
     const selected=variants[index]
+    targetSku=selected.sku||plant.sku||null
     previousQuantity=typeof selected.stockQuantity==='number'?selected.stockQuantity:null
     variantLabel=selected.name||[selected.saleHeightCm?selected.saleHeightCm+' см':null,selected.containerVolumeL?'C'+selected.containerVolumeL:null].filter(Boolean).join(' · ')||'Вариант'
     const updated=variants.map((item,i)=>i===index?{...item,stockQuantity:quantity}:item)
@@ -162,7 +164,7 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
    }
    const eventId=crypto.randomUUID(),createdAt=new Date().toISOString()
    const audit=await env.DB!.prepare('INSERT INTO catalog_stock_events (id,actor_id,plant_document_id,plant_name,sku,variant_key,variant_label,previous_quantity,new_quantity,result,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
-    .bind(eventId,user.id,plant._id,plant.name,plant.sku||null,variantKey||null,variantLabel,previousQuantity,quantity,'pending',createdAt).run()
+    .bind(eventId,user.id,plant._id,plant.name,targetSku,variantKey||null,variantLabel,previousQuantity,quantity,'pending',createdAt).run()
    if(!audit.success)return json({error:'Не успяхме да запишем операцията в журнала. Количеството не е променено.'},503)
    try{
     const mutation=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{
