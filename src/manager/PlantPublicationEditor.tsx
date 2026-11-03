@@ -401,13 +401,31 @@ export default function PlantPublicationEditor({
         }
         if (state === 'errored' || state === 'failed' || state === 'terminated') {
           const detail = workflow.error
-          let parsed: Record<string, unknown> = {}
-          if (typeof detail === 'string') { try { parsed = JSON.parse(detail) as Record<string, unknown> } catch { parsed = { message: detail } } }
-          else if (detail && typeof detail === 'object') parsed = detail as Record<string, unknown>
+          const parseErrorEnvelope = (value: unknown): Record<string, unknown> => {
+            if (value && typeof value === 'object') return value as Record<string, unknown>
+            if (typeof value === 'string') {
+              try { const parsed = JSON.parse(value); return parsed && typeof parsed === 'object' ? parsed as Record<string, unknown> : { message: value } }
+              catch { return { message: value } }
+            }
+            return { message: 'Сервер не вернул подробное описание ошибки.' }
+          }
+          let parsed = parseErrorEnvelope(detail)
+          if (typeof parsed.message === 'string') {
+            const nested = parseErrorEnvelope(parsed.message)
+            if (nested.response || nested.diagnostics || nested.httpStatus) parsed = { ...parsed, ...nested, workflowErrorName: parsed.name }
+          }
           const responseBody = parsed.response && typeof parsed.response === 'object' ? parsed.response as Record<string, unknown> : parsed
-          const steps = Array.isArray(responseBody.diagnostics) ? responseBody.diagnostics as Array<Record<string, unknown>> : []
-          const technical = steps.length ? steps.map((step) => diagnosticText(step.detail)).filter((value) => value !== '—').join('\n') : diagnosticText(parsed.message || detail)
-          const message = String(responseBody.error || 'Ботаническая проверка завершилась с ошибкой.')
+          const rawSteps = Array.isArray(responseBody.diagnostics) ? responseBody.diagnostics as Array<Record<string, unknown>> : []
+          const steps = [
+            ...(parsed.httpStatus != null || parsed.workflowErrorName || parsed.name
+              ? [{ stage: 'workflow_error', ok: false, httpStatus: parsed.httpStatus, name: parsed.workflowErrorName || parsed.name }]
+              : []),
+            ...rawSteps,
+          ]
+          const technical = rawSteps.length
+            ? rawSteps.map((step) => step.detail).filter((value) => value != null && value !== '').map(diagnosticText).join('\n')
+            : diagnosticText(responseBody.detail || parsed.message || detail)
+          const message = String(responseBody.error || parsed.error || parsed.message || 'Ботаническая проверка завершилась с ошибкой.')
           hasDetailedReport = true
           setDiagnosticReport({ title: 'Ботаническая проверка', status: 'error', summary: message, steps, technical })
           throw new Error('Проверка завершилась с ошибкой. Подробности находятся в диагностическом окне.')
