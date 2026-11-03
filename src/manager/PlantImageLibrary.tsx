@@ -28,17 +28,43 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
+  const [hasMore, setHasMore] = useState(false)
+  const [nextOffset, setNextOffset] = useState(0)
+  const [loadingMore, setLoadingMore] = useState(false)
 
   useEffect(() => {
     let active = true
-    void managerApi.images.list().then(({ data, error: requestError }) => {
+    setLoading(true)
+    setError('')
+    void managerApi.images.list(0).then(({ data, error: requestError, hasMore: more, nextOffset: next }) => {
       if (!active) return
       if (requestError) setError(requestError.message)
-      else setAssets(data || [])
+      else {
+        setAssets(data || [])
+        setHasMore(more === true)
+        setNextOffset(next ?? (data || []).length)
+      }
       setLoading(false)
     })
     return () => { active = false }
   }, [refreshKey])
+
+  const loadMore = async () => {
+    if (loadingMore || !hasMore) return
+    setLoadingMore(true)
+    setError('')
+    try {
+      const result = await managerApi.images.list(nextOffset)
+      if (result.error) throw new Error(result.error.message)
+      setAssets((current) => [...current, ...(result.data || [])])
+      setHasMore(result.hasMore === true)
+      setNextOffset(result.nextOffset ?? nextOffset)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не успяхме да заредим още снимки.')
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
   const filteredAssets = useMemo(() => {
     const term = search.trim().toLocaleLowerCase()
@@ -81,7 +107,8 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
           })}
         </div>
       )}
-      <p className="mt-3 text-xs text-stone-500">Показват се всички снимки от общата библиотека на растенията, а не само качените от конкретен служител. Файловете в Sanity не се изтриват при премахване от заявка.</p>
+      {hasMore && <button type="button" onClick={() => void loadMore()} disabled={loadingMore || disabled} className="mt-4 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 disabled:opacity-50">{loadingMore ? 'Зареждане…' : 'Зареди още снимки'}</button>}
+      <p className="mt-3 text-xs text-stone-500">Показани: {assets.length}. Показват се всички снимки от общата библиотека на растенията, а не само качените от конкретен служител. Файловете в Sanity не се изтриват при премахване от заявка.</p>
     </section>
   )
 }
