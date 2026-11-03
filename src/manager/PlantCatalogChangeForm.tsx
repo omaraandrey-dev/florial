@@ -52,9 +52,17 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
     let active = true
     fetch('/api/manager/plant-catalog', { headers: { Authorization: 'Bearer ' + accessToken }, cache: 'no-store' })
       .then(async (response) => {
-        const result = await response.json() as { plants?: Plant[]; error?: string }
+        const raw = await response.text()
+        let result: { plants?: Plant[]; error?: string }
+        try {
+          result = JSON.parse(raw) as { plants?: Plant[]; error?: string }
+        } catch {
+          const contentType = response.headers.get('content-type') || 'неизвестен формат'
+          throw new Error('Сървърът върна неочакван отговор (HTTP ' + response.status + ', ' + contentType + ') вместо JSON. API маршрутът не отговори правилно. Обновете страницата; ако проблемът остане, уведомете администратора.')
+        }
         if (!response.ok) throw new Error(result.error || 'Каталогът не може да бъде зареден.')
-        if (active) setPlants(result.plants || [])
+        if (!Array.isArray(result.plants)) throw new Error('Сървърът не върна списък с растения. Обновете страницата и опитайте отново.')
+        if (active) setPlants(result.plants)
       })
       .catch((reason) => { if (active) setError(reason instanceof Error ? reason.message : 'Възникна грешка при зареждането на каталога.') })
       .finally(() => { if (active) setLoading(false) })
@@ -101,7 +109,7 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
     </div>
     {error && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
     {notice && <p role="status" className="mt-3 rounded-lg bg-lime-50 p-3 text-sm text-lime-900">{notice}</p>}
-    {loading ? <p className="mt-4 text-sm text-stone-500">Зареждане на каталога…</p> : !plants.length ? <p className="mt-4 text-sm text-stone-500">В каталога няма активни растения с варианти за продажба.</p> : <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.4fr)]">
+    {loading ? <p className="mt-4 text-sm text-stone-500">Зареждане на каталога…</p> : error ? null : !plants.length ? <p className="mt-4 text-sm text-stone-500">В каталога няма активни растения.</p> : <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.4fr)]">
       <aside className="space-y-3">
         <label className={label}>Търсене по име, латинско име или SKU<input className={field} type="search" value={search} onChange={(event) => { setSearch(event.target.value); setPlantId('') }} placeholder="Въведете име или артикулен код…" /></label>
         <div className="rounded-xl border border-stone-200 p-3">
