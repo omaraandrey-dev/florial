@@ -451,3 +451,15 @@ API должен валидировать JSON по allowlist полей цел�
 - SQL миграции 0001–0005 находятся в `functions/migrations/`; все пять версий подтверждены в `schema_migrations` созданной D1.
 - Тестовые строки Supabase не переносятся. Supabase не отключается до успешного rollout и отдельного согласования.
 - Production deployment нового runtime завершён: Cloudflare Pages deployment `6d823f6b-4d1c-487c-b89d-b12c28c2d906`, commit `f1ff703025b5d60538c0d9c3b6050d36b458964a`, status success. Создание owner, сквозные проверки и отключение старых Supabase secrets ещё не завершены.
+
+## 2026-11-03 — Granular authorization model
+
+The earlier owner-only descriptions in this document are superseded by the permission model below.
+
+Manager authorization is based on the active D1 staff profile and ten boolean permissions stored in `catalog_staff_profiles.permissions`: `canCreatePlant`, `canEditPlantCard`, `canAddPlantVariant`, `canEditPlantPrice`, `canReviewPlantSubmissions`, `canApprovePlantSubmission`, `canPublishPlant`, `canManageStaff`, `canDelegatePermissions`, and `canViewAnalytics`.
+
+The owner role has all rights automatically. A manager must have `canManageStaff` to manage directly-created staff and `canDelegatePermissions` to assign a subset of their own rights or create another manager. The server rejects permission escalation and prevents managers from changing the owner account. Permission changes are logged in `catalog_staff_permission_events`.
+
+Approval and publication are separate. `canApprovePlantSubmission` approves a prepared submission; `canPublishPlant` publishes only an approved submission to Sanity. Final-card preparation and related AI actions require `canEditPlantCard`. Every protected operation is checked by its Cloudflare API endpoint.
+
+Production D1 migration `0006_manager_permissions` adds the staff creator relationship, normalizes existing permissions, strengthens permission triggers and creates the permission audit table. Existing staff, sessions, submissions and catalog data are retained.
