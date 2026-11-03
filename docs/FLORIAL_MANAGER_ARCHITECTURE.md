@@ -469,3 +469,11 @@ Production D1 migration `0006_manager_permissions` adds the staff creator relati
 Requests to add a plant variant or edit a price now follow `submitted/in_review → approved → published`. Approval validates the Sanity document revision and requires `canApprovePlantSubmission`; it does not mutate Sanity. The subsequent publication requires `canPublishPlant`. Publication is retry-safe: if Sanity already contains the exact requested change but the D1 status update previously failed, the endpoint confirms the applied change and completes the status transition without duplicating it.
 
 If a previously approved new-plant card is edited, its status returns to `in_review` and approval must be repeated. The generic Manager data endpoint cannot set `published`, `publishing`, `publish_failed`, or approve existing-catalog changes.
+
+
+## 2026-11-03 — Orders workspace
+
+- `OrdersManager.tsx` is mounted for owner or managers with `canViewOrders`. `/api/manager/orders` enforces permissions server-side for read, edit, status, payment, notes and delete.
+- Order lifecycle and payment are independent. `order_events` preserves audit records even after test-order deletion.
+- Migration `0008_manager_orders` marks only four exact approved test orders. Real orders cannot be physically deleted; only cancel/archive are available.
+- Amount calculations use integer EUR cents and synchronize legacy decimal fields.

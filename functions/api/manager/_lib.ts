@@ -11,17 +11,22 @@ export type StaffPermissions = {
   canManageStaff: boolean
   canDelegatePermissions: boolean
   canViewAnalytics: boolean
+  canViewOrders: boolean
+  canEditOrders: boolean
+  canDeleteTestOrders: boolean
 }
 export type StaffPermissionKey = keyof StaffPermissions
 export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
   'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock',
   'canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant',
   'canManageStaff','canDelegatePermissions','canViewAnalytics',
+  'canViewOrders','canEditOrders','canDeleteTestOrders',
 ]
 export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
+  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false,
 }
 export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   let source: Record<string, unknown> = {}
@@ -29,7 +34,7 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   else if (value && typeof value === 'object' && !Array.isArray(value)) source = value as Record<string, unknown>
   return Object.fromEntries(STAFF_PERMISSION_KEYS.map((key) => [key, typeof source[key] === 'boolean' ? source[key] : DEFAULT_STAFF_PERMISSIONS[key]])) as unknown as StaffPermissions
 }
-const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics']
+const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders']
 export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) =>
   user.role === 'owner' || (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
 export type StaffProfile = {

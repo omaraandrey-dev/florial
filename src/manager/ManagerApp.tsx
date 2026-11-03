@@ -7,11 +7,13 @@ import PlantPublicationEditor from './PlantPublicationEditor'
 import PlantCatalogChangeForm from './PlantCatalogChangeForm'
 import PlantStockChangeForm from './PlantStockChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
+import OrdersManager from './OrdersManager'
 
 type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
   canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
   canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
+  canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean;
 }
 type StaffPermissionKey = keyof StaffPermissions
 const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
@@ -26,11 +28,15 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canManageStaff', label: 'Управление на служители' },
   { key: 'canDelegatePermissions', label: 'Делегиране на права' },
   { key: 'canViewAnalytics', label: 'Преглед на аналитиката' },
+  { key: 'canViewOrders', label: 'Преглед и търсене на поръчки' },
+  { key: 'canEditOrders', label: 'Обработка и редактиране на поръчки' },
+  { key: 'canDeleteTestOrders', label: 'Изтриване на тестови поръчки' },
 ]
 const emptyPermissions: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
+  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false,
 }
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: StaffPermissions }
 type Submission = {
@@ -50,13 +56,6 @@ type AnalyticsReport = {
   by_language: Array<{ lang: string; event_count: number }>
   top_pages: Array<{ page_path: string; page_views: number }>
 }
-type ManagerOrder = {
-  id: string; order_number: string; customer_name: string; phone: string; email: string | null;
-  city: string | null; address: string | null; delivery_method: string; payment_method: string;
-  comment: string | null; items: Array<{ name: string; sku?: string; qty: number; price: number }>;
-  subtotal: number; currency: string; status: string; delivery_fee: number | null; total: number | null; created_at: string
-}
-
 const statusLabels: Record<string, string> = {
   draft: 'Чернова', submitted: 'Изпратена за проверка', in_review: 'В процес на проверка',
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
@@ -124,9 +123,6 @@ export default function ManagerApp() {
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
-  const [orders, setOrders] = useState<ManagerOrder[]>([])
-  const [ordersLoading, setOrdersLoading] = useState(false)
-  const [ordersError, setOrdersError] = useState('')
   const [staffLoading, setStaffLoading] = useState(false)
   const [staffSaving, setStaffSaving] = useState(false)
   const [staffError, setStaffError] = useState('')
@@ -236,26 +232,6 @@ export default function ManagerApp() {
   useEffect(() => {
     if (profile?.role === 'owner' || profile?.role === 'manager' && profile?.permissions.canManageStaff) void loadStaff()
   }, [loadStaff, profile])
-
-  const loadOrders = useCallback(async () => {
-    if (!session || !profile || !['owner', 'manager'].includes(profile.role)) return
-    setOrdersLoading(true)
-    setOrdersError('')
-    try {
-      const response = await fetch('/api/manager/orders?limit=100', { credentials: 'same-origin', cache: 'no-store' })
-      const result = await response.json().catch(() => ({})) as { orders?: ManagerOrder[]; error?: string }
-      if (!response.ok) throw new Error(result.error || 'Не успяхме да заредим поръчките.')
-      setOrders(Array.isArray(result.orders) ? result.orders : [])
-    } catch (err) {
-      setOrdersError(err instanceof Error ? err.message : 'Не успяхме да заредим поръчките.')
-    } finally {
-      setOrdersLoading(false)
-    }
-  }, [session, profile])
-
-  useEffect(() => {
-    if (activeTab === 'orders') void loadOrders()
-  }, [activeTab, loadOrders])
 
   const loadAnalytics = useCallback(async () => {
     if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canViewAnalytics))) return
@@ -655,7 +631,7 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Растения</button>
-        {(profile.role === 'owner' || profile.role === 'manager') && <button onClick={() => { setActiveTab('orders'); setOrdersError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
       </nav>
@@ -809,57 +785,8 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
-      <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager') ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold">Поръчки</h1>
-            <p className="mt-1 text-sm text-stone-600">Последните до 100 поръчки от магазина. Прегледът не променя данните или статуса на поръчката.</p>
-          </div>
-          <button type="button" onClick={() => void loadOrders()} disabled={ordersLoading} className="rounded-xl bg-lime-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">{ordersLoading ? 'Обновяване…' : 'Обнови поръчките'}</button>
-        </div>
-        {ordersError && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{ordersError}</div>}
-        {ordersLoading && orders.length === 0 && <p className="mt-6 text-sm text-stone-500">Зареждане на поръчките…</p>}
-        {!ordersLoading && !ordersError && orders.length === 0 && <div className="mt-5 rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-500">Все още няма поръчки.</div>}
-        <div className="mt-5 space-y-4">
-          {orders.map((order) => (
-            <article key={order.id} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold">{order.order_number}</h2>
-                  <p className="mt-1 text-xs text-stone-500">{new Date(order.created_at).toLocaleString('bg-BG')}</p>
-                </div>
-                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">{orderStatusLabels[order.status] || order.status}</span>
-              </div>
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <div className="space-y-1 text-sm">
-                  <h3 className="font-semibold">Клиент</h3>
-                  <p>{order.customer_name}</p>
-                  <p><a className="text-lime-800 underline" href={'tel:' + order.phone}>{order.phone}</a></p>
-                  {order.email && <p><a className="text-lime-800 underline" href={'mailto:' + order.email}>{order.email}</a></p>}
-                  <p>{order.city || '—'}{order.address ? ', ' + order.address : ''}</p>
-                  {order.comment && <p className="mt-2 whitespace-pre-wrap text-stone-600">Бележка: {order.comment}</p>}
-                </div>
-                <div className="space-y-1 text-sm">
-                  <h3 className="font-semibold">Доставка и плащане</h3>
-                  <p>{order.delivery_method}</p>
-                  <p>Плащане: {order.payment_method === 'pay_in_store' ? 'В магазина' : order.payment_method}</p>
-                  <p>Продукти: {Number(order.subtotal).toFixed(2)} €</p>
-                  <p>Доставка: {order.delivery_fee == null ? 'За уточняване' : Number(order.delivery_fee).toFixed(2) + ' €'}</p>
-                  <p className="pt-1 text-base font-semibold">Общо: {order.total == null ? 'За уточняване' : Number(order.total).toFixed(2) + ' €'}</p>
-                </div>
-              </div>
-              <div className="mt-4 border-t border-stone-100 pt-3">
-                <h3 className="font-semibold">Артикули</h3>
-                <div className="mt-2 space-y-2">
-                  {order.items.map((item, index) => <div key={order.id + '-' + index} className="flex flex-wrap justify-between gap-2 text-sm">
-                    <span>{item.name}{item.sku ? ' · SKU ' + item.sku : ''} × {item.qty}</span>
-                    <strong>{(Number(item.price) * Number(item.qty)).toFixed(2)} €</strong>
-                  </div>)}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+      <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewOrders) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
       </section>
       <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -949,7 +876,7 @@ export default function ManagerApp() {
                         <option value="manager">Мениджър</option>
                       </select>}
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
-                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || !['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => void updateStaff(staff.user_id,{action:'update',permissions:{...staff.permissions,[item.key]:event.target.checked}},'Разрешенията са обновени.')} />{item.label}</label>)}</div></fieldset>}
+                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || !['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => void updateStaff(staff.user_id,{action:'update',permissions:{...staff.permissions,[item.key]:event.target.checked}},'Разрешенията са обновени.')} />{item.label}</label>)}</div></fieldset>}
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return
@@ -970,7 +897,7 @@ export default function ManagerApp() {
             <h2 className="text-lg font-semibold">Добавяне на служител</h2>
             <label className={labelClass + ' mt-4'}>Име на служителя<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
             <label className={labelClass + ' mt-4'}>Email<input className={inputClass} type="email" autoComplete="off" value={newStaffEmail} onChange={(event) => setNewStaffEmail(event.target.value)} required /></label>
-            <label className={labelClass + ' mt-4'}>Роля<select className={inputClass} value={newStaffRole} onChange={(event) => { const role = event.target.value as 'seller' | 'manager'; setNewStaffRole(role); if (role === 'seller') setNewStaffPermissions((current) => ({ ...current, canEditPlantCard: false, canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false, canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false })) }}><option value="seller">Продавач</option>{(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <option value="manager">Мениджър</option>}</select></label>
+            <label className={labelClass + ' mt-4'}>Роля<select className={inputClass} value={newStaffRole} onChange={(event) => { const role = event.target.value as 'seller' | 'manager'; setNewStaffRole(role); if (role === 'seller') setNewStaffPermissions((current) => ({ ...current, canEditPlantCard: false, canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false, canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false, canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false })) }}><option value="seller">Продавач</option>{(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <option value="manager">Мениджър</option>}</select></label>
             {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-4 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-sm font-semibold">Права на новия служител</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => newStaffRole !== 'seller' || !['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-sm font-normal"><input type="checkbox" checked={newStaffPermissions[item.key]} onChange={(event) => setNewStaffPermissions((current) => ({ ...current, [item.key]: event.target.checked }))} />{item.label}</label>)}</div><p className="mt-2 text-xs font-normal text-stone-500">Могат да бъдат предоставени само права, които имате лично.</p></fieldset>}
             <label className={labelClass + ' mt-4'}>Парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символа. След запис паролата няма да се показва повторно.</span></label>
             <button disabled={staffSaving} className="mt-5 w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{staffSaving ? 'Запазване…' : 'Създай служител'}</button>
