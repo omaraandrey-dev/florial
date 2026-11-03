@@ -175,7 +175,7 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
     let auditStatus:'success'|'pending'='pending'
     try{
      const finalized=await env.DB!.prepare("UPDATE catalog_stock_events SET result='success',completed_at=? WHERE id=? AND result='pending'").bind(completedAt,eventId).run()
-     if(finalized.success)auditStatus='success'
+     if(finalized.success&&finalized.meta?.changes===1)auditStatus='success'
      else console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:'D1 did not confirm audit finalization'}))
     }catch(error){console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:error instanceof Error?error.message:'unknown'}))}
     return json({ok:true,stockQuantity:quantity,auditStatus})
