@@ -75,7 +75,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   const idFilter=filters.find(x=>x.column==='id'&&x.op==='eq')
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
   const existing=await db.prepare('SELECT id,created_by,status,payload,operation FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string;operation:string}>()
-  if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
+  if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission')&&!hasPermission(user,'canPublishPlant')&&!hasPermission(user,'canEditPlantCard'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
   const editsCard=keys.some(key=>['title','sku','payload','submitted_at'].includes(key))
   if(user.role==='manager'&&editsCard&&!(hasPermission(user,'canEditPlantCard')||existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant')))return json({error:'Нямате право да редактирате тази заявка.'},403)
   if ((user.role==='seller'||user.role==='manager'&&editsCard) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
