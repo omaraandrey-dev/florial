@@ -389,13 +389,47 @@ export default function PlantPublicationEditor({
           const plantCare = careDraft.plantCare && typeof careDraft.plantCare === 'object' ? careDraft.plantCare as Record<string, unknown> : {}
           const diagnosticSteps = Array.isArray(workflowOutput.diagnostics) ? workflowOutput.diagnostics : statusBody.diagnostics
           const steps = Array.isArray(diagnosticSteps) ? diagnosticSteps as Array<Record<string, unknown>> : []
-          const careLabels: Record<string, string> = { light: 'Освещённость', waterNeeds: 'Потребность в воде', minWinterTempC: 'Минимальная зимняя температура', adultHeightCm: 'Взрослая высота', foliageType: 'Тип листвы', floweringSeason: 'Период цветения', plantingSeason: 'Период посадки', blackSeaCoast: 'Пригодность для Черноморского побережья' }
-          const changes = Object.entries(plantCare).filter(([, value]) => value != null && value !== '' && !(Array.isArray(value) && value.length === 0)).map(([key, value]) => ({ label: careLabels[key] || key, value: diagnosticText(value) }))
-          if (identity.canonicalName) changes.unshift({ label: 'Определённый таксон', value: diagnosticText(identity.canonicalName) })
-          if (identity.photoAssessment) changes.push({ label: 'Сопоставление фотографии и названия', value: diagnosticText(identity.photoAssessment) })
-          if (identity.imageCountAnalysed != null) changes.push({ label: 'Проанализировано фотографий', value: diagnosticText(identity.imageCountAnalysed) })
+          const careLabels: Record<string, string> = {
+            light: 'Освещённость', waterNeeds: 'Потребность в воде', minWinterTempC: 'Минимальная зимняя температура',
+            adultHeightCm: 'Взрослая высота', foliageType: 'Тип листвы', floweringSeason: 'Период цветения',
+            plantingSeason: 'Период посадки', blackSeaCoast: 'Пригодность для Черноморского побережья',
+          }
+          const changes = Object.entries(plantCare)
+            .filter(([, value]) => value != null && value !== '' && !(Array.isArray(value) && value.length === 0))
+            .map(([key, value]) => ({ label: careLabels[key] || key, value: diagnosticText(value) }))
+          const addIdentityDetail = (key: string, label: string) => {
+            const value = identity[key]
+            if (value != null && value !== '' && !(Array.isArray(value) && value.length === 0)) changes.unshift({ label, value: diagnosticText(value) })
+          }
+          addIdentityDetail('canonicalName', 'Таксон, выбранный для характеристик')
+          addIdentityDetail('submittedName', 'Латинское название из заявки')
+          addIdentityDetail('suggestedScientificName', 'Предложенное латинское название')
+          addIdentityDetail('status', 'Результат сопоставления названия и фотографии')
+          addIdentityDetail('photoAssessment', 'Оценка соответствия фотографии')
+          addIdentityDetail('sellerGbif', 'Результат проверки названия продавца в GBIF')
+          addIdentityDetail('visualGbif', 'Результат проверки кандидата по фотографии в GBIF')
+          addIdentityDetail('visualCandidates', 'Кандидаты, распознанные по фотографии')
+          addIdentityDetail('nameCandidates', 'Кандидаты, предложенные по названию')
+          addIdentityDetail('visualResults', 'Результаты анализа фотографии')
+          addIdentityDetail('visualSuggestedScientificName', 'Основное название по фотографии')
+          addIdentityDetail('rank', 'Таксономический ранг')
+          addIdentityDetail('confidence', 'Уверенность сопоставления GBIF')
+          addIdentityDetail('matchType', 'Тип совпадения GBIF')
+          addIdentityDetail('careSource', 'Источник для подготовки характеристик')
+          addIdentityDetail('careIsProvisional', 'Определение предварительное')
+          addIdentityDetail('imageCountAnalysed', 'Проанализировано фотографий')
+          if (careDraft.careGuide) changes.push({ label: 'Предложенное руководство по уходу', value: diagnosticText(careDraft.careGuide) })
+          if (careDraft.confidence) changes.push({ label: 'Уверенность ИИ по каждой характеристике', value: diagnosticText(careDraft.confidence) })
+          if (careDraft.careDataNotice) changes.push({ label: 'Важное ограничение результата', value: diagnosticText(careDraft.careDataNotice) })
           hasDetailedReport = true
-          setDiagnosticReport({ title: 'Результат ботанической проверки', status: 'success', summary: 'Проверка завершена. Ниже показаны найденные сведения и предложенные характеристики. Это рекомендации ИИ; перед публикацией их необходимо проверить.', steps: [...steps, { stage: 'completed', ok: true }], changes })
+          setDiagnosticReport({
+            title: 'Результат ботанической проверки',
+            status: 'success',
+            summary: 'Проверка завершена. Ниже показаны таксономические совпадения, кандидаты по фотографии и названию, предложенные характеристики и уровень уверенности. Это рекомендации ИИ; перед публикацией их необходимо проверить.',
+            steps: [...steps, { stage: 'completed', ok: true }],
+            changes,
+            technical: diagnosticText(careDraft),
+          })
           await onSaved()
           return
         }
