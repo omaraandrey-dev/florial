@@ -1,10 +1,10 @@
 import { d1RestFetch } from './_rest'
 import type { ManagerEnv } from './_lib'
 type Env=ManagerEnv
-type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
+type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canEditPlantStock?:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
 type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
-type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;saleVariants?:Variant[]}
+type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;stockQuantity?:number|null;stockStatus?:string;saleVariants?:Variant[]}
 const project='bxvcy0qs',dataset='plants'
 const json=(body:Record<string,unknown>,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}})
 const obj=(v:unknown):Record<string,unknown>|null=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:null
@@ -54,8 +54,8 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
   setStage('sanity_catalog_query');
-  if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,"categoryId": category->_id,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
+  if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice&&!profile.permissions?.canEditPlantStock)return json({error:'Нямате право да променяте съществуващи растения.'},403)
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,"categoryId": category->_id,stockQuantity,stockStatus,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
@@ -131,6 +131,60 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  }
  if(profile.role!=='owner'&&profile.role!=='seller'&&profile.role!=='manager')return json({error:'Staff access required.'},403)
  const action=body.action
+ if(action==='updateStock'){
+  if(profile.role!=='owner'&&profile.permissions?.canEditPlantStock!==true)return json({error:'Нямате право да променяте количеството на растенията.'},403)
+  const targetId=str(body.targetDocumentId,128),expectedRevision=str(body.targetRevision,128)
+  const rawQuantity=body.stockQuantity
+  const quantity=typeof rawQuantity==='number'?rawQuantity:typeof rawQuantity==='string'&&rawQuantity.trim()!==''?Number(rawQuantity):NaN
+  if(!targetId||!expectedRevision)return json({error:'Изберете растение или вариант от актуалния каталог.'},400)
+  if(!Number.isSafeInteger(quantity)||quantity<0)return json({error:'Количеството трябва да бъде цяло неотрицателно число.'},400)
+  const variantKey=str(body.variantKey,80)
+  try{
+   const plant=await query<Plant|null>('*[_type=="product" && _id=='+JSON.stringify(targetId)+' && isActive!=false && !(_id in path("drafts.**"))][0]{_id,_rev,name,sku,stockQuantity,stockStatus,saleVariants}')
+   if(!plant)return json({error:'Растението не е намерено или вече не е активно.'},404)
+   if(plant._rev!==expectedRevision)return json({error:'Каталогът е променен от друг служител. Обновете списъка и опитайте отново.'},409)
+   const variants=plant.saleVariants||[]
+   let previousQuantity:number|null=null
+   let variantLabel='Общо количество'
+   let setPatch:Record<string,unknown>
+   if(variants.length){
+    const index=variants.findIndex(item=>item._key===variantKey)
+    if(index<0)return json({error:'Избраният вариант вече не съществува. Обновете каталога.'},409)
+    const selected=variants[index]
+    previousQuantity=typeof selected.stockQuantity==='number'?selected.stockQuantity:null
+    variantLabel=selected.name||[selected.saleHeightCm?selected.saleHeightCm+' см':null,selected.containerVolumeL?'C'+selected.containerVolumeL:null].filter(Boolean).join(' · ')||'Вариант'
+    const updated=variants.map((item,i)=>i===index?{...item,stockQuantity:quantity}:item)
+    setPatch={saleVariants:updated}
+   }else{
+    if(variantKey)return json({error:'Това растение няма отделни варианти. Обновете каталога.'},409)
+    previousQuantity=typeof plant.stockQuantity==='number'?plant.stockQuantity:null
+    setPatch={stockQuantity:quantity}
+   }
+   const eventId=crypto.randomUUID(),createdAt=new Date().toISOString()
+   const audit=await env.DB!.prepare('INSERT INTO catalog_stock_events (id,actor_id,plant_document_id,plant_name,sku,variant_key,variant_label,previous_quantity,new_quantity,result,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
+    .bind(eventId,user.id,plant._id,plant.name,plant.sku||null,variantKey||null,variantLabel,previousQuantity,quantity,'pending',createdAt).run()
+   if(!audit.success)return json({error:'Не успяхме да запишем операцията в журнала. Количеството не е променено.'},503)
+   try{
+    const mutation=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{
+     method:'POST',
+     headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},
+     body:JSON.stringify({mutations:[{patch:{id:plant._id,ifRevisionID:plant._rev,set:setPatch}}]})
+    })
+    if(!mutation.ok)throw new Error(mutation.status===409?'Документът е променен паралелно. Обновете каталога и повторете.':'Sanity не прие промяната на количеството (HTTP '+mutation.status+').')
+    const completedAt=new Date().toISOString()
+    try{await env.DB!.prepare("UPDATE catalog_stock_events SET result='success',completed_at=? WHERE id=? AND result='pending'").bind(completedAt,eventId).run()}
+    catch(error){console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:error instanceof Error?error.message:'unknown'}))}
+    return json({ok:true,stockQuantity:quantity,auditStatus:'success'})
+   }catch(error){
+    const message=error instanceof Error?error.message:'Не успяхме да променим количеството.'
+    try{await env.DB!.prepare("UPDATE catalog_stock_events SET result='failed',error_message=?,completed_at=? WHERE id=? AND result='pending'").bind(message.slice(0,500),new Date().toISOString(),eventId).run()}
+    catch(auditError){console.error('[manager-stock-audit-failure]',JSON.stringify({requestId,eventId,message:auditError instanceof Error?auditError.message:'unknown'}))}
+    return json({error:message},409)
+   }
+  }catch(error){
+   return json({error:error instanceof Error?error.message:'Не успяхме да обновим количеството.'},400)
+  }
+ }
  if(action!=='submitVariant'&&action!=='submitPrice')return json({error:'Unknown action.'},400)
  if(profile.role!=='owner'&&action==='submitVariant'&&!profile.permissions?.canAddPlantVariant)return json({error:'Нямате право да добавяте размери и варианти.'},403)
  if(profile.role!=='owner'&&action==='submitPrice'&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте цени.'},403)
