@@ -1,7 +1,7 @@
 import { d1RestFetch } from './_rest'
 import type { ManagerEnv } from './_lib'
 type Env=ManagerEnv
-type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean}
+type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
 type Profile={role:string;is_active:boolean;permissions:Perms}
 type Variant={_key:string;name?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
 type Plant={_id:string;_rev:string;name:string;sku?:string;saleVariants?:Variant[]}
@@ -40,7 +40,7 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
  if(body.action==='approve'){
-  if(profile.role!=='owner')return json({error:'Owner access required.'},403)
+  if(profile.role!=='owner'&&(!profile.permissions?.canApprovePlantSubmission||!profile.permissions?.canPublishPlant))return json({error:'Нямате право да одобрявате и публикувате промени в каталога.'},403)
   const id=str(body.submissionId,64);if(!uuid.test(id))return json({error:'Invalid submission ID.'},400)
   const sr=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
   if(!sr.ok)return json({error:'Unable to load the change request.'},502)
