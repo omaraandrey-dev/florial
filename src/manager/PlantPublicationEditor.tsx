@@ -552,7 +552,7 @@ export default function PlantPublicationEditor({
             <p className="mt-1 text-sm text-sky-900">AI независимо анализира до три снимки и предлага вероятен вид. Системата сравнява предположението с името на продавача и проверява латинските кандидати чрез GBIF. След това AI може да предложи агротехнически характеристики за ваша проверка.</p>
           </div>
           <button type="button" disabled={!hasAiDraft || hasPublication || Boolean(plantCareResearch) || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
-            {careResearching ? 'Проверка…' : 'Проверить и предложить характеристики'}
+            {careResearching ? 'Проверка…' : 'Проверете и предложете характеристики'}
           </button>
         </div>
         {careResearching && <p className="mt-3 text-sm text-sky-900">Проверка выполняется как отдельное серверное задание. Состояние обновляется автоматически; повторно запускать её не нужно.</p>}
