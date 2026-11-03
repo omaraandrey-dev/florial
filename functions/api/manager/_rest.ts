@@ -33,9 +33,14 @@ export const d1RestFetch = async (env:ManagerEnv, incoming:Request, input:Reques
     return auth.error||!auth.user?null:{user_id:auth.user.user_id,email:auth.user.email,role:auth.user.role}
   }
   if(url.pathname==='/internal-d1/auth/user'){
-    const identity=await getIdentity()
-    if(!identity)return response({message:'Invalid or expired session.'},401)
-    return response({id:identity.user_id,email:identity.email})
+    try{
+      const identity=await getIdentity()
+      if(!identity)return response({message:'Invalid or expired session.'},401)
+      return response({id:identity.user_id,email:identity.email})
+    }catch(error){
+      console.error('[manager-d1-auth-user]',error instanceof Error?error.message:'Unknown D1 authentication error')
+      return response({message:'Unable to verify the Manager session.'},500)
+    }
   }
   const match=url.pathname.match(/^\/internal-d1\/data\/(catalog_staff_profiles|catalog_submissions|catalog_submission_events)$/)
   if(!match)return response({message:'Unsupported D1 compatibility endpoint.'},404)
