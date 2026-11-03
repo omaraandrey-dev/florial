@@ -1,4 +1,4 @@
-import { json, newId, nowIso, requireUser, type ManagerEnv } from './_lib'
+import { hasPermission, json, newId, nowIso, requireUser, type ManagerEnv } from './_lib'
 
 const tables = new Set(['catalog_staff_profiles','catalog_submissions','catalog_submission_events'])
 const columns: Record<string, Set<string>> = {
@@ -40,7 +40,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
       else return json({ error: 'Invalid filter operation.' }, 400)
     }
     if (table === 'catalog_staff_profiles') { where.push('user_id=?'); values.push(user.user_id) }
-    if (table === 'catalog_submissions' && user.role === 'seller') { where.push('created_by=?'); values.push(user.user_id) }
+    if (table === 'catalog_submissions' && (user.role === 'seller' || user.role === 'manager' && !hasPermission(user,'canReviewPlantSubmissions') && !hasPermission(user,'canApprovePlantSubmission') && !hasPermission(user,'canPublishPlant'))) { where.push('created_by=?'); values.push(user.user_id) }
     if (table === 'catalog_submission_events') {
       const submissionFilter = filters.find(x=>x.column==='submission_id'&&x.op==='eq')?.value
       if (typeof submissionFilter !== 'string') return json({ error: 'Submission filter required.' }, 400)
@@ -56,7 +56,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     return json({ data: result.results.map(parseJsonFields), error: null })
   }
   if (request.method==='POST' && body.action === 'insert') {
-    if (table!=='catalog_submissions' || user.role==='seller' && !user.permissionsObject.canCreatePlant) return json({ error: 'Not authorized.' },403)
+    if (table!=='catalog_submissions' || !hasPermission(user,'canCreatePlant')) return json({ error: 'Not authorized.' },403)
     const values=body.values && typeof body.values==='object'&&!Array.isArray(body.values)?body.values as Record<string,unknown>:null
     if (!values) return json({ error:'Invalid insert values.'},400)
     const id=newId(), now=nowIso(), payload=values.payload && typeof values.payload==='object'?JSON.stringify(values.payload):'{}'
@@ -70,23 +70,32 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   const filters=Array.isArray(body.filters)?body.filters as Array<{column?:string;op?:string;value?:unknown}>:[]
   if (!values || table!=='catalog_submissions' || !filters.length) return json({error:'Invalid update request.'},400)
   const keys=Object.keys(values)
-  const roleUpdate = user.role==='seller' ? new Set(['title','sku','payload','status','submitted_at','updated_at']) : user.role==='manager' ? new Set(['status','reviewed_by','review_note','reviewed_at','updated_at']) : allowedUpdate
+  const roleUpdate = user.role==='seller' ? new Set(['title','sku','payload','status','submitted_at','updated_at']) : user.role==='manager' ? new Set(['title','sku','payload','status','review_note','reviewed_at','submitted_at','updated_at']) : allowedUpdate
   if (!keys.length || keys.some(key=>!allowedUpdate.has(key)||!roleUpdate.has(key))) return json({error:'Invalid update fields.'},400)
   const idFilter=filters.find(x=>x.column==='id'&&x.op==='eq')
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
-  const existing=await db.prepare('SELECT id,created_by,status FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string}>()
-  if (!existing || (user.role==='seller'&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
-  if (user.role==='seller' && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
+  const existing=await db.prepare('SELECT id,created_by,status,payload FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string}>()
+  if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
+  if ((user.role==='seller'||user.role==='manager'&&existing.created_by===user.user_id&&keys.some(key=>['title','sku','payload','submitted_at'].includes(key))) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
   if (values.status!==undefined) {
     const next=String(values.status)
     const sellerAllowed=['draft','submitted']
-    const reviewerAllowed=['in_review','changes_requested','approved','rejected','publishing','published','publish_failed']
-    if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !['in_review','changes_requested'].includes(next) : !reviewerAllowed.includes(next)) return json({error:'Invalid status transition.'},403)
+    const canReview=hasPermission(user,'canReviewPlantSubmissions')
+    const canApprove=hasPermission(user,'canApprovePlantSubmission')
+    const managerAllowed=(next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview || next==='approved'&&canApprove
+    if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !managerAllowed : !['in_review','changes_requested','approved','rejected','publishing','published','publish_failed'].includes(next)) return json({error:'Invalid status transition.'},403)
+    if (user.role==='manager' && next==='approved') {
+      let payload:Record<string,unknown>={}
+      try { payload=JSON.parse(existing.payload) as Record<string,unknown> } catch {}
+      if (!payload.publication || typeof payload.publication!=='object') return json({error:'Първо подгответе и запазете финалната карта.'},409)
+    }
+    if (user.role==='manager' && next==='published') return json({error:'Публикацията трябва да премине през защитения endpoint.'},403)
   }
   const assignments:string[]=[], params:unknown[]=[]
   for(const key of keys){
     let value=values[key]
     if(key==='payload' || key==='permissions') value=JSON.stringify(value)
+    if(user.role==='manager' && key==='reviewed_by') value=user.user_id
     assignments.push(key+'=?');params.push(value)
   }
   assignments.push('updated_at=?');params.push(nowIso())
