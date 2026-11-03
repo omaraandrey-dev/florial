@@ -172,14 +172,18 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
     })
     if(!mutation.ok)throw new Error(mutation.status===409?'Документът е променен паралелно. Обновете каталога и повторете.':'Sanity не прие промяната на количеството (HTTP '+mutation.status+').')
     const completedAt=new Date().toISOString()
-    try{await env.DB!.prepare("UPDATE catalog_stock_events SET result='success',completed_at=? WHERE id=? AND result='pending'").bind(completedAt,eventId).run()}
-    catch(error){console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:error instanceof Error?error.message:'unknown'}))}
-    return json({ok:true,stockQuantity:quantity,auditStatus:'success'})
+    let auditStatus:'success'|'pending'='pending'
+    try{
+     const finalized=await env.DB!.prepare("UPDATE catalog_stock_events SET result='success',completed_at=? WHERE id=? AND result='pending'").bind(completedAt,eventId).run()
+     if(finalized.success)auditStatus='success'
+     else console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:'D1 did not confirm audit finalization'}))
+    }catch(error){console.error('[manager-stock-audit-finalize]',JSON.stringify({requestId,eventId,message:error instanceof Error?error.message:'unknown'}))}
+    return json({ok:true,stockQuantity:quantity,auditStatus})
    }catch(error){
     const message=error instanceof Error?error.message:'Не успяхме да променим количеството.'
     try{await env.DB!.prepare("UPDATE catalog_stock_events SET result='failed',error_message=?,completed_at=? WHERE id=? AND result='pending'").bind(message.slice(0,500),new Date().toISOString(),eventId).run()}
     catch(auditError){console.error('[manager-stock-audit-failure]',JSON.stringify({requestId,eventId,message:auditError instanceof Error?auditError.message:'unknown'}))}
-    return json({error:message},409)
+    return json({error:message},message.includes('паралелно')?409:502)
    }
   }catch(error){
    return json({error:error instanceof Error?error.message:'Не успяхме да обновим количеството.'},400)
