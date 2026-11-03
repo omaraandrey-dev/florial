@@ -152,7 +152,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
           stockQuantity: quantity,
         }),
       })
-      const result = await response.json() as { error?: string; stockQuantity?: number }
+      const result = await response.json() as { ok?: boolean; error?: string; stockQuantity?: number }
       if (!response.ok || result.ok !== true) throw new Error(result.error || 'Количеството не беше променено.')
       setNewQuantity(String(quantity))
       try {
