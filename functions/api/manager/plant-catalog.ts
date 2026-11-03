@@ -55,7 +55,7 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  if(request.method==='GET'){
   setStage('sanity_catalog_query');
   if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте съществуващи растения.'},403)
-  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,categoryId:category->_id,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
+  try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,"categoryId": category->_id,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)

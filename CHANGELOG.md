@@ -1,3 +1,10 @@
+## 2026-11-03 — Исправление загрузки каталога растений в Manager
+
+- Исправлена GROQ-проекция в `functions/api/manager/plant-catalog.ts`: вычисляемое поле категории теперь задаётся корректным строковым ключом `"categoryId": category->_id`.
+- Причина подтверждена Cloudflare Real-time Logs: Sanity возвращал HTTP 400 `queryParseError` (`string literal expected`) на поле `categoryId`; Pages Function преобразовывала эту upstream-ошибку в HTTP 502 для интерфейса.
+- Изменение ограничено синтаксисом запроса чтения каталога. D1, разрешения сотрудников, документы Sanity, варианты и цены растений не изменяются.
+- Требуется сборка, проверка production endpoint и ручное подтверждение загрузки каталога в Manager.
+
 ## 2026-11-03 — Диагностика ответа Sanity в Manager plant catalogue API
 
 - Для запросов к Sanity dataset `plants` добавлено безопасное серверное логирование неуспешного upstream-ответа: HTTP status/statusText, content-type и ограниченный фрагмент тела ответа.
