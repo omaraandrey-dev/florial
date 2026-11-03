@@ -545,3 +545,9 @@ Existing plant variant/price submissions now use two distinct server transitions
 Editing a previously approved or failed new-plant publication card resets its status to `in_review`, clears prior approval/publication markers and requires reapproval. Generic data API status updates cannot bypass the dedicated publication endpoints.
 
 Manager-only permissions are rejected for seller accounts by the central permission helper. Demoting a manager to seller automatically clears manager-only permissions and records the change. Image uploads/library access and submission notifications are permission-scoped. Owner retains full access automatically.
+
+### Production deployment confirmation — 03.11.2026
+
+The latest Manager permission implementation and Bulgarian UI/API copy were included in Production Cloudflare Pages deployment for commit `b1ccfe7aeb076118bac5c2924ec95fb9fd89e279`. Deployment `dcde054a-b193-42cb-99a9-941bad9b3ae4` completed with queued, initialize, clone, build and deploy stages all successful; `uses_functions=true`. The deployment is associated with the Production branch `main`.
+
+No separate GitHub CI status checks were returned for this commit. Pages build/deploy succeeded. Authenticated manual role-matrix testing is still pending because it requires an owner session; no test employees or submissions were created in Production.
