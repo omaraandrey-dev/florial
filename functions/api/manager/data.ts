@@ -40,12 +40,12 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
       else return json({ error: 'Invalid filter operation.' }, 400)
     }
     if (table === 'catalog_staff_profiles') { where.push('user_id=?'); values.push(user.user_id) }
-    if (table === 'catalog_submissions' && (user.role === 'seller' || user.role === 'manager' && !hasPermission(user,'canReviewPlantSubmissions') && !hasPermission(user,'canApprovePlantSubmission') && !hasPermission(user,'canPublishPlant'))) { where.push('created_by=?'); values.push(user.user_id) }
+    if (table === 'catalog_submissions' && (user.role === 'seller' || user.role === 'manager' && !hasPermission(user,'canReviewPlantSubmissions') && !hasPermission(user,'canApprovePlantSubmission') && !hasPermission(user,'canPublishPlant') && !hasPermission(user,'canEditPlantCard'))) { where.push('created_by=?'); values.push(user.user_id) }
     if (table === 'catalog_submission_events') {
       const submissionFilter = filters.find(x=>x.column==='submission_id'&&x.op==='eq')?.value
       if (typeof submissionFilter !== 'string') return json({ error: 'Submission filter required.' }, 400)
       const parent = await db.prepare('SELECT created_by FROM catalog_submissions WHERE id=?').bind(submissionFilter).first<{created_by:string}>()
-      if (!parent || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission')) && parent.created_by!==user.user_id)) return json({ error: 'Submission not found.' }, 404)
+      if (!parent || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission')&&!hasPermission(user,'canEditPlantCard')) && parent.created_by!==user.user_id)) return json({ error: 'Submission not found.' }, 404)
     }
     const order = body.order && typeof body.order==='object' ? body.order as {column?:string;ascending?:boolean} : null
     let sql='SELECT '+select.join(',')+' FROM '+table+(where.length?' WHERE '+where.join(' AND '):'')
