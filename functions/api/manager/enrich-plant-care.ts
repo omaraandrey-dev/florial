@@ -544,7 +544,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
     if (!profileResponse.ok) return json({ error: 'Unable to verify owner permissions.' }, 503)
     const profiles = await profileResponse.json() as Array<{ role: string; is_active: boolean; permissions?: { canEditPlantCard?: boolean } }>
     const profile = profiles[0]
-    if (!profile || profile.is_active !== true || profile.role !== 'owner' && profile.permissions?.canEditPlantCard !== true) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
+    if (!profile || profile.is_active !== true || profile.role !== 'owner' && (profile.role !== 'manager' || profile.permissions?.canEditPlantCard !== true)) return json({ error: 'Нямате право да подготвяте и редактирате карточки растения.' }, 403)
 
     const submissionId = requestUrl.searchParams.get('submissionId') || ''
     const workflowId = requestUrl.searchParams.get('workflowId') || ''
