@@ -6,7 +6,7 @@ type AuthListener = (event: string, session: Session | null) => void
 const listeners = new Set<AuthListener>()
 const notify = (event: string, session: Session | null) => listeners.forEach((listener) => listener(event, session))
 const sessionFrom = (value: any): Session | null => value?.user?.id ? { access_token: 'http-cookie-session', user: { id: value.user.id, email: value.user.email } } : null
-const errorFrom = (value: any, status?: number): ApiError => ({ message: typeof value?.error === 'string' ? value.error : 'Request failed.', status })
+const errorFrom = (value: any, status?: number): ApiError => ({ message: typeof value?.error === 'string' ? value.error : 'Заявката не беше изпълнена.', status })
 
 class QueryBuilder implements PromiseLike<Result<any>> {
   private action: 'select' | 'insert' | 'update' = 'select'
@@ -71,7 +71,7 @@ export const managerApi = {
         const session = sessionFrom(result)
         notify('SIGNED_IN', session)
         return { data: { session, user: session?.user }, error: null }
-      } catch (error) { return { data: { session: null }, error: { message: error instanceof Error ? error.message : 'Login failed.' } } }
+      } catch (error) { return { data: { session: null }, error: { message: error instanceof Error ? error.message : 'Входът не беше успешен.' } } }
     },
     async signOut() {
       await fetch('/api/manager/auth/logout', { method: 'POST', credentials: 'same-origin' })
@@ -87,7 +87,7 @@ export const managerApi = {
       const response = await fetch(endpoint, { method: name === 'manager_site_analytics' ? 'GET' : 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...(name === 'manager_site_analytics' ? {} : { body: JSON.stringify(args) }) })
       const data = await response.json().catch(() => ({}))
       return response.ok ? { data, error: null } : { data: null, error: errorFrom(data, response.status) }
-    } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Request failed.' } } }
+    } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Заявката не беше изпълнена.' } } }
   },
   images: {
         async upload(file: File) {
@@ -96,7 +96,7 @@ export const managerApi = {
             const response = await fetch('/api/manager/upload-image', { method: 'POST', credentials: 'same-origin', body: form })
             const data = await response.json().catch(() => ({}))
             return response.ok ? { data: { path: data.path, id: data.assetId, url: data.url }, error: null } : { data: null, error: errorFrom(data, response.status) }
-          } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Upload failed.' } } }
+          } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Качването не беше успешно.' } } }
         },
         async list(): Promise<Result<ManagerImageAsset[]>> {
           try {
@@ -105,7 +105,7 @@ export const managerApi = {
             return response.ok
               ? { data: Array.isArray(result.data) ? result.data as ManagerImageAsset[] : [], error: null }
               : { data: null, error: errorFrom(result, response.status) }
-          } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Не удалось загрузить библиотеку фотографий.' } } }
+          } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Не успяхме да заредим библиотеката със снимки.' } } }
         },
         async createUrls(paths: string[]): Promise<Result<Array<{ signedUrl: string }>>> { return { data: paths.map((path) => ({ signedUrl: /^https:\/\//i.test(path) ? path : '' })), error: null } },
   },
