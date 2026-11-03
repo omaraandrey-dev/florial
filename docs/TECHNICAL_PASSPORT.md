@@ -611,3 +611,10 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - These were text-only changes. Manager authorization, AI/GBIF algorithms, D1 records, Sanity documents, order data and public storefront components were not changed.
 - Production deployment for the final code commit must be checked before closing the work.
 
+
+
+### Botanical review localization completion — 03.11.2026
+- Remaining Russian result labels in the AI/GBIF review card were translated into Bulgarian, including the alternative photo hypothesis, GBIF-confirmed taxonomy with inconclusive photo, photo-analysis label and missing submitted-name fallback.
+- AI diagnostic stage label and sample botanical candidate explanation were localized.
+- A targeted source scan across the main Manager UI and AI/GBIF endpoints found no remaining matches for the checked Russian UI/error phrases.
+- No authorization rules, data records, Sanity documents, AI/GBIF decision thresholds or public storefront components were changed.
