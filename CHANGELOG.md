@@ -1,5 +1,8 @@
 ## 2026-11-03 — Каталог за избор на растение в Manager
 
+## 2026-11-03
+- Improved Manager plant catalogue loading errors: detect non-JSON API responses and avoid showing a false empty-catalogue message when loading fails.
+
 - Вместо автоматично да се избира първото растение, екранът за промяна първо показва каталог за избор.
 - Добавено е търсене по име, латинско име и SKU; показват се всички съвпадащи растения като отделни карти.
 - Добавена е навигация по йерархията на категориите и подкатегориите от Sanity с разгъване и сгъване.
