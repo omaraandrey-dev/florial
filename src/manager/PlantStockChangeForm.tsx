@@ -133,7 +133,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
     event.preventDefault()
     if (!selected) return
     const quantity = Number(newQuantity)
-    if (!Number.isSafeInteger(quantity) || quantity < 0) {
+    if (newQuantity.trim() === '' || !Number.isSafeInteger(quantity) || quantity < 0) {
       setError('Количеството трябва да бъде цяло неотрицателно число.')
       return
     }
