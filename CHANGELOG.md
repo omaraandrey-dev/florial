@@ -579,3 +579,13 @@
 - Staff-management controls now support permission assignment within the manager's own delegated rights. Seller role cannot receive review, final-card editing, approval, publication, staff-management, delegation or analytics permissions.
 - No public storefront, navigation, header, footer, cart, checkout, orders, Sanity schemas or existing plant/product documents were changed. Legacy Cloudflare Supabase variables were not modified.
 - Production build verification is tracked against the latest main deployment; functional login/role testing still requires an authenticated owner session.
+
+### Permission workflow hardening — 03.11.2026
+
+- Split existing-plant variant/price requests into two server-enforced transitions: `submitted/in_review → approved` requires `canApprovePlantSubmission`; `approved/publish_failed → published` requires `canPublishPlant`.
+- Added idempotent retry detection for variant insertion and price updates, so a Sanity write followed by a failed D1 status update can be safely confirmed on retry.
+- Editing a previously approved or failed plant publication card now resets the submission to `in_review`, clears prior approval/publication markers and requires a fresh approval before publication.
+- Generic Manager data updates can no longer set protected publishing states or approve existing-plant changes outside the dedicated catalog API.
+- Central permission evaluation now blocks manager-only permissions for the seller role. Staff demotion from manager to seller automatically removes manager-only permissions and records the change.
+- Tightened submission event access, notification ownership, image-library and image-upload permissions; retained owner bypass for all Manager operations.
+- Confirmed Production D1 migration 0006 remains additive; no test staff or catalog submissions were created.
