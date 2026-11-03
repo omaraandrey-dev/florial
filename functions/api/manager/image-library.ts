@@ -20,7 +20,10 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
 
   const project = env.SANITY_PROJECT_ID || 'bxvcy0qs'
   const dataset = env.SANITY_PLANTS_DATASET || 'plants'
-  const query = '*[_type == "sanity.imageAsset"] | order(_createdAt desc)[0...100]{_id, originalFilename, title, _createdAt, url, mimeType, size, "width": metadata.dimensions.width, "height": metadata.dimensions.height}'
+  const requestedOffset = Number(new URL(request.url).searchParams.get('offset') || 0)
+  const offset = Number.isInteger(requestedOffset) ? Math.min(100000, Math.max(0, requestedOffset)) : 0
+  const pageSize = 100
+  const query = '*[_type == "sanity.imageAsset"] | order(_createdAt desc)[' + offset + '...' + (offset + pageSize) + ']{_id, originalFilename, title, _createdAt, url, mimeType, size, "width": metadata.dimensions.width, "height": metadata.dimensions.height}'
   const endpoint = 'https://' + project + '.api.sanity.io/v2024-01-01/data/query/' + encodeURIComponent(dataset) + '?query=' + encodeURIComponent(query)
 
   try {
@@ -48,7 +51,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
         height: typeof asset.height === 'number' ? asset.height : undefined,
       }]
     })
-    return json({ data, error: null })
+    return json({ data, error: null, hasMore: data.length === pageSize, nextOffset: offset + data.length })
   } catch {
     return json({ error: 'Не успяхме да се свържем с библиотеката със снимки в Sanity.' }, 502)
   }
