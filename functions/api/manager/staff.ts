@@ -49,7 +49,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
     if(requested[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
    }
   }
-  if(role==='seller'&&requested.canApprovePlantSubmission||role==='seller'&&requested.canPublishPlant||role==='seller'&&requested.canManageStaff||role==='seller'&&requested.canDelegatePermissions||role==='seller'&&requested.canViewAnalytics){
+  if(role==='seller'&&(requested.canEditPlantCard||requested.canReviewPlantSubmissions||requested.canApprovePlantSubmission||requested.canPublishPlant||requested.canManageStaff||requested.canDelegatePermissions||requested.canViewAnalytics)){
    return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
   }
   const exists=await env.DB.prepare('SELECT user_id FROM catalog_staff_profiles WHERE email=? COLLATE NOCASE').bind(email).first()
@@ -94,7 +94,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
    const parsed=allPermissions(body.permissions)
    if(!parsed)return json({error:'Невалидни права на служителя.'},400)
    if(!owner)for(const key of STAFF_PERMISSION_KEYS as StaffPermissionKey[])if(parsed[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
-   if(nextRole==='seller'&&(parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
+   if(nextRole==='seller'&&(parsed.canEditPlantCard||parsed.canReviewPlantSubmissions||parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
    after=parsed;sets.push('permissions=?');values.push(JSON.stringify(parsed))
   }
   if(!sets.length)return json({error:'Няма промени за запис.'},400)
