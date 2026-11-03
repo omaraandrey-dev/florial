@@ -537,3 +537,11 @@ Production verification confirmed migration marker `0006_manager_permissions`, t
 - No changes were made to old Cloudflare Supabase environment variables or to any Supabase data.
 - Production build/deployment must be confirmed against the latest `main` commit before treating the release as complete.
 - Role-matrix functional tests (owner, manager with partial rights, delegated manager, seller) require an authenticated owner session and should be completed in the Manager UI.
+
+### Additional workflow hardening — 03.11.2026
+
+Existing plant variant/price submissions now use two distinct server transitions. Approval requires `canApprovePlantSubmission` and validates the current Sanity revision without changing the public catalog. Publication requires `canPublishPlant` and applies the approved change. A repeated publish request checks whether the exact variant/price change is already present before retrying, protecting against a Sanity success followed by a D1 status-write failure.
+
+Editing a previously approved or failed new-plant publication card resets its status to `in_review`, clears prior approval/publication markers and requires reapproval. Generic data API status updates cannot bypass the dedicated publication endpoints.
+
+Manager-only permissions are rejected for seller accounts by the central permission helper. Demoting a manager to seller automatically clears manager-only permissions and records the change. Image uploads/library access and submission notifications are permission-scoped. Owner retains full access automatically.
