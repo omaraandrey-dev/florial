@@ -73,7 +73,7 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
                 <img src={asset.url} alt={asset.name} loading="lazy" className="h-28 w-full bg-stone-100 object-cover" />
                 <div className="p-2">
                   <div className="truncate text-xs font-semibold text-stone-700" title={asset.name}>{asset.name}</div>
-                  <div className="mt-1 text-[11px] text-stone-500">{asset.width && asset.height ? asset.width + ' × ' + asset.height + ' px' : 'Sanity image'}</div>
+                  <div className="mt-1 text-[11px] text-stone-500">{asset.width && asset.height ? asset.width + ' × ' + asset.height + ' px' : 'Изображение в Sanity'}</div>
                   <div className="mt-2 text-xs font-semibold">{alreadyUsed ? 'Вече е в заявката' : selected ? 'Избрана · натиснете за отказ' : 'Добави към растението'}</div>
                 </div>
               </button>
