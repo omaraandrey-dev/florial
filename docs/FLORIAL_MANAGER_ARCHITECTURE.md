@@ -463,3 +463,9 @@ The owner role has all rights automatically. A manager must have `canManageStaff
 Approval and publication are separate. `canApprovePlantSubmission` approves a prepared submission; `canPublishPlant` publishes only an approved submission to Sanity. Final-card preparation and related AI actions require `canEditPlantCard`. Every protected operation is checked by its Cloudflare API endpoint.
 
 Production D1 migration `0006_manager_permissions` adds the staff creator relationship, normalizes existing permissions, strengthens permission triggers and creates the permission audit table. Existing staff, sessions, submissions and catalog data are retained.
+
+### Separate approval and publication for existing catalog changes
+
+Requests to add a plant variant or edit a price now follow `submitted/in_review → approved → published`. Approval validates the Sanity document revision and requires `canApprovePlantSubmission`; it does not mutate Sanity. The subsequent publication requires `canPublishPlant`. Publication is retry-safe: if Sanity already contains the exact requested change but the D1 status update previously failed, the endpoint confirms the applied change and completes the status transition without duplicating it.
+
+If a previously approved new-plant card is edited, its status returns to `in_review` and approval must be repeated. The generic Manager data endpoint cannot set `published`, `publishing`, `publish_failed`, or approve existing-catalog changes.
