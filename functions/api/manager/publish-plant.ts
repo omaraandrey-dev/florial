@@ -306,12 +306,16 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       ? oldPublication.sanityAssetIds.filter((item): item is string => typeof item === 'string')
       : undefined
     const nextPayload = { ...payload, publication }
+    const now = new Date().toISOString()
+    const approvalInvalidated = submission.status === 'approved' || submission.status === 'publish_failed'
+    const saveValues: Record<string, unknown> = { payload: nextPayload, updated_at: now }
+    if (approvalInvalidated) Object.assign(saveValues, { status: 'in_review', reviewed_by: null, reviewed_at: null, published_at: null, publish_error: null })
     const saveResponse = await fetch(
       base + '/internal-d1/data/catalog_submissions?id=eq.' + encodeURIComponent(submissionId) + '&status=eq.' + encodeURIComponent(submission.status),
       {
         method: 'PATCH',
         headers: { ...adminHeaders, Prefer: 'return=representation' },
-        body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
+        body: JSON.stringify(saveValues),
       },
     )
     if (!saveResponse.ok) return json({ error: 'Не успяхме да запазим финалната версия.' }, 502)
@@ -325,8 +329,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         actor_id: caller.id,
         event_type: 'publication_prepared',
         from_status: submission.status,
-        to_status: submission.status,
-        note: 'Власникът запази финалната версия на карточката.',
+        to_status: approvalInvalidated ? 'in_review' : submission.status,
+        note: 'Финалната версия на карточката е запазена.',
         metadata: { categoryId: publication.categoryId, slug: publication.slug },
       }),
     })
