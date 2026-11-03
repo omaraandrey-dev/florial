@@ -66,7 +66,7 @@ function classifyAiError(message: string) {
     return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Моделът отказа заявката поради лимит или ограничение на честотата. Проверете Usage в Workers AI.' }
   }
   if (/binding|not configured/.test(lower)) {
-    return { code: 'AI_BINDING_MISSING', hint: 'В этой среде не найдена привязка Cloudflare Workers AI.' }
+    return { code: 'AI_BINDING_MISSING', hint: 'В тази среда липсва връзка към Cloudflare Workers AI.' }
   }
   return { code: 'AI_REQUEST_FAILED', hint: 'Възникна грешка при заявката към модела. Техническият отговор е запазен в диагностиката.' }
 }
@@ -115,12 +115,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   const requestUrl = new URL(request.url)
   const origin = request.headers.get('Origin')
   if (origin) {
-    try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Origin not allowed.' }, 403) }
-    catch { return json({ error: 'Invalid origin.' }, 403) }
+    try { if (new URL(origin).origin !== requestUrl.origin) return json({ error: 'Заявката е от неразрешен източник.' }, 403) }
+    catch { return json({ error: 'Невалиден източник на заявката.' }, 403) }
   }
-  if (Number(request.headers.get('Content-Length') || 0) > 10000) return json({ error: 'Request is too large.' }, 413)
-  if (!env.DB) return json({ error: 'D1 database is not configured.' }, 503)
-  if (!env.AI?.run) return json({ error: 'AI binding is not configured for this Cloudflare Pages environment.' }, 503)
+  if (Number(request.headers.get('Content-Length') || 0) > 10000) return json({ error: 'Заявката е твърде голяма.' }, 413)
+  if (!env.DB) return json({ error: 'Базата данни D1 не е конфигурирана.' }, 503)
+  if (!env.AI?.run) return json({ error: 'Cloudflare Workers AI не е конфигуриран за тази среда.' }, 503)
 
   const fetch = (input: RequestInfo | URL, init?: RequestInit) => d1RestFetch(env, request, input, init)
   const base = 'https://florial-d1.local'
@@ -245,13 +245,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         throw new Error('Photo ' + (index + 1) + ' has an unsupported format or size.')
       }
       const imageUrl = image.url || image.path
-      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Photo ' + (index + 1) + ' has no valid Sanity asset URL.')
+      if (!/^https:\/\//i.test(imageUrl)) throw new Error('Снимка ' + (index + 1) + ' няма валиден адрес към Sanity Asset.')
       const download = await fetch(imageUrl)
-      if (!download.ok) throw new Error('Could not read photo ' + (index + 1) + ' from Sanity Assets.')
+      if (!download.ok) throw new Error('Снимка ' + (index + 1) + ' не може да бъде прочетена от Sanity Assets.')
       const contentType = (download.headers.get('content-type') || image.type).split(';')[0].trim().toLowerCase()
-      if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) throw new Error('Photo ' + (index + 1) + ' is not a supported image.')
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) throw new Error('Снимка ' + (index + 1) + ' е в неподдържан формат.')
       const bytes = new Uint8Array(await download.arrayBuffer())
-      if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error('Photo ' + (index + 1) + ' is empty or too large.')
+      if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error('Снимка ' + (index + 1) + ' е празна или надвишава 10 MB.')
       const dataUrl = 'data:' + contentType + ';base64,' + bytesToBase64(bytes)
       stage = 'analyze_image'
       let response: unknown
