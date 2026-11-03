@@ -124,7 +124,7 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
 
   const chooseRow = (row: StockRow) => {
     setSelectedId(row.id)
-    setNewQuantity(String(row.quantity ?? 0))
+    setNewQuantity(row.quantity == null ? '' : String(row.quantity))
     setError('')
     setNotice('')
   }
@@ -152,12 +152,12 @@ export default function PlantStockChangeForm({ accessToken, categories, onBack }
           stockQuantity: quantity,
         }),
       })
-      const result = await response.json() as { ok?: boolean; error?: string; stockQuantity?: number }
+      const result = await response.json() as { ok?: boolean; error?: string; stockQuantity?: number; auditStatus?: 'success' | 'pending' }
       if (!response.ok || result.ok !== true) throw new Error(result.error || 'Количеството не беше променено.')
       setNewQuantity(String(quantity))
       try {
         await loadCatalog()
-        setNotice('Количеството е обновено директно в каталога.')
+        setNotice(result.auditStatus === 'pending' ? 'Количеството е записано в каталога, но записът в журнала очаква потвърждение. Уведомете собственика.' : 'Количеството е обновено директно в каталога.')
       } catch {
         setNotice('Количеството е записано. Обновете каталога, за да видите актуалната версия.')
       }
