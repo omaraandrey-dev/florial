@@ -1,3 +1,11 @@
+## 2026-11-03 — Manager plant catalogue API 502 diagnostics
+
+- Wrapped the complete plant-catalog Pages Function handler so unexpected D1, session, permission, Sanity, and request-processing exceptions return a JSON error with a request ID and processing stage instead of Cloudflare's HTML 502 response.
+- Added safe server-side diagnostics with the request ID, stage, error type, and a bounded error message; no session tokens, passwords, plant payloads, or image contents are logged.
+- Added explicit stage markers for origin validation, session authentication, staff permission lookup, and Sanity catalogue loading.
+- Hardened the internal D1 session-identity endpoint so database/authentication exceptions are converted to a controlled JSON response.
+- No staff permissions, D1 schema or records, Sanity documents, plant catalogue data, or public storefront behavior were changed.
+
 ## 2026-11-03 — Каталог за избор на растение в Manager
 
 ## 2026-11-03
