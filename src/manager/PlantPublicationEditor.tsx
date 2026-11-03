@@ -569,9 +569,9 @@ export default function PlantPublicationEditor({
             : identity.status === 'photo_name_mismatch'
               ? 'Внимание: името на продавача не съвпада с анализа на снимката'
               : identity.status === 'photo_candidate_suggested'
-                ? 'Есть альтернативное предположение по фотографии'
+                ? 'Има алтернативно предположение според снимката'
                 : identity.status === 'taxonomy_verified_photo_inconclusive'
-                  ? 'GBIF подтвердил название; фото не дало точного определения'
+                  ? 'GBIF потвърди името; снимката не позволи точно определяне'
                   : 'Необходимо е уточняване на ботаническото име'
           const photoLabel = photoAssessment === 'match'
             ? 'Снимката визуално съответства на името'
@@ -584,8 +584,8 @@ export default function PlantPublicationEditor({
                   : 'ИИ не успя уверено да определи вида по снимката'
           return <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
             <p className="font-semibold">{taxonomyLabel}</p>
-            <p className="mt-2"><span className="font-semibold">Име от продавача:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
-            <p className="mt-1"><span className="font-semibold">Анализ фотографии:</span> {photoLabel}</p>
+            <p className="mt-2"><span className="font-semibold">Име от продавача:</span> {String(identity.submittedName || draft.scientificName || 'не е посочено')}</p>
+            <p className="mt-1"><span className="font-semibold">Анализ на снимката:</span> {photoLabel}</p>
             {sellerGbif && sellerGbif.accepted !== true && <p className="mt-1 text-xs text-amber-800">GBIF не потвърди видовото име, посочено от продавача{sellerGbif.rank ? ' (получен ранг ' + String(sellerGbif.rank) + ')' : ''}. Този резултат не се счита за потвърждение на вида.</p>}
             {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение на ИИ според снимката:</span> {suggestedName}</p>}
             {otherVisualCandidates.length > 0 && <p className="mt-1 text-xs text-slate-600">{suggestedName ? 'Други варианти: ' : 'Варианти според снимките: '}{otherVisualCandidates.map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
