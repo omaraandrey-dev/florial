@@ -55,6 +55,23 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Социални мрежи */}
+        <div className="flex flex-col items-center gap-3 mb-8">
+          <h4 className="text-white text-base font-bold">
+            {language === 'en' ? 'Follow us' : language === 'ru' ? 'Мы в социальных сетях' : 'Последвайте ни'}
+          </h4>
+          <a
+            href="https://www.facebook.com/share/19guUXVgFC/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook — Florial"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-blue-500 hover:bg-slate-700 hover:text-white"
+          >
+            <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1877F2] text-base font-extrabold text-white">f</span>
+            Facebook
+          </a>
+        </div>
+
         {/* SEO Блок: Мелкий шрифт с перечислением населенных пунктов */}
         <div className="text-center text-xs text-slate-500 space-y-2">
           <p className="font-medium text-slate-400">
