@@ -62,7 +62,7 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
     return () => { active = false }
   }, [accessToken])
   useEffect(() => { setVariantKey(variants[0]?._key || ''); setPrice(''); setError(''); setNotice('') }, [plantId])
-  const renderCategory = (item: PlantCategory, depth = 0): React.ReactNode => {
+  const renderCategory = (item: PlantCategory, depth = 0) => {
     const children = categoryChildren.get(item._id) || []
     const isExpanded = expanded.includes(item._id)
     const isActive = activeCategory === item._id
@@ -107,7 +107,7 @@ export default function PlantCatalogChangeForm({ accessToken, canAddVariant, can
         <label className={label}>Търсене по име, латинско име или SKU<input className={field} type="search" value={search} onChange={(event) => { setSearch(event.target.value); setPlantId('') }} placeholder="Въведете име или артикулен код…" /></label>
         <div className="rounded-xl border border-stone-200 p-3">
           <div className="mb-2 flex items-center justify-between gap-2"><h3 className="text-sm font-semibold">Каталог на растенията</h3><button type="button" onClick={() => { setActiveCategory(''); setPlantId('') }} className="text-xs font-semibold text-lime-800">Всички</button></div>
-          <div className="max-h-80 space-y-1 overflow-y-auto">{(categoryChildren.get('') || []).map((item) => renderCategory(item))}</div>
+          <div className="max-h-80 space-y-1 overflow-y-auto">{categories.filter((item) => !item.parent?._id || item.parent._id === 'plants-root').map((item) => renderCategory(item))}</div>
         </div>
       </aside>
       <div className="min-w-0 space-y-3">
