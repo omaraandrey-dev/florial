@@ -1,3 +1,12 @@
+## 2026-11-03 — Диагностика ответа Sanity в Manager plant catalogue API
+
+- Для запросов к Sanity dataset `plants` добавлено безопасное серверное логирование неуспешного upstream-ответа: HTTP status/statusText, content-type и ограниченный фрагмент тела ответа.
+- Перед логированием фрагмент ограничивается 600 символами; распространённые формы Bearer/API-токенов и полей token/secret/password/authorization маскируются. Сессионные cookie, заголовки запроса, данные растений и фотографии не логируются.
+- Ошибка загрузки каталога остаётся JSON HTTP 502, теперь содержит `requestId` и этап `sanity_catalog_query`; подробности ответа Sanity доступны только в Cloudflare Real-time Logs по requestId.
+- Логирование охватывает все вызовы Sanity query внутри plant-catalog endpoint; stage выставляется непосредственно перед upstream-запросом.
+- Не менялись D1 schema/records, роли и права, Sanity документы/assets, публичный каталог и другие страницы сайта. Изменён только диагностический путь API и документация.
+- Commit: `2bafb18a668da4d1d79e79586dd8fa4fca4057ce`. Production deployment и ручная проверка причины ожидаются.
+
 ## 2026-11-03 — Manager plant catalogue API 502 diagnostics
 
 - Wrapped the complete plant-catalog Pages Function handler so unexpected D1, session, permission, Sanity, and request-processing exceptions return a JSON error with a request ID and processing stage instead of Cloudflare's HTML 502 response.
