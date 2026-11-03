@@ -65,7 +65,8 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
    }else return json({error:'Unknown change type.'},400)
    const now=new Date().toISOString()
    const approved=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(submitted,in_review)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'approved',reviewed_by:user.id,reviewed_at:now,updated_at:now})})
-   if(!approved.ok)return json({error:'Заявката не можа да бъде одобрена. Обновете списъка и опитайте отново.'},409)
+   const approvedRows=await approved.json().catch(()=>[]) as unknown[]
+   if(!approved.ok||!Array.isArray(approvedRows)||approvedRows.length===0)return json({error:'Заявката не можа да бъде одобрена. Обновете списъка и опитайте отново.'},409)
    await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_approved',from_status:sub.status,to_status:'approved',note:'Промяната е одобрена и очаква отделна публикация.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
    return json({ok:true,status:'approved'})
   }
@@ -103,7 +104,8 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
   }
   const now=new Date().toISOString()
   const published=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&status=in.(approved,publish_failed)',{method:'PATCH',headers:{...admin,Prefer:'return=representation'},body:JSON.stringify({status:'published',published_at:now,publish_error:null,updated_at:now})})
-  if(!published.ok)return json({error:'Каталогът е променен, но статусът на заявката не се обнови. Повторното публикуване е безопасно.'},502)
+  const publishedRows=await published.json().catch(()=>[]) as unknown[]
+  if(!published.ok||!Array.isArray(publishedRows)||publishedRows.length===0)return json({error:'Каталогът е променен, но статусът на заявката не се обнови. Повторното публикуване е безопасно.'},502)
   await fetch(base+'/internal-d1/data/catalog_submission_events',{method:'POST',headers:{...admin,Prefer:'return=minimal'},body:JSON.stringify({submission_id:id,actor_id:user.id,event_type:'catalog_change_published',from_status:sub.status,to_status:'published',note:alreadyApplied?'Публикацията е потвърдена при повторна проверка.':'Промяната е публикувана в каталога.',metadata:{target_document_id:sub.target_document_id,change_type:payload.changeType}})})
   return json({ok:true,status:'published',alreadyApplied})
  }
