@@ -45,7 +45,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
       const submissionFilter = filters.find(x=>x.column==='submission_id'&&x.op==='eq')?.value
       if (typeof submissionFilter !== 'string') return json({ error: 'Submission filter required.' }, 400)
       const parent = await db.prepare('SELECT created_by FROM catalog_submissions WHERE id=?').bind(submissionFilter).first<{created_by:string}>()
-      if (!parent || (user.role==='seller' && parent.created_by!==user.user_id)) return json({ error: 'Submission not found.' }, 404)
+      if (!parent || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission')) && parent.created_by!==user.user_id)) return json({ error: 'Submission not found.' }, 404)
     }
     const order = body.order && typeof body.order==='object' ? body.order as {column?:string;ascending?:boolean} : null
     let sql='SELECT '+select.join(',')+' FROM '+table+(where.length?' WHERE '+where.join(' AND '):'')
@@ -76,13 +76,15 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (typeof idFilter?.value!=='string') return json({error:'Submission ID required.'},400)
   const existing=await db.prepare('SELECT id,created_by,status,payload FROM catalog_submissions WHERE id=?').bind(idFilter.value).first<{id:string;created_by:string;status:string;payload:string}>()
   if (!existing || ((user.role==='seller'||user.role==='manager'&&!hasPermission(user,'canReviewPlantSubmissions')&&!hasPermission(user,'canApprovePlantSubmission'))&&existing.created_by!==user.user_id)) return json({error:'Submission not found.'},404)
-  if ((user.role==='seller'||user.role==='manager'&&existing.created_by===user.user_id&&keys.some(key=>['title','sku','payload','submitted_at'].includes(key))) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
+  const editsCard=keys.some(key=>['title','sku','payload','submitted_at'].includes(key))
+  if(user.role==='manager'&&editsCard&&(!hasPermission(user,'canEditPlantCard')||existing.created_by!==user.user_id))return json({error:'Нямате право да редактирате тази заявка.'},403)
+  if ((user.role==='seller'||user.role==='manager'&&editsCard) && !['draft','changes_requested'].includes(existing.status)) return json({error:'This submission can no longer be edited.'},409)
   if (values.status!==undefined) {
     const next=String(values.status)
     const sellerAllowed=['draft','submitted']
     const canReview=hasPermission(user,'canReviewPlantSubmissions')
     const canApprove=hasPermission(user,'canApprovePlantSubmission')
-    const managerAllowed=(next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview || next==='approved'&&canApprove
+    const managerAllowed=((next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview) || (next==='approved'&&canApprove)
     if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !managerAllowed : !['in_review','changes_requested','approved','rejected','publishing','published','publish_failed'].includes(next)) return json({error:'Invalid status transition.'},403)
     if (user.role==='manager' && next==='approved') {
       let payload:Record<string,unknown>={}
