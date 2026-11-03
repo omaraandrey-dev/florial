@@ -390,7 +390,17 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
         note: 'ИИ създаде чернова за текстове, alt и характеристики; чака проверка от собственика.',
         metadata: { models: { vision: visionModel, text: textModel }, imageCount: imagesForAi.length, totalSelectedImageCount: images.length, scientificNameCandidateCount: scientificNameCandidates.length } }),
     })
-    return json({ ok: true, draft: publication })
+    return json({
+      ok: true,
+      draft: publication,
+      diagnostics: [
+        { stage: 'request_validated', ok: true, plantNameProvided: !!name, scientificNameProvided: !!latinName, selectedImageCount: images.length },
+        { stage: 'image_analysis', ok: true, model: visionModel, imageCountSentToAI: imagesForAi.length },
+        { stage: 'text_generation', ok: true, model: textModel, generatedName: publication.name, scientificNameCandidateCount: scientificNameCandidates.length, generatedAltCount: publication.imageAlts.length, generatedTranslationLanguages: ['bg', 'en', 'ru'], careFieldCount: Object.keys(publication.plantCare).length },
+        { stage: 'draft_saved', ok: true, changedFields: ['name', 'shortDescription', 'description', 'translations', 'imageAlts', 'seo', 'plantCare', 'careGuide'], savedTo: 'catalog_submissions.payload.aiDraft' },
+      ],
+      requestId: crypto.randomUUID(),
+    })
   } catch (error) {
     const technical = errorDetails(error)
     const failedStage = stage
@@ -417,7 +427,8 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       diagnostic: {
         id: diagnosticId, stage: failedStage, stageLabel, code: classification.code,
         imageNumber, hint: classification.hint,
-        technical: technical.slice(0, 350),
+        model: failedStage === 'generate_text' || failedStage === 'parse_text_result' ? textModel : visionModel,
+        technical: technical.slice(0, 500),
       },
     }, 502)
   }
