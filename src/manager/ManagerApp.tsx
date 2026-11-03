@@ -61,7 +61,6 @@ const statusLabels: Record<string, string> = {
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
   published: 'Публикувана', publish_failed: 'Грешка при публикуване', rejected: 'Отхвърлена',
 }
-const orderStatusLabels: Record<string, string> = { new: 'Нова' }
 const inputClass = 'mt-1 w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none transition focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const labelClass = 'block text-sm font-semibold text-stone-700'
 const sellerPlantTypes = [
