@@ -57,18 +57,18 @@ function errorDetails(error: unknown) {
 function classifyAiError(message: string) {
   const lower = message.toLowerCase()
   if (/license|licence|accept.*(term|policy)|prompt.*agree|llama.*agree/.test(lower)) {
-    return { code: 'MODEL_LICENSE_REQUIRED', hint: 'Cloudflare сообщает, что для этой модели необходимо принять лицензию Meta. Генерация остановлена; бесплатная квота не является причиной этой ошибки.' }
+    return { code: 'MODEL_LICENSE_REQUIRED', hint: 'Cloudflare изисква приемане на лиценза на Meta за този модел. Генерирането е спряно; причината не е изчерпана безплатна квота.' }
   }
   if (/deprecated|removed|unknown model|model.*not found/.test(lower)) {
-    return { code: 'AI_MODEL_UNAVAILABLE', hint: 'Cloudflare не принимает выбранную модель. Проверьте актуальный каталог Workers AI; запрос остановлен без изменения данных карточки.' }
+    return { code: 'AI_MODEL_UNAVAILABLE', hint: 'Cloudflare не приема избрания модел. Проверете актуалния каталог на Workers AI; заявката е спряна без промяна на данните в картата.' }
   }
   if (/neurons|daily.*limit|quota|exceeded.*limit|too many requests|429/.test(lower)) {
-    return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Модель отклонила запрос из-за лимита или ограничения частоты. Проверьте Usage в Workers AI.' }
+    return { code: 'AI_QUOTA_OR_RATE_LIMIT', hint: 'Моделът отказа заявката поради лимит или ограничение на честотата. Проверете Usage в Workers AI.' }
   }
   if (/binding|not configured/.test(lower)) {
     return { code: 'AI_BINDING_MISSING', hint: 'В этой среде не найдена привязка Cloudflare Workers AI.' }
   }
-  return { code: 'AI_REQUEST_FAILED', hint: 'Сбой запроса к модели. Технический ответ сохранён в диагностике.' }
+  return { code: 'AI_REQUEST_FAILED', hint: 'Възникна грешка при заявката към модела. Техническият отговор е запазен в диагностиката.' }
 }
 
 function slugify(value: string) {
@@ -198,12 +198,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
         method: 'PATCH', headers: { ...adminHeaders, Prefer: 'return=representation' },
         body: JSON.stringify({ payload: nextPayload, updated_at: new Date().toISOString() }),
       })
-      if (!save.ok) return json({ error: 'Не удалось сохранить варианты ботанического имени.', diagnostic: { stage: 'save_botanical_candidates', httpStatus: save.status } }, 502)
+      if (!save.ok) return json({ error: 'Не успяхме да запазим вариантите за ботаническото име.', diagnostic: { stage: 'save_botanical_candidates', httpStatus: save.status } }, 502)
       const savedRows = await save.json() as Array<{ id: string }>
-      if (!savedRows.length) return json({ error: 'Заявка изменилась. Обновите страницу и повторите запрос.' }, 409)
+      if (!savedRows.length) return json({ error: 'Заявката е променена. Обновете страницата и опитайте отново.' }, 409)
       return json({ ok: true, draft: nextDraft, reused: true, botanicalCandidatesGenerated: true })
     } catch (error) {
-      return json({ error: 'Не удалось предложить латинские названия. Существующий AI-черновик не изменён.', diagnostic: {
+      return json({ error: 'Не успяхме да предложим латински имена. Съществуващата AI чернова не е променена.', diagnostic: {
         stage: 'generate_botanical_candidates', code: 'BOTANICAL_CANDIDATES_FAILED',
         technical: errorDetails(error).slice(0, 350),
       } }, 502)
@@ -413,7 +413,7 @@ careGuide should be a useful Bulgarian care guide with practical points where kn
       }),
     }).catch(() => undefined)
     return json({
-      error: 'Не удалось подготовить проект документа с помощью ИИ.',
+      error: 'Не успяхме да подготвим черновата на документа с ИИ.',
       diagnostic: {
         id: diagnosticId, stage: failedStage, stageLabel, code: classification.code,
         imageNumber, hint: classification.hint,
