@@ -41,8 +41,8 @@ export const onRequest=async({request,env}:{request:Request;env:Env})=>{
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
  if(body.action==='approve'||body.action==='publish'){
   const action=body.action
-  if(action==='approve'&&profile.role!=='owner'&&!profile.permissions?.canApprovePlantSubmission)return json({error:'Нямате право да одобрявате промени в каталога.'},403)
-  if(action==='publish'&&profile.role!=='owner'&&!profile.permissions?.canPublishPlant)return json({error:'Нямате право да публикувате промени в каталога.'},403)
+  if(action==='approve'&&profile.role!=='owner'&&(profile.role!=='manager'||!profile.permissions?.canApprovePlantSubmission))return json({error:'Нямате право да одобрявате промени в каталога.'},403)
+  if(action==='publish'&&profile.role!=='owner'&&(profile.role!=='manager'||!profile.permissions?.canPublishPlant))return json({error:'Нямате право да публикувате промени в каталога.'},403)
   const id=str(body.submissionId,64);if(!uuid.test(id))return json({error:'Invalid submission ID.'},400)
   const sr=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
   if(!sr.ok)return json({error:'Unable to load the change request.'},502)
