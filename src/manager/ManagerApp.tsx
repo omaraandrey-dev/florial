@@ -274,7 +274,7 @@ export default function ManagerApp() {
       else {
         const mapped = (signed || []).map((item, index) => ({ name: imageItems[index]?.name || 'Снимка', url: item.signedUrl || '' })).filter((item) => item.url)
         setPreviewImages(mapped)
-        if (mapped.length !== imageItems.length) setError('Часть фотографий недоступна для просмотра. Проверьте файлы в хранилище.')
+        if (mapped.length !== imageItems.length) setError('Част от снимките не е достъпна за преглед. Проверете файловете в хранилището.')
       }
     }
     setPreviewLoading(false)
@@ -558,7 +558,7 @@ export default function ManagerApp() {
                   origin_check: 'проверка источника запроса',
                   owner_lookup: 'проверка существующего владельца',
                   request_body: 'чтение формы',
-                  password_hash: 'подготовка пароля',
+                  password_hash: 'подготовка на паролата',
                   owner_insert: 'запись владельца в D1',
                 }
                 const details = result.error || `Сервер вернул HTTP ${response.status} без подробного ответа.`
