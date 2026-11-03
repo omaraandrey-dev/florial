@@ -38,6 +38,34 @@ const PLANT_PRODUCT_TYPES = new Set([
 const isPlantProductType = (productType?: string) =>
   PLANT_PRODUCT_TYPES.has(productType || '')
 
+type InitialRouteState = {
+  activeServiceSlug: string | null
+  activeCategorySlug: string | null
+  activeProductSlug: string | null
+  activeSearchQuery: string | null
+  isContactsOpen: boolean
+  isCartOpen: boolean
+}
+
+function getRouteState(
+  pathname = window.location.pathname,
+  search = window.location.search,
+): InitialRouteState {
+  const path = pathname.replace(/\/+$/, '') || '/'
+  const searchParams = new URLSearchParams(search)
+
+  return {
+    activeServiceSlug: path.startsWith('/services/') ? path.replace('/services/', '') : null,
+    activeCategorySlug: path.startsWith('/category/') ? path.replace('/category/', '') : null,
+    activeProductSlug: path.startsWith('/product/') || path.startsWith('/products/')
+      ? decodeURIComponent(path.replace(/^\/(product|products)\//, ''))
+      : null,
+    activeSearchQuery: path === '/search' ? (searchParams.get('q')?.trim() || '') : null,
+    isContactsOpen: path === '/contacts',
+    isCartOpen: path === '/cart',
+  }
+}
+
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
@@ -51,13 +79,15 @@ export default function App() {
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
 
-  const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null)
-  const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
-  const [activeProductSlug, setActiveProductSlug] = useState<string | null>(null)
-  const [activeSearchQuery, setActiveSearchQuery] = useState<string | null>(null)
+  // Resolve the requested URL before the first render so direct links never flash the homepage.
+  const [initialRoute] = useState(() => getRouteState())
+  const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(initialRoute.activeServiceSlug)
+  const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(initialRoute.activeCategorySlug)
+  const [activeProductSlug, setActiveProductSlug] = useState<string | null>(initialRoute.activeProductSlug)
+  const [activeSearchQuery, setActiveSearchQuery] = useState<string | null>(initialRoute.activeSearchQuery)
 
-  const [isContactsOpen, setIsContactsOpen] = useState(false)
-  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isContactsOpen, setIsContactsOpen] = useState(initialRoute.isContactsOpen)
+  const [isCartOpen, setIsCartOpen] = useState(initialRoute.isCartOpen)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const lastTrackedPage = useRef<string | null>(null)
@@ -120,64 +150,17 @@ export default function App() {
     }
   }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts])
 
-  // Роутинг по URL
+  // Keep browser back/forward navigation in sync with the route resolved on initial render.
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname
-      const searchParams = new URLSearchParams(window.location.search)
-      setActiveSearchQuery(path === '/search' ? (searchParams.get('q')?.trim() || '') : null)
-
-      if (path === '/search') {
-        setIsCartOpen(false)
-        setIsContactsOpen(false)
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
-      } else if (path === '/cart') {
-        setIsCartOpen(true)
-        setIsContactsOpen(false)
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
-      } else if (path === '/contacts') {
-        setIsContactsOpen(true)
-        setIsCartOpen(false)
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
-      } else if (path.startsWith('/services/')) {
-        setActiveServiceSlug(path.replace('/services/', ''))
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
-        setIsCartOpen(false)
-        setIsContactsOpen(false)
-      } else if (path.startsWith('/category/')) {
-        setActiveCategorySlug(path.replace('/category/', ''))
-        setActiveServiceSlug(null)
-        setActiveProductSlug(null)
-        setIsCartOpen(false)
-        setIsContactsOpen(false)
-      } else if (
-        path.startsWith('/product/') ||
-        path.startsWith('/products/')
-      ) {
-        setActiveProductSlug(
-          decodeURIComponent(path.replace(/^\/(product|products)\//, ''))
-        )
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setIsCartOpen(false)
-        setIsContactsOpen(false)
-      } else {
-        setIsCartOpen(false)
-        setIsContactsOpen(false)
-        setActiveServiceSlug(null)
-        setActiveCategorySlug(null)
-        setActiveProductSlug(null)
-      }
+      const route = getRouteState()
+      setActiveSearchQuery(route.activeSearchQuery)
+      setIsCartOpen(route.isCartOpen)
+      setIsContactsOpen(route.isContactsOpen)
+      setActiveServiceSlug(route.activeServiceSlug)
+      setActiveCategorySlug(route.activeCategorySlug)
+      setActiveProductSlug(route.activeProductSlug)
     }
-
-    handlePopState()
 
     window.addEventListener('popstate', handlePopState)
 
@@ -979,11 +962,19 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} />
+      ) : activeServiceSlug && loadingProducts ? (
+        <div className="flex-grow flex items-center justify-center py-20">
+          <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
+        </div>
       ) : activeServiceSlug && currentService ? (
         <ServicePage
           service={currentService}
           onNavigateHome={navigateToHome}
         />
+      ) : activeCategorySlug && loadingProducts ? (
+        <div className="flex-grow flex items-center justify-center py-20">
+          <p className="text-slate-500 font-medium">{t("Зареждане на категорията...")}</p>
+        </div>
       ) : activeCategorySlug && currentCategory ? (
         <CategoryPage
           category={currentCategory}
