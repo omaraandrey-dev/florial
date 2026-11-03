@@ -599,7 +599,7 @@ export default function ManagerApp() {
                 throw new Error(diagnostic ? `${details} (${diagnostic})` : details)
               }
               const login = await managerApi.auth.signInWithPassword({ email, password })
-              if (login.error) throw new Error('Собственник создан. Теперь войдите с указанными email и паролем.')
+              if (login.error) throw new Error('Профилът на собственика е създаден. Влезте с посочения имейл и парола.')
               setBootstrapAvailable(false)
             } catch (err) {
               setBootstrapError(err instanceof TypeError ? 'Не успяхме да се свържем със сървъра. Проверете връзката и обновете страницата.' : err instanceof Error ? err.message : 'Не успяхме да създадем профил на собственик.')
