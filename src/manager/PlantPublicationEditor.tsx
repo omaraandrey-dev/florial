@@ -342,7 +342,7 @@ export default function PlantPublicationEditor({
         throw new Error(String(result.error || 'Не успяхме да стартираме фоновата проверка.'))
       }
       const workflowId = result.workflowId
-      setNotice('Проверка принята и выполняется в фоновом режиме.')
+      setNotice('Проверката е приета и се изпълнява във фонов режим.')
       for (let attempt = 0; attempt < 180; attempt += 1) {
         await new Promise((resolve) => setTimeout(resolve, 1500))
         const statusUrl = '/api/manager/enrich-plant-care?submissionId=' + encodeURIComponent(submission.id) + '&workflowId=' + encodeURIComponent(workflowId)
@@ -358,7 +358,7 @@ export default function PlantPublicationEditor({
         }
         if (state === 'errored' || state === 'failed' || state === 'terminated') {
           const detail = workflow.error
-          const message = typeof detail === 'string' ? detail : detail ? JSON.stringify(detail) : 'Фоновая проверка завершилась с ошибкой.'
+          const message = typeof detail === 'string' ? detail : detail ? JSON.stringify(detail) : 'Фоновата проверка приключи с грешка.'
           throw new Error(message)
         }
       }
@@ -566,7 +566,7 @@ export default function PlantPublicationEditor({
           const taxonomyLabel = identity.status === 'verified'
             ? 'Таксономия подтверждена GBIF'
             : identity.status === 'photo_name_mismatch'
-              ? 'Внимание: название продавца не совпадает с анализом фотографии'
+              ? 'Внимание: името на продавача не съвпада с анализа на снимката'
               : identity.status === 'photo_candidate_suggested'
                 ? 'Есть альтернативное предположение по фотографии'
                 : identity.status === 'taxonomy_verified_photo_inconclusive'
@@ -575,15 +575,15 @@ export default function PlantPublicationEditor({
           const photoLabel = photoAssessment === 'match'
             ? 'Снимката визуално съответства на името'
             : photoAssessment === 'mismatch'
-              ? 'Возможное несоответствие фотографии и названия'
+              ? 'Възможно несъответствие между снимката и името'
               : photoAssessment === 'multiple'
                 ? 'По снимките са получени различни предположения'
                 : photoAssessment === 'candidate_only'
-                  ? 'Название продавца не подтверждено; есть кандидат по фотографии'
+                  ? 'Името на продавача не е потвърдено; има кандидат според снимката'
                   : 'ИИ не успя уверено да определи вида по снимката'
           return <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
             <p className="font-semibold">{taxonomyLabel}</p>
-            <p className="mt-2"><span className="font-semibold">Название продавца:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
+            <p className="mt-2"><span className="font-semibold">Име от продавача:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
             <p className="mt-1"><span className="font-semibold">Анализ фотографии:</span> {photoLabel}</p>
             {sellerGbif && sellerGbif.accepted !== true && <p className="mt-1 text-xs text-amber-800">GBIF не потвърди видовото име, посочено от продавача{sellerGbif.rank ? ' (получен ранг ' + String(sellerGbif.rank) + ')' : ''}. Този резултат не се счита за потвърждение на вида.</p>}
             {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение на ИИ според снимката:</span> {suggestedName}</p>}
@@ -593,7 +593,7 @@ export default function PlantPublicationEditor({
             {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
             <p className="mt-1 text-xs text-slate-600">Основа на агротехническите предложения: {String(identity.careTaxon || 'не е потвърдена')}. {identity.careIsProvisional === true ? 'Предложенията са предварителни: ботаническото име трябва да бъде потвърдено от собственика.' : ''}</p>
             <p className="mt-1 text-xs text-slate-600">Проверени снимки: {String(identity.imageCountAnalysed || 0)}</p>
-            <p className="mt-1 text-xs text-slate-600">Увереност на ИИ: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'няма получена оценка'}</p>
+            <p className="mt-1 text-xs text-slate-600">Оценка на увереността на ИИ: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'няма получена оценка'}</p>
             <p className="mt-2 text-xs text-slate-600">GBIF проверява таксономията, но не и агротехническите характеристики. AI разпознаването на снимката и увереността на модела са предварителни оценки, а не независимо ботаническо потвърждение. Проверете всички стойности и името преди запазване и публикуване.</p>
           </div>
         })()}
@@ -641,7 +641,7 @@ export default function PlantPublicationEditor({
                   const confidenceLabel = confidence === 'high' ? 'висока' : confidence === 'medium' ? 'средна' : 'ниска'
                   const selected = draft.scientificName.trim().toLowerCase() === candidateName.toLowerCase()
                   return <button key={candidateName + '-' + index} type="button" onClick={() => update('scientificName', candidateName)} className={'block w-full rounded-lg border px-3 py-2 text-left ' + (selected ? 'border-violet-500 bg-white ring-1 ring-violet-300' : 'border-violet-200 bg-white')}>
-                    <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Увереност на ИИ: {confidenceLabel}{selected ? ' · выбрано' : ''}</span></span>
+                    <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Оценка на увереността на ИИ: {confidenceLabel}{selected ? ' · избрано' : ''}</span></span>
                     {typeof candidate.reason === 'string' && candidate.reason && <span className="mt-1 block text-xs text-slate-600">{candidate.reason}</span>}
                   </button>
                 })}
@@ -717,7 +717,7 @@ export default function PlantPublicationEditor({
           <label className={labelClass}>Сезон на засаждане (добавете yearRound при нужда)<input className={inputClass} value={draft.plantCare.plantingSeason.join(', ')} onChange={(event) => update('plantCare', { ...draft.plantCare, plantingSeason: event.target.value.split(',').map((v) => v.trim()).filter(Boolean) })} /></label>
         </div><label className={labelClass + ' mt-4'}>Ръководство за отглеждане (BG)<textarea className={inputClass} rows={5} value={draft.careGuide} onChange={(event) => update('careGuide', event.target.value)} /></label></details>
         <details className="rounded-xl border border-stone-200 p-4">
-          <summary className="cursor-pointer font-semibold">SEO и дополнительные настройки</summary>
+          <summary className="cursor-pointer font-semibold">SEO и допълнителни настройки</summary>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className={labelClass}>SEO заглавие (BG)<input className={inputClass} maxLength={160} value={draft.seoTitle} onChange={(event) => update('seoTitle', event.target.value)} /></label>
             <label className={labelClass}>SEO описание (BG)<textarea className={inputClass} rows={3} maxLength={320} value={draft.seoDescription} onChange={(event) => update('seoDescription', event.target.value)} /></label>
