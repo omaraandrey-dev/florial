@@ -32,7 +32,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
     stage = 'owner_insert'
     const inserted = await env.DB.prepare("INSERT INTO catalog_staff_profiles (user_id,email,password_salt,password_hash,password_iterations,role,display_name,is_active,permissions,created_at,updated_at) VALUES (?,?,?,?,?,'owner',?,1,?,?,?)")
-      .bind(id, email, salt, hash, iterations, displayName, JSON.stringify({ canCreatePlant: true, canAddPlantVariant: true, canEditPlantPrice: true }), now, now).run()
+      .bind(id, email, salt, hash, iterations, displayName, JSON.stringify({ canCreatePlant: true, canEditPlantCard: true, canAddPlantVariant: true, canEditPlantPrice: true, canReviewPlantSubmissions: true, canApprovePlantSubmission: true, canPublishPlant: true, canManageStaff: true, canDelegatePermissions: true, canViewAnalytics: true }), now, now).run()
     if (!inserted.success) throw new Error('D1 returned an unsuccessful insert result')
 
     return json({ ok: true, user_id: id }, 201)
