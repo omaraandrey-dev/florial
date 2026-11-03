@@ -172,7 +172,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!['submitted', 'in_review', 'approved', 'publish_failed'].includes(submission.status)) return json({ error: 'Ботаническа проверка е възможна само за заявка за растение, която е в процес на преглед.' }, 409)
   const payload = object(submission.payload) || {}
   const aiDraft = object(payload.aiDraft)
-  if (!aiDraft) return json({ error: 'Сначала подгответе основната AI-карта.' }, 409)
+  if (!aiDraft) return json({ error: 'Първо подгответе основната AI-карта.' }, 409)
 
   const reviewInput = object(body.reviewInput) || {}
   const requestedPlantName = textValue(reviewInput.name, 160)
