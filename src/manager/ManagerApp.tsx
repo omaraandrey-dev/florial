@@ -151,7 +151,7 @@ export default function ManagerApp() {
       .eq('catalog', 'plants')
       .order('updated_at', { ascending: false })
       .limit(100)
-    if (profile.role === 'seller') query = query.eq('created_by', profile.user_id)
+    if (profile.role === 'seller' || profile.role === 'manager' && !profile.permissions.canReviewPlantSubmissions && !profile.permissions.canApprovePlantSubmission && !profile.permissions.canPublishPlant) query = query.eq('created_by', profile.user_id)
     const { data, error: listError } = await query
     if (listError) { setError('Не успяхме да заредим заявките. ' + listError.message); return }
     setSubmissions((data || []) as Submission[])
@@ -473,8 +473,9 @@ export default function ManagerApp() {
         displayName: newStaffName,
         role: newStaffRole,
         password: newStaffPassword,
+        permissions: newStaffPermissions,
       })
-      setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword('')
+      setNewStaffEmail(''); setNewStaffName(''); setNewStaffPassword(''); setNewStaffPermissions({ ...emptyPermissions })
       setStaffNotice('Служителят е създаден. Предайте му email адреса и зададената от вас парола.')
       await loadStaff()
     } catch (err) {
@@ -773,7 +774,7 @@ export default function ManagerApp() {
           <div className="space-y-4">
             <div>
               <h1 className="text-2xl font-semibold">Управление на служителите</h1>
-              <p className="mt-1 text-sm text-stone-600">Само собственикът може да добавя служители, задава пароли и управлява достъпа.</p>
+              <p className="mt-1 text-sm text-stone-600">Достъпът до служителите и правата за делегиране се определят от профила на собственика.</p>
             </div>
             {staffError && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{staffError}</div>}
             {staffNotice && <div className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{staffNotice}</div>}
@@ -796,11 +797,7 @@ export default function ManagerApp() {
                         <option value="manager">Мениджър</option>
                       </select>
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
-                      {staff.role !== 'owner' && <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canCreatePlant: !staff.permissions.canCreatePlant } }, 'Правото за създаване е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canCreatePlant ? '✓ Създаване разрешено' : 'Създаване забранено'}</button>
-                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canAddPlantVariant: !staff.permissions.canAddPlantVariant } }, 'Правото за добавяне на варианти е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canAddPlantVariant ? '✓ Нов размер разрешен' : 'Нов размер забранен'}</button>
-                        <button type="button" disabled={staffSaving} onClick={() => void updateStaff(staff.user_id, { action: 'update', permissions: { ...staff.permissions, canEditPlantPrice: !staff.permissions.canEditPlantPrice } }, 'Правото за промяна на цени е обновено.')} className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold">{staff.permissions.canEditPlantPrice ? '✓ Цена разрешена' : 'Цена забранена'}</button>
-                      </div>}
+                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || !['canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => void updateStaff(staff.user_id,{action:'update',permissions:{...staff.permissions,[item.key]:event.target.checked}},'Разрешенията са обновени.')} />{item.label}</label>)}</div></fieldset>}
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return
@@ -818,10 +815,11 @@ export default function ManagerApp() {
             </div>
           </div>
           <form onSubmit={createStaff} className="h-fit rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-            <h2 className="text-lg font-semibold">Добавить сотрудника</h2>
-            <label className={labelClass + ' mt-4'}>Имя сотрудника<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
+            <h2 className="text-lg font-semibold">Добавяне на служител</h2>
+            <label className={labelClass + ' mt-4'}>Име на служителя<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
             <label className={labelClass + ' mt-4'}>Email<input className={inputClass} type="email" autoComplete="off" value={newStaffEmail} onChange={(event) => setNewStaffEmail(event.target.value)} required /></label>
-            <label className={labelClass + ' mt-4'}>Роль<select className={inputClass} value={newStaffRole} onChange={(event) => setNewStaffRole(event.target.value as 'seller' | 'manager')}><option value="seller">Продавач</option><option value="manager">Мениджър</option></select></label>
+            <label className={labelClass + ' mt-4'}>Роля<select className={inputClass} value={newStaffRole} onChange={(event) => setNewStaffRole(event.target.value as 'seller' | 'manager')}><option value="seller">Продавач</option>{(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <option value="manager">Мениджър</option>}</select></label>
+            {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-4 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-sm font-semibold">Права на новия служител</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || profile.permissions[item.key]).filter((item) => newStaffRole !== 'seller' || !['canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-sm font-normal"><input type="checkbox" checked={newStaffPermissions[item.key]} onChange={(event) => setNewStaffPermissions((current) => ({ ...current, [item.key]: event.target.checked }))} />{item.label}</label>)}</div><p className="mt-2 text-xs font-normal text-stone-500">Могат да бъдат предоставени само права, които имате лично.</p></fieldset>}
             <label className={labelClass + ' mt-4'}>Парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символа. След запис паролата няма да се показва повторно.</span></label>
             <button disabled={staffSaving} className="mt-5 w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{staffSaving ? 'Запазване…' : 'Създай служител'}</button>
           </form>
