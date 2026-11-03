@@ -604,3 +604,10 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Съобщенията за грешки, които се показват от AI/GBIF endpoint-ите, са локализирани на български.
 - `GET /api/manager/orders` и панелът «Поръчки» са read-only. Production D1 показва 1 поръчка със статус `new`; checkout кодът създава поръчки с този статус. Други статуси и правила за тях не са потвърдени, затова мутацията на поръчки не е реализирана.
 - Production D1 е проверена само чрез агрегирана SELECT заявка; без промяна на записи. Sanity също не е променян.
+
+
+### Final Manager localization follow-up — 03.11.2026
+- Final visible Russian fragments were corrected in the AI image-diagnostic stage label, botanical-check prerequisite message and plant image-preview warning.
+- These were text-only changes. Manager authorization, AI/GBIF algorithms, D1 records, Sanity documents, order data and public storefront components were not changed.
+- Production deployment for the final code commit must be checked before closing the work.
+
