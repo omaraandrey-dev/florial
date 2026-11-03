@@ -13,7 +13,23 @@ const diagnosticStageNames: Record<string, string> = {
   gbif_taxonomy: 'Проверка таксономии в GBIF', care_generation: 'Подготовка характеристик растения',
   text_generation: 'Создание описаний и SEO', generate_text: 'Создание описаний и SEO', parse_text_result: 'Проверка ответа ИИ',
   save_submission: 'Сохранение результата', draft_saved: 'Сохранение AI-черновика', completed: 'Завершение проверки',
+  workflow_error: 'Ответ фоновой задачи', ai_error: 'Ошибка искусственного интеллекта',
 }
+const diagnosticFieldNames: Record<string, string> = {
+  model: 'Модель ИИ', selectedTaxon: 'Определённый таксон', detail: 'Подробности этапа', httpStatus: 'HTTP-код ответа',
+  name: 'Тип ошибки', responseParsed: 'Ответ модели распознан', plantNameProvided: 'Название растения указано',
+  scientificNameProvided: 'Латинское название указано', selectedImageCount: 'Выбрано фотографий', imageCountSentToAI: 'Фотографий передано ИИ',
+  imageCountAnalysed: 'Фотографий проанализировано', candidateCount: 'Найдено кандидатов', commonNameCandidateCount: 'Кандидатов по названию',
+  acceptedCommonNameCandidateCount: 'Принято кандидатов по названию', sellerAccepted: 'Название продавца принято GBIF',
+  visualAccepted: 'Кандидат по фотографии принят GBIF', visualSuggestedScientificName: 'Название, предложенное по фотографии',
+  generatedCareFieldCount: 'Подготовлено характеристик', careGuideGenerated: 'Руководство по уходу создано', careSource: 'Источник определения растения',
+  generatedName: 'Сформированное название', scientificNameCandidateCount: 'Предложено латинских названий',
+  generatedAltCount: 'Создано ALT-текстов', generatedTranslationLanguages: 'Подготовлены языки', careFieldCount: 'Полей ухода подготовлено',
+  changedFields: 'Изменённые поля черновика', savedTo: 'Место сохранения результата', diagnosticId: 'Идентификатор диагностики',
+  stageLabel: 'Этап обработки', code: 'Код ошибки', imageNumber: 'Номер фотографии', reason: 'Причина', confidence: 'Уверенность',
+  rank: 'Таксономический ранг', matchType: 'Тип совпадения', url: 'Ссылка на запись GBIF',
+}
+const diagnosticFieldName = (key: string) => diagnosticFieldNames[key] || key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/^./, (value) => value.toLocaleUpperCase('ru'))
 const diagnosticText = (value: unknown): string => value == null ? '—' : typeof value === 'boolean' ? (value ? 'Да' : 'Нет') : Array.isArray(value) ? value.map((item) => String(item)).join(', ') : typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)
 
 type Submission = {
@@ -367,10 +383,12 @@ export default function PlantPublicationEditor({
         const workflow = statusBody.status && typeof statusBody.status === 'object' ? statusBody.status as Record<string, unknown> : {}
         const state = String(workflow.status || '')
         if (state === 'complete' || state === 'completed') {
-          const careDraft = statusBody.careDraft && typeof statusBody.careDraft === 'object' ? statusBody.careDraft as Record<string, unknown> : {}
+          const workflowOutput = workflow.output && typeof workflow.output === 'object' ? workflow.output as Record<string, unknown> : {}
+          const careDraft = (workflowOutput.careDraft && typeof workflowOutput.careDraft === 'object' ? workflowOutput.careDraft : statusBody.careDraft) as Record<string, unknown> || {}
           const identity = careDraft.identity && typeof careDraft.identity === 'object' ? careDraft.identity as Record<string, unknown> : {}
           const plantCare = careDraft.plantCare && typeof careDraft.plantCare === 'object' ? careDraft.plantCare as Record<string, unknown> : {}
-          const steps = Array.isArray(statusBody.diagnostics) ? statusBody.diagnostics as Array<Record<string, unknown>> : []
+          const diagnosticSteps = Array.isArray(workflowOutput.diagnostics) ? workflowOutput.diagnostics : statusBody.diagnostics
+          const steps = Array.isArray(diagnosticSteps) ? diagnosticSteps as Array<Record<string, unknown>> : []
           const careLabels: Record<string, string> = { light: 'Освещённость', waterNeeds: 'Потребность в воде', minWinterTempC: 'Минимальная зимняя температура', adultHeightCm: 'Взрослая высота', foliageType: 'Тип листвы', floweringSeason: 'Период цветения', plantingSeason: 'Период посадки', blackSeaCoast: 'Пригодность для Черноморского побережья' }
           const changes = Object.entries(plantCare).filter(([, value]) => value != null && value !== '' && !(Array.isArray(value) && value.length === 0)).map(([key, value]) => ({ label: careLabels[key] || key, value: diagnosticText(value) }))
           if (identity.canonicalName) changes.unshift({ label: 'Определённый таксон', value: diagnosticText(identity.canonicalName) })
@@ -800,7 +818,7 @@ export default function PlantPublicationEditor({
             {diagnosticReport.steps.length === 0 ? <p className="mt-2 text-sm text-stone-500">Списокът с етапи не е върнат от сървъра.</p> : <ol className="mt-2 space-y-2">
               {diagnosticReport.steps.map((step, index) => <li key={index} className="rounded-xl border border-stone-200 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-sm font-semibold">{diagnosticStageNames[String(step.stage || '')] || String(step.stage || 'Етап')}</span><span className={'text-xs font-semibold ' + (step.ok === false ? 'text-red-700' : 'text-emerald-700')}>{step.ok === false ? 'Неуспешно' : 'Успешно'}</span></div>
-                <dl className="mt-2 grid gap-x-4 gap-y-1 sm:grid-cols-2">{Object.entries(step).filter(([key, value]) => !['stage', 'ok'].includes(key) && value != null && value !== '').map(([key, value]) => <div key={key} className="min-w-0"><dt className="text-[11px] uppercase tracking-wide text-stone-500">{key}</dt><dd className="break-words whitespace-pre-wrap text-xs text-stone-800">{diagnosticText(value)}</dd></div>)}</dl>
+                <dl className="mt-2 grid gap-x-4 gap-y-1 sm:grid-cols-2">{Object.entries(step).filter(([key, value]) => !['stage', 'ok'].includes(key) && value != null && value !== '').map(([key, value]) => <div key={key} className="min-w-0"><dt className="text-[11px] uppercase tracking-wide text-stone-500">{diagnosticFieldName(key)}</dt><dd className="break-words whitespace-pre-wrap text-xs text-stone-800">{diagnosticText(value)}</dd></div>)}</dl>
               </li>)}
             </ol>}
           </div>
