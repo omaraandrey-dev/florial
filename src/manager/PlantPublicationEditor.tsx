@@ -548,14 +548,14 @@ export default function PlantPublicationEditor({
       <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="font-semibold text-sky-950">Проверка ботанических характеристик</h3>
+            <h3 className="font-semibold text-sky-950">Проверка на ботаническите характеристики</h3>
             <p className="mt-1 text-sm text-sky-900">AI независимо анализира до три снимки и предлага вероятен вид. Системата сравнява предположението с името на продавача и проверява латинските кандидати чрез GBIF. След това AI може да предложи агротехнически характеристики за ваша проверка.</p>
           </div>
           <button type="button" disabled={!hasAiDraft || hasPublication || Boolean(plantCareResearch) || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {careResearching ? 'Проверка…' : 'Проверете и предложете характеристики'}
           </button>
         </div>
-        {careResearching && <p className="mt-3 text-sm text-sky-900">Проверка выполняется как отдельное серверное задание. Состояние обновляется автоматически; повторно запускать её не нужно.</p>}
+        {careResearching && <p className="mt-3 text-sm text-sky-900">Проверката се изпълнява като отделна сървърна задача. Състоянието се обновява автоматично; не е необходимо да я стартирате повторно.</p>}
         {plantCareResearch && (() => {
           const identity = (plantCareResearch.identity as Record<string, unknown> | undefined) || {}
           const photoAssessment = String(identity.photoAssessment || 'inconclusive')
@@ -571,29 +571,29 @@ export default function PlantPublicationEditor({
                 ? 'Есть альтернативное предположение по фотографии'
                 : identity.status === 'taxonomy_verified_photo_inconclusive'
                   ? 'GBIF подтвердил название; фото не дало точного определения'
-                  : 'Требуется уточнить ботаническое имя'
+                  : 'Необходимо е уточняване на ботаническото име'
           const photoLabel = photoAssessment === 'match'
-            ? 'Фотография визуально согласуется с названием'
+            ? 'Снимката визуално съответства на името'
             : photoAssessment === 'mismatch'
               ? 'Возможное несоответствие фотографии и названия'
               : photoAssessment === 'multiple'
-                ? 'На фотографиях получены разные предположения'
+                ? 'По снимките са получени различни предположения'
                 : photoAssessment === 'candidate_only'
                   ? 'Название продавца не подтверждено; есть кандидат по фотографии'
-                  : 'AI не смог уверенно определить вид по фотографии'
+                  : 'ИИ не успя уверено да определи вида по снимката'
           return <div className="mt-3 rounded-lg border border-sky-200 bg-white p-3 text-sm text-sky-950">
             <p className="font-semibold">{taxonomyLabel}</p>
             <p className="mt-2"><span className="font-semibold">Название продавца:</span> {String(identity.submittedName || draft.scientificName || 'не указано')}</p>
             <p className="mt-1"><span className="font-semibold">Анализ фотографии:</span> {photoLabel}</p>
-            {sellerGbif && sellerGbif.accepted !== true && <p className="mt-1 text-xs text-amber-800">GBIF не подтвердил видовое название продавца{sellerGbif.rank ? ' (получен ранг ' + String(sellerGbif.rank) + ')' : ''}. Такой результат не считается подтверждением вида.</p>}
-            {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение AI по фото:</span> {suggestedName}</p>}
-            {otherVisualCandidates.length > 0 && <p className="mt-1 text-xs text-slate-600">{suggestedName ? 'Другие варианты: ' : 'Варианты по фотографиям: '}{otherVisualCandidates.map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
+            {sellerGbif && sellerGbif.accepted !== true && <p className="mt-1 text-xs text-amber-800">GBIF не потвърди видовото име, посочено от продавача{sellerGbif.rank ? ' (получен ранг ' + String(sellerGbif.rank) + ')' : ''}. Този резултат не се счита за потвърждение на вида.</p>}
+            {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение на ИИ според снимката:</span> {suggestedName}</p>}
+            {otherVisualCandidates.length > 0 && <p className="mt-1 text-xs text-slate-600">{suggestedName ? 'Други варианти: ' : 'Варианти според снимките: '}{otherVisualCandidates.map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
             {suggestedName && suggestedName !== draft.scientificName && <button type="button" onClick={() => update('scientificName', suggestedName)} className="mt-3 rounded-lg border border-sky-300 px-3 py-2 text-xs font-semibold text-sky-900">Поставете предложеното латинско име (проверете и запазете ръчно)</button>}
             <p className="mt-2">{String(identity.canonicalName || '')}</p>
             {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
-            <p className="mt-1 text-xs text-slate-600">Основа агротехнических предложений: {String(identity.careTaxon || 'не подтверждена')}. {identity.careIsProvisional === true ? 'Предложения предварительные: ботаническое имя требует подтверждения владельцем.' : ''}</p>
-            <p className="mt-1 text-xs text-slate-600">Проверено фотографий: {String(identity.imageCountAnalysed || 0)}</p>
-            <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
+            <p className="mt-1 text-xs text-slate-600">Основа на агротехническите предложения: {String(identity.careTaxon || 'не е потвърдена')}. {identity.careIsProvisional === true ? 'Предложенията са предварителни: ботаническото име трябва да бъде потвърдено от собственика.' : ''}</p>
+            <p className="mt-1 text-xs text-slate-600">Проверени снимки: {String(identity.imageCountAnalysed || 0)}</p>
+            <p className="mt-1 text-xs text-slate-600">Увереност на ИИ: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'няма получена оценка'}</p>
             <p className="mt-2 text-xs text-slate-600">GBIF проверява таксономията, но не и агротехническите характеристики. AI разпознаването на снимката и увереността на модела са предварителни оценки, а не независимо ботаническо потвърждение. Проверете всички стойности и името преди запазване и публикуване.</p>
           </div>
         })()}
@@ -641,7 +641,7 @@ export default function PlantPublicationEditor({
                   const confidenceLabel = confidence === 'high' ? 'висока' : confidence === 'medium' ? 'средна' : 'ниска'
                   const selected = draft.scientificName.trim().toLowerCase() === candidateName.toLowerCase()
                   return <button key={candidateName + '-' + index} type="button" onClick={() => update('scientificName', candidateName)} className={'block w-full rounded-lg border px-3 py-2 text-left ' + (selected ? 'border-violet-500 bg-white ring-1 ring-violet-300' : 'border-violet-200 bg-white')}>
-                    <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Уверенность AI: {confidenceLabel}{selected ? ' · выбрано' : ''}</span></span>
+                    <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold text-slate-900">{candidateName}</span><span className="text-xs text-slate-600">Увереност на ИИ: {confidenceLabel}{selected ? ' · выбрано' : ''}</span></span>
                     {typeof candidate.reason === 'string' && candidate.reason && <span className="mt-1 block text-xs text-slate-600">{candidate.reason}</span>}
                   </button>
                 })}
