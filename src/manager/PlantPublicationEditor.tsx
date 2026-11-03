@@ -341,8 +341,9 @@ export default function PlantPublicationEditor({
 
   const researchPlantCare = async () => {
     if (!hasAiDraft || hasPublication || imageFiles.length === 0 || imagesLoading) return
-    setCareResearching(true); setError(''); setNotice('')
+    setCareResearching(true); setError(''); setNotice(''); setDiagnosticReport(null)
     const reviewInput = { name: draft.name.trim(), scientificName: draft.scientificName.trim() }
+    let hasDetailedReport = false
     try {
       const response = await fetch('/api/manager/enrich-plant-care', {
         method: 'POST',
@@ -351,32 +352,53 @@ export default function PlantPublicationEditor({
       })
       const result = await response.json().catch(() => ({})) as Record<string, unknown>
       if (!response.ok || typeof result.workflowId !== 'string') {
-        throw new Error(String(result.error || 'Не успяхме да стартираме фоновата проверка.'))
+        const steps = Array.isArray(result.diagnostics) ? result.diagnostics as Array<Record<string, unknown>> : []
+        hasDetailedReport = true
+        setDiagnosticReport({ title: 'Ботаническая проверка', status: 'error', summary: String(result.error || 'Не удалось запустить проверку.'), steps, technical: diagnosticText(result.detail) })
+        throw new Error(String(result.error || 'Не удалось запустить фоновую проверку.'))
       }
       const workflowId = result.workflowId
-      setNotice('Проверката е приета и се изпълнява във фонов режим.')
       for (let attempt = 0; attempt < 180; attempt += 1) {
         await new Promise((resolve) => setTimeout(resolve, 1500))
         const statusUrl = '/api/manager/enrich-plant-care?submissionId=' + encodeURIComponent(submission.id) + '&workflowId=' + encodeURIComponent(workflowId)
         const statusResponse = await fetch(statusUrl, { headers: { Authorization: 'Bearer ' + accessToken } })
         const statusBody = await statusResponse.json().catch(() => ({})) as Record<string, unknown>
-        if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не успяхме да получим състоянието на проверката.'))
+        if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не удалось получить состояние проверки.'))
         const workflow = statusBody.status && typeof statusBody.status === 'object' ? statusBody.status as Record<string, unknown> : {}
         const state = String(workflow.status || '')
         if (state === 'complete' || state === 'completed') {
-          setNotice('Проверката приключи. Обновяваме картата.')
+          const careDraft = statusBody.careDraft && typeof statusBody.careDraft === 'object' ? statusBody.careDraft as Record<string, unknown> : {}
+          const identity = careDraft.identity && typeof careDraft.identity === 'object' ? careDraft.identity as Record<string, unknown> : {}
+          const plantCare = careDraft.plantCare && typeof careDraft.plantCare === 'object' ? careDraft.plantCare as Record<string, unknown> : {}
+          const steps = Array.isArray(statusBody.diagnostics) ? statusBody.diagnostics as Array<Record<string, unknown>> : []
+          const careLabels: Record<string, string> = { light: 'Освещённость', waterNeeds: 'Потребность в воде', minWinterTempC: 'Минимальная зимняя температура', adultHeightCm: 'Взрослая высота', foliageType: 'Тип листвы', floweringSeason: 'Период цветения', plantingSeason: 'Период посадки', blackSeaCoast: 'Пригодность для Черноморского побережья' }
+          const changes = Object.entries(plantCare).filter(([, value]) => value != null && value !== '' && !(Array.isArray(value) && value.length === 0)).map(([key, value]) => ({ label: careLabels[key] || key, value: diagnosticText(value) }))
+          if (identity.canonicalName) changes.unshift({ label: 'Определённый таксон', value: diagnosticText(identity.canonicalName) })
+          if (identity.photoAssessment) changes.push({ label: 'Сопоставление фотографии и названия', value: diagnosticText(identity.photoAssessment) })
+          if (identity.imageCountAnalysed != null) changes.push({ label: 'Проанализировано фотографий', value: diagnosticText(identity.imageCountAnalysed) })
+          hasDetailedReport = true
+          setDiagnosticReport({ title: 'Результат ботанической проверки', status: 'success', summary: 'Проверка завершена. Ниже показаны найденные сведения и предложенные характеристики. Это рекомендации ИИ; перед публикацией их необходимо проверить.', steps: [...steps, { stage: 'completed', ok: true }], changes })
           await onSaved()
           return
         }
         if (state === 'errored' || state === 'failed' || state === 'terminated') {
           const detail = workflow.error
-          const message = typeof detail === 'string' ? detail : detail ? JSON.stringify(detail) : 'Фоновата проверка приключи с грешка.'
-          throw new Error(message)
+          let parsed: Record<string, unknown> = {}
+          if (typeof detail === 'string') { try { parsed = JSON.parse(detail) as Record<string, unknown> } catch { parsed = { message: detail } } }
+          else if (detail && typeof detail === 'object') parsed = detail as Record<string, unknown>
+          const responseBody = parsed.response && typeof parsed.response === 'object' ? parsed.response as Record<string, unknown> : parsed
+          const steps = Array.isArray(responseBody.diagnostics) ? responseBody.diagnostics as Array<Record<string, unknown>> : []
+          const technical = steps.length ? steps.map((step) => diagnosticText(step.detail)).filter((value) => value !== '—').join('\n') : diagnosticText(parsed.message || detail)
+          const message = String(responseBody.error || 'Ботаническая проверка завершилась с ошибкой.')
+          hasDetailedReport = true
+          setDiagnosticReport({ title: 'Ботаническая проверка', status: 'error', summary: message, steps, technical })
+          throw new Error('Проверка завершилась с ошибкой. Подробности находятся в диагностическом окне.')
         }
       }
-      throw new Error('Фоновата проверка все още се изпълнява. Задачата е запазена; обновете картата по-късно.')
+      throw new Error('Проверка всё ещё выполняется. Обновите карточку позже; повторно запускать задачу не нужно.')
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
+      if (!hasDetailedReport) setDiagnosticReport({ title: 'Ботаническая проверка', status: 'error', summary: err instanceof Error ? err.message : String(err), steps: [], technical: 'Подробный ответ сервера не получен.' })
     } finally { setCareResearching(false) }
   }
 
