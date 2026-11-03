@@ -27,6 +27,7 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     let active = true
@@ -37,7 +38,7 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
       setLoading(false)
     })
     return () => { active = false }
-  }, [])
+  }, [refreshKey])
 
   const filteredAssets = useMemo(() => {
     const term = search.trim().toLocaleLowerCase()
@@ -51,11 +52,14 @@ export default function PlantImageLibrary({ selectedAssetIds, usedAssetIds, maxS
           <h3 className="font-semibold text-stone-800">Библиотека фотографий</h3>
           <p className="mt-1 text-xs text-stone-500">Снимки из Sanity · набор „Растения“. Изберете вече качени снимки или добавете нови файлове.</p>
         </div>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-stone-600">{selectedAssetIds.length} избрани</span>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-stone-600">{selectedAssetIds.length} избрани</span>
+          <button type="button" onClick={() => setRefreshKey((value) => value + 1)} disabled={loading || disabled} className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:opacity-50">Обнови</button>
+        </div>
       </div>
       <input className="mt-3 w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Търсене по име на файл или ID…" aria-label="Търсене в библиотеката с фотографии" />
       {loading && <p className="mt-3 text-sm text-stone-500">Зареждане на фотографиите…</p>}
-      {error && <p role="alert" className="mt-3 text-sm text-red-700">Не удалось заредить библиотеката: {error}</p>}
+      {error && <p role="alert" className="mt-3 text-sm text-red-700">Библиотеката не може да бъде заредена: {error}</p>}
       {!loading && !error && assets.length === 0 && <p className="mt-3 text-sm text-stone-500">В библиотеката все още няма снимки.</p>}
       {!loading && !error && assets.length > 0 && filteredAssets.length === 0 && <p className="mt-3 text-sm text-stone-500">Няма снимки, съответстващи на търсенето.</p>}
       {filteredAssets.length > 0 && (
