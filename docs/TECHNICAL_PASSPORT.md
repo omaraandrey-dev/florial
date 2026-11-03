@@ -591,3 +591,9 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Требуется ручная проверка вкладки под реальной owner и manager сессиями и production build/deployment confirmation.
 - Header, публичное меню, Footer, checkout и публичный каталог не изменялись.
 
+
+## 2026-11-03 — Локализация на съобщенията AI/GBIF в Manager
+
+- Видимите диагностични съобщения от `functions/api/manager/enrich-plant.ts` и `functions/api/manager/enrich-plant-care.ts` са преведени на български.
+- Включени са съобщенията за сесии, заявки, D1/Workers AI конфигурация, GBIF, изображения и ограничения/лицензи на модела.
+- Променени са само текстове на съобщенията. Не са променяни алгоритмите, разрешенията, статусите, D1 или Sanity.
