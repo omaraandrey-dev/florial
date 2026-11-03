@@ -339,7 +339,7 @@ export default function PlantPublicationEditor({
       })
       const result = await response.json().catch(() => ({})) as Record<string, unknown>
       if (!response.ok || typeof result.workflowId !== 'string') {
-        throw new Error(String(result.error || 'Не удалось запустить фоновую проверку.'))
+        throw new Error(String(result.error || 'Не успяхме да стартираме фоновата проверка.'))
       }
       const workflowId = result.workflowId
       setNotice('Проверка принята и выполняется в фоновом режиме.')
@@ -348,11 +348,11 @@ export default function PlantPublicationEditor({
         const statusUrl = '/api/manager/enrich-plant-care?submissionId=' + encodeURIComponent(submission.id) + '&workflowId=' + encodeURIComponent(workflowId)
         const statusResponse = await fetch(statusUrl, { headers: { Authorization: 'Bearer ' + accessToken } })
         const statusBody = await statusResponse.json().catch(() => ({})) as Record<string, unknown>
-        if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не удалось получить состояние проверки.'))
+        if (!statusResponse.ok) throw new Error(String(statusBody.error || 'Не успяхме да получим състоянието на проверката.'))
         const workflow = statusBody.status && typeof statusBody.status === 'object' ? statusBody.status as Record<string, unknown> : {}
         const state = String(workflow.status || '')
         if (state === 'complete' || state === 'completed') {
-          setNotice('Проверка завершена. Обновляем карточку.')
+          setNotice('Проверката приключи. Обновяваме картата.')
           await onSaved()
           return
         }
@@ -362,7 +362,7 @@ export default function PlantPublicationEditor({
           throw new Error(message)
         }
       }
-      throw new Error('Фоновая проверка ещё выполняется. Задание сохранено; обновите карточку позже.')
+      throw new Error('Фоновата проверка все още се изпълнява. Задачата е запазена; обновете картата по-късно.')
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     } finally { setCareResearching(false) }
@@ -434,7 +434,7 @@ export default function PlantPublicationEditor({
         
       }
       if (!response.ok || !result.draft) {
-        throw new Error(result.error || 'Не удалось подготовить AI-черновик. Проверьте данные и попробуйте позже.')
+        throw new Error(result.error || 'Не успяхме да подготвим AI чернова. Проверете данните и опитайте отново по-късно.')
       }
       setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft, publication: undefined } }))
       setSlugTouched(false); setSavedFingerprint('')
@@ -464,16 +464,16 @@ export default function PlantPublicationEditor({
         }),
       })
       const result = await response.json().catch(() => ({})) as { error?: string; draft?: Record<string, unknown> }
-      if (!response.ok || !result.draft) throw new Error(result.error || 'Не удалось получить варианты ботанического имени.')
+      if (!response.ok || !result.draft) throw new Error(result.error || 'Не успяхме да получим варианти за ботаническото име.')
       const candidates = Array.isArray(result.draft.scientificNameCandidates)
         ? result.draft.scientificNameCandidates as Array<Record<string, unknown>>
         : []
       setBotanicalNameSuggestions(candidates)
       setNotice(candidates.length
-        ? 'ИИ предложил варианты. Выберите один — затем запустите ботаническую проверку фотографий и GBIF.'
-        : 'ИИ не смог предложить надёжное латинское название. Введите его вручную или уточните название растения.')
+        ? 'ИИ предложи варианти. Изберете един, след което стартирайте ботаническата проверка на снимките и проверката в GBIF.'
+        : 'ИИ не успя да предложи надеждно латинско име. Въведете го ръчно или уточнете името на растението.')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Не удалось предложить ботаническое имя.')
+      setError(err instanceof Error ? err.message : 'Не успяхме да предложим ботаническо име.')
     } finally { setSuggestingNames(false) }
   }
 
@@ -499,7 +499,7 @@ export default function PlantPublicationEditor({
           : { action, submissionId: submission.id }),
       })
       const result = await response.json().catch(() => ({})) as { error?: string; documentId?: string }
-      if (!response.ok) throw new Error(result.error || 'Не удалось выполнить действие.')
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да изпълним действието.')
       if (action === 'save') {
         setSavedFingerprint(currentFingerprint)
         setNotice('Финалната версия е запазена. Проверете я и натиснете „Публикувай в каталога“, когато сте готови.')
@@ -588,13 +588,13 @@ export default function PlantPublicationEditor({
             {sellerGbif && sellerGbif.accepted !== true && <p className="mt-1 text-xs text-amber-800">GBIF не подтвердил видовое название продавца{sellerGbif.rank ? ' (получен ранг ' + String(sellerGbif.rank) + ')' : ''}. Такой результат не считается подтверждением вида.</p>}
             {suggestedName && <p className="mt-1"><span className="font-semibold">Предположение AI по фото:</span> {suggestedName}</p>}
             {otherVisualCandidates.length > 0 && <p className="mt-1 text-xs text-slate-600">{suggestedName ? 'Другие варианты: ' : 'Варианты по фотографиям: '}{otherVisualCandidates.map((candidate) => String(candidate.scientificName || '')).filter(Boolean).join(' · ')}</p>}
-            {suggestedName && suggestedName !== draft.scientificName && <button type="button" onClick={() => update('scientificName', suggestedName)} className="mt-3 rounded-lg border border-sky-300 px-3 py-2 text-xs font-semibold text-sky-900">Подставить предложенное латинское название (проверить и сохранить вручную)</button>}
+            {suggestedName && suggestedName !== draft.scientificName && <button type="button" onClick={() => update('scientificName', suggestedName)} className="mt-3 rounded-lg border border-sky-300 px-3 py-2 text-xs font-semibold text-sky-900">Поставете предложеното латинско име (проверете и запазете ръчно)</button>}
             <p className="mt-2">{String(identity.canonicalName || '')}</p>
             {identity.url && <p className="mt-1 break-all text-xs text-slate-600">{String(identity.url)}</p>}
             <p className="mt-1 text-xs text-slate-600">Основа агротехнических предложений: {String(identity.careTaxon || 'не подтверждена')}. {identity.careIsProvisional === true ? 'Предложения предварительные: ботаническое имя требует подтверждения владельцем.' : ''}</p>
             <p className="mt-1 text-xs text-slate-600">Проверено фотографий: {String(identity.imageCountAnalysed || 0)}</p>
             <p className="mt-1 text-xs text-slate-600">Уверенность AI: {Object.entries((plantCareResearch.confidence as Record<string, string> | undefined) || {}).map(([key, value]) => key + ': ' + value).join(' · ') || 'оценка не получена'}</p>
-            <p className="mt-2 text-xs text-slate-600">GBIF проверяет таксономию, но не агротехнические свойства. AI-распознавание фотографии и уверенность модели — предварительные оценки, а не независимое ботаническое подтверждение. Все значения и название проверьте перед сохранением и публикацией.</p>
+            <p className="mt-2 text-xs text-slate-600">GBIF проверява таксономията, но не и агротехническите характеристики. AI разпознаването на снимката и увереността на модела са предварителни оценки, а не независимо ботаническо потвърждение. Проверете всички стойности и името преди запазване и публикуване.</p>
           </div>
         })()}
       </div>
