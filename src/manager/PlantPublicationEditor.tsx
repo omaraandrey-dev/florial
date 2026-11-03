@@ -435,7 +435,7 @@ export default function PlantPublicationEditor({
     if (draft.heightCm.trim() && (!Number.isFinite(Number(draft.heightCm)) || Number(draft.heightCm) < 0)) { setError('Проверете височината при продажба.'); return }
     if (draft.containerVolumeL.trim() && (!Number.isFinite(Number(draft.containerVolumeL)) || Number(draft.containerVolumeL) <= 0)) { setError('Проверете обема на контейнера.'); return }
     if (draft.variantName.trim().length < 2) { setError('Проверете името на варианта за продажба.'); return }
-    setEnriching(true); setError(''); setNotice('')
+    setEnriching(true); setError(''); setNotice(''); setDiagnosticReport(null)
     try {
       const categoryName = categories.find((category) => category._id === draft.categoryId)?.name || ''
       const response = await fetch('/api/manager/enrich-plant', {
@@ -465,11 +465,27 @@ export default function PlantPublicationEditor({
       const result = await response.json().catch(() => ({})) as {
         error?: string
         draft?: Record<string, unknown>
-        
+        diagnostics?: Array<Record<string, unknown>>
+        diagnostic?: Record<string, unknown>
+        requestId?: string
       }
       if (!response.ok || !result.draft) {
-        throw new Error(result.error || 'Не успяхме да подготвим AI чернова. Проверете данните и опитайте отново по-късно.')
+        const diagnostic = result.diagnostic || {}
+        const steps = Object.keys(diagnostic).length ? [{ ...diagnostic, stage: diagnostic.stage || 'ai_error', ok: false }] : []
+        setDiagnosticReport({ title: 'Подготовка карточки с ИИ', status: 'error', summary: result.error || 'Не удалось подготовить AI-черновик.', steps, technical: diagnosticText(diagnostic.technical || diagnostic.hint) })
+        throw new Error(result.error || 'Не удалось подготовить AI-черновик. Подробности находятся в диагностическом окне.')
       }
+      const generated = result.draft
+      const changes = [
+        { label: 'Название растения (BG)', value: diagnosticText(generated.name) },
+        { label: 'Краткое и полное описание', value: 'Созданы' },
+        { label: 'Переводы', value: 'BG, EN, RU' },
+        { label: 'ALT-тексты фотографий', value: diagnosticText(Array.isArray(generated.imageAlts) ? generated.imageAlts.length : 0) },
+        { label: 'SEO', value: generated.seo && typeof generated.seo === 'object' ? 'Подготовлены заглавие и описание' : 'Не возвращены' },
+        { label: 'Ботанические свойства', value: generated.plantCare && typeof generated.plantCare === 'object' ? diagnosticText(Object.keys(generated.plantCare as Record<string, unknown>).length) + ' полей' : 'Не возвращены' },
+        { label: 'Руководство по уходу', value: generated.careGuide ? 'Подготовлено' : 'Не подготовлено' },
+      ]
+      setDiagnosticReport({ title: 'Результат подготовки карточки с ИИ', status: 'success', summary: 'ИИ подготовил черновик и сохранил его в заявке. Коммерческие поля — цена, SKU, размер и количество — не генерировались и остались из данных продавца.', steps: Array.isArray(result.diagnostics) ? result.diagnostics : [], changes })
       setDraft(makeDraft({ ...submission, payload: { ...submission.payload, aiDraft: result.draft, publication: undefined } }))
       setSlugTouched(false); setSavedFingerprint('')
       setNotice('ИИ подготви текстовете, ALT описанията и предложените грижи. Проверете ботаническите данни и запазете финалната версия.')
