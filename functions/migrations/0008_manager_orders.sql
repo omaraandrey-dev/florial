@@ -52,6 +52,11 @@ WHEN json_valid(NEW.permissions)=0 OR json_type(NEW.permissions)<>'object'
  OR COALESCE(json_type(NEW.permissions,'$.canDeleteTestOrders'),'') NOT IN('true','false')
 BEGIN SELECT RAISE(ABORT,'Invalid staff permissions JSON shape'); END;
 CREATE TABLE order_events(id TEXT PRIMARY KEY,order_id TEXT NOT NULL,order_number TEXT NOT NULL,actor_id TEXT,actor_role TEXT NOT NULL,event_type TEXT NOT NULL,from_status TEXT,to_status TEXT,note TEXT,metadata TEXT NOT NULL DEFAULT '{}',created_at TEXT NOT NULL);
+INSERT INTO order_events(id,order_id,order_number,actor_id,actor_role,event_type,from_status,to_status,note,metadata,created_at)
+SELECT lower(hex(randomblob(16))),id,order_number,NULL,'system','order_created',NULL,status,NULL,'{"source":"preexisting_order"}',created_at FROM orders;
+CREATE TRIGGER trg_orders_order_created AFTER INSERT ON orders
+BEGIN INSERT INTO order_events(id,order_id,order_number,actor_id,actor_role,event_type,from_status,to_status,note,metadata,created_at)
+VALUES(lower(hex(randomblob(16))),NEW.id,NEW.order_number,NULL,'system','order_created',NULL,NEW.status,NULL,'{}',NEW.created_at); END;
 CREATE INDEX idx_order_events_order_created ON order_events(order_id,created_at DESC);
 CREATE INDEX idx_order_events_number ON order_events(order_number);
 CREATE INDEX idx_orders_status_created ON orders(status,created_at DESC);
