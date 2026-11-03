@@ -1,8 +1,9 @@
-import { json, requireUser, type ManagerEnv } from './_lib'
+import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
 export const onRequestGet=async({request,env}:{request:Request;env:ManagerEnv})=>{
  if(!env.DB)return json({error:'D1 database is not configured.'},503)
- const auth=await requireUser(request,env,['owner'])
- if(auth.response)return auth.response
+ const auth=await requireUser(request,env)
+ if(auth.response||!auth.user)return auth.response||json({error:'Authentication required.'},401)
+ if(!hasPermission(auth.user,'canViewAnalytics'))return json({error:'Нямате право да преглеждате аналитиката.'},403)
  const daysRaw=Number(new URL(request.url).searchParams.get('days')||30)
  const days=[1,7,30,90].includes(daysRaw)?daysRaw:30
  const start=new Date(Date.now()-days*86400000).toISOString()
