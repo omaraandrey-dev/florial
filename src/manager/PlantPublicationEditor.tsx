@@ -61,6 +61,7 @@ type Props = {
   onSaved: (images?: IntakeImage[]) => Promise<void>
   onPublished: () => Promise<void>
   publishError?: string | null
+  canPublish: boolean
   reviewMode?: boolean
 }
 
@@ -227,7 +228,7 @@ function toPublication(draft: Draft, categories: PlantCategory[] = []) {
 }
 
 export default function PlantPublicationEditor({
-  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished, publishError, reviewMode = false,
+  submission, categories, images, imagesLoading, accessToken, onSaved, onPublished, publishError, canPublish, reviewMode = false,
 }: Props) {
   const [draft, setDraft] = useState<Draft>(() => makeDraft(submission))
   const [savedFingerprint, setSavedFingerprint] = useState('')
@@ -729,7 +730,7 @@ export default function PlantPublicationEditor({
 
         <div className="flex flex-wrap gap-3">
           <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карта' : 'Запази финалната версия'}</button>
-          {!reviewMode && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
+          {!reviewMode && canPublish && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
         </div>
       </form>
     </section>
