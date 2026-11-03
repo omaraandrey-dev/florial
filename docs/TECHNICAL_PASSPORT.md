@@ -655,3 +655,12 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Публичные header/menu/footer, каталог, корзина, checkout, D1 schema/data, Sanity documents/assets и permission flags не изменялись.
 - После деплоя требуется ручной тест трёх сценариев продавца, трёх фильтров владельца, выбора фото с телефона и двух диагностических окон на успешном и неуспешном ответах.
 - Production build/deployment confirmation: pending at time of this documentation entry.
+
+
+## 26. Исправление отображения результата AI/GBIF Workflow — 03.11.2026
+
+- Cloudflare Workflow status содержит результат успешного выполнения внутри `status.output`; Manager UI теперь читает `output.careDraft` и `output.diagnostics`, чтобы после успешной проверки показать найденную таксономию и предложенные характеристики.
+- При ошибке Workflow исходный JSON может находиться внутри `status.error.message`. UI теперь разбирает этот вложенный JSON и извлекает `httpStatus`, `response.error`, `response.diagnostics`, а также тип ошибки Workflow.
+- Диагностические ключи показываются с русскими поясняющими подписями; технические значения модели, выбранного таксона и этапа сохраняются без искажения.
+- Исправление ограничено `src/manager/PlantPublicationEditor.tsx`. Данные заявок, права, AI/GBIF алгоритмы и публичные компоненты не изменялись.
+- Production build/deployment для commit `ba750d0c27eeba0e30a6e482d22ac47529e7d291` выполняется; окончательный статус будет добавлен после проверки.
