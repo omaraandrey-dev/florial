@@ -564,3 +564,18 @@
 - На мобильных устройствах отображаются две карточки в ряд; на широких экранах сетка расширяется до трёх или четырёх колонок.
 - Используются существующие изображения и фактические дочерние категории из Sanity dataset `plants`; порядок категорий и отдельные SEO-страницы сохранены.
 - Для оборудования полива внешний вид подкатегорий не меняется. Header, меню, Footer, маршруты, товары, Sanity-документы и база данных не изменяются.
+
+## 2026-11-03 — Granular Florial Manager permissions and staff delegation
+
+- Replaced the three-flag-only Manager permission model with ten independent permissions: plant creation, final-card editing, variant creation, price editing, submission review, approval, Sanity publication, staff management, permission delegation, and analytics.
+- Owner role bypasses individual flags and retains full administrative access. Managers receive only explicitly assigned permissions.
+- Managers may create staff accounts only when `canManageStaff` is granted. Creating another manager and delegating permissions additionally requires `canDelegatePermissions`.
+- Server-side delegation validates every requested permission against the actor's own permissions. Managers can manage only staff accounts they directly created; owner accounts cannot be modified through the staff endpoint.
+- Added a staff permission audit table recording the actor, target, action, previous permissions, new permissions and timestamp.
+- Added additive D1 migration `0006_manager_permissions.sql`: nullable `created_by`, normalized permission JSON for existing profiles, strict JSON boolean triggers, staff indexes and permission audit table. Existing profiles, passwords, sessions, submissions and published catalog documents were preserved.
+- Applied migration `0006_manager_permissions` to Production D1 and verified its migration marker, new column, indexes, triggers, audit table and normalized permissions for both existing profiles.
+- Added server-side permission checks to submission queries and transitions, review/return actions, approval, plant-card preparation, botanical AI preparation, catalog changes, analytics and Sanity publication. The UI hides actions without the corresponding permission, but API checks remain authoritative.
+- Managers with `canCreatePlant` can create and submit their own drafts. `canApprovePlantSubmission` and `canPublishPlant` remain separate actions; publication still requires an approved submission.
+- Staff-management controls now support permission assignment within the manager's own delegated rights. Seller role cannot receive review, final-card editing, approval, publication, staff-management, delegation or analytics permissions.
+- No public storefront, navigation, header, footer, cart, checkout, orders, Sanity schemas or existing plant/product documents were changed. Legacy Cloudflare Supabase variables were not modified.
+- Production build verification is tracked against the latest main deployment; functional login/role testing still requires an authenticated owner session.
