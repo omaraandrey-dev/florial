@@ -531,6 +531,7 @@ export default function PlantPublicationEditor({
       {publishError && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Последен опит за публикуване: {publishError}</div>}
       {error && <div role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
       {notice && <div role="status" className="mt-4 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
+      {!canEdit && canPublish && <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-950">Този профил може да преглежда и публикува вече подготвена и одобрена карта, но няма право да редактира данните или да стартира AI/GBIF проверки. За подготовка и редакция е необходим достъп „Подготовка и редактиране на продуктови карти“.</div>}
 
       <div className="mt-5 rounded-xl border border-lime-200 bg-lime-50 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -538,12 +539,12 @@ export default function PlantPublicationEditor({
             <h3 className="font-semibold text-lime-950">Подготовка на картата с помощта на ИИ</h3>
             <p className="mt-1 text-sm text-lime-900">След като проверите данните, натиснете бутона. ИИ ще подготви BG/RU/EN текстове, SEO и предложения за грижи; ALT ще бъде създаден само за снимките, които са оставени в картата.</p>
           </div>
-          <button type="button" disabled={enriching || saving || publishing || updatingImages || imagesLoading || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+          <button type="button" disabled={!canEdit || enriching || saving || publishing || updatingImages || imagesLoading || hasAiDraft} onClick={() => void generateAiDraft()} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {enriching ? 'Подготовка…' : hasAiDraft ? 'ИИ вече подготви картата' : 'Подготви картата с ИИ'}
           </button>
         </div>
         {hasAiDraft && <p className="mt-2 text-xs text-lime-950">ИИ-черновикът вече е създаден. Пълното генериране не се повтаря, за да се запази черновикът и да не се изразходва квота.</p>}
-        {hasAiDraft && scientificNameCandidates.length === 0 && <button type="button" disabled={suggestingNames || enriching || careResearching || saving || publishing} onClick={() => void suggestBotanicalNames()} className="mt-3 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-900 disabled:opacity-50">{suggestingNames ? 'Търсене на латински варианти…' : 'Предложи латински имена'}</button>}
+        {canEdit && hasAiDraft && scientificNameCandidates.length === 0 && <button type="button" disabled={suggestingNames || enriching || careResearching || saving || publishing} onClick={() => void suggestBotanicalNames()} className="mt-3 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-900 disabled:opacity-50">{suggestingNames ? 'Търсене на латински варианти…' : 'Предложи латински имена'}</button>}
         <p className="mt-2 text-xs text-lime-900">Цена, SKU, височина при продажба, обем на саксията, наличност и количество се вземат от проверените от вас данни и не се генерират от ИИ.</p>
       </div>
       <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4">
@@ -552,7 +553,7 @@ export default function PlantPublicationEditor({
             <h3 className="font-semibold text-sky-950">Проверка на ботаническите характеристики</h3>
             <p className="mt-1 text-sm text-sky-900">AI независимо анализира до три снимки и предлага вероятен вид. Системата сравнява предположението с името на продавача и проверява латинските кандидати чрез GBIF. След това AI може да предложи агротехнически характеристики за ваша проверка.</p>
           </div>
-          <button type="button" disabled={!hasAiDraft || hasPublication || Boolean(plantCareResearch) || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
+          <button type="button" disabled={!canEdit || !hasAiDraft || hasPublication || Boolean(plantCareResearch) || careResearching || enriching || saving || publishing || imageFiles.length === 0 || imagesLoading} onClick={() => void researchPlantCare()} className="rounded-xl bg-sky-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">
             {careResearching ? 'Проверка…' : 'Проверете и предложете характеристики'}
           </button>
         </div>
@@ -625,6 +626,7 @@ export default function PlantPublicationEditor({
         </div>
       </div>}
       <form className="mt-5 space-y-5" onSubmit={(event) => { event.preventDefault(); void request('save') }}>
+        <fieldset disabled={!canEdit} className="space-y-5 disabled:opacity-90">
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={labelClass}>Име на растението (BG) *<input className={inputClass} value={draft.name} onChange={(event) => {
             const value = event.target.value
@@ -730,6 +732,7 @@ export default function PlantPublicationEditor({
           </div>
         </details>
 
+        </fieldset>
         <div className="flex flex-wrap gap-3">
           {canEdit && <button type="submit" disabled={saving || publishing || (reviewMode && !hasAiDraft)} className="rounded-xl bg-stone-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{saving ? 'Запазване…' : reviewMode ? 'Запази подготвената карта' : 'Запази финалната версия'}</button>}
           {!reviewMode && canPublish && <button type="button" disabled={!isSaved || saving || publishing} onClick={() => void request('publish')} className="rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{publishing ? 'Публикуване…' : 'Публикувай в каталога'}</button>}
