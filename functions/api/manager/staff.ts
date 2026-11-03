@@ -41,7 +41,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
   const role=body.role
   if(!validEmail(email)||password.length<12||password.length>128||!displayName||(role!=='seller'&&role!=='manager'))return json({error:'Въведете валиден email, име, роля и парола с поне 12 символа.'},400)
   if(!owner&&role==='manager'&&!actorPermissions.canDelegatePermissions)return json({error:'Нямате право да създавате мениджъри и да делегирате права.'},403)
-  const requested=body.permissions===undefined?(owner?{...DEFAULT_STAFF_PERMISSIONS}:{...DEFAULT_STAFF_PERMISSIONS,canCreatePlant:false}):allPermissions(body.permissions)
+  const requested=body.permissions===undefined?Object.fromEntries(STAFF_PERMISSION_KEYS.map(key=>[key,false])) as StaffPermissions:allPermissions(body.permissions)
   if(!requested)return json({error:'Невалиден набор от права.'},400)
   if(!owner){
    if(!actorPermissions.canDelegatePermissions&&body.permissions!==undefined)return json({error:'Нямате право да задавате разрешения.'},403)
