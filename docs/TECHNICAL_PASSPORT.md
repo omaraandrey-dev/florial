@@ -1,3 +1,13 @@
+## 2026-11-04 — Уточнение совместимости richDescription и Studio preview
+
+- В production schema для product.translations.en/ru.description сохранён legacy тип text; новое Portable Text поле называется formattedDescription. Существующие опубликованные документы и drafts с RU/EN строками остаются валидными без миграции.
+- src/pages/ProductPage.tsx сначала использует translations[language].formattedDescription, затем обычный локализованный description, обеспечивая постепенное заполнение нового поля.
+- В plants schema поле plantProduct.translations.bg/ru/en.description остаётся richDescription; миграционный скрипт использует _type == "plantProduct" для dataset plants и _type == "product" для production.
+- Для production migration пишет Portable Text только в translations.en/ru.formattedDescription и не перезаписывает исходные legacy strings. Для plants она преобразует legacy strings в существующие richDescription fields. Dry-run остаётся режимом по умолчанию; live write требует отдельного подтверждения владельца, экспорта backup и флагов скрипта.
+- kitComponent preview schema явно выбирает product._ref, quantity, unit; preview component читает их из верхнеуровневых selected props. Значение quantity в документе не изменяется.
+- На момент этого коммита исправленная схема ещё не опубликована. Публикация будет выполнена отдельно в уже существующее Studio florial-admin-bg после успешных CI/build и проверки целевой конфигурации.
+- Никакие Sanity документы/assets, цены, D1 records или заказы не изменялись. PR #85 остаётся отдельной feature branch; main и production storefront не меняются.
+
 ## 2026-11-04 — Sanity: форматированные описания и состав готовых комплектов
 
 - В `studio/schemaTypes/index.ts` добавлен общий тип `richDescription` для описаний оборудования и растений; корневые BG-описания и локализованные RU/EN (а для растений BG/RU/EN) поля используют Portable Text. Старые значения в документах не мигрированы и продолжают поддерживаться frontend-кодом.
