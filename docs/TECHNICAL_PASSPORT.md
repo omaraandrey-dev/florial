@@ -1,8 +1,13 @@
+## 2026-11-04 — Уточнение имени типа документа Sanity для растений
+
+- Read-only get_schema для dataset plants подтвердил, что зарегистрированный тип документа — product, а не plantProduct. Имя plantProduct в исходнике является названием переменной схемы, не значением _type.
+- Скрипт миграции скорректирован: _type == product для dataset production и dataset plants. Никакие Sanity документы не записывались; dry-run не запускает mutations.
+
 ## 2026-11-04 — Уточнение совместимости richDescription и Studio preview
 
 - В production schema для product.translations.en/ru.description сохранён legacy тип text; новое Portable Text поле называется formattedDescription. Существующие опубликованные документы и drafts с RU/EN строками остаются валидными без миграции.
 - src/pages/ProductPage.tsx сначала использует translations[language].formattedDescription, затем обычный локализованный description, обеспечивая постепенное заполнение нового поля.
-- В plants schema поле plantProduct.translations.bg/ru/en.description остаётся richDescription; миграционный скрипт использует _type == "plantProduct" для dataset plants и _type == "product" для production.
+- В plants workspace schema тип документа также называется product; поле product.translations.bg/ru/en.description остаётся richDescription. Миграционный скрипт использует _type == "product" для обоих datasets.
 - Для production migration пишет Portable Text только в translations.en/ru.formattedDescription и не перезаписывает исходные legacy strings. Для plants она преобразует legacy strings в существующие richDescription fields. Dry-run остаётся режимом по умолчанию; live write требует отдельного подтверждения владельца, экспорта backup и флагов скрипта.
 - kitComponent preview schema явно выбирает product._ref, quantity, unit; preview component читает их из верхнеуровневых selected props. Значение quantity в документе не изменяется.
 - На момент этого коммита исправленная схема ещё не опубликована. Публикация будет выполнена отдельно в уже существующее Studio florial-admin-bg после успешных CI/build и проверки целевой конфигурации.
