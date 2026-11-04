@@ -15,7 +15,7 @@ export const onRequestGet=async({request,env}:{request:Request;env:ManagerEnv})=
  const dataset=catalog==='plants'?(env.SANITY_PLANTS_DATASET||'plants'):(env.SANITY_DATASET||'production')
  const pattern='*'+term.replace(/[\\*]/g,'')+'*'
  const query=catalog==='plants'
-  ? '*[_type=="product" && isActive!=false && !(_id in path("drafts.**")) && (name match '+escapeQuery(pattern)+' || sku match '+escapeQuery(pattern)+')]|order(name asc)[0...30]{_id,name,sku,imageUrl,saleVariants[]{_key,name,nameEn,nameRu,sku,saleHeightCm,containerVolumeL,priceEUR,stockStatus}}'
+  ? '*[_type=="product" && isActive!=false && !(_id in path("drafts.**")) && (name match '+escapeQuery(pattern)+' || scientificName match '+escapeQuery(pattern)+' || sku match '+escapeQuery(pattern)+')]|order(name asc)[0...30]{_id,name,scientificName,sku,imageUrl,saleVariants[]{_key,name,nameEn,nameRu,sku,saleHeightCm,containerVolumeL,priceEUR,stockStatus}}'
   : '*[_type=="product" && isActive!=false && !(_id in path("drafts.**")) && (name match '+escapeQuery(pattern)+' || sku match '+escapeQuery(pattern)+')]|order(name asc)[0...30]{_id,name,sku,priceEUR,imageUrl}'
  try{
   const response=await fetch('https://'+env.SANITY_PROJECT_ID+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(query),{headers:{Authorization:'Bearer '+env.SANITY_API_TOKEN}})
