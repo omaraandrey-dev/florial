@@ -176,7 +176,7 @@ export function ProductPage({
     </div>
   )
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
-  const localizedDescription = localize(product, 'description')
+  const localizedDescription = product.translations?.[language]?.formattedDescription ?? localize(product, 'description')
   const hasDescription = Boolean(toPlainText(localizedDescription).trim())
   const hasBotanicalCare = Boolean(plantCare && (
     ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
