@@ -64,6 +64,7 @@ export type ManagerEnv = {
   DB?: D1Database
   SANITY_API_TOKEN?: string
   SANITY_PROJECT_ID?: string
+  VITE_SANITY_PROJECT_ID?: string
   SANITY_DATASET?: string
   SANITY_PLANTS_DATASET?: string
   RESEND_API_KEY?: string
