@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import {
   classifyRichTextHref,
   convertStringToPortableText,
+  formatKitQuantity,
   getKitComponentDisplayRows,
   hasKitComponents,
   isKitComponentLinkable,
@@ -14,6 +15,7 @@ test('string descriptions become paragraphs, headings and bullet list items', ()
   const blocks = convertStringToPortableText('Първи абзац.\n\nСъстав на комплекта:\n• Контролер — 1 бр.\n- Клапан — 2 бр.\n\nПоследен абзац.')
   assert.equal(blocks[0].style, 'normal')
   assert.equal(blocks[1].style, 'h2')
+  assert.equal(blocks[1].children[0].text, 'Състав на комплекта:')
   assert.equal(blocks[2].listItem, 'bullet')
   assert.equal(blocks[2].children[0].text, 'Контролер — 1 бр.')
   assert.equal(blocks[3].listItem, 'bullet')
