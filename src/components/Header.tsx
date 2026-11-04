@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './Header.css'
 import { useI18n, type Language } from '../lib/i18n'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
@@ -118,19 +119,19 @@ export function Header({
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm">
       <div className="w-full px-3 sm:px-5 lg:px-8">
-        <div className="grid min-h-[84px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 py-2 sm:gap-3 sm:py-3 md:min-h-[120px] md:gap-6 md:py-4">
+        <div className="florial-header-row grid min-h-[84px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 py-2 sm:gap-3 sm:py-3 md:min-h-[120px] md:gap-6 md:py-4">
           {/* Logo: увеличен и прижат к левому краю контейнера */}
           <a
             href={localizedHref('/', language)}
             onClick={closeMenu}
             aria-label="Florial — начална страница"
-            className="flex h-full min-w-0 shrink-0 items-center justify-start text-left no-underline"
+            className="florial-header-logo flex h-full min-w-0 shrink-0 items-center justify-start text-left no-underline"
           >
             {siteSettings?.logoUrl ? (
               <img
                 src={logoImageSrc}
                 alt={siteSettings?.siteName || 'Florial'}
-                className="block h-[60px] max-w-[100px] object-contain object-left sm:h-[78px] sm:max-w-[160px] md:h-[100px] md:max-w-[230px]"
+                className="florial-header-logo-image block h-[60px] max-w-[100px] object-contain object-left sm:h-[78px] sm:max-w-[160px] md:h-[100px] md:max-w-[230px]"
                 onError={(event) => {
                   event.currentTarget.style.display = 'none'
                 }}
@@ -143,27 +144,27 @@ export function Header({
           </a>
 
           {/* Поиск товаров по центру */}
-          <form onSubmit={submitSearch} role="search" className="mx-auto flex w-full max-w-2xl items-center">
-            <div className="flex w-full items-center overflow-hidden rounded-xl border border-slate-300 bg-slate-50 transition focus-within:border-emerald-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-100">
-              <svg className="ml-3 h-5 w-5 shrink-0 text-slate-500 sm:ml-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <form onSubmit={submitSearch} role="search" className="florial-header-search mx-auto flex w-full max-w-2xl items-center">
+            <div className="florial-header-search-shell flex w-full items-center overflow-hidden rounded-xl border border-slate-300 bg-slate-50 transition focus-within:border-emerald-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-100">
+              <svg className="florial-header-search-icon ml-3 h-5 w-5 shrink-0 text-slate-500 sm:ml-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" strokeWidth="2" />
                 <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <input
-                type="search"
+                type="text"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder={t('Търсене на продукти...')}
                 aria-label={t('Търсене на продукти')}
-                className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:px-3 sm:text-base"
+                className="florial-header-search-input min-w-0 flex-1 bg-transparent px-2 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:px-3 sm:text-base"
               />
               <button
                 type="submit"
                 disabled={!searchQuery.trim()}
-                className="m-1 shrink-0 rounded-lg bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
+                className="florial-header-search-submit m-1 shrink-0 rounded-lg bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
               >
-                <span className="hidden sm:inline">{t('Търси')}</span>
-                <svg className="h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <span className="florial-header-search-label hidden sm:inline">{t('Търси')}</span>
+                <svg className="florial-header-search-arrow h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
@@ -171,7 +172,7 @@ export function Header({
           </form>
 
           {/* Количка и меню */}
-          <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3">
+          <div className="florial-header-actions flex shrink-0 items-center justify-end gap-2 sm:gap-3">
             <button
               type="button"
               onClick={() => {
@@ -179,9 +180,9 @@ export function Header({
                 onNavigateCart()
               }}
               aria-label={`Количка: ${totalCartCount} продукта`}
-              className="relative flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 text-emerald-900 transition hover:bg-emerald-100 md:h-12 md:px-4"
+              className="florial-header-cart relative flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 text-emerald-900 transition hover:bg-emerald-100 md:h-12 md:px-4"
             >
-              <svg className="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <svg className="florial-header-cart-icon h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                 <path d="M3 3h2l2.5 11h10l3-8H6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 <circle cx="9" cy="19" r="1.5" />
                 <circle cx="17" cy="19" r="1.5" />
@@ -206,10 +207,10 @@ export function Header({
               }}
               aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : language === 'ru' ? 'Закрыть меню' : 'Затвори менюто') : (language === 'en' ? 'Open menu' : language === 'ru' ? 'Открыть меню' : 'Отвори менюто')}
               aria-expanded={isMenuOpen}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 transition hover:border-emerald-500 hover:text-emerald-700 md:h-12 md:w-12"
+              className="florial-header-menu-button flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 transition hover:border-emerald-500 hover:text-emerald-700 md:h-12 md:w-12"
             >
               {isMenuOpen ? (
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <svg className="florial-header-menu-icon h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="m6 6 12 12M18 6 6 18" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               ) : (
