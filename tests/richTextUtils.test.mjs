@@ -44,6 +44,7 @@ test('fractional kit quantities keep decimal precision and local separators', ()
   assert.equal(formatKitQuantity(0.56, 'ru'), '0,56')
   assert.equal(formatKitQuantity(0.56, 'en'), '0.56')
   assert.equal(formatKitQuantity(1, 'bg'), '1')
+  assert.equal(formatKitQuantity(0.001, 'bg'), '0,001')
 })
 
 test('kit block renders only for a non-empty array', () => {
