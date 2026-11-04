@@ -1,9 +1,14 @@
+## 2026-11-04 — Уточнение Sanity document type в migration script
+
+- Проверка фактически опубликованных схем Sanity подтвердила, что тип документа называется product и в dataset production, и в dataset plants (в коде Studio переменная-константа plantProduct описывает plant workspace schema, но schema name — product).
+- Исправлен migration script: он ищет _type == product в обоих datasets. Live migration не запускалась; Sanity документы не менялись.
+
 ## 2026-11-04 — Исправления preview комплектов и обратной совместимости описаний
 
 - Исправлен preview kitComponent: Sanity custom preview получает значения через поля preview.select, поэтому явно выбираются productRef, quantity и unit; компонент читает эти props напрямую. Сохранённые значения количества не меняются.
 - Для переводов оборудования RU/EN возвращено прежнее поле description типа text; добавлено отдельное поле formattedDescription типа Portable Text. Старые строки и drafts сохраняются без преобразования, поэтому schema validation больше не ожидает массив в legacy-поле.
 - Карточка товара предпочитает formattedDescription, а при его отсутствии показывает старый description. Plant translations остаются на прежней Portable Text схеме.
-- Скрипт миграции теперь различает типы product (dataset production) и plantProduct (dataset plants). Для оборудования он записывает только новое formattedDescription, не перезаписывая RU/EN legacy strings; режим по умолчанию остаётся read-only dry-run.
+- Скрипт миграции использует Sanity document type product в обоих datasets (production и plants). В production он записывает только новое formattedDescription, не перезаписывая RU/EN legacy strings; в plants преобразует старые строковые описания в существующие Portable Text поля. Режим по умолчанию остаётся read-only dry-run.
 - Изменения ограничены PR #85. Sanity documents/assets и D1 не изменялись; миграция не запускалась; main и production сайта не обновлялись.
 
 ## 2026-11-04 — Форматированные описания и состав готовых комплектов (Studio schema опубликована)
