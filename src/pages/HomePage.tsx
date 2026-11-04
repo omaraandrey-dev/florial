@@ -70,15 +70,16 @@ export function HomePage({
   const rootCategories = categories.filter((category) => !category.parentId || category.parentId === catalogRootId)
   const categoryOrder = [
     'vsichko-za-polivane',
+    'gotovi-komplekti-za-polivane',
     'controllers',
     'sprinklers',
     'nozzles',
-    'shahti',
     'klapani',
+    'shahti',
     'kapkovo-napoyavane',
+    'filtri-regulatori-nalyagane',
     'trabi-fitingi-aksesoari',
     'drugi-komponenti-za-polivane',
-    'filtri-regulatori-nalyagane',
   ]
   const sortedCategories = [...rootCategories].sort((a, b) => {
     const aIndex = categoryOrder.indexOf(a.slug?.current || '')
@@ -202,14 +203,14 @@ export function HomePage({
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
-        <div className="relative mb-6 flex flex-col items-center gap-3 md:block">
+      <main className="max-w-7xl mx-auto px-4 pt-10 pb-5 flex-grow w-full bg-[#EEF1E4]">
+        <div className="relative mb-4 flex flex-col items-center gap-3 md:block">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{language === 'ru' ? 'Продажа оборудования для полива' : language === 'en' ? 'Irrigation Equipment Sales' : 'Продажба на поливно оборудване'}</h2>
         </div>
 
         {sortedCategories.length > 0 && (
-          <div className="mb-12">
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
+          <div className="mb-6">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
               {sortedCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
                 return (
