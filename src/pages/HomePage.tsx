@@ -70,15 +70,16 @@ export function HomePage({
   const rootCategories = categories.filter((category) => !category.parentId || category.parentId === catalogRootId)
   const categoryOrder = [
     'vsichko-za-polivane',
+    'gotovi-komplekti-za-polivane',
     'controllers',
     'sprinklers',
     'nozzles',
-    'shahti',
     'klapani',
+    'shahti',
     'kapkovo-napoyavane',
+    'filtri-regulatori-nalyagane',
     'trabi-fitingi-aksesoari',
     'drugi-komponenti-za-polivane',
-    'filtri-regulatori-nalyagane',
   ]
   const sortedCategories = [...rootCategories].sort((a, b) => {
     const aIndex = categoryOrder.indexOf(a.slug?.current || '')
@@ -202,14 +203,14 @@ export function HomePage({
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
-        <div className="relative mb-6 flex flex-col items-center gap-3 md:block">
+      <main className="max-w-7xl mx-auto px-4 pt-10 pb-5 flex-grow w-full bg-[#EEF1E4]">
+        <div className="relative mb-4 flex flex-col items-center gap-3 md:block">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{language === 'ru' ? 'Продажа оборудования для полива' : language === 'en' ? 'Irrigation Equipment Sales' : 'Продажба на поливно оборудване'}</h2>
         </div>
 
         {sortedCategories.length > 0 && (
-          <div className="mb-12">
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
+          <div className="mb-6">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
               {sortedCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
                 return (
@@ -223,9 +224,9 @@ export function HomePage({
                         : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
                     }`}
                   >
-                    <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-slate-100 flex items-center justify-center">
+                    <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-contain" />
                       ) : (
                         <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}
