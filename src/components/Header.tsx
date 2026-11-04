@@ -137,7 +137,7 @@ export function Header({
                 }}
               />
             ) : (
-              <span className="text-lg font-black tracking-tight text-emerald-800 sm:text-2xl md:text-3xl">
+              <span className="florial-header-logo-fallback text-lg font-black tracking-tight text-emerald-800 sm:text-2xl md:text-3xl">
                 FLORIAL<span className="text-emerald-500">.BG</span>
               </span>
             )}
@@ -214,7 +214,7 @@ export function Header({
                   <path d="m6 6 12 12M18 6 6 18" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               ) : (
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <svg className="florial-header-menu-icon h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                   <path d="M4 6h16M4 12h16M4 18h16" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               )}
