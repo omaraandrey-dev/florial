@@ -32,6 +32,11 @@ export function CategoryPage({
   const [plantWaterFilter, setPlantWaterFilter] = useState('')
   const [plantCoastFilter, setPlantCoastFilter] = useState('')
   const [plantWinterFilter, setPlantWinterFilter] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [category._id, products, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
 
   // SEO is localized only when this category actually has translated content.
   useEffect(() => {
@@ -109,35 +114,6 @@ export function CategoryPage({
     })
   }, [isIrrigationCatalog, subCategories, language])
 
-  const renderCategoryBranch = (parentId: string, depth = 0): React.ReactNode => {
-    const children = visibleCategories
-      .filter((item) => item.parentId === parentId)
-      .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
-    if (children.length === 0) return null
-    return (
-      <div className={depth === 0
-        ? 'mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3'
-        : 'ml-2 mt-2 grid grid-cols-2 gap-2 border-l border-[#E2E6D8] pl-2'
-      }>
-        {children.map((child) => (
-          <div key={child._id} className="min-w-0">
-            <a
-              href={localizedHref(`/category/${encodeURIComponent(child.slug?.current || child._id)}`, language)}
-              onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(child.slug?.current, child._id))}
-              className="flex min-h-14 items-center gap-2 rounded-xl border border-[#E5E8DC] bg-white p-2 text-sm font-semibold text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#F7F8F1] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B]"
-            >
-              <span className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC]">
-                {child.imageUrl ? <img src={child.imageUrl} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : null}
-              </span>
-              <span className="min-w-0 line-clamp-2 leading-snug">{localize(child, 'name')}</span>
-            </a>
-            {renderCategoryBranch(child._id, depth + 1)}
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   const plantFilterOptions = useMemo(() => ({
     types: [...new Set(products.map((product) => product.productType).filter((value): value is string => Boolean(value)))].sort(),
     lights: [...new Set(products.map((product) => product.plantCare?.light).filter((value): value is string => Boolean(value)))].sort(),
@@ -145,6 +121,26 @@ export function CategoryPage({
     coast: [...new Set(products.map((product) => product.plantCare?.blackSeaCoast).filter((value): value is string => Boolean(value)))].sort(),
     winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
   }), [products])
+
+  const getStockIndicator = (product: Product): 'inStock' | 'onRequest' | null => {
+    if (product.stockStatus === 'inStock' || product.stockStatus === 'onRequest') return product.stockStatus
+    const variantStatuses = (product.saleVariants || []).map((variant) => variant.stockStatus)
+    if (variantStatuses.includes('inStock')) return 'inStock'
+    if (variantStatuses.includes('onRequest')) return 'onRequest'
+    return null
+  }
+
+  const getCardPrice = (product: Product) => {
+    if (category.isPlantCategory) {
+      const pricedVariants = (product.saleVariants || []).filter((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0).sort((x, y) => (x.priceEUR || 0) - (y.priceEUR || 0))
+      const lowest = pricedVariants[0]
+      return lowest
+        ? { label: (language === 'ru' ? 'от ' : language === 'en' ? 'From ' : 'от ') + lowest.priceEUR!.toFixed(2) + ' €', oldValue: typeof lowest.oldPriceEUR === 'number' && lowest.oldPriceEUR > lowest.priceEUR! ? lowest.oldPriceEUR : undefined }
+        : { label: language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване' }
+    }
+    const price = Number(product.priceEUR || 0)
+    return { label: price.toFixed(2) + ' €', oldValue: typeof product.oldPriceEUR === 'number' && product.oldPriceEUR > price ? product.oldPriceEUR : undefined }
+  }
 
   const plantFilterLabel = (kind: string, value: string) => {
     const labels: Record<string, Record<string, { bg: string; ru: string; en: string }>> = {
@@ -228,6 +224,12 @@ export function CategoryPage({
       )
   }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
 
+  const pageSize = 20
+  const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
+  const productsToRender = category.isPlantCategory ? displayedProducts : displayedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const firstVisibleProduct = displayedProducts.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
+  const lastVisibleProduct = Math.min(currentPage * pageSize, displayedProducts.length)
+
   return (
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
       {/* Хлебни трохи: начало / каталог / родителска категория / текуща категория */}
@@ -272,9 +274,6 @@ export function CategoryPage({
         <section className="mb-10" aria-label={language === 'ru' ? 'Категории каталога' : language === 'en' ? 'Catalogue categories' : 'Категории в каталога'}>
           <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {catalogGroups.map((group) => {
-            const children = visibleCategories
-              .filter((item) => item.parentId === group._id)
-              .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || a.name.localeCompare(b.name, language))
             const groupHref = localizedHref(`/category/${encodeURIComponent(group.slug?.current || group._id)}`, language)
             return (
               <section key={group._id} className="min-w-0 rounded-xl border border-[#E2E6D8] bg-white p-2.5 shadow-sm sm:rounded-2xl sm:p-4">
@@ -287,7 +286,6 @@ export function CategoryPage({
                     <span className="mt-1 inline-block text-[10px] font-semibold text-[#647746] sm:text-xs">{language === 'ru' ? 'Открыть' : language === 'en' ? 'Open' : 'Разгледай'} →</span>
                   </div>
                 </a>
-                {children.length > 0 && renderCategoryBranch(group._id)}
               </section>
             )
           })}
@@ -296,43 +294,31 @@ export function CategoryPage({
       ) : subCategories.length > 0 ? (
         <section className="mb-9" aria-label={language === 'ru' ? 'Подкатегории растений' : language === 'en' ? 'Plant subcategories' : 'Подкатегории растения'}>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}</p>
-          {category.isPlantCategory ? (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-              {subCategories.map((subCat) => {
-                const name = String(localize(subCat, 'name') || subCat.name)
-                return (
-                  <a
-                    key={subCat._id}
-                    href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)}
-                    onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))}
-                    className="group flex min-h-16 min-w-0 items-center gap-2 rounded-xl border border-[#E5E8DC] bg-white p-2 text-slate-800 no-underline shadow-sm transition duration-200 hover:border-[#B9C79C] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:p-3"
-                  >
-                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC] sm:h-14 sm:w-14">
-                      {subCat.imageUrl ? (
-                        <img src={subCat.imageUrl} alt={name} title={name} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                      ) : (
-                        <div className="flex h-full items-center justify-center px-1 text-center text-[9px] text-slate-400">
-                          {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
-                        </div>
-                      )}
-                    </div>
-                    <span className="min-w-0 line-clamp-2 text-xs font-semibold leading-snug text-slate-800 transition-colors group-hover:text-[#647746] sm:text-sm">
-                      {name}
-                    </span>
-                    <span aria-hidden="true" className="ml-auto shrink-0 text-sm text-[#82936A]">→</span>
-                  </a>
-                )
-              })}
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {subCategories.map((subCat) => (
-                <a key={subCat._id} href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 no-underline transition hover:border-[#B9C79C] hover:bg-[#F7F8F1]">
-                  {localize(subCat, 'name')} →
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+            {subCategories.map((subCat) => {
+              const name = String(localize(subCat, 'name') || subCat.name)
+              return (
+                <a
+                  key={subCat._id}
+                  href={localizedHref(`/category/${encodeURIComponent(subCat.slug?.current || subCat._id)}`, language)}
+                  onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(subCat.slug?.current, subCat._id))}
+                  className="group flex min-h-16 min-w-0 items-center gap-2 rounded-xl border border-[#E5E8DC] bg-white p-2 text-slate-800 no-underline shadow-sm transition duration-200 hover:border-[#B9C79C] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2 sm:gap-3 sm:rounded-2xl sm:p-3"
+                >
+                  <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC] sm:h-14 sm:w-14">
+                    {subCat.imageUrl ? (
+                      <img src={subCat.imageUrl} alt={name} title={name} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center px-1 text-center text-[9px] text-slate-400">
+                        {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
+                      </div>
+                    )}
+                  </div>
+                  <span className="min-w-0 line-clamp-2 text-xs font-semibold leading-snug text-slate-800 transition-colors group-hover:text-[#647746] sm:text-sm">{name}</span>
+                  <span aria-hidden="true" className="ml-auto shrink-0 text-sm text-[#82936A]">→</span>
                 </a>
-              ))}
-            </div>
-          )}
+              )
+            })}
+          </div>
         </section>
       ) : null}
 
@@ -437,7 +423,7 @@ export function CategoryPage({
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {displayedProducts.map((product) => (
+          {productsToRender.map((product) => (
             <a
               key={product._id}
               href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
@@ -456,45 +442,54 @@ export function CategoryPage({
                   ) : (
                     <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
                   )}
-                  {product.stockStatus && (
-                    <span className="absolute top-2 right-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                      {localize(product, 'stockStatus')}
-                    </span>
+                  {getStockIndicator(product) && (
+                    <span
+                      aria-label={getStockIndicator(product) === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
+                      title={getStockIndicator(product) === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
+                      className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${getStockIndicator(product) === 'inStock' ? 'bg-emerald-500' : 'bg-sky-500'}`}
+                    />
                   )}
                 </div>
-                <span className="text-xs text-emerald-600 font-semibold uppercase tracking-wider">
-                  {product.categoryTranslations?.[language]?.name || (product.categoryId ? localize(allCategories.find((item) => item._id === product.categoryId), 'name') : undefined) || product.category || localize(category, 'name')}
-                </span>
-                <h3 className="text-sm sm:text-lg font-bold text-slate-900 mt-1 mb-2 group-hover:text-emerald-700 transition-colors line-clamp-2">
+                <h3 className="mt-1 mb-1.5 line-clamp-2 break-words text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-emerald-700 sm:text-base">
                   {localize(product, 'name')}
                 </h3>
-                <p className="text-slate-500 text-[11px] sm:text-xs line-clamp-2 mb-2 sm:mb-4">
-                  {localize(product, 'shortDescription') ||
-                    t('Висококачествен продукт за поливни системи.')}
+                <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
+                  {localize(product, 'shortDescription') || t('Висококачествен продукт за поливни системи.')}
                 </p>
               </div>
 
-              <div className="pt-2 sm:pt-4 border-t border-slate-100">
-                <div className="flex items-center justify-between">
-                  <span className="text-base sm:text-xl font-bold text-emerald-800">
-                    {category.isPlantCategory
-                      ? (() => {
-                          const prices = (product.saleVariants || []).map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && price > 0)
-                          return prices.length
-                            ? (language === 'ru' ? 'от ' : language === 'en' ? 'From ' : 'от ') + Math.min(...prices).toFixed(2) + ' €'
-                            : (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')
-                        })()
-                      : (product.priceEUR || 0).toFixed(2) + ' €'}
-                  </span>
-                  <span className="bg-emerald-50 text-emerald-700 text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    {t("Виж детайли")}
-                  </span>
-                </div>
-                {(!category.isPlantCategory || product.saleVariants?.some((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)) && <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>}
+              <div className="border-t border-slate-100 pt-2">
+                {(() => {
+                  const cardPrice = getCardPrice(product)
+                  const categoryName = product.categoryTranslations?.[language]?.name || (product.categoryId ? localize(allCategories.find((item) => item._id === product.categoryId), 'name') : undefined) || product.category || localize(category, 'name')
+                  return (
+                    <>
+                      <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                        {cardPrice.oldValue !== undefined && <span className="text-[10px] text-slate-400 line-through sm:text-xs">{cardPrice.oldValue.toFixed(2)} €</span>}
+                        <span className="text-sm font-bold text-emerald-800 sm:text-lg">{cardPrice.label}</span>
+                      </div>
+                      <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{t("Виж детайли")}</span>
+                      <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:text-[10px]" title={String(categoryName)}>{categoryName}</p>
+                    </>
+                  )
+                })()}
+              </div>
               </div>
             </a>
           ))}
         </div>
+      )}
+      {!category.isPlantCategory && displayedProducts.length > pageSize && (
+        <nav className="mt-6 flex flex-wrap items-center justify-between gap-3" aria-label={language === 'ru' ? 'Страницы товаров' : language === 'en' ? 'Product pages' : 'Страници с продукти'}>
+          <p className="text-xs text-slate-500 sm:text-sm">
+            {language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти'} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedProducts.length}
+          </p>
+          <div className="flex items-center gap-2">
+            <button type="button" onClick={() => { setCurrentPage((page) => Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }} disabled={currentPage === 1} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Previous' : language === 'ru' ? 'Назад' : 'Назад'}</button>
+            <span className="min-w-16 text-center text-xs font-semibold text-slate-600">{currentPage} / {totalPages}</span>
+            <button type="button" onClick={() => { setCurrentPage((page) => Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }} disabled={currentPage === totalPages} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Next' : language === 'ru' ? 'Далее' : 'Напред'}</button>
+          </div>
+        </nav>
       )}
 
       {!category.isPlantCategory && category.helpBlock && (() => {
