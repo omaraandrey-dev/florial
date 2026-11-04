@@ -1,6 +1,6 @@
 import React from 'react'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import { getKitComponentDisplayRows, hasKitComponents, isKitComponentLinkable } from '../lib/richTextUtils.mjs'
+import { formatKitQuantity, getKitComponentDisplayRows, hasKitComponents, isKitComponentLinkable } from '../lib/richTextUtils.mjs'
 
 interface KitComponentProduct {
   _id?: string
@@ -32,12 +32,6 @@ function getProductSlug(product?: KitComponentProduct | null) {
   return typeof product.slug === 'string' ? product.slug : product.slug?.current || ''
 }
 
-function formatQuantity(quantity: unknown, language: 'bg' | 'ru' | 'en') {
-  if (typeof quantity !== 'number' || !Number.isFinite(quantity) || quantity <= 0) return ''
-  const locale = language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG'
-  return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(quantity)
-}
-
 function getUnitLabel(unit: string | undefined, language: 'bg' | 'ru' | 'en') {
   if (unit === 'm') return 'm'
   return language === 'en' ? 'pcs' : language === 'ru' ? 'шт.' : 'бр.'
@@ -66,7 +60,7 @@ export function KitComponents({ items, language, title, onNavigateProduct }: Kit
           const slug = getProductSlug(product)
           const linkable = isKitComponentLinkable(item) && Boolean(slug)
           const note = item.note?.[language] || item.note?.bg || item.note?.en || item.note?.ru
-          const quantity = formatQuantity(item.quantity, language)
+          const quantity = formatKitQuantity(item.quantity, language)
           const unit = getUnitLabel(item.unit, language)
           const image = typeof product.imageUrl === 'string' && /^https?:\/\//i.test(product.imageUrl)
             ? product.imageUrl
