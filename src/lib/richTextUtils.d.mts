@@ -18,6 +18,7 @@ export function convertStringToPortableText(value: string, headingStyle?: 'h2' |
 export function toPlainText(value: unknown): string
 export function classifyRichTextHref(href: unknown): RichTextLinkKind
 export function isSafeRichTextHref(href: unknown): boolean
+export function formatKitQuantity(quantity: unknown, language?: 'bg' | 'ru' | 'en'): string
 export function hasKitComponents(value: unknown): boolean
 export function getKitComponentDisplayRows<T = any>(value: unknown): T[]
 export function isKitComponentLinkable(value: any): boolean
