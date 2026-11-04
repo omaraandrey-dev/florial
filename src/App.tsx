@@ -798,6 +798,7 @@ export default function App() {
         toPlainText(product.translations?.en?.shortDescription),
         toPlainText(product.translations?.ru?.shortDescription),
         toPlainText(product.description),
+        toPlainText(product.translations?.bg?.description),
         toPlainText(product.translations?.en?.description),
         toPlainText(product.translations?.ru?.description),
         product.category,
