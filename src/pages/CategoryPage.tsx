@@ -354,47 +354,13 @@ export function CategoryPage({
       </div>
 
       {/* Категории каталога сгруппированы; ссылки открывают отдельные SEO-страницы. */}
-      {isIrrigationCatalog ? (
-        <section className="mb-10" aria-label={language === 'ru' ? 'Категории каталога' : language === 'en' ? 'Catalogue categories' : 'Категории в каталога'}>
-          <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {catalogGroups.map((group) => {
-            const groupHref = localizedHref(`/category/${encodeURIComponent(group.slug?.current || group._id)}`, language)
-            return (
-              <a
-                key={group._id}
-                href={groupHref}
-                onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(group.slug?.current, group._id))}
-                className="group min-w-0 overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2 sm:rounded-2xl"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-[#F3F5EC] sm:rounded-xl">
-                  {group.imageUrl ? (
-                    <img
-                      src={group.imageUrl}
-                      alt={localize(group, 'name')}
-                      title={localize(group, 'name')}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center px-2 text-center text-xs text-slate-400">
-                      {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
-                    </div>
-                  )}
-                </div>
-                <div className="p-2.5 sm:p-3">
-                  <h2 className="line-clamp-2 text-sm font-bold leading-snug text-slate-900 sm:text-base">{localize(group, 'name')}</h2>
-                  <span className="mt-1 inline-block text-[10px] font-semibold text-[#647746] sm:text-xs">{language === 'ru' ? 'Открыть' : language === 'en' ? 'Open' : 'Разгледай'} →</span>
-                </div>
-              </a>
-            )
-          })}
-          </div>
-        </section>
-      ) : subCategories.length > 0 ? (
-        <section className="mb-9" aria-label={language === 'ru' ? 'Категории растений' : language === 'en' ? 'Plant categories' : 'Категории растения'}>
+      {(isIrrigationCatalog ? catalogGroups : subCategories).length > 0 ? (
+        <section
+          className="mb-9"
+          aria-label={language === 'ru' ? 'Категории каталога' : language === 'en' ? 'Catalogue categories' : 'Категории в каталога'}
+        >
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-            {subCategories.map((subCat) => {
+            {(isIrrigationCatalog ? catalogGroups : subCategories).map((subCat) => {
               const name = String(localize(subCat, 'name') || subCat.name)
               return (
                 <a
