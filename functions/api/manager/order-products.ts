@@ -23,7 +23,7 @@ export const onRequestGet=async({request,env}:{request:Request;env:ManagerEnv})=
   const data=await response.json() as {result:Product[]}
   const products=(data.result||[]).flatMap(product=>{
    if(catalog==='plants'){
-    return (product.saleVariants||[]).map(variant=>({catalog,productId:product._id,variantKey:variant._key,name:product.name+(variant.name?' — '+variant.name:''),sku:variant.sku||product.sku||'',price:Number(variant.priceEUR)||0,imageUrl:product.imageUrl||null,stockStatus:variant.stockStatus||'onRequest',saleHeightCm:variant.saleHeightCm??null,containerVolumeL:variant.containerVolumeL??null}))
+    return (product.saleVariants||[]).map(variant=>({catalog,productId:product._id,variantKey:variant._key,name:product.name+(variant.name?' — '+variant.name:'')+([variant.saleHeightCm?variant.saleHeightCm+' cm':'',variant.containerVolumeL?variant.containerVolumeL+' L':''].filter(Boolean).length?' ('+[variant.saleHeightCm?variant.saleHeightCm+' cm':'',variant.containerVolumeL?variant.containerVolumeL+' L':''].filter(Boolean).join(', ')+')':''),saleHeightCm:variant.saleHeightCm??null,containerVolumeL:variant.containerVolumeL??null,sku:variant.sku||product.sku||'',price:Number(variant.priceEUR)||0,imageUrl:product.imageUrl||null,stockStatus:variant.stockStatus||'onRequest',saleHeightCm:variant.saleHeightCm??null,containerVolumeL:variant.containerVolumeL??null}))
    }
    return [{catalog,productId:product._id,name:product.name||'Продукт',sku:product.sku||'',price:Number(product.priceEUR)||0,imageUrl:product.imageUrl||null,stockStatus:'catalog'}]
   })
