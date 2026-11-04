@@ -39,3 +39,55 @@
   .florial-header-menu-button { width: 40px !important; height: 40px !important; }
   .florial-header-menu-icon { width: 20px !important; height: 20px !important; }
 }
+
+/* Compact desktop header: keep the existing one-row layout and behavior. */
+@media (min-width: 1025px) {
+  .florial-header-row {
+    min-height: 72px !important;
+    padding-block: 6px !important;
+    gap: 16px !important;
+  }
+  .florial-header-logo-image {
+    display: block;
+    width: auto !important;
+    max-width: 180px !important;
+    height: 64px !important;
+    max-height: 64px !important;
+  }
+  .florial-header-logo-fallback {
+    font-size: 1.5rem !important;
+    line-height: 1.1 !important;
+  }
+  .florial-header-search-shell {
+    min-height: 42px !important;
+    height: 42px !important;
+  }
+  .florial-header-search-input {
+    padding-block: 0 !important;
+  }
+  .florial-header-search-submit {
+    min-height: 34px !important;
+    padding-block: 6px !important;
+  }
+  .florial-header-search-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .florial-header-cart {
+    height: 40px !important;
+    padding-inline: 12px !important;
+    gap: 6px !important;
+  }
+  .florial-header-cart-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .florial-header-menu-button {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .florial-header-menu-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
