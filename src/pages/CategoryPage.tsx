@@ -287,6 +287,26 @@ export function CategoryPage({
       else otherProducts.push(product)
     })
 
+    // Keep the nozzle queue grouped by Rain Bird series. The existing
+    // category round-robin remains unchanged; within the nozzle category,
+    // all R-VAN products are served first, then HE-VAN, then VAN, then others.
+    const nozzlesCategoryId = allCategories.find((item) => item.slug?.current === 'nozzles')?._id
+    const nozzlesBucket = nozzlesCategoryId ? buckets.get(nozzlesCategoryId) : undefined
+    if (nozzlesBucket) {
+      const getNozzleSeriesRank = (product: Product): number => {
+        const productText = [
+          product.name,
+          localize(product, 'name'),
+          product.sku,
+        ].filter(Boolean).join(' ').toLocaleUpperCase()
+        if (/\bR[\s-]?VAN\b/.test(productText)) return 0
+        if (/\bHE[\s-]?VAN\b/.test(productText)) return 1
+        if (/\bVAN\b/.test(productText)) return 2
+        return 3
+      }
+      nozzlesBucket.sort((a, b) => getNozzleSeriesRank(a) - getNozzleSeriesRank(b))
+    }
+
     const priorityProducts: Product[] = []
     let hasMorePriorityProducts = true
     while (hasMorePriorityProducts) {
