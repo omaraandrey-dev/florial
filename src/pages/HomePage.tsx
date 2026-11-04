@@ -224,9 +224,9 @@ export function HomePage({
                         : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
                     }`}
                   >
-                    <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-slate-100 flex items-center justify-center">
+                    <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-contain" />
                       ) : (
                         <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}
