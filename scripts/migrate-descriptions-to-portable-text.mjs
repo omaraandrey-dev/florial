@@ -4,7 +4,7 @@ import {convertStringToPortableText} from '../src/lib/richTextUtils.mjs'
 const projectId = 'bxvcy0qs'
 const datasets = [
   {name: 'production', documentType: 'product'},
-  {name: 'plants', documentType: 'plantProduct'},
+  {name: 'plants', documentType: 'product'},
 ]
 const apply = process.argv.includes('--apply')
 const confirmLiveWrite = process.argv.includes('--confirm-live-write')
