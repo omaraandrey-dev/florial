@@ -2,7 +2,7 @@ name: Deploy Florial Sanity Studio
 
 on:
   push:
-    branches: [main, feature/rich-descriptions-kit-components-2026-11-04]
+    branches: [main]
     paths:
       - "studio/**"
       - ".github/workflows/deploy-sanity-studio.yml"
