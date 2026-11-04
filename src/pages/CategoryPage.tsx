@@ -474,7 +474,6 @@ export function CategoryPage({
                   )
                 })()}
               </div>
-              </div>
             </a>
           ))}
         </div>
