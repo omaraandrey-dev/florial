@@ -46,11 +46,6 @@ export function CategoryPage({
     productGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [currentPage])
 
-  const goToPage = (page: number) => {
-    shouldScrollToProducts.current = true
-    setCurrentPage(Math.max(1, Math.min(totalPages, page)))
-  }
-
   // SEO is localized only when this category actually has translated content.
   useEffect(() => {
     if (!category) return
@@ -259,7 +254,7 @@ export function CategoryPage({
       .map((slug) => allCategories.find((item) => item.slug?.current === slug)?._id)
       .filter((id): id is string => Boolean(id))
     const priorityIdSet = new Set(priorityIds)
-    const parentById = new Map(allCategories.map((item) => [item._id, item.parentId]))
+    const parentById = new Map(allCategories.map((item) => [item._id, item.parentId] as const))
 
     const getRootCategoryId = (categoryId?: string): string | undefined => {
       let currentId = categoryId
@@ -310,6 +305,11 @@ export function CategoryPage({
 
   const pageSize = 20
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
+
+  const goToPage = (page: number) => {
+    shouldScrollToProducts.current = true
+    setCurrentPage(Math.max(1, Math.min(totalPages, page)))
+  }
   const productsToRender = displayedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize)
   const firstVisibleProduct = displayedProducts.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
   const lastVisibleProduct = Math.min(currentPage * pageSize, displayedProducts.length)
