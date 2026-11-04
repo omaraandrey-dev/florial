@@ -55,7 +55,7 @@ const escapeHtml = (value: string): string =>
     "'": '&#39;',
   })[char] || char)
 
-export const onRequestPost = async ({
+const handleOrderPost = async ({
   request,
   env,
 }: {
@@ -367,4 +367,23 @@ export const onRequestPost = async ({
   }
 
   return json({ orderNumber }, 201)
+}
+
+
+// Keep unexpected runtime failures in the checkout API contract as JSON.
+// This also gives support a safe request identifier without exposing internals.
+export const onRequestPost = async (context: { request: Request; env: RuntimeEnv }) => {
+  const requestId = crypto.randomUUID()
+  try {
+    return await handleOrderPost(context)
+  } catch (error) {
+    console.error('Unhandled POST /api/orders exception:', {
+      requestId,
+      message: error instanceof Error ? error.message.slice(0, 300) : 'unknown',
+    })
+    return json({
+      error: 'Възникна техническа грешка при обработката на поръчката. Моля, опитайте отново.',
+      requestId,
+    }, 500)
+  }
 }

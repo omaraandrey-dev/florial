@@ -27,14 +27,20 @@ export async function createOrder(data: OrderData): Promise<CreatedOrder> {
     body: JSON.stringify(data),
   })
 
-  const result = await response.json().catch(() => null)
+  const responseText = await response.text()
+  let result: { orderNumber?: unknown; error?: unknown; requestId?: unknown } | null = null
+  try {
+    result = JSON.parse(responseText) as { orderNumber?: unknown; error?: unknown; requestId?: unknown }
+  } catch {
+    result = null
+  }
 
   if (!response.ok) {
-    throw new Error(
-      typeof result?.error === 'string'
-        ? result.error
-        : 'Грешка при запазване на поръчката. Моля, опитайте отново.'
-    )
+    const message = typeof result?.error === 'string'
+      ? result.error
+      : 'Сървърът не върна коректен отговор (HTTP ' + response.status + '). Моля, опитайте отново.'
+    const requestId = typeof result?.requestId === 'string' ? ' Код: ' + result.requestId : ''
+    throw new Error(message + requestId)
   }
 
   if (!result?.orderNumber) {

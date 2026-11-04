@@ -786,3 +786,15 @@
 - Cloudflare Pages Production deployment completed successfully for `main` commit `b1ccfe7aeb076118bac5c2924ec95fb9fd89e279` (deployment `dcde054a-b193-42cb-99a9-941bad9b3ae4`); build and deploy stages succeeded and Pages Functions are included.
 - Remaining Russian Manager interface and surfaced API error text were translated into Bulgarian.
 - Authenticated owner/manager/seller role-matrix tests remain to be completed in the live Manager panel. No test staff or catalog records were created.
+
+
+## 2026-11-04 — Восстановление checkout и каталог товаров в Manager
+
+- Исправлена структура production D1 trigger `trg_orders_order_created`: в INSERT явно добавлен `actor_name`; состав столбцов и значений теперь совпадает со схемой `order_events`.
+- Добавлена аддитивная миграция `0009_fix_order_created_trigger.sql`. Она заменяет только триггер создания события и отмечает миграцию; существующие заказы и события не переписываются.
+- В checkout добавлен JSON-обработчик неожиданных серверных исключений с request ID; клиент корректно разбирает не-JSON ответы и HTTP-статус.
+- В Manager добавлен каталог для добавления позиций: выбор оборудования/растений, переход по категориям и подкатегориям Sanity, затем выбор конкретного товара или варианта растения.
+- Повторное добавление того же товара/варианта увеличивает количество существующей строки.
+- Поиск по точному имени или SKU больше не является обязательным действием; API сохраняет защищённый поиск как вспомогательный режим.
+- Header, меню, Footer, публичный каталог, корзина и её визуальная структура не менялись.
+- Production D1 migration и end-to-end email/checkout verification: фиксируются отдельно после применения миграции и ручной проверки владельцем.

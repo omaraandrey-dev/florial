@@ -765,3 +765,16 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Migration `0008_manager_orders` добавляет `is_test`, `payment_status`, `manager_note`, даты изменения/оплаты/архива/отмены и таблицу `order_events`. Только четыре утверждённых тестовых номера помечаются `is_test=1`.
 - Права `canViewOrders`, `canEditOrders`, `canDeleteTestOrders`; owner — полный доступ, active manager — три согласованных права, seller — без доступа.
 - Денежные поля `*_cents` являются источником истины; legacy decimal поля синхронизируются. Реальные заказы физически не удаляются.
+
+
+## 14. 2026-11-04 — Checkout trigger и выбор товаров в Manager
+
+- Production SQL source of truth — Cloudflare D1 binding `DB`; Supabase не используется.
+- В таблице `order_events` есть поля `actor_id`, `actor_name`, `actor_role`, `event_type`, `from_status`, `to_status`, `note`, `metadata`, `created_at`.
+- Проверка production D1 обнаружила, что trigger `trg_orders_order_created` имел несовпадающие списки столбцов и значений при вставке события. Исправление оформлено отдельной additive migration `0009_fix_order_created_trigger.sql`, которая заменяет только trigger. Не запускать повторно вручную, если версия уже присутствует в `schema_migrations`.
+- Миграция не обновляет, не удаляет и не переписывает существующие строки `orders` или `order_events`.
+- Checkout: `POST /api/orders`; ошибки почты/PDF остаются best-effort после успешной записи заказа. Не считать получение письма доказанным только по успешной записи заказа; проверять отдельно.
+- Manager product browser: `src/manager/OrderCatalogBrowser.tsx` и `functions/api/manager/order-products.ts`. Источники — Sanity `production` (оборудование) и `plants` (растения). Категории/подкатегории загружаются из Sanity, растения отображаются отдельными вариантами `saleVariants`.
+- Вариант растения сохраняется в snapshot заказа по `variantKey`, SKU, цене и размеру; цена каталога может быть скорректирована менеджером перед сохранением.
+- Не изменялись публичные Header/menu/Footer, публичный каталог, корзина, Sanity документы и схема Sanity.
+- Production D1 migration application, deployment ID и ручное подтверждение checkout/email владельцем должны быть добавлены после фактического выполнения; до этого они считаются неподтверждёнными.
