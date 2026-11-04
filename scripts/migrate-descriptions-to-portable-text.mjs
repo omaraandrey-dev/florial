@@ -2,7 +2,10 @@ import {createClient} from '@sanity/client'
 import {convertStringToPortableText} from '../src/lib/richTextUtils.mjs'
 
 const projectId = 'bxvcy0qs'
-const datasets = ['production', 'plants']
+const datasets = [
+  {name: 'production', documentType: 'product'},
+  {name: 'plants', documentType: 'plantProduct'},
+]
 const apply = process.argv.includes('--apply')
 const confirmLiveWrite = process.argv.includes('--confirm-live-write')
 const backupConfirmed = process.env.SANITY_BACKUP_CONFIRMED === '1'
@@ -31,13 +34,13 @@ function createDatasetClient(dataset) {
   })
 }
 
-async function fetchAllProducts(client) {
+async function fetchAllProducts(client, documentType) {
   const documents = []
   let after = ''
   while (true) {
     const batch = await client.fetch(
-      '*[_type == "product" && _id > $after] | order(_id asc)[0...100]{_id,name,description,translations{bg{description},ru{description},en{description}}}',
-      {after},
+      '*[_type == $documentType && _id > $after] | order(_id asc)[0...100]{_id,name,description,translations{bg{description},ru{description,formattedDescription},en{description,formattedDescription}}}',
+      {after, documentType},
     )
     if (!Array.isArray(batch) || batch.length === 0) break
     documents.push(...batch)
@@ -47,7 +50,7 @@ async function fetchAllProducts(client) {
   return documents
 }
 
-function buildDocumentChanges(document) {
+function buildDocumentChanges(document, dataset) {
   const set = {}
   const examples = []
 
@@ -60,20 +63,33 @@ function buildDocumentChanges(document) {
   }
 
   add('description', document.description)
-  for (const language of ['bg', 'ru', 'en']) {
-    add('translations.' + language + '.description', document.translations?.[language]?.description)
+
+  if (dataset === 'production') {
+    // Preserve the existing legacy strings; only populate the new Portable Text fields.
+    for (const language of ['ru', 'en']) {
+      const translation = document.translations?.[language]
+      if (!Array.isArray(translation?.formattedDescription)) {
+        add('translations.' + language + '.formattedDescription', translation?.description)
+      }
+    }
+  } else {
+    // Plant translations already use Portable Text in the current schema.
+    for (const language of ['bg', 'ru', 'en']) {
+      add('translations.' + language + '.description', document.translations?.[language]?.description)
+    }
   }
 
   return {set, examples}
 }
 
-for (const dataset of datasets) {
+for (const datasetConfig of datasets) {
+  const {name: dataset, documentType} = datasetConfig
   const client = createDatasetClient(dataset)
-  const documents = await fetchAllProducts(client)
+  const documents = await fetchAllProducts(client, documentType)
   const changes = []
 
   for (const document of documents) {
-    const result = buildDocumentChanges(document)
+    const result = buildDocumentChanges(document, dataset)
     if (Object.keys(result.set).length) {
       changes.push({id: document._id, name: document.name, set: result.set, examples: result.examples})
     }
@@ -81,6 +97,7 @@ for (const dataset of datasets) {
 
   const fieldCount = changes.reduce((total, item) => total + Object.keys(item.set).length, 0)
   console.log('\n=== Dataset: ' + dataset + ' ===')
+  console.log('Тип документов: ' + documentType)
   console.log('Найдено товаров: ' + documents.length)
   console.log('Документов с изменениями: ' + changes.length)
   console.log('Полей description к преобразованию: ' + fieldCount)
