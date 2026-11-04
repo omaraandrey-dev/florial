@@ -15,6 +15,7 @@ export interface PortableTextBlock {
   markDefs?: Array<{_key?: string; _type?: string; href?: string}>
 }
 export function convertStringToPortableText(value: string, headingStyle?: 'h2' | 'h3'): PortableTextBlock[]
+export function preferFormattedDescription(formattedDescription: unknown, legacyDescription: unknown): unknown
 export function toPlainText(value: unknown): string
 export function classifyRichTextHref(href: unknown): RichTextLinkKind
 export function isSafeRichTextHref(href: unknown): boolean
