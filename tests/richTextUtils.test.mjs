@@ -8,6 +8,7 @@ import {
   hasKitComponents,
   isKitComponentLinkable,
   isSafeRichTextHref,
+  preferFormattedDescription,
   toPlainText,
 } from '../src/lib/richTextUtils.mjs'
 
@@ -64,4 +65,11 @@ test('broken references are skipped safely and inactive products are not linkabl
   assert.equal(isKitComponentLinkable(rows[0]), true)
   assert.equal(isKitComponentLinkable(rows[1]), false)
   assert.equal(isKitComponentLinkable({product: null}), false)
+})
+
+test('formatted localized description wins, while empty new fields fall back to legacy text', () => {
+  const formatted = [{_type: 'block', children: [{text: 'New formatted copy'}]}]
+  assert.equal(preferFormattedDescription(formatted, 'Old text'), formatted)
+  assert.equal(preferFormattedDescription([], 'Old text'), 'Old text')
+  assert.equal(preferFormattedDescription(undefined, 'Old text'), 'Old text')
 })
