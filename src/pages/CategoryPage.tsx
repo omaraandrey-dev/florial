@@ -290,7 +290,7 @@ export function CategoryPage({
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
             {typeof localize(category, 'description') === 'string' ? (
-              <p className="line-clamp-2">{localize(category, 'description')}</p>
+              <p className={category.isPlantCategory ? 'line-clamp-2' : undefined}>{localize(category, 'description')}</p>
             ) : (
               <p>{t("Разгледайте продуктите в тази категория.")}</p>
             )}
@@ -322,6 +322,11 @@ export function CategoryPage({
         </section>
       ) : subCategories.length > 0 ? (
         <section className="mb-9" aria-label={language === 'ru' ? 'Подкатегории растений' : language === 'en' ? 'Plant subcategories' : 'Подкатегории растения'}>
+          {!category.isPlantCategory && (
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              {language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}
+            </p>
+          )}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
             {subCategories.map((subCat) => {
               const name = String(localize(subCat, 'name') || subCat.name)
