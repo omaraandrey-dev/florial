@@ -37,6 +37,13 @@ test('unsafe javascript links are rejected', () => {
   assert.equal(classifyRichTextHref('https://florial-bg.com/product/test-item'), 'internal')
 })
 
+test('fractional kit quantities keep decimal precision and local separators', () => {
+  assert.equal(formatKitQuantity(0.56, 'bg'), '0,56')
+  assert.equal(formatKitQuantity(0.56, 'ru'), '0,56')
+  assert.equal(formatKitQuantity(0.56, 'en'), '0.56')
+  assert.equal(formatKitQuantity(1, 'bg'), '1')
+})
+
 test('kit block renders only for a non-empty array', () => {
   assert.equal(hasKitComponents(undefined), false)
   assert.equal(hasKitComponents(null), false)
