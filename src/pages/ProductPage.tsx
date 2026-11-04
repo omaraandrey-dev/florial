@@ -7,7 +7,7 @@ import { getProductImageText } from '../lib/productImageSeo'
 import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
 import { RichText } from '../components/RichText'
 import { KitComponents } from '../components/KitComponents'
-import { toPlainText } from '../lib/richTextUtils.mjs'
+import { preferFormattedDescription, toPlainText } from '../lib/richTextUtils.mjs'
 
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
@@ -176,7 +176,7 @@ export function ProductPage({
     </div>
   )
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
-  const localizedDescription = product.translations?.[language]?.formattedDescription ?? localize(product, 'description')
+  const localizedDescription = preferFormattedDescription(product.translations?.[language]?.formattedDescription, localize(product, 'description'))
   const hasDescription = Boolean(toPlainText(localizedDescription).trim())
   const hasBotanicalCare = Boolean(plantCare && (
     ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
