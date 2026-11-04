@@ -27,7 +27,7 @@ export function KitComponentPreview(props: any) {
     }
 
     client.fetch(
-      '*[_id == $id || _id == $draftId][0]{name, "imageUrl": mainImage.asset->url}',
+      '*[_id == $id || _id == $draftId][0]{name, "imageUrl": coalesce(mainImage.asset->url, image.asset->url)}',
       {id: productRef, draftId: 'drafts.' + productRef},
     ).then((result: PreviewProduct | null) => {
       if (!cancelled) setProduct(result || null)
