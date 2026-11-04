@@ -97,7 +97,7 @@ export function HomePage({
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'linear-gradient(rgba(247, 248, 241, 0.78), rgba(247, 248, 241, 0.78)), url("https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png")' }}
+          style={{ backgroundImage: 'linear-gradient(rgba(247, 248, 241, 0.68), rgba(247, 248, 241, 0.68)), url("https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png")' }}
         />
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight text-[#263323]">
@@ -106,7 +106,7 @@ export function HomePage({
           <h2 className="text-xl md:text-3xl font-bold mb-5 tracking-tight text-[#263323]">
             {t('Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас')}
           </h2>
-          <p className="text-[#20251D] max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
+          <p className="text-[#11150F] max-w-4xl mx-auto text-sm md:text-lg leading-relaxed font-semibold">
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
           <div className="mt-7 flex justify-center">
@@ -123,7 +123,7 @@ export function HomePage({
           <div className="mt-1 text-left">
             <div className="mb-5">
               <div className="flex items-center justify-between gap-3">
-                <span className="block text-[10px] md:text-xs font-bold text-[#697A49] uppercase tracking-widest text-left">{t('Нашите услуги и готови комплекти')}</span>
+                <span className="block text-[10px] md:text-xs font-bold text-[#697A49] uppercase tracking-widest text-left">{language === 'ru' ? 'Выполняем работы' : language === 'en' ? 'Our services' : 'Извършваме дейности'}</span>
                 <a
                   href={localizedHref('/services', language)}
                   className="inline-flex shrink-0 items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
@@ -144,10 +144,6 @@ export function HomePage({
                           <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                         <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
-                      </div>
-                      <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
-                        <span className="text-[10px] md:text-xs text-[#71824F]">{language === 'ru' ? 'Бесплатная доставка в Солнечном Береге' : language === 'en' ? 'Free delivery in Sunny Beach' : 'Безплатна доставка в Слънчев бряг'}</span>
-                        <span className="hidden md:inline-block bg-[#879663] text-white text-xs font-bold px-3 py-1.5 rounded-lg">{t('Детайли →')}</span>
                       </div>
                     </a>
                   )
@@ -172,16 +168,6 @@ export function HomePage({
                       </div>
                       <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
                     </div>
-                    <div className="pt-2 md:pt-4 border-t border-[#E2E7D9] flex items-center justify-between mt-2">
-                      {srv.startingPriceEUR ? (
-                        <span className="text-[10px] md:text-xs text-[#71824F]">{t('От')} <strong className="text-slate-900 text-xs md:text-base">{srv.startingPriceEUR} €</strong></span>
-                      ) : (
-                        <span className="text-[10px] md:text-xs text-[#71824F]">{t('По оферта')}</span>
-                      )}
-                      <span className="hidden md:inline-block bg-[#879663] hover:bg-[#71814F] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
-                        {t("Детайли →")}
-                      </span>
-                    </div>
                   </a>
                 )
               })}
@@ -197,9 +183,6 @@ export function HomePage({
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
               <p className="mt-2 max-w-2xl text-sm md:text-base text-slate-600">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
             </div>
-            <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="shrink-0 rounded-lg bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 transition no-underline">
-              {t('Разгледайте всички растения')} →
-            </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {sortedPlantCategories.map((cat, index) => (
@@ -220,9 +203,6 @@ export function HomePage({
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
         <div className="relative mb-6 flex flex-col items-center gap-3 md:block">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{t('Каталог за поливно оборудване')}</h2>
-          <a href={localizedHref('/category/vsichko-za-polivane', language)} className="inline-flex w-fit items-center rounded-lg bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 no-underline md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2">
-            {language === 'ru' ? 'Все оборудование для полива' : language === 'en' ? 'Browse all irrigation equipment' : 'Всички продукти за напояване'} →
-          </a>
         </div>
 
         {sortedCategories.length > 0 && (
