@@ -97,7 +97,7 @@ export function HomePage({
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'linear-gradient(rgba(247, 248, 241, 0.88), rgba(247, 248, 241, 0.88)), url("https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png")' }}
+          style={{ backgroundImage: 'linear-gradient(rgba(247, 248, 241, 0.78), rgba(247, 248, 241, 0.78)), url("https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png")' }}
         />
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight text-[#263323]">
@@ -106,7 +106,7 @@ export function HomePage({
           <h2 className="text-xl md:text-3xl font-bold mb-5 tracking-tight text-[#263323]">
             {t('Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас')}
           </h2>
-          <p className="text-slate-600 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
+          <p className="text-[#20251D] max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
           <div className="mt-7 flex justify-center">
@@ -118,21 +118,20 @@ export function HomePage({
         </div>
       </section>
 
-      <section className="bg-[#EEF1E4] text-slate-800 py-10 md:py-12 px-4">
+      <section className="bg-[#EEF1E4] text-slate-800 py-5 md:py-6 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mt-1 text-left">
-            <div className="mb-6 text-center">
-              <span className="text-xs font-bold text-[#697A49] uppercase tracking-widest block">{t('Нашите услуги и готови комплекти')}</span>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{t('Професионални решения за градината')}</h3>
-            </div>
-
-            <div className="mb-4 flex justify-end">
-              <a
-                href={localizedHref('/services', language)}
-                className="inline-flex items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
-              >
-                {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'} →
-              </a>
+            <div className="mb-5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="block text-[10px] md:text-xs font-bold text-[#697A49] uppercase tracking-widest text-left">{t('Нашите услуги и готови комплекти')}</span>
+                <a
+                  href={localizedHref('/services', language)}
+                  className="inline-flex shrink-0 items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
+                >
+                  {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'} →
+                </a>
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-2 text-center">{t('Професионални решения за градината')}</h3>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
@@ -195,7 +194,6 @@ export function HomePage({
         <div className="max-w-7xl mx-auto px-4 py-10">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-emerald-700">{t('Градински център Флориал')}</span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
               <p className="mt-2 max-w-2xl text-sm md:text-base text-slate-600">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
             </div>
@@ -220,16 +218,15 @@ export function HomePage({
       </section>
 
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">{t('Каталог продукти')}</h2>
-          <a href={localizedHref('/category/vsichko-za-polivane', language)} className="inline-flex w-fit items-center rounded-lg bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 no-underline">
+        <div className="relative mb-6 flex flex-col items-center gap-3 md:block">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{t('Каталог оборудване за напояване')}</h2>
+          <a href={localizedHref('/category/vsichko-za-polivane', language)} className="inline-flex w-fit items-center rounded-lg bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 no-underline md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2">
             {language === 'ru' ? 'Все оборудование для полива' : language === 'en' ? 'Browse all irrigation equipment' : 'Всички продукти за напояване'} →
           </a>
         </div>
 
         {sortedCategories.length > 0 && (
           <div className="mb-12">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">{t('Изберете категория')}</span>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
               {sortedCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
