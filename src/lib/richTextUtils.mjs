@@ -55,7 +55,7 @@ export function convertStringToPortableText(value, headingStyle = 'h2') {
 
       if (line.length <= 80 && /:\s*$/.test(line)) {
         flushNormal()
-        addBlock(line.replace(/:\s*$/, ''), headingStyle)
+        addBlock(line, headingStyle)
         continue
       }
 
