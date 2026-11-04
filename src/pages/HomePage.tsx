@@ -122,28 +122,30 @@ export function HomePage({
         <div className="max-w-7xl mx-auto text-center">
           <div className="mt-1 text-left">
             <div className="mb-5">
-              <div className="flex items-center justify-between gap-3">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-2 md:grid-cols-[1fr_auto_1fr] md:gap-6">
                 <span className="block text-[10px] md:text-xs font-bold text-[#697A49] uppercase tracking-widest text-left">{language === 'ru' ? 'Выполняем работы' : language === 'en' ? 'Our services' : 'Извършваме дейности'}</span>
+                <h3 className="col-span-2 mt-0 text-center text-xl font-bold text-slate-900 md:col-span-1 md:whitespace-nowrap md:text-2xl">{t('Професионални решения за градината')}</h3>
                 <a
                   href={localizedHref('/services', language)}
-                  className="inline-flex shrink-0 items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
+                  className="inline-flex shrink-0 items-center justify-self-end rounded-lg border border-[#B9C79C] bg-white px-4 py-2 text-sm font-semibold text-[#53643A] transition hover:bg-[#F3F5EC] no-underline"
                 >
                   {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'} →
                 </a>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-2 text-center">{t('Професионални решения за градината')}</h3>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {getOrderedServiceEntries(services).map((entry) => {
                 if (entry.kind === 'delivery') {
                   return (
-                    <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline">
+                    <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline">
                       <div>
-                        <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
-                          <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} className="w-full h-full object-cover" loading="lazy" />
+                        <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
+                          <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} className="h-full w-full object-cover" loading="lazy" />
                         </div>
-                        <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
+                        <div className="p-3 md:p-4">
+                          <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
+                        </div>
                       </div>
                     </a>
                   )
@@ -154,19 +156,21 @@ export function HomePage({
                     key={srv._id}
                     href={localizedHref(`/services/${encodeURIComponent(srv.slug?.current || srv._id)}`, language)}
                     onClick={(event) => handleInternalLinkClick(event, () => onNavigateService(srv.slug?.current, srv._id))}
-                    className="bg-white/85 backdrop-blur-md p-3 md:p-6 rounded-xl border border-[#DDE3D0] shadow-sm flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline"
+                    className="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline"
                   >
                     <div>
-                      <div className="h-28 md:h-40 bg-[#E9EDDB] rounded-lg mb-2 md:mb-4 flex items-center justify-center overflow-hidden border border-[#DDE4CC]">
+                      <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
                         {srv.imageUrl ? (
-                          <img src={srv.imageUrl} alt={localize(srv, 'name')} className="w-full h-full object-cover" />
+                          <img src={srv.imageUrl} alt={localize(srv, 'name')} className="h-full w-full object-cover" />
                         ) : (
-                          <div className="p-2 text-center">
+                          <div className="flex h-full items-center justify-center p-2 text-center">
                             <span className="font-bold text-slate-800 text-xs md:text-base block">{localize(srv, 'name')}</span>
                           </div>
                         )}
                       </div>
-                      <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
+                      <div className="p-3 md:p-4">
+                        <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
+                      </div>
                     </div>
                   </a>
                 )
@@ -178,11 +182,9 @@ export function HomePage({
 
       <section className="bg-[#F7F8F1] border-y border-[#E7EBDD]">
         <div className="max-w-7xl mx-auto px-4 py-10">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
-              <p className="mt-2 max-w-2xl text-sm md:text-base text-slate-600">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
-            </div>
+          <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">{t('Растения за вашата градина')}</h2>
+            <p className="mt-0 max-w-2xl text-sm md:text-base text-slate-600 sm:max-w-[48%] sm:text-right">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {sortedPlantCategories.map((cat, index) => (
@@ -215,24 +217,26 @@ export function HomePage({
                     key={cat._id}
                     href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)}
                     onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))}
-                    className={`rounded-xl p-3 md:p-4 border transition cursor-pointer flex flex-col items-center text-center group no-underline ${
+                    className={`overflow-hidden rounded-xl border transition cursor-pointer flex flex-col items-center text-center group no-underline ${
                       isMainCategory 
                         ? 'bg-emerald-50/80 border-emerald-300 shadow-sm hover:shadow-md' 
                         : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
                     }`}
                   >
-                    <div className="w-full h-24 sm:h-32 md:h-36 bg-slate-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
+                    <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-slate-100 flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-300" />
+                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
                       ) : (
                         <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}
                     </div>
-                    <h4 className={`font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ${
-                      isMainCategory ? 'text-emerald-900 font-extrabold' : 'text-slate-800'
-                    }`}>
-                      {localize(cat, 'name')}
-                    </h4>
+                    <div className="w-full p-3 text-center md:p-4">
+                      <h4 className={`font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ${
+                        isMainCategory ? 'text-emerald-900 font-extrabold' : 'text-slate-800'
+                      }`}>
+                        {localize(cat, 'name')}
+                      </h4>
+                    </div>
                   </a>
                 )
               })}
