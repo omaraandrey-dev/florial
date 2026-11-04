@@ -251,7 +251,7 @@ export function CategoryPage({
         }
         return String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
       })
-  }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
+  }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter, isIrrigationCatalog])
 
   const pageSize = 20
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
