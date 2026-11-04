@@ -30,7 +30,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   if (auth.user.role !== 'owner' && !auth.user.permissionsObject.canEditOrders) {
     return json({ error: 'Нямате право да добавяте артикули към поръчки.' }, 403)
   }
-  if (!env.SANITY_API_TOKEN || !env.SANITY_PROJECT_ID) {
+  const sanityProjectId = env.SANITY_PROJECT_ID || env.VITE_SANITY_PROJECT_ID
+  if (!env.SANITY_API_TOKEN || !sanityProjectId) {
     return json({ error: 'Sanity catalogue is not configured.' }, 503)
   }
 
@@ -63,7 +64,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   }
 
   try {
-    const sanityUrl = new URL('https://' + env.SANITY_PROJECT_ID + '.api.sanity.io/v2025-02-19/data/query/' + dataset)
+    const sanityUrl = new URL('https://' + sanityProjectId + '.api.sanity.io/v2025-02-19/data/query/' + dataset)
     sanityUrl.searchParams.set('query', query)
     for (const [key, value] of Object.entries(params)) {
       sanityUrl.searchParams.set('$' + key, JSON.stringify(value))
