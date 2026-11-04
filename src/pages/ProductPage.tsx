@@ -325,7 +325,7 @@ export function ProductPage({
         item: item.item,
       })),
     })
-  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t, currentPrice, hasPrice, plantStockStatus])
+  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, localizedDescription, t, currentPrice, hasPrice, plantStockStatus])
 
   const handleAdd = () => {
     onAddToCart(product, quantity, isPlantProduct(product) ? selectedSaleVariant : undefined)
