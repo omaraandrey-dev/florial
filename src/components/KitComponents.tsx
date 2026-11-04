@@ -46,6 +46,15 @@ function getUnitLabel(unit: string | undefined, language: 'bg' | 'ru' | 'en') {
 export function KitComponents({ items, language, title, onNavigateProduct }: KitComponentsProps) {
   if (!hasKitComponents(items)) return null
 
+  if (import.meta.env.DEV) {
+    items?.forEach((item, index) => {
+      const product = item?.product
+      if (!product || !product.name || product.isActive === false || !getProductSlug(product)) {
+        console.warn('Florial: компонент комплекта #' + (index + 1) + ' имеет отсутствующий товар, неактивный статус или некорректную ссылку.', item)
+      }
+    })
+  }
+
   const rows = getKitComponentDisplayRows<KitComponentItem>(items)
   return (
     <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
