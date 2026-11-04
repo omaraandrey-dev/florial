@@ -778,3 +778,12 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Вариант растения сохраняется в snapshot заказа по `variantKey`, SKU, цене и размеру; цена каталога может быть скорректирована менеджером перед сохранением.
 - Не изменялись публичные Header/menu/Footer, публичный каталог, корзина, Sanity документы и схема Sanity.
 - Production D1 migration `0009_fix_order_created_trigger` applied on 2026-11-04. Cloudflare Pages production deployment `7ad8eeef-8ab7-4abe-b4f8-96cd0ebe4978` for commit `0d4eda429f313e55060536102bde4718ff5293f7` completed successfully. Manual owner confirmation of a real checkout, PDF and both email deliveries is still pending; no production test order was created by the assistant.
+
+
+## 2026-11-04 — Manager order catalogue: fallback Sanity project ID
+
+- Production Cloudflare Pages project `florial` содержит публичную переменную `VITE_SANITY_PROJECT_ID`, но не содержит отдельной server-side переменной `SANITY_PROJECT_ID`. `SANITY_API_TOKEN` присутствует как secret binding; его значение не читалось и не выводилось.
+- Причина ответа `Sanity catalogue is not configured.` в `GET /api/manager/order-products`: endpoint проверял только `env.SANITY_PROJECT_ID`, хотя основной frontend project ID уже настроен под именем `VITE_SANITY_PROJECT_ID`.
+- `ManagerEnv` дополнен типом `VITE_SANITY_PROJECT_ID`; endpoint использует `SANITY_PROJECT_ID || VITE_SANITY_PROJECT_ID`, сохраняя server-side token requirement. Приоритет остаётся за специальной server-side переменной, если она будет добавлена позднее.
+- Изменение ограничено конфигурационным чтением каталога заказов. Не менялись Sanity documents/assets, D1 schema/data, permissions, order records, checkout, cart, public catalogue, Header, menu или Footer.
+- После deployment требуется проверить категории и выбор товаров отдельно для datasets `production` и `plants` в Manager; до такой проверки ручной результат считается pending.
