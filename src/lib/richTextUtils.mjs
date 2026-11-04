@@ -68,6 +68,12 @@ export function convertStringToPortableText(value, headingStyle = 'h2') {
   return blocks
 }
 
+export function preferFormattedDescription(formattedDescription, legacyDescription) {
+  return Array.isArray(formattedDescription) && formattedDescription.length > 0
+    ? formattedDescription
+    : legacyDescription
+}
+
 export function toPlainText(value) {
   if (typeof value === 'string') return value
   if (!Array.isArray(value)) return ''
