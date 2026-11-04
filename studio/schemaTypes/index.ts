@@ -137,7 +137,8 @@ const productTranslations = defineField({
     fields: [
       defineField({name: 'name', title: language === 'en' ? 'Product name' : 'Название товара', type: 'string'}),
       defineField({name: 'shortDescription', title: language === 'en' ? 'Short description' : 'Краткое описание', type: 'text', rows: 3}),
-      defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'richDescription'}),
+      defineField({name: 'description', title: language === 'en' ? 'Description (legacy text)' : 'Описание (старый текст)', type: 'text', rows: 8}),
+      defineField({name: 'formattedDescription', title: language === 'en' ? 'Formatted description' : 'Форматирано описание', type: 'richDescription'}),
       defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
       defineField({name: 'specifications', title: 'Преведени характеристики', type: 'array', of: [{type: 'productSpec'}]}),
     ],
@@ -237,6 +238,7 @@ const kitComponent = defineType({
       ],
     }),
   ],
+  preview: {select: {productRef: 'product._ref', quantity: 'quantity', unit: 'unit'}},
   components: {preview: KitComponentPreview},
 })
 
