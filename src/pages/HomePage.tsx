@@ -202,7 +202,7 @@ export function HomePage({
 
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full bg-[#EEF1E4]">
         <div className="relative mb-6 flex flex-col items-center gap-3 md:block">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{t('Каталог за поливно оборудване')}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{language === 'ru' ? 'Продажа оборудования для полива' : language === 'en' ? 'Irrigation Equipment Sales' : 'Продажба на поливно оборудване'}</h2>
         </div>
 
         {sortedCategories.length > 0 && (
