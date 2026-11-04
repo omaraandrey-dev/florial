@@ -360,17 +360,33 @@ export function CategoryPage({
           {catalogGroups.map((group) => {
             const groupHref = localizedHref(`/category/${encodeURIComponent(group.slug?.current || group._id)}`, language)
             return (
-              <section key={group._id} className="min-w-0 rounded-xl border border-[#E2E6D8] bg-white p-2.5 shadow-sm sm:rounded-2xl sm:p-4">
-                <a href={groupHref} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(group.slug?.current, group._id))} className="flex min-h-14 items-center gap-2 no-underline sm:gap-3">
-                  <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC] sm:h-16 sm:w-16">
-                    {group.imageUrl ? <img src={group.imageUrl} alt={localize(group, 'name')} className="h-full w-full object-contain p-1" loading="lazy" decoding="async" /> : null}
-                  </div>
-                  <div className="min-w-0">
-                    <h2 className="line-clamp-2 text-sm font-bold leading-snug text-slate-900 sm:text-base">{localize(group, 'name')}</h2>
-                    <span className="mt-1 inline-block text-[10px] font-semibold text-[#647746] sm:text-xs">{language === 'ru' ? 'Открыть' : language === 'en' ? 'Open' : 'Разгледай'} →</span>
-                  </div>
-                </a>
-              </section>
+              <a
+                key={group._id}
+                href={groupHref}
+                onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory?.(group.slug?.current, group._id))}
+                className="group min-w-0 overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2 sm:rounded-2xl"
+              >
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-[#F3F5EC] sm:rounded-xl">
+                  {group.imageUrl ? (
+                    <img
+                      src={group.imageUrl}
+                      alt={localize(group, 'name')}
+                      title={localize(group, 'name')}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center px-2 text-center text-xs text-slate-400">
+                      {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
+                    </div>
+                  )}
+                </div>
+                <div className="p-2.5 sm:p-3">
+                  <h2 className="line-clamp-2 text-sm font-bold leading-snug text-slate-900 sm:text-base">{localize(group, 'name')}</h2>
+                  <span className="mt-1 inline-block text-[10px] font-semibold text-[#647746] sm:text-xs">{language === 'ru' ? 'Открыть' : language === 'en' ? 'Open' : 'Разгледай'} →</span>
+                </div>
+              </a>
             )
           })}
           </div>
@@ -520,7 +536,7 @@ export function CategoryPage({
                       src={product.imageUrl}
                       alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
                       title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
-                      className="h-full w-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                      className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
