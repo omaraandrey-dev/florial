@@ -51,8 +51,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
     if (!categoryId) return json({ error: 'Не е избрана категория.' }, 400)
     params.categoryId = categoryId
     query = catalog === 'plants'
-      ? '*[_type == "product" && isActive != false && !(_id in path("drafts.**")) && (category._ref == $categoryId || $categoryId in categories[]._ref)] | order(sortOrder asc, name asc)[0...100]{_id,name,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,category->image.asset->url,category->externalImageUrl),saleVariants[]{_key,name,nameEn,nameRu,sku,saleHeightCm,containerVolumeL,priceEUR,stockStatus}}'
-      : '*[_type == "product" && isActive != false && !(_id in path("drafts.**")) && (category._ref == $categoryId || $categoryId in categories[]._ref)] | order(sortOrder asc, name asc)[0...100]{_id,name,sku,priceEUR,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,externalImageUrl)}'
+      ? '*[_type == "product" && isActive != false && !(_id in path("drafts.**")) && (category._ref == $categoryId || $categoryId in categories[]._ref)] | order(sortOrder asc, name asc)[0...500]{_id,name,sku,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,category->image.asset->url,category->externalImageUrl),saleVariants[]{_key,name,nameEn,nameRu,sku,saleHeightCm,containerVolumeL,priceEUR,stockStatus}}'
+      : '*[_type == "product" && isActive != false && !(_id in path("drafts.**")) && (category._ref == $categoryId || $categoryId in categories[]._ref)] | order(sortOrder asc, name asc)[0...500]{_id,name,sku,priceEUR,stockStatus,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,externalImageUrl)}'
   } else {
     const term = clean(url.searchParams.get('q') || '', 100)
     if (term.length < 2) return json({ products: [] })

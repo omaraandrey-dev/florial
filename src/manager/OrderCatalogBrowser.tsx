@@ -184,6 +184,16 @@ export default function OrderCatalogBrowser({ catalog, onCatalogChange, onAdd }:
       {error && <p role="alert" className="rounded-lg bg-red-50 p-2 text-sm text-red-700">{error}</p>}
       {busy && <p className="py-3 text-center text-sm text-stone-500">Зареждане на каталога…</p>}
 
+      {!busy && mode === 'categories' && currentCategory && currentCategory.productCount > 0 && visibleCategories.length > 0 && (
+        <button
+          type="button"
+          onClick={() => void loadProducts(currentCategory._id)}
+          className="w-full rounded-lg border border-lime-700 px-3 py-2 text-sm font-semibold text-lime-800 hover:bg-lime-50"
+        >
+          Покажи всички артикули в категорията ({currentCategory.productCount})
+        </button>
+      )}
+
       {!busy && mode === 'categories' && (
         <div className="grid gap-2 sm:grid-cols-2">
           {visibleCategories.map(category => (

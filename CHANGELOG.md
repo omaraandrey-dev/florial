@@ -797,4 +797,4 @@
 - Повторное добавление того же товара/варианта увеличивает количество существующей строки.
 - Поиск по точному имени или SKU больше не является обязательным действием; API сохраняет защищённый поиск как вспомогательный режим.
 - Header, меню, Footer, публичный каталог, корзина и её визуальная структура не менялись.
-- Production D1 migration и end-to-end email/checkout verification: фиксируются отдельно после применения миграции и ручной проверки владельцем.
+- Production D1 migration `0009_fix_order_created_trigger` applied 04.11.2026; Pages production deployment `7ad8eeef-8ab7-4abe-b4f8-96cd0ebe4978` succeeded. Manual owner confirmation of checkout and both email deliveries remains pending.
