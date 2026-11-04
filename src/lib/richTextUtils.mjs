@@ -1,8 +1,10 @@
-import { createHash } from 'node:crypto'
-
 function makeKey(prefix, index, text) {
-  const digest = createHash('sha1').update(String(index) + ':' + String(text)).digest('hex').slice(0, 10)
-  return prefix + '-' + digest
+  let hash = 2166136261
+  const input = String(index) + ':' + String(text)
+  for (let i = 0; i < input.length; i += 1) {
+    hash = Math.imul(hash ^ input.charCodeAt(i), 16777619)
+  }
+  return prefix + '-' + index + '-' + (hash >>> 0).toString(36)
 }
 
 export function convertStringToPortableText(value, headingStyle = 'h2') {
