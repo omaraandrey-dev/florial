@@ -1,3 +1,12 @@
+## 2026-11-04 — Sanity: форматированные описания и состав готовых комплектов
+
+- В `studio/schemaTypes/index.ts` добавлен общий тип `richDescription` для описаний оборудования и растений; корневые BG-описания и локализованные RU/EN (а для растений BG/RU/EN) поля используют Portable Text. Старые значения в документах не мигрированы и продолжают поддерживаться frontend-кодом.
+- Для оборудования добавлено необязательное `product.kitComponents`: ссылка на обычный товар, положительное дробное quantity, единица `pcs` или `m`, заметка BG/RU/EN. Поле Studio скрывается вне категории готовых комплектов.
+- 04.11.2026 опубликованы обе схемы через GitHub Actions run `41837585278` в существующее Studio `florial-admin-bg` (App ID `fdy0ldwl717qtp5pikl7715l`). Sanity schema API после публикации подтвердил `kitComponents` в `production` и `richDescription` в обоих workspace.
+- Никакие Sanity документы/assets/цены не записывались и не удалялись. Миграция описаний оставлена на отдельный этап с экспортом backup, dry-run и отдельным разрешением владельца.
+- Frontend-код проверен владельцем на Cloudflare Preview, но PR #85 ещё не объединён в `main`. Для включения новой логики на `florial-bg.com` требуется отдельное согласование merge/production deployment.
+- PR: https://github.com/omaraandrey-dev/florial/pull/85. Studio deployment run: https://github.com/omaraandrey-dev/florial/actions/runs/41837585278.
+
 ## 2026-11-04 — Компактная desktop-шапка (PR в проверке)
 
 - В отдельной ветке `fix/desktop-header-compact-2026-11-04` подготовлена точечная настройка только для viewport шириной от 1025 px.
