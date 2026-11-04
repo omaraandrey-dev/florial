@@ -6,15 +6,14 @@ interface PreviewProduct {
   imageUrl?: string
 }
 
-interface KitComponentPreviewValue {
-  product?: {_ref?: string}
+interface KitComponentPreviewProps {
+  productRef?: string
   quantity?: number
   unit?: string
 }
 
-export function KitComponentPreview(props: any) {
-  const value = (props.value || {}) as KitComponentPreviewValue
-  const productRef = value.product?._ref
+export function KitComponentPreview(props: KitComponentPreviewProps) {
+  const productRef = props.productRef
   const client = useClient({apiVersion: '2024-01-01'})
   const [product, setProduct] = useState<PreviewProduct | null>(null)
 
@@ -37,8 +36,8 @@ export function KitComponentPreview(props: any) {
     return () => { cancelled = true }
   }, [client, productRef])
 
-  const quantity = typeof value.quantity === 'number' ? value.quantity : null
-  const unit = value.unit === 'm' ? 'm' : 'бр.'
+  const quantity = typeof props.quantity === 'number' ? props.quantity : null
+  const unit = props.unit === 'm' ? 'm' : 'бр.'
 
   return (
     <div style={{display: 'flex', alignItems: 'center', gap: 12, padding: 8}}>
