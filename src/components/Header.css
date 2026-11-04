@@ -1,0 +1,35 @@
+/* Responsive sizing for the existing public header only. */
+@media (max-width: 480px) and (orientation: portrait) {
+  .florial-header-row { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.55fr) auto !important; min-height: 68px !important; gap: 6px !important; padding-block: 6px !important; }
+  .florial-header-logo { width: clamp(68px, 22vw, 84px); }
+  .florial-header-logo-image { width: 100%; max-width: 100% !important; height: 50px !important; }
+  .florial-header-search { min-width: 0; max-width: none !important; margin-inline: 0 !important; }
+  .florial-header-search-icon { width: 18px !important; height: 18px !important; margin-left: 8px !important; margin-right: 0 !important; }
+  .florial-header-search-input { min-width: 0; padding-inline: 6px !important; font-size: 14px !important; }
+  .florial-header-search-submit { margin: 3px !important; padding: 8px !important; }
+  .florial-header-search-label { display: none !important; }
+  .florial-header-search-arrow { display: block !important; width: 16px !important; height: 16px !important; }
+  .florial-header-actions { gap: 5px !important; }
+  .florial-header-cart { height: 40px !important; gap: 5px !important; padding-inline: 8px !important; }
+  .florial-header-cart-icon { width: 20px !important; height: 20px !important; }
+  .florial-header-menu-button { width: 40px !important; height: 40px !important; }
+  .florial-header-menu-icon { width: 20px !important; height: 20px !important; }
+}
+
+/* Phones in landscape may cross Tailwind's sm/md width breakpoints. Keep mobile sizing. */
+@media (orientation: landscape) and (max-width: 1024px) and (max-height: 600px) {
+  .florial-header-row { grid-template-columns: minmax(68px, 84px) minmax(0, 1fr) auto !important; min-height: 68px !important; gap: 6px !important; padding-block: 6px !important; }
+  .florial-header-logo { width: clamp(68px, 10vw, 84px); }
+  .florial-header-logo-image { width: 100%; max-width: 100% !important; height: 50px !important; }
+  .florial-header-search { min-width: 0; max-width: none !important; margin-inline: 0 !important; }
+  .florial-header-search-icon { width: 18px !important; height: 18px !important; margin-left: 8px !important; margin-right: 0 !important; }
+  .florial-header-search-input { min-width: 0; padding-inline: 6px !important; font-size: 14px !important; }
+  .florial-header-search-submit { margin: 3px !important; padding: 8px !important; }
+  .florial-header-search-label { display: none !important; }
+  .florial-header-search-arrow { display: block !important; width: 16px !important; height: 16px !important; }
+  .florial-header-actions { gap: 5px !important; }
+  .florial-header-cart { height: 40px !important; gap: 5px !important; padding-inline: 8px !important; }
+  .florial-header-cart-icon { width: 20px !important; height: 20px !important; }
+  .florial-header-menu-button { width: 40px !important; height: 40px !important; }
+  .florial-header-menu-icon { width: 20px !important; height: 20px !important; }
+}
