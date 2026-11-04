@@ -83,6 +83,22 @@ export interface PlantSaleVariant {
   stockQuantity?: number
 }
 
+export interface KitComponent {
+  _key?: string
+  quantity: number
+  unit?: 'pcs' | 'm'
+  note?: Partial<Record<'bg' | 'ru' | 'en', string>>
+  product?: {
+    _id?: string
+    name?: string
+    translations?: Record<string, Record<string, any>>
+    slug?: string | { current?: string }
+    sku?: string
+    imageUrl?: string
+    isActive?: boolean
+  } | null
+}
+
 export interface Product {
   categoryTranslations?: Record<string, any>
   translations?: Record<string, Record<string, any>>
@@ -129,6 +145,7 @@ export interface Product {
   stockStatus?: string
   description?: any
   shortDescription?: string
+  kitComponents?: KitComponent[]
   specifications?: Array<{ name: string; value: string; unit?: string; translations?: Record<string, Record<string, any>> }>
   compatibility?: string[]
   seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
