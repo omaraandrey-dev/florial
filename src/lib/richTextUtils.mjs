@@ -109,7 +109,7 @@ export function isSafeRichTextHref(href) {
 export function formatKitQuantity(quantity, language = 'bg') {
   if (typeof quantity !== 'number' || !Number.isFinite(quantity) || quantity <= 0) return ''
   const locale = language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG'
-  return new Intl.NumberFormat(locale, {maximumFractionDigits: 2}).format(quantity)
+  return new Intl.NumberFormat(locale, {maximumFractionDigits: 6}).format(quantity)
 }
 
 export function hasKitComponents(value) {
