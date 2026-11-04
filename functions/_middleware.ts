@@ -506,8 +506,30 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   const languageParam = url.searchParams.get('lang')
 
   // The internal Manager is a separate SPA entry selected in src/main.tsx.
-  // Let Cloudflare Pages serve the SPA fallback for /manager instead of the public-site 404.
-  if (path === '/manager' || path.startsWith('/manager/')) return context.next()
+  // Keep the Pages SPA fallback, but apply server-side noindex before the client app runs.
+  if (path === '/manager' || path.startsWith('/manager/')) {
+    const response = await context.next()
+    const headers = new Headers(response.headers)
+    headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive')
+
+    const contentType = headers.get('content-type') || ''
+    if (context.request.method !== 'HEAD' && contentType.includes('text/html') && response.status === 200) {
+      let html = await response.text()
+      const robotsMeta = '<meta name="robots" content="noindex, nofollow, noarchive">'
+      const robotsMetaPattern = /<meta\b(?=[^>]*\bname\s*=\s*(["'])robots\1)[^>]*>/i
+      if (robotsMetaPattern.test(html)) {
+        html = html.replace(robotsMetaPattern, robotsMeta)
+      } else {
+        html = html.replace(/<\/head>/i, robotsMeta + '</head>')
+      }
+      headers.delete('content-length')
+      headers.delete('content-encoding')
+      headers.delete('etag')
+      return new Response(html, { status: response.status, statusText: response.statusText, headers })
+    }
+
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+  }
   const language = languageParam === 'ru' || languageParam === 'en' ? languageParam : 'bg'
 
   if (
