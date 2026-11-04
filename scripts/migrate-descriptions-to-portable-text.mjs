@@ -26,6 +26,7 @@ function createDatasetClient(dataset) {
     dataset,
     apiVersion: '2024-01-01',
     useCdn: false,
+    perspective: 'published',
     ...(apply ? {token: process.env.SANITY_AUTH_TOKEN} : {}),
   })
 }
