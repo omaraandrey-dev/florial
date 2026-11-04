@@ -1,3 +1,9 @@
+## 2026-11-04 — Совместимость переводов и preview состава комплекта
+
+- В production schema для product.translations.en/ru.description оставлен тип text для существующих данных; новое форматированное содержимое вводится через formattedDescription типа richDescription.
+- kitComponent.preview.select передаёт в preview компонент ссылку товара, количество и единицу измерения отдельными полями. Сам компонент использует эти selected props, а не props.value.
+- Публикация draft не требует массовой миграции старых переводов. Документы Sanity не изменяются автоматически.
+
 ## 2026-11-04 — Форматированные описания и состав комплектов (код preview)
 
 - Добавлен общий тип `richDescription` (normal, h2, h3, blockquote; bullet/number; strong/em/underline; безопасная URI-аннотация link) и подключён к описаниям товаров и растений на доступных языках.
