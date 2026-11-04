@@ -196,7 +196,7 @@ const kitComponent = defineType({
       to: [{type: 'product'}],
       options: {
         filter: ({document}) => {
-          const currentId = String(document?._id || '').replace(/^drafts\\./, '')
+          const currentId = String(document?._id || '').replace(/^drafts\./, '')
           return {
             filter: '!references($kitCategoryId) && _id != $currentId && _id != $draftId',
             params: {
