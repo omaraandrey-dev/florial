@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -33,6 +33,7 @@ export function CategoryPage({
   const [plantCoastFilter, setPlantCoastFilter] = useState('')
   const [plantWinterFilter, setPlantWinterFilter] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const productGridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setCurrentPage(1)
@@ -98,9 +99,16 @@ export function CategoryPage({
   const catalogGroups = useMemo(() => {
     if (!isIrrigationCatalog) return []
     const preferredOrder = [
-      'controllers', 'sprinklers', 'nozzles', 'shahti', 'klapani',
-      'kapkovo-napoyavane', 'trabi-fitingi-aksesoari',
-      'drugi-komponenti-za-polivane', 'filtri-regulatori-nalyagane',
+      'gotovi-komplekti-za-polivane',
+      'controllers',
+      'sprinklers',
+      'nozzles',
+      'klapani',
+      'shahti',
+      'kapkovo-napoyavane',
+      'trabi-fitingi-aksesoari',
+      'filtri-regulatori-nalyagane',
+      'drugi-komponenti-za-polivane',
     ]
     return subCategories.slice().sort((a, b) => {
       const ai = preferredOrder.indexOf(a.slug?.current || '')
@@ -219,14 +227,35 @@ export function CategoryPage({
         }
         return true
       })
-      .sort((a, b) =>
-        String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
-      )
-  }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
+      .sort((a, b) => {
+        if (isIrrigationCatalog) {
+          const priorityCategoryIds = [
+            '587a2ee3-8152-4193-bff1-dfd3838f12c5', // Контролери
+            '6709cd41-8c6c-4c5f-bc27-90d55d685dec', // Готови комплекти
+            'de7ecefe-0a25-41ed-8146-ce475efb2378', // Разпръсквачи
+            'ad3914b4-5ab0-49e3-868a-52621c4654a7', // Дюзи
+            '65742b44-11c2-43ae-9551-e91eb675dc93', // Клапани
+            '6d09232c-4c54-4ba2-b463-1cb61d7345b8', // Шахти
+          ]
+          const getPriority = (product: Product) => {
+            const categoryIds = [
+              product.categoryId,
+              product.categoryParentId,
+              ...(product.categories || []).flatMap((item) => [item._id, item.parentId]),
+            ]
+            const index = priorityCategoryIds.findIndex((id) => categoryIds.includes(id))
+            return index === -1 ? priorityCategoryIds.length : index
+          }
+          const priorityDifference = getPriority(a) - getPriority(b)
+          if (priorityDifference !== 0) return priorityDifference
+        }
+        return String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
+      })
+  }, [products, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter, isIrrigationCatalog])
 
   const pageSize = 20
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
-  const productsToRender = category.isPlantCategory ? displayedProducts : displayedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const productsToRender = displayedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize)
   const firstVisibleProduct = displayedProducts.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
   const lastVisibleProduct = Math.min(currentPage * pageSize, displayedProducts.length)
 
@@ -261,7 +290,7 @@ export function CategoryPage({
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
             {typeof localize(category, 'description') === 'string' ? (
-              <p>{localize(category, 'description')}</p>
+              <p className={category.isPlantCategory ? 'line-clamp-2' : undefined}>{localize(category, 'description')}</p>
             ) : (
               <p>{t("Разгледайте продуктите в тази категория.")}</p>
             )}
@@ -293,7 +322,11 @@ export function CategoryPage({
         </section>
       ) : subCategories.length > 0 ? (
         <section className="mb-9" aria-label={language === 'ru' ? 'Подкатегории растений' : language === 'en' ? 'Plant subcategories' : 'Подкатегории растения'}>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}</p>
+          {!category.isPlantCategory && (
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              {language === 'ru' ? 'Подкатегории:' : language === 'en' ? 'Subcategories:' : 'Подкатегории:'}
+            </p>
+          )}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
             {subCategories.map((subCat) => {
               const name = String(localize(subCat, 'name') || subCat.name)
@@ -422,7 +455,7 @@ export function CategoryPage({
           </a>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+        <div ref={productGridRef} className="scroll-mt-24 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {productsToRender.map((product) => (
             <a
               key={product._id}
@@ -478,15 +511,15 @@ export function CategoryPage({
           ))}
         </div>
       )}
-      {!category.isPlantCategory && displayedProducts.length > pageSize && (
+      {displayedProducts.length > pageSize && (
         <nav className="mt-6 flex flex-wrap items-center justify-between gap-3" aria-label={language === 'ru' ? 'Страницы товаров' : language === 'en' ? 'Product pages' : 'Страници с продукти'}>
           <p className="text-xs text-slate-500 sm:text-sm">
             {language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти'} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedProducts.length}
           </p>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => { setCurrentPage((page) => Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }} disabled={currentPage === 1} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Previous' : language === 'ru' ? 'Назад' : 'Назад'}</button>
+            <button type="button" onClick={() => { setCurrentPage((page) => Math.max(1, page - 1)); productGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} disabled={currentPage === 1} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Previous' : language === 'ru' ? 'Назад' : 'Назад'}</button>
             <span className="min-w-16 text-center text-xs font-semibold text-slate-600">{currentPage} / {totalPages}</span>
-            <button type="button" onClick={() => { setCurrentPage((page) => Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }} disabled={currentPage === totalPages} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Next' : language === 'ru' ? 'Далее' : 'Напред'}</button>
+            <button type="button" onClick={() => { setCurrentPage((page) => Math.min(totalPages, page + 1)); productGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} disabled={currentPage === totalPages} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Next' : language === 'ru' ? 'Далее' : 'Напред'}</button>
           </div>
         </nav>
       )}

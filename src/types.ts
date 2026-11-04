@@ -125,7 +125,8 @@ export interface Product {
   category?: string
   categoryId?: string
   categorySlug?: string
-  categories?: Array<{ _id: string; name: string; slug?: { current: string } }>
+  categoryParentId?: string
+  categories?: Array<{ _id: string; name: string; slug?: { current: string }; parentId?: string }>
   stockStatus?: string
   description?: any
   shortDescription?: string
