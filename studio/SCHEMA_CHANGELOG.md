@@ -1,3 +1,19 @@
+## 2026-11-04 — Совместимость переводов и preview состава комплекта
+
+- В production schema для product.translations.en/ru.description оставлен тип text для существующих данных; новое форматированное содержимое вводится через formattedDescription типа richDescription.
+- kitComponent.preview.select передаёт в preview компонент ссылку товара, количество и единицу измерения отдельными полями. Сам компонент использует эти selected props, а не props.value.
+- Публикация draft не требует массовой миграции старых переводов. Документы Sanity не изменяются автоматически.
+
+## 2026-11-04 — Форматированные описания и состав комплектов (код preview)
+
+- Добавлен общий тип `richDescription` (normal, h2, h3, blockquote; bullet/number; strong/em/underline; безопасная URI-аннотация link) и подключён к описаниям товаров и растений на доступных языках.
+- Добавлено необязательное поле `product.kitComponents` только в workspace оборудования; Studio скрывает его вне категории `6709cd41-18c6-4c5f-bc27-90d55d685dec`.
+- Компонент набора ссылается только на product, исключает наборы и текущий документ, quantity — положительное число с дробной точностью, unit — pcs/m (по умолчанию pcs), note — bg/ru/en.
+- Схемы опубликованы 04.11.2026 через существующий workflow `Deploy Florial Sanity Studio`, run `41837585278`; результат `Deployed 2/2 schemas`, hosted Studio `https://florial-admin-bg.sanity.studio/`, Studio App ID `fdy0ldwl717qtp5pikl7715l`.
+- После публикации Sanity schema API подтвердил `product.kitComponents` и тип `kitComponent` в `production`, а `richDescription` — в обоих workspace. `kitComponents` отсутствует в схеме растений.
+- Deployment выполнялся из preview branch после успешной сборки обоих workspace. Временный branch trigger удалён из PR-ветки после запуска; постоянный workflow остаётся production-only (`main`).
+- Опубликованные документы, assets и dataset содержимое не изменялись; миграция описаний не запускалась.
+
 ## 2026-11-01 — Варианты продажи растений
 
 - Добавлен объект plantSaleVariant с полями: название размера BG/EN/RU, SKU, высота при продаже, объём контейнера, цена EUR, старая цена EUR, статус наличия и количество.

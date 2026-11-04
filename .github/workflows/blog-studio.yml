@@ -27,12 +27,17 @@ jobs:
         run: npm install
       - name: Lint website
         run: npm run lint
+      - name: Test website utilities
+        run: npm test
       - name: Build website
         run: npm run build
       - name: Check migration script syntax
         run: |
           node --check scripts/blog-migration/prepare-from-source.mjs
           node --check scripts/blog-migration/import-blog-posts.mjs
+          node --check scripts/migrate-descriptions-to-portable-text.mjs
+      - name: Run read-only description migration dry-run
+        run: node scripts/migrate-descriptions-to-portable-text.mjs
       - name: Install Studio dependencies
         working-directory: studio
         run: npm install

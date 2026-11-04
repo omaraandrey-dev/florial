@@ -18,6 +18,7 @@ import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
+import { toPlainText } from './lib/richTextUtils.mjs'
 import { trackEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 
@@ -88,6 +89,7 @@ export default function App() {
 
   const [isContactsOpen, setIsContactsOpen] = useState(initialRoute.isContactsOpen)
   const [isCartOpen, setIsCartOpen] = useState(initialRoute.isCartOpen)
+  const [, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const lastTrackedPage = useRef<string | null>(null)
@@ -169,18 +171,20 @@ export default function App() {
     }
   }, [])
 
-  // Находим товар по URL после загрузки каталога
+  // Находим товар по URL. Состав комплекта загружаем отдельным detail-запросом,
+  // чтобы не включать kitComponents в каталожные, поисковые и связанные GROQ-выборки.
   useEffect(() => {
+    let cancelled = false
+
     if (!activeProductSlug) {
       setCurrentProduct(null)
       setLoadingProductDetails(false)
-      return
+      return () => { cancelled = true }
     }
 
-    // При прямом открытии ссылки ждём загрузки товаров из Sanity
     if (loadingProducts) {
       setLoadingProductDetails(true)
-      return
+      return () => { cancelled = true }
     }
 
     const foundProduct = products.find(
@@ -189,15 +193,64 @@ export default function App() {
         product._id === activeProductSlug
     )
 
-    setCurrentProduct(foundProduct || null)
-    setLoadingProductDetails(false)
-
     if (!foundProduct) {
-      console.warn(
-        'Товар не найден. Slug из URL:',
-        activeProductSlug
-      )
+      setCurrentProduct(null)
+      setLoadingProductDetails(false)
+      console.warn('Товар не найден. Slug из URL:', activeProductSlug)
+      return () => { cancelled = true }
     }
+
+    const kitCategoryId = '6709cd41-18c6-4c5f-bc27-90d55d685dec'
+    const isKitProduct = foundProduct.productType === 'equipment' && (
+      foundProduct.categoryId === kitCategoryId ||
+      foundProduct.categories?.some(category => category._id === kitCategoryId)
+    )
+
+    if (!isKitProduct) {
+      setCurrentProduct(foundProduct)
+      setLoadingProductDetails(false)
+      return () => { cancelled = true }
+    }
+
+    setLoadingProductDetails(true)
+    const kitComponentsQuery = `
+      *[_type == "product" && _id == $id][0] {
+        "kitComponents": kitComponents[]{
+          _key,
+          quantity,
+          unit,
+          note { bg, ru, en },
+          "product": product->{
+            _id,
+            name,
+            translations,
+            "slug": slug,
+            sku,
+            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+            isActive
+          }
+        }
+      }
+    `
+
+    sanityClient.fetch(kitComponentsQuery, {id: foundProduct._id})
+      .then((details: any) => {
+        if (cancelled) return
+        setCurrentProduct({
+          ...foundProduct,
+          kitComponents: Array.isArray(details?.kitComponents) ? details.kitComponents : [],
+        })
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return
+        console.error('Sanity: не удалось загрузить состав комплекта:', error)
+        setCurrentProduct({...foundProduct, kitComponents: []})
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingProductDetails(false)
+      })
+
+    return () => { cancelled = true }
   }, [activeProductSlug, products, loadingProducts])
 
   const localizedUrl = (path: string) => language === 'bg' ? path : `${path}${path.includes('?') ? '&' : '?'}lang=${language}`
@@ -696,6 +749,39 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Универсальная SPA-навигация для внутренних ссылок из Portable Text.
+  const navigateToInternalPath = (rawPath: string) => {
+    let target: URL
+    try {
+      target = new URL(rawPath, window.location.origin)
+    } catch {
+      return
+    }
+
+    const hostname = target.hostname.toLowerCase()
+    if (
+      hostname !== window.location.hostname.toLowerCase() &&
+      hostname !== 'florial-bg.com' &&
+      hostname !== 'www.florial-bg.com'
+    ) return
+
+    target.searchParams.delete('lang')
+    const path = target.pathname + target.search + target.hash
+    window.history.pushState({}, '', localizedUrl(path))
+
+    const route = getRouteState(target.pathname, target.search)
+    setActiveSearchQuery(route.activeSearchQuery)
+    setIsCartOpen(route.isCartOpen)
+    setIsContactsOpen(route.isContactsOpen)
+    setActiveServiceSlug(route.activeServiceSlug)
+    setActiveCategorySlug(route.activeCategorySlug)
+    setActiveProductSlug(route.activeProductSlug)
+    setCurrentProduct(null)
+    setLoadingProductDetails(Boolean(route.activeProductSlug))
+    setRouteRevision((revision) => revision + 1)
+    window.scrollTo({top: 0, behavior: 'smooth'})
+  }
+
   const searchedProducts = useMemo(() => {
     const query = (activeSearchQuery || '').toLocaleLowerCase('bg').trim()
     if (!query) return []
@@ -708,10 +794,13 @@ export default function App() {
         product.translations?.en?.name,
         product.translations?.ru?.name,
         product.sku,
-        product.shortDescription,
-        product.translations?.en?.shortDescription,
-        product.translations?.ru?.shortDescription,
-        typeof product.description === 'string' ? product.description : '',
+        toPlainText(product.shortDescription),
+        toPlainText(product.translations?.en?.shortDescription),
+        toPlainText(product.translations?.ru?.shortDescription),
+        toPlainText(product.description),
+        toPlainText(product.translations?.bg?.description),
+        toPlainText(product.translations?.en?.description),
+        toPlainText(product.translations?.ru?.description),
         product.category,
         product.categories?.flatMap((category: any) => [category.name, category.translations?.en?.name, category.translations?.ru?.name]).join(' '),
         product.categorySlug,
@@ -1003,6 +1092,7 @@ export default function App() {
             onNavigateProduct={navigateToProduct}
             onAddToCart={handleAddToCart}
             onNavigateContacts={navigateToContacts}
+            onNavigateInternalPath={navigateToInternalPath}
           />
         ) : (
           <div className="flex-grow text-center py-20">

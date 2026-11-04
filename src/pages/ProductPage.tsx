@@ -5,6 +5,9 @@ import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
+import { RichText } from '../components/RichText'
+import { KitComponents } from '../components/KitComponents'
+import { preferFormattedDescription, toPlainText } from '../lib/richTextUtils.mjs'
 
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
@@ -49,6 +52,7 @@ interface ProductPageProps {
   onNavigateProduct: (slug: string) => void
   onAddToCart: (product: Product, quantity: number, saleVariant?: PlantSaleVariant) => void
   onNavigateContacts: () => void
+  onNavigateInternalPath: (path: string) => void
 }
 
 export function ProductPage({
@@ -59,6 +63,7 @@ export function ProductPage({
   onNavigateProduct,
   onAddToCart,
   onNavigateContacts,
+  onNavigateInternalPath,
 }: ProductPageProps) {
   const { t, language, localize } = useI18n()
   const [selectedImage, setSelectedImage] = useState<string>('')
@@ -171,6 +176,8 @@ export function ProductPage({
     </div>
   )
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
+  const localizedDescription = preferFormattedDescription(product.translations?.[language]?.formattedDescription, localize(product, 'description'))
+  const hasDescription = Boolean(toPlainText(localizedDescription).trim())
   const hasBotanicalCare = Boolean(plantCare && (
     ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
     ['low', 'medium', 'high'].includes(String(plantCare.waterNeeds || '')) ||
@@ -245,7 +252,7 @@ export function ProductPage({
   useEffect(() => {
     if (!product) return
     const productName = String(localize(product, 'name') || product.name)
-    const productDescription = String(localize(product, 'shortDescription') || `Купете ${productName} изгодно в онлайн магазин Florial.`)
+    const productDescription = toPlainText(localize(product, 'shortDescription') || localizedDescription) || `Купете ${productName} изгодно в онлайн магазин Florial.`
     const productPath = `/product/${encodeURIComponent(product.slug?.current || product._id)}`
     const productUrl = new URL(localizedHref(productPath, language), window.location.origin).toString()
 
@@ -318,7 +325,7 @@ export function ProductPage({
         item: item.item,
       })),
     })
-  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, t, currentPrice, hasPrice, plantStockStatus])
+  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, localizedDescription, t, currentPrice, hasPrice, plantStockStatus])
 
   const handleAdd = () => {
     onAddToCart(product, quantity, isPlantProduct(product) ? selectedSaleVariant : undefined)
@@ -612,31 +619,25 @@ export function ProductPage({
         </section>
       )}
 
-      {/* Полное описание товара */}
-      {product.description && (
+      {/* Форматирано описание: старите текстови полета и Portable Text се поддържат */}
+      {hasDescription && (
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
           <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Описание')}</h2>
-          <div className="text-slate-600 text-base leading-relaxed space-y-4">
-            {typeof localize(product, 'description') === 'string' ? (
-              <p className="whitespace-pre-line">{localize(product, 'description')}</p>
-            ) : Array.isArray(localize(product, 'description')) ? (
-              // Рендеринг блоков Portable Text из Sanity
-              (localize(product, 'description') as any[]).map((block: any, idx: number) => {
-                if (block._type === 'block' && block.children) {
-                  return (
-                    <p key={idx}>
-                      {block.children.map((child: any) => child.text).join('')}
-                    </p>
-                  )
-                }
-                return null
-              })
-            ) : (
-              <p>{t("Детайлно описание на продукта.")}</p>
-            )}
-          </div>
+          <RichText
+            value={localizedDescription}
+            language={language}
+            onNavigateInternalPath={onNavigateInternalPath}
+            className="text-slate-600 text-base leading-relaxed"
+          />
         </section>
       )}
+
+      <KitComponents
+        items={product.kitComponents}
+        language={language}
+        title={t('Състав на комплекта')}
+        onNavigateProduct={onNavigateProduct}
+      />
 
       {/* Съвместимост на продукта */}
       {((localize(product, 'compatibility') as string[] | undefined) || product.compatibility || []).length > 0 && (

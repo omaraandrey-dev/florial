@@ -4,6 +4,7 @@ import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
+import { toPlainText } from '../lib/richTextUtils.mjs'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -539,7 +540,7 @@ export function CategoryPage({
                   {localize(product, 'name')}
                 </h3>
                 <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
-                  {localize(product, 'shortDescription') || t('Висококачествен продукт за поливни системи.')}
+                  {toPlainText(localize(product, 'shortDescription') || product.shortDescription || '') || t('Висококачествен продукт за поливни системи.')}
                 </p>
               </div>
 

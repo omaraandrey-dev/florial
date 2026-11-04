@@ -1,3 +1,27 @@
+## 2026-11-04 — Уточнение имени типа документа Sanity для растений
+
+- Read-only get_schema для dataset plants подтвердил, что зарегистрированный тип документа — product, а не plantProduct. Имя plantProduct в исходнике является названием переменной схемы, не значением _type.
+- Скрипт миграции скорректирован: _type == product для dataset production и dataset plants. Никакие Sanity документы не записывались; dry-run не запускает mutations.
+
+## 2026-11-04 — Уточнение совместимости richDescription и Studio preview
+
+- В production schema для product.translations.en/ru.description сохранён legacy тип text; новое Portable Text поле называется formattedDescription. Существующие опубликованные документы и drafts с RU/EN строками остаются валидными без миграции.
+- src/pages/ProductPage.tsx сначала использует translations[language].formattedDescription, затем обычный локализованный description, обеспечивая постепенное заполнение нового поля.
+- В plants workspace schema тип документа также называется product; поле product.translations.bg/ru/en.description остаётся richDescription. Миграционный скрипт использует _type == "product" для обоих datasets.
+- Для production migration пишет Portable Text только в translations.en/ru.formattedDescription и не перезаписывает исходные legacy strings. Для plants она преобразует legacy strings в существующие richDescription fields. Dry-run остаётся режимом по умолчанию; live write требует отдельного подтверждения владельца, экспорта backup и флагов скрипта.
+- kitComponent preview schema явно выбирает product._ref, quantity, unit; preview component читает их из верхнеуровневых selected props. Значение quantity в документе не изменяется.
+- На момент этого коммита исправленная схема ещё не опубликована. Публикация будет выполнена отдельно в уже существующее Studio florial-admin-bg после успешных CI/build и проверки целевой конфигурации.
+- Никакие Sanity документы/assets, цены, D1 records или заказы не изменялись. PR #85 остаётся отдельной feature branch; main и production storefront не меняются.
+
+## 2026-11-04 — Sanity: форматированные описания и состав готовых комплектов
+
+- В `studio/schemaTypes/index.ts` добавлен общий тип `richDescription` для описаний оборудования и растений; корневые BG-описания и локализованные RU/EN (а для растений BG/RU/EN) поля используют Portable Text. Старые значения в документах не мигрированы и продолжают поддерживаться frontend-кодом.
+- Для оборудования добавлено необязательное `product.kitComponents`: ссылка на обычный товар, положительное дробное quantity, единица `pcs` или `m`, заметка BG/RU/EN. Поле Studio скрывается вне категории готовых комплектов.
+- 04.11.2026 опубликованы обе схемы через GitHub Actions run `41837585278` в существующее Studio `florial-admin-bg` (App ID `fdy0ldwl717qtp5pikl7715l`). Sanity schema API после публикации подтвердил `kitComponents` в `production` и `richDescription` в обоих workspace.
+- Никакие Sanity документы/assets/цены не записывались и не удалялись. Миграция описаний оставлена на отдельный этап с экспортом backup, dry-run и отдельным разрешением владельца.
+- Frontend-код проверен владельцем на Cloudflare Preview, но PR #85 ещё не объединён в `main`. Для включения новой логики на `florial-bg.com` требуется отдельное согласование merge/production deployment.
+- PR: https://github.com/omaraandrey-dev/florial/pull/85. Studio deployment run: https://github.com/omaraandrey-dev/florial/actions/runs/41837585278.
+
 ## 2026-11-04 — Компактная desktop-шапка (PR в проверке)
 
 - В отдельной ветке `fix/desktop-header-compact-2026-11-04` подготовлена точечная настройка только для viewport шириной от 1025 px.

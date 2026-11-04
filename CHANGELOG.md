@@ -1,3 +1,27 @@
+## 2026-11-04 — Уточнение Sanity document type в migration script
+
+- Проверка фактически опубликованных схем Sanity подтвердила, что тип документа называется product и в dataset production, и в dataset plants (в коде Studio переменная-константа plantProduct описывает plant workspace schema, но schema name — product).
+- Исправлен migration script: он ищет _type == product в обоих datasets. Live migration не запускалась; Sanity документы не менялись.
+
+## 2026-11-04 — Исправления preview комплектов и обратной совместимости описаний
+
+- Исправлен preview kitComponent: Sanity custom preview получает значения через поля preview.select, поэтому явно выбираются productRef, quantity и unit; компонент читает эти props напрямую. Сохранённые значения количества не меняются.
+- Для переводов оборудования RU/EN возвращено прежнее поле description типа text; добавлено отдельное поле formattedDescription типа Portable Text. Старые строки и drafts сохраняются без преобразования, поэтому schema validation больше не ожидает массив в legacy-поле.
+- Карточка товара предпочитает formattedDescription, а при его отсутствии показывает старый description. Plant translations остаются на прежней Portable Text схеме.
+- Скрипт миграции использует Sanity document type product в обоих datasets (production и plants). В production он записывает только новое formattedDescription, не перезаписывая RU/EN legacy strings; в plants преобразует старые строковые описания в существующие Portable Text поля. Режим по умолчанию остаётся read-only dry-run.
+- Изменения ограничены PR #85. Sanity documents/assets и D1 не изменялись; миграция не запускалась; main и production сайта не обновлялись.
+
+## 2026-11-04 — Форматированные описания и состав готовых комплектов (Studio schema опубликована)
+
+- Добавлены общий рендерер Portable Text для карточек оборудования и растений с обратной совместимостью строковых описаний, безопасными ссылками и сохранением языка при SPA-переходах.
+- Добавлена общая Sanity-схема richDescription для BG/RU/EN; существующие поля сохранены. Миграция данных оформлена отдельным скриптом с dry-run по умолчанию и двойным подтверждением для live-записи после экспорта резервных копий.
+- Добавлена модель kitComponents для товаров категории «Готови комплекти за автоматично поливане»: ссылка на обычный товар, положительное дробное количество, единица pcs/m и локализованная заметка.
+- Состав запрашивается отдельным GROQ detail-запросом только при открытии карточки комплекта; каталожные, поисковые и связанные выборки не расширялись. Цены и расчёт стоимости комплекта не менялись.
+- Изменения frontend и схем находятся в ветке `feature/rich-descriptions-kit-components-2026-11-04`; владелец проверил обе карточки на Cloudflare Preview. Studio schema опубликована 04.11.2026 через GitHub Actions run `41837585278` в существующее приложение `florial-admin-bg` (Studio App ID `fdy0ldwl717qtp5pikl7715l`), подтверждено `Deployed 2/2 schemas`.
+- После публикации read-only Sanity schema API подтвердил `richDescription` в обоих workspace и `product.kitComponents` только в `production`; дробное quantity допускается. В проекте по-прежнему зарегистрировано одно Studio-приложение.
+- Sanity документы, assets, цены и dataset содержимое не изменялись; миграция описаний не запускалась. `main` пока не обновлён; frontend-код остаётся в preview PR.
+- Добавлены unit-тесты на конвертацию, plain text, безопасность ссылок, дробные количества и обработку отсутствующих/неактивных компонентов. Website lint/build, 6 тестов, Studio build и read-only migration dry-run прошли успешно.
+
 ## 2026-11-04 — Локализация заголовка продажи оборудования на главной странице
 
 - Заголовок блока поливочного оборудования заменён с каталожного на коммерческий: BG «Продажба на поливно оборудване», RU «Продажа оборудования для полива», EN «Irrigation Equipment Sales».

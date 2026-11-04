@@ -1,4 +1,7 @@
 import {defineField, defineType} from 'sanity'
+import {KitComponentPreview} from '../components/KitComponentPreview'
+
+const KIT_CATEGORY_ID = '6709cd41-18c6-4c5f-bc27-90d55d685dec'
 
 const slugField = (title = 'URL адрес') => defineField({
   name: 'slug',
@@ -21,6 +24,45 @@ const seoFields = defineType({
     defineField({name: 'noIndex', title: 'Не индексирай страницата', type: 'boolean', initialValue: false}),
     defineField({name: 'keywords', title: 'Ключови думи', type: 'array', of: [{type: 'string'}]}),
   ],
+})
+
+const richDescription = defineType({
+  name: 'richDescription',
+  title: 'Форматирано описание',
+  type: 'array',
+  of: [{
+    type: 'block',
+    styles: [
+      {title: 'Параграф', value: 'normal'},
+      {title: 'Заглавие 2', value: 'h2'},
+      {title: 'Заглавие 3', value: 'h3'},
+      {title: 'Цитат', value: 'blockquote'},
+    ],
+    lists: [
+      {title: 'Неномериран списък', value: 'bullet'},
+      {title: 'Номериран списък', value: 'number'},
+    ],
+    marks: {
+      decorators: [
+        {title: 'Удебелен', value: 'strong'},
+        {title: 'Курсив', value: 'em'},
+        {title: 'Подчертан', value: 'underline'},
+      ],
+      annotations: [{
+        name: 'link',
+        title: 'Връзка',
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'href',
+            title: 'URL адрес',
+            type: 'url',
+            validation: Rule => Rule.uri({scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true}),
+          }),
+        ],
+      }],
+    },
+  }],
 })
 
 const productSpec = defineType({
@@ -95,7 +137,8 @@ const productTranslations = defineField({
     fields: [
       defineField({name: 'name', title: language === 'en' ? 'Product name' : 'Название товара', type: 'string'}),
       defineField({name: 'shortDescription', title: language === 'en' ? 'Short description' : 'Краткое описание', type: 'text', rows: 3}),
-      defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'text', rows: 8}),
+      defineField({name: 'description', title: language === 'en' ? 'Description (legacy text)' : 'Описание (старый текст)', type: 'text', rows: 8}),
+      defineField({name: 'formattedDescription', title: language === 'en' ? 'Formatted description' : 'Форматирано описание', type: 'richDescription'}),
       defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
       defineField({name: 'specifications', title: 'Преведени характеристики', type: 'array', of: [{type: 'productSpec'}]}),
     ],
@@ -142,6 +185,63 @@ const brand = defineType({
   preview: {select: {title: 'name', media: 'logo'}},
 })
 
+const kitComponent = defineType({
+  name: 'kitComponent',
+  title: 'Компонент комплекта',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'product',
+      title: 'Товар',
+      type: 'reference',
+      to: [{type: 'product'}],
+      options: {
+        filter: ({document}) => {
+          const currentId = String(document?._id || '').replace(/^drafts\./, '')
+          return {
+            filter: '!references($kitCategoryId) && _id != $currentId && _id != $draftId',
+            params: {
+              kitCategoryId: KIT_CATEGORY_ID,
+              currentId,
+              draftId: 'drafts.' + currentId,
+            },
+          }
+        },
+      },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'quantity',
+      title: 'Количество',
+      type: 'number',
+      validation: Rule => Rule.required().min(0.000001),
+    }),
+    defineField({
+      name: 'unit',
+      title: 'Единица измерения',
+      type: 'string',
+      options: {list: [
+        {title: 'бр.', value: 'pcs'},
+        {title: 'm', value: 'm'},
+      ]},
+      initialValue: 'pcs',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'note',
+      title: 'Заметка',
+      type: 'object',
+      fields: [
+        defineField({name: 'bg', title: 'Бележка (BG)', type: 'string'}),
+        defineField({name: 'ru', title: 'Заметка (RU)', type: 'string'}),
+        defineField({name: 'en', title: 'Note (EN)', type: 'string'}),
+      ],
+    }),
+  ],
+  preview: {select: {productRef: 'product._ref', quantity: 'quantity', unit: 'unit'}},
+  components: {preview: KitComponentPreview},
+})
+
 const irrigationProduct = defineType({
   name: 'product', title: 'Продукти за поливане', type: 'document',
   fields: [
@@ -153,7 +253,7 @@ const irrigationProduct = defineType({
     defineField({name: 'category', title: 'Основна категория (legacy)', type: 'reference', to: [{type: 'category'}]}),
     defineField({name: 'categories', title: 'Категории на продукта', type: 'array', of: [{type: 'reference', to: [{type: 'category'}]}]}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
-    defineField({name: 'description', title: 'Пълно описание', type: 'array', of: [{type: 'block'}]}),
+    defineField({name: 'description', title: 'Пълно описание (BG)', type: 'richDescription'}),
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: [
       defineField({name: 'alt', title: 'Alt текст (BG)', type: 'string'}),
       defineField({name: 'altEn', title: 'Alt text (EN)', type: 'string'}),
@@ -183,6 +283,18 @@ const irrigationProduct = defineType({
       description: 'Изберете активни услуги на Florial и публикувани статии, свързани с продукта.',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'service'}, {type: 'blogPost'}]}],
+    }),
+    defineField({
+      name: 'kitComponents',
+      title: 'Състав на комплекта',
+      description: 'Показва се само за продуктите от категория „Готови комплекти за автоматично поливане“. Количеството поддържа дробни стойности.',
+      type: 'array',
+      hidden: ({document}) => {
+        const primaryCategoryId = (document?.category as {_ref?: string} | undefined)?._ref
+        const categories = Array.isArray(document?.categories) ? document.categories : []
+        return primaryCategoryId !== KIT_CATEGORY_ID && !categories.some((item: any) => item?._ref === KIT_CATEGORY_ID)
+      },
+      of: [{type: 'kitComponent'}],
     }),
     defineField({name: 'isFeatured', title: 'Препоръчан продукт', type: 'boolean'}),
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
@@ -597,7 +709,7 @@ const plantProduct = defineType({
       validation: Rule => Rule.max(10).unique(),
     }),
 
-    defineField({name: 'description', title: 'Пълно описание (BG)', type: 'text', rows: 8}),
+    defineField({name: 'description', title: 'Пълно описание (BG)', type: 'richDescription'}),
     defineField({name: 'mainImage', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'gallery', title: 'Допълнителни снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
     defineField({
@@ -658,7 +770,7 @@ const plantProduct = defineType({
       ...['bg', 'en', 'ru'].map((lang) => defineField({name: lang, title: ({bg: 'Български', en: 'English', ru: 'Русский'} as Record<string,string>)[lang], type: 'object', fields: [
         defineField({name: 'name', title: 'Име / Name / Название', type: 'string'}),
         defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
-        defineField({name: 'description', title: 'Пълно описание', type: 'text', rows: 8}),
+        defineField({name: 'description', title: 'Пълно описание', type: 'richDescription'}),
         defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
       ]})),
     ]}),
@@ -708,7 +820,7 @@ const blogPost = defineType({
   preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
 export const irrigationSchemaTypes = [
-  seoFields, productSpec, serviceContentBlock, brand, irrigationCategory,
+  seoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, plantCare, plantSaleVariant, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
