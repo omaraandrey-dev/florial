@@ -7,7 +7,7 @@ type Item={name:string;qty:number;price:number;sku?:string;imageUrl?:string;[key
 const ev=(db:NonNullable<ManagerEnv['DB']>,r:Row,u:ManagerIdentity,eventType:string,note:string,metadata:Record<string,unknown>={})=>db.prepare('INSERT INTO order_events(id,order_id,order_number,actor_id,actor_name,actor_role,event_type,from_status,to_status,note,metadata,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(newId(),r.id,r.order_number,u.user_id,u.display_name||u.email,u.role,eventType,r.status,r.status,note,JSON.stringify(metadata),nowIso())
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c))
 const readOrder=async(db:NonNullable<ManagerEnv['DB']>,id:string)=>db.prepare('SELECT * FROM orders WHERE id=?').bind(id).first<Row>()
-const makePdf=async(r:Row,env:ManagerEnv,items:Item[])=>createProformaPdf({order_number:r.order_number,customer_name:r.customer_name,phone:r.phone,email:r.email,city:r.city||'',address:r.address,delivery_method:r.delivery_method,items,subtotal:r.subtotal_cents/100,delivery_fee:r.delivery_fee_cents==null?null:r.delivery_fee_cents/100,total:r.total_cents==null?null:r.total_cents/100,created_at:r.created_at} satisfies ProformaOrder,env.PROFORMA_FONT_URL)
+const makePdf=async(r:Row,env:RuntimeEnv,items:Item[])=>createProformaPdf({order_number:r.order_number,customer_name:r.customer_name,phone:r.phone,email:r.email,city:r.city||'',address:r.address,delivery_method:r.delivery_method,items,subtotal:r.subtotal_cents/100,delivery_fee:r.delivery_fee_cents==null?null:r.delivery_fee_cents/100,total:r.total_cents==null?null:r.total_cents/100,created_at:r.created_at} satisfies ProformaOrder,env.PROFORMA_FONT_URL)
 const htmlFor=(r:Row,items:Item[])=>'<h2>Актуализирана поръчка '+escapeHtml(r.order_number)+'</h2><p>Здравейте, '+escapeHtml(r.customer_name)+'. Съставът на поръчката Ви е актуализиран след съгласуване с екипа на Florial.</p><table style="width:100%;border-collapse:collapse"><thead><tr><th align="left">Артикул</th><th>Количество</th><th align="right">Цена</th></tr></thead><tbody>'+items.map(i=>'<tr><td>'+escapeHtml(i.name)+(i.sku?' <small>SKU: '+escapeHtml(i.sku)+'</small>':'')+'</td><td align="center">'+i.qty+'</td><td align="right">'+(i.price*i.qty).toFixed(2)+' EUR</td></tr>').join('')+'</tbody></table><p>Продукти: '+(r.subtotal_cents/100).toFixed(2)+' EUR</p><p>Доставка: '+(r.delivery_fee_cents==null?'Ще бъде уточнена':(r.delivery_fee_cents/100).toFixed(2)+' EUR')+'</p><h3>Общо: '+(r.total_cents==null?'Ще бъде потвърдено':(r.total_cents/100).toFixed(2)+' EUR')+'</h3><p>Благодарим Ви!<br>Екипът на Florial</p>'
 
 export const onRequestGet=async({request,env}:{request:Request;env:RuntimeEnv})=>{
@@ -27,7 +27,7 @@ export const onRequestGet=async({request,env}:{request:Request;env:RuntimeEnv})=
  }catch{return json({error:'Не успяхме да генерираме PDF документа.'},502)}
 }
 
-export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})=>{
+export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})=>{
  if(!checkSameOrigin(request))return json({error:'Origin not allowed.'},403)
  const auth=await requireUser(request,env)
  if(auth.response||!auth.user)return auth.response||json({error:'Authentication required.'},401)
