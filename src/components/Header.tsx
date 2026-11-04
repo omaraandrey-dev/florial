@@ -145,13 +145,13 @@ export function Header({
 
           {/* Поиск товаров по центру */}
           <form onSubmit={submitSearch} role="search" className="florial-header-search mx-auto flex w-full max-w-2xl items-center">
-            <div className="flex w-full items-center overflow-hidden rounded-xl border border-slate-300 bg-slate-50 transition focus-within:border-emerald-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-100">
+            <div className="florial-header-search-shell flex w-full items-center overflow-hidden rounded-xl border border-slate-300 bg-slate-50 transition focus-within:border-emerald-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-100">
               <svg className="florial-header-search-icon ml-3 h-5 w-5 shrink-0 text-slate-500 sm:ml-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" strokeWidth="2" />
                 <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <input
-                type="search"
+                type="text"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder={t('Търсене на продукти...')}
