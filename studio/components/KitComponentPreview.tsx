@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {useClient} from 'sanity'
-import {Box, Flex, Text} from 'sanity/ui'
 
 interface PreviewProduct {
   name?: string
@@ -42,16 +41,16 @@ export function KitComponentPreview(props: any) {
   const unit = value.unit === 'm' ? 'm' : 'бр.'
 
   return (
-    <Flex align="center" gap={3} padding={2}>
+    <div style={{display: 'flex', alignItems: 'center', gap: 12, padding: 8}}>
       {product?.imageUrl ? (
         <img src={product.imageUrl} alt={product.name || ''} width={44} height={44} style={{objectFit: 'contain', borderRadius: 6}} />
       ) : (
-        <Box width={44} height={44} radius={2} background="gray100" />
+        <div aria-hidden="true" style={{width: 44, height: 44, borderRadius: 6, background: '#f1f3f5'}} />
       )}
-      <Box flex={1}>
-        <Text weight="semibold">{product?.name || 'Изберете продукт'}</Text>
-        <Text size={1} muted>{quantity === null ? 'Количество не задано' : String(quantity) + ' ' + unit}</Text>
-      </Box>
-    </Flex>
+      <div style={{flex: 1, minWidth: 0}}>
+        <div style={{fontWeight: 600}}>{product?.name || 'Изберете продукт'}</div>
+        <div style={{fontSize: 12, color: '#6b7280'}}>{quantity === null ? 'Количество не задано' : String(quantity) + ' ' + unit}</div>
+      </div>
+    </div>
   )
 }
