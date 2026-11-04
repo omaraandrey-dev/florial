@@ -224,7 +224,7 @@ export default function App() {
             _id,
             name,
             translations,
-            "slug": { "current": coalesce(slug.current, slug) },
+            "slug": slug,
             sku,
             "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
             isActive
