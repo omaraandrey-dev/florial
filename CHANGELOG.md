@@ -3,7 +3,8 @@
 - Проверена актуальная ветка `main`; latest commit на момент сверки: `f40ab75e9cb5888891337e73b683aadde5e402d9`.
 - Последний Cloudflare Pages Production deployment: `29bcf868-2447-4902-8f00-8a6158b696c7`, commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, статус `success`; aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
 - Этот deployment включает актуальный код product SEO, category SEO, sitemap/About/noIndex, навигацию и иерархию заголовков; после него в main выполнялись только документационные commits.
-- Технический паспорт и инструкция MD2 синхронизируются с подтверждённым состоянием. Live XML sitemap и фактическая переиндексация поисковыми системами остаются отдельными непроверенными пунктами.
+- Создана новая Library-версия основной инструкции: `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_06-11-2026_rev5.md`; rev4 сохранена без перезаписи. В `docs/TECHNICAL_PASSPORT.md` добавлена сводная контрольная точка и уточнены статусы публикации product/category SEO, About sitemap и plant noIndex. `studio/SCHEMA_CHANGELOG.md` обновлён: productSeoFields опубликован в обеих workspace.
+- Live XML sitemap и фактическая переиндексация поисковыми системами остаются отдельными непроверенными пунктами.
 - Массовое заполнение H1/Meta Title/Meta Description карточек товаров не выполнялось; не запускать без владельца, preview и отдельного подтверждения в Manager.
 
 ## 2026-11-05 — Исправлен источник noIndex для болгарской версии растений в sitemap (Production deployed)
