@@ -70,6 +70,8 @@ export function Header({
     : language === 'en'
       ? siteSettings?.logoTitleEn
       : siteSettings?.logoTitle
+  const logoAccessibleAlt = logoAlt || siteSettings?.logoAssetAltText || logoTitle || siteSettings?.logoAssetTitle || siteSettings?.siteName || 'Florial'
+  const logoImageTitle = logoTitle || siteSettings?.logoAssetTitle
   const logoHomeLabel = language === 'ru'
     ? 'Florial — главная страница'
     : language === 'en'
