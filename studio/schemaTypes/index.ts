@@ -369,11 +369,15 @@ const page = defineType({
 const photo = defineType({
   name: 'photo', title: 'Снимки и медии', type: 'document',
   fields: [
-    defineField({name: 'title', title: 'Заглавие', type: 'string'}),
+    defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
+    defineField({name: 'titleEn', title: 'Title (EN)', type: 'string'}),
+    defineField({name: 'titleRu', title: 'Заглавие (RU)', type: 'string'}),
     defineField({name: 'slug', title: 'Уникален код за търсене', type: 'string'}),
     defineField({name: 'image', title: 'Изображение', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'logoUrl', title: 'URL на логото (старо поле)', type: 'url'}),
-    defineField({name: 'seoDescription', title: 'Описание за SEO', type: 'text', rows: 3}),
+    defineField({name: 'seoDescription', title: 'Описание за SEO (BG)', type: 'text', rows: 3}),
+    defineField({name: 'seoDescriptionEn', title: 'SEO description (EN)', type: 'text', rows: 3}),
+    defineField({name: 'seoDescriptionRu', title: 'Описание за SEO (RU)', type: 'text', rows: 3}),
     defineField({name: 'category', title: 'Категория', type: 'string', options: {list: [
       {title: 'Начало', value: 'home'}, {title: 'Поливане', value: 'irrigation'},
       {title: 'Услуги', value: 'services'}, {title: 'Ландшафт', value: 'landscape'},
