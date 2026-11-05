@@ -74,6 +74,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   const catalog = body?.catalog
   const offset = Number(body?.offset ?? 0)
   if (mode !== 'preview' && mode !== 'apply') return json({ error: 'Invalid product SEO mode.' }, 400)
+  if (mode === 'apply' && body?.confirm !== true) return json({ error: 'Explicit owner confirmation is required before writing product SEO.' }, 400)
   if (catalog !== 'irrigation' && catalog !== 'plants') return json({ error: 'Invalid product catalogue.' }, 400)
   if (!Number.isInteger(offset) || offset < 0) return json({ error: 'Invalid offset.' }, 400)
 
