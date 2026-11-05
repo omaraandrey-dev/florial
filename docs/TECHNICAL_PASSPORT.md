@@ -7,7 +7,10 @@
 - Категории, услуги и последние публикации загружаются динамически; ссылки появляются после получения соответствующих данных. При проверке дождаться загрузки Sanity-категорий/услуг и списка публикаций, затем проверять DOM до открытия меню.
 - Важно: Florial использует клиентский React SPA. Это изменение обеспечивает наличие ссылок в DOM после выполнения React-кода, но не добавляет навигацию в исходный серверный HTML до запуска JavaScript. Для требования доступности ссылок в сыром HTML без JS потребуется отдельная архитектурная задача SSR/prerender; не решать её в рамках правки Header.
 - При проверке всех локалей использовать BG, RU и EN; проверить DOM до клика, видимость/раскрытие меню, клавиатурную доступность, обычные и модифицированные клики, а также сохранение адресов ссылок.
-- Область изменения: только `src/components/Header.tsx` и техническая документация. Не менять Header CSS, Footer, App routing, Sanity, Cloudflare D1, middleware, sitemap, товары или данные.
+- Область изменения: только `src/components/Header.tsx`, `docs/TECHNICAL_PASSPORT.md` и `CHANGELOG.md`. Не менялись Header CSS, Footer, App routing, Sanity, Cloudflare D1, middleware, sitemap, товары или данные.
+- Проверка Cloudflare Pages Preview для commit `f481c6eac45ffec184116e24d48884204ed33168`: build и deploy завершились успешно; Preview URL `https://480e6a1c.florial.pages.dev` (deployment `480e6a1c-7f1b-451a-88cb-1db8159487fe`).
+- После ожидания загрузки данных HTML/DOM Preview содержал 45 ссылок внутри nav до открытия меню: 17 plant-category, 11 irrigation-category, 10 service, 4 blog, плюс Начало/За нас/Контакти. Проверка повторена для BG/RU/EN: HTTP 200 и 45/45 ссылок на каждой версии; все RU-ссылки имеют `?lang=ru`, все EN-ссылки — `?lang=en`, BG-ссылки без языкового параметра.
+- Первая Preview-сборка выявила лишний закрывающий JSX `div`; ошибка исправлена в commit `f481c6e`, после чего Preview build/deploy прошли успешно. Локальные `npm run lint` и `npm test` отдельно не запускались; Cloudflare Pages build command выполнял `npm install` и `npx vite build`.
  
 ## 2026-11-05 — SEO категорий и Manager (feature branch, не опубликовано)
 
