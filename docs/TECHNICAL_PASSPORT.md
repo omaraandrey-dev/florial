@@ -833,3 +833,11 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Дополнительно проверен сам Sanity imageAsset: `originalFilename=florial-logo-gardencenter.png`, asset title и description на BG заполнены, `altText` отсутствует. GROQ запрашивает asset-level title/description/altText; Header использует asset alt/title как fallback, если локализованные поля photo document не заполнены.
 - Middleware задаёт локализованный `og:image:alt` для стандартного логотипа; если страница передаёт собственное OG-изображение, используется заголовок этой страницы.
 - PR/production deployment и Studio schema deployment не считаются завершёнными до проверки GitHub Actions и фактических статусов сервисов.
+
+
+## 2026-11-05 — Published photo ALT/title metadata
+
+- Sanity `photo` schema now includes `title` (BG), `titleEn` (EN), `titleRu` (RU), plus nested `image.alt`, `image.altEn`, `image.altRu`. Frontend renders localized logo ALT/title for the active locale.
+- Existing BG `seoDescription` remains unchanged; no EN/RU SEO-description fields were added.
+- Official Florial logo document `bf2d25a6-cefe-4d25-9145-3b45a206299b` was published with all six localized ALT/title values. Existing BG content was preserved.
+- PR #88 merged to `main` at `9faeef8a9daf60258e3bf59483099d14cb1f8320`; Cloudflare Pages production deployment `efa67989-b723-468b-88ea-7036e9b77715` completed successfully.
