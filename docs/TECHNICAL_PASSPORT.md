@@ -1,3 +1,12 @@
+## 2026-11-05 — Исправлен источник BG noIndex в plant sitemap query (main; проверки/deployment pending)
+
+- В `functions/sitemap.xml.ts`, GROQ query `plantProducts`, болгарский флаг исключения URL из sitemap читается из корневого поля `seo.noIndex`. Это соответствует текущей модели данных товара и использованию SEO на публичной странице.
+- RU/EN условия не менялись и продолжают читать локализованные `translations.ru.seo.noIndex` и `translations.en.seo.noIndex`.
+- Изменение точечное: только источник поля в проекции sitemap. Никакие Sanity документы, товары, категории или другие данные не изменялись.
+- Кодовый commit: `a6e0b33a09d181f59c2e1b6500199074964d193a`; CHANGELOG commit: `3b5795f23e5d9a52588cc8564a7d28aba155e0aa`.
+- Автоматические проверки/build для обновлённого `main`, Cloudflare Pages Production deployment и проверка live XML пока НЕ ПОДТВЕРЖДЕНЫ. После CI необходимо проверить production sitemap, в том числе локализованные URL и поведение noIndex. Не считать публикацию выполненной до получения фактического deployment success.
+- Тестового набора для sitemap в репозитории не обнаружено; имеющиеся unit tests покрывают product SEO и rich text utilities. Проверки sitemap должны опираться на CI/build и проверку реального XML после deployment.
+
 ## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
 
 - В `functions/sitemap.xml.ts` в статический список включён маршрут `/about`.
