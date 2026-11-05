@@ -33,6 +33,22 @@ test('never assigns Sozopol and replaces an excluded existing location', () => {
   assert.ok(!/sozopol|созопол|созополь/i.test(JSON.stringify(result)))
 })
 
+test('keeps product characteristics while removing duplicate location phrases', () => {
+  const result = generateProductSeo({
+    name: 'Bougainvillea',
+    translations: {
+      en: {
+        name: 'Bougainvillea',
+        shortDescription: 'Beautiful Bougainvillea with vibrant colors and green leaves, ideal for gardens in Nesebar and surrounding areas.',
+      },
+    },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.match(result.metaDescription, /vibrant colors and green leaves/)
+  assert.match(result.metaDescription, /customers in Nessebar/)
+  assert.ok(!result.metaDescription.includes('Nesebar and surrounding areas'))
+})
+
 test('uses a permitted location already mentioned in product descriptions', () => {
   const result = generateProductSeo({
     name: 'Градински продукт',
