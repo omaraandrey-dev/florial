@@ -40,7 +40,7 @@ test('uses a permitted location already mentioned in product descriptions', () =
   }, 'bg', 0)
   assert.ok(result)
   assert.equal(result.location, 'Равда')
-  assert.ok(!result.metaDescription.includes('в Равда и района. —'))
+  assert.match(result.metaDescription, /клиенти в Равда/)
 })
 
 test('localizes location and uses natural sale-first copy for RU and EN', () => {
