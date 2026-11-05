@@ -5,6 +5,7 @@ import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
+import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
 
 interface CategoryPageProps {
@@ -67,12 +68,13 @@ export function CategoryPage({
     if (languageContentExists('en')) alternates.en = new URL(localizedHref(categoryPath, 'en'), 'https://florial-bg.com').toString()
 
     const localizedSeo = language === 'bg' ? category.seo : category.translations?.[language]?.seo
+    const resolvedSeo = resolveCategorySeo(localizedSeo, localizedName, description, language)
 
     applyPageSeo({
-      seo: localizedSeo,
+      seo: { ...localizedSeo, metaTitle: resolvedSeo.metaTitle, metaDescription: resolvedSeo.metaDescription },
       language,
-      fallbackTitle: `${localizedName} | Florial`,
-      fallbackDescription: description,
+      fallbackTitle: resolvedSeo.metaTitle,
+      fallbackDescription: resolvedSeo.metaDescription,
       noIndex: Boolean(localizedSeo?.noIndex),
       alternates,
     })
@@ -364,7 +366,7 @@ export function CategoryPage({
       {/* Заголовок категории */}
       <div className="mb-6">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          {localize(category, 'name')}
+          {(language === 'bg' ? category.seo : category.translations?.[language]?.seo)?.h1 || localize(category, 'name')}
         </h1>
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
