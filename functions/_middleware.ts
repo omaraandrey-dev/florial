@@ -1,3 +1,5 @@
+import { resolveCategorySeo } from '../src/lib/categorySeo'
+
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
 const LOGO_URL = 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png'
@@ -11,6 +13,7 @@ type PagesContext = {
 
 type SeoDocument = {
   _id: string
+  _dataset?: string
   name?: string
   title?: string
   slugValue?: string
@@ -237,7 +240,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
       const cached = await cache.match(cacheKey)
       if (cached) {
         const cachedBody = (await cached.json()) as { result?: SeoDocument | null }
-        return cachedBody.result || null
+        return cachedBody.result ? { ...cachedBody.result, _dataset: dataset } : null
       }
     } catch {
       // A cache failure must not prevent the live Sanity lookup.
@@ -247,7 +250,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error('Sanity lookup failed: ' + response.status)
   const body = (await response.json()) as { result?: SeoDocument | null }
-  const result = body.result || null
+  const result = body.result ? { ...body.result, _dataset: dataset } : null
 
   if (cache) {
     try {
@@ -453,7 +456,7 @@ function localizedRouteUrl(path: string, language: string): string {
   return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name): string {
   const image = doc.imageUrl
     ? '<img src="' + escapeHtml(doc.imageUrl) + '" alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
     : ''
@@ -471,7 +474,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     extra = price + sku + '<p>' + stockLabel + '</p>'
   }
   return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
-    '<h1>' + escapeHtml(name) + '</h1>' + image +
+    '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
     extra + '<p><a href="/">Florial</a></p></main>'
 }
@@ -766,8 +769,17 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       const seo = (type === 'blogPost'
         ? {metaTitle: localized?.seoTitle || doc.translations?.bg?.seoTitle, metaDescription: localized?.seoDescription || doc.translations?.bg?.seoDescription}
         : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
-      const title = String(seo?.metaTitle || seo?.title || (name + ' | Florial'))
-      const metaDescription = String(seo?.metaDescription || seo?.description || description || (name + ' — Florial'))
+      const categorySeo = type === 'category' ? resolveCategorySeo(seo, {
+        _id: doc._id,
+        name: doc.name || name,
+        slug: doc.slugValue,
+        description: doc.description,
+        catalog: doc._dataset === 'plants' ? 'plants' : 'irrigation',
+        translations: doc.translations,
+      }, language as 'bg' | 'ru' | 'en') : null
+      const brand = language === 'bg' ? 'Флориал' : 'Florial'
+      const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
+      const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
       const noIndex = false
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
@@ -784,7 +796,7 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
-      const body = documentBody(doc, type, name, description, language)
+      const body = documentBody(doc, type, name, description, language, categorySeo?.h1 || name)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {

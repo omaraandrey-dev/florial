@@ -13,7 +13,7 @@ type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
   canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
   canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
-  canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean;
+  canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean; canManageCategorySeo: boolean;
 }
 type StaffPermissionKey = keyof StaffPermissions
 const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
@@ -31,12 +31,13 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canViewOrders', label: 'Преглед и търсене на поръчки' },
   { key: 'canEditOrders', label: 'Обработка и редактиране на поръчки' },
   { key: 'canDeleteTestOrders', label: 'Изтриване на тестови поръчки' },
+  { key: 'canManageCategorySeo', label: 'Генериране и управление на SEO категориите' },
 ]
 const emptyPermissions: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
-  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false,
+  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false,
 }
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: StaffPermissions }
 type Submission = {
@@ -116,11 +117,15 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics'>('submissions')
+  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories'>('submissions')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
+  const [categorySeoLoading, setCategorySeoLoading] = useState(false)
+  const [categorySeoProgress, setCategorySeoProgress] = useState('')
+  const [categorySeoNotice, setCategorySeoNotice] = useState('')
+  const [categorySeoError, setCategorySeoError] = useState('')
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
   const [staffLoading, setStaffLoading] = useState(false)
   const [staffSaving, setStaffSaving] = useState(false)
@@ -208,6 +213,46 @@ export default function ManagerApp() {
     setFilePreviews(previews)
     return () => previews.forEach((preview) => URL.revokeObjectURL(preview.url))
   }, [files])
+
+  const runCategorySeo = async (mode: 'all' | 'missing') => {
+    if (categorySeoLoading) return
+    if (mode === 'all' && !window.confirm('Ще бъдат създадени нови SEO предложения за всички категории на български, руски и английски език. Одобрените SEO полета на сайта няма да бъдат променени. Съществуващите чернови-предложения ще бъдат обновени. Продължаваме ли?')) return
+    setCategorySeoLoading(true)
+    setCategorySeoError('')
+    setCategorySeoNotice('')
+    setCategorySeoProgress('Подготовка на категориите…')
+    let offset = 0
+    let total = 0
+    let processed = 0
+    let generatedFields = 0
+    let skipped = 0
+    try {
+      let hasMore = true
+      while (hasMore) {
+        const response = await fetch('/api/manager/category-seo', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode, offset }),
+        })
+        const result = await response.json() as { total?: number; processed?: number; generatedFields?: number; skipped?: number; nextOffset?: number; hasMore?: boolean; error?: string }
+        if (!response.ok) throw new Error(result.error || 'Генерацията на SEO не беше успешна.')
+        total = Number(result.total || total)
+        processed += Number(result.processed || 0)
+        generatedFields += Number(result.generatedFields || 0)
+        skipped += Number(result.skipped || 0)
+        offset = Number(result.nextOffset || 0)
+        hasMore = result.hasMore === true
+        setCategorySeoProgress('Обработени категории: ' + processed + ' от ' + total + ' · създадени SEO полета: ' + generatedFields)
+      }
+      setCategorySeoNotice('Готово. Обработени категории: ' + processed + '. Създадени предложения за SEO полета: ' + generatedFields + '. Категории без нужда от промяна: ' + skipped + '.')
+      setCategorySeoProgress('')
+    } catch (err) {
+      setCategorySeoError(err instanceof Error ? err.message : 'Възникна грешка при генерирането на SEO.')
+    } finally {
+      setCategorySeoLoading(false)
+    }
+  }
 
   const loadStaff = useCallback(async () => {
     if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canManageStaff))) return
@@ -633,6 +678,7 @@ export default function ManagerApp() {
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'categories' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Категории</button>}
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
@@ -784,6 +830,28 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
+      <section className={activeTab === 'categories' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        <div className="max-w-3xl space-y-5">
+          <div>
+            <h1 className="text-2xl font-semibold">Работа с категории</h1>
+            <p className="mt-1 text-sm leading-6 text-stone-600">Генериране на предложения за H1, Meta Title и Meta Description за категориите в каталозите за поливно оборудване и растения на български, руски и английски език.</p>
+          </div>
+          {categorySeoError && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{categorySeoError}</div>}
+          {categorySeoNotice && <div role="status" className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{categorySeoNotice}</div>}
+          {categorySeoProgress && <div className="rounded-xl border border-stone-200 bg-white p-3 text-sm text-stone-700">{categorySeoProgress}</div>}
+          <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 className="font-semibold">1. Генериране за всички категории</h2>
+            <p className="mt-2 text-sm leading-6 text-stone-600">Създава нови предложения за всички SEO полета на всички категории. Съществуващите одобрени стойности на сайта се запазват; обновяват се само черновите-предложения.</p>
+            <button type="button" disabled={categorySeoLoading} onClick={() => void runCategorySeo('all')} className="mt-4 rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{categorySeoLoading ? 'Обработване…' : 'Генерирай SEO за всички категории'}</button>
+          </article>
+          <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+            <h2 className="font-semibold">2. Попълване на липсващи SEO полета</h2>
+            <p className="mt-2 text-sm leading-6 text-stone-600">Проверява H1, Meta Title и Meta Description поотделно за всеки език. Генерира само празните полета и не заменя вече попълнени одобрени стойности или съществуващи предложения.</p>
+            <button type="button" disabled={categorySeoLoading} onClick={() => void runCategorySeo('missing')} className="mt-4 rounded-xl border border-lime-800 px-4 py-3 text-sm font-semibold text-lime-900 disabled:opacity-50">{categorySeoLoading ? 'Обработване…' : 'Попълни липсващите SEO полета'}</button>
+          </article>
+          <p className="text-xs leading-5 text-stone-500">Генерираните стойности се записват като предложения за проверка в Sanity. Те не стават активни SEO стойности автоматично.</p>
+        </div>
+      </section>
       <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
       </section>
@@ -875,7 +943,7 @@ export default function ManagerApp() {
                         <option value="manager">Мениджър</option>
                       </select>}
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
-                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || !['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => void updateStaff(staff.user_id,{action:'update',permissions:{...staff.permissions,[item.key]:event.target.checked}},'Разрешенията са обновени.')} />{item.label}</label>)}</div></fieldset>}
+                      {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || !['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo'].includes(item.key)).map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => void updateStaff(staff.user_id,{action:'update',permissions:{...staff.permissions,[item.key]:event.target.checked}},'Разрешенията са обновени.')} />{item.label}</label>)}</div></fieldset>}
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return

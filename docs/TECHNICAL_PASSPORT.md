@@ -1,3 +1,19 @@
+## 2026-11-05 — SEO категорий и Manager (feature branch, не опубликовано)
+
+- Feature branch: `feature/category-seo-generator-manager-2026-11-05`.
+- Общий модуль `src/lib/categorySeo.ts` формирует предложения H1, Meta Title и Meta Description для BG/RU/EN. Для болгарского Meta Title используется бренд «Флориал», для RU/EN — «Florial». Словарь включает реальные slug категорий из Sanity: 54 категории оборудования в dataset `production` и 17 категорий растений в dataset `plants`.
+- Функция `resolveCategorySeo` выбирает только утверждённые live SEO-поля; предложения `suggested` не используются на публичных страницах до отдельного утверждения.
+- `CategoryPage.tsx` и `functions/_middleware.ts` используют общий resolver, поэтому React DOM и серверный HTML показывают один и тот же утверждённый H1/Meta Title/Meta Description. URL, canonical и hreflang-логика не меняются.
+- Manager получает вкладку «Категории» и два режима: `all` — обновить предложения для всех категорий; `missing` — создать только те поля, где одновременно пусты утверждённое значение и сохранённое предложение.
+- `functions/api/manager/category-seo.ts` обрабатывает по четыре категории за запрос, читает опубликованные категории из двух Sanity datasets и записывает только вложенные поля `seo.suggested` / `translations.ru.seo.suggested` / `translations.en.seo.suggested`. Для записи используется `SANITY_API_TOKEN` только на сервере Cloudflare и `ifRevisionID` для защиты от параллельного изменения документа.
+- Добавлено разрешение `canManageCategorySeo` в серверный список разрешений и интерфейс назначения прав. Владелец имеет полный доступ; менеджер — только после назначения права; продавец не получает это право. D1 schema migration не нужна.
+- Генератор первой версии — детерминированный локальный словарь/правила, не внешний AI API. Подтверждённая конфигурация AI binding для SEO не обнаружена; платные интеграции не добавлялись.
+- Read-only запрос Sanity подтвердил: dataset `production` — 54 категории; dataset `plants` — 17 категорий. Никакие документы Sanity не записывались этим этапом.
+- Предложения просматриваются и редактируются в Sanity Studio (`https://florial-admin-bg.sanity.studio/`) в объекте `seo.suggested` для каждой языковой версии. После проверки редактор вручную переносит одобренные значения в активные поля `h1`, `metaTitle`, `metaDescription`; изменение `suggested.status` само по себе не публикует SEO. Публичный сайт использует только активные поля.
+- В Manager заголовок раздела локализован на болгарский: «Работа с категории».
+- CI (lint, tests, website build, Pages Functions syntax, migration dry-run и Studio build) и Cloudflare Pages Preview завершились успешно. PR #92 подготовлен к объединению; production deployment после merge проверяется отдельно.
+- Не затронуты Header, меню, Footer, маршруты, каталог, товары, цены, корзина, checkout и Cloudflare D1 данные.
+
 ## 2026-11-05 — Публикация схемы SEO категорий
 
 - PR #91 объединён в main, merge commit: `64249cdf595f2bb9b9ca25bbe0b35ba8f8f41eae`.
