@@ -1,10 +1,15 @@
 
+## 2026-11-05 — Корневое SEO для категорий растений (BG)
+
+- Для Sanity dataset plants в schema plant category добавлено корневое поле seo типа seoFields, чтобы редактор мог задавать SEO болгарской страницы. SEO английской и русской версий по-прежнему хранится в translations.en.seo и translations.ru.seo.
+- GROQ-запрос plantCategoryQuery выбирает root seo; CategoryPage уже выбирает root SEO для BG и локальный SEO-объект для EN/RU. Существующие документы не менялись и не мигрировались.
+
 ## 2026-11-05 — Метаданные изображений категорий и локализованный SEO
 
 - Для двух типов Sanity category (оборудование в dataset production и растения в dataset plants) в исходной Studio schema добавлены image.title/titleEn/titleRu. Поля image.alt/altEn/altRu сохранены; другие типы изображений не расширялись.
 - Frontend GROQ projections передают шесть локализованных полей изображения в CategoryItem. Общий helper src/lib/categoryImageSeo.ts выбирает значение текущего языка: ALT использует редакторское значение или локализованное имя категории; title остаётся пустым, пока редактор его не заполнит.
 - Homepage category cards и subcategory cards используют локализованные ALT/title. Для внешнего URL изображения категории растений метаданные по-прежнему задаются в объекте image документа категории.
-- CategoryPage использует root SEO для BG и translations.en/ru.seo для выбранного языка; noIndex также берётся из SEO объекта выбранной локали. Для категории растений BG SEO остаётся fallback на локализованное имя/описание, поскольку отдельного корневого SEO-поля в текущей схеме plants нет.
+- CategoryPage использует root SEO для BG и translations.en/ru.seo для EN/RU; noIndex также берётся из SEO объекта выбранной локали. В последующем дополнении для plant categories добавлено корневое поле seo, поэтому BG-страницы растений также могут иметь полноценные редакторские meta title/description и noIndex.
 - Изменение кода не записывает документы Sanity. После merge требуется проверить workflow публикации существующей Studio и deployed schema обоих datasets. Не запускать массовое заполнение ALT/title без отдельного решения владельца.
 - Не затронуты Header, меню, Footer, каталог товаров, корзина, checkout, D1 и заказы. Файл ИНСТРУКЦИЯ(2).md в корне GitHub main отсутствует; использован актуальный docs/TECHNICAL_PASSPORT.md.
 ## 2026-11-04 — Уточнение имени типа документа Sanity для растений

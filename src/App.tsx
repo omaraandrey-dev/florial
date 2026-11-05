@@ -410,6 +410,7 @@ export default function App() {
           _id,
           name,
           translations,
+          seo,
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           description,
