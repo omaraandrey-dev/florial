@@ -229,6 +229,7 @@ export function Header({
               }}
               aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : language === 'ru' ? 'Закрыть меню' : 'Затвори менюто') : (language === 'en' ? 'Open menu' : language === 'ru' ? 'Открыть меню' : 'Отвори менюто')}
               aria-expanded={isMenuOpen}
+              aria-controls="florial-main-navigation"
               className="florial-header-menu-button flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 transition hover:border-emerald-500 hover:text-emerald-700 md:h-12 md:w-12"
             >
               {isMenuOpen ? (
@@ -246,9 +247,8 @@ export function Header({
       </div>
 
       {/* Меню по умолчанию скрыто; подкатегории раскрываются отдельно */}
-      {isMenuOpen && (
-        <div className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
-          <nav aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div hidden={!isMenuOpen} className="absolute left-0 right-0 top-full border-t border-slate-200 bg-white shadow-xl">
+          <nav id="florial-main-navigation" aria-label={language === 'en' ? 'Main navigation' : language === 'ru' ? 'Главная навигация' : 'Главна навигация'} className="mx-auto max-h-[calc(100vh-140px)] w-full max-w-7xl overflow-y-auto px-4 py-4 sm:px-6 lg:px-8">
             <a href={localizedHref('/', language)} onClick={closeMenu} className="flex w-full items-center rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">
               {t('Начало')}
             </a>
@@ -258,6 +258,7 @@ export function Header({
                 type="button"
                 onClick={togglePlants}
                 aria-expanded={isPlantsOpen}
+                aria-controls="florial-menu-plants"
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
                 <span>{t('Растения')}</span>
@@ -265,8 +266,7 @@ export function Header({
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              {isPlantsOpen && (
-                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+              <div id="florial-menu-plants" hidden={!isPlantsOpen} className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('rastenia') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Всички растения')}
                   </a>
@@ -276,7 +276,6 @@ export function Header({
                     </a>
                   ))}
                 </div>
-              )}
             </div>
 
             <div className="border-t border-slate-100">
@@ -284,6 +283,7 @@ export function Header({
                 type="button"
                 onClick={toggleCategories}
                 aria-expanded={isCategoriesOpen}
+                aria-controls="florial-menu-irrigation"
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
                 <span>{t('Поливни системи')}</span>
@@ -291,8 +291,7 @@ export function Header({
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              {isCategoriesOpen && (
-                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+              <div id="florial-menu-irrigation" hidden={!isCategoriesOpen} className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => { closeMenu(); onNavigateCategory('vsichko-za-polivane') })} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {t('Цялото оборудване за поливане')}
                   </a>
@@ -302,7 +301,6 @@ export function Header({
                     .sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg'))
                     .map((category) => renderCategory(category))}
                 </div>
-              )}
             </div>
 
             <div className="border-t border-slate-100">
@@ -310,6 +308,7 @@ export function Header({
                 type="button"
                 onClick={toggleServices}
                 aria-expanded={isServicesOpen}
+                aria-controls="florial-menu-services"
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800"
               >
                 <span>{t('Услуги')}</span>
@@ -317,8 +316,7 @@ export function Header({
                   <path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              {isServicesOpen && (
-                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+              <div id="florial-menu-services" hidden={!isServicesOpen} className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   <a href={localizedHref('/services', language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 no-underline">
                     {language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}
                   </a>
@@ -338,16 +336,15 @@ export function Header({
                     )
                   })}
                 </div>
-              )}
             </div>
 
             <div className="border-t border-slate-100">
-              <button type="button" onClick={togglePortfolio} aria-expanded={isPortfolioOpen} className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800">
+              <button type="button" onClick={togglePortfolio} aria-expanded={isPortfolioOpen}
+                aria-controls="florial-menu-portfolio" className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800">
                 <span>{language === 'ru' ? 'Портфолио' : language === 'en' ? 'Portfolio' : 'Портфолио'}</span>
                 <svg className={`h-5 w-5 transition-transform ${isPortfolioOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m6 9 6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </button>
-              {isPortfolioOpen && (
-                <div className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
+              <div id="florial-menu-portfolio" hidden={!isPortfolioOpen} className="mb-3 ml-4 space-y-1 border-l-2 border-emerald-200 pl-3">
                   {blogPosts.map((post) => {
                     const content = blogTranslation(post, language)
                     return <a key={post._id} href={localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language)} onClick={closeMenu} className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 no-underline">{content.title}</a>
@@ -356,7 +353,6 @@ export function Header({
                     {language === 'ru' ? 'Все статьи блога' : language === 'en' ? 'All blog articles' : 'Всички статии в блога'} →
                   </a>
                 </div>
-              )}
             </div>
 
             <div className="border-t border-slate-100">
@@ -396,8 +392,7 @@ export function Header({
               </div>
             </div>
           </nav>
-        </div>
-      )}
+      </div>
     </header>
   )
 }
