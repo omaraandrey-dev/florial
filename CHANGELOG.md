@@ -1,4 +1,12 @@
-## 2026-11-05 — Исправлен источник noIndex для болгарской версии растений в sitemap
+## 2026-11-06 — Сводная контрольная точка документации и Production
+
+- Проверена актуальная ветка `main`; latest commit на момент сверки: `f40ab75e9cb5888891337e73b683aadde5e402d9`.
+- Последний Cloudflare Pages Production deployment: `29bcf868-2447-4902-8f00-8a6158b696c7`, commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, статус `success`; aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Этот deployment включает актуальный код product SEO, category SEO, sitemap/About/noIndex, навигацию и иерархию заголовков; после него в main выполнялись только документационные commits.
+- Технический паспорт и инструкция MD2 синхронизируются с подтверждённым состоянием. Live XML sitemap и фактическая переиндексация поисковыми системами остаются отдельными непроверенными пунктами.
+- Массовое заполнение H1/Meta Title/Meta Description карточек товаров не выполнялось; не запускать без владельца, preview и отдельного подтверждения в Manager.
+
+## 2026-11-05 — Исправлен источник noIndex для болгарской версии растений в sitemap (Production deployed)
 
 - В запросе `plantProducts` файла `functions/sitemap.xml.ts` поле `noIndex` теперь читается из корневого `seo.noIndex`, как это предусмотрено схемой и публичной страницей товара.
 - Проверки переводов RU и EN оставлены без изменений: `translations.ru.seo.noIndex` и `translations.en.seo.noIndex`.
@@ -6,14 +14,14 @@
 - Изменён только генератор sitemap; Header, меню, Footer, маршрутизация, товары, категории, услуги, статьи, корзина, checkout и базы данных не затронуты.
 - Кодовый commit в `main`: `a6e0b33a09d181f59c2e1b6500199074964d193a`. GitHub Actions run `42079947210` для итогового commit `d820577ed675f684d38b18b186e93d4fe5b4bb89` завершился `success`: Install dependencies, Lint, Build website и Syntax-check Pages Functions — все шаги успешны. Cloudflare Pages Production deployment `d435d877-77de-44ef-96eb-19fa1dcb797f` для того же итогового commit завершился `success`; aliases: `https://florial-bg.com` и `https://www.florial-bg.com`. Прямое чтение `https://florial-bg.com/sitemap.xml` через доступный web-инструмент завершилось ошибкой доступа, поэтому содержимое live XML и фактическое количество URL не подтверждены.
 
-## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
+## 2026-11-05 — Страница About добавлена в XML sitemap (Production deployed)
 
 - В статический список URL генератора `functions/sitemap.xml.ts` добавлен маршрут `/about`.
 - Используется существующий `addLocalizedUrls`: sitemap формирует BG `/about`, RU `/about?lang=ru`, EN `/about?lang=en`, hreflang alternates и x-default.
 - Изменён только генератор sitemap; содержимое страницы About, маршруты приложения, Header, меню, Footer, Sanity и D1 не затронуты.
-- Прямой commit в `main`: `8fb68fafb52a0d0fb582ddd99b6b185eacf4e391`. CI/build и production deployment после этого commit ещё требуют проверки.
-- PR #105 был создан ранее в обход действующего правила прямых изменений в `main`; он оставлен открытым без merge и без удаления ветки. Его CI для предыдущей версии изменения завершился успешно, но это не заменяет проверку commit в `main`.
-- Production sitemap пока не подтверждён; после deployment требуется проверить наличие всех трёх URL и hreflang в `https://florial-bg.com/sitemap.xml`.
+- Прямой commit в `main`: `8fb68fafb52a0d0fb582ddd99b6b185eacf4e391`. Изменение включено в успешный Production deployment latest main commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, deployment `29bcf868-2447-4902-8f00-8a6158b696c7`.
+- PR #105 был создан ошибочно в feature-ветке и не объединён; маршрут `/about` уже находится в main. Не объединять PR #105 как повтор без проверки diff.
+- Содержимое live sitemap и фактическое количество URL отдельно не подтверждены: доступный инструмент не смог прочитать XML; требуется отдельная проверка HTTP/XML и hreflang.
 
 ## 2026-11-05 — Единый SEO-стандарт карточек товаров (PR #104 merged; Pages and Sanity schema deployed; SEO data pending)
 
@@ -23,11 +31,11 @@
 - ProductPage и Cloudflare middleware используют локализованный H1; plant GROQ projection теперь получает корневое SEO.
 - Добавлен owner-only раздел Manager с предварительным просмотром и явным подтверждением массовой записи активных SEO-полей. Серверная запись идёт через Sanity API с revision guard; секрет остаётся на сервере.
 - Добавлены тесты генератора `tests/product-seo.test.mjs`.
-- Read-only аудит Sanity: 275 товаров оборудования и 35 растений; H1 пока отсутствовал у всех. Существующие документы не изменялись.
+- Read-only аудит Sanity: 275 товаров оборудования и 35 растений. На момент проверки старые metaTitle/metaDescription имелись у 274/275 товаров оборудования; legacy title/description — у 34/35 растений. RU/EN названия и shortDescription доступны у 275/275 equipment и 34/35 plants. Новые H1 не заполнены; Sanity documents не изменялись.
 - PR #104 объединён в `main` commit `4d1957f190f1676b1de688c376698043c3d1978e`. GitHub Actions workflow #437 завершился успешно: lint, unit tests, Vite build, Pages Functions syntax, read-only migration dry-run и Studio build; Sanity Studio validation workflow #100 также успешно собрал обе workspace. D1 validation workflow #392 прошёл успешно; D1 schema не менялась.
 - Cloudflare Pages Production deployment `22e6631b-af13-4818-97df-22317c83c816` успешно завершён для commit `4d1957f190f1676b1de688c376698043c3d1978e`; production aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
 - Read-only Sanity schema verification после merge подтвердила `productSeoFields` в обоих активных workspace: `production` / `florial-admin` и `plants` / `plants`. В типе присутствуют `h1`, `metaTitle` (warning при длине более 70), `metaDescription`, а legacy `title`/`description` сохранены скрытыми и read-only. Существующая Studio не заменялась и новое приложение не создавалось.
-- Документы Sanity не изменялись; массовая запись H1/Meta Title/Meta Description не запускалась.
+- Schema `productSeoFields` опубликована в обеих workspace. Документы Sanity не изменялись; массовая запись H1/Meta Title/Meta Description не запускалась. Её можно выполнить только владельцу из Manager после просмотра preview и отдельного подтверждения.
 
 ## 2026-11-05 — Исправлена иерархия заголовков главной страницы и Footer
 
@@ -54,7 +62,7 @@
 - Исправлен фотоблок верхней части страницы категории в `src/pages/CategoryPage.tsx`: `object-cover` заменён на `object-contain`, чтобы изображение категории оборудования или растения отображалось целиком без обрезки.
 - Пропорции фотоблока и desktop-компоновка 2/3 + 1/3 сохранены; если пропорции исходной фотографии отличаются, допускаются свободные поля внутри блока.
 - В `docs/TECHNICAL_PASSPORT.md` закреплено правило: изображения верхнего блока всех категорий должны использовать `object-contain`; не путать с отдельными правилами изображений карточек подкатегорий, товаров и услуг.
-- Sanity, документы категорий, изображения и их метаданные, D1, Cloudflare настройки, Header, меню и Footer не изменялись. Production deployment ещё не выполнялся.
+- Sanity documents/assets, D1, Cloudflare settings, Header, меню и Footer не менялись. Изменение кода включено в Production deployment latest main `f40ab75e9cb5888891337e73b683aadde5e402d9`.
 
 ## 2026-11-05 — Уточнение единого стандарта всех каталогов
 
