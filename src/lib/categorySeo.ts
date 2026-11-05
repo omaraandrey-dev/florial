@@ -215,3 +215,21 @@ export function generateCategorySeo(category: CategorySeoContext, locale: Catego
 export function isBlankSeoValue(value: unknown): boolean {
   return typeof value !== 'string' || value.trim().length === 0
 }
+
+export function resolveCategorySeo(
+  seo: Partial<CategorySeoProposal> | null | undefined,
+  fallbackName: string,
+  fallbackDescription: string,
+  locale: CategorySeoLocale,
+) {
+  const brand = locale === 'bg' ? 'Флориал' : 'Florial'
+  return {
+    h1: typeof seo?.h1 === 'string' && seo.h1.trim() ? seo.h1.trim() : fallbackName,
+    metaTitle: typeof seo?.metaTitle === 'string' && seo.metaTitle.trim()
+      ? seo.metaTitle.trim()
+      : fallbackName + ' | ' + brand,
+    metaDescription: typeof seo?.metaDescription === 'string' && seo.metaDescription.trim()
+      ? seo.metaDescription.trim()
+      : fallbackDescription,
+  }
+}
