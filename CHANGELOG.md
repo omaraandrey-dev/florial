@@ -1,3 +1,11 @@
+## 2026-11-05 — Добавлена страница About в XML sitemap
+
+- В статический список URL генератора `functions/sitemap.xml.ts` добавлен маршрут `/about`.
+- Страница включается для BG, RU и EN по существующему механизму `addLocalizedUrls`: базовый URL, `?lang=ru`, `?lang=en`, hreflang alternates и x-default.
+- Изменение не затрагивает содержимое страницы About, маршрутизацию приложения, Header, меню, Footer, Sanity, Cloudflare D1 или другие данные.
+- Изменены: `functions/sitemap.xml.ts`, `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`.
+- Изменение подготовлено в ветке `fix/about-in-sitemap-2026-11-05`; сборка, проверка production sitemap и deployment ожидают завершения PR/CI. До публикации наличие URL в production sitemap не подтверждено.
+
 ## 2026-11-05 — Единый SEO-стандарт карточек товаров (PR #104 merged; Pages and Sanity schema deployed; SEO data pending)
 
 - Добавлен общий генератор H1, Meta Title и Meta Description для товаров двух каталогов Florial: поливочное оборудование и растения; BG/RU/EN.

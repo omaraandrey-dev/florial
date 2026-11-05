@@ -1,3 +1,11 @@
+## 2026-11-05 — Страница About в XML sitemap (подготовлено, не опубликовано)
+
+- Статический маршрут `/about` включён в список URL в `functions/sitemap.xml.ts`.
+- Используется общий `addLocalizedUrls`, поэтому генератор формирует BG URL `/about`, RU `/about?lang=ru` и EN `/about?lang=en`, с соответствующими hreflang alternates и x-default.
+- Другие статические URL и динамические выборки Sanity не изменяются.
+- Изменён только генератор sitemap; Header, меню, Footer, содержимое About, маршруты приложения, Sanity и D1 не затрагиваются.
+- Подготовлено в ветке `fix/about-in-sitemap-2026-11-05`. До прохождения CI и production deployment публикация не подтверждена.
+
 ## 2026-11-05 — Единый SEO-стандарт карточек товаров (feature branch, не опубликовано)
 
 - Feature branch: `feature/product-seo-standard-2026-11-05`; изменения подготовлены отдельно от `main`. PR #104 объединён в `main` commit `4d1957f190f1676b1de688c376698043c3d1978e`. Cloudflare Pages Production deployment `22e6631b-af13-4818-97df-22317c83c816` завершился успешно; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
