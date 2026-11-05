@@ -8,6 +8,7 @@ import PlantCatalogChangeForm from './PlantCatalogChangeForm'
 import PlantStockChangeForm from './PlantStockChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
 import OrdersManager from './OrdersManager'
+import ProductSeoManager from './ProductSeoManager'
 
 type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
@@ -117,7 +118,7 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories'>('submissions')
+  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo'>('submissions')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
@@ -679,6 +680,7 @@ export default function ManagerApp() {
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'categories' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Категории</button>}
+        {profile.role === 'owner' && <button onClick={() => setActiveTab('productsSeo')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'productsSeo' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>SEO товаров</button>}
       </nav>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
@@ -830,6 +832,7 @@ export default function ManagerApp() {
           <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-5 text-stone-500">Снимките се записват в Sanity Assets, а черновите и историята се съхраняват в D1. След одобрение упълномощен служител публикува растението отделно в каталога.</p>
         </aside>
       </div>
+      {activeTab === 'productsSeo' && profile.role === 'owner' && <ProductSeoManager />}
       <section className={activeTab === 'categories' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="max-w-3xl space-y-5">
           <div>
