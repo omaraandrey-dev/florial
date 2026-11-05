@@ -484,8 +484,18 @@ export default function App() {
         ][0] {
           _id,
           title,
+          titleEn,
+          titleRu,
           slug,
-          "logoUrl": image.asset->url
+          seoDescription,
+          "logoUrl": image.asset->url,
+          "logoAlt": image.alt,
+          "logoAltEn": image.altEn,
+          "logoAltRu": image.altRu,
+          "logoAssetTitle": image.asset->title,
+          "logoAssetAltText": image.asset->altText,
+          "logoWidth": image.asset->metadata.dimensions.width,
+          "logoHeight": image.asset->metadata.dimensions.height
         }
       `
 
@@ -605,6 +615,16 @@ export default function App() {
         setSiteSettings({
           ...(settData || {}),
           logoUrl: logoData?.logoUrl || null,
+          logoAlt: logoData?.logoAlt || null,
+          logoAltEn: logoData?.logoAltEn || null,
+          logoAltRu: logoData?.logoAltRu || null,
+          logoAssetTitle: logoData?.logoAssetTitle || null,
+          logoAssetAltText: logoData?.logoAssetAltText || null,
+          logoTitle: logoData?.title || null,
+          logoTitleEn: logoData?.titleEn || null,
+          logoTitleRu: logoData?.titleRu || null,
+          logoWidth: logoData?.logoWidth || null,
+          logoHeight: logoData?.logoHeight || null,
         })
         console.log('Florial: настройки и логотип загружены', {
           settingsFound: Boolean(settData),

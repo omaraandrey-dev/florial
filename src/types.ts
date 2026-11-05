@@ -206,4 +206,14 @@ export interface SiteSettings {
   heroTitle?: string
   heroSubtitle?: string
   logoUrl?: string | null
+  logoAlt?: string | null
+  logoAltEn?: string | null
+  logoAltRu?: string | null
+  logoAssetTitle?: string | null
+  logoAssetAltText?: string | null
+  logoTitle?: string | null
+  logoTitleEn?: string | null
+  logoTitleRu?: string | null
+  logoWidth?: number | null
+  logoHeight?: number | null
 }
