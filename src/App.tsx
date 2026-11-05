@@ -422,6 +422,7 @@ export default function App() {
           "imageTitle": image.title,
           "imageTitleEn": image.titleEn,
           "imageTitleRu": image.titleRu,
+          helpBlock,
           "isPlantCategory": true
         }
       `

@@ -15,7 +15,7 @@ export interface CategoryItem {
   parentId?: string | null
   seo?: { h1?: string; metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
   isPlantCategory?: boolean
-  helpBlock?: { title?: string; text?: string; buttonLabel?: string; translations?: Record<string, { title?: string; text?: string; buttonLabel?: string }> }
+  helpBlock?: { title?: string; text?: string; buttonLabel?: string; buttonUrl?: string; translations?: Record<string, { title?: string; text?: string; buttonLabel?: string }> }
 }
 
 export interface CartItem {

@@ -189,12 +189,13 @@ const irrigationCategory = defineType({
     categoryTranslations,
     defineField({name: 'helpBlock', title: 'Блок за помощ при избор на поливна система', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
-      defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 4}),
+      defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 8}),
       defineField({name: 'buttonLabel', title: 'Текст на бутона (BG)', type: 'string'}),
+      defineField({name: 'buttonUrl', title: 'Вътрешен адрес на услугата или статията', type: 'string', description: 'Използвайте относителен адрес, започващ с /services/ или /blog/. Ако е празно, сайтът използва общата услуга за монтаж на автоматично напояване.'}),
       defineField({name: 'translations', title: 'Преводи', type: 'object', fields: ['en', 'ru'].map((language) => defineField({
         name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object', fields: [
           defineField({name: 'title', title: language === 'en' ? 'Title' : 'Заголовок', type: 'string'}),
-          defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 4}),
+          defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 8}),
           defineField({name: 'buttonLabel', title: language === 'en' ? 'Button label' : 'Подпись кнопки', type: 'string'}),
         ],
       }))}),
@@ -456,6 +457,19 @@ const plantCategory = defineType({
         defineField({name: 'name', title: 'Название', type: 'string'}), defineField({name: 'description', title: 'Описание', type: 'text'}),
         defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
       ]}),
+    ]}),
+    defineField({name: 'helpBlock', title: 'Блок за помощ при избор и засаждане на растения', type: 'object', fields: [
+      defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
+      defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 8}),
+      defineField({name: 'buttonLabel', title: 'Текст на бутона (BG)', type: 'string'}),
+      defineField({name: 'buttonUrl', title: 'Вътрешен адрес на услугата или статията', type: 'string', description: 'Използвайте относителен адрес, започващ с /services/ или /blog/. Ако е празно, сайтът използва общата услуга за засаждане на растения.'}),
+      defineField({name: 'translations', title: 'Преводи', type: 'object', fields: ['en', 'ru'].map((language) => defineField({
+        name: language, title: language === 'en' ? 'English' : 'Русский', type: 'object', fields: [
+          defineField({name: 'title', title: language === 'en' ? 'Title' : 'Заголовок', type: 'string'}),
+          defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 8}),
+          defineField({name: 'buttonLabel', title: language === 'en' ? 'Button label' : 'Подпись кнопки', type: 'string'}),
+        ],
+      }))}),
     ]}),
     defineField({name: 'seo', title: 'SEO (български)', type: 'categorySeoFields'}),
   ],
