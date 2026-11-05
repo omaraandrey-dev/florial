@@ -1,4 +1,9 @@
 
+## 2026-11-05 — Корневое SEO для категорий растений (BG)
+
+- Для Sanity dataset plants в schema plant category добавлено корневое поле seo типа seoFields, чтобы редактор мог задавать SEO болгарской страницы. SEO английской и русской версий по-прежнему хранится в translations.en.seo и translations.ru.seo.
+- GROQ-запрос plantCategoryQuery выбирает root seo; CategoryPage уже выбирает root SEO для BG и локальный SEO-объект для EN/RU. Существующие документы не менялись и не мигрировались.
+
 ## 2026-11-05 — Метаданные изображений категорий и локализованный SEO
 
 - Для двух типов Sanity category (оборудование в dataset production и растения в dataset plants) в исходной Studio schema добавлены image.title/titleEn/titleRu. Поля image.alt/altEn/altRu сохранены; другие типы изображений не расширялись.
