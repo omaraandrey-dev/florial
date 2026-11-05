@@ -1,3 +1,16 @@
+## 2026-11-06 — Сводная актуализация технической структуры и инструкции MD2 (rev5)
+
+- Создана новая Library-редакция основной инструкции: `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_06-11-2026_rev5.md`. Предыдущая rev4 сохранена как историческая версия, не перезаписывалась.
+- Главный актуальный источник структуры: этот файл `docs/TECHNICAL_PASSPORT.md`; журнал всех изменений: `CHANGELOG.md`; изменения схем Sanity: `studio/SCHEMA_CHANGELOG.md`.
+- Репозиторий `omaraandrey-dev/florial`, branch `main`. Последний подтверждённый Production code deployment на контрольной точке: commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, Cloudflare deployment `29bcf868-2447-4902-8f00-8a6158b696c7`, status success, aliases `https://florial-bg.com` и `https://www.florial-bg.com`. Более поздние commits на момент этой записи содержат документационные обновления; после них не менялся runtime-код.
+- В Production опубликован единый product SEO код и schema для equipment (`production`) и plants (`plants`), BG/RU/EN. Sanity schema подтверждена read-only в обеих workspace. В Manager есть owner-only preview/apply, серверная запись защищена revision guard и явным подтверждением.
+- Массовое заполнение новых product H1/Meta Title/Meta Description не выполнялось; документы Sanity не изменялись. Текущий этап заполнения — только после preview и отдельного подтверждения владельца.
+- SEO категорий и локализованные helpBlock опубликованы для всех 71 категорий (54 equipment + 17 plants); 213 локализованных SEO-наборов BG/RU/EN подтверждены. Это отдельный процесс от product SEO.
+- Внесены и задокументированы: локализованные title/ALT изображений категорий и полное отображение изображений через `object-contain`; единая структура заголовков главной и Footer; crawlable DOM бургерного меню после запуска React; локализованная About в sitemap; исправление BG noIndex источника для plant products.
+- Ограничения проверки: live XML sitemap и фактическая переиндексация поисковиками не подтверждены. Наличие ссылок в DOM меню не означает их присутствие в исходном HTML до запуска JavaScript.
+- Supabase остаётся полностью запрещённым для любых подключений и операций. Использовать только Cloudflare D1, Sanity, Pages Functions/Workers и Resend по их текущей роли.
+
+---
 ## 2026-11-05 — Исправлен источник BG noIndex в plant sitemap query (main; Production deployed)
 
 - В `functions/sitemap.xml.ts`, GROQ query `plantProducts`, болгарский флаг исключения URL из sitemap читается из корневого поля `seo.noIndex`. Это соответствует текущей модели данных товара и использованию SEO на публичной странице.
