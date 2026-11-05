@@ -126,8 +126,9 @@ const cleanFeature = (value, productName) => {
   text = text.split(/(?<=[.!?])\s+/).filter((sentence) => !EXCLUDED_LOCATION_PATTERN.test(sentence)).join(' ')
   text = stripAllowedLocationMentions(text)
   const normalizedName = String(productName || '').trim().toLocaleLowerCase()
-  if (normalizedName && text.toLocaleLowerCase().startsWith(normalizedName)) {
-    text = text.slice(String(productName).length).replace(/^[\s:—–,-]+/, '')
+  const nameIndex = normalizedName ? text.toLocaleLowerCase().indexOf(normalizedName) : -1
+  if (nameIndex >= 0 && nameIndex < 40) {
+    text = (text.slice(0, nameIndex) + ' ' + text.slice(nameIndex + String(productName).length)).replace(/^[\s:—–,-]+/, '')
   }
   return text.replace(/\s+/g, ' ').trim()
 }
