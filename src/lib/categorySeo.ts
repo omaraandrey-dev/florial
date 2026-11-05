@@ -288,18 +288,19 @@ export function isBlankSeoValue(value: unknown): boolean {
 
 export function resolveCategorySeo(
   seo: Partial<CategorySeoProposal> | null | undefined,
-  fallbackName: string,
-  fallbackDescription: string,
+  category: CategorySeoContext,
   locale: CategorySeoLocale,
 ) {
+  const name = localeName(category, locale)
   const brand = locale === 'bg' ? 'Флориал' : 'Florial'
+  const generatedFallback = generateCategorySeo(category, locale)
   return {
-    h1: typeof seo?.h1 === 'string' && seo.h1.trim() ? seo.h1.trim() : fallbackName,
+    h1: typeof seo?.h1 === 'string' && seo.h1.trim() ? seo.h1.trim() : name,
     metaTitle: typeof seo?.metaTitle === 'string' && seo.metaTitle.trim()
       ? seo.metaTitle.trim()
-      : fallbackName + ' | ' + brand,
+      : name + ' | ' + brand,
     metaDescription: typeof seo?.metaDescription === 'string' && seo.metaDescription.trim()
       ? seo.metaDescription.trim()
-      : fallbackDescription,
+      : generatedFallback.metaDescription,
   }
 }
