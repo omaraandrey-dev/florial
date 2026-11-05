@@ -210,14 +210,10 @@ export interface SiteSettings {
   logoAltEn?: string | null
   logoAltRu?: string | null
   logoAssetTitle?: string | null
-  logoAssetDescription?: string | null
   logoAssetAltText?: string | null
   logoTitle?: string | null
   logoTitleEn?: string | null
   logoTitleRu?: string | null
-  logoSeoDescription?: string | null
-  logoSeoDescriptionEn?: string | null
-  logoSeoDescriptionRu?: string | null
   logoWidth?: number | null
   logoHeight?: number | null
 }
