@@ -147,8 +147,8 @@ export function Header({
             {siteSettings?.logoUrl ? (
               <img
                 src={logoImageSrc}
-                alt={logoAlt || siteSettings?.siteName || 'Florial'}
-                title={logoTitle || undefined}
+                alt={logoAccessibleAlt}
+                title={logoImageTitle || undefined}
                 width={siteSettings?.logoWidth || 1547}
                 height={siteSettings?.logoHeight || 581}
                 loading="eager"
