@@ -821,3 +821,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - `ManagerEnv` дополнен типом `VITE_SANITY_PROJECT_ID`; endpoint использует `SANITY_PROJECT_ID || VITE_SANITY_PROJECT_ID`, сохраняя server-side token requirement. Приоритет остаётся за специальной server-side переменной, если она будет добавлена позднее.
 - Изменение ограничено конфигурационным чтением каталога заказов. Не менялись Sanity documents/assets, D1 schema/data, permissions, order records, checkout, cart, public catalogue, Header, menu или Footer.
 - После deployment требуется проверить категории и выбор товаров отдельно для datasets `production` и `plants` в Manager; до такой проверки ручной результат считается pending.
+
+ 
+## 2026-11-05 — SEO-метаданные официального логотипа (подготовка PR)
+
+- Подтверждённый Sanity document: `photo` с slug `oficialno-logo-florial-gradinski-centar`; опубликованный asset PNG имеет размеры 1547 × 581 px.
+- Header ранее использовал `siteName` как ALT и не получал локализованные ALT из вложенного поля `image`; PR добавляет чтение `image.alt/altEn/altRu`, локализованные title и intrinsic dimensions.
+- Схема `photo` расширяется аддитивно полями `titleEn/titleRu` и `seoDescriptionEn/seoDescriptionRu`; существующие поля и данные не удаляются.
+- JSON-LD Organization получает `logo` типа ImageObject с текущим абсолютным URL и размерами. Это горизонтальный файл 1547 × 581; соответствие отдельным требованиям Google к квадратному изображению логотипа не заявляется.
+- Текущие тексты Sanity: BG ALT и BG SEO description заполнены; EN/RU ALT пусты, локализованные title/description отсутствуют. Наполнение документа и публикация Sanity остаются отдельным шагом после проверки/согласования PR.
+- PR/production deployment и Studio schema deployment не считаются завершёнными до проверки GitHub Actions и фактических статусов сервисов.
