@@ -68,7 +68,15 @@ export function CategoryPage({
     if (languageContentExists('en')) alternates.en = new URL(localizedHref(categoryPath, 'en'), 'https://florial-bg.com').toString()
 
     const localizedSeo = language === 'bg' ? category.seo : category.translations?.[language]?.seo
-    const resolvedSeo = resolveCategorySeo(localizedSeo, localizedName, description, language)
+    const categorySeoContext = {
+      _id: category._id,
+      name: category.name,
+      slug: category.slug?.current,
+      description: category.description,
+      catalog: category.isPlantCategory ? 'plants' as const : 'irrigation' as const,
+      translations: category.translations,
+    }
+    const resolvedSeo = resolveCategorySeo(localizedSeo, categorySeoContext, language)
 
     applyPageSeo({
       seo: { ...localizedSeo, metaTitle: resolvedSeo.metaTitle, metaDescription: resolvedSeo.metaDescription },
@@ -366,7 +374,7 @@ export function CategoryPage({
       {/* Заголовок категории */}
       <div className="mb-6">
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          {(language === 'bg' ? category.seo : category.translations?.[language]?.seo)?.h1 || localize(category, 'name')}
+          {resolveCategorySeo(language === 'bg' ? category.seo : category.translations?.[language]?.seo, { _id: category._id, name: category.name, slug: category.slug?.current, description: category.description, catalog: category.isPlantCategory ? 'plants' : 'irrigation', translations: category.translations }, language).h1}
         </h1>
         {category.description && (
           <div className="mt-2 text-slate-600 text-base max-w-3xl">
