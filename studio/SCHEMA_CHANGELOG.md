@@ -1,3 +1,10 @@
+## 2026-11-05 — Схема SEO категорий опубликована
+
+- PR #91 объединён в main: `64249cdf595f2bb9b9ca25bbe0b35ba8f8f41eae`.
+- Штатный workflow `deploy-sanity-studio.yml` успешно выполнил сборку и публикацию существующей Studio; CLI сообщил `Deployed 2/2 schemas`.
+- Проверены определения `categorySeoFields` для `production` и `plants`: H1, Meta Title, Meta Description, noIndex, keywords и suggested proposal с датой, версией генератора и статусом.
+- Документы Sanity и значения SEO не изменялись.
+
 ## 2026-11-05 — Единая схема SEO категорий (этап 1)
 
 - Добавлен отдельный тип `categorySeoFields`, используемый только категориями оборудования в dataset `production` и категориями растений в dataset `plants`. Общий `seoFields` для товаров, услуг и других документов не менялся.
