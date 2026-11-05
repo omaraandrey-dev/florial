@@ -68,7 +68,7 @@ export default function ProductSeoManager() {
             method: 'POST',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mode: 'apply', catalog, offset }),
+            body: JSON.stringify({ mode: 'apply', catalog, offset, confirm: true }),
           })
           const result = await response.json() as { total?: number; processed?: number; generatedFields?: number; overwrittenFields?: number; nextOffset?: number; hasMore?: boolean; error?: string }
           if (!response.ok) throw new Error(result.error || 'Записът на SEO не беше успешен.')
