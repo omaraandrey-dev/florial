@@ -1,5 +1,6 @@
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
+const LOGO_URL = 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png'
 const SANITY_PROJECT_ID = 'bxvcy0qs'
 const SANITY_API_VERSION = '2024-01-01'
 
@@ -355,6 +356,12 @@ function setPageHead(
     '@id': SITE_URL + '/#organization',
     name: SITE_NAME,
     url: SITE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: LOGO_URL,
+      width: 1547,
+      height: 581,
+    },
     areaServed: { '@type': 'Country', name: 'Bulgaria' },
   }
   const structured = options.structuredData || []
