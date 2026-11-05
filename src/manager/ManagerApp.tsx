@@ -833,7 +833,7 @@ export default function ManagerApp() {
       <section className={activeTab === 'categories' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="max-w-3xl space-y-5">
           <div>
-            <h1 className="text-2xl font-semibold">Работа с категориями</h1>
+            <h1 className="text-2xl font-semibold">Работа с категории</h1>
             <p className="mt-1 text-sm leading-6 text-stone-600">Генериране на предложения за H1, Meta Title и Meta Description за категориите в каталозите за поливно оборудване и растения на български, руски и английски език.</p>
           </div>
           {categorySeoError && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{categorySeoError}</div>}
