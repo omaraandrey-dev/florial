@@ -331,7 +331,12 @@ function setPageHead(
   html = setMetaTag(html, 'property', 'og:url', options.canonical)
   html = setMetaTag(html, 'property', 'og:locale', options.language === 'ru' ? 'ru_RU' : options.language === 'en' ? 'en_US' : 'bg_BG')
   html = setMetaTag(html, 'property', 'og:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
-  html = setMetaTag(html, 'property', 'og:image:alt', options.title)
+  const defaultLogoAlt = options.language === 'ru'
+    ? 'Официален логотип на Florial — градински център и магазин за автоматично напояване'
+    : options.language === 'en'
+      ? 'Official Florial logo — garden centre and automatic irrigation store'
+      : 'Официално лого на Florial — градински център и магазин за автоматично напояване'
+  html = setMetaTag(html, 'property', 'og:image:alt', options.image ? options.title : defaultLogoAlt)
   if (options.image) {
     html = html.replace(/<meta\b[^>]*property=["']og:image:(width|height)["'][^>]*>/gi, '')
   } else {
