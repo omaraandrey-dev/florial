@@ -209,6 +209,18 @@ const additionalTerms: Record<string, LocalizedTerms> = {
   'vatreshno-reduktiven-nipel-vrn-plastmasovi-rezbovi': { phrase: { bg: 'Пластмасови вътрешно редуктивни нипели', ru: 'Пластиковые внутренние редукционные ниппели', en: 'Plastic Internal Reducing Nipples' } },
   'troynik-90-plastmasov-vatreshna-rezba': { phrase: { bg: 'Пластмасови тройници 90° с вътрешна резба', ru: 'Пластиковые тройники 90° с внутренней резьбой', en: 'Plastic 90-Degree Female Thread Tees' } },
   'nipel-reduktiven-plastmasov-vanshna-rezba': { phrase: { bg: 'Пластмасови редуктивни нипели с външна резба', ru: 'Пластиковые редукционные ниппели с наружной резьбой', en: 'Plastic Reducing Nipples with Male Thread' } },
+  'spray-nozzles': { phrase: { bg: 'Веерни дюзи за поливане', ru: 'Веерные форсунки для полива', en: 'Spray Nozzles for Irrigation' } },
+  'kontroleri-vatreshen-montazh': { phrase: { bg: 'Контролери за вътрешен монтаж', ru: 'Контроллеры для внутренней установки', en: 'Indoor Irrigation Controllers' } },
+  'kontroleri-vanshen-montazh': { phrase: { bg: 'Контролери за външен монтаж', ru: 'Контроллеры для наружной установки', en: 'Outdoor Irrigation Controllers' } },
+  'senzori-za-avtomatizatsiya': { phrase: { bg: 'Сензори за автоматизация на поливането', ru: 'Датчики автоматизации полива', en: 'Irrigation Automation Sensors' } },
+  'kapkovo-napoyavane-fitingi': { phrase: { bg: 'Фитинги за капково напояване', ru: 'Фитинги для капельного полива', en: 'Drip Irrigation Fittings' } },
+  'kapkovo-napoyavane-trabi': { phrase: { bg: 'Тръби за капково напояване', ru: 'Трубки для капельного полива', en: 'Drip Irrigation Tubing' } },
+  'fitingi-za-praskachki': { phrase: { bg: 'Фитинги за разпръсквачи', ru: 'Фитинги для дождевателей', en: 'Sprinkler Fittings' } },
+  'fitingi-za-klapani': { phrase: { bg: 'Фитинги за електромагнитни клапани', ru: 'Фитинги для электромагнитных клапанов', en: 'Solenoid Valve Fittings' } },
+  'vodovzemni-skobi': { phrase: { bg: 'Водовземни скоби за поливни системи', ru: 'Хомуты для врезки в трубопровод', en: 'Irrigation Pipe Saddle Clamps' } },
+  'kolyano-nipel-90-plastmasovi-rezbovi': { phrase: { bg: 'Пластмасови колена-нипели 90°', ru: 'Пластиковые угольники-ниппели 90°', en: 'Plastic 90-Degree Elbow Nipples' } },
+  'electromagnetic-valves-24v': { phrase: { bg: 'Електромагнитни клапани 24 V', ru: 'Электромагнитные клапаны 24 В', en: '24V Solenoid Valves' } },
+  'electromagnetic-valves-9v': { phrase: { bg: 'Електромагнитни клапани 9 V', ru: 'Электромагнитные клапаны 9 В', en: '9V Solenoid Valves' } },
 }
 Object.assign(TERMS, additionalTerms)
 
