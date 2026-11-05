@@ -4,7 +4,7 @@
 - Проверки переводов RU и EN оставлены без изменений: `translations.ru.seo.noIndex` и `translations.en.seo.noIndex`.
 - Исправление устраняет риск, при котором включённый болгарский noIndex мог не учитываться генератором sitemap. Опубликованные документы Sanity не изменялись.
 - Изменён только генератор sitemap; Header, меню, Footer, маршрутизация, товары, категории, услуги, статьи, корзина, checkout и базы данных не затронуты.
-- Кодовый commit в `main`: `a6e0b33a09d181f59c2e1b6500199074964d193a`. Автоматические проверки и Cloudflare Pages Production deployment ожидают подтверждения; live sitemap после публикации нужно проверить отдельно.
+- Кодовый commit в `main`: `a6e0b33a09d181f59c2e1b6500199074964d193a`. GitHub Actions run `42079947210` для итогового commit `d820577ed675f684d38b18b186e93d4fe5b4bb89` завершился `success`: Install dependencies, Lint, Build website и Syntax-check Pages Functions — все шаги успешны. Cloudflare Pages Production deployment `d435d877-77de-44ef-96eb-19fa1dcb797f` для того же итогового commit завершился `success`; aliases: `https://florial-bg.com` и `https://www.florial-bg.com`. Прямое чтение `https://florial-bg.com/sitemap.xml` через доступный web-инструмент завершилось ошибкой доступа, поэтому содержимое live XML и фактическое количество URL не подтверждены.
 
 ## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
 
