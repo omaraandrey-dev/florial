@@ -1,6 +1,6 @@
 ## 2026-11-05 — Единый SEO-стандарт карточек товаров (feature branch, не опубликовано)
 
-- Feature branch: `feature/product-seo-standard-2026-11-05`; изменения подготовлены отдельно от `main`. На момент записи PR/merge и production deployment ещё не выполнены.
+- Feature branch: `feature/product-seo-standard-2026-11-05`; изменения подготовлены отдельно от `main`. PR #104 открыт; merge и production deployment ещё не выполнены.
 - Стандарт действует для обоих каталогов: поливочное оборудование (`production`) и растения (`plants`), для языков BG/RU/EN.
 - Meta Title: формат `Название товара | Геолокация | Градински център Флориал`; максимум 70 символов. Если полный бренд не помещается, используется короткое «Флориал» / «Florial». При необходимости длинное название сокращается только по границе целого слова; H1 и Meta Description сохраняют полное название.
 - Meta Description начинается с сообщения о продаже (BG «Продажба на», RU «Продажа:», EN «For sale:»), включает краткую подтверждённую характеристику, локализованное название садового центра Florial и одну географическую привязку. География: Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Бургас, Ахелой, Каблешково, Кошарица. Созопол/Sozopol исключён из генератора.
@@ -13,6 +13,7 @@
 - Read-only проверка Content Lake до изменений: `production` — 275 товаров, у 274 были metaTitle/metaDescription, H1 отсутствовал у всех; `plants` — 35 товаров, у 34 были legacy title/description, новых metaTitle и H1 не было. EN/RU названия и краткие описания: equipment 275/275, plants 34/35.
 - В каталоге оборудования есть названия длиной до 77 символов; для Meta Title генератор сохраняет модель/начало названия, сокращая хвост только по границе слова, если иначе невозможно уложиться в 70 символов. Полный H1 и Meta Description не сокращаются по этому правилу.
 - Затронутые файлы: `src/lib/productSeo.mjs`, `src/lib/productSeo.d.ts`, `tests/product-seo.test.mjs`, `functions/api/manager/product-seo.ts`, `src/manager/ProductSeoManager.tsx`, `src/manager/ManagerApp.tsx`, `studio/schemaTypes/index.ts`, `src/types.ts`, `src/App.tsx`, `src/pages/ProductPage.tsx`, `functions/_middleware.ts`, `docs/TECHNICAL_PASSPORT.md`, `CHANGELOG.md`, `studio/SCHEMA_CHANGELOG.md`.
+- CI: для текущей версии PR #104 подтверждены успешные lint, unit tests (включая геолокацию), Vite build, Pages Functions syntax и D1 migration validation/read-only dry-run. Blog and Studio workflow завершил website checks успешно; установка зависимостей Studio/финальная сборка в последнем запуске ещё выполняется. Production Preview и deploy не выполнялись.
 - На этом этапе не затронуты Header, меню, Footer, категории, URL, sitemap, корзина, checkout, заказы, D1-схема и существующие документы Sanity. Публикация Sanity schema и массовая генерация данных ожидают проверки PR и отдельного подтверждения владельца для записи.
 
 ## 2026-11-05 — Семантическая иерархия заголовков главной страницы и Footer
