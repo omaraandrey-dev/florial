@@ -32,6 +32,32 @@ const seoFields = defineType({
   ],
 })
 
+// Category-only SEO model. Existing live fields stay in place; proposals are stored separately.
+const categorySeoFields = defineType({
+  name: 'categorySeoFields', title: 'SEO на категория', type: 'object',
+  fields: [
+    defineField({name: 'h1', title: 'H1 на страницата', type: 'string'}),
+    defineField({name: 'metaTitle', title: 'Meta title', type: 'string'}),
+    defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3}),
+    defineField({name: 'noIndex', title: 'Не индексирай страницата', type: 'boolean', initialValue: false}),
+    defineField({name: 'keywords', title: 'Ключови думи', type: 'array', of: [{type: 'string'}]}),
+    defineField({name: 'suggested', title: 'Предложение за SEO (не е публикувано)', type: 'object', fields: [
+      defineField({name: 'h1', title: 'Предложен H1', type: 'string'}),
+      defineField({name: 'metaTitle', title: 'Предложен Meta title', type: 'string'}),
+      defineField({name: 'metaDescription', title: 'Предложен Meta description', type: 'text', rows: 3}),
+      defineField({name: 'generatedAt', title: 'Дата на генериране', type: 'datetime'}),
+      defineField({name: 'generatorVersion', title: 'Версия на генератора', type: 'string'}),
+      defineField({name: 'status', title: 'Статус на предложението', type: 'string', options: {
+        list: [
+          {title: 'За преглед', value: 'needsReview'},
+          {title: 'Одобрено', value: 'approved'},
+        ],
+        layout: 'radio',
+      }}),
+    ]}),
+  ],
+})
+
 const richDescription = defineType({
   name: 'richDescription',
   title: 'Форматирано описание',
@@ -131,7 +157,7 @@ const categoryTranslations = defineField({
     fields: [
       defineField({name: 'name', title: language === 'en' ? 'Name' : 'Название', type: 'string'}),
       defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'text', rows: 4}),
-      defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
+      defineField({name: 'seo', title: 'SEO за езика', type: 'categorySeoFields'}),
     ],
   })),
 })
@@ -173,7 +199,7 @@ const irrigationCategory = defineType({
         ],
       }))}),
     ]}),
-    defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+    defineField({name: 'seo', title: 'SEO (български)', type: 'categorySeoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
 })
@@ -424,14 +450,14 @@ const plantCategory = defineType({
     defineField({name: 'translations', title: 'Преводи', type: 'object', fields: [
       defineField({name: 'en', title: 'English', type: 'object', fields: [
         defineField({name: 'name', title: 'Name', type: 'string'}), defineField({name: 'description', title: 'Description', type: 'text'}),
-        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+        defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
       ]}),
       defineField({name: 'ru', title: 'Русский', type: 'object', fields: [
         defineField({name: 'name', title: 'Название', type: 'string'}), defineField({name: 'description', title: 'Описание', type: 'text'}),
-        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+        defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
       ]}),
     ]}),
-    defineField({name: 'seo', title: 'SEO (български)', type: 'seoFields'}),
+    defineField({name: 'seo', title: 'SEO (български)', type: 'categorySeoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
 })
@@ -829,7 +855,7 @@ const blogPost = defineType({
   preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
 export const irrigationSchemaTypes = [
-  seoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
+  seoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
