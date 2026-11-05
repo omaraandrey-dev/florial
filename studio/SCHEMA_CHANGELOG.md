@@ -4,7 +4,7 @@
 - Подключён к корневому SEO полю и языковым SEO-полям товаров в workspace оборудования (`production`) и растений (`plants`). Общий `seoFields` для услуг и прочих документов, а также `categorySeoFields` не изменялись.
 - Для обратной совместимости в `productSeoFields` сохранены скрытые read-only deprecated поля `title` и `description`. Они нужны для существующих SEO значений растений и не удаляются.
 - Схема аддитивна для данных: существующие Sanity документы не мигрировались и не записывались. Массовое заполнение новых активных полей выполняется отдельно из owner-only Manager после просмотра preview и явного подтверждения.
-- Sanity Studio validation workflow run #100 успешно собрал обе workspace на commit `7808c43393ee9c5bb70308e24934a1ea90039932`, содержащем эту схему. PR #104 объединён в main (`4d1957f190f1676b1de688c376698043c3d1978e`), но read-only `get_schema` после merge всё ещё показывает старые active Studio-deployed schemas в datasets `production` и `plants`. Значит production schema deployment ещё не подтверждён. Не запускать массовую запись SEO до проверки `productSeoFields`/`h1` в обоих datasets.
+- Sanity Studio validation workflow run #100 успешно собрал обе workspace на commit `7808c43393ee9c5bb70308e24934a1ea90039932`. После merge PR #104 (`4d1957f190f1676b1de688c376698043c3d1978e`) read-only `get_schema` подтвердил опубликованный `productSeoFields` в `production` / `florial-admin` и `plants` / `plants`, включая `h1`, `metaTitle`, `metaDescription` и сохранённые hidden/readOnly legacy `title`/`description`. Существующая Studio используется без создания нового приложения. Массовая запись SEO ещё не выполнялась.
 
 ## 2026-11-05 — Схема SEO категорий опубликована
 
