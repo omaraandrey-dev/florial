@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type Catalog = 'irrigation' | 'plants'
 type ProductSeoPreview = {
@@ -47,8 +47,6 @@ export default function ProductSeoManager() {
       setPreviewLoading(false)
     }
   }
-
-  useEffect(() => { void loadPreview() }, [])
 
   const applySeo = async () => {
     if (saving || preview.length !== 2) return
@@ -104,7 +102,7 @@ export default function ProductSeoManager() {
         {notice && <div role="status" className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
         {progress && <div className="rounded-xl border border-stone-200 bg-white p-3 text-sm text-stone-700">{progress}</div>}
         <div className="flex flex-wrap gap-3">
-          <button type="button" onClick={() => void loadPreview()} disabled={previewLoading || saving} className="rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-800 disabled:opacity-50">{previewLoading ? 'Проверка…' : 'Обнови прегледа'}</button>
+          <button type="button" onClick={() => void loadPreview()} disabled={previewLoading || saving} className="rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-800 disabled:opacity-50">{previewLoading ? 'Проверка…' : preview.length ? 'Обнови прегледа' : 'Покажи пример'}</button>
           <button type="button" onClick={() => void applySeo()} disabled={saving || previewLoading || preview.length !== 2} className="rounded-xl bg-lime-800 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50">{saving ? 'Записване…' : 'Запиши SEO за всички продукти'}</button>
         </div>
         {previewLoading && preview.length === 0 && <p className="text-sm text-stone-500">Зареждане на каталозите и примерните SEO стойности…</p>}
