@@ -33,6 +33,16 @@ test('never assigns Sozopol and replaces an excluded existing location', () => {
   assert.ok(!/sozopol|созопол|созополь/i.test(JSON.stringify(result)))
 })
 
+test('uses a permitted location already mentioned in product descriptions', () => {
+  const result = generateProductSeo({
+    name: 'Градински продукт',
+    shortDescription: 'Подходящ продукт за градини в Равда и района.',
+  }, 'bg', 0)
+  assert.ok(result)
+  assert.equal(result.location, 'Равда')
+  assert.ok(!result.metaDescription.includes('в Равда и района. —'))
+})
+
 test('localizes location and uses natural sale-first copy for RU and EN', () => {
   const product = {
     name: 'Rain Bird Rotor',
