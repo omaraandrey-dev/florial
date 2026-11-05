@@ -13,6 +13,7 @@ type PagesContext = {
 
 type SeoDocument = {
   _id: string
+  _dataset?: string
   name?: string
   title?: string
   slugValue?: string
@@ -239,7 +240,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
       const cached = await cache.match(cacheKey)
       if (cached) {
         const cachedBody = (await cached.json()) as { result?: SeoDocument | null }
-        return cachedBody.result || null
+        return cachedBody.result ? { ...cachedBody.result, _dataset: dataset } : null
       }
     } catch {
       // A cache failure must not prevent the live Sanity lookup.
@@ -249,7 +250,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error('Sanity lookup failed: ' + response.status)
   const body = (await response.json()) as { result?: SeoDocument | null }
-  const result = body.result || null
+  const result = body.result ? { ...body.result, _dataset: dataset } : null
 
   if (cache) {
     try {
@@ -768,7 +769,14 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       const seo = (type === 'blogPost'
         ? {metaTitle: localized?.seoTitle || doc.translations?.bg?.seoTitle, metaDescription: localized?.seoDescription || doc.translations?.bg?.seoDescription}
         : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
-      const categorySeo = type === 'category' ? resolveCategorySeo(seo, name, description || (name + ' — Florial'), language as 'bg' | 'ru' | 'en') : null
+      const categorySeo = type === 'category' ? resolveCategorySeo(seo, {
+        _id: doc._id,
+        name: doc.name || name,
+        slug: doc.slugValue,
+        description: doc.description,
+        catalog: doc._dataset === 'plants' ? 'plants' : 'irrigation',
+        translations: doc.translations,
+      }, language as 'bg' | 'ru' | 'en') : null
       const brand = language === 'bg' ? 'Флориал' : 'Florial'
       const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
       const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
