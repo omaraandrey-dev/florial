@@ -332,7 +332,7 @@ const irrigationProduct = defineType({
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     productTranslations,
-    defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+    defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
   ],
   preview: {select: {title: 'name', subtitle: 'sku', media: 'mainImage'}},
 })
@@ -457,7 +457,7 @@ const plantCategory = defineType({
         defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
       ]}),
     ]}),
-    defineField({name: 'seo', title: 'SEO (български)', type: 'seoFields'}),
+    defineField({name: 'seo', title: 'SEO (български)', type: 'categorySeoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
 })
@@ -858,4 +858,4 @@ export const irrigationSchemaTypes = [
   seoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
