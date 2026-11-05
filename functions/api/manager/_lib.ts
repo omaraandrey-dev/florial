@@ -14,13 +14,14 @@ export type StaffPermissions = {
   canViewOrders: boolean
   canEditOrders: boolean
   canDeleteTestOrders: boolean
+  canManageCategorySeo: boolean
 }
 export type StaffPermissionKey = keyof StaffPermissions
 export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
   'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock',
   'canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant',
   'canManageStaff','canDelegatePermissions','canViewAnalytics',
-  'canViewOrders','canEditOrders','canDeleteTestOrders',
+  'canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo',
 ]
 export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
@@ -34,7 +35,7 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   else if (value && typeof value === 'object' && !Array.isArray(value)) source = value as Record<string, unknown>
   return Object.fromEntries(STAFF_PERMISSION_KEYS.map((key) => [key, typeof source[key] === 'boolean' ? source[key] : DEFAULT_STAFF_PERMISSIONS[key]])) as unknown as StaffPermissions
 }
-const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders']
+const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo']
 export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) =>
   user.role === 'owner' || (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
 export type StaffProfile = {
