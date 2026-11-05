@@ -4,6 +4,7 @@ import type { CategoryItem, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
+import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
 
 interface CategoryPageProps {
@@ -65,12 +66,14 @@ export function CategoryPage({
     if (languageContentExists('ru')) alternates.ru = new URL(localizedHref(categoryPath, 'ru'), 'https://florial-bg.com').toString()
     if (languageContentExists('en')) alternates.en = new URL(localizedHref(categoryPath, 'en'), 'https://florial-bg.com').toString()
 
+    const localizedSeo = language === 'bg' ? category.seo : category.translations?.[language]?.seo
+
     applyPageSeo({
-      seo: language === 'bg' ? category.seo : undefined,
+      seo: localizedSeo,
       language,
       fallbackTitle: `${localizedName} | Florial`,
       fallbackDescription: description,
-      noIndex: false,
+      noIndex: Boolean(localizedSeo?.noIndex),
       alternates,
     })
 
@@ -392,7 +395,7 @@ export function CategoryPage({
                 >
                   <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC] sm:h-14 sm:w-14">
                     {subCat.imageUrl ? (
-                      <img src={subCat.imageUrl} alt={name} title={name} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                      <img src={subCat.imageUrl} alt={getCategoryImageText(subCat, language, 'alt')} title={getCategoryImageText(subCat, language, 'title')} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                     ) : (
                       <div className="flex h-full items-center justify-center px-1 text-center text-[9px] text-slate-400">
                         {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
