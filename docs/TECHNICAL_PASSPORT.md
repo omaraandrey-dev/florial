@@ -1,3 +1,13 @@
+## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
+
+- В `functions/sitemap.xml.ts` в статический список включён маршрут `/about`.
+- Используется существующий `addLocalizedUrls`: BG `/about`, RU `/about?lang=ru`, EN `/about?lang=en`; для вариантов генерируются hreflang alternates и x-default.
+- Изменён только генератор sitemap. Страница About, маршрутизация приложения, Header, меню, Footer, Sanity, D1 и другие данные не менялись.
+- Изменение внесено непосредственно в `main`: кодовый commit `8fb68fafb52a0d0fb582ddd99b6b185eacf4e391`; запись CHANGELOG — `b3688a7145722e558b500fdb7527add2b779ae91`.
+- CI/build для актуального состояния `main` и Cloudflare Pages production deployment ожидают проверки. До отдельного подтверждения deployment считать публикацию в production НЕ ПОДТВЕРЖДЁННОЙ.
+- PR #105 создан ранее ошибочно в feature-ветке; не объединён, оставлен открытым, ветка не удалялась. CI PR #105 завершился успешно для прежнего commit, но не является проверкой нового commit в `main`.
+- После deployment проверить `https://florial-bg.com/sitemap.xml`: три локализованных URL, hreflang и x-default. Ручная проверка production на этом этапе не выполнена.
+
 ## 2026-11-05 — Единый SEO-стандарт карточек товаров (feature branch, не опубликовано)
 
 - Feature branch: `feature/product-seo-standard-2026-11-05`; изменения подготовлены отдельно от `main`. PR #104 объединён в `main` commit `4d1957f190f1676b1de688c376698043c3d1978e`. Cloudflare Pages Production deployment `22e6631b-af13-4818-97df-22317c83c816` завершился успешно; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
