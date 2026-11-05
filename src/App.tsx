@@ -317,6 +317,12 @@ export default function App() {
           sortOrder,
           "parentId": parent->_id,
           "imageUrl": image.asset->url,
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu,
+          "imageTitle": image.title,
+          "imageTitleEn": image.titleEn,
+          "imageTitleRu": image.titleRu,
           description,
           seo,
           helpBlock,
@@ -409,6 +415,12 @@ export default function App() {
           description,
           "parentId": parent->_id,
           "imageUrl": coalesce(image.asset->url, externalImageUrl),
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu,
+          "imageTitle": image.title,
+          "imageTitleEn": image.titleEn,
+          "imageTitleRu": image.titleRu,
           "isPlantCategory": true
         }
       `

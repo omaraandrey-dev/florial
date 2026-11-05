@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { applyPageSeo } from '../lib/seo'
 import { BlogSection } from '../components/BlogSection'
+import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
@@ -191,7 +192,7 @@ export function HomePage({
             {sortedPlantCategories.map((cat, index) => (
               <a key={cat._id} href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline">
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
-                  {cat.imageUrl ? <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
+                  {cat.imageUrl ? <img src={cat.imageUrl} alt={getCategoryImageText(cat, language, 'alt')} title={getCategoryImageText(cat, language, 'title')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
                 </div>
                 <div className="p-3 md:p-4">
                   <h3 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-[#647746]">{localize(cat, 'name')}</h3>
@@ -226,7 +227,7 @@ export function HomePage({
                   >
                     <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={localize(cat, 'name')} className="h-full w-full object-contain" />
+                        <img src={cat.imageUrl} alt={getCategoryImageText(cat, language, 'alt')} title={getCategoryImageText(cat, language, 'title')} className="h-full w-full object-contain" />
                       ) : (
                         <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}

@@ -1,3 +1,9 @@
+## 2026-11-05 — Локализованные title изображений категорий
+
+- В schema категории оборудования (dataset production) и категории растений (dataset plants) добавлены необязательные поля image.title, image.titleEn, image.titleRu.
+- Существующие image.alt, image.altEn, image.altRu сохранены. Общая схема ALT для товаров, брендов и других изображений не менялась.
+- Изменение аддитивное: существующие документы и assets не мигрируются и не перезаписываются. После публикации схемы редактор сможет заполнять title отдельно на BG/EN/RU.
+
 ## 2026-11-04 — Совместимость переводов и preview состава комплекта
 
 - В production schema для product.translations.en/ru.description оставлен тип text для существующих данных; новое форматированное содержимое вводится через formattedDescription типа richDescription.

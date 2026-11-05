@@ -4,6 +4,12 @@ export interface CategoryItem {
   name: string
   slug?: { current: string }
   imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+  imageTitle?: string
+  imageTitleEn?: string
+  imageTitleRu?: string
   description?: any
   sortOrder?: number
   parentId?: string | null
