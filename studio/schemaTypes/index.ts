@@ -431,6 +431,7 @@ const plantCategory = defineType({
         defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
       ]}),
     ]}),
+    defineField({name: 'seo', title: 'SEO (български)', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
 })
