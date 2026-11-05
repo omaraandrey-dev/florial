@@ -209,6 +209,9 @@ export interface SiteSettings {
   logoAlt?: string | null
   logoAltEn?: string | null
   logoAltRu?: string | null
+  logoAssetTitle?: string | null
+  logoAssetDescription?: string | null
+  logoAssetAltText?: string | null
   logoTitle?: string | null
   logoTitleEn?: string | null
   logoTitleRu?: string | null
