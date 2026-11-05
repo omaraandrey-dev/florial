@@ -376,8 +376,6 @@ const photo = defineType({
     defineField({name: 'image', title: 'Изображение', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
     defineField({name: 'logoUrl', title: 'URL на логото (старо поле)', type: 'url'}),
     defineField({name: 'seoDescription', title: 'Описание за SEO (BG)', type: 'text', rows: 3}),
-    defineField({name: 'seoDescriptionEn', title: 'SEO description (EN)', type: 'text', rows: 3}),
-    defineField({name: 'seoDescriptionRu', title: 'Описание за SEO (RU)', type: 'text', rows: 3}),
     defineField({name: 'category', title: 'Категория', type: 'string', options: {list: [
       {title: 'Начало', value: 'home'}, {title: 'Поливане', value: 'irrigation'},
       {title: 'Услуги', value: 'services'}, {title: 'Ландшафт', value: 'landscape'},
