@@ -7,13 +7,13 @@ export const PRODUCT_SEO_MAX_TITLE_LENGTH = 70
 const LOCATIONS = [
   { key: 'nessebar', aliases: ['Несебър', 'Несебр', 'Несебыр', 'Nessebar', 'Nesebar'], names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' } },
   { key: 'ravda', aliases: ['Равда', 'Ravda'], names: { bg: 'Равда', ru: 'Равда', en: 'Ravda' } },
-  { key: 'sunny-beach', aliases: ['Слънчев бряг', 'Солнечный берег', 'Sunny Beach'], names: { bg: 'Слънчев бряг', ru: 'Солнечный берег', en: 'Sunny Beach' } },
-  { key: 'sveti-vlas', aliases: ['Свети Влас', 'Святой Влас', 'Sveti Vlas'], names: { bg: 'Свети Влас', ru: 'Святой Влас', en: 'Sveti Vlas' } },
-  { key: 'pomorie', aliases: ['Поморие', 'Pomorie'], names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' } },
-  { key: 'burgas', aliases: ['Бургас', 'Burgas'], names: { bg: 'Бургас', ru: 'Бургас', en: 'Burgas' } },
-  { key: 'aheloy', aliases: ['Ахелой', 'Aheloy', 'Aheloi'], names: { bg: 'Ахелой', ru: 'Ахелой', en: 'Aheloy' } },
+  { key: 'sunny-beach', aliases: ['Слънчев бряг', 'Солнечный берег', 'Солнечном берегу', 'Sunny Beach'], names: { bg: 'Слънчев бряг', ru: 'Солнечный берег', en: 'Sunny Beach' } },
+  { key: 'sveti-vlas', aliases: ['Свети Влас', 'Святой Влас', 'Святом Власе', 'Sveti Vlas'], names: { bg: 'Свети Влас', ru: 'Святой Влас', en: 'Sveti Vlas' } },
+  { key: 'pomorie', aliases: ['Поморие', 'Поморие', 'Pomorie'], names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' } },
+  { key: 'burgas', aliases: ['Бургас', 'Бургаса', 'Бургасе', 'Burgas'], names: { bg: 'Бургас', ru: 'Бургас', en: 'Burgas' } },
+  { key: 'aheloy', aliases: ['Ахелой', 'Ахелоя', 'Ахелое', 'Aheloy', 'Aheloi'], names: { bg: 'Ахелой', ru: 'Ахелой', en: 'Aheloy' } },
   { key: 'kableshkovo', aliases: ['Каблешково', 'Kableshkovo'], names: { bg: 'Каблешково', ru: 'Каблешково', en: 'Kableshkovo' } },
-  { key: 'kosharitsa', aliases: ['Кошарица', 'Kosharitsa'], names: { bg: 'Кошарица', ru: 'Кошарица', en: 'Kosharitsa' } },
+  { key: 'kosharitsa', aliases: ['Кошарица', 'Кошарице', 'Kosharitsa'], names: { bg: 'Кошарица', ru: 'Кошарица', en: 'Kosharitsa' } },
 ]
 
 const BRAND_LABELS = {
@@ -110,7 +110,7 @@ const stripAllowedLocationMentions = (value) => {
   let text = value
   const aliases = LOCATIONS.flatMap((location) => location.aliases).sort((left, right) => right.length - left.length)
   for (const alias of aliases) {
-    const pattern = new RegExp('(?:\\b(?:in|near|for)\\s+|(?:в|около|за)\\s+)?' + alias + '(?:\\s+(?:and|и)\\s+(?:surrounding areas|окрестностях|района|районе))?', 'gi')
+    const pattern = new RegExp('(?:\\b(?:in|near|for)\\s+|(?:в|на|около|за)\\s+)?' + alias + '(?:\\s+(?:and|и)\\s+(?:surrounding areas|окрестностях|района|районе))?', 'gi')
     text = text.replace(pattern, ' ')
   }
   return text
