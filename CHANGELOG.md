@@ -7,7 +7,7 @@
 - Добавлен owner-only раздел Manager с предварительным просмотром и явным подтверждением массовой записи активных SEO-полей. Серверная запись идёт через Sanity API с revision guard; секрет остаётся на сервере.
 - Добавлены тесты генератора `tests/product-seo.test.mjs`.
 - Read-only аудит Sanity: 275 товаров оборудования и 35 растений; H1 пока отсутствовал у всех. Существующие документы не изменялись.
-- Изменения находятся в `feature/product-seo-standard-2026-11-05`; merge, CI/Preview и публикация Studio ещё не подтверждены.
+- Изменения находятся в `feature/product-seo-standard-2026-11-05`, PR #104 открыт. Lint, unit tests, Vite build, Pages Functions syntax и D1 validation/dry-run прошли успешно; финальная Studio build ещё выполняется. Preview, merge и production deployment не выполнялись.
 
 ## 2026-11-05 — Исправлена иерархия заголовков главной страницы и Footer
 
