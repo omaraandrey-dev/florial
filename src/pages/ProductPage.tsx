@@ -356,7 +356,7 @@ export function ProductPage({
           </React.Fragment>
         ))}
         <span className="mx-1">/</span>
-        <span className="font-medium text-slate-800 truncate max-w-xs">{productH1}</span>
+        <span className="font-medium text-slate-800 truncate max-w-xs">{localize(product, 'name')}</span>
       </nav>
 
       {/* Основной блок товара и галерея */}
@@ -403,7 +403,7 @@ export function ProductPage({
               </p>
             )}
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
-              {localize(product, 'name')}
+              {productH1}
             </h1>
             {isPlantProduct(product) && product.scientificName && (
               <p className="text-sm italic text-slate-500 -mt-2 mb-4">{product.scientificName}</p>
