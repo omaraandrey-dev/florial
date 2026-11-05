@@ -16,6 +16,12 @@ const localizedAltFields = () => [
   defineField({name: 'altRu', title: 'Alt текст (RU)', type: 'string'}),
 ]
 
+const localizedImageTitleFields = () => [
+  defineField({name: 'title', title: 'Title на изображението (BG)', type: 'string'}),
+  defineField({name: 'titleEn', title: 'Image title (EN)', type: 'string'}),
+  defineField({name: 'titleRu', title: 'Title изображения (RU)', type: 'string'}),
+]
+
 const seoFields = defineType({
   name: 'seoFields', title: 'SEO', type: 'object',
   fields: [
@@ -151,7 +157,7 @@ const irrigationCategory = defineType({
     defineField({name: 'name', title: 'Име на категорията (BG)', type: 'string'}),
     slugField(),
     defineField({name: 'parent', title: 'Родителска категория', type: 'reference', to: [{type: 'category'}]}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: [...localizedAltFields(), ...localizedImageTitleFields()]}),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     categoryTranslations,
@@ -411,7 +417,7 @@ const plantCategory = defineType({
     defineField({name: 'name', title: 'Име на категорията (BG)', type: 'string'}),
     slugField(),
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: [...localizedAltFields(), ...localizedImageTitleFields()]}),
     defineField({name: 'externalImageUrl', title: 'Външен URL на снимката', type: 'url'}),
     defineField({name: 'parent', title: 'Родителска категория', type: 'reference', to: [{type: 'category'}]}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
