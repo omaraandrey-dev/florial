@@ -450,11 +450,11 @@ const plantCategory = defineType({
     defineField({name: 'translations', title: 'Преводи', type: 'object', fields: [
       defineField({name: 'en', title: 'English', type: 'object', fields: [
         defineField({name: 'name', title: 'Name', type: 'string'}), defineField({name: 'description', title: 'Description', type: 'text'}),
-        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+        defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
       ]}),
       defineField({name: 'ru', title: 'Русский', type: 'object', fields: [
         defineField({name: 'name', title: 'Название', type: 'string'}), defineField({name: 'description', title: 'Описание', type: 'text'}),
-        defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+        defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
       ]}),
     ]}),
     defineField({name: 'seo', title: 'SEO (български)', type: 'categorySeoFields'}),
