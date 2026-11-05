@@ -1,3 +1,13 @@
+## 2026-11-05 — Публикация схемы SEO категорий
+
+- PR #91 объединён в main, merge commit: `64249cdf595f2bb9b9ca25bbe0b35ba8f8f41eae`.
+- Существующая Studio опубликована штатным GitHub Actions workflow `.github/workflows/deploy-sanity-studio.yml` с помощью Sanity CLI и настроенного в `studio/sanity.cli.ts` appId.
+- Workflow завершился успешно; CLI подтвердил публикацию обеих рабочих областей: `Deployed 2/2 schemas`, затем `Success! Studio deployed`.
+- Действующий URL: https://florial-admin-bg.sanity.studio/
+- `categorySeoFields` проверен через Sanity schema API в dataset `production` и dataset `plants`. Общий `seoFields` товаров и услуг сохранён без изменений.
+- Публикация схемы не записывала и не мигрировала документы Sanity. Значения H1/Meta Title/Meta Description для категорий пока не генерировались и не заполнялись.
+- `.github/workflows/sanity-studio.yml` выполняет только валидацию/сборку; production deployment остаётся в единственном штатном `deploy-sanity-studio.yml`.
+
 ## 2026-11-05 — Единая схема SEO категорий (этап 1)
 
 - Добавлен отдельный тип `categorySeoFields`, используемый только категориями оборудования в dataset `production` и категориями растений в dataset `plants`. Общий `seoFields` для товаров, услуг и других документов не менялся.
