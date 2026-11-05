@@ -371,18 +371,32 @@ export function CategoryPage({
         <span className="font-medium text-slate-800">{localize(category, 'name')}</span>
       </nav>
 
-      {/* Заголовок категории */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          {resolveCategorySeo(language === 'bg' ? category.seo : category.translations?.[language]?.seo, { _id: category._id, name: category.name, slug: category.slug?.current, description: category.description, catalog: category.isPlantCategory ? 'plants' : 'irrigation', translations: category.translations }, language).h1}
-        </h1>
-        {category.description && (
-          <div className="mt-2 text-slate-600 text-base max-w-3xl">
-            {typeof localize(category, 'description') === 'string' ? (
-              <p>{localize(category, 'description')}</p>
-            ) : (
-              <p>{t("Разгледайте продуктите в тази категория.")}</p>
-            )}
+      {/* Заголовок и изображение категории: две трети контента и одна треть изображения на desktop. */}
+      <div className={`mb-6 grid grid-cols-1 items-center gap-6 ${category.imageUrl ? 'lg:grid-cols-3' : ''}`}>
+        <div className={category.imageUrl ? 'lg:col-span-2' : ''}>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+            {resolveCategorySeo(language === 'bg' ? category.seo : category.translations?.[language]?.seo, { _id: category._id, name: category.name, slug: category.slug?.current, description: category.description, catalog: category.isPlantCategory ? 'plants' : 'irrigation', translations: category.translations }, language).h1}
+          </h1>
+          {category.description && (
+            <div className="mt-2 text-slate-600 text-base max-w-3xl">
+              {typeof localize(category, 'description') === 'string' ? (
+                <p>{localize(category, 'description')}</p>
+              ) : (
+                <p>{t("Разгледайте продуктите в тази категория.")}</p>
+              )}
+            </div>
+          )}
+        </div>
+        {category.imageUrl && (
+          <div className="hidden overflow-hidden rounded-2xl bg-[#F3F5EC] lg:col-span-1 lg:block">
+            <img
+              src={category.imageUrl}
+              alt={getCategoryImageText(category, language, 'alt') || ''}
+              title={getCategoryImageText(category, language, 'title')}
+              loading="eager"
+              decoding="async"
+              className="aspect-[4/3] max-h-64 w-full object-cover"
+            />
           </div>
         )}
       </div>
@@ -412,7 +426,7 @@ export function CategoryPage({
                       </div>
                     )}
                   </div>
-                  <span className="min-w-0 line-clamp-2 text-xs font-semibold leading-snug text-slate-800 transition-colors group-hover:text-[#647746] sm:text-sm">{name}</span>
+                  <h2 className="min-w-0 line-clamp-2 text-xs font-semibold leading-snug text-slate-800 transition-colors group-hover:text-[#647746] sm:text-sm">{name}</h2>
                   <span aria-hidden="true" className="ml-auto shrink-0 text-sm text-[#82936A]">→</span>
                 </a>
               )
