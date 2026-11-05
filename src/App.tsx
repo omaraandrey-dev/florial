@@ -494,6 +494,9 @@ export default function App() {
           "logoAlt": image.alt,
           "logoAltEn": image.altEn,
           "logoAltRu": image.altRu,
+          "logoAssetTitle": image.asset->title,
+          "logoAssetDescription": image.asset->description,
+          "logoAssetAltText": image.asset->altText,
           "logoWidth": image.asset->metadata.dimensions.width,
           "logoHeight": image.asset->metadata.dimensions.height
         }
