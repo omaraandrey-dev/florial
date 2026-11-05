@@ -6,6 +6,11 @@ on:
     paths:
       - "studio/**"
       - ".github/workflows/sanity-studio.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "studio/**"
+      - ".github/workflows/sanity-studio.yml"
   workflow_dispatch:
 
 permissions:
