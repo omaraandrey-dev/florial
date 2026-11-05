@@ -974,5 +974,7 @@
 - Header использует локализованный ALT и title, доступное название ссылки на главную страницу локализовано; добавлены intrinsic width/height и eager loading для небольшого изображения в шапке. Визуальная разметка и CSS шапки не менялись.
 - В JSON-LD Organization добавлен logo как ImageObject с подтверждённым абсолютным URL и размерами файла; обновлено описание изображения Open Graph в базовом HTML.
 - Изменения ограничены Header.tsx, App.tsx, src/types.ts, схемой photo, middleware, index.html и документацией. Меню, Footer, дизайн шапки, каталог, корзина, checkout, D1 и опубликованные документы Sanity не изменялись.
-- Документ официального логотипа будет заполнен шестью локализованными значениями ALT/title и опубликован после развёртывания обновлённой схемы Sanity.
+- Документ официального логотипа заполнен и опубликован: BG/RU/EN title и ALT; существующий BG SEO description сохранён. Опубликованная Sanity-схема подтверждена через schema API.
 - Дополнительно проверены метаданные самого Sanity Asset: исходное имя файла `florial-logo-gardencenter.png`, asset title и description на BG заполнены, `altText` пока пуст. GROQ теперь также получает эти asset-level поля как fallback; OG image alt для стандартного логотипа формируется на языке страницы, а для отдельного page image сохраняется title страницы.
+
+- Production release: PR #88 объединён в `main` (commit `9faeef8a9daf60258e3bf59483099d14cb1f8320`); Cloudflare Pages deployment `efa67989-b723-468b-88ea-7036e9b77715` завершился `success`, алиасы включают `https://florial-bg.com` и `https://www.florial-bg.com`.
