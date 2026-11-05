@@ -1,23 +1,23 @@
-## 2026-11-05 — Исправлен источник BG noIndex в plant sitemap query (main; проверки/deployment pending)
+## 2026-11-05 — Исправлен источник BG noIndex в plant sitemap query (main; Production deployed)
 
 - В `functions/sitemap.xml.ts`, GROQ query `plantProducts`, болгарский флаг исключения URL из sitemap читается из корневого поля `seo.noIndex`. Это соответствует текущей модели данных товара и использованию SEO на публичной странице.
 - RU/EN условия не менялись и продолжают читать локализованные `translations.ru.seo.noIndex` и `translations.en.seo.noIndex`.
 - Изменение точечное: только источник поля в проекции sitemap. Никакие Sanity документы, товары, категории или другие данные не изменялись.
 - Кодовый commit: `a6e0b33a09d181f59c2e1b6500199074964d193a`; CHANGELOG commit: `3b5795f23e5d9a52588cc8564a7d28aba155e0aa`.
 - GitHub Actions run `42079947210` для итогового commit `d820577ed675f684d38b18b186e93d4fe5b4bb89` завершился `success`: Install dependencies, Lint, Build website и Syntax-check Pages Functions — все шаги успешны. Cloudflare Pages Production deployment `d435d877-77de-44ef-96eb-19fa1dcb797f` для этого commit завершился `success`; aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`. Прямое чтение `https://florial-bg.com/sitemap.xml` доступным web-инструментом завершилось ошибкой доступа, поэтому фактическое содержимое live XML и количество URL НЕ ПОДТВЕРЖДЕНЫ.
-- Тестового набора для sitemap в репозитории не обнаружено; имеющиеся unit tests покрывают product SEO и rich text utilities. Проверки sitemap должны опираться на CI/build и проверку реального XML после deployment.
+- Тестового набора для sitemap в репозитории не обнаружено; имеющиеся unit tests покрывают product SEO и rich text utilities. Production deployment latest main подтверждён; фактическое содержимое live XML и количество URL остаются НЕ ПОДТВЕРЖДЕНЫ из-за ошибки чтения sitemap внешним инструментом.
 
-## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
+## 2026-11-05 — Страница About добавлена в XML sitemap (main; Production deployed)
 
 - В `functions/sitemap.xml.ts` в статический список включён маршрут `/about`.
 - Используется существующий `addLocalizedUrls`: BG `/about`, RU `/about?lang=ru`, EN `/about?lang=en`; для вариантов генерируются hreflang alternates и x-default.
 - Изменён только генератор sitemap. Страница About, маршрутизация приложения, Header, меню, Footer, Sanity, D1 и другие данные не менялись.
 - Изменение внесено непосредственно в `main`: кодовый commit `8fb68fafb52a0d0fb582ddd99b6b185eacf4e391`; запись CHANGELOG — `b3688a7145722e558b500fdb7527add2b779ae91`.
-- CI/build для актуального состояния `main` и Cloudflare Pages production deployment ожидают проверки. До отдельного подтверждения deployment считать публикацию в production НЕ ПОДТВЕРЖДЁННОЙ.
-- PR #105 создан ранее ошибочно в feature-ветке; не объединён, оставлен открытым, ветка не удалялась. CI PR #105 завершился успешно для прежнего commit, но не является проверкой нового commit в `main`.
-- После deployment проверить `https://florial-bg.com/sitemap.xml`: три локализованных URL, hreflang и x-default. Ручная проверка production на этом этапе не выполнена.
+- Production deployment подтверждён: latest main commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, deployment `29bcf868-2447-4902-8f00-8a6158b696c7`, aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- PR #105 создан ошибочно в feature-ветке и не объединён; маршрут `/about` уже находится в main. Не объединять PR #105 как повтор без проверки его diff.
+- Содержимое live XML и фактическое количество URL отдельно не подтверждены: доступный инструмент не смог прочитать `https://florial-bg.com/sitemap.xml`; требуется отдельная проверка HTTP/XML и hreflang.
 
-## 2026-11-05 — Единый SEO-стандарт карточек товаров (feature branch, не опубликовано)
+## 2026-11-05 — Единый SEO-стандарт карточек товаров (PR #104 merged; Production deployed; массовое заполнение pending)
 
 - Feature branch: `feature/product-seo-standard-2026-11-05`; изменения подготовлены отдельно от `main`. PR #104 объединён в `main` commit `4d1957f190f1676b1de688c376698043c3d1978e`. Cloudflare Pages Production deployment `22e6631b-af13-4818-97df-22317c83c816` завершился успешно; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
 - Стандарт действует для обоих каталогов: поливочное оборудование (`production`) и растения (`plants`), для языков BG/RU/EN.
@@ -36,7 +36,8 @@
 - Read-only `get_schema` после merge подтвердил `productSeoFields` в обоих активных workspace: dataset `production` / workspace `florial-admin` (schemaId `_.schemas.florial-admin`) и dataset `plants` / workspace `plants` (schemaId `_.schemas.plants`). В типе подтверждены `h1`, `metaTitle` с warning max 70, `metaDescription`, а legacy `title`/`description` сохранены hidden/readOnly. Используется существующая Studio; третья Studio не создавалась.
 - Sanity documents не изменялись; массовая запись новых SEO-полей не запускалась.
 - Read-only D1 check: `catalog_staff_profiles` содержит 1 активный `owner` и 1 активный `manager`; owner-only вкладка SEO доступна существующему владельцу.
-- На этом этапе не затронуты Header, меню, Footer, категории, URL, sitemap, корзина, checkout, заказы, D1-схема и существующие документы Sanity. Публикация Sanity schema и массовая генерация данных ожидают проверки PR и отдельного подтверждения владельца для записи.
+- На этом этапе не затронуты Header, меню, Footer, категории, URL, sitemap, корзина, checkout, заказы и D1-схема. `productSeoFields` опубликован в обеих существующих workspace; подтверждены `h1`, `metaTitle`, `metaDescription`, `noIndex`, `keywords` и скрытые read-only legacy `title`/`description`. PR #104 объединён и Production deployment выполнен. Документы Sanity не изменялись; массовая генерация/запись новых SEO-полей остаётся отдельным действием владельца через Manager после preview и явного подтверждения.
+- Read-only контрольная точка до массового заполнения: `production` — 275 товаров, `plants` — 35. Старые metaTitle/metaDescription имелись у 274/275 товаров оборудования; legacy title/description — у 34/35 растений. RU/EN локализованные названия и shortDescription доступны у 275/275 equipment и 34/35 plants. H1 не заполнены; массовая запись не выполнялась.
 
 ## 2026-11-05 — Семантическая иерархия заголовков главной страницы и Footer
 
@@ -61,7 +62,7 @@
 - После ожидания загрузки данных HTML/DOM Preview содержал 45 ссылок внутри nav до открытия меню: 17 plant-category, 11 irrigation-category, 10 service, 4 blog, плюс Начало/За нас/Контакти. Проверка повторена для BG/RU/EN: HTTP 200 и 45/45 ссылок на каждой версии; все RU-ссылки имеют `?lang=ru`, все EN-ссылки — `?lang=en`, BG-ссылки без языкового параметра.
 - Первая Preview-сборка выявила лишний закрывающий JSX `div`; ошибка исправлена в commit `f481c6e`, после чего Preview build/deploy прошли успешно. Локальные `npm run lint` и `npm test` отдельно не запускались; Cloudflare Pages build command выполнял `npm install` и `npx vite build`.
  
-## 2026-11-05 — SEO категорий и Manager (feature branch, не опубликовано)
+## 2026-11-05 — SEO категорий и Manager (PR #92 merged; Production deployed; редакционные данные опубликованы)
 
 - Feature branch: `feature/category-seo-generator-manager-2026-11-05`.
 - Общий модуль `src/lib/categorySeo.ts` формирует предложения H1, Meta Title и Meta Description для BG/RU/EN. Для болгарского Meta Title используется бренд «Флориал», для RU/EN — «Florial». Словарь включает реальные slug категорий из Sanity: 54 категории оборудования в dataset `production` и 17 категорий растений в dataset `plants`.
@@ -74,7 +75,8 @@
 - Read-only запрос Sanity подтвердил: dataset `production` — 54 категории; dataset `plants` — 17 категорий. Никакие документы Sanity не записывались этим этапом.
 - Предложения просматриваются и редактируются в Sanity Studio (`https://florial-admin-bg.sanity.studio/`) в объекте `seo.suggested` для каждой языковой версии. После проверки редактор вручную переносит одобренные значения в активные поля `h1`, `metaTitle`, `metaDescription`; изменение `suggested.status` само по себе не публикует SEO. Публичный сайт использует только активные поля.
 - В Manager заголовок раздела локализован на болгарский: «Работа с категории».
-- CI (lint, tests, website build, Pages Functions syntax, migration dry-run и Studio build) и Cloudflare Pages Preview завершились успешно. PR #92 подготовлен к объединению; production deployment после merge проверяется отдельно.
+- CI (lint, tests, website build, Pages Functions syntax, migration dry-run и Studio build) и Cloudflare Pages Preview завершились успешно. PR #92 объединён в `main`; код включён в Production deployment `29bcf868-2447-4902-8f00-8a6158b696c7` для commit `f40ab75e9cb5888891337e73b683aadde5e402d9`.
+- Редакционные SEO-данные опубликованы для всех 71 категорий: 54 оборудования и 17 растений, 213 наборов BG/RU/EN с H1, Meta Title, Meta Description и keywords. Переиндексация Google и отдельный live HTML audit не подтверждены.
 - Не затронуты Header, меню, Footer, маршруты, каталог, товары, цены, корзина, checkout и Cloudflare D1 данные.
 
 ## 2026-11-05 — Публикация схемы SEO категорий
