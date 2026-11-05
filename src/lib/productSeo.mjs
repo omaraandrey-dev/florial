@@ -5,11 +5,11 @@
 export const PRODUCT_SEO_MAX_TITLE_LENGTH = 70
 
 const LOCATIONS = [
-  { key: 'nessebar', aliases: ['Несебър', 'Несебр', 'Несебыр', 'Nessebar', 'Nesebar'], names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' } },
+  { key: 'nessebar', aliases: ['Несебър', 'Несебр', 'Несебыр', 'Несебре', 'Несебыре', 'Nessebar', 'Nesebar'], names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' } },
   { key: 'ravda', aliases: ['Равда', 'Ravda'], names: { bg: 'Равда', ru: 'Равда', en: 'Ravda' } },
   { key: 'sunny-beach', aliases: ['Слънчев бряг', 'Солнечный берег', 'Солнечном берегу', 'Sunny Beach'], names: { bg: 'Слънчев бряг', ru: 'Солнечный берег', en: 'Sunny Beach' } },
   { key: 'sveti-vlas', aliases: ['Свети Влас', 'Святой Влас', 'Святом Власе', 'Sveti Vlas'], names: { bg: 'Свети Влас', ru: 'Святой Влас', en: 'Sveti Vlas' } },
-  { key: 'pomorie', aliases: ['Поморие', 'Поморие', 'Pomorie'], names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' } },
+  { key: 'pomorie', aliases: ['Поморие', 'Pomorie'], names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' } },
   { key: 'burgas', aliases: ['Бургас', 'Бургаса', 'Бургасе', 'Burgas'], names: { bg: 'Бургас', ru: 'Бургас', en: 'Burgas' } },
   { key: 'aheloy', aliases: ['Ахелой', 'Ахелоя', 'Ахелое', 'Aheloy', 'Aheloi'], names: { bg: 'Ахелой', ru: 'Ахелой', en: 'Aheloy' } },
   { key: 'kableshkovo', aliases: ['Каблешково', 'Kableshkovo'], names: { bg: 'Каблешково', ru: 'Каблешково', en: 'Kableshkovo' } },
