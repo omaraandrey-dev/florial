@@ -37,16 +37,16 @@ export function Footer() {
         {/* Основная информация о компании "{t('За нас')}" */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-slate-800">
           <div>
-            <h4 className="text-white text-xl font-extrabold mb-3 tracking-wide">
+            <h2 className="text-white text-xl font-extrabold mb-3 tracking-wide">
               <a href={localizedHref('/about', language)} className="text-inherit no-underline transition hover:text-emerald-400">{t("За нас")}</a>
-            </h4>
+            </h2>
             <p className="text-slate-400 text-sm leading-relaxed">
               {language === 'en' ? 'Florial Landscape has been operating since 2000. We provide landscaping and garden improvement services, including landscape design, planting, turf installation and automatic irrigation systems.' : language === 'ru' ? 'Florial Landscape работает с 2000 года. Мы предлагаем услуги по благоустройству и озеленению: ландшафтный дизайн, посадки, укладка рулонного газона и монтаж систем автоматического полива.' : 'Florial Landscape работи от 2000 г. Предлагаме широк спектър от дейности по озеленяване и благоустрояване: ландшафтен дизайн, засаждане, изграждане на тревни площи с готови чимове и монтаж на системи за автоматично поливане.'}
             </p>
           </div>
 
           <div className="space-y-2 text-sm text-slate-400 md:text-right">
-            <h4 className="text-white text-lg font-bold mb-2">{t('Контакти')}</h4>
+            <h3 className="text-white text-lg font-bold mb-2">{t('Контакти')}</h3>
             <p className="font-semibold text-slate-200">{language === 'en' ? 'Florial Garden Centre' : language === 'ru' ? 'Садовый центр Florial' : 'Градински център „Флориал“'}</p>
             <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359876777902" onClick={() => trackEvent('call_bg', language, window.location.pathname)} className="text-emerald-400 hover:underline font-bold">+359 876 777 902</a> BG</p>
             <p>{language === "en" ? "Phone:" : language === "ru" ? "Тел.:" : "Тел:"} <a href="tel:+359885834860" onClick={() => trackEvent('call_en_ru', language, window.location.pathname)} className="text-emerald-400 hover:underline font-bold">+359 885 834 860</a> — ENG / UA / RU</p>
@@ -57,9 +57,9 @@ export function Footer() {
 
         {/* Социални мрежи */}
         <div className="flex flex-col items-center gap-3 mb-8">
-          <h4 className="text-white text-base font-bold">
+          <h3 className="text-white text-base font-bold">
             {language === 'en' ? 'Follow us' : language === 'ru' ? 'Мы в социальных сетях' : 'Последвайте ни'}
-          </h4>
+          </h3>
           <a
             href="https://www.facebook.com/share/19guUXVgFC/"
             target="_blank"
