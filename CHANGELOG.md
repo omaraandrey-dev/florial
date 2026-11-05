@@ -5,7 +5,9 @@
 - Динамические ссылки категорий, услуг и последних статей по-прежнему появляются после загрузки соответствующих данных; для проверки DOM нужно дождаться загрузки.
 - Зафиксировано ограничение SPA: навигация доступна в DOM после выполнения React, но не появляется в сыром HTML до запуска JavaScript. SSR/prerender не входит в эту правку.
 - Не изменялись Header.css, Footer, маршруты, Sanity schema/documents, Cloudflare D1, middleware, sitemap, каталог, корзина и checkout. Production deployment не выполнялся.
-- Проверки сборки, lint, тестов и опубликованного сайта будут отмечены после фактического выполнения.
+- Cloudflare Pages Preview build и deploy завершились успешно после исправления выявленного первой сборкой лишнего JSX closing `div`. Preview: `https://480e6a1c.florial.pages.dev`, deployment `480e6a1c-7f1b-451a-88cb-1db8159487fe`, commit `f481c6eac45ffec184116e24d48884204ed33168`.
+- Проверка Preview после ожидания динамической загрузки: до открытия меню в nav обнаружено 45 ссылок; BG/RU/EN — по 45 ссылок, HTTP 200. Все RU href содержат `?lang=ru`, EN href — `?lang=en`, BG href не содержат языковой query.
+- `npm run lint` и `npm test` отдельно не запускались. Production deployment не выполнялся.
 
 ## 2026-11-05 — Полное отображение изображения категории
 
