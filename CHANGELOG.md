@@ -1,3 +1,11 @@
+## 2026-11-05 — Исправлен источник noIndex для болгарской версии растений в sitemap
+
+- В запросе `plantProducts` файла `functions/sitemap.xml.ts` поле `noIndex` теперь читается из корневого `seo.noIndex`, как это предусмотрено схемой и публичной страницей товара.
+- Проверки переводов RU и EN оставлены без изменений: `translations.ru.seo.noIndex` и `translations.en.seo.noIndex`.
+- Исправление устраняет риск, при котором включённый болгарский noIndex мог не учитываться генератором sitemap. Опубликованные документы Sanity не изменялись.
+- Изменён только генератор sitemap; Header, меню, Footer, маршрутизация, товары, категории, услуги, статьи, корзина, checkout и базы данных не затронуты.
+- Кодовый commit в `main`: `a6e0b33a09d181f59c2e1b6500199074964d193a`. Автоматические проверки и Cloudflare Pages Production deployment ожидают подтверждения; live sitemap после публикации нужно проверить отдельно.
+
 ## 2026-11-05 — Страница About добавлена в XML sitemap (изменение в main; production pending)
 
 - В статический список URL генератора `functions/sitemap.xml.ts` добавлен маршрут `/about`.
