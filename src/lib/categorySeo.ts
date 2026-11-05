@@ -236,22 +236,30 @@ const clean = (value: unknown): string => {
 const localeName = (category: CategorySeoContext, locale: CategorySeoLocale) =>
   locale === 'bg' ? category.name : category.translations?.[locale]?.name || category.name
 
+const limitDescription = (value: string, maxLength = 160) => {
+  const normalized = value.replace(/\\s+/g, ' ').trim()
+  if (normalized.length <= maxLength) return normalized
+  const candidate = normalized.slice(0, maxLength - 1)
+  const boundary = candidate.lastIndexOf(' ')
+  return (boundary > 100 ? candidate.slice(0, boundary) : candidate).replace(/[,. ;:]+$/g, '') + '…'
+}
+
 const makeDescription = (category: CategorySeoContext, locale: CategorySeoLocale, phrase: string) => {
   const source = locale === 'bg' ? clean(category.description) : clean(category.translations?.[locale]?.description)
   if (source) {
     const compact = source.replace(/[.!?]+$/g, '')
-    if (locale === 'bg') return compact + '. Разгледайте асортимента и изберете подходящо решение от Флориал.'
-    if (locale === 'ru') return compact + '. Ознакомьтесь с ассортиментом и выберите подходящее решение в Florial.'
-    return compact + '. Explore the range and find a suitable option at Florial.'
+    if (locale === 'bg') return limitDescription(compact + '. Разгледайте асортимента на Флориал.')
+    if (locale === 'ru') return limitDescription(compact + '. Ассортимент Florial — с доставкой по Болгарии.')
+    return limitDescription(compact + '. Explore the Florial range in Bulgaria.')
   }
   if (category.catalog === 'plants') {
-    if (locale === 'bg') return phrase + ' за дома, терасата и градината. Разгледайте предложенията на градински център Флориал в България.'
-    if (locale === 'ru') return phrase + ' для дома, террасы и сада. Выбирайте растения в садовом центре Florial в Болгарии.'
-    return phrase + ' for homes, terraces and gardens. Explore the Florial garden centre selection in Bulgaria.'
+    if (locale === 'bg') return limitDescription(phrase + ' за дома, терасата и градината. Разгледайте предложенията на градински център Флориал в България.')
+    if (locale === 'ru') return limitDescription(phrase + ' для дома, террасы и сада. Выбирайте растения в Florial в Болгарии.')
+    return limitDescription(phrase + ' for homes, terraces and gardens. Explore the Florial selection in Bulgaria.')
   }
-  if (locale === 'bg') return phrase + ' за изграждане и поддръжка на автоматични поливни системи. Поръчайте онлайн от Флориал с доставка в България.'
-  if (locale === 'ru') return phrase + ' для монтажа и обслуживания систем автоматического полива. Заказывайте онлайн в Florial с доставкой по Болгарии.'
-  return phrase + ' for installing and maintaining automatic irrigation systems. Order online from Florial with delivery across Bulgaria.'
+  if (locale === 'bg') return limitDescription(phrase + ' за изграждане и поддръжка на автоматични поливни системи. Поръчайте онлайн от Флориал с доставка в България.')
+  if (locale === 'ru') return limitDescription(phrase + ' для монтажа и обслуживания систем автоматического полива. Заказывайте в Florial с доставкой по Болгарии.')
+  return limitDescription(phrase + ' for automatic irrigation systems. Order from Florial with delivery across Bulgaria.')
 }
 
 export function generateCategorySeo(category: CategorySeoContext, locale: CategorySeoLocale): CategorySeoProposal {
