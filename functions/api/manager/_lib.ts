@@ -27,7 +27,7 @@ export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
-  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false,
+  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false,
 }
 export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   let source: Record<string, unknown> = {}
