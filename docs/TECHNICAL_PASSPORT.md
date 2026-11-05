@@ -830,4 +830,6 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Схема `photo` расширяется аддитивно полями `titleEn/titleRu` и `seoDescriptionEn/seoDescriptionRu`; существующие поля и данные не удаляются.
 - JSON-LD Organization получает `logo` типа ImageObject с текущим абсолютным URL и размерами. Это горизонтальный файл 1547 × 581; соответствие отдельным требованиям Google к квадратному изображению логотипа не заявляется.
 - Текущие тексты Sanity: BG ALT и BG SEO description заполнены; EN/RU ALT пусты, локализованные title/description отсутствуют. Наполнение документа и публикация Sanity остаются отдельным шагом после проверки/согласования PR.
+- Дополнительно проверен сам Sanity imageAsset: `originalFilename=florial-logo-gardencenter.png`, asset title и description на BG заполнены, `altText` отсутствует. GROQ запрашивает asset-level title/description/altText; Header использует asset alt/title как fallback, если локализованные поля photo document не заполнены.
+- Middleware задаёт локализованный `og:image:alt` для стандартного логотипа; если страница передаёт собственное OG-изображение, используется заголовок этой страницы.
 - PR/production deployment и Studio schema deployment не считаются завершёнными до проверки GitHub Actions и фактических статусов сервисов.
