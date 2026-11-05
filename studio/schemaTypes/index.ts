@@ -32,6 +32,39 @@ const seoFields = defineType({
   ],
 })
 
+const productSeoFields = defineType({
+  name: 'productSeoFields', title: 'SEO на продукта', type: 'object',
+  fields: [
+    defineField({name: 'h1', title: 'H1 на продукта', type: 'string'}),
+    defineField({
+      name: 'metaTitle',
+      title: 'Meta Title (до 70 символа)',
+      type: 'string',
+      validation: Rule => Rule.max(70).warning('Препоръчителната максимална дължина е 70 символа.'),
+    }),
+    defineField({name: 'metaDescription', title: 'Meta Description', type: 'text', rows: 3}),
+    defineField({name: 'noIndex', title: 'Не индексирай страницата', type: 'boolean', initialValue: false}),
+    defineField({name: 'keywords', title: 'Ключови думи', type: 'array', of: [{type: 'string'}]}),
+    defineField({
+      name: 'title',
+      title: 'Старо SEO заглавие (legacy)',
+      type: 'string',
+      deprecated: {reason: 'Използвайте Meta Title. Старите стойности се запазват за обратна съвместимост.'},
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
+      name: 'description',
+      title: 'Старо SEO описание (legacy)',
+      type: 'text',
+      rows: 3,
+      deprecated: {reason: 'Използвайте Meta Description. Старите стойности се запазват за обратна съвместимост.'},
+      readOnly: true,
+      hidden: true,
+    }),
+  ],
+})
+
 // Category-only SEO model. Existing live fields stay in place; proposals are stored separately.
 const categorySeoFields = defineType({
   name: 'categorySeoFields', title: 'SEO на категория', type: 'object',
@@ -171,7 +204,7 @@ const productTranslations = defineField({
       defineField({name: 'shortDescription', title: language === 'en' ? 'Short description' : 'Краткое описание', type: 'text', rows: 3}),
       defineField({name: 'description', title: language === 'en' ? 'Description (legacy text)' : 'Описание (старый текст)', type: 'text', rows: 8}),
       defineField({name: 'formattedDescription', title: language === 'en' ? 'Formatted description' : 'Форматирано описание', type: 'richDescription'}),
-      defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
+      defineField({name: 'seo', title: 'SEO за езика', type: 'productSeoFields'}),
       defineField({name: 'specifications', title: 'Преведени характеристики', type: 'array', of: [{type: 'productSpec'}]}),
     ],
   })),
@@ -333,7 +366,7 @@ const irrigationProduct = defineType({
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     productTranslations,
-    defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
+    defineField({name: 'seo', title: 'SEO', type: 'productSeoFields'}),
   ],
   preview: {select: {title: 'name', subtitle: 'sku', media: 'mainImage'}},
 })
@@ -811,16 +844,13 @@ const plantProduct = defineType({
       }),
       defineField({name: 'availabilityNote', title: 'Бележка за наличност', type: 'text', rows: 3}),
     ]}),
-    defineField({name: 'seo', title: 'SEO (BG)', type: 'object', fields: [
-      defineField({name: 'title', title: 'SEO заглавие', type: 'string'}),
-      defineField({name: 'description', title: 'SEO описание', type: 'text', rows: 3}),
-    ]}),
+    defineField({name: 'seo', title: 'SEO (BG)', type: 'productSeoFields'}),
     defineField({name: 'translations', title: 'Преводи', type: 'object', fields: [
       ...['bg', 'en', 'ru'].map((lang) => defineField({name: lang, title: ({bg: 'Български', en: 'English', ru: 'Русский'} as Record<string,string>)[lang], type: 'object', fields: [
         defineField({name: 'name', title: 'Име / Name / Название', type: 'string'}),
         defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
         defineField({name: 'description', title: 'Пълно описание', type: 'richDescription'}),
-        defineField({name: 'seo', title: 'SEO за езика', type: 'seoFields'}),
+        defineField({name: 'seo', title: 'SEO за езика', type: 'productSeoFields'}),
       ]})),
     ]}),
   ],
@@ -869,7 +899,7 @@ const blogPost = defineType({
   preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
 export const irrigationSchemaTypes = [
-  seoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
+  seoFields, productSeoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
   irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
-export const plantSchemaTypes = [seoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
+export const plantSchemaTypes = [seoFields, productSeoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]

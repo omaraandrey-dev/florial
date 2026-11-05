@@ -1,3 +1,11 @@
+## 2026-11-05 — Единая схема SEO карточек товаров (feature branch, не опубликовано)
+
+- Добавлен отдельный object type `productSeoFields`, предназначенный только для карточек товаров: `h1`, `metaTitle` (validation warning при длине более 70 символов), `metaDescription`, `noIndex`, `keywords`.
+- Подключён к корневому SEO полю и языковым SEO-полям товаров в workspace оборудования (`production`) и растений (`plants`). Общий `seoFields` для услуг и прочих документов, а также `categorySeoFields` не изменялись.
+- Для обратной совместимости в `productSeoFields` сохранены скрытые read-only deprecated поля `title` и `description`. Они нужны для существующих SEO значений растений и не удаляются.
+- Схема аддитивна для данных: существующие Sanity документы не мигрировались и не записывались. Массовое заполнение новых активных полей выполняется отдельно из owner-only Manager после просмотра preview и явного подтверждения.
+- Sanity Studio validation workflow run #79 успешно собрал обе workspace на commit `b6b87096cacea141292495d53aea3fc14b724391`, содержащем эту схему; после этого schemaTypes не менялись. Повторный validation run #90 ожидает очереди. Production schema deployment ещё не выполнялся; после merge требуется запустить штатный workflow публикации обеих существующих Studio.
+
 ## 2026-11-05 — Схема SEO категорий опубликована
 
 - PR #91 объединён в main: `64249cdf595f2bb9b9ca25bbe0b35ba8f8f41eae`.

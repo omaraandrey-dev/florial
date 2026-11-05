@@ -1,0 +1,77 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { generateProductSeo, PRODUCT_SEO_MAX_TITLE_LENGTH } from '../src/lib/productSeo.mjs'
+
+test('uses the approved separator and keeps Meta Title within 70 characters', () => {
+  const result = generateProductSeo({ name: 'Маслина Olea Europaea', shortDescription: 'Вечнозелено дърво с декоративна корона.' }, 'bg', 0)
+  assert.ok(result)
+  assert.ok(result.metaTitle.includes(' | '))
+  assert.ok(result.metaTitle.length <= PRODUCT_SEO_MAX_TITLE_LENGTH)
+  assert.match(result.metaDescription, /^Продажба на /)
+  assert.match(result.metaDescription, /Градински център Флориал/)
+})
+
+test('shortens long product names only at word boundaries and preserves the location', () => {
+  const result = generateProductSeo({
+    name: 'Rain Bird 100-DVF-TBOS — електромагнитен клапан 1″, 9 V с регулатор на дебита',
+    shortDescription: 'Електромагнитен клапан за автоматично поливане.',
+  }, 'bg', 1)
+  assert.ok(result)
+  assert.ok(result.metaTitle.length <= PRODUCT_SEO_MAX_TITLE_LENGTH)
+  assert.match(result.metaTitle, /Равда/)
+  assert.match(result.metaTitle, /Флориал/)
+  assert.ok(result.metaTitle.includes('1″…'))
+})
+
+test('never assigns Sozopol and replaces an excluded existing location', () => {
+  const result = generateProductSeo({
+    name: 'Product',
+    translations: { en: { name: 'Product' } },
+    seo: { metaTitle: 'Product | Созопол', metaDescription: 'Product for Sozopol.' },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.ok(!/sozopol|созопол|созополь/i.test(JSON.stringify(result)))
+})
+
+test('keeps product characteristics while removing duplicate location phrases', () => {
+  const result = generateProductSeo({
+    name: 'Bougainvillea',
+    translations: {
+      en: {
+        name: 'Bougainvillea',
+        shortDescription: 'Beautiful Bougainvillea with vibrant colors and green leaves, ideal for gardens in Nesebar and surrounding areas.',
+      },
+    },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.match(result.metaDescription, /vibrant colors and green leaves/)
+  assert.match(result.metaDescription, /customers in Nessebar/)
+  assert.ok(!result.metaDescription.includes('Nesebar and surrounding areas'))
+})
+
+test('uses a permitted location already mentioned in product descriptions', () => {
+  const result = generateProductSeo({
+    name: 'Градински продукт',
+    shortDescription: 'Подходящ продукт за градини в Равда и района.',
+  }, 'bg', 0)
+  assert.ok(result)
+  assert.equal(result.location, 'Равда')
+  assert.match(result.metaDescription, /клиенти в Равда/)
+})
+
+test('localizes location and uses natural sale-first copy for RU and EN', () => {
+  const product = {
+    name: 'Rain Bird Rotor',
+    shortDescription: 'Роторен разпръсквач за тревни площи.',
+    translations: {
+      ru: { name: 'Роторный дождеватель Rain Bird', shortDescription: 'Роторный дождеватель для газонов.' },
+      en: { name: 'Rain Bird rotor sprinkler', shortDescription: 'Rotor sprinkler for lawns.' },
+    },
+  }
+  const ru = generateProductSeo(product, 'ru', 0)
+  const en = generateProductSeo(product, 'en', 0)
+  assert.ok(ru?.metaDescription.startsWith('Продажа: '))
+  assert.ok(en?.metaDescription.startsWith('For sale: '))
+  assert.ok(ru?.metaTitle.includes('Несебр'))
+  assert.ok(en?.metaTitle.includes('Nessebar'))
+})

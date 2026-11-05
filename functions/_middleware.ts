@@ -796,7 +796,8 @@ export async function onRequest(context: PagesContext): Promise<Response> {
       if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
-      const body = documentBody(doc, type, name, description, language, categorySeo?.h1 || name)
+      const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
+      const body = documentBody(doc, type, name, description, language, pageH1)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {

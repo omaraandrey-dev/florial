@@ -154,7 +154,7 @@ export interface Product {
   kitComponents?: KitComponent[]
   specifications?: Array<{ name: string; value: string; unit?: string; translations?: Record<string, Record<string, any>> }>
   compatibility?: string[]
-  seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
+  seo?: { h1?: string; metaTitle?: string; metaDescription?: string; title?: string; description?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
   manualPDFUrl?: string
   catalogPDFUrl?: string
   documents?: Array<{ title: string; fileUrl: string }>
