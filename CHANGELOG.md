@@ -1,4 +1,4 @@
-## 2026-11-05 — Единый SEO-стандарт карточек товаров (feature branch, не опубликовано)
+## 2026-11-05 — Единый SEO-стандарт карточек товаров (PR #104 merged; Pages Production deployed; Sanity schema pending)
 
 - Добавлен общий генератор H1, Meta Title и Meta Description для товаров двух каталогов Florial: поливочное оборудование и растения; BG/RU/EN.
 - Meta Title использует `|`, ограничение 70 символов и локализованное имя садового центра; длинные названия сокращаются только по границе слова. Геолокация сначала определяется по описанию товара и существующим SEO-текстам, а при отсутствии упоминания распределяется детерминированно. География ограничена Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Бургас, Ахелой, Каблешково и Кошарица; Созопол исключён.
@@ -7,7 +7,10 @@
 - Добавлен owner-only раздел Manager с предварительным просмотром и явным подтверждением массовой записи активных SEO-полей. Серверная запись идёт через Sanity API с revision guard; секрет остаётся на сервере.
 - Добавлены тесты генератора `tests/product-seo.test.mjs`.
 - Read-only аудит Sanity: 275 товаров оборудования и 35 растений; H1 пока отсутствовал у всех. Существующие документы не изменялись.
-- Изменения находятся в `feature/product-seo-standard-2026-11-05`, PR #104 открыт. Lint, unit tests, Vite build, Pages Functions syntax и D1 validation/dry-run прошли успешно; финальная Studio build ещё выполняется. Preview, merge и production deployment не выполнялись.
+- PR #104 объединён в `main` commit `4d1957f190f1676b1de688c376698043c3d1978e`. GitHub Actions workflow #437 завершился успешно: lint, unit tests, Vite build, Pages Functions syntax, read-only migration dry-run и Studio build; Sanity Studio validation workflow #100 также успешно собрал обе workspace. D1 validation workflow #392 прошёл успешно; D1 schema не менялась.
+- Cloudflare Pages Production deployment `22e6631b-af13-4818-97df-22317c83c816` успешно завершён для commit `4d1957f190f1676b1de688c376698043c3d1978e`; production aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Важно: read-only `get_schema` после Pages deploy всё ещё возвращает старые product schemas в `production` и `plants` — H1/productSeoFields пока не подтверждены в активных Studio-deployed schemas. Штатный workflow `.github/workflows/deploy-sanity-studio.yml` должен опубликовать схему; до проверки новых полей и обоих datasets массовую генерацию SEO не запускать.
+- Документы Sanity не изменялись; массовая запись H1/Meta Title/Meta Description не запускалась.
 
 ## 2026-11-05 — Исправлена иерархия заголовков главной страницы и Footer
 
