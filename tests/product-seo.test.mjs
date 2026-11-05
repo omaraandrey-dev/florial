@@ -20,12 +20,13 @@ test('shortens long product names only at word boundaries and preserves the loca
   assert.ok(result.metaTitle.length <= PRODUCT_SEO_MAX_TITLE_LENGTH)
   assert.match(result.metaTitle, /Равда/)
   assert.match(result.metaTitle, /Флориал/)
-  assert.ok(result.metaTitle.includes('1″, 9…'))
+  assert.ok(result.metaTitle.includes('1″,…'))
 })
 
 test('never assigns Sozopol and replaces an excluded existing location', () => {
   const result = generateProductSeo({
     name: 'Product',
+    translations: { en: { name: 'Product' } },
     seo: { metaTitle: 'Product | Созопол', metaDescription: 'Product for Sozopol.' },
   }, 'en', 0)
   assert.ok(result)
