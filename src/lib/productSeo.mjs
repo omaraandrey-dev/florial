@@ -35,10 +35,25 @@ const asText = (value) => {
 }
 
 const collectSeoText = (product) => {
-  const values = [product?.seo?.metaTitle, product?.seo?.metaDescription, product?.seo?.title, product?.seo?.description]
+  const values = [
+    product?.shortDescription,
+    product?.description,
+    product?.seo?.metaTitle,
+    product?.seo?.metaDescription,
+    product?.seo?.title,
+    product?.seo?.description,
+  ]
   for (const locale of ['ru', 'en']) {
-    const seo = product?.translations?.[locale]?.seo
-    values.push(seo?.metaTitle, seo?.metaDescription, seo?.title, seo?.description)
+    const translation = product?.translations?.[locale]
+    const seo = translation?.seo
+    values.push(
+      translation?.shortDescription,
+      translation?.description,
+      seo?.metaTitle,
+      seo?.metaDescription,
+      seo?.title,
+      seo?.description,
+    )
   }
   return values.map(asText).filter(Boolean).join(' ')
 }
