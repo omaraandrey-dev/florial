@@ -975,3 +975,4 @@
 - В JSON-LD Organization добавлен logo как ImageObject с подтверждённым абсолютным URL и размерами файла; обновлено описание изображения Open Graph в базовом HTML.
 - Изменения ограничены Header.tsx, App.tsx, src/types.ts, схемой photo, middleware, index.html и документацией. Меню, Footer, дизайн шапки, каталог, корзина, checkout, D1 и опубликованные документы Sanity не изменялись.
 - Sanity metadata для конкретного логотипа пока не обновлялись; публикация новых значений ожидает отдельного согласования после проверки PR.
+- Дополнительно проверены метаданные самого Sanity Asset: исходное имя файла `florial-logo-gardencenter.png`, asset title и description на BG заполнены, `altText` пока пуст. GROQ теперь также получает эти asset-level поля как fallback; OG image alt для стандартного логотипа формируется на языке страницы, а для отдельного page image сохраняется title страницы.
