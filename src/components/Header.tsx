@@ -60,6 +60,21 @@ export function Header({
   )
 
   const logoImageSrc = siteSettings?.logoUrl || '/logo.png'
+  const logoAlt = language === 'ru'
+    ? siteSettings?.logoAltRu
+    : language === 'en'
+      ? siteSettings?.logoAltEn
+      : siteSettings?.logoAlt
+  const logoTitle = language === 'ru'
+    ? siteSettings?.logoTitleRu
+    : language === 'en'
+      ? siteSettings?.logoTitleEn
+      : siteSettings?.logoTitle
+  const logoHomeLabel = language === 'ru'
+    ? 'Florial — главная страница'
+    : language === 'en'
+      ? 'Florial — home page'
+      : 'Florial — начална страница'
 
   const closeMenu = () => {
     setIsMenuOpen(false)
@@ -124,13 +139,18 @@ export function Header({
           <a
             href={localizedHref('/', language)}
             onClick={closeMenu}
-            aria-label="Florial — начална страница"
+            aria-label={logoHomeLabel}
             className="florial-header-logo flex h-full min-w-0 shrink-0 items-center justify-start text-left no-underline"
           >
             {siteSettings?.logoUrl ? (
               <img
                 src={logoImageSrc}
-                alt={siteSettings?.siteName || 'Florial'}
+                alt={logoAlt || siteSettings?.siteName || 'Florial'}
+                title={logoTitle || undefined}
+                width={siteSettings?.logoWidth || 1547}
+                height={siteSettings?.logoHeight || 581}
+                loading="eager"
+                decoding="async"
                 className="florial-header-logo-image block h-[60px] max-w-[100px] object-contain object-left sm:h-[78px] sm:max-w-[160px] md:h-[100px] md:max-w-[230px]"
                 onError={(event) => {
                   event.currentTarget.style.display = 'none'
