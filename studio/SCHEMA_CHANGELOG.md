@@ -1,4 +1,4 @@
-## 2026-11-05 — Единая схема SEO карточек товаров (feature branch, не опубликовано)
+## 2026-11-05 — Единая схема SEO карточек товаров (PR #104 merged; обе Sanity workspace опубликованы)
 
 - Добавлен отдельный object type `productSeoFields`, предназначенный только для карточек товаров: `h1`, `metaTitle` (validation warning при длине более 70 символов), `metaDescription`, `noIndex`, `keywords`.
 - Подключён к корневому SEO полю и языковым SEO-полям товаров в workspace оборудования (`production`) и растений (`plants`). Общий `seoFields` для услуг и прочих документов, а также `categorySeoFields` не изменялись.
