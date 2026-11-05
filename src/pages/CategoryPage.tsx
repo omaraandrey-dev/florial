@@ -395,7 +395,7 @@ export function CategoryPage({
               title={getCategoryImageText(category, language, 'title')}
               loading="eager"
               decoding="async"
-              className="aspect-[4/3] max-h-64 w-full object-cover"
+              className="aspect-[4/3] max-h-64 w-full object-contain"
             />
           </div>
         )}
