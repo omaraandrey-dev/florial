@@ -332,7 +332,7 @@ const irrigationProduct = defineType({
     defineField({name: 'isActive', title: 'Показвай в магазина', type: 'boolean'}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     productTranslations,
-    defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
+    defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', subtitle: 'sku', media: 'mainImage'}},
 })
