@@ -60,11 +60,17 @@ const collectSeoText = (product) => {
 
 /** Resolve an existing permitted location first; otherwise distribute products deterministically. */
 export function resolveProductLocation(product, stableIndex = 0) {
-  const existingText = collectSeoText(product).toLocaleLowerCase()
-  if (!EXCLUDED_LOCATION_PATTERN.test(existingText)) {
-    const match = LOCATIONS.find((location) => location.aliases.some((alias) => existingText.includes(alias.toLocaleLowerCase())))
-    if (match) return match
-  }
+  const existingText = collectSeoText(product)
+    .toLocaleLowerCase()
+    .replace(/созопол|созополь|sozopol/gi, ' ')
+  const matches = LOCATIONS.flatMap((location) =>
+    location.aliases.map((alias) => ({
+      location,
+      index: existingText.indexOf(alias.toLocaleLowerCase()),
+    })).filter((match) => match.index >= 0),
+  ).sort((left, right) => left.index - right.index)
+  if (matches[0]) return matches[0].location
+
   const index = Number.isInteger(stableIndex) && stableIndex >= 0 ? stableIndex : 0
   return LOCATIONS[index % LOCATIONS.length]
 }
