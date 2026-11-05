@@ -74,6 +74,8 @@ export function ProductPage({
   const [requestedPlantSize, setRequestedPlantSize] = useState<string>('')
 
   const plantSaleVariants = isPlantProduct(product) && Array.isArray(product.saleVariants) ? product.saleVariants : []
+  const localizedProductSeo = language === 'bg' ? product.seo : product.translations?.[language]?.seo
+  const productH1 = String(localizedProductSeo?.h1?.trim() || localize(product, 'name') || product.name)
   const selectedSaleVariantIndex = plantSaleVariants.findIndex((variant, index) => (variant._key || String(index)) === selectedSaleVariantKey)
   const selectedSaleVariant = plantSaleVariants[selectedSaleVariantIndex >= 0 ? selectedSaleVariantIndex : 0]
   const currentPrice = isPlantProduct(product) ? selectedSaleVariant?.priceEUR : product.priceEUR
@@ -265,7 +267,12 @@ export function ProductPage({
         translated?.seo?.metaDescription
       )
     }
-    const localizedSeo = language === 'bg' ? product.seo : product.translations?.[language]?.seo
+    const localizedSeoSource = language === 'bg' ? product.seo : product.translations?.[language]?.seo
+    const localizedSeo = localizedSeoSource ? {
+      ...localizedSeoSource,
+      metaTitle: localizedSeoSource.metaTitle || localizedSeoSource.title,
+      metaDescription: localizedSeoSource.metaDescription || localizedSeoSource.description,
+    } : undefined
     const alternates: Record<string, string> = {
       bg: new URL(productPath, 'https://florial-bg.com').toString(),
       'x-default': new URL(productPath, 'https://florial-bg.com').toString(),
@@ -349,7 +356,7 @@ export function ProductPage({
           </React.Fragment>
         ))}
         <span className="mx-1">/</span>
-        <span className="font-medium text-slate-800 truncate max-w-xs">{localize(product, 'name')}</span>
+        <span className="font-medium text-slate-800 truncate max-w-xs">{productH1}</span>
       </nav>
 
       {/* Основной блок товара и галерея */}
