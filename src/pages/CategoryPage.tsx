@@ -590,16 +590,27 @@ export function CategoryPage({
         </nav>
       )}
 
-      {!category.isPlantCategory && category.helpBlock && (() => {
+      {category.helpBlock && (() => {
         const help = language === 'bg' ? category.helpBlock : (category.helpBlock.translations?.[language] || category.helpBlock)
-        const title = help?.title || (language === 'ru' ? 'Наши специалисты помогут вам с установкой системы автополива' : language === 'en' ? 'Our specialists can help install your automatic irrigation system' : 'Нашите специалисти ще ви помогнат с изграждането на система за автоматично напояване')
-        const text = help?.text || (language === 'ru' ? 'Обратитесь к нам, чтобы получить помощь в подборе оборудования для вашей системы автоматического полива. Мы можем подготовить проект-схему и выполнить монтаж оборудования на объекте.' : language === 'en' ? 'Contact us for help choosing equipment for your automatic irrigation system. We can prepare an irrigation design plan and install the equipment at your property.' : 'Свържете се с нас за помощ при избора на оборудване за вашата система за автоматично напояване. Можем да изготвим проект и схема и да монтираме оборудването на място.')
-        const buttonLabel = help?.buttonLabel || (language === 'ru' ? 'Автоматический полив' : language === 'en' ? 'Automatic irrigation' : 'Автоматично напояване')
+        const isPlantCategory = Boolean(category.isPlantCategory)
+        const title = help?.title || (isPlantCategory
+          ? (language === 'ru' ? 'Нужна помощь с выбором и посадкой растений?' : language === 'en' ? 'Need help choosing and planting the right plants?' : 'Нуждаете се от помощ при избора и засаждането на растения?')
+          : (language === 'ru' ? 'Нужна помощь с подбором и монтажом оборудования для автополива?' : language === 'en' ? 'Need help selecting and installing irrigation equipment?' : 'Нуждаете се от помощ при избора и монтажа на оборудване за автоматично напояване?'))
+        const text = help?.text || (isPlantCategory
+          ? (language === 'ru' ? 'Свяжитесь с Florial для консультации по выбору растений, подготовке места и профессиональной посадке. Мы поможем подобрать подходящие виды и организовать работы в вашем саду.' : language === 'en' ? 'Contact Florial for advice on plant selection, site preparation and professional planting. We can help choose suitable varieties and arrange the work in your garden.' : 'Свържете се с Florial за консултация при избора на растения, подготовката на мястото и професионалното засаждане. Ще помогнем с подходящите видове и организацията на работата във вашата градина.')
+          : (language === 'ru' ? 'Обратитесь к Florial за помощью в подборе оборудования, проектировании и монтаже системы автоматического полива с учётом участка, давления и расхода воды.' : language === 'en' ? 'Contact Florial for help selecting equipment, designing and installing an automatic irrigation system suited to your garden, water pressure and flow.' : 'Свържете се с Florial за помощ при избора на оборудване, проектирането и монтажа на автоматична поливна система според вашата градина, налягането и дебита на водата.'))
+        const buttonLabel = help?.buttonLabel || (isPlantCategory
+          ? (language === 'ru' ? 'Посадка растений' : language === 'en' ? 'Planting Services' : 'Услуги по засаждане')
+          : (language === 'ru' ? 'Монтаж на поливни системи' : language === 'en' ? 'Irrigation Installation' : 'Монтаж на поливни системи'))
+        const configuredUrl = typeof category.helpBlock.buttonUrl === 'string' ? category.helpBlock.buttonUrl.trim() : ''
+        const buttonUrl = configuredUrl.startsWith('/services/') || configuredUrl.startsWith('/blog/')
+          ? configuredUrl
+          : (isPlantCategory ? '/services/zasazhdane-na-rasteniya' : '/services/avtomatichno-napoyavane')
         return (
           <section className="mt-12 rounded-2xl border border-[#DDE3D0] bg-[#F3F5EC] p-6 md:p-10">
             <h2 className="mb-3 text-2xl font-bold text-slate-900">{title}</h2>
             <p className="mb-6 max-w-4xl leading-7 text-slate-700">{text}</p>
-            <a href={localizedHref('/services/avtomatichno-napoyavane', language)} className="inline-flex rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800 no-underline">
+            <a href={localizedHref(buttonUrl, language)} className="inline-flex rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800 no-underline">
               {buttonLabel} →
             </a>
           </section>
