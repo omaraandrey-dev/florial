@@ -106,45 +106,30 @@ const buildMetaTitle = (name, locationName, locale) => {
   return locationName + ' | ' + brand.short
 }
 
-const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\const cleanFeature = (value, productName) => {
+const stripAllowedLocationMentions = (value) => {
+  let text = value
+  const aliases = LOCATIONS.flatMap((location) => location.aliases).sort((left, right) => right.length - left.length)
+  for (const alias of aliases) {
+    const pattern = new RegExp('(?:\\b(?:in|near|for)\\s+|(?:в|около|за)\\s+)?' + alias + '(?:\\s+(?:and|и)\\s+(?:surrounding areas|окрестностях|района|районе))?', 'gi')
+    text = text.replace(pattern, ' ')
+  }
+  return text
+    .replace(/\s+([,.!?])/g, '$1')
+    .replace(/[ ,;:—–-]+([.!?])/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+const cleanFeature = (value, productName) => {
   let text = asText(value).replace(/\s+/g, ' ').trim()
   if (!text) return ''
-  const sentences = text.split(/(?<=[.!?])\s+/).filter((sentence) =>
-    !EXCLUDED_LOCATION_PATTERN.test(sentence) &&
-    !LOCATIONS.some((location) => location.aliases.some((alias) => sentence.toLocaleLowerCase().includes(alias.toLocaleLowerCase()))),
-  )
-  text = sentences.join(' ').trim()
+  text = text.split(/(?<=[.!?])\s+/).filter((sentence) => !EXCLUDED_LOCATION_PATTERN.test(sentence)).join(' ')
+  text = stripAllowedLocationMentions(text)
   const normalizedName = String(productName || '').trim().toLocaleLowerCase()
   if (normalizedName && text.toLocaleLowerCase().startsWith(normalizedName)) {
     text = text.slice(String(productName).length).replace(/^[\s:—–,-]+/, '')
   }
   return text.replace(/\s+/g, ' ').trim()
-}')
-
-const stripAllowedLocationMentions = (value) => {
-  let text = value
-  const aliases = LOCATIONS.flatMap((location) => location.aliases).sort((left, right) => right.length - left.length)
-  for (const alias of aliases) {
-    const pattern = new RegExp('(?:\\b(?:in|near|for)\\s+|(?:в|около|за)\\s+)?' + escapeRegExp(alias) + '(?:\\s+(?:and|и)\\s+(?:surrounding areas|окрестностях|района|районе))?', 'gi')
-    text = text.replace(pattern, ' ')
-  }
-  return text
-    .replace(/\\s+([,.!?])/g, '$1')
-    .replace(/[ ,;:—–-]+([.!?])/g, '$1')
-    .replace(/\\s+/g, ' ')
-    .trim()
-}
-
-const cleanFeature = (value, productName) => {
-  let text = asText(value).replace(/\\s+/g, ' ').trim()
-  if (!text) return ''
-  text = text.split(/(?<=[.!?])\\s+/).filter((sentence) => !EXCLUDED_LOCATION_PATTERN.test(sentence)).join(' ')
-  text = stripAllowedLocationMentions(text)
-  const normalizedName = String(productName || '').trim().toLocaleLowerCase()
-  if (normalizedName && text.toLocaleLowerCase().startsWith(normalizedName)) {
-    text = text.slice(String(productName).length).replace(/^[\\s:—–,-]+/, '')
-  }
-  return text.replace(/\\s+/g, ' ').trim()
 }
 
 const buildMetaDescription = (name, feature, locationName, locale) => {
