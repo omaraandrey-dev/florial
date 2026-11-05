@@ -162,6 +162,56 @@ const TERMS: Record<string, LocalizedTerms> = {
   },
 }
 
+
+const additionalTerms: Record<string, LocalizedTerms> = {
+  'vsichko-za-polivane': { phrase: { bg: 'Оборудване за автоматично напояване', ru: 'Оборудование для автоматического полива', en: 'Automatic Irrigation Equipment' } },
+  'tsitrusi': { phrase: { bg: 'Цитрусови дръвчета', ru: 'Цитрусовые деревья', en: 'Citrus Trees' }, h1: { bg: 'Цитрусови дръвчета за дома, терасата и градината', ru: 'Цитрусовые деревья для дома, террасы и сада', en: 'Citrus Trees for Homes, Terraces and Gardens' } },
+  'igol_listni': { phrase: { bg: 'Иглолистни дървета и храсти', ru: 'Хвойные деревья и кустарники', en: 'Conifer Trees and Shrubs' } },
+  'ekzotichni-rasteniya': { phrase: { bg: 'Екзотични растения', ru: 'Экзотические растения', en: 'Exotic Plants' } },
+  'tsaftyashti-hrasti': { phrase: { bg: 'Цъфтящи декоративни храсти', ru: 'Цветущие декоративные кустарники', en: 'Flowering Ornamental Shrubs' } },
+  'tsvetya-i-rozi': { phrase: { bg: 'Цветя и рози', ru: 'Цветы и розы', en: 'Flowers and Roses' } },
+  'pochvopokrivni': { phrase: { bg: 'Почвопокривни растения', ru: 'Почвопокровные растения', en: 'Ground Cover Plants' } },
+  'rasteniya-zhiv-plet': { phrase: { bg: 'Растения за жив плет', ru: 'Растения для живой изгороди', en: 'Hedge Plants' } },
+  'interiorni-rasteniya': { phrase: { bg: 'Интериорни растения', ru: 'Комнатные растения', en: 'Indoor Plants' } },
+  'dekorativni-trevi': { phrase: { bg: 'Декоративни треви и злаци', ru: 'Декоративные травы и злаки', en: 'Ornamental Grasses' } },
+  'palmi-yuki': { phrase: { bg: 'Палми и юки', ru: 'Пальмы и юкки', en: 'Palms and Yuccas' }, h1: { bg: 'Палми и юки за продажба от градински център Флориал', ru: 'Пальмы и юкки для дома, террасы и сада', en: 'Palms and Yuccas for Homes, Terraces and Gardens' } },
+  'mnogogodishni-tsvetya': { phrase: { bg: 'Многогодишни цветя', ru: 'Многолетние цветы', en: 'Perennial Flowers' } },
+  'rastenia': { phrase: { bg: 'Растения за градината и дома', ru: 'Растения для сада и дома', en: 'Plants for Gardens and Homes' } },
+  'sezonni-tsvetya': { phrase: { bg: 'Сезонни цветя', ru: 'Сезонные цветы', en: 'Seasonal Flowers' } },
+  'soliteri-edrorazmerni': { phrase: { bg: 'Солитерни и едроразмерни растения', ru: 'Солитерные и крупномерные растения', en: 'Specimen and Large Plants' } },
+  'darveta-i-hrasti': { phrase: { bg: 'Дървета и декоративни храсти', ru: 'Деревья и декоративные кустарники', en: 'Trees and Ornamental Shrubs' } },
+  'shirokolistni-darveta': { phrase: { bg: 'Широколистни дървета', ru: 'Лиственные деревья', en: 'Broadleaf Trees' } },
+  'nipel-reduktiven-plastmasov-vanshna-rezba': { phrase: { bg: 'Пластмасови редуктивни нипели с външна резба', ru: 'Пластиковые редукционные ниппели с наружной резьбой', en: 'Plastic Reducing Nipples with Male Thread' } },
+  'adaptori-prehodi-vanshna-rezba-pn-10': { phrase: { bg: 'Преходи с външна резба PN 10', ru: 'Переходники с наружной резьбой PN 10', en: 'PN 10 Male Thread Adapters' } },
+  'adaptori-prehodi-vatreshna-rezba-pn-10': { phrase: { bg: 'Преходи с вътрешна резба PN 10', ru: 'Переходники с внутренней резьбой PN 10', en: 'PN 10 Female Thread Adapters' } },
+  'tapi-pn-10': { phrase: { bg: 'Тапи за тръбни фитинги PN 10', ru: 'Заглушки для трубных фитингов PN 10', en: 'PN 10 Pipe Fitting End Caps' } },
+  'troynitsi-rezbovi-vatreshna-rezba-pn-10': { phrase: { bg: 'Тройници с вътрешна резба PN 10', ru: 'Тройники с внутренней резьбой PN 10', en: 'PN 10 Female Thread Tees' } },
+  'vodovzemni-skobi-vatreshna-rezba': { phrase: { bg: 'Водовземни скоби с вътрешна резба', ru: 'Хомуты для врезки с внутренней резьбой', en: 'Saddle Clamps with Female Thread' } },
+  'kolena-90-pn-10': { phrase: { bg: 'Колена 90° PN 10', ru: 'Угольники 90° PN 10', en: 'PN 10 90-Degree Elbows' } },
+  'kolena-vatreshna-rezba-pn-10': { phrase: { bg: 'Колена с вътрешна резба PN 10', ru: 'Угольники с внутренней резьбой PN 10', en: 'PN 10 Female Thread Elbows' } },
+  'plastmasovi-rezbovi-fitingi': { phrase: { bg: 'Пластмасови резбови фитинги', ru: 'Пластиковые резьбовые фитинги', en: 'Plastic Threaded Fittings' } },
+  'barzi-fitingi-kompresionni-pe-pn10': { phrase: { bg: 'Бързи компресионни фитинги PE PN 10', ru: 'Быстросъёмные компрессионные фитинги PE PN 10', en: 'PE PN 10 Compression Fittings' } },
+  'troynitsi-pn-10': { phrase: { bg: 'Тройници PN 10', ru: 'Тройники PN 10', en: 'PN 10 Tee Fittings' } },
+  'mufa-nipel-plastmasova-vatreshna-vanshna-rezba': { phrase: { bg: 'Пластмасови муфи-нипели с вътрешна и външна резба', ru: 'Пластиковые муфты-ниппели с внутренней и наружной резьбой', en: 'Plastic Female-to-Male Threaded Couplings' } },
+  'reduktivni-mufi-saediniteli-pn-10': { phrase: { bg: 'Редуктивни муфи и съединители PN 10', ru: 'Редукционные муфты и соединители PN 10', en: 'PN 10 Reducing Couplings and Connectors' } },
+  'reduktivni-troynitsi-pn-10': { phrase: { bg: 'Редуктивни тройници PN 10', ru: 'Редукционные тройники PN 10', en: 'PN 10 Reducing Tee Fittings' } },
+  'autonomous-controllers': { phrase: { bg: 'Автономни контролери за поливане', ru: 'Автономные контроллеры полива', en: 'Battery-Powered Irrigation Controllers' } },
+  'kranove-za-kapkov-markuch': { phrase: { bg: 'Кранове за капков маркуч', ru: 'Краны для капельного шланга', en: 'Drip Hose Valves' } },
+  'fitingi-16-mm-za-kapkov-markuch': { phrase: { bg: 'Фитинги 16 mm за капков маркуч', ru: 'Фитинги 16 мм для капельного шланга', en: '16 mm Drip Hose Fittings' } },
+  'fitingi-6-mm-za-mikrotraba': { phrase: { bg: 'Фитинги 6 mm за микротръба', ru: 'Фитинги 6 мм для микротрубки', en: '6 mm Micro Tube Fittings' } },
+  'nipel-plastmasov-vanshna-rezba': { phrase: { bg: 'Пластмасови нипели с външна резба', ru: 'Пластиковые ниппели с наружной резьбой', en: 'Plastic Male Thread Nipples' } },
+  'mufa-plastmasova-vatreshna-rezba': { phrase: { bg: 'Пластмасови муфи с вътрешна резба', ru: 'Пластиковые муфты с внутренней резьбой', en: 'Plastic Female Thread Couplings' } },
+  'nipel-mufa-plastmasova-vanshna-vatreshna-rezba': { phrase: { bg: 'Пластмасови нипел-муфи с резба', ru: 'Пластиковые ниппель-муфты с резьбой', en: 'Plastic Threaded Nipple Couplings' } },
+  'kolena-rezbovi-vanshna-rezba-pn-10': { phrase: { bg: 'Колена с външна резба PN 10', ru: 'Угольники с наружной резьбой PN 10', en: 'PN 10 Male Thread Elbows' } },
+  'kolena-90-plastmasovi-rezbovi': { phrase: { bg: 'Пластмасови резбови колена 90°', ru: 'Пластиковые резьбовые угольники 90°', en: 'Plastic Threaded 90-Degree Elbows' } },
+  'mufi-saediniteli-pn-10': { phrase: { bg: 'Муфи и съединители PN 10', ru: 'Муфты и соединители PN 10', en: 'PN 10 Couplings and Connectors' } },
+  'mufa-reduktivna-plastmasova-vatreshna-rezba': { phrase: { bg: 'Пластмасови редуктивни муфи с вътрешна резба', ru: 'Пластиковые редукционные муфты с внутренней резьбой', en: 'Plastic Reducing Female Thread Couplings' } },
+  'vatreshno-reduktiven-nipel-vrn-plastmasovi-rezbovi': { phrase: { bg: 'Пластмасови вътрешно редуктивни нипели', ru: 'Пластиковые внутренние редукционные ниппели', en: 'Plastic Internal Reducing Nipples' } },
+  'troynik-90-plastmasov-vatreshna-rezba': { phrase: { bg: 'Пластмасови тройници 90° с вътрешна резба', ru: 'Пластиковые тройники 90° с внутренней резьбой', en: 'Plastic 90-Degree Female Thread Tees' } },
+  'nipel-reduktiven-plastmasov-vanshna-rezba': { phrase: { bg: 'Пластмасови редуктивни нипели с външна резба', ru: 'Пластиковые редукционные ниппели с наружной резьбой', en: 'Plastic Reducing Nipples with Male Thread' } },
+}
+Object.assign(TERMS, additionalTerms)
+
 const clean = (value: unknown): string => {
   if (typeof value === 'string') return value.replace(/\s+/g, ' ').trim()
   if (!Array.isArray(value)) return ''
