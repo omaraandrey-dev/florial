@@ -1,6 +1,6 @@
 ## 2026-11-06 — Сводная контрольная точка документации и Production
 
-- Проверена актуальная ветка `main`; latest commit на момент сверки: `f40ab75e9cb5888891337e73b683aadde5e402d9`.
+- На момент первичной технической сверки latest code commit был `f40ab75e9cb5888891337e73b683aadde5e402d9`; после обновления документов latest documentation commit `0e067562c14f4c24ee1b62e56ed6f77aa101d164` прошёл Cloudflare Pages Production deployment `6231673f-cf91-4c73-9ca0-8ba5f93cbf26` со статусом `success`; runtime-код не менялся.
 - Последний Cloudflare Pages Production deployment: `29bcf868-2447-4902-8f00-8a6158b696c7`, commit `f40ab75e9cb5888891337e73b683aadde5e402d9`, статус `success`; aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
 - Этот deployment включает актуальный код product SEO, category SEO, sitemap/About/noIndex, навигацию и иерархию заголовков; после него в main выполнялись только документационные commits.
 - Создана новая Library-версия основной инструкции: `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_06-11-2026_rev5.md`; rev4 сохранена без перезаписи. В `docs/TECHNICAL_PASSPORT.md` добавлена сводная контрольная точка и уточнены статусы публикации product/category SEO, About sitemap и plant noIndex. `studio/SCHEMA_CHANGELOG.md` обновлён: productSeoFields опубликован в обеих workspace.
