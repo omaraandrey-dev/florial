@@ -16,6 +16,7 @@
 - CI: GitHub Actions workflow #437 успешно выполнил lint, unit tests, Vite build, Pages Functions syntax, read-only migration dry-run и Studio build; Sanity Studio validation workflow #100 успешно собрал обе workspace. D1 validation workflow #392 завершился успешно; D1 schema не менялась.
 - Read-only `get_schema` после merge подтвердил `productSeoFields` в обоих активных workspace: dataset `production` / workspace `florial-admin` (schemaId `_.schemas.florial-admin`) и dataset `plants` / workspace `plants` (schemaId `_.schemas.plants`). В типе подтверждены `h1`, `metaTitle` с warning max 70, `metaDescription`, а legacy `title`/`description` сохранены hidden/readOnly. Используется существующая Studio; третья Studio не создавалась.
 - Sanity documents не изменялись; массовая запись новых SEO-полей не запускалась.
+- Read-only D1 check: `catalog_staff_profiles` содержит 1 активный `owner` и 1 активный `manager`; owner-only вкладка SEO доступна существующему владельцу.
 - На этом этапе не затронуты Header, меню, Footer, категории, URL, sitemap, корзина, checkout, заказы, D1-схема и существующие документы Sanity. Публикация Sanity schema и массовая генерация данных ожидают проверки PR и отдельного подтверждения владельца для записи.
 
 ## 2026-11-05 — Семантическая иерархия заголовков главной страницы и Footer
