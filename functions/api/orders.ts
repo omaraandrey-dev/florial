@@ -57,15 +57,15 @@ const escapeHtml = (value: string): string =>
   })[char] || char)
 
 const handleOrderPost = async ({
-  request,
   env,
+  bodyText,
 }: {
-  request: Request
   env: RuntimeEnv
+  bodyText: string
 }) => {
   let body: OrderRequest
   try {
-    body = (await request.json()) as OrderRequest
+    body = JSON.parse(bodyText) as OrderRequest
   } catch {
     return json({ error: 'Невалидна заявка.' }, 400)
   }
@@ -382,12 +382,7 @@ export const onRequestPost = async (context: { request: Request; env: RuntimeEnv
     if (rateLimitResponse) return rateLimitResponse
     const boundedBody = await readBoundedRequestBody(context.request, 65536)
     if (boundedBody.response) return boundedBody.response
-    const boundedRequest = new Request(context.request.url, {
-      method: context.request.method,
-      headers: context.request.headers,
-      body: boundedBody.text,
-    })
-    return await handleOrderPost({ ...context, request: boundedRequest })
+    return await handleOrderPost({ env: context.env, bodyText: boundedBody.text })
   } catch (error) {
     console.error('Unhandled POST /api/orders exception:', {
       requestId,
