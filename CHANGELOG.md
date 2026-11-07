@@ -1,3 +1,13 @@
+## 2026-11-07 — Подтверждена новая Cloudflare Pages build command в Production
+
+- Проверяемый GitHub main commit: `8aa11542feccde8fc8963f0840323da5795deec5`.
+- Cloudflare Pages Production deployment: `dbdd20b5-02c5-4ee9-a019-13e63a9d978a`; все стадии `queued`, `initialize`, `clone_repo`, `build`, `deploy` — `success`.
+- Build log подтвердил Node.js `22.23.4`, npm `10.9.9`, автоматическую установку по lockfile командой `npm clean-install --progress=false` и фактическую пользовательскую build command `npm run build`.
+- Vite build завершился успешно (`built in 669ms`), затем Pages успешно опубликовал сайт. Это первая подтверждённая Production-сборка после переключения Cloudflare build command; lockfile не удалялся и повторный `npm install` не выполнялся.
+- Остаётся предупреждение о дублирующемся ключе `nipel-reduktiven-plastmasov-vanshna-rezba` в `src/lib/categorySeo.ts:184` и `:211`. Сборка прошла; исправление отложено до отдельного сравнения обоих значений.
+- Preview deployments отключены (`preview_deployment_setting=none`); последний Preview deployment удалён. Production branch `main` и Production deployments включены.
+- Runtime-код, Sanity, D1, заказы, checkout, Header, меню, Footer и секреты не менялись.
+
 ## 2026-11-07 — Отключён автоматический Preview и стабилизирована сборка
 
 - PR #106 объединён в `main` (squash commit `6cb33769641d91589772086bd9d78b1ada24bfa2`). Добавлены root `package-lock.json` и `studio/package-lock.json` (lockfileVersion 3), корневой `.nvmrc` со значением Node.js 22.
