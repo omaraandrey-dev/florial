@@ -1,3 +1,13 @@
+## 2026-11-07 — Усиление безопасности публичных API (подготовка)
+
+- Затрагиваемые endpoints: `POST /api/orders` и `POST /api/track`.
+- Защита: same-origin проверка по точному `Origin` относительно URL запроса, `Sec-Fetch-Site`, `Content-Type: application/json`, ограничение тела запроса (64 KiB orders; 4 KiB track) и D1-backed fixed-window rate limiting.
+- Лимиты: 5 заказных запросов за 15 минут и 90 аналитических запросов за минуту с одного Cloudflare `CF-Connecting-IP`. В D1 сохраняется только дневной SHA-256 digest IP, не исходный IP; bucket rows удаляются после истечения TTL.
+- Новая таблица `api_rate_limits` добавляется migration `0010_public_api_rate_limits.sql`. Migration аддитивная и не затрагивает `orders`, `order_events` или `site_events`. Её применение к Production требует отдельного подтверждения владельца.
+- HTTP-заголовки: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, `Strict-Transport-Security`. `public/_headers` добавляет годовой immutable cache для хешированных `/assets/*`.
+- CSP не включать до инвентаризации внешних скриптов, изображений, шрифтов и API. Turnstile — отдельный этап после создания widget и безопасной установки site secret в Cloudflare; значения ключей не коммитить.
+- Это запись о подготовке, а не о Production. До подтверждения CI, D1 migration и Production deployment не заявлять о включённой защите live-сайта.
+
 ## 2026-11-07 — Удалён дублирующий ключ category SEO
 
 - В `src/lib/categorySeo.ts` удалено второе повторное объявление ключа `nipel-reduktiven-plastmasov-vanshna-rezba` из `additionalTerms`.
