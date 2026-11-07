@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22
       - name: Install website dependencies
-        run: npm install
+        run: npm ci
       - name: Lint website
         run: npm run lint
       - name: Test website utilities
@@ -40,7 +40,7 @@ jobs:
         run: node scripts/migrate-descriptions-to-portable-text.mjs
       - name: Install Studio dependencies
         working-directory: studio
-        run: npm install
+        run: npm ci
       - name: Build Studio
         working-directory: studio
         run: npm run build
