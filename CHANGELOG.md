@@ -1,3 +1,17 @@
+## 2026-11-07 — Read-only аудит состояния Florial и актуализация документации (rev6)
+
+- Повторно проверены GitHub `main`, Cloudflare Pages Production, D1 и published perspective обоих Sanity datasets.
+- GitHub HEAD: `730285f75d0ed049ab9b2ee210544eab5942d12d`. Production deployment: `ac8f035c-b4e7-4fc4-bc53-ec4e41329a42`, `success`; deployed commit совпадает с main. Последние 10 Production deployments успешны.
+- Между checkpoint `f40ab75e9cb5888891337e73b683aadde5e402d9` и HEAD было 9 documentation-only commits; runtime source не менялся.
+- Sanity `production`: 275 products, 54 categories, 3 brands, 8 services, 22 blog posts; product H1 BG/RU/EN заполнен у 82/275, BG Meta Title/Description — у 274/275; category SEO — 54/54 на BG/RU/EN.
+- Sanity `plants`: 35 products, 17 categories; product SEO BG/RU/EN — 35/35; Portable Text descriptions BG 35/35, RU/EN 34/35; category SEO — 17/17. Всего 71 категории.
+- D1: 11 application tables по SQL catalogue, 9 применённых migrations; 7 orders (3 non-test, 4 test), 26 order_events, 2 staff profiles, 8 submissions, 2 stock events, 662 site events. Личные данные не читались. D1 metadata API `num_tables=0` расходится с SQL catalogue.
+- Найдены legacy Supabase variable names в Cloudflare Production/Preview. Активных Supabase SDK/runtime references статический поиск в текущем source не выявил, но это не абсолютное доказательство отсутствия косвенного/CI использования. Ничего не удалялось.
+- Preview не имеет набора bindings/secrets, эквивалентного Production. Production credentials в Preview не переносились.
+- Корневой `package-lock.json` отсутствует; build command удаляет lockfile и выполняет `npm install`. Рекомендовано отдельное планирование воспроизводимой сборки; pipeline не менялся.
+- Создана Library-инструкция `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_07-11-2026_rev6.md` с новой контрольной точкой; исторический текст rev5 сохранён.
+- Все проверки read-only; код, конфигурации, D1, Sanity и Production не изменялись. Live sitemap XML и поисковая индексация не подтверждены.
+
 ## 2026-11-06 — Ручное заполнение и публикация SEO карточек растений (Sanity plants)
 
 - По прямому подтверждению владельца вручную подготовленные SEO-поля опубликованы для всех 35 карточек растений в dataset `plants`: BG `seo.h1/metaTitle/metaDescription`, RU и EN `translations.ru/en.seo.h1/metaTitle/metaDescription`.
