@@ -1,3 +1,27 @@
+## 2026-11-07 — Read-only аудит GitHub, Cloudflare, D1 и Sanity (контрольная точка rev6)
+
+- GitHub `main`: `730285f75d0ed049ab9b2ee210544eab5942d12d`; Cloudflare Pages Production deployment `ac8f035c-b4e7-4fc4-bc53-ec4e41329a42`, status `success`, deployed commit совпадает с main. Последние 10 Production deployments — success.
+- С предыдущей контрольной точки `f40ab75e9cb5888891337e73b683aadde5e402d9` было 9 commits, все документационные; runtime-код не менялся.
+- Sanity `production`: 275 products, 54 categories, 3 brands, 8 services, 22 blog posts. H1 BG/RU/EN заполнен у 82/275 products; BG Meta Title/Description — у 274/275. Это расходится с историческим snapshot rev5 (0 новых H1); источник заполнения 82 карточек НЕ ИЗВЕСТНО — нужно уточнить. Не запускать массовый apply автоматически. Category SEO 54/54 на BG/RU/EN.
+- Sanity `plants`: 35 products, 17 categories; product SEO H1/Meta Title/Meta Description BG/RU/EN — 35/35. Portable Text descriptions BG 35/35, RU 34/35, EN 34/35. Отсутствующие переводы описания одной карточки не генерировать без решения владельца. Plant category SEO 17/17. Всего категорий 71/71.
+- D1 database `5fbb0e47-8439-493c-821a-6945eef7d8b2`: фактический SQL catalogue содержит 11 application tables; применено 9 migrations `0001`–`0009`. Trigger `trg_orders_order_created` соответствует исправленной migration 0009. Сводные counts: orders 7 (3 non-test, 4 test), order_events 26, catalog_staff_profiles 2, catalog_submissions 8, catalog_stock_events 2, site_events 662. Non-test orders — 3 со статусом `new`; тестовые — `new`/`ready`. Один активный owner и один manager. Не читались персональные данные.
+- Cloudflare D1 metadata API возвращает `num_tables=0`, хотя SQL catalogue показывает 11 application tables; для числа таблиц использовать SQL catalogue, а расхождение оставить как диагностическое.
+- Legacy Supabase variable names всё ещё присутствуют в Cloudflare Production/Preview (включая `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`); значения секретов не раскрывались. Не удалять до полного статического аудита source, workflows и Cloudflare config и отдельного плана. Supabase не открывать и не использовать.
+- Статический поиск в текущем repo не обнаружил активной Supabase SDK dependency, `src/lib/supabase.ts` или runtime references; текущий Sanity client — `src/lib/sanity.ts`, checkout/Manager работают через D1. Это не доказывает отсутствие косвенного/CI использования.
+- Preview не эквивалентен Production: не обнаружены D1 binding `DB`, server secrets orders, Sanity API token, AI binding и Workflow service binding. Не копировать Production credentials в Preview; при необходимости проектировать изолированную тестовую среду.
+- Pages build command: `rm -f package-lock.json && npm install && npx vite build`; корневой `package-lock.json` отсутствует. Текущая установка не фиксирует dependency graph. Воспроизводимость сборки требует отдельного плана; в рамках аудита pipeline не менялся.
+- Все проверки были read-only. Код, настройки Cloudflare, D1 migrations/data, Sanity schemas/documents и Production не изменялись.
+
+### Вопросы и отдельные задачи
+
+1. Установить, каким процессом были заполнены H1 у 82 equipment products.
+2. Завершить статический аудит legacy Supabase variable names в source, GitHub Actions и Cloudflare config; только затем рассматривать безопасное удаление переменных.
+3. Решить, нужен ли изолированный Preview с отдельными D1/Sanity credentials и workflow bindings.
+4. Отдельно диагностировать D1 metadata `num_tables=0`.
+5. Подготовить отдельный план lockfile/build reproducibility.
+6. Пометить старые документы с Supabase-инструкциями как исторический архив; не удалять их и не удалять migration files.
+7. Live sitemap XML, фактическая индексация поисковиками и полный end-to-end Preview checkout этим аудитом не подтверждены: НЕ ИЗВЕСТНО — нужно уточнить.
+
 ## 2026-11-06 — Состояние SEO карточек растений после ручного заполнения
 
 - Dataset Sanity `plants`: вручную подготовленные SEO-поля опубликованы для 35/35 карточек, на BG/RU/EN: корневые `seo.h1`, `seo.metaTitle`, `seo.metaDescription`; локализованные `translations.ru.seo.*` и `translations.en.seo.*`.
