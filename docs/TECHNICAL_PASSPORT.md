@@ -1,3 +1,22 @@
+## 2026-11-07 — Отключение Preview и стабилизация npm-сборки (PR #106)
+
+- GitHub PR #106 `build: stabilize npm dependency installation` объединён методом squash; merge commit: `6cb33769641d91589772086bd9d78b1ada24bfa2`.
+- Добавлены корневой `package-lock.json` и `studio/package-lock.json`, оба формата lockfileVersion 3. Lock-файлы сформированы в GitHub Actions из соответствующих `package.json`; исходные manifest-файлы не менялись.
+- Добавлен корневой `.nvmrc` со значением `22`. Cloudflare build logs подтвердили Node.js `22.23.4` и npm `10.9.9`.
+- В GitHub Actions `.github/workflows/blog-studio.yml`, `deploy-sanity-studio.yml`, `sanity-studio.yml`, `validate-d1-migration.yml` заменён `npm install` на `npm ci` в соответствующих корневых и Studio рабочих каталогах.
+- Все три PR validation checks завершились `success`: D1 migration validation (npm ci, lint, Vite build, Pages Functions syntax); Sanity Studio validation (npm ci и build двух workspace); Blog and Studio validation (lint, unit tests, Vite build, syntax checks, read-only migration dry-run, Studio npm ci и build).
+- Cloudflare Pages project `florial`: Production branch осталась `main`, Production deployments включены. Последний Preview deployment `bd5be887-9f69-4d29-b3b7-a005b012d28c` удалён; его alias относился только к ветке `fix/about-in-sitemap-2026-11-05`. Установка `preview_deployment_setting` изменена на `none`, поэтому новые Preview deployments автоматически не создаются. Старые исторические Preview deployments не удалялись массово.
+- Cloudflare Pages build command изменена на `npm run build`; папка результата остаётся `dist`. Pages автоматически устанавливает зависимости до пользовательской build command. Build log deployment `1737c6de-8ab5-4180-9797-66a94e700a49` показал штатный install step `npm clean-install --progress=false`, но этот deployment был начат до обновления build command и затем выполнил старую пользовательскую команду. Поэтому он подтверждает успешную сборку merge commit, но **не является проверкой нового пользовательского build command**. Проверить новый command на следующем Production deployment.
+- В build log остался предупреждающий duplicate object key `nipel-reduktiven-plastmasov-vanshna-rezba` в `src/lib/categorySeo.ts` (строки 184 и 211). Сборка успешна; код не менялся, предупреждение вынесено в отдельную задачу.
+- Runtime-код сайта, Header, меню, Footer, корзина, checkout, D1 schema/data, Sanity schema/documents, заказы и секреты не менялись. Production deployment `1737c6de-8ab5-4180-9797-66a94e700a49` для commit `6cb33769641d91589772086bd9d78b1ada24bfa2` завершился `success`; это deployment merge commit до окончательной проверки новой build command.
+
+### Открытые пункты после стабилизации
+
+1. Подтвердить в следующем Production deployment, что Cloudflare использует пользовательскую команду `npm run build` после автоматического `npm clean-install`.
+2. Отдельно решить, нужно ли удалять исторические Preview deployments; сейчас автоматическое создание новых Preview отключено.
+3. Разобрать предупреждение duplicate key в `src/lib/categorySeo.ts` отдельным точечным изменением после проверки обоих значений и их назначения.
+4. Legacy variable names в Cloudflare не удалялись. Supabase не использовать и не подключаться к нему; любой анализ старых упоминаний выполнять только статически в текущем GitHub source/config.
+
 ## 2026-11-07 — Read-only аудит GitHub, Cloudflare, D1 и Sanity (контрольная точка rev6)
 
 - GitHub `main`: `730285f75d0ed049ab9b2ee210544eab5942d12d`; Cloudflare Pages Production deployment `ac8f035c-b4e7-4fc4-bc53-ec4e41329a42`, status `success`, deployed commit совпадает с main. Последние 10 Production deployments — success.

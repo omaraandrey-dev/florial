@@ -1,3 +1,14 @@
+## 2026-11-07 — Отключён автоматический Preview и стабилизирована сборка
+
+- PR #106 объединён в `main` (squash commit `6cb33769641d91589772086bd9d78b1ada24bfa2`). Добавлены root `package-lock.json` и `studio/package-lock.json` (lockfileVersion 3), корневой `.nvmrc` со значением Node.js 22.
+- Четыре существующих GitHub Actions переведены с `npm install` на `npm ci`: `blog-studio.yml`, `deploy-sanity-studio.yml`, `sanity-studio.yml`, `validate-d1-migration.yml`.
+- Все три PR checks прошли успешно: D1 validation; Sanity Studio build; Blog and Studio validation с lint, tests, Vite build, Pages Functions syntax, read-only migration dry-run и Studio build.
+- Cloudflare Pages project `florial`: `preview_deployment_setting=none`; последний Preview deployment `bd5be887-9f69-4d29-b3b7-a005b012d28c` удалён. Production branch `main` и Production deployments остались включены. Исторические Preview deployments массово не удалялись.
+- Cloudflare build command установлена в `npm run build`, output directory `dist`. Cloudflare Pages автоматически выполняет `npm clean-install --progress=false` при наличии lockfile; в логах подтверждены Node.js 22.23.4 и npm 10.9.9. Новый build command требуется подтвердить следующим Production deployment.
+- Deployment `1737c6de-8ab5-4180-9797-66a94e700a49` для merge commit `6cb33769641d91589772086bd9d78b1ada24bfa2` прошёл все стадии успешно, но его пользовательская build command ещё была старой, так как деплой стартовал до её переключения.
+- Build выдал предупреждение о повторяющемся ключе `nipel-reduktiven-plastmasov-vanshna-rezba` в `src/lib/categorySeo.ts:184` и `:211`. Сборка успешна; предупреждение не исправлялось в рамках этой задачи.
+- Не менялись runtime-код, Sanity, D1, заказы, корзина, checkout, Header, меню, Footer и секреты.
+
 ## 2026-11-07 — Read-only аудит состояния Florial и актуализация документации (rev6)
 
 - Повторно проверены GitHub `main`, Cloudflare Pages Production, D1 и published perspective обоих Sanity datasets.
