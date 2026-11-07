@@ -13,16 +13,16 @@ export const checkSameOriginPublicPost = (request: Request): Response | null => 
   if (request.method !== 'POST') return jsonError(405, 'Method not allowed.')
   const target = new URL(request.url)
   const origin = request.headers.get('Origin')
-  if (!ALLOWED_HOSTS.has(target.hostname) || !origin) return jsonError(403, 'Request origin is not allowed.')
+  if (!ALLOWED_HOSTS.has(target.hostname) || !origin) return jsonError(403, 'Заявката е изпратена от неразрешен източник.')
   try {
     if (new URL(origin).origin !== target.origin) return jsonError(403, 'Request origin is not allowed.')
   } catch {
     return jsonError(403, 'Request origin is not allowed.')
   }
   const fetchSite = request.headers.get('Sec-Fetch-Site')
-  if (fetchSite && fetchSite !== 'same-origin' && fetchSite !== 'none') return jsonError(403, 'Cross-site requests are not allowed.')
+  if (fetchSite && fetchSite !== 'same-origin' && fetchSite !== 'none') return jsonError(403, 'Междусайтовите заявки не са разрешени.')
   const contentType = request.headers.get('Content-Type') || ''
-  if (!/^application\/json(?:\s*;|$)/i.test(contentType)) return jsonError(415, 'Content-Type must be application/json.')
+  if (!/^application\/json(?:\s*;|$)/i.test(contentType)) return jsonError(415, 'Невалиден тип на заявката.')
   return null
 }
 
@@ -34,7 +34,7 @@ const sha256Hex = async (value: string): Promise<string> => {
 export const enforcePublicRateLimit = async (
   request: Request, db: D1Database | undefined, options: RateLimitOptions,
 ): Promise<Response | null> => {
-  if (!db) return jsonError(503, 'Request protection is temporarily unavailable.')
+  if (!db) return jsonError(503, 'Системата за защита временно не е достъпна. Моля, опитайте отново след малко.')
   const clientIp = request.headers.get('CF-Connecting-IP')
   if (!clientIp) return jsonError(503, 'Request protection is temporarily unavailable.')
   const now = Math.floor(Date.now() / 1000)
@@ -55,7 +55,7 @@ export const enforcePublicRateLimit = async (
     }
     if (row.request_count > options.limit) {
       const retryAfter = Math.max(1, windowStart + options.periodSeconds - now)
-      return jsonError(429, 'Too many requests. Please try again later.', { 'Retry-After': String(retryAfter) })
+      return jsonError(429, 'Изпратихте твърде много заявки. Моля, опитайте отново след малко.', { 'Retry-After': String(retryAfter) })
     }
     return null
   } catch {
@@ -66,10 +66,10 @@ export const enforcePublicRateLimit = async (
 export const readBoundedRequestBody = async (request: Request, maxBytes: number) => {
   const contentLength = request.headers.get('content-length')
   if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > maxBytes)) {
-    return { text: '', response: jsonError(413, 'Request body is too large.') }
+    return { text: '', response: jsonError(413, 'Заявката е твърде голяма.') }
   }
   const reader = request.body?.getReader()
-  if (!reader) return { text: '', response: jsonError(400, 'Request body is missing.') }
+  if (!reader) return { text: '', response: jsonError(400, 'Липсва съдържание на заявката.') }
   const decoder = new TextDecoder()
   let text = ''
   let totalBytes = 0
@@ -87,6 +87,6 @@ export const readBoundedRequestBody = async (request: Request, maxBytes: number)
     text += decoder.decode()
     return { text, response: null }
   } catch {
-    return { text: '', response: jsonError(400, 'Request body could not be read.') }
+    return { text: '', response: jsonError(400, 'Съдържанието на заявката не може да бъде прочетено.') }
   }
 }
