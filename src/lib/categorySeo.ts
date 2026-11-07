@@ -208,7 +208,6 @@ const additionalTerms: Record<string, LocalizedTerms> = {
   'mufa-reduktivna-plastmasova-vatreshna-rezba': { phrase: { bg: 'Пластмасови редуктивни муфи с вътрешна резба', ru: 'Пластиковые редукционные муфты с внутренней резьбой', en: 'Plastic Reducing Female Thread Couplings' } },
   'vatreshno-reduktiven-nipel-vrn-plastmasovi-rezbovi': { phrase: { bg: 'Пластмасови вътрешно редуктивни нипели', ru: 'Пластиковые внутренние редукционные ниппели', en: 'Plastic Internal Reducing Nipples' } },
   'troynik-90-plastmasov-vatreshna-rezba': { phrase: { bg: 'Пластмасови тройници 90° с вътрешна резба', ru: 'Пластиковые тройники 90° с внутренней резьбой', en: 'Plastic 90-Degree Female Thread Tees' } },
-  'nipel-reduktiven-plastmasov-vanshna-rezba': { phrase: { bg: 'Пластмасови редуктивни нипели с външна резба', ru: 'Пластиковые редукционные ниппели с наружной резьбой', en: 'Plastic Reducing Nipples with Male Thread' } },
   'spray-nozzles': { phrase: { bg: 'Веерни дюзи за поливане', ru: 'Веерные форсунки для полива', en: 'Spray Nozzles for Irrigation' } },
   'kontroleri-vatreshen-montazh': { phrase: { bg: 'Контролери за вътрешен монтаж', ru: 'Контроллеры для внутренней установки', en: 'Indoor Irrigation Controllers' } },
   'kontroleri-vanshen-montazh': { phrase: { bg: 'Контролери за външен монтаж', ru: 'Контроллеры для наружной установки', en: 'Outdoor Irrigation Controllers' } },
