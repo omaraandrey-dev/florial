@@ -1,3 +1,12 @@
+## 2026-11-07 — Удалён дублирующий ключ category SEO
+
+- В `src/lib/categorySeo.ts` удалено второе повторное объявление ключа `nipel-reduktiven-plastmasov-vanshna-rezba` из `additionalTerms`.
+- Обе записи имели полностью идентичные значения `phrase.bg`, `phrase.ru`, `phrase.en`; оставлена первая запись. Отдельный ключ `nipel-plastmasov-vanshna-rezba` не изменялся.
+- Проверена логика: `generateCategorySeo` получает локализованные термины через `TERMS[category.slug]`; затем использует существующие H1 или fallback, строит Meta Title и Meta Description. `Object.assign(TERMS, additionalTerms)` ранее повторно присваивал тому же slug то же значение, поэтому удаление второй записи не меняет SEO-вывод ни для BG, ни для RU, ни для EN.
+- Sanity categories/documents, опубликованные SEO-поля, URL/slug, sitemap, D1, Cloudflare variables/secrets, Header, меню и Footer не менялись.
+- Повторные проверки lint, unit tests и production build выполняются через PR validation; результат фиксируется после завершения CI.
+- Изменение подготовлено в отдельной ветке; `main` и Production не изменяются до отдельного согласования merge.
+
 ## 2026-11-07 — Подтверждена новая Cloudflare Pages build command в Production
 
 - Проверяемый GitHub main commit: `8aa11542feccde8fc8963f0840323da5795deec5`.
