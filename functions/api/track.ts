@@ -8,7 +8,7 @@ type RuntimeEnv = { DB?: D1Database }
 const MAX_BODY_BYTES = 4096
 const MAX_PAGE_PATH_LENGTH = 200
 
-const errorResponse = (status: number) => new Response(null, { status })
+const errorResponse = (status: number) => new Response(null, { status, headers: { 'Cache-Control': 'no-store' } })
 
 export const onRequestPost = async ({
   request,
@@ -56,7 +56,7 @@ export const onRequestPost = async ({
   try {
     await env.DB.prepare('INSERT INTO site_events (id,created_at,event_type,lang,page_path) VALUES (?,?,?,?,?)')
       .bind(crypto.randomUUID(), new Date().toISOString(), eventType, lang, pagePath).run()
-    return new Response(null, { status: 204 })
+    return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } })
   } catch {
     // Do not log request headers, IP addresses, or request payloads.
     return errorResponse(500)
