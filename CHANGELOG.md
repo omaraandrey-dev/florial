@@ -1,11 +1,14 @@
-## 2026-11-07 — Защита публичных API и HTTP-заголовки (подготовлено в PR)
+## 2026-11-07 — Публикация защиты публичных API и HTTP-заголовков (PR #110)
 
-- Для `POST /api/orders` и `POST /api/track` добавлены строгая same-origin проверка, проверка `Content-Type: application/json`, ограничение размера тела запроса и D1-backed rate limiting.
-- Лимиты: заказы — 5 запросов на 15 минут с одного IP; аналитика — 90 запросов в минуту с одного IP. При превышении возвращается HTTP 429 с `Retry-After`; при недоступности хранилища лимитера запись блокируется (fail closed).
-- В D1 подготовлена аддитивная migration `0010_public_api_rate_limits` для ограниченного хранения дневных хешированных идентификаторов IP и очистки истёкших счётчиков. Существующие заказы и события не изменяются.
-- Добавлены общие HTTP-заголовки безопасности в Pages middleware и `public/_headers`; для `/assets/*` настроен годовой immutable cache.
-- CSP и Turnstile пока не включены: CSP требует проверки фактических внешних источников, Turnstile требует создания sitekey и установки secret в Cloudflare Pages. Не добавлять фиктивные ключи и не ослаблять checkout.
-- Код и migration подготовлены в отдельной ветке; Production и D1 не изменялись. Применение migration и Production deployment ожидают отдельного разрешения на изменение схемы D1 и успешных CI checks.
+- PR #110 `security: harden public order and analytics APIs` объединён в `main` методом squash; merge commit: `aa514f8997a3f4faeba35483e86d0ef558a061f5`.
+- GitHub Actions перед merge: run `42379786803` — lint, production build сайта и syntax-check Pages Functions; run `42379786810` — website lint/tests/build, migration syntax/dry-run и Sanity Studio build. Все job steps обоих runs завершились `success`.
+- Production D1 `5fbb0e47-8439-493c-821a-6945eef7d8b2`: после явного разрешения владельца применена migration `0010_public_api_rate_limits`. Проверены таблица `api_rate_limits`, индекс `idx_api_rate_limits_expires`, четыре поля таблицы и marker в `schema_migrations` (applied_at: `2026-11-07 15:12:54`). Изменение аддитивное; существующие заказы и события не переписывались.
+- Cloudflare Pages Production deployment `1651e652-2ff5-45d4-a89e-b53addfb07e4` для commit `aa514f8997a3f4faeba35483e86d0ef558a061f5` завершился: queued, initialize, clone_repo, build и deploy — `success`. Build command: `npm run build`; Vite build и компиляция Pages Functions завершились успешно. Live-домен `https://florial-bg.com` доступен для чтения.
+- В production build выведено предупреждение Vite о размере основного JS chunk (789.57 kB до gzip, 201.36 kB gzip); сборка успешна. Code splitting — отдельная оптимизационная задача, не включённая в PR #110.
+- Включены same-origin/JSON проверки, bounded request body (64 KiB orders; 4 KiB track), D1-backed rate limits (orders 5/15 min; track 90/min), общие security headers и immutable cache policy для `/assets/*`. В D1 сохраняется дневной SHA-256 digest IP, не исходный IP.
+- Ограничения пострелизной проверки: доступный web-reader подтвердил открытие главной страницы, но не предоставляет сырые HTTP response headers и не выполняет безопасные POST-запросы к API. Поэтому фактические значения заголовков на ответах live-домена и негативные тесты `/api/orders` / `/api/track` отмечены как НЕ ПРОВЕРЕНО; не создавать тестовые заказы или события ради проверки. Требуется отдельный HTTP-клиент/проверка после релиза.
+- CSP и Turnstile не включались. Turnstile требует создания widget и безопасной настройки sitekey/secret; CSP — предварительной инвентаризации реальных внешних источников.
+- Затронутые файлы PR: `functions/api/_lib/public-api-security.ts`, `functions/api/orders.ts`, `functions/api/track.ts`, `functions/_middleware.ts`, `public/_headers`, `functions/migrations/0010_public_api_rate_limits.sql`, `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`.
 
 ## 2026-11-07 — Удалён дублирующий ключ category SEO
 
