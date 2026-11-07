@@ -1,3 +1,13 @@
+## 2026-11-07 — Удалён дублирующий ключ category SEO
+
+- В `src/lib/categorySeo.ts` удалено второе повторное объявление ключа `nipel-reduktiven-plastmasov-vanshna-rezba` из `additionalTerms`.
+- Обе записи имели полностью идентичные значения `phrase.bg`, `phrase.ru`, `phrase.en`; оставлена первая запись. Отдельный ключ `nipel-plastmasov-vanshna-rezba` не изменялся.
+- Проверена логика: `generateCategorySeo` получает локализованные термины через `TERMS[category.slug]`; затем использует существующие H1 или fallback, строит Meta Title и Meta Description. `Object.assign(TERMS, additionalTerms)` ранее повторно присваивал тому же slug то же значение, поэтому удаление второй записи не меняет SEO-вывод ни для BG, ни для RU, ни для EN.
+- Sanity categories/documents, опубликованные SEO-поля, URL/slug, sitemap, D1, Cloudflare variables/secrets, Header, меню и Footer не менялись.
+- Добавлен регрессионный тест `tests/category-seo.test.mjs`: проверяет BG/RU/EN генерацию для slug и подтверждает, что объявление slug встречается в `categorySeo.ts` ровно один раз.
+- PR validation завершилась успешно: `Florial D1 migration validation` run `42376470863` — `npm ci`, lint, `npm run build`, Pages Functions syntax; `Blog and Studio validation` run `42376470827` — lint, unit tests, `npm run build`, migration syntax, read-only migration dry-run, Studio `npm ci` и build. Все шаги обоих workflow завершились `success`. Production не менялся: проверки выполнены в PR, merge и Production deployment не запускались.
+- Изменение подготовлено в отдельной ветке; `main` и Production не изменяются до отдельного согласования merge.
+
 ## 2026-11-07 — Подтверждена новая Cloudflare Pages build command в Production
 
 - Проверяемый GitHub main commit: `8aa11542feccde8fc8963f0840323da5795deec5`.
