@@ -515,7 +515,7 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
   }
 }
 
-export async function onRequest(context: PagesContext): Promise<Response> {
+async function handleRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
   const path = url.pathname.replace(/\/+$/, '') || '/'
   const languageParam = url.searchParams.get('lang')
@@ -824,4 +824,20 @@ export async function onRequest(context: PagesContext): Promise<Response> {
   const looksLikeFile = /\.[a-zA-Z0-9]{1,8}$/.test(lastSegment)
   if (looksLikeFile) return contentType.includes('text/html') ? notFoundResponse(language) : response
   return notFoundResponse(language)
+}
+
+
+const applySecurityHeaders = (response: Response, request: Request): Response => {
+  const headers = new Headers(response.headers)
+  headers.set('X-Content-Type-Options', 'nosniff')
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  headers.set('X-Frame-Options', 'DENY')
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  if (new URL(request.url).protocol === 'https:') headers.set('Strict-Transport-Security', 'max-age=31536000')
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+}
+
+export async function onRequest(context: PagesContext): Promise<Response> {
+  const response = await handleRequest(context)
+  return applySecurityHeaders(response, context.request)
 }
