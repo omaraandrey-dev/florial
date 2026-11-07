@@ -1,5 +1,6 @@
 import type { ManagerEnv } from './manager/_lib'
 import { createProformaPdf, sendOrderEmail, toBase64 } from './_lib/order-documents'
+import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
 
 type OrderRequest = {
   customer_name?: unknown
@@ -375,7 +376,18 @@ const handleOrderPost = async ({
 export const onRequestPost = async (context: { request: Request; env: RuntimeEnv }) => {
   const requestId = crypto.randomUUID()
   try {
-    return await handleOrderPost(context)
+    const originError = checkSameOriginPublicPost(context.request)
+    if (originError) return originError
+    const rateLimitResponse = await enforcePublicRateLimit(context.request, context.env.DB, { scope: 'orders', limit: 5, periodSeconds: 900 })
+    if (rateLimitResponse) return rateLimitResponse
+    const boundedBody = await readBoundedRequestBody(context.request, 65536)
+    if (boundedBody.response) return boundedBody.response
+    const boundedRequest = new Request(context.request.url, {
+      method: context.request.method,
+      headers: context.request.headers,
+      body: boundedBody.text,
+    })
+    return await handleOrderPost({ ...context, request: boundedRequest })
   } catch (error) {
     console.error('Unhandled POST /api/orders exception:', {
       requestId,
