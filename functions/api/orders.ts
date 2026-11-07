@@ -40,7 +40,7 @@ type SanityProduct = {
 const json = (body: Record<string, unknown>, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
   })
 
 const cleanText = (value: unknown, maxLength = 500): string =>
