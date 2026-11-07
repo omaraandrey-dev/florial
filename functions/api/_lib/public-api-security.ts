@@ -50,7 +50,9 @@ export const enforcePublicRateLimit = async (
   try {
     const row = await db.prepare(sql).bind(bucketKey, windowStart, expiresAt).first<{ request_count: number }>()
     if (!row) return jsonError(503, 'Request protection is temporarily unavailable.')
-    if (Math.random() < 0.01) await db.prepare('DELETE FROM api_rate_limits WHERE expires_at < ?').bind(now).run()
+    if (Math.random() < 0.01) {
+      try { await db.prepare('DELETE FROM api_rate_limits WHERE expires_at < ?').bind(now).run() } catch { /* Cleanup is best-effort. */ }
+    }
     if (row.request_count > options.limit) {
       const retryAfter = Math.max(1, windowStart + options.periodSeconds - now)
       return jsonError(429, 'Too many requests. Please try again later.', { 'Retry-After': String(retryAfter) })
