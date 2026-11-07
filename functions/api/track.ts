@@ -1,4 +1,5 @@
 import type { D1Database } from './manager/_lib'
+import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
 type TrackingEventType = 'page_view' | 'call_bg' | 'call_en_ru' | 'chat_click'
 type TrackingLanguage = 'bg' | 'ru' | 'en'
 
@@ -16,31 +17,13 @@ export const onRequestPost = async ({
   request: Request
   env: RuntimeEnv
 }) => {
-  const contentLength = request.headers.get('content-length')
-  if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_BODY_BYTES)) {
-    return errorResponse(400)
-  }
-
-  let rawBody = ''
-  try {
-    const reader = request.body?.getReader()
-    if (!reader) return errorResponse(400)
-    const decoder = new TextDecoder()
-    let totalBytes = 0
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      totalBytes += value.byteLength
-      if (totalBytes > MAX_BODY_BYTES) {
-        await reader.cancel()
-        return errorResponse(400)
-      }
-      rawBody += decoder.decode(value, { stream: true })
-    }
-    rawBody += decoder.decode()
-  } catch {
-    return errorResponse(400)
-  }
+  const originError = checkSameOriginPublicPost(request)
+  if (originError) return originError
+  const rateLimitResponse = await enforcePublicRateLimit(request, env.DB, { scope: 'track', limit: 90, periodSeconds: 60 })
+  if (rateLimitResponse) return rateLimitResponse
+  const boundedBody = await readBoundedRequestBody(request, MAX_BODY_BYTES)
+  if (boundedBody.response) return boundedBody.response
+  const rawBody = boundedBody.text
 
   let body: Record<string, unknown>
   try {
