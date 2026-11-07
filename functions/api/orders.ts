@@ -1,5 +1,6 @@
 import type { ManagerEnv } from './manager/_lib'
 import { createProformaPdf, sendOrderEmail, toBase64 } from './_lib/order-documents'
+import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
 
 type OrderRequest = {
   customer_name?: unknown
@@ -39,7 +40,7 @@ type SanityProduct = {
 const json = (body: Record<string, unknown>, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
   })
 
 const cleanText = (value: unknown, maxLength = 500): string =>
@@ -56,15 +57,15 @@ const escapeHtml = (value: string): string =>
   })[char] || char)
 
 const handleOrderPost = async ({
-  request,
   env,
+  bodyText,
 }: {
-  request: Request
   env: RuntimeEnv
+  bodyText: string
 }) => {
   let body: OrderRequest
   try {
-    body = (await request.json()) as OrderRequest
+    body = JSON.parse(bodyText) as OrderRequest
   } catch {
     return json({ error: 'Невалидна заявка.' }, 400)
   }
@@ -375,7 +376,13 @@ const handleOrderPost = async ({
 export const onRequestPost = async (context: { request: Request; env: RuntimeEnv }) => {
   const requestId = crypto.randomUUID()
   try {
-    return await handleOrderPost(context)
+    const originError = checkSameOriginPublicPost(context.request)
+    if (originError) return originError
+    const rateLimitResponse = await enforcePublicRateLimit(context.request, context.env.DB, { scope: 'orders', limit: 5, periodSeconds: 900 })
+    if (rateLimitResponse) return rateLimitResponse
+    const boundedBody = await readBoundedRequestBody(context.request, 65536)
+    if (boundedBody.response) return boundedBody.response
+    return await handleOrderPost({ env: context.env, bodyText: boundedBody.text })
   } catch (error) {
     console.error('Unhandled POST /api/orders exception:', {
       requestId,
