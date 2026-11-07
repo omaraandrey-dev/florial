@@ -1,12 +1,30 @@
-## 2026-11-07 — Усиление безопасности публичных API (подготовка)
+## 2026-11-07 — Усиление безопасности публичных API (Production опубликован)
 
-- Затрагиваемые endpoints: `POST /api/orders` и `POST /api/track`.
-- Защита: same-origin проверка по точному `Origin` относительно URL запроса, `Sec-Fetch-Site`, `Content-Type: application/json`, ограничение тела запроса (64 KiB orders; 4 KiB track) и D1-backed fixed-window rate limiting.
-- Лимиты: 5 заказных запросов за 15 минут и 90 аналитических запросов за минуту с одного Cloudflare `CF-Connecting-IP`. В D1 сохраняется только дневной SHA-256 digest IP, не исходный IP; bucket rows удаляются после истечения TTL.
-- Новая таблица `api_rate_limits` добавляется migration `0010_public_api_rate_limits.sql`. Migration аддитивная и не затрагивает `orders`, `order_events` или `site_events`. Её применение к Production требует отдельного подтверждения владельца.
-- HTTP-заголовки: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, `Strict-Transport-Security`. `public/_headers` добавляет годовой immutable cache для хешированных `/assets/*`.
-- CSP не включать до инвентаризации внешних скриптов, изображений, шрифтов и API. Turnstile — отдельный этап после создания widget и безопасной установки site secret в Cloudflare; значения ключей не коммитить.
-- Это запись о подготовке, а не о Production. До подтверждения CI, D1 migration и Production deployment не заявлять о включённой защите live-сайта.
+### Публикация и инфраструктура
+- PR #110 объединён в `main`; merge commit: `aa514f8997a3f4faeba35483e86d0ef558a061f5`.
+- Cloudflare Pages project: `florial`; Production deployment: `1651e652-2ff5-45d4-a89e-b53addfb07e4`; deployment commit совпадает с merge commit. Все стадии `queued`, `initialize`, `clone_repo`, `build`, `deploy` завершились `success`.
+- Production D1: `5fbb0e47-8439-493c-821a-6945eef7d8b2`. По явному разрешению владельца применена migration `0010_public_api_rate_limits`; marker в `schema_migrations` подтверждён (`2026-11-07 15:12:54`).
+- Созданы `api_rate_limits(bucket_key, window_start, request_count, expires_at)` и индекс `idx_api_rate_limits_expires(expires_at)`. Migration аддитивная, существующие `orders`, `order_events`, `site_events` не изменяла.
+- CI перед merge: workflow runs `42379786803` и `42379786810`; все jobs/steps завершились `success`. Cloudflare Production build `npm run build` и компиляция Pages Functions успешны.
+
+### Публичные endpoints
+- `POST /api/orders`: strict same-origin, JSON Content-Type, `Sec-Fetch-Site` validation, body limit 64 KiB, rate limit 5 requests / 15 minutes / IP.
+- `POST /api/track`: те же проверки, body limit 4 KiB, rate limit 90 requests / minute / IP.
+- Rate limiting хранит дневной SHA-256 digest значения `CF-Connecting-IP`, а не исходный IP. Digest — псевдонимизированный идентификатор, не считать его полной анонимизацией.
+- При превышении лимита возвращается 429 с `Retry-After`; при отсутствии IP или недоступности D1 действует fail-closed (503). Случайная best-effort очистка просроченных bucket rows не должна блокировать запрос.
+- API responses используют `Cache-Control: no-store`; размер тела ограничен до чтения/парсинга.
+
+### HTTP headers и static assets
+- `functions/_middleware.ts` добавляет `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`; HSTS `max-age=31536000` устанавливается для HTTPS.
+- `public/_headers` задаёт security headers для статических ответов и `Cache-Control: public, max-age=31536000, immutable` для `/assets/*`.
+- Данные правила конфигурации вошли в production deployment. Сырые HTTP response headers live-домена не удалось независимо получить используемым web-reader; фактический ответ каждого заголовка помечен как НЕ ПРОВЕРЕНО до проверки обычным HTTP-клиентом.
+
+### Ограничения и последующие проверки
+- Главная страница `https://florial-bg.com` открывается через доступный web-reader. Web-reader не предоставляет raw response headers и не выполняет безопасные POST-запросы к API; негативные проверки `/api/orders` и `/api/track` поэтому не выполнялись. Не создавать тестовые заказы/события в Production.
+- Production build выдал warning о размере основного JS chunk: 789.57 kB до gzip / 201.36 kB gzip. Build успешен; code splitting — отдельная задача.
+- CSP не включён до инвентаризации реальных внешних скриптов, изображений, шрифтов и API.
+- Turnstile не включён: Cloudflare widget/sitekey/secret не настроены. При последующем внедрении хранить secret только в Cloudflare Pages secret, не в GitHub и не в клиентском bundle.
+- Для полного закрытия аудита нужно проверить raw response headers и безопасные negative POST tests с заведомо неверным Origin без создания заказов/аналитических событий; отдельно выполнить проверку H1–H4 на страницах, затронутых изменениями от 05.11.2026.
 
 ## 2026-11-07 — Удалён дублирующий ключ category SEO
 
