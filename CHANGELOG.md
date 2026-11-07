@@ -1,3 +1,12 @@
+## 2026-11-07 — Защита публичных API и HTTP-заголовки (подготовлено в PR)
+
+- Для `POST /api/orders` и `POST /api/track` добавлены строгая same-origin проверка, проверка `Content-Type: application/json`, ограничение размера тела запроса и D1-backed rate limiting.
+- Лимиты: заказы — 5 запросов на 15 минут с одного IP; аналитика — 90 запросов в минуту с одного IP. При превышении возвращается HTTP 429 с `Retry-After`; при недоступности хранилища лимитера запись блокируется (fail closed).
+- В D1 подготовлена аддитивная migration `0010_public_api_rate_limits` для ограниченного хранения дневных хешированных идентификаторов IP и очистки истёкших счётчиков. Существующие заказы и события не изменяются.
+- Добавлены общие HTTP-заголовки безопасности в Pages middleware и `public/_headers`; для `/assets/*` настроен годовой immutable cache.
+- CSP и Turnstile пока не включены: CSP требует проверки фактических внешних источников, Turnstile требует создания sitekey и установки secret в Cloudflare Pages. Не добавлять фиктивные ключи и не ослаблять checkout.
+- Код и migration подготовлены в отдельной ветке; Production и D1 не изменялись. Применение migration и Production deployment ожидают отдельного разрешения на изменение схемы D1 и успешных CI checks.
+
 ## 2026-11-07 — Удалён дублирующий ключ category SEO
 
 - В `src/lib/categorySeo.ts` удалено второе повторное объявление ключа `nipel-reduktiven-plastmasov-vanshna-rezba` из `additionalTerms`.
