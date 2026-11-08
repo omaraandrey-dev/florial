@@ -1,3 +1,15 @@
+## 2026-11-08 — ЭТАП 3: Sanity delivery zones подключены в коде; Production ожидает согласования
+
+- Базовый `main`: `a021f637f7ea2850a57673c0560f4e82fe3146fc`. Реализация подготовлена в PR #120: https://github.com/omaraandrey-dev/florial/pull/120; branch commit `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b`.
+- Изменён только `src/pages/IrrigationSupportPage.tsx`: удалён frontend-массив из 30 жёстко заданных строк; таблица загружает активные `deliveryZone` через существующий публичный `sanityClient`, сортирует по `sortOrder` и показывает локализованные BG/RU/EN названия, расстояния и EUR тарифы.
+- Добавлены локализованные состояния загрузки, ошибки и отсутствия активных зон. Существующий URL `/services/dostavka-poliv`, тексты страницы, CTA, изображения, контакты, breadcrumbs и SEO fallback сохранены.
+- Sanity Production `bxvcy0qs/production`: все 30 существующих `deliveryZone` документов проверены (уникальные slug, числовые distanceKm/feeEUR, заполненные обязательные поля), активированы и опубликованы. Дубликаты не создавались.
+- Перед публикацией у двух подтверждённых зон обновлены только флаги активности и удалены устаревшие предупреждения в RU/EN примечаниях: Поморие — 15 EUR, Кошарица — 10 EUR. Все остальные тарифы, расстояния, названия и sortOrder сохранены.
+- GitHub Actions PR #120: `Blog and Studio validation` run #477 — success (lint, website utility tests, Vite build, syntax checks, Studio build); `Florial D1 migration validation` run #483 — success. D1 не изменялась.
+- Live smoke до публикации кода: исходная production страница BG/RU/EN проверена, URL и текущие тексты/таблица присутствуют. Код PR ещё не опубликован, поэтому проверка live-подстановки Sanity после merge/deploy ожидает отдельного production deployment.
+- Header, меню, Footer, global shell, ServicesListPage, service documents, Sanity schema, D1, Manager, orders, checkout, Resend, secrets и Cloudflare settings не менялись.
+- **Статус этапа: В РАБОТЕ — код и данные готовы, PR #120 открыт; merge/Production deployment не выполнялись.** Production deployment требует отдельного согласования владельца. После публикации обязательно проверить BG/RU/EN, 30 строк, тарифы, canonical/hreflang, sitemap и изменение тарифа из Sanity без изменения кода.
+
 ## 2026-11-08 — ЭТАП 2 ЗАВЕРШЁН: публичные страницы услуг
 
 - PR #116 merged: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; PR #117 merged: `2f94935645025441be931dceeb047701d9e0ea28`; PR #118 merged: `f23e80dc78910657547a996ff87c85b5075d6ac8`.
