@@ -1,3 +1,8 @@
+## 2026-11-08 — Выпущена инструкция Florial MD2 rev16
+
+- В Library загружена `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev16.md`; предыдущая rev15 сохранена.
+- Rev16 фиксирует merge PR #124, Production deployment и результаты live smoke BG/RU/EN, а также не применённую Production D1 migration `0011_service_leads`.
+
 ## 2026-11-08 — PR #124 объединён и опубликован (этап 4 ещё не готов к приёму заявок)
 
 - PR #124 merged: `53ee65d6970dd3d3849853e6241cff652d1220a2`.
