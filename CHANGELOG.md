@@ -1,3 +1,11 @@
+## 2026-11-08 — Production D1 migration 0011_service_leads применена
+
+- По явному разрешению владельца к Production D1 `5fbb0e47-8439-493c-821a-6945eef7d8b2` применена миграция `0011_service_leads` из `main` commit `c47c9d0033007c5fbe02a023efdd7851d34a03a0`.
+- Marker: `0011_service_leads`, время `2026-11-08 10:16:39`.
+- Созданы две таблицы, 6 индексов и 2 append-only triggers. Read-only проверка структуры и объектов успешна; обе таблицы пусты.
+- Реальные заявки и тестовые данные не создавались; Production API и Resend не тестировались. Retention cleanup не реализован. Приём заявок end-to-end пока не подтверждён.
+- Выпущена инструкция MD2 rev17 в Library; rev16 сохранена.
+
 ## 2026-11-08 — Выпущена инструкция Florial MD2 rev16
 
 - В Library загружена `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev16.md`; предыдущая rev15 сохранена.
