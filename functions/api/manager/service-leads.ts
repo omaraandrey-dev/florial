@@ -147,8 +147,9 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const assigneeId = body.assignedTo === null || body.assignedTo === '' ? null : typeof body.assignedTo === 'string' ? body.assignedTo : undefined
     if (assigneeId === undefined || assigneeId !== null && !uuid(assigneeId)) return json({ error: 'Невалиден отговорник.' }, 400)
     if (assigneeId === lead.assigned_to) return json({ error: 'Отговорникът не е променен.' }, 400)
+    let assignee: { user_id: string; display_name: string } | null = null
     if (assigneeId) {
-      const assignee = actor.role === 'owner'
+      assignee = actor.role === 'owner'
         ? await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1').bind(assigneeId).first<{ user_id: string; display_name: string }>()
         : await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND (user_id=? OR created_by=?)').bind(assigneeId, actor.user_id, actor.user_id).first<{ user_id: string; display_name: string }>()
       if (!assignee) return json({ error: 'Можете да назначите само активен служител от разрешения ви екип.' }, 403)
