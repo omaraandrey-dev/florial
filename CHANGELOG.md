@@ -1,3 +1,15 @@
+## 2026-11-08 — ЭТАП 4 В РАБОТЕ: серверные заявки и уведомления
+
+- Рабочая ветка: `feat/service-leads-stage-4`, создана от проверенного `main` `50d91be629bd1d31dd861896732cdd43fb5ea91b`. Реализация не объединена и не опубликована.
+- Подготовлена аддитивная D1 migration `0011_service_leads`: отдельные `service_leads` и append-only `service_lead_events`, индексы по дате/статусу/услуге/retention, idempotency key, snapshot текста согласия и срок хранения 365 дней. Migration НЕ применялась к Production D1.
+- Добавлен `POST /api/service-leads`: same-origin, JSON/body limit, rate limit через существующую `api_rate_limits`, проверка активной услуги в Sanity, динамических полей формы, email/телефона, согласия и idempotency. Заказы и `catalog_submissions` не используются.
+- В `ServicePage.tsx` подключена отправка формы; API сохраняет заявку до email-отправки и обрабатывает уведомления best-effort. Письма используют существующий `sendOrderEmail` из `functions/api/_lib/order-documents.ts`, `RESEND_API_KEY`, `EMAIL_FROM` и `ORDER_NOTIFICATION_EMAIL`. Переменные присутствуют в конфигурации Pages; фактическая отправка тестового письма владельцу не выполнялась.
+- В схему Sanity `leadForm` добавлено необязательное поле `privacyPolicyUrl` для BG/RU/EN. Схема пока не развёрнута; Sanity documents не менялись.
+- **Блокер включения формы:** у 9 опубликованных услуг нет заполненного consentText и privacyPolicyUrl для локалей. Форма остаётся выключенной до утверждения и заполнения владельцем реального текста согласия и ссылки на политику конфиденциальности. Юридический текст не придумывался.
+- **Фотографии пока не реализованы:** в организации Sanity Florial нет Media Libraries; datasets `production` и `plants` публичные. По официальной документации Sanity, dataset assets всегда доступны публично по CDN URL даже при private dataset. R2 исключён решением владельца; фото не загружаются и не делаются публичными. Для безопасного продолжения требуется создать private Sanity Media Library и настроить signing keys; затем подключить private upload/signed URL flow.
+- Срок `retention_until` задаётся как 365 дней. Автоматическое удаление/обезличивание не включено.
+- Не менялись Production D1, Sanity documents, Cloudflare secrets/settings, Manager, orders, checkout, Header, меню, Footer. Production deployment не запускался. Этап 4 НЕ ЗАВЕРШЁН.
+
 ## 2026-11-08 — Этап 3: перенос тарифов доставки на Sanity (подготовка к публикации)
 
 - PR #120 создан: `feat: load delivery zones from Sanity` — https://github.com/omaraandrey-dev/florial/pull/120.
