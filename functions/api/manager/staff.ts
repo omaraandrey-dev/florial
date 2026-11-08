@@ -7,6 +7,7 @@ const validEmail=(value:string)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 const isObject=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value)
 const allPermissions=(value:unknown):StaffPermissions|null=>{
  if(!isObject(value)||STAFF_PERMISSION_KEYS.some(key=>typeof value[key]!=='boolean'))return null
+ if(value.canManageServiceLeads===true&&value.canViewServiceLeads!==true)return null
  return Object.fromEntries(STAFF_PERMISSION_KEYS.map(key=>[key,value[key]])) as StaffPermissions
 }
 const canManage=(role:StaffRole,permissions:StaffPermissions)=>role==='owner'||role==='manager'&&permissions.canManageStaff
@@ -50,7 +51,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
     if(requested[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
    }
   }
-  if(role==='seller'&&(requested.canEditPlantCard||requested.canReviewPlantSubmissions||requested.canApprovePlantSubmission||requested.canPublishPlant||requested.canManageStaff||requested.canDelegatePermissions||requested.canViewAnalytics||requested.canViewOrders||requested.canEditOrders||requested.canDeleteTestOrders)){
+  if(role==='seller'&&(requested.canEditPlantCard||requested.canReviewPlantSubmissions||requested.canApprovePlantSubmission||requested.canPublishPlant||requested.canManageStaff||requested.canDelegatePermissions||requested.canViewAnalytics||requested.canViewOrders||requested.canEditOrders||requested.canDeleteTestOrders||requested.canViewServiceLeads||requested.canManageServiceLeads)){
    return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
   }
   const exists=await env.DB.prepare('SELECT user_id FROM catalog_staff_profiles WHERE email=? COLLATE NOCASE').bind(email).first()
@@ -97,7 +98,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
    if(!parsed)return json({error:'Невалидни права на служителя.'},400)
    if(!owner&&parsed.canEditPlantStock!==before.canEditPlantStock)return json({error:'Правото за промяна на количествата може да бъде променено само от собственика.'},403)
    if(!owner)for(const key of STAFF_PERMISSION_KEYS as StaffPermissionKey[])if(parsed[key]&&!actorPermissions[key])return json({error:'Не можете да делегирате право, което не притежавате: '+key},403)
-   if(nextRole==='seller'&&(parsed.canEditPlantCard||parsed.canReviewPlantSubmissions||parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics||parsed.canViewOrders||parsed.canEditOrders||parsed.canDeleteTestOrders))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
+   if(nextRole==='seller'&&(parsed.canEditPlantCard||parsed.canReviewPlantSubmissions||parsed.canApprovePlantSubmission||parsed.canPublishPlant||parsed.canManageStaff||parsed.canDelegatePermissions||parsed.canViewAnalytics||parsed.canViewOrders||parsed.canEditOrders||parsed.canDeleteTestOrders||parsed.canViewServiceLeads||parsed.canManageServiceLeads))return json({error:'Тези права могат да бъдат назначени само на мениджър.'},400)
    after=parsed;permissionsChanged=true
   }else if(nextRole==='seller'){
    after={...before,canEditPlantCard:false,canReviewPlantSubmissions:false,canApprovePlantSubmission:false,canPublishPlant:false,canManageStaff:false,canDelegatePermissions:false,canViewAnalytics:false,canViewOrders:false,canEditOrders:false,canDeleteTestOrders:false}
