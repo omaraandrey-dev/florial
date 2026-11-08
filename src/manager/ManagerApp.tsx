@@ -9,12 +9,13 @@ import PlantStockChangeForm from './PlantStockChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
 import OrdersManager from './OrdersManager'
 import ProductSeoManager from './ProductSeoManager'
+import ServiceLeadsManager from './ServiceLeadsManager'
 
 type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
   canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
   canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
-  canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean; canManageCategorySeo: boolean;
+  canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean; canManageCategorySeo: boolean; canViewServiceLeads: boolean; canManageServiceLeads: boolean;
 }
 type StaffPermissionKey = keyof StaffPermissions
 const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
@@ -33,12 +34,14 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canEditOrders', label: 'Обработка и редактиране на поръчки' },
   { key: 'canDeleteTestOrders', label: 'Изтриване на тестови поръчки' },
   { key: 'canManageCategorySeo', label: 'Генериране и управление на SEO категориите' },
+  { key: 'canViewServiceLeads', label: 'Преглед на заявките за услуги' },
+  { key: 'canManageServiceLeads', label: 'Обработка на заявките за услуги' },
 ]
 const emptyPermissions: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
   canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
-  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false,
+  canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false,
 }
 type StaffProfile = { user_id: string; role: 'seller' | 'manager' | 'owner'; display_name: string; is_active: boolean; permissions: StaffPermissions }
 type Submission = {
@@ -118,7 +121,7 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo'>('submissions')
+  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads'>('submissions')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
@@ -676,6 +679,7 @@ export default function ManagerApp() {
       </header>
       <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
         <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Растения</button>
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button onClick={() => setActiveTab('serviceLeads')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки за услуги</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
@@ -854,6 +858,9 @@ export default function ManagerApp() {
           </article>
           <p className="text-xs leading-5 text-stone-500">Генерираните стойности се записват като предложения за проверка в Sanity. Те не стават активни SEO стойности автоматично.</p>
         </div>
+      </section>
+      <section className={activeTab === 'serviceLeads' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <ServiceLeadsManager canManage={profile.role === 'owner' || profile.permissions.canManageServiceLeads} />}
       </section>
       <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
