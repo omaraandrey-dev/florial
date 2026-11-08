@@ -510,9 +510,9 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Нет загрузки клиентских фотографий; фото по-прежнему передаются клиентом вне сайта через мессенджер.
 - Глобальный публичный Header, меню, Footer, checkout и оболочка не затрагивались.
 
-### D1 migration 0012 (подготовлена, Production не применена)
+### D1 migration 0012 (Production применена 08.11.2026 11:37:54 UTC)
 - Добавляет nullable `service_leads.assigned_to` с FK на `catalog_staff_profiles(user_id)` и индекс по назначению/статусу/дате.
 - Добавляет permission keys в JSON для существующих профилей со значением false; прежние разрешения сохраняются.
 - Обновляет insert/update permission triggers: требует boolean JSON для текущих 17 прав и блокирует manage без view.
 - Не удаляет и не перезаписывает service leads, события, заказы или Sanity data.
-- PR #127 открыт; CI запущен. Production migration/deployment и ручной Manager role matrix ещё не выполнены.
+- PR #127 объединён в commit `4213e5c2c79fe300be36cb71b94470431ed49705`; CI завершился success; Production deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` завершился success. Ручная Manager role matrix и UI acceptance владельцем ещё не выполнены.
