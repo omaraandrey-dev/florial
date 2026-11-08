@@ -624,7 +624,7 @@
 - Подготовлена additive migration `functions/migrations/0012_service_leads_manager.sql`: колонка `assigned_to`, индекс, нормализация только отсутствующих permission keys со значением false и обновление JSON boolean triggers. Существующие заявки и события не удаляются/не перезаписываются.
 - Migration 0012 пока не применялась к Production D1. Sanity, заказы, checkout, Header, меню, Footer и публичная оболочка не менялись. Retention cleanup не добавлялся.
 - Добавлен тест `tests/service-leads-manager.test.mjs`. CI PR #127 завершился `success` для website lint/tests/build, Pages Functions syntax, D1 migration validation и Sanity Studio build.
-- Статус: **ЭТАП 5 ОПУБЛИКОВАН**. Production merge, deployment и migration 0012 подтверждены; следующий шаг — ручная приёмка владельца. Retention cleanup остаётся отдельной задачей.
+- Статус: **ЭТАП 5 ЗАВЕРШЁН**. Production merge, deployment и migration 0012 подтверждены; владелец вручную проверил отображение заявок и доступные функции Manager. Retention cleanup остаётся отдельной задачей.
 
 
 ## 2026-11-08 — Этап 6 начат: сквозная проверка, тариф доставки и матрица Seller
@@ -637,5 +637,5 @@
 - В `src/pages/CartPage.tsx` и `functions/api/orders.ts` уже было 10 EUR для Каблешково; проверка подтверждает совпадение с Sanity после публикации. Поморие остаётся 15 EUR.
 - В рабочей ветке `fix/stage-6-seller-permissions-delivery-fee` исправлена `functions/api/manager/staff.ts`: при переводе в Seller теперь очищаются также `canManageCategorySeo`, `canViewServiceLeads` и `canManageServiceLeads`; эти права запрещены при создании Seller и при явной передаче permission set. Добавлены регрессионные тесты на очистку manager-only прав и тариф 10 EUR в UI/server.
 - В Production D1 не выполнялись записи/миграции; права реальных сотрудников не менялись. Проверка реального Owner/Manager/Seller через аутентифицированные сессии ещё не выполнена. Retention cleanup не включался.
-- Изменения кода и документации подготовлены в PR после CI; до отдельного разрешения владельца Production deployment не выполняется. Header, меню, Footer, checkout и глобальная оболочка не менялись.
+- PR #129 открыт; CI на HEAD `061aa1d96eb7ed5697320a4b0b8bfcbc8205b69c` завершился success: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation и Sanity Studio build. После добавления rev19 инструкции в PR документационный HEAD обновился; повторный CI для нового HEAD ожидается. Merge и Production deployment не выполняются без отдельного разрешения владельца. Header, меню, Footer, checkout и глобальная оболочка не менялись.
 - Статус: **ЭТАП 6 В РАБОТЕ — частичные smoke и read-only проверки пройдены; полная ролевая приёмка, end-to-end тест без создания реальных заявок и решение по retention policy остаются открытыми.**
