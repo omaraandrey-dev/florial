@@ -36,7 +36,7 @@ CREATE INDEX IF NOT EXISTS idx_service_leads_retention ON service_leads(retentio
 
 CREATE TABLE IF NOT EXISTS service_lead_events (
   id TEXT PRIMARY KEY,
-  service_lead_id TEXT NOT NULL REFERENCES service_leads(id) ON DELETE CASCADE,
+  service_lead_id TEXT NOT NULL,
   actor_id TEXT,
   actor_name TEXT,
   actor_role TEXT NOT NULL DEFAULT 'system',
@@ -56,3 +56,16 @@ CREATE INDEX IF NOT EXISTS idx_service_lead_events_created
 
 INSERT INTO schema_migrations(version, applied_at)
 VALUES('0011_service_leads', datetime('now'));
+
+-- Keep the event trail append-only. Lead PII can be anonymized independently after the retention period.
+CREATE TRIGGER IF NOT EXISTS trg_service_lead_events_no_update
+BEFORE UPDATE ON service_lead_events
+BEGIN
+  SELECT RAISE(ABORT, 'Service lead events are immutable');
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_service_lead_events_no_delete
+BEFORE DELETE ON service_lead_events
+BEGIN
+  SELECT RAISE(ABORT, 'Service lead events are immutable');
+END;
