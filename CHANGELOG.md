@@ -1,3 +1,13 @@
+## 2026-11-08 — PR #124 объединён и опубликован (этап 4 ещё не готов к приёму заявок)
+
+- PR #124 merged: `53ee65d6970dd3d3849853e6241cff652d1220a2`.
+- Cloudflare Pages Production deployment `ccae6acc-3e39-47f3-8192-c4110240c080` — все стадии success; build command `npm run build`.
+- В форму добавлено локализованное уведомление, что заявку получает и обрабатывает менеджер Florial; проверено на живой странице BG/RU/EN (HTTP 200, robots index/follow).
+- CI на последнем PR HEAD: D1 validation, website + Studio validation, Sanity Studio validation — success.
+- Migration `0011_service_leads` не применялась к Production D1; API не готов к реальным отправкам до её применения. Sanity schema/documents не менялись, тестовое письмо Resend не отправлялось.
+- Автоматическое retention cleanup не реализовано; фото через сайт отложены, R2/Media Library не создавались.
+- Этап 4 остаётся незавершённым до D1 migration, проверки email и retention procedure.
+
 ## 2026-11-08 — ЭТАП 4 В РАБОТЕ: заявки без checkbox согласия и без загрузки фотографий
 
 - Рабочая ветка: `feat/service-leads-stage-4`, PR #124. Реализация не объединена и не опубликована.
