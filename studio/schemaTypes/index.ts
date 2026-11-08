@@ -174,6 +174,32 @@ const translationText = (language: string, title: string) => defineField({
       defineField({name: 'text', title: 'Текст', type: 'text', rows: 3}),
       defineField({name: 'buttonLabel', title: 'Текст на бутона', type: 'string'}),
     ]}),
+    defineField({name: 'advantages', title: 'Предимства', type: 'array', of: [{type: 'object', fields: [
+      defineField({name: 'title', title: 'Заглавие', type: 'string'}),
+      defineField({name: 'text', title: 'Текст', type: 'text', rows: 3}),
+    ]}]}),
+    defineField({name: 'steps', title: 'Етапи на услугата', type: 'array', of: [{type: 'object', fields: [
+      defineField({name: 'title', title: 'Заглавие', type: 'string'}),
+      defineField({name: 'text', title: 'Текст', type: 'text', rows: 3}),
+    ]}]}),
+    defineField({name: 'leadForm', title: 'Форма за запитване', type: 'object', fields: [
+      defineField({name: 'title', title: 'Заглавие', type: 'string'}),
+      defineField({name: 'submitLabel', title: 'Текст на бутона', type: 'string'}),
+      defineField({name: 'successMessage', title: 'Съобщение след изпращане', type: 'text', rows: 3}),
+      defineField({name: 'consentText', title: 'Текст за съгласие за лични данни', type: 'text', rows: 3}),
+      defineField({name: 'fields', title: 'Полета на формата', type: 'array', of: [{type: 'object', fields: [
+        defineField({name: 'name', title: 'Техническо име', type: 'string'}),
+        defineField({name: 'label', title: 'Етикет', type: 'string'}),
+        defineField({name: 'type', title: 'Тип на полето', type: 'string', options: {list: [
+          {title: 'Текст', value: 'text'},
+          {title: 'Телефон', value: 'tel'},
+          {title: 'Имейл', value: 'email'},
+          {title: 'Дълъг текст', value: 'textarea'},
+        ]}, initialValue: 'text'}),
+        defineField({name: 'placeholder', title: 'Подсказка', type: 'string'}),
+        defineField({name: 'required', title: 'Задължително', type: 'boolean'}),
+      ]}]}),
+    ]}),
     defineField({name: 'seo', title: 'SEO за езика', type: 'object', fields: [
       defineField({name: 'metaTitle', title: 'Meta title', type: 'string'}),
       defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3}),
@@ -375,6 +401,19 @@ const service = defineType({
   name: 'service', title: 'Услуги', type: 'document',
   fields: [
     defineField({name: 'name', title: 'Име на услугата', type: 'string'}),
+    defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number', description: 'По-малката стойност се показва по-напред.'}),
+    defineField({name: 'serviceCategory', title: 'Категория на услугата', type: 'string', options: {list: [
+      {title: 'Ландшафтен дизайн', value: 'landscaping'},
+      {title: 'Засаждане', value: 'planting'},
+      {title: 'Поливни системи', value: 'irrigation'},
+      {title: 'Тревни площи', value: 'lawn'},
+      {title: 'Поддръжка', value: 'maintenance'},
+      {title: 'Доставка', value: 'delivery'},
+    ]}}),
+    defineField({name: 'serviceLayout', title: 'Шаблон на страницата', type: 'string', options: {list: [
+      {title: 'Стандартна услуга', value: 'standard'},
+      {title: 'Доставка', value: 'delivery'},
+    ]}, initialValue: 'standard'}),
     slugField(),
     defineField({name: 'sourcePageUrl', title: 'Източник / стара страница DROP', type: 'url'}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
@@ -399,9 +438,18 @@ const service = defineType({
     defineField({name: 'leadForm', title: 'Форма за запитване', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
       defineField({name: 'submitLabel', title: 'Текст на бутона', type: 'string'}),
+      defineField({name: 'successMessage', title: 'Съобщение след изпращане', type: 'text', rows: 3}),
+      defineField({name: 'consentText', title: 'Текст за съгласие за лични данни', type: 'text', rows: 3}),
       defineField({name: 'fields', title: 'Полета на формата', type: 'array', of: [{type: 'object', fields: [
         defineField({name: 'name', title: 'Техническо име', type: 'string'}),
         defineField({name: 'label', title: 'Етикет', type: 'string'}),
+        defineField({name: 'type', title: 'Тип на полето', type: 'string', options: {list: [
+          {title: 'Текст', value: 'text'},
+          {title: 'Телефон', value: 'tel'},
+          {title: 'Имейл', value: 'email'},
+          {title: 'Дълъг текст', value: 'textarea'},
+        ]}, initialValue: 'text'}),
+        defineField({name: 'placeholder', title: 'Подсказка', type: 'string'}),
         defineField({name: 'required', title: 'Задължително', type: 'boolean'}),
       ]}]}),
     ]}),
@@ -418,6 +466,30 @@ const service = defineType({
     defineField({name: 'seo', title: 'SEO', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', media: 'image'}},
+})
+
+const deliveryZone = defineType({
+  name: 'deliveryZone', title: 'Зони и тарифи за доставка', type: 'document',
+  fields: [
+    defineField({name: 'name', title: 'Населено място (BG)', type: 'string', validation: Rule => Rule.required()}),
+    defineField({name: 'slug', title: 'Уникален код на населеното място', type: 'string', validation: Rule => Rule.required()}),
+    defineField({name: 'translations', title: 'Преводи на населеното място', type: 'object', fields: [
+      defineField({name: 'en', title: 'English', type: 'object', fields: [
+        defineField({name: 'name', title: 'Locality name', type: 'string'}),
+        defineField({name: 'note', title: 'Delivery note', type: 'text', rows: 2}),
+      ]}),
+      defineField({name: 'ru', title: 'Русский', type: 'object', fields: [
+        defineField({name: 'name', title: 'Название населённого пункта', type: 'string'}),
+        defineField({name: 'note', title: 'Примечание о доставке', type: 'text', rows: 2}),
+      ]}),
+    ]}),
+    defineField({name: 'distanceKm', title: 'Разстояние от Слънчев бряг (км)', type: 'number', validation: Rule => Rule.min(0)}),
+    defineField({name: 'feeEUR', title: 'Цена за доставка (EUR)', type: 'number', validation: Rule => Rule.min(0)}),
+    defineField({name: 'note', title: 'Бележка за доставката (BG)', type: 'text', rows: 2}),
+    defineField({name: 'isActive', title: 'Активна зона', type: 'boolean', initialValue: true}),
+    defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
+  ],
+  preview: {select: {title: 'name', subtitle: 'feeEUR'}},
 })
 
 const page = defineType({
@@ -900,6 +972,6 @@ const blogPost = defineType({
 })
 export const irrigationSchemaTypes = [
   seoFields, productSeoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
-  irrigationProduct, service, youtubeEmbed, blogPost, page, photo, siteSettings,
+  irrigationProduct, service, deliveryZone, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
 export const plantSchemaTypes = [seoFields, productSeoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]

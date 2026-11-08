@@ -1,3 +1,13 @@
+## 2026-11-08 — Модель услуг и зон доставки (Этап 1, PR в работе)
+
+- Тип `service` дополнен необязательными `sortOrder`, `serviceCategory` и `serviceLayout`; старые поля остаются без изменений.
+- В translations.en/ru добавлены локализованные advantages, steps и leadForm (включая successMessage, consentText и поля с type/label/placeholder/required). Корневая BG leadForm дополнена successMessage, consentText, placeholder и type.
+- Добавлен новый тип документа `deliveryZone`: BG name/slug/note, RU/EN name/note, distanceKm, feeEUR, isActive, sortOrder.
+- Все изменения схемы аддитивные. Документы Sanity не мигрируются и не перезаписываются этой schema change.
+- Восемь существующих опубликованных услуг проверены; особая страница монтажа в Несебър имеет 14 contentBlocks и должна остаться нетронутой.
+- Ветвь `feature/services-sanity-model-2026-11-08`; deployment ожидает CI и merge PR. Не создавать новую Studio; использовать существующую `florial-admin` workspace / appId из `studio/sanity.cli.ts`.
+- Сверка delivery source выявила разницу: Pomorie 15 € в текущем коде против ранее названных владельцем 20 €; Kosharitsa 10 € против 15 €. Не изменять значения автоматически. Текущие 30 строк и расстояния сохранить как источник для последующего импорта/согласования.
+
 ## 2026-11-05 — Единая схема SEO карточек товаров (PR #104 merged; обе Sanity workspace опубликованы)
 
 - Добавлен отдельный object type `productSeoFields`, предназначенный только для карточек товаров: `h1`, `metaTitle` (validation warning при длине более 70 символов), `metaDescription`, `noIndex`, `keywords`.
