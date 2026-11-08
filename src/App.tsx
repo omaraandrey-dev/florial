@@ -1092,7 +1092,7 @@ export default function App() {
             {language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'}
           </button>
         </main>
-       ) : normalizedRoutePath === '/services/dostavka-poliv' ? (
+       ) : (normalizedRoutePath === '/services/dostavka-poliv' || currentService?.serviceLayout === 'delivery') ? (
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} />
