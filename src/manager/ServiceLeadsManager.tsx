@@ -27,7 +27,7 @@ const eventLabel = (event: LeadEvent) => {
   if (event.event_type === 'status_changed') return 'Промяна на статуса'
   if (event.event_type === 'assignment_changed') return 'Промяна на отговорника'
   if (event.event_type === 'email_delivery_result') return 'Резултат от изпращане на email'
-  if (event.event_type === 'created') return 'Получена заявка'
+  if (event.event_type === 'created' || event.event_type === 'lead_created') return 'Получена заявка'
   return event.event_type
 }
 const dateLabel = (value: string) => new Date(value).toLocaleString('bg-BG', { dateStyle: 'medium', timeStyle: 'short' })
