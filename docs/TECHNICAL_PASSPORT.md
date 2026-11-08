@@ -1,3 +1,16 @@
+## 2026-11-08 — Этап 1: расширение модели услуг и зон доставки Sanity (PR в работе)
+
+- Текущий GitHub main перед этапом: `3a58b1412c949a6c4f9bd8bda33214b78045ced9`; рабочая ветка: `feature/services-sanity-model-2026-11-08`.
+- Источник схемы — существующий `studio/schemaTypes/index.ts`; workspace `florial-admin` в dataset `production`. Используется существующая Studio `florial-admin-bg.sanity.studio`, appId `fdy0ldwl717qtp5pikl7715l`; новую Studio не создавать.
+- В тип `service` добавлены необязательные поля `sortOrder`, `serviceCategory` (landscaping/planting/irrigation/lawn/maintenance/delivery) и `serviceLayout` (standard/delivery; initialValue только для новых документов).
+- В существующие RU/EN translations добавляются локализованные `advantages`, `steps` и `leadForm` (title, submitLabel, successMessage, consentText, fields с name/type/label/placeholder/required). Корневая BG leadForm получает successMessage, consentText, placeholder и type поля. Существующие поля не переименовываются и не удаляются.
+- Добавлен новый документный тип `deliveryZone`: BG name, string slug, RU/EN names and notes, distanceKm, feeEUR, BG note, isActive, sortOrder. Денежное поле явно хранит EUR; расстояние в километрах от Слънчев бряг.
+- Live Sanity schema до этого изменения не содержала `sortOrder`, `serviceCategory`, `serviceLayout` в service и не содержала `deliveryZone`. Восемь опубликованных service documents найдены в published perspective; все активны. Поля/значения существующих документов не мигрировались.
+- Специальная услуга монтажа в Несебър сохранена: документ `7ead4133-8f63-4381-bafe-493499fff5b8` содержит 14 существующих `contentBlocks`; никакие документы не редактировались.
+- Сверка действующей страницы `src/pages/IrrigationSupportPage.tsx`: 25 зон/населённых пунктов с расстояниями и тарифами. Совпадают с ранее сообщёнными владельцем значениями Sunny Beach 0 €, Nessebar 10 €, Ravda 10 €, Sveti Vlas 10 €, Kableshkovo 15 €. Расхождения: текущий код Pomorie 15 € (владелец ранее указал 20 €); текущий код Kosharitsa 10 € (владелец ранее указал 15 €). Не исправлять автоматически. Дополнительные населённые пункты из текущего кода также должны быть сохранены при переносе. Расстояния берутся из текущей страницы и требуют подтверждения владельцем до публикации тарифов.
+- В workflow `.github/workflows/sanity-studio.yml` PR validation только собирает два workspace; `.github/workflows/deploy-sanity-studio.yml` выполняет production schema deployment при push в main или ручном запуске. После merge требуется проверить оба workflow/deployment и фактический `get_schema`.
+- На момент этой записи изменения ещё не объединены в main и deployed schema не обновлена. Sanity documents, D1, Cloudflare settings/secrets, Resend, frontend/runtime, Header/menu/Footer и Production content не менялись.
+
 # Правило поиска и версионирования основной инструкции Florial (обязательно для каждого нового чата)
 
 **Дата фиксации правила: 07.11.2026. История договорённости: 21.10.2026; подтверждение сохранения отдельных редакций: 03.11.2026.**
