@@ -49,6 +49,61 @@ const localizedText = (locale: 'bg' | 'ru' | 'en', key: 'owner' | 'customerTitle
       : 'Благодарим Ви за запитването! Получихме заявка № ' + leadNumber + ' за услугата „' + serviceName + '“. Екипът на Florial ще се свърже с Вас за уточняване на детайлите.'
 }
 
+
+const buildCustomerConfirmationHtml = (
+  locale: 'bg' | 'ru' | 'en',
+  title: string,
+  body: string,
+): string => {
+  const companyName = locale === 'ru'
+    ? 'Садовый центр Florial'
+    : locale === 'en'
+      ? 'Florial Garden Centre'
+      : 'Градински център Флориал'
+  const contactHeading = locale === 'ru'
+    ? 'Свяжитесь с нами'
+    : locale === 'en'
+      ? 'Contact our team'
+      : 'Свържете се с нас'
+  const bulgarianLabel = locale === 'ru' ? 'Болгарский' : locale === 'en' ? 'Bulgarian' : 'Български'
+  const otherLanguagesLabel = locale === 'ru'
+    ? 'Русский · Українська · English'
+    : locale === 'en'
+      ? 'Russian · Ukrainian · English'
+      : 'Руски · Украински · Английски'
+  const whatsappLabel = locale === 'ru' ? 'WhatsApp' : locale === 'en' ? 'WhatsApp' : 'WhatsApp'
+  const websiteLabel = locale === 'ru' ? 'Официальный сайт' : locale === 'en' ? 'Official website' : 'Официален сайт'
+  const safeTitle = escapeHtml(title)
+  const safeBody = escapeHtml(body)
+  const safeCompanyName = escapeHtml(companyName)
+
+  return '<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f3f7f4;font-family:Arial,Helvetica,sans-serif;color:#26352d;">' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:620px;margin:0 auto;background:#ffffff;border:1px solid #e2ebe4;border-radius:16px;overflow:hidden;">' +
+    '<tr><td align="center" style="padding:28px 24px 20px;background:#ffffff;border-bottom:1px solid #e8efe9;">' +
+    '<img src="https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png" width="190" alt="Florial — ' + safeCompanyName + '" style="display:block;width:190px;max-width:75%;height:auto;border:0;outline:none;text-decoration:none;">' +
+    '<div style="padding-top:12px;font-size:13px;letter-spacing:.3px;color:#557263;">' + safeCompanyName + '</div>' +
+    '</td></tr>' +
+    '<tr><td style="padding:30px 30px 18px;">' +
+    '<h1 style="margin:0 0 18px;font-size:23px;line-height:1.3;font-weight:700;color:#176b49;">' + safeTitle + '</h1>' +
+    '<p style="margin:0;font-size:16px;line-height:1.75;color:#34463b;">' + safeBody + '</p>' +
+    '</td></tr>' +
+    '<tr><td style="padding:8px 30px 28px;">' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f2f7f3;border:1px solid #e0ebe2;border-radius:12px;">' +
+    '<tr><td style="padding:18px 20px 8px;font-size:16px;font-weight:700;color:#176b49;">' + contactHeading + '</td></tr>' +
+    '<tr><td style="padding:8px 20px 4px;font-size:12px;font-weight:700;letter-spacing:.35px;text-transform:uppercase;color:#718176;">' + bulgarianLabel + '</td></tr>' +
+    '<tr><td style="padding:0 20px 10px;font-size:16px;"><a href="tel:+359876777902" style="color:#176b49;font-weight:700;text-decoration:none;">+359 876 777 902</a></td></tr>' +
+    '<tr><td style="padding:4px 20px;font-size:12px;font-weight:700;letter-spacing:.2px;color:#718176;">' + otherLanguagesLabel + '</td></tr>' +
+    '<tr><td style="padding:0 20px 12px;font-size:16px;"><a href="tel:+359885834860" style="color:#176b49;font-weight:700;text-decoration:none;">+359 885 834 860</a></td></tr>' +
+    '<tr><td style="padding:0 20px 8px;font-size:12px;font-weight:700;letter-spacing:.35px;text-transform:uppercase;color:#718176;">' + whatsappLabel + '</td></tr>' +
+    '<tr><td style="padding:0 20px 18px;font-size:16px;"><a href="https://wa.me/380674807486" style="color:#176b49;font-weight:700;text-decoration:none;">+380 67 480 7486</a></td></tr>' +
+    '</table>' +
+    '</td></tr>' +
+    '<tr><td align="center" style="padding:18px 24px 24px;background:#176b49;color:#ffffff;">' +
+    '<div style="font-size:13px;font-weight:700;">' + safeCompanyName + '</div>' +
+    '<a href="https://florial-bg.com" style="display:inline-block;padding-top:7px;font-size:12px;color:#e1f2e7;text-decoration:underline;">' + websiteLabel + ' · florial-bg.com</a>' +
+    '</td></tr></table></body></html>'
+}
+
 const sendNotification = async (
   env: RuntimeEnv,
   recipient: string,
@@ -199,9 +254,11 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
       let customerRetrySentAt = existing.customer_confirmation_sent_at
       if (existing.email && customerRetryStatus !== 'sent' && retryMailConfigured) {
         const retryCustomerBody = localizedText(existing.locale, 'customerBody', existing.lead_number, existing.service_name)
-        const retryCustomerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>' +
-          escapeHtml(localizedText(existing.locale, 'customerTitle', existing.lead_number, existing.service_name)) + '</h2><p>' +
-          escapeHtml(retryCustomerBody) + '</p><p>Florial</p></div>'
+        const retryCustomerHtml = buildCustomerConfirmationHtml(
+          existing.locale,
+          localizedText(existing.locale, 'customerTitle', existing.lead_number, existing.service_name),
+          retryCustomerBody,
+        )
         const sent = await sendNotification(env, existing.email, localizedText(existing.locale, 'customerTitle', existing.lead_number, existing.service_name), retryCustomerHtml, 'service-lead/' + existing.id + '/customer')
         customerRetryStatus = sent ? 'sent' : 'failed'
         customerRetrySentAt = sent ? new Date().toISOString() : null
@@ -255,9 +312,11 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   let customerSentAt: string | null = null
   if (email) {
     const customerBody = localizedText(locale, 'customerBody', leadNumber, serviceName)
-    const customerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>' +
-      escapeHtml(localizedText(locale, 'customerTitle', leadNumber, serviceName)) + '</h2><p>' +
-      escapeHtml(customerBody) + '</p><p>Florial</p></div>'
+    const customerHtml = buildCustomerConfirmationHtml(
+      locale,
+      localizedText(locale, 'customerTitle', leadNumber, serviceName),
+      customerBody,
+    )
     const sent = await sendNotification(env, email, localizedText(locale, 'customerTitle', leadNumber, serviceName), customerHtml, 'service-lead/' + id + '/customer')
     customerStatus = sent ? 'sent' : 'failed'
     customerSentAt = sent ? new Date().toISOString() : null
