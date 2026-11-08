@@ -61,8 +61,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
         FROM service_lead_events WHERE service_lead_id=? ORDER BY created_at DESC LIMIT 200
       `).bind(id).all<Record<string, unknown>>()
       const assignees = actor.role === 'owner'
-        ? await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 ORDER BY display_name').all<Record<string, unknown>>()
-        : await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND (user_id=? OR created_by=?) ORDER BY display_name').bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
+        ? await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role IN ('owner','manager') ORDER BY display_name').all<Record<string, unknown>>()
+        : await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role='manager' AND (user_id=? OR created_by=?) ORDER BY display_name').bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
       return json({
         lead: { ...lead, fields_json: parseJson(lead.fields_json) },
         events: eventRows.results.map((event) => ({ ...event, metadata: parseJson(event.metadata) })),
@@ -106,8 +106,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     const rows = await env.DB.prepare(sql).bind(...values).all<Record<string, unknown>>()
     const services = await env.DB.prepare('SELECT service_slug,MAX(service_name) AS service_name,COUNT(*) AS lead_count FROM service_leads GROUP BY service_slug ORDER BY service_name').all<Record<string, unknown>>()
     const assignees = actor.role === 'owner'
-      ? await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 ORDER BY display_name').all<Record<string, unknown>>()
-      : await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND (user_id=? OR created_by=?) ORDER BY display_name').bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
+      ? await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role IN ('owner','manager') ORDER BY display_name').all<Record<string, unknown>>()
+      : await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role='manager' AND (user_id=? OR created_by=?) ORDER BY display_name').bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
     return json({ leads: rows.results, services: services.results, assignees: assignees.results, canManage: canManage(actor) })
   }
 
@@ -150,8 +150,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     let assignee: { user_id: string; display_name: string } | null = null
     if (assigneeId) {
       assignee = actor.role === 'owner'
-        ? await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1').bind(assigneeId).first<{ user_id: string; display_name: string }>()
-        : await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND (user_id=? OR created_by=?)').bind(assigneeId, actor.user_id, actor.user_id).first<{ user_id: string; display_name: string }>()
+        ? await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND role IN ('owner','manager')').bind(assigneeId).first<{ user_id: string; display_name: string }>()
+        : await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND role='manager' AND (user_id=? OR created_by=?)').bind(assigneeId, actor.user_id, actor.user_id).first<{ user_id: string; display_name: string }>()
       if (!assignee) return json({ error: 'Можете да назначите само активен служител от разрешения ви екип.' }, 403)
     }
     const result = await env.DB.batch([
