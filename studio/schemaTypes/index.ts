@@ -149,6 +149,7 @@ const serviceContentBlock = defineType({
       fields: [
         defineField({name: 'title', title: language === 'en' ? 'Title' : 'Заглавие', type: 'string'}),
         defineField({name: 'text', title: language === 'en' ? 'Text' : 'Текст', type: 'text', rows: 4}),
+        defineField({name: 'imageAlt', title: language === 'en' ? 'Image alt text' : 'Alt изображения', type: 'string'}),
       ],
     }))}),
     defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
