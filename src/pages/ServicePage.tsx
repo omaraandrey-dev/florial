@@ -320,6 +320,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           locale: language,
           fields,
           consent: formData.get('consent') === 'on',
+          website: String(formData.get('website') || ''),
           idempotencyKey: leadIdempotencyKey,
         }),
       })
@@ -560,6 +561,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                     : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />}
                 </label>
               ))}
+              <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
               {leadFormReady && (
                 <label className="flex items-start gap-3 text-sm leading-6 text-slate-600">
                   <input name="consent" type="checkbox" required disabled={leadSubmissionStatus !== 'idle'} className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-700" />
