@@ -24,7 +24,7 @@
 - Добавлен `tests/service-leads-manager.test.mjs`. GitHub Actions PR #127 завершились `success`: website lint/tests/build, Pages Functions syntax, D1 migration validation, Sanity Studio build.
 - Sanity и её документы не менялись; Cloudflare secrets/settings не менялись; Production deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` для commit `4213e5c2c79fe300be36cb71b94470431ed49705` завершился `success` 08.11.2026 11:38:32 UTC; aliases `florial-bg.com` и `www.florial-bg.com`. Header, меню, Footer, checkout и публичная оболочка не менялись.
 - Retention cleanup для заявок по истечении 365 дней остаётся отдельной нерешённой задачей и не включался.
-- Статус: **ЭТАП 5 РЕАЛИЗОВАН И ОПУБЛИКОВАН; требуется ручная приёмка владельца в `/manager`. Этап 6 не начат.**
+- Статус: **ЭТАП 5 ЗАВЕРШЁН И ПРИНЯТ ВЛАДЕЛЬЦЕМ ВРУЧНУЮ. Этап 6 в работе.**
 
 ---
 ## 2026-11-08 — Обновлён фирменный шаблон клиентского email по заявкам
