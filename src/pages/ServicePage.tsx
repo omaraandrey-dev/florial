@@ -13,6 +13,11 @@ const isLocalizedHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, string[]> = {
     bg: [
+      'предимства',
+      'етапи на работа',
+      'етапи на изпълнение',
+      'свържете се с florial',
+      'свържете се с нас',
       'какво включва монтажът на автоматична поливна система',
       'полагане на тръби и кабели',
       'монтаж на разпръсквачи и капково напояване',
@@ -22,6 +27,11 @@ const isLocalizedHeading = (value: string, language: string) => {
       'защо да изберете florial',
     ],
     ru: [
+      'преимущества',
+      'этапы работы',
+      'этапы выполнения',
+      'свяжитесь с florial',
+      'свяжитесь с нами',
       'что включает монтаж системы автоматического полива',
       'прокладка труб и кабелей',
       'монтаж дождевателей и капельного полива',
@@ -31,6 +41,12 @@ const isLocalizedHeading = (value: string, language: string) => {
       'почему выбирают florial',
     ],
     en: [
+      'benefits',
+      'advantages',
+      'how we work',
+      'how it works',
+      'contact florial',
+      'contact us',
       'what is included in an automatic irrigation system installation',
       'pipe and cable installation',
       'sprinkler and drip irrigation installation',
@@ -134,10 +150,10 @@ function getDescriptionHeadings(content: any): string[] {
 function descriptionHasSection(headings: string[], section: 'advantages' | 'steps' | 'contact'): boolean {
   const values = headings.map((heading) => heading.toLocaleLowerCase().replace(/[.!:：]+$/g, '').trim())
   if (section === 'advantages') {
-    return values.some((heading) => /^(предимства|преимущества|advantages|why choose us)$/.test(heading))
+    return values.some((heading) => /^(предимства|преимущества|advantages|benefits|why choose us|why choose florial)$/.test(heading))
   }
   if (section === 'steps') {
-    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|steps of the process)$/.test(heading))
+    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|how we work|our process|steps of the process)$/.test(heading))
   }
   return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
 }
