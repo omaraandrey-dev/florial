@@ -1,3 +1,17 @@
+## 2026-11-08 — Production D1 migration 0011_service_leads применена
+
+- Владелец явно разрешил применение миграции 08.11.2026.
+- Production D1: `5fbb0e47-8439-493c-821a-6945eef7d8b2`; перед применением последняя версия была `0010_public_api_rate_limits`.
+- Исходный файл: `functions/migrations/0011_service_leads.sql`, blob SHA `c9a15f971a0deeb764884c440c8fd380d35a92ff`, из `main` commit `c47c9d0033007c5fbe02a023efdd7851d34a03a0`.
+- Marker `0011_service_leads` записан в `schema_migrations` с `applied_at=2026-11-08 10:16:39`.
+- Созданы `service_leads` (24 колонки), `service_lead_events` (11 колонок), 6 индексов и 2 triggers: `trg_service_lead_events_no_update`, `trg_service_lead_events_no_delete`.
+- Read-only verification после применения подтвердила marker, обе таблицы, все индексы/triggers и нулевое количество строк в обеих таблицах. Batch применён успешно, ошибок нет.
+- Изменены только новые объекты service-leads и marker migration; существующие orders/catalog/Manager данные не менялись.
+- Не выполнялись Production API submission и тестовое письмо Resend; секреты не читались. Автоматическое retention cleanup отсутствует. API/email end-to-end не объявлять готовыми до отдельных проверок.
+- Новая инструкция: `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev17.md`; rev16 сохранена.
+
+---
+
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev16
 
 - В Library проекта Florial загружена новая редакция `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev16.md`.
