@@ -40,29 +40,44 @@ const sectionForHeading = (value: string, language: string) => {
 
 function renderImageGallery(images: ServiceContentBlock[], group: string, language: string) {
   if (!images.length) return null
+  const singleImage = images.length === 1
   return (
-    <section key={`gallery-${group}`} aria-label={group === 'intro' ? 'Снимки от монтажа на поливна система' : undefined}
-      className={group === 'intro'
-        ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4'
-        : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}>
+    <section
+      aria-label={language === 'ru' ? 'Фотографии этапов посадки оливковых деревьев' : language === 'en' ? 'Olive tree planting photos' : 'Снимки от засаждането на маслини'}
+      className={singleImage ? 'my-8 flex justify-center' : group === 'intro' ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
+    >
       {images.map((image, index) => {
         const alt = language === 'ru'
-          ? (image.imageAltRu || image.imageAlt || '')
+          ? image.imageAltRu || image.imageAlt || ''
           : language === 'en'
-            ? (image.imageAltEn || image.imageAlt || '')
-            : (image.imageAlt || '')
+            ? image.imageAltEn || image.imageAlt || ''
+            : image.imageAlt || ''
         return (
-          <figure key={image._key || `${group}-${index}`} className="min-w-0 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-            {image.imageUrl && <img src={image.imageUrl} alt={alt} loading="lazy"
-              className={group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />}
-            {alt && <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>}
+          <figure
+            key={image._key || `${group}-${index}`}
+            className={singleImage
+              ? 'w-full max-w-2xl overflow-hidden rounded-xl border border-slate-100 bg-slate-50'
+              : 'min-w-0 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm'}
+          >
+            {image.imageUrl && (
+              <img
+                src={image.imageUrl}
+                alt={alt}
+                loading="lazy"
+                className={singleImage
+                  ? 'mx-auto max-h-[520px] w-full object-contain'
+                  : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'}
+              />
+            )}
+            {!singleImage && alt && (
+              <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>
+            )}
           </figure>
         )
       })}
     </section>
   )
 }
-
 
 function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
   if (!images.length) return null
