@@ -485,3 +485,34 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - GitHub Actions passed: website lint/build, Pages Functions syntax, migration validation and Sanity Studio build.
 - D1 migration `0008_manager_orders` applied and verified in Production. Four exact approved test orders are marked `is_test=1`; all other existing orders remain `is_test=0`. Active manager has the three approved order permissions.
 - Cloudflare Pages Production deployment `c7b20168-cf3b-4bea-ab12-ca3bd6ad2392` completed successfully at 2026-11-03 18:44:29 UTC.
+
+
+## 2026-11-08 — Service Leads workspace (Этап 5, PR #127)
+
+### Разрешения
+- Добавлены `canViewServiceLeads` и `canManageServiceLeads` в общий permission model.
+- `owner` автоматически имеет доступ. `manager` получает только явно назначенные права. `seller` не может получить эти manager-only права.
+- `canManageServiceLeads=true` требует `canViewServiceLeads=true`; проверка есть в API управления сотрудниками и в D1 permission triggers.
+- Новые права не выдаются автоматически текущему менеджеру; владелец назначает их через «Служители» в Manager.
+
+### API и данные
+- Endpoint: `/api/manager/service-leads` (Cloudflare Pages Function `functions/api/manager/service-leads.ts`).
+- GET list: поиск по номеру/имени/телефону/email/услуге/локации; фильтры по статусу, услуге, населённому пункту, дате и ответственному.
+- GET detail: данные клиента, описание, дополнительные поля, журнал событий и список доступных для назначения активных сотрудников.
+- POST actions: `status`, `assign`, `comment`. Статусы валидируются по разрешённой матрице переходов; внутренние комментарии не отправляются клиенту.
+- Назначение: Owner может выбрать любого активного сотрудника; Manager — себя или прямого подчинённого. Назначение не выдаёт автоматически право просмотра заявок.
+- Статусы/назначения/комментарии добавляют события в существующий append-only `service_lead_events`; события нельзя UPDATE/DELETE.
+- Нет удаления заявок, файловых загрузок или изменения customer email/телефона/комментария.
+
+### UI
+- `ServiceLeadsManager.tsx` подключён отдельной вкладкой в существующий `ManagerApp.tsx`.
+- Интерфейс BG: список, поиск, фильтры, карточка клиента, tel/mailto, назначение, статус, внутренние заметки и timeline.
+- Нет загрузки клиентских фотографий; фото по-прежнему передаются клиентом вне сайта через мессенджер.
+- Глобальный публичный Header, меню, Footer, checkout и оболочка не затрагивались.
+
+### D1 migration 0012 (подготовлена, Production не применена)
+- Добавляет nullable `service_leads.assigned_to` с FK на `catalog_staff_profiles(user_id)` и индекс по назначению/статусу/дате.
+- Добавляет permission keys в JSON для существующих профилей со значением false; прежние разрешения сохраняются.
+- Обновляет insert/update permission triggers: требует boolean JSON для текущих 17 прав и блокирует manage без view.
+- Не удаляет и не перезаписывает service leads, события, заказы или Sanity data.
+- PR #127 открыт; CI запущен. Production migration/deployment и ручной Manager role matrix ещё не выполнены.
