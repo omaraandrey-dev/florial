@@ -1,8 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { trackEvent } from '../services/trackingService'
+import { sanityClient } from '../lib/sanity'
+
+type DeliveryZone = {
+  _id: string
+  name: string
+  slug: string
+  distanceKm?: number
+  feeEUR?: number
+  translations?: Record<string, { name?: string; note?: string }>
+}
 
 const copy = {
   bg: {
@@ -19,6 +29,9 @@ const copy = {
     repairSub: 'Цената се уточнява преди работа',
     deliveryTitle: 'Доставка в района',
     deliveryIntro: 'Ясни цени за доставка на поръчано оборудване. Уточняваме удобен ден и час предварително.',
+    deliveryLoading: 'Зареждане на тарифите за доставка…',
+    deliveryError: 'Тарифите за доставка временно не могат да бъдат заредени. Моля, свържете се с нас за актуална цена.',
+    deliveryEmpty: 'В момента няма активни зони за доставка.',
     location: 'Населено място',
     price: 'Цена за доставка',
     distance: 'Разстояние от Слънчев бряг',
@@ -60,6 +73,9 @@ const copy = {
     repairSub: 'Стоимость согласуется до начала работ',
     deliveryTitle: 'Доставка в регионе',
     deliveryIntro: 'Понятные тарифы на доставку заказанного оборудования. Заранее согласуем удобный день и время.',
+    deliveryLoading: 'Загружаем тарифы доставки…',
+    deliveryError: 'Не удалось загрузить тарифы доставки. Пожалуйста, свяжитесь с нами, чтобы уточнить стоимость.',
+    deliveryEmpty: 'Сейчас нет активных зон доставки.',
     location: 'Населённый пункт',
     price: 'Стоимость доставки',
     distance: 'Расстояние от Солнечного Берега',
@@ -101,6 +117,9 @@ const copy = {
     repairSub: 'The price is agreed before work starts',
     deliveryTitle: 'Local delivery',
     deliveryIntro: 'Clear delivery rates for ordered equipment. We agree on a convenient day and time in advance.',
+    deliveryLoading: 'Loading delivery rates…',
+    deliveryError: 'Delivery rates are temporarily unavailable. Please contact us to confirm the current price.',
+    deliveryEmpty: 'There are currently no active delivery zones.',
     location: 'Location',
     price: 'Delivery price',
     distance: 'Distance from Sunny Beach',
@@ -130,42 +149,54 @@ const copy = {
   }
 } as const
 
-const deliveryRows = [
-  { key: 'sunny', names: { bg: 'Слънчев бряг', ru: 'Солнечный Берег', en: 'Sunny Beach' }, distance: '0', price: 0 },
-  { key: 'nessebar', names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' }, distance: '4', price: 10 },
-  { key: 'svetivlas', names: { bg: 'Свети Влас', ru: 'Святой Влас', en: 'Sveti Vlas' }, distance: '5', price: 10 },
-  { key: 'tankovo', names: { bg: 'Тънково', ru: 'Тънково (Tankovo)', en: 'Tankovo' }, distance: '6', price: 10 },
-  { key: 'ravda', names: { bg: 'Равда', ru: 'Равда', en: 'Ravda' }, distance: '7', price: 10 },
-  { key: 'kosharitsa', names: { bg: 'Кошарица', ru: 'Кошарица', en: 'Kosharitsa' }, distance: '7', price: 10 },
-  { key: 'aheloy', names: { bg: 'Ахелой', ru: 'Ахелой', en: 'Aheloy' }, distance: '9', price: 10 },
-  { key: 'alexandrovo', names: { bg: 'Александрово', ru: 'Александрово', en: 'Alexandrovo' }, distance: '11', price: 10 },
-  { key: 'orizare', names: { bg: 'Оризаре', ru: 'Оризаре', en: 'Orizare' }, distance: '12', price: 10 },
-  { key: 'gyulyovtsa', names: { bg: 'Гюльовца', ru: 'Гюльовца', en: 'Gyulyovtsa' }, distance: '14', price: 10 },
-  { key: 'medovo', names: { bg: 'Медово', ru: 'Медово', en: 'Medovo' }, distance: '14', price: 10 },
-  { key: 'poroy', names: { bg: 'Порой', ru: 'Порой', en: 'Poroy' }, distance: '15', price: 10 },
-  { key: 'kableshkovo', names: { bg: 'Каблешково', ru: 'Каблешково', en: 'Kableshkovo' }, distance: '15', price: 10 },
-  { key: 'pomorie', names: { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' }, distance: '19', price: 15 },
-  { key: 'kamenar', names: { bg: 'Каменар', ru: 'Каменар', en: 'Kamenar' }, distance: '20', price: 15 },
-  { key: 'laka', names: { bg: 'Лъка', ru: 'Лъка', en: 'Laka' }, distance: '21', price: 15 },
-  { key: 'banya', names: { bg: 'Баня', ru: 'Баня', en: 'Banya' }, distance: '21', price: 15 },
-  { key: 'bata', names: { bg: 'Бата', ru: 'Бата', en: 'Bata' }, distance: '23', price: 15 },
-  { key: 'galabets', names: { bg: 'Гълъбец', ru: 'Гълъбец', en: 'Galabets' }, distance: '23,5', price: 15 },
-  { key: 'gaberovo', names: { bg: 'Габерово', ru: 'Габерово', en: 'Gaberovo' }, distance: '25', price: 15 },
-  { key: 'dubnik', names: { bg: 'Дъбник', ru: 'Дъбник', en: 'Dubnik' }, distance: '24', price: 17 },
-  { key: 'goritsa', names: { bg: 'Горица', ru: 'Горица', en: 'Goritsa' }, distance: '26,5', price: 20 },
-  { key: 'belodol', names: { bg: 'Белодол', ru: 'Белодол', en: 'Belodol' }, distance: '27', price: 20 },
-  { key: 'emona', names: { bg: 'Емона', ru: 'Емона', en: 'Emona' }, distance: '27,5', price: 20 },
-  { key: 'stratsin', names: { bg: 'Страцин', ru: 'Страцин', en: 'Stratsin' }, distance: '29', price: 20 },
-  { key: 'obzor', names: { bg: 'Обзор', ru: 'Обзор', en: 'Obzor' }, distance: '32,5', price: 20 },
-  { key: 'priseltci', names: { bg: 'Приселци', ru: 'Приселци', en: 'Priseltsi' }, distance: '33,5', price: 25 },
-  { key: 'kozichino', names: { bg: 'Козичино', ru: 'Козичино', en: 'Kozichino' }, distance: '37,5', price: 25 },
-  { key: 'rakovskovo', names: { bg: 'Раковсково', ru: 'Раковсково', en: 'Rakovskovo' }, distance: '36,5', price: 25 },
-  { key: 'panitsovo', names: { bg: 'Паницово', ru: 'Паницово', en: 'Panitsovo' }, distance: '39', price: 25 },
-] as const
-
 export function IrrigationSupportPage() {
   const { language } = useI18n()
   const text = copy[language] || copy.bg
+  const [deliveryZones, setDeliveryZones] = useState<DeliveryZone[]>([])
+  const [deliveryZonesLoading, setDeliveryZonesLoading] = useState(true)
+  const [deliveryZonesError, setDeliveryZonesError] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    sanityClient.fetch<DeliveryZone[]>(`
+      *[_type == "deliveryZone" && isActive == true] | order(sortOrder asc) {
+        _id,
+        name,
+        slug,
+        distanceKm,
+        feeEUR,
+        translations { ru { name, note }, en { name, note } }
+      }
+    `).then((result) => {
+      if (cancelled) return
+      setDeliveryZones(Array.isArray(result) ? result : [])
+      setDeliveryZonesError(false)
+    }).catch((error) => {
+      if (cancelled) return
+      console.error('Sanity: не удалось загрузить зоны доставки:', error)
+      setDeliveryZones([])
+      setDeliveryZonesError(true)
+    }).finally(() => {
+      if (!cancelled) setDeliveryZonesLoading(false)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const numberLocale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
+  const formatDistance = (value?: number) =>
+    typeof value === 'number'
+      ? new Intl.NumberFormat(numberLocale, { maximumFractionDigits: 1 }).format(value)
+      : '—'
+  const formatDeliveryFee = (value?: number) =>
+    typeof value === 'number'
+      ? value === 0
+        ? text.freePrice
+        : `${new Intl.NumberFormat(numberLocale, { maximumFractionDigits: 2 }).format(value)} €`
+      : '—'
   const phone = language === 'bg' ? '+359876777902' : '+359885834860'
   const phoneHref = language === 'bg' ? 'tel:+359876777902' : 'tel:+359885834860'
   const whatsapp = 'https://wa.me/380674807486'
@@ -225,7 +256,21 @@ export function IrrigationSupportPage() {
         <div className="overflow-x-auto rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
           <table className="w-full min-w-[620px] border-collapse text-left">
             <thead className="bg-[#EEF2E5] text-sm text-slate-700"><tr><th className="px-5 py-4 font-bold">{text.location}</th><th className="px-5 py-4 text-right font-bold">{text.distance} (км)</th><th className="px-5 py-4 text-right font-bold">{text.price}</th></tr></thead>
-            <tbody>{deliveryRows.map((row) => <tr key={row.key} className="border-t border-[#E8ECDF]"><td className="px-5 py-4 text-slate-800">{row.names[language] || row.names.bg}</td><td className="px-5 py-4 text-right text-slate-600">{row.distance}</td><td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{row.price === 0 ? text.freePrice : row.price + ' €'}</td></tr>)}</tbody>
+            <tbody>
+              {deliveryZonesLoading ? (
+                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-500">{text.deliveryLoading}</td></tr>
+              ) : deliveryZonesError ? (
+                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-600">{text.deliveryError}</td></tr>
+              ) : deliveryZones.length === 0 ? (
+                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-600">{text.deliveryEmpty}</td></tr>
+              ) : deliveryZones.map((zone) => (
+                <tr key={zone._id} className="border-t border-[#E8ECDF]">
+                  <td className="px-5 py-4 text-slate-800">{zone.translations?.[language]?.name || zone.name}</td>
+                  <td className="px-5 py-4 text-right text-slate-600">{formatDistance(zone.distanceKm)}</td>
+                  <td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{formatDeliveryFee(zone.feeEUR)}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
         <p className="mt-4 text-sm leading-6 text-slate-500">{text.other}: {text.otherText}</p>
