@@ -558,13 +558,13 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                   <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
                   {field?.type === 'textarea' || field?.name === 'details'
                     ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />
-                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />}
+                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />}
                 </label>
               ))}
               <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
               {leadFormReady && (
                 <label className="flex items-start gap-3 text-sm leading-6 text-slate-600">
-                  <input name="consent" type="checkbox" required disabled={leadSubmissionStatus !== 'idle'} className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-700" />
+                  <input name="consent" type="checkbox" required disabled={leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-700" />
                   <span>
                     {leadFormConsentText}{' '}
                     <a href={leadFormPrivacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">
@@ -578,7 +578,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                   {leadSubmissionMessage}{leadSubmissionNumber ? ' (' + leadSubmissionNumber + ')' : ''}
                 </p>
               )}
-              <button type="submit" disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60">
+              <button type="submit" disabled={!leadFormReady || leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60">
                 {leadSubmissionStatus === 'submitting' ? (language === 'ru' ? 'Отправка…' : language === 'en' ? 'Sending…' : 'Изпращане…') : leadFormSubmitLabel}
               </button>
             </form>
