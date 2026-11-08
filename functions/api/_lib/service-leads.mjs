@@ -6,7 +6,7 @@ export const isValidLeadEmail = (value) =>
 
 export const isValidLeadPhone = (value) =>
   typeof value === 'string' && value.length >= 5 && value.length <= 50 &&
-  /^[+0-9() .\-/]+$/.test(value) && /\d{5,}/.test(value)
+  /^[+0-9(). -]+$/.test(value) && /\d{5,}/.test(value)
 
 export const normalizeLeadFields = (configuredFields, suppliedFields) => {
   if (!Array.isArray(configuredFields) || !configuredFields.length ||
