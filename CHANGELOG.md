@@ -11,6 +11,7 @@
 - `retention_until` задаётся как 365 дней; автоматическое удаление/обезличивание не реализовано и не включено.
 - Последние CI проверки до этих изменений были успешны на предыдущем HEAD; новая серия CI для текущего HEAD ожидается.
 - Не менялись Production D1, Sanity documents, Cloudflare secrets/settings, Manager, orders, checkout, Header, меню, Footer. Production deployment не запускался. Этап 4 НЕ ЗАВЕРШЁН.
+- Создана и проверена в Library новая инструкция `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev15.md` (08.11.2026, rev15); rev14 сохранена без перезаписи.
 
 
 
