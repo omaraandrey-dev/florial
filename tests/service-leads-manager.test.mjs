@@ -42,6 +42,9 @@ test('seller role cannot retain manager-only permissions after role change', asy
   assert.ok(staff.includes('canManageCategorySeo:false,canViewServiceLeads:false,canManageServiceLeads:false'))
   assert.ok(staff.includes('parsed.canDeleteTestOrders||parsed.canManageCategorySeo||parsed.canViewServiceLeads||parsed.canManageServiceLeads'))
   assert.ok(permissions.includes("'canManageCategorySeo','canViewServiceLeads','canManageServiceLeads'"))
+})
+
+test('Kableshkovo delivery fee is consistently 10 EUR in cart and server order validation', async () => {
   const cart = await read('../src/pages/CartPage.tsx')
   const orders = await read('../functions/api/orders.ts')
 
