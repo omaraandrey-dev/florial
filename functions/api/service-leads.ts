@@ -59,10 +59,11 @@ const sendNotification = async (
   recipient: string,
   subject: string,
   html: string,
+  idempotencyKey: string,
 ): Promise<boolean> => {
   if (!env.RESEND_API_KEY || !env.EMAIL_FROM || !recipient || !isValidLeadEmail(recipient)) return false
   try {
-    await sendOrderEmail(env.RESEND_API_KEY, env.EMAIL_FROM, recipient, subject, html)
+    await sendOrderEmail(env.RESEND_API_KEY, env.EMAIL_FROM, recipient, subject, html, undefined, idempotencyKey)
     return true
   } catch {
     return false
@@ -177,9 +178,74 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
       ),
     ])
   } catch {
-    const existing = await env.DB.prepare('SELECT lead_number FROM service_leads WHERE idempotency_key=? LIMIT 1')
-      .bind(idempotencyKey).first<{ lead_number: string }>()
-    if (existing?.lead_number) return json({ leadNumber: existing.lead_number, duplicate: true }, 200)
+    const existing = await env.DB.prepare(`SELECT id,lead_number,service_name,locale,customer_name,phone,email,location,address,comment,owner_notification_status,owner_notification_sent_at,customer_confirmation_status,customer_confirmation_sent_at FROM service_leads WHERE idempotency_key=? LIMIT 1`)
+      .bind(idempotencyKey).first<{
+        id: string
+        lead_number: string
+        service_name: string
+        locale: 'bg' | 'ru' | 'en'
+        customer_name: string
+        phone: string
+        email: string | null
+        location: string
+        address: string | null
+        comment: string | null
+        owner_notification_status: 'pending' | 'sent' | 'failed' | 'not_configured'
+        owner_notification_sent_at: string | null
+        customer_confirmation_status: 'not_requested' | 'pending' | 'sent' | 'failed'
+        customer_confirmation_sent_at: string | null
+      }>()
+    if (existing?.lead_number) {
+      const ownerRecipientForRetry = cleanLeadText(env.ORDER_NOTIFICATION_EMAIL, 254)
+      const retryMailConfigured = Boolean(env.RESEND_API_KEY && env.EMAIL_FROM)
+      const managerUrlForRetry = new URL('/manager', requestUrl).toString()
+      let ownerRetryStatus = existing.owner_notification_status
+      let ownerRetrySentAt = existing.owner_notification_sent_at
+      if (ownerRetryStatus !== 'sent' && ownerRecipientForRetry && retryMailConfigured) {
+        const retryOwnerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>Нова заявка за услуга — Florial</h2>' +
+          '<p><strong>Номер:</strong> ' + escapeHtml(existing.lead_number) + '<br><strong>Услуга:</strong> ' + escapeHtml(existing.service_name) +
+          '<br><strong>Клиент:</strong> ' + escapeHtml(existing.customer_name) + '<br><strong>Телефон:</strong> ' + escapeHtml(existing.phone) +
+          '<br><strong>Имейл:</strong> ' + escapeHtml(existing.email || 'Не е посочен') + '<br><strong>Населено място:</strong> ' + escapeHtml(existing.location) +
+          (existing.address ? '<br><strong>Адрес:</strong> ' + escapeHtml(existing.address) : '') +
+          (existing.comment ? '<br><strong>Описание:</strong> ' + escapeHtml(existing.comment) : '') +
+          '</p><p><a href="' + escapeHtml(managerUrlForRetry) + '">Отвори Florial Manager</a></p></div>'
+        const sent = await sendNotification(env, ownerRecipientForRetry, localizedText('bg', 'owner', existing.lead_number, existing.service_name), retryOwnerHtml, 'service-lead/' + existing.id + '/owner')
+        ownerRetryStatus = sent ? 'sent' : 'failed'
+        ownerRetrySentAt = sent ? new Date().toISOString() : null
+      } else if (!ownerRecipientForRetry || !retryMailConfigured) {
+        ownerRetryStatus = 'not_configured'
+      }
+
+      let customerRetryStatus = existing.customer_confirmation_status
+      let customerRetrySentAt = existing.customer_confirmation_sent_at
+      if (existing.email && customerRetryStatus !== 'sent' && retryMailConfigured) {
+        const retryCustomerBody = localizedText(existing.locale, 'customerBody', existing.lead_number, existing.service_name)
+        const retryCustomerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>' +
+          escapeHtml(localizedText(existing.locale, 'customerTitle', existing.lead_number, existing.service_name)) + '</h2><p>' +
+          escapeHtml(retryCustomerBody) + '</p><p>Florial</p></div>'
+        const sent = await sendNotification(env, existing.email, localizedText(existing.locale, 'customerTitle', existing.lead_number, existing.service_name), retryCustomerHtml, 'service-lead/' + existing.id + '/customer')
+        customerRetryStatus = sent ? 'sent' : 'failed'
+        customerRetrySentAt = sent ? new Date().toISOString() : null
+      } else if (!existing.email) {
+        customerRetryStatus = 'not_requested'
+      }
+
+      try {
+        const retryUpdatedAt = new Date().toISOString()
+        await env.DB.batch([
+          env.DB.prepare('UPDATE service_leads SET owner_notification_status=?,owner_notification_sent_at=?,owner_notification_error=?,customer_confirmation_status=?,customer_confirmation_sent_at=?,customer_confirmation_error=?,updated_at=? WHERE id=?')
+            .bind(ownerRetryStatus, ownerRetrySentAt, ownerRetryStatus === 'failed' ? 'Email delivery failed; retry required.' : null, customerRetryStatus, customerRetrySentAt, customerRetryStatus === 'failed' ? 'Email delivery failed; retry required.' : null, retryUpdatedAt, existing.id),
+          env.DB.prepare(`INSERT INTO service_lead_events (id,service_lead_id,actor_role,event_type,note,metadata,created_at)
+            VALUES (?,?,'system','email_retry_result',?,?,?)`).bind(
+            crypto.randomUUID(), existing.id, 'Email retry processing completed.',
+            JSON.stringify({ owner: ownerRetryStatus, customer: customerRetryStatus }), retryUpdatedAt,
+          ),
+        ])
+      } catch {
+        console.error('Service lead retry status could not be recorded.')
+      }
+      return json({ leadNumber: existing.lead_number, duplicate: true, emailStatus: ownerRetryStatus, customerEmailStatus: customerRetryStatus }, 200)
+    }
     return json({ error: 'Не успяхме да запазим заявката. Моля, опитайте отново.' }, 502)
   }
 
@@ -201,7 +267,7 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   let ownerStatus: 'sent' | 'failed' | 'not_configured' = 'not_configured'
   let ownerSentAt: string | null = null
   if (ownerRecipient && mailConfigured) {
-    const sent = await sendNotification(env, ownerRecipient, localizedText('bg', 'owner', leadNumber, serviceName), ownerHtml)
+    const sent = await sendNotification(env, ownerRecipient, localizedText('bg', 'owner', leadNumber, serviceName), ownerHtml, 'service-lead/' + id + '/owner')
     ownerStatus = sent ? 'sent' : 'failed'
     ownerSentAt = sent ? new Date().toISOString() : null
   }
@@ -213,7 +279,7 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
     const customerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>' +
       escapeHtml(localizedText(locale, 'customerTitle', leadNumber, serviceName)) + '</h2><p>' +
       escapeHtml(customerBody) + '</p><p>Florial</p></div>'
-    const sent = await sendNotification(env, email, localizedText(locale, 'customerTitle', leadNumber, serviceName), customerHtml)
+    const sent = await sendNotification(env, email, localizedText(locale, 'customerTitle', leadNumber, serviceName), customerHtml, 'service-lead/' + id + '/customer')
     customerStatus = sent ? 'sent' : 'failed'
     customerSentAt = sent ? new Date().toISOString() : null
   }
