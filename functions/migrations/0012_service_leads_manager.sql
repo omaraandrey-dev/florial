@@ -10,9 +10,9 @@ ON service_leads(assigned_to, status, created_at DESC);
 UPDATE catalog_staff_profiles
 SET permissions = json_set(
   CASE WHEN json_valid(permissions) THEN permissions ELSE '{}' END,
-  '$.canManageCategorySeo', COALESCE(json_extract(permissions, '$.canManageCategorySeo'), 0),
-  '$.canViewServiceLeads', COALESCE(json_extract(permissions, '$.canViewServiceLeads'), 0),
-  '$.canManageServiceLeads', COALESCE(json_extract(permissions, '$.canManageServiceLeads'), 0)
+  '$.canManageCategorySeo', json(CASE WHEN COALESCE(json_extract(permissions, '$.canManageCategorySeo'), 0)=1 THEN 'true' ELSE 'false' END),
+  '$.canViewServiceLeads', json(CASE WHEN COALESCE(json_extract(permissions, '$.canViewServiceLeads'), 0)=1 THEN 'true' ELSE 'false' END),
+  '$.canManageServiceLeads', json(CASE WHEN COALESCE(json_extract(permissions, '$.canManageServiceLeads'), 0)=1 THEN 'true' ELSE 'false' END)
 );
 
 DROP TRIGGER IF EXISTS trg_staff_permissions_insert;
