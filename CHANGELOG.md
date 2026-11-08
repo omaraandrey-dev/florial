@@ -1,3 +1,12 @@
+## 2026-11-08 — Выпущена основная инструкция Florial MD2 rev22
+
+- Создана новая контрольная редакция `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev22.md` и сохранена в Library: `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev22.md`.
+- Rev22 фиксирует merge PR #129 (`01f21becb40d847270c83b12a3f54d37049d5c67`), успешный Production deployment `d0e2791b-401a-4c52-83f1-1e56d5fe5342`, CI, post-deploy smoke и оставшиеся задачи authenticated role matrix / retention. Предыдущая rev21 сохранена без перезаписи.
+- Документы `TECHNICAL_PASSPORT.md`, `ROADMAP_SERVICES_AND_LEADS.md` и `CHANGELOG.md` актуализированы после merge; roadmap status дополнительно исправлен, чтобы не оставлять историческую отметку «PR #129 открыт».
+- Отдельный аудит legacy Cloudflare environment variable names `SUPABASE_*` / `VITE_SUPABASE_*` остаётся открытым. Переменные не менялись и не удалялись.
+
+---
+
 ## 2026-11-08 — Этап 6: PR #129 объединён и опубликован в Production
 
 - PR #129 `fix: align delivery fee and sanitize seller permissions` объединён методом squash в `main`; merge commit: `01f21becb40d847270c83b12a3f54d37049d5c67`. PR закрыт со статусом merged.
