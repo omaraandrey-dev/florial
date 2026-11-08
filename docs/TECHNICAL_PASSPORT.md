@@ -1,3 +1,19 @@
+## 2026-11-08 — ЭТАП 3 ЗАВЕРШЁН: Sanity delivery zones опубликованы в Production
+
+- PR #120 merged в `main`; merge commit `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`.
+- Cloudflare Pages Production deployment `ec045258-1133-49c6-b087-bc49107cd916` — build/deploy success; deployment commit совпадает с main merge commit. Production aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- Изменены runtime-файлы: `src/App.tsx`, `src/pages/IrrigationSupportPage.tsx`, `src/lib/servicesOrder.ts`. Активные `deliveryZone` читаются публичным Sanity client, сортируются по `sortOrder`, отображаются с локализованными BG/RU/EN названиями и EUR ценами. Существующий URL `/services/dostavka-poliv` и специальный layout доставки сохранены.
+- Live smoke 08.11.2026: BG `/services/dostavka-poliv`, RU `?lang=ru`, EN `?lang=en` — HTTP 200; корректные lang/H1/title/description/og metadata, `robots=index, follow`; каждая локаль показывает ровно 30 delivery rows.
+- Контрольные тарифы на live странице: Поморие 19 км / 15 EUR; Кошарица 7 км / 10 EUR. Все 30 зон присутствуют на всех трёх языках.
+- Live sitemap: ровно 3 delivery URL (BG/RU/EN), для каждого указаны hreflang `bg`, `ru`, `en`, `x-default`, без дублей.
+- GitHub Actions D1 migration validation после merge: run `42450117302` — success. D1/schema не менялись.
+- Production build предупреждает о JS chunk больше 500 kB, но Vite build и deployment завершились успешно. Это оптимизационное замечание, не ошибка публикации.
+- Не затрагивались Header, меню, Footer, global shell, Sanity schema, D1, Manager, orders, checkout, Resend, Cloudflare settings/secrets.
+- Не проводился live test изменения цены через Sanity editor без изменения кода; для этого потребовалось бы временно изменить опубликованный тариф. Не считать этот тест выполненным.
+- Следующий этап дорожной карты — Этап 4: API заявок, D1, приватные фотографии и email. Начинать только после повторной проверки актуальной MD2 и main.
+
+---
+
 ## 2026-11-08 — ЭТАП 3: Sanity delivery zones подключены в коде; Production ожидает согласования
 
 - Базовый `main`: `a021f637f7ea2850a57673c0560f4e82fe3146fc`. Реализация подготовлена в PR #120: https://github.com/omaraandrey-dev/florial/pull/120; кодовые commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` и `7e2296b2f54eafb93265f402856e1099773172a0`.
