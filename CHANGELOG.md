@@ -1,3 +1,22 @@
+## 2026-11-08 — Выпущена инструкция Florial MD2 rev20
+
+- В Library проекта `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev20.md` создана новая редакция на основе rev19; rev19 и rev18 сохранены без перезаписи.
+- Rev20 фиксирует финальный PR HEAD `e96fc6d254dab3d35af7af2c49bdd0679bba5bef`, успешные CI runs `42494229489` и `42494215626`, 24/24 теста, UI/backend очистку manager-only permissions для Seller и тариф Каблешково 10 EUR.
+- PR #129 открыт, не объединён; Production deployment кода не выполнялся. Retention cleanup не включён.
+
+---
+
+## 2026-11-08 — Этап 6: аудит прав Seller и тарифов доставки
+
+- Подтверждена владельцем ручная приёмка Manager после этапа 5.
+- Sanity dataset `production`: опубликован `feeEUR=10` для Каблешково (предыдущее значение 15 EUR); обновлён только документ `43fdc359-0e28-4410-83b3-a1902270345e`. Это приводит публичную страницу доставки к уже существовавшим 10 EUR в корзине и серверной проверке заказов. Поморие остаётся 15 EUR.
+- В ветке `fix/stage-6-seller-permissions-delivery-fee` в `functions/api/manager/staff.ts` добавлена очистка `canManageCategorySeo`, `canViewServiceLeads`, `canManageServiceLeads` при переводе в Seller; запрет на назначение этих прав добавлен в создание и обновление Seller.
+- В `tests/service-leads-manager.test.mjs` добавлены регрессионные проверки seller permission cleanup и соответствия тарифа Каблешково 10 EUR в корзине и серверной проверке.
+- Production D1 не изменялась; существующие заявки/события/заказы/профили не изменялись. Автоматическая очистка заявок 365 дней не добавлялась. CI на code HEAD `061aa1d96eb7ed5697320a4b0b8bfcbc8205b69c` success: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation и Sanity Studio build. После синхронизации Manager UI и документации final PR HEAD `7973d5d46e8651d5e3d50faa5ee785f10b6d71f3` проходит повторный CI. Production deployment не выполнялся.
+- Smoke: публичные услуги BG/RU/EN и доставка HTTP 200; Manager HTTP 200 с noindex; неавторизованный Manager API HTTP 401. Полный authenticated role matrix ещё не проверен.
+
+---
+
 ## 2026-11-08 — Этап 5: подготовка Manager для заявок на услуги (PR #127)
 
 - В отдельной ветке `feat/service-leads-manager-stage-5` создан PR #127 от текущего main commit `2516b3f4c60420e95a8b8a12400c373e9b0f9b16`.

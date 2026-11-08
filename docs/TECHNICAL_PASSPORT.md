@@ -1,3 +1,16 @@
+## 2026-11-08 — Этап 6: первичная сквозная проверка и исправления в PR
+
+- Перед работой прочитана Library-инструкция `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev18.md` (created_at `2026-11-08T11:39:25Z`); сверены `main`, `CHANGELOG.md`, `docs/ROADMAP_SERVICES_AND_LEADS.md`, Manager architecture, опубликованные Sanity documents и Production D1.
+- Владелец подтвердил ручную приёмку этапа 5. Production D1 read-only: 2 заявки, 7 событий; обе записи сохранены, email status у уведомлений `sent`. PII не выгружалась, тестовые заявки не создавались.
+- Live smoke: service page BG/RU/EN и delivery page HTTP 200; Manager HTTP 200 с `noindex,nofollow`; неавторизованный Manager API HTTP 401. Полный аутентифицированный тест ролей недоступен без отдельных Owner/Manager/Seller сессий.
+- Sanity `production`: опубликован тариф Каблешково 10 EUR вместо 15 EUR по прямому правилу владельца выбирать меньшую цену при расхождении. Обновлён только документ `43fdc359-0e28-4410-83b3-a1902270345e`; остальные deliveryZone документы не затронуты. Поморие остаётся 15 EUR. Cart и server order validation уже содержали 10 EUR; тарифы выровнены.
+- Рабочая ветка `fix/stage-6-seller-permissions-delivery-fee`: `functions/api/manager/staff.ts` дополнен очисткой `canManageCategorySeo`, `canViewServiceLeads`, `canManageServiceLeads` при переводе сотрудника в Seller; проверки создания и обновления Seller запрещают этот набор manager-only прав. Добавлены тесты в `tests/service-leads-manager.test.mjs`.
+- D1 migration/записи, реальные профили сотрудников, заявки, события, заказы, checkout, secrets, Header, меню, Footer и глобальная оболочка не менялись. Retention cleanup не включался.
+- PR #129 открыт. CI на code HEAD `061aa1d96eb7ed5697320a4b0b8bfcbc8205b69c` прошёл: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation, Sanity Studio build. После добавления Manager UI permission reset final HEAD `7973d5d46e8651d5e3d50faa5ee785f10b6d71f3` проходит повторный CI. Merge и Production deployment кода не выполнялись и требуют отдельного разрешения владельца.
+- Статус: **ЭТАП 6 В РАБОТЕ**. Открыты полная проверка ролей на аутентифицированных сессиях, безопасная end-to-end проверка без записи фальшивых заявок и решение по процедуре хранения/обезличивания 365 дней.
+
+---
+
 ## 2026-11-08 — Этап 5: Manager для заявок на услуги (PR #127 объединён, Production опубликован)
 
 - Базовый `main`: `2516b3f4c60420e95a8b8a12400c373e9b0f9b16`; PR #127 объединён commit `4213e5c2c79fe300be36cb71b94470431ed49705`; проверенный PR head `539c59fb83ae4272ca062da68dc3e3775799840b`.
@@ -11,7 +24,7 @@
 - Добавлен `tests/service-leads-manager.test.mjs`. GitHub Actions PR #127 завершились `success`: website lint/tests/build, Pages Functions syntax, D1 migration validation, Sanity Studio build.
 - Sanity и её документы не менялись; Cloudflare secrets/settings не менялись; Production deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` для commit `4213e5c2c79fe300be36cb71b94470431ed49705` завершился `success` 08.11.2026 11:38:32 UTC; aliases `florial-bg.com` и `www.florial-bg.com`. Header, меню, Footer, checkout и публичная оболочка не менялись.
 - Retention cleanup для заявок по истечении 365 дней остаётся отдельной нерешённой задачей и не включался.
-- Статус: **ЭТАП 5 РЕАЛИЗОВАН И ОПУБЛИКОВАН; требуется ручная приёмка владельца в `/manager`. Этап 6 не начат.**
+- Статус: **ЭТАП 5 ЗАВЕРШЁН И ПРИНЯТ ВЛАДЕЛЬЦЕМ ВРУЧНУЮ. Этап 6 в работе.**
 
 ---
 ## 2026-11-08 — Обновлён фирменный шаблон клиентского email по заявкам

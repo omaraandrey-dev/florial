@@ -33,3 +33,23 @@ test('service lead Manager UI has filters, audit and no customer file upload', a
   assert.match(ui, /Отговорник/)
   assert.doesNotMatch(ui, /type="file"/)
 })
+
+test('seller role cannot retain manager-only permissions after role change', async () => {
+  const staff = await read('../functions/api/manager/staff.ts')
+  const permissions = await read('../functions/api/manager/_lib.ts')
+  const managerUi = await read('../src/manager/ManagerApp.tsx')
+
+  assert.ok(staff.includes("if(role==='seller'&&("))
+  assert.ok(staff.includes('canManageCategorySeo:false,canViewServiceLeads:false,canManageServiceLeads:false'))
+  assert.ok(staff.includes('parsed.canDeleteTestOrders||parsed.canManageCategorySeo||parsed.canViewServiceLeads||parsed.canManageServiceLeads'))
+  assert.ok(permissions.includes("'canManageCategorySeo','canViewServiceLeads','canManageServiceLeads'"))
+  assert.ok(managerUi.includes('canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false'))
+})
+
+test('Kableshkovo delivery fee is consistently 10 EUR in cart and server order validation', async () => {
+  const cart = await read('../src/pages/CartPage.tsx')
+  const orders = await read('../functions/api/orders.ts')
+
+  assert.match(cart, /'Каблешково':\s*10/)
+  assert.match(orders, /'Каблешково':\s*10/)
+})
