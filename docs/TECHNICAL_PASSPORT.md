@@ -1,3 +1,19 @@
+## 2026-11-08 — PR #124 объединён и опубликован: заявочная форма с уведомлением об обработке
+
+- PR #124 объединён в `main` squash-commit `53ee65d6970dd3d3849853e6241cff652d1220a2`; PR закрыт со статусом merged.
+- Cloudflare Pages Production deployment `ccae6acc-3e39-47f3-8192-c4110240c080` для этого commit завершился успешно: queued, initialize, clone_repo, build и deploy — success. Build command подтверждена как `npm run build`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- На странице услуги добавлено небольшое уведомление BG/RU/EN: менеджер Florial получит и обработает заявку; при необходимости команда свяжется с клиентом по указанным контактам. Checkbox согласия и ссылка на privacy policy не добавлялись.
+- Live smoke test страницы `/services/avtomatichno-napoyavane` на BG, RU и EN: HTTP 200, `robots=index, follow`, локализованная строка уведомления отображается во всех трёх версиях. Проверка выполнена после ожидания клиентского рендеринга.
+- CI на PR HEAD `6d8a6eb80159137b316670b8b79311fd1108c0c3`: D1 migration validation run `42469920216` — success; Blog and Studio validation run `42469920217` — success; Sanity Studio validate run `42469920287` — success.
+- **Важно: Production D1 migration `0011_service_leads` НЕ применялась.** В Production D1 до миграции отсутствуют таблицы `service_leads` и `service_lead_events`; API формы не готов к приёму реальных заявок до применения миграции и отдельного безопасного smoke test. Не считать форму рабочей end-to-end.
+- Sanity schema deploy не выполнялся, Sanity documents не изменялись. Resend test email не отправлялся; секреты не читались.
+- Автоматическое удаление/обезличивание по retention 365 дней не реализовано. Процедуру нужно определить до полноценного запуска приёма заявок.
+- Фотозагрузка через сайт отложена: фото при необходимости клиент отправит через WhatsApp или другой мессенджер; Sanity Media Library и R2 не создавались.
+- Не менялись Manager, orders, checkout, Header, меню, Footer и глобальная оболочка.
+- **Статус Этапа 4: КОД ОБЪЕДИНЁН И FRONTEND ОПУБЛИКОВАН; ПРИЁМ ЗАЯВОК НЕ ГОТОВ К ПРОДАКШН-ЭКСПЛУАТАЦИИ до применения migration 0011, проверки email и согласования retention.**
+
+---
+
 ## 2026-11-08 — ЭТАП 4: заявочная форма без согласия и без фото (в работе)
 
 - Проверенная база: `main` commit `50d91be629bd1d31dd861896732cdd43fb5ea91b`; реализация находится в `feat/service-leads-stage-4`, PR #124.
