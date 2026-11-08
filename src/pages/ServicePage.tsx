@@ -140,7 +140,7 @@ function removeDuplicateHeroHeading(content: any, heroTitle: string): any {
 
 function getDescriptionHeadings(content: any): string[] {
   if (typeof content === 'string') {
-    return content.split('\n').map((line) => line.trim()).filter(Boolean)
+    return content.split('\n').map((line) => line.trim().replace(/^#{1,6}\s*/, '')).filter(Boolean)
   }
   if (!Array.isArray(content)) return []
   return content
