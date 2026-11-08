@@ -1,3 +1,13 @@
+## 2026-11-08 — Обновлён фирменный шаблон клиентского email по заявкам
+
+- Изменён только `functions/api/service-leads.ts`: общий helper `buildCustomerConfirmationHtml` формирует локализованное BG/RU/EN HTML-письмо с логотипом, названием садового центра, фирменной палитрой и контактами.
+- Логотип: существующий опубликованный Sanity photo asset `oficialno-logo-florial-gradinski-centar`, CDN URL `https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png`; Sanity document не изменялся.
+- Контакты в письме: BG `+359 876 777 902`; RU/UA/EN `+359 885 834 860`; WhatsApp `+380 67 480 7486`. Телефоны и WhatsApp оформлены кликабельными ссылками.
+- Helper вызывается для первоначального клиентского подтверждения и повторной отправки после idempotency conflict; текст письма с номером заявки и услугой сохранён.
+- Не менялись owner notification, форма, D1, Sanity documents/schema, Cloudflare secrets/settings, Manager, checkout, email заказов, Header, меню и Footer. Тестовое письмо и Production API submission не выполнялись; Resend delivery остаётся непроверенной.
+
+---
+
 ## 2026-11-08 — Production D1 migration 0011_service_leads применена
 
 - Владелец явно разрешил применение миграции 08.11.2026.
