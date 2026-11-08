@@ -90,7 +90,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
       if (assignedTo !== 'unassigned') values.push(assignedTo)
     }
     if (from && /^\d{4}-\d{2}-\d{2}$/.test(from)) { where.push("l.created_at>=?"); values.push(from + 'T00:00:00.000Z') }
-    if (to && /^\d{4}-\d{2}-\d{2}$/.test(to)) { where.push("l.created_at<?"); values.push(new Date(to + 'T00:00:00.000Z').getTime() + 86400000 ? new Date(new Date(to + 'T00:00:00.000Z').getTime() + 86400000).toISOString() : to) }
+    if (to && /^\d{4}-\d{2}-\d{2}$/.test(to)) { const end = new Date(to + 'T00:00:00.000Z'); if (!Number.isNaN(end.getTime())) { end.setUTCDate(end.getUTCDate() + 1); where.push('l.created_at<?'); values.push(end.toISOString()) } }
     if (query) {
       where.push('(instr(lower(l.lead_number),lower(?))>0 OR instr(lower(l.customer_name),lower(?))>0 OR instr(lower(l.phone),lower(?))>0 OR instr(lower(COALESCE(l.email,\'\')),lower(?))>0 OR instr(lower(l.location),lower(?))>0 OR instr(lower(l.service_name),lower(?))>0)')
       values.push(query, query, query, query, query, query)
@@ -105,7 +105,10 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     `
     const rows = await env.DB.prepare(sql).bind(...values).all<Record<string, unknown>>()
     const services = await env.DB.prepare('SELECT service_slug,service_name,COUNT(*) AS lead_count FROM service_leads GROUP BY service_slug,service_name ORDER BY service_name').all<Record<string, unknown>>()
-    return json({ leads: rows.results, services: services.results, canManage: canManage(actor) })
+    const assignees = actor.role === 'owner'
+      ? await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 ORDER BY display_name').all<Record<string, unknown>>()
+      : await env.DB.prepare('SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND (user_id=? OR created_by=?) ORDER BY display_name').bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
+    return json({ leads: rows.results, services: services.results, assignees: assignees.results, canManage: canManage(actor) })
   }
 
   if (!canManage(actor)) return json({ error: 'Нямате право да обработвате заявките за услуги.' }, 403)
