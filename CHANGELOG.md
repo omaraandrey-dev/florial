@@ -1,7 +1,7 @@
 ## 2026-11-08 — Этап 3: перенос тарифов доставки на Sanity (подготовка к публикации)
 
 - PR #120 создан: `feat: load delivery zones from Sanity` — https://github.com/omaraandrey-dev/florial/pull/120.
-- `IrrigationSupportPage.tsx` больше не содержит статический список городов/цен: таблица читает активные `deliveryZone` из Sanity, сортирует по `sortOrder`, локализует названия и форматирует расстояния/тарифы. `servicesOrder.ts` использует Sanity delivery service и отключает временную отдельную карточку при наличии документа.
+- `IrrigationSupportPage.tsx` больше не содержит статический список городов/цен: таблица читает активные `deliveryZone` из Sanity, сортирует по `sortOrder`, локализует названия и форматирует расстояния/тарифы. `servicesOrder.ts` использует Sanity delivery service и отключает временную отдельную карточку при наличии документа; `App.tsx` направляет delivery-layout на специальную страницу доставки.
 - Существующий URL, тексты, CTA, изображения, контакты и SEO fallback сохранены; добавлены loading/error/empty состояния на BG/RU/EN.
 - В Sanity опубликованы все 30 существующих зон. Поморие 15 EUR и Кошарица 10 EUR активированы по подтверждению владельца; устаревшие предупреждения RU/EN удалены. Дополнительно создан и опубликован один `service` с `serviceCategory=delivery`, `serviceLayout=delivery`, slug `dostavka-poliv`, `sortOrder=90`, локализованными названиями/описаниями и существующим изображением.
 - Первоначальные CI PR #120: Studio/website validation run #477 — success; D1 migration validation run #483 — success. После добавления helper и документации проверки должны быть подтверждены на актуальном HEAD PR. D1/schema не менялись.
