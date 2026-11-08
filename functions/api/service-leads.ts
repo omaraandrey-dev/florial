@@ -218,15 +218,19 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   }
 
   const updatedAt = new Date().toISOString()
-  await env.DB.batch([
-    env.DB.prepare('UPDATE service_leads SET owner_notification_status=?,owner_notification_sent_at=?,owner_notification_error=?,customer_confirmation_status=?,customer_confirmation_sent_at=?,customer_confirmation_error=?,updated_at=? WHERE id=?')
-      .bind(ownerStatus, ownerSentAt, ownerStatus === 'failed' ? 'Email delivery failed; retry required.' : null, customerStatus, customerSentAt, customerStatus === 'failed' ? 'Email delivery failed; retry required.' : null, updatedAt, id),
-    env.DB.prepare(`INSERT INTO service_lead_events (id,service_lead_id,actor_role,event_type,note,metadata,created_at)
-      VALUES (?,?,'system','email_delivery_result',?,?,?)`).bind(
-      crypto.randomUUID(), id, 'Email notification processing completed.',
-      JSON.stringify({ owner: ownerStatus, customer: customerStatus }), updatedAt,
-    ),
-  ])
+  try {
+    await env.DB.batch([
+      env.DB.prepare('UPDATE service_leads SET owner_notification_status=?,owner_notification_sent_at=?,owner_notification_error=?,customer_confirmation_status=?,customer_confirmation_sent_at=?,customer_confirmation_error=?,updated_at=? WHERE id=?')
+        .bind(ownerStatus, ownerSentAt, ownerStatus === 'failed' ? 'Email delivery failed; retry required.' : null, customerStatus, customerSentAt, customerStatus === 'failed' ? 'Email delivery failed; retry required.' : null, updatedAt, id),
+      env.DB.prepare(`INSERT INTO service_lead_events (id,service_lead_id,actor_role,event_type,note,metadata,created_at)
+        VALUES (?,?,'system','email_delivery_result',?,?,?)`).bind(
+        crypto.randomUUID(), id, 'Email notification processing completed.',
+        JSON.stringify({ owner: ownerStatus, customer: customerStatus }), updatedAt,
+      ),
+    ])
+  } catch {
+    console.error('Service lead email status could not be recorded.')
+  }
 
   return json({ leadNumber, emailStatus: ownerStatus, customerEmailStatus: customerStatus }, 201)
 }
