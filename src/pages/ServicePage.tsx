@@ -199,14 +199,15 @@ function renderPortableText(
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
   const localizedName = String(localize(service, 'name') || service.name)
-  const hero = localize(service, 'hero') || service.hero || {}
-  const heroTitle = hero.title || localizedName
-  const heroSubtitle = hero.subtitle || localize(service, 'shortDescription')
+  const translatedHero = language === 'bg' ? service.hero : service.translations?.[language]?.hero
+  const hero = translatedHero || service.hero || {}
+  const heroTitle = translatedHero?.title || (language === 'bg' ? hero.title || localizedName : localizedName)
+  const heroSubtitle = translatedHero?.subtitle || localize(service, 'shortDescription') || (language === 'bg' ? hero.subtitle : undefined)
   const heroImageUrl = hero.imageUrl || service.imageUrl
   const heroImageAlt = language === 'ru'
-    ? (hero.imageAltRu || hero.imageAlt || service.imageAltRu || localizedName)
+    ? (hero.imageAltRu || service.imageAltRu || localizedName)
     : language === 'en'
-      ? (hero.imageAltEn || hero.imageAlt || service.imageAltEn || localizedName)
+      ? (hero.imageAltEn || service.imageAltEn || localizedName)
       : (hero.imageAlt || service.imageAlt || localizedName)
   const galleryImages = Array.isArray(service.galleryImages)
     ? service.galleryImages.filter((image) => Boolean(image?.url) && image.url !== heroImageUrl)
