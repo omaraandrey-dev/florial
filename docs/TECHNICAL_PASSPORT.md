@@ -6,7 +6,7 @@
 - Sanity `production`: опубликован тариф Каблешково 10 EUR вместо 15 EUR по прямому правилу владельца выбирать меньшую цену при расхождении. Обновлён только документ `43fdc359-0e28-4410-83b3-a1902270345e`; остальные deliveryZone документы не затронуты. Поморие остаётся 15 EUR. Cart и server order validation уже содержали 10 EUR; тарифы выровнены.
 - Рабочая ветка `fix/stage-6-seller-permissions-delivery-fee`: `functions/api/manager/staff.ts` дополнен очисткой `canManageCategorySeo`, `canViewServiceLeads`, `canManageServiceLeads` при переводе сотрудника в Seller; проверки создания и обновления Seller запрещают этот набор manager-only прав. Добавлены тесты в `tests/service-leads-manager.test.mjs`.
 - D1 migration/записи, реальные профили сотрудников, заявки, события, заказы, checkout, secrets, Header, меню, Footer и глобальная оболочка не менялись. Retention cleanup не включался.
-- CI/PR и публикация кода ещё ожидаются. Перед production deployment требуется отдельное разрешение владельца.
+- PR #129 открыт; CI на HEAD `061aa1d96eb7ed5697320a4b0b8bfcbc8205b69c` завершился success: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation, Sanity Studio build. Merge и Production deployment кода не выполнялись и требуют отдельного разрешения владельца.
 - Статус: **ЭТАП 6 В РАБОТЕ**. Открыты полная проверка ролей на аутентифицированных сессиях, безопасная end-to-end проверка без записи фальшивых заявок и решение по процедуре хранения/обезличивания 365 дней.
 
 ---
