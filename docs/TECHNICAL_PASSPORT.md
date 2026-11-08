@@ -5,6 +5,10 @@
 - Контакты в письме: BG `+359 876 777 902`; RU/UA/EN `+359 885 834 860`; WhatsApp `+380 67 480 7486`. Телефоны и WhatsApp оформлены кликабельными ссылками.
 - Helper вызывается для первоначального клиентского подтверждения и повторной отправки после idempotency conflict; текст письма с номером заявки и услугой сохранён.
 - Не менялись owner notification, форма, D1, Sanity documents/schema, Cloudflare secrets/settings, Manager, checkout, email заказов, Header, меню и Footer. Тестовое письмо и Production API submission не выполнялись; Resend delivery остаётся непроверенной.
+- PR #125 merged squash commit `75ea099147714174e303e727cf67d091c05fb5dd`; Cloudflare Pages Production deployment `42cfb190-b961-4f6b-8883-2d9d78eab222` (2026-11-08 10:53 UTC) опубликован для `main`, build/deploy stages `success`, command `npm run build`, aliases `florial-bg.com` и `www.florial-bg.com`.
+- CI: PR website + Studio validation run `42471440144` — success; PR D1 migration validation run `42471440098` — success; post-merge D1 validation run `42473330879` — success.
+- Live read-only smoke после deploy: `/services/avtomatichno-napoyavane` (BG), тот же URL с `?lang=ru` и `?lang=en`: HTTP 200, `html lang` соответственно bg/ru/en, `robots=index, follow`; форма присутствует в HTML. POST заявки не отправлялся.
+- Реальное письмо не отправлялось; Production API и Resend delivery не тестировались. Поэтому шаблон встроен в опубликованный Worker, но фактическая отправка клиенту остаётся НЕ ПРОВЕРЕНА.
 
 ---
 
