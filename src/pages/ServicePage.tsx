@@ -119,6 +119,29 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
   )
 }
 
+
+function getDescriptionHeadings(content: any): string[] {
+  if (typeof content === 'string') {
+    return content.split('\n').map((line) => line.trim()).filter(Boolean)
+  }
+  if (!Array.isArray(content)) return []
+  return content
+    .filter((block: any) => block?._type === 'block' && ['h2', 'h3'].includes(block.style))
+    .map((block: any) => (block.children || []).map((child: any) => child.text || '').join('').trim())
+    .filter(Boolean)
+}
+
+function descriptionHasSection(headings: string[], section: 'advantages' | 'steps' | 'contact'): boolean {
+  const values = headings.map((heading) => heading.toLocaleLowerCase().replace(/[.!:：]+$/g, '').trim())
+  if (section === 'advantages') {
+    return values.some((heading) => /^(предимства|преимущества|advantages|why choose us)$/.test(heading))
+  }
+  if (section === 'steps') {
+    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|steps of the process)$/.test(heading))
+  }
+  return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
+}
+
 function renderPortableText(
   content: any,
   language = 'bg',
@@ -186,11 +209,16 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
       ? (hero.imageAltEn || hero.imageAlt || service.imageAltEn || localizedName)
       : (hero.imageAlt || service.imageAlt || localizedName)
   const galleryImages = Array.isArray(service.galleryImages)
-    ? service.galleryImages.filter((image) => Boolean(image?.url))
+    ? service.galleryImages.filter((image) => Boolean(image?.url) && image.url !== heroImageUrl)
     : []
+  const description = localize(service, 'description')
+  const descriptionHeadings = getDescriptionHeadings(description)
   const advantages = localize(service, 'advantages') || service.advantages || []
   const steps = localize(service, 'steps') || service.steps || []
+  const showAdvantages = Array.isArray(advantages) && advantages.length > 0 && !descriptionHasSection(descriptionHeadings, 'advantages')
+  const showSteps = Array.isArray(steps) && steps.length > 0 && !descriptionHasSection(descriptionHeadings, 'steps')
   const callToAction = localize(service, 'callToAction') || service.callToAction || {}
+  const showCallToAction = Boolean(callToAction.title || callToAction.text || callToAction.buttonLabel || callToAction.buttonText) && !descriptionHasSection(descriptionHeadings, 'contact')
   const leadForm = localize(service, 'leadForm') || service.leadForm || {}
   const leadFormFields = Array.isArray(leadForm.fields) ? leadForm.fields : []
 
@@ -306,13 +334,13 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
-        {service.description && (
+        {description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
-            {renderPortableText(localize(service, 'description'), language, imageGroups)}
+            {renderPortableText(description, language, imageGroups)}
           </div>
         )}
 
-        {Array.isArray(advantages) && advantages.length > 0 && (
+        {showAdvantages && (
           <section className="mx-auto my-10 max-w-5xl">
             <h2 className="mb-5 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
               {language === 'ru' ? 'Преимущества' : language === 'en' ? 'Why choose us' : 'Предимства'}
@@ -328,7 +356,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           </section>
         )}
 
-        {Array.isArray(steps) && steps.length > 0 && (
+        {showSteps && (
           <section className="mx-auto my-10 max-w-5xl">
             <h2 className="mb-5 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
               {language === 'ru' ? 'Этапы работы' : language === 'en' ? 'How it works' : 'Етапи на изпълнение'}
@@ -349,7 +377,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           </section>
         )}
 
-        {Boolean(callToAction.title || callToAction.text || callToAction.buttonLabel || callToAction.buttonText) && (
+        {showCallToAction && (
           <section className="my-8 rounded-2xl bg-emerald-800 px-6 py-10 text-center text-white md:my-12 md:px-12">
             {callToAction.title && <h2 className="text-2xl font-bold md:text-3xl">{callToAction.title}</h2>}
             {callToAction.text && <p className="mx-auto mt-3 max-w-2xl leading-7 text-emerald-50">{callToAction.text}</p>}
