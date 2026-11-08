@@ -460,6 +460,17 @@ export default function App() {
           "imageAlt": coalesce(image.alt, mainImage.alt),
           "imageAltEn": coalesce(image.altEn, mainImage.altEn),
           "imageAltRu": coalesce(image.altRu, mainImage.altRu),
+          "sortOrder": sortOrder,
+          serviceCategory,
+          serviceLayout,
+          "hero": hero{
+            title,
+            subtitle,
+            "imageUrl": image.asset->url,
+            "imageAlt": image.alt,
+            "imageAltEn": image.altEn,
+            "imageAltRu": image.altRu
+          },
           "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
           "contentBlocks": contentBlocks[]{
             _key,
