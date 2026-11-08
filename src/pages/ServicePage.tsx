@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock, ServiceGalleryImage } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -264,6 +264,9 @@ function renderPortableText(
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
+  const [leadSubmissionStatus, setLeadSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [leadSubmissionMessage, setLeadSubmissionMessage] = useState('')
+  const [leadSubmissionNumber, setLeadSubmissionNumber] = useState('')
   const localizedName = String(localize(service, 'name') || service.name)
   const translatedHero = language === 'bg' ? service.hero : service.translations?.[language]?.hero
   const hero = translatedHero || service.hero || {}
@@ -293,6 +296,47 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const leadFormTitle = translatedLeadForm?.title || (language === 'bg' ? leadForm.title : undefined) || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')
   const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
   const leadFormConsentText = translatedLeadForm?.consentText || (language === 'bg' ? leadForm.consentText : undefined)
+  const leadFormPrivacyPolicyUrl = translatedLeadForm?.privacyPolicyUrl || (language === 'bg' ? leadForm.privacyPolicyUrl : undefined)
+  const leadFormReady = Boolean(leadFormFields.length > 0 && leadFormConsentText?.trim() && leadFormPrivacyPolicyUrl?.trim() && service.slug?.current)
+
+  const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!leadFormReady || leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success') return
+    const formData = new FormData(event.currentTarget)
+    const fields: Record<string, string> = {}
+    for (const field of leadFormFields) {
+      const fieldName = typeof field?.name === 'string' ? field.name : ''
+      if (fieldName) fields[fieldName] = String(formData.get(fieldName) || '')
+    }
+    setLeadSubmissionStatus('submitting')
+    setLeadSubmissionMessage('')
+    try {
+      const response = await fetch('/api/service-leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceSlug: service.slug?.current,
+          locale: language,
+          fields,
+          consent: formData.get('consent') === 'on',
+          idempotencyKey: crypto.randomUUID(),
+        }),
+      })
+      const result = await response.json().catch(() => ({})) as { leadNumber?: string }
+      if (!response.ok) throw new Error('Service enquiry failed')
+      setLeadSubmissionNumber(typeof result.leadNumber === 'string' ? result.leadNumber : '')
+      setLeadSubmissionMessage(
+        leadForm.successMessage ||
+        (language === 'ru' ? 'Спасибо! Ваша заявка получена. Команда Florial свяжется с вами.' : language === 'en' ? 'Thank you. Your enquiry has been received. The Florial team will contact you.' : 'Благодарим Ви! Получихме запитването. Екипът на Florial ще се свърже с Вас.'),
+      )
+      setLeadSubmissionStatus('success')
+    } catch {
+      setLeadSubmissionMessage(
+        language === 'ru' ? 'Не удалось отправить заявку. Пожалуйста, попробуйте ещё раз.' : language === 'en' ? 'We could not send your enquiry. Please try again.' : 'Заявката не беше изпратена. Моля, опитайте отново.',
+      )
+      setLeadSubmissionStatus('error')
+    }
+  }
 
   // Localized service SEO and alternates are emitted only for published translations.
   useEffect(() => {
@@ -501,21 +545,38 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
               {leadFormTitle}
             </h2>
-            <p className="mb-6 text-sm leading-6 text-slate-600">
-              {language === 'ru' ? 'Форма будет активирована после подключения защищённой отправки заявок.' : language === 'en' ? 'This form will be enabled when secure enquiry submission is connected.' : 'Формата ще бъде активирана след свързване на защитеното изпращане на заявки.'}
-            </p>
-            <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
+            {!leadFormReady && (
+              <p className="mb-6 text-sm leading-6 text-slate-600">
+                {language === 'ru' ? 'Форма временно недоступна: необходимо настроить текст согласия и ссылку на политику конфиденциальности.' : language === 'en' ? 'The form is temporarily unavailable while the consent text and privacy policy link are being configured.' : 'Формата временно не е активна. Необходимо е да се настроят текстът за съгласие и връзката към политиката за поверителност.'}
+              </p>
+            )}
+            <form className="grid gap-4" onSubmit={handleLeadSubmit}>
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
                   <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
                   {field?.type === 'textarea' || field?.name === 'details'
-                    ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />
-                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
+                    ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />
+                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />}
                 </label>
               ))}
-              {leadFormConsentText && <p className="text-xs leading-5 text-slate-500">{leadFormConsentText}</p>}
-              <button type="button" disabled className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white opacity-60">
-                {leadFormSubmitLabel}
+              {leadFormReady && (
+                <label className="flex items-start gap-3 text-sm leading-6 text-slate-600">
+                  <input name="consent" type="checkbox" required disabled={leadSubmissionStatus !== 'idle'} className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-700" />
+                  <span>
+                    {leadFormConsentText}{' '}
+                    <a href={leadFormPrivacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">
+                      {language === 'ru' ? 'Политика конфиденциальности' : language === 'en' ? 'Privacy policy' : 'Политика за поверителност'}
+                    </a>
+                  </span>
+                </label>
+              )}
+              {leadSubmissionMessage && (
+                <p role={leadSubmissionStatus === 'error' ? 'alert' : 'status'} className={leadSubmissionStatus === 'error' ? 'text-sm text-red-700' : 'text-sm text-emerald-800'}>
+                  {leadSubmissionMessage}{leadSubmissionNumber ? ' (' + leadSubmissionNumber + ')' : ''}
+                </p>
+              )}
+              <button type="submit" disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60">
+                {leadSubmissionStatus === 'submitting' ? (language === 'ru' ? 'Отправка…' : language === 'en' ? 'Sending…' : 'Изпращане…') : leadFormSubmitLabel}
               </button>
             </form>
           </section>
