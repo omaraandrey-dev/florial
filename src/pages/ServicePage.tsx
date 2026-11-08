@@ -148,19 +148,6 @@ function getLeadFieldLabel(field: any, language: string): string {
   return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
 }
 
-function isAllowedPrivacyPolicyUrl(value: unknown): boolean {
-  if (typeof value !== 'string' || !value.trim()) return false
-  try {
-    const url = new URL(value.trim(), 'https://florial-bg.com')
-    return url.protocol === 'https:' &&
-      (url.hostname === 'florial-bg.com' || url.hostname === 'www.florial-bg.com') &&
-      !url.username && !url.password
-  } catch {
-    return false
-  }
-}
-
-
 function normalizeHeadingText(value: string): string {
   return value
     .replace(/^#+\s*/, '')
@@ -308,9 +295,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const leadFormFields = Array.isArray(leadForm.fields) ? leadForm.fields : []
   const leadFormTitle = translatedLeadForm?.title || (language === 'bg' ? leadForm.title : undefined) || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')
   const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
-  const leadFormConsentText = translatedLeadForm?.consentText || (language === 'bg' ? leadForm.consentText : undefined)
-  const leadFormPrivacyPolicyUrl = translatedLeadForm?.privacyPolicyUrl || (language === 'bg' ? leadForm.privacyPolicyUrl : undefined)
-  const leadFormReady = Boolean(leadFormFields.length > 0 && leadFormConsentText?.trim() && isAllowedPrivacyPolicyUrl(leadFormPrivacyPolicyUrl) && service.slug?.current)
+  const leadFormReady = Boolean(leadFormFields.length > 0 && service.slug?.current)
 
   const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -331,7 +316,6 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           serviceSlug: service.slug?.current,
           locale: language,
           fields,
-          consent: formData.get('consent') === 'on',
           website: String(formData.get('website') || ''),
           idempotencyKey: leadIdempotencyKey,
         }),
@@ -562,11 +546,6 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <p className="mb-6 text-sm leading-6 text-slate-600">
               {language === 'ru' ? 'Кратко опишите проблему или задачу. Если для уточнения понадобится фотография, мы свяжемся с вами — её можно будет отправить через WhatsApp или другой удобный мессенджер.' : language === 'en' ? 'Briefly describe the issue or project. If a photo is needed, we will contact you and you can send it via WhatsApp or another messenger that suits you.' : 'Опишете накратко проблема или проекта. Ако е необходима снимка за уточнение, ще се свържем с Вас и ще можете да я изпратите чрез WhatsApp или друг удобен месинджър.'}
             </p>
-            {!leadFormReady && (
-              <p className="mb-6 text-sm leading-6 text-slate-600">
-                {language === 'ru' ? 'Форма временно недоступна: необходимо настроить текст согласия и ссылку на политику конфиденциальности.' : language === 'en' ? 'The form is temporarily unavailable while the consent text and privacy policy link are being configured.' : 'Формата временно не е активна. Необходимо е да се настроят текстът за съгласие и връзката към политиката за поверителност.'}
-              </p>
-            )}
             <form className="grid gap-4" onSubmit={handleLeadSubmit}>
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
@@ -577,17 +556,6 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                 </label>
               ))}
               <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-              {leadFormReady && (
-                <label className="flex items-start gap-3 text-sm leading-6 text-slate-600">
-                  <input name="consent" type="checkbox" required disabled={leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-700" />
-                  <span>
-                    {leadFormConsentText}{' '}
-                    <a href={leadFormPrivacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-800 underline">
-                      {language === 'ru' ? 'Политика конфиденциальности' : language === 'en' ? 'Privacy policy' : 'Политика за поверителност'}
-                    </a>
-                  </span>
-                </label>
-              )}
               {leadSubmissionMessage && (
                 <p role={leadSubmissionStatus === 'error' ? 'alert' : 'status'} className={leadSubmissionStatus === 'error' ? 'text-sm text-red-700' : 'text-sm text-emerald-800'}>
                   {leadSubmissionMessage}{leadSubmissionNumber ? ' (' + leadSubmissionNumber + ')' : ''}
