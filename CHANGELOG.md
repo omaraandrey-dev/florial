@@ -4,6 +4,9 @@
 - Добавлены кликабельные контакты: болгарский `+359 876 777 902`; русский/украинский/английский `+359 885 834 860`; WhatsApp `+380 67 480 7486`.
 - Новый шаблон используется как при первой отправке, так и при повторной обработке idempotent-заявки. Текст подтверждения, номер заявки и название услуги сохранены.
 - Уведомление владельцу, форма, D1, Manager, checkout, заказные письма, Header, меню и Footer не менялись. Тестовое Production письмо не отправлялось; доставка через Resend не подтверждена.
+- PR #125 объединён squash commit `75ea099147714174e303e727cf67d091c05fb5dd`. Cloudflare Pages Production deployment `42cfb190-b961-4f6b-8883-2d9d78eab222` для этого commit завершился успешно (build/deploy success; `npm run build`); aliases `florial-bg.com` и `www.florial-bg.com` активны.
+- После публикации выполнен live read-only smoke: `/services/avtomatichno-napoyavane` и варианты `?lang=ru`, `?lang=en` вернули HTTP 200, соответствующие `html lang=bg/ru/en`, `robots=index, follow`; форма присутствует в HTML. POST не выполнялся.
+- CI PR #125: website + Studio validation `42471440144` — success; D1 migration validation `42471440098` — success; post-merge D1 migration validation `42473330879` — success.
 
 ---
 
