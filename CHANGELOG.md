@@ -1,16 +1,17 @@
-## 2026-11-08 — ЭТАП 4 В РАБОТЕ: заявки на услуги без загрузки фотографий
+## 2026-11-08 — ЭТАП 4 В РАБОТЕ: заявки без checkbox согласия и без загрузки фотографий
 
 - Рабочая ветка: `feat/service-leads-stage-4`, PR #124. Реализация не объединена и не опубликована.
-- Подготовлена аддитивная D1 migration `0011_service_leads`: отдельные `service_leads` и append-only `service_lead_events`; предусмотрены idempotency key, snapshot согласия/версии policy, статусы уведомлений и срок хранения 365 дней. Migration НЕ применялась к Production D1.
-- Добавлен `POST /api/service-leads`: same-origin, ограничение JSON/body, rate limit через существующую `api_rate_limits`, honeypot, проверка активной Sanity-услуги, динамических полей, email/телефона, согласия и idempotency. Заказы и `catalog_submissions` не используются.
-- `ServicePage.tsx` подключает локализованную форму BG/RU/EN, номер заявки и пояснение: клиент описывает проблему; если понадобится фото, Florial свяжется с ним, и фото можно отправить через WhatsApp или другой удобный мессенджер.
+- Подготовлена аддитивная D1 migration `0011_service_leads`: отдельные `service_leads` и append-only `service_lead_events`; предусмотрены idempotency key, notification states и срок хранения 365 дней. Поля consent/policy не включены. Migration НЕ применялась к Production D1.
+- `POST /api/service-leads`: same-origin, ограничение JSON/body, rate limit через существующую `api_rate_limits`, honeypot, проверка активной Sanity-услуги, динамических полей, email/телефона и idempotency. Нет проверки checkbox, `consentText` или `privacyPolicyUrl`. Заказы и `catalog_submissions` не используются.
+- `ServicePage.tsx` подключает локализованную форму BG/RU/EN без checkbox согласия и без ссылки на privacy policy; показывает номер заявки и поясняет, что клиент описывает проблему, а фотографию при необходимости отправляет после контакта через WhatsApp или другой мессенджер.
 - **Фотографии через сайт отложены по решению владельца.** В форме нет file input/upload API, файлы не сохраняются в D1/Sanity. Будущий способ приватного хранения остаётся открытым; сейчас не создавать Sanity Media Library и не подключать R2.
+- Из Sanity Studio schema и `src/types.ts` удалены `consentText` и `privacyPolicyUrl`, которые были добавлены в этой ветке, но не развёртывались. Sanity documents не изменялись.
+- Для запроса клиента о расчёте/оказании услуги GDPR Art. 6(1)(b) может применяться как преддоговорные действия по просьбе субъекта, если фактическая цель соответствует этому основанию. Art. 13 GDPR независимо требует предоставить информацию о контролёре и обработке; это не checkbox согласия и не технический gate формы. Наличие/содержание privacy notice вне формы остаётся предметом отдельной правовой проверки; полное соответствие GDPR не заявляется.
 - Письма владельцу и клиенту используют существующий `sendOrderEmail` из `functions/api/_lib/order-documents.ts`, переменные `RESEND_API_KEY`, `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`. Наличие имён переменных проверено; значения не раскрывались, реальное тестовое письмо не отправлялось.
-- В Sanity schema добавлено необязательное `leadForm.privacyPolicyUrl` для BG/RU/EN. Schema deploy не выполнялся; Sanity documents не изменялись.
-- **Блокер включения формы:** у опубликованных услуг ещё нет утверждённых локализованных `consentText` и `privacyPolicyUrl`. Форма остаётся выключенной, пока владелец не утвердит и не заполнит эти данные. Юридический текст не придумывался.
 - `retention_until` задаётся как 365 дней; автоматическое удаление/обезличивание не реализовано и не включено.
-- Последние проверки CI на PR HEAD `075e9f642eea3d8410a23aca8c0c8dbc55aecec3`: Blog and Studio validation #508, #507; Sanity Studio validation #125; Florial D1 migration validation #510 — success. Изменение UI-пояснения и документации требует нового CI прогона.
+- Последние CI проверки до этих изменений были успешны на предыдущем HEAD; новая серия CI для текущего HEAD ожидается.
 - Не менялись Production D1, Sanity documents, Cloudflare secrets/settings, Manager, orders, checkout, Header, меню, Footer. Production deployment не запускался. Этап 4 НЕ ЗАВЕРШЁН.
+
 
 
 ## 2026-11-08 — Этап 3: перенос тарифов доставки на Sanity (подготовка к публикации)
