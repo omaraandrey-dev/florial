@@ -190,6 +190,12 @@ const translationText = (language: string, title: string) => defineField({
       defineField({name: 'fields', title: 'Полета на формата', type: 'array', of: [{type: 'object', fields: [
         defineField({name: 'name', title: 'Техническо име', type: 'string'}),
         defineField({name: 'label', title: 'Етикет', type: 'string'}),
+        defineField({name: 'type', title: 'Тип на полето', type: 'string', options: {list: [
+          {title: 'Текст', value: 'text'},
+          {title: 'Телефон', value: 'tel'},
+          {title: 'Имейл', value: 'email'},
+          {title: 'Дълъг текст', value: 'textarea'},
+        ]}, initialValue: 'text'}),
         defineField({name: 'placeholder', title: 'Подсказка', type: 'string'}),
         defineField({name: 'required', title: 'Задължително', type: 'boolean'}),
       ]}]}),
