@@ -13,47 +13,31 @@ const isLocalizedHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, string[]> = {
     bg: [
-      'предимства',
-      'етапи на работа',
-      'етапи на изпълнение',
-      'свържете се с florial',
-      'свържете се с нас',
-      'какво включва монтажът на автоматична поливна система',
-      'полагане на тръби и кабели',
-      'монтаж на разпръсквачи и капково напояване',
-      'клапани, филтри и управление',
-      'настройка и пускане в експлоатация',
-      'за кои обекти изграждаме системи',
-      'защо да изберете florial',
+      'предимства', 'етапи на работа', 'етапи на изпълнение',
+      'свържете се с florial', 'свържете се с нас',
+      'нашият подход към засаждането на маслини',
+      'доставка и транспортиране на маслиновото дърво',
+      'подготовка на мястото и посадъчната яма',
+      'позициониране и засаждане с помощта на техника',
+      'първоначални грижи след засаждането',
     ],
     ru: [
-      'преимущества',
-      'этапы работы',
-      'этапы выполнения',
-      'свяжитесь с florial',
-      'свяжитесь с нами',
-      'что включает монтаж системы автоматического полива',
-      'прокладка труб и кабелей',
-      'монтаж дождевателей и капельного полива',
-      'клапаны, фильтры и управление',
-      'настройка и запуск системы',
-      'для каких объектов мы устанавливаем системы',
-      'почему выбирают florial',
+      'преимущества', 'этапы работы', 'этапы выполнения',
+      'свяжитесь с florial', 'свяжитесь с нами',
+      'наш подход к посадке оливковых деревьев',
+      'доставка и транспортировка оливкового дерева',
+      'подготовка участка и посадочной ямы',
+      'позиционирование и посадка с помощью техники',
+      'первоначальный уход после посадки',
     ],
     en: [
-      'benefits',
-      'advantages',
-      'how we work',
-      'how it works',
-      'contact florial',
-      'contact us',
-      'what is included in an automatic irrigation system installation',
-      'pipe and cable installation',
-      'sprinkler and drip irrigation installation',
-      'valves, filters and controls',
-      'system setup and commissioning',
-      'where we install irrigation systems',
-      'why choose florial',
+      'benefits', 'advantages', 'how we work', 'how it works',
+      'contact florial', 'contact us',
+      'our approach to olive tree planting',
+      'delivery and transportation of the olive tree',
+      'site and planting pit preparation',
+      'positioning and planting with specialist equipment',
+      'initial care after planting',
     ],
   }
   return (headings[language] || headings.bg).includes(normalized)
@@ -63,22 +47,25 @@ const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
-      trenches: ['какво включва монтажът на автоматична поливна система'],
-      pipeline: ['полагане на тръби и кабели'],
-      equipment: ['монтаж на разпръсквачи и капково напояване'],
-      automation: ['клапани, филтри и управление'],
+      intro: ['нашият подход към засаждането на маслини'],
+      trenches: ['подготовка на мястото и посадъчната яма'],
+      pipeline: ['доставка и транспортиране на маслиновото дърво'],
+      equipment: ['позициониране и засаждане с помощта на техника'],
+      automation: ['първоначални грижи след засаждането'],
     },
     ru: {
-      trenches: ['что включает монтаж системы автоматического полива'],
-      pipeline: ['прокладка труб и кабелей'],
-      equipment: ['монтаж дождевателей и капельного полива'],
-      automation: ['клапаны, фильтры и управление'],
+      intro: ['наш подход к посадке оливковых деревьев'],
+      trenches: ['подготовка участка и посадочной ямы'],
+      pipeline: ['доставка и транспортировка оливкового дерева'],
+      equipment: ['позиционирование и посадка с помощью техники'],
+      automation: ['первоначальный уход после посадки'],
     },
     en: {
-      trenches: ['what is included in an automatic irrigation system installation'],
-      pipeline: ['pipe and cable installation'],
-      equipment: ['sprinkler and drip irrigation installation'],
-      automation: ['valves, filters and controls'],
+      intro: ['our approach to olive tree planting'],
+      trenches: ['site and planting pit preparation'],
+      pipeline: ['delivery and transportation of the olive tree'],
+      equipment: ['positioning and planting with specialist equipment'],
+      automation: ['initial care after planting'],
     },
   }
   const languageHeadings = headings[language] || headings.bg
@@ -207,29 +194,61 @@ function descriptionHasSection(headings: string[], section: 'advantages' | 'step
   return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
 }
 
+function renderInlineMarkdown(value: string) {
+  return value.split(/(\\*\\*[^*]+\\*\\*)/g).map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>
+    }
+    return part
+  })
+}
+
+function renderMarkdownDescription(content: string, language: string, imageGroups: Record<string, ServiceContentBlock[]>) {
+  const chunks = content.split(/\\n\\s*\\n/).map((chunk) => chunk.trim()).filter(Boolean)
+  return chunks.map((chunk, index) => {
+    const lines = chunk.split('\\n').map((line) => line.trim()).filter(Boolean)
+    const first = lines[0]
+    if (first.startsWith('## ')) {
+      const heading = first.slice(3).trim()
+      const section = sectionForHeading(heading, language)
+      return (
+        <React.Fragment key={index}>
+          <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{heading}</h2>
+          {section ? renderImageGallery(imageGroups[section] || [], section, language) : null}
+          {lines.slice(1).length > 0 && <p className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.slice(1).join(' '))}</p>}
+        </React.Fragment>
+      )
+    }
+    if (first.startsWith('### ')) {
+      return <h3 key={index} className="mb-3 mt-6 text-xl font-bold text-slate-900">{first.slice(4).trim()}</h3>
+    }
+    if (lines.every((line) => line.startsWith('- '))) {
+      return (
+        <ul key={index} className="mb-5 list-disc space-y-2 pl-6 leading-7 text-slate-600">
+          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.slice(2))}</li>)}
+        </ul>
+      )
+    }
+    if (lines.every((line) => /^\\d+\\.\\s/.test(line))) {
+      return (
+        <ol key={index} className="mb-5 list-decimal space-y-2 pl-6 leading-7 text-slate-600">
+          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.replace(/^\\d+\\.\\s/, ''))}</li>)}
+        </ol>
+      )
+    }
+    return <p key={index} className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.join(' '))}</p>
+  })
+}
+
 function renderPortableText(
   content: any,
   language = 'bg',
   imageGroups: Record<string, ServiceContentBlock[]> = {},
 ) {
-  const withGallery = (section: string | undefined) =>
-    section ? renderImageGallery(imageGroups[section] || [], section, language) : null
-
   if (!content) return null
 
   if (typeof content === 'string') {
-    return content.split('\n').map((paragraph, index) => paragraph.trim()).filter(Boolean).map((paragraph, index) => {
-      const section = sectionForHeading(paragraph, language)
-      if (section || isLocalizedHeading(paragraph, language)) {
-        return (
-          <React.Fragment key={`paragraph-${index}`}>
-            <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{paragraph}</h2>
-            {withGallery(section)}
-          </React.Fragment>
-        )
-      }
-      return <p key={index} className="mb-4 leading-7 text-slate-600">{paragraph}</p>
-    })
+    return renderMarkdownDescription(content, language, imageGroups)
   }
 
   if (!Array.isArray(content)) return null
@@ -237,27 +256,34 @@ function renderPortableText(
   return content.map((block: any, index: number) => {
     if (block?._type !== 'block') return null
 
-    const children = block.children || []
-    const text = children.map((child: any) => child.text || '').join('')
+    const children = (block.children || []).map((child: any, childIndex: number) => {
+      let node: React.ReactNode = child.text || ''
+      const marks = Array.isArray(child.marks) ? child.marks : []
+      marks.forEach((mark: string) => {
+        if (mark === 'strong') node = <strong key={childIndex}>{node}</strong>
+        else if (mark === 'em') node = <em key={childIndex}>{node}</em>
+        else if (mark === 'underline') node = <u key={childIndex}>{node}</u>
+        else if (mark === 'strike-through') node = <s key={childIndex}>{node}</s>
+        else if (mark === 'code') node = <code key={childIndex}>{node}</code>
+      })
+      return <React.Fragment key={child._key || childIndex}>{node}</React.Fragment>
+    })
     const key = block._key || index
-
+    const text = (block.children || []).map((child: any) => child.text || '').join('')
     if (block.style === 'h2') {
       const section = sectionForHeading(text, language)
       return (
         <React.Fragment key={key}>
-          <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{text}</h2>
-          {withGallery(section)}
+          <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{children}</h2>
+          {section ? renderImageGallery(imageGroups[section] || [], section, language) : null}
         </React.Fragment>
       )
     }
-    if (block.style === 'h3') {
-      return <h3 key={key} className="mb-3 mt-6 text-xl font-bold text-slate-900">{text}</h3>
-    }
-    if (block.listItem) {
-      return <li key={key} className="ml-5 mb-2 list-disc leading-7 text-slate-600">{text}</li>
-    }
-
-    return <p key={key} className="mb-4 leading-7 text-slate-600">{text}</p>
+    if (block.style === 'h3') return <h3 key={key} className="mb-3 mt-6 text-xl font-bold text-slate-900">{children}</h3>
+    if (block.style === 'h4') return <h4 key={key} className="mb-2 mt-5 text-lg font-semibold text-slate-900">{children}</h4>
+    if (block.listItem === 'number') return <ol key={key} className="mb-4 list-decimal pl-6 text-slate-600"><li>{children}</li></ol>
+    if (block.listItem === 'bullet') return <ul key={key} className="mb-4 list-disc pl-6 text-slate-600"><li>{children}</li></ul>
+    return <p key={key} className="mb-4 leading-7 text-slate-600">{children}</p>
   })
 }
 
