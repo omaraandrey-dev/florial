@@ -5,7 +5,7 @@
 - Добавлен адаптивный болгарский интерфейс `src/manager/ServiceLeadsManager.tsx`, подключён в существующий Manager через `src/manager/ManagerApp.tsx`.
 - Добавлены отдельные права `canViewServiceLeads` / `canManageServiceLeads`; Owner имеет доступ по роли, Manager — только при выдаче владельцем, Seller запрещён. Управление требует права просмотра.
 - Добавлена additive migration `0012_service_leads_manager` для назначения ответственного и permission JSON schema. Новые права у существующих сотрудников выключены. Существующие заявки и события сохраняются. Назначение ограничено активными профилями Owner/Manager; Seller исключён, так как не имеет доступа к заявкам.
-- Добавлены regression tests `tests/service-leads-manager.test.mjs`; CI PR #127 запущен. Production migration и deployment пока не выполнялись.
+- Добавлены regression tests `tests/service-leads-manager.test.mjs`; CI PR #127 завершился `success`; Production migration 0012 применена, deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` завершился `success`.
 - Перед началом этапа владелец подтвердил production end-to-end тест заявки: письмо владельцу и клиенту получено, мобильное отображение проверено. Read-only D1: 2 заявки, 4 события. PII не выгружалась.
 - Не менялись Sanity, заказы, checkout, Header, меню, Footer, публичная оболочка и Cloudflare secrets/settings. Retention cleanup не включался.
 
