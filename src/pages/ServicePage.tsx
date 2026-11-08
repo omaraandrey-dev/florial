@@ -9,40 +9,6 @@ interface ServicePageProps {
   onNavigateHome: () => void
 }
 
-const isLocalizedHeading = (value: string, language: string) => {
-  const normalized = value.trim().toLocaleLowerCase()
-  const headings: Record<string, string[]> = {
-    bg: [
-      'предимства', 'етапи на работа', 'етапи на изпълнение',
-      'свържете се с florial', 'свържете се с нас',
-      'нашият подход към засаждането на маслини',
-      'доставка и транспортиране на маслиновото дърво',
-      'подготовка на мястото и посадъчната яма',
-      'позициониране и засаждане с помощта на техника',
-      'първоначални грижи след засаждането',
-    ],
-    ru: [
-      'преимущества', 'этапы работы', 'этапы выполнения',
-      'свяжитесь с florial', 'свяжитесь с нами',
-      'наш подход к посадке оливковых деревьев',
-      'доставка и транспортировка оливкового дерева',
-      'подготовка участка и посадочной ямы',
-      'позиционирование и посадка с помощью техники',
-      'первоначальный уход после посадки',
-    ],
-    en: [
-      'benefits', 'advantages', 'how we work', 'how it works',
-      'contact florial', 'contact us',
-      'our approach to olive tree planting',
-      'delivery and transportation of the olive tree',
-      'site and planting pit preparation',
-      'positioning and planting with specialist equipment',
-      'initial care after planting',
-    ],
-  }
-  return (headings[language] || headings.bg).includes(normalized)
-}
-
 const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
