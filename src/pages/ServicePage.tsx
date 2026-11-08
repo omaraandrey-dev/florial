@@ -267,6 +267,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const [leadSubmissionStatus, setLeadSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [leadSubmissionMessage, setLeadSubmissionMessage] = useState('')
   const [leadSubmissionNumber, setLeadSubmissionNumber] = useState('')
+  const [leadIdempotencyKey] = useState(() => crypto.randomUUID())
   const localizedName = String(localize(service, 'name') || service.name)
   const translatedHero = language === 'bg' ? service.hero : service.translations?.[language]?.hero
   const hero = translatedHero || service.hero || {}
@@ -319,7 +320,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           locale: language,
           fields,
           consent: formData.get('consent') === 'on',
-          idempotencyKey: crypto.randomUUID(),
+          idempotencyKey: leadIdempotencyKey,
         }),
       })
       const result = await response.json().catch(() => ({})) as { leadNumber?: string }
@@ -555,7 +556,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
                   <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
                   {field?.type === 'textarea' || field?.name === 'details'
-                    ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />
+                    ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus === 'submitting' || leadSubmissionStatus === 'success'} rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />
                     : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled={!leadFormReady || leadSubmissionStatus !== 'idle'} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal disabled:bg-slate-100" />}
                 </label>
               ))}
