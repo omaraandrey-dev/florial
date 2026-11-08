@@ -1,3 +1,16 @@
+## 2026-11-08 — ЭТАП 4 В РАБОТЕ: серверные заявки, D1 и Resend
+
+- Проверенная база: `main` commit `50d91be629bd1d31dd861896732cdd43fb5ea91b`; реализация ведётся в отдельной ветке `feat/service-leads-stage-4`.
+- Production D1 `5fbb0e47-8439-493c-821a-6945eef7d8b2` read-only проверена: последняя migration `0010_public_api_rate_limits`, таблиц `service_leads`/`service_lead_events` до начала работы не было.
+- Подготовлена migration `functions/migrations/0011_service_leads.sql` с отдельными таблицами `service_leads` и `service_lead_events`; append-only triggers защищают журнал событий от UPDATE/DELETE. В таблице заявки есть idempotency key, consent snapshot/version, notification states и `retention_until` на 365 дней. Migration не применена к Production.
+- Создан `functions/api/service-leads.ts`: использует общие public API security helpers, проверяет активную Sanity service, поля и контакты, согласие, policy URL, записывает заявку и события в D1, затем best-effort отправляет email. Ошибка почты не отменяет сохранённую заявку.
+- Email повторно использует `sendOrderEmail` и действующие Pages env variable names `RESEND_API_KEY`, `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`; их присутствие проверено без чтения значений. Реальное письмо не отправлялось.
+- `src/pages/ServicePage.tsx` подключает локализованную форму и номер заявки. `studio/schemaTypes/index.ts` / `src/types.ts` дополнены полем `leadForm.privacyPolicyUrl`; schema deployment и Sanity document writes не выполнялись.
+- Все 9 опубликованных активных service documents проверены read-only: BG leadForm есть у 7 документов, 2 документа без формы; RU/EN translations отсутствуют; consentText и privacyPolicyUrl не заполнены. Пока владелец не утвердит текст согласия и URL политики, форма не отправляет заявки.
+- **Фото:** Media Library в организации Sanity Florial не обнаружена. Доступные datasets `production` и `plants` имеют `aclMode=public`; dataset assets Sanity всегда публичны на CDN, даже если сам dataset private. Не использовать эти assets для клиентских фото. R2 исключён владельцем. Для приватных фото требуется private Sanity Media Library + signing keys; до этого загрузка файлов не реализуется.
+- Retention записывается на 365 дней; автоматическое удаление не активировано. Manager UI/API и permission model относятся к Этапу 5 и не менялись.
+- Не изменялись Production D1/Sanity documents, заказы, checkout, Cloudflare secrets/settings, Header, меню, Footer. Нет merge и Production deployment. Этап 4 остаётся незавершённым.
+
 ## 2026-11-08 — ЭТАП 3: Sanity delivery zones подключены в коде; Production ожидает согласования
 
 - Базовый `main`: `a021f637f7ea2850a57673c0560f4e82fe3146fc`. Реализация подготовлена в PR #120: https://github.com/omaraandrey-dev/florial/pull/120; кодовые commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` и `7e2296b2f54eafb93265f402856e1099773172a0`.
