@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата подготовки:** 08.11.2026  
-**Статус:** план утверждён владельцем; Этапы 1 и 2 завершены 08.11.2026; Этап 3 реализован в PR #120, 30 зон опубликованы в Sanity, Production deployment ожидает согласования; Этапы 4–6 не начаты.  
+**Статус:** план утверждён владельцем; Этапы 1–3 завершены 08.11.2026; мобильная таблица доставки дополнительно исправлена и опубликована через PR #122; Этапы 4–6 не начаты.  
 **Основной репозиторий:** `omaraandrey-dev/florial`, production branch `main`.
 
 > Этот документ — единый источник порядка работ и шести самостоятельных промптов. Каждый этап запускается в отдельном новом чате проекта Florial. Новый чат обязан заново найти последнюю инструкцию MD2 в Library и проверить актуальный GitHub main, а не полагаться только на этот документ или историю переписки.
@@ -89,13 +89,17 @@
 - Не менялись Header, меню, Footer, корзина, checkout, D1, Manager, Resend, Cloudflare secrets и данные Sanity.
 - Этап 3 выполняется: 30 зон опубликованы, Sanity delivery service создан, код переноса находится в PR #120. Завершение ожидает отдельного согласования merge/Production deployment и live smoke test.
 
-## 3.2. Результат Этапа 3 — подготовка переноса доставки (08.11.2026)
+## 3.3. Этап 3 — перенос страницы доставки на Sanity (ЗАВЕРШЁН 08.11.2026)
 
-- PR #120 открыт: https://github.com/omaraandrey-dev/florial/pull/120; code commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` and `7e2296b2f54eafb93265f402856e1099773172a0`.
-- Изменены `src/App.tsx`, `src/pages/IrrigationSupportPage.tsx` и `src/lib/servicesOrder.ts`: вместо hardcoded `deliveryRows` используется запрос активных `deliveryZone` из Sanity; `App.tsx` распознаёт `serviceLayout=delivery`; helper использует Sanity service с delivery layout и не добавляет legacy delivery card при наличии этой услуги. URL, тексты и структура страницы сохранены, добавлены локализованные loading/error/empty состояния.
-- Все 30 существующих deliveryZone опубликованы, активны и отсортированы по `sortOrder`. Поморие — 15 €, Кошарица — 10 €; прежние предупреждающие заметки удалены. Дополнительно создан и опубликован один service-документ `dostavka-poliv` с `serviceCategory=delivery`, `serviceLayout=delivery`, `sortOrder=90`, BG/RU/EN card content и существующим изображением. Другие тарифы/расстояния не изменялись.
-- CI PR #120: website/Studio validation #477 — success; D1 validation #483 — success.
-- **Этап 3 пока НЕ ЗАВЕРШЁН:** PR ожидает merge и отдельное согласование Production deployment. После публикации требуется live smoke BG/RU/EN и проверка динамического изменения тарифа из Sanity.
+- PR #120 объединён в `main` 08.11.2026; merge commit: `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`.
+- Production deployment Cloudflare Pages: `ec045258-1133-49c6-b087-bc49107cd916`; project `florial`; commit совпадает с merge commit. Стадии queued, initialize, clone_repo, build и deploy — `success`. Production aliases: `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Production Vite build: 295 modules transformed, завершён успешно. Cloudflare вывел стандартное предупреждение о JS chunk >500 kB; сборка и публикация не затронуты.
+- D1 migration validation после merge: workflow run `42450117302` — `success`; D1 не изменялась.
+- Live smoke на реальном `https://florial-bg.com/services/dostavka-poliv` и URL с `?lang=ru`, `?lang=en`: HTTP 200 для всех трёх языков; HTML lang и H1 локализованы; title/description/og metadata соответствуют локали; robots — `index, follow`.
+- В каждой локали таблица содержит заголовок, разделитель и ровно 30 строк доставки. Проверены Поморие — 19 км / 15 € и Кошарица — 7 км / 10 €. Все 30 строк присутствуют в BG/RU/EN.
+- Live sitemap после deployment содержит ровно три delivery URL: BG, RU и EN. Для каждой версии присутствуют alternate hreflang `bg`, `ru`, `en`, `x-default`; дублирующих URL нет.
+- Изменения runtime ограничены `src/App.tsx`, `src/pages/IrrigationSupportPage.tsx`, `src/lib/servicesOrder.ts`. Header, меню, Footer, global shell, D1, Manager, orders, checkout, Resend, Sanity schema и Cloudflare settings/secrets не менялись.
+- **Этап 3 ЗАВЕРШЁН.** Динамическое обновление тарифа после редактирования Sanity без изменения кода остаётся дополнительным acceptance test; он не выполнялся, чтобы не менять опубликованные тарифы Production.
 
 ## 3.1. Результат этапа 1 — 08.11.2026
 

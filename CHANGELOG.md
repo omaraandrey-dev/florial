@@ -1,3 +1,23 @@
+## 2026-11-08 — Исправлена мобильная таблица доставки (PR #122)
+
+- PR #122 объединён в `main`, merge commit `50d91be629bd1d31dd861896732cdd43fb5ea91b`; изменён только `src/pages/IrrigationSupportPage.tsx`.
+- Порядок колонок: населённый пункт → цена доставки → расстояние. На мобильных экранах населённый пункт занимает примерно 2/3 ширины, цена — 1/3; расстояние доступно горизонтальной прокруткой.
+- CI: `42450561209` и `42450561228` — success.
+- Cloudflare Pages Production deployment `c7e06a19-d2f0-42b7-abb9-a5f11c84dc5a` — build/deploy success; production aliases активны.
+- Live BG/RU/EN страница доставки отвечает HTTP 200; проверены локализованные title/lang и production HTML таблицы.
+- Данные тарифов, Sanity, D1, Manager, заказы, checkout и общие элементы сайта не изменялись.
+
+## 2026-11-08 — ЭТАП 3 ЗАВЕРШЁН: доставка из Sanity в Production
+
+- PR #120 merged в `main`: `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`.
+- Cloudflare Pages Production deployment `ec045258-1133-49c6-b087-bc49107cd916`: build и deploy — success.
+- Live BG/RU/EN страницы доставки отвечают HTTP 200; каждая показывает все 30 активных зон из Sanity.
+- Проверены Поморие 15 EUR и Кошарица 10 EUR; названия, расстояния и цены локализованы.
+- Sitemap содержит три URL страницы доставки с alternate hreflang bg/ru/en/x-default без дубликатов; robots index/follow.
+- D1 migration validation после merge — success; D1, Sanity schema, Manager, checkout и заказы не менялись.
+- Vite сообщил предупреждение о JS chunk >500 kB; build/deploy успешны.
+- Остался отдельный дополнительный acceptance test: изменение тарифа в Sanity и проверка обновления на сайте без нового deploy; не выполнялся, чтобы не менять Production тарифы.
+
 ## 2026-11-08 — Этап 3: перенос тарифов доставки на Sanity (подготовка к публикации)
 
 - PR #120 создан: `feat: load delivery zones from Sanity` — https://github.com/omaraandrey-dev/florial/pull/120.
