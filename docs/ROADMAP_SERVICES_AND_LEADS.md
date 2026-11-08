@@ -87,11 +87,11 @@
 - Уточнение владельца: Поморие — 15 €, Кошарица — 10 €. В текущих drafts обе записи пока `isActive=false`; при Этапе 3 выставить `isActive=true` и перенести эти подтверждённые тарифы без изменения сумм. Расстояния из исходной страницы отдельно не проверялись.
 - Форма заявки пока только UI; серверная отправка, D1/Manager/email/фото относятся к последующим этапам. Доставка остаётся на прежней странице до Этапа 3. Связанные товары/услуги не добавлялись: текущая схема service не содержит для них полей.
 - Не менялись Header, меню, Footer, корзина, checkout, D1, Manager, Resend, Cloudflare secrets и данные Sanity.
-- Следующий этап — Этап 3: перенос управления доставкой на deliveryZone. Он не начат и выполняется только в отдельном новом чате после проверки актуальной MD2 и main.
+- Этап 3 выполняется: 30 зон опубликованы, Sanity delivery service создан, код переноса находится в PR #120. Завершение ожидает отдельного согласования merge/Production deployment и live smoke test.
 
 ## 3.2. Результат Этапа 3 — подготовка переноса доставки (08.11.2026)
 
-- PR #120 открыт: https://github.com/omaraandrey-dev/florial/pull/120; code commit `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b`.
+- PR #120 открыт: https://github.com/omaraandrey-dev/florial/pull/120; code commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` and `7e2296b2f54eafb93265f402856e1099773172a0`.
 - Изменены `src/pages/IrrigationSupportPage.tsx` и `src/lib/servicesOrder.ts`: вместо hardcoded `deliveryRows` используется запрос активных `deliveryZone` из Sanity; helper использует Sanity service с delivery layout и не добавляет legacy delivery card при наличии этой услуги. URL, тексты и структура страницы сохранены, добавлены локализованные loading/error/empty состояния.
 - Все 30 существующих deliveryZone опубликованы, активны и отсортированы по `sortOrder`. Поморие — 15 €, Кошарица — 10 €; прежние предупреждающие заметки удалены. Дополнительно создан и опубликован один service-документ `dostavka-poliv` с `serviceCategory=delivery`, `serviceLayout=delivery`, `sortOrder=90`, BG/RU/EN card content и существующим изображением. Другие тарифы/расстояния не изменялись.
 - CI PR #120: website/Studio validation #477 — success; D1 validation #483 — success.
