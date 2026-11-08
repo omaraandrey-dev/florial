@@ -1,12 +1,14 @@
-## 2026-11-08 — ЭТАП 2: подключение публичных страниц услуг (реализация в PR)
+## 2026-11-08 — ЭТАП 2: подключение публичных страниц услуг (PR #116 merged; post-deploy correction PR #117)
 
-- Рабочая ветка: `feature/services-pages-stage2-2026-11-08`; базовый `main` на старте — `44233a260ad7f6a47d037a9f838631489919ca88`.
+- PR #116 объединён в `main`: commit `f05d52f2bf81c80e103c337f5332dbf3c13af81c`.
 - Изменены: `src/App.tsx` (поля sortOrder/category/layout, Hero и hero-image fallback в GROQ); `src/types.ts` (типы фактической модели Sanity); `src/lib/servicesOrder.ts` (сортировка по Sanity sortOrder); `src/pages/ServicePage.tsx` (галерея, преимущества, этапы, Hero, CTA, UI leadForm без отправки).
-- `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper; после изменения helper их карточки автоматически сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся временным элементом до Этапа 3.
-- Sanity проверена read-only: 8 опубликованных активных service документов; специальная услуга монтажа в Несебре имеет 14 contentBlocks. Никакие Sanity документы не изменялись.
-- 30 deliveryZone остаются drafts; 0 published. Доставка, D1, Manager, Resend, заказы, Header, меню, Footer и глобальная навигация не менялись.
-- Для некоторых RU/EN документов отсутствуют переводы advantages/steps/leadForm; отображается fallback на BG. Добавление переводов — отдельная редакторская задача, существующие данные не перезаписывались.
-- Проверки PR/CI ещё ожидаются; статус Этапа 2 до их завершения — В РАБОТЕ.
+- `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper; их карточки автоматически сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся временным элементом до Этапа 3.
+- PR checks: D1 validation lint/build/Pages Functions syntax — success; Blog and Studio validation lint/tests/site build/read-only dry-run/Studio build — success.
+- Cloudflare Pages Production deployment для commit `f05d52f2bf81c80e103c337f5332dbf3c13af81c`: `fada1cba-6b48-4398-ad33-8d09f06019e0`, все стадии success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Read-only Sanity: 8 опубликованных активных service документов; специальная услуга монтажа в Несебре имеет 14 contentBlocks. Никакие Sanity документы не изменялись; 30 deliveryZone остаются drafts, 0 published.
+- После live smoke test обнаружены повтор hero-фото в gallery и повтор преимуществ/этапов, уже присутствующих в description. Исправление в отдельном PR #117; до его merge и повторного smoke test этап остаётся в работе.
+- Для некоторых RU/EN документов отсутствуют переводы advantages/steps/leadForm; отображается fallback на BG. Добавление переводов — отдельная редакторская задача.
+- Доставка, D1, Manager, Resend, заказы, Header, меню, Footer и глобальная навигация не менялись.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
