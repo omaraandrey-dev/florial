@@ -188,7 +188,7 @@ const translationText = (language: string, title: string) => defineField({
       defineField({name: 'submitLabel', title: 'Текст на бутона', type: 'string'}),
       defineField({name: 'successMessage', title: 'Съобщение след изпращане', type: 'text', rows: 3}),
       defineField({name: 'consentText', title: 'Текст за съгласие за лични данни', type: 'text', rows: 3}),
-      defineField({name: 'privacyPolicyUrl', title: 'Връзка към политиката за поверителност', type: 'url', description: 'Изисква се за активиране на формата за запитване.'}),
+      defineField({name: 'privacyPolicyUrl', title: 'Връзка към политиката за поверителност', type: 'url', description: 'Изисква се за активиране на формата за запитване.', validation: (rule) => rule.uri({scheme: ['https']})}),
       defineField({name: 'fields', title: 'Полета на формата', type: 'array', of: [{type: 'object', fields: [
         defineField({name: 'name', title: 'Техническо име', type: 'string'}),
         defineField({name: 'label', title: 'Етикет', type: 'string'}),
@@ -442,7 +442,7 @@ const service = defineType({
       defineField({name: 'submitLabel', title: 'Текст на бутона', type: 'string'}),
       defineField({name: 'successMessage', title: 'Съобщение след изпращане', type: 'text', rows: 3}),
       defineField({name: 'consentText', title: 'Текст за съгласие за лични данни', type: 'text', rows: 3}),
-      defineField({name: 'privacyPolicyUrl', title: 'Връзка към политиката за поверителност', type: 'url', description: 'Изисква се за активиране на формата за запитване.'}),
+      defineField({name: 'privacyPolicyUrl', title: 'Връзка към политиката за поверителност', type: 'url', description: 'Изисква се за активиране на формата за запитване.', validation: (rule) => rule.uri({scheme: ['https']})}),
       defineField({name: 'fields', title: 'Полета на формата', type: 'array', of: [{type: 'object', fields: [
         defineField({name: 'name', title: 'Техническо име', type: 'string'}),
         defineField({name: 'label', title: 'Етикет', type: 'string'}),
