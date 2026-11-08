@@ -559,6 +559,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
               {leadFormTitle}
             </h2>
+            <p className="mb-6 text-sm leading-6 text-slate-600">
+              {language === 'ru' ? 'Кратко опишите проблему или задачу. Если для уточнения понадобится фотография, мы свяжемся с вами — её можно будет отправить через WhatsApp или другой удобный мессенджер.' : language === 'en' ? 'Briefly describe the issue or project. If a photo is needed, we will contact you and you can send it via WhatsApp or another messenger that suits you.' : 'Опишете накратко проблема или проекта. Ако е необходима снимка за уточнение, ще се свържем с Вас и ще можете да я изпратите чрез WhatsApp или друг удобен месинджър.'}
+            </p>
             {!leadFormReady && (
               <p className="mb-6 text-sm leading-6 text-slate-600">
                 {language === 'ru' ? 'Форма временно недоступна: необходимо настроить текст согласия и ссылку на политику конфиденциальности.' : language === 'en' ? 'The form is temporarily unavailable while the consent text and privacy policy link are being configured.' : 'Формата временно не е активна. Необходимо е да се настроят текстът за съгласие и връзката към политиката за поверителност.'}
