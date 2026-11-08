@@ -92,7 +92,7 @@
 ## 3.2. Результат Этапа 3 — подготовка переноса доставки (08.11.2026)
 
 - PR #120 открыт: https://github.com/omaraandrey-dev/florial/pull/120; code commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` and `7e2296b2f54eafb93265f402856e1099773172a0`.
-- Изменены `src/pages/IrrigationSupportPage.tsx` и `src/lib/servicesOrder.ts`: вместо hardcoded `deliveryRows` используется запрос активных `deliveryZone` из Sanity; helper использует Sanity service с delivery layout и не добавляет legacy delivery card при наличии этой услуги. URL, тексты и структура страницы сохранены, добавлены локализованные loading/error/empty состояния.
+- Изменены `src/App.tsx`, `src/pages/IrrigationSupportPage.tsx` и `src/lib/servicesOrder.ts`: вместо hardcoded `deliveryRows` используется запрос активных `deliveryZone` из Sanity; `App.tsx` распознаёт `serviceLayout=delivery`; helper использует Sanity service с delivery layout и не добавляет legacy delivery card при наличии этой услуги. URL, тексты и структура страницы сохранены, добавлены локализованные loading/error/empty состояния.
 - Все 30 существующих deliveryZone опубликованы, активны и отсортированы по `sortOrder`. Поморие — 15 €, Кошарица — 10 €; прежние предупреждающие заметки удалены. Дополнительно создан и опубликован один service-документ `dostavka-poliv` с `serviceCategory=delivery`, `serviceLayout=delivery`, `sortOrder=90`, BG/RU/EN card content и существующим изображением. Другие тарифы/расстояния не изменялись.
 - CI PR #120: website/Studio validation #477 — success; D1 validation #483 — success.
 - **Этап 3 пока НЕ ЗАВЕРШЁН:** PR ожидает merge и отдельное согласование Production deployment. После публикации требуется live smoke BG/RU/EN и проверка динамического изменения тарифа из Sanity.
