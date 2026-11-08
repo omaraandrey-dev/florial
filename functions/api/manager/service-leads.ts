@@ -115,10 +115,10 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (!writeOriginAllowed(request)) return json({ error: 'Origin not allowed.' }, 403)
   const contentType = request.headers.get('Content-Type') || ''
   if (!contentType.toLowerCase().includes('application/json')) return json({ error: 'Content-Type must be application/json.' }, 415)
-  const length = Number(request.headers.get('Content-Length') || 0)
-  if (length > 8192) return json({ error: 'Request body is too large.' }, 413)
+  const rawBody = await request.text()
+  if (new TextEncoder().encode(rawBody).byteLength > 8192) return json({ error: 'Request body is too large.' }, 413)
   let body: unknown
-  try { body = await request.json() } catch { return json({ error: 'Invalid request body.' }, 400) }
+  try { body = JSON.parse(rawBody) as unknown } catch { return json({ error: 'Invalid request body.' }, 400) }
   if (!isObject(body)) return json({ error: 'Invalid request body.' }, 400)
   const leadId = typeof body.leadId === 'string' ? body.leadId : ''
   if (!uuid(leadId)) return json({ error: 'Невалиден номер на заявка.' }, 400)
@@ -149,8 +149,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     if (assigneeId === lead.assigned_to) return json({ error: 'Отговорникът не е променен.' }, 400)
     if (assigneeId) {
       const assignee = actor.role === 'owner'
-        ? await env.DB.prepare('SELECT user_id FROM catalog_staff_profiles WHERE user_id=? AND is_active=1').bind(assigneeId).first()
-        : await env.DB.prepare('SELECT user_id FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND (user_id=? OR created_by=?)').bind(assigneeId, actor.user_id, actor.user_id).first()
+        ? await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1').bind(assigneeId).first<{ user_id: string; display_name: string }>()
+        : await env.DB.prepare('SELECT user_id,display_name FROM catalog_staff_profiles WHERE user_id=? AND is_active=1 AND (user_id=? OR created_by=?)').bind(assigneeId, actor.user_id, actor.user_id).first<{ user_id: string; display_name: string }>()
       if (!assignee) return json({ error: 'Можете да назначите само активен служител от разрешения ви екип.' }, 403)
     }
     const result = await env.DB.batch([
@@ -158,7 +158,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
       env.DB.prepare(`
         INSERT INTO service_lead_events (id,service_lead_id,actor_id,actor_name,actor_role,event_type,note,metadata,created_at)
         SELECT ?,?,?,?,?,?,?,?,? WHERE EXISTS (SELECT 1 FROM service_leads WHERE id=? AND assigned_to IS ? AND updated_at=?)
-      `).bind(newId(), leadId, actor.user_id, actorName, actor.role, 'assignment_changed', assigneeId ? 'Променен отговорник' : 'Премахнат отговорник', JSON.stringify({ assignedTo: assigneeId }), now, leadId, assigneeId, now),
+      `).bind(newId(), leadId, actor.user_id, actorName, actor.role, 'assignment_changed', assigneeId ? 'Променен отговорник' : 'Премахнат отговорник', JSON.stringify({ assignedTo: assigneeId, assignedName: assignee?.display_name || null }), now, leadId, assigneeId, now),
     ])
     if ((result[0]?.meta?.changes || 0) !== 1 || (result[1]?.meta?.changes || 0) !== 1) return json({ error: 'Заявката беше променена паралелно. Обновете страницата.' }, 409)
     return json({ ok: true })
