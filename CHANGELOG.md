@@ -1,3 +1,14 @@
+## 2026-11-08 — ЭТАП 3 ЗАВЕРШЁН: доставка из Sanity в Production
+
+- PR #120 merged в `main`: `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`.
+- Cloudflare Pages Production deployment `ec045258-1133-49c6-b087-bc49107cd916`: build и deploy — success.
+- Live BG/RU/EN страницы доставки отвечают HTTP 200; каждая показывает все 30 активных зон из Sanity.
+- Проверены Поморие 15 EUR и Кошарица 10 EUR; названия, расстояния и цены локализованы.
+- Sitemap содержит три URL страницы доставки с alternate hreflang bg/ru/en/x-default без дубликатов; robots index/follow.
+- D1 migration validation после merge — success; D1, Sanity schema, Manager, checkout и заказы не менялись.
+- Vite сообщил предупреждение о JS chunk >500 kB; build/deploy успешны.
+- Остался отдельный дополнительный acceptance test: изменение тарифа в Sanity и проверка обновления на сайте без нового deploy; не выполнялся, чтобы не менять Production тарифы.
+
 ## 2026-11-08 — Этап 3: перенос тарифов доставки на Sanity (подготовка к публикации)
 
 - PR #120 создан: `feat: load delivery zones from Sanity` — https://github.com/omaraandrey-dev/florial/pull/120.
