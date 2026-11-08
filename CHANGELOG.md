@@ -1,12 +1,10 @@
-## 2026-11-08 — ЭТАП 2: подключение страниц услуг (PR #116 merged)
+## 2026-11-08 — ЭТАП 2: подключение страниц услуг (PR #116 и #117 merged; PR #118 pending)
 
-- PR #116 merged в `main`: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`.
-- Добавлена загрузка Sanity `sortOrder`, категории, layout и данных Hero в frontend query; типы ServiceItem приведены к фактическим полям Sanity.
-- Общая сортировка карточек услуг переведена на `sortOrder`; старый список slug-приоритетов удалён. Карточка доставки остаётся отдельной позицией 90 до Этапа 3.
-- Страница услуги расширена: Hero, галерея, преимущества, этапы, CTA и визуальная форма заявки (отправка не подключена до Этапа 4).
-- PR checks lint/tests/build/Studio build/Pages Functions syntax — success. Cloudflare Production deployment `fada1cba-6b48-4398-ad33-8d09f06019e0` для commit PR #116 завершился success.
-- Существующие Sanity documents не изменялись; 8 активных услуг и 14 contentBlocks страницы монтажа в Несебре сохранены.
-- Live smoke test обнаружил повтор главного фото в галерее и повтор структурированных преимуществ/этапов, которые уже входят в description. Follow-up fix PR #117 устраняет повторы без изменения Sanity данных; этап остаётся в работе до его проверки.
+- PR #116 merged: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; Sanity query и типы расширены новыми полями, порядок услуг переведён на Sanity sortOrder, страница услуги получила новые визуальные секции и UI-only leadForm.
+- PR #117 merged: `2f94935645025441be931dceeb047701d9e0ea28`; убраны повтор Hero image и дублирующие advantages/steps/CTA.
+- Live smoke test обнаружил английские текстовые заголовки Benefits/How we work; PR #118 расширяет распознавание этих заголовков и их H2 отображение.
+- PR #116/117 checks и Cloudflare Production deployments — success. Никакие Sanity documents не изменялись; 8 active services и 14 contentBlocks страницы монтажа в Несебре сохранены.
+- Этап остаётся в работе до проверки PR #118 и финального production smoke test.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
