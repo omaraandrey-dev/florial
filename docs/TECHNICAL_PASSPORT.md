@@ -1,3 +1,18 @@
+## 2026-11-08 — Этап 6: PR #129 объединён и опубликован в Production
+
+- PR #129 `fix: align delivery fee and sanitize seller permissions` объединён методом squash в `main`; merge commit: `01f21becb40d847270c83b12a3f54d37049d5c67`. PR закрыт со статусом merged.
+- Перед merge актуальный HEAD ветки `fbaa97a4e4b6ace9c35a1a3553c4c07b832ef3e5` прошёл GitHub Actions: Blog and Studio validation run `42494862245` — success; Florial D1 migration validation run `42494837586` — success. В составе CI: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation, Sanity Studio build.
+- Cloudflare Pages Production deployment `d0e2791b-401a-4c52-83f1-1e56d5fe5342` (short ID `d0e2791b`) для merge commit завершился success 08.11.2026 15:43:55 UTC; build и deploy stages — success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live smoke после deployment: главная, `/manager`, `/cart`, delivery page BG/RU/EN — HTTP 200. `/api/manager/service-leads` без авторизации — HTTP 401. Страница Manager показывает закрытую форму входа. Полная аутентифицированная матрица Owner/Manager/Seller не выполнена: отдельные сессии этих ролей недоступны.
+- Delivery page BG/RU/EN показывает Каблешково 10 EUR и Поморие 15 EUR. Sanity опубликованный документ Каблешково `43fdc359-0e28-4410-83b3-a1902270345e` = 10 EUR; корзина и серверная проверка заказа согласованы.
+- Изменения кода: `functions/api/manager/staff.ts` очищает manager-only права при переводе в Seller и запрещает выдачу таких прав Seller; `src/manager/ManagerApp.tsx` сбрасывает manager-only permission в форме создания Seller; `tests/service-leads-manager.test.mjs` покрывает регрессии. Изменено 9 файлов в PR.
+- Production D1 не изменялась: migrations, профили сотрудников, заявки, события и заказы не затрагивались; новые тестовые заявки не создавались. Sanity schema не менялась; ранее изменён только один опубликованный deliveryZone документ Каблешково. Header, меню, Footer, checkout и глобальная оболочка не менялись.
+- Retention: срок `retention_until` = 365 дней; автоматическое удаление/обезличивание не включено. Нужны отдельное решение владельца и правовая проверка. Не выполнять purge или анонимизацию без отдельного подтверждения.
+- Cloudflare Pages project config содержит legacy переменные с именами `SUPABASE_*` / `VITE_SUPABASE_*`; статический поиск в репозитории ранее не выявил активного Supabase runtime-кода. Значения не раскрывались, настройки не менялись. Удаление этих переменных требует отдельной проверки workflow/config и отдельного согласования.
+- Статус: **код PR #129 объединён и опубликован; техническая часть исправления Seller permissions и выравнивания доставки выполнена. Полное закрытие Этапа 6 остаётся открытым до authenticated role matrix и решения по retention.**
+
+---
+
 ## 2026-11-08 — Этап 6: первичная сквозная проверка и исправления в PR
 
 - Перед работой прочитана Library-инструкция `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev18.md` (created_at `2026-11-08T11:39:25Z`); сверены `main`, `CHANGELOG.md`, `docs/ROADMAP_SERVICES_AND_LEADS.md`, Manager architecture, опубликованные Sanity documents и Production D1.
