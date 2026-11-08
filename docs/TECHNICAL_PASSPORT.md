@@ -1,3 +1,19 @@
+## 2026-11-08 — Этап 5: Manager для заявок на услуги (PR #127, в работе)
+
+- Базовый `main`: `2516b3f4c60420e95a8b8a12400c373e9b0f9b16`; ветка `feat/service-leads-manager-stage-5`; PR #127; HEAD на момент записи `85671521801591c63d279189422753dad7fd1340`.
+- Актуальная MD2-инструкция перед работой: rev17, Library created_at `2026-11-08T10:17:23Z`. Повторно изучены roadmap, Manager architecture, актуальные исходники и D1 schema.
+- Владелец подтвердил реальную тестовую отправку заявки: уведомление Florial получено, клиент получил письмо-подтверждение, мобильное отображение проверено. Read-only D1: 2 заявки и 4 события; данные клиентов не выгружались.
+- Добавлены `functions/api/manager/service-leads.ts`, `src/manager/ServiceLeadsManager.tsx`, интеграция в `src/manager/ManagerApp.tsx`, permission keys в `functions/api/manager/_lib.ts` и делегирование/валидация в `functions/api/manager/staff.ts`.
+- Новые разрешения: `canViewServiceLeads`, `canManageServiceLeads`. Owner получает доступ автоматически; Manager получает только явно выданные права; Seller блокируется. Управление требует также права просмотра. Существующие permission flags сохраняются.
+- API поддерживает поиск/фильтры, детальную карточку, безопасные статусы/переходы, назначение активного профиля Owner/Manager (owner — любой активный Owner или Manager; manager — себя или прямых подчинённых с ролью Manager; Seller исключён), внутренние комментарии и неизменяемые события.
+- Additive migration `0012_service_leads_manager` добавляет `service_leads.assigned_to`, индекс и два новых permission keys со значением false; одновременно включает отсутствующий `canManageCategorySeo=false` в проверяемую форму permission JSON и укрепляет triggers. Существующие заявки, события, заказы и сотрудники не удаляются.
+- Migration SQL проверена отдельно в локальной SQLite-модели с representative permission JSON; migration применена в тестовой модели, новые поля прав остались boolean false. Production D1 migration 0012 НЕ применялась.
+- Добавлен `tests/service-leads-manager.test.mjs`. GitHub Actions для PR #127 запущены; результаты будут внесены после завершения.
+- Sanity и её документы не менялись; Cloudflare secrets/settings не менялись; production deployment нового Manager UI не выполнялся. Header, меню, Footer, checkout и публичная оболочка не менялись.
+- Retention cleanup для заявок по истечении 365 дней остаётся отдельной нерешённой задачей и не включался.
+- Статус: **ЭТАП 5 В РАБОТЕ; PR #127 открыт, CI ожидает завершения**.
+
+---
 ## 2026-11-08 — Обновлён фирменный шаблон клиентского email по заявкам
 
 - Изменён только `functions/api/service-leads.ts`: общий helper `buildCustomerConfirmationHtml` формирует локализованное BG/RU/EN HTML-письмо с логотипом, названием садового центра, фирменной палитрой и контактами.
