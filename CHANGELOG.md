@@ -1,3 +1,14 @@
+## 2026-11-08 — Публикация услуги «Профессиональная посадка маслин»
+
+- Создана и опубликована услуга Sanity `6afc3eff-944c-4085-a48c-38686999b0f3` по адресу `/services/profesionalno-zasazhdane-na-maslini`, категория `planting`, порядок 25.
+- Подготовлены естественные BG/RU/EN тексты с H1/H2/H3, агротехнически скорректированной технологией посадки, преимуществами, этапами работы и CTA.
+- Загружены четыре оригинальные фотографии; одна используется как Hero, три — внутри статьи. Заполнены локализованные ALT BG/RU/EN и SEO title/description/keywords.
+- Настроена существующая форма заявок услуги через `/api/service-leads`; тестовую заявку не отправляли, чтобы не создавать реальный лид.
+- PR #130: поддержка Markdown и Portable Text заголовков, выделений и списков в `ServicePage.tsx`; PR #131: более крупное отображение одиночных фотографий без обрезки и без повторного ALT в подписи. Оба PR объединены в `main`.
+- GitHub Actions: lint, tests, website build, Pages Functions syntax, D1 read-only validation и Sanity Studio build — success.
+- Cloudflare Pages Production deployment `afbaa0c5-3659-46bc-8998-8716f7c09fe7` — success. Live smoke BG/RU/EN: HTTP 200, H1, SEO metadata, index/follow, фотографии и форма заявки проверены.
+- Существующие услуги, Sanity schema, D1, Manager, orders, checkout, Header, меню и Footer не изменялись.
+
 ## 2026-11-08 — Выпущена основная инструкция Florial MD2 rev22
 
 - Создана новая контрольная редакция `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev22.md` и сохранена в Library: `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev22.md`.
