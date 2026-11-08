@@ -1,3 +1,16 @@
+## 2026-11-08 — ЭТАП 1 ЗАВЕРШЁН: модель услуг и deliveryZone в Sanity
+
+- GitHub main base commit: `1de4822d54366ca8b38b750bf9cf979a087bc1b1`. Реализация схемы: PR #112 (merge `bc7ed03040a0639962c031508196062092f151bc`); совместимость существующих content blocks: PR #113 (merge `1de4822d54366ca8b38b750bf9cf979a087bc1b1`).
+- GitHub Actions: Sanity Studio validation, Blog and Studio validation, D1 migration validation и Deploy Florial Sanity Studio run #89 завершились `success`. Cloudflare Pages check для текущего main commit также завершился `success`.
+- Проверка Sanity Schema API подтвердила, что в действующей workspace `florial-admin` опубликованы поля service `sortOrder`, `serviceCategory`, `serviceLayout`; локализованные RU/EN `advantages`, `steps`, `leadForm`; расширенная BG leadForm; новый тип `deliveryZone`; локализованное `serviceContentBlock.translations.en/ru.imageAlt`.
+- Все 8 существующих опубликованных услуг получили additive metadata и опубликованы: порядок 10–80, категории landscaping/planting/irrigation/lawn/maintenance, layout standard. Остальные поля не заменялись.
+- Услуга монтажа в Несебър проверена после публикации: 14 `contentBlocks` сохранены.
+- В Sanity Production созданы 30 draft-документов `deliveryZone` из действующей страницы доставки: локализованные BG/RU/EN названия, расстояния (км), текущие тарифы EUR, активность и sortOrder. Все 30 записей находятся в drafts; 0 опубликованных deliveryZone, поэтому текущая публичная страница не меняется.
+- Две зоны намеренно оставлены `isActive=false` до подтверждения расхождений: Поморие — текущий код 15 €, ранее названо владельцем 20 €; Кошарица — текущий код 10 €, ранее названо владельцем 15 €. Другие текущие зоны и тарифы сохранены как в коде. Расстояния перенесены из текущей страницы и пока не являются независимо проверенными дорожными расстояниями.
+- Обнаруженная ранее схема-несовместимость существующего `contentBlocks[].translations.en/ru.imageAlt` устранена аддитивным добавлением полей в `serviceContentBlock`; данные не удалялись.
+- Runtime/frontend, публичные страницы услуг, `IrrigationSupportPage.tsx`, Header, меню, Footer, D1, заказы, checkout, Resend и Cloudflare secrets не менялись. Страница доставки остаётся на прежней реализации до Этапа 3.
+- Следующий этап — Этап 2 (визуальные компоненты и страницы услуг). Этапы 2–6 остаются не начатыми.
+
 ## 2026-11-08 — Совместимость существующих переводов serviceContentBlock
 
 - После аддитивного добавления новых полей в service и deliveryZone подготовка draft-изменений восьми услуг выявила существующее поле `contentBlocks[].translations.en/ru.imageAlt`, которое присутствует в документах, но отсутствовало в определении `serviceContentBlock`.
