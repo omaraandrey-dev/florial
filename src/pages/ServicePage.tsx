@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
-import type { ServiceItem, ServiceContentBlock } from '../types'
+import type { ServiceItem, ServiceContentBlock, ServiceGalleryImage } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 
@@ -94,6 +94,31 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
   )
 }
 
+
+function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
+  if (!images.length) return null
+
+  return (
+    <section className="my-8" aria-label={language === 'ru' ? 'Галерея услуги' : language === 'en' ? 'Service gallery' : 'Галерия на услугата'}>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
+        {images.map((image, index) => {
+          if (!image.url) return null
+          const alt = language === 'ru'
+            ? (image.altRu || image.alt || '')
+            : language === 'en'
+              ? (image.altEn || image.alt || '')
+              : (image.alt || '')
+          return (
+            <figure key={image._key || `service-gallery-${index}`} className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
+              <img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" />
+            </figure>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 function renderPortableText(
   content: any,
   language = 'bg',
@@ -150,6 +175,24 @@ function renderPortableText(
 
 export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const { t, language, localize } = useI18n()
+  const localizedName = String(localize(service, 'name') || service.name)
+  const hero = localize(service, 'hero') || service.hero || {}
+  const heroTitle = hero.title || localizedName
+  const heroSubtitle = hero.subtitle || localize(service, 'shortDescription')
+  const heroImageUrl = hero.imageUrl || service.imageUrl
+  const heroImageAlt = language === 'ru'
+    ? (hero.imageAltRu || hero.imageAlt || service.imageAltRu || localizedName)
+    : language === 'en'
+      ? (hero.imageAltEn || hero.imageAlt || service.imageAltEn || localizedName)
+      : (hero.imageAlt || service.imageAlt || localizedName)
+  const galleryImages = Array.isArray(service.galleryImages)
+    ? service.galleryImages.filter((image) => Boolean(image?.url))
+    : []
+  const advantages = localize(service, 'advantages') || service.advantages || []
+  const steps = localize(service, 'steps') || service.steps || []
+  const callToAction = localize(service, 'callToAction') || service.callToAction || {}
+  const leadForm = localize(service, 'leadForm') || service.leadForm || {}
+  const leadFormFields = Array.isArray(leadForm.fields) ? leadForm.fields : []
 
   // Localized service SEO and alternates are emitted only for published translations.
   useEffect(() => {
@@ -231,11 +274,11 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             {t("Услуги на Florial")}
           </span>
           <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
-            {localize(service, 'name')}
+            {heroTitle}
           </h1>
-          {service.shortDescription && (
+          {heroSubtitle && (
             <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
-              {localize(service, 'shortDescription')}
+              {heroSubtitle}
             </p>
           )}
           {service.startingPriceEUR != null && service.startingPriceEUR > 0 && (
@@ -250,20 +293,18 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {hasIntroGallery
           ? renderImageGallery(imageGroups.intro || [], 'intro', language)
-          : service.imageUrl && (
+          : heroImageUrl && (
             <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
               <img
-                src={service.imageUrl}
-                alt={language === 'ru'
-                  ? (service.imageAltRu || localize(service, 'name'))
-                  : language === 'en'
-                    ? (service.imageAltEn || localize(service, 'name'))
-                    : (service.imageAlt || localize(service, 'name'))}
+                src={heroImageUrl}
+                alt={heroImageAlt}
                 fetchPriority="high"
                 className="max-h-[560px] min-h-[220px] w-full object-cover"
               />
             </div>
           )}
+
+        {galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
         {service.description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
@@ -271,17 +312,52 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           </div>
         )}
 
-        {service.callToAction?.title && (
+        {Array.isArray(advantages) && advantages.length > 0 && (
+          <section className="mx-auto my-10 max-w-5xl">
+            <h2 className="mb-5 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+              {language === 'ru' ? 'Преимущества' : language === 'en' ? 'Why choose us' : 'Предимства'}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {advantages.map((item: any, index: number) => (
+                <article key={item?._key || `advantage-${index}`} className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                  {item?.title && <h3 className="mb-2 text-lg font-semibold text-slate-900">{item.title}</h3>}
+                  {(item?.text || item?.description) && <p className="leading-7 text-slate-600">{item.text || item.description}</p>}
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {Array.isArray(steps) && steps.length > 0 && (
+          <section className="mx-auto my-10 max-w-5xl">
+            <h2 className="mb-5 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+              {language === 'ru' ? 'Этапы работы' : language === 'en' ? 'How it works' : 'Етапи на изпълнение'}
+            </h2>
+            <ol className="grid gap-4 sm:grid-cols-2">
+              {steps.map((step: any, index: number) => (
+                <li key={step?._key || `service-step-${index}`} className="flex gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-50 font-bold text-emerald-800">
+                    {step?.stepNumber || index + 1}
+                  </span>
+                  <div>
+                    {step?.title && <h3 className="mb-2 text-lg font-semibold text-slate-900">{step.title}</h3>}
+                    {(step?.text || step?.description) && <p className="leading-7 text-slate-600">{step.text || step.description}</p>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        {Boolean(callToAction.title || callToAction.text || callToAction.buttonLabel || callToAction.buttonText) && (
           <section className="my-8 rounded-2xl bg-emerald-800 px-6 py-10 text-center text-white md:my-12 md:px-12">
-            <h2 className="text-2xl font-bold md:text-3xl">{localize(service.callToAction, 'title')}</h2>
-            <p className="mx-auto mt-3 max-w-2xl leading-7 text-emerald-50">
-              {t('Свържете се с нас и ще обсъдим подходящото решение за вашата градина.')}
-            </p>
+            {callToAction.title && <h2 className="text-2xl font-bold md:text-3xl">{callToAction.title}</h2>}
+            {callToAction.text && <p className="mx-auto mt-3 max-w-2xl leading-7 text-emerald-50">{callToAction.text}</p>}
             <a
-              href="/contacts"
+              href={localizedHref('/contacts', language)}
               className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 font-bold text-emerald-900 transition hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-800"
             >
-              {t("Свържете се с нас")}
+              {callToAction.buttonLabel || callToAction.buttonText || (language === 'ru' ? 'Связаться с нами' : language === 'en' ? 'Contact us' : 'Свържете се с нас')}
             </a>
           </section>
         )}
@@ -311,12 +387,37 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                   {(title || text) && (
                     <div className={imageFirst ? 'md:order-2' : 'md:order-1'}>
                       {title && <h2 className="mb-3 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">{title}</h2>}
-                      {text && <p className="whitespace-pre-line leading-7 text-slate-600">{text}</p>}
+                      {text && <div className="leading-7 text-slate-600">{renderPortableText(text, language)}</div>}
                     </div>
                   )}
                 </article>
               )
             })}
+          </section>
+        )}
+
+        {leadFormFields.length > 0 && (
+          <section className="mx-auto my-12 max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+            <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
+              {leadForm.title || leadForm.formTitle || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')}
+            </h2>
+            <p className="mb-6 text-sm leading-6 text-slate-600">
+              {language === 'ru' ? 'Форма будет активирована после подключения защищённой отправки заявок.' : language === 'en' ? 'This form will be enabled when secure enquiry submission is connected.' : 'Формата ще бъде активирана след свързване на защитеното изпращане на заявки.'}
+            </p>
+            <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
+              {leadFormFields.map((field: any, index: number) => (
+                <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
+                  <span>{field?.label || field?.name}</span>
+                  {field?.type === 'textarea'
+                    ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />
+                    : <input name={field?.name} type={field?.type === 'tel' || field?.type === 'email' ? field.type : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
+                </label>
+              ))}
+              {leadForm.consentText && <p className="text-xs leading-5 text-slate-500">{leadForm.consentText}</p>}
+              <button type="button" disabled className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white opacity-60">
+                {leadForm.submitLabel || leadForm.submitButtonText || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')}
+              </button>
+            </form>
           </section>
         )}
       </div>

@@ -188,6 +188,9 @@ export interface ServiceItem {
   _id: string
   name: string
   slug?: { current: string }
+  sortOrder?: number
+  serviceCategory?: 'landscaping' | 'planting' | 'irrigation' | 'lawn' | 'maintenance' | 'delivery'
+  serviceLayout?: 'standard' | 'delivery'
   shortDescription?: string
   description?: any
   imageUrl?: string
@@ -198,11 +201,21 @@ export interface ServiceItem {
   contentBlocks?: ServiceContentBlock[]
   startingPriceEUR?: number
   isActive?: boolean
-  advantages?: Array<{ title: string; description?: string }>
-  steps?: Array<{ stepNumber?: number; title: string; description?: string }>
-  hero?: { title?: string; subtitle?: string }
-  callToAction?: { title?: string; buttonText?: string }
-  leadForm?: { formTitle?: string; submitButtonText?: string }
+  advantages?: Array<{ title?: string; text?: string; description?: string }>
+  steps?: Array<{ stepNumber?: number; title?: string; text?: string; description?: string }>
+  hero?: { title?: string; subtitle?: string; imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string }
+  callToAction?: { title?: string; text?: string; buttonLabel?: string; buttonText?: string }
+  leadForm?: {
+    title?: string
+    formTitle?: string
+    submitLabel?: string
+    submitButtonText?: string
+    successMessage?: string
+    consentText?: string
+    placeholder?: string
+    type?: string
+    fields?: Array<{ _key?: string; name: string; type?: 'text' | 'tel' | 'email' | 'textarea'; label?: string; placeholder?: string; required?: boolean }>
+  }
   seo?: { metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; keywords?: string[]; noIndex?: boolean }
 }
 
