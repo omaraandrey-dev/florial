@@ -1,11 +1,12 @@
-## 2026-11-08 — ЭТАП 2: подключение страниц услуг (реализация в PR)
+## 2026-11-08 — ЭТАП 2: подключение страниц услуг (PR #116 merged)
 
-- Добавлена загрузка Sanity `sortOrder`, категории, layout и данных Hero в frontend query.
-- Типы ServiceItem приведены к фактическим полям Sanity: gallery, hero, advantages, steps, CTA и leadForm.
+- PR #116 merged в `main`: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`.
+- Добавлена загрузка Sanity `sortOrder`, категории, layout и данных Hero в frontend query; типы ServiceItem приведены к фактическим полям Sanity.
 - Общая сортировка карточек услуг переведена на `sortOrder`; старый список slug-приоритетов удалён. Карточка доставки остаётся отдельной позицией 90 до Этапа 3.
 - Страница услуги расширена: Hero, галерея, преимущества, этапы, CTA и визуальная форма заявки (отправка не подключена до Этапа 4).
+- PR checks lint/tests/build/Studio build/Pages Functions syntax — success. Cloudflare Production deployment `fada1cba-6b48-4398-ad33-8d09f06019e0` для commit PR #116 завершился success.
 - Существующие Sanity documents не изменялись; 8 активных услуг и 14 contentBlocks страницы монтажа в Несебре сохранены.
-- Реализация в ветке `feature/services-pages-stage2-2026-11-08`; CI/merge ожидаются.
+- Live smoke test обнаружил повтор главного фото в галерее и повтор структурированных преимуществ/этапов, которые уже входят в description. Follow-up fix PR #117 устраняет повторы без изменения Sanity данных; этап остаётся в работе до его проверки.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
