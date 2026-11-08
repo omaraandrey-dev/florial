@@ -148,6 +148,44 @@ function getLeadFieldLabel(field: any, language: string): string {
   return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
 }
 
+
+function normalizeHeadingText(value: string): string {
+  return value
+    .replace(/^#+\s*/, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[.!:：]+$/g, '')
+    .toLocaleLowerCase()
+    .trim()
+}
+
+function removeDuplicateHeroHeading(content: any, heroTitle: string): any {
+  const target = normalizeHeadingText(heroTitle || '')
+  if (!target) return content
+
+  if (typeof content === 'string') {
+    const lines = content.split('\n')
+    const firstContentLine = lines.findIndex((line) => line.trim().length > 0)
+    if (firstContentLine >= 0 && normalizeHeadingText(lines[firstContentLine]) === target) {
+      lines.splice(firstContentLine, 1)
+    }
+    return lines.join('\n')
+  }
+
+  if (Array.isArray(content)) {
+    let firstHeadingSeen = false
+    return content.filter((block: any) => {
+      if (firstHeadingSeen || block?._type !== 'block' || !['h1', 'h2', 'h3'].includes(block.style)) {
+        return true
+      }
+      firstHeadingSeen = true
+      const heading = (block.children || []).map((child: any) => child.text || '').join('')
+      return normalizeHeadingText(heading) !== target
+    })
+  }
+
+  return content
+}
+
 function getDescriptionHeadings(content: any): string[] {
   if (typeof content === 'string') {
     return content.split('\n').map((line) => line.trim()).filter(Boolean)
@@ -241,7 +279,8 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     ? service.galleryImages.filter((image) => Boolean(image?.url) && image.url !== heroImageUrl)
     : []
   const description = localize(service, 'description')
-  const descriptionHeadings = getDescriptionHeadings(description)
+  const descriptionForRender = removeDuplicateHeroHeading(description, heroTitle)
+  const descriptionHeadings = getDescriptionHeadings(descriptionForRender)
   const advantages = localize(service, 'advantages') || service.advantages || []
   const steps = localize(service, 'steps') || service.steps || []
   const showAdvantages = Array.isArray(advantages) && advantages.length > 0 && !descriptionHasSection(descriptionHeadings, 'advantages')
@@ -369,7 +408,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
-            {renderPortableText(description, language, imageGroups)}
+            {renderPortableText(descriptionForRender, language, imageGroups)}
           </div>
         )}
 
