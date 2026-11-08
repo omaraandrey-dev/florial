@@ -1,15 +1,19 @@
-## 2026-11-08 — ЭТАП 2: подключение публичных страниц услуг (PR #116 и #117 merged; PR #118 pending)
+## 2026-11-08 — ЭТАП 2 ЗАВЕРШЁН: публичные страницы услуг
 
-- PR #116 объединён в `main`: commit `f05d52f2bf81c80e103c337f5332dbf3c13af81c`.
-- PR #117 объединён в `main`: commit `2f94935645025441be931dceeb047701d9e0ea28`; исключено повторное Hero-фото в галерее, предотвращено дублирование преимуществ/этапов/CTA, если те же разделы уже содержатся в description.
-- PR #118 расширяет распознавание локализованных текстовых заголовков Benefits/How we work и соответствующих BG/RU вариантов, чтобы строковые описания сохраняли H2 семантику и не дублировались со структурированными полями; также убирает только первый H2/H1 в description, если его текст совпадает с Hero H1.
-- Изменены: `src/App.tsx` (поля sortOrder/category/layout, Hero и hero-image fallback в GROQ); `src/types.ts` (типы фактической модели Sanity); `src/lib/servicesOrder.ts` (сортировка по Sanity sortOrder); `src/pages/ServicePage.tsx` (галерея, преимущества, этапы, Hero, CTA, UI leadForm без отправки).
-- `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper; их карточки автоматически сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся временным элементом до Этапа 3.
-- PR #116 checks: D1 validation lint/build/Pages Functions syntax — success; Blog and Studio lint/tests/site build/read-only dry-run/Studio build — success. PR #117 checks также success.
-- Cloudflare Production deployment PR #116: `fada1cba-6b48-4398-ad33-8d09f06019e0`, success. Deployment PR #117: `657e32e7-0efc-46f3-9182-dc2c8550078b`, success; aliases `florial-bg.com` и `www.florial-bg.com`.
-- Read-only Sanity: 8 опубликованных активных service документов; специальная услуга монтажа в Несебре имеет 14 contentBlocks. Никакие Sanity документы не изменялись; 30 deliveryZone остаются drafts, 0 published.
-- У всех 8 service документов есть RU/EN description; структурированные advantages/steps повторяют разделы описания, поэтому при наличии таких заголовков отдельные дублирующие карточки скрываются. Переводы `translations.ru/en.advantages`, `steps` и `leadForm` отсутствуют; форма получает локализованные подписи для стандартных полей из frontend fallback. Sanity документы не редактировались.
-- Доставка, D1, Manager, Resend, заказы, Header, меню, Footer и глобальная навигация не менялись. Этап 2 остаётся в работе до merge PR #118 и финального production smoke test.
+- PR #116 merged: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; PR #117 merged: `2f94935645025441be931dceeb047701d9e0ea28`; PR #118 merged: `f23e80dc78910657547a996ff87c85b5075d6ac8`.
+- Финальный main commit: `f23e80dc78910657547a996ff87c85b5075d6ac8`.
+- Изменены: `src/App.tsx` (GROQ fields sortOrder/category/layout/Hero/gallery); `src/types.ts`; `src/lib/servicesOrder.ts` (Sanity sortOrder); `src/pages/ServicePage.tsx` (Hero, gallery, advantages, steps, CTA, UI-only leadForm, duplicate suppression, localized headings and form labels).
+- `HomePage.tsx` и `ServicesListPage.tsx` используют единый helper и сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся фиксированной позицией 90 до Этапа 3.
+- Production smoke test: BG/RU/EN service pages и `/services` — HTTP 200; robots `index, follow`; Hero image не дублируется в gallery; совпадающий Hero H1 не повторяется как H2; преимущества/этапы/CTA не дублируются, если уже присутствуют в description; подписи формы локализованы, phone/email/details получают tel/email/textarea.
+- Все 8 опубликованных service документов имеют RU/EN description и SEO metaTitle/metaDescription. Структурированные `translations.ru/en.advantages`, `steps`, `leadForm` не заполнены; соответствующие разделы уже присутствуют в локализованных descriptions, UI избегает повторов. Для формы используются локализованные frontend fallback labels; Sanity данные не менялись.
+- Sitemap smoke test: 24 service URL entries (8 услуг × BG/RU/EN). SEO source helper `applyPageSeo` сохраняет self-canonical и hreflang alternates; `robots` подтверждён как `index, follow`.
+- CI: PR #116/#117/#118 lint/tests/Vite build/Pages Functions syntax/read-only migration dry-run/Studio build — success. Main D1 validation run `42448148467` — success. Отдельного npm script для standalone TypeScript `tsc --noEmit` в проекте нет.
+- Cloudflare Pages Production deployment: `407cef61-bc67-444f-ba84-48d46d99fcfa`, build и deploy success; aliases `https://florial-bg.com`, `https://www.florial-bg.com`.
+- Sanity read-only: 8 published active service documents; 14 contentBlocks услуги монтажа в Несебре сохранены. Никакие Sanity documents не изменялись. 30 deliveryZone drafts, 0 published.
+- Владелец подтвердил тарифы: Поморие 15 €, Кошарица 10 €. Обе draft-записи пока `isActive=false`; на Этапе 3 активировать обе и сохранить эти суммы. Расстояния взяты из текущей страницы и не были независимо проверены.
+- Не менялись D1, Manager, Resend, заказы, checkout, доставка, Header, меню, Footer, глобальная оболочка и Cloudflare secrets. Заявочная форма — только UI; серверная отправка, email, фото и Manager интеграция остаются следующими этапами.
+- Related services/products не добавлялись: соответствующих полей в текущей схеме service нет.
+- Этап 3 не начат. Продолжать его в отдельном новом чате после проверки последней MD2 и актуального main.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
