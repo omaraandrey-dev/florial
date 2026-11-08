@@ -254,20 +254,31 @@ export function IrrigationSupportPage() {
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mb-7 max-w-3xl"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{text.deliveryTitle}</h2><p className="mt-3 leading-7 text-slate-600">{text.deliveryIntro}</p></div>
         <div className="overflow-x-auto rounded-2xl border border-[#E1E6D7] bg-white shadow-sm">
-          <table className="w-full min-w-[620px] border-collapse text-left">
-            <thead className="bg-[#EEF2E5] text-sm text-slate-700"><tr><th className="px-5 py-4 font-bold">{text.location}</th><th className="px-5 py-4 text-right font-bold">{text.distance} (км)</th><th className="px-5 py-4 text-right font-bold">{text.price}</th></tr></thead>
+          <table className="w-max min-w-full table-fixed border-collapse text-left md:w-full">
+            <colgroup>
+              <col className="w-[calc(66.6667vw-1.333rem)] md:w-1/2" />
+              <col className="w-[calc(33.3333vw-0.667rem)] md:w-1/4" />
+              <col className="w-28 md:w-1/4" />
+            </colgroup>
+            <thead className="bg-[#EEF2E5] text-sm text-slate-700">
+              <tr>
+                <th className="px-3 py-3 font-bold md:px-5 md:py-4">{text.location}</th>
+                <th className="px-3 py-3 text-right font-bold md:px-5 md:py-4">{text.price}</th>
+                <th className="px-3 py-3 text-right font-bold md:px-5 md:py-4">{text.distance} (км)</th>
+              </tr>
+            </thead>
             <tbody>
               {deliveryZonesLoading ? (
-                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-500">{text.deliveryLoading}</td></tr>
+                <tr><td colSpan={3} className="px-3 py-6 text-center text-slate-500 md:px-5">{text.deliveryLoading}</td></tr>
               ) : deliveryZonesError ? (
-                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-600">{text.deliveryError}</td></tr>
+                <tr><td colSpan={3} className="px-3 py-6 text-center text-slate-600 md:px-5">{text.deliveryError}</td></tr>
               ) : deliveryZones.length === 0 ? (
-                <tr><td colSpan={3} className="px-5 py-6 text-center text-slate-600">{text.deliveryEmpty}</td></tr>
+                <tr><td colSpan={3} className="px-3 py-6 text-center text-slate-600 md:px-5">{text.deliveryEmpty}</td></tr>
               ) : deliveryZones.map((zone) => (
                 <tr key={zone._id} className="border-t border-[#E8ECDF]">
-                  <td className="px-5 py-4 text-slate-800">{zone.translations?.[language]?.name || zone.name}</td>
-                  <td className="px-5 py-4 text-right text-slate-600">{formatDistance(zone.distanceKm)}</td>
-                  <td className="px-5 py-4 text-right font-extrabold text-[#53643A]">{formatDeliveryFee(zone.feeEUR)}</td>
+                  <td className="px-3 py-3 text-slate-800 md:px-5 md:py-4">{zone.translations?.[language]?.name || zone.name}</td>
+                  <td className="px-3 py-3 text-right font-extrabold text-[#53643A] md:px-5 md:py-4">{formatDeliveryFee(zone.feeEUR)}</td>
+                  <td className="px-3 py-3 text-right text-slate-600 md:px-5 md:py-4">{formatDistance(zone.distanceKm)}</td>
                 </tr>
               ))}
             </tbody>
