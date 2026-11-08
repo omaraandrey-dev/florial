@@ -70,10 +70,11 @@ export default function ServiceLeadsManager({ canManage }: Props) {
     setLoading(true); setError('')
     try {
       const response = await fetch('/api/manager/service-leads' + (queryString ? '?' + queryString : ''), { credentials: 'same-origin', cache: 'no-store' })
-      const result = await response.json() as { leads?: Lead[]; services?: typeof services; error?: string }
+      const result = await response.json() as { leads?: Lead[]; services?: typeof services; assignees?: Assignee[]; error?: string }
       if (!response.ok) throw new Error(result.error || 'Не успяхме да заредим заявките.')
       setLeads(result.leads || [])
       setServices(result.services || [])
+      setAssignees(result.assignees || [])
     } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да заредим заявките.') }
     finally { setLoading(false) }
   }, [queryString])
