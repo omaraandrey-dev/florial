@@ -1,3 +1,20 @@
+## 2026-11-08 — ЭТАП 4: заявочная форма без согласия и без фото (в работе)
+
+- Проверенная база: `main` commit `50d91be629bd1d31dd861896732cdd43fb5ea91b`; реализация находится в `feat/service-leads-stage-4`, PR #124.
+- Production D1 `5fbb0e47-8439-493c-821a-6945eef7d8b2` до начала работ read-only проверена: последняя migration `0010_public_api_rate_limits`; таблиц `service_leads` / `service_lead_events` не было.
+- Подготовлена additive migration `functions/migrations/0011_service_leads.sql` с отдельными таблицами `service_leads` и append-only `service_lead_events`. Содержит idempotency, notification states и `retention_until` на 365 дней. Поля согласия и URL политики не включены. Migration не применена к Production.
+- `functions/api/service-leads.ts` проверяет same-origin, JSON/body limit, rate limit, honeypot, активную Sanity service, поля/контакты и idempotency. Нет проверки checkbox, `consentText` или `privacyPolicyUrl`; запись в D1 и best-effort email сохраняются.
+- Email повторно использует существующий `sendOrderEmail` и Pages variables `RESEND_API_KEY`, `EMAIL_FROM`, `ORDER_NOTIFICATION_EMAIL`; наличие имён проверено без чтения значений. Тестовая отправка не выполнялась.
+- `src/pages/ServicePage.tsx` показывает форму BG/RU/EN без checkbox согласия и без ссылки на privacy policy. Клиент описывает проблему; если потребуется фотография, команда Florial свяжется с ним и предложит отправить её через WhatsApp или другой удобный мессенджер.
+- **Фотозагрузка через сайт исключена из текущего объёма по решению владельца.** Не создавать Media Library, не подключать R2, не использовать Sanity dataset assets для клиентских фото и не добавлять file fields/endpoints. Вопрос будущего приватного хранения остаётся открытым.
+- Из Sanity Studio schema и `src/types.ts` удалены поля `consentText` и `privacyPolicyUrl`, добавлявшиеся в этой ветке; schema deploy и Sanity document writes не выполнялись.
+- Для клиентского запроса на расчёт/оказание услуги применимость GDPR Art. 6(1)(b) оценивается как преддоговорные действия по просьбе клиента, если фактическая цель запроса соответствует этому основанию. Art. 13 GDPR сохраняет отдельную обязанность информирования; она не требует checkbox согласия и не является техническим gate формы. Наличие и содержание privacy notice вне формы требуют отдельной правовой проверки; не заявлять о полной GDPR-compliance без неё.
+- Срок хранения заявок задаётся 365 дней; автоматическое удаление/обезличивание не реализовано. Перед запуском требуется отдельно согласовать и проверить процедуру retention.
+- Production D1, Sanity documents, Cloudflare secrets/settings, Manager, orders, checkout, Header, меню, Footer не изменялись. Нет merge и Production deployment. Этап 4 не завершён.
+- Выпущена и проверена Library-инструкция `ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev15.md` (08.11.2026, rev15); предыдущая rev14 сохранена целиком.
+
+
+
 ## 2026-11-08 — ЭТАП 3: Sanity delivery zones подключены в коде; Production ожидает согласования
 
 - Базовый `main`: `a021f637f7ea2850a57673c0560f4e82fe3146fc`. Реализация подготовлена в PR #120: https://github.com/omaraandrey-dev/florial/pull/120; кодовые commits `cb2c92d566228bed31c1fc1bd5a96f87d4746c4b` и `7e2296b2f54eafb93265f402856e1099773172a0`.

@@ -76,12 +76,14 @@ export const sendOrderEmail = async (
   subject: string,
   html: string,
   attachments?: Array<{ filename: string; content: string; type: string }>,
+  idempotencyKey?: string,
 ): Promise<void> => {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: 'Bearer ' + apiKey,
       'Content-Type': 'application/json',
+      ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
     },
     body: JSON.stringify({ from, to: [to], subject, html, ...(attachments?.length ? { attachments } : {}) }),
   })

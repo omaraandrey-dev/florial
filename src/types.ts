@@ -211,7 +211,6 @@ export interface ServiceItem {
     submitLabel?: string
     submitButtonText?: string
     successMessage?: string
-    consentText?: string
     placeholder?: string
     type?: string
     fields?: Array<{ _key?: string; name: string; type?: 'text' | 'tel' | 'email' | 'textarea'; label?: string; placeholder?: string; required?: boolean }>
