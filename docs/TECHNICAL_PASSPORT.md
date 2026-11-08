@@ -8,7 +8,7 @@
 - PR #116 checks: D1 validation lint/build/Pages Functions syntax — success; Blog and Studio lint/tests/site build/read-only dry-run/Studio build — success. PR #117 checks также success.
 - Cloudflare Production deployment PR #116: `fada1cba-6b48-4398-ad33-8d09f06019e0`, success. Deployment PR #117: `657e32e7-0efc-46f3-9182-dc2c8550078b`, success; aliases `florial-bg.com` и `www.florial-bg.com`.
 - Read-only Sanity: 8 опубликованных активных service документов; специальная услуга монтажа в Несебре имеет 14 contentBlocks. Никакие Sanity документы не изменялись; 30 deliveryZone остаются drafts, 0 published.
-- Для некоторых RU/EN документов отсутствуют переводы отдельных полей advantages/steps/leadForm; UI использует существующее локализованное description там, где оно доступно, и fallback для пустых полей. Новые переводы не записывались.
+- У всех 8 service документов есть RU/EN description; структурированные advantages/steps повторяют разделы описания, поэтому при наличии таких заголовков отдельные дублирующие карточки скрываются. Переводы `translations.ru/en.advantages`, `steps` и `leadForm` отсутствуют; форма получает локализованные подписи для стандартных полей из frontend fallback. Sanity документы не редактировались.
 - Доставка, D1, Manager, Resend, заказы, Header, меню, Footer и глобальная навигация не менялись. Этап 2 остаётся в работе до merge PR #118 и финального production smoke test.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
