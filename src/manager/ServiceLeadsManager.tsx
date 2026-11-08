@@ -18,7 +18,7 @@ const statusOptions: Array<{ value: LeadStatus; label: string }> = [
   { value: 'new', label: 'Нова' }, { value: 'processing', label: 'В обработка' },
   { value: 'contacted', label: 'Свързахме се с клиента' }, { value: 'proposal_preparing', label: 'Подготовка на оферта' },
   { value: 'proposal_sent', label: 'Офертата е изпратена' }, { value: 'waiting_customer', label: 'Очакваме отговор' },
-  { value: 'approved', label: 'Одобрена' }, { value: 'completed', label: 'Изпълнена' },
+  { value: 'approved', label: 'Съгласувана' }, { value: 'completed', label: 'Изпълнена' },
   { value: 'rejected', label: 'Отказана' }, { value: 'closed', label: 'Закрита' },
 ]
 const statusLabel = (value: string) => statusOptions.find((item) => item.value === value)?.label || value
@@ -154,7 +154,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
         </button>)}
       </section>
       <section className="min-w-0 space-y-4">
-        <h2 className="font-semibold">Карточка заявки</h2>
+        <h2 className="font-semibold">Детайли за заявката</h2>
         {!selected && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-sm text-stone-500">Изберете заявка от списъка.</div>}
         {selected && <>
           <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
@@ -163,7 +163,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
               <div><dt className="text-xs text-stone-500">Телефон</dt><dd><a className="font-semibold text-lime-800" href={'tel:' + selected.phone}>{selected.phone}</a></dd></div>
               <div><dt className="text-xs text-stone-500">Email</dt><dd>{selected.email ? <a className="break-all font-semibold text-lime-800" href={'mailto:' + selected.email}>{selected.email}</a> : 'Не е посочен'}</dd></div>
               <div><dt className="text-xs text-stone-500">Населено място</dt><dd>{selected.location}</dd></div>
-              <div><dt className="text-xs text-stone-500">Локал</dt><dd>{selected.locale.toUpperCase()}</dd></div>
+              <div><dt className="text-xs text-stone-500">Език</dt><dd>{selected.locale.toUpperCase()}</dd></div>
               <div className="sm:col-span-2"><dt className="text-xs text-stone-500">Адрес / обект</dt><dd>{selected.address || 'Не е посочен'}</dd></div>
               <div className="sm:col-span-2"><dt className="text-xs text-stone-500">Описание на клиента</dt><dd className="whitespace-pre-wrap break-words">{selected.comment || 'Няма допълнително описание.'}</dd></div>
             </dl>
