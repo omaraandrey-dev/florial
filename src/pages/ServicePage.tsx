@@ -44,7 +44,7 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
   return (
     <section
       aria-label={language === 'ru' ? 'Фотографии этапов посадки оливковых деревьев' : language === 'en' ? 'Olive tree planting photos' : 'Снимки от засаждането на маслини'}
-      className={singleImage ? 'my-8 flex justify-center' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
+      className={singleImage ? 'my-8 flex justify-center' : group === 'intro' ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
     >
       {images.map((image, index) => {
         const alt = language === 'ru'
@@ -59,14 +59,16 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
               ? 'w-full max-w-2xl overflow-hidden rounded-xl border border-slate-100 bg-slate-50'
               : 'min-w-0 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm'}
           >
-            <img
-              src={image.imageUrl}
-              alt={alt}
-              loading="lazy"
-              className={singleImage
-                ? 'mx-auto max-h-[520px] w-full object-contain'
-                : 'h-40 w-full object-cover sm:h-52 md:h-56'}
-            />
+            {image.imageUrl && (
+              <img
+                src={image.imageUrl}
+                alt={alt}
+                loading="lazy"
+                className={singleImage
+                  ? 'mx-auto max-h-[520px] w-full object-contain'
+                  : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'}
+              />
+            )}
             {!singleImage && alt && (
               <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>
             )}
@@ -75,6 +77,102 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
       })}
     </section>
   )
+}
+
+function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
+  if (!images.length) return null
+
+  return (
+    <section className="my-8" aria-label={language === 'ru' ? 'Галерея услуги' : language === 'en' ? 'Service gallery' : 'Галерия на услугата'}>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
+        {images.map((image, index) => {
+          if (!image.url) return null
+          const alt = language === 'ru'
+            ? (image.altRu || image.alt || '')
+            : language === 'en'
+              ? (image.altEn || image.alt || '')
+              : (image.alt || '')
+          return (
+            <figure key={image._key || `service-gallery-${index}`} className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
+              <img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" />
+            </figure>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+
+
+function getLeadFieldLabel(field: any, language: string): string {
+  const localizedLabels: Record<string, Record<string, string>> = {
+    name: { ru: 'Имя', en: 'Name' },
+    phone: { ru: 'Телефон', en: 'Phone' },
+    email: { ru: 'Электронная почта', en: 'Email' },
+    location: { ru: 'Населённый пункт', en: 'Town / city' },
+    details: { ru: 'Описание проекта', en: 'Project details' },
+  }
+  return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
+}
+
+function normalizeHeadingText(value: string): string {
+  return value
+    .replace(/^#+\s*/, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[.!:：]+$/g, '')
+    .toLocaleLowerCase()
+    .trim()
+}
+
+function removeDuplicateHeroHeading(content: any, heroTitle: string): any {
+  const target = normalizeHeadingText(heroTitle || '')
+  if (!target) return content
+
+  if (typeof content === 'string') {
+    const lines = content.split('\n')
+    const firstContentLine = lines.findIndex((line) => line.trim().length > 0)
+    if (firstContentLine >= 0 && normalizeHeadingText(lines[firstContentLine]) === target) {
+      lines.splice(firstContentLine, 1)
+    }
+    return lines.join('\n')
+  }
+
+  if (Array.isArray(content)) {
+    let firstHeadingSeen = false
+    return content.filter((block: any) => {
+      if (firstHeadingSeen || block?._type !== 'block' || !['h1', 'h2', 'h3'].includes(block.style)) {
+        return true
+      }
+      firstHeadingSeen = true
+      const heading = (block.children || []).map((child: any) => child.text || '').join('')
+      return normalizeHeadingText(heading) !== target
+    })
+  }
+
+  return content
+}
+
+function getDescriptionHeadings(content: any): string[] {
+  if (typeof content === 'string') {
+    return content.split('\n').map((line) => line.trim().replace(/^#{1,6}\s*/, '')).filter(Boolean)
+  }
+  if (!Array.isArray(content)) return []
+  return content
+    .filter((block: any) => block?._type === 'block' && ['h2', 'h3'].includes(block.style))
+    .map((block: any) => (block.children || []).map((child: any) => child.text || '').join('').trim())
+    .filter(Boolean)
+}
+
+function descriptionHasSection(headings: string[], section: 'advantages' | 'steps' | 'contact'): boolean {
+  const values = headings.map((heading) => heading.toLocaleLowerCase().replace(/[.!:：]+$/g, '').trim())
+  if (section === 'advantages') {
+    return values.some((heading) => /^(предимства|преимущества|advantages|benefits|why choose us|why choose florial)$/.test(heading))
+  }
+  if (section === 'steps') {
+    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|how we work|our process|steps of the process)$/.test(heading))
+  }
+  return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
 }
 
 function renderInlineMarkdown(value: string) {
