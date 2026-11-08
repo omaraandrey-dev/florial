@@ -183,7 +183,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
               <div className="text-sm font-semibold">{eventLabel(event)}</div><div className="mt-0.5 text-xs text-stone-500">{event.actor_name || (event.actor_role === 'system' ? 'Система' : 'Служител')} · {dateLabel(event.created_at)}</div>
               {event.from_status && event.to_status && <div className="mt-1 text-sm">{statusLabel(event.from_status)} → {statusLabel(event.to_status)}</div>}
               {event.note && <p className="mt-1 whitespace-pre-wrap break-words text-sm text-stone-700">{event.note}</p>}
-              {event.event_type === 'assignment_changed' && <p className="mt-1 text-xs text-stone-500">Нов отговорник: {String(event.metadata?.assignedTo || 'не е зададен')}</p>}
+              {event.event_type === 'assignment_changed' && <p className="mt-1 text-xs text-stone-500">Нов отговорник: {String(event.metadata?.assignedName || 'не е зададен')}</p>}
             </div>)}</div>
           </article>
           {canManage && <article className="rounded-2xl border border-stone-200 bg-white p-4">
