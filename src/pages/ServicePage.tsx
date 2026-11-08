@@ -195,7 +195,7 @@ function descriptionHasSection(headings: string[], section: 'advantages' | 'step
 }
 
 function renderInlineMarkdown(value: string) {
-  return value.split(/(\\*\\*[^*]+\\*\\*)/g).map((part, index) => {
+  return value.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index}>{part.slice(2, -2)}</strong>
     }
@@ -204,9 +204,9 @@ function renderInlineMarkdown(value: string) {
 }
 
 function renderMarkdownDescription(content: string, language: string, imageGroups: Record<string, ServiceContentBlock[]>) {
-  const chunks = content.split(/\\n\\s*\\n/).map((chunk) => chunk.trim()).filter(Boolean)
+  const chunks = content.split(/\n\s*\n/).map((chunk) => chunk.trim()).filter(Boolean)
   return chunks.map((chunk, index) => {
-    const lines = chunk.split('\\n').map((line) => line.trim()).filter(Boolean)
+    const lines = chunk.split('\n').map((line) => line.trim()).filter(Boolean)
     const first = lines[0]
     if (first.startsWith('## ')) {
       const heading = first.slice(3).trim()
@@ -229,10 +229,10 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
         </ul>
       )
     }
-    if (lines.every((line) => /^\\d+\\.\\s/.test(line))) {
+    if (lines.every((line) => /^\d+\.\s/.test(line))) {
       return (
         <ol key={index} className="mb-5 list-decimal space-y-2 pl-6 leading-7 text-slate-600">
-          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.replace(/^\\d+\\.\\s/, ''))}</li>)}
+          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.replace(/^\d+\.\s/, ''))}</li>)}
         </ol>
       )
     }
@@ -246,16 +246,11 @@ function renderPortableText(
   imageGroups: Record<string, ServiceContentBlock[]> = {},
 ) {
   if (!content) return null
-
-  if (typeof content === 'string') {
-    return renderMarkdownDescription(content, language, imageGroups)
-  }
-
+  if (typeof content === 'string') return renderMarkdownDescription(content, language, imageGroups)
   if (!Array.isArray(content)) return null
 
   return content.map((block: any, index: number) => {
     if (block?._type !== 'block') return null
-
     const children = (block.children || []).map((child: any, childIndex: number) => {
       let node: React.ReactNode = child.text || ''
       const marks = Array.isArray(child.marks) ? child.marks : []
