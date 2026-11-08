@@ -546,6 +546,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <p className="mb-6 text-sm leading-6 text-slate-600">
               {language === 'ru' ? 'Кратко опишите проблему или задачу. Если для уточнения понадобится фотография, мы свяжемся с вами — её можно будет отправить через WhatsApp или другой удобный мессенджер.' : language === 'en' ? 'Briefly describe the issue or project. If a photo is needed, we will contact you and you can send it via WhatsApp or another messenger that suits you.' : 'Опишете накратко проблема или проекта. Ако е необходима снимка за уточнение, ще се свържем с Вас и ще можете да я изпратите чрез WhatsApp или друг удобен месинджър.'}
             </p>
+            <p className="mb-5 text-xs leading-5 text-slate-500">
+              {language === 'ru' ? 'Вашу заявку получит и обработает менеджер Florial. При необходимости мы свяжемся с вами по указанным контактам.' : language === 'en' ? 'Your enquiry will be received and handled by a Florial manager. If needed, we will contact you using the details you provided.' : 'Заявката Ви ще бъде получена и обработена от мениджър на Florial. При необходимост ще се свържем с Вас на посочените контакти.'}
+            </p>
             <form className="grid gap-4" onSubmit={handleLeadSubmit}>
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
