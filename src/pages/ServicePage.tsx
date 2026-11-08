@@ -136,6 +136,18 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
 }
 
 
+
+function getLeadFieldLabel(field: any, language: string): string {
+  const localizedLabels: Record<string, Record<string, string>> = {
+    name: { ru: 'Имя', en: 'Name' },
+    phone: { ru: 'Телефон', en: 'Phone' },
+    email: { ru: 'Электронная почта', en: 'Email' },
+    location: { ru: 'Населённый пункт', en: 'Town / city' },
+    details: { ru: 'Описание проекта', en: 'Project details' },
+  }
+  return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
+}
+
 function getDescriptionHeadings(content: any): string[] {
   if (typeof content === 'string') {
     return content.split('\n').map((line) => line.trim()).filter(Boolean)
@@ -236,8 +248,12 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const showSteps = Array.isArray(steps) && steps.length > 0 && !descriptionHasSection(descriptionHeadings, 'steps')
   const callToAction = localize(service, 'callToAction') || service.callToAction || {}
   const showCallToAction = Boolean(callToAction.title || callToAction.text || callToAction.buttonLabel || callToAction.buttonText) && !descriptionHasSection(descriptionHeadings, 'contact')
-  const leadForm = localize(service, 'leadForm') || service.leadForm || {}
+  const translatedLeadForm = language === 'bg' ? service.leadForm : service.translations?.[language]?.leadForm
+  const leadForm = translatedLeadForm || service.leadForm || {}
   const leadFormFields = Array.isArray(leadForm.fields) ? leadForm.fields : []
+  const leadFormTitle = translatedLeadForm?.title || (language === 'bg' ? leadForm.title : undefined) || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')
+  const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
+  const leadFormConsentText = translatedLeadForm?.consentText || (language === 'bg' ? leadForm.consentText : undefined)
 
   // Localized service SEO and alternates are emitted only for published translations.
   useEffect(() => {
@@ -444,7 +460,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         {leadFormFields.length > 0 && (
           <section className="mx-auto my-12 max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
-              {leadForm.title || leadForm.formTitle || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')}
+              {leadFormTitle}
             </h2>
             <p className="mb-6 text-sm leading-6 text-slate-600">
               {language === 'ru' ? 'Форма будет активирована после подключения защищённой отправки заявок.' : language === 'en' ? 'This form will be enabled when secure enquiry submission is connected.' : 'Формата ще бъде активирана след свързване на защитеното изпращане на заявки.'}
@@ -452,15 +468,15 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
-                  <span>{field?.label || field?.name}</span>
+                  <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
                   {field?.type === 'textarea'
                     ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />
                     : <input name={field?.name} type={field?.type === 'tel' || field?.type === 'email' ? field.type : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
                 </label>
               ))}
-              {leadForm.consentText && <p className="text-xs leading-5 text-slate-500">{leadForm.consentText}</p>}
+              {leadFormConsentText && <p className="text-xs leading-5 text-slate-500">{leadFormConsentText}</p>}
               <button type="button" disabled className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white opacity-60">
-                {leadForm.submitLabel || leadForm.submitButtonText || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')}
+                {leadFormSubmitLabel}
               </button>
             </form>
           </section>
