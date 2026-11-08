@@ -2,7 +2,7 @@
 
 - PR #116 merged: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; Sanity query и типы расширены новыми полями, порядок услуг переведён на Sanity sortOrder, страница услуги получила новые визуальные секции и UI-only leadForm.
 - PR #117 merged: `2f94935645025441be931dceeb047701d9e0ea28`; убраны повтор Hero image и дублирующие advantages/steps/CTA.
-- Live smoke test обнаружил английские текстовые заголовки Benefits/How we work; PR #118 расширяет распознавание этих заголовков и их H2 отображение.
+- Live smoke test обнаружил английские текстовые заголовки Benefits/How we work; PR #118 расширяет распознавание этих заголовков и их H2 отображение. Для UI-only leadForm добавлены RU/EN подписи стандартных полей, заголовок и кнопка с локализованными fallback.
 - PR #116/117 checks и Cloudflare Production deployments — success. Никакие Sanity documents не изменялись; 8 active services и 14 contentBlocks страницы монтажа в Несебре сохранены.
 - Этап остаётся в работе до проверки PR #118 и финального production smoke test.
 
