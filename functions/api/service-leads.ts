@@ -24,11 +24,6 @@ const escapeHtml = (value: string): string =>
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   })[char] || char)
 
-const sha256Hex = async (value: string): Promise<string> => {
-  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value))
-  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')
-}
-
 const fetchService = async (slug: string, env: RuntimeEnv): Promise<ServiceDocument | null> => {
   const projectId = env.SANITY_PROJECT_ID || env.VITE_SANITY_PROJECT_ID || 'bxvcy0qs'
   const dataset = env.SANITY_DATASET || 'production'
@@ -91,7 +86,6 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   const idempotencyKey = cleanLeadText(body.idempotencyKey, 100)
   if (!/^[A-Za-z0-9_-]{16,100}$/.test(idempotencyKey)) return json({ error: 'Невалиден ключ на заявката.' }, 400)
   if (cleanLeadText(body.website, 200)) return json({ error: 'Невалидна заявка.' }, 400)
-  if (body.consent !== true) return json({ error: 'Необходимо е съгласие за обработване на личните данни.' }, 400)
 
   let service: ServiceDocument | null
   try {
@@ -104,20 +98,8 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   const localizedLeadForm = locale === 'bg' ? service.leadForm : service.translations?.[locale]?.leadForm
   const leadForm = localizedLeadForm || (locale === 'bg' ? service.leadForm : undefined)
   const configuredFields = Array.isArray(leadForm?.fields) ? leadForm.fields as Array<Record<string, unknown>> : []
-  const consentText = cleanLeadText(leadForm?.consentText, 2000)
-  const privacyPolicyInput = cleanLeadText(leadForm?.privacyPolicyUrl, 500)
-  if (!configuredFields.length || !consentText || !privacyPolicyInput) {
-    return json({ error: 'Формата все още не е конфигурирана за безопасно изпращане.' }, 503)
-  }
-
-  let privacyPolicyUrl: URL
-  try {
-    privacyPolicyUrl = new URL(privacyPolicyInput, 'https://florial-bg.com')
-  } catch {
-    return json({ error: 'Връзката към политиката за поверителност не е валидна.' }, 503)
-  }
-  if (privacyPolicyUrl.protocol !== 'https:' || !['florial-bg.com', 'www.florial-bg.com'].includes(privacyPolicyUrl.hostname)) {
-    return json({ error: 'Връзката към политиката за поверителност не е валидна.' }, 503)
+  if (!configuredFields.length) {
+    return json({ error: 'Формата все още не е конфигурирана.' }, 503)
   }
 
   const normalized = normalizeLeadFields(configuredFields, body.fields)
@@ -151,7 +133,6 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   const datePart = createdAt.slice(0, 10).replace(/-/g, '')
   const leadNumber = 'FL-S-' + datePart + '-' + crypto.randomUUID().replace(/-/g, '').slice(0, 6).toUpperCase()
   const id = crypto.randomUUID()
-  const consentVersion = (await sha256Hex(consentText + '\n' + privacyPolicyUrl.href)).slice(0, 20)
   const extraFields = Object.fromEntries(Object.entries(fields).filter(([key]) => !['name', 'phone', 'email', 'location', 'address', 'details', 'comment'].includes(key)))
   const ownerRecipient = cleanLeadText(env.ORDER_NOTIFICATION_EMAIL, 254)
   const mailConfigured = Boolean(env.RESEND_API_KEY && env.EMAIL_FROM)
@@ -162,14 +143,12 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO service_leads (
         id,lead_number,idempotency_key,service_document_id,service_slug,service_name,locale,
-        customer_name,phone,email,location,address,comment,fields_json,consent_given,consent_text,
-        privacy_policy_url,consent_version,status,owner_notification_status,customer_confirmation_status,
+        customer_name,phone,email,location,address,comment,fields_json,status,owner_notification_status,customer_confirmation_status,
         created_at,updated_at,retention_until
-       ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'new',?,?,?,?,?)`).bind(
+       ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'new',?,?,?,?,?)`).bind(
         id, leadNumber, idempotencyKey, service._id, serviceSlug, serviceName, locale,
         customerName, phone, email || null, location, address || null, comment || null,
-        JSON.stringify(extraFields), 1, consentText, privacyPolicyUrl.href, consentVersion, ownerInitialStatus,
-        customerInitialStatus, createdAt, createdAt, retentionUntil,
+        JSON.stringify(extraFields), ownerInitialStatus, customerInitialStatus, createdAt, createdAt, retentionUntil,
       ),
       env.DB.prepare(`INSERT INTO service_lead_events (
         id,service_lead_id,actor_role,event_type,to_status,note,metadata,created_at
