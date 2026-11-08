@@ -13,6 +13,11 @@ const isLocalizedHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, string[]> = {
     bg: [
+      'предимства',
+      'етапи на работа',
+      'етапи на изпълнение',
+      'свържете се с florial',
+      'свържете се с нас',
       'какво включва монтажът на автоматична поливна система',
       'полагане на тръби и кабели',
       'монтаж на разпръсквачи и капково напояване',
@@ -22,6 +27,11 @@ const isLocalizedHeading = (value: string, language: string) => {
       'защо да изберете florial',
     ],
     ru: [
+      'преимущества',
+      'этапы работы',
+      'этапы выполнения',
+      'свяжитесь с florial',
+      'свяжитесь с нами',
       'что включает монтаж системы автоматического полива',
       'прокладка труб и кабелей',
       'монтаж дождевателей и капельного полива',
@@ -31,6 +41,12 @@ const isLocalizedHeading = (value: string, language: string) => {
       'почему выбирают florial',
     ],
     en: [
+      'benefits',
+      'advantages',
+      'how we work',
+      'how it works',
+      'contact florial',
+      'contact us',
       'what is included in an automatic irrigation system installation',
       'pipe and cable installation',
       'sprinkler and drip irrigation installation',
@@ -120,6 +136,56 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
 }
 
 
+
+function getLeadFieldLabel(field: any, language: string): string {
+  const localizedLabels: Record<string, Record<string, string>> = {
+    name: { ru: 'Имя', en: 'Name' },
+    phone: { ru: 'Телефон', en: 'Phone' },
+    email: { ru: 'Электронная почта', en: 'Email' },
+    location: { ru: 'Населённый пункт', en: 'Town / city' },
+    details: { ru: 'Описание проекта', en: 'Project details' },
+  }
+  return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
+}
+
+
+function normalizeHeadingText(value: string): string {
+  return value
+    .replace(/^#+\s*/, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[.!:：]+$/g, '')
+    .toLocaleLowerCase()
+    .trim()
+}
+
+function removeDuplicateHeroHeading(content: any, heroTitle: string): any {
+  const target = normalizeHeadingText(heroTitle || '')
+  if (!target) return content
+
+  if (typeof content === 'string') {
+    const lines = content.split('\n')
+    const firstContentLine = lines.findIndex((line) => line.trim().length > 0)
+    if (firstContentLine >= 0 && normalizeHeadingText(lines[firstContentLine]) === target) {
+      lines.splice(firstContentLine, 1)
+    }
+    return lines.join('\n')
+  }
+
+  if (Array.isArray(content)) {
+    let firstHeadingSeen = false
+    return content.filter((block: any) => {
+      if (firstHeadingSeen || block?._type !== 'block' || !['h1', 'h2', 'h3'].includes(block.style)) {
+        return true
+      }
+      firstHeadingSeen = true
+      const heading = (block.children || []).map((child: any) => child.text || '').join('')
+      return normalizeHeadingText(heading) !== target
+    })
+  }
+
+  return content
+}
+
 function getDescriptionHeadings(content: any): string[] {
   if (typeof content === 'string') {
     return content.split('\n').map((line) => line.trim()).filter(Boolean)
@@ -134,10 +200,10 @@ function getDescriptionHeadings(content: any): string[] {
 function descriptionHasSection(headings: string[], section: 'advantages' | 'steps' | 'contact'): boolean {
   const values = headings.map((heading) => heading.toLocaleLowerCase().replace(/[.!:：]+$/g, '').trim())
   if (section === 'advantages') {
-    return values.some((heading) => /^(предимства|преимущества|advantages|why choose us)$/.test(heading))
+    return values.some((heading) => /^(предимства|преимущества|advantages|benefits|why choose us|why choose florial)$/.test(heading))
   }
   if (section === 'steps') {
-    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|steps of the process)$/.test(heading))
+    return values.some((heading) => /^(етапи на работа|етапи на изпълнение|этапы работы|этапы выполнения|how it works|how we work|our process|steps of the process)$/.test(heading))
   }
   return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
 }
@@ -213,15 +279,20 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     ? service.galleryImages.filter((image) => Boolean(image?.url) && image.url !== heroImageUrl)
     : []
   const description = localize(service, 'description')
-  const descriptionHeadings = getDescriptionHeadings(description)
+  const descriptionForRender = removeDuplicateHeroHeading(description, heroTitle)
+  const descriptionHeadings = getDescriptionHeadings(descriptionForRender)
   const advantages = localize(service, 'advantages') || service.advantages || []
   const steps = localize(service, 'steps') || service.steps || []
   const showAdvantages = Array.isArray(advantages) && advantages.length > 0 && !descriptionHasSection(descriptionHeadings, 'advantages')
   const showSteps = Array.isArray(steps) && steps.length > 0 && !descriptionHasSection(descriptionHeadings, 'steps')
   const callToAction = localize(service, 'callToAction') || service.callToAction || {}
   const showCallToAction = Boolean(callToAction.title || callToAction.text || callToAction.buttonLabel || callToAction.buttonText) && !descriptionHasSection(descriptionHeadings, 'contact')
-  const leadForm = localize(service, 'leadForm') || service.leadForm || {}
+  const translatedLeadForm = language === 'bg' ? service.leadForm : service.translations?.[language]?.leadForm
+  const leadForm = translatedLeadForm || service.leadForm || {}
   const leadFormFields = Array.isArray(leadForm.fields) ? leadForm.fields : []
+  const leadFormTitle = translatedLeadForm?.title || (language === 'bg' ? leadForm.title : undefined) || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')
+  const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
+  const leadFormConsentText = translatedLeadForm?.consentText || (language === 'bg' ? leadForm.consentText : undefined)
 
   // Localized service SEO and alternates are emitted only for published translations.
   useEffect(() => {
@@ -337,7 +408,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
 
         {description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
-            {renderPortableText(description, language, imageGroups)}
+            {renderPortableText(descriptionForRender, language, imageGroups)}
           </div>
         )}
 
@@ -428,7 +499,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         {leadFormFields.length > 0 && (
           <section className="mx-auto my-12 max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
-              {leadForm.title || leadForm.formTitle || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')}
+              {leadFormTitle}
             </h2>
             <p className="mb-6 text-sm leading-6 text-slate-600">
               {language === 'ru' ? 'Форма будет активирована после подключения защищённой отправки заявок.' : language === 'en' ? 'This form will be enabled when secure enquiry submission is connected.' : 'Формата ще бъде активирана след свързване на защитеното изпращане на заявки.'}
@@ -436,15 +507,15 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
-                  <span>{field?.label || field?.name}</span>
-                  {field?.type === 'textarea'
+                  <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
+                  {field?.type === 'textarea' || field?.name === 'details'
                     ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />
-                    : <input name={field?.name} type={field?.type === 'tel' || field?.type === 'email' ? field.type : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
+                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
                 </label>
               ))}
-              {leadForm.consentText && <p className="text-xs leading-5 text-slate-500">{leadForm.consentText}</p>}
+              {leadFormConsentText && <p className="text-xs leading-5 text-slate-500">{leadFormConsentText}</p>}
               <button type="button" disabled className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-800 px-6 py-3 font-bold text-white opacity-60">
-                {leadForm.submitLabel || leadForm.submitButtonText || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')}
+                {leadFormSubmitLabel}
               </button>
             </form>
           </section>
