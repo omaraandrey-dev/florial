@@ -469,9 +469,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
               {leadFormFields.map((field: any, index: number) => (
                 <label key={field?._key || field?.name || `lead-field-${index}`} className="grid gap-2 text-sm font-medium text-slate-700">
                   <span>{language === 'bg' ? (field?.label || field?.name) : getLeadFieldLabel(field, language)}</span>
-                  {field?.type === 'textarea'
+                  {field?.type === 'textarea' || field?.name === 'details'
                     ? <textarea name={field?.name} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled rows={4} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />
-                    : <input name={field?.name} type={field?.type === 'tel' || field?.type === 'email' ? field.type : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
+                    : <input name={field?.name} type={field?.type === 'tel' || field?.name === 'phone' ? 'tel' : field?.type === 'email' || field?.name === 'email' ? 'email' : 'text'} placeholder={field?.placeholder || ''} required={Boolean(field?.required)} disabled className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-normal" />}
                 </label>
               ))}
               {leadFormConsentText && <p className="text-xs leading-5 text-slate-500">{leadFormConsentText}</p>}
