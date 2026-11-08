@@ -1,3 +1,13 @@
+## 2026-11-08 — ЭТАП 2: подключение публичных страниц услуг (реализация в PR)
+
+- Рабочая ветка: `feature/services-pages-stage2-2026-11-08`; базовый `main` на старте — `44233a260ad7f6a47d037a9f838631489919ca88`.
+- Изменены: `src/App.tsx` (поля sortOrder/category/layout, Hero и hero-image fallback в GROQ); `src/types.ts` (типы фактической модели Sanity); `src/lib/servicesOrder.ts` (сортировка по Sanity sortOrder); `src/pages/ServicePage.tsx` (галерея, преимущества, этапы, Hero, CTA, UI leadForm без отправки).
+- `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper; после изменения helper их карточки автоматически сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся временным элементом до Этапа 3.
+- Sanity проверена read-only: 8 опубликованных активных service документов; специальная услуга монтажа в Несебре имеет 14 contentBlocks. Никакие Sanity документы не изменялись.
+- 30 deliveryZone остаются drafts; 0 published. Доставка, D1, Manager, Resend, заказы, Header, меню, Footer и глобальная навигация не менялись.
+- Для некоторых RU/EN документов отсутствуют переводы advantages/steps/leadForm; отображается fallback на BG. Добавление переводов — отдельная редакторская задача, существующие данные не перезаписывались.
+- Проверки PR/CI ещё ожидаются; статус Этапа 2 до их завершения — В РАБОТЕ.
+
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
 - В Library проекта Florial сохранён новый файл `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_08-11-2026_rev10.md`.
