@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата подготовки:** 08.11.2026  
-**Статус:** план утверждён владельцем; Этап 1 завершён 08.11.2026, Этап 2 выполняется, Этапы 3–6 не начаты.  
+**Статус:** план утверждён владельцем; Этапы 1 и 2 завершены 08.11.2026, Этапы 3–6 не начаты.  
 **Основной репозиторий:** `omaraandrey-dev/florial`, production branch `main`.
 
 > Этот документ — единый источник порядка работ и шести самостоятельных промптов. Каждый этап запускается в отдельном новом чате проекта Florial. Новый чат обязан заново найти последнюю инструкцию MD2 в Library и проверить актуальный GitHub main, а не полагаться только на этот документ или историю переписки.
@@ -73,19 +73,21 @@
 
 Статусы меняются только после проверки фактического результата и записи подтверждения в CHANGELOG/технический паспорт.
 
-## 3.2. Этап 2 — подключение страниц услуг (в работе)
+## 3.2. Этап 2 — подключение страниц услуг (ЗАВЕРШЁН 08.11.2026)
 
-- Рабочая ветка: `feature/services-pages-stage2-2026-11-08`; изменения выполняются относительно актуального `main` commit `44233a260ad7f6a47d037a9f838631489919ca88`.
-- В `src/App.tsx` расширяется GROQ-выборка услуг: `sortOrder`, `serviceCategory`, `serviceLayout`, данные Hero и fallback главного изображения из `hero.image`.
-- `src/types.ts` приводится к фактической структуре Sanity для Hero, галереи, преимуществ, этапов, CTA и leadForm.
-- `src/lib/servicesOrder.ts` переводится с массива жёстко заданных slug-приоритетов на `sortOrder` из Sanity. Отдельная карточка доставки остаётся на фиксированной позиции 90 до Этапа 3.
-- `src/pages/ServicePage.tsx` дополняется отображением галереи, преимуществ, этапов, Hero, CTA и визуальной формы заявки без серверной отправки. Существующая логика специальных contentBlocks и SEO сохраняется.
-- `HomePage.tsx` и `ServicesListPage.tsx` уже используют общий `getOrderedServiceEntries`; после изменения helper автоматически получают порядок Sanity без дублирования сортировки.
-- Read-only проверка Sanity: 8 опубликованных активных услуг; 7 услуг имеют по 5 изображений в `gallery`, специальная услуга монтажа в Несебре сохраняет 14 contentBlocks. Поля преимуществ/этапов/формы пока не заполнены в RU/EN для ряда документов; UI использует безопасный fallback на BG, существующие значения не меняются.
-- 30 deliveryZone остаются drafts, 0 опубликованных. В рамках Этапа 2 доставка и документы Sanity не меняются.
-- PR #116 объединён в main commit `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; GitHub lint/tests/build/Studio validation и Cloudflare Production deployment завершились `success`.
-- PR #117 объединён в main commit `2f94935645025441be931dceeb047701d9e0ea28`; повтор Hero-фото и дублирующие секции устранены. Production deployment `657e32e7-0efc-46f3-9182-dc2c8550078b` завершился `success`.
-- Дополнительная live-проверка обнаружила английские варианты заголовков `Benefits` и `How we work`, а также повтор H1-текста в первом H2 описания. Исправления распознавания и удаления только совпадающего Hero-заголовка — PR #118; до его проверки и финального smoke test Этап 2 остаётся в работе.
+- PR #116: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; PR #117: `2f94935645025441be931dceeb047701d9e0ea28`; PR #118: `f23e80dc78910657547a996ff87c85b5075d6ac8`. Все три PR объединены в `main`.
+- Изменены: `src/App.tsx` (GROQ: sortOrder/category/layout/Hero/gallery); `src/types.ts`; `src/lib/servicesOrder.ts` (порядок из Sanity sortOrder вместо жёсткого массива slug); `src/pages/ServicePage.tsx` (Hero, галерея, преимущества, этапы, CTA, UI leadForm).
+- `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper сортировки. Восемь service карточек отображаются по Sanity sortOrder 10–80; отдельная карточка доставки остаётся на позиции 90 до Этапа 3.
+- Устранены повторы Hero изображения, Hero H1 в первом H2 description, преимуществ/этапов/CTA при наличии тех же секций в локализованном description. Для BG/RU/EN распознаются соответствующие заголовки; подписи UI-only формы локализованы, типы phone/email/details корректны.
+- Production smoke test: страницы услуг BG/RU/EN и `/services` отвечают HTTP 200; robots — `index, follow`; в галерее Hero изображение встречается один раз; в трёх локалях присутствуют соответствующие заголовки; форма показывает локализованные подписи. Все 8 услуг имеют RU/EN description и SEO meta поля в Sanity.
+- Sitemap: подтверждены 24 service URL entries (8 услуг × BG/RU/EN). Исходный SEO helper `applyPageSeo` сохраняет self-canonical и alternate hreflang; sitemap продолжает использовать локализованные URL.
+- CI: PR #116/#117/#118 lint, tests, Vite build, Pages Functions syntax, read-only migration dry-run и Studio build — success. Main D1 validation run `42448148467` — success. Отдельного npm script `typecheck`/tsc в проекте нет; TypeScript проверен в рамках Vite build и Oxlint, standalone `tsc --noEmit` не запускался.
+- Cloudflare Pages Production deployment для финального кода: `407cef61-bc67-444f-ba84-48d46d99fcfa`, build/deploy success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Sanity read-only: 8 опубликованных активных service документов, 14 contentBlocks у услуги монтажа в Несебре сохранены. Никакие Sanity documents не изменялись. 30 deliveryZone остаются drafts, 0 published.
+- Уточнение владельца: Поморие — 15 €, Кошарица — 10 €. В текущих drafts обе записи пока `isActive=false`; при Этапе 3 выставить `isActive=true` и перенести эти подтверждённые тарифы без изменения сумм. Расстояния из исходной страницы отдельно не проверялись.
+- Форма заявки пока только UI; серверная отправка, D1/Manager/email/фото относятся к последующим этапам. Доставка остаётся на прежней странице до Этапа 3. Связанные товары/услуги не добавлялись: текущая схема service не содержит для них полей.
+- Не менялись Header, меню, Footer, корзина, checkout, D1, Manager, Resend, Cloudflare secrets и данные Sanity.
+- Следующий этап — Этап 3: перенос управления доставкой на deliveryZone. Он не начат и выполняется только в отдельном новом чате после проверки актуальной MD2 и main.
 
 ## 3.1. Результат этапа 1 — 08.11.2026
 
