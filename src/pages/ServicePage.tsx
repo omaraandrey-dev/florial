@@ -14,24 +14,24 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини'],
-      trenches: ['подготовка на мястото и посадъчната яма'],
-      pipeline: ['доставка и транспортиране на маслиновото дърво'],
-      equipment: ['позициониране и засаждане с помощта на техника'],
-      automation: ['първоначални грижи след засаждането'],
+      trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма'],
+      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво'],
+      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника'],
+      automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането'],
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев'],
-      trenches: ['подготовка участка и посадочной ямы'],
-      pipeline: ['доставка и транспортировка оливкового дерева'],
-      equipment: ['позиционирование и посадка с помощью техники'],
-      automation: ['первоначальный уход после посадки'],
+      trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы'],
+      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева'],
+      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники'],
+      automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки'],
     },
     en: {
       intro: ['our approach to olive tree planting'],
-      trenches: ['site and planting pit preparation'],
-      pipeline: ['delivery and transportation of the olive tree'],
-      equipment: ['positioning and planting with specialist equipment'],
-      automation: ['initial care after planting'],
+      trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation'],
+      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree'],
+      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment'],
+      automation: ['valves, filters and controls', 'initial care after planting'],
     },
   }
   const languageHeadings = headings[language] || headings.bg
