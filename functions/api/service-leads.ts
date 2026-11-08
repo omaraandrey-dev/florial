@@ -89,6 +89,7 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   const locale = localeInput as 'bg' | 'ru' | 'en'
   const idempotencyKey = cleanLeadText(body.idempotencyKey, 100)
   if (!/^[A-Za-z0-9_-]{16,100}$/.test(idempotencyKey)) return json({ error: 'Невалиден ключ на заявката.' }, 400)
+  if (cleanLeadText(body.website, 200)) return json({ error: 'Невалидна заявка.' }, 400)
   if (body.consent !== true) return json({ error: 'Необходимо е съгласие за обработване на личните данни.' }, 400)
 
   let service: ServiceDocument | null
