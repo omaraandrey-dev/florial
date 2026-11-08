@@ -1,10 +1,14 @@
-## 2026-11-08 — ЭТАП 2: подключение страниц услуг (PR #116 и #117 merged; PR #118 pending)
+## 2026-11-08 — ЭТАП 2 ЗАВЕРШЁН: страницы услуг Sanity
 
-- PR #116 merged: `f05d52f2bf81c80e103c337f5332dbf3c13af81c`; Sanity query и типы расширены новыми полями, порядок услуг переведён на Sanity sortOrder, страница услуги получила новые визуальные секции и UI-only leadForm.
-- PR #117 merged: `2f94935645025441be931dceeb047701d9e0ea28`; убраны повтор Hero image и дублирующие advantages/steps/CTA.
-- Live smoke test обнаружил английские текстовые заголовки Benefits/How we work; PR #118 расширяет распознавание этих заголовков и их H2 отображение, а также убирает повтор Hero H1 в первом заголовке description. Для UI-only leadForm добавлены RU/EN подписи стандартных полей, заголовок и кнопка с локализованными fallback.
-- PR #116/117 checks и Cloudflare Production deployments — success. Никакие Sanity documents не изменялись; 8 active services и 14 contentBlocks страницы монтажа в Несебре сохранены.
-- Этап остаётся в работе до проверки PR #118 и финального production smoke test.
+- PR #116/#117/#118 merged в main; финальный commit `f23e80dc78910657547a996ff87c85b5075d6ac8`.
+- Frontend query/types расширены Sanity service metadata и Hero/gallery; жёсткий slug ordering заменён на Sanity `sortOrder`.
+- Страница услуги получила Hero, галерею, преимущества, этапы, CTA и UI-only форму заявки. Устранены повторы изображения, заголовков и разделов; RU/EN форма имеет локализованные подписи и корректные типы полей.
+- CI PR checks (lint/tests/Vite build/Pages Functions syntax/read-only dry-run/Studio build) — success; main D1 validation `42448148467` — success.
+- Cloudflare Pages Production deployment `407cef61-bc67-444f-ba84-48d46d99fcfa` — build/deploy success.
+- Live smoke: BG/RU/EN service pages и services list HTTP 200, robots index/follow, локализованные headings/forms, 8 услуг в порядке Sanity sortOrder, 24 service URL entries в sitemap.
+- Sanity documents не изменялись; 8 active services и 14 contentBlocks монтажа в Несебре сохранены. 30 deliveryZone drafts / 0 published.
+- Владелец подтвердил Поморие 15 € и Кошарица 10 €; draft-флаги обеих зон остаются false до Этапа 3, где их следует активировать.
+- Этап 2 завершён. Этап 3 (перенос доставки на deliveryZone) не начат.
 
 ## 2026-11-08 — Выпущена основная инструкция MD2 rev10
 
