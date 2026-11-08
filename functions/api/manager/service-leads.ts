@@ -115,8 +115,26 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (!writeOriginAllowed(request)) return json({ error: 'Origin not allowed.' }, 403)
   const contentType = request.headers.get('Content-Type') || ''
   if (!contentType.toLowerCase().includes('application/json')) return json({ error: 'Content-Type must be application/json.' }, 415)
-  const rawBody = await request.text()
-  if (new TextEncoder().encode(rawBody).byteLength > 8192) return json({ error: 'Request body is too large.' }, 413)
+  const contentLength = Number(request.headers.get('Content-Length') || 0)
+  if (contentLength > 8192) return json({ error: 'Request body is too large.' }, 413)
+  const reader = request.body?.getReader()
+  if (!reader) return json({ error: 'Invalid request body.' }, 400)
+  const chunks: Uint8Array[] = []
+  let totalBytes = 0
+  while (true) {
+    const chunk = await reader.read()
+    if (chunk.done) break
+    totalBytes += chunk.value.byteLength
+    if (totalBytes > 8192) {
+      await reader.cancel()
+      return json({ error: 'Request body is too large.' }, 413)
+    }
+    chunks.push(chunk.value)
+  }
+  const bodyBytes = new Uint8Array(totalBytes)
+  let offset = 0
+  for (const chunk of chunks) { bodyBytes.set(chunk, offset); offset += chunk.byteLength }
+  const rawBody = new TextDecoder().decode(bodyBytes)
   let body: unknown
   try { body = JSON.parse(rawBody) as unknown } catch { return json({ error: 'Invalid request body.' }, 400) }
   if (!isObject(body)) return json({ error: 'Invalid request body.' }, 400)
