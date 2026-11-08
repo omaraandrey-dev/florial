@@ -163,7 +163,7 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
         customer_name,phone,email,location,address,comment,fields_json,consent_given,consent_text,
         consent_version,status,owner_notification_status,customer_confirmation_status,
         created_at,updated_at,retention_until
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'new',?,?,?,?,?,?)`).bind(
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'new',?,?,?,?,?)`).bind(
         id, leadNumber, idempotencyKey, service._id, serviceSlug, serviceName, locale,
         customerName, phone, email || null, location, address || null, comment || null,
         JSON.stringify(extraFields), 1, consentText, consentVersion, ownerInitialStatus,
