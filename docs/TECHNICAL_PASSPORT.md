@@ -1,6 +1,6 @@
-## 2026-11-08 — Этап 5: Manager для заявок на услуги (PR #127, в работе)
+## 2026-11-08 — Этап 5: Manager для заявок на услуги (PR #127 объединён, Production опубликован)
 
-- Базовый `main`: `2516b3f4c60420e95a8b8a12400c373e9b0f9b16`; ветка `feat/service-leads-manager-stage-5`; PR #127; HEAD на момент записи `85671521801591c63d279189422753dad7fd1340`.
+- Базовый `main`: `2516b3f4c60420e95a8b8a12400c373e9b0f9b16`; PR #127 объединён commit `4213e5c2c79fe300be36cb71b94470431ed49705`; проверенный PR head `539c59fb83ae4272ca062da68dc3e3775799840b`.
 - Актуальная MD2-инструкция перед работой: rev17, Library created_at `2026-11-08T10:17:23Z`. Повторно изучены roadmap, Manager architecture, актуальные исходники и D1 schema.
 - Владелец подтвердил реальную тестовую отправку заявки: уведомление Florial получено, клиент получил письмо-подтверждение, мобильное отображение проверено. Read-only D1: 2 заявки и 4 события; данные клиентов не выгружались.
 - Добавлены `functions/api/manager/service-leads.ts`, `src/manager/ServiceLeadsManager.tsx`, интеграция в `src/manager/ManagerApp.tsx`, permission keys в `functions/api/manager/_lib.ts` и делегирование/валидация в `functions/api/manager/staff.ts`.
@@ -11,7 +11,7 @@
 - Добавлен `tests/service-leads-manager.test.mjs`. GitHub Actions PR #127 завершились `success`: website lint/tests/build, Pages Functions syntax, D1 migration validation, Sanity Studio build.
 - Sanity и её документы не менялись; Cloudflare secrets/settings не менялись; Production deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` для commit `4213e5c2c79fe300be36cb71b94470431ed49705` завершился `success` 08.11.2026 11:38:32 UTC; aliases `florial-bg.com` и `www.florial-bg.com`. Header, меню, Footer, checkout и публичная оболочка не менялись.
 - Retention cleanup для заявок по истечении 365 дней остаётся отдельной нерешённой задачей и не включался.
-- Статус: **ЭТАП 5 РЕАЛИЗОВАН И ОПУБЛИКОВАН; требуется ручная приёмка владельца. Этап 6 не начат.**
+- Статус: **ЭТАП 5 РЕАЛИЗОВАН И ОПУБЛИКОВАН; требуется ручная приёмка владельца в `/manager`. Этап 6 не начат.**
 
 ---
 ## 2026-11-08 — Обновлён фирменный шаблон клиентского email по заявкам
