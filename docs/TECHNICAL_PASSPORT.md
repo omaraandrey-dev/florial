@@ -2,7 +2,7 @@
 
 - PR #116 объединён в `main`: commit `f05d52f2bf81c80e103c337f5332dbf3c13af81c`.
 - PR #117 объединён в `main`: commit `2f94935645025441be931dceeb047701d9e0ea28`; исключено повторное Hero-фото в галерее, предотвращено дублирование преимуществ/этапов/CTA, если те же разделы уже содержатся в description.
-- PR #118 расширяет распознавание локализованных текстовых заголовков Benefits/How we work и соответствующих BG/RU вариантов, чтобы строковые описания сохраняли H2 семантику и не дублировались со структурированными полями.
+- PR #118 расширяет распознавание локализованных текстовых заголовков Benefits/How we work и соответствующих BG/RU вариантов, чтобы строковые описания сохраняли H2 семантику и не дублировались со структурированными полями; также убирает только первый H2/H1 в description, если его текст совпадает с Hero H1.
 - Изменены: `src/App.tsx` (поля sortOrder/category/layout, Hero и hero-image fallback в GROQ); `src/types.ts` (типы фактической модели Sanity); `src/lib/servicesOrder.ts` (сортировка по Sanity sortOrder); `src/pages/ServicePage.tsx` (галерея, преимущества, этапы, Hero, CTA, UI leadForm без отправки).
 - `HomePage.tsx` и `ServicesListPage.tsx` используют общий helper; их карточки автоматически сортируются по Sanity sortOrder. Отдельная карточка доставки остаётся временным элементом до Этапа 3.
 - PR #116 checks: D1 validation lint/build/Pages Functions syntax — success; Blog and Studio lint/tests/site build/read-only dry-run/Studio build — success. PR #117 checks также success.
