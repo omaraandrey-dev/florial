@@ -148,6 +148,18 @@ function getLeadFieldLabel(field: any, language: string): string {
   return localizedLabels[field?.name]?.[language] || field?.label || field?.name || ''
 }
 
+function isAllowedPrivacyPolicyUrl(value: unknown): boolean {
+  if (typeof value !== 'string' || !value.trim()) return false
+  try {
+    const url = new URL(value.trim(), 'https://florial-bg.com')
+    return url.protocol === 'https:' &&
+      (url.hostname === 'florial-bg.com' || url.hostname === 'www.florial-bg.com') &&
+      !url.username && !url.password
+  } catch {
+    return false
+  }
+}
+
 
 function normalizeHeadingText(value: string): string {
   return value
@@ -298,7 +310,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
   const leadFormConsentText = translatedLeadForm?.consentText || (language === 'bg' ? leadForm.consentText : undefined)
   const leadFormPrivacyPolicyUrl = translatedLeadForm?.privacyPolicyUrl || (language === 'bg' ? leadForm.privacyPolicyUrl : undefined)
-  const leadFormReady = Boolean(leadFormFields.length > 0 && leadFormConsentText?.trim() && leadFormPrivacyPolicyUrl?.trim() && service.slug?.current)
+  const leadFormReady = Boolean(leadFormFields.length > 0 && leadFormConsentText?.trim() && isAllowedPrivacyPolicyUrl(leadFormPrivacyPolicyUrl) && service.slug?.current)
 
   const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
