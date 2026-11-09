@@ -171,8 +171,10 @@ export interface ServiceContentBlock {
   imageAlt?: string
   imageAltEn?: string
   imageAltRu?: string
+  imageLinkUrl?: string
+  linkUrl?: string
   imagePosition?: 'left' | 'right'
-  translations?: Record<string, { title?: string; text?: string }>
+  translations?: Record<string, { title?: string; text?: string; imageAlt?: string }>
 }
 
 export interface ServiceGalleryImage {
@@ -181,6 +183,7 @@ export interface ServiceGalleryImage {
   alt?: string
   altEn?: string
   altRu?: string
+  linkUrl?: string
 }
 
 export interface ServiceItem {
@@ -199,11 +202,13 @@ export interface ServiceItem {
   imageAltRu?: string
   galleryImages?: ServiceGalleryImage[]
   contentBlocks?: ServiceContentBlock[]
+  relatedContent?: RelatedContentItem[]
+  imageLinkUrl?: string
   startingPriceEUR?: number
   isActive?: boolean
   advantages?: Array<{ title?: string; text?: string; description?: string }>
   steps?: Array<{ stepNumber?: number; title?: string; text?: string; description?: string }>
-  hero?: { title?: string; subtitle?: string; imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string }
+  hero?: { title?: string; subtitle?: string; imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string; imageLinkUrl?: string }
   callToAction?: { title?: string; text?: string; buttonLabel?: string; buttonText?: string }
   leadForm?: {
     title?: string
