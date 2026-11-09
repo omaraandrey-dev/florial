@@ -1,9 +1,15 @@
 {
   "_createdAt": "2026-11-09T05:51:13Z",
   "_id": "5fd92607-19dd-44ae-b546-01e841f835c9",
-  "_rev": "9Jlb6k9xfgGTkBekNEYn1T",
+  "_rev": "3ZWSWJ5PmrYEk5hKEBskMU",
+  "_system": {
+    "base": {
+      "id": "5fd92607-19dd-44ae-b546-01e841f835c9",
+      "rev": "9Jlb6k9xfgGTkBekNEYn1T"
+    }
+  },
   "_type": "service",
-  "_updatedAt": "2026-11-09T05:51:48Z",
+  "_updatedAt": "2026-11-09T05:53:15Z",
   "advantages": [
     {
       "_key": "iDEMx5YC3o85c6iUZvXq87",
@@ -588,9 +594,9 @@
   "hero": {
     "image": {
       "_type": "image",
-      "alt": "Засаждане на голяма палма с помощта на градинска техника в градински център Флориал край Несебър",
-      "altEn": "Planting a large palm with specialist garden equipment at Florial in Bulgaria",
-      "altRu": "Посадка крупной пальмы с помощью садовой техники — Florial, Болгария",
+      "alt": "Засаждане на голяма палма с помощта на градинска техника в градина край Несебър",
+      "altEn": "Planting a large palm with specialist garden equipment near Nessebar, Bulgaria",
+      "altRu": "Посадка крупной пальмы с помощью садовой техники в саду рядом с Несебром, Болгария",
       "asset": {
         "_ref": "image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg",
         "_type": "reference"
@@ -601,9 +607,9 @@
   },
   "image": {
     "_type": "image",
-    "alt": "Засаждане на голяма палма с помощта на градинска техника в градински център Флориал край Несебър",
-    "altEn": "Planting a large palm with specialist garden equipment at Florial in Bulgaria",
-    "altRu": "Посадка крупной пальмы с помощью садовой техники — Florial, Болгария",
+    "alt": "Засаждане на голяма палма с помощта на градинска техника в градина край Несебър",
+    "altEn": "Planting a large palm with specialist garden equipment near Nessebar, Bulgaria",
+    "altRu": "Посадка крупной пальмы с помощью садовой техники в саду рядом с Несебром, Болгария",
     "asset": {
       "_ref": "image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg",
       "_type": "reference"
