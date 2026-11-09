@@ -68,9 +68,9 @@ src/lib/sanity.ts создаёт clients для datasets production и plants с
 
 ### P4. Начальный JavaScript
 
-`src/main.tsx` раньше статически импортировал App и ManagerApp, хотя Manager нужен только на /manager. PR #146 перевёл ManagerApp на React lazy dynamic import: публичный маршрут больше не запрашивает Manager chunk. В одном remote browser sample при 1920×993 public same-origin JS transfer уменьшился с 209,165 B до 161,151 B (index + runtime); ManagerApp chunk 47,518 B загружается только на /manager. Это не controlled mobile baseline.
+PR #146 перевёл ManagerApp на React lazy dynamic import: публичный маршрут не загружает Manager chunk; он загружается только на /manager. Один remote browser sample при 1920×993 показал public JS transfer 161,151 B против 209,165 B до PR #146 (single sample, не controlled mobile baseline).
 
-`src/App.tsx` по-прежнему статически импортирует страницы товаров, категорий, услуг, блога, корзины и другие. Следующая гипотеза — route-level lazy loading этих страниц. Перед изменением составить dependency map, проверить прямые URL, навигацию, SEO, scroll state и fallback states. Серверные модули не должны попадать в client bundle.
+PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; SPA navigation/scroll regression ещё не завершены. Серверные модули не должны попадать в client bundle.
 
 ### P5. Изображения
 
@@ -162,16 +162,17 @@ src/lib/sanity.ts создаёт clients для datasets production и plants с
 ### Этап 5 — Code splitting и JavaScript
 
 - [x] Отложить импорт ManagerApp до маршрута /manager через React lazy import (PR #146).
-- [ ] Lazy-load публичные страницы/маршруты с корректными fallback states.
-- [ ] Проверить прямые URL, переходы, SEO и scroll state.
-- [x] Проверить production resource manifest: public route не загружает ManagerApp chunk; /manager загружает его отдельно.
-- [ ] Проверить shared chunks и initial JS после route-level splitting.
+- [x] Перевести десять non-home page components на lazy imports; HomePage оставить в initial bundle (PR #147).
+- [x] Добавить локализуемый Suspense fallback вокруг route content, не меняя Header/Footer.
+- [x] Проверить production build: main entry gzip снизился с 163.82 до 106.91 kB (−34.74%); отдельные page chunks сформированы.
+- [x] Проверить прямое открытие 16 public routes; контент рендерится, постоянных loading placeholders нет.
+- [ ] Завершить SPA navigation, scroll restoration и route transitions regression.
+- [ ] Повторить live resource inspection для public и каждой lazy route; подтвердить фактическую загрузку нужных chunks.
 - [x] PDF/document generation не менялись; остаются в существующих server-side Functions.
-- [ ] Не дробить бандл на множество мелких чанков без измеримого выигрыша.
 
-**PR #146:** production build/CI и live route smoke прошли. Single unthrottled desktop sample показывает 161,151 B public JS (index + runtime) против 209,165 B до изменения; ManagerApp chunk 47,518 B — только на /manager. Это не controlled mobile performance measurement.
+**PR #146/#147:** оба Production deployments успешны. PR #146 выносит ManagerApp; PR #147 делит public pages. Build artifact gzip main entry −34.74%; это не controlled mobile transfer measurement и не общая оценка скорости страницы.
 
-Критерии: меньше initial JS; Manager chunk не загружается публичными страницами; все URL и переходы работают.
+Критерии: Manager chunk не загружается публичными страницами; non-home page chunks загружаются только при соответствующих маршрутах; все direct URLs и SPA transitions работают.
 
 ### Этап 6 — Остальные страницы
 
@@ -200,17 +201,17 @@ src/lib/sanity.ts создаёт clients для datasets production и plants с
 
 ## 6. Статус на 09.11.2026
 
-- [x] Roadmap создан; статические наблюдения исходного кода зафиксированы.
-- [~] Этап 0 — baseline сохранён; Sanity post-release diagnostic и request-count checks выполнены. Controlled CDP mobile capture, Lighthouse, CrUX, LCP/INP/CLS остаются незавершёнными.
-- [x] Этап 1 — compact service/product/category projections, on-demand details, search index on demand и homepage 6+6 опубликованы; функциональные проверки прошли.
-- [x] Этап 2 — compact blog cards, full article by slug, shared 60s promise cache Header/BlogSection опубликованы; BG/RU/EN live smoke прошёл; один duplicate Sanity blog request удалён (9 → 8 Sanity requests в browser entry sample).
-- [~] Этап 3 — responsive/lazy loading карточек главной (PR #141) выполнен и mobile измерен; Hero/LCP, блоговые изображения и остальные страницы ещё требуют inventory и controlled validation.
-- [ ] Этап 4 — Sanity CDN и кэширование.
-- [~] Этап 5 — ManagerApp lazy chunk опубликован PR #146; один desktop browser sample показывает 22.96% меньше initial public JS bytes. Route-level splitting публичных страниц ещё не выполнено.
-- [ ] Этап 6 — остальные страницы.
+- [x] Roadmap и статический аудит исходного кода зафиксированы.
+- [~] Этап 0 — baseline и post-release diagnostics сохранены. Controlled mobile CDP capture, Lighthouse, CrUX, LCP/INP/CLS остаются незавершёнными.
+- [x] Этап 1 — compact service/product/category projections, on-demand details, search on demand и homepage 6+6 опубликованы.
+- [x] Этап 2 — compact blog cards, full article by slug, shared 60s promise cache Header/BlogSection опубликованы; BG/RU/EN smoke прошёл.
+- [~] Этап 3 — responsive/lazy loading карточек главной (PR #141) выполнен и измерен; Hero/LCP, изображения блога и остальных страниц требуют отдельной проверки.
+- [ ] Этап 4 — Sanity CDN и кэширование; требуется freshness audit по ценам/наличию перед любым переключением CDN.
+- [~] Этап 5 — ManagerApp lazy chunk (PR #146) и десять non-home route chunks (PR #147) опубликованы. Build main entry gzip −34.74%; direct-route smoke прошёл. SPA navigation/scroll restoration и live chunk resource inspection остаются открытыми.
+- [ ] Этап 6 — остальные страницы и изображения.
 - [ ] Этап 7 — полная регрессия и production.
 
-**Текущая точка продолжения:** PR #141–#146 опубликованы. Stage 1/2 выполнены функционально. PR #146 подтверждает, что public route не загружает ManagerApp chunk; Manager route продолжает отображать болгарский login screen. Single browser sample (1920×993, без throttling/cache control) — 161,151 B public JS после против 209,165 B до; это не controlled mobile baseline и не общий page-speed result. Следующий шаг — продолжить Stage 5: dependency map статических page imports в `src/App.tsx`, определить безопасные route-level lazy boundaries и fallback states; до изменений проверить прямые URLs, SEO и scroll restoration. Параллельно Stage 0 controlled mobile CDP capture/Lighthouse остаётся открытым.
+**Текущая точка продолжения:** PR #141–#147 опубликованы. PR #147 изменил только `src/App.tsx`; HomePage остался в initial bundle, десять non-home page components стали lazy. Build artifact main entry: 620.15 kB raw / 163.82 kB gzip до PR #147 против 388.90 kB raw / 106.91 kB gzip после (−34.74% gzip). 16 direct URLs проверены, постоянных loading placeholders нет. Следующий шаг — закрыть SPA navigation/scroll regression и live route chunk inspection; затем провести freshness audit Sanity public reads и отдельно оценить безопасное использование CDN для контента без риска stale price/stock. Controlled mobile CDP/Lighthouse остаётся открытым.
 
 ## 7. Инструкция для нового чата
 
@@ -313,4 +314,17 @@ src/lib/sanity.ts создаёт clients для datasets production и plants с
 - Post-release PerformanceResourceTiming check: 8 Sanity API URLs, all distinct, including one compact top-3 blog query; previous diagnostic had 9 URLs with duplicate blog fetch. This confirms the duplicate request was removed. Cross-origin transferSize/encodedBodySize/decodedBodySize were 0, so no network bytes were measured. Controlled CDP/Lighthouse/CWV remain open; no overall speed percentage claimed.
 
 **Следующая задача:** controlled CDP capture with the exact baseline profile (390×844, CPU 4×, 150 ms latency, 10/1.5 Mbps, cache disabled, at least 3 runs) for homepage, category, product, search, blog list and article. If capture tooling is still unavailable, document the limitation and proceed only with another code target supported by source evidence. Then assess Stage 3 image inventory/LCP and Stage 4 Sanity CDN/cache without changing CDN settings until freshness is validated.
+
+
+
+## Контрольная точка 09.11.2026 — PR #147: lazy public page components
+
+- PR #147 merged squash: `b35b5e499700d0330a7ea43ca1ca09e4f6cad7e8`; changed only `src/App.tsx`.
+- HomePage stays eager. AboutPage, CartPage, ContactsPage, ServicesListPage, ServicePage, CategoryPage, ProductPage, BlogPage, BlogPostPage and IrrigationSupportPage use React.lazy named-export imports. One Suspense fallback wraps route content; Header/Footer stay outside.
+- CI: Blog and Studio validation `42592562970` success; D1 validation `42592563158` success.
+- Production: Cloudflare deployment `20836dfd-7536-4379-be50-2c865800c814` success; commit matches merge commit; aliases florial-bg.com and www.florial-bg.com.
+- Live direct-route smoke: homepage BG/RU/EN; /about; /cart empty; /contacts; /services; planting service; irrigation delivery support; plant and irrigation root categories; Rain Bird product; Trachycarpus plant; /blog; Rain Bird article; search Rain Bird 130 results. All rendered content, no persistent Suspense/loading placeholders.
+- Build output main index: before PR #147 620.15 kB raw / 163.82 kB gzip; after 388.90 kB raw / 106.91 kB gzip; reduction 231.25 kB raw / 56.91 kB gzip (34.74% gzip). Separate route chunks: BlogPage 3.67/1.68, ContactsPage 7.23/2.48, BlogPostPage 8.67/3.27, ServicesListPage 12.21/4.28, CartPage 23.14/6.16, IrrigationSupportPage 24.19/7.31, ServicePage 26.27/8.35, AboutPage 35.76/9.59, ProductPage 46.80/12.52, CategoryPage 47.41/12.60 kB raw/gzip.
+- These are Vite build artifacts, not live transfer or page speed metrics. SPA navigation/scroll regression and live chunk network inspection remain open.
+- No Sanity, D1, API, Manager, cart/checkout, Header/menu/Footer layout or Cloudflare config changes.
 
