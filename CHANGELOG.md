@@ -1,3 +1,14 @@
+## 2026-11-09 — Controlled route CLS audit and stale-base deployment root cause
+
+- Repeated controlled mobile route CLS capture on current Production (`390×844`, CPU 4×, 150 ms latency, 10 Mbps down / 1.5 Mbps up, browser cache disabled; 3 runs per route). Session-window grouping: 1-second gap, 5-second maximum window.
+- Median session CLS: homepage `0.0002`; irrigation category `/category/vsichko-za-polivane` `1.0443`; product `/product/musa-banana` `0.7005`; blog `/blog` `0.6124`; article `/blog/montazh-podmyana-remont-razpruskvachi-nesebar` `0.7805`. Values reproduced in all three runs per route in this lab browser. These are lab measurements, not field CrUX data.
+- The dominant layout-shift source is the `FOOTER` element on category, product, blog and article routes. Category also has an earlier shift from unidentified nodes. The repeated pattern is consistent with short route loading placeholders being replaced by full asynchronous page content in `src/App.tsx`, causing the Footer to move. Do not edit Footer.
+- Confirmed the earlier Pages alias mismatch was caused by stale-base commits being deployed from `main`: commit `51ef6b56...` (MD2 rev35) has parent `612b4713...` and its tree predates PR #148–#152; commit `6a4eea12...` (MD2 rev41) has parent `2f35bf31...` and predates PR #152. Their successful Pages builds served older runtime bundles. This was not a browser cache issue.
+- Current main chain is `a88ce6ca...` (PR #152 runtime) → `859dfb10...` (MD2 rev42) → `81114ccd...` (PR #154 documentation recovery). Current Production deployment `28d3d2c0-6046-4c75-8a2c-723b4e89c9eb` is successful and aliases `florial-bg.com` and `www.florial-bg.com`; it serves `index-DFmXNYJ3.js` with the correct PR #148–#152 runtime.
+- No application code, Sanity documents/schemas, D1 data, order APIs, Manager, Header/menu/Footer, Cloudflare cache rules/settings/secrets or environment variables were changed during this CLS audit. The shared loading-area fix in `src/App.tsx` requires explicit user approval under MD2 rev42.
+- Detailed report: `docs/performance/POST_OPTIMIZATION_ROUTE_CLS_2026-11-09.md`.
+
+---
 ## 2026-11-09 — Production deployment recovery after Pages alias mismatch
 
 - Audit found that `florial-bg.com` was serving deployment `2ea7f7f0-3340-4cea-b64d-0bd5e20c7fb2` from commit `51ef6b56f475232275dceb0a5ad94310cee9d768`, whose published bundle was the older `index-DVSEkUpQ.js` (742,368 B). The correct build from current `main` commit `859dfb10c75108d9a4609de424b420fa622bac68` was already available as deployment `146a68ed-b69b-46c8-b470-ff58ba1ae201` but did not hold the production aliases.
