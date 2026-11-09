@@ -70,7 +70,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
       const alreadyApplied = Object.entries(normalized.set).every(([key,value]) => JSON.stringify((current as Record<string,unknown>)[key]) === JSON.stringify(value))
       if (alreadyApplied) {
         after = auditSnapshot(current)
-        await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action:action || (prior.action as any),changedFields:prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,before,after,result:'success'})
+        await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action:prior.action as 'update'|'deactivate'|'reactivate',changedFields:prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,before,after,result:'success'})
         return json({ok:true,documentId:id,revision:current._rev,requestId,replayed:true})
       }
       return json({error:'Растението е променено от друг служител. Обновете карточката и приложете промените отново.',conflict:true},409)
