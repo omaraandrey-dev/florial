@@ -31,3 +31,5 @@ jobs:
         run: npm run build
       - name: Syntax-check Pages Functions
         run: npx esbuild "functions/**/*.ts" --outdir=/tmp/florial-functions-check --platform=browser --format=esm
+      - name: Validate additive plant audit migration
+        run: python3 tests/manager-product-audit-migration.test.py
