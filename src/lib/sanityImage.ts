@@ -27,7 +27,7 @@ export function getSanityImageProps(imageUrl: string, sizes: string, preferredWi
       return image.toString()
     }
 
-    const candidates = [320, 480, 640, 800, 960, 1200, 1600]
+    const candidates = [160, 240, 320, 480, 640, 800, 960, 1200, 1600]
       .map((width) => sourceWidth ? Math.min(width, sourceWidth) : width)
       .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
       .sort((a, b) => a - b)
