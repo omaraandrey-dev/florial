@@ -25,11 +25,11 @@ const imageFrom=(value:any):ImageItem|null=>{
  if(typeof assetId!=='string'||typeof url!=='string')return null
  return {assetId,url,name:value?.originalFilename||'Снимка',alt:value?.alt||'',altEn:value?.altEn||'',altRu:value?.altRu||''}
 }
-const variantFrom=(value:any):Variant=>({
+const variantFrom=(value:any,rootStatus?:string):Variant=>({
  _key:value?._key||crypto.randomUUID().replace(/-/g,'').slice(0,12),name:value?.name||'',nameEn:value?.nameEn||'',nameRu:value?.nameRu||'',sku:value?.sku||'',
  saleHeightCm:value?.saleHeightCm==null?'':String(value.saleHeightCm),containerVolumeL:value?.containerVolumeL==null?'':String(value.containerVolumeL),
  priceEUR:value?.priceEUR==null?'':String(value.priceEUR),oldPriceEUR:value?.oldPriceEUR==null?'':String(value.oldPriceEUR),
- stockStatus:value?.stockStatus||'onRequest',stockQuantity:value?.stockQuantity==null?'':String(value.stockQuantity),
+ stockStatus:value?.stockStatus||rootStatus||'onRequest',stockQuantity:value?.stockQuantity==null?'':String(value.stockQuantity),
 })
 const inputClass='w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const labelClass='mb-1 block text-sm font-semibold text-stone-700'
@@ -75,6 +75,7 @@ export default function PlantCatalogManager({role}:Props){
   finally{setLoading(false)}
  },[query,categoryId,sort])
  useEffect(()=>{void load()},[load])
+ useEffect(()=>{setPendingIdempotencyKey(null)},[form,images])
 
  const openNew=()=>{setEditingId(null);setRevision('');setForm(emptyForm());setImages([]);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
@@ -93,7 +94,7 @@ export default function PlantCatalogManager({role}:Props){
     name:p.name||'',slug:p.slug?.current||'',scientificName:p.scientificName||'',sku:p.sku||'',productType:p.productType||'plant',
     categoryId:p.category?._ref||p.categoryId||'',shortDescription:p.shortDescription||'',description:plainText(p.description),
     isFeatured:p.isFeatured===true,isActive:p.isActive!==false,
-    saleVariants:Array.isArray(p.saleVariants)&&p.saleVariants.length?p.saleVariants.map(variantFrom):[newVariant()],
+    saleVariants:Array.isArray(p.saleVariants)&&p.saleVariants.length?p.saleVariants.map((variant:any)=>variantFrom(variant,p.stockStatus)):[newVariant()],
     translations:{
      bg:{...(translations.bg||{}),description:plainText(translations.bg?.description)},
      ru:{...(translations.ru||{}),description:plainText(translations.ru?.description)},
@@ -158,13 +159,15 @@ export default function PlantCatalogManager({role}:Props){
     mainImage:selected,gallery:images.filter((_,index)=>index!==mainImageIndex),
     translations:form.translations,seo:form.seo,
    }
-   const idempotencyKey=crypto.randomUUID()
+   const idempotencyKey=pendingIdempotencyKey||crypto.randomUUID()
+   if(!pendingIdempotencyKey)setPendingIdempotencyKey(idempotencyKey)
    const response=await fetch(editingId?'/api/manager/plants/'+encodeURIComponent(editingId):'/api/manager/plants',{
     method:editingId?'PATCH':'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},
     body:JSON.stringify(editingId?{expectedRevision:revision,idempotencyKey,product}:{idempotencyKey,product}),
    })
    const result=await responseJson(response)
    if(!response.ok){if(result.conflict)throw new Error('Карточката е променена от друг служител. Затворете я и отворете отново, за да заредите актуалните данни.');throw new Error(result.error||'Не успяхме да запазим растението.')}
+   setPendingIdempotencyKey(null)
    setNotice('Растението е публикувано и запазено в каталога.')
    setEditorOpen(false);setEditingId(null);await load()
   }catch(e){setError(e instanceof Error?e.message:'Не успяхме да запазим растението.')}
