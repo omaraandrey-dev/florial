@@ -1,3 +1,17 @@
+## 2026-11-09 — Услуги: ссылки на изображения и связанные материалы
+
+- PR #134 объединён в `main` (squash merge commit `627953676e0cef853704a648693e7cf57284bfcc`). Добавлены необязательные поля `linkUrl` к изображениям услуг (основное изображение, Hero, галерея, контентные блоки) и универсальный массив `relatedContent` с ссылками на услуги, статьи, товары и категории.
+- Frontend `src/App.tsx`, `src/pages/ServicePage.tsx`, `src/types.ts`: ссылки изображений обрабатываются с локализацией внутренних URL; связанные материалы отображаются компактными адаптивными карточками с изображением слева и текстом справа. Добавлен маркер `__gallery:watering` для размещения фото в соответствующем разделе статьи.
+- Sanity Studio schema deployed успешно: GitHub Actions run `42553313954`; проверено через Sanity schema API — поля `service.relatedContent` и `linkUrl` доступны в service/serviceContentBlock. Используется существующий Studio workspace `florial-admin`; новые Studio apps не создавались.
+- Перед изменением Sanity опубликованного документа создан JSON snapshot: `docs/backups/sanity-service-zasazhdane-na-rasteniya-2026-11-09.json`. Попытка полного копирования dataset через Sanity CLI недоступна на текущем плане; резервная копия конкретной услуги сохранена в GitHub.
+- Новая фотография капельного полива загружена в Sanity asset `image-3bfa49590b6f3271e64a2666411feeacf1f785c4-1152x1536-jpg`. Добавлена в существующую услугу `zasazhdane-na-rasteniya` в разделе «Поливане и грижи след засаждането», с BG/RU/EN ALT и ссылкой на `/services/avtomatizirano-kapkovo-napoyavane`. Основное фото, заменённое пользователем в Studio, сохранено без изменений.
+- В опубликованную услугу добавлен локализованный абзац о капельном поливе на BG/RU/EN и блок связанных услуг: `profesionalno-zasazhdane-na-maslini` и `avtomatizirano-kapkovo-napoyavane`. Существующая форма заявки сохранена.
+- CI: lint, utility tests, website build, Pages Functions syntax, read-only migration dry-run, Studio build и D1 validation — success. Sanity Studio validate run `42553145922` — success.
+- Cloudflare Pages Production deployment `7a53b3b5-0898-48f2-a249-50f71617ae91` для merge commit — success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live smoke BG/RU/EN подтверждён: новая фотография присутствует, её ссылка открывает страницу капельного полива, обе связанные карточки локализованы, форма заявки присутствует. Header, меню, Footer, D1, Manager, API и URL услуги не менялись.
+
+---
+
 
 ## 2026-11-09 — Выпущена инструкция Florial MD2 rev23
 
