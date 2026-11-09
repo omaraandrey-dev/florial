@@ -4,6 +4,7 @@ import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { applyPageSeo } from '../lib/seo'
 import { BlogSection } from '../components/BlogSection'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
+import { getSanityImageProps } from '../lib/sanityImage'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
 
@@ -19,39 +20,6 @@ interface HomePageProps {
   onSelectProduct: (product: Product) => void
 }
 
-
-const getHomepageImageProps = (imageUrl: string, sizes: string) => {
-  const fallback = { src: imageUrl }
-
-  try {
-    const source = new URL(imageUrl)
-    if (
-      source.protocol !== 'https:' ||
-      source.hostname !== 'cdn.sanity.io' ||
-      !source.pathname.startsWith('/images/bxvcy0qs/')
-    ) {
-      return fallback
-    }
-
-    const buildUrl = (width: number) => {
-      const image = new URL(source)
-      image.searchParams.set('w', String(width))
-      image.searchParams.set('fit', 'max')
-      image.searchParams.set('auto', 'format')
-      image.searchParams.set('q', '75')
-      return image.toString()
-    }
-
-    const widths = [320, 480, 640, 800, 960, 1200]
-    return {
-      src: buildUrl(640),
-      srcSet: widths.map((width) => `${buildUrl(width)} ${width}w`).join(', '),
-      sizes,
-    }
-  } catch {
-    return fallback
-  }
-}
 
 export function HomePage({
   services,
@@ -181,7 +149,7 @@ export function HomePage({
                       <div>
                         <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
                           <img
-                            {...getHomepageImageProps(
+                            {...getSanityImageProps(
                               'https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg',
                               '(min-width: 768px) 33vw, 50vw',
                             )}
@@ -212,7 +180,7 @@ export function HomePage({
                       <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
                         {srv.imageUrl ? (
                           <img
-                            {...getHomepageImageProps(srv.imageUrl, '(min-width: 768px) 33vw, 50vw')}
+                            {...getSanityImageProps(srv.imageUrl, '(min-width: 768px) 33vw, 50vw')}
                             alt={localize(srv, 'name')}
                             width={800}
                             height={600}
@@ -250,7 +218,7 @@ export function HomePage({
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
                   {cat.imageUrl ? (
                     <img
-                      {...getHomepageImageProps(cat.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
+                      {...getSanityImageProps(cat.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
                       alt={getCategoryImageText(cat, language, 'alt')}
                       title={getCategoryImageText(cat, language, 'title')}
                       width={800}
@@ -304,7 +272,7 @@ export function HomePage({
                     <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">
                       {cat.imageUrl ? (
                         <img
-                          {...getHomepageImageProps(cat.imageUrl, '(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 33vw')}
+                          {...getSanityImageProps(cat.imageUrl, '(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 33vw')}
                           alt={getCategoryImageText(cat, language, 'alt')}
                           title={getCategoryImageText(cat, language, 'title')}
                           width={800}

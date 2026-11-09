@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
+import { getSanityImageProps } from '../lib/sanityImage'
 import type { CategoryItem, ServiceItem } from '../types'
 
 const content = {
@@ -149,7 +150,7 @@ export function AboutPage({ services, categories }: AboutPageProps) {
         className="mt-5 block overflow-hidden rounded-2xl no-underline shadow-sm transition hover:shadow-md"
       >
         <img
-          src={service.imageUrl}
+          {...getSanityImageProps(service.imageUrl, '(min-width: 768px) 50vw, 100vw')}
           alt={imageTitle}
           title={imageTitle}
           loading="lazy"
@@ -171,7 +172,7 @@ export function AboutPage({ services, categories }: AboutPageProps) {
         className="mt-5 block overflow-hidden rounded-2xl no-underline shadow-sm transition hover:shadow-md"
       >
         <img
-          src={category.imageUrl}
+          {...getSanityImageProps(category.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')}
           alt={imageTitle}
           title={imageTitle}
           loading="lazy"

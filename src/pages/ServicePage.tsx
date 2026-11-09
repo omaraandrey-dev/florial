@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock, ServiceGalleryImage } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
+import { getSanityImageProps } from '../lib/sanityImage'
 
 interface ServicePageProps {
   service: ServiceItem
@@ -65,9 +66,9 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
             {image.imageUrl && (
               image.imageLinkUrl || image.linkUrl
                 ? <a href={(image.imageLinkUrl || image.linkUrl || '').startsWith('/') ? localizedHref(image.imageLinkUrl || image.linkUrl || '/', language) : (image.imageLinkUrl || image.linkUrl)} className="block" aria-label={alt || undefined}>
-                    <img src={image.imageUrl} alt={alt} loading="lazy" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
+                    <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
                   </a>
-                : <img src={image.imageUrl} alt={alt} loading="lazy" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
+                : <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
             )}
             {!singleImage && alt && (
               <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>
@@ -95,8 +96,8 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
           return (
             <figure key={image._key || `service-gallery-${index}`} className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
               {image.linkUrl
-            ? <a href={image.linkUrl.startsWith('/') ? localizedHref(image.linkUrl, language) : image.linkUrl} className="block"><img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" /></a>
-            : <img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" />}
+            ? <a href={image.linkUrl.startsWith('/') ? localizedHref(image.linkUrl, language) : image.linkUrl} className="block"><img {...getSanityImageProps(image.url, '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className="h-40 w-full object-cover sm:h-52 md:h-56" /></a>
+            : <img {...getSanityImageProps(image.url, '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className="h-40 w-full object-cover sm:h-52 md:h-56" />}
             </figure>
           )
         })}
@@ -443,9 +444,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
               {hero.imageLinkUrl || service.imageLinkUrl
                 ? <a href={(hero.imageLinkUrl || service.imageLinkUrl || '').startsWith('/') ? localizedHref(hero.imageLinkUrl || service.imageLinkUrl || '/', language) : (hero.imageLinkUrl || service.imageLinkUrl)} className="block">
-                    <img src={heroImageUrl} alt={heroImageAlt} fetchPriority="high" className="max-h-[560px] min-h-[220px] w-full object-cover" />
+                    <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />
                   </a>
-                : <img src={heroImageUrl} alt={heroImageAlt} fetchPriority="high" className="max-h-[560px] min-h-[220px] w-full object-cover" />}
+                : <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />}
             </div>
           )}
 
@@ -469,7 +470,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                 const path = item._type === 'service' ? '/services/' + itemSlug : item._type === 'blogPost' ? '/blog/' + itemSlug : item._type === 'category' ? '/category/' + itemSlug : '/product/' + itemSlug
                 const itemAlt = language === 'ru' ? item.imageAltRu || itemTitle : language === 'en' ? item.imageAltEn || itemTitle : item.imageAlt || itemTitle
                 return <a key={item._id} href={localizedHref(path, language)} className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-emerald-300 hover:shadow-sm">
-                  {item.imageUrl && <img src={item.imageUrl} alt={itemAlt} loading="lazy" className="h-20 w-24 shrink-0 rounded-lg object-cover sm:h-24 sm:w-28" />}
+                  {item.imageUrl && <img {...getSanityImageProps(item.imageUrl, '112px', 240)} alt={itemAlt} loading="lazy" decoding="async" className="h-20 w-24 shrink-0 rounded-lg object-cover sm:h-24 sm:w-28" />}
                   <span className="min-w-0 flex-1">
                     <span className="block font-semibold text-slate-900 group-hover:text-emerald-800">{itemTitle}</span>
                     {itemDescription && <span className="mt-1 block text-sm leading-5 text-slate-600">{itemDescription}</span>}
@@ -551,9 +552,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                     <div className={imageFirst ? 'md:order-1' : 'md:order-2'}>
                       {block.imageLinkUrl || block.linkUrl
                         ? <a href={(block.imageLinkUrl || block.linkUrl || '').startsWith('/') ? localizedHref(block.imageLinkUrl || block.linkUrl || '/', language) : (block.imageLinkUrl || block.linkUrl)} className="block">
-                            <img src={block.imageUrl} alt={imageAlt} loading="lazy" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />
+                            <img {...getSanityImageProps(block.imageUrl, '(min-width: 768px) 768px, calc(100vw - 2rem)', 960)} alt={imageAlt} loading="lazy" decoding="async" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />
                           </a>
-                        : <img src={block.imageUrl} alt={imageAlt} loading="lazy" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />}
+                        : <img {...getSanityImageProps(block.imageUrl, '(min-width: 768px) 768px, calc(100vw - 2rem)', 960)} alt={imageAlt} loading="lazy" decoding="async" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />}
                     </div>
                   )}
                   {(title || text) && (

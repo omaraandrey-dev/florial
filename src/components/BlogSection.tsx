@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
 import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPostCard} from '../lib/blog'
 import {localizedHref} from '../lib/navigation'
+import {getSanityImageProps} from '../lib/sanityImage'
 
 export function BlogSection() {
   const {t, language} = useI18n()
@@ -23,7 +24,7 @@ export function BlogSection() {
           const image = post.cover?.asset?.url
           return <article key={post._id} className="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
             <a href={localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language)} className="block no-underline">
-              {image ? <img src={image} alt={content.coverAlt} loading="lazy" className="h-52 w-full object-cover" /> : <div className="flex h-52 items-center justify-center bg-[#E9EDDB] text-4xl" aria-hidden="true">🌿</div>}
+              {image ? <img {...getSanityImageProps(image, '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw')} alt={content.coverAlt} loading="lazy" decoding="async" className="h-52 w-full object-cover" /> : <div className="flex h-52 items-center justify-center bg-[#E9EDDB] text-4xl" aria-hidden="true">🌿</div>}
               <div className="p-5">
                 <time dateTime={post.publishedAt || undefined} className="text-xs font-medium text-slate-500">{formatBlogDate(post.publishedAt, language)}</time>
                 <h4 className="mt-2 text-lg font-bold leading-snug text-slate-900">{content.title}</h4>
