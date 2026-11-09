@@ -465,7 +465,8 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                 const localized = language === 'bg' ? undefined : item.translations?.[language]
                 const itemTitle = localized?.name || localized?.title || item.name || item.title || ''
                 const itemDescription = localized?.shortDescription || item.shortDescription || ''
-                const path = item._type === 'service' ? '/services/' + item.slug.current : item._type === 'blogPost' ? '/blog/' + item.slug.current : item._type === 'category' ? '/category/' + item.slug.current : '/product/' + item.slug.current
+                const itemSlug = item.slug?.current || ''
+                const path = item._type === 'service' ? '/services/' + itemSlug : item._type === 'blogPost' ? '/blog/' + itemSlug : item._type === 'category' ? '/category/' + itemSlug : '/product/' + itemSlug
                 const itemAlt = language === 'ru' ? item.imageAltRu || itemTitle : language === 'en' ? item.imageAltEn || itemTitle : item.imageAlt || itemTitle
                 return <a key={item._id} href={localizedHref(path, language)} className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-emerald-300 hover:shadow-sm">
                   {item.imageUrl && <img src={item.imageUrl} alt={itemAlt} loading="lazy" className="h-20 w-24 shrink-0 rounded-lg object-cover sm:h-24 sm:w-28" />}
