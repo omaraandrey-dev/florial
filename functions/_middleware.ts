@@ -1,5 +1,4 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
-import { getSanityImageDimensionAttributes } from './lib/sanityImageDimensions'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -459,7 +458,7 @@ function localizedRouteUrl(path: string, language: string): string {
 
 function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name): string {
   const image = doc.imageUrl
-    ? '<img src="' + escapeHtml(doc.imageUrl) + '"' + getSanityImageDimensionAttributes(doc.imageUrl) + ' alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
+    ? '<img src="' + escapeHtml(doc.imageUrl) + '" alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
     : ''
   let extra = ''
   if (type === 'product') {
