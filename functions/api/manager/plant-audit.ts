@@ -31,12 +31,21 @@ export const onRequestGet = async ({request,env}:{request:Request;env:ManagerEnv
   if(to){where.push('a.created_at<=?');values.push(to)}
   try{
     const rows=await env.DB.prepare(`
+      WITH ranked AS (
+        SELECT a.*,
+          ROW_NUMBER() OVER (
+            PARTITION BY a.idempotency_key
+            ORDER BY CASE WHEN a.phase='result' THEN 0 ELSE 1 END, a.created_at DESC
+          ) AS row_number
+        FROM manager_product_audit a
+        ${where.length?'WHERE '+where.join(' AND '):''}
+      )
       SELECT a.id,a.request_id,a.idempotency_key,a.phase,a.actor_id,a.actor_role,
         p.display_name AS actor_name,a.product_id,a.product_name,a.action,a.changed_fields,
         a.before_data,a.after_data,a.result,a.error_code,a.created_at
-      FROM manager_product_audit a
+      FROM ranked a
       LEFT JOIN catalog_staff_profiles p ON p.user_id=a.actor_id
-      ${where.length?'WHERE '+where.join(' AND '):''}
+      WHERE a.row_number=1
       ORDER BY a.created_at DESC,a.id DESC LIMIT ? OFFSET ?
     `).bind(...values,limit+1,offset).all<Record<string,unknown>>()
     const hasMore=rows.results.length>limit
