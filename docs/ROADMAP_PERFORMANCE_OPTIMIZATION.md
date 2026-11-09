@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Этап 1 частично выполнен: компактная initial service/product loading, full detail on demand и homepage category sections 6+6 опубликованы в Production. Измерение post-release Sanity transfer для PR #142/#143 ещё впереди.  
+**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Реализация Этапа 1 опубликована: компактные service/product/category indexes, полные detail-записи по требованию, отдельный search index и homepage 6+6. Повторный network capture и Lighthouse/CWV после PR #142–#144 ещё впереди.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -200,7 +200,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 - [x] Roadmap создан; статические наблюдения исходного кода зафиксированы.
 - [~] Этап 0 — browser/network baseline сохранён в `docs/performance/BASELINE.md`; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за недоступности PageSpeed API и отсутствия LCP/INP в remote browser capture.
-- [~] Этап 1 — компактные initial service/product projections, on-demand service/product details, homepage 6+6 category cards; category payload и повторные network measurements ещё открыты.
+- [~] Этап 1 — компактные initial service/product/category projections, on-demand service/product/category details, search index on demand и homepage 6+6 опубликованы. Функциональная реализация прошла CI и live smoke; повторный network capture для количественного подтверждения остаётся открытым.
 - [ ] Этап 2 — карточные GROQ projections и блог.
 - [~] Этап 3 — изображения: responsive/lazy loading карточек HomePage выполнен (PR #141); Hero, блог, остальные страницы и Lighthouse/LCP проверки ещё впереди.
 - [ ] Этап 4 — Sanity CDN и кэширование.
@@ -208,7 +208,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - [ ] Этап 6 — остальные страницы.
 - [ ] Этап 7 — регрессия и production.
 
-**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. Responsive/lazy images карточек главной (PR #141) и compact/on-demand service loading (PR #142) опубликованы; mobile image result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #143 опубликован: homepage plant/irrigation category sections ограничены 6+6, product/plant catalog projections облегчены, full product detail и search index загружаются по требованию. Следующий безопасный этап — разделить category navigation projection и full category content: initial categories нужны Header/HomePage/Product breadcrumbs, тогда как description/SEO/helpBlock нужны только для конкретной CategoryPage. Сначала проверить все потребители category fields и сделать отдельный PR. Затем повторить browser/network measurement на том же профиле baseline; Lighthouse/LCP/INP остаются открытыми.
+**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. PR #141 оптимизировал responsive/lazy images карточек главной; измеренный mobile result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #142 перенёс полные service records на detail route. PR #143 внедрил compact equipment/plant projections, on-demand product detail/search и homepage 6+6. PR #144 внедрил compact category index и on-demand category description/SEO/helpBlock. Следующий приоритет — повторить browser/network capture на том же профиле, что baseline, для homepage, equipment/plant category, product detail и search; затем оценить Lighthouse/CWV и переходить к Stage 2 (blog card projections и устранение повторного blog fetch).
 
 ## 7. Инструкция для нового чата
 
@@ -222,7 +222,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 ### Стартовый запрос
 
-Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md, docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md, docs/performance/BASELINE.md и последний post-optimization report. Проверь актуальный main и последний Cloudflare Production deployment. Stage 0 частично закрыт; responsive/lazy images карточек главной уже опубликованы и измерены. Продолжи с Stage 1: составь карту всех потребителей products/categories/plantCategories/services/siteSettings в src/App.tsx, ничего не меняй в коде, Sanity или инфраструктуре, пока не представишь план лёгких Sanity projections и не получишь согласование.
+Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию (сейчас rev36) в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md, docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md, docs/performance/BASELINE.md и последний post-optimization report. Проверь актуальный main и последний Cloudflare Production deployment. PR #141–#144 опубликованы: responsive homepage images; compact service/product/category projections; on-demand service/product/category details; search index on demand; homepage 6+6. Следующая задача — воспроизвести network baseline на том же mobile-профиле для homepage, plant/equipment category, product detail и search; не заявлять проценты ускорения без измерений. Затем Stage 2: lightweight blog card projection and deduplicate Header/BlogSection blog fetch.
 
 
 ## Дополнение от 09.11.2026 — результаты первого baseline
@@ -272,4 +272,18 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - Live smoke: homepage BG/RU/EN; both catalogue roots; Rain Bird equipment detail; Trachycarpus detail BG/RU/EN and sale variant; kit detail/components; plant filters; Rain Bird search returns 130 results. No loading placeholder remained after client load.
 - Не выполнялись cart click, checkout/order, browser console, full SPA manual regression. Post-release network transfer/Lighthouse/CWV measurement не выполнялись; ускорение в процентах не заявляется.
 - Следующая задача: compact category index + on-demand category description/SEO/helpBlock, после анализа Header/HomePage/ProductPage/About/CategoryPage consumers. Не менять Header/menu/Footer.
+
+
+
+## Контрольная точка 09.11.2026 — PR #144: категория загружается по требованию
+
+- PR #144 merged squash: `dd129898f207018e5124f7fa2604ff9a727ccd9a`; runtime изменён только `src/App.tsx`.
+- Initial category queries теперь компактные: names/translations names, slug, sortOrder, parentId, image URL/ALT/TITLE и category type. Full descriptions, SEO and helpBlock не загружаются глобально.
+- При открытии CategoryPage выполняется detail GROQ query из нужного Sanity dataset. Полные localized description, SEO/H1/noIndex, helpBlock и изображения сохраняются. Добавлены cancellation guard, защита от stale category и fallback при ошибке detail query.
+- Sanity read-only GROQ queries compact/detail проверены для datasets production/plants; без writes.
+- CI: Blog and Studio validation `42588551106` success; D1 validation `42588551110` success.
+- Production deployment `d93cc80d-1475-49d1-a798-a08587b6b2dd` success, commit совпадает с merge commit, aliases florial-bg.com и www.florial-bg.com.
+- Live smoke: plant and irrigation root categories BG/RU/EN, child categories palms/valves, categories with helpBlock rotor sprinklers BG/RU and citrus BG/EN. Category headings, descriptions, SEO titles, images, category/product cards and help text render after client-side load.
+- Не менялись Sanity schema/documents, products, search, cart/checkout, D1, API, Manager, Header/menu/Footer layout, Cloudflare settings/secrets.
+- Network transfer/Lighthouse/CWV после PR #144 ещё не измерялись. Следующий шаг — повторить baseline capture на идентичном профиле и нескольких маршрутах; затем перейти к Stage 2 blog projections.
 
