@@ -90,7 +90,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       if (completed) return errorJson('Тази операция вече е приключила с грешка. Започнете ново запазване.', 409)
     }
 
-    const normalized = await buildPlantSet(env, body.product, auth.user.role, true)
+    const normalized = await buildPlantSet(env, body.product, auth.user.role, undefined, true)
     changedFields = normalized.changedFields
     productName = cleanText(normalized.set.name, 160)
     const slug = (normalized.set.slug as { current: string }).current
