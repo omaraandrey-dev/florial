@@ -1534,3 +1534,12 @@
 - Верхняя gallery очищена после переноса ссылок, чтобы не показывать дубликаты; все три asset references сохранены в contentBlocks. Pre-edit JSON backup: `docs/backups/sanity-service-zasazhdane-na-palmi-before-inline-gallery-2026-11-09.json`; post-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-after-inline-gallery-2026-11-09.json`.
 - Schema Sanity не менялась; новые поля Title не добавлялись. Изменён только section-heading mapping существующего inline gallery renderer в `src/pages/ServicePage.tsx`.
 - CI/Production результат будет зафиксирован после проверки.
+ 
+## 2026-11-09 — Production deployment inline-фотографий пальм (PR #138)
+
+- PR #138 объединён в `main`: merge commit `b08469b5ee8cc3ee8ae1878865237f03339e83c6`.
+- Cloudflare Pages project `florial`: Production deployment `19748523-6a55-4d5e-bb28-bd69b2b131fc`, статус `success`, branch `main`, commit `b08469b5ee8cc3ee8ae1878865237f03339e83c6`; URL deployment `https://19748523.florial.pages.dev`.
+- Production smoke на `florial-bg.com/services/zasazhdane-na-palmi`: BG/RU/EN HTTP 200, `robots=index, follow`, локализованные H1/title. Все три фото отображаются в статье после соответствующих разделов, ALT совпадает с языком страницы.
+- Mobile smoke 390px: HTTP 200, все три изображения найдены в DOM, три inline image sections; верхняя повторная галерея отсутствует.
+- CI: `Florial D1 migration validation` run #636 — success; `Blog and Studio validation` run #594 — success, включая website lint, utility tests, website build, migration syntax/dry-run и Sanity Studio build.
+- Production deployment и live HTML подтверждают, что код и Sanity content синхронизированы. Реальные заявки не отправлялись; форма и D1/email end-to-end не тестировались.
