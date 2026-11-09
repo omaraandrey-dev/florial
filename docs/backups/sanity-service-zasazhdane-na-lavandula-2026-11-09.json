@@ -1,0 +1,1036 @@
+{
+  "_createdAt": "2026-11-09T05:29:35Z",
+  "_id": "4ee02515-24f2-42b7-8fc7-e98d5e75ffcf",
+  "_rev": "9Jlb6k9xfgGTkBekNEYO9h",
+  "_type": "service",
+  "_updatedAt": "2026-11-09T05:30:19Z",
+  "advantages": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZBO",
+      "text": "Избираме подхода според слънцето, вятъра, почвата и оттичането на водата.",
+      "title": "Съобразяване с мястото"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZFb",
+      "text": "Проверяваме разстоянията и бъдещия размер на растенията преди засаждане.",
+      "title": "Планирана композиция"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZJo",
+      "text": "Оценяваме структурата и необходимостта от подобряване на терена.",
+      "title": "Подготовка на почвата"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZO1",
+      "text": "Обясняваме как да се следи влажността и как да се поддържа лавандулата след прихващане.",
+      "title": "Насоки за грижа"
+    }
+  ],
+  "callToAction": {
+    "buttonLabel": "Изпрати запитване",
+    "text": "Изпратете ни информация за мястото, приблизителната площ и желаното количество растения. Ще обсъдим подходящия вариант за Вашата градина.",
+    "title": "Планирате засаждане на лавандула?"
+  },
+  "description": [
+    {
+      "_key": "bg10",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s10e",
+          "_type": "span",
+          "marks": [],
+          "text": "Лавандулата е ароматно многогодишно растение, което при подходящо място и правилна грижа може да придаде цвят, аромат и средиземноморски характер на градината. За доброто ѝ развитие са важни не само сортът и качеството на растенията, но и слънчевото изложение, структурата на почвата, оттичането на водата и правилното разстояние между отделните туфи."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg20",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s200",
+          "_type": "span",
+          "marks": [],
+          "text": "Florial предлага услуга по "
+        },
+        {
+          "_key": "s20b27",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "планиране и засаждане на лавандула"
+        },
+        {
+          "_key": "s20e",
+          "_type": "span",
+          "marks": [],
+          "text": " за частни градини, ваканционни имоти и озеленяване на външни пространства. Подхождаме според конкретния терен и избрания сорт, без да прилагаме една и съща схема за всяка градина."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s3",
+          "_type": "span",
+          "marks": [],
+          "text": "Избор на място и сорт"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s4",
+          "_type": "span",
+          "marks": [],
+          "text": "Слънце и проветрение"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg50",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s50e",
+          "_type": "span",
+          "marks": [],
+          "text": "Лавандулата се развива най-добре на открито, слънчево място. За обилен и компактен растеж е подходяща зона с продължително пряко огряване през деня. В крайморските райони трябва да се отчетат и силните ветрове, изложението и възможното въздействие на морския аерозол."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg6",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s6",
+          "_type": "span",
+          "marks": [],
+          "text": "Подходящ сорт и размер на растенията"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg70",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s70e",
+          "_type": "span",
+          "marks": [],
+          "text": "Различните видове и сортове се различават по височина, ширина, цъфтеж, аромат и устойчивост на местните условия. При избора съобразяваме предназначението на засаждането — единични акценти, групи, бордюр или нисък жив плет — както и очаквания размер на растенията в зряла възраст."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg8",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s8",
+          "_type": "span",
+          "marks": [],
+          "text": "Подготовка на почвата и дренажа"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg90",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s90e",
+          "_type": "span",
+          "marks": [],
+          "text": "Лавандулата предпочита почва с добра въздухопропускливост и оттичане на излишната вода. Тежките и постоянно влажни почви създават риск от проблеми в кореновата зона. Затова преди засаждане преценяваме структурата на терена, уплътняването и местата, в които се задържа вода."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "lavender-soil-prep-h3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "lavender-soil-prep-span",
+          "_type": "span",
+          "marks": [],
+          "text": "Подобряване на терена"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg110",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s110e",
+          "_type": "span",
+          "marks": [],
+          "text": "Според състоянието на почвата може да се наложи разрохкване, отстраняване на плевели и коригиране на структурата с подходящи минерални или органични материали. Не добавяме пясък, вар или тор по универсална рецепта — решенията зависят от реалните свойства на почвата и нуждите на избрания сорт."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg120",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s120b0",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Ако на мястото има продължително задържане на вода, първо трябва да се оцени възможността за реален дренаж."
+        },
+        {
+          "_key": "s120e",
+          "_type": "span",
+          "marks": [],
+          "text": " Само насипването на чакъл в отделната посадъчна яма не решава непременно проблема."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg13",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s13",
+          "_type": "span",
+          "marks": [],
+          "text": "Схема и разстояния на засаждане"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg140",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s140e",
+          "_type": "span",
+          "marks": [],
+          "text": "Разстоянието между растенията се определя според сорта, очакваната ширина на туфата и желания визуален ефект. При бордюри и групови композиции е важно растенията да имат достатъчно място за проветрение и развитие, без композицията да изглежда прекалено рядка."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg150",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s150e",
+          "_type": "span",
+          "marks": [],
+          "text": "Преди изкопаване на посадъчните места разполагаме растенията върху терена и проверяваме линиите, ритъма и пропорциите. Така могат да се коригират разстоянията и формата на композицията преди самото засаждане."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg16",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s16",
+          "_type": "span",
+          "marks": [],
+          "text": "Технология на засаждане"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg17",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s17",
+          "_type": "span",
+          "marks": [],
+          "text": "Подготовка на посадъчните места"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg180",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s180e",
+          "_type": "span",
+          "marks": [],
+          "text": "Посадъчните места се подготвят според размера на кореновата система и състоянието на почвата. Контейнерните растения се изваждат внимателно, кореновата бала се оглежда и при необходимост се освобождават силно завити корени, когато това е подходящо за конкретното растение."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg19",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s19",
+          "_type": "span",
+          "marks": [],
+          "text": "Поставяне и първоначално поливане"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg200",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s200e",
+          "_type": "span",
+          "marks": [],
+          "text": "Растението се поставя на правилната дълбочина, пространството около корените се запълва и почвата се оформя без прекомерно уплътняване. След засаждането се извършва първоначално поливане, съобразено с влажността на терена и състоянието на кореновата бала."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg21",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s21",
+          "_type": "span",
+          "marks": [],
+          "text": "Поливане и грижи след засаждането"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg220",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s2200",
+          "_type": "span",
+          "marks": [],
+          "text": "През периода на прихващане младите растения се нуждаят от наблюдение на почвената влажност и поливане според времето, почвата и размера им. След установяване лавандулата обикновено предпочита по-умерен воден режим. "
+        },
+        {
+          "_key": "s220b215",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Честото и прекомерно поливане може да бъде по-вредно от краткотрайното засушаване"
+        },
+        {
+          "_key": "s220e",
+          "_type": "span",
+          "marks": [],
+          "text": ", особено при тежка почва и недостатъчно оттичане."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg230",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s230e",
+          "_type": "span",
+          "marks": [],
+          "text": "Ако в градината има автоматична система за напояване, зоната с лавандула трябва да бъде съобразена с нейните потребности, а не автоматично да получава същия режим като тревата или влаголюбивите растения. При необходимост може да се обсъди отделна капкова линия или самостоятелна поливна зона."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg24",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s24",
+          "_type": "span",
+          "marks": [],
+          "text": "Подхранване и мулчиране"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg250",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s250e",
+          "_type": "span",
+          "marks": [],
+          "text": "Подхранването се преценява според почвата и състоянието на растенията. Прекомерното торене, особено с азот, може да насърчи прекалено мек и буен растеж за сметка на компактната форма и цъфтежа. Подходящият мулч и начинът му на полагане се избират така, че да не задържат излишна влага около основата на растението."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg26",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s26",
+          "_type": "span",
+          "marks": [],
+          "text": "Подрязване"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "bg270",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s270e",
+          "_type": "span",
+          "marks": [],
+          "text": "Редовното леко подрязване след цъфтежа помага за поддържане на компактна форма. Конкретният момент и интензивност зависят от сорта и местния сезонен климат. Не се препоръчва безразборно рязане дълбоко в старата вдървесинена част, тъй като възстановяването може да бъде ограничено."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg28",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s28",
+          "_type": "span",
+          "marks": [],
+          "text": "Засаждане на лавандула по Южното Черноморие"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg290",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s290e",
+          "_type": "span",
+          "marks": [],
+          "text": "В района на Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой и Бургас лятото често е слънчево и сухо, но конкретните условия се различават според близостта до морето, вятъра, наклона и почвата. При планирането отчитаме изложението, възможното засоляване от морския аерозол и достъпа до вода през първия период след засаждането."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg300",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s300e",
+          "_type": "span",
+          "marks": [],
+          "text": "На места с тежка почва или задържане на вода първо се оценява дренажът. На открити терени се преценява и защитата от силен вятър. Целта е лавандулата да бъде поставена в подходяща зона, а не просто да се засади на свободното място."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg31",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s31",
+          "_type": "span",
+          "marks": [],
+          "text": "Какво може да включва услугата на Florial"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg320",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s320e",
+          "_type": "span",
+          "marks": [],
+          "text": "В зависимост от обекта и договорения обхват работата може да включва:"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg330",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s330e",
+          "_type": "span",
+          "marks": [],
+          "text": "Оглед и оценка на мястото за засаждане."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg331",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s331e",
+          "_type": "span",
+          "marks": [],
+          "text": "Консултация за подходящ сорт и количество растения."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg332",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s332e",
+          "_type": "span",
+          "marks": [],
+          "text": "Планиране на композицията и разстоянията."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg333",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s333e",
+          "_type": "span",
+          "marks": [],
+          "text": "Подготовка на терена и посадъчните места."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg334",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s334e",
+          "_type": "span",
+          "marks": [],
+          "text": "Засаждане и първоначално поливане."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg335",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s335e",
+          "_type": "span",
+          "marks": [],
+          "text": "Препоръки за последваща грижа и режим на напояване."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg340",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s340e",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставката на растения, почвени материали, дренажни работи, изграждане или промяна на поливната система и последваща поддръжка се уточняват отделно в конкретното предложение. Не посочваме фиксирана цена без информация за площта, броя растения, достъпа и състоянието на терена."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bg35",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s35",
+          "_type": "span",
+          "marks": [],
+          "text": "Заявете засаждане на лавандула"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "bg360",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s360e",
+          "_type": "span",
+          "marks": [],
+          "text": "Изпратете ни населено място, приблизителна площ и кратко описание на идеята. Ако вече сте избрали сорт или разполагате със снимки на терена, посочете това в заявката. Екипът на Florial ще обсъди с Вас подходящия начин за изпълнение на проекта."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "hero": {
+    "image": {
+      "_type": "image",
+      "alt": "Лавандула и декоративни треви в градинска композиция край Несебър",
+      "altEn": "Lavender and ornamental grasses in a garden planting scheme near Nessebar",
+      "altRu": "Лаванда и декоративные травы в садовой композиции рядом с Несебром",
+      "asset": {
+        "_ref": "image-ae47127869479bd2d8d0bfd01b0e7b2a4676923d-896x1195-jpg",
+        "_type": "reference"
+      }
+    },
+    "subtitle": "Планиране и засаждане на лавандула с внимание към слънцето, почвата, дренажа и бъдещото развитие на растенията.",
+    "title": "Професионално засаждане на лавандула в градината"
+  },
+  "isActive": true,
+  "leadForm": {
+    "fields": [
+      {
+        "_key": "iDEMx5YC3o85c6iUZvUZnH",
+        "label": "Име",
+        "name": "name",
+        "placeholder": "Вашето име",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvUZrU",
+        "label": "Телефон",
+        "name": "phone",
+        "placeholder": "Телефон за връзка",
+        "required": true,
+        "type": "tel"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvUZvh",
+        "label": "Имейл",
+        "name": "email",
+        "placeholder": "Вашият имейл (по желание)",
+        "required": false,
+        "type": "email"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvUZzu",
+        "label": "Населено място",
+        "name": "location",
+        "placeholder": "Например Несебър, Равда или Бургас",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvUa47",
+        "label": "Площ, количество растения и описание на проекта",
+        "name": "details",
+        "placeholder": "Опишете накратко терена и желаното засаждане",
+        "required": false,
+        "type": "textarea"
+      }
+    ],
+    "submitLabel": "Изпрати запитване",
+    "successMessage": "Благодарим Ви! Получихме запитването Ви за засаждане на лавандула. Екипът на Florial ще се свърже с Вас.",
+    "title": "Заявка за засаждане на лавандула"
+  },
+  "name": "Засаждане на лавандула",
+  "relatedContent": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZ2y",
+      "_ref": "cfdbf22c-a7d9-480b-b88b-d1529a9389ef",
+      "_type": "reference"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZ7B",
+      "_ref": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+      "_type": "reference"
+    }
+  ],
+  "seo": {
+    "keywords": [
+      "засаждане на лавандула",
+      "лавандула за градина",
+      "отглеждане на лавандула",
+      "озеленяване с лавандула",
+      "засаждане на лавандула Несебър",
+      "лавандула Равда",
+      "лавандула Слънчев бряг",
+      "засаждане на растения Бургас"
+    ],
+    "metaDescription": "Професионално засаждане на лавандула с подготовка на почвата и насоки за грижа в Несебър, Равда, Слънчев бряг и Бургас.",
+    "metaTitle": "Засаждане на лавандула | Несебър | Florial",
+    "noIndex": false
+  },
+  "serviceCategory": "planting",
+  "serviceLayout": "standard",
+  "shortDescription": "Планиране и професионално засаждане на лавандула с подготовка на почвата, подходящо разположение и насоки за последваща грижа.",
+  "slug": {
+    "_type": "slug",
+    "current": "zasazhdane-na-lavandula"
+  },
+  "sortOrder": 27,
+  "sourcePageUrl": "https://www.vgluhova.ru/blog/poleznye-stati/lavanda-posadka-i-ukhod/",
+  "steps": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZSE",
+      "text": "Обсъждаме терена, площта, целта и предпочитанията за лавандула.",
+      "title": "Оглед и уточняване"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZWR",
+      "text": "Уточняваме сорт, количество, разположение и разстояния.",
+      "title": "Избор и схема"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZae",
+      "text": "Подготвяме почвата и посадъчните места според условията.",
+      "title": "Подготовка"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZer",
+      "text": "Поставяме растенията на подходяща дълбочина и извършваме първоначално поливане.",
+      "title": "Засаждане"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvUZj4",
+      "text": "Даваме препоръки за поливане, подрязване и наблюдение през периода на прихващане.",
+      "title": "Предаване и насоки"
+    }
+  ],
+  "translations": {
+    "en": {
+      "advantages": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUaTN",
+          "text": "The approach reflects sunlight, wind, soil and drainage conditions.",
+          "title": "Site-specific planning"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUaXa",
+          "text": "Spacing and mature plant size are checked before planting begins.",
+          "title": "Considered planting layout"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUabn",
+          "text": "We assess soil structure and whether site improvement is needed.",
+          "title": "Soil preparation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUag0",
+          "text": "We explain how to monitor moisture and care for lavender after establishment.",
+          "title": "Aftercare guidance"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Send enquiry",
+        "text": "Send us the location, approximate area and the number of plants you have in mind. We will discuss a suitable option for your garden.",
+        "title": "Planning a lavender planting project?"
+      },
+      "description": "## Professional lavender planting for gardens\n\nLavender is an aromatic perennial that can bring colour, fragrance and a Mediterranean feel to a garden when it is planted in a suitable location and cared for correctly. Successful establishment depends not only on the variety and quality of the plants, but also on sunlight, soil structure, drainage and appropriate spacing.\n\nFlorial offers **planning and lavender planting** for private gardens, holiday properties and landscaped outdoor spaces. The approach is adapted to the site and selected variety rather than based on one standard layout for every garden.\n\n## Choosing the location and variety\n\n### Sunlight and airflow\n\nLavender is best suited to an open, sunny position with plenty of direct sunlight during the day. In coastal areas, we also consider wind exposure, the orientation of the site and possible exposure to sea spray.\n\n### Selecting a suitable variety\n\nLavender varieties differ in mature height and width, flowering period, fragrance and tolerance of local conditions. We consider the purpose of the planting — individual features, groups, borders or a low hedge — as well as the expected mature size of each plant.\n\n## Soil preparation and drainage\n\nLavender prefers an aerated soil that allows excess water to drain away. Heavy, persistently wet soil can create problems around the roots. Before planting, we assess soil structure, compaction and any areas where water tends to collect.\n\n### Preparing the planting area\n\nDepending on the site, preparation may include loosening compacted ground, removing weeds and improving the soil structure with suitable mineral or organic materials. Sand, lime and fertiliser are not added according to a universal recipe; decisions depend on the actual soil properties and the needs of the selected variety.\n\n**Where water remains on the site for extended periods, the possibility of effective drainage should be assessed first.** A layer of gravel at the bottom of an individual planting hole is not necessarily a solution.\n\n## Planting layout and spacing\n\nSpacing depends on the variety, the expected mature width of each plant and the desired visual effect. Borders and grouped plantings need enough room for growth and airflow while maintaining a balanced composition.\n\nBefore digging, we position the plants on site and check the planting lines, rhythm and proportions. This allows spacing and the overall shape to be adjusted before planting begins.\n\n## The planting process\n\n### Preparing planting positions\n\nPlanting positions are prepared according to the root system and soil conditions. Container-grown plants are removed carefully and the root ball is inspected. Tightly circling roots may be gently loosened where appropriate for the particular plant.\n\n### Positioning and initial watering\n\nEach plant is set at a suitable depth, the space around the roots is backfilled and the soil is firmed without excessive compaction. Initial watering is carried out according to soil moisture and the condition of the root ball.\n\n## Watering and aftercare\n\nDuring establishment, young plants need their soil moisture monitored and watering adjusted to the weather, soil and plant size. Once established, lavender generally prefers a more moderate watering regime. **Frequent overwatering can be more harmful than a short dry period**, especially in heavy soil with poor drainage.\n\nWhere an automatic irrigation system is already installed, the lavender area should be adjusted to its own requirements rather than automatically receiving the same schedule as a lawn or moisture-loving plants. A separate drip line or irrigation zone may be considered where appropriate.\n\n### Feeding and mulching\n\nFeeding is determined by the soil and the condition of the plants. Excess fertiliser, particularly nitrogen, can encourage soft, vigorous growth at the expense of a compact shape and flowering. Mulch is selected and applied carefully so that it does not keep excess moisture against the base of the plant.\n\n### Pruning\n\nLight, regular pruning after flowering helps maintain a compact shape. Timing and intensity depend on the variety and local seasonal conditions. Avoid cutting deeply into old woody growth without a clear reason, as regrowth from that part may be limited.\n\n## Lavender planting on the Southern Black Sea coast\n\nAround Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy and Burgas, summers are often sunny and dry, but actual conditions vary with proximity to the sea, wind exposure, slope and soil. Planning takes account of sunlight, possible sea-spray exposure and access to water during the initial establishment period.\n\nOn sites with heavy soil or standing water, drainage is assessed first. Exposed locations also require consideration of strong winds. The aim is to choose a suitable position for lavender rather than simply use any available space.\n\n## What the Florial service may include\n\nDepending on the property and agreed scope, the work may include:\n\n- Reviewing the planting area and site conditions.\n- Advice on suitable varieties and plant quantities.\n- Planning the layout and spacing.\n- Preparing the ground and planting positions.\n- Planting and initial watering.\n- Guidance on ongoing care and irrigation.\n\nPlant delivery, soil materials, drainage work, installation or adjustment of irrigation and ongoing maintenance are agreed separately. We do not quote a fixed price without details of the area, plant quantities, access and site conditions.\n\n## Request lavender planting\n\nSend us the location, approximate area and a short description of your idea. If you have already selected a variety or have photos of the site, include them in your enquiry. The Florial team will discuss a suitable way to carry out the project.",
+      "hero": {
+        "subtitle": "Lavender planting planned with attention to sunlight, soil, drainage and the plants' mature growth.",
+        "title": "Professional Lavender Planting for Gardens"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUa8K",
+            "label": "Name",
+            "name": "name",
+            "placeholder": "Your name",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUaCX",
+            "label": "Phone",
+            "name": "phone",
+            "placeholder": "Contact phone number",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUaGk",
+            "label": "Email",
+            "name": "email",
+            "placeholder": "Your email (optional)",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUaKx",
+            "label": "Location",
+            "name": "location",
+            "placeholder": "For example, Nessebar, Ravda or Burgas",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUaPA",
+            "label": "Area, plant quantity and project details",
+            "name": "details",
+            "placeholder": "Briefly describe the site and planting you have in mind",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Send enquiry",
+        "successMessage": "Thank you. We have received your lavender planting enquiry. The Florial team will contact you.",
+        "title": "Lavender planting enquiry"
+      },
+      "name": "Lavender Planting",
+      "seo": {
+        "keywords": [
+          "lavender planting",
+          "lavender for gardens",
+          "growing lavender",
+          "lavender landscaping",
+          "lavender planting Nessebar",
+          "lavender Ravda",
+          "lavender Sunny Beach",
+          "garden planting Burgas"
+        ],
+        "metaDescription": "Professional lavender planting with soil preparation and aftercare guidance in Nessebar, Ravda, Sunny Beach and Burgas.",
+        "metaTitle": "Lavender Planting | Nessebar | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Lavender planting planned around soil preparation, suitable positioning and practical aftercare guidance.",
+      "steps": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUakD",
+          "text": "We discuss the area, project goals and lavender planting preferences.",
+          "title": "Site review"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUaoQ",
+          "text": "We agree on the variety, quantity, positions and spacing.",
+          "title": "Variety and layout"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUasd",
+          "text": "The soil and planting positions are prepared for the site conditions.",
+          "title": "Preparation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUawq",
+          "text": "Plants are positioned at a suitable depth and initially watered.",
+          "title": "Planting"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUb13",
+          "text": "We provide guidance on watering, pruning and monitoring during establishment.",
+          "title": "Handover and guidance"
+        }
+      ]
+    },
+    "ru": {
+      "advantages": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbQJ",
+          "text": "Подбираем подход с учётом солнца, ветра, почвы и отвода воды.",
+          "title": "Учёт условий участка"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbUW",
+          "text": "Проверяем расстояния и будущие размеры растений до начала посадки.",
+          "title": "Продуманная композиция"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbYj",
+          "text": "Оцениваем структуру грунта и необходимость его улучшения.",
+          "title": "Подготовка почвы"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbcw",
+          "text": "Объясняем, как контролировать влажность и ухаживать за лавандой после укоренения.",
+          "title": "Рекомендации по уходу"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Отправить заявку",
+        "text": "Отправьте информацию об участке, примерной площади и желаемом количестве растений. Мы обсудим подходящий вариант для вашего сада.",
+        "title": "Планируете посадку лаванды?"
+      },
+      "description": "## Профессиональная посадка лаванды в саду\n\nЛаванда — ароматное многолетнее растение, которое при подходящем месте и правильном уходе добавляет саду цвет, аромат и средиземноморский характер. Для её развития важны не только сорт и качество посадочного материала, но и солнечное освещение, структура почвы, отвод лишней воды и расстояние между кустами.\n\nFlorial предлагает **планирование и посадку лаванды** для частных садов, домов для отдыха и озеленения открытых территорий. Подход выбирается с учётом конкретного участка и сорта, без универсальной схемы для всех садов.\n\n## Выбор места и сорта\n\n### Солнце и проветривание\n\nЛаванде подходит открытое солнечное место с продолжительным прямым освещением в течение дня. На побережье дополнительно учитываем силу ветра, направление участка и возможное воздействие морского аэрозоля.\n\n### Подходящий сорт и размер растений\n\nСорта различаются высотой, шириной куста, сроками цветения, ароматом и устойчивостью к местным условиям. При выборе учитываем назначение посадки: отдельные акценты, группы, бордюр или невысокая живая изгородь, а также будущие размеры взрослых растений.\n\n## Подготовка почвы и дренажа\n\nЛаванда предпочитает воздухопроницаемую почву, из которой хорошо уходит лишняя вода. Тяжёлый и постоянно влажный грунт повышает риск проблем в корневой зоне. Перед посадкой оцениваем структуру почвы, уплотнение и места скопления воды.\n\n### Подготовка участка\n\nВ зависимости от состояния грунта может потребоваться рыхление, удаление сорняков и улучшение структуры подходящими минеральными или органическими материалами. Песок, известь и удобрения не добавляются по универсальному рецепту: решение зависит от свойств почвы и потребностей выбранного сорта.\n\n**Если вода долго задерживается на участке, сначала необходимо оценить возможность полноценного отвода избыточной влаги.** Один слой щебня на дне посадочной ямы не обязательно решит проблему.\n\n## Схема и расстояния посадки\n\nРасстояние между растениями зависит от сорта, ожидаемой ширины куста и желаемого визуального результата. В бордюрах и групповых композициях важно оставить достаточно места для роста и проветривания, сохранив при этом целостный вид посадки.\n\nДо подготовки посадочных мест расставляем растения на участке и проверяем линии, ритм и пропорции композиции. Это позволяет скорректировать расстояния до начала посадки.\n\n## Технология посадки\n\n### Подготовка посадочных мест\n\nПосадочные места готовятся с учётом размера корневой системы и состояния грунта. Контейнерные растения извлекаются аккуратно, корневой ком осматривается; сильно закрученные корни при необходимости осторожно освобождаются, если это подходит конкретному растению.\n\n### Размещение и первый полив\n\nРастение устанавливается на правильную глубину, пространство вокруг корней заполняется, а почва уплотняется без чрезмерного давления. После посадки проводится первоначальный полив с учётом влажности грунта и состояния корневого кома.\n\n## Полив и уход после посадки\n\nВ период укоренения молодым растениям требуется контроль влажности почвы и полив с учётом погоды, грунта и размера растений. После укоренения лаванда обычно предпочитает более умеренный режим. **Частый и избыточный полив может быть вреднее кратковременной засухи**, особенно на тяжёлой почве с плохим отводом воды.\n\nЕсли в саду установлена автоматическая система полива, зону лаванды следует настраивать с учётом её потребностей, а не применять автоматически тот же режим, что для газона или влаголюбивых растений. При необходимости можно рассмотреть отдельную капельную линию или самостоятельную зону полива.\n\n### Подкормка и мульчирование\n\nПодкормку выбирают по состоянию почвы и растений. Избыток удобрений, особенно азота, может стимулировать слишком мягкий и интенсивный рост в ущерб компактной форме и цветению. Мульчу подбирают и укладывают так, чтобы она не удерживала лишнюю влагу непосредственно у основания куста.\n\n### Обрезка\n\nЛёгкая регулярная обрезка после цветения помогает поддерживать компактную форму. Сроки и интенсивность зависят от сорта и местных сезонных условий. Не рекомендуется без необходимости срезать растение глубоко в старую одревесневшую часть: восстановление там может быть ограниченным.\n\n## Посадка лаванды на Южном Черноморье\n\nВ районе Несебра, Равды, Солнечного Берега, Святого Власа, Поморие, Ахелоя и Бургаса лето часто солнечное и сухое, однако условия различаются в зависимости от близости моря, ветра, рельефа и почвы. При планировании учитываем освещение, возможное воздействие морского аэрозоля и доступ к воде в первый период после посадки.\n\nНа участках с тяжёлой почвой или застоем воды сначала оцениваем дренаж. На открытых местах учитываем защиту от сильного ветра. Важно выбрать для лаванды подходящую зону, а не просто использовать свободное место.\n\n## Что может включать услуга Florial\n\nВ зависимости от объекта и согласованного объёма работ услуга может включать:\n\n- Осмотр и оценку места посадки.\n- Консультацию по подходящему сорту и количеству растений.\n- Планирование композиции и расстояний.\n- Подготовку участка и посадочных мест.\n- Посадку и первоначальный полив.\n- Рекомендации по дальнейшему уходу и режиму полива.\n\nДоставка растений, почвенные материалы, дренажные работы, монтаж или изменение системы полива и дальнейшее обслуживание согласовываются отдельно. Фиксированную цену без данных о площади, количестве растений, доступе и состоянии участка не указываем.\n\n## Закажите посадку лаванды\n\nОтправьте нам населённый пункт, примерную площадь и краткое описание вашей идеи. Если сорт уже выбран или у вас есть фотографии участка, укажите это в заявке. Команда Florial обсудит с вами подходящий вариант выполнения работ.",
+      "hero": {
+        "subtitle": "Планирование и посадка лаванды с учётом солнца, почвы, дренажа и будущего развития растений.",
+        "title": "Профессиональная посадка лаванды в саду"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUb5G",
+            "label": "Имя",
+            "name": "name",
+            "placeholder": "Ваше имя",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUb9T",
+            "label": "Телефон",
+            "name": "phone",
+            "placeholder": "Номер для связи",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUbDg",
+            "label": "Электронная почта",
+            "name": "email",
+            "placeholder": "Ваш email (необязательно)",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUbHt",
+            "label": "Населённый пункт",
+            "name": "location",
+            "placeholder": "Например, Несебр, Равда или Бургас",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvUbM6",
+            "label": "Площадь, количество растений и описание проекта",
+            "name": "details",
+            "placeholder": "Кратко опишите участок и желаемую посадку",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Отправить заявку",
+        "successMessage": "Спасибо! Мы получили вашу заявку на посадку лаванды. Команда Florial свяжется с вами.",
+        "title": "Заявка на посадку лаванды"
+      },
+      "name": "Посадка лаванды",
+      "seo": {
+        "keywords": [
+          "посадка лаванды",
+          "лаванда для сада",
+          "выращивание лаванды",
+          "озеленение лавандой",
+          "посадка лаванды Несебр",
+          "лаванда Равда",
+          "лаванда Солнечный Берег",
+          "посадка растений Бургас"
+        ],
+        "metaDescription": "Профессиональная посадка лаванды с подготовкой почвы и рекомендациями по уходу в Несебре, Равде, Солнечном Береге и Бургасе.",
+        "metaTitle": "Посадка лаванды | Несебр | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Планирование и профессиональная посадка лаванды с подготовкой почвы, подходящим размещением и рекомендациями по дальнейшему уходу.",
+      "steps": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbh9",
+          "text": "Обсуждаем участок, площадь, задачу и пожелания по посадке лаванды.",
+          "title": "Осмотр и уточнение"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUblM",
+          "text": "Согласовываем сорт, количество, размещение и расстояния.",
+          "title": "Выбор и схема"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbpZ",
+          "text": "Готовим почву и посадочные места с учётом условий.",
+          "title": "Подготовка"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbtm",
+          "text": "Размещаем растения на подходящей глубине и проводим первый полив.",
+          "title": "Посадка"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvUbxz",
+          "text": "Даём рекомендации по поливу, обрезке и наблюдению в период укоренения.",
+          "title": "Передача и рекомендации"
+        }
+      ]
+    }
+  }
+}

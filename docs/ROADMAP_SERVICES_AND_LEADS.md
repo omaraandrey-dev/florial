@@ -693,3 +693,11 @@
 - В Production D1 не выполнялись записи/миграции; права реальных сотрудников не менялись. Проверка реального Owner/Manager/Seller через аутентифицированные сессии ещё не выполнена. Retention cleanup не включался.
 - CI на code HEAD `061aa1d96eb7ed5697320a4b0b8bfcbc8205b69c` завершился success: 24/24 теста, lint, Vite build, Pages Functions syntax, read-only D1 migration validation и Sanity Studio build. После дополнительной синхронизации Manager UI и документации latest PR HEAD `7973d5d46e8651d5e3d50faa5ee785f10b6d71f3` проходит повторный CI. Merge и Production deployment не выполняются без отдельного разрешения владельца. Merge и Production deployment не выполняются без отдельного разрешения владельца. Header, меню, Footer, checkout и глобальная оболочка не менялись.
 - Статус: **ЭТАП 6 В РАБОТЕ — частичные smoke и read-only проверки пройдены; полная ролевая приёмка, end-to-end тест без создания реальных заявок и решение по retention policy остаются открытыми.**
+
+
+## 2026-11-09 — Дополнительная услуга по посадке лаванды
+
+- Новая коммерческая услуга опубликована в Sanity Production: `zasazhdane-na-lavandula` (document ID `4ee02515-24f2-42b7-8fc7-e98d5e75ffcf`), категория planting, sortOrder 27.
+- BG/RU/EN контент и SEO заполнены; публичная индексация разрешена. Связана с общей посадкой растений и услугой капельного полива.
+- Live smoke всех трёх локалей: HTTP 200, H1/SEO/ALT/related cards/form отображаются. Реальная заявка и D1/email end-to-end не тестировались.
+- Не изменялись код, schema, API, D1, Manager, Header, меню, Footer или Cloudflare deployment. Это отдельная контентная услуга; существующая дорожная карта услуг и заявок не меняет статусы технических этапов.

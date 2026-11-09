@@ -1503,3 +1503,13 @@
 - Блок заголовка и краткого описания категории на широких экранах использует сетку 2/3 + 1/3: справа показывается собственное изображение категории из Sanity с локализованными ALT/title через существующий helper getCategoryImageText.
 - Изображение категории скрыто на мобильных экранах; при отсутствии изображения сохраняется полноширинный текстовый блок без пустой колонки.
 - Используются уже загружаемые поля imageUrl, imageAlt*, imageTitle*; запросы Sanity, документы и схема не изменялись. Header, меню, Footer, товары, корзина, checkout, Manager и D1 не затрагивались.
+
+
+## 2026-11-09 — Новая услуга «Засаждане на лавандула» опубликована
+
+- В Sanity Production (`bxvcy0qs/production`) создан и опубликован новый документ `service`: ID `4ee02515-24f2-42b7-8fc7-e98d5e75ffcf`, slug `zasazhdane-na-lavandula`, `serviceCategory=planting`, `serviceLayout=standard`, `sortOrder=27`, `isActive=true`. До создания проверено отсутствие документа с таким slug; существующие 10 услуг не изменялись. Для нового документа backup прежней записи не применим; после публикации сохранён отдельный JSON snapshot.
+- Созданы BG Portable Text и RU/EN Markdown версии; H1 задан через локализованный `hero.title`. Заполнены краткие описания, преимущества, этапы, CTA, SEO metaTitle/metaDescription/keywords и `noIndex=false` для трёх языков.
+- Hero использует существующий Sanity asset `image-ae47127869479bd2d8d0bfd01e7b2a4676923d-896x1195-jpg` (реальный asset ID: `image-ae47127869479bd2d8d0bfd01e7b2a4676923d-896x1195-jpg`); ALT заполнен на BG/RU/EN. Новые изображения не загружались, schema и frontend не менялись.
+- `relatedContent` ссылается на существующие услуги `zasazhdane-na-rasteniya` и `avtomatizirano-kapkovo-napoyavane`. Форма локализована BG/RU/EN; технические имена полей `name`, `phone`, `email`, `location`, `details` сверены с `normalizeLeadFields`. Endpoint `/api/service-leads` не менялся.
+- Production live smoke через Firecrawl: BG/RU/EN — HTTP 200; локализованные H1, title, description, `robots=index, follow`; hero image, related cards и все поля формы отображаются. Реальная заявка не отправлялась, запись в D1 и email delivery не тестировались.
+- Изменения только в Sanity content и документации. GitHub source code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
