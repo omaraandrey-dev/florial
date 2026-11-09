@@ -1,3 +1,12 @@
+## 2026-11-09 — final CI result for plant Manager implementation
+
+- Code commit `d53ba337c855e906873a1a7e27276e575e07559c` passed both GitHub workflows:
+  - Blog & Studio validation: success — website lint, utility tests, website build, migration syntax/dry-run, Sanity Studio install/build.
+  - Florial D1 migration validation: success — lint, website build, Pages Functions syntax, SQLite migration 0013 test.
+- Later commit `b29803843eee4e2ded9e82705fad9320e5147718` contains documentation updates only; runtime code is unchanged from the fully validated code commit.
+- CI does not validate live Sanity writes or live D1 migration; no Production data was changed.
+- Preview deployment remains disabled and mobile acceptance remains open.
+
 ## Дополнение 2026-11-09 — UI media и AI ALT
 
 - Редактор поддерживает выбор существующих Sanity assets через `PlantImageLibrary` и загрузку новых фотографий; обе операции доступны Owner/Manager/Seller.
