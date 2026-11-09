@@ -1488,3 +1488,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Дорожная карта задаёт контрольные зависимости: (1) Sanity model, (2) service pages/UI, (3) delivery migration, (4) leads API/D1/photos/email, (5) Manager, (6) end-to-end QA.
 - Все шесть этапов имеют статус NOT STARTED на дату создания плана. Этот документационный change не изменяет runtime, Sanity documents/schemas, D1, Cloudflare settings/secrets, Resend configuration, orders, checkout, Header, menu или Footer.
 - См. `docs/ROADMAP_SERVICES_AND_LEADS.md` для полного содержания, автономных промптов, критериев завершения и правил перехода между этапами.
+
+
+## 2026-11-09 — Sanity service: «Засаждане на лавандула»
+
+- Опубликован новый документ услуги: `4ee02515-24f2-42b7-8fc7-e98d5e75ffcf`, slug `zasazhdane-na-lavandula`, категория `planting`, layout `standard`, sortOrder 27, active.
+- Локали: BG Portable Text; RU/EN Markdown. H1 через `hero.title`; SEO заполнено отдельно для BG/RU/EN, `noIndex=false`.
+- Hero использует существующий lavender asset; ALT на трёх языках. Связанные материалы: общая посадка растений и капельное напояване.
+- Форма использует текущий контракт `/api/service-leads`; технические имена `name/phone/email/location/details` соответствуют валидатору `normalizeLeadFields`. Реальная заявка не отправлялась.
+- Live smoke: BG/RU/EN HTTP 200, локализованные H1/SEO, `robots=index, follow`, изображение, связанные карточки и форма отображаются.
+- Это content-only Sanity change. Код, schema, D1, API, Manager, Cloudflare settings и Pages deployment не затронуты. Предыдущего документа с этим slug не существовало; JSON snapshot опубликованной новой записи сохранён в `docs/backups/sanity-service-zasazhdane-na-lavandula-2026-11-09.json`.
