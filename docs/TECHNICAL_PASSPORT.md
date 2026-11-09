@@ -1,3 +1,14 @@
+## 2026-11-09 — PR #146: lazy Manager chunk
+
+- PR #146 merged squash: `eef48358030cc04c7c8105f66b74013cfc20997a`; Production deployment `5ae924f2-29ba-446b-ab8c-be44e121eabb` success; aliases florial-bg.com and www.florial-bg.com.
+- Only runtime file changed: `src/main.tsx`.
+- `ManagerApp` now uses React lazy dynamic import and loads only on initial path `/manager` or `/manager/*`. Bulgarian Suspense fallback shown while loading.
+- Public app branch and exact route predicate unchanged. ManagerApp source/auth/API/permissions not changed.
+- CI run `42591541092` success: lint, tests, site build, migration syntax/dry-run, Studio install/build. D1 run `42591541240` success.
+- Live smoke: homepage BG/RU; `/manager` and `/manager/` render existing Bulgarian login. Performance resource inspection confirms ManagerApp chunk absent from public page and loaded only on Manager route; Manager auth bootstrap endpoint requested. No sign-in performed.
+- One unthrottled remote browser sample (1920×993): before one main JS transfer 209,165 B; after public JS index + runtime 161,151 B, saving 48,014 B (22.96%). Separate ManagerApp chunk 47,518 B, only on Manager. This is a single desktop resource sample, not controlled mobile/CDP/Lighthouse/CWV and not a page-speed percentage.
+- No changes to ManagerApp source, API, D1, Sanity, cart/checkout, Header/menu/Footer or Cloudflare settings/secrets.
+
 ## 2026-11-09 — PR #145: compact blog cards and shared list fetch
 
 - PR #145 merged squash: `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`; Production deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` success; aliases `florial-bg.com`, `www.florial-bg.com`.
