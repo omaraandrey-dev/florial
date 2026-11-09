@@ -553,3 +553,16 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 
 **Статус:** согласованная спецификация; реализация не начата. Данное дополнение не меняет runtime, D1, Sanity, Cloudflare configuration, права сотрудников или Production.
 
+
+## Дополнение 2026-11-09 — direct plant catalog manager (Draft PR #169)
+
+- Новый маршрут Manager `plantCatalog` открывает мобильный список и единый редактор растений для Owner, Manager и Seller.
+- Старый `submissions` экран оставлен только Owner как архив legacy workflow; существующие submissions/events не удаляются.
+- Новые Pages Functions работают через текущий `requireUser` и D1 session cookie.
+- Sanity write target фиксирован: project `bxvcy0qs`, dataset `plants`; dataset `production` не затрагивается.
+- Для прямых изменений используется allowlisted patch и `ifRevisionID`; создание использует idempotency key.
+- История прямых операций — новая D1 таблица `manager_product_audit`, Owner-only read; миграция `0013` подготовлена, но live D1 не применялась.
+- AI endpoint готовит только тексты, переводы и SEO; коммерческие поля и ботанические свойства не генерирует.
+- Биологические поля остаются выключенными; Owner видит только информационную кнопку/блок.
+- Статус: первая реализация в PR #169, CI/Preview/mobile QA не завершены. Production merge/deploy запрещён до отдельного согласования D1 migration и приёмки.
+
