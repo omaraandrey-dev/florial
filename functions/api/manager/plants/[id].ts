@@ -15,7 +15,7 @@ export const onRequestGet = async ({ request, env, params }: { request: Request;
   const query = '*[_type=="product" && _id==' + jsonString(id) + '][0]{_id,_rev,_type,name,slug,sku,productType,scientificName,category, "categoryId":category._ref, "categoryName":category->name, categories, shortDescription,description,mainImage{...,asset->{_id,url}},gallery[]{...,asset->{_id,url}},saleVariants,vatIncluded,isActive,isFeatured,sortOrder,seo,translations' + ownerFields + '}'
   try {
     const product = await sanityQuery<PlantDocument | null>(env, query)
-    if (!product || !product.productType) return json({ error: 'Растението не е намерено.' }, 404)
+    if (!product) return json({ error: 'Растението не е намерено.' }, 404)
     return json({ product })
   } catch {
     return json({ error: 'Не успяхме да заредим растението.' }, 502)
@@ -57,7 +57,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и започнете ново запазване.', 409)
 
     const current = await sanityQuery<PlantDocument | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
-    if (!current || !current.productType) return json({ error: 'Растението не е намерено.' }, 404)
+    if (!current) return json({ error: 'Растението не е намерено.' }, 404)
     if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете карточката преди запазване.', conflict: true }, 409)
     const normalized = await buildPlantSet(env, body.product, auth.user.role)
     changedFields = normalized.changedFields
