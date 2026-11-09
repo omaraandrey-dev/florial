@@ -233,6 +233,12 @@ export const buildPlantSet = async (
       const previousLanguage = isObject(previousTranslations[language]) ? previousTranslations[language] : {}
       const seo = isObject(item.seo) ? item.seo : {}
       const previousLanguageSeo = isObject(previousLanguage.seo) ? previousLanguage.seo : {}
+      const hasLocalizedContent = Boolean(
+        cleanText(item.name, 160) || cleanText(item.shortDescription, 1200) ||
+        cleanText(item.description, 8000) || (Array.isArray(item.description) && item.description.length) ||
+        cleanText(seo.h1, 160) || cleanText(seo.metaTitle, 70) || cleanText(seo.metaDescription, 320)
+      )
+      if (!hasLocalizedContent && !Object.keys(previousLanguage).length) continue
       translations[language] = {
         ...previousLanguage,
         name: cleanText(item.name, 160),
