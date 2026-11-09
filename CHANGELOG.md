@@ -1,3 +1,13 @@
+## 2026-11-09 — Post-release Sanity diagnostic after PR #142–#144
+
+- Создан отчёт `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`.
+- Remote browser не поддержал viewport 390×844, cache disable и throttling; Performance API cross-origin `transferSize=0` не подходит для подсчёта полного transfer.
+- Дополнительные read-only Sanity fetch с `cache:no-store` измерили 1,077,038 B decoded response bodies across 9 requests. Не сравнивать с baseline encoded transfer и не указывать процент ускорения.
+- Два одинаковых blogPost-запроса по 145,912 B каждый всё ещё выполняются при загрузке главной; обе проекции включают body и gallery. Следующий этап — единая compact blog-card projection.
+- Lighthouse/LCP/INP и controlled CDP post-release measurement остаются открытыми.
+
+---
+
 ## 2026-11-09 — Компактная загрузка категорий по требованию (PR #144)
 
 - PR #144: https://github.com/omaraandrey-dev/florial/pull/144 — squash merge в `main`; merge commit `dd129898f207018e5124f7fa2604ff9a727ccd9a`.
