@@ -55,7 +55,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
       const current = await sanityQuery<{_rev:string}|null>(env,'*[_type=="product" && _id=='+jsonString(id)+'][0]{_rev}')
       return json({ ok: true, revision: current?._rev || null, replayed: true })
     }
-    if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и започнете ново запазване.', 409)
+    if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете продуктът и започнете ново запазване.', 409)
 
     const current = await sanityQuery<PlantDocument | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
     if (!current) return json({ error: 'Растението не е намерено.' }, 404)
@@ -73,9 +73,9 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
         await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action:prior.action as 'update'|'deactivate'|'reactivate',changedFields:prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,before,after,result:'success'})
         return json({ok:true,documentId:id,revision:current._rev,requestId,replayed:true})
       }
-      return json({error:'Растението е променено от друг служител. Обновете карточката и приложете промените отново.',conflict:true},409)
+      return json({error:'Растението е променено от друг служител. Обновете продуктът и приложете промените отново.',conflict:true},409)
     }
-    if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете карточката преди запазване.', conflict: true }, 409)
+    if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете продуктът преди запазване.', conflict: true }, 409)
     if (normalized.set.slug && (normalized.set.slug as {current:string}).current !== current.slug?.current) {
       const slug = (normalized.set.slug as {current:string}).current
       const duplicate = await sanityQuery<string|null>(env,'*[_type=="product" && slug.current=='+jsonString(slug)+' && _id!='+jsonString(id)+' && !(_id in path("drafts.**"))][0]._id')
@@ -108,7 +108,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
           return json({error:'Конфликтът е засечен, но историята не успя да запише резултата. Запазете номера на операцията.',requestId,auditPending:true},503)
         }
       }
-      return json({error:'Растението е променено от друг служител. Обновете карточката и приложете промените отново.',conflict:true},409)
+      return json({error:'Растението е променено от друг служител. Обновете продуктът и приложете промените отново.',conflict:true},409)
     }
     const code = safeFailureCode(error)
     if (auditStarted && mutationSucceeded) {
