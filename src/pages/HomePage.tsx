@@ -126,6 +126,9 @@ export function HomePage({
     }
     return (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg')
   })
+  // Keep the homepage concise; the catalogue pages retain the complete category lists.
+  const visiblePlantCategories = sortedPlantCategories.slice(0, 6)
+  const visibleEquipmentCategories = sortedCategories.slice(0, 6)
 
   return (
     <div>
@@ -242,7 +245,7 @@ export function HomePage({
             <p className="mt-0 max-w-2xl text-sm md:text-base text-slate-600 sm:max-w-[48%] sm:text-right">{t('Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.')}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            {sortedPlantCategories.map((cat, index) => (
+            {visiblePlantCategories.map((cat, index) => (
               <a key={cat._id} href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline">
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
                   {cat.imageUrl ? (
@@ -265,6 +268,15 @@ export function HomePage({
               </a>
             ))}
           </div>
+          <div className="mt-6 text-center">
+            <a
+              href={localizedHref('/category/rastenia', language)}
+              onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))}
+              className="inline-flex items-center justify-center rounded-lg bg-[#647746] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#53643A] no-underline"
+            >
+              {language === 'ru' ? 'Перейти в каталог растений' : language === 'en' ? 'View all plants' : 'Към каталога с растения'} →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -273,10 +285,10 @@ export function HomePage({
           <h3 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{language === 'ru' ? 'Продажа оборудования для полива' : language === 'en' ? 'Irrigation Equipment Sales' : 'Продажба на поливно оборудване'}</h3>
         </div>
 
-        {sortedCategories.length > 0 && (
+        {visibleEquipmentCategories.length > 0 && (
           <div className="mb-6">
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
-              {sortedCategories.map((cat, index) => {
+              {visibleEquipmentCategories.map((cat, index) => {
                 const isMainCategory = cat.slug?.current === 'vsichko-za-polivane' || index === 0
                 return (
                   <a
@@ -315,6 +327,15 @@ export function HomePage({
                   </a>
                 )
               })}
+            </div>
+            <div className="mt-6 text-center">
+              <a
+                href={localizedHref('/category/vsichko-za-polivane', language)}
+                onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('vsichko-za-polivane'))}
+                className="inline-flex items-center justify-center rounded-lg bg-[#647746] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#53643A] no-underline"
+              >
+                {language === 'ru' ? 'Перейти в каталог оборудования' : language === 'en' ? 'View all irrigation equipment' : 'Към каталога с поливно оборудване'} →
+              </a>
             </div>
           </div>
         )}

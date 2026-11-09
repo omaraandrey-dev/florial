@@ -70,6 +70,8 @@ function getRouteState(
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
+  const [searchProducts, setSearchProducts] = useState<Product[]>([])
+  const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
@@ -173,8 +175,9 @@ export default function App() {
     }
   }, [])
 
-  // Находим товар по URL. Состав комплекта загружаем отдельным detail-запросом,
-  // чтобы не включать kitComponents в каталожные, поисковые и связанные GROQ-выборки.
+  // Загружаем полную запись товара только при открытии его страницы.
+  // Глобальный каталог остаётся компактным и не содержит тяжёлые описания,
+  // галереи, документы, SEO и связанные материалы.
   useEffect(() => {
     let cancelled = false
 
@@ -202,31 +205,68 @@ export default function App() {
       return () => { cancelled = true }
     }
 
-    const kitCategoryId = '6709cd41-18c6-4c5f-bc27-90d55d685dec'
-    const isKitProduct = foundProduct.productType === 'equipment' && (
-      foundProduct.categoryId === kitCategoryId ||
-      foundProduct.categories?.some(category => category._id === kitCategoryId)
-    )
-
-    if (!isKitProduct) {
-      setCurrentProduct(foundProduct)
-      setLoadingProductDetails(false)
-      return () => { cancelled = true }
-    }
-
     setLoadingProductDetails(true)
-    const kitComponentsQuery = `
+
+    const equipmentDetailQuery = `
       *[_type == "product" && _id == $id][0] {
+        _id,
+        name,
+        translations,
+        "productType": "equipment",
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku,
+        "brand": brand->name,
+        priceEUR,
+        oldPriceEUR,
+        stockStatus,
+        stockQuantity,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        "galleryImages": gallery[]{ "url": asset->url, alt, altEn, altRu },
+        shortDescription,
+        description,
+        specifications,
+        compatibility,
+        seo,
+        "manualPDFUrl": manualPDF.asset->url,
+        "catalogPDFUrl": catalogPDF.asset->url,
+        "category": category->name,
+        "categoryTranslations": category->translations,
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]-> {
+          _id, name, translations,
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        },
+        "relatedProducts": relatedProducts[]->{
+          _id, name, translations,
+          "productType": "equipment",
+          "slug": { "current": coalesce(slug.current, slug) },
+          sku, priceEUR, oldPriceEUR, stockStatus,
+          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+          "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+          shortDescription
+        },
+        "relatedContent": relatedContent[]->{
+          _id, _type, name, title, translations,
+          "slug": { "current": coalesce(slug.current, slug) },
+          shortDescription, isActive, isPublished,
+          "imageUrl": coalesce(image.asset->url, cover.asset->url, hero.image.asset->url),
+          "imageAlt": coalesce(image.alt, cover.alt, name, translations.bg.title, title),
+          "imageAltEn": coalesce(image.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+          "imageAltRu": coalesce(image.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+        },
         "kitComponents": kitComponents[]{
-          _key,
-          quantity,
-          unit,
-          note { bg, ru, en },
+          _key, quantity, unit, note { bg, ru, en },
           "product": product->{
-            _id,
-            name,
-            translations,
-            "slug": slug,
+            _id, name, translations,
+            "slug": { "current": coalesce(slug.current, slug) },
             sku,
             "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
             isActive
@@ -235,23 +275,138 @@ export default function App() {
       }
     `
 
-    sanityClient.fetch(kitComponentsQuery, {id: foundProduct._id})
-      .then((details: any) => {
-        if (cancelled) return
-        setCurrentProduct({
-          ...foundProduct,
-          kitComponents: Array.isArray(details?.kitComponents) ? details.kitComponents : [],
-        })
-      })
-      .catch((error: unknown) => {
-        if (cancelled) return
-        console.error('Sanity: не удалось загрузить состав комплекта:', error)
-        setCurrentProduct({...foundProduct, kitComponents: []})
-      })
-      .finally(() => {
-        if (!cancelled) setLoadingProductDetails(false)
-      })
+    const plantDetailQuery = `
+      *[_type == "product" && _id == $id][0] {
+        _id, name, translations, productType,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity,
+        saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
+        shortDescription, description, seo,
+        scientificName, plantCare, careGuide, recommendedIrrigation,
+        relatedContentBySlug, isFeatured, plantDetails { availabilityNote }, sourcePageUrl,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+        "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
+        "category": category->name,
+        "categoryTranslations": category->translations,
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]->{
+          _id, name, translations,
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        }
+      }
+    `
 
+    const loadProductDetails = async () => {
+      try {
+        const isPlant = isPlantProductType(foundProduct.productType)
+        const details = await (isPlant ? plantsClient : sanityClient).fetch(
+          isPlant ? plantDetailQuery : equipmentDetailQuery,
+          { id: foundProduct._id }
+        )
+
+        if (cancelled) return
+        if (!details) {
+          setCurrentProduct(null)
+          return
+        }
+
+        let enrichedDetails: Product = details
+
+        if (isPlant) {
+          const relatedSlugs = Array.from(new Set(
+            (Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
+              .map((item: any) => item?.slug)
+              .filter((slug: any): slug is string => typeof slug === 'string' && slug.length > 0)
+          ))
+          const recommendedSlug = details.recommendedIrrigation?.productSlug
+
+          const plantRelatedQuery = `
+            *[
+              _type in ["service", "blogPost"] &&
+              coalesce(slug.current, slug) in $slugs
+            ] {
+              _id, _type, name, title,
+              "slug": { "current": coalesce(slug.current, slug) },
+              shortDescription, isActive, isPublished,
+              translations {
+                bg { name, title, shortDescription },
+                ru { name, title, shortDescription },
+                en { name, title, shortDescription }
+              },
+              "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
+              "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
+              "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+              "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+            }
+          `
+
+          const irrigationProductQuery = `
+            *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+              _id, name, translations,
+              "productType": "equipment",
+              "slug": { "current": coalesce(slug.current, slug) },
+              sku, priceEUR, oldPriceEUR, stockStatus,
+              "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+              "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+              "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+              "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+              shortDescription
+            }
+          `
+
+          const [relatedDocuments, recommendedProduct] = await Promise.all([
+            relatedSlugs.length > 0
+              ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }).catch((error) => {
+                  console.error('Sanity: не удалось разрешить связанные услуги и статьи растения:', error)
+                  return []
+                })
+              : Promise.resolve([]),
+            typeof recommendedSlug === 'string' && recommendedSlug.length > 0
+              ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug }).catch((error) => {
+                  console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
+                  return null
+                })
+              : Promise.resolve(null),
+          ])
+
+          if (cancelled) return
+
+          const relatedContent = (Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
+            .map((reference: any) => {
+              const item = (Array.isArray(relatedDocuments) ? relatedDocuments : []).find((candidate: any) =>
+                candidate._type === reference.contentType &&
+                candidate.slug?.current === reference.slug &&
+                (candidate._type === 'service' ? candidate.isActive !== false : candidate.isPublished === true)
+              )
+              return item ? { ...item, linkLabel: reference.label || undefined } : null
+            })
+            .filter(Boolean)
+
+          enrichedDetails = {
+            ...details,
+            relatedContent,
+            recommendedIrrigationProduct: recommendedProduct || undefined,
+          }
+        }
+
+        setCurrentProduct(enrichedDetails)
+      } catch (error) {
+        if (cancelled) return
+        console.error('Sanity: не удалось загрузить полные данные товара:', error)
+        // Keep the compact catalogue record as a graceful fallback if detail loading fails.
+        setCurrentProduct(foundProduct)
+      } finally {
+        if (!cancelled) setLoadingProductDetails(false)
+      }
+    }
+
+    void loadProductDetails()
     return () => { cancelled = true }
   }, [activeProductSlug, products, loadingProducts])
 
@@ -340,69 +495,35 @@ export default function App() {
         ] {
           _id,
           name,
-          translations,
+          translations {
+            bg { name, shortDescription },
+            ru { name, shortDescription },
+            en { name, shortDescription }
+          },
           "productType": "equipment",
-          // Normalize both Sanity slug objects ({ current }) and legacy plain strings.
           "slug": { "current": coalesce(slug.current, slug) },
           sku,
           "brand": brand->name,
           priceEUR,
           oldPriceEUR,
           stockStatus,
+          stockQuantity,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
           "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
           "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
           "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          "galleryImages": gallery[]{ "url": asset->url, alt, altEn, altRu },
           shortDescription,
-          description,
-          specifications,
-          compatibility,
-          seo,
-          "manualPDFUrl": manualPDF.asset->url,
-          "catalogPDFUrl": catalogPDF.asset->url,
           "category": category->name,
-          "categoryTranslations": category->translations,
+          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
           "categoryId": category->_id,
           "categorySlug": coalesce(category->slug.current, category->slug),
           "categoryParentId": category->parent->_id,
           "categories": categories[]-> {
             _id,
             name,
-            translations,
+            translations { bg { name }, ru { name }, en { name } },
             "slug": { "current": coalesce(slug.current, slug) },
             "parentId": parent->_id
-          },
-          "relatedProducts": relatedProducts[]->{
-            _id,
-            name,
-            translations,
-            "productType": "equipment",
-            "slug": { "current": coalesce(slug.current, slug) },
-            sku,
-            priceEUR,
-            oldPriceEUR,
-            stockStatus,
-            "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-            "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
-            "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
-            "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-            shortDescription
-          },
-          "relatedContent": relatedContent[]->{
-            _id,
-            _type,
-            name,
-            title,
-            translations,
-            "slug": { "current": coalesce(slug.current, slug) },
-            shortDescription,
-            isActive,
-            isPublished,
-            "imageUrl": coalesce(image.asset->url, cover.asset->url, hero.image.asset->url),
-            "imageAlt": coalesce(image.alt, cover.alt, name, translations.bg.title, title),
-            "imageAltEn": coalesce(image.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
-            "imageAltRu": coalesce(image.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
           }
         }
       `
@@ -431,22 +552,40 @@ export default function App() {
 
       const plantProductQuery = `
         *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
-          _id, name, translations,
+          _id,
+          name,
+          translations {
+            bg { name, shortDescription },
+            ru { name, shortDescription },
+            en { name, shortDescription }
+          },
           productType,
           "slug": { "current": coalesce(slug.current, slug) },
-          sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity, saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity}, shortDescription, description, seo,
-          scientificName, plantCare, careGuide, recommendedIrrigation, relatedContentBySlug, isFeatured, plantDetails { availabilityNote }, sourcePageUrl,
+          sku,
+          priceEUR,
+          oldPriceEUR,
+          stockStatus,
+          stockQuantity,
+          saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
+          shortDescription,
+          scientificName,
+          plantCare { light, waterNeeds, minWinterTempC, blackSeaCoast },
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
           "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
           "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
           "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
           "category": category->name,
-          "categoryTranslations": category->translations,
+          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
           "categoryId": category->_id,
           "categorySlug": coalesce(category->slug.current, category->slug),
           "categoryParentId": category->parent->_id,
-          "categories": categories[]->{_id, name, translations, "slug": { "current": coalesce(slug.current, slug) }, "parentId": parent->_id}
+          "categories": categories[]-> {
+            _id,
+            name,
+            translations { bg { name }, ru { name }, en { name } },
+            "slug": { "current": coalesce(slug.current, slug) },
+            "parentId": parent->_id
+          }
         }
       `
 
@@ -534,72 +673,9 @@ export default function App() {
       const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
       const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
 
-      // Resolve plant cross-links against the production dataset without changing Sanity documents.
-      const plantRelatedSlugs = Array.from(new Set(
-        plantProductData.flatMap((plant: any) =>
-          Array.isArray(plant.relatedContentBySlug)
-            ? plant.relatedContentBySlug.map((item: any) => item?.slug).filter((slug: any): slug is string => typeof slug === 'string' && slug.length > 0)
-            : []
-        )
-      ))
-      let plantRelatedDocuments: any[] = []
-      if (plantRelatedSlugs.length > 0) {
-        const plantRelatedQuery = `
-          *[
-            _type in ["service", "blogPost"] &&
-            coalesce(slug.current, slug) in $slugs
-          ] {
-            _id,
-            _type,
-            name,
-            title,
-            "slug": { "current": coalesce(slug.current, slug) },
-            shortDescription,
-            isActive,
-            isPublished,
-            translations {
-              bg { name, title, shortDescription },
-              ru { name, title, shortDescription },
-              en { name, title, shortDescription }
-            },
-            "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
-            "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
-            "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
-            "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
-          }
-        `
-        try {
-          const result = await sanityClient.fetch(plantRelatedQuery, { slugs: plantRelatedSlugs })
-          plantRelatedDocuments = Array.isArray(result) ? result : []
-        } catch (error) {
-          console.error('Sanity: не удалось разрешить связанные услуги и статьи растений:', error)
-        }
-      }
-
-      const enrichedPlantProducts = plantProductData.map((plant: any) => {
-        const relatedContent = (Array.isArray(plant.relatedContentBySlug) ? plant.relatedContentBySlug : [])
-          .map((reference: any) => {
-            const item = plantRelatedDocuments.find((candidate) =>
-              candidate._type === reference.contentType &&
-              candidate.slug?.current === reference.slug &&
-              (candidate._type === 'service' ? candidate.isActive !== false : candidate.isPublished === true)
-            )
-            return item ? { ...item, linkLabel: reference.label || undefined } : null
-          })
-          .filter(Boolean)
-
-        const recommendedIrrigationProduct = plant.recommendedIrrigation?.productSlug
-          ? equipmentProducts.find((item: any) => item.slug?.current === plant.recommendedIrrigation.productSlug)
-          : undefined
-
-        return {
-          ...plant,
-          relatedContent,
-          recommendedIrrigationProduct,
-        }
-      })
-
-      setProducts([...equipmentProducts, ...enrichedPlantProducts])
+      // Keep the global product state limited to fields needed by category cards,
+      // category filters and navigation. Full product records are fetched on demand.
+      setProducts([...equipmentProducts, ...plantProductData])
 
       if (productResult.status !== 'fulfilled') {
         console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
@@ -806,13 +882,108 @@ export default function App() {
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
+  // Полнотекстовый индекс загружается только на странице результатов поиска.
+  // Он сохраняет поиск по описаниям и характеристикам, не утяжеляя главную и каталоги.
+  useEffect(() => {
+    let cancelled = false
+    if (!activeSearchQuery?.trim()) {
+      setSearchProducts([])
+      setLoadingSearchResults(false)
+      return () => { cancelled = true }
+    }
+
+    if (loadingProducts) {
+      setLoadingSearchResults(true)
+      return () => { cancelled = true }
+    }
+
+    setLoadingSearchResults(true)
+    setSearchProducts([])
+
+    const equipmentSearchQuery = `
+      *[_type == "product" && isActive != false && defined(slug)] {
+        _id, name,
+        translations {
+          bg { name, shortDescription, description },
+          ru { name, shortDescription, description },
+          en { name, shortDescription, description }
+        },
+        "productType": "equipment",
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku, "brand": brand->name, priceEUR, oldPriceEUR, stockStatus,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        shortDescription, description, specifications,
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categories": categories[]->{_id, name, translations { bg { name }, ru { name }, en { name } }, "slug": {"current": coalesce(slug.current, slug)}}
+      }
+    `
+
+    const plantSearchQuery = `
+      *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] {
+        _id, name,
+        translations {
+          bg { name, shortDescription, description },
+          ru { name, shortDescription, description },
+          en { name, shortDescription, description }
+        },
+        productType,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku, priceEUR, oldPriceEUR, stockStatus,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+        "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        shortDescription, description, scientificName,
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categories": categories[]->{_id, name, translations { bg { name }, ru { name }, en { name } }, "slug": {"current": coalesce(slug.current, slug)}}
+      }
+    `
+
+    Promise.allSettled([
+      sanityClient.fetch(equipmentSearchQuery),
+      plantsClient.fetch(plantSearchQuery),
+    ])
+      .then(([equipmentResult, plantResult]) => {
+        if (cancelled) return
+        const equipment = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
+          ? equipmentResult.value
+          : []
+        const plants = plantResult.status === 'fulfilled' && Array.isArray(plantResult.value)
+          ? plantResult.value
+          : []
+
+        if (equipmentResult.status === 'rejected') {
+          console.error('Sanity: не удалось загрузить поиск оборудования:', equipmentResult.reason)
+        }
+        if (plantResult.status === 'rejected') {
+          console.error('Sanity: не удалось загрузить поиск растений:', plantResult.reason)
+        }
+
+        setSearchProducts([...equipment, ...plants])
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSearchResults(false)
+      })
+
+    return () => { cancelled = true }
+  }, [activeSearchQuery, loadingProducts])
+
   const searchedProducts = useMemo(() => {
     const query = (activeSearchQuery || '').toLocaleLowerCase('bg').trim()
     if (!query) return []
 
     const words = query.split(/\s+/).filter(Boolean)
 
-    return products.filter((product) => {
+    return searchProducts.filter((product) => {
       const searchableText = [
         product.name,
         product.translations?.en?.name,
@@ -836,7 +1007,7 @@ export default function App() {
 
       return words.every((word) => searchableText.includes(word))
     })
-  }, [products, activeSearchQuery])
+  }, [searchProducts, activeSearchQuery])
 
   const currentService = services.find(
     (service) =>
@@ -1075,7 +1246,7 @@ export default function App() {
             {t('Търсене:')} „{activeSearchQuery}“
           </p>
 
-          {loadingProducts ? (
+          {loadingProducts || loadingSearchResults ? (
             <p className="py-12 text-slate-500">{t('Зареждане на продуктите...')}</p>
           ) : !activeSearchQuery ? (
             <p className="py-12 text-slate-600">
