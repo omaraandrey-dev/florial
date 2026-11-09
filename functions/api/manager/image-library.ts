@@ -1,5 +1,5 @@
 import { json, requireUser, type ManagerEnv } from './_lib'
-import { requirePlantRole } from './plant-direct-lib'
+import { PLANTS_DATASET, requirePlantRole } from './plant-direct-lib'
 
 type SanityAsset = {
   _id?: unknown
@@ -20,7 +20,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   if (!requirePlantRole(auth.user)) return json({ error: 'Нямате право да преглеждате библиотеката със снимки.' }, 403)
 
   const project = env.SANITY_PROJECT_ID || 'bxvcy0qs'
-  const dataset = env.SANITY_PLANTS_DATASET || 'plants'
+  const dataset = PLANTS_DATASET
   const requestedOffset = Number(new URL(request.url).searchParams.get('offset') || 0)
   const offset = Number.isInteger(requestedOffset) ? Math.min(100000, Math.max(0, requestedOffset)) : 0
   const pageSize = 100
