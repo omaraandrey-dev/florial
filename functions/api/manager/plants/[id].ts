@@ -42,6 +42,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   let after: unknown = null
   let action: 'update'|'deactivate'|'reactivate' = 'update'
   let auditStarted = false
+  let mutationSucceeded = false
 
   try {
     const prior = await env.DB.prepare("SELECT product_id, result FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
@@ -76,6 +77,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     auditStarted = true
     try {
       await sanityMutate(env,[{patch:{id,ifRevisionID:current._rev,set:normalized.set}}])
+      mutationSucceeded = true
     } catch (error) {
       if (error instanceof Error && error.message.startsWith('SANITY_MUTATION_FAILED_409')) {
         throw new Error('REVISION_CONFLICT')
@@ -89,9 +91,20 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     return json({ok:true,documentId:id,revision:saved._rev,requestId})
   } catch (error) {
     if (error instanceof Error && error.message === 'REVISION_CONFLICT') {
+      if (auditStarted) {
+        try {
+          await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action,changedFields,before,after:null,result:'failed',errorCode:'revision_conflict'})
+        } catch {
+          return json({error:'Конфликтът е засечен, но историята не успя да запише резултата. Запазете номера на операцията.',requestId,auditPending:true},503)
+        }
+      }
       return json({error:'Растението е променено от друг служител. Обновете карточката и приложете промените отново.',conflict:true},409)
     }
     const code = safeFailureCode(error)
+    if (auditStarted && mutationSucceeded) {
+      console.error('[manager-plant-update-audit]',{requestId,code:'audit_success_write_pending'})
+      return json({error:'Промяната може да е записана, но историята не потвърди резултата. Запазете номера на операцията и повторете същата операция без промени.',requestId,auditPending:true},503)
+    }
     if (auditStarted) {
       try {
         await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action,changedFields,before,after,result:'failed',errorCode:code})
