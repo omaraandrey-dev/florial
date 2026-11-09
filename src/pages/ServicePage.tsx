@@ -441,12 +441,11 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           ? renderImageGallery(imageGroups.intro || [], 'intro', language)
           : heroImageUrl && (
             <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
-              <img
-                src={heroImageUrl}
-                alt={heroImageAlt}
-                fetchPriority="high"
-                className="max-h-[560px] min-h-[220px] w-full object-cover"
-              />
+              {hero.imageLinkUrl || service.imageLinkUrl
+                ? <a href={(hero.imageLinkUrl || service.imageLinkUrl || '').startsWith('/') ? localizedHref(hero.imageLinkUrl || service.imageLinkUrl || '/', language) : (hero.imageLinkUrl || service.imageLinkUrl)} className="block">
+                    <img src={heroImageUrl} alt={heroImageAlt} fetchPriority="high" className="max-h-[560px] min-h-[220px] w-full object-cover" />
+                  </a>
+                : <img src={heroImageUrl} alt={heroImageAlt} fetchPriority="high" className="max-h-[560px] min-h-[220px] w-full object-cover" />}
             </div>
           )}
 
