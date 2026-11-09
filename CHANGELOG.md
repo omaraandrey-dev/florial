@@ -1,3 +1,18 @@
+## 2026-11-09 — Отложенная загрузка публичных страниц (PR #147)
+
+- PR #147: https://github.com/omaraandrey-dev/florial/pull/147 — squash merge в `main`; merge commit `b35b5e499700d0330a7ea43ca1ca09e4f6cad7e8`.
+- Изменён только `src/App.tsx`.
+- `HomePage` остаётся в initial bundle. Десять остальных page components переведены на React.lazy named-export imports: AboutPage, CartPage, ContactsPage, ServicesListPage, ServicePage, CategoryPage, ProductPage, BlogPage, BlogPostPage, IrrigationSupportPage.
+- Добавлена одна Suspense boundary вокруг route content. Header и Footer остаются снаружи; fallback использует существующую локализуемую строку `Зареждане на страницата...`. Route predicates, callbacks, state, Sanity fetches, props и SEO в самих страницах не менялись.
+- CI Blog and Studio validation run `42592562970` — success (lint, utility tests, website build, migration syntax, read-only migration dry-run, Studio install/build). D1 validation run `42592563158` — success.
+- Production Cloudflare Pages deployment `20836dfd-7536-4379-be50-2c865800c814` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com`, `www.florial-bg.com`.
+- Live direct-route smoke: homepage BG/RU/EN; /about; /cart (пустая корзина); /contacts; /services; planting service; irrigation delivery support; plant/equipment category roots; Rain Bird valve product; Trachycarpus product; /blog; Rain Bird article; search Rain Bird (130 results). Все 16 адресов отрендерили содержимое; Suspense/loading placeholders не остались.
+- Production build chunks: `index` 388.90 kB raw / 106.91 kB gzip против предыдущего PR #146 `index` 620.15 kB raw / 163.82 kB gzip. Main entry уменьшился на 231.25 kB raw и 56.91 kB gzip (≈34.74% gzip). Отдельные lazy chunks: BlogPage 3.67/1.68 kB, ContactsPage 7.23/2.48 kB, BlogPostPage 8.67/3.27 kB, ServicesListPage 12.21/4.28 kB, CartPage 23.14/6.16 kB, IrrigationSupportPage 24.19/7.31 kB, ServicePage 26.27/8.35 kB, AboutPage 35.76/9.59 kB, ProductPage 46.80/12.52 kB, CategoryPage 47.41/12.60 kB (raw/gzip). Это build artifact gzip comparison, не live wire transfer и не общий page speed result.
+- Полная SPA navigation/scroll restoration regression и post-release browser resource list после PR #147 не завершены; Firecrawl interaction в момент проверки вернул concurrency limit. Direct route rendering проверен.
+- No Sanity schema/documents, D1, API, Manager, cart/checkout logic, Header/menu/Footer layout, Cloudflare settings/secrets changed. No real order created.
+
+---
+
 ## 2026-11-09 — Отложенная загрузка Manager (PR #146)
 
 - PR #146: https://github.com/omaraandrey-dev/florial/pull/146 — squash merge в `main`; merge commit `eef48358030cc04c7c8105f66b74013cfc20997a`.
