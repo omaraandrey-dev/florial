@@ -227,10 +227,16 @@ export default function PlantCatalogManager({role}:Props){
      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {images.map((image,index)=><div key={image.assetId} className={'relative overflow-hidden rounded-xl border-2 '+(mainImageIndex===index?'border-lime-700':'border-stone-200')}>
        <button type="button" className="block aspect-square w-full" onClick={()=>setMainImageIndex(index)}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
-       <button type="button" onClick={()=>setImages(previous=>previous.filter((_,i)=>i!==index))} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
+       <button type="button" onClick={()=>{setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
       </div>)}
       {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
      </div>
+     {images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
+      <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
+      <label><span className={labelClass}>ALT (BG)</span><input className={inputClass} value={image.alt} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,alt:event.target.value}:item))}/></label>
+      <label><span className={labelClass}>ALT (EN)</span><input className={inputClass} value={image.altEn} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,altEn:event.target.value}:item))}/></label>
+      <label><span className={labelClass}>ALT (RU)</span><input className={inputClass} value={image.altRu} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,altRu:event.target.value}:item))}/></label>
+     </div>)}
     </section>
     <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <h3 className="font-bold">Основна информация</h3>
