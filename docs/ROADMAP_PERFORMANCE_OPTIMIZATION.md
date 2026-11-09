@@ -199,7 +199,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 ## 6. Статус на 09.11.2026
 
 - [x] Roadmap создан; статические наблюдения исходного кода зафиксированы.
-- [ ] Этап 0 — baseline и диагностика.
+- [~] Этап 0 — browser/network baseline сохранён в `docs/performance/BASELINE.md`; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за недоступности PageSpeed API и отсутствия LCP/INP в remote browser capture.
 - [ ] Этап 1 — лёгкая загрузка данных главной.
 - [ ] Этап 2 — карточные GROQ projections и блог.
 - [ ] Этап 3 — изображения.
@@ -208,7 +208,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - [ ] Этап 6 — остальные страницы.
 - [ ] Этап 7 — регрессия и production.
 
-**Текущая точка продолжения: Этап 0. До baseline runtime-код и инфраструктуру не менять.**
+**Текущая точка продолжения: Этап 0 — частично завершён.** Browser/network measurements и статический аудит сохранены в `docs/performance/BASELINE.md`. До получения Lighthouse/CrUX или альтернативного подтверждённого LCP/INP runtime-код и инфраструктуру не менять. После закрытия ограничений измерения — согласовать первый ограниченный PR по responsive/lazy images главной, затем лёгкие Sanity projections.
 
 ## 7. Инструкция для нового чата
 
@@ -223,3 +223,15 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 ### Стартовый запрос
 
 Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md и docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md. Проверь актуальный main и последний Cloudflare Production deployment. Определи текущую незавершённую контрольную точку. Начни с Этапа 0 — измерения скорости главной страницы и диагностического аудита. Пока не меняй runtime-код, Sanity, D1 или Cloudflare settings. Сначала представь измерения, выводы и конкретный план первого исправления.
+
+
+## Дополнение от 09.11.2026 — результаты первого baseline
+
+- Отчёт: [docs/performance/BASELINE.md](./performance/BASELINE.md).
+- Mobile (390×844, CPU 4×, latency 150 ms, 10/1.5 Mbps), 3 прогона: медиана TTFB 163 ms, FCP 380 ms, DOMContentLoaded 553 ms, Load 554 ms.
+- Desktop (1365×900, без throttling), 3 прогона: медиана TTFB 53 ms, FCP 136 ms, DOMContentLoaded 146 ms, Load 147 ms.
+- Отдельный CDP network capture: 42,874,746 bytes (≈40.89 MiB), 38 image responses (38.92 MB, 90.8%), 10 Sanity XHR (3.73 MB, 8.7%), app JS 207.5 KB, CSS 12.1 KB.
+- Полный запрос equipment products передал около 3.33 MB и занимал около 9.8 s в каждом mobile throttled прогоне.
+- HTML отвечал `cf-cache-status: DYNAMIC`; hashed JS/CSS — `HIT` и годовой immutable cache.
+- Lighthouse/CrUX/LCP/INP не подтверждены: PageSpeed API quota=0; remote browser не вернул LCP entry; INP не проверялся пользовательским вводом.
+- Stage 0 остаётся частично завершённым. Runtime, Sanity, D1, API и Cloudflare settings не менялись.
