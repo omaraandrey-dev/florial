@@ -1,3 +1,5 @@
+> **Актуальный статус — 09.11.2026:** по решению пользователя работа над ускорением временно приостановлена. Подготовлен отдельный forward revert двух последних CLS-изменений (PR #156 route-height wrapper и commit `9bd5d3f` SEO fallback dimensions); CI/merge/Production deployment ожидаются. Ранее завершённые responsive images, Sanity CDN, lazy route chunks и Hero LCP сохраняются. После возврата к рабочей версии новые CLS/Lighthouse/INP замеры не выполняются до отдельного решения.
+
 # Florial — дорожная карта оптимизации производительности
 
 **Версия:** 1.0  
