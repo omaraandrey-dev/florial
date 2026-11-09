@@ -190,7 +190,11 @@ export const buildPlantSet = async (
     const found = await sanityQuery<Array<{ _id: string }>>(env, '*[_type=="category" && _id in ' + JSON.stringify(categoryIds) + ']{_id}')
     if (!Array.isArray(found) || found.length !== categoryIds.length) throw new Error('Една или повече категории не са намерени в каталога с растения.')
     set.category = { _type: 'reference', _ref: primaryId }
-    set.categories = categoryIds.map((id: string) => ({ _type: 'reference', _key: 'category-' + stableKey(id), _ref: id }))
+    const previousCategories = Array.isArray(existing?.categories) ? existing.categories : []
+    set.categories = categoryIds.map((id: string) => {
+      const previous = previousCategories.find((item: any) => item?._ref === id)
+      return { _type: 'reference', _key: cleanText(previous?._key, 80) || 'category-' + stableKey(id), _ref: id }
+    })
   }
   if ('description' in input) set.description = portableText(input.description)
   if ('mainImage' in input) set.mainImage = imageObject(input.mainImage)
