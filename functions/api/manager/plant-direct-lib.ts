@@ -269,17 +269,59 @@ export const buildPlantSet = async (
   return { set, changedFields: Object.keys(set).sort() }
 }
 
+const portableTextSummary = (value: unknown) => {
+  if (!Array.isArray(value)) return cleanText(value, 1200)
+  return value.slice(0, 12).map((block: any) =>
+    Array.isArray(block?.children) ? block.children.map((child: any) => cleanText(child?.text, 500)).join('') : ''
+  ).filter(Boolean).join('\n\n').slice(0, 1200)
+}
+const imageSummary = (value: any) => ({
+  assetId: cleanText(value?.asset?._ref || value?.asset?._id, 160),
+  alt: cleanText(value?.alt, 240),
+  altEn: cleanText(value?.altEn, 240),
+  altRu: cleanText(value?.altRu, 240),
+})
+
 export const auditSnapshot = (value: Record<string, any> | null) => {
   if (!value) return null
+  const translations: Record<string, unknown> = {}
+  for (const language of ['bg','ru','en']) {
+    const item = value.translations?.[language]
+    if (isObject(item)) translations[language] = {
+      name: cleanText(item.name, 160),
+      shortDescription: cleanText(item.shortDescription, 500),
+      description: portableTextSummary(item.description),
+      seo: isObject(item.seo) ? {
+        h1: cleanText(item.seo.h1, 160),
+        metaTitle: cleanText(item.seo.metaTitle, 70),
+        metaDescription: cleanText(item.seo.metaDescription, 320),
+      } : {},
+    }
+  }
   return {
     name: cleanText(value.name, 160),
     slug: cleanText(value.slug?.current, 96),
     sku: cleanText(value.sku, 100),
     categoryId: cleanText(value.category?._ref, 128),
+    categoryIds: Array.isArray(value.categories) ? value.categories.map((item: any) => cleanText(item?._ref, 128)).filter(Boolean).slice(0,10) : [],
+    shortDescription: cleanText(value.shortDescription, 500),
+    description: portableTextSummary(value.description),
+    seo: isObject(value.seo) ? {
+      h1: cleanText(value.seo.h1, 160),
+      metaTitle: cleanText(value.seo.metaTitle, 70),
+      metaDescription: cleanText(value.seo.metaDescription, 320),
+    } : {},
+    translations,
+    mainImage: imageSummary(value.mainImage),
+    gallery: Array.isArray(value.gallery) ? value.gallery.slice(0,10).map(imageSummary) : [],
     isActive: value.isActive !== false,
     variants: Array.isArray(value.saleVariants) ? value.saleVariants.slice(0,30).map((item: any) => ({
-      key: cleanText(item?._key, 80), name: cleanText(item?.name, 100), priceEUR: typeof item?.priceEUR === 'number' ? item.priceEUR : null,
+      key: cleanText(item?._key, 80), name: cleanText(item?.name, 100), sku: cleanText(item?.sku, 100),
+      priceEUR: typeof item?.priceEUR === 'number' ? item.priceEUR : null,
+      oldPriceEUR: typeof item?.oldPriceEUR === 'number' ? item.oldPriceEUR : null,
       stockStatus: cleanText(item?.stockStatus, 20), stockQuantity: typeof item?.stockQuantity === 'number' ? item.stockQuantity : null,
+      saleHeightCm: typeof item?.saleHeightCm === 'number' ? item.saleHeightCm : null,
+      containerVolumeL: typeof item?.containerVolumeL === 'number' ? item.containerVolumeL : null,
     })) : [],
   }
 }
