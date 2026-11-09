@@ -1515,3 +1515,12 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Для каждого изображения заданы BG/RU/EN ALT; исходные assets сохранены. Gallery field очищено, чтобы исключить повторный вывод тех же снимков перед статьёй.
 - `src/pages/ServicePage.tsx`: добавлены заголовки услуги пальм для сопоставления BG/RU/EN с существующими группами inline gallery. Используется существующий рендерер; новый компонент и новые schema fields не добавлялись.
 - Pre-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-before-inline-gallery-2026-11-09.json`; post-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-after-inline-gallery-2026-11-09.json`.
+
+## 2026-11-09 — Production verification: inline palm service photos
+
+- PR #138 merged to main; merge commit `b08469b5ee8cc3ee8ae1878865237f03339e83c6`.
+- Cloudflare Pages project `florial`: Production deployment `19748523-6a55-4d5e-bb28-bd69b2b131fc`, `success`, production branch `main`, deployment URL `https://19748523.florial.pages.dev`.
+- Production BG/RU/EN service URLs returned HTTP 200; localized page title/H1 and robots indexability confirmed. All three existing Sanity images appear in the intended article sections with localized ALT text.
+- Mobile 390px smoke: all three images and three inline gallery sections present; no duplicate gallery above the article.
+- CI run #636 (D1 migration validation) and run #594 (Blog and Studio validation) succeeded. Website lint, utility tests, website build, migration syntax/dry-run and Studio build passed.
+- No Sanity schema, API, D1, Manager, Header, menu or Footer changes. No live form submission or D1/email end-to-end test performed.
