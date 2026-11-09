@@ -701,3 +701,10 @@
 - BG/RU/EN контент и SEO заполнены; публичная индексация разрешена. Связана с общей посадкой растений и услугой капельного полива.
 - Live smoke всех трёх локалей: HTTP 200, H1/SEO/ALT/related cards/form отображаются. Реальная заявка и D1/email end-to-end не тестировались.
 - Не изменялись код, schema, API, D1, Manager, Header, меню, Footer или Cloudflare deployment. Это отдельная контентная услуга; существующая дорожная карта услуг и заявок не меняет статусы технических этапов.
+
+## 2026-11-09 — Новая услуга «Засаждане на палми»
+
+- Опубликован новый Sanity service document `5fd92607-19dd-44ae-b546-01e841f835c9`, slug `zasazhdane-na-palmi`, категория `planting`, sortOrder 28.
+- BG/RU/EN контент, SEO, Hero image, ALT, преимущества, этапы, CTA и форма заполнены. Связаны существующая общая услуга посадки растений и монтаж автоматического полива.
+- Production smoke: все три локали HTTP 200; `/services` показывает карточку услуги. Форма визуально присутствует, но реальная заявка не отправлялась; D1/email end-to-end не тестировались.
+- Изменение content-only: код, схема, API, D1, Manager, Header, меню, Footer и Pages deployment не затронуты. JSON snapshot опубликованного документа сохранён в `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
