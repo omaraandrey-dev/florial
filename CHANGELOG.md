@@ -1513,3 +1513,15 @@
 - `relatedContent` ссылается на существующие услуги `zasazhdane-na-rasteniya` и `avtomatizirano-kapkovo-napoyavane`. Форма локализована BG/RU/EN; технические имена полей `name`, `phone`, `email`, `location`, `details` сверены с `normalizeLeadFields`. Endpoint `/api/service-leads` не менялся.
 - Production live smoke через Firecrawl: BG/RU/EN — HTTP 200; локализованные H1, title, description, `robots=index, follow`; hero image, related cards и все поля формы отображаются. Реальная заявка не отправлялась, запись в D1 и email delivery не тестировались.
 - Изменения только в Sanity content и документации. GitHub source code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
+
+## 2026-11-09 — Новая услуга «Засаждане на палми»
+
+- В Sanity Production (`bxvcy0qs/production`) создана и опубликована новая услуга: document ID `5fd92607-19dd-44ae-b546-01e841f835c9`, slug `zasazhdane-na-palmi`, категория `planting`, layout `standard`, sortOrder 28, active.
+- Подготовлены болгарская версия Portable Text и локализованные RU/EN версии Markdown. H1 задан через `hero.title`; заполнены краткие описания, преимущества, этапы, CTA, форма и SEO title/description/keywords для трёх языков; `noIndex=false`.
+- Пользовательская фотография использована как главное изображение Hero и карточки услуги. Новый Sanity asset: `image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg` (1536×1147); ALT заполнен на BG/RU/EN.
+- `relatedContent` ссылается на существующие услуги общей посадки растений `zasazhdane-na-rasteniya` и монтажа автоматической поливной системы в Несебре `montaj-avtomatichni-polivni-sistemi-nesebar`.
+- Материал адаптирован к Южному Черноморью: выбор вида по микроклимату и зимним температурам, почва и дренаж, сохранение коренового бала, глубина посадки, позиционирование крупных пальм, временное укрепление, полив, обрезка и зимняя защита. Не добавлялись фиксированные цены, гарантии приживаемости или обещания наличия подъёмной техники.
+- Существующий endpoint `/api/service-leads` и имена полей формы `name/phone/email/location/details` сохранены. Реальная заявка не отправлялась; D1 insert и email delivery end-to-end не тестировались.
+- Live smoke Firecrawl: BG/RU/EN — HTTP 200; локализованные title/description, `robots=index, follow`, Hero image и содержимое статьи отображаются. Страница `/services` показывает карточку «Засаждане на палми» с правильным изображением и ссылкой.
+- JSON snapshot опубликованного документа: `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
+- Изменения только в Sanity content и документации. GitHub application code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
