@@ -52,6 +52,8 @@ Firecrawl rendered-page checks after deployment:
 - Header Portfolio menu opened successfully; displayed three recent article links and the full blog CTA.
 - No blog/article loading placeholders remained after client-side load.
 
+A separate live PerformanceResourceTiming inspection on the homepage found 8 Sanity API request URLs, all distinct, including exactly one compact top-3 blog query (duration 158 ms). The previous post-release diagnostic recorded 9 Sanity requests and two identical blog queries. This confirms the duplicate request is no longer present. Sanity `transferSize`, `encodedBodySize` and `decodedBodySize` were all 0 due cross-origin timing visibility; no transfer bytes can be reported. Browser remained at default 1920×993; this is not a controlled baseline run.
+
 ## 6. Scope and limitations
 
 - Changed only `src/lib/blog.ts`, `src/components/Header.tsx`, `src/components/BlogSection.tsx`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`.
