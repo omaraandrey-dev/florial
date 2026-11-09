@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** техническая спецификация согласована; реализация не начата  
+**Статус:** спецификация согласована; первая реализация в Draft PR #169, CI и Preview-проверка выполняются  
 **Область:** только Sanity project `bxvcy0qs`, dataset `plants`, документы `product` и `category`.
 
 > Это техническое задание заменяет для будущей реализации растений прежний сценарий обязательной приёмки и публикации Owner. Оно не является разрешением на запись в Production, применение D1 migration, изменение Sanity schema или deployment. Эти действия выполняются отдельными этапами после проверки и согласования плана.
@@ -431,38 +431,40 @@ Append-only: запретить UPDATE/DELETE через D1 triggers и не п�
 
 ## 11. План реализации и критерии приёмки
 
-### Этап A — storefront contract и тестовые данные (read-only)
-- проследить цену/наличие/варианты по CategoryPage, ProductPage, cart, checkout и order validation;
-- проверить slug routing и category references;
-- проверить существующие поля/legacy fallback;
-- определить точную проекцию списка и cursor strategy;
-- инвентаризировать все текущие D1 Manager tables и миграционный runner;
-- подготовить безопасные тестовые fixtures без Production writes.
+### Этап A — storefront contract и D1 read-only аудит — выполнен
+- подтверждены canonical variant price, root/variant stock fallback и order validation;
+- проверены slug/category references и существующая Sanity schema;
+- прочитана фактическая Cloudflare D1 schema через read-only запросы;
+- live D1 `florial-db`: последняя запись `schema_migrations` — `0012_service_leads_manager`;
+- отдельного D1 migration runner в GitHub main не обнаружено; текущая migration SQL подготовлена как отдельный файл для контролируемого применения через Cloudflare D1;
+- production data не изменялись.
 
-### Этап B — D1 audit + API
-- additive D1 migration для audit;
-- owner-only audit GET;
-- direct plant list/detail/create/update;
-- idempotency и optimistic concurrency;
-- unit tests role matrix и audit failure handling.
+### Этап B — D1 audit + API — реализация подготовлена, migration не применена
+- добавлен SQL `docs/migrations/0013_manager_product_audit.sql` с append-only triggers;
+- добавлен Owner-only `GET /api/manager/plant-audit`;
+- добавлены `GET/POST /api/manager/plants` и `GET/PATCH /api/manager/plants/:id`;
+- create idempotency и Sanity `ifRevisionID` для PATCH;
+- добавлен Python SQLite test для структуры, unique phase и запрета UPDATE/DELETE;
+- CI validation step добавлен; live D1 migration **не применялась**.
 
-### Этап C — мобильный UI
-- единый список, поиск, категории, карточки;
-- единый редактор и галерея;
-- варианты 1–30;
-- BG/RU/EN descriptions/SEO;
-- AI-enrich для всех ролей;
-- owner-only botanical section;
-- owner-only history.
+### Этап C — мобильный UI — первая версия реализована
+- добавлен единый список с поиском, категориями и сортировкой;
+- добавлен редактор с галереей, выбором основной фотографии и ALT BG/RU/EN;
+- добавлены варианты 1–30 с ценой, наличием и количеством;
+- добавлены описания, переводы и SEO;
+- добавлен AI endpoint для текстов/SEO; коммерческие и ботанические поля не генерируются;
+- Owner-only history подключена к audit API;
+- Owner-only botanical section отображается как выключенный блок; биологические поля не редактируются в этой версии;
+- старый submissions workflow оставлен как Owner-only «Архив заявок».
 
-### Этап D — регрессия и rollout
-- проверка трёх ролей в отдельных authenticated sessions;
-- создание тестового растения на Preview или безопасном изолированном dataset;
-- редактирование существующего растения с восстановлением исходного значения после теста;
-- проверка публичной карточки, варианта, корзины и заказа;
-- проверка owner-only audit и невозможности доступа Seller/Manager;
-- ручная мобильная приёмка на Android;
-- после отдельного согласования — production migration/deploy.
+### Этап D — регрессия и rollout — не выполнен
+- дождаться CI и исправить все ошибки;
+- проверить Preview, если доступен; текущая Pages project настройка может отключать preview deployment;
+- проверить Owner/Manager/Seller sessions; Seller account в текущем live D1 не обнаружен — тестовый аккаунт не создавать без согласования;
+- проверить create/update и storefront/cart/order на изолированных данных;
+- проверить Owner-only audit и запрет для Seller/Manager;
+- провести ручную мобильную приёмку на Android;
+- только после отдельного согласования применить D1 migration и выполнить Production deployment.
 
 ### Обязательные критерии
 1. Seller создаёт и публикует растение напрямую.
@@ -483,8 +485,8 @@ Append-only: запретить UPDATE/DELETE через D1 triggers и не п�
 1. **Root stockStatus aggregate:** публичный CategoryPage предпочитает root status, а ProductPage — variant status. Спецификация предлагает обновлять root status агрегатом при сохранении; перед кодом покрыть тестами все комбинации статусов и не менять root stockQuantity.
 2. **Агрегация в Manager list:** цена — минимальная положительная цена варианта, как в CategoryPage; при mixed variant status показывать «Различна наличност».
 3. **Количество растений:** schema допускает number, текущая форма проверяет integer. Нужно проверить реальный учёт растений и решить, разрешены ли дробные количества.
-4. **AI-модель и текущая квота:** использовать действующую Workers AI конфигурацию; точные модель/лимиты проверяются перед реализацией, не фиксируются предположительно.
-5. **Authenticated тестовые аккаунты:** доступные отдельные Owner/Manager/Seller sessions для полного role matrix — НЕ ИЗВЕСТНО.
+4. **AI ALT по фотографиям:** первая версия AI endpoint генерирует тексты и SEO; ALT редактируется вручную. Vision ALT generation не входит в текущий implementation slice.
+5. **Authenticated тестовые аккаунты:** в live D1 сейчас найдено 1 Owner и 1 Manager; активного Seller профиля не обнаружено. Отдельные Seller session для полного role matrix — НЕ ИЗВЕСТНО.
 6. **Production D1 migration/deploy:** не разрешены этим ТЗ; потребуют отдельного подтверждения после Preview/CI.
 
 ## 13. Границы изменений
