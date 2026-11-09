@@ -74,16 +74,22 @@ const numberValue = (value: unknown, label: string, min: number, integer = false
   return parsed
 }
 
+const stableKey = (value: string) => {
+  let hash = 2166136261
+  for (let index = 0; index < value.length; index++) hash = Math.imul(hash ^ value.charCodeAt(index), 16777619)
+  return (hash >>> 0).toString(36).padStart(7, '0')
+}
+
 const portableText = (value: unknown): unknown[] => {
   if (Array.isArray(value)) return value
   const text = cleanText(value, 12_000)
   if (!text) return []
   return [{
     _type: 'block',
-    _key: crypto.randomUUID().replace(/-/g, '').slice(0, 12),
+    _key: 'block-' + stableKey(text),
     style: 'normal',
     markDefs: [],
-    children: [{ _type: 'span', _key: crypto.randomUUID().replace(/-/g, '').slice(0, 12), text, marks: [] }],
+    children: [{ _type: 'span', _key: 'span-' + stableKey(text), text, marks: [] }],
   }]
 }
 
@@ -93,7 +99,7 @@ const imageObject = (value: unknown) => {
   }
   const fields = {
     _type: 'image',
-    _key: crypto.randomUUID().replace(/-/g, '').slice(0, 12),
+    _key: 'image-' + stableKey(String(value.assetId)),
     asset: { _type: 'reference', _ref: String(value.assetId) },
     alt: cleanText(value.alt, 240),
     altEn: cleanText(value.altEn, 240),
@@ -178,7 +184,7 @@ export const buildPlantSet = async (
     const category = await sanityQuery<{ _id: string } | null>(env, '*[_type=="category" && _id==' + JSON.stringify(categoryId) + '][0]{_id}')
     if (!category) throw new Error('Избраната категория не е намерена в каталога с растения.')
     set.category = { _type: 'reference', _ref: categoryId }
-    set.categories = [{ _type: 'reference', _ref: categoryId }]
+    set.categories = [{ _type: 'reference', _key: 'category-' + stableKey(categoryId), _ref: categoryId }]
   }
   if ('description' in input) set.description = portableText(input.description)
   if ('mainImage' in input) set.mainImage = imageObject(input.mainImage)
