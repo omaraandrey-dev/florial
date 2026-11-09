@@ -1,3 +1,17 @@
+## 2026-11-09 — PR #143: компактный каталог и карточки главной
+
+- PR #143 merged squash: `e7d33432b134825dc2fb065a8e254b363e73e67d`; ветка `main`.
+- Runtime files: `src/App.tsx`, `src/pages/HomePage.tsx`.
+- Homepage renders first 6 sorted plant categories and first 6 sorted irrigation categories. Existing sort/priorities retained; localized links lead to complete root catalogues.
+- Initial product/plant GROQ queries now return compact catalog/card data. Full equipment/plant detail projections load only on product route. Search index loads only on search route. Plant related content and recommended irrigation product are resolved only for plant detail.
+- Preserved category assignments, plant filters (type/light/water/coast/winter), saleVariants, stock/price card data, full product descriptions/specifications, galleries, SEO, manuals, kit components, related products/content and BG/RU/EN localization.
+- Sanity read-only GROQ validation passed against project `bxvcy0qs`, datasets `production` and `plants`; no content/schema writes.
+- CI: Blog and Studio validation `42587640231` success; D1 validation `42587640149` success.
+- Production: Cloudflare Pages deployment `7169a06c-cd7d-4184-b47c-083a9f3cdb2a`, success, deployed commit matches merge commit, aliases `florial-bg.com` and `www.florial-bg.com`.
+- Live smoke: BG/RU/EN homepage (6+6 cards), both catalog roots, equipment detail, plant detail/variants BG/RU/EN, kit components, plant filters, search Rain Bird (130 results). No real cart/checkout/order flow was executed. Browser console and full manual SPA regression remain unverified.
+- Post-release network transfer / Lighthouse / CWV measurement not yet captured; no speed percentage claimed.
+- No changes to Sanity schema/documents, D1, APIs, Manager, cart/checkout logic, Header/menu/Footer or Cloudflare settings/secrets.
+
 ## 2026-11-09 — MD2 rev33: homepage image optimization checkpoint
 
 - Published new instruction edition `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev33.md`, commit `a4ff4c5652a03ecb282a474a28994e71b18b6dc9`.
