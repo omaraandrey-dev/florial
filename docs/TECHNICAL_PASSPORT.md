@@ -1524,3 +1524,12 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Mobile 390px smoke: all three images and three inline gallery sections present; no duplicate gallery above the article.
 - CI run #636 (D1 migration validation) and run #594 (Blog and Studio validation) succeeded. Website lint, utility tests, website build, migration syntax/dry-run and Studio build passed.
 - No Sanity schema, API, D1, Manager, Header, menu or Footer changes. No live form submission or D1/email end-to-end test performed.
+
+## 2026-11-09 — Ограничение блока услуг на главной странице
+
+- `src/pages/HomePage.tsx`: после существующей сортировки `getOrderedServiceEntries(services)` главная страница отображает только первые 6 элементов через `.slice(0, 6)`.
+- Кнопка «Всички услуги» без изменений ведёт на `/services`; полная страница услуг и данные Sanity не ограничиваются.
+- Сохранены существующий порядок `sortOrder`, fallback-карточка доставки, локализация BG/RU/EN, ссылки и оформление карточек.
+- Изменение касается только количества карточек в домашнем блоке. Запрос Sanity и объём загружаемых данных не менялись; это сокращает число рендеримых карточек/изображений, но не объём сетевой загрузки услуг.
+- Header, меню, Footer, SEO, Sanity, D1, API, Manager и checkout не затронуты.
+- Проверки и Production deployment будут зафиксированы после CI и публикации.
