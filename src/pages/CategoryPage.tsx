@@ -5,6 +5,7 @@ import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
+import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
 
@@ -390,7 +391,7 @@ export function CategoryPage({
         {category.imageUrl && (
           <div className="hidden overflow-hidden rounded-2xl bg-[#F3F5EC] lg:col-span-1 lg:block">
             <img
-              src={category.imageUrl}
+              {...getSanityImageProps(category.imageUrl, '(min-width: 1024px) 30vw, 100vw', 960)}
               alt={getCategoryImageText(category, language, 'alt') || ''}
               title={getCategoryImageText(category, language, 'title')}
               loading="eager"
@@ -419,7 +420,7 @@ export function CategoryPage({
                 >
                   <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#F3F5EC] sm:h-14 sm:w-14">
                     {subCat.imageUrl ? (
-                      <img src={subCat.imageUrl} alt={getCategoryImageText(subCat, language, 'alt')} title={getCategoryImageText(subCat, language, 'title')} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                      <img {...getSanityImageProps(subCat.imageUrl, '56px', 160)} alt={getCategoryImageText(subCat, language, 'alt')} title={getCategoryImageText(subCat, language, 'title')} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                     ) : (
                       <div className="flex h-full items-center justify-center px-1 text-center text-[9px] text-slate-400">
                         {language === 'ru' ? 'Нет фото' : language === 'en' ? 'No photo' : 'Няма снимка'}
@@ -547,7 +548,7 @@ export function CategoryPage({
                 <div className="h-32 sm:h-48 bg-slate-50 rounded-lg mb-2 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                   {product.imageUrl ? (
                     <img
-                      src={product.imageUrl}
+                      {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
                       alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
                       title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
                       className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
