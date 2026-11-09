@@ -207,7 +207,7 @@ export default function PlantCatalogManager({role}:Props){
  return <div className="mx-auto max-w-5xl px-3 py-4 sm:px-5 sm:py-6">
   {!editorOpen&&!historyOpen&&<>
    <div className="mb-4 flex items-center justify-between gap-3">
-    <div><h1 className="text-2xl font-bold text-stone-900">Каталог растений</h1><p className="mt-1 text-sm text-stone-500">Единое управление товарами · {items.length} в списке</p></div>
+    <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Единое управление товарами · {items.length} в списке</p></div>
     {role==='owner'&&<button className={btn+' border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
    </div>
    <div className="sticky top-0 z-10 -mx-3 mb-3 space-y-2 border-y border-stone-200 bg-[#f5f6ef] px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
