@@ -85,6 +85,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       const completed = await env.DB.prepare("SELECT result FROM manager_product_audit WHERE idempotency_key=? AND phase='result' LIMIT 1")
         .bind(idempotencyKey).first<{ result: string }>()
       if (completed?.result === 'success') return json({ ok: true, documentId: productId, replayed: true })
+      if (completed) return errorJson('Тази операция вече е приключила с грешка. Започнете ново запазване.', 409)
     }
 
     const normalized = await buildPlantSet(env, body.product, auth.user.role)
