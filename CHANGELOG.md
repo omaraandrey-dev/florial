@@ -1,11 +1,13 @@
-## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR pending)
+## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR #163)
 
-- По согласованию с пользователем подготовлен узкий forward revert двух CLS-изменений от актуального `main`.
-- Отменяется только route-content height reservation из PR #156 в `src/App.tsx`.
-- Отменяется только SEO fallback image dimension helper из commit `9bd5d3f`: исходный fallback HTML возвращается к прежней разметке; helper и его изолированный тест удаляются.
+- PR #163 merged squash; merge commit `a12068bc3a8a4707f70e19abc76ecf382d98eabe`.
+- Отменён только route-content height reservation из PR #156 в `src/App.tsx`.
+- Отменён только SEO fallback image dimension helper из commit `9bd5d3f`: исходный fallback HTML возвращён к прежней разметке; helper и его изолированный тест удалены.
 - Сохранены responsive images, Sanity API CDN, lazy route chunks, Hero LCP, исправление Manager PR #161 и все прочие функции.
-- Изменения выполняются через отдельную ветку/PR; история не переписывается. Header, меню, Footer, Sanity, D1, API, Manager, checkout и Cloudflare configuration не изменяются.
-- CI, merge и Production deployment: ожидаются; результаты будут дописаны после фактической проверки.
+- GitHub Actions D1 validation run `42652345312` и Blog/Studio validation run `42652345147` — success; lint, utility tests, website build, Pages Functions syntax, migration syntax/read-only dry-run и Sanity Studio build прошли.
+- Cloudflare Pages Production deployment `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070` — build/deploy success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Browser Rendering вернул HTML главной; дальнейшие route requests были ограничены HTTP 429, поэтому полная browser route regression не подтверждена. Новые CLS/Lighthouse/INP измерения не проводились.
+- Header, меню, Footer, Sanity, D1, API, Manager, checkout и Cloudflare configuration не изменялись. Заказы, оплаты и реальные заявки не создавались.
 
 ## 2026-11-09 — исправление отправки заявок на растения из Manager (PR #161)
 
