@@ -127,3 +127,16 @@
 - Реальная проверка на физическом Android устройстве: не выполнялась.
 
 **Статус этапа 0:** воспроизводимые browser/network measurements и статический аудит выполнены; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за ограничений источника измерения. Runtime-код и Production настройки не менялись.
+
+
+## 9. Post-optimization measurement — homepage card images (09.11.2026)
+
+Реализация: PR #141, merge commit `b635aa4e307da86b11f70595f9da8a3c3d444074`; Cloudflare Production deployment `81b26460-1c58-408c-9cc3-c485e256ec45` — success. Подробный отчёт: [POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md](./POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md).
+
+- Изменён только `src/pages/HomePage.tsx`: responsive Sanity image URLs (320–1200w), `srcSet`, `sizes`, `auto=format`, `q=75`, явный `loading=lazy`, `decoding=async` и intrinsic dimensions для карточек. Hero background и логотип не изменялись.
+- Production smoke: BG `/`, RU `/?lang=ru`, EN `/?lang=en` — HTTP 200. В live DOM BG: 38 img, 34 srcSet/sizes, 37 lazy (логотип eager); Hero background прежний.
+- Повторный mobile capture (390×844, CPU 4×, 150 ms, 10/1.5 Mbps, cache disabled, 3 прогона): общий transfer 15,790,388 / 12,927,532 / 12,929,319 bytes; медиана **12,929,319 bytes** против baseline 42,874,746 (≈−69.8%). Image transfer 11,841,602 / 8,980,653 / 8,980,844 bytes; медиана **8,980,844 bytes** против 38,921,410 (≈−76.9%).
+- Sanity XHR median 3,725,884 bytes — практически без изменения; запросы каталога ещё не оптимизированы. В медианном initial load было 21 image response против 38 до оптимизации, так как native lazy loading откладывает изображения ниже/дальше от viewport; все 38 img остаются в DOM.
+- CI PR #141: Blog and Studio validation run `42582485634` success; D1 migration validation `42582485603` success. Studio build и website build прошли.
+- Lighthouse/LCP/INP/CrUX, post-optimization desktop capture и полный scroll-through/visual review всех изображений остаются незавершёнными. Не делать вывод о завершении всей image optimization stage.
+- Изменения Sanity documents/schema, D1, API, checkout, cart, Manager, Header/menu/Footer, BlogSection и Cloudflare settings отсутствуют.
