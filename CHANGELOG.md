@@ -1555,3 +1555,13 @@
 - CI: Blog and Studio validation run `42577200758` — success (lint, website tests, website build, migration syntax/dry-run, Studio dependency install and Studio build); D1 migration validation run `42577200732` — success (lint, website build, Pages Functions syntax).
 - Cloudflare Pages Production deployment `f0130655-d3e3-4695-a22b-717f1fb9e081` for commit `45aa522094420bdae31de47c593a5901a79723ae` completed successfully at `2026-11-09T07:07:42Z`; aliases `florial-bg.com` and `www.florial-bg.com`.
 - Code and production deployment are verified. Browser-level live card-count/click-through smoke was not performed in this run.
+
+
+## 2026-11-09 — Florial performance optimization roadmap v1.0
+
+- Создан основной документ `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md` (commit `b238f063bae150f21615c6eac66795c736094956`).
+- Зафиксированы статические наблюдения исходников: начальные GROQ-запросы App, повторный fetch последних публикаций из Header и BlogSection с избыточной проекцией body/gallery, Sanity clients с `useCdn: false`, статические импорты App/Manager/pages, необходимость измерить изображения и cache headers.
+- Определены этапы 0–7: baseline; оптимизация данных главной; карточные GROQ projections/блог; изображения; Sanity CDN/cache; code splitting; остальные страницы; регрессия/Production.
+- Baseline Lighthouse/Core Web Vitals, Network waterfall, cache headers и payload ещё не измерены. Статический аудит не является доказательством фактического узкого места.
+- Runtime-код, Sanity, D1, API, Cloudflare settings/secrets и Production не менялись. Следующая точка — Этап 0.
+- Создана контрольная инструкция MD2 rev31; rev30 и предыдущие редакции сохранены.
