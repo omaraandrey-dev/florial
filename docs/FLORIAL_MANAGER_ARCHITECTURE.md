@@ -1,3 +1,12 @@
+## 2026-11-09 — PR #170 validation and deployment audit
+
+- GitHub Actions at `495b873856202d9ab19e31d765bbe351dd66e16e`: Blog & Studio validation success; D1 migration validation success. Lint, website tests/build, Pages Functions syntax, SQLite migration test and Studio build passed.
+- SQL test ran in isolated SQLite memory DB only. Live Cloudflare D1 `0013_manager_product_audit` remains unapplied.
+- Pages Preview for PR branch is skipped because `preview_deployments_disabled`; no real preview/mobile acceptance.
+- Two main commits `fb1d440251415fc31acfa31b216e82968aa2928c` and `52f7192b4a1cbe37359f56de72e300e8fc1f7823` changed only the currently unconnected `PlantCatalogManager.tsx` component. Both Pages Production deployments completed successfully; main `ManagerApp.tsx` does not import it, so the Manager UI/public behavior did not change. Full integration remains in Draft PR #170.
+- Pages project still contains legacy environment variable names `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`. New code does not read them; they were not modified. Separate runtime usage audit is required before removal.
+- No Seller profile found in live D1; Seller-session QA remains pending.
+
 > **Историческое примечание:** разделы ранней архитектуры ниже описывают исходный intake и Supabase-пилот; они не являются описанием текущего runtime. Актуальный runtime Manager — Cloudflare Pages Functions + Cloudflare D1 + Sanity. Supabase не использовать.
 
 ## Дополнение 01.11.2026 — коммерческие варианты и отдельная ботаническая проверка
