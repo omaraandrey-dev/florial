@@ -1,3 +1,13 @@
+## 2026-11-09 — Стандарт создания и редактирования услуг Florial
+
+- Добавлены `docs/SERVICE_CONTENT_PLAYBOOK.md` (полный операционный стандарт) и `docs/PROMPT_SERVICE_CREATION_AND_EDITING.md` (готовый промпт для нового чата).
+- Документы сохранены также в Library: `/Florial/SERVICE_CONTENT_PLAYBOOK.md` и `/Florial/PROMPT_SERVICE_CREATION_AND_EDITING.md`.
+- Зафиксированы проверенные поля Sanity service, фактическая логика H1/H2/H3 и Portable Text/Markdown, SEO BG/RU/EN, ALT/linkUrl, inline image markers, relatedContent и service lead form.
+- Создана следующая контрольная инструкция MD2 rev25; rev24 и предыдущие версии сохранены.
+- Только документационные изменения: код, Sanity schema/documents, D1, API, Manager, checkout и Production не менялись.
+
+---
+
 ## 2026-11-09 — Услуги: ссылки на изображения и связанные материалы
 
 - PR #134 объединён в `main` (squash merge commit `627953676e0cef853704a648693e7cf57284bfcc`). Добавлены необязательные поля `linkUrl` к изображениям услуг (основное изображение, Hero, галерея, контентные блоки) и универсальный массив `relatedContent` с ссылками на услуги, статьи, товары и категории.
