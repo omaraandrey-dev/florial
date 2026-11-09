@@ -137,7 +137,7 @@ export function HomePage({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-              {getOrderedServiceEntries(services).map((entry) => {
+              {getOrderedServiceEntries(services).slice(0, 6).map((entry) => {
                 if (entry.kind === 'delivery') {
                   return (
                     <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline">
