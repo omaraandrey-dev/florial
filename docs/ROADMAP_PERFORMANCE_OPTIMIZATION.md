@@ -245,3 +245,17 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - Mobile network median: total transfer 12,929,319 bytes против baseline 42,874,746 (≈−69.8%); image transfer 8,980,844 bytes против 38,921,410 (≈−76.9%). Подробности: `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`.
 - Sanity XHR не изменились; лёгкие projections — следующий отдельный этап. Stage 3 частично выполнен; LCP, Lighthouse, desktop post-measurement, BlogSection и остальные страницы остаются открытыми.
 - CI: Blog and Studio validation `42582485634` success; D1 validation `42582485603` success. Sanity schema/documents, D1 data, API, checkout, cart, Manager, Header/menu/Footer, Cloudflare settings и secrets не изменялись.
+
+
+## Контрольная точка 09.11.2026 — услуги загружаются по требованию
+
+- PR #142 merged squash в `main`: `e9b49a42ee7cfdfd385cf7fce8706ab71c93b7bb`.
+- В `src/App.tsx` initial service query стал компактным; полная запись услуги загружается отдельным GROQ запросом только при открытии конкретной услуги. Поля detail-запроса сохранены целиком, включая related content и форму заявки.
+- CI runs `42584605993` (website + Studio) и `42584606037` (D1 validation) — success.
+- Production deployment `001a7aeb-a6f7-4bd0-b963-d9a1f38f2ca0` — success, commit совпадает с main.
+- Live rendered smoke: planting service BG/RU/EN и `/services` доступны. Проверка была после ожидания client-side загрузки; console и полный SPA regression не проводились.
+- Это частичное выполнение Stage 1: глобальная service projection уменьшена, но глобальные equipment/plant product queries и связанные данные ещё не оптимизированы. Stage 1 остаётся в работе.
+- Обнаружены legacy env variable names `SUPABASE_*` и `VITE_SUPABASE_*` в Cloudflare Pages metadata. Не изменять без отдельной проверки ссылок в коде и согласования очистки.
+
+**Следующая задача:** dependency map и безопасное разделение equipment/plant catalog на compact search/category index, card projection и on-demand detail. Сохранить полное поведение поиска, фильтров, сортировки, комплектаций, вариантов растений, совместимости, related products, cart и BG/RU/EN.
+
