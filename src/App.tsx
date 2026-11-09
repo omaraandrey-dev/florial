@@ -74,6 +74,8 @@ export default function App() {
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
+  const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
+  const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
   const [loadingServiceDetails, setLoadingServiceDetails] = useState(false)
@@ -469,7 +471,7 @@ export default function App() {
         *[_type == "category"] | order(sortOrder asc) {
           _id,
           name,
-          translations,
+          translations { bg { name }, ru { name }, en { name } },
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "parentId": parent->_id,
@@ -480,9 +482,6 @@ export default function App() {
           "imageTitle": image.title,
           "imageTitleEn": image.titleEn,
           "imageTitleRu": image.titleRu,
-          description,
-          seo,
-          helpBlock,
           "isPlantCategory": false
         }
       `
@@ -532,11 +531,9 @@ export default function App() {
         *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
           _id,
           name,
-          translations,
-          seo,
+          translations { bg { name }, ru { name }, en { name } },
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
-          description,
           "parentId": parent->_id,
           "imageUrl": coalesce(image.asset->url, externalImageUrl),
           "imageAlt": image.alt,
@@ -545,7 +542,6 @@ export default function App() {
           "imageTitle": image.title,
           "imageTitleEn": image.titleEn,
           "imageTitleRu": image.titleRu,
-          helpBlock,
           "isPlantCategory": true
         }
       `
@@ -1110,6 +1106,86 @@ export default function App() {
       category._id === activeCategorySlug
   )
 
+  // Полное описание, SEO и help-блок категории нужны только на её собственной странице.
+  // Header, homepage, About и product breadcrumbs используют компактный category index.
+  useEffect(() => {
+    let cancelled = false
+
+    if (!activeCategorySlug) {
+      setCurrentCategoryDetails(null)
+      setLoadingCategoryDetails(false)
+      return () => { cancelled = true }
+    }
+
+    if (loadingProducts) {
+      setLoadingCategoryDetails(true)
+      return () => { cancelled = true }
+    }
+
+    if (!currentCategory) {
+      setCurrentCategoryDetails(null)
+      setLoadingCategoryDetails(false)
+      return () => { cancelled = true }
+    }
+
+    setCurrentCategoryDetails(null)
+    setLoadingCategoryDetails(true)
+
+    const equipmentCategoryDetailQuery = `
+      *[_type == "category" && _id == $id][0] {
+        _id, name, translations,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, "parentId": parent->_id,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu,
+        "imageTitle": image.title,
+        "imageTitleEn": image.titleEn,
+        "imageTitleRu": image.titleRu,
+        description, seo, helpBlock,
+        "isPlantCategory": false
+      }
+    `
+
+    const plantCategoryDetailQuery = `
+      *[_type == "category" && _id == $id][0] {
+        _id, name, translations, seo,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, description,
+        "parentId": parent->_id,
+        "imageUrl": coalesce(image.asset->url, externalImageUrl),
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu,
+        "imageTitle": image.title,
+        "imageTitleEn": image.titleEn,
+        "imageTitleRu": image.titleRu,
+        helpBlock,
+        "isPlantCategory": true
+      }
+    `
+
+    const client = currentCategory.isPlantCategory ? plantsClient : sanityClient
+    const query = currentCategory.isPlantCategory ? plantCategoryDetailQuery : equipmentCategoryDetailQuery
+
+    client.fetch(query, { id: currentCategory._id })
+      .then((details) => {
+        if (cancelled) return
+        setCurrentCategoryDetails(details || currentCategory)
+      })
+      .catch((error) => {
+        if (cancelled) return
+        console.error('Sanity: не удалось загрузить полное содержимое категории:', error)
+        setCurrentCategoryDetails(currentCategory)
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingCategoryDetails(false)
+      })
+
+    return () => { cancelled = true }
+  }, [activeCategorySlug, loadingProducts, currentCategory])
+
   const isNotFoundRoute = !loadingProducts && (
     (
       normalizedRoutePath !== '/' &&
@@ -1344,13 +1420,17 @@ export default function App() {
           service={currentServiceDetails || currentService}
           onNavigateHome={navigateToHome}
         />
-      ) : activeCategorySlug && loadingProducts ? (
+      ) : activeCategorySlug && (
+        loadingProducts ||
+        loadingCategoryDetails ||
+        Boolean(currentCategory && currentCategoryDetails?._id !== currentCategory._id)
+      ) ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на категорията...")}</p>
         </div>
       ) : activeCategorySlug && currentCategory ? (
         <CategoryPage
-          category={currentCategory}
+          category={currentCategoryDetails || currentCategory}
           products={filteredProducts}
           onNavigateHome={navigateToHome}
           onNavigateCategory={navigateToCategory}
