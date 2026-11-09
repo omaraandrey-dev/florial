@@ -1,3 +1,12 @@
+## 2026-11-09 — Услуга «Засаждане на растения» переработана и опубликована
+
+- Existing service Sanity ID cfdbf22c-a7d9-480b-b88b-d1529a9389ef, slug zasazhdane-na-rasteniya, category planting сохранены.
+- Подготовлены полные BG/RU/EN материалы с технологией посадки, SEO, локальными ALT, преимуществами, этапами и CTA.
+- Четыре фотографии перенесены в релевантные разделы статьи; Hero и исходные assets сохранены.
+- PR #132 и #133 объединены; CI и Production deployment 4b21e8f0-c841-4c7f-8488-f70c92845bef успешны. Live smoke трёх языков пройден.
+- Schema, форма заявки, API, D1, Manager и глобальная оболочка не изменялись.
+
+---
 ## 2026-11-08 — Этап 6: PR #129 объединён и опубликован в Production
 
 - PR #129 `fix: align delivery fee and sanitize seller permissions` объединён методом squash в `main`; merge commit: `01f21becb40d847270c83b12a3f54d37049d5c67`. PR закрыт со статусом merged.
