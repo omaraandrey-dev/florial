@@ -1,3 +1,40 @@
+## 2026-11-09 — Manager растений: первая реализация в Draft PR #169
+
+- В отдельной mainline-based feature branch подготовлен новый mobile-first Manager для dataset Sanity `plants`.
+- Новые Pages Functions: `GET/POST /api/manager/plants`, `GET/PATCH /api/manager/plants/:id`, `POST /api/manager/plants/ai-enrich`, Owner-only `GET /api/manager/plant-audit`; общие функции — `plant-direct-lib.ts`.
+- UI: `src/manager/PlantCatalogManager.tsx`; ManagerApp направляет все три роли в каталог, старый submissions workflow оставлен Owner-only архивом.
+- Owner/Manager/Seller используют существующую D1 cookie session. Роли берутся из D1 profile; новая система не создаёт параллельную авторизацию.
+- Sanity mutations ограничены dataset `plants`; создание idempotent, PATCH использует `ifRevisionID`; root legacy price/stockQuantity автоматически не переписываются.
+- AI заполняет текст/переводы/SEO, не создаёт цены, SKU, варианты, остатки или ботанические сведения.
+- Добавлена аддитивная SQL migration `0013_manager_product_audit` и SQLite regression test. Live D1 на момент read-only аудита остановлена на `0012_service_leads_manager`; migration 0013 не применялась.
+- В live D1 обнаружены 1 активный Owner и 1 активный Manager; Seller profile не обнаружен. Реальные профили и данные не менялись.
+- CI для PR #169 выполняется; Preview deployment настройкой Pages помечен как отключённый. Production rollout не выполнялся.
+- Не затронуты Sanity schema/documents/assets, orders/checkout, irrigation dataset `production`, Header/menu/Footer, staff permissions, Cloudflare secrets/settings.
+
+## 2026-11-09 — завершён read-only аудит цены/наличия растений
+
+- `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
+- `ProductPage.tsx`: цена и скидка выбранного размера берутся из варианта; статус/количество — вариант с root fallback.
+- `CartPage.tsx`: цена варианта приоритетна, root price — fallback.
+- `functions/api/orders.ts`: для plants обязателен `variantKey`; сервер проверяет цену по `saleVariants[].priceEUR`, отклоняет `outOfStock`, допускает `onRequest` с положительной ценой; фактический `stockQuantity` сейчас не проверяется. Order items сохраняют snapshot.
+- `functions/api/manager/order-products.ts`: варианты растений выдаются отдельными selectable позициями; цена/наличие берутся из saleVariant.
+- Спецификация уточнена: variant price — canonical; root price не синхронизировать автоматически; root stockStatus должен быть агрегатом для согласованности CategoryPage, но root stockQuantity не суммировать; mixed status в Manager list показывать отдельно.
+- Дробный stockQuantity для растений не подтверждён; заказное количество integer 1–999.
+- Это read-only аудит; runtime, Sanity, D1 и Production не менялись.
+
+## 2026-11-09 — спецификация прямого управления каталогом растений (документационный этап)
+
+- Подготовлена `docs/ROADMAP_MANAGER_PLANTS.md` для нового мобильного plant manager.
+- Область строго ограничена Sanity dataset `plants`; dataset `production` и оборудование не входят в задачу.
+- Решения владельца: Owner/Manager/Seller могут создавать, редактировать любые растения и публиковать напрямую; история доступна только Owner; общий AI доступен всем; botanical care fields и отдельная ботаническая проверка — Owner-only.
+- Проверены GitHub main commit `4bfd00b436fbca81b239fe12edb98e6823973571`, MD2 rev49, Manager components/API, D1 migrations и deployed Sanity schema `product` / `plantSaleVariant`.
+- Read-only Sanity snapshot на момент аудита: 36 опубликованных `product` документов и 17 опубликованных `category` документов в `plants`.
+- Существующая схема уже поддерживает `saleVariants` до 30 позиций; первый этап не предполагает изменения схемы и массовой миграции документов.
+- Выявлено расхождение root `priceEUR` и `saleVariants[].priceEUR` в части старых карточек. До реализации direct PATCH требуется проверить storefront/cart/order canonical price и legacy fallback.
+- Предлагается additive D1 audit table `manager_product_audit`, append-only intent/result events, Owner-only read API и direct Sanity create/patch с idempotency + `ifRevisionID`.
+- **Это только спецификация.** На этом этапе не изменялись runtime-код, Sanity documents/schema, D1 schema/data, Cloudflare settings/secrets, staff profiles, submissions, orders или Production deployment.
+- Новая roadmap находится в отдельной документационной ветке; не считать функции реализованными до отдельного PR/CI/merge/deployment и ручной приёмки.
+
 ## 2026-11-09 — performance pause: rollback CLS-only changes (PR #163 merged)
 
 - User-approved scope: restore the route layout and SEO fallback image behavior that preceded the two latest CLS-specific runtime changes; preserve all earlier performance improvements and all intervening business/Manager work.
