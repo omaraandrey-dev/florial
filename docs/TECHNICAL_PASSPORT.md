@@ -1,3 +1,16 @@
+## 2026-11-09 — Этап 0: первый baseline производительности Florial
+
+- Создан отчёт `docs/performance/BASELINE.md` (commit `90ab9a2d62e5cdbe628f802e7d9a9205e8d5661e`) по реальным browser/network measurements Production главной.
+- Mobile 390×844, CPU 4×, latency 150 ms, 10/1.5 Mbps, 3 прогона: медианы TTFB 163 ms, FCP 380 ms, DOMContentLoaded 553 ms, Load 554 ms. Desktop 1365×900, 3 прогона: TTFB 53 ms, FCP 136 ms, DOMContentLoaded 146 ms, Load 147 ms.
+- CDP network capture: 42,874,746 bytes (≈40.89 MiB); изображения — 38.92 MB (90.8%), 10 Sanity XHR — 3.73 MB (8.7%), app JS — 207.5 KB, CSS — 12.1 KB.
+- Подтверждены 38 image responses, преобладание оригинальных Sanity assets, 34 image elements с loading=auto, только 3 с явным lazy loading; Hero — CSS background PNG около 2.58 MiB.
+- Полный equipment-products GROQ query передал около 3.33 MB и выполнялся около 9.8 s в мобильном throttled-профиле. Header и BlogSection дважды запрашивают один и тот же список трёх статей с body/gallery (около 145.9 KB каждый до транспортного сжатия).
+- HTML в проверках имел `cf-cache-status: DYNAMIC`; fingerprinted JS/CSS — `HIT`, `max-age=31536000, immutable`.
+- BG/RU/EN главные: HTTP 200, корректные lang/title/H1, `robots=index, follow`. Page errors и HTTP 4xx/5xx не обнаружены; тестовый браузер блокировал только Cloudflare Insights beacon.
+- Lighthouse API вернул 429 (PageSpeed API quota=0); LCP entry не получен, INP и TBT не измерялись. Stage 0 отмечен как частично завершённый, эти ограничения явно зафиксированы.
+- Обновлена `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md` (commit `10edcd57aef958a4d1d62d1ad611e619e6d65fdf`).
+- Изменения только в документации. Runtime-код, Sanity schema/documents, D1, API, Manager, checkout, Cloudflare settings/secrets и Production data не менялись.
+
 ## 2026-11-09 — Internal links on five planting-service photos
 
 - Sanity document `cfdbf22c-a7d9-480b-b88b-d1529a9389ef`, slug `zasazhdane-na-rasteniya`: assigned `contentBlocks[].image.linkUrl` for all five inline photos in their existing article order.
