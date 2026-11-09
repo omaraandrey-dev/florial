@@ -454,7 +454,11 @@ export default function App() {
         *[_type == "service" && isActive != false] {
           _id,
           name,
-          translations,
+          translations {
+            bg { name, shortDescription },
+            ru { name, shortDescription },
+            en { name, shortDescription }
+          },
           "slug": { "current": coalesce(slug.current, slug) },
           shortDescription,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
