@@ -12,7 +12,7 @@
 - Cloudflare Pages Production deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com` и `www.florial-bg.com`.
 - Live rendered smoke BG/RU/EN: homepage — 3 article cards; `/blog` — 22 article links; Rain Bird article detail — full localized content, cover/gallery and related links; no blog loading placeholders. Header Portfolio menu was opened and displayed 3 recent article links plus full blog CTA.
 - No visual/layout changes to Header/menu/Footer; no cart/checkout, Manager, D1, API, Sanity content/schema or Cloudflare configuration changes.
-- Controlled CDP post-release transfer/request measurement, Lighthouse, LCP, INP and CLS not performed. Do not claim a measured speed percentage from PR #145.
+- Live PerformanceResourceTiming check after release: 8 Sanity API URLs, all distinct; one compact top-3 blogPost query (158 ms). Previous diagnostic had 9 Sanity requests including duplicate blog query. This confirms one duplicate request was removed. Cross-origin transferSize/encodedBodySize/decodedBodySize are 0; this is not a byte measurement or controlled baseline capture. Lighthouse/LCP/INP/CLS not measured; do not claim an overall speed percentage.
 
 ---
 
