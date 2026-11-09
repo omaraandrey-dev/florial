@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Реализация Этапа 1 опубликована: компактные service/product/category indexes, полные detail-записи по требованию, отдельный search index и homepage 6+6. Повторный network capture и Lighthouse/CWV после PR #142–#144 ещё впереди.  
+**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Реализация Этапа 1 опубликована: компактные service/product/category indexes, полные detail-записи по требованию, отдельный search index и homepage 6+6. Сделан дополнительный read-only Sanity diagnostic (1.08 MB decoded bodies), но он не сравним с baseline CDP encoded transfer. Контролируемый network capture и Lighthouse/CWV ещё впереди.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -208,7 +208,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - [ ] Этап 6 — остальные страницы.
 - [ ] Этап 7 — регрессия и production.
 
-**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. PR #141 оптимизировал responsive/lazy images карточек главной; измеренный mobile result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #142 перенёс полные service records на detail route. PR #143 внедрил compact equipment/plant projections, on-demand product detail/search и homepage 6+6. PR #144 внедрил compact category index и on-demand category description/SEO/helpBlock. Следующий приоритет — повторить browser/network capture на том же профиле, что baseline, для homepage, equipment/plant category, product detail и search; затем оценить Lighthouse/CWV и переходить к Stage 2 (blog card projections и устранение повторного blog fetch).
+**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. PR #141 оптимизировал responsive/lazy images карточек главной; измеренный mobile result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #142 перенёс полные service records на detail route. PR #143 внедрил compact equipment/plant projections, on-demand product detail/search и homepage 6+6. PR #144 внедрил compact category index и on-demand category description/SEO/helpBlock. Дополнительный remote browser diagnostic зафиксирован в `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`: 1.08 MB decoded Sanity response bodies, но без throttle/cache controls это не сравнение с baseline. Следующий кодовый приоритет — Stage 2: единый компактный blog-card fetch вместо двух одинаковых запросов Header/BlogSection; после него повторить controlled CDP capture на исходном профиле.
 
 ## 7. Инструкция для нового чата
 
@@ -286,4 +286,13 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - Live smoke: plant and irrigation root categories BG/RU/EN, child categories palms/valves, categories with helpBlock rotor sprinklers BG/RU and citrus BG/EN. Category headings, descriptions, SEO titles, images, category/product cards and help text render after client-side load.
 - Не менялись Sanity schema/documents, products, search, cart/checkout, D1, API, Manager, Header/menu/Footer layout, Cloudflare settings/secrets.
 - Network transfer/Lighthouse/CWV после PR #144 ещё не измерялись. Следующий шаг — повторить baseline capture на идентичном профиле и нескольких маршрутах; затем перейти к Stage 2 blog projections.
+
+
+
+## Диагностическая точка 09.11.2026 — Sanity payload после PR #142–#144
+
+- Дополнительный отчёт: `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`.
+- На homepage зафиксировано 9 Sanity API requests. Отдельный read-only fetch `cache:no-store` измерил 1,077,038 B decoded response bodies; это не encoded network transfer.
+- Два одинаковых blogPost fetch — по 145,912 B каждый; каждый запрос всё ещё включает body и gallery. Следующая задача Stage 2 — одна shared compact blog-card projection для Header и BlogSection, полную статью загружать по slug на BlogPostPage.
+- Browser tool не поддержал baseline viewport, cache disable и CPU/network throttling. Значения TTFB/FCP и PerformanceResourceTiming из этого запуска не сравнивать с baseline. Не заявлять процент ускорения.
 
