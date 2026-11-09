@@ -1,3 +1,13 @@
+## 2026-11-09 — Переработана услуга «Посадка растений»
+
+- Обновлён существующий Sanity document cfdbf22c-a7d9-480b-b88b-d1529a9389ef по адресу /services/zasazhdane-na-rasteniya; URL и категория planting сохранены.
+- Существенно расширены BG/RU/EN тексты, H2/H3, bold/strong, списки, преимущества и этапы. Заполнены локализованные SEO title, meta description, keywords, H1, краткие описания и ALT изображений.
+- Перенесены внутрь статьи четыре существующие фотографии; Hero оставлен главным изображением. Повторные ссылки на фото в верхней галерее убраны, сами Sanity assets сохранены.
+- PR #132 merged d7ee50f55f4df03013f006ef47fe89ae31d56f3d; PR #133 merged c3b0d53d4c395d96881e4ab0f33d641caf10f32a. PR #133 также сохраняет прежние image group mapping услуг оливковых деревьев и автоматического полива.
+- CI обеих веток: lint, tests, website build, Pages Functions syntax, read-only migration dry-run, Sanity Studio build — success. D1 validation workflows — success.
+- Production deployment 4b21e8f0-c841-4c7f-8488-f70c92845bef — success. Live smoke BG/RU/EN: HTTP 200, H1/SEO, index/follow, изображения, преимущества, этапы и форма заявки проверены.
+- Sanity schema, D1, Manager, orders, checkout, Header, меню и Footer не менялись; тестовые заявки не создавались.
+
 ## 2026-11-08 — Публикация услуги «Профессиональная посадка маслин»
 
 - Создана и опубликована услуга Sanity `6afc3eff-944c-4085-a48c-38686999b0f3` по адресу `/services/profesionalno-zasazhdane-na-maslini`, категория `planting`, порядок 25.
