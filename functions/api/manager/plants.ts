@@ -19,7 +19,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   const requestedOffset = Number(url.searchParams.get('offset') || 0)
   const offset = Number.isInteger(requestedOffset) ? Math.min(100000, Math.max(0, requestedOffset)) : 0
 
-  const filters = ['_type=="product"', 'productType != null', '!(_id in path("drafts.**"))']
+  const filters = ['_type=="product"', '!(_id in path("drafts.**"))']
   if (search) {
     const term = '*' + search.replace(/[\*?]/g, '') + '*'
     const match = jsonString(term)
