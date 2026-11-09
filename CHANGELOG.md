@@ -1,3 +1,20 @@
+## 2026-11-09 — Компактная загрузка категорий по требованию (PR #144)
+
+- PR #144: https://github.com/omaraandrey-dev/florial/pull/144 — squash merge в `main`; merge commit `dd129898f207018e5124f7fa2604ff9a727ccd9a`.
+- Изменён только `src/App.tsx`.
+- Первоначальные equipment и plant category GROQ projections теперь возвращают компактный индекс: ID, name, локализованные имена, slug, sortOrder, parentId, image URL/ALT/TITLE и флаг типа каталога. Убраны полные description, SEO и helpBlock, а также полные переводы категорий.
+- При открытии конкретного `/category/:slug` приложение выбирает корректный Sanity dataset (`production` или `plants`) и запрашивает полную запись категории: локализованные descriptions, SEO/H1/noIndex, helpBlock, изображение и иерархию.
+- CategoryPage ожидает загрузку деталей до рендера. Добавлены cancellation guard при смене маршрута, защита от показа устаревшей категории и fallback на компактную категорию при ошибке detail-запроса.
+- Сохранены данные, нужные Header/menu, HomePage, AboutPage, ProductPage breadcrumbs и CategoryPage subcategory cards: локализованные имена, slug, parentId, sortOrder, image URL/ALT/TITLE, isPlantCategory.
+- Sanity read-only GROQ queries compact/detail проверены на project `bxvcy0qs`, datasets `production` и `plants`; обе выборки detail выполнились успешно. Никаких Sanity document/schema writes.
+- CI PR #144: Blog and Studio validation run `42588551106` — success (lint, utility tests, website build, migration syntax, read-only migration dry-run, Sanity Studio install/build); D1 validation run `42588551110` — success.
+- Cloudflare Pages Production deployment `d93cc80d-1475-49d1-a798-a08587b6b2dd` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live rendered smoke: plant root `/category/rastenia` BG/RU/EN; irrigation root `/category/vsichko-za-polivane` BG/RU/EN; child categories `/category/palmi-yuki`, `/category/klapani`; categories with configured helpBlock `/category/rotorni-razprskvachi` BG/RU and `/category/tsitrusi` BG/EN. Confirmed localized H1/title/descriptions, images, category/product cards and help text; no category loading placeholder remained after client-side load.
+- Не менялись Sanity schema/documents, product data/queries, search, cart/checkout, D1, API, Manager, Header/menu/Footer layout, Cloudflare settings/secrets. Real orders were not created.
+- Post-release network transfer/Lighthouse/LCP/INP/CLS measurement for PR #144 not yet performed; no percentage improvement claimed.
+
+---
+
 ## 2026-11-09 — Компактный каталог, детали товаров по требованию и 6 карточек на главной (PR #143)
 
 - PR #143: https://github.com/omaraandrey-dev/florial/pull/143 — squash merge в `main`; merge commit `e7d33432b134825dc2fb065a8e254b363e73e67d`.
