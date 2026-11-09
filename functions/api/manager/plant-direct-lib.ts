@@ -119,9 +119,6 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const stockStatus = cleanText(item.stockStatus, 30)
     if (!STOCK_STATUSES.has(stockStatus)) throw new Error('Изберете валиден статус на наличност.')
     const stockQuantity = numberValue(item.stockQuantity, 'Количество', 0, true)
-    if (stockStatus === 'inStock' && (stockQuantity === null || stockQuantity < 1)) {
-      throw new Error('За вариант „В наличност“ въведете количество поне 1.')
-    }
     const oldPriceEUR = numberValue(item.oldPriceEUR, 'Стара цена', 0)
     if (oldPriceEUR !== null && oldPriceEUR <= priceEUR) throw new Error('Старата цена трябва да е по-висока от текущата.')
     return {
