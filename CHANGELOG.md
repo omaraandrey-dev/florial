@@ -1,3 +1,11 @@
+## Дополнение 2026-11-09 — UI media и AI ALT
+
+- Редактор поддерживает выбор существующих Sanity assets через `PlantImageLibrary` и загрузку новых фотографий; обе операции доступны Owner/Manager/Seller.
+- Поддерживается множественный выбор категорий и подкатегорий; основная категория задаётся отдельно, все ссылки сохраняются.
+- При обычном редактировании неизменённый Portable Text сохраняет исходное форматирование; при ручном изменении текста он преобразуется в обычный Portable Text блок.
+- AI использует Workers AI text model для описаний/переводов/SEO и Vision model для визуального ALT только основной фотографии. Остальные фотографии получают ALT вручную. Vision не определяет вид растения и не генерирует биологические свойства.
+- Live D1 migration не применялась; изменения остаются в Draft PR #170.
+
 ## 2026-11-09 — PR #170 validation and deployment audit
 
 - GitHub Actions at `495b873856202d9ab19e31d765bbe351dd66e16e`: Blog & Studio validation success; D1 migration validation success. Lint, website tests/build, Pages Functions syntax, SQLite migration test and Studio build passed.
