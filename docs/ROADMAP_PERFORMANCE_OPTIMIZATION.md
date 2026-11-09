@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** рабочая документация; статический аудит исходников начат, baseline-измерения ещё не выполнены.  
+**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Первое ограниченное улучшение изображений карточек главной внедрено в Production; последующие этапы продолжаются.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -202,13 +202,13 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - [~] Этап 0 — browser/network baseline сохранён в `docs/performance/BASELINE.md`; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за недоступности PageSpeed API и отсутствия LCP/INP в remote browser capture.
 - [ ] Этап 1 — лёгкая загрузка данных главной.
 - [ ] Этап 2 — карточные GROQ projections и блог.
-- [ ] Этап 3 — изображения.
+- [~] Этап 3 — изображения: responsive/lazy loading карточек HomePage выполнен (PR #141); Hero, блог, остальные страницы и Lighthouse/LCP проверки ещё впереди.
 - [ ] Этап 4 — Sanity CDN и кэширование.
 - [ ] Этап 5 — code splitting и JavaScript.
 - [ ] Этап 6 — остальные страницы.
 - [ ] Этап 7 — регрессия и production.
 
-**Текущая точка продолжения: Этап 0 — частично завершён.** Browser/network measurements и статический аудит сохранены в `docs/performance/BASELINE.md`. До получения Lighthouse/CrUX или альтернативного подтверждённого LCP/INP runtime-код и инфраструктуру не менять. После закрытия ограничений измерения — согласовать первый ограниченный PR по responsive/lazy images главной, затем лёгкие Sanity projections.
+**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. Первое улучшение responsive/lazy images карточек главной уже опубликовано (PR #141); его измеримый mobile результат зафиксирован в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. Следующая кодовая задача — Stage 1: составить карту всех потребителей `products`, `categories`, `plantCategories`, `services` и `siteSettings` в `src/App.tsx`, затем представить безопасный план лёгких Sanity projections. До отдельного согласования не менять запросы и глобальное состояние.
 
 ## 7. Инструкция для нового чата
 
@@ -222,7 +222,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 ### Стартовый запрос
 
-Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md и docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md. Проверь актуальный main и последний Cloudflare Production deployment. Определи текущую незавершённую контрольную точку. Начни с Этапа 0 — измерения скорости главной страницы и диагностического аудита. Пока не меняй runtime-код, Sanity, D1 или Cloudflare settings. Сначала представь измерения, выводы и конкретный план первого исправления.
+Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md, docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md, docs/performance/BASELINE.md и последний post-optimization report. Проверь актуальный main и последний Cloudflare Production deployment. Stage 0 частично закрыт; responsive/lazy images карточек главной уже опубликованы и измерены. Продолжи с Stage 1: составь карту всех потребителей products/categories/plantCategories/services/siteSettings в src/App.tsx, ничего не меняй в коде, Sanity или инфраструктуре, пока не представишь план лёгких Sanity projections и не получишь согласование.
 
 
 ## Дополнение от 09.11.2026 — результаты первого baseline
@@ -235,3 +235,13 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - HTML отвечал `cf-cache-status: DYNAMIC`; hashed JS/CSS — `HIT` и годовой immutable cache.
 - Lighthouse/CrUX/LCP/INP не подтверждены: PageSpeed API quota=0; remote browser не вернул LCP entry; INP не проверялся пользовательским вводом.
 - Stage 0 остаётся частично завершённым. Runtime, Sanity, D1, API и Cloudflare settings не менялись.
+
+
+## Дополнение от 09.11.2026 — первая оптимизация изображений главной
+
+- PR #141 merged squash: `b635aa4e307da86b11f70595f9da8a3c3d444074`; изменён только `src/pages/HomePage.tsx`.
+- Карточные изображения HomePage используют Sanity responsive widths 320–1200, `srcSet`, `sizes`, `auto=format`, `q=75`, lazy loading, async decoding и intrinsic dimensions. Hero background и logo не менялись.
+- Cloudflare Production deployment `81b26460-1c58-408c-9cc3-c485e256ec45` — success; BG/RU/EN главные HTTP 200.
+- Mobile network median: total transfer 12,929,319 bytes против baseline 42,874,746 (≈−69.8%); image transfer 8,980,844 bytes против 38,921,410 (≈−76.9%). Подробности: `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`.
+- Sanity XHR не изменились; лёгкие projections — следующий отдельный этап. Stage 3 частично выполнен; LCP, Lighthouse, desktop post-measurement, BlogSection и остальные страницы остаются открытыми.
+- CI: Blog and Studio validation `42582485634` success; D1 validation `42582485603` success. Sanity schema/documents, D1 data, API, checkout, cart, Manager, Header/menu/Footer, Cloudflare settings и secrets не изменялись.
