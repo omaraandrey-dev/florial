@@ -362,10 +362,16 @@ export default function App() {
 
           const [relatedDocuments, recommendedProduct] = await Promise.all([
             relatedSlugs.length > 0
-              ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs })
+              ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }).catch((error) => {
+                  console.error('Sanity: не удалось разрешить связанные услуги и статьи растения:', error)
+                  return []
+                })
               : Promise.resolve([]),
             typeof recommendedSlug === 'string' && recommendedSlug.length > 0
-              ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug })
+              ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug }).catch((error) => {
+                  console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
+                  return null
+                })
               : Promise.resolve(null),
           ])
 
@@ -942,20 +948,27 @@ export default function App() {
       }
     `
 
-    Promise.all([
+    Promise.allSettled([
       sanityClient.fetch(equipmentSearchQuery),
       plantsClient.fetch(plantSearchQuery),
     ])
-      .then(([equipmentResults, plantResults]) => {
+      .then(([equipmentResult, plantResult]) => {
         if (cancelled) return
-        const equipment = Array.isArray(equipmentResults) ? equipmentResults : []
-        const plants = Array.isArray(plantResults) ? plantResults : []
+        const equipment = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
+          ? equipmentResult.value
+          : []
+        const plants = plantResult.status === 'fulfilled' && Array.isArray(plantResult.value)
+          ? plantResult.value
+          : []
+
+        if (equipmentResult.status === 'rejected') {
+          console.error('Sanity: не удалось загрузить поиск оборудования:', equipmentResult.reason)
+        }
+        if (plantResult.status === 'rejected') {
+          console.error('Sanity: не удалось загрузить поиск растений:', plantResult.reason)
+        }
+
         setSearchProducts([...equipment, ...plants])
-      })
-      .catch((error) => {
-        if (cancelled) return
-        console.error('Sanity: не удалось загрузить индекс поиска:', error)
-        setSearchProducts([])
       })
       .finally(() => {
         if (!cancelled) setLoadingSearchResults(false)
