@@ -1536,3 +1536,12 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - CI: Blog and Studio validation run `42577200758` — success (lint, website tests, website build, migration syntax/dry-run, Studio dependency install and Studio build); D1 migration validation run `42577200732` — success (lint, website build, Pages Functions syntax).
 - Cloudflare Pages Production deployment `f0130655-d3e3-4695-a22b-717f1fb9e081` for commit `45aa522094420bdae31de47c593a5901a79723ae` completed successfully at `2026-11-09T07:07:42Z`; aliases `florial-bg.com` and `www.florial-bg.com`.
 - Code and production deployment are verified. Browser-level live card-count/click-through smoke was not performed in this run.
+
+
+## 2026-11-09 — Florial performance optimization roadmap v1.0
+
+- Создан `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md` (commit `b238f063bae150f21615c6eac66795c736094956`) как единая карта работ по ускорению сайта от главной до Manager.
+- Документ содержит baseline methodology, предварительные Core Web Vitals targets, подтверждённые статические наблюдения App/Sanity/blog/images/code splitting, этапы 0–7, критерии приёмки и правила безопасной работы.
+- Следующий этап: 0 — воспроизводимые Lighthouse mobile/desktop, Network waterfall, анализ Sanity payload, bundle, изображений и Cloudflare cache headers. До измерений runtime изменения не выполняются.
+- На момент создания runtime-код, Sanity datasets/schema, D1, API, Cloudflare settings/secrets и Production не менялись.
+- MD2 rev31 создана как актуальная инструкция-ссылка; предыдущие редакции сохранены.
