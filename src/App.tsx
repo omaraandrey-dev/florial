@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { sanityClient, plantsClient } from './lib/sanity'
+import { sanityClient, sanityLiveClient, plantsClient, publicPlantsClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { useI18n } from './lib/i18n'
@@ -309,7 +309,7 @@ export default function App() {
     const loadProductDetails = async () => {
       try {
         const isPlant = isPlantProductType(foundProduct.productType)
-        const details = await (isPlant ? plantsClient : sanityClient).fetch(
+        const details = await (isPlant ? plantsClient : sanityLiveClient).fetch(
           isPlant ? plantDetailQuery : equipmentDetailQuery,
           { id: foundProduct._id }
         )
@@ -372,7 +372,7 @@ export default function App() {
                 })
               : Promise.resolve([]),
             typeof recommendedSlug === 'string' && recommendedSlug.length > 0
-              ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug }).catch((error) => {
+              ? sanityLiveClient.fetch(irrigationProductQuery, { slug: recommendedSlug }).catch((error) => {
                   console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
                   return null
                 })
@@ -642,9 +642,9 @@ export default function App() {
 
       const requests = await Promise.allSettled([
         sanityClient.fetch(categoryQuery),
-        sanityClient.fetch(productQuery),
+        sanityLiveClient.fetch(productQuery),
         sanityClient.fetch(serviceQuery),
-        plantsClient.fetch(plantCategoryQuery),
+        publicPlantsClient.fetch(plantCategoryQuery),
         plantsClient.fetch(plantProductQuery),
         Promise.all([
           sanityClient.fetch(settingsQuery),
@@ -947,7 +947,7 @@ export default function App() {
     `
 
     Promise.allSettled([
-      sanityClient.fetch(equipmentSearchQuery),
+      sanityLiveClient.fetch(equipmentSearchQuery),
       plantsClient.fetch(plantSearchQuery),
     ])
       .then(([equipmentResult, plantResult]) => {
@@ -1168,7 +1168,7 @@ export default function App() {
       }
     `
 
-    const client = currentCategory.isPlantCategory ? plantsClient : sanityClient
+    const client = currentCategory.isPlantCategory ? publicPlantsClient : sanityClient
     const query = currentCategory.isPlantCategory ? plantCategoryDetailQuery : equipmentCategoryDetailQuery
 
     client.fetch(query, { id: currentCategory._id })
