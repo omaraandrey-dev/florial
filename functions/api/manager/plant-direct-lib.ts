@@ -128,6 +128,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const oldPriceEUR = numberValue(item.oldPriceEUR, 'Стара цена', 0)
     if (oldPriceEUR !== null && oldPriceEUR <= priceEUR) throw new Error('Старата цена трябва да е по-висока от текущата.')
     return {
+      _type: 'plantSaleVariant',
       _key, name,
       ...(cleanText(item.nameEn, 100) ? { nameEn: cleanText(item.nameEn, 100) } : {}),
       ...(cleanText(item.nameRu, 100) ? { nameRu: cleanText(item.nameRu, 100) } : {}),
