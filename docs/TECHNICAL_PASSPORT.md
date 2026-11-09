@@ -1,3 +1,16 @@
+## 2026-11-09 — Manager растений: первая реализация в Draft PR #169
+
+- В отдельной mainline-based feature branch подготовлен новый mobile-first Manager для dataset Sanity `plants`.
+- Новые Pages Functions: `GET/POST /api/manager/plants`, `GET/PATCH /api/manager/plants/:id`, `POST /api/manager/plants/ai-enrich`, Owner-only `GET /api/manager/plant-audit`; общие функции — `plant-direct-lib.ts`.
+- UI: `src/manager/PlantCatalogManager.tsx`; ManagerApp направляет все три роли в каталог, старый submissions workflow оставлен Owner-only архивом.
+- Owner/Manager/Seller используют существующую D1 cookie session. Роли берутся из D1 profile; новая система не создаёт параллельную авторизацию.
+- Sanity mutations ограничены dataset `plants`; создание idempotent, PATCH использует `ifRevisionID`; root legacy price/stockQuantity автоматически не переписываются.
+- AI заполняет текст/переводы/SEO, не создаёт цены, SKU, варианты, остатки или ботанические сведения.
+- Добавлена аддитивная SQL migration `0013_manager_product_audit` и SQLite regression test. Live D1 на момент read-only аудита остановлена на `0012_service_leads_manager`; migration 0013 не применялась.
+- В live D1 обнаружены 1 активный Owner и 1 активный Manager; Seller profile не обнаружен. Реальные профили и данные не менялись.
+- CI для PR #169 выполняется; Preview deployment настройкой Pages помечен как отключённый. Production rollout не выполнялся.
+- Не затронуты Sanity schema/documents/assets, orders/checkout, irrigation dataset `production`, Header/menu/Footer, staff permissions, Cloudflare secrets/settings.
+
 ## 2026-11-09 — завершён read-only аудит цены/наличия растений
 
 - `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
