@@ -5,16 +5,6 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { useI18n } from './lib/i18n'
 import { HomePage } from './pages/HomePage'
-import { ServicePage } from './pages/ServicePage'
-import { CategoryPage } from './pages/CategoryPage'
-import { ProductPage } from './pages/ProductPage'
-import { ContactsPage } from './pages/ContactsPage'
-import { ServicesListPage } from './pages/ServicesListPage'
-import { CartPage } from './pages/CartPage'
-import { BlogPage } from './pages/BlogPage'
-import { BlogPostPage } from './pages/BlogPostPage'
-import { AboutPage } from './pages/AboutPage'
-import { IrrigationSupportPage } from './pages/IrrigationSupportPage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
@@ -29,6 +19,18 @@ import type {
   SiteSettings,
   CartItem,
 } from './types'
+
+// Keep the homepage in the initial bundle; load other page modules only when their route is active.
+const ServicePage = React.lazy(() => import('./pages/ServicePage').then(({ ServicePage }) => ({ default: ServicePage })))
+const CategoryPage = React.lazy(() => import('./pages/CategoryPage').then(({ CategoryPage }) => ({ default: CategoryPage })))
+const ProductPage = React.lazy(() => import('./pages/ProductPage').then(({ ProductPage }) => ({ default: ProductPage })))
+const ContactsPage = React.lazy(() => import('./pages/ContactsPage').then(({ ContactsPage }) => ({ default: ContactsPage })))
+const ServicesListPage = React.lazy(() => import('./pages/ServicesListPage').then(({ ServicesListPage }) => ({ default: ServicesListPage })))
+const CartPage = React.lazy(() => import('./pages/CartPage').then(({ CartPage }) => ({ default: CartPage })))
+const BlogPage = React.lazy(() => import('./pages/BlogPage').then(({ BlogPage }) => ({ default: BlogPage })))
+const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage').then(({ BlogPostPage }) => ({ default: BlogPostPage })))
+const AboutPage = React.lazy(() => import('./pages/AboutPage').then(({ AboutPage }) => ({ default: AboutPage })))
+const IrrigationSupportPage = React.lazy(() => import('./pages/IrrigationSupportPage').then(({ IrrigationSupportPage }) => ({ default: IrrigationSupportPage })))
 
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
@@ -1290,7 +1292,16 @@ export default function App() {
         siteSettings={siteSettings}
       />
 
-      {normalizedRoutePath === '/about' ? (
+      <React.Suspense fallback={
+        <main
+          className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
+          role="status"
+          aria-live="polite"
+        >
+          {t('Зареждане на страницата...')}
+        </main>
+      }>
+        {normalizedRoutePath === '/about' ? (
         <AboutPage services={services} categories={categories} />
       ) : isCartOpen ? (
         <CartPage
@@ -1490,7 +1501,8 @@ export default function App() {
             navigateToProduct(product.slug?.current || product._id)
           }
         />
-      )}
+        )}
+      </React.Suspense>
 
       <Footer />
     </div>
