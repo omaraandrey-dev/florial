@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
-import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPost} from '../lib/blog'
+import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPostCard} from '../lib/blog'
 import {localizedHref} from '../lib/navigation'
 
 export function BlogSection() {
   const {t, language} = useI18n()
-  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [posts, setPosts] = useState<BlogPostCard[]>([])
   useEffect(() => {
     let active = true
     fetchBlogPosts(3).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error))
