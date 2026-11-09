@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../_lib'
-import { auditSnapshot, buildPlantSet, cleanText, errorJson, isObject, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, writeAudit, type PlantDocument } from '../plant-direct-lib'
+import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, writeAudit, type PlantDocument } from '../plant-direct-lib'
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
