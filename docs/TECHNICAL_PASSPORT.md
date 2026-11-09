@@ -1,3 +1,11 @@
+## 2026-11-09 — Post-release Sanity diagnostic (not comparable with baseline)
+
+- Report: `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`.
+- Live homepage remote browser diagnostic found 9 Sanity requests. Additional read-only fetch measured 1,077,038 B decoded response bodies (equipment 740,714 B; plants 86,747 B; categories 84,554 B combined; services 17,022 B; duplicate blog requests 145,912 B each).
+- The browser could not set viewport 390×844, disable cache or apply CPU/network throttling; cross-origin PerformanceResourceTiming transferSize was zero. These decoded body sizes are not comparable to baseline CDP encoded bytes and do not establish a speed percentage.
+- Next optimization target: duplicate full blog list fetch in Header and BlogSection; full blog body/gallery currently fetched twice though only cards are needed.
+- Controlled post-release CDP capture, Lighthouse, LCP, INP and CrUX remain open.
+
 ## 2026-11-09 — PR #144: full category content on demand
 
 - PR #144 merged squash: `dd129898f207018e5124f7fa2604ff9a727ccd9a`; only runtime file `src/App.tsx` changed.
