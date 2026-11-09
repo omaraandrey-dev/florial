@@ -1,3 +1,11 @@
+## 2026-11-09 — спецификация прямого мобильного Manager для растений
+
+- Создана `docs/ROADMAP_MANAGER_PLANTS.md`: только Sanity dataset `plants`, роли Owner/Manager/Seller с direct create/edit/publish, Owner-only history и botanical fields, AI-enrich для всех ролей.
+- Проверены текущие Manager files/API, D1 migrations, Sanity schema `product` / `plantSaleVariant`; read-only count: 36 опубликованных растений и 17 категорий.
+- Зафиксировано, что текущий Manager ещё использует `catalog_submissions` и отдельный approval/publish workflow; текущий publish endpoint ограничен Owner/Manager и ровно одним sale variant; AI endpoint привязан к submission и не разрешает Seller.
+- Отдельно отмечено несоответствие root `priceEUR` и variant prices в части legacy документов; storefront/cart/order price contract должен быть проверен до реализации.
+- Это документационная работа в branch `docs/manager-plants-direct-management`; runtime, Sanity, D1 data/schema, staff permissions, orders и Production не изменялись. CI/deployment для этой ветки не заявляются.
+
 ## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR #163)
 
 - PR #163 merged squash; merge commit `a12068bc3a8a4707f70e19abc76ecf382d98eabe`.
