@@ -3,7 +3,7 @@ import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { trackEvent } from '../services/trackingService'
-import { sanityClient } from '../lib/sanity'
+import { sanityLiveClient } from '../lib/sanity'
 
 type DeliveryZone = {
   _id: string
@@ -159,7 +159,7 @@ export function IrrigationSupportPage() {
   useEffect(() => {
     let cancelled = false
 
-    sanityClient.fetch<DeliveryZone[]>(`
+    sanityLiveClient.fetch<DeliveryZone[]>(`
       *[_type == "deliveryZone" && isActive == true] | order(sortOrder asc) {
         _id,
         name,
