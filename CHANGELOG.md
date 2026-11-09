@@ -1779,3 +1779,17 @@
 - A live scrape returned HTTP 200 and the client-rendered category shell, but did not expose the pre-JavaScript response needed to verify the fallback image attributes. Do not treat this as raw-HTML or CLS verification.
 - Source inspection confirms the mobile CategoryPage category image is hidden below the desktop breakpoint; subcategory/product images use fixed-size containers. The initial server fallback is generated separately by `documentBody`. A browser trace is still required to identify whether the remaining shift comes from the fallback image, the client replacing fallback markup, asynchronous category detail, or another element.
 - No Sanity data/schema, D1 data/migrations, Manager, orders, checkout, API contracts, Header, menu, Footer component or Cloudflare settings/secrets were changed by this commit.
+
+
+## 2026-11-09 — Production browser-rendering diagnostics after SEO image fix
+
+- Cloudflare Browser Rendering was used as an independent browser path after the Firecrawl CDP session quota became unavailable. All observations below are unthrottled lab runs, not Lighthouse or field CrUX.
+- With JavaScript disabled, the live category route returned HTTP 200, the SEO fallback H1 was present, the loading placeholder was absent, and the fallback image HTML contained the original `width="1254" height="1254"` attributes. This confirms the middleware fix is present in the initial server HTML.
+- Category route, 3 fresh sessions each at mobile 390×844 and desktop 1365×900, cacheTTL=0: mobile CLS `0`, `0.0002631`, `0.0002631` (median `0.0002631`); desktop CLS `0.0148097` in all three runs (median `0.0148097`).
+- Homepage: 3 mobile runs CLS `0.0002631` each; 3 desktop runs `0.0148097` each. Blog and service detail: one mobile/desktop run each with the same corresponding values. The known blog article route also returned HTTP 200 and had mobile `0.0002631` / desktop `0.0148097`.
+- Mobile shifts were limited to the Header search form changing from x=108.69/w=169.27 to x=119.5/w=158.45 (390 px viewport). Desktop shifts were the shared Header/content geometry: content wrapper y=73/h=827 to y=77/h=823, and Header search form x=323.39/y=15 to x=344.81/y=17. No Footer node appeared among shift sources. This is a small shared desktop shift (CLS < 0.1), not category-specific.
+- Browser-rendering LCP medians: category mobile `0.872 s`, category desktop `0.812 s`; homepage mobile `1.692 s`, homepage desktop `1.504 s`. FCP medians: category mobile `0.532 s`, category desktop `0.324 s`; homepage mobile `1.296 s`, homepage desktop `0.836 s`. These values are unthrottled and environment-specific; do not compare directly with the earlier 4× CPU / 150 ms network test or label them Lighthouse scores.
+- Event Timing returned no user-interaction entries because the diagnostic did not perform trusted user interactions. INP is therefore not measured. Long Task observations are not a substitute for INP.
+- The previous controlled profile (390×844, CPU 4×, 150 ms latency, 10/1.5 Mbps, cache disabled) was not reproducible through this browser-rendering endpoint. Keep the previous controlled post-fix comparison marked pending until repeated with that same profile.
+- Docs PR #159 merged as `180a07d356305cc927f185cc748c615c345a48c9`; its Production deployment `9a70fddc-ce74-4743-9cd3-dedc5a9703c8` completed successfully and aliases were assigned.
+
