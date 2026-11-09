@@ -1,3 +1,14 @@
+## 2026-11-09 — Production deployment recovery after Pages alias mismatch
+
+- Audit found that `florial-bg.com` was serving deployment `2ea7f7f0-3340-4cea-b64d-0bd5e20c7fb2` from commit `51ef6b56f475232275dceb0a5ad94310cee9d768`, whose published bundle was the older `index-DVSEkUpQ.js` (742,368 B). The correct build from current `main` commit `859dfb10c75108d9a4609de424b420fa622bac68` was already available as deployment `146a68ed-b69b-46c8-b470-ff58ba1ae201` but did not hold the production aliases.
+- Compared deployment assets: the correct deployment serves `index-DFmXNYJ3.js` (357,247 B), containing route-level chunks, responsive image helper widths including 160w/240w and the PR #152 Hero image implementation.
+- Used the Cloudflare Pages deployment rollback operation to restore deployment `146a68ed-b69b-46c8-b470-ff58ba1ae201` to production. Rollback completed successfully; aliases now include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Production smoke at 390×844: `/`, `/category/rastenia`, `/category/vsichko-za-polivane`, `/product/musa-banana`, `/search?q=контролер`, `/blog`, `/blog/montazh-podmyana-remont-razpruskvachi-nesebar`, `/services/zasazhdane-na-rasteniya` all HTTP 200.
+- Responsive image checks: homepage 23 images/22 srcsets; plant category 29/28; irrigation category 32/31; product detail 4/3; search 45/44; blog 23/22; article 5/4; planting service 9/8. Zero failed images and zero browser JavaScript page errors. Homepage Hero has an eager high-priority Sanity image.
+- No application source files, Sanity documents/schemas, D1 data, order APIs, Manager, Header/menu/Footer, Cloudflare settings, cache rules, secrets or environment variables were changed. Only the existing Pages deployment alias was rolled back to a previously successful build.
+- Remaining: investigate why the later deployment from commit `51ef6...` produced an older runtime bundle; repeat controlled CLS capture on internal routes. The proposed shared loading-area change in `src/App.tsx` remains blocked pending explicit user approval under MD2 rev42. No shared layout or Footer changes made.
+
+---
 ## 2026-11-09 — PR #152: homepage Hero LCP
 
 ### Production
