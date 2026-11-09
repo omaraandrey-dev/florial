@@ -1,4 +1,4 @@
-import { hasPermission, json, newId, nowIso, requireUser, type ManagerEnv } from './_lib'
+import { canSetCatalogSubmissionStatus, hasPermission, json, newId, nowIso, requireUser, type ManagerEnv } from './_lib'
 
 const tables = new Set(['catalog_staff_profiles','catalog_submissions','catalog_submission_events'])
 const columns: Record<string, Set<string>> = {
@@ -82,11 +82,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (values.status!==undefined) {
     const next=String(values.status)
     if (['publishing','published','publish_failed'].includes(next) || next==='approved'&&existing.operation==='update') return json({error:'Този статус може да бъде променен само чрез защитения API за одобрение и публикация.'},403)
-    const sellerAllowed=['draft','submitted']
-    const canReview=hasPermission(user,'canReviewPlantSubmissions')
-    const canApprove=hasPermission(user,'canApprovePlantSubmission')
-    const managerAllowed=((next==='in_review'||next==='changes_requested'||next==='rejected')&&canReview) || (next==='approved'&&canApprove) || (next==='submitted'&&existing.created_by===user.user_id&&hasPermission(user,'canCreatePlant'))
-    if (user.role==='seller' ? !sellerAllowed.includes(next) : user.role==='manager' ? !managerAllowed : !['in_review','changes_requested','approved','rejected','publishing','published','publish_failed'].includes(next)) return json({error:'Invalid status transition.'},403)
+    if (!canSetCatalogSubmissionStatus(user, existing, next)) return json({error:'Invalid status transition.'},403)
     if (user.role==='manager' && next==='approved' && existing.operation==='create') {
       let payload:Record<string,unknown>={}
       try { payload=JSON.parse(existing.payload) as Record<string,unknown> } catch {}

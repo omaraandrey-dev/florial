@@ -40,6 +40,33 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
 const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo','canViewServiceLeads','canManageServiceLeads']
 export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) =>
   user.role === 'owner' || (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
+
+/** Keeps plant submission status changes aligned with the Manager role matrix. */
+export const canSetCatalogSubmissionStatus = (
+  user: ManagerIdentity,
+  existing: { created_by: string; operation: string },
+  next: string,
+): boolean => {
+  if (['publishing', 'published', 'publish_failed'].includes(next)) return false
+  if (next === 'approved' && existing.operation === 'update') return false
+
+  if (user.role === 'seller') {
+    return existing.created_by === user.user_id && ['draft', 'submitted'].includes(next)
+  }
+
+  if (user.role === 'manager') {
+    const canReview = hasPermission(user, 'canReviewPlantSubmissions')
+    const canApprove = hasPermission(user, 'canApprovePlantSubmission')
+    return (
+      ((next === 'in_review' || next === 'changes_requested' || next === 'rejected') && canReview) ||
+      (next === 'approved' && canApprove) ||
+      (next === 'submitted' && existing.created_by === user.user_id && hasPermission(user, 'canCreatePlant'))
+    )
+  }
+
+  // Owners may submit their own draft; approval/rejection remain available to them.
+  return ['submitted', 'in_review', 'changes_requested', 'approved', 'rejected'].includes(next)
+}
 export type StaffProfile = {
   user_id: string
   email: string
