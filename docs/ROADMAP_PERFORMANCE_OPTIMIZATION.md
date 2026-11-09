@@ -308,7 +308,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - Production: Cloudflare deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` success, commit matches merge commit, aliases florial-bg.com and www.florial-bg.com.
 - Live smoke BG/RU/EN: homepage shows 3 blog cards; /blog shows 22 articles; Rain Bird article renders localized body, cover/gallery and related links; Header Portfolio dropdown opens with 3 article links and CTA. No loading placeholders.
 - No Sanity writes/schema changes, D1, API, Manager, cart/checkout, Cloudflare config or header/menu/footer layout changes.
-- No controlled network transfer/CDP/Lighthouse/CWV after PR #145; no speed percentage claimed.
+- Post-release PerformanceResourceTiming check: 8 Sanity API URLs, all distinct, including one compact top-3 blog query; previous diagnostic had 9 URLs with duplicate blog fetch. This confirms the duplicate request was removed. Cross-origin transferSize/encodedBodySize/decodedBodySize were 0, so no network bytes were measured. Controlled CDP/Lighthouse/CWV remain open; no overall speed percentage claimed.
 
 **Следующая задача:** controlled CDP capture with the exact baseline profile (390×844, CPU 4×, 150 ms latency, 10/1.5 Mbps, cache disabled, at least 3 runs) for homepage, category, product, search, blog list and article. If capture tooling is still unavailable, document the limitation and proceed only with another code target supported by source evidence. Then assess Stage 3 image inventory/LCP and Stage 4 Sanity CDN/cache without changing CDN settings until freshness is validated.
 
