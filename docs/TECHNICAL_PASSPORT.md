@@ -1,4 +1,4 @@
-## 2026-11-09 — performance pause: rollback CLS-only changes (PR pending)
+## 2026-11-09 — performance pause: rollback CLS-only changes (PR #163 merged)
 
 - User-approved scope: restore the route layout and SEO fallback image behavior that preceded the two latest CLS-specific runtime changes; preserve all earlier performance improvements and all intervening business/Manager work.
 - Planned code scope: `src/App.tsx` (remove the PR #156 conditional min-height wrapper), `functions/_middleware.ts` (restore original SEO fallback image markup), delete `functions/lib/sanityImageDimensions.ts` and `tests/sanity-image-dimensions.test.mjs`.
