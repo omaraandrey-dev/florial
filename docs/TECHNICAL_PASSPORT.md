@@ -1,3 +1,9 @@
+
+## 2026-11-09 — Контрольная инструкция Florial MD2 rev23
+
+- Новая редакция `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev23.md` добавлена в GitHub main и Library. Она сохраняет полную историю rev22 и дополняет её результатами переработки услуги «Засаждане на растения».
+- Rev23 фиксирует PR #132/#133, merge commit `c3b0d53d4c395d96881e4ab0f33d641caf10f32a`, Production deployment `4b21e8f0-c841-4c7f-8488-f70c92845bef` и live smoke BG/RU/EN.
+
 ## 2026-11-09 — Глубокая переработка услуги «Засаждане на растения»
 
 - Существующий Sanity service document cfdbf22c-a7d9-480b-b88b-d1529a9389ef обновлён и опубликован; slug zasazhdane-na-rasteniya, serviceCategory=planting, serviceLayout=standard. Существующий URL сохранён; повторный документ не создавался.
