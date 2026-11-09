@@ -145,7 +145,7 @@ export default function PlantCatalogManager({role}:Props){
   setAiLoading(true);setError('');setAiWarnings([])
   try{
    const category=categories.find(item=>item._id===form.categoryId)
-   const response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description}})})
+   const response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},mainImage:images[mainImageIndex]?{assetId:images[mainImageIndex].assetId,url:images[mainImageIndex].url}:null})})
    const result=await responseJson(response)
    if(!response.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
    const suggestion=result.suggestion||{}
@@ -155,8 +155,11 @@ export default function PlantCatalogManager({role}:Props){
     translations:suggestion.translations||previous.translations,
     seo:suggestion.seo||previous.seo,
    }))
+   if(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu){
+    setImages(previous=>previous.map((image,index)=>index===mainImageIndex?{...image,alt:suggestion.mainImageAlt||image.alt,altEn:suggestion.mainImageAltEn||image.altEn,altRu:suggestion.mainImageAltRu||image.altRu}:image))
+   }
    setAiWarnings(Array.isArray(suggestion.warnings)?suggestion.warnings:[])
-   setNotice('ИИ подготви текстовете. Проверете ги преди публикуване.')
+   setNotice('ИИ подготви текстовете и ALT за основната снимка. Проверете ги преди публикуване.')
   }catch(e){setError(e instanceof Error?e.message:'ИИ не успя да попълни данните.')}
   finally{setAiLoading(false)}
  }
