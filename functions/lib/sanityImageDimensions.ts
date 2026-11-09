@@ -1,8 +1,3 @@
-export type SanityImageDimensions = {
-  width: number
-  height: number
-}
-
 /**
  * Read the original asset dimensions encoded in a Sanity CDN image URL.
  * These intrinsic dimensions let the browser reserve the image's aspect ratio
