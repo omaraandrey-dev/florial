@@ -68,7 +68,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   'Descriptions should explain visible/known product qualities and buyer uses without unsupported horticultural claims. If information is limited, stay concise and cautious.',
   'Visible observation from the main photo (do not identify species from this observation): '+(visibleObservation||'no visual observation available'),
   'BG SEO title should target 50–65 characters and meta description 140–160 characters; hard max 70 and 320. Localize SEO separately for RU and EN.',
-  'Create imageAltEn and imageAltRu translations of the supplied visible observation, each maximum 180 characters. Do not add SEO locations or guess a plant species.',
+  'Create imageAltEn and imageAltRu translations of the supplied visible observation, each maximum 180 characters. If no visible observation was supplied, leave both ALT fields empty. Do not add SEO locations or guess a plant species.',
   'Return shape: {"shortDescription":"","description":"","imageAltEn":"","imageAltRu":"","translations":{"bg":{"shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}},"en":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}}},"seo":{"h1":"","metaTitle":"","metaDescription":""},"warnings":[]}',
   'Product name (preserve): '+name,
   'Scientific name supplied by staff (do not alter or infer): '+(scientificName||'not supplied'),
