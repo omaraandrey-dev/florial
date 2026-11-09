@@ -1,3 +1,8 @@
+## 2026-11-09 — MD2 instruction rev24
+
+- Latest control instruction: `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev24.md` added to GitHub main and personal Library `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev24.md`.
+- rev24 preserves rev23 and adds the verified implementation of service image links and related content cards (PR #134), the drip-irrigation photo in the planting service, Sanity schema deployment, backup and production verification.
+
 ## 2026-11-09 — Service image links and related content
 
 - GitHub main merge commit: `627953676e0cef853704a648693e7cf57284bfcc`, PR #134.
