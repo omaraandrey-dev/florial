@@ -1,4 +1,5 @@
-import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
+import { json, requireUser, type ManagerEnv } from './_lib'
+import { requirePlantRole } from './plant-direct-lib'
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024
 const hasSignature = (bytes: Uint8Array, mime: string) => {
@@ -11,7 +12,7 @@ export const onRequestPost = async ({request,env}:{request:Request;env:ManagerEn
   if(!env.DB||!env.SANITY_API_TOKEN)return json({error:'Image upload service is not configured.'},503)
   const auth=await requireUser(request,env)
   if(auth.response||!auth.user)return auth.response||json({error:'Authentication required.'},401)
-  if(!hasPermission(auth.user,'canCreatePlant')&&!hasPermission(auth.user,'canEditPlantCard'))return json({error:'Нямате право да качвате снимки за каталога.'},403)
+  if(!requirePlantRole(auth.user))return json({error:'Нямате право да качвате снимки за каталога.'},403)
   const origin=request.headers.get('Origin')
   if(origin){try{if(new URL(origin).origin!==new URL(request.url).origin)return json({error:'Origin not allowed.'},403)}catch{return json({error:'Origin not allowed.'},403)}}
   const form=await request.formData()
