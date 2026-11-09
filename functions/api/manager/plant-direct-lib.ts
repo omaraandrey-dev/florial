@@ -143,6 +143,7 @@ export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,
   role: string,
+  isCreate = false,
 ): Promise<{ set: Record<string, unknown>; changedFields: string[] }> => {
   if (!isObject(input)) throw new Error('Липсват данни за растението.')
   if (role !== 'owner' && ('plantCare' in input || 'careGuide' in input)) {
@@ -229,14 +230,14 @@ export const buildPlantSet = async (
   }
   if (role === 'owner' && 'plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
   if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide)
-  if (!existing) {
+  if (isCreate) {
     if (!set.name || !set.slug || !set.productType || !set.category || !set.mainImage || !set.saleVariants) {
       throw new Error('За публикуване попълнете име, URL, тип, категория, основна снимка и поне един размер.')
     }
     set.vatIncluded = true
     set.isActive = true
   }
-  if ('name' in set && !('slug' in set) && !existing) throw new Error('Липсва URL адрес на растението.')
+  if ('name' in set && !('slug' in set) && isCreate) throw new Error('Липсва URL адрес на растението.')
   return { set, changedFields: Object.keys(set).sort() }
 }
 
