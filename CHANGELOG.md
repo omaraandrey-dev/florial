@@ -1,3 +1,12 @@
+## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR pending)
+
+- По согласованию с пользователем подготовлен узкий forward revert двух CLS-изменений от актуального `main`.
+- Отменяется только route-content height reservation из PR #156 в `src/App.tsx`.
+- Отменяется только SEO fallback image dimension helper из commit `9bd5d3f`: исходный fallback HTML возвращается к прежней разметке; helper и его изолированный тест удаляются.
+- Сохранены responsive images, Sanity API CDN, lazy route chunks, Hero LCP, исправление Manager PR #161 и все прочие функции.
+- Изменения выполняются через отдельную ветку/PR; история не переписывается. Header, меню, Footer, Sanity, D1, API, Manager, checkout и Cloudflare configuration не изменяются.
+- CI, merge и Production deployment: ожидаются; результаты будут дописаны после фактической проверки.
+
 ## 2026-11-09 — исправление отправки заявок на растения из Manager (PR #161)
 
 - Исправлен серверный переход `draft → submitted` для роли `owner`: владелец теперь может отправить собственную новую заявку на проверку.

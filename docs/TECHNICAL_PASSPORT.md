@@ -1,3 +1,14 @@
+## 2026-11-09 — performance pause: rollback CLS-only changes (PR pending)
+
+- User-approved scope: restore the route layout and SEO fallback image behavior that preceded the two latest CLS-specific runtime changes; preserve all earlier performance improvements and all intervening business/Manager work.
+- Planned code scope: `src/App.tsx` (remove the PR #156 conditional min-height wrapper), `functions/_middleware.ts` (restore original SEO fallback image markup), delete `functions/lib/sanityImageDimensions.ts` and `tests/sanity-image-dimensions.test.mjs`.
+- Preserved: PR #148–#152 responsive images, Sanity public CDN split, lazy routes and Hero LCP; PR #161 Manager Owner/Seller submission fix; all catalog, service, SEO, cart, checkout and order logic.
+- No data/schema/API/D1/Sanity/Cloudflare settings writes; no Header/menu/Footer component changes.
+- PR/CI/Production status: pending at documentation preparation time. Update this record only with verified merge SHA, workflow results and actual Cloudflare deployment.
+- After release, perform smoke checks only; no new CLS/Lighthouse/INP values are claimed. Performance optimization remains paused until separately authorized.
+
+---
+
 ## 2026-11-09 — Manager plant submission status fix (PR #161)
 
 - Root cause: `functions/api/manager/data.ts` allowed `submitted` for Seller and Manager-with-create permission, but omitted it from the Owner branch. Owner's valid `draft → submitted` request therefore returned `Invalid status transition`.
