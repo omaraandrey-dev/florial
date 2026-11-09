@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import PlantImageLibrary, { type IntakeLibraryImage } from './PlantImageLibrary'
 
 type Role='owner'|'manager'|'seller'
 type ImageItem={assetId:string;url:string;name:string;alt:string;altEn:string;altRu:string}
@@ -58,6 +59,7 @@ export default function PlantCatalogManager({role}:Props){
  const [saving,setSaving]=useState(false)
  const [aiLoading,setAiLoading]=useState(false)
  const [imageLoading,setImageLoading]=useState(false)
+ const [libraryOpen,setLibraryOpen]=useState(false)
  const [historyOpen,setHistoryOpen]=useState(false)
  const [history,setHistory]=useState<any[]>([])
  const [historyLoading,setHistoryLoading]=useState(false)
@@ -82,7 +84,7 @@ export default function PlantCatalogManager({role}:Props){
  useEffect(()=>{void load()},[load])
  useEffect(()=>{setPendingIdempotencyKey(null)},[form,images])
 
- const openNew=()=>{setEditingId(null);setRevision('');setForm(emptyForm());setOriginalRichText({description:null,translations:{}});setImages([]);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setEditingId(null);setRevision('');setForm(emptyForm());setOriginalRichText({description:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
   setError('');setNotice('');setLoading(true)
   try{
@@ -95,7 +97,7 @@ export default function PlantCatalogManager({role}:Props){
    const all=[...(main?[main]:[]),...gallery]
    const translations=p.translations||{}
    setOriginalRichText({description:p.description||null,translations:{bg:translations.bg?.description||null,ru:translations.ru?.description||null,en:translations.en?.description||null}})
-   setEditingId(id);setRevision(p._rev);setImages(all);setMainImageIndex(0);setAiWarnings([])
+   setEditingId(id);setRevision(p._rev);setImages(all);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([])
    setForm({
     name:p.name||'',slug:p.slug?.current||'',scientificName:p.scientificName||'',sku:p.sku||'',productType:p.productType||'plant',
     categoryId:p.category?._ref||p.categoryId||'',categoryIds:Array.from(new Set([p.category?._ref,...(Array.isArray(p.categories)?p.categories.map((item:any)=>item?._ref):[])].filter(Boolean))),shortDescription:p.shortDescription||'',description:plainText(p.description),
@@ -131,6 +133,14 @@ export default function PlantCatalogManager({role}:Props){
    setImages(previous=>[...previous,...added])
   }catch(e){setError(e instanceof Error?e.message:'Не успяхме да качим снимките.')}
   finally{setImageLoading(false)}
+ }
+ const toggleLibraryImage=(image:IntakeLibraryImage)=>{
+  setImages(previous=>{
+   const exists=previous.some(item=>item.assetId===image.assetId)
+   if(exists)return previous.filter(item=>item.assetId!==image.assetId)
+   if(previous.length>=10){setError('Максимумът е 10 снимки.');return previous}
+   return [...previous,{assetId:image.assetId,url:image.url,name:image.name,alt:'',altEn:'',altRu:''}]
+  })
  }
  const generateWithAI=async()=>{
   if(aiLoading)return
@@ -235,7 +245,10 @@ export default function PlantCatalogManager({role}:Props){
    {notice&&<div className="mb-3 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
    <div className="space-y-4">
     <section className="rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <div className="mb-3 flex items-center justify-between"><h3 className="font-bold">Снимки на растението</h3><label className={btn+' cursor-pointer bg-lime-50 text-lime-800'}>{imageLoading?'Качване…':'＋ Добави снимки'}<input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={imageLoading} onChange={event=>{void uploadFiles(event.target.files);event.currentTarget.value=''}}/></label></div>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><h3 className="font-bold">Снимки на растението</h3><div className="flex flex-wrap gap-2">
+       <button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>
+       <label className={btn+' cursor-pointer bg-lime-50 text-lime-800'}>{imageLoading?'Качване…':'＋ Качи снимки'}<input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={imageLoading} onChange={event=>{void uploadFiles(event.target.files);event.currentTarget.value=''}}/></label>
+      </div></div>
      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {images.map((image,index)=><div key={image.assetId} className={'relative overflow-hidden rounded-xl border-2 '+(mainImageIndex===index?'border-lime-700':'border-stone-200')}>
        <button type="button" className="block aspect-square w-full" onClick={()=>setMainImageIndex(index)}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
@@ -243,6 +256,7 @@ export default function PlantCatalogManager({role}:Props){
       </div>)}
       {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
      </div>
+     {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
      {images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
       <label><span className={labelClass}>ALT (BG)</span><input className={inputClass} value={image.alt} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,alt:event.target.value}:item))}/></label>
