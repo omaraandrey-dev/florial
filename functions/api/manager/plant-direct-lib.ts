@@ -146,6 +146,7 @@ export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,
   role: string,
+  existing?: PlantDocument,
   isCreate = false,
 ): Promise<{ set: Record<string, unknown>; changedFields: string[] }> => {
   if (!isObject(input)) throw new Error('Липсват данни за растението.')
@@ -206,31 +207,38 @@ export const buildPlantSet = async (
   }
   if ('seo' in input) {
     if (!isObject(input.seo)) throw new Error('Невалидни SEO данни.')
+    const previousSeo = isObject(existing?.seo) ? existing.seo : {}
     set.seo = {
+      ...previousSeo,
       h1: cleanText(input.seo.h1, 160),
       metaTitle: cleanText(input.seo.metaTitle, 70),
       metaDescription: cleanText(input.seo.metaDescription, 320),
-      noIndex: input.seo.noIndex === true,
-      keywords: Array.isArray(input.seo.keywords) ? input.seo.keywords.slice(0, 20).map((item: unknown) => cleanText(item, 60)).filter(Boolean) : [],
+      ...(typeof input.seo.noIndex === 'boolean' ? { noIndex: input.seo.noIndex } : {}),
+      ...(Array.isArray(input.seo.keywords) ? { keywords: input.seo.keywords.slice(0, 20).map((item: unknown) => cleanText(item, 60)).filter(Boolean) } : {}),
     }
   }
   if ('translations' in input) {
     if (!isObject(input.translations)) throw new Error('Невалидни преводи.')
-    const translations: Record<string, unknown> = {}
+    const previousTranslations = isObject(existing?.translations) ? existing.translations : {}
+    const translations: Record<string, unknown> = { ...previousTranslations }
     for (const language of ['bg','ru','en']) {
       const item = input.translations[language]
       if (!isObject(item)) continue
+      const previousLanguage = isObject(previousTranslations[language]) ? previousTranslations[language] : {}
       const seo = isObject(item.seo) ? item.seo : {}
+      const previousLanguageSeo = isObject(previousLanguage.seo) ? previousLanguage.seo : {}
       translations[language] = {
+        ...previousLanguage,
         name: cleanText(item.name, 160),
         shortDescription: cleanText(item.shortDescription, 1200),
         description: portableText(item.description),
         seo: {
+          ...previousLanguageSeo,
           h1: cleanText(seo.h1, 160),
           metaTitle: cleanText(seo.metaTitle, 70),
           metaDescription: cleanText(seo.metaDescription, 320),
-          noIndex: seo.noIndex === true,
-          keywords: Array.isArray(seo.keywords) ? seo.keywords.slice(0, 20).map((entry: unknown) => cleanText(entry, 60)).filter(Boolean) : [],
+          ...(typeof seo.noIndex === 'boolean' ? { noIndex: seo.noIndex } : {}),
+          ...(Array.isArray(seo.keywords) ? { keywords: seo.keywords.slice(0, 20).map((entry: unknown) => cleanText(entry, 60)).filter(Boolean) } : {}),
         },
       }
     }
