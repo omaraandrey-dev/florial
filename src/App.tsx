@@ -911,10 +911,10 @@ export default function App() {
         "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
         shortDescription, description, specifications,
         "category": category->name,
-        "categoryTranslations": category->translations,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
         "categoryId": category->_id,
         "categorySlug": coalesce(category->slug.current, category->slug),
-        "categories": categories[]->{_id, name, translations, "slug": {"current": coalesce(slug.current, slug)}}
+        "categories": categories[]->{_id, name, translations { bg { name }, ru { name }, en { name } }, "slug": {"current": coalesce(slug.current, slug)}}
       }
     `
 
@@ -935,10 +935,10 @@ export default function App() {
         "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
         shortDescription, description, scientificName,
         "category": category->name,
-        "categoryTranslations": category->translations,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
         "categoryId": category->_id,
         "categorySlug": coalesce(category->slug.current, category->slug),
-        "categories": categories[]->{_id, name, translations, "slug": {"current": coalesce(slug.current, slug)}}
+        "categories": categories[]->{_id, name, translations { bg { name }, ru { name }, en { name } }, "slug": {"current": coalesce(slug.current, slug)}}
       }
     `
 
