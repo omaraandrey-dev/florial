@@ -1525,3 +1525,12 @@
 - Live smoke Firecrawl: BG/RU/EN — HTTP 200; локализованные title/description, `robots=index, follow`, Hero image и содержимое статьи отображаются. Страница `/services` показывает карточку «Засаждане на палми» с правильным изображением и ссылкой.
 - JSON snapshot опубликованного документа: `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
 - Изменения только в Sanity content и документации. GitHub application code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
+
+## 2026-11-09 — Фотографии внутри статьи «Засаждане на палми»
+
+- В опубликованном Sanity service document `5fd92607-19dd-44ae-b546-01e841f835c9` три ранее добавленных изображения перенесены из верхней галереи в `contentBlocks` с использованием существующего механизма inline image groups.
+- Размещение: `trenches` — «Оглед и подготовка на терена»; `equipment` — «Професионално засаждане на палмата»; `watering` — «Първоначално поливане и последващи грижи». Для RU/EN добавлены соответствующие сопоставления заголовков в `src/pages/ServicePage.tsx`.
+- Заполнены ALT на BG/RU/EN. Assets сохранены без повторной загрузки: `image-8c4ff55932116280da42f95d3b346d9ead9007f7-3072x4096-jpg`, `image-bd788671f48fd731e23fb193e5f30fba4851991f-995x995-png`, `image-4c5e0022877738ae9339e51226a77e743a5f703e-1243x1243-jpg`.
+- Верхняя gallery очищена после переноса ссылок, чтобы не показывать дубликаты; все три asset references сохранены в contentBlocks. Pre-edit JSON backup: `docs/backups/sanity-service-zasazhdane-na-palmi-before-inline-gallery-2026-11-09.json`; post-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-after-inline-gallery-2026-11-09.json`.
+- Schema Sanity не менялась; новые поля Title не добавлялись. Изменён только section-heading mapping существующего inline gallery renderer в `src/pages/ServicePage.tsx`.
+- CI/Production результат будет зафиксирован после проверки.

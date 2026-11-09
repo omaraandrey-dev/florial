@@ -1,0 +1,1023 @@
+{
+  "_createdAt": "2026-11-09T05:51:13Z",
+  "_id": "5fd92607-19dd-44ae-b546-01e841f835c9",
+  "_rev": "9Jlb6k9xfgGTkBekNEZTkL",
+  "_system": {
+    "base": {
+      "id": "5fd92607-19dd-44ae-b546-01e841f835c9",
+      "rev": "3ZWSWJ5PmrYEk5hKEBuODO"
+    }
+  },
+  "_type": "service",
+  "_updatedAt": "2026-11-09T06:09:52Z",
+  "advantages": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXq87",
+      "text": "Съобразяваме вида и мястото с местните зимни условия, вятъра и морското изложение.",
+      "title": "Подбор според климата"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXqCK",
+      "text": "Оценяваме почвата, оттичането на водата, достъпа и необходимото пространство.",
+      "title": "Подготовка на терена"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXqGX",
+      "text": "Планираме безопасно преместване и засаждане според размера на палмата.",
+      "title": "Внимателно позициониране"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXqKk",
+      "text": "Даваме препоръки за поливане, стабилизиране и сезонна защита.",
+      "title": "Насоки за последваща грижа"
+    }
+  ],
+  "callToAction": {
+    "buttonLabel": "Изпрати запитване",
+    "text": "Изпратете ни снимки на мястото, населено място и информация за размера или вида на палмата.",
+    "title": "Планирате засаждане на палма?"
+  },
+  "contentBlocks": [
+    {
+      "_key": "palm_inline_site",
+      "_type": "serviceContentBlock",
+      "image": {
+        "_type": "image",
+        "alt": "Подготовка на терена и палмата за професионално засаждане в градина",
+        "altEn": "Site and palm preparation for professional planting in a garden",
+        "altRu": "Подготовка участка и пальмы к профессиональной посадке в саду",
+        "asset": {
+          "_ref": "image-8c4ff55932116280da42f95d3b346d9ead9007f7-3072x4096-jpg",
+          "_type": "reference"
+        }
+      },
+      "title": "__gallery:trenches"
+    },
+    {
+      "_key": "palm_inline_planting",
+      "_type": "serviceContentBlock",
+      "image": {
+        "_type": "image",
+        "alt": "Професионално засаждане и позициониране на палма в озеленен двор",
+        "altEn": "Professional planting and positioning of a palm in a landscaped garden",
+        "altRu": "Профессиональная посадка и размещение пальмы в благоустроенном саду",
+        "asset": {
+          "_ref": "image-bd788671f48fd731e23fb193e5f30fba4851991f-995x995-png",
+          "_type": "reference"
+        }
+      },
+      "title": "__gallery:equipment"
+    },
+    {
+      "_key": "palm_inline_aftercare",
+      "_type": "serviceContentBlock",
+      "image": {
+        "_type": "image",
+        "alt": "Палма в градината като част от озеленяването и грижата след засаждане",
+        "altEn": "Palm in a garden as part of the landscaping and after-planting care",
+        "altRu": "Пальма в саду как часть озеленения и ухода после посадки",
+        "asset": {
+          "_ref": "image-4c5e0022877738ae9339e51226a77e743a5f703e-1243x1243-jpg",
+          "_type": "reference"
+        }
+      },
+      "title": "__gallery:watering"
+    }
+  ],
+  "description": [
+    {
+      "_key": "p1",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s1",
+          "_type": "span",
+          "marks": [],
+          "text": "Палмата може да се превърне във впечатляващ акцент в градината, двора на къщата, хотела или ваканционния имот. За доброто ѝ прихващане са важни не само размерът и външният вид, но и подходящият вид, изложението, почвата, оттичането на водата и условията през зимата."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s2",
+          "_type": "span",
+          "marks": [],
+          "text": "Florial предлага планиране и професионално засаждане на палми в Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой, Бургас и близките населени места. При големи екземпляри предварително оценяваме достъпа, разтоварването и безопасното позициониране."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s3",
+          "_type": "span",
+          "marks": [],
+          "text": "Избор на подходяща палма"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s4",
+          "_type": "span",
+          "marks": [],
+          "text": "Климат, изложение и микроклимат"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p5",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s5",
+          "_type": "span",
+          "marks": [],
+          "text": "Различните палми се различават по студоустойчивост, темп на растеж, крайна височина, форма на короната и изисквания към светлината. Мекият морски климат на Южното Черноморие не означава, че всеки тропически вид ще понесе безпроблемно зимните застудявания."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p6",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s6",
+          "_type": "span",
+          "marks": [],
+          "text": "Съобразяваме избора с реалните минимални температури на мястото, слънцето, преобладаващите ветрове, близостта до морето, солените аерозоли и защитата от студени въздушни течения. При по-рискови позиции обсъждаме по-устойчив вид или по-защитено място."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p7",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s7",
+          "_type": "span",
+          "marks": [],
+          "text": "Размер и бъдещо пространство"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p8",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s8",
+          "_type": "span",
+          "marks": [],
+          "text": "Отчитаме височината и ширината на възрастната палма, диаметъра на короната и разстоянията до фасади, огради, алеи, басейни и въздушни проводници. За големи палми проверяваме маршрута за достъп, ширината на входовете, настилките и мястото за работа на подемна техника, ако е необходима."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p9",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s9",
+          "_type": "span",
+          "marks": [],
+          "text": "Оглед и подготовка на терена"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p10",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s10",
+          "_type": "span",
+          "marks": [],
+          "text": "Преди изкопните работи уточняваме позицията, достъпа за хора и техника и възможното разположение на подземни комуникации. Размерът на посадъчната яма се определя спрямо действителния коренов бал и почвените условия, а не по универсален шаблон."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p11",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s11",
+          "_type": "span",
+          "marks": [],
+          "text": "Почва и оттичане на водата"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p12",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s12",
+          "_type": "span",
+          "marks": [],
+          "text": "Палмите имат нужда от почва, която осигурява въздух около корените и отвежда излишната вода. Продължителното преовлажняване може да увреди корените и основата на растението. Оценяваме уплътняването, структурата и местата със задържане на вода."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p13",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s13",
+          "_type": "span",
+          "marks": [],
+          "text": "При необходимост планираме разрохкване, подобряване на почвата или решение за отводняване. Не добавяме автоматично чакъл на дъното на всяка яма и не използваме една и съща почвена смес за всички обекти."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p14",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s14",
+          "_type": "span",
+          "marks": [],
+          "text": "Професионално засаждане на палмата"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p15",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s15",
+          "_type": "span",
+          "marks": [],
+          "text": "Подготовка на кореновия бал"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p16",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s16",
+          "_type": "span",
+          "marks": [],
+          "text": "При транспортиране кореновият бал трябва да остане стабилен и защитен от изсъхване и разпадане. Стъблото и короната се предпазват от механични повреди при товарене, преместване и позициониране."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p17",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s17",
+          "_type": "span",
+          "marks": [],
+          "text": "Позициониране и засаждане"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p18",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s18",
+          "_type": "span",
+          "marks": [],
+          "text": "Посадъчната яма се оформя достатъчно широка, за да се постави палмата без притискане на корените. Дълбочината се определя според първоначалното ниво на засаждане и особеностите на вида. Основата на стъблото и зоната на растеж не трябва да се затрупват прекомерно."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p19",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s19",
+          "_type": "span",
+          "marks": [],
+          "text": "Палмата се поставя вертикално и се ориентира според композицията на градината. Кореновият бал се запазва максимално цял; пространството около него се запълва с подходяща почва и се уплътнява внимателно, без прекомерно притискане."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p20",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s20",
+          "_type": "span",
+          "marks": [],
+          "text": "При едри екземпляри начинът на повдигане и преместване се избира според теглото, достъпа и условията на обекта. Ако е необходима специализирана техника, нейното осигуряване и условията за работа се уточняват предварително."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p21",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s21",
+          "_type": "span",
+          "marks": [],
+          "text": "Временно укрепване"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p22",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s22",
+          "_type": "span",
+          "marks": [],
+          "text": "Когато размерът на растението и условията го изискват, се предвижда временно укрепване. Опорите трябва да стабилизират палмата, без да нараняват стъблото или да притискат короната. Срокът за премахване се определя според стабилността и развитието на растението."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p23",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s23",
+          "_type": "span",
+          "marks": [],
+          "text": "Първоначално поливане и последващи грижи"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p24",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s24",
+          "_type": "span",
+          "marks": [],
+          "text": "След засаждането се извършва първоначално поливане според влажността на почвата и размера на кореновия бал. През периода на прихващане влагата се следи редовно: почвата не трябва да пресъхва продължително, но и не бива да остава постоянно подгизнала."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p25",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s25",
+          "_type": "span",
+          "marks": [],
+          "text": "Честотата и количеството на поливане зависят от вида, сезона, температурата, вятъра, почвата и наличието на автоматична поливна система. При нужда може да се обсъди капково напояване или отделна поливна зона, вместо палмата да получава режима на тревната площ."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p26",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s26",
+          "_type": "span",
+          "marks": [],
+          "text": "Подхранване, подрязване и зимна защита"
+        }
+      ],
+      "style": "h3"
+    },
+    {
+      "_key": "p27",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s27",
+          "_type": "span",
+          "marks": [],
+          "text": "Подхранването се планира според вида, състоянието на палмата и почвата. Не се препоръчва произволно торене с големи дози непосредствено след преместване. Премахват се само сухи или повредени листа при необходимост; зелените листа и централната растежна пъпка не се режат без основателна причина."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p28",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s28",
+          "_type": "span",
+          "marks": [],
+          "text": "Нуждата от зимна защита зависи от вида, възрастта, мястото и очакваните температури. При чувствителни палми може да се предвиди защита на кореновата зона и короната през студени периоди. Материалите се подбират така, че да не задържат продължително влага около растежната точка."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p29",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s29",
+          "_type": "span",
+          "marks": [],
+          "text": "Засаждане на палми по Южното Черноморие"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p30",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s30",
+          "_type": "span",
+          "marks": [],
+          "text": "В Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой и Бургас условията могат да се различават дори между съседни имоти. Крайморските терени са изложени на вятър и солени аерозоли, а във вътрешни и по-ниски части може да има по-силни зимни застудявания."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p31",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s31",
+          "_type": "span",
+          "marks": [],
+          "text": "Затова планираме засаждането според конкретния терен: оттичане след валежи, достъп до вода през периода на прихващане, защита от вятър и възможност за сезонна грижа."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p32",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s32",
+          "_type": "span",
+          "marks": [],
+          "text": "Какво може да включва услугата на Florial"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p33",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s33",
+          "_type": "span",
+          "marks": [],
+          "text": "В зависимост от обекта и договорения обхват услугата може да включва:"
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p34",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s34",
+          "_type": "span",
+          "marks": [],
+          "text": "Оглед и оценка на мястото за засаждане."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p35",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s35",
+          "_type": "span",
+          "marks": [],
+          "text": "Консултация за подходящ вид и размер на палмата."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p36",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s36",
+          "_type": "span",
+          "marks": [],
+          "text": "Планиране на позицията, достъпа и необходимото пространство."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p37",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s37",
+          "_type": "span",
+          "marks": [],
+          "text": "Подготовка на терена и посадъчната яма."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p38",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s38",
+          "_type": "span",
+          "marks": [],
+          "text": "Позициониране, засаждане и временно укрепване при необходимост."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p39",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s39",
+          "_type": "span",
+          "marks": [],
+          "text": "Първоначално поливане и препоръки за последващи грижи."
+        }
+      ],
+      "listItem": "bullet",
+      "style": "normal"
+    },
+    {
+      "_key": "p40",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s40",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставка на палмата, специализирана подемна техника, допълнителни дренажни работи, изграждане на поливна система и сезонна поддръжка се уточняват отделно. Цената зависи от вида и размера на палмата, достъпа и необходимите дейности."
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "p41",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s41",
+          "_type": "span",
+          "marks": [],
+          "text": "Заявете засаждане на палми"
+        }
+      ],
+      "style": "h2"
+    },
+    {
+      "_key": "p42",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "s42",
+          "_type": "span",
+          "marks": [],
+          "text": "Изпратете ни населено място, снимки на терена, приблизителния размер на палмата и желаната позиция. Ако вече сте избрали вид или сте закупили растение, посочете това в заявката. Екипът на Florial ще обсъди с Вас подходящия начин за изпълнение."
+        }
+      ],
+      "style": "normal"
+    }
+  ],
+  "gallery": [],
+  "hero": {
+    "image": {
+      "_type": "image",
+      "alt": "Засаждане на голяма палма с помощта на градинска техника в градина край Несебър",
+      "altEn": "Planting a large palm with specialist garden equipment near Nessebar, Bulgaria",
+      "altRu": "Посадка крупной пальмы с помощью садовой техники в саду рядом с Несебром, Болгария",
+      "asset": {
+        "_ref": "image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg",
+        "_type": "reference"
+      }
+    },
+    "subtitle": "Избор на подходяща палма, подготовка на терена и внимателно засаждане според условията на Вашия имот.",
+    "title": "Професионално засаждане на палми в градини и дворове"
+  },
+  "image": {
+    "_type": "image",
+    "alt": "Засаждане на голяма палма с помощта на градинска техника в градина край Несебър",
+    "altEn": "Planting a large palm with specialist garden equipment near Nessebar, Bulgaria",
+    "altRu": "Посадка крупной пальмы с помощью садовой техники в саду рядом с Несебром, Болгария",
+    "asset": {
+      "_ref": "image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg",
+      "_type": "reference"
+    }
+  },
+  "leadForm": {
+    "fields": [
+      {
+        "_key": "iDEMx5YC3o85c6iUZvXqOx",
+        "label": "Име",
+        "name": "name",
+        "placeholder": "Вашето име",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvXqTA",
+        "label": "Телефон",
+        "name": "phone",
+        "placeholder": "Телефон за връзка",
+        "required": true,
+        "type": "tel"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvXqXN",
+        "label": "Имейл",
+        "name": "email",
+        "placeholder": "Вашият имейл (по желание)",
+        "required": false,
+        "type": "email"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvXqba",
+        "label": "Населено място",
+        "name": "location",
+        "placeholder": "Например Несебър, Равда или Бургас",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "iDEMx5YC3o85c6iUZvXqfn",
+        "label": "Вид и размер на палмата, снимки и описание",
+        "name": "details",
+        "placeholder": "Опишете мястото и желаното засаждане",
+        "required": false,
+        "type": "textarea"
+      }
+    ],
+    "submitLabel": "Изпрати запитване",
+    "successMessage": "Благодарим Ви! Получихме запитването Ви за засаждане на палми. Екипът на Florial ще се свърже с Вас.",
+    "title": "Заявка за засаждане на палми"
+  },
+  "name": "Засаждане на палми",
+  "relatedContent": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXo5p",
+      "_ref": "cfdbf22c-a7d9-480b-b88b-d1529a9389ef",
+      "_type": "reference"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXoA2",
+      "_ref": "7ead4133-8f63-4381-bafe-493499fff5b8",
+      "_type": "reference"
+    }
+  ],
+  "seo": {
+    "keywords": [
+      "засаждане на палми",
+      "палми за градина",
+      "засаждане на палми Несебър",
+      "палми Равда",
+      "палми Слънчев бряг",
+      "озеленяване с палми Бургас"
+    ],
+    "metaDescription": "Професионално засаждане на палми с подготовка на терена и грижа за растенията в Несебър, Равда, Слънчев бряг, Поморие и Бургас.",
+    "metaTitle": "Засаждане на палми | Несебър и Бургас | Florial",
+    "noIndex": false
+  },
+  "serviceCategory": "planting",
+  "serviceLayout": "standard",
+  "shortDescription": "Планиране и професионално засаждане на палми с оценка на терена, подготовка на посадъчното място и насоки за последваща грижа.",
+  "slug": {
+    "_type": "slug",
+    "current": "zasazhdane-na-palmi"
+  },
+  "sortOrder": 28,
+  "sourcePageUrl": "https://ru.wikihow.com/посадить-пальму",
+  "steps": [
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXnkm",
+      "text": "Уточняваме мястото, вида и размера на палмата, достъпа и условията на терена.",
+      "title": "Оглед и консултация"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXnoz",
+      "text": "Определяме позицията, размера на ямата и необходимите почвени или дренажни дейности.",
+      "title": "Планиране и подготовка"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXntC",
+      "text": "Организираме преместването и поставянето според размерите и достъпа.",
+      "title": "Доставка и позициониране"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXnxP",
+      "text": "Поставяме палмата на подходяща дълбочина и при необходимост укрепваме временно.",
+      "title": "Засаждане и стабилизиране"
+    },
+    {
+      "_key": "iDEMx5YC3o85c6iUZvXo1c",
+      "text": "Извършваме първоначално поливане и уточняваме грижите през периода на прихващане.",
+      "title": "Поливане и инструкции"
+    }
+  ],
+  "translations": {
+    "en": {
+      "advantages": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXoZI",
+          "text": "We consider winter conditions, wind and coastal exposure.",
+          "title": "Climate-aware selection"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXodV",
+          "text": "We assess soil, drainage, access and required space.",
+          "title": "Site preparation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXohi",
+          "text": "We plan safe movement and planting according to the palm's size.",
+          "title": "Careful positioning"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXolv",
+          "text": "We provide advice on watering, support and seasonal protection.",
+          "title": "Aftercare guidance"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Send enquiry",
+        "text": "Send us photos of the site, its location and the palm's approximate size or species.",
+        "title": "Planning a palm planting project?"
+      },
+      "description": "## Professional palm tree planting for gardens and outdoor spaces\n\nA palm can become a striking feature in a private garden, hotel courtyard or holiday property. Successful establishment depends on choosing a suitable species and size and assessing sunlight, soil, drainage, wind exposure and winter conditions.\n\nFlorial plans and carries out palm planting in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy, Burgas and nearby locations. For larger specimens, access, unloading and safe positioning are assessed in advance.\n\n## Choosing a palm for local conditions\n\nPalm species vary in cold tolerance, growth rate, mature height, crown shape and light requirements. The relatively mild maritime climate of Bulgaria's Southern Black Sea coast does not mean every tropical palm can safely remain outdoors through winter.\n\nWe consider actual minimum temperatures, sunlight, prevailing winds, proximity to the sea, salt spray and protection from cold air. We also consider the mature size of the palm and clearance from buildings, fences, paths, pools and overhead lines.\n\n## Site assessment and preparation\n\nBefore excavation, we confirm the planting position, access for people and equipment, and the possible location of underground utilities. The planting pit is sized according to the actual root ball and soil conditions.\n\n### Soil and drainage\n\nPalms need soil that allows air to reach the roots and excess water to drain away. Prolonged waterlogging can damage roots and the base of the plant. Preparation may include loosening compacted ground, improving the soil or planning drainage. Gravel is not automatically placed at the bottom of every planting hole.\n\n## The palm planting process\n\n### Handling and moving the palm\n\nDuring transport, the root ball should remain stable and protected from drying out. The trunk and crown are protected from mechanical damage. For large specimens, the lifting method is selected according to weight and access; specialist equipment is agreed separately when required.\n\n### Positioning and backfilling\n\nThe pit is made wide enough to place the palm without squeezing the roots. Planting depth depends on the original growing level and the species. The base of the trunk and growing point must not be buried too deeply. The palm is set upright, the root ball is kept as intact as possible, and the soil is firmed carefully.\n\n### Temporary support\n\nWhere the palm's size and site conditions require it, temporary bracing may be installed. Supports must stabilise the plant without damaging the trunk or compressing the crown. Removal depends on the palm's stability.\n\n## Initial watering and aftercare\n\nAfter planting, the palm receives an initial watering based on soil moisture and root-ball size. During establishment, moisture is monitored regularly: the soil should not remain dry for long periods, but it must not be continuously waterlogged.\n\nWatering frequency depends on the species, season, temperature, wind, soil and irrigation provision. A separate drip line or irrigation zone may be considered where appropriate.\n\n### Feeding, pruning and winter protection\n\nFeeding is planned according to the species, plant condition and soil. Avoid applying excessive fertiliser immediately after transplanting. Only dry or damaged leaves should be removed when necessary; green fronds and the central growing point should not be cut without a clear reason.\n\nWinter protection depends on the species, age and planting position. Sensitive palms may need protection around the root zone and crown during cold periods, while avoiding prolonged moisture around the growing point.\n\n## Palm planting on Bulgaria's Southern Black Sea coast\n\nConditions in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy and Burgas can vary even between nearby properties. Coastal sites may be exposed to wind and salt spray, while inland or low-lying areas can experience stronger winter cold.\n\nWe assess the actual property, including drainage after rain, access to water, wind protection and the availability of seasonal care.\n\n## What the Florial service may include\n\nDepending on the property and agreed scope, the service may include:\n\n- Inspecting and assessing the planting location.\n- Advice on a suitable palm species and size.\n- Planning the position, access and required clearance.\n- Preparing the site and planting pit.\n- Positioning, planting and temporary support where needed.\n- Initial watering and aftercare guidance.\n\nPalm delivery, specialist lifting equipment, additional drainage work, irrigation installation and seasonal maintenance are agreed separately. The price depends on the palm's species and size, access and scope of work.\n\n## Request palm planting\n\nSend us the town, photos of the site, the approximate size of the palm and your preferred planting position. If you have already selected or purchased a palm, include its species if known. The Florial team will discuss a suitable approach.",
+      "hero": {
+        "subtitle": "Suitable palm selection, site preparation and careful planting tailored to your property.",
+        "title": "Professional Palm Tree Planting for Gardens and Outdoor Spaces"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXoEF",
+            "label": "Name",
+            "name": "name",
+            "placeholder": "Your name",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXoIS",
+            "label": "Phone",
+            "name": "phone",
+            "placeholder": "Contact phone number",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXoMf",
+            "label": "Email",
+            "name": "email",
+            "placeholder": "Your email (optional)",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXoQs",
+            "label": "Town or location",
+            "name": "location",
+            "placeholder": "For example, Nessebar, Ravda or Burgas",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXoV5",
+            "label": "Palm species and size, photos and project details",
+            "name": "details",
+            "placeholder": "Describe the site and planting you have in mind",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Send enquiry",
+        "successMessage": "Thank you! We have received your palm planting enquiry. The Florial team will contact you.",
+        "title": "Palm planting enquiry"
+      },
+      "name": "Palm Tree Planting",
+      "seo": {
+        "keywords": [
+          "palm tree planting Bulgaria",
+          "palm planting Nessebar",
+          "palm trees for gardens Bulgaria",
+          "palm planting Ravda",
+          "palm planting Sunny Beach",
+          "landscaping with palms Burgas"
+        ],
+        "metaDescription": "Professional palm planting, site preparation and aftercare guidance in Nessebar, Ravda, Sunny Beach, Pomorie and Burgas, Bulgaria.",
+        "metaTitle": "Palm Tree Planting | Nessebar & Burgas | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Professional palm planting with site assessment, planting-area preparation and practical aftercare guidance.",
+      "steps": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXoq8",
+          "text": "We discuss the location, species, size and access.",
+          "title": "Site review and consultation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXouL",
+          "text": "We determine the position, pit dimensions and required site work.",
+          "title": "Planning and preparation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXoyY",
+          "text": "We arrange movement and placement according to size and access.",
+          "title": "Delivery and positioning"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXp2l",
+          "text": "We plant at a suitable depth and add support where needed.",
+          "title": "Planting and stabilisation"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXp6y",
+          "text": "We carry out initial watering and explain establishment care.",
+          "title": "Watering and guidance"
+        }
+      ]
+    },
+    "ru": {
+      "advantages": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXprH",
+          "text": "Учитываем зимние условия, ветер и близость моря.",
+          "title": "Подбор с учётом климата"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpvU",
+          "text": "Оцениваем почву, отвод воды, доступ и пространство.",
+          "title": "Подготовка участка"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpzh",
+          "text": "Планируем безопасное перемещение и посадку.",
+          "title": "Аккуратное размещение"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXq3u",
+          "text": "Объясняем полив, укрепление и сезонную защиту.",
+          "title": "Рекомендации по уходу"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Отправить заявку",
+        "text": "Пришлите фотографии участка, населённый пункт и информацию о размере или виде пальмы.",
+        "title": "Планируете посадку пальмы?"
+      },
+      "description": "## Профессиональная посадка пальм в садах и на участках\n\nПальма может стать выразительным акцентом в саду, во дворе дома, отеля или курортного комплекса. Для успешного укоренения важно выбрать подходящий вид и размер растения, оценить освещение, почву, дренаж, ветер и зимние условия.\n\nFlorial планирует и выполняет посадку пальм в Несебре, Равде, Солнечном Береге, Святом Власе, Поморие, Ахелое, Бургасе и близлежащих населённых пунктах. Для крупных экземпляров заранее оцениваются доступ, разгрузка и безопасное перемещение.\n\n## Выбор пальмы с учётом климата\n\nРазные виды отличаются морозостойкостью, скоростью роста, будущей высотой, формой кроны и требованиями к свету. Мягкий морской климат Южного Черноморья не означает, что любая тропическая пальма сможет без проблем перенести зимние похолодания.\n\nМы учитываем реальные минимальные температуры участка, солнечное освещение, направление ветра, близость моря, солёные аэрозоли и защиту от холодного воздуха. Также оцениваем взрослые размеры пальмы и расстояния до зданий, ограждений, дорожек, бассейнов и воздушных линий.\n\n## Осмотр и подготовка участка\n\nДо земляных работ уточняем место посадки, доступ для людей и техники и возможное расположение подземных коммуникаций. Размер ямы определяется по фактическому корневому кому и свойствам грунта.\n\n### Почва и дренаж\n\nПальмам нужна почва, которая обеспечивает доступ воздуха к корням и отводит лишнюю воду. Длительное переувлажнение может повредить корни и основание растения. При необходимости планируем рыхление, улучшение грунта или дренаж. Щебень на дно каждой ямы не добавляется автоматически — решение зависит от участка.\n\n## Технология посадки пальм\n\n### Подготовка и перемещение\n\nВо время транспортировки корневой ком должен сохранять форму и быть защищённым от пересыхания. Ствол и крону оберегают от механических повреждений. Для крупных экземпляров способ подъёма выбирается с учётом веса и доступа; специализированная техника согласовывается отдельно, если она необходима.\n\n### Установка и обратная засыпка\n\nПосадочную яму делают достаточно широкой для установки без сдавливания корней. Глубина зависит от исходного уровня посадки и особенностей вида. Основание ствола и точку роста нельзя чрезмерно заглублять. Пальму устанавливают вертикально, корневой ком сохраняют максимально целым, а грунт вокруг него аккуратно уплотняют.\n\n### Временное укрепление\n\nЕсли размер растения и условия участка этого требуют, устанавливают временные опоры. Они должны стабилизировать пальму, не повреждая ствол и не сдавливая крону. Срок снятия зависит от устойчивости растения.\n\n## Первый полив и уход после посадки\n\nПосле посадки проводят первоначальный полив с учётом влажности почвы и размера корневого кома. Во время укоренения влажность контролируют регулярно: грунт не должен надолго пересыхать, но и не должен оставаться постоянно заболоченным.\n\nЧастота полива зависит от вида пальмы, сезона, температуры, ветра, почвы и наличия автоматического полива. При необходимости можно предусмотреть капельную линию или отдельную зону полива.\n\n### Подкормка, обрезка и зимняя защита\n\nПодкормку планируют с учётом вида, состояния растения и почвы. Не следует произвольно вносить большие дозы удобрений сразу после пересадки. Удаляют только сухие или повреждённые листья; зелёные листья и центральную точку роста не обрезают без веской причины.\n\nНеобходимость зимней защиты зависит от вида, возраста и места посадки. Для чувствительных пальм можно предусмотреть защиту корневой зоны и кроны в холодные периоды, не допуская длительного скопления влаги возле точки роста.\n\n## Посадка пальм на Южном Черноморье Болгарии\n\nВ Несебре, Равде, Солнечном Береге, Святом Власе, Поморие, Ахелое и Бургасе условия могут заметно отличаться даже между соседними участками. Прибрежные места подвержены ветру и солёным аэрозолям, а во внутренних и низинных зонах возможны более сильные зимние похолодания.\n\nМы оцениваем конкретный участок: отвод воды после дождей, доступ к поливу, защиту от ветра и возможность сезонного ухода.\n\n## Что может входить в услугу Florial\n\nВ зависимости от объекта и согласованного объёма работ услуга может включать:\n\n- Осмотр и оценку места посадки.\n- Консультацию по подходящему виду и размеру пальмы.\n- Планирование расположения, доступа и необходимого пространства.\n- Подготовку участка и посадочной ямы.\n- Позиционирование, посадку и временное укрепление при необходимости.\n- Первый полив и рекомендации по уходу.\n\nДоставка пальмы, специализированная подъёмная техника, дополнительные дренажные работы, монтаж полива и сезонное обслуживание согласовываются отдельно. Стоимость зависит от вида и размера пальмы, доступа и объёма работ.\n\n## Закажите посадку пальм\n\nПришлите населённый пункт, фотографии участка, примерный размер пальмы и желаемое место посадки. Если вид уже выбран или растение приобретено, укажите это в заявке. Команда Florial обсудит с вами подходящий способ выполнения работ.",
+      "hero": {
+        "subtitle": "Подбор подходящей пальмы, подготовка участка и аккуратная посадка с учётом условий вашего объекта.",
+        "title": "Профессиональная посадка пальм в садах и на участках"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXpWE",
+            "label": "Имя",
+            "name": "name",
+            "placeholder": "Ваше имя",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXpaR",
+            "label": "Телефон",
+            "name": "phone",
+            "placeholder": "Контактный телефон",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXpee",
+            "label": "Электронная почта",
+            "name": "email",
+            "placeholder": "Ваш email (необязательно)",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXpir",
+            "label": "Населённый пункт",
+            "name": "location",
+            "placeholder": "Например, Несебр, Равда или Бургас",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "iDEMx5YC3o85c6iUZvXpn4",
+            "label": "Вид и размер пальмы, фото и описание",
+            "name": "details",
+            "placeholder": "Опишите участок и желаемую посадку",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Отправить заявку",
+        "successMessage": "Спасибо! Мы получили вашу заявку на посадку пальм. Команда Florial свяжется с вами.",
+        "title": "Заявка на посадку пальм"
+      },
+      "name": "Посадка пальм",
+      "seo": {
+        "keywords": [
+          "посадка пальм",
+          "пальмы для сада Болгария",
+          "посадка пальм Несебр",
+          "пальмы Равда",
+          "пальмы Солнечный Берег",
+          "озеленение пальмами Бургас"
+        ],
+        "metaDescription": "Профессиональная посадка пальм с подготовкой участка и рекомендациями по уходу в Несебре, Равде, Солнечном Береге, Поморие и Бургасе.",
+        "metaTitle": "Посадка пальм | Несебр и Бургас | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Планирование и профессиональная посадка пальм с оценкой участка, подготовкой посадочного места и рекомендациями по дальнейшему уходу.",
+      "steps": [
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpBB",
+          "text": "Уточняем место, вид и размер пальмы, доступ и особенности участка.",
+          "title": "Осмотр и консультация"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpFO",
+          "text": "Определяем позицию, размер ямы и необходимые работы.",
+          "title": "Планирование и подготовка"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpJb",
+          "text": "Организуем перемещение и установку с учётом габаритов и доступа.",
+          "title": "Доставка и размещение"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpNo",
+          "text": "Устанавливаем пальму на подходящую глубину и при необходимости укрепляем.",
+          "title": "Посадка и стабилизация"
+        },
+        {
+          "_key": "iDEMx5YC3o85c6iUZvXpS1",
+          "text": "Проводим первый полив и объясняем уход в период укоренения.",
+          "title": "Полив и инструкции"
+        }
+      ]
+    }
+  }
+}
