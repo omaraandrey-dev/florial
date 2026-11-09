@@ -1,3 +1,12 @@
+## 2026-11-09 — Service image links and related-content references
+
+- Added optional `linkUrl` metadata to service-specific image fields: service main image, hero image, gallery images and `serviceContentBlock.image`. Internal relative routes and full HTTPS links are supported; empty values keep images non-clickable.
+- Added optional `service.relatedContent` references to existing service, blogPost, product and category documents. The frontend renders these as compact, responsive linked cards with localized target names/descriptions and images.
+- Existing service content blocks, image assets, SEO fields, URLs and lead form schema remain compatible. No existing document values were migrated or removed.
+- Frontend supports a `__gallery:watering` marker mapped to the localized watering/aftercare H2 section. Existing gallery markers remain unchanged.
+
+---
+
 ## 2026-11-08 — Уточнение Этапа 4: поля согласия и privacy URL исключены до deploy
 
 - По решению владельца форма услуги не должна требовать checkbox согласия и не должна показывать ссылку на privacy policy.
