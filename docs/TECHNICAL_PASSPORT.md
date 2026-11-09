@@ -1,3 +1,15 @@
+## 2026-11-09 — Service image links and related content
+
+- GitHub main merge commit: `627953676e0cef853704a648693e7cf57284bfcc`, PR #134.
+- Service schema: optional `linkUrl` on service image, hero image, gallery images and `serviceContentBlock.image`; optional `relatedContent` references to `service`, `blogPost`, `product`, `category`.
+- Frontend: service image links are localized for internal routes; related materials render as compact image-left/text-right cards. Added `__gallery:watering` marker to map inline imagery to the watering section.
+- Canonical Studio schema deployment succeeded in GitHub Actions run `42553313954`; schema API confirms the new fields in workspace `florial-admin`. Existing Studio application retained.
+- Sanity service `cfdbf22c-a7d9-480b-b88b-d1529a9389ef` updated and published with new drip-irrigation image, localized ALT values, localized watering text, image link to `/services/avtomatizirano-kapkovo-napoyavane`, and related service references to olive planting and drip irrigation. User's current main image preserved.
+- Target-service JSON snapshot stored at `docs/backups/sanity-service-zasazhdane-na-rasteniya-2026-11-09.json`. Full dataset copy is unavailable under the current Sanity plan; no dataset contents were deleted or overwritten.
+- Cloudflare Pages Production deployment `7a53b3b5-0898-48f2-a249-50f71617ae91` succeeded for this commit. Live smoke in BG/RU/EN confirms localized H1/section, linked photo, related cards and lead form.
+- Checks passed: lint, utility tests, website build, Pages Functions syntax, read-only migration dry-run, Studio build, Sanity Studio validation, D1 migration validation.
+- No changes to Header, navigation, Footer, Manager, D1, order APIs, service URL or existing lead-form behavior.
+
 
 ## 2026-11-09 — Контрольная инструкция Florial MD2 rev23
 
