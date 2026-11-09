@@ -346,3 +346,27 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 - These are Vite build artifacts, not live transfer or page speed metrics. SPA navigation/scroll regression and live chunk network inspection remain open.
 - No Sanity, D1, API, Manager, cart/checkout, Header/menu/Footer layout or Cloudflare config changes.
 
+
+
+## Контрольная точка 09.11.2026 — intrinsic dimensions для SEO fallback image
+
+### Runtime release
+- На `main` опубликован commit `9bd5d3fb268d7dec9c3dab330e8039987ec78718`.
+- Изменены `functions/_middleware.ts`, добавлен `functions/lib/sanityImageDimensions.ts`, добавлен тест `tests/sanity-image-dimensions.test.mjs`.
+- Для изображения в `documentBody` middleware добавляет исходные `width` и `height`, если URL принадлежит `https://cdn.sanity.io/images/` и имя файла содержит валидные размеры `-WIDTHxHEIGHT.ext`. Невалидные, внешние и dimensionless URL остаются без придуманных размеров.
+- Cloudflare Pages Production deployment `88fd47db-3990-4447-813e-be6b12a42028` — `success`, commit совпадает с main, aliases `florial-bg.com` и `www.florial-bg.com`.
+- GitHub Actions run `42635382574` — success: dependency installation, lint, website build, Pages Functions syntax. Push workflow не выполняет `npm test`; новый unit test suite должен быть подтверждён PR validation.
+
+### Что подтверждено и что нет
+- Изменение является ограниченной mitigation для intrinsic image geometry в SEO fallback HTML.
+- Оно НЕ доказывает, что residual CLS категории устранён. Последняя подтверждённая мобильная медиана до этого релиза — `0.3441`; post-release повторные измерения не выполнены.
+- Live scrape категории вернул HTTP 200, но инструмент показал hydrated React loading shell, а не исходный HTML до JavaScript. Наличие атрибутов в первом HTTP response не подтверждено.
+- Мобильная CategoryPage не показывает большое изображение категории (оно `hidden lg:block`); подкатегории и product images имеют фиксированные контейнеры. Поэтому нельзя автоматически приписывать residual CLS видимому мобильному изображению CategoryPage.
+- Для точного диагноза требуется CDP PerformanceObserver trace на холодной загрузке и просмотр source nodes/rects. До него не менять shared layout или category markup.
+
+### Открытые пункты
+1. Повторить mobile CLS 3 раза на прежнем профиле 390×844, CPU 4×, latency 150 ms, 10/1.5 Mbps, cache disabled.
+2. Провести desktop CLS с отдельным профилем и trace.
+3. Получить Lighthouse mobile/desktop, INP field data (если CrUX доступен) и/или лабораторный interaction latency.
+4. Если CLS остаётся, проверить начальный SEO fallback и его замену через `createRoot`, async category detail, fonts and images. Не считать одну гипотезу доказанной.
+5. Не менять Header/menu/Footer, Sanity, D1, Manager, checkout, APIs или Cloudflare settings ради этих измерений.
