@@ -1543,3 +1543,12 @@
 - Mobile smoke 390px: HTTP 200, все три изображения найдены в DOM, три inline image sections; верхняя повторная галерея отсутствует.
 - CI: `Florial D1 migration validation` run #636 — success; `Blog and Studio validation` run #594 — success, включая website lint, utility tests, website build, migration syntax/dry-run и Sanity Studio build.
 - Production deployment и live HTML подтверждают, что код и Sanity content синхронизированы. Реальные заявки не отправлялись; форма и D1/email end-to-end не тестировались.
+
+## 2026-11-09 — Ограничение блока услуг на главной странице
+
+- `src/pages/HomePage.tsx`: после существующей сортировки `getOrderedServiceEntries(services)` главная страница отображает только первые 6 элементов через `.slice(0, 6)`.
+- Кнопка «Всички услуги» без изменений ведёт на `/services`; полная страница услуг и данные Sanity не ограничиваются.
+- Сохранены существующий порядок `sortOrder`, fallback-карточка доставки, локализация BG/RU/EN, ссылки и оформление карточек.
+- Изменение касается только количества карточек в домашнем блоке. Запрос Sanity и объём загружаемых данных не менялись; это сокращает число рендеримых карточек/изображений, но не объём сетевой загрузки услуг.
+- Header, меню, Footer, SEO, Sanity, D1, API, Manager и checkout не затронуты.
+- Проверки и Production deployment будут зафиксированы после CI и публикации.
