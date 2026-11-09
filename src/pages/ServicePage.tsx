@@ -13,25 +13,25 @@ const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
-      intro: ['нашият подход към засаждането на маслини'],
-      trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма'],
-      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво'],
-      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника'],
-      automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането'],
+      intro: ['планиране на засаждането и избор на растения'],
+      trenches: ['подготовка на терена и почвата'],
+      pipeline: ['поливане и грижи след засаждането'],
+      equipment: ['засаждане на дървета, храсти и живи плетове'],
+      automation: ['засаждане на цветя и декоративни треви'],
     },
     ru: {
-      intro: ['наш подход к посадке оливковых деревьев'],
-      trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы'],
-      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева'],
-      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники'],
-      automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки'],
+      intro: ['планирование посадки и выбор растений'],
+      trenches: ['подготовка участка и почвы'],
+      pipeline: ['полив и уход после посадки'],
+      equipment: ['посадка деревьев, кустарников и живых изгородей'],
+      automation: ['посадка цветов и декоративных трав'],
     },
     en: {
-      intro: ['our approach to olive tree planting'],
-      trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation'],
-      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree'],
-      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment'],
-      automation: ['valves, filters and controls', 'initial care after planting'],
+      intro: ['planning the planting and selecting suitable plants'],
+      trenches: ['preparing the site and soil'],
+      pipeline: ['watering and aftercare'],
+      equipment: ['planting trees, shrubs and hedges'],
+      automation: ['planting flowers and ornamental grasses'],
     },
   }
   const languageHeadings = headings[language] || headings.bg
@@ -43,7 +43,7 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
   const singleImage = images.length === 1
   return (
     <section
-      aria-label={language === 'ru' ? 'Фотографии этапов посадки оливковых деревьев' : language === 'en' ? 'Olive tree planting photos' : 'Снимки от засаждането на маслини'}
+      aria-label={language === 'ru' ? 'Фотографии этапов посадки растений' : language === 'en' ? 'Planting process photos' : 'Снимки от етапите на засаждане'}
       className={singleImage ? 'my-8 flex justify-center' : group === 'intro' ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
     >
       {images.map((image, index) => {
