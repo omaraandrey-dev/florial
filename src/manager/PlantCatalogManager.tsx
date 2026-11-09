@@ -183,7 +183,7 @@ export default function PlantCatalogManager({role}:Props){
     body:JSON.stringify(editingId?{expectedRevision:revision,idempotencyKey,product}:{idempotencyKey,product}),
    })
    const result=await responseJson(response)
-   if(!response.ok){if(result.conflict)throw new Error('Карточката е променена от друг служител. Затворете я и отворете отново, за да заредите актуалните данни.');throw new Error(result.error||'Не успяхме да запазим растението.')}
+   if(!response.ok){if(result.conflict)throw new Error('Продуктът е променена от друг служител. Затворете я и отворете отново, за да заредите актуалните данни.');throw new Error(result.error||'Не успяхме да запазим растението.')}
    setPendingIdempotencyKey(null)
    setNotice('Растението е публикувано и запазено в каталога.')
    setEditorOpen(false);setEditingId(null);await load()
