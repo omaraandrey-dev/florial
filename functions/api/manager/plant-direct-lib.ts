@@ -8,6 +8,7 @@ export const PRODUCT_TYPES = new Set([
 ])
 export const STOCK_STATUSES = new Set(['inStock','onRequest','outOfStock'])
 export type PlantVariant = {
+  _type: 'plantSaleVariant'
   _key: string
   name: string
   nameEn?: string
