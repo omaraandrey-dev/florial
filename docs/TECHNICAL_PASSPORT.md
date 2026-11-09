@@ -1,3 +1,16 @@
+## 2026-11-09 — PR #156: reserve shared route content height and post-release CLS verification
+
+- PR #156 merged into `main`: merge commit `70335b7064e6c61c9d53b4c3f3769fd91c8f5ee2`; changed only `src/App.tsx` (+8 lines).
+- Added `shouldReserveRouteContentHeight` for category, product, service-detail, search and blog routes; the existing Suspense boundary now sits inside a shared `flex-grow min-h-screen` content wrapper for those routes. This keeps the Footer outside the initial viewport while route chunks/data resolve.
+- Header, menu, Footer component, individual page components, page content, routes, SEO, product/cart/checkout/order/Manager logic, Sanity documents/schemas, D1, APIs, Cloudflare settings/rules/secrets and environment variables were not changed.
+- CI passed: Florial D1 migration validation and Blog and Studio validation. Website lint/build, Pages Functions syntax, utilities tests, D1 read-only dry-run and Sanity Studio build all succeeded.
+- Production deployment `5658ac34-ce79-440a-ac9b-57262ef13ba3` from `main` commit `70335b7064e6c61c9d53b4c3f3769fd91c8f5ee2` succeeded and owns aliases `florial-bg.com` and `www.florial-bg.com`.
+- Controlled mobile CLS retest (390×844, CPU 4×, 150 ms, 10/1.5 Mbps, cache disabled, 3 runs): homepage median `0.0002`; irrigation category `0.3441`; product `0.0002`; blog `0.0002`; article `0.0143`. Before PR #156: `0.0002`, `1.0443`, `0.7005`, `0.6124`, `0.7805` respectively. Footer-driven shifts on product/blog/article are effectively eliminated; category improved by about 67%, but retains a separate `0.34385` shift in two of three runs whose source node is not exposed by the browser Performance API. Do not claim category CLS is fixed.
+- Post-release smoke: all tested routes returned HTTP 200; zero failed images. Category plants 29/28 responsive srcsets; search 45/44; planting service 9/8; about 8/7; contacts 3/0; cart 1/0; irrigation category 32/31; product 4/3; blog 23/22; article 5/4. SPA category → product → Back → Forward navigation succeeded.
+- Short pages `/about`, `/contacts`, `/cart` do not receive the `min-h-screen` route wrapper; the wrapper applies only to dynamic/long routes. Their page content and route rendering remain intact.
+- Remaining: investigate category-specific CLS residual; repeat desktop CLS/INP and Lighthouse/field CrUX when available. This PR does not claim overall site speed or Core Web Vitals are fully optimized.
+
+---
 ## 2026-11-09 — Controlled route CLS audit and stale-base deployment root cause
 
 - Repeated controlled mobile route CLS capture on current Production (`390×844`, CPU 4×, 150 ms latency, 10 Mbps down / 1.5 Mbps up, browser cache disabled; 3 runs per route). Session-window grouping: 1-second gap, 5-second maximum window.
