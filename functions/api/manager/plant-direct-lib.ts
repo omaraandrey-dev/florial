@@ -143,7 +143,6 @@ export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,
   role: string,
-  existing?: PlantDocument,
 ): Promise<{ set: Record<string, unknown>; changedFields: string[] }> => {
   if (!isObject(input)) throw new Error('Липсват данни за растението.')
   if (role !== 'owner' && ('plantCare' in input || 'careGuide' in input)) {
