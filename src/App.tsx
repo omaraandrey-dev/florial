@@ -1420,7 +1420,11 @@ export default function App() {
           service={currentServiceDetails || currentService}
           onNavigateHome={navigateToHome}
         />
-      ) : activeCategorySlug && (loadingProducts || loadingCategoryDetails) ? (
+      ) : activeCategorySlug && (
+        loadingProducts ||
+        loadingCategoryDetails ||
+        Boolean(currentCategory && currentCategoryDetails?._id !== currentCategory._id)
+      ) ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на категорията...")}</p>
         </div>
