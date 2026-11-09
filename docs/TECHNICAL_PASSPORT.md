@@ -1,3 +1,16 @@
+## 2026-11-09 — PR #145: compact blog cards and shared list fetch
+
+- PR #145 merged squash: `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`; Production deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` success; aliases `florial-bg.com`, `www.florial-bg.com`.
+- Changed runtime files: `src/lib/blog.ts`, `src/components/Header.tsx`, `src/components/BlogSection.tsx`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`.
+- Blog list/card query now contains only slug, date, cover URL/ALT/caption and localized BG/RU/EN title, shortDescription and coverAlt. Full body Portable Text, gallery, SEO and tags remain in single-article detail query by slug.
+- `fetchBlogPosts(3)` shared promise cache TTL 60 seconds deduplicates concurrent Header and BlogSection calls. Cache keys separate top-3 and all posts; failures evict their cache entry and token prevents an older failed request from deleting a newer entry.
+- BlogPage and related articles use compact list records; BlogPostPage retains full detail for current article.
+- Read-only Sanity validation: compact top-3 returned 3 documents / 4,668 output characters; compact all returned 22 / 29,597 characters; full detail for two published articles returned 47,544 and 35,000 output characters with BG/RU/EN Portable Text. These tool-output lengths are not wire transfer metrics. No Sanity writes.
+- CI run `42590188304` success (lint, utility tests, site build, Studio build and migration dry-run); D1 run `42590188234` success.
+- Live smoke BG/RU/EN: homepage 3 blog cards; `/blog` 22 article links; Rain Bird article detail content and localization; header Portfolio menu opens and shows 3 article links plus blog CTA. No loading placeholders after client-side load.
+- No changes to Sanity schema/documents, D1, API, Manager, cart/checkout, Cloudflare settings/secrets or Header/menu/Footer layout.
+- Controlled network transfer, request-count CDP capture and Lighthouse/CWV remain unmeasured; no speed percentage claimed.
+
 ## 2026-11-09 — Post-release Sanity diagnostic (not comparable with baseline)
 
 - Report: `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`.
