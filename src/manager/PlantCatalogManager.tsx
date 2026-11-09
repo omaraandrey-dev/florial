@@ -13,6 +13,7 @@ type PlantForm={
 type Category={_id:string;name:string;slug?:string;parentId?:string;parentName?:string}
 type ListItem={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;slug?:string;categoryId?:string;categoryName?:string;categoryParent?:string;thumbnail?:string;priceFromEUR:number|null;listStockStatus:string;variantCount:number;isActive?:boolean}
 type Props={role:Role}
+type RichTextOriginal={description:any;translations:Record<string,any>}
 const stockLabels:Record<string,string>={inStock:'В наличност',onRequest:'По заявка',outOfStock:'Няма наличност',mixed:'Различна наличност'}
 const productTypes=[['plant','Растение'],['tree','Дърво'],['shrub','Храст'],['flower','Цвете'],['perennial','Многогодишно растение'],['indoor','Стайно растение'],['citrus','Цитрус'],['palm','Палма'],['conifer','Иглолистно растение'],['fruit','Плодово растение'],['succulent','Сукулент'],['climber','Катерливо растение'],['ornamentalGrass','Декоративна трева'],['groundcover','Почвопокривно растение'],['bulb','Луковично растение'],['herb','Билка'],['aquatic','Водно растение'],['other','Друг вид растение']]
 const newVariant=():Variant=>({_key:crypto.randomUUID().replace(/-/g,'').slice(0,12),name:'',nameEn:'',nameRu:'',sku:'',saleHeightCm:'',containerVolumeL:'',priceEUR:'',oldPriceEUR:'',stockStatus:'onRequest',stockQuantity:''})
@@ -52,6 +53,7 @@ export default function PlantCatalogManager({role}:Props){
  const [revision,setRevision]=useState('')
  const [form,setForm]=useState<PlantForm>(emptyForm)
  const [images,setImages]=useState<ImageItem[]>([])
+ const [originalRichText,setOriginalRichText]=useState<RichTextOriginal>({description:null,translations:{}})
  const [mainImageIndex,setMainImageIndex]=useState(0)
  const [saving,setSaving]=useState(false)
  const [aiLoading,setAiLoading]=useState(false)
@@ -80,7 +82,7 @@ export default function PlantCatalogManager({role}:Props){
  useEffect(()=>{void load()},[load])
  useEffect(()=>{setPendingIdempotencyKey(null)},[form,images])
 
- const openNew=()=>{setEditingId(null);setRevision('');setForm(emptyForm());setImages([]);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setEditingId(null);setRevision('');setForm(emptyForm());setOriginalRichText({description:null,translations:{}});setImages([]);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
   setError('');setNotice('');setLoading(true)
   try{
@@ -92,6 +94,7 @@ export default function PlantCatalogManager({role}:Props){
    const gallery=(Array.isArray(p.gallery)?p.gallery:[]).map(imageFrom).filter(Boolean) as ImageItem[]
    const all=[...(main?[main]:[]),...gallery]
    const translations=p.translations||{}
+   setOriginalRichText({description:p.description||null,translations:{bg:translations.bg?.description||null,ru:translations.ru?.description||null,en:translations.en?.description||null}})
    setEditingId(id);setRevision(p._rev);setImages(all);setMainImageIndex(0);setAiWarnings([])
    setForm({
     name:p.name||'',slug:p.slug?.current||'',scientificName:p.scientificName||'',sku:p.sku||'',productType:p.productType||'plant',
@@ -157,10 +160,13 @@ export default function PlantCatalogManager({role}:Props){
    const selected=images[mainImageIndex]
    const product={
     name:form.name,slug:form.slug,scientificName:form.scientificName,sku:form.sku,productType:form.productType,categoryId:form.categoryId||form.categoryIds[0],categoryIds:form.categoryIds,
-    shortDescription:form.shortDescription,description:form.description,isFeatured:form.isFeatured,isActive:form.isActive,
+    shortDescription:form.shortDescription,
+    description:Array.isArray(originalRichText.description)&&form.description===plainText(originalRichText.description)?originalRichText.description:form.description,
+    isFeatured:form.isFeatured,isActive:form.isActive,
     saleVariants:form.saleVariants.map(v=>({...v,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
     mainImage:selected,gallery:images.filter((_,index)=>index!==mainImageIndex),
-    translations:form.translations,seo:form.seo,
+    translations:Object.fromEntries(['bg','ru','en'].map(language=>{const current=form.translations[language]||{};const original=originalRichText.translations[language];return [language,{...current,description:Array.isArray(original)&&current.description===plainText(original)?original:current.description}]})),
+    seo:form.seo,
    }
    const idempotencyKey=pendingIdempotencyKey||crypto.randomUUID()
    if(!pendingIdempotencyKey)setPendingIdempotencyKey(idempotencyKey)
