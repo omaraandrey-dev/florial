@@ -1,3 +1,16 @@
+## 2026-11-09 — Internal links on five planting-service photos
+
+- Sanity document `cfdbf22c-a7d9-480b-b88b-d1529a9389ef`, slug `zasazhdane-na-rasteniya`: assigned `contentBlocks[].image.linkUrl` for all five inline photos in their existing article order.
+- Photo 1 → `https://florial-bg.com/category/rastenia` (plants dataset category `plants-root`).
+- Photo 2 → `https://florial-bg.com/category/darveta-i-hrasti` (plants dataset category `plants-trees-shrubs`).
+- Photo 3 → `https://florial-bg.com/category/soliteri-edrorazmerni` (plants dataset category `plants-solitaires`).
+- Photo 4 → `https://florial-bg.com/category/tsvetya-i-rozi` (plants dataset category `plants-flowers`).
+- Photo 5 → `https://florial-bg.com/category/kapkovo-napoyavane` (production dataset category `e577ef6b-d164-488f-b2f0-29ff7e8e7e9b`).
+- All five category documents were found in their respective published Sanity datasets. Existing image assets, order, markers, ALT texts, main Hero image, article text and form were preserved.
+- Before-write snapshot committed: `docs/backups/sanity-service-zasazhdane-na-rasteniya-before-category-image-links-2026-11-09.json` (GitHub commit `e4d2ee328e0096a48e6dee134238c95db4587744`).
+- Draft was verified to contain the five requested URLs, then published. Published Sanity revision: `9Jlb6k9xfgGTkBekNEY2fH`.
+- External live page fetch via web cache was unavailable in this run; therefore live click-through is not claimed. Sanity published-data verification passed.
+
 ## 2026-11-09 — Стандарт контента услуг Florial
 
 - Созданы playbook `docs/SERVICE_CONTENT_PLAYBOOK.md` и стартовый промпт `docs/PROMPT_SERVICE_CREATION_AND_EDITING.md`; оба сохранены в Library.
