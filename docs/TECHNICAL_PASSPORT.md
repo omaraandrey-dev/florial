@@ -1,3 +1,17 @@
+## 2026-11-09 — Manager plant submission status fix (PR #161)
+
+- Root cause: `functions/api/manager/data.ts` allowed `submitted` for Seller and Manager-with-create permission, but omitted it from the Owner branch. Owner's valid `draft → submitted` request therefore returned `Invalid status transition`.
+- Added `canSetCatalogSubmissionStatus` to `functions/api/manager/_lib.ts` and routed the D1 Manager endpoint through this helper.
+- Owner can submit own plant draft. Seller can submit only own draft; Seller still cannot review, approve, reject or publish. Manager review/approval continue to require their individual permission flags.
+- Added six tests in `tests/catalog-submission-status.test.mjs` for Owner, Seller, Manager and protected publication statuses.
+- PR #161 merged squash: `3f8a363ee60b6355209c36d821d50ab80267d806`.
+- CI: Blog and Studio validation run `42649059860` — success; D1 migration validation run `42649059911` — success. All 34 tests passed; lint, website build, Pages Functions syntax, read-only migration dry-run, Sanity Studio build and D1 migration validation passed.
+- Cloudflare Pages Production deployment `35abbc66-d88a-4492-8783-87f827642441` — success; aliases `florial-bg.com` and `www.florial-bg.com`. First deployment attempt `b60516f3-3980-403e-b499-37c13f60360d` failed transiently during Function publish with `Unknown internal error occurred`; Cloudflare retry succeeded.
+- No D1 migrations or data writes; no Sanity changes; no changes to staff profiles, submissions, events, orders, Header, menu, Footer or checkout.
+- Authenticated Owner/Seller browser submission was not performed. Unit coverage confirms the role/status helper; no test Production submissions were created.
+
+---
+
 ## 2026-11-09 — PR #156: reserve shared route content height and post-release CLS verification
 
 - PR #156 merged into `main`: merge commit `70335b7064e6c61c9d53b4c3f3769fd91c8f5ee2`; changed only `src/App.tsx` (+8 lines).
