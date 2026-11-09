@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Первое ограниченное улучшение изображений карточек главной внедрено в Production; последующие этапы продолжаются.  
+**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Этап 1 частично выполнен: компактная initial service/product loading, full detail on demand и homepage category sections 6+6 опубликованы в Production. Измерение post-release Sanity transfer для PR #142/#143 ещё впереди.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -200,7 +200,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 - [x] Roadmap создан; статические наблюдения исходного кода зафиксированы.
 - [~] Этап 0 — browser/network baseline сохранён в `docs/performance/BASELINE.md`; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за недоступности PageSpeed API и отсутствия LCP/INP в remote browser capture.
-- [ ] Этап 1 — лёгкая загрузка данных главной.
+- [~] Этап 1 — компактные initial service/product projections, on-demand service/product details, homepage 6+6 category cards; category payload и повторные network measurements ещё открыты.
 - [ ] Этап 2 — карточные GROQ projections и блог.
 - [~] Этап 3 — изображения: responsive/lazy loading карточек HomePage выполнен (PR #141); Hero, блог, остальные страницы и Lighthouse/LCP проверки ещё впереди.
 - [ ] Этап 4 — Sanity CDN и кэширование.
@@ -208,7 +208,7 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - [ ] Этап 6 — остальные страницы.
 - [ ] Этап 7 — регрессия и production.
 
-**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. Первое улучшение responsive/lazy images карточек главной уже опубликовано (PR #141); его измеримый mobile результат зафиксирован в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. Следующая кодовая задача — Stage 1: составить карту всех потребителей `products`, `categories`, `plantCategories`, `services` и `siteSettings` в `src/App.tsx`, затем представить безопасный план лёгких Sanity projections. До отдельного согласования не менять запросы и глобальное состояние.
+**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. Responsive/lazy images карточек главной (PR #141) и compact/on-demand service loading (PR #142) опубликованы; mobile image result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #143 опубликован: homepage plant/irrigation category sections ограничены 6+6, product/plant catalog projections облегчены, full product detail и search index загружаются по требованию. Следующий безопасный этап — разделить category navigation projection и full category content: initial categories нужны Header/HomePage/Product breadcrumbs, тогда как description/SEO/helpBlock нужны только для конкретной CategoryPage. Сначала проверить все потребители category fields и сделать отдельный PR. Затем повторить browser/network measurement на том же профиле baseline; Lighthouse/LCP/INP остаются открытыми.
 
 ## 7. Инструкция для нового чата
 
@@ -258,4 +258,18 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - Обнаружены legacy env variable names `SUPABASE_*` и `VITE_SUPABASE_*` в Cloudflare Pages metadata. Не изменять без отдельной проверки ссылок в коде и согласования очистки.
 
 **Следующая задача:** dependency map и безопасное разделение equipment/plant catalog на compact search/category index, card projection и on-demand detail. Сохранить полное поведение поиска, фильтров, сортировки, комплектаций, вариантов растений, совместимости, related products, cart и BG/RU/EN.
+
+
+
+## Контрольная точка 09.11.2026 — PR #143: каталог и homepage 6+6
+
+- PR #143 merged squash в `main`: `e7d33432b134825dc2fb065a8e254b363e73e67d`; изменены только `src/App.tsx` и `src/pages/HomePage.tsx`.
+- Homepage: первые шесть категорий растений и первые шесть категорий оборудования по прежней сортировке; CTA ведут в полные каталоги. Live BG/RU/EN подтверждают 6+6.
+- Initial product/plant queries теперь компактные. Product detail GROQ выполняется по требованию; поисковый индекс загружается только на /search. Сохранены category filters, plant filters, variants, kit components, related content, recommended irrigation, specifications, SEO и descriptions в detail.
+- Sanity read-only queries проверены на datasets production/plants. Sanity content/schema не менялись.
+- CI: Blog and Studio validation `42587640231` success; D1 validation `42587640149` success.
+- Production deployment `7169a06c-cd7d-4184-b47c-083a9f3cdb2a` success, commit совпадает с merge commit; aliases florial-bg.com и www.florial-bg.com.
+- Live smoke: homepage BG/RU/EN; both catalogue roots; Rain Bird equipment detail; Trachycarpus detail BG/RU/EN and sale variant; kit detail/components; plant filters; Rain Bird search returns 130 results. No loading placeholder remained after client load.
+- Не выполнялись cart click, checkout/order, browser console, full SPA manual regression. Post-release network transfer/Lighthouse/CWV measurement не выполнялись; ускорение в процентах не заявляется.
+- Следующая задача: compact category index + on-demand category description/SEO/helpBlock, после анализа Header/HomePage/ProductPage/About/CategoryPage consumers. Не менять Header/menu/Footer.
 
