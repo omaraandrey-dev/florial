@@ -1,3 +1,13 @@
+## 2026-11-09 — Homepage responsive image optimization (PR #141)
+
+- PR #141 merged squash in `main`: `b635aa4e307da86b11f70595f9da8a3c3d444074`; only `src/pages/HomePage.tsx` changed.
+- Added responsive Sanity CDN image URLs for homepage service/plant-category/equipment-category cards (320–1200w), `srcSet`, `sizes`, `fit=max`, `auto=format`, `q=75`, explicit `loading=lazy`, `decoding=async`, and width/height. Existing layout, `object-cover`/`object-contain`, ALT/TITLE, links preserved. Hero CSS background intentionally unchanged.
+- Production deployment `81b26460-1c58-408c-9cc3-c485e256ec45` — success; aliases `florial-bg.com` and `www.florial-bg.com`. Live BG/RU/EN home routes return HTTP 200. BG DOM: 38 img, 34 srcSet/sizes, 37 lazy (logo eager).
+- Mobile initial-load network capture, 3 runs, same 390×844 / CPU 4× / 150 ms / 10 Mbps profile: total transfer median 12,929,319 bytes vs baseline 42,874,746 (≈−69.8%); image transfer median 8,980,844 vs 38,921,410 bytes (≈−76.9%). Sanity XHR stayed ~3.73 MB, as expected.
+- Detailed measurement: `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`; baseline updated with before/after section.
+- CI: Blog and Studio validation run `42582485634` success (lint, tests, website build, Sanity Studio build); D1 migration validation `42582485603` success.
+- No changes to Sanity schema/documents, D1, API, checkout/cart, Manager, Header/menu/Footer, BlogSection, Cloudflare settings/secrets or production data. Full scroll-through visual review, post-optimization desktop run, Lighthouse/LCP/INP/CrUX remain outstanding.
+
 ## 2026-11-09 — Этап 0: первый baseline производительности Florial
 
 - Создан отчёт `docs/performance/BASELINE.md` (commit `90ab9a2d62e5cdbe628f802e7d9a9205e8d5661e`) по реальным browser/network measurements Production главной.
