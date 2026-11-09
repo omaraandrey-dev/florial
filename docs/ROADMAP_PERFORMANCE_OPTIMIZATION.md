@@ -82,7 +82,7 @@
 
 PR #146 перевёл ManagerApp на React lazy dynamic import: публичный маршрут не загружает Manager chunk; он загружается только на /manager. Один remote browser sample при 1920×993 показал public JS transfer 161,151 B против 209,165 B до PR #146 (single sample, не controlled mobile baseline).
 
-PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; SPA navigation/scroll regression ещё не завершены. Серверные модули не должны попадать в client bundle.
+PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; mobile SPA navigation/Back/Forward/scroll restoration теперь проверены на 390×844. Полная route chunk resource inspection остаётся открытой. Серверные модули не должны попадать в client bundle.
 
 ### P5. Изображения — частично выполнено PR #148 и #150
 
