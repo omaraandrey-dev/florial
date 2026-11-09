@@ -19,6 +19,40 @@ interface HomePageProps {
   onSelectProduct: (product: Product) => void
 }
 
+
+const getHomepageImageProps = (imageUrl: string, sizes: string) => {
+  const fallback = { src: imageUrl }
+
+  try {
+    const source = new URL(imageUrl)
+    if (
+      source.protocol !== 'https:' ||
+      source.hostname !== 'cdn.sanity.io' ||
+      !source.pathname.startsWith('/images/bxvcy0qs/')
+    ) {
+      return fallback
+    }
+
+    const buildUrl = (width: number) => {
+      const image = new URL(source)
+      image.searchParams.set('w', String(width))
+      image.searchParams.set('fit', 'max')
+      image.searchParams.set('auto', 'format')
+      image.searchParams.set('q', '75')
+      return image.toString()
+    }
+
+    const widths = [320, 480, 640, 800, 960, 1200]
+    return {
+      src: buildUrl(640),
+      srcSet: widths.map((width) => `${buildUrl(width)} ${width}w`).join(', '),
+      sizes,
+    }
+  } catch {
+    return fallback
+  }
+}
+
 export function HomePage({
   services,
   categories,
@@ -143,7 +177,18 @@ export function HomePage({
                     <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline">
                       <div>
                         <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
-                          <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} className="h-full w-full object-cover" loading="lazy" />
+                          <img
+                            {...getHomepageImageProps(
+                              'https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg',
+                              '(min-width: 768px) 33vw, 50vw',
+                            )}
+                            alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'}
+                            width={800}
+                            height={600}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
                         </div>
                         <div className="p-3 md:p-4">
                           <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
@@ -163,7 +208,15 @@ export function HomePage({
                     <div>
                       <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">
                         {srv.imageUrl ? (
-                          <img src={srv.imageUrl} alt={localize(srv, 'name')} className="h-full w-full object-cover" />
+                          <img
+                            {...getHomepageImageProps(srv.imageUrl, '(min-width: 768px) 33vw, 50vw')}
+                            alt={localize(srv, 'name')}
+                            width={800}
+                            height={600}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
                         ) : (
                           <div className="flex h-full items-center justify-center p-2 text-center">
                             <span className="font-bold text-slate-800 text-xs md:text-base block">{localize(srv, 'name')}</span>
@@ -192,7 +245,18 @@ export function HomePage({
             {sortedPlantCategories.map((cat, index) => (
               <a key={cat._id} href={localizedHref(`/category/${encodeURIComponent(cat.slug?.current || cat._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(cat.slug?.current, cat._id))} className="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline">
                 <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">
-                  {cat.imageUrl ? <img src={cat.imageUrl} alt={getCategoryImageText(cat, language, 'alt')} title={getCategoryImageText(cat, language, 'title')} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
+                  {cat.imageUrl ? (
+                    <img
+                      {...getHomepageImageProps(cat.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
+                      alt={getCategoryImageText(cat, language, 'alt')}
+                      title={getCategoryImageText(cat, language, 'title')}
+                      width={800}
+                      height={600}
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : <span aria-hidden="true" className="text-5xl">{['🌴','🫒','🍋','🌲','🌹','🌵','🌳'][index % 7]}</span>}
                 </div>
                 <div className="p-3 md:p-4">
                   <h4 className="font-bold text-sm md:text-base text-slate-900 group-hover:text-[#647746]">{localize(cat, 'name')}</h4>
@@ -227,7 +291,16 @@ export function HomePage({
                   >
                     <div className="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">
                       {cat.imageUrl ? (
-                        <img src={cat.imageUrl} alt={getCategoryImageText(cat, language, 'alt')} title={getCategoryImageText(cat, language, 'title')} className="h-full w-full object-contain" />
+                        <img
+                          {...getHomepageImageProps(cat.imageUrl, '(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 33vw')}
+                          alt={getCategoryImageText(cat, language, 'alt')}
+                          title={getCategoryImageText(cat, language, 'title')}
+                          width={800}
+                          height={600}
+                          className="h-full w-full object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
                       ) : (
                         <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                       )}
