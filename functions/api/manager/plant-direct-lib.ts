@@ -74,7 +74,7 @@ const numberValue = (value: unknown, label: string, min: number, integer = false
   return parsed
 }
 
-const portableText = (value: unknown, label: string): unknown[] => {
+const portableText = (value: unknown): unknown[] => {
   if (Array.isArray(value)) return value
   const text = cleanText(value, 12_000)
   if (!text) return []
@@ -93,6 +93,7 @@ const imageObject = (value: unknown) => {
   }
   const fields = {
     _type: 'image',
+    _key: crypto.randomUUID().replace(/-/g, '').slice(0, 12),
     asset: { _type: 'reference', _ref: String(value.assetId) },
     alt: cleanText(value.alt, 240),
     altEn: cleanText(value.altEn, 240),
@@ -182,7 +183,7 @@ export const buildPlantSet = async (
     set.category = { _type: 'reference', _ref: categoryId }
     set.categories = [{ _type: 'reference', _ref: categoryId }]
   }
-  if ('description' in input) set.description = portableText(input.description, 'description')
+  if ('description' in input) set.description = portableText(input.description)
   if ('mainImage' in input) set.mainImage = imageObject(input.mainImage)
   if ('gallery' in input) {
     if (!Array.isArray(input.gallery) || input.gallery.length > 10) throw new Error('Максимумът е 10 допълнителни снимки.')
@@ -215,7 +216,7 @@ export const buildPlantSet = async (
       translations[language] = {
         name: cleanText(item.name, 160),
         shortDescription: cleanText(item.shortDescription, 1200),
-        description: portableText(item.description, 'description'),
+        description: portableText(item.description),
         seo: {
           h1: cleanText(seo.h1, 160),
           metaTitle: cleanText(seo.metaTitle, 70),
@@ -228,7 +229,7 @@ export const buildPlantSet = async (
     set.translations = translations
   }
   if (role === 'owner' && 'plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
-  if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide, 'careGuide')
+  if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide)
   if (!existing) {
     if (!set.name || !set.slug || !set.productType || !set.category || !set.mainImage || !set.saleVariants) {
       throw new Error('За публикуване попълнете име, URL, тип, категория, основна снимка и поне един размер.')
