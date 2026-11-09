@@ -339,8 +339,8 @@ export const writeAudit = async (
   `).bind(
     newId(),input.requestId,input.idempotencyKey,input.phase,user.user_id,user.role,input.productId,
     cleanText(input.productName,160),input.action,JSON.stringify(input.changedFields.slice(0,40)),
-    input.before ? JSON.stringify(input.before).slice(0,12000) : null,
-    input.after ? JSON.stringify(input.after).slice(0,12000) : null,
+    input.before ? JSON.stringify(input.before) : null,
+    input.after ? JSON.stringify(input.after) : null,
     input.result,input.errorCode || null,nowIso(),
   ).run()
 }
