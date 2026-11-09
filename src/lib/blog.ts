@@ -31,38 +31,68 @@ export type BlogPost = {
   tags?: string[]
   translations?: Partial<Record<BlogLanguage, BlogTranslation>>
 }
-const translationProjection = `{
+export type BlogPostCard = Pick<BlogPost, '_id' | 'slug' | 'publishedAt' | 'cover' | 'translations'>
+
+const blogCardProjection = `{
+  _id, slug, publishedAt,
+  "cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption},
+  "translations": {
+    "bg": translations.bg { title, shortDescription, coverAlt },
+    "ru": translations.ru { title, shortDescription, coverAlt },
+    "en": translations.en { title, shortDescription, coverAlt }
+  }
+}`
+const blogDetailTranslationProjection = `{
   title, shortDescription,
   body[]{..., "assetUrl": asset->url},
   seoTitle, seoDescription, coverAlt
 }`
-const postProjection = `{
+const blogDetailProjection = `{
   _id, slug, publishedAt, tags,
   "cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption},
   "gallery": gallery[]{"asset": asset->{"url": url}, alt, caption},
   "translations": {
-    "bg": translations.bg${translationProjection},
-    "ru": translations.ru${translationProjection},
-    "en": translations.en${translationProjection}
+    "bg": translations.bg${blogDetailTranslationProjection},
+    "ru": translations.ru${blogDetailTranslationProjection},
+    "en": translations.en${blogDetailTranslationProjection}
   }
 }`
-export async function fetchBlogPosts(limit?: number): Promise<BlogPost[]> {
-  const slice = typeof limit === 'number' ? `[0...${Math.max(1, Math.floor(limit))}]` : ''
-  return sanityClient.fetch(
-    `*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)${slice}${postProjection}`
-  )
+
+// Share in-flight list requests between Header, BlogSection and blog routes.
+// The short TTL prevents repeated fetches during navigation without keeping stale
+// published content indefinitely; rejected requests are evicted immediately.
+const BLOG_LIST_CACHE_TTL_MS = 60_000
+const blogListCache = new Map<string, {expiresAt: number; promise: Promise<BlogPostCard[]>}>()
+
+export function fetchBlogPosts(limit?: number): Promise<BlogPostCard[]> {
+  const normalizedLimit = typeof limit === 'number' ? Math.max(1, Math.floor(limit)) : undefined
+  const cacheKey = normalizedLimit === undefined ? 'all' : `limit:${normalizedLimit}`
+  const cached = blogListCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return cached.promise
+
+  const slice = normalizedLimit === undefined ? '' : `[0...${normalizedLimit}]`
+  const promise = sanityClient.fetch<BlogPostCard[]>(
+    `*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)${slice}${blogCardProjection}`
+  ).catch((error) => {
+    if (blogListCache.get(cacheKey)?.promise === promise) blogListCache.delete(cacheKey)
+    throw error
+  })
+
+  blogListCache.set(cacheKey, {expiresAt: Date.now() + BLOG_LIST_CACHE_TTL_MS, promise})
+  return promise
 }
+
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
   const posts = await sanityClient.fetch<BlogPost[]>(
-    `*[_type == "blogPost" && isPublished == true && defined(publishedAt) && (slug.current == $slug || slug == $slug)][0...1]${postProjection}`,
+    `*[_type == "blogPost" && isPublished == true && defined(publishedAt) && (slug.current == $slug || slug == $slug)][0...1]${blogDetailProjection}`,
     {slug}
   )
   return posts?.[0] || null
 }
-export function blogSlug(post: BlogPost): string {
+export function blogSlug(post: BlogPostCard | BlogPost): string {
   return typeof post.slug === 'string' ? post.slug : post.slug?.current || post._id
 }
-export function blogTranslation(post: BlogPost, language: BlogLanguage): BlogTranslation {
+export function blogTranslation(post: BlogPostCard | BlogPost, language: BlogLanguage): BlogTranslation {
   const selected = post.translations?.[language]
   const bg = post.translations?.bg || {}
   return {
