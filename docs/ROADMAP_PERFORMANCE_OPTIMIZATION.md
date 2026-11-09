@@ -2,22 +2,23 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этапы 1–2 опубликованы; SPA regression после PR #147 закрыта на мобильном сценарии. Этап 3 частично выполнен: responsive Sanity images применены к HomePage cards, blog, services, About, categories, product detail и search; на `/category/rastenia` начальный image-response объём снизился примерно с 17.9 MB до 1.08 MB при одном и том же mobile profile. Этап 4 частично выполнен: public published content использует Sanity API CDN, коммерческие данные остаются live; Cloudflare HTML по-прежнему `DYNAMIC`. Этап 5 lazy route chunks опубликованы. Lighthouse/CrUX, LCP/INP/CLS и homepage Hero LCP остаются открытыми.  
+**Статус:** PR #148–#152 опубликованы. Public Sanity content использует API CDN; коммерческие данные остаются live. Responsive images применены к публичным контентным и товарным страницам. HomePage Hero LCP оптимизирован: mobile 3.62→0.696 s, desktop 3.908→0.912 s. Категория растений: initial image-response bytes ~17.9 MB→1.08 MB. Cloudflare HTML остаётся `DYNAMIC`. SPA Back/Forward/scroll regression пройдена. Открыты: высокий CLS на category/product/blog/article при асинхронной подстановке контента, полный route regression, Lighthouse/CrUX и INP.
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
 
 > Это основной план ускорения Florial. В новом чате сначала прочитать актуальную MD2-инструкцию, docs/TECHNICAL_PASSPORT.md, CHANGELOG.md и этот документ. Затем сверить текущий main и Production: статусы ниже относятся к дате документа.
 
-## Последняя контрольная точка 09.11.2026 — PR #148–#150
+## Последняя контрольная точка 09.11.2026 — PR #148–#152
 
-- PR #148/#149/#150 merged; current main `2f35bf3151f68ecb64288ba861b97b084d21b1c9`; Production deployment `100ac60e-28b9-4da3-8dc1-7197743844c4` success.
-- Report: `docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md`.
-- Public Sanity content uses API CDN; prices/stock, product search/detail, delivery tariffs, Manager and order validation stay live.
-- Responsive Sanity image helper covers homepage cards, blog, services, About, categories, product details and public search. Header logo and homepage Hero background unchanged.
-- Mobile category profile: initial image-response bytes ~17.9 MB → 1,081,732 B; median FCP 428→408 ms, DCL 575→562 ms, load 691→691 ms. Do not claim full page speed increased by 94%; this is image response bytes only.
+- PR #148–#152 merged; runtime main commit `a88ce6ca513abcad4b7ee107c441fa62ec570ec3`; Production deployment `6cad50d7-291a-4004-ae15-b77786f3d292` success.
+- Reports: `docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md` and `docs/performance/POST_OPTIMIZATION_HERO_LCP_2026-11-09.md`.
+- Public Sanity content uses API CDN; product prices/stock, product search/detail, delivery tariffs, Manager and order validation stay live.
+- Responsive images cover homepage cards, blog, services, About, categories, product detail, public search and HomePage Hero. Header logo remains unchanged.
+- Category `/category/rastenia`: initial image-response bytes ~17.9 MB → 1,081,732 B; FCP median 428→408 ms, DCL 575→562 ms, load 691→691 ms.
+- Hero LCP: mobile 3,620→696 ms (−80.8%), desktop 3,908→912 ms (−76.7%); Hero image 2.70 MB → 17.4 KB mobile / 141.6 KB desktop AVIF. CLS on homepage unchanged.
 - Cloudflare JS/CSS cache HIT; HTML remains DYNAMIC. No Cloudflare settings/rules changed.
-- SPA mobile Back/Forward and scroll restoration regression passed. Lighthouse, CrUX, LCP, INP and CLS remain open.
+- Mobile SPA Back/Forward/scroll regression passed. New finding: category/product/blog/article routes show large CLS when async content replaces short loading placeholders; category/blog source inspection shows Footer moving. Do not change shared layout until explicit approval.
 
 ## 1. Цель и обязательные ограничения
 
@@ -84,13 +85,14 @@ PR #146 перевёл ManagerApp на React lazy dynamic import: публичн
 
 PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; mobile SPA navigation/Back/Forward/scroll restoration теперь проверены на 390×844. Полная route chunk resource inspection остаётся открытой. Серверные модули не должны попадать в client bundle.
 
-### P5. Изображения — частично выполнено PR #148 и #150
+### P5. Изображения — Hero LCP и responsive images опубликованы PR #148, #150, #152
 
 - Общий helper `src/lib/sanityImage.ts`: responsive widths 160–1600w, `srcSet`, `sizes`, intrinsic width/height, `fit=max`, `auto=format`, `q=75`.
-- Применён к HomePage cards, BlogSection/BlogPage/BlogPostPage и Portable Text, ServicePage, AboutPage, CategoryPage, ProductPage и public product search.
-- CategoryPage: первые четыре product cards eager, остальные lazy. В mobile capture 390×844: 29 img в DOM, 28 srcSet; initial image response bytes примерно 17.9 MB → 1,081,732 B (около −94%); после полного scroll все 29 изображений загрузились, ошибок нет.
-- Header logo остаётся оригинальным PNG 1547×581 (~656 KB); Header защищён от изменений без отдельного согласования. HomePage CSS Hero background оставлен без изменений до определения LCP.
-- LCP, desktop visual review и Lighthouse/CWV не измерены. Не объявлять этап полностью закрытым.
+- Применён к HomePage cards, BlogSection/BlogPage/BlogPostPage и Portable Text, ServicePage, AboutPage, CategoryPage, ProductPage, public product search и Hero.
+- CategoryPage: первые четыре product cards eager, остальные lazy. В mobile capture 390×844: 29 img в DOM, 28 srcSet; initial image-response bytes ~17.9 MB → 1,081,732 B (около −94%); после полного scroll все 29 изображений загрузились, ошибок нет.
+- HomePage Hero confirmed as actual LCP: mobile 3.62→0.696 s, desktop 3.908→0.912 s; 2.70 MB original PNG replaced by 17.4 KB mobile AVIF / 141.6 KB desktop AVIF. CLS on homepage unchanged.
+- Header logo remains original PNG 1547×581 (~656 KB); Header protected from changes without separate approval.
+- Other routes show high CLS during async content load; investigate shared App loading area separately and get approval before layout change.
 
 ### P6. Cache headers и статика — аудит выполнен, HTML edge cache открыт
 
@@ -156,8 +158,8 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 2. [x] HomePage cards, BlogSection, BlogPage, BlogPostPage/Portable Text, ServicePage, AboutPage.
 3. [x] CategoryPage, ProductPage и public product search images; first four category cards eager, remaining lazy.
 4. [x] Проверка категории растений на 390×844: 28/29 img имеют srcSet, все 29 загружаются после scroll, 0 failed images.
-5. [~] HomePage Hero background и Header logo не изменены. Header logo (~656 KB) требует отдельного согласования; Hero ждёт LCP measurement.
-6. [~] Desktop visual review, Lighthouse, LCP/CLS и полное сравнение всех public routes остаются открытыми.
+5. [x] HomePage Hero background заменён на responsive LCP img с eager/high priority; mobile/desktop LCP improved by ~81%/~77%, CLS unchanged.
+6. [~] Header logo (~656 KB) требует отдельного согласования. Full desktop visual review, Lighthouse/CrUX and all-route CWV remain open.
 
 Критерии: меньше переданных байтов; LCP не ухудшился; CLS не вырос; изображения не размыты и не обрезаны неправильно.
 
@@ -218,16 +220,16 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 ## 6. Статус на 09.11.2026
 
 - [x] Roadmap и статический аудит исходного кода зафиксированы.
-- [~] Этап 0 — baseline и controlled category comparison выполнены; Lighthouse, CrUX, LCP/INP/CLS и homepage LCP остаются незавершёнными.
+- [~] Этап 0 — baseline, category comparison and homepage LCP capture completed. Lighthouse/CrUX and INP remain open; CLS issue discovered on async content routes.
 - [x] Этап 1 — compact service/product/category projections, on-demand details, search on demand и homepage 6+6 опубликованы.
 - [x] Этап 2 — compact blog cards, full article by slug, shared 60s promise cache Header/BlogSection опубликованы; BG/RU/EN smoke прошёл.
-- [~] Этап 3 — responsive/lazy images для HomePage cards, blog, services, About, categories, products и search опубликованы. Category initial image-response bytes около 17.9 MB → 1.08 MB; Hero background и Header logo остаются открытыми.
+- [~] Этап 3 — responsive/lazy images for HomePage cards, blog, services, About, categories, products, search and Hero published. Category initial image-response bytes ~17.9 MB → 1.08 MB; homepage Hero LCP mobile 3.62→0.696 s and desktop 3.908→0.912 s. Header logo remains open.
 - [~] Этап 4 — public published content использует Sanity API CDN; price/stock/delivery/Manager/order validation остаются live. HTML edge caching не настроен и требует отдельного решения.
 - [~] Этап 5 — ManagerApp и десять non-home route chunks опубликованы; main entry gzip −34.74%; direct routes и mobile SPA Back/Forward/scroll regression проверены. Полная route chunk inspection ещё открыта.
 - [~] Этап 6 — blog/services/About/category/product/search images оптимизированы; cart/checkout и Manager image/page review остаются отдельными.
 - [~] Этап 7 — три Production releases #148–#150 успешны; category/product and SPA smoke passed. Полный multi-route mobile/desktop regression и CWV остаются открытыми.
 
-**Текущая точка продолжения:** PR #148–#150 опубликованы. SPA mobile regression закрыта для Home → Services → planting service с Back/Forward и scroll restoration. Public Sanity content использует API CDN; product prices/stock, search, delivery tariffs, Manager и order validation остаются live. Responsive images применены к blog/services/About/category/product/search. На `/category/rastenia` initial image-response bytes снизились примерно с 17.9 MB до 1.08 MB в одинаковом mobile profile; FCP median 428→408 ms, DCL 575→562 ms, load median без изменения. Следующий шаг — определить LCP на главной, завершить контрольные измерения остальных маршрутов и отдельно согласовать возможную оптимизацию Header logo/HTML edge cache.
+**Текущая точка продолжения:** PR #148–#152 опубликованы; homepage Hero LCP оптимизирован и подтверждён mobile/desktop замерами. Public Sanity content uses CDN; commercial data remains live. Category image bytes reduced ~94%. Следующий критический пункт — высокий CLS на category/product/blog/article routes: preliminary source inspection points to short loading placeholders and Footer moving when asynchronous content expands. Предлагаемое изменение — reserve a stable minimum height in shared main-content loading area in `src/App.tsx`, without editing Footer component. Это затрагивает shared layout, поэтому сначала требуется явное согласование. Header logo и HTML edge cache остаются отдельными задачами.
 
 ## 7. Инструкция для нового чата
 
@@ -259,7 +261,7 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 ## Дополнение от 09.11.2026 — первая оптимизация изображений главной
 
 - PR #141 merged squash: `b635aa4e307da86b11f70595f9da8a3c3d444074`; изменён только `src/pages/HomePage.tsx`.
-- Карточные изображения HomePage используют Sanity responsive widths 320–1200, `srcSet`, `sizes`, `auto=format`, `q=75`, lazy loading, async decoding и intrinsic dimensions. Hero background и logo не менялись.
+- Карточные изображения HomePage используют Sanity responsive widths 160–1600, `srcSet`, `sizes`, `auto=format`, `q=75`, lazy loading, async decoding и intrinsic dimensions. Hero background теперь responsive LCP img с high fetch priority; Header logo не менялся.
 - Cloudflare Production deployment `81b26460-1c58-408c-9cc3-c485e256ec45` — success; BG/RU/EN главные HTTP 200.
 - Mobile network median: total transfer 12,929,319 bytes против baseline 42,874,746 (≈−69.8%); image transfer 8,980,844 bytes против 38,921,410 (≈−76.9%). Подробности: `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`.
 - Sanity XHR не изменились; лёгкие projections — следующий отдельный этап. Stage 3 частично выполнен; LCP, Lighthouse, desktop post-measurement, BlogSection и остальные страницы остаются открытыми.
