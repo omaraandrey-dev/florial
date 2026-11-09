@@ -135,12 +135,10 @@ export default function PlantCatalogManager({role}:Props){
   finally{setImageLoading(false)}
  }
  const toggleLibraryImage=(image:IntakeLibraryImage)=>{
-  setImages(previous=>{
-   const exists=previous.some(item=>item.assetId===image.assetId)
-   if(exists)return previous.filter(item=>item.assetId!==image.assetId)
-   if(previous.length>=10){setError('Максимумът е 10 снимки.');return previous}
-   return [...previous,{assetId:image.assetId,url:image.url,name:image.name,alt:'',altEn:'',altRu:''}]
-  })
+  const exists=images.some(item=>item.assetId===image.assetId)
+  if(exists){setImages(previous=>previous.filter(item=>item.assetId!==image.assetId));return}
+  if(images.length>=10){setError('Максимумът е 10 снимки.');return}
+  setImages(previous=>[...previous,{assetId:image.assetId,url:image.url,name:image.name,alt:'',altEn:'',altRu:''}])
  }
  const generateWithAI=async()=>{
   if(aiLoading)return
