@@ -13,25 +13,25 @@ const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
-      intro: ['планиране на засаждането и избор на растения'],
-      trenches: ['подготовка на терена и почвата'],
-      pipeline: ['поливане и грижи след засаждането'],
-      equipment: ['засаждане на дървета, храсти и живи плетове'],
-      automation: ['засаждане на цветя и декоративни треви'],
+      intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения'],
+      trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата'],
+      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'поливане и грижи след засаждането'],
+      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове'],
+      automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви'],
     },
     ru: {
-      intro: ['планирование посадки и выбор растений'],
-      trenches: ['подготовка участка и почвы'],
-      pipeline: ['полив и уход после посадки'],
-      equipment: ['посадка деревьев, кустарников и живых изгородей'],
-      automation: ['посадка цветов и декоративных трав'],
+      intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений'],
+      trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы'],
+      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'полив и уход после посадки'],
+      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей'],
+      automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав'],
     },
     en: {
-      intro: ['planning the planting and selecting suitable plants'],
-      trenches: ['preparing the site and soil'],
-      pipeline: ['watering and aftercare'],
-      equipment: ['planting trees, shrubs and hedges'],
-      automation: ['planting flowers and ornamental grasses'],
+      intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants'],
+      trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil'],
+      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'watering and aftercare'],
+      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges'],
+      automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses'],
     },
   }
   const languageHeadings = headings[language] || headings.bg
@@ -394,7 +394,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
     groups[group] = [...(groups[group] || []), block]
     return groups
   }, {})
-  const hasIntroGallery = Boolean(imageGroups.intro?.length)
+  const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya'
   // Keep legacy gallery-marker blocks in their article sections; render regular
   // image-and-text blocks as a separate section at the bottom of every service page.
   const additionalContentBlocks = sourceBlocks.filter((block) =>
