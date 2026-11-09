@@ -1513,3 +1513,24 @@
 - `relatedContent` ссылается на существующие услуги `zasazhdane-na-rasteniya` и `avtomatizirano-kapkovo-napoyavane`. Форма локализована BG/RU/EN; технические имена полей `name`, `phone`, `email`, `location`, `details` сверены с `normalizeLeadFields`. Endpoint `/api/service-leads` не менялся.
 - Production live smoke через Firecrawl: BG/RU/EN — HTTP 200; локализованные H1, title, description, `robots=index, follow`; hero image, related cards и все поля формы отображаются. Реальная заявка не отправлялась, запись в D1 и email delivery не тестировались.
 - Изменения только в Sanity content и документации. GitHub source code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
+
+## 2026-11-09 — Новая услуга «Засаждане на палми»
+
+- В Sanity Production (`bxvcy0qs/production`) создана и опубликована новая услуга: document ID `5fd92607-19dd-44ae-b546-01e841f835c9`, slug `zasazhdane-na-palmi`, категория `planting`, layout `standard`, sortOrder 28, active.
+- Подготовлены болгарская версия Portable Text и локализованные RU/EN версии Markdown. H1 задан через `hero.title`; заполнены краткие описания, преимущества, этапы, CTA, форма и SEO title/description/keywords для трёх языков; `noIndex=false`.
+- Пользовательская фотография использована как главное изображение Hero и карточки услуги. Новый Sanity asset: `image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg` (1536×1147); ALT заполнен на BG/RU/EN.
+- `relatedContent` ссылается на существующие услуги общей посадки растений `zasazhdane-na-rasteniya` и монтажа автоматической поливной системы в Несебре `montaj-avtomatichni-polivni-sistemi-nesebar`.
+- Материал адаптирован к Южному Черноморью: выбор вида по микроклимату и зимним температурам, почва и дренаж, сохранение корневого кома, глубина посадки, позиционирование крупных пальм, временное укрепление, полив, обрезка и зимняя защита. Не добавлялись фиксированные цены, гарантии приживаемости или обещания наличия подъёмной техники.
+- Существующий endpoint `/api/service-leads` и имена полей формы `name/phone/email/location/details` сохранены. Реальная заявка не отправлялась; D1 insert и email delivery end-to-end не тестировались.
+- Live smoke Firecrawl: BG/RU/EN — HTTP 200; локализованные title/description, `robots=index, follow`, Hero image и содержимое статьи отображаются. Страница `/services` показывает карточку «Засаждане на палми» с правильным изображением и ссылкой.
+- JSON snapshot опубликованного документа: `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
+- Изменения только в Sanity content и документации. GitHub application code, Sanity schema, D1, API, Manager, Cloudflare settings, Header, меню, Footer и Cloudflare Pages deployment не изменялись. Новая сборка/деплой не требовались.
+
+## 2026-11-09 — Фотографии внутри статьи «Засаждане на палми»
+
+- В опубликованном Sanity service document `5fd92607-19dd-44ae-b546-01e841f835c9` три ранее добавленных изображения перенесены из верхней галереи в `contentBlocks` с использованием уже существующего механизма inline image groups.
+- Размещение: `trenches` — «Оглед и подготовка на терена»; `equipment` — «Професионално засаждане на палмата»; `watering` — «Първоначално поливане и последващи грижи». Для RU/EN добавлены соответствующие сопоставления заголовков в `src/pages/ServicePage.tsx`.
+- Заполнены ALT на BG/RU/EN. Assets сохранены без повторной загрузки: `image-8c4ff55932116280da42f95d3b346d9ead9007f7-3072x4096-jpg`, `image-bd788671f48fd731e23fb193e5f30fba4851991f-995x995-png`, `image-4c5e0022877738ae9339e51226a77e743a5f703e-1243x1243-jpg`.
+- Верхняя gallery очищена после переноса ссылок, чтобы не показывать дубликаты; все три asset references сохранены в contentBlocks. Предварительный JSON backup: `docs/backups/sanity-service-zasazhdane-na-palmi-before-inline-gallery-2026-11-09.json`.
+- Schema Sanity не менялась; новые поля Title не добавлялись. Изменён только section-heading mapping существующего inline gallery renderer в `src/pages/ServicePage.tsx`.
+- Проверки после публикации и merge будут зафиксированы по фактическому CI/Production результату.
