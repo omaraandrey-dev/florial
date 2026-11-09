@@ -54,3 +54,55 @@ Prepare a narrowly scoped change in `src/App.tsx` to reserve a stable minimum he
 - Those commits triggered successful Pages deployments from branch `main` but were not descendants of the then-current runtime line. The Pages build matched the commit it received; this was a Git branch ancestry/push issue, not a Cloudflare cache issue.
 - The current main line was restored to the correct ancestry and the current production deployment uses the PR #152 runtime. For future doc-only changes, create the branch from current `main`, open a PR, and verify the merge parent before publishing.
 
+
+## 2026-11-09 — Post-PR #156 production verification
+
+**Release:** PR #156 merged as `70335b7064e6c61c9d53b4c3f3769fd91c8f5ee2`; Cloudflare Pages deployment `5658ac34-ce79-440a-ac9b-57262ef13ba3` succeeded and owns `florial-bg.com` / `www.florial-bg.com`.
+
+### Change
+
+- `src/App.tsx` now computes `shouldReserveRouteContentHeight` for category, product, service-detail, search and blog routes.
+- The existing Suspense boundary is wrapped in a shared `flex-grow min-h-screen` container on those routes. Loading fallback and resolved route content share the same reserved content area.
+- This is a targeted route-content change; Header, menu and Footer components were not modified.
+
+### Controlled post-fix CLS
+
+Same profile as the baseline: 390×844, CPU 4×, 150 ms latency, 10 Mbps download, 1.5 Mbps upload, browser cache disabled; three cold navigations per route. Session-window grouping remains 1-second gap / 5-second maximum.
+
+| Route | Before PR #156 | Run 1 | Run 2 | Run 3 | Post-fix median |
+|---|---:|---:|---:|---:|---:|
+| `/` | 0.0002 | 0.0002 | 0.0002 | 0.0002 | **0.0002** |
+| `/category/vsichko-za-polivane` | 1.0443 | 0.0002 | 0.3441 | 0.3441 | **0.3441** |
+| `/product/musa-banana` | 0.7005 | 0.0002 | 0.0002 | 0.0002 | **0.0002** |
+| `/blog` | 0.6124 | 0.0002 | 0.0002 | 0.0002 | **0.0002** |
+| `/blog/montazh-podmyana-remont-razpruskvachi-nesebar` | 0.7805 | 0.0002 | 0.0143 | 0.0143 | **0.0143** |
+
+Interpretation: Footer-related large shifts are no longer reported on product, blog and article routes. The category route retains a separate shift of approximately `0.343849` in two of three runs; the Performance API did not expose a source node for it. Category CLS is improved but not solved. These are lab/browser measurements, not field CrUX.
+
+### Live route and behavior smoke
+
+- All tested routes returned HTTP 200 and had zero failed images.
+- `/category/rastenia`: 29 images / 28 responsive srcsets.
+- `/search?q=контролер`: 45 / 44.
+- `/services/zasazhdane-na-rasteniya`: 9 / 8.
+- `/about`: 8 / 7.
+- `/contacts`: 3 / 0.
+- `/cart`: 1 / 0.
+- `/category/vsichko-za-polivane`: 32 / 31.
+- `/product/musa-banana`: 4 / 3.
+- `/blog`: 23 / 22.
+- `/blog/montazh-podmyana-remont-razpruskvachi-nesebar`: 5 / 4.
+- SPA category → product → Back → Forward navigation passed.
+- Short pages `/about`, `/contacts` and `/cart` do not receive the route-height reservation class; no blanket min-height was applied to them.
+
+### CI and scope
+
+- Florial D1 migration validation: success.
+- Blog and Studio validation: success; lint, website build, utility tests, Pages Functions syntax, D1 read-only dry-run and Sanity Studio build passed.
+- Only `src/App.tsx` changed in runtime PR #156. No Header/menu/Footer component, page component, SEO, data, schema, API, D1, Manager, checkout, Cloudflare configuration, secrets or environment variables changed.
+
+### Remaining
+
+- Diagnose the category-only `0.34385` residual with a page-specific capture before making another layout change.
+- Desktop CLS, INP, Lighthouse and field CrUX remain unmeasured.
+- Do not describe the whole website's Core Web Vitals as fully fixed.
