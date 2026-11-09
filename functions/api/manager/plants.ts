@@ -70,7 +70,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   if (!body || !isValidKey(body.idempotencyKey) || !body.product) return errorJson('Invalid product request.', 400)
 
   const idempotencyKey = String(body.idempotencyKey)
-  const requestId = newId()
+  let requestId = newId()
   let productId = newId()
   let productName = ''
   let changedFields: string[] = []
@@ -78,10 +78,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   let auditStarted = false
   let mutationSucceeded = false
   try {
-    const existing = await env.DB.prepare("SELECT product_id, product_name, result FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
-      .bind(idempotencyKey).first<{ product_id: string; product_name: string; result: string }>()
+    const existing = await env.DB.prepare("SELECT product_id, request_id, product_name, result FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
+      .bind(idempotencyKey).first<{ product_id: string; request_id: string; product_name: string; result: string }>()
     if (existing) {
       productId = existing.product_id
+      requestId = existing.request_id
       productName = existing.product_name
       const completed = await env.DB.prepare("SELECT result FROM manager_product_audit WHERE idempotency_key=? AND phase='result' LIMIT 1")
         .bind(idempotencyKey).first<{ result: string }>()
