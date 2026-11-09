@@ -178,13 +178,18 @@ export const buildPlantSet = async (
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Въведете валиден URL адрес (slug).')
     set.slug = { _type: 'slug', current: slug }
   }
-  if ('categoryId' in input) {
-    const categoryId = cleanText(input.categoryId, 128)
-    if (!/^[A-Za-z0-9_-]{8,128}$/.test(categoryId)) throw new Error('Изберете категория от каталога.')
-    const category = await sanityQuery<{ _id: string } | null>(env, '*[_type=="category" && _id==' + JSON.stringify(categoryId) + '][0]{_id}')
-    if (!category) throw new Error('Избраната категория не е намерена в каталога с растения.')
-    set.category = { _type: 'reference', _ref: categoryId }
-    set.categories = [{ _type: 'reference', _key: 'category-' + stableKey(categoryId), _ref: categoryId }]
+  if ('categoryId' in input || 'categoryIds' in input) {
+    const rawIds = Array.isArray(input.categoryIds) ? input.categoryIds : [input.categoryId]
+    const categoryIds = Array.from(new Set(rawIds.map((value: unknown) => cleanText(value, 128)).filter(Boolean)))
+    if (!categoryIds.length || categoryIds.length > 10 || categoryIds.some((id: string) => !/^[A-Za-z0-9_-]{8,128}$/.test(id))) {
+      throw new Error('Изберете поне една и максимум 10 категории.')
+    }
+    const primaryId = cleanText(input.categoryId, 128) || categoryIds[0]
+    if (!categoryIds.includes(primaryId)) throw new Error('Основната категория трябва да е сред избраните категории.')
+    const found = await sanityQuery<Array<{ _id: string }>>(env, '*[_type=="category" && _id in ' + JSON.stringify(categoryIds) + ']{_id}')
+    if (!Array.isArray(found) || found.length !== categoryIds.length) throw new Error('Една или повече категории не са намерени в каталога с растения.')
+    set.category = { _type: 'reference', _ref: primaryId }
+    set.categories = categoryIds.map((id: string) => ({ _type: 'reference', _key: 'category-' + stableKey(id), _ref: id }))
   }
   if ('description' in input) set.description = portableText(input.description)
   if ('mainImage' in input) set.mainImage = imageObject(input.mainImage)
@@ -234,7 +239,7 @@ export const buildPlantSet = async (
   if (role === 'owner' && 'plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
   if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide)
   if (isCreate) {
-    if (!set.name || !set.slug || !set.productType || !set.category || !set.mainImage || !set.saleVariants) {
+    if (!set.name || !set.slug || !set.productType || !set.category || !set.categories || !set.mainImage || !set.saleVariants) {
       throw new Error('За публикуване попълнете име, URL, тип, категория, основна снимка и поне един размер.')
     }
     set.vatIncluded = true
