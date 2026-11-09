@@ -1508,3 +1508,10 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Опубликованный документ сохранён в `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
 - Smoke BG/RU/EN и карточка в списке услуг проверены на Production; HTTP 200, локализованные SEO metadata, Hero asset и статья подтверждены. Реальная отправка формы, D1 insert и email delivery не проверялись.
 - Контентная операция: schema, frontend, API, D1, Manager, Cloudflare bindings/settings, Header, menu, Footer и Pages deployment не менялись.
+
+## 2026-11-09 — Inline images для услуги «Засаждане на палми»
+
+- Sanity service document `5fd92607-19dd-44ae-b546-01e841f835c9`: три asset references из `gallery` перенесены в `contentBlocks` с marker groups `trenches`, `equipment`, `watering`.
+- Для каждого изображения заданы BG/RU/EN ALT; исходные assets сохранены. Gallery field очищено, чтобы исключить повторный вывод тех же снимков перед статьёй.
+- `src/pages/ServicePage.tsx`: добавлены заголовки услуги пальм для сопоставления BG/RU/EN с существующими группами inline gallery. Используется существующий рендерер; новый компонент и новые schema fields не добавлялись.
+- Pre-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-before-inline-gallery-2026-11-09.json`; post-edit snapshot: `docs/backups/sanity-service-zasazhdane-na-palmi-after-inline-gallery-2026-11-09.json`.
