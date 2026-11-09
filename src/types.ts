@@ -25,7 +25,7 @@ export interface CartItem {
 }
 export interface RelatedContentItem {
   _id: string
-  _type: 'service' | 'blogPost'
+  _type: 'service' | 'blogPost' | 'product' | 'category'
   name?: string
   title?: string
   slug?: { current: string }
