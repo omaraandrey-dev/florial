@@ -1,3 +1,35 @@
+## 2026-11-09 — Manager растений: первая реализация в Draft PR #169
+
+- В отдельной mainline-based feature branch подготовлен новый mobile-first Manager для dataset Sanity `plants`.
+- Новые Pages Functions: `GET/POST /api/manager/plants`, `GET/PATCH /api/manager/plants/:id`, `POST /api/manager/plants/ai-enrich`, Owner-only `GET /api/manager/plant-audit`; общие функции — `plant-direct-lib.ts`.
+- UI: `src/manager/PlantCatalogManager.tsx`; ManagerApp направляет все три роли в каталог, старый submissions workflow оставлен Owner-only архивом.
+- Owner/Manager/Seller используют существующую D1 cookie session. Роли берутся из D1 profile; новая система не создаёт параллельную авторизацию.
+- Sanity mutations ограничены dataset `plants`; создание idempotent, PATCH использует `ifRevisionID`; root legacy price/stockQuantity автоматически не переписываются.
+- AI заполняет текст/переводы/SEO, не создаёт цены, SKU, варианты, остатки или ботанические сведения.
+- Добавлена аддитивная SQL migration `0013_manager_product_audit` и SQLite regression test. Live D1 на момент read-only аудита остановлена на `0012_service_leads_manager`; migration 0013 не применялась.
+- В live D1 обнаружены 1 активный Owner и 1 активный Manager; Seller profile не обнаружен. Реальные профили и данные не менялись.
+- CI для PR #169 выполняется; Preview deployment настройкой Pages помечен как отключённый. Production rollout не выполнялся.
+- Не затронуты Sanity schema/documents/assets, orders/checkout, irrigation dataset `production`, Header/menu/Footer, staff permissions, Cloudflare secrets/settings.
+
+## 2026-11-09 — завершён read-only аудит цены/наличия растений
+
+- `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
+- `ProductPage.tsx`: цена и скидка выбранного размера берутся из варианта; статус/количество — вариант с root fallback.
+- `CartPage.tsx`: цена варианта приоритетна, root price — fallback.
+- `functions/api/orders.ts`: для plants обязателен `variantKey`; сервер проверяет цену по `saleVariants[].priceEUR`, отклоняет `outOfStock`, допускает `onRequest` с положительной ценой; фактический `stockQuantity` сейчас не проверяется. Order items сохраняют snapshot.
+- `functions/api/manager/order-products.ts`: варианты растений выдаются отдельными selectable позициями; цена/наличие берутся из saleVariant.
+- Спецификация уточнена: variant price — canonical; root price не синхронизировать автоматически; root stockStatus должен быть агрегатом для согласованности CategoryPage, но root stockQuantity не суммировать; mixed status в Manager list показывать отдельно.
+- Дробный stockQuantity для растений не подтверждён; заказное количество integer 1–999.
+- Это read-only аудит; runtime, Sanity, D1 и Production не менялись.
+
+## 2026-11-09 — спецификация прямого мобильного Manager для растений
+
+- Создана `docs/ROADMAP_MANAGER_PLANTS.md`: только Sanity dataset `plants`, роли Owner/Manager/Seller с direct create/edit/publish, Owner-only history и botanical fields, AI-enrich для всех ролей.
+- Проверены текущие Manager files/API, D1 migrations, Sanity schema `product` / `plantSaleVariant`; read-only count: 36 опубликованных растений и 17 категорий.
+- Зафиксировано, что текущий Manager ещё использует `catalog_submissions` и отдельный approval/publish workflow; текущий publish endpoint ограничен Owner/Manager и ровно одним sale variant; AI endpoint привязан к submission и не разрешает Seller.
+- Отдельно отмечено несоответствие root `priceEUR` и variant prices в части legacy документов; storefront/cart/order price contract должен быть проверен до реализации.
+- Это документационная работа в branch `docs/manager-plants-direct-management`; runtime, Sanity, D1 data/schema, staff permissions, orders и Production не изменялись. CI/deployment для этой ветки не заявляются.
+
 ## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR #163)
 
 - PR #163 merged squash; merge commit `a12068bc3a8a4707f70e19abc76ecf382d98eabe`.
