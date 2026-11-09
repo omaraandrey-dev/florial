@@ -1,3 +1,17 @@
+## 2026-11-09 — PR #144: full category content on demand
+
+- PR #144 merged squash: `dd129898f207018e5124f7fa2604ff9a727ccd9a`; only runtime file `src/App.tsx` changed.
+- Initial category projections for both Sanity datasets now return only navigation/presentation index fields: _id, name, localized names, slug, sortOrder, parentId, image URL/ALT/TITLE and isPlantCategory.
+- Full category content (localized description, SEO/H1/noIndex, helpBlock) is fetched by category _id from the appropriate dataset only on `/category/:slug`.
+- CategoryPage waits for detail fetch; stale route responses are cancelled; detail fetch errors fall back to compact category index.
+- Header, homepage, About, product breadcrumbs and category subcategory cards retain the compact fields they consume.
+- Sanity read-only GROQ tests succeeded for equipment/plant compact and detail category projections; no Sanity writes.
+- CI: Blog and Studio validation `42588551106` success; D1 validation `42588551110` success.
+- Production: Cloudflare Pages deployment `d93cc80d-1475-49d1-a798-a08587b6b2dd`, success, deployed commit matches merge commit; aliases `florial-bg.com`, `www.florial-bg.com`.
+- Live smoke: plant and irrigation category roots BG/RU/EN, child categories, and categories with configured help blocks in BG/RU/EN. H1, descriptions, SEO titles, images, category/product cards and help text render; no loading placeholders after client-side load.
+- No Sanity schema/documents, D1, API, cart/checkout, Manager, Header/menu/Footer layout or Cloudflare settings changed.
+- Post-release network transfer and Lighthouse/CWV measurements remain open.
+
 ## 2026-11-09 — PR #143: компактный каталог и карточки главной
 
 - PR #143 merged squash: `e7d33432b134825dc2fb065a8e254b363e73e67d`; ветка `main`.
