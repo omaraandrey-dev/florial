@@ -1,3 +1,43 @@
+## 2026-11-09 — PR #152: homepage Hero LCP
+
+### Production
+- Runtime main commit after PR #152: `a88ce6ca513abcad4b7ee107c441fa62ec570ec3`.
+- PR: [#152](https://github.com/omaraandrey-dev/florial/pull/152).
+- Production deployment: `6cad50d7-291a-4004-ae15-b77786f3d292` — success.
+
+### Hero image implementation
+- Only `src/pages/HomePage.tsx` changed.
+- Previous LCP element was a CSS background PNG from Sanity, 1518×957, response size 2,704,931 B.
+- Replaced with a decorative `img` using `getSanityImageProps`; `srcSet`, `sizes=100vw`, intrinsic dimensions, `fit=max`, `auto=format`, `q=75`.
+- Attributes: `loading=eager`, `fetchPriority=high`, `decoding=async`.
+- Preserved centered cover crop, same overlay `rgba(247, 248, 241, 0.68)`, Hero section dimensions, text and buttons. No preload added.
+
+### Controlled LCP results
+- Mobile 390×844, CPU 4×, latency 150 ms, download 10 Mbps, upload 1.5 Mbps, browser cache disabled, 3 runs:
+  - LCP median 3,620 → 696 ms (−80.8%).
+  - Hero response 2,704,931 → 17,439 B (−99.4%); browser selected 480w AVIF.
+  - FCP 404 → 408 ms; DCL 481 → 484 ms; load 482 → 486 ms.
+  - CLS 0.00025 before and after.
+- Desktop 1440×900, same CPU/network profile, 3 runs:
+  - LCP median 3,908 → 912 ms (−76.7%).
+  - Hero response 2,704,931 → 141,597 B (−94.8%); browser selected 1518w AVIF.
+  - CLS 0.01417 before and after.
+- Full report: `docs/performance/POST_OPTIMIZATION_HERO_LCP_2026-11-09.md`.
+
+### Additional CLS finding — no change applied
+- Homepage CLS remains low (0.00025 mobile, 0.01417 desktop).
+- Other route samples show large layout shifts while asynchronous content replaces short loading states: category `/category/vsichko-za-polivane` session-window CLS ~1.044; raw shift-entry sums for blog/product/article samples ~0.612/0.700/0.784.
+- Layout-shift source inspection on category/blog shows the Footer moving from within the viewport to below the fold as page content expands. `src/App.tsx` renders short loading placeholders while route data is fetched; this is the likely shared cause, but the fix is not yet validated.
+- Potential fix: reserve a stable minimum height for the shared main-content/loading area or use route-shaped skeletons. This changes shared layout behavior in `src/App.tsx`; no change was made. Explicit user approval is required. Footer component itself must remain untouched unless separately approved.
+- Search smoke `/search?q=контролер`: 44 products, 45 images, 44 responsive sets, 0 failed images.
+
+### CI and scope
+- Website/Studio validation `42604050648` — success; D1 validation `42604050707` — success.
+- No Header/menu/Footer, cart/checkout, Manager, Sanity data/schema, D1 data, API/order logic or Cloudflare settings changed.
+- Header logo remains a 1547×581 PNG (~656 KB); it is a separate candidate and was not changed.
+
+---
+
 ## 2026-11-09 — PR #148–#150: responsive Sanity images, CDN split and catalog image delivery
 
 ### Main and Production
