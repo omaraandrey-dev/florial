@@ -1,3 +1,11 @@
+## 2026-11-09 — Стандарт контента услуг Florial
+
+- Созданы playbook `docs/SERVICE_CONTENT_PLAYBOOK.md` и стартовый промпт `docs/PROMPT_SERVICE_CREATION_AND_EDITING.md`; оба сохранены в Library.
+- Следующая редактура любой существующей услуги должна следовать playbook: проверить актуальный документ и backup, готовить BG/RU/EN, SEO, фото ALT/ссылки, relatedContent, CTA и форму; проверить production страницы.
+- В текущем изменении только документация; код и Sanity данные не изменялись.
+
+---
+
 ## 2026-11-09 — Связанные материалы и ссылки на изображения реализованы
 
 - PR #134 merged: optional image `linkUrl` for all service image contexts; `relatedContent` reference field supports service/blogPost/product/category.
