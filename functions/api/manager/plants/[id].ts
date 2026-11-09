@@ -35,7 +35,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     return errorJson('Invalid product update request.', 400)
   }
   const idempotencyKey = String(body.idempotencyKey)
-  const requestId = newId()
+  let requestId = newId()
   let productName = ''
   let changedFields: string[] = []
   let before: unknown = null
@@ -45,9 +45,10 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   let mutationSucceeded = false
 
   try {
-    const prior = await env.DB.prepare("SELECT product_id, result FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
-      .bind(idempotencyKey).first<{ product_id: string; result: string }>()
+    const prior = await env.DB.prepare("SELECT product_id, request_id, product_name, action, changed_fields, before_data FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
+      .bind(idempotencyKey).first<{ product_id: string; request_id: string; product_name: string; action: string; changed_fields: string; before_data: string | null }>()
     if (prior && prior.product_id !== id) return errorJson('Idempotency key is already used for another product.', 409)
+    if (prior) requestId = prior.request_id
     const completed = await env.DB.prepare("SELECT result FROM manager_product_audit WHERE idempotency_key=? AND phase='result' LIMIT 1")
       .bind(idempotencyKey).first<{ result: string }>()
     if (completed?.result === 'success') {
@@ -58,14 +59,23 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
 
     const current = await sanityQuery<PlantDocument | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
     if (!current) return json({ error: 'Растението не е намерено.' }, 404)
-    if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете карточката преди запазване.', conflict: true }, 409)
     const normalized = await buildPlantSet(env, body.product, auth.user.role)
     changedFields = normalized.changedFields
     if (!changedFields.length) return errorJson('Няма промени за запазване.', 400)
     productName = cleanText(normalized.set.name || current.name, 160)
-    before = auditSnapshot(current)
+    before = prior?.before_data ? JSON.parse(prior.before_data) : auditSnapshot(current)
     const nextActive = typeof normalized.set.isActive === 'boolean' ? normalized.set.isActive : current.isActive !== false
     action = current.isActive === false && nextActive ? 'reactivate' : current.isActive !== false && !nextActive ? 'deactivate' : 'update'
+    if (prior && current._rev !== body.expectedRevision) {
+      const alreadyApplied = Object.entries(normalized.set).every(([key,value]) => JSON.stringify((current as Record<string,unknown>)[key]) === JSON.stringify(value))
+      if (alreadyApplied) {
+        after = auditSnapshot(current)
+        await writeAudit(env,auth.user,{requestId,idempotencyKey,phase:'result',productId:id,productName,action:action || (prior.action as any),changedFields:prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,before,after,result:'success'})
+        return json({ok:true,documentId:id,revision:current._rev,requestId,replayed:true})
+      }
+      return json({error:'Растението е променено от друг служител. Обновете карточката и приложете промените отново.',conflict:true},409)
+    }
+    if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете карточката преди запазване.', conflict: true }, 409)
     if (normalized.set.slug && (normalized.set.slug as {current:string}).current !== current.slug?.current) {
       const slug = (normalized.set.slug as {current:string}).current
       const duplicate = await sanityQuery<string|null>(env,'*[_type=="product" && slug.current=='+jsonString(slug)+' && _id!='+jsonString(id)+' && !(_id in path("drafts.**"))][0]._id')
