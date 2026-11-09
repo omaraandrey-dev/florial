@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
 import {applyPageSeo} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
-import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPost} from '../lib/blog'
+import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPostCard} from '../lib/blog'
 
 export function BlogPage() {
   const {t, language} = useI18n()
-  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [posts, setPosts] = useState<BlogPostCard[]>([])
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
     applyPageSeo({
