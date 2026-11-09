@@ -1,3 +1,16 @@
+## 2026-11-09 — спецификация прямого управления каталогом растений (документационный этап)
+
+- Подготовлена `docs/ROADMAP_MANAGER_PLANTS.md` для нового мобильного plant manager.
+- Область строго ограничена Sanity dataset `plants`; dataset `production` и оборудование не входят в задачу.
+- Решения владельца: Owner/Manager/Seller могут создавать, редактировать любые растения и публиковать напрямую; история доступна только Owner; общий AI доступен всем; botanical care fields и отдельная ботаническая проверка — Owner-only.
+- Проверены GitHub main commit `4bfd00b436fbca81b239fe12edb98e6823973571`, MD2 rev49, Manager components/API, D1 migrations и deployed Sanity schema `product` / `plantSaleVariant`.
+- Read-only Sanity snapshot на момент аудита: 36 опубликованных `product` документов и 17 опубликованных `category` документов в `plants`.
+- Существующая схема уже поддерживает `saleVariants` до 30 позиций; первый этап не предполагает изменения схемы и массовой миграции документов.
+- Выявлено расхождение root `priceEUR` и `saleVariants[].priceEUR` в части старых карточек. До реализации direct PATCH требуется проверить storefront/cart/order canonical price и legacy fallback.
+- Предлагается additive D1 audit table `manager_product_audit`, append-only intent/result events, Owner-only read API и direct Sanity create/patch с idempotency + `ifRevisionID`.
+- **Это только спецификация.** На этом этапе не изменялись runtime-код, Sanity documents/schema, D1 schema/data, Cloudflare settings/secrets, staff profiles, submissions, orders или Production deployment.
+- Новая roadmap находится в отдельной документационной ветке; не считать функции реализованными до отдельного PR/CI/merge/deployment и ручной приёмки.
+
 ## 2026-11-09 — performance pause: rollback CLS-only changes (PR #163 merged)
 
 - User-approved scope: restore the route layout and SEO fallback image behavior that preceded the two latest CLS-specific runtime changes; preserve all earlier performance improvements and all intervening business/Manager work.
