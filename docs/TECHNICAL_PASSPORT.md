@@ -8,8 +8,9 @@
 - Read-only Sanity validation: compact top-3 returned 3 documents / 4,668 output characters; compact all returned 22 / 29,597 characters; full detail for two published articles returned 47,544 and 35,000 output characters with BG/RU/EN Portable Text. These tool-output lengths are not wire transfer metrics. No Sanity writes.
 - CI run `42590188304` success (lint, utility tests, site build, Studio build and migration dry-run); D1 run `42590188234` success.
 - Live smoke BG/RU/EN: homepage 3 blog cards; `/blog` 22 article links; Rain Bird article detail content and localization; header Portfolio menu opens and shows 3 article links plus blog CTA. No loading placeholders after client-side load.
+- Live PerformanceResourceTiming after release: 8 Sanity API URLs, 8 distinct, including one compact blog top-3 query (158 ms); previous diagnostic showed 9 URLs and duplicate blog requests. Duplicate request removal is confirmed. Cross-origin transferSize/encodedBodySize/decodedBodySize remain 0, so this is not a byte measurement or controlled baseline capture.
 - No changes to Sanity schema/documents, D1, API, Manager, cart/checkout, Cloudflare settings/secrets or Header/menu/Footer layout.
-- Controlled network transfer, request-count CDP capture and Lighthouse/CWV remain unmeasured; no speed percentage claimed.
+- Controlled network byte capture and Lighthouse/CWV remain unmeasured; no overall speed percentage claimed.
 
 ## 2026-11-09 — Post-release Sanity diagnostic (not comparable with baseline)
 
