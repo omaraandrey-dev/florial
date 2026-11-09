@@ -1,3 +1,21 @@
+## 2026-11-09 — Компактный каталог, детали товаров по требованию и 6 карточек на главной (PR #143)
+
+- PR #143: https://github.com/omaraandrey-dev/florial/pull/143 — squash merge в `main`; merge commit `e7d33432b134825dc2fb065a8e254b363e73e67d`.
+- Runtime-файлы: `src/App.tsx`, `src/pages/HomePage.tsx`.
+- Главная: отсортированные категории растений и поливочного оборудования ограничены первыми 6 карточками в каждом блоке. Порядок и приоритет категорий сохранены. Добавлены локализованные CTA в полные каталоги `/category/rastenia` и `/category/vsichko-za-polivane`.
+- Первоначальные GROQ-запросы товаров и растений стали компактными: поля карточек, цены, наличие, артикулы, категории и связи, нужные каталогам; для растений сохранены saleVariants и только четыре plantCare-поля, необходимые фильтрам. Из начальной загрузки убраны описания, галереи, SEO, manuals/catalog PDFs, спецификации, compatibility, care guides и связанные материалы.
+- Полные записи оборудования и растений запрашиваются только при открытии detail route. Detail-запросы сохраняют поля ProductPage, включая галереи, Portable Text, SEO, характеристики, совместимые данные, состав комплектов, related products/content, plant care/care guide и sale variants. Для растений связанные услуги/статьи и рекомендованный irrigation product разрешаются при открытии растения.
+- Полнотекстовый поисковый индекс загружается только на /search; сохранён поиск по названиям, описаниям, категориям и характеристикам оборудования. Ошибки отдельных поисковых датасетов и вторичных plant lookups обрабатываются независимо.
+- Sanity read-only проверка GROQ: компактные equipment/plant projections, detail queries, kitComponents, recommended irrigation product и plant related-content запросы выполнены успешно на project `bxvcy0qs`, datasets `production` и `plants`. Никакие Sanity documents/schema не изменялись.
+- CI PR #143: Blog and Studio validation run `42587640231` — success (lint, utility tests, website build, migration syntax, read-only migration dry-run, Sanity Studio install/build); D1 validation run `42587640149` — success.
+- Cloudflare Pages Production deployment `7169a06c-cd7d-4184-b47c-083a9f3cdb2a` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live rendered smoke: homepage BG/RU/EN — ровно 6 plant-category и 6 irrigation-category карточек + соответствующие catalog CTA; оба root catalog routes доступны; equipment product Rain Bird 100-PGA-9V; plant Trachycarpus detail BG/RU/EN и variants; irrigation kit detail и components; plant filters; search `Rain Bird` — 130 results. После ожидания client-side Sanity load промежуточные loading messages отсутствуют.
+- Не проверялись реальный add-to-cart click, checkout/order creation, browser console и полная ручная SPA-регрессия. Реальные заказы не создавались.
+- Измерение post-release transfer size / Lighthouse / LCP / INP для PR #143 не выполнялось. Не приписывать этому PR конкретный процент ускорения до повторного browser/network capture.
+- Не менялись Sanity data/schema, D1, API, Manager, cart/checkout logic, Header/menu/Footer, Cloudflare settings/secrets или environment variables.
+
+---
+
 ## 2026-11-09 — Оптимизация загрузки страниц услуг (PR #142)
 
 - PR #142: https://github.com/omaraandrey-dev/florial/pull/142 — squash merge в `main`, commit `e9b49a42ee7cfdfd385cf7fce8706ab71c93b7bb`.
