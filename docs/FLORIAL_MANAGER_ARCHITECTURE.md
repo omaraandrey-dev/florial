@@ -516,3 +516,17 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Обновляет insert/update permission triggers: требует boolean JSON для текущих 17 прав и блокирует manage без view.
 - Не удаляет и не перезаписывает service leads, события, заказы или Sanity data.
 - PR #127 объединён в commit `4213e5c2c79fe300be36cb71b94470431ed49705`; CI завершился success; Production deployment `82ac6348-f42c-4095-b81e-1d2b450d0fc0` завершился success. Ручная Manager role matrix и UI acceptance владельцем ещё не выполнены.
+
+
+## 2026-11-09 — Owner и Seller: отправка заявок на проверку
+
+Актуальная реализация находится в Cloudflare D1 Manager, а не в исторических Supabase-разделах выше.
+
+- `functions/api/manager/data.ts` использует общий `canSetCatalogSubmissionStatus` из `functions/api/manager/_lib.ts`.
+- Owner может отправить собственную новую заявку со статусом `draft` в `submitted`. Это устраняет ошибку `Invalid status transition`, вызванную отсутствием `submitted` в owner allowlist.
+- Seller может создавать заявку при наличии `canCreatePlant`, сохранять собственный черновик и отправлять только свою заявку в `submitted`. Seller не может отправлять чужие заявки, переводить их в review/approval/rejection, а также менять защищённые статусы публикации.
+- Manager сохраняет прежнюю модель: отправка собственного черновика требует `canCreatePlant`; review требует `canReviewPlantSubmissions`; approval требует `canApprovePlantSubmission`. Публикация остаётся отдельным защищённым endpoint.
+- Общий endpoint запрещает прямую установку `publishing`, `published`, `publish_failed`; для `approved` при `operation=update` сохраняется отдельная защита.
+- Регрессионные тесты: `tests/catalog-submission-status.test.mjs` (6 сценариев). CI PR #161: 34/34 теста, lint, website build, Pages Functions syntax, read-only migration dry-run, Sanity Studio build и D1 migration validation — success.
+- PR #161 merged commit `3f8a363ee60b6355209c36d821d50ab80267d806`; Production deployment `35abbc66-d88a-4492-8783-87f827642441` — success.
+- D1 schema/data, Sanity, реальные профили/заявки/события, Header, menu, Footer, checkout и orders не изменялись. Authenticated live Owner/Seller submission test остаётся непроведённым; не создавать тестовые Production заявки без отдельной необходимости.
