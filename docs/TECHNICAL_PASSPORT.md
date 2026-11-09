@@ -1,3 +1,10 @@
+## 2026-11-09 — Florial Service Content Playbook v1.0
+
+- Созданы `docs/SERVICE_CONTENT_PLAYBOOK.md` и `docs/PROMPT_SERVICE_CREATION_AND_EDITING.md` в GitHub main и Library.
+- Стандарт основан на фактической service schema и frontend: H1 из `hero.title`; BG Portable Text; RU/EN Markdown; локализованные SEO; ALT и image `linkUrl`; `relatedContent`; существующие image group markers; форма через `/api/service-leads`.
+- Создана MD2 rev25; исторические rev24 и предыдущие версии не перезаписаны.
+- Только документационные изменения. Код, Sanity documents/schema, D1, API, Manager, checkout, Cloudflare settings и Production не менялись.
+
 ## 2026-11-09 — MD2 instruction rev24
 
 - Latest control instruction: `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev24.md` added to GitHub main and personal Library `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev24.md`.
