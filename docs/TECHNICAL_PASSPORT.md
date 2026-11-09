@@ -1574,3 +1574,17 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Следующий этап: 0 — воспроизводимые Lighthouse mobile/desktop, Network waterfall, анализ Sanity payload, bundle, изображений и Cloudflare cache headers. До измерений runtime изменения не выполняются.
 - На момент создания runtime-код, Sanity datasets/schema, D1, API, Cloudflare settings/secrets и Production не менялись.
 - MD2 rev31 создана как актуальная инструкция-ссылка; предыдущие редакции сохранены.
+
+
+## Контрольная точка 09.11.2026 — оптимизация загрузки услуг (PR #142)
+
+- Main commit: `e9b49a42ee7cfdfd385cf7fce8706ab71c93b7bb`; PR #142 merged squash.
+- Единственный runtime-файл: `src/App.tsx`.
+- Initial service GROQ projection ограничена данными списка/навигации; полная запись услуги загружается по slug только на её detail route. Добавлены отдельное loading state и cancellation guard.
+- Полная service projection сохраняет описание, hero, галерею, contentBlocks, relatedContent, startingPriceEUR, advantages, steps, callToAction, leadForm и SEO.
+- CI: runs `42584605993` и `42584606037` — success.
+- Cloudflare Pages Production deployment: `001a7aeb-a6f7-4bd0-b963-d9a1f38f2ca0`, status success, deployed commit совпадает с main commit. Домены: `florial-bg.com`, `www.florial-bg.com`.
+- Live rendered check: `/services/zasazhdane-na-rasteniya` BG/RU/EN после client-side load; `/services` доступна. Browser console, полный ручной SPA regression и все service routes не проверялись.
+- Не менялись Sanity schema/documents, D1, API, checkout/cart, Manager, Header/menu/Footer и данные каталога.
+- Cloudflare Pages environment metadata содержит legacy-настройки `SUPABASE_*` / `VITE_SUPABASE_*`; активное использование приложением не установлено. Значения и секреты не копировались в документацию. Не удалять до отдельной проверки исходников и согласования.
+- Следующая задача: завершить Stage 1 performance roadmap — dependency map и compact projections для equipment/plant catalog без потери поиска, фильтров, категорий, вариантов, комплектов, cart и SEO.
