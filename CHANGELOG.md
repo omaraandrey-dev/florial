@@ -1,3 +1,9 @@
+## 2026-11-09 — MD2 rev33: homepage image optimization checkpoint
+
+- Published new instruction edition `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev33.md`, commit `a4ff4c5652a03ecb282a474a28994e71b18b6dc9`.
+- rev33 preserves rev32 and records PR #141, production deployment, CI, before/after mobile network measurements, remaining Lighthouse/LCP/desktop checks and the next Stage 1 consumer-map task.
+- Previous MD2 editions remain intact; no historical instruction was overwritten.
+
 ## 2026-11-09 — Homepage responsive image optimization (PR #141)
 
 - PR #141 merged squash in `main`: `b635aa4e307da86b11f70595f9da8a3c3d444074`; only `src/pages/HomePage.tsx` changed.
