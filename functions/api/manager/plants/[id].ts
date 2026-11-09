@@ -59,7 +59,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
 
     const current = await sanityQuery<PlantDocument | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
     if (!current) return json({ error: 'Растението не е намерено.' }, 404)
-    const normalized = await buildPlantSet(env, body.product, auth.user.role)
+    const normalized = await buildPlantSet(env, body.product, auth.user.role, current, false)
     changedFields = normalized.changedFields
     if (!changedFields.length) return errorJson('Няма промени за запазване.', 400)
     productName = cleanText(normalized.set.name || current.name, 160)
