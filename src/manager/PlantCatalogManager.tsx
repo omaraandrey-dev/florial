@@ -59,6 +59,8 @@ export default function PlantCatalogManager({role}:Props){
  const [history,setHistory]=useState<any[]>([])
  const [historyLoading,setHistoryLoading]=useState(false)
  const [aiWarnings,setAiWarnings]=useState<string[]>([])
+ const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
+ const [botanyInfoOpen,setBotanyInfoOpen]=useState(false)
 
  const load=useCallback(async()=>{
   setLoading(true);setError('')
@@ -305,7 +307,10 @@ export default function PlantCatalogManager({role}:Props){
      <label><span className={labelClass}>Meta title</span><input maxLength={70} className={inputClass} value={form.seo.metaTitle} onChange={event=>setField('seo',{...form.seo,metaTitle:event.target.value})}/></label>
      <label><span className={labelClass}>Meta description</span><textarea rows={3} maxLength={320} className={inputClass} value={form.seo.metaDescription} onChange={event=>setField('seo',{...form.seo,metaDescription:event.target.value})}/></label>
     </section>
-    {role==='owner'&&<section className="rounded-2xl border border-dashed border-stone-300 bg-stone-50 p-4"><div className="font-semibold">Ботаническа проверка</div><p className="mt-1 text-sm text-stone-500">Отделното изследване на биологичните свойства остава скрито от служителите и ще се включва само в Owner workflow.</p></section>}
+    {role==='owner'&&<section className="rounded-2xl border border-dashed border-stone-300 bg-stone-50 p-4">
+     <button type="button" onClick={()=>setBotanyInfoOpen(previous=>!previous)} className="font-semibold text-lime-900">Биологични свойства и ботаническа проверка · Owner</button>
+     {botanyInfoOpen&&<p className="mt-2 text-sm text-stone-600">Този отделен блок е видим само за Owner. Биологичните полета и ботаническото изследване засега са изключени от новия редактор и няма да се записват или променят.</p>}
+    </section>}
     <div className="sticky bottom-0 z-10 -mx-3 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
      <button type="button" disabled={saving||!activeImages} onClick={()=>void save()} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white disabled:opacity-50">{saving?'Запазване…':editingId?'Запази промените':'Публикувай растението'}</button>
     </div>
