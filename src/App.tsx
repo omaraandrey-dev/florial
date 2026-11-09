@@ -73,6 +73,8 @@ export default function App() {
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
   const [services, setServices] = useState<ServiceItem[]>([])
+  const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
+  const [loadingServiceDetails, setLoadingServiceDetails] = useState(false)
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
@@ -455,7 +457,6 @@ export default function App() {
           translations,
           "slug": { "current": coalesce(slug.current, slug) },
           shortDescription,
-          description,
           "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
           "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
           "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
@@ -463,44 +464,7 @@ export default function App() {
           "imageLinkUrl": coalesce(image.linkUrl, mainImage.linkUrl),
           "sortOrder": sortOrder,
           serviceCategory,
-          serviceLayout,
-          "hero": hero{
-            title,
-            subtitle,
-            "imageUrl": image.asset->url,
-            "imageAlt": image.alt,
-            "imageAltEn": image.altEn,
-            "imageAltRu": image.altRu,
-            "imageLinkUrl": image.linkUrl
-          },
-          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu, linkUrl},
-          "contentBlocks": contentBlocks[]{
-            _key,
-            title,
-            text,
-            imagePosition,
-            "imageUrl": image.asset->url,
-            "imageAlt": image.alt,
-            "imageAltEn": image.altEn,
-            "imageAltRu": image.altRu,
-            "imageLinkUrl": image.linkUrl,
-            translations
-          },
-          "relatedContent": relatedContent[]->{
-            _id, _type, name, title, translations,
-            "slug": { "current": coalesce(slug.current, slug) },
-            shortDescription, isActive, isPublished,
-            "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
-            "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
-            "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
-            "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
-          },
-          startingPriceEUR,
-          advantages,
-          steps,
-          callToAction,
-          leadForm,
-          seo
+          serviceLayout
         }
       `
 
@@ -876,6 +840,95 @@ export default function App() {
       service._id === activeServiceSlug
   )
 
+  useEffect(() => {
+    let cancelled = false
+
+    if (!activeServiceSlug || loadingProducts || !currentService || currentService.serviceLayout === 'delivery') {
+      setCurrentServiceDetails(null)
+      setLoadingServiceDetails(false)
+      return () => { cancelled = true }
+    }
+
+    setCurrentServiceDetails(null)
+    setLoadingServiceDetails(true)
+
+    const serviceDetailQuery = `
+      *[
+        _type == "service" &&
+        isActive != false &&
+        (coalesce(slug.current, slug) == $slug || _id == $slug)
+      ][0] {
+        _id,
+        name,
+        translations,
+        "slug": { "current": coalesce(slug.current, slug) },
+        shortDescription,
+        description,
+        "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+        "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+        "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu),
+        "imageLinkUrl": coalesce(image.linkUrl, mainImage.linkUrl),
+        "sortOrder": sortOrder,
+        serviceCategory,
+        serviceLayout,
+        "hero": hero{
+          title,
+          subtitle,
+          "imageUrl": image.asset->url,
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu,
+          "imageLinkUrl": image.linkUrl
+        },
+        "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu, linkUrl},
+        "contentBlocks": contentBlocks[]{
+          _key,
+          title,
+          text,
+          imagePosition,
+          "imageUrl": image.asset->url,
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu,
+          "imageLinkUrl": image.linkUrl,
+          translations
+        },
+        "relatedContent": relatedContent[]->{
+          _id, _type, name, title, translations,
+          "slug": { "current": coalesce(slug.current, slug) },
+          shortDescription, isActive, isPublished,
+          "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
+          "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
+          "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+          "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+        },
+        startingPriceEUR,
+        advantages,
+        steps,
+        callToAction,
+        leadForm,
+        seo
+      }
+    `
+
+    sanityClient.fetch(serviceDetailQuery, { slug: activeServiceSlug })
+      .then((service: ServiceItem | null) => {
+        if (!cancelled) setCurrentServiceDetails(service || null)
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          console.error('Sanity: не удалось загрузить полную страницу услуги:', error)
+          setCurrentServiceDetails(null)
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingServiceDetails(false)
+      })
+
+    return () => { cancelled = true }
+  }, [activeServiceSlug, loadingProducts, currentService])
+
   const currentCategory = categories.find(
     (category) =>
       category.slug?.current === activeCategorySlug ||
@@ -1107,13 +1160,13 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} />
-      ) : activeServiceSlug && loadingProducts ? (
+      ) : activeServiceSlug && (loadingProducts || loadingServiceDetails) ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
       ) : activeServiceSlug && currentService ? (
         <ServicePage
-          service={currentService}
+          service={currentServiceDetails || currentService}
           onNavigateHome={navigateToHome}
         />
       ) : activeCategorySlug && loadingProducts ? (
