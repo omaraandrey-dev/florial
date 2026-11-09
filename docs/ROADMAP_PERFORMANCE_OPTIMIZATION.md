@@ -370,3 +370,32 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 3. Получить Lighthouse mobile/desktop, INP field data (если CrUX доступен) и/или лабораторный interaction latency.
 4. Если CLS остаётся, проверить начальный SEO fallback и его замену через `createRoot`, async category detail, fonts and images. Не считать одну гипотезу доказанной.
 5. Не менять Header/menu/Footer, Sanity, D1, Manager, checkout, APIs или Cloudflare settings ради этих измерений.
+
+
+## 09.11.2026 — Повторная browser-rendering диагностика Production
+
+### Подтверждение runtime fix
+- Cloudflare Browser Rendering с отключённым JavaScript получил категорию HTTP 200.
+- В исходном серверном HTML присутствует SEO H1, нет текста загрузочного placeholder; изображение категории содержит `width="1254" height="1254"`. Это подтверждает, что intrinsic dimensions действительно отдаются до выполнения JavaScript.
+
+### CLS без искусственного throttling
+Профиль: mobile 390×844, desktop 1365×900, cacheTTL=0, browser rendering, без CPU/network throttling.
+
+- Категория, 3 запуска: mobile `0 / 0.0002631 / 0.0002631`, median `0.0002631`; desktop `0.0148097 / 0.0148097 / 0.0148097`, median `0.0148097`.
+- Главная, 3 запуска: mobile median `0.0002631`; desktop median `0.0148097`.
+- Блог, услуга посадки лаванды и проверенная статья блога: по одному запуску на viewport; mobile `0.0002631`, desktop `0.0148097`.
+- Mobile source: только search form в Header (ширина 169.27→158.45 px, x=108.69→119.5 px).
+- Desktop sources: общая геометрия Header/content (wrapper y=73/h=827 → y=77/h=823) и search form (x=323.39/y=15 → x=344.81/y=17). Footer не является source. Значение desktop CLS < 0.1; сдвиг общий для разных маршрутов, не специфичен для категории.
+- Header не изменялся.
+
+### LCP / FCP — browser-rendering, не Lighthouse
+- LCP median: категория mobile `0.872 s`, desktop `0.812 s`; главная mobile `1.692 s`, desktop `1.504 s`.
+- FCP median: категория mobile `0.532 s`, desktop `0.324 s`; главная mobile `1.296 s`, desktop `0.836 s`.
+- Значения получены без throttling и зависят от среды browser-rendering. Не сравнивать напрямую с предыдущим профилем CPU 4× / latency 150 ms / 10 Mbps / 1.5 Mbps; не обозначать их как Lighthouse scores или field data.
+
+### Что остаётся открытым
+1. Повторить post-fix 3-run mobile CLS на прежнем контролируемом профиле 390×844, CPU 4×, latency 150 ms, 10/1.5 Mbps, cache disabled.
+2. Lighthouse mobile/desktop.
+3. INP: в диагностике не было доверенных пользовательских взаимодействий, Event Timing не вернул interaction entries. Long Tasks не подменяют INP.
+4. После контролируемого повторения сравнить с исходной медианой 0.3441 и только тогда закрыть этот пункт окончательно.
+
