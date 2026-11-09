@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** PR #148–#152 опубликованы. Public Sanity content использует API CDN; коммерческие данные остаются live. Responsive images применены к публичным контентным и товарным страницам. HomePage Hero LCP оптимизирован: mobile 3.62→0.696 s, desktop 3.908→0.912 s. Категория растений: initial image-response bytes ~17.9 MB→1.08 MB. Cloudflare HTML остаётся `DYNAMIC`. SPA Back/Forward/scroll regression пройдена. Открыты: высокий CLS на category/product/blog/article при асинхронной подстановке контента, полный route regression, Lighthouse/CrUX и INP.
+**Статус:** PR #148–#152 опубликованы; Production alias восстановлен rollback на корректный deployment `146a68ed` после выявленного mismatch.  Public Sanity content использует API CDN; коммерческие данные остаются live. Responsive images применены к публичным контентным и товарным страницам. HomePage Hero LCP оптимизирован: mobile 3.62→0.696 s, desktop 3.908→0.912 s. Категория растений: initial image-response bytes ~17.9 MB→1.08 MB. Cloudflare HTML остаётся `DYNAMIC`. SPA Back/Forward/scroll regression пройдена. Открыты: высокий CLS на category/product/blog/article при асинхронной подстановке контента, полный route regression, Lighthouse/CrUX и INP.
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
