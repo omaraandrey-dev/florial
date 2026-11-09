@@ -139,6 +139,11 @@ const productSpec = defineType({
   preview: {select: {title: 'name', subtitle: 'value'}},
 })
 
+const serviceImageFields = () => [
+  ...localizedAltFields(),
+  defineField({name: 'linkUrl', title: 'Връзка от снимката (по избор)', type: 'string', description: 'Вътрешен адрес /services/... или пълен HTTPS адрес. Ако е празно, снимката не е кликаема.'}),
+]
+
 const serviceContentBlock = defineType({
   name: 'serviceContentBlock', title: 'Блок съдържание на услугата', type: 'object',
   fields: [
@@ -152,7 +157,7 @@ const serviceContentBlock = defineType({
         defineField({name: 'imageAlt', title: language === 'en' ? 'Image alt text' : 'Alt изображения', type: 'string'}),
       ],
     }))}),
-    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+    defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: serviceImageFields()}),
     defineField({name: 'imagePosition', title: 'Позиция на снимката', type: 'string', options: {list: [
       {title: 'Ляво', value: 'left'}, {title: 'Дясно', value: 'right'},
     ]}, initialValue: 'left'}),
@@ -418,9 +423,10 @@ const service = defineType({
     defineField({name: 'sourcePageUrl', title: 'Източник / стара страница DROP', type: 'url'}),
     defineField({name: 'shortDescription', title: 'Кратко описание', type: 'text', rows: 3}),
     defineField({name: 'description', title: 'Пълно описание', type: 'array', of: [{type: 'block'}]}),
-    defineField({name: 'image', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
-    defineField({name: 'gallery', title: 'Галерия снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: localizedAltFields()}]}),
+    defineField({name: 'image', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: serviceImageFields()}),
+    defineField({name: 'gallery', title: 'Галерия снимки', type: 'array', of: [{type: 'image', options: {hotspot: true}, fields: serviceImageFields()}]}),
     defineField({name: 'contentBlocks', title: 'Съдържание: снимка и текст', type: 'array', of: [{type: 'serviceContentBlock'}]}),
+    defineField({name: 'relatedContent', title: 'Свързани услуги, статии и категории', description: 'Изберете материали, които да се показват като компактни карти в края на статията.', type: 'array', of: [{type: 'reference', to: [{type: 'service'}, {type: 'blogPost'}, {type: 'product'}, {type: 'category'}]}]}),
     defineField({name: 'advantages', title: 'Предимства', type: 'array', of: [{type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
       defineField({name: 'text', title: 'Текст', type: 'text', rows: 3}),
@@ -428,7 +434,7 @@ const service = defineType({
     defineField({name: 'hero', title: 'Hero блок', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
       defineField({name: 'subtitle', title: 'Подзаглавие', type: 'text', rows: 3}),
-      defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: localizedAltFields()}),
+      defineField({name: 'image', title: 'Снимка', type: 'image', options: {hotspot: true}, fields: serviceImageFields()}),
     ]}),
     defineField({name: 'callToAction', title: 'Призив към действие', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие', type: 'string'}),
