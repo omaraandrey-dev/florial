@@ -1532,4 +1532,7 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Сохранены существующий порядок `sortOrder`, fallback-карточка доставки, локализация BG/RU/EN, ссылки и оформление карточек.
 - Изменение касается только количества карточек в домашнем блоке. Запрос Sanity и объём загружаемых данных не менялись; это сокращает число рендеримых карточек/изображений, но не объём сетевой загрузки услуг.
 - Header, меню, Footer, SEO, Sanity, D1, API, Manager и checkout не затронуты.
-- Проверки и Production deployment будут зафиксированы после CI и публикации.
+- GitHub PR #140 merged squash; main commit `45aa522094420bdae31de47c593a5901a79723ae`.
+- CI: Blog and Studio validation run `42577200758` — success (lint, website tests, website build, migration syntax/dry-run, Studio dependency install and Studio build); D1 migration validation run `42577200732` — success (lint, website build, Pages Functions syntax).
+- Cloudflare Pages Production deployment `f0130655-d3e3-4695-a22b-717f1fb9e081` for commit `45aa522094420bdae31de47c593a5901a79723ae` completed successfully at `2026-11-09T07:07:42Z`; aliases `florial-bg.com` and `www.florial-bg.com`.
+- Code and production deployment are verified. Browser-level live card-count/click-through smoke was not performed in this run.
