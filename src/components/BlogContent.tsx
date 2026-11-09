@@ -1,4 +1,5 @@
 import React from 'react'
+import { getSanityImageProps } from '../lib/sanityImage'
 import type { BlogTextBlock } from '../lib/blog'
 
 function safeHref(value?: string) {
@@ -64,7 +65,7 @@ export function BlogContent({blocks}: {blocks: BlogTextBlock[]}) {
         const id = youtubeId(block.url)
         return id ? <figure key={key} className="my-8"><div className="aspect-video overflow-hidden rounded-xl bg-slate-100"><iframe src={`https://www.youtube-nocookie.com/embed/${id}`} title={block.title || 'Florial video'} loading="lazy" className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /></div>{block.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{block.caption}</figcaption> : null}</figure> : null
       }
-      if (block._type === 'image') return block.assetUrl ? <figure key={key} className="my-8"><img src={block.assetUrl} alt={block.alt || ''} loading="lazy" className="mx-auto max-h-[680px] w-auto max-w-full rounded-xl object-contain" />{block.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{block.caption}</figcaption> : null}</figure> : null
+      if (block._type === 'image') return block.assetUrl ? <figure key={key} className="my-8"><img {...getSanityImageProps(block.assetUrl, '(min-width: 768px) 768px, calc(100vw - 2rem)', 960)} alt={block.alt || ''} loading="lazy" decoding="async" className="mx-auto max-h-[680px] w-auto max-w-full rounded-xl object-contain" />{block.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{block.caption}</figcaption> : null}</figure> : null
       if (block.listItem) return <div key={key} className="pl-5">{block.listItem === 'number' ? <ol className="list-decimal"><li>{renderChildren(block)}</li></ol> : <ul className="list-disc"><li>{renderChildren(block)}</li></ul>}</div>
       const text = renderChildren(block)
       if (block.style === 'h2') return <h2 key={key} className="pt-5 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{text}</h2>
