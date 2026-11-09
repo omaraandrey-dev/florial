@@ -3,12 +3,12 @@ import {useI18n} from '../lib/i18n'
 import {applyPageSeo} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
 import {BlogContent} from '../components/BlogContent'
-import {blogSlug, blogTranslation, fetchBlogPost, fetchBlogPosts, formatBlogDate, type BlogPost} from '../lib/blog'
+import {blogSlug, blogTranslation, fetchBlogPost, fetchBlogPosts, formatBlogDate, type BlogPost, type BlogPostCard} from '../lib/blog'
 
 export function BlogPostPage({slug}: {slug: string}) {
   const {t, language} = useI18n()
   const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
+  const [relatedPosts, setRelatedPosts] = useState<BlogPostCard[]>([])
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
     let active = true
