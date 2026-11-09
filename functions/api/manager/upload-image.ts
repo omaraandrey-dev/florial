@@ -1,4 +1,5 @@
-import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
+import { json, requireUser, type ManagerEnv } from './_lib'
+import { PLANTS_DATASET, requirePlantRole } from './plant-direct-lib'
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024
 const hasSignature = (bytes: Uint8Array, mime: string) => {
@@ -11,7 +12,7 @@ export const onRequestPost = async ({request,env}:{request:Request;env:ManagerEn
   if(!env.DB||!env.SANITY_API_TOKEN)return json({error:'Image upload service is not configured.'},503)
   const auth=await requireUser(request,env)
   if(auth.response||!auth.user)return auth.response||json({error:'Authentication required.'},401)
-  if(!hasPermission(auth.user,'canCreatePlant')&&!hasPermission(auth.user,'canEditPlantCard'))return json({error:'Нямате право да качвате снимки за каталога.'},403)
+  if(!requirePlantRole(auth.user))return json({error:'Нямате право да качвате снимки за каталога.'},403)
   const origin=request.headers.get('Origin')
   if(origin){try{if(new URL(origin).origin!==new URL(request.url).origin)return json({error:'Origin not allowed.'},403)}catch{return json({error:'Origin not allowed.'},403)}}
   const form=await request.formData()
@@ -20,7 +21,7 @@ export const onRequestPost = async ({request,env}:{request:Request;env:ManagerEn
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>MAX_IMAGE_SIZE)return json({error:'Допустими са само JPEG, PNG и WebP до 10 MB.'},400)
   const bytes=new Uint8Array(await file.arrayBuffer())
   if(!hasSignature(bytes,file.type))return json({error:'Форматът на файла не съответства на съдържанието му.'},400)
-  const project=env.SANITY_PROJECT_ID||'bxvcy0qs',dataset=env.SANITY_PLANTS_DATASET||'plants'
+  const project=env.SANITY_PROJECT_ID||'bxvcy0qs',dataset=PLANTS_DATASET
   const filename=file.name.replace(/[^a-zA-Z0-9._-]/g,'-').slice(-100)||'plant-image'
   const upload=await fetch('https://'+project+'.api.sanity.io/v2024-01-01/assets/images/'+encodeURIComponent(dataset)+'?filename='+encodeURIComponent(filename),{
     method:'POST',headers:{Authorization:'Bearer '+env.SANITY_API_TOKEN,'Content-Type':file.type},body:bytes
