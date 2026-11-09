@@ -365,7 +365,7 @@ export function ProductPage({
         <div className="flex flex-col gap-4">
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage && !failedImageUrls.includes(selectedImage) ? (
-              <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
+              <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} decoding="async" onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
@@ -388,7 +388,7 @@ export function ProductPage({
                     selectedImage === img.url ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
-                  <img {...getSanityImageProps(img.url, '80px', 200)} alt={getImageText(img.url, "alt")} title={getImageText(img.url, "title")} onError={() => handleImageError(img.url)} className="w-full h-full object-contain p-1" />
+                  <img {...getSanityImageProps(img.url, '80px', 200)} alt={getImageText(img.url, "alt")} title={getImageText(img.url, "title")} loading="lazy" decoding="async" onError={() => handleImageError(img.url)} className="w-full h-full object-contain p-1" />
                 </button>
               ))}
             </div>
@@ -616,7 +616,7 @@ export function ProductPage({
           } as Record<string, string>)[product.recommendedIrrigation.irrigationType || ''] || noCareData}</p>
           {product.recommendedIrrigationProduct ? (
             <a href={localizedHref(`/product/${encodeURIComponent(product.recommendedIrrigationProduct.slug?.current || product.recommendedIrrigationProduct._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateProduct(product.recommendedIrrigationProduct!.slug?.current || product.recommendedIrrigationProduct!._id))} className="flex flex-col gap-3 rounded-xl border border-emerald-100 bg-white p-4 no-underline transition hover:shadow-md sm:flex-row sm:items-center">
-              {product.recommendedIrrigationProduct.imageUrl && <img {...getSanityImageProps(product.recommendedIrrigationProduct.imageUrl, '96px', 240)} alt={localize(product.recommendedIrrigationProduct, 'name')} className="h-24 w-24 rounded-lg bg-slate-50 object-contain p-2" loading="lazy" />}
+              {product.recommendedIrrigationProduct.imageUrl && <img {...getSanityImageProps(product.recommendedIrrigationProduct.imageUrl, '96px', 240)} alt={localize(product.recommendedIrrigationProduct, 'name')} className="h-24 w-24 rounded-lg bg-slate-50 object-contain p-2" loading="lazy" decoding="async" />}
               <span className="flex-1 font-semibold text-slate-900">{localize(product.recommendedIrrigationProduct, 'name')}</span>
               <span className="font-bold text-emerald-800">{Number(product.recommendedIrrigationProduct.priceEUR || 0).toFixed(2)} €</span>
               <span className="text-sm font-semibold text-emerald-700">{language === 'ru' ? 'Посмотреть товар →' : language === 'en' ? 'View product →' : 'Виж продукта →'}</span>
@@ -720,7 +720,7 @@ export function ProductPage({
                   className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition no-underline"
                 >
                   {item.imageUrl ? (
-                    <img {...getSanityImageProps(item.imageUrl, '(min-width: 768px) 33vw, 50vw')} alt={itemImageAlt} title={itemImageAlt} className="h-40 w-full object-cover" loading="lazy" />
+                    <img {...getSanityImageProps(item.imageUrl, '(min-width: 768px) 33vw, 50vw')} alt={itemImageAlt} title={itemImageAlt} className="h-40 w-full object-cover" loading="lazy" decoding="async" />
                   ) : (
                     <div className="h-40 bg-slate-100" />
                   )}
@@ -761,7 +761,7 @@ export function ProductPage({
                 >
                   <div className="h-36 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
                     {item.imageUrl ? (
-                      <img {...getSanityImageProps(item.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')} alt={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'alt')} title={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'title')} className="h-full w-full object-contain p-2" loading="lazy" />
+                      <img {...getSanityImageProps(item.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')} alt={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'alt')} title={getProductImageText(String(localize(item, 'name') || item.name), language, 0, 'title')} className="h-full w-full object-contain p-2" loading="lazy" decoding="async" />
                     ) : (
                       <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
@@ -801,7 +801,7 @@ export function ProductPage({
                 <div>
                   <div className="h-40 bg-slate-50 rounded-lg mb-3 flex items-center justify-center">
                     {item.imageUrl ? (
-                      <img {...getSanityImageProps(item.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')} alt={getProductImageText(String(localize(item, "name") || item.name), language, 0, "alt")} title={getProductImageText(String(localize(item, "name") || item.name), language, 0, "title")} className="h-full w-full object-contain p-2" />
+                      <img {...getSanityImageProps(item.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw')} alt={getProductImageText(String(localize(item, "name") || item.name), language, 0, "alt")} title={getProductImageText(String(localize(item, "name") || item.name), language, 0, "title")} loading="lazy" decoding="async" className="h-full w-full object-contain p-2" />
                     ) : (
                       <span className="text-xs text-slate-400">{t('Няма снимка')}</span>
                     )}
