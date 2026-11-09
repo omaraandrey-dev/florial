@@ -2,6 +2,25 @@ import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, parseJsonBody, requirePlantRole } from '../plant-direct-lib'
 
 const MODEL='@cf/meta/llama-3.3-70b-instruct-fp8-fast'
+const VISION_MODEL='@cf/meta/llama-3.2-11b-vision-instruct'
+const bytesToBase64=(bytes:Uint8Array)=>{let binary='';for(let offset=0;offset<bytes.length;offset+=0x8000)binary+=String.fromCharCode(...bytes.subarray(offset,offset+0x8000));return btoa(binary)}
+const analyzeMainImage=async(env:ManagerEnv,value:unknown):Promise<string>=>{
+ if(!isObject(value)||typeof value.url!=='string'||!/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(value.url))return ''
+ const download=await fetch(value.url)
+ if(!download.ok)throw new Error('AI_IMAGE_DOWNLOAD_FAILED')
+ const contentType=(download.headers.get('content-type')||'').split(';')[0].trim().toLowerCase()
+ if(!['image/jpeg','image/png','image/webp'].includes(contentType))throw new Error('AI_IMAGE_TYPE_INVALID')
+ const bytes=new Uint8Array(await download.arrayBuffer())
+ if(!bytes.length||bytes.length>10*1024*1024)throw new Error('AI_IMAGE_SIZE_INVALID')
+ const response=await env.AI!.run(VISION_MODEL,{
+  messages:[
+   {role:'system',content:'Describe visible image details for accessible alt text. Do not identify plant species. Do not infer botanical properties. Reply with one concise sentence in Bulgarian only, without JSON, labels, quotes or markdown.'},
+   {role:'user',content:'Describe only what is visibly apparent in this photo. Write one natural Bulgarian alt description, maximum 180 characters. Do not mention image number, location or SEO keywords.'},
+  ],
+  image:'data:'+contentType+';base64,'+bytesToBase64(bytes),
+ })
+ return cleanText(extractText(response),180)
+}
 const extractText=(value:unknown):string=>{
  if(typeof value==='string')return value
  if(!isObject(value))return ''
@@ -36,6 +55,9 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
  const scientificName=cleanText(source.scientificName,160)
  const description=cleanText(source.description,3000)
  const shortDescription=cleanText(source.shortDescription,500)
+ let visibleObservation=''
+ const warnings:string[]=[]
+ if(body.mainImage){try{visibleObservation=await analyzeMainImage(env,body.mainImage);if(!visibleObservation)warnings.push('ALT за основната снимка не беше генериран.')}catch{warnings.push('Не успяхме да анализираме основната снимка; текстовете са генерирани без визуално описание.')}}
  const prompt=[
   'Create accurate, useful multilingual e-commerce copy for a plant sold by Florial in Bulgaria.',
   'Return JSON only, no markdown. Never invent price, stock, SKU, sale size, container size, delivery conditions, scientific name, botanical certainty, toxicity, hardiness or care data.',
@@ -44,8 +66,10 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   'Write in natural Bulgarian first, then natural Russian and English. Avoid literal translations and keyword stuffing.',
   'BG local SEO: Florial plant offer in Несебър and nearby Равда, Слънчев бряг, Свети Влас, Кошарица, Поморие and Бургас. Use Несебър as primary location; mention only 1–3 nearby places naturally. Never mention Созопол.',
   'Descriptions should explain visible/known product qualities and buyer uses without unsupported horticultural claims. If information is limited, stay concise and cautious.',
+  'Visible observation from the main photo (do not identify species from this observation): '+(visibleObservation||'no visual observation available'),
   'BG SEO title should target 50–65 characters and meta description 140–160 characters; hard max 70 and 320. Localize SEO separately for RU and EN.',
-  'Return shape: {"shortDescription":"","description":"","translations":{"bg":{"shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}},"en":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}}},"seo":{"h1":"","metaTitle":"","metaDescription":""},"warnings":[]}',
+  'Create imageAltEn and imageAltRu translations of the supplied visible observation, each maximum 180 characters. Do not add SEO locations or guess a plant species.',
+  'Return shape: {"shortDescription":"","description":"","imageAltEn":"","imageAltRu":"","translations":{"bg":{"shortDescription":"","description":""},"ru":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}},"en":{"name":"","shortDescription":"","description":"","seo":{"h1":"","metaTitle":"","metaDescription":""}}},"seo":{"h1":"","metaTitle":"","metaDescription":""},"warnings":[]}',
   'Product name (preserve): '+name,
   'Scientific name supplied by staff (do not alter or infer): '+(scientificName||'not supplied'),
   'Plant type: '+type,
@@ -84,9 +108,10 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
      metaTitle:cleanText(seo.metaTitle,70),
      metaDescription:cleanText(seo.metaDescription,320),
     },
-    warnings:Array.isArray(generated.warnings)?generated.warnings.slice(0,8).map(item=>cleanText(item,240)):[],
+    warnings:[...warnings,...(Array.isArray(generated.warnings)?generated.warnings.slice(0,8).map(item=>cleanText(item,240)):[])].slice(0,8),
    },
    model:MODEL,
+   visionModel:visibleObservation?VISION_MODEL:null,
   })
  }catch(error){
   const code=error instanceof Error&&error.message==='AI_INVALID_JSON'?'invalid_ai_response':'ai_generation_failed'
