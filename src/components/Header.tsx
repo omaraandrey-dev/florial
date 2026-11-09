@@ -3,7 +3,7 @@ import './Header.css'
 import { useI18n, type Language } from '../lib/i18n'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import { blogSlug, blogTranslation, fetchBlogPosts, type BlogPost } from '../lib/blog'
+import { blogSlug, blogTranslation, fetchBlogPosts, type BlogPostCard } from '../lib/blog'
 import type {
   ServiceItem,
   CategoryItem,
@@ -44,7 +44,7 @@ export function Header({
   const [isPlantsOpen, setIsPlantsOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPostCard[]>([])
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
