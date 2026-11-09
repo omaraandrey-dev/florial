@@ -673,7 +673,7 @@ export default function ManagerApp() {
     <main className="min-h-screen bg-[#f5f6ef] text-stone-800">
       <header className="border-b border-stone-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-          <div><div className="text-xs font-bold tracking-[.22em] text-lime-800">FLORIAL / INTERNAL</div><div className="text-xl font-semibold">Приемане на растения</div></div>
+          <div><div className="text-xs font-bold tracking-[.22em] text-lime-800">FLORIAL / INTERNAL</div><div className="text-xl font-semibold">Управление на растения</div></div>
           <div className="text-right text-sm"><div className="font-semibold">{profile.display_name || session.user.email}</div><div className="text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div></div>
           <button onClick={signOut} className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold">Изход</button>
         </div>
