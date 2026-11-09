@@ -1277,11 +1277,6 @@ export default function App() {
     )
   }, [categories, products])
 
-  const shouldReserveRouteContentHeight = Boolean(
-    activeCategorySlug ||
-    activeProductSlug ||
-    activeServiceSlug
-  ) || activeSearchQuery !== null || normalizedRoutePath === '/blog' || normalizedRoutePath.startsWith('/blog/')
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
@@ -1299,7 +1294,6 @@ export default function App() {
         siteSettings={siteSettings}
       />
 
-      <div className={`flex-grow ${shouldReserveRouteContentHeight ? 'min-h-screen' : ''}`}>
       <React.Suspense fallback={
         <main
           className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
@@ -1511,7 +1505,6 @@ export default function App() {
         />
         )}
       </React.Suspense>
-      </div>
 
       <Footer />
     </div>
