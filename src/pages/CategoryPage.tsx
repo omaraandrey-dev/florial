@@ -537,7 +537,7 @@ export function CategoryPage({
         </div>
       ) : (
         <div ref={productGridRef} id="category-products-grid" className="scroll-mt-24 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {productsToRender.map((product) => (
+          {productsToRender.map((product, index) => (
             <a
               key={product._id}
               href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
@@ -551,6 +551,8 @@ export function CategoryPage({
                       {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
                       alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
                       title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      decoding="async"
                       className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
