@@ -1,4 +1,4 @@
-> **Актуализация 02.11.2026:** исходная архитектура ниже описывает первую реализацию Florial Manager на Supabase. Для нового кода и дальнейшего развития используйте актуальное дополнение «Cloudflare D1» в конце этого файла. Supabase не отключён и остаётся только резервной точкой возврата до завершения rollout. Исторические разделы сохранены, чтобы не потерять первоначальные требования и логику процесса.
+> **Историческое примечание:** разделы ранней архитектуры ниже описывают исходный intake и Supabase-пилот; они не являются описанием текущего runtime. Актуальный runtime Manager — Cloudflare Pages Functions + Cloudflare D1 + Sanity. Supabase не использовать.
 
 ## Дополнение 01.11.2026 — коммерческие варианты и отдельная ботаническая проверка
 
@@ -530,3 +530,26 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Регрессионные тесты: `tests/catalog-submission-status.test.mjs` (6 сценариев). CI PR #161: 34/34 теста, lint, website build, Pages Functions syntax, read-only migration dry-run, Sanity Studio build и D1 migration validation — success.
 - PR #161 merged commit `3f8a363ee60b6355209c36d821d50ab80267d806`; Production deployment `35abbc66-d88a-4492-8783-87f827642441` — success.
 - D1 schema/data, Sanity, реальные профили/заявки/события, Header, menu, Footer, checkout и orders не изменялись. Authenticated live Owner/Seller submission test остаётся непроведённым; не создавать тестовые Production заявки без отдельной необходимости.
+
+---
+
+# Актуальное дополнение 09.11.2026 — прямое управление каталогом растений
+
+> Это дополнение имеет приоритет над историческими разделами ниже, которые описывают ранний Supabase-based intake. Текущий runtime Florial Manager использует Cloudflare Pages Functions + Cloudflare D1 для сессий/профилей и Sanity для опубликованного каталога. Supabase не является runtime-основой проекта.
+
+## Согласованная целевая модель
+
+- Только Sanity dataset `plants`; не подключать dataset `production` и не изменять оборудование.
+- Owner, Manager и Seller: create, edit any plant, direct publish.
+- Owner-only: audit history, `plantCare`, `careGuide`, отдельная botanical/GBIF research action.
+- AI-enrich обычных описаний, переводов, ALT и SEO — все три роли; AI не генерирует цены, SKU, размеры продажи, остатки или наличие.
+- Текущие `catalog_submissions` / `catalog_submission_events` — legacy workflow. Не удалять и не мигрировать существующие строки в рамках перехода.
+- Предлагаемый новый D1 `manager_product_audit` — append-only; серверная авторизация Owner-only для чтения.
+- Прямые Sanity create/patch выполняются только серверными Pages Functions с `SANITY_API_TOKEN`, idempotency для create и `ifRevisionID` для patch.
+- Существующая Sanity schema `product` уже содержит `saleVariants` (max 30); `plantSaleVariant` содержит свободное имя варианта, числовую высоту, объём, SKU, цену и наличие. Схему не менять, пока аудит публичного storefront не докажет необходимость.
+- Перед изменением цены/наличия требуется проследить root fields и `saleVariants` через Category/Product/cart/order validation: read-only audit выявил legacy расхождения.
+
+Подробная спецификация и этапы: `docs/ROADMAP_MANAGER_PLANTS.md`.
+
+**Статус:** согласованная спецификация; реализация не начата. Данное дополнение не меняет runtime, D1, Sanity, Cloudflare configuration, права сотрудников или Production.
+
