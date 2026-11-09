@@ -880,9 +880,7 @@ export default function App() {
   // Он сохраняет поиск по описаниям и характеристикам, не утяжеляя главную и каталоги.
   useEffect(() => {
     let cancelled = false
-    const query = (activeSearchQuery || '').trim()
-
-    if (!query) {
+    if (!activeSearchQuery?.trim()) {
       setSearchProducts([])
       setLoadingSearchResults(false)
       return () => { cancelled = true }
