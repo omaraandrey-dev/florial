@@ -140,3 +140,26 @@
 - CI PR #141: Blog and Studio validation run `42582485634` success; D1 migration validation `42582485603` success. Studio build и website build прошли.
 - Lighthouse/LCP/INP/CrUX, post-optimization desktop capture и полный scroll-through/visual review всех изображений остаются незавершёнными. Не делать вывод о завершении всей image optimization stage.
 - Изменения Sanity documents/schema, D1, API, checkout, cart, Manager, Header/menu/Footer, BlogSection и Cloudflare settings отсутствуют.
+
+
+---
+
+## Post-optimization comparison — category page (09.11.2026)
+
+Detailed report: [POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md](./POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md).
+
+Route: `/category/rastenia`. Both deployments were tested with the same mobile profile: 390×844, CPU slowdown 4×, 150 ms latency, 10 Mbps download, 1.5 Mbps upload, browser cache disabled, three runs.
+
+| Metric | Before PR #150 (median) | After PR #150 (median) |
+|---|---:|---:|
+| First Contentful Paint | 428 ms | 408 ms |
+| DOM Content Loaded | 575 ms | 562 ms |
+| Load event | 691 ms | 691 ms |
+
+Raw runs are retained in the post-optimization report. The small FCP/DCL changes should not be presented as a major overall speed increase; median load event did not change.
+
+The confirmed improvement is the image-response volume on the category route: approximately 17.9 MB before versus 1,081,732 B after, about 94% lower in the captured initial-load sample. After optimization, 28 of 29 DOM images have responsive `srcSet`; 17 load initially and all 29 load after a full scroll, with no failed images. The post sample includes the unchanged Header logo and an original social-preview image request. This is an image-byte comparison, not Lighthouse or field Core Web Vitals.
+
+Sanity CDN was also enabled only for public published content. Product price/stock, search, delivery tariffs, Manager reads and order validation remain on live APIs. Cloudflare HTML remains `DYNAMIC`; no Cloudflare settings were changed.
+
+LCP, INP, CLS, Lighthouse, CrUX, desktop comparison and controlled measurements on all other routes remain open. The original baseline section above is preserved unchanged.
