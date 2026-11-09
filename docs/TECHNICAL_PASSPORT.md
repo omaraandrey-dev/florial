@@ -1,7 +1,7 @@
 ## 2026-11-09 — PR #148–#150: responsive Sanity images, CDN split and catalog image delivery
 
 ### Main and Production
-- Current main commit: `2f35bf3151f68ecb64288ba861b97b084d21b1c9`.
+- Runtime main commit after PR #150: `2f35bf3151f68ecb64288ba861b97b084d21b1c9`.
 - PR #148 merge `0b72d45021230e7d286b42dfb116acd6ca47ee80`; Production deployment `113205bf-630b-4586-a873-223dac8a9140` — success.
 - PR #149 merge `606d7c8c26daee641a1890a786b54b1decda5340`; Production deployment `6b84da59-f2a8-4d8b-90a1-ed415d2272b9` — success.
 - PR #150 merge `2f35bf3151f68ecb64288ba861b97b084d21b1c9`; Production deployment `100ac60e-28b9-4da3-8dc1-7197743844c4` — success; production aliases `florial-bg.com`, `www.florial-bg.com`.
