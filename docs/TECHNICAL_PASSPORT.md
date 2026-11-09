@@ -1,3 +1,47 @@
+## 2026-11-09 — PR #148–#150: responsive Sanity images, CDN split and catalog image delivery
+
+### Main and Production
+- Runtime main commit after PR #150: `2f35bf3151f68ecb64288ba861b97b084d21b1c9`.
+- PR #148 merge `0b72d45021230e7d286b42dfb116acd6ca47ee80`; Production deployment `113205bf-630b-4586-a873-223dac8a9140` — success.
+- PR #149 merge `606d7c8c26daee641a1890a786b54b1decda5340`; Production deployment `6b84da59-f2a8-4d8b-90a1-ed415d2272b9` — success.
+- PR #150 merge `2f35bf3151f68ecb64288ba861b97b084d21b1c9`; Production deployment `100ac60e-28b9-4da3-8dc1-7197743844c4` — success; production aliases `florial-bg.com`, `www.florial-bg.com`.
+
+### Responsive image architecture
+- New shared helper: `src/lib/sanityImage.ts`.
+- Sanity images receive width candidates 160, 240, 320, 480, 640, 800, 960, 1200 and 1600; helper returns `src`, `srcSet`, `sizes`, intrinsic width/height when encoded in Sanity asset ID, and uses `fit=max`, `auto=format`, `q=75`.
+- Applied to HomePage cards, BlogSection, BlogPage, BlogPostPage/Portable Text, ServicePage, AboutPage, CategoryPage, ProductPage and public product search results.
+- Category grid keeps first four product cards eager and lazy-loads remaining cards. Product detail main image remains eager; offscreen related/gallery images use lazy loading where appropriate.
+- Header logo and homepage CSS Hero background remain unchanged. Header/menu/Footer layout not modified. Header logo requires separate approval before any optimization.
+- No image assets, Sanity documents or schemas were written or deleted.
+
+### Sanity clients and data freshness
+- `sanityClient`: dataset `production`, `useCdn: true`, `perspective: 'published'`.
+- `publicPlantsClient`: dataset `plants`, `useCdn: true`, `perspective: 'published'`; used for public plant category content.
+- `sanityLiveClient`: dataset `production`, `useCdn: false`, `perspective: 'published'`; used for product prices/stock, equipment search/details/recommended product and delivery tariffs.
+- `plantsClient`: dataset `plants`, `useCdn: false`; remains live for plant products, variants/search and Manager plant-category reads.
+- `functions/api/orders.ts` continues validating orders against live server-side data. Manager writes and API logic were not changed.
+- Read-only validation with API version `2024-01-01` and `perspective=published` returned matching results from `api.sanity.io` and `apicdn.sanity.io`. Observed CDN policy: 60-second cache with stale-while-revalidate 15 seconds. Repeated simple query cache hits: about 10–12 ms; direct API sample: about 116–140 ms. These are query samples, not full-page timing results.
+
+### Cloudflare cache audit
+- Fingerprinted JS/CSS return `cf-cache-status: HIT` and `Cache-Control: public, max-age=31536000, immutable`. Brotli, HTTP/2 and HTTP/3 are enabled.
+- HTML responses return `cf-cache-status: DYNAMIC` with `Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600`; repeated requests did not produce an edge HIT.
+- No custom Cache Rules entrypoint or Page Rules found. Zone defaults observed: cache level aggressive, edge TTL 7200 s, browser TTL 14400 s, Development Mode off.
+- No Cloudflare settings, rules, secrets or bindings changed. HTML edge caching requires a separate, scoped design and approval; exclude Manager, APIs, cart, checkout, orders and personalized routes.
+
+### Controlled category result and regression
+- Report: `docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md`.
+- Route `/category/rastenia`, 390×844, CPU 4×, 150 ms latency, 10 Mbps down / 1.5 Mbps up, browser cache disabled, three runs. Median FCP 428→408 ms, DCL 575→562 ms, load event 691→691 ms.
+- Captured initial image responses decreased from approximately 17.9 MB to 1,081,732 B (about 94% lower). Post DOM has 29 images, 28 responsive srcsets; 17 images loaded initially; after scroll all 29 loaded; no failed images.
+- Mobile SPA test: Home → Services → planting service; Back/Forward and scroll restoration within 20 px. No JS page errors. Product detail `/product/musa-banana`: H1/title correct, four images, three responsive sets, no failed images.
+- CI for PRs #148–#150 passed: website lint, utility tests, build, migration syntax/read-only dry-run, Studio build and D1 validation. Run IDs recorded in CHANGELOG.
+
+### Remaining
+- Lighthouse/CrUX, LCP, INP and CLS remain unmeasured. Hero LCP identification is pending.
+- Header logo remains a large 1547×581 PNG (~656 KB); no Header change made.
+- Public HTML edge caching remains unimplemented. Continue controlled measurements on homepage, equipment category, product, search, blog and article before further infrastructure changes.
+
+---
+
 ## 2026-11-09 — PR #147: lazy loading public route components
 
 - PR #147 merged squash: `b35b5e499700d0330a7ea43ca1ca09e4f6cad7e8`; Production deployment `20836dfd-7536-4379-be50-2c865800c814` success; aliases florial-bg.com and www.florial-bg.com.

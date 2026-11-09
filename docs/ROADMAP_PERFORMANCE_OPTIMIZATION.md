@@ -2,12 +2,22 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этапы 1 и 2 опубликованы: compact service/product/category indexes, detail/search on demand, homepage 6+6, compact blog cards и deduplicated list fetch. Этап 5 начат: ManagerApp вынесен в отдельный lazy chunk PR #146. Один unthrottled desktop browser sample показывает на 22.96% меньше переданных JS bytes на public route, но controlled mobile/CDP capture и Lighthouse/CWV ещё впереди.  
+**Статус:** Этапы 1–2 опубликованы; SPA regression после PR #147 закрыта на мобильном сценарии. Этап 3 частично выполнен: responsive Sanity images применены к HomePage cards, blog, services, About, categories, product detail и search; на `/category/rastenia` начальный image-response объём снизился примерно с 17.9 MB до 1.08 MB при одном и том же mobile profile. Этап 4 частично выполнен: public published content использует Sanity API CDN, коммерческие данные остаются live; Cloudflare HTML по-прежнему `DYNAMIC`. Этап 5 lazy route chunks опубликованы. Lighthouse/CrUX, LCP/INP/CLS и homepage Hero LCP остаются открытыми.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
 
 > Это основной план ускорения Florial. В новом чате сначала прочитать актуальную MD2-инструкцию, docs/TECHNICAL_PASSPORT.md, CHANGELOG.md и этот документ. Затем сверить текущий main и Production: статусы ниже относятся к дате документа.
+
+## Последняя контрольная точка 09.11.2026 — PR #148–#150
+
+- PR #148/#149/#150 merged; current main `2f35bf3151f68ecb64288ba861b97b084d21b1c9`; Production deployment `100ac60e-28b9-4da3-8dc1-7197743844c4` success.
+- Report: `docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md`.
+- Public Sanity content uses API CDN; prices/stock, product search/detail, delivery tariffs, Manager and order validation stay live.
+- Responsive Sanity image helper covers homepage cards, blog, services, About, categories, product details and public search. Header logo and homepage Hero background unchanged.
+- Mobile category profile: initial image-response bytes ~17.9 MB → 1,081,732 B; median FCP 428→408 ms, DCL 575→562 ms, load 691→691 ms. Do not claim full page speed increased by 94%; this is image response bytes only.
+- Cloudflare JS/CSS cache HIT; HTML remains DYNAMIC. No Cloudflare settings/rules changed.
+- SPA mobile Back/Forward and scroll restoration regression passed. Lighthouse, CrUX, LCP, INP and CLS remain open.
 
 ## 1. Цель и обязательные ограничения
 
@@ -60,27 +70,34 @@
 
 В `src/lib/blog.ts` введены отдельные compact card и full detail projections. Список статей содержит только slug/date/cover и локализованные title/shortDescription/coverAlt; body Portable Text, gallery, SEO и tags загружаются только для открытой статьи. Header и BlogSection используют общий promise cache (TTL 60 секунд), предотвращающий дублирование одновременного `fetchBlogPosts(3)`. BlogPage и related articles также используют compact records. Реальные опубликованные Sanity projections и live BG/RU/EN страницы проверены. Wire transfer/CDP до и после ещё не измерены.
 
-### P3. Sanity clients без CDN
+### P3. Sanity CDN — частично выполнено PR #149
 
-src/lib/sanity.ts создаёт clients для datasets production и plants с useCdn: false.
-
-Гипотеза: для публичных read-only запросов можно оценить Sanity CDN, предварительно проверив допустимую задержку публикаций. Не применять автоматически к write/admin flows и операциям, где требуется немедленно прочитать записанное значение.
+- `sanityClient` и `publicPlantsClient` используют `useCdn: true` и `perspective: 'published'` для публичного контента и категорий.
+- `sanityLiveClient` и `plantsClient` остаются `useCdn: false` для цен, наличия, продуктового поиска/деталей, доставки и Manager reads.
+- `functions/api/orders.ts` продолжает серверную проверку по live API.
+- Read-only сравнение `api.sanity.io` и `apicdn.sanity.io` для API version `2024-01-01`, perspective `published`: результаты совпадают; CDN cache policy 60 s; повторный query hit около 10–12 ms против 116–140 ms для live API в одном браузерном session.
+- Не использовать CDN для немедленного чтения после записи, Manager writes или order validation.
 
 ### P4. Начальный JavaScript
 
 PR #146 перевёл ManagerApp на React lazy dynamic import: публичный маршрут не загружает Manager chunk; он загружается только на /manager. Один remote browser sample при 1920×993 показал public JS transfer 161,151 B против 209,165 B до PR #146 (single sample, не controlled mobile baseline).
 
-PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; SPA navigation/scroll regression ещё не завершены. Серверные модули не должны попадать в client bundle.
+PR #147 перевёл десять non-home pages в `src/App.tsx` на React.lazy: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. HomePage остаётся в initial bundle. Build artifact main entry уменьшился с 620.15 kB raw / 163.82 kB gzip до 388.90 kB raw / 106.91 kB gzip (−34.74% gzip). Page chunks выводятся отдельно. Direct-route smoke прошёл; mobile SPA navigation/Back/Forward/scroll restoration теперь проверены на 390×844. Полная route chunk resource inspection остаётся открытой. Серверные модули не должны попадать в client bundle.
 
-### P5. Изображения
+### P5. Изображения — частично выполнено PR #148 и #150
 
-Главная содержит CSS background Hero, карточки услуг/категорий и карточки блога. BlogSection уже применяет loading=lazy к карточным фото, но явные размеры изображений в JSX не заданы. Нужно проверить все изображения HomePage и определить фактический LCP элемент.
+- Общий helper `src/lib/sanityImage.ts`: responsive widths 160–1600w, `srcSet`, `sizes`, intrinsic width/height, `fit=max`, `auto=format`, `q=75`.
+- Применён к HomePage cards, BlogSection/BlogPage/BlogPostPage и Portable Text, ServicePage, AboutPage, CategoryPage, ProductPage и public product search.
+- CategoryPage: первые четыре product cards eager, остальные lazy. В mobile capture 390×844: 29 img в DOM, 28 srcSet; initial image response bytes примерно 17.9 MB → 1,081,732 B (около −94%); после полного scroll все 29 изображений загрузились, ошибок нет.
+- Header logo остаётся оригинальным PNG 1547×581 (~656 KB); Header защищён от изменений без отдельного согласования. HomePage CSS Hero background оставлен без изменений до определения LCP.
+- LCP, desktop visual review и Lighthouse/CWV не измерены. Не объявлять этап полностью закрытым.
 
-Гипотеза: responsive widths через Sanity image URL builder, форматы, width/height, lazy loading ниже первого экрана и приоритет LCP image сократят bytes и CLS. Не ставить LCP image на lazy. Не добавлять preload до измерения. Не менять crop без визуальной проверки.
+### P6. Cache headers и статика — аудит выполнен, HTML edge cache открыт
 
-### P6. Cache headers и статика
-
-Состояние Cloudflare cache headers, _headers, Cache-Control, immutable assets и CDN cache ещё не проверено. Неизвестно — проверить на этапе 0. Не менять Cloudflare rules/settings по предположению.
+- Hashed JS/CSS: `cf-cache-status: HIT`, `Cache-Control: public, max-age=31536000, immutable`; Brotli, HTTP/2/3 включены.
+- HTML: `cf-cache-status: DYNAMIC` при `s-maxage=300`, `stale-while-revalidate=600`; повторные запросы остаются DYNAMIC.
+- Custom Cache Rules/Page Rules не обнаружены; zone defaults: cache level aggressive, edge TTL 7200 s, browser TTL 14400 s.
+- Cloudflare settings/rules/secrets не менялись. HTML caching требует отдельной политики и исключений для Manager, API, cart, checkout, orders и персональных маршрутов.
 
 ### P7. Шрифты и сторонние ресурсы
 
@@ -135,27 +152,23 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 
 ### Этап 3 — Оптимизация изображений
 
-1. Инвентаризировать изображения главной и определить LCP image.
-2. Использовать Sanity image URL builder или существующий корректный механизм для auto=format, fit, width/height и quality; не собирать URL вручную без проверки.
-3. Создать responsive widths для mobile/tablet/desktop через srcSet и sizes.
-4. Указать width/height или aspect-ratio для предотвращения CLS.
-5. Lazy load ниже первого экрана; eager/high priority только для подтверждённого LCP.
-6. Проверить Header logo, hero, services, categories и blog images.
-7. Проверить MIME type, bytes и визуальное качество на телефоне/десктопе.
-8. Сохранить ALT BG/RU/EN и внутренние image links.
+1. [x] Общий Sanity helper с responsive `srcSet`/`sizes`, форматом и размерами.
+2. [x] HomePage cards, BlogSection, BlogPage, BlogPostPage/Portable Text, ServicePage, AboutPage.
+3. [x] CategoryPage, ProductPage и public product search images; first four category cards eager, remaining lazy.
+4. [x] Проверка категории растений на 390×844: 28/29 img имеют srcSet, все 29 загружаются после scroll, 0 failed images.
+5. [~] HomePage Hero background и Header logo не изменены. Header logo (~656 KB) требует отдельного согласования; Hero ждёт LCP measurement.
+6. [~] Desktop visual review, Lighthouse, LCP/CLS и полное сравнение всех public routes остаются открытыми.
 
 Критерии: меньше переданных байтов; LCP не ухудшился; CLS не вырос; изображения не размыты и не обрезаны неправильно.
 
 ### Этап 4 — Sanity CDN и кэширование
 
-1. Разделить read-only запросы и операции, которым нужна немедленная актуальность.
-2. Оценить useCdn: true отдельно для production и plants.
-3. Проверить публикационную задержку и ошибки.
-4. Проверить Cloudflare cache headers для hashed assets, HTML, изображений и API.
-5. Для hashed JS/CSS — immutable cache только если имена действительно fingerprinted.
-6. Для HTML — revalidation/короткий TTL по реальной схеме деплоя.
-7. Заказы, заявки, Manager и персональные данные не должны попадать в public cache; сохранить no-store/private.
-8. Не менять dashboard rules, secrets или bindings без проверки и согласования.
+1. [x] Разделены public published content clients и live commercial clients.
+2. [x] `sanityClient`/`publicPlantsClient` используют API CDN; `sanityLiveClient`/`plantsClient` остаются live.
+3. [x] Проверены read-only совпадение результатов и 60-секундная CDN cache policy.
+4. [x] Подтверждено: product prices/stock, product search/detail, delivery tariffs, Manager reads и order validation идут через live API.
+5. [x] Cloudflare hashed JS/CSS — HIT/immutable; HTML repeated response остаётся DYNAMIC; custom Cache Rules/Page Rules не найдены.
+6. [ ] Решить отдельно, нужна ли targeted HTML Cache API policy. Cloudflare settings не менять без согласования и исключений для Manager/API/cart/checkout/orders.
 
 Критерии: подтверждённая cache policy; публикации видны в допустимый срок; API и персональные данные не кэшируются публично.
 
@@ -166,7 +179,7 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 - [x] Добавить локализуемый Suspense fallback вокруг route content, не меняя Header/Footer.
 - [x] Проверить production build: main entry gzip снизился с 163.82 до 106.91 kB (−34.74%); отдельные page chunks сформированы.
 - [x] Проверить прямое открытие 16 public routes; контент рендерится, постоянных loading placeholders нет.
-- [ ] Завершить SPA navigation, scroll restoration и route transitions regression.
+- [x] SPA navigation, Back/Forward и scroll restoration проверены на mobile 390×844: Home → Services → planting service; scroll восстановлен в пределах 20 px.
 - [ ] Повторить live resource inspection для public и каждой lazy route; подтвердить фактическую загрузку нужных chunks.
 - [x] PDF/document generation не менялись; остаются в существующих server-side Functions.
 
@@ -176,7 +189,10 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 
 ### Этап 6 — Остальные страницы
 
-По очереди: категории оборудования и растений; товар и комплекты; услуги и формы; блог и статьи; поиск; корзина и checkout; Manager отдельно.
+- [x] Blog, article, services, About, categories, product detail и public search images получили responsive Sanity images.
+- [x] Product detail `/product/musa-banana` smoke: H1/title, price content, 4 images/3 srcSet, no failed images.
+- [ ] CartPage/checkout и Manager остаются вне image changes; проверять отдельно, не менять их в рамках этого этапа без отдельного плана.
+- [ ] Полная проверка всех equipment/plant category, kits, filters, search, cart/checkout and Manager routes.
 
 Для каждой страницы: минимальные list projections, full detail on demand, responsive images, lazy loading, route chunks и корректное caching.
 
@@ -202,16 +218,16 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 ## 6. Статус на 09.11.2026
 
 - [x] Roadmap и статический аудит исходного кода зафиксированы.
-- [~] Этап 0 — baseline и post-release diagnostics сохранены. Controlled mobile CDP capture, Lighthouse, CrUX, LCP/INP/CLS остаются незавершёнными.
+- [~] Этап 0 — baseline и controlled category comparison выполнены; Lighthouse, CrUX, LCP/INP/CLS и homepage LCP остаются незавершёнными.
 - [x] Этап 1 — compact service/product/category projections, on-demand details, search on demand и homepage 6+6 опубликованы.
 - [x] Этап 2 — compact blog cards, full article by slug, shared 60s promise cache Header/BlogSection опубликованы; BG/RU/EN smoke прошёл.
-- [~] Этап 3 — responsive/lazy loading карточек главной (PR #141) выполнен и измерен; Hero/LCP, изображения блога и остальных страниц требуют отдельной проверки.
-- [ ] Этап 4 — Sanity CDN и кэширование; требуется freshness audit по ценам/наличию перед любым переключением CDN.
-- [~] Этап 5 — ManagerApp lazy chunk (PR #146) и десять non-home route chunks (PR #147) опубликованы. Build main entry gzip −34.74%; direct-route smoke прошёл. SPA navigation/scroll restoration и live chunk resource inspection остаются открытыми.
-- [ ] Этап 6 — остальные страницы и изображения.
-- [ ] Этап 7 — полная регрессия и production.
+- [~] Этап 3 — responsive/lazy images для HomePage cards, blog, services, About, categories, products и search опубликованы. Category initial image-response bytes около 17.9 MB → 1.08 MB; Hero background и Header logo остаются открытыми.
+- [~] Этап 4 — public published content использует Sanity API CDN; price/stock/delivery/Manager/order validation остаются live. HTML edge caching не настроен и требует отдельного решения.
+- [~] Этап 5 — ManagerApp и десять non-home route chunks опубликованы; main entry gzip −34.74%; direct routes и mobile SPA Back/Forward/scroll regression проверены. Полная route chunk inspection ещё открыта.
+- [~] Этап 6 — blog/services/About/category/product/search images оптимизированы; cart/checkout и Manager image/page review остаются отдельными.
+- [~] Этап 7 — три Production releases #148–#150 успешны; category/product and SPA smoke passed. Полный multi-route mobile/desktop regression и CWV остаются открытыми.
 
-**Текущая точка продолжения:** PR #141–#147 опубликованы. PR #147 изменил только `src/App.tsx`; HomePage остался в initial bundle, десять non-home page components стали lazy. Build artifact main entry: 620.15 kB raw / 163.82 kB gzip до PR #147 против 388.90 kB raw / 106.91 kB gzip после (−34.74% gzip). 16 direct URLs проверены, постоянных loading placeholders нет. Следующий шаг — закрыть SPA navigation/scroll regression и live route chunk inspection; затем провести freshness audit Sanity public reads и отдельно оценить безопасное использование CDN для контента без риска stale price/stock. Controlled mobile CDP/Lighthouse остаётся открытым.
+**Текущая точка продолжения:** PR #148–#150 опубликованы. SPA mobile regression закрыта для Home → Services → planting service с Back/Forward и scroll restoration. Public Sanity content использует API CDN; product prices/stock, search, delivery tariffs, Manager и order validation остаются live. Responsive images применены к blog/services/About/category/product/search. На `/category/rastenia` initial image-response bytes снизились примерно с 17.9 MB до 1.08 MB в одинаковом mobile profile; FCP median 428→408 ms, DCL 575→562 ms, load median без изменения. Следующий шаг — определить LCP на главной, завершить контрольные измерения остальных маршрутов и отдельно согласовать возможную оптимизацию Header logo/HTML edge cache.
 
 ## 7. Инструкция для нового чата
 
@@ -225,7 +241,7 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 
 ### Стартовый запрос
 
-Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию (сейчас rev36) в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md, docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md, docs/performance/BASELINE.md и последний post-optimization report. Проверь актуальный main и последний Cloudflare Production deployment. PR #141–#144 опубликованы: responsive homepage images; compact service/product/category projections; on-demand service/product/category details; search index on demand; homepage 6+6. Следующая задача — воспроизвести network baseline на том же mobile-профиле для homepage, plant/equipment category, product detail и search; не заявлять проценты ускорения без измерений. Затем Stage 2: lightweight blog card projection and deduplicate Header/BlogSection blog fetch.
+Продолжаем ускорение Florial. Найди самую новую MD2-инструкцию (сейчас rev41) в GitHub main, прочитай TECHNICAL_PASSPORT.md, CHANGELOG.md, docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md, docs/performance/BASELINE.md и docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md. Проверь актуальный main и последний Cloudflare Production deployment. PR #148–#150 опубликованы: responsive Sanity images, разделение public CDN/live clients, category/product images. Следующая задача — определить LCP главной и повторить controlled mobile/desktop measurements для homepage, equipment category, product, search, blog и article. Header logo и Cloudflare HTML edge caching не менять без отдельного согласования.
 
 
 ## Дополнение от 09.11.2026 — результаты первого baseline

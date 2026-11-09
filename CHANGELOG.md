@@ -1,3 +1,20 @@
+## 2026-11-09 — Sanity CDN и адаптивные изображения (PR #148–#150)
+
+- PR #148: [responsive Sanity images](https://github.com/omaraandrey-dev/florial/pull/148), merge commit `0b72d45021230e7d286b42dfb116acd6ca47ee80`, Production deployment `113205bf-630b-4586-a873-223dac8a9140` — success. Общий helper `src/lib/sanityImage.ts` применён к HomePage cards, BlogSection, BlogPage, BlogPostPage/Portable Text, ServicePage и AboutPage.
+- PR #149: [Sanity API CDN split](https://github.com/omaraandrey-dev/florial/pull/149), merge commit `606d7c8c26daee641a1890a786b54b1decda5340`, Production deployment `6b84da59-f2a8-4d8b-90a1-ed415d2272b9` — success. Public published content uses `sanityClient` / `publicPlantsClient` with `useCdn: true` and `perspective: 'published'`. Product/plant product price-stock queries, product search/details, delivery tariffs, Manager reads and order validation remain live via `sanityLiveClient` / `plantsClient` or direct server API.
+- PR #150: [catalog and product images](https://github.com/omaraandrey-dev/florial/pull/150), merge commit `2f35bf3151f68ecb64288ba861b97b084d21b1c9`, Production deployment `100ac60e-28b9-4da3-8dc1-7197743844c4` — success. Responsive images added to CategoryPage, ProductPage and public product search; below-first-four category cards are lazy-loaded.
+- Production helper uses Sanity responsive widths 160–1600w, `srcSet`, `sizes`, intrinsic dimensions, `fit=max`, `auto=format`, `q=75`. No Sanity documents/schema or data changed.
+- Controlled `/category/rastenia` mobile profile: 390×844, CPU 4×, latency 150 ms, 10/1.5 Mbps, browser cache disabled, 3 runs. Median FCP 428→408 ms; DCL 575→562 ms; load event 691→691 ms. Do not interpret these small timing differences as a large page-speed gain.
+- Category initial image-response capture: approximately 17.9 MB before PR #150 versus 1,081,732 B after (about 94% lower). Before: 26 original image responses/no srcSet. After: 28 of 29 DOM images have responsive srcSet; 17 images load initially, all 29 load after scroll, zero failed images. The post capture includes the untouched Header logo and an original social-preview image request. Details: `docs/performance/POST_OPTIMIZATION_CDN_AND_IMAGES_2026-11-09.md`.
+- Read-only Sanity comparison: CDN cache policy 60 seconds; repeated simple query cache hits about 10–12 ms versus 116–140 ms against live API in the same browser session. Browser network confirms public content via `apicdn.sanity.io` and price/stock/delivery queries via live `api.sanity.io`.
+- Cloudflare audit: hashed JS/CSS are `HIT` with year-long immutable cache; HTML remains `DYNAMIC` despite `s-maxage=300`. No custom Cache Rules/Page Rules found. No Cloudflare settings/rules/secrets changed.
+- SPA mobile regression after PR #147: Home → Services → planting service; Back/Forward and scroll restoration within 20 px; no JS page errors or failed images. Product detail `/product/musa-banana` and public content routes render with no failed images.
+- CI: PR #148 Blog/Studio runs `42600383444`, `42600375484` and D1 run `42600375557` — success; PR #149 Blog/Studio `42601448043` and D1 `42601447670` — success; PR #150 Blog/Studio `42602177767`, `42602171310` and D1 `42602171428` — success.
+- Header logo (1547×581 PNG, about 656 KB) and HomePage Hero background intentionally remain unchanged; Header/menu/Footer layout was not touched. Header logo optimization requires separate approval.
+- Lighthouse/CrUX, LCP, INP and CLS are still unmeasured. Public HTML edge caching remains a separate task; do not enable broad cache rules without path-specific exclusions for Manager, API, cart, checkout, orders and personalized routes.
+
+---
+
 ## 2026-11-09 — Отложенная загрузка публичных страниц (PR #147)
 
 - PR #147: https://github.com/omaraandrey-dev/florial/pull/147 — squash merge в `main`; merge commit `b35b5e499700d0330a7ea43ca1ca09e4f6cad7e8`.
