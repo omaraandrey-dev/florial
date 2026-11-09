@@ -6,6 +6,7 @@ import { Footer } from './components/Footer'
 import { useI18n } from './lib/i18n'
 import { HomePage } from './pages/HomePage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
+import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { toPlainText } from './lib/richTextUtils.mjs'
@@ -1365,7 +1366,7 @@ export default function App() {
                   >
                     {product.imageUrl ? (
                       <img
-                        src={product.imageUrl}
+                        {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
                         alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
                         title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
                         loading="lazy"
