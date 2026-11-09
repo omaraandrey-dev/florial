@@ -1,3 +1,21 @@
+## 2026-11-09 — Компактные карточки блога и устранение повторной загрузки (PR #145)
+
+- PR #145: https://github.com/omaraandrey-dev/florial/pull/145 — squash merge в `main`; merge commit `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`.
+- Runtime files: `src/lib/blog.ts`, `src/components/Header.tsx`, `src/components/BlogSection.tsx`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`.
+- Введена compact blog-card GROQ projection: `_id`, slug, publishedAt, cover URL/ALT/caption, BG/RU/EN title, shortDescription, coverAlt. Из list projection исключены Portable Text body, gallery, SEO и tags.
+- Полная detail projection оставлена для одной статьи по slug; сохраняет все локализованные body, SEO, tags, cover и gallery.
+- `fetchBlogPosts(limit)` использует in-memory promise cache на 60 секунд с отдельными ключами для top-3 и полного списка. Header и BlogSection запрашивают один и тот же top-3 promise; ошибки удаляют соответствующую запись cache, устаревший запрос не может удалить более новую запись.
+- `/blog` и related articles используют compact cards. `BlogPostPage` загружает полный текст только для открытой статьи, а список похожих статей получает из compact projection.
+- Sanity read-only: top-3 compact projection вернула 3 документа (ответ инструмента 4,668 символов); полный список — 22 документа (29,597 символов). Это длина вывода read-only query, не encoded network transfer.
+- Full detail projection проверена на опубликованных статьях: `montazh-podmyana-remont-razpruskvachi-nesebar` — 47,544 символа; `rain-bird-oborudvane` — 35,000 символов. BG/RU/EN Portable Text, cover, gallery и SEO поля сохраняются; Sanity dataset `production`, project `bxvcy0qs`. Никаких Sanity writes/schema changes.
+- CI Blog and Studio validation run `42590188304` — success: lint, utility tests, website build, migration syntax, read-only migration dry-run, Studio install/build. D1 validation run `42590188234` — success.
+- Cloudflare Pages Production deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live rendered smoke BG/RU/EN: homepage — 3 article cards; `/blog` — 22 article links; Rain Bird article detail — full localized content, cover/gallery and related links; no blog loading placeholders. Header Portfolio menu was opened and displayed 3 recent article links plus full blog CTA.
+- No visual/layout changes to Header/menu/Footer; no cart/checkout, Manager, D1, API, Sanity content/schema or Cloudflare configuration changes.
+- Controlled CDP post-release transfer/request measurement, Lighthouse, LCP, INP and CLS not performed. Do not claim a measured speed percentage from PR #145.
+
+---
+
 ## 2026-11-09 — Post-release Sanity diagnostic after PR #142–#144
 
 - Создан отчёт `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`.
