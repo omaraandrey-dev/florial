@@ -6,7 +6,9 @@
 - Сохранены responsive images, Sanity API CDN, lazy route chunks, Hero LCP, исправление Manager PR #161 и все прочие функции.
 - GitHub Actions D1 validation run `42652345312` и Blog/Studio validation run `42652345147` — success; lint, utility tests, website build, Pages Functions syntax, migration syntax/read-only dry-run и Sanity Studio build прошли.
 - Cloudflare Pages Production deployment `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070` — build/deploy success; aliases `florial-bg.com` и `www.florial-bg.com`.
-- Browser Rendering вернул HTML главной; дальнейшие route requests были ограничены HTTP 429, поэтому полная browser route regression не подтверждена. Новые CLS/Lighthouse/INP измерения не проводились.
+- Browser Rendering подтвердил HTML/title/root/Vite asset на главной и категории полива; запросы категории растений и блога вернули HTTP 429 rate limit, поэтому полная browser route regression не подтверждена. Новые CLS/Lighthouse/INP измерения не проводились.
+- PR #164 (документационное обновление) и PR #165 (уточнение статуса rev49/паспорта) объединены в main; PR #165 merge commit `4bfd00b436fbca81b239fe12edb98e6823973571`. Workflow D1 `42653551235` и Blog/Studio `42653551054` — success.
+- Последний docs-only Production deployment `9aeae7aa-e64e-42fe-b43d-8896f942d00a` для commit `4bfd00b436fbca81b239fe12edb98e6823973571` — build/deploy success; aliases назначены; runtime-код не менялся.
 - Header, меню, Footer, Sanity, D1, API, Manager, checkout и Cloudflare configuration не изменялись. Заказы, оплаты и реальные заявки не создавались.
 
 ## 2026-11-09 — исправление отправки заявок на растения из Manager (PR #161)
