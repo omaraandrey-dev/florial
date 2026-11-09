@@ -1,3 +1,16 @@
+## 2026-11-09 — Оптимизация загрузки страниц услуг (PR #142)
+
+- PR #142: https://github.com/omaraandrey-dev/florial/pull/142 — squash merge в `main`, commit `e9b49a42ee7cfdfd385cf7fce8706ab71c93b7bb`.
+- Изменён только `src/App.tsx`: первоначальный GROQ-запрос услуг теперь загружает компактные поля для меню, главной, списка услуг и About; полные описание, hero, галерею, content blocks, related content, преимущества, этапы, CTA, форму и SEO запрашивает отдельный запрос на странице конкретной услуги.
+- Сохранены локализованные имена/краткие описания BG/RU/EN, существующий slug, сортировка и специальный маршрут доставки. Добавлены состояния загрузки деталей и отмена устаревшего запроса при смене маршрута.
+- CI PR #142: Blog and Studio validation run `42584605993` — success (lint, utility tests, website build, migration syntax check, read-only migration dry-run, Sanity Studio dependencies/install/build); D1 validation run `42584606037` — success.
+- Cloudflare Pages Production deployment `001a7aeb-a6f7-4bd0-b963-d9a1f38f2ca0` — success; deployed commit совпадает с merge commit `e9b49a42ee7cfdfd385cf7fce8706ab71c93b7bb`; aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Live rendered smoke после ожидания client-side загрузки: услуга посадки открылась на BG/RU/EN с локализованным содержанием; страница `/services` доступна и отображает список услуг. Мгновенный scrape до завершения клиентского запроса показывал промежуточный текст «Зареждане на страницата...»; после ожидания 7 секунд полное содержимое получено. Browser console и ручной SPA-клик-тест в этой проверке не выполнялись.
+- Не менялись товары/растения/категории, поиск, фильтры, корзина, checkout, Manager, Header/menu/Footer, Sanity schema/documents, D1 data, API и Cloudflare settings. В initial product/plant queries пока сохраняются тяжёлые поля; оптимизация каталога продолжается отдельным этапом.
+- В Cloudflare Pages environment metadata обнаружены legacy-переменные с префиксом `SUPABASE`. Это не доказывает использование Supabase приложением и не относится к PR #142. Ничего не удалялось и не менялось; проверить ссылки в исходниках и согласовать отдельную очистку. Вопрос: разрешить ли отдельную проверку и удаление неиспользуемых legacy env vars после подтверждения отсутствия runtime-зависимостей?
+
+---
+
 ## 2026-11-09 — MD2 rev33: homepage image optimization checkpoint
 
 - Published new instruction edition `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev33.md`, commit `a4ff4c5652a03ecb282a474a28994e71b18b6dc9`.
