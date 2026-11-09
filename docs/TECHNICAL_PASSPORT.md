@@ -1,3 +1,14 @@
+## 2026-11-09 — завершён read-only аудит цены/наличия растений
+
+- `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
+- `ProductPage.tsx`: цена и скидка выбранного размера берутся из варианта; статус/количество — вариант с root fallback.
+- `CartPage.tsx`: цена варианта приоритетна, root price — fallback.
+- `functions/api/orders.ts`: для plants обязателен `variantKey`; сервер проверяет цену по `saleVariants[].priceEUR`, отклоняет `outOfStock`, допускает `onRequest` с положительной ценой; фактический `stockQuantity` сейчас не проверяется. Order items сохраняют snapshot.
+- `functions/api/manager/order-products.ts`: варианты растений выдаются отдельными selectable позициями; цена/наличие берутся из saleVariant.
+- Спецификация уточнена: variant price — canonical; root price не синхронизировать автоматически; root stockStatus должен быть агрегатом для согласованности CategoryPage, но root stockQuantity не суммировать; mixed status в Manager list показывать отдельно.
+- Дробный stockQuantity для растений не подтверждён; заказное количество integer 1–999.
+- Это read-only аудит; runtime, Sanity, D1 и Production не менялись.
+
 ## 2026-11-09 — спецификация прямого управления каталогом растений (документационный этап)
 
 - Подготовлена `docs/ROADMAP_MANAGER_PLANTS.md` для нового мобильного plant manager.
