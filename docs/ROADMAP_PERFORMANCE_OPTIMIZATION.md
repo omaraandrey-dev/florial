@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этап 1 опубликован (service/product/category indexes, detail on demand, search on demand, homepage 6+6). Этап 2 blog card projection и deduplication опубликован PR #145. Post-release read-only Sanity diagnostics есть, но controlled CDP transfer capture и Lighthouse/CWV ещё впереди; проценты ускорения для PR #142–#145 не заявляются.  
+**Статус:** Этапы 1 и 2 опубликованы: compact service/product/category indexes, detail/search on demand, homepage 6+6, compact blog cards и deduplicated list fetch. Этап 5 начат: ManagerApp вынесен в отдельный lazy chunk PR #146. Один unthrottled desktop browser sample показывает на 22.96% меньше переданных JS bytes на public route, но controlled mobile/CDP capture и Lighthouse/CWV ещё впереди.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -68,9 +68,9 @@ src/lib/sanity.ts создаёт clients для datasets production и plants с
 
 ### P4. Начальный JavaScript
 
-src/main.tsx статически импортирует App и ManagerApp, хотя Manager нужен только на /manager. src/App.tsx статически импортирует страницы товаров, категорий, услуг, блога, корзины и другие.
+`src/main.tsx` раньше статически импортировал App и ManagerApp, хотя Manager нужен только на /manager. PR #146 перевёл ManagerApp на React lazy dynamic import: публичный маршрут больше не запрашивает Manager chunk. В одном remote browser sample при 1920×993 public same-origin JS transfer уменьшился с 209,165 B до 161,151 B (index + runtime); ManagerApp chunk 47,518 B загружается только на /manager. Это не controlled mobile baseline.
 
-Гипотеза: route-level code splitting и lazy loading Manager уменьшат initial JS публичного сайта. Перед изменением проверить Vite build manifest/chunks, зависимости и фактические размеры. Серверные модули не должны попадать в client bundle.
+`src/App.tsx` по-прежнему статически импортирует страницы товаров, категорий, услуг, блога, корзины и другие. Следующая гипотеза — route-level lazy loading этих страниц. Перед изменением составить dependency map, проверить прямые URL, навигацию, SEO, scroll state и fallback states. Серверные модули не должны попадать в client bundle.
 
 ### P5. Изображения
 
@@ -161,13 +161,15 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 ### Этап 5 — Code splitting и JavaScript
 
-1. Отложить импорт ManagerApp до маршрута /manager.
-2. Lazy-load страницы/маршруты с корректными fallback states.
-3. Проверить прямые URL, переходы и scroll state.
-4. Проверить manifest, shared chunks и initial JS.
-5. Убедиться, что PDF/document generation остаётся в server-side Functions.
-6. Сравнить production build, не полагаться на dev mode/StrictMode.
-7. Не дробить бандл на множество мелких чанков без выигрыша.
+- [x] Отложить импорт ManagerApp до маршрута /manager через React lazy import (PR #146).
+- [ ] Lazy-load публичные страницы/маршруты с корректными fallback states.
+- [ ] Проверить прямые URL, переходы, SEO и scroll state.
+- [x] Проверить production resource manifest: public route не загружает ManagerApp chunk; /manager загружает его отдельно.
+- [ ] Проверить shared chunks и initial JS после route-level splitting.
+- [x] PDF/document generation не менялись; остаются в существующих server-side Functions.
+- [ ] Не дробить бандл на множество мелких чанков без измеримого выигрыша.
+
+**PR #146:** production build/CI и live route smoke прошли. Single unthrottled desktop sample показывает 161,151 B public JS (index + runtime) против 209,165 B до изменения; ManagerApp chunk 47,518 B — только на /manager. Это не controlled mobile performance measurement.
 
 Критерии: меньше initial JS; Manager chunk не загружается публичными страницами; все URL и переходы работают.
 
@@ -199,16 +201,16 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 ## 6. Статус на 09.11.2026
 
 - [x] Roadmap создан; статические наблюдения исходного кода зафиксированы.
-- [~] Этап 0 — browser/network baseline сохранён в `docs/performance/BASELINE.md`; Lighthouse/CrUX/LCP/INP остаются незавершёнными из-за недоступности PageSpeed API и отсутствия LCP/INP в remote browser capture.
-- [~] Этап 1 — компактные initial service/product/category projections, on-demand service/product/category details, search index on demand и homepage 6+6 опубликованы. Функциональная реализация прошла CI и live smoke; повторный network capture для количественного подтверждения остаётся открытым.
-- [ ] Этап 2 — карточные GROQ projections и блог.
-- [~] Этап 3 — изображения: responsive/lazy loading карточек HomePage выполнен (PR #141); Hero, блог, остальные страницы и Lighthouse/LCP проверки ещё впереди.
+- [~] Этап 0 — baseline сохранён; Sanity post-release diagnostic и request-count checks выполнены. Controlled CDP mobile capture, Lighthouse, CrUX, LCP/INP/CLS остаются незавершёнными.
+- [x] Этап 1 — compact service/product/category projections, on-demand details, search index on demand и homepage 6+6 опубликованы; функциональные проверки прошли.
+- [x] Этап 2 — compact blog cards, full article by slug, shared 60s promise cache Header/BlogSection опубликованы; BG/RU/EN live smoke прошёл; один duplicate Sanity blog request удалён (9 → 8 Sanity requests в browser entry sample).
+- [~] Этап 3 — responsive/lazy loading карточек главной (PR #141) выполнен и mobile измерен; Hero/LCP, блоговые изображения и остальные страницы ещё требуют inventory и controlled validation.
 - [ ] Этап 4 — Sanity CDN и кэширование.
-- [ ] Этап 5 — code splitting и JavaScript.
+- [~] Этап 5 — ManagerApp lazy chunk опубликован PR #146; один desktop browser sample показывает 22.96% меньше initial public JS bytes. Route-level splitting публичных страниц ещё не выполнено.
 - [ ] Этап 6 — остальные страницы.
-- [ ] Этап 7 — регрессия и production.
+- [ ] Этап 7 — полная регрессия и production.
 
-**Текущая точка продолжения:** Stage 0 остаётся частично завершённым из-за недоступности Lighthouse/CrUX/LCP/INP. PR #141 оптимизировал responsive/lazy images карточек главной; измеренный mobile result сохранён в `docs/performance/POST_OPTIMIZATION_HOME_IMAGES_2026-11-09.md`. PR #142 перенёс полные service records на detail route. PR #143 внедрил compact equipment/plant projections, on-demand product detail/search и homepage 6+6. PR #144 внедрил compact category index и on-demand category description/SEO/helpBlock. Дополнительный remote browser diagnostic зафиксирован в `docs/performance/POST_OPTIMIZATION_SANITY_DIAGNOSTIC_2026-11-09.md`: 1.08 MB decoded Sanity response bodies, но без throttle/cache controls это не сравнение с baseline. Следующий кодовый приоритет — Stage 2: единый компактный blog-card fetch вместо двух одинаковых запросов Header/BlogSection; после него повторить controlled CDP capture на исходном профиле.
+**Текущая точка продолжения:** PR #141–#146 опубликованы. Stage 1/2 выполнены функционально. PR #146 подтверждает, что public route не загружает ManagerApp chunk; Manager route продолжает отображать болгарский login screen. Single browser sample (1920×993, без throttling/cache control) — 161,151 B public JS после против 209,165 B до; это не controlled mobile baseline и не общий page-speed result. Следующий шаг — продолжить Stage 5: dependency map статических page imports в `src/App.tsx`, определить безопасные route-level lazy boundaries и fallback states; до изменений проверить прямые URLs, SEO и scroll restoration. Параллельно Stage 0 controlled mobile CDP capture/Lighthouse остаётся открытым.
 
 ## 7. Инструкция для нового чата
 
