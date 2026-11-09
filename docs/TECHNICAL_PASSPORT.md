@@ -4,7 +4,9 @@
 - Planned code scope: `src/App.tsx` (remove the PR #156 conditional min-height wrapper), `functions/_middleware.ts` (restore original SEO fallback image markup), delete `functions/lib/sanityImageDimensions.ts` and `tests/sanity-image-dimensions.test.mjs`.
 - Preserved: PR #148–#152 responsive images, Sanity public CDN split, lazy routes and Hero LCP; PR #161 Manager Owner/Seller submission fix; all catalog, service, SEO, cart, checkout and order logic.
 - No data/schema/API/D1/Sanity/Cloudflare settings writes; no Header/menu/Footer component changes.
-- PR/CI/Production status: pending at documentation preparation time. Update this record only with verified merge SHA, workflow results and actual Cloudflare deployment.
+- PR #163 merged squash: `a12068bc3a8a4707f70e19abc76ecf382d98eabe`. GitHub Actions D1 validation run `42652345312` and Blog/Studio validation run `42652345147` — success; website lint/tests/build, Pages Functions syntax, migration syntax/read-only dry-run and Sanity Studio build passed.
+- Cloudflare Pages Production deployment `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070` — build success, deploy success; aliases `florial-bg.com` and `www.florial-bg.com`.
+- Browser Rendering returned the homepage HTML and expected root/title/Vite asset markers. Further route requests were rate-limited with HTTP 429; full browser route regression remains unconfirmed. No new CLS/Lighthouse/INP measurements were performed.
 - After release, perform smoke checks only; no new CLS/Lighthouse/INP values are claimed. Performance optimization remains paused until separately authorized.
 
 ---
