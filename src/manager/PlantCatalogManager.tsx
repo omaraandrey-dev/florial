@@ -258,7 +258,6 @@ export default function PlantCatalogManager({role}:Props){
       </div>
       <p className="text-xs text-stone-500">Основната категория се използва като главна връзка; всички избрани категории се запазват към растението.</p>
      </div>
-     </div>
      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label><span className={labelClass}>Артикул / SKU</span><input className={inputClass} value={form.sku} onChange={event=>setField('sku',event.target.value)}/></label>
       <label><span className={labelClass}>URL адрес (slug) *</span><input className={inputClass} value={form.slug} onChange={event=>setField('slug',event.target.value)}/></label>
