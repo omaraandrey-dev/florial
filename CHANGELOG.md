@@ -1765,3 +1765,17 @@
 - Baseline Lighthouse/Core Web Vitals, Network waterfall, cache headers и payload ещё не измерены. Статический аудит не является доказательством фактического узкого места.
 - Runtime-код, Sanity, D1, API, Cloudflare settings/secrets и Production не менялись. Следующая точка — Этап 0.
 - Создана контрольная инструкция MD2 rev31; rev30 и предыдущие редакции сохранены.
+
+
+## 2026-11-09 — CLS follow-up: intrinsic dimensions for SEO fallback image
+
+- Runtime commit `9bd5d3fb268d7dec9c3dab330e8039987ec78718` on `main`: `perf: prevent SEO fallback image CLS`.
+- Changed runtime files: `functions/_middleware.ts` (adds intrinsic dimensions to the SEO fallback image emitted by `documentBody`), new `functions/lib/sanityImageDimensions.ts`, and new `tests/sanity-image-dimensions.test.mjs`.
+- The helper accepts only HTTPS URLs on `cdn.sanity.io/images/`, parses the original `-WIDTHxHEIGHT.ext` asset suffix, validates positive safe integers, and returns width/height attributes. It does not infer dimensions for arbitrary URLs or dimensionless assets.
+- The test file covers square, landscape and portrait assets, query parameters, non-Sanity URLs, missing dimensions and zero dimensions.
+- GitHub Actions run `42635382574` (Florial D1 migration validation) completed successfully. Its steps included dependency installation, lint, website build and Pages Functions syntax check. This push-triggered run did not execute `npm test`; the new unit tests still require the PR validation workflow.
+- Cloudflare Pages Production deployment `88fd47db-3990-4447-813e-be6b12a42028` completed with status `success`, from commit `9bd5d3fb268d7dec9c3dab330e8039987ec78718`; aliases `florial-bg.com` and `www.florial-bg.com`.
+- This is a targeted image-geometry mitigation, not proof that the category CLS residual is fixed. No new controlled CLS measurement was obtained after this deployment. Desktop CLS, Lighthouse and INP remain unmeasured.
+- A live scrape returned HTTP 200 and the client-rendered category shell, but did not expose the pre-JavaScript response needed to verify the fallback image attributes. Do not treat this as raw-HTML or CLS verification.
+- Source inspection confirms the mobile CategoryPage category image is hidden below the desktop breakpoint; subcategory/product images use fixed-size containers. The initial server fallback is generated separately by `documentBody`. A browser trace is still required to identify whether the remaining shift comes from the fallback image, the client replacing fallback markup, asynchronous category detail, or another element.
+- No Sanity data/schema, D1 data/migrations, Manager, orders, checkout, API contracts, Header, menu, Footer component or Cloudflare settings/secrets were changed by this commit.
