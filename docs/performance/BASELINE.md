@@ -163,3 +163,30 @@ The confirmed improvement is the image-response volume on the category route: ap
 Sanity CDN was also enabled only for public published content. Product price/stock, search, delivery tariffs, Manager reads and order validation remain on live APIs. Cloudflare HTML remains `DYNAMIC`; no Cloudflare settings were changed.
 
 LCP, INP, CLS, Lighthouse, CrUX, desktop comparison and controlled measurements on all other routes remain open. The original baseline section above is preserved unchanged.
+
+
+---
+
+## Homepage Hero LCP — post-optimization comparison (09.11.2026)
+
+Detailed report: [POST_OPTIMIZATION_HERO_LCP_2026-11-09.md](./POST_OPTIMIZATION_HERO_LCP_2026-11-09.md).
+
+The actual HomePage LCP element was the Sanity CSS Hero background PNG (1518×957, 2,704,931 B). PR #152 replaced it with a responsive Sanity `img` using `srcSet`, `sizes=100vw`, `auto=format`, `fit=max`, `q=75`, eager loading and `fetchPriority=high`. Centered cover crop and the 0.68 overlay were preserved.
+
+| Profile | Before LCP median | After LCP median | Image response before → after |
+|---|---:|---:|---:|
+| Mobile 390×844 | 3,620 ms | 696 ms | 2,704,931 B → 17,439 B |
+| Desktop 1440×900 | 3,908 ms | 912 ms | 2,704,931 B → 141,597 B |
+
+- Mobile LCP improved by ~80.8%; desktop by ~76.7%.
+- Mobile CLS remained 0.00025; desktop CLS remained 0.01417.
+- Mobile browser selected 480w AVIF; desktop selected 1518w AVIF.
+- FCP/DCL/load medians on mobile changed only slightly (404→408 ms, 481→484 ms, 482→486 ms). The main confirmed gain is the LCP image, not a broad improvement to all page timings.
+
+## Route CLS investigation — pending approval
+
+Additional mobile captures found substantial layout shifts on category, product, blog and article routes while asynchronous route content replaces short loading states. Category route session-window CLS was approximately 1.044 in one capture; layout-shift source inspection showed the Footer moving from the viewport to below the fold as content expands. Blog/product/article raw layout-shift entry sums were approximately 0.612/0.700/0.784 in the captured samples; exact session-window CLS for each route still needs confirmation.
+
+Likely cause is the short shared loading area in `src/App.tsx`, not the Footer component. A potential remedy is to reserve a stable minimum height for the shared main-content/loading area or render route-shaped skeletons. This affects shared layout behavior, so no change was made pending explicit approval. Do not edit Footer or global layout without approval.
+
+Homepage search smoke for `контролер`: 44 products, 45 images, 44 responsive image sets, no failed images. Lighthouse/CrUX and INP remain open.
