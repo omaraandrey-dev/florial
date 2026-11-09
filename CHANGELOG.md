@@ -1,3 +1,9 @@
+
+## 2026-11-09 — Выпущена инструкция Florial MD2 rev23
+
+- Новая редакция `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev23.md` сохранена в GitHub main и Library `/Florial/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_09-11-2026_rev23.md`.
+- Rev23 фиксирует переработку услуги посадки растений, PR #132/#133, успешный Production deployment `4b21e8f0-c841-4c7f-8488-f70c92845bef` и live smoke BG/RU/EN. Rev22 сохранена без перезаписи.
+
 ## 2026-11-09 — Переработана услуга «Посадка растений»
 
 - Обновлён существующий Sanity document cfdbf22c-a7d9-480b-b88b-d1529a9389ef по адресу /services/zasazhdane-na-rasteniya; URL и категория planting сохранены.
