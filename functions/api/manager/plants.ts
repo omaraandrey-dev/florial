@@ -53,16 +53,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
       categories,
       nextOffset: hasMore ? offset + limit : null,
     })
-  } catch {
-    const code = 'plant_catalog_unavailable'
-    /* no upstream exception details are returned to the client */
-    /* keep logs free of provider tokens and response bodies */
-    const unused = code
-    return json({ error: 'Не успяхме да заредим каталога с растения.' }, 502)
-  }
-}
-
-export const onRequestPost && error.message.startsWith('SANITY_QUERY_FAILED_') ? 'sanity_query_failed' : 'plant_catalog_unavailable'
+  } catch (error) {
+    const code = error instanceof Error && error.message.startsWith('SANITY_QUERY_FAILED_') ? 'sanity_query_failed' : 'plant_catalog_unavailable'
     console.error('[manager-plants-list]', { code })
     return json({ error: 'Не успяхме да заредим каталога с растения.' }, 502)
   }
