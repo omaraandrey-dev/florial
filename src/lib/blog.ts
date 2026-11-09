@@ -62,7 +62,7 @@ const blogDetailProjection = `{
 // The short TTL prevents repeated fetches during navigation without keeping stale
 // published content indefinitely; rejected requests are evicted immediately.
 const BLOG_LIST_CACHE_TTL_MS = 60_000
-const blogListCache = new Map<string, {expiresAt: number; promise: Promise<BlogPostCard[]>}>()
+const blogListCache = new Map<string, {expiresAt: number; promise: Promise<BlogPostCard[]>; token: object}>()
 
 export function fetchBlogPosts(limit?: number): Promise<BlogPostCard[]> {
   const normalizedLimit = typeof limit === 'number' ? Math.max(1, Math.floor(limit)) : undefined
@@ -71,14 +71,15 @@ export function fetchBlogPosts(limit?: number): Promise<BlogPostCard[]> {
   if (cached && cached.expiresAt > Date.now()) return cached.promise
 
   const slice = normalizedLimit === undefined ? '' : `[0...${normalizedLimit}]`
+  const cacheToken = {}
   const promise = sanityClient.fetch<BlogPostCard[]>(
     `*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)${slice}${blogCardProjection}`
   ).catch((error) => {
-    if (blogListCache.get(cacheKey)?.promise === promise) blogListCache.delete(cacheKey)
+    if (blogListCache.get(cacheKey)?.token === cacheToken) blogListCache.delete(cacheKey)
     throw error
   })
 
-  blogListCache.set(cacheKey, {expiresAt: Date.now() + BLOG_LIST_CACHE_TTL_MS, promise})
+  blogListCache.set(cacheKey, {expiresAt: Date.now() + BLOG_LIST_CACHE_TTL_MS, promise, token: cacheToken})
   return promise
 }
 
