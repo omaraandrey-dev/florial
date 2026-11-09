@@ -1,3 +1,22 @@
+## 2026-11-09 — завершён read-only аудит цены/наличия растений
+
+- `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
+- `ProductPage.tsx`: цена и скидка выбранного размера берутся из варианта; статус/количество — вариант с root fallback.
+- `CartPage.tsx`: цена варианта приоритетна, root price — fallback.
+- `functions/api/orders.ts`: для plants обязателен `variantKey`; сервер проверяет цену по `saleVariants[].priceEUR`, отклоняет `outOfStock`, допускает `onRequest` с положительной ценой; фактический `stockQuantity` сейчас не проверяется. Order items сохраняют snapshot.
+- `functions/api/manager/order-products.ts`: варианты растений выдаются отдельными selectable позициями; цена/наличие берутся из saleVariant.
+- Спецификация уточнена: variant price — canonical; root price не синхронизировать автоматически; root stockStatus должен быть агрегатом для согласованности CategoryPage, но root stockQuantity не суммировать; mixed status в Manager list показывать отдельно.
+- Дробный stockQuantity для растений не подтверждён; заказное количество integer 1–999.
+- Это read-only аудит; runtime, Sanity, D1 и Production не менялись.
+
+## 2026-11-09 — спецификация прямого мобильного Manager для растений
+
+- Создана `docs/ROADMAP_MANAGER_PLANTS.md`: только Sanity dataset `plants`, роли Owner/Manager/Seller с direct create/edit/publish, Owner-only history и botanical fields, AI-enrich для всех ролей.
+- Проверены текущие Manager files/API, D1 migrations, Sanity schema `product` / `plantSaleVariant`; read-only count: 36 опубликованных растений и 17 категорий.
+- Зафиксировано, что текущий Manager ещё использует `catalog_submissions` и отдельный approval/publish workflow; текущий publish endpoint ограничен Owner/Manager и ровно одним sale variant; AI endpoint привязан к submission и не разрешает Seller.
+- Отдельно отмечено несоответствие root `priceEUR` и variant prices в части legacy документов; storefront/cart/order price contract должен быть проверен до реализации.
+- Это документационная работа в branch `docs/manager-plants-direct-management`; runtime, Sanity, D1 data/schema, staff permissions, orders и Production не изменялись. CI/deployment для этой ветки не заявляются.
+
 ## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR #163)
 
 - PR #163 merged squash; merge commit `a12068bc3a8a4707f70e19abc76ecf382d98eabe`.
