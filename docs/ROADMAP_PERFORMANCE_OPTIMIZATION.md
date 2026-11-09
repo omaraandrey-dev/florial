@@ -2,7 +2,7 @@
 
 **Версия:** 1.0  
 **Дата:** 09.11.2026  
-**Статус:** Этап 0 частично завершён; browser/network baseline сохранён. Реализация Этапа 1 опубликована: компактные service/product/category indexes, полные detail-записи по требованию, отдельный search index и homepage 6+6. Сделан дополнительный read-only Sanity diagnostic (1.08 MB decoded bodies), но он не сравним с baseline CDP encoded transfer. Контролируемый network capture и Lighthouse/CWV ещё впереди.  
+**Статус:** Этап 1 опубликован (service/product/category indexes, detail on demand, search on demand, homepage 6+6). Этап 2 blog card projection и deduplication опубликован PR #145. Post-release read-only Sanity diagnostics есть, но controlled CDP transfer capture и Lighthouse/CWV ещё впереди; проценты ускорения для PR #142–#145 не заявляются.  
 **Репозиторий:** omaraandrey-dev/florial, ветка main  
 **Production:** https://florial-bg.com  
 **Стек:** React 18, Vite 8, Sanity, Cloudflare Pages/Functions и D1. Supabase не используется.
@@ -56,11 +56,9 @@
 
 Важно: App использует общие массивы для навигации, поиска, фильтров, страниц товаров, категорий и услуг. Нельзя просто урезать глобальные массивы или GROQ query. Нужны раздельные минимальные индексы, карточные проекции и полные данные detail pages.
 
-### P2. Полные данные статей для карточек блога
+### P2. Полные данные статей для карточек блога — выполнено PR #145
 
-src/lib/blog.ts использует postProjection с body Portable Text и gallery. fetchBlogPosts(3) вызывается отдельно из src/components/Header.tsx и src/components/BlogSection.tsx. Это два независимых вызова, причём карточкам не нужны body и gallery.
-
-Гипотеза: лёгкая карточная проекция и общий результат для Header/BlogSection сократят объём и повторные запросы. Полную статью загружать по slug на странице статьи. Не вводить вечный cache без политики актуализации.
+В `src/lib/blog.ts` введены отдельные compact card и full detail projections. Список статей содержит только slug/date/cover и локализованные title/shortDescription/coverAlt; body Portable Text, gallery, SEO и tags загружаются только для открытой статьи. Header и BlogSection используют общий promise cache (TTL 60 секунд), предотвращающий дублирование одновременного `fetchBlogPosts(3)`. BlogPage и related articles также используют compact records. Реальные опубликованные Sanity projections и live BG/RU/EN страницы проверены. Wire transfer/CDP до и после ещё не измерены.
 
 ### P3. Sanity clients без CDN
 
@@ -124,14 +122,16 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 
 ### Этап 2 — Карточные GROQ projections и блог
 
-1. Ввести лёгкую blog card projection: title, shortDescription, slug, publishedAt, cover URL и ALT/caption.
-2. Убрать body/gallery из запроса списка публикаций.
-3. Устранить два независимых fetchBlogPosts(3) вызова Header и BlogSection: единый родительский результат или cache с понятной актуализацией.
-4. Полную статью получать по slug только на BlogPostPage.
-5. Аналогично проверить карточки услуг и категорий.
-6. Сохранить локализацию, ALT, даты, slug, статус публикации и ссылки.
+- [x] Ввести лёгкую blog card projection: title, shortDescription, slug, publishedAt, cover URL и ALT/caption.
+- [x] Убрать body/gallery/SEO/tags из запроса списка публикаций.
+- [x] Объединить одновременные `fetchBlogPosts(3)` вызовы Header и BlogSection через promise cache TTL 60 секунд.
+- [x] Полную статью получать по slug только на BlogPostPage.
+- [x] BlogPage и related articles перевести на compact records.
+- [x] Сохранить BG/RU/EN, ALT, даты, slug, публикационный статус, порядок и ссылки.
 
-Критерии: карточки прежние; нет лишнего повторного fetch; список не содержит body/gallery; полная статья работает.
+**Релиз:** PR #145, merge commit `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`; Cloudflare Production deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` success. Live smoke homepage, Header Portfolio, /blog и Rain Bird article BG/RU/EN прошёл. Sanity read-only projections вернули top-3 3 карточки и all-list 22 карточки. Реальный wire transfer и CDP request count не измерялись.
+
+**Критерии:** визуально прежние карточки; компактный список без body/gallery; один общий in-flight запрос для Header/BlogSection; полная статья работает. Все функциональные проверки пройдены; количественное измерение скорости остаётся открытым.
 
 ### Этап 3 — Оптимизация изображений
 
@@ -295,4 +295,20 @@ src/main.tsx статически импортирует App и ManagerApp, хо
 - На homepage зафиксировано 9 Sanity API requests. Отдельный read-only fetch `cache:no-store` измерил 1,077,038 B decoded response bodies; это не encoded network transfer.
 - Два одинаковых blogPost fetch — по 145,912 B каждый; каждый запрос всё ещё включает body и gallery. Следующая задача Stage 2 — одна shared compact blog-card projection для Header и BlogSection, полную статью загружать по slug на BlogPostPage.
 - Browser tool не поддержал baseline viewport, cache disable и CPU/network throttling. Значения TTFB/FCP и PerformanceResourceTiming из этого запуска не сравнивать с baseline. Не заявлять процент ускорения.
+
+
+
+## Контрольная точка 09.11.2026 — PR #145: компактные карточки блога
+
+- PR #145 merged squash: `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`; runtime files: `src/lib/blog.ts`, Header, BlogSection, BlogPage, BlogPostPage.
+- List projection включает slug, publishedAt, cover URL/ALT/caption и localized title/shortDescription/coverAlt BG/RU/EN; исключает body, gallery, SEO, tags. Full detail по slug сохраняет полный Portable Text, SEO и gallery.
+- Shared in-flight cache TTL 60 sec keyed by list limit. Header + BlogSection use same top-3 request. Rejected promise evicted; cache token protects newer request.
+- Read-only Sanity: top 3 documents / 4,668 chars of tool output; all 22 / 29,597 chars; full article queries tested with 47,544 and 35,000 chars of tool output. These are not encoded transfer bytes.
+- CI: Blog/Studio validation `42590188304` success; D1 validation `42590188234` success.
+- Production: Cloudflare deployment `1f9145d2-7aeb-46e7-840d-e79af9e70a68` success, commit matches merge commit, aliases florial-bg.com and www.florial-bg.com.
+- Live smoke BG/RU/EN: homepage shows 3 blog cards; /blog shows 22 articles; Rain Bird article renders localized body, cover/gallery and related links; Header Portfolio dropdown opens with 3 article links and CTA. No loading placeholders.
+- No Sanity writes/schema changes, D1, API, Manager, cart/checkout, Cloudflare config or header/menu/footer layout changes.
+- No controlled network transfer/CDP/Lighthouse/CWV after PR #145; no speed percentage claimed.
+
+**Следующая задача:** controlled CDP capture with the exact baseline profile (390×844, CPU 4×, 150 ms latency, 10/1.5 Mbps, cache disabled, at least 3 runs) for homepage, category, product, search, blog list and article. If capture tooling is still unavailable, document the limitation and proceed only with another code target supported by source evidence. Then assess Stage 3 image inventory/LCP and Stage 4 Sanity CDN/cache without changing CDN settings until freshness is validated.
 
