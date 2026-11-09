@@ -1,3 +1,14 @@
+## 2026-11-09 — PR #147: lazy loading public route components
+
+- PR #147 merged squash: `b35b5e499700d0330a7ea43ca1ca09e4f6cad7e8`; Production deployment `20836dfd-7536-4379-be50-2c865800c814` success; aliases florial-bg.com and www.florial-bg.com.
+- Only runtime file changed: `src/App.tsx`.
+- HomePage remains eager. Ten non-home pages now load via React.lazy dynamic imports: About, Cart, Contacts, Services list/detail, Category, Product, Blog list/article, IrrigationSupport. One Suspense boundary wraps route content; Header/Footer stay outside.
+- Existing route predicates, state, callbacks, page props, data loading and page-local SEO remain unchanged.
+- CI run `42592562970` success: lint, utility tests, site build, migration syntax/dry-run, Studio install/build. D1 run `42592563158` success.
+- Live direct route smoke passed 16 URLs: homepage BG/RU/EN; about; empty cart; contacts; services; planting service; delivery support; plant/equipment category roots; Rain Bird equipment; Trachycarpus plant; blog; Rain Bird article; search Rain Bird (130 results). No persistent Suspense/loading placeholders.
+- Build output: index 620.15 kB raw / 163.82 kB gzip before route splitting (PR #146) versus 388.90 kB raw / 106.91 kB gzip after PR #147; −231.25 kB raw / −56.91 kB gzip (−34.74% main-entry gzip). Page-specific chunks are emitted separately. This is build artifact size, not live transfer or total page speed.
+- Full SPA navigation/scroll restoration and post-release resource-list verification remain open. No Sanity, D1, API, Manager, cart/checkout, Header/menu/Footer layout or Cloudflare settings changed.
+
 ## 2026-11-09 — PR #146: lazy Manager chunk
 
 - PR #146 merged squash: `eef48358030cc04c7c8105f66b74013cfc20997a`; Production deployment `5ae924f2-29ba-446b-ab8c-be44e121eabb` success; aliases florial-bg.com and www.florial-bg.com.
