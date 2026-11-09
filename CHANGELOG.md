@@ -1,3 +1,68 @@
+## Точное подтверждение Cloudflare Pages deployments
+
+- Commit `fb1d440251415fc31acfa31b216e82968aa2928c` → Production deployment `4d48f564-8845-4912-bbb3-723cebaebbc7`, status `success`, 2026-11-09 20:01 UTC.
+- Commit `52f7192b4a1cbe37359f56de72e300e8fc1f7823` → Production deployment `0f1d33bb-739d-4758-9cb7-edb5a972ede1`, status `success`, 2026-11-09 20:06 UTC.
+- Оба commit изменяли только пока не подключённый `src/manager/PlantCatalogManager.tsx`; `src/manager/ManagerApp.tsx` в main не импортировал его.
+- Preview deployments для соответствующих feature branches были skipped с `preview_deployments_disabled`.
+
+## 2026-11-09 — final CI result for plant Manager implementation
+
+- Code commit `d53ba337c855e906873a1a7e27276e575e07559c` passed both GitHub workflows:
+  - Blog & Studio validation: success — website lint, utility tests, website build, migration syntax/dry-run, Sanity Studio install/build.
+  - Florial D1 migration validation: success — lint, website build, Pages Functions syntax, SQLite migration 0013 test.
+- Later commit `b29803843eee4e2ded9e82705fad9320e5147718` contains documentation updates only; runtime code is unchanged from the fully validated code commit.
+- CI does not validate live Sanity writes or live D1 migration; no Production data was changed.
+- Preview deployment remains disabled and mobile acceptance remains open.
+
+## Дополнение 2026-11-09 — UI media и AI ALT
+
+- Редактор поддерживает выбор существующих Sanity assets через `PlantImageLibrary` и загрузку новых фотографий; обе операции доступны Owner/Manager/Seller.
+- Поддерживается множественный выбор категорий и подкатегорий; основная категория задаётся отдельно, все ссылки сохраняются.
+- При обычном редактировании неизменённый Portable Text сохраняет исходное форматирование; при ручном изменении текста он преобразуется в обычный Portable Text блок.
+- AI использует Workers AI text model для описаний/переводов/SEO и Vision model для визуального ALT только основной фотографии. Остальные фотографии получают ALT вручную. Vision не определяет вид растения и не генерирует биологические свойства.
+- Live D1 migration не применялась; изменения остаются в Draft PR #170.
+
+## 2026-11-09 — PR #170 validation and deployment audit
+
+- GitHub Actions at `495b873856202d9ab19e31d765bbe351dd66e16e`: Blog & Studio validation success; D1 migration validation success. Lint, website tests/build, Pages Functions syntax, SQLite migration test and Studio build passed.
+- SQL test ran in isolated SQLite memory DB only. Live Cloudflare D1 `0013_manager_product_audit` remains unapplied.
+- Pages Preview for PR branch is skipped because `preview_deployments_disabled`; no real preview/mobile acceptance.
+- Two main commits `fb1d440251415fc31acfa31b216e82968aa2928c` and `52f7192b4a1cbe37359f56de72e300e8fc1f7823` changed only the currently unconnected `PlantCatalogManager.tsx` component. Both Pages Production deployments completed successfully; main `ManagerApp.tsx` does not import it, so the Manager UI/public behavior did not change. Full integration remains in Draft PR #170.
+- Pages project still contains legacy environment variable names `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`. New code does not read them; they were not modified. Separate runtime usage audit is required before removal.
+- No Seller profile found in live D1; Seller-session QA remains pending.
+
+## 2026-11-09 — Manager растений: первая реализация в Draft PR #169
+
+- В отдельной mainline-based feature branch подготовлен новый mobile-first Manager для dataset Sanity `plants`.
+- Новые Pages Functions: `GET/POST /api/manager/plants`, `GET/PATCH /api/manager/plants/:id`, `POST /api/manager/plants/ai-enrich`, Owner-only `GET /api/manager/plant-audit`; общие функции — `plant-direct-lib.ts`.
+- UI: `src/manager/PlantCatalogManager.tsx`; ManagerApp направляет все три роли в каталог, старый submissions workflow оставлен Owner-only архивом.
+- Owner/Manager/Seller используют существующую D1 cookie session. Роли берутся из D1 profile; новая система не создаёт параллельную авторизацию.
+- Sanity mutations ограничены dataset `plants`; создание idempotent, PATCH использует `ifRevisionID`; root legacy price/stockQuantity автоматически не переписываются.
+- AI заполняет текст/переводы/SEO, не создаёт цены, SKU, варианты, остатки или ботанические сведения.
+- Добавлена аддитивная SQL migration `0013_manager_product_audit` и SQLite regression test. Live D1 на момент read-only аудита остановлена на `0012_service_leads_manager`; migration 0013 не применялась.
+- В live D1 обнаружены 1 активный Owner и 1 активный Manager; Seller profile не обнаружен. Реальные профили и данные не менялись.
+- CI для PR #169 выполняется; Preview deployment настройкой Pages помечен как отключённый. Production rollout не выполнялся.
+- Не затронуты Sanity schema/documents/assets, orders/checkout, irrigation dataset `production`, Header/menu/Footer, staff permissions, Cloudflare secrets/settings.
+
+## 2026-11-09 — завершён read-only аудит цены/наличия растений
+
+- `CategoryPage.tsx`: цена карточки растения — минимальная положительная `saleVariants[].priceEUR`; root price не используется. Наличие сначала берётся из root `stockStatus` (inStock/onRequest), затем из вариантов.
+- `ProductPage.tsx`: цена и скидка выбранного размера берутся из варианта; статус/количество — вариант с root fallback.
+- `CartPage.tsx`: цена варианта приоритетна, root price — fallback.
+- `functions/api/orders.ts`: для plants обязателен `variantKey`; сервер проверяет цену по `saleVariants[].priceEUR`, отклоняет `outOfStock`, допускает `onRequest` с положительной ценой; фактический `stockQuantity` сейчас не проверяется. Order items сохраняют snapshot.
+- `functions/api/manager/order-products.ts`: варианты растений выдаются отдельными selectable позициями; цена/наличие берутся из saleVariant.
+- Спецификация уточнена: variant price — canonical; root price не синхронизировать автоматически; root stockStatus должен быть агрегатом для согласованности CategoryPage, но root stockQuantity не суммировать; mixed status в Manager list показывать отдельно.
+- Дробный stockQuantity для растений не подтверждён; заказное количество integer 1–999.
+- Это read-only аудит; runtime, Sanity, D1 и Production не менялись.
+
+## 2026-11-09 — спецификация прямого мобильного Manager для растений
+
+- Создана `docs/ROADMAP_MANAGER_PLANTS.md`: только Sanity dataset `plants`, роли Owner/Manager/Seller с direct create/edit/publish, Owner-only history и botanical fields, AI-enrich для всех ролей.
+- Проверены текущие Manager files/API, D1 migrations, Sanity schema `product` / `plantSaleVariant`; read-only count: 36 опубликованных растений и 17 категорий.
+- Зафиксировано, что текущий Manager ещё использует `catalog_submissions` и отдельный approval/publish workflow; текущий publish endpoint ограничен Owner/Manager и ровно одним sale variant; AI endpoint привязан к submission и не разрешает Seller.
+- Отдельно отмечено несоответствие root `priceEUR` и variant prices в части legacy документов; storefront/cart/order price contract должен быть проверен до реализации.
+- Это документационная работа в branch `docs/manager-plants-direct-management`; runtime, Sanity, D1 data/schema, staff permissions, orders и Production не изменялись. CI/deployment для этой ветки не заявляются.
+
 ## 2026-11-09 — приостановка CLS-оптимизации и возврат к предыдущему route layout (PR #163)
 
 - PR #163 merged squash; merge commit `a12068bc3a8a4707f70e19abc76ecf382d98eabe`.
