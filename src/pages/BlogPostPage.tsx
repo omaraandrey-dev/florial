@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
 import {applyPageSeo} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
+import {getSanityImageProps} from '../lib/sanityImage'
 import {BlogContent} from '../components/BlogContent'
 import {blogSlug, blogTranslation, fetchBlogPost, fetchBlogPosts, formatBlogDate, type BlogPost, type BlogPostCard} from '../lib/blog'
 
@@ -52,9 +53,9 @@ export function BlogPostPage({slug}: {slug: string}) {
     <nav className="mb-6 text-sm text-slate-500"><a href={localizedHref('/', language)} className="text-[#647746] no-underline">{t('Начало')}</a><span className="mx-2">/</span><a href={localizedHref('/blog', language)} className="text-[#647746] no-underline">{t('Блог')}</a><span className="mx-2">/</span><span className="line-clamp-1">{content.title}</span></nav>
     <article>
       <header className="mb-8"><time dateTime={post.publishedAt || undefined} className="text-sm text-slate-500">{formatBlogDate(post.publishedAt, language)}</time><h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl">{content.title}</h1>{content.shortDescription ? <p className="mt-5 text-lg leading-8 text-slate-600">{content.shortDescription}</p> : null}</header>
-      {post.cover?.asset?.url ? <figure className="mb-9"><img src={post.cover.asset.url} alt={content.coverAlt} className="max-h-[620px] w-full rounded-2xl object-cover"/>{post.cover.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{post.cover.caption}</figcaption> : null}</figure> : null}
+      {post.cover?.asset?.url ? <figure className="mb-9"><img {...getSanityImageProps(post.cover.asset.url, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={content.coverAlt} decoding="async" className="max-h-[620px] w-full rounded-2xl object-cover"/>{post.cover.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{post.cover.caption}</figcaption> : null}</figure> : null}
       <BlogContent blocks={content.body || []}/>
-      {post.gallery?.length ? <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">{post.gallery.map((image,index) => image.asset?.url ? <figure key={index}><img src={image.asset.url} alt={image.alt || content.coverAlt} loading="lazy" className="w-full rounded-xl object-cover"/>{image.caption ? <figcaption className="mt-2 text-sm text-slate-500">{image.caption}</figcaption> : null}</figure> : null)}</div> : null}
+      {post.gallery?.length ? <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">{post.gallery.map((image,index) => image.asset?.url ? <figure key={index}><img {...getSanityImageProps(image.asset.url, '(min-width: 640px) 50vw, 100vw')} alt={image.alt || content.coverAlt} loading="lazy" decoding="async" className="w-full rounded-xl object-cover"/>{image.caption ? <figcaption className="mt-2 text-sm text-slate-500">{image.caption}</figcaption> : null}</figure> : null)}</div> : null}
     </article>
     {relatedPosts.length ? <section className="mt-14 border-t border-[#E1E6D7] pt-8" aria-labelledby="related-blog-title">
       <h2 id="related-blog-title" className="mb-5 text-2xl font-bold tracking-tight text-slate-900">{language === 'ru' ? 'Читайте также' : language === 'en' ? 'Related articles' : 'Още полезни статии'}</h2>
@@ -63,7 +64,7 @@ export function BlogPostPage({slug}: {slug: string}) {
           const related = blogTranslation(item, language)
           return <article key={item._id} className="overflow-hidden rounded-xl border border-[#E1E6D7] bg-white transition hover:shadow-sm">
             <a href={localizedHref('/blog/' + encodeURIComponent(blogSlug(item)), language)} className="block h-full no-underline">
-              {item.cover?.asset?.url ? <img src={item.cover.asset.url} alt={related.coverAlt} loading="lazy" className="h-36 w-full object-cover"/> : <div className="flex h-36 items-center justify-center bg-[#E9EDDB] text-3xl" aria-hidden="true">🌿</div>}
+              {item.cover?.asset?.url ? <img {...getSanityImageProps(item.cover.asset.url, '(min-width: 640px) 33vw, 100vw')} alt={related.coverAlt} loading="lazy" decoding="async" className="h-36 w-full object-cover"/> : <div className="flex h-36 items-center justify-center bg-[#E9EDDB] text-3xl" aria-hidden="true">🌿</div>}
               <div className="p-4"><h3 className="text-base font-bold leading-snug text-slate-900">{related.title}</h3><span className="mt-3 inline-flex text-sm font-semibold text-[#647746]">{language === 'ru' ? 'Читать статью' : language === 'en' ? 'Read article' : 'Прочетете статията'} →</span></div>
             </a>
           </article>
