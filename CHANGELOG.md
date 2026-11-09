@@ -1,3 +1,17 @@
+## 2026-11-09 — Homepage Hero LCP (PR #152)
+
+- PR #152: [optimize homepage Hero LCP image](https://github.com/omaraandrey-dev/florial/pull/152), merge commit `a88ce6ca513abcad4b7ee107c441fa62ec570ec3`, Production deployment `6cad50d7-291a-4004-ae15-b77786f3d292` — success.
+- Controlled PerformanceObserver capture confirmed the actual HomePage LCP element was the CSS Hero background PNG (1518×957, 2,704,931 B).
+- Replaced only the background image with a decorative responsive `img` using the existing Sanity helper; `srcSet`, `sizes=100vw`, `auto=format`, `fit=max`, `q=75`, eager loading and `fetchPriority=high`. Same centered cover crop, same `rgba(247,248,241,0.68)` overlay and unchanged Hero section/content.
+- Mobile profile 390×844, CPU 4×, 150 ms, 10/1.5 Mbps, cache disabled, 3 runs: LCP median 3,620→696 ms (−80.8%); image 2,704,931→17,439 B (−99.4%); CLS 0.00025→0.00025.
+- Desktop profile 1440×900, same network/CPU profile, 3 runs: LCP median 3,908→912 ms (−76.7%); image 2,704,931→141,597 B (−94.8%); CLS 0.01417→0.01417.
+- Browser selected 480w AVIF on mobile and 1518w AVIF on desktop. No preload hint added.
+- CI: website/Studio validation `42604050648` and D1 validation `42604050707` — success.
+- Additional regression finding: homepage CLS remains low, but category/product/blog/article routes show large shifts while async route content replaces short loading states. Category source inspection shows the Footer moving from the viewport to below the fold. Likely shared loading-area reservation issue in `src/App.tsx`; no fix applied because it affects shared layout and requires explicit approval. Report: `docs/performance/POST_OPTIMIZATION_HERO_LCP_2026-11-09.md`.
+- Header logo (~656 KB), Header/menu/Footer, Cart/checkout, Manager, Sanity documents/schemas, D1 data, API/order logic and Cloudflare settings were not changed.
+
+---
+
 ## 2026-11-09 — Sanity CDN и адаптивные изображения (PR #148–#150)
 
 - PR #148: [responsive Sanity images](https://github.com/omaraandrey-dev/florial/pull/148), merge commit `0b72d45021230e7d286b42dfb116acd6ca47ee80`, Production deployment `113205bf-630b-4586-a873-223dac8a9140` — success. Общий helper `src/lib/sanityImage.ts` применён к HomePage cards, BlogSection, BlogPage, BlogPostPage/Portable Text, ServicePage и AboutPage.
