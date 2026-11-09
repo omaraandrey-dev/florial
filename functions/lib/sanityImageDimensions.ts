@@ -22,7 +22,7 @@ export function getSanityImageDimensionAttributes(imageUrl?: string): string {
     return ''
   }
 
-  const match = url.pathname.match(/-(\\d+)x(\\d+)\\.[a-z0-9]+$/i)
+  const match = url.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
   if (!match) return ''
 
   const width = Number(match[1])
