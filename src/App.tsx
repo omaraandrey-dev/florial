@@ -498,7 +498,6 @@ export default function App() {
           startingPriceEUR,
           advantages,
           steps,
-          hero,
           callToAction,
           leadForm,
           seo
