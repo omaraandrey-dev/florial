@@ -1789,3 +1789,16 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - The deployment is confirmed, but post-release CLS improvement is NOT confirmed. The previous mobile category residual (median `0.3441`, two of three runs) must not be marked resolved without another controlled trace.
 - Browser automation was unavailable for a fresh CDP capture in this session. Firecrawl's live scrape returned HTTP 200 but exposed the hydrated loading shell, not the pre-JavaScript HTML. The image attributes on the initial response therefore remain unverified.
 - Desktop CLS, Lighthouse and INP remain open. Next step: obtain a browser/CDP trace on the exact controlled profile and inspect layout-shift sources before changing the route shell or category content.
+
+
+## 2026-11-09 — Production browser-rendering diagnostics
+
+- Verified initial server HTML with JavaScript disabled: irrigation category HTTP 200; SEO fallback H1 present; loading placeholder absent; image tag includes `width="1254" height="1254"`.
+- Cloudflare Browser Rendering, unthrottled, cacheTTL=0, 3 runs per viewport for the category: mobile 390×844 CLS median `0.0002631`; desktop 1365×900 CLS median `0.0148097`.
+- Homepage also measured 3 times per viewport: mobile median `0.0002631`, desktop median `0.0148097`. One run each on blog, service detail and the known blog article showed the same viewport-specific CLS.
+- Mobile shifts came only from the Header search form; desktop shifts came from a 4 px shared content/Header geometry adjustment and the search form. No Footer source appeared. The desktop CLS remains below 0.1 and is shared, not category-specific. Header was not changed.
+- Browser-rendering LCP medians: category 0.872 s mobile / 0.812 s desktop; homepage 1.692 s mobile / 1.504 s desktop. FCP medians: category 0.532 s / 0.324 s; homepage 1.296 s / 0.836 s.
+- These are unthrottled browser-rendering diagnostics, not Lighthouse or CrUX. They cannot be compared directly with the earlier controlled CPU 4× / 150 ms network profile.
+- No trusted user interaction was performed, so Event Timing produced no interaction entries and INP remains unmeasured. Lighthouse mobile/desktop remains open.
+- The same controlled 3-run mobile profile after the fix remains a pending verification item.
+
