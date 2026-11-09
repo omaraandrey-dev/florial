@@ -101,11 +101,26 @@ export function HomePage({
   return (
     <div>
       <section className="relative isolate overflow-hidden bg-[#F7F8F1] text-slate-800 py-12 md:py-16 px-4">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'linear-gradient(rgba(247, 248, 241, 0.68), rgba(247, 248, 241, 0.68)), url("https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png")' }}
-        />
+        <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+          <img
+            {...getSanityImageProps(
+              'https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png',
+              '100vw',
+              1600,
+            )}
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(247, 248, 241, 0.68)' }}
+          />
+        </div>
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight text-[#263323]">
             {t('Градински център Флориал')}
