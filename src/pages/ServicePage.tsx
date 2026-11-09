@@ -15,21 +15,24 @@ const sectionForHeading = (value: string, language: string) => {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения'],
       trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата'],
-      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'поливане и грижи след засаждането'],
+      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво'],
+      watering: ['поливане и грижи след засаждането'],
       equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове'],
       automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви'],
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений'],
       trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы'],
-      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'полив и уход после посадки'],
+      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева'],
+      watering: ['полив и уход после посадки'],
       equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей'],
       automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав'],
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants'],
       trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil'],
-      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'watering and aftercare'],
+      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree'],
+      watering: ['watering and aftercare'],
       equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges'],
       automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses'],
     },
@@ -60,14 +63,11 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
               : 'min-w-0 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm'}
           >
             {image.imageUrl && (
-              <img
-                src={image.imageUrl}
-                alt={alt}
-                loading="lazy"
-                className={singleImage
-                  ? 'mx-auto max-h-[520px] w-full object-contain'
-                  : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'}
-              />
+              image.imageLinkUrl || image.linkUrl
+                ? <a href={(image.imageLinkUrl || image.linkUrl || '').startsWith('/') ? localizedHref(image.imageLinkUrl || image.linkUrl || '/', language) : (image.imageLinkUrl || image.linkUrl)} className="block" aria-label={alt || undefined}>
+                    <img src={image.imageUrl} alt={alt} loading="lazy" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
+                  </a>
+                : <img src={image.imageUrl} alt={alt} loading="lazy" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
             )}
             {!singleImage && alt && (
               <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>
@@ -94,7 +94,9 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
               : (image.alt || '')
           return (
             <figure key={image._key || `service-gallery-${index}`} className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-              <img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" />
+              {image.linkUrl
+            ? <a href={image.linkUrl.startsWith('/') ? localizedHref(image.linkUrl, language) : image.linkUrl} className="block"><img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" /></a>
+            : <img src={image.url} alt={alt} loading="lazy" className="h-40 w-full object-cover sm:h-52 md:h-56" />}
             </figure>
           )
         })}
@@ -388,7 +390,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   // Render each group inside the matching article section, not at the page end.
   const sourceBlocks = Array.isArray(service.contentBlocks) ? service.contentBlocks : []
   const imageGroups = sourceBlocks.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
-    const match = typeof block.title === 'string' ? block.title.match(/^__gallery:(intro|trenches|pipeline|equipment|automation)$/) : null
+    const match = typeof block.title === 'string' ? block.title.match(/^__gallery:(intro|trenches|pipeline|equipment|automation|watering)$/) : null
     if (!match || !block.imageUrl) return groups
     const group = match[1]
     groups[group] = [...(groups[group] || []), block]
@@ -398,7 +400,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   // Keep legacy gallery-marker blocks in their article sections; render regular
   // image-and-text blocks as a separate section at the bottom of every service page.
   const additionalContentBlocks = sourceBlocks.filter((block) =>
-    !/^__gallery:(intro|trenches|pipeline|equipment|automation)$/.test(block.title || '') &&
+    !/^__gallery:(intro|trenches|pipeline|equipment|automation|watering)$/.test(block.title || '') &&
     Boolean(block.imageUrl || block.title || block.text),
   )
 
@@ -454,6 +456,29 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
             {renderPortableText(descriptionForRender, language, imageGroups)}
           </div>
+        )}
+
+        {Array.isArray(service.relatedContent) && service.relatedContent.filter((item) => item?.slug?.current && (item._type === 'service' ? item.isActive !== false : item._type === 'blogPost' ? item.isPublished === true : true)).length > 0 && (
+          <section className="mx-auto my-8 max-w-5xl" aria-label={language === 'ru' ? 'Связанные материалы' : language === 'en' ? 'Related services and resources' : 'Свързани услуги и материали'}>
+            <h2 className="mb-4 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">{language === 'ru' ? 'Возможно, вас заинтересует' : language === 'en' ? 'You may also be interested in' : 'Може да разгледате и'}</h2>
+            <div className="grid gap-3">
+              {service.relatedContent.filter((item) => item?.slug?.current && (item._type === 'service' ? item.isActive !== false : item._type === 'blogPost' ? item.isPublished === true : true)).map((item) => {
+                const localized = language === 'bg' ? undefined : item.translations?.[language]
+                const itemTitle = localized?.name || localized?.title || item.name || item.title || ''
+                const itemDescription = localized?.shortDescription || item.shortDescription || ''
+                const path = item._type === 'service' ? '/services/' + item.slug.current : item._type === 'blogPost' ? '/blog/' + item.slug.current : item._type === 'category' ? '/category/' + item.slug.current : '/product/' + item.slug.current
+                const itemAlt = language === 'ru' ? item.imageAltRu || itemTitle : language === 'en' ? item.imageAltEn || itemTitle : item.imageAlt || itemTitle
+                return <a key={item._id} href={localizedHref(path, language)} className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-emerald-300 hover:shadow-sm">
+                  {item.imageUrl && <img src={item.imageUrl} alt={itemAlt} loading="lazy" className="h-20 w-24 shrink-0 rounded-lg object-cover sm:h-24 sm:w-28" />}
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-slate-900 group-hover:text-emerald-800">{itemTitle}</span>
+                    {itemDescription && <span className="mt-1 block text-sm leading-5 text-slate-600">{itemDescription}</span>}
+                    <span className="mt-2 block text-xs font-semibold text-emerald-800">{language === 'ru' ? 'Подробнее →' : language === 'en' ? 'Learn more →' : 'Научете повече →'}</span>
+                  </span>
+                </a>
+              })}
+            </div>
+          </section>
         )}
 
         {showAdvantages && (
@@ -524,8 +549,11 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
                   className="grid items-center gap-5 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sm:p-6 md:grid-cols-2 md:gap-8">
                   {block.imageUrl && (
                     <div className={imageFirst ? 'md:order-1' : 'md:order-2'}>
-                      <img src={block.imageUrl} alt={imageAlt} loading="lazy"
-                        className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />
+                      {block.imageLinkUrl || block.linkUrl
+                        ? <a href={(block.imageLinkUrl || block.linkUrl || '').startsWith('/') ? localizedHref(block.imageLinkUrl || block.linkUrl || '/', language) : (block.imageLinkUrl || block.linkUrl)} className="block">
+                            <img src={block.imageUrl} alt={imageAlt} loading="lazy" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />
+                          </a>
+                        : <img src={block.imageUrl} alt={imageAlt} loading="lazy" className="max-h-[460px] min-h-48 w-full rounded-xl object-cover" />}
                     </div>
                   )}
                   {(title || text) && (
