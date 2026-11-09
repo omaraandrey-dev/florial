@@ -254,7 +254,7 @@ export const buildPlantSet = async (
         },
       }
     }
-    set.translations = translations
+    if (Object.keys(translations).length) set.translations = translations
   }
   if (role === 'owner' && 'plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
   if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide)
