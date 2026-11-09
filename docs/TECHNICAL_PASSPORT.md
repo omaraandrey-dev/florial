@@ -1,3 +1,10 @@
+## Точное подтверждение Cloudflare Pages deployments
+
+- Commit `fb1d440251415fc31acfa31b216e82968aa2928c` → Production deployment `4d48f564-8845-4912-bbb3-723cebaebbc7`, status `success`, 2026-11-09 20:01 UTC.
+- Commit `52f7192b4a1cbe37359f56de72e300e8fc1f7823` → Production deployment `0f1d33bb-739d-4758-9cb7-edb5a972ede1`, status `success`, 2026-11-09 20:06 UTC.
+- Оба commit изменяли только пока не подключённый `src/manager/PlantCatalogManager.tsx`; `src/manager/ManagerApp.tsx` в main не импортировал его.
+- Preview deployments для соответствующих feature branches были skipped с `preview_deployments_disabled`.
+
 ## 2026-11-09 — final CI result for plant Manager implementation
 
 - Code commit `d53ba337c855e906873a1a7e27276e575e07559c` passed both GitHub workflows:
