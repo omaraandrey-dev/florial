@@ -968,7 +968,7 @@ export default function App() {
     const query = (activeSearchQuery || '').toLocaleLowerCase('bg').trim()
     if (!query) return []
 
-    const words = query.split(/\\s+/).filter(Boolean)
+    const words = query.split(/\s+/).filter(Boolean)
 
     return searchProducts.filter((product) => {
       const searchableText = [
