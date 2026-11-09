@@ -76,6 +76,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   let changedFields: string[] = []
   let after: unknown = null
   let auditStarted = false
+  let mutationSucceeded = false
   try {
     const existing = await env.DB.prepare("SELECT product_id, product_name, result FROM manager_product_audit WHERE idempotency_key=? AND phase='started' LIMIT 1")
       .bind(idempotencyKey).first<{ product_id: string; product_name: string; result: string }>()
@@ -105,6 +106,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
     const document = { _id: productId, _type: 'product', ...normalized.set }
     await sanityMutate(env, [{ createIfNotExists: document }])
+    mutationSucceeded = true
     const saved = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(productId) + '][0]{_id,_rev,name,slug,sku,category,isActive,saleVariants}')
     if (!saved?._rev) throw new Error('SANITY_VERIFY_FAILED')
     after = auditSnapshot(saved)
@@ -115,13 +117,17 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     return json({ ok: true, documentId: productId, revision: saved._rev, requestId }, 201)
   } catch (error) {
     const code = safeFailureCode(error)
+    if (auditStarted && mutationSucceeded) {
+      console.error('[manager-plants-create-audit]', { requestId, code: 'audit_success_write_pending' })
+      return json({ error: 'Растението може да е създадено, но историята не потвърди резултата. Повторете същата операция без да променяте данните.', requestId, auditPending: true }, 503)
+    }
     if (auditStarted) {
       try {
         await writeAudit(env, auth.user, {
           requestId, idempotencyKey, phase: 'result', productId, productName, action: 'create',
           changedFields, before: null, after, result: 'failed', errorCode: code,
         })
-      } catch (auditError) {
+      } catch {
         console.error('[manager-plants-create-audit]', { requestId, code: 'audit_result_write_failed' })
         return json({ error: 'Не можем да потвърдим резултата в историята. Запазете номера на операцията и се свържете със собственика.', requestId, auditPending: true }, 500)
       }
