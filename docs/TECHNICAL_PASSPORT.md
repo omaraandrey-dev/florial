@@ -1779,3 +1779,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Не менялись Sanity schema/documents, D1, API, checkout/cart, Manager, Header/menu/Footer и данные каталога.
 - Cloudflare Pages environment metadata содержит legacy-настройки `SUPABASE_*` / `VITE_SUPABASE_*`; активное использование приложением не установлено. Значения и секреты не копировались в документацию. Не удалять до отдельной проверки исходников и согласования.
 - Следующая задача: завершить Stage 1 performance roadmap — dependency map и compact projections для equipment/plant catalog без потери поиска, фильтров, категорий, вариантов, комплектов, cart и SEO.
+
+
+## 2026-11-09 — CLS follow-up: SEO fallback image dimensions
+
+- Main commit: `9bd5d3fb268d7dec9c3dab330e8039987ec78718`; Production deployment: `88fd47db-3990-4447-813e-be6b12a42028` (`success`).
+- `functions/_middleware.ts` now appends intrinsic `width`/`height` attributes to the image in the server SEO fallback when the source is a Sanity CDN asset whose original dimensions are encoded in its filename. Parsing is isolated in `functions/lib/sanityImageDimensions.ts`.
+- New unit tests are in `tests/sanity-image-dimensions.test.mjs`. The push validation run passed lint/build/Pages Functions syntax but did not run `npm test`; unit-test execution is pending PR validation.
+- The deployment is confirmed, but post-release CLS improvement is NOT confirmed. The previous mobile category residual (median `0.3441`, two of three runs) must not be marked resolved without another controlled trace.
+- Browser automation was unavailable for a fresh CDP capture in this session. Firecrawl's live scrape returned HTTP 200 but exposed the hydrated loading shell, not the pre-JavaScript HTML. The image attributes on the initial response therefore remain unverified.
+- Desktop CLS, Lighthouse and INP remain open. Next step: obtain a browser/CDP trace on the exact controlled profile and inspect layout-shift sources before changing the route shell or category content.
