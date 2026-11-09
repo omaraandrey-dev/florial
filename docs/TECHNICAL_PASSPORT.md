@@ -1498,3 +1498,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Форма использует текущий контракт `/api/service-leads`; технические имена `name/phone/email/location/details` соответствуют валидатору `normalizeLeadFields`. Реальная заявка не отправлялась.
 - Live smoke: BG/RU/EN HTTP 200, локализованные H1/SEO, `robots=index, follow`, изображение, связанные карточки и форма отображаются.
 - Это content-only Sanity change. Код, schema, D1, API, Manager, Cloudflare settings и Pages deployment не затронуты. Предыдущего документа с этим slug не существовало; JSON snapshot опубликованной новой записи сохранён в `docs/backups/sanity-service-zasazhdane-na-lavandula-2026-11-09.json`.
+
+## 2026-11-09 — Sanity service «Засаждане на палми»
+
+- Production Sanity document: `5fd92607-19dd-44ae-b546-01e841f835c9`; slug `zasazhdane-na-palmi`; category `planting`; layout `standard`; sortOrder 28; active.
+- BG description хранится как Portable Text; RU/EN descriptions — Markdown. Локализованные H1 находятся в `hero.title`; SEO — BG `seo`, RU/EN `translations.*.seo`; публичная индексация включена.
+- Hero и main image используют новый asset `image-962060f9e538f42cef2b5ae405a50df59e1d78bf-1536x1147-jpg` (1536×1147), ALT BG/RU/EN.
+- Связи: общая услуга посадки растений и услуга монтажа автоматических поливных систем в Несебре. Форма использует текущие поля `name`, `phone`, `email`, `location`, `details` и существующий `/api/service-leads`.
+- Опубликованный документ сохранён в `docs/backups/sanity-service-zasazhdane-na-palmi-2026-11-09.json`.
+- Smoke BG/RU/EN и карточка в списке услуг проверены на Production; HTTP 200, локализованные SEO metadata, Hero asset и статья подтверждены. Реальная отправка формы, D1 insert и email delivery не проверялись.
+- Контентная операция: schema, frontend, API, D1, Manager, Cloudflare bindings/settings, Header, menu, Footer и Pages deployment не менялись.
