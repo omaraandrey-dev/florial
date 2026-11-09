@@ -1,3 +1,12 @@
+## 2026-11-09 — Связанные материалы и ссылки на изображения реализованы
+
+- PR #134 merged: optional image `linkUrl` for all service image contexts; `relatedContent` reference field supports service/blogPost/product/category.
+- Responsive related cards added to ServicePage using image-left/text-right layout and localized target metadata.
+- Sanity Studio canonical deployment succeeded (run `42553313954`); Cloudflare Pages Production deployment `7a53b3b5-0898-48f2-a249-50f71617ae91` succeeded.
+- Service «Засаждане на растения» now contains the user-provided drip-irrigation photo within the watering section, a localized text addition, image link to drip irrigation, and related cards for olive planting and drip irrigation.
+- Live BG/RU/EN smoke confirms image, link, cards and lead form. Existing main photo preserved.
+
+---
 ## 2026-11-09 — Услуга «Засаждане на растения» переработана и опубликована
 
 - Existing service Sanity ID cfdbf22c-a7d9-480b-b88b-d1529a9389ef, slug zasazhdane-na-rasteniya, category planting сохранены.
