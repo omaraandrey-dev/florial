@@ -1,3 +1,17 @@
+## 2026-11-09 — Отложенная загрузка Manager (PR #146)
+
+- PR #146: https://github.com/omaraandrey-dev/florial/pull/146 — squash merge в `main`; merge commit `eef48358030cc04c7c8105f66b74013cfc20997a`.
+- Изменён только `src/main.tsx`.
+- Static import `ManagerApp` заменён на `lazy(() => import('./manager/ManagerApp'))`. Компонент загружается только при первоначальном URL `/manager` или `/manager/*`; добавлен небольшой Bulgarian Suspense fallback `Зареждане на панела за управление…`.
+- Public branch `LanguageProvider + App`, точная route detection, Manager auth/session/API logic, permissions и интерфейс не менялись.
+- CI Blog and Studio validation run `42591541092` — success (lint, utility tests, website build, migration syntax, read-only migration dry-run, Studio install/build). D1 validation run `42591541240` — success.
+- Production Cloudflare Pages deployment `5ae924f2-29ba-446b-ab8c-be44e121eabb` — success; deployed commit совпадает с merge commit; aliases `florial-bg.com`, `www.florial-bg.com`.
+- Live smoke: `/` BG и `/?lang=ru` рендерятся; `/manager` и `/manager/` показывают существующий болгарский экран входа. На public homepage loaded JS assets: `index-yNnEwJtM.js` и runtime; ManagerApp chunk отсутствует. На `/manager` загружается отдельный `ManagerApp-BJhBJlxh.js` (47,518 B transfer) и вызывается auth bootstrap endpoint. Вход не выполнялся, реальные данные не менялись.
+- Single unthrottled remote-browser JS timing sample, viewport 1920×993: до изменения один main JS asset — 209,165 B transfer; после на public route index 160,495 B + runtime 656 B = 161,151 B, на 48,014 B (22.96%) меньше. Manager chunk 47,518 B загружается только на /manager. Это один desktop sample без CPU/network throttling и cache control, не controlled mobile baseline и не измерение общей скорости страницы.
+- No changes to ManagerApp source, API, D1, Sanity, cart/checkout, Header/menu/Footer, Cloudflare settings/secrets.
+
+---
+
 ## 2026-11-09 — Компактные карточки блога и устранение повторной загрузки (PR #145)
 
 - PR #145: https://github.com/omaraandrey-dev/florial/pull/145 — squash merge в `main`; merge commit `6897cb1ad4ef4bb8429838c83f11c515ad9fec80`.
