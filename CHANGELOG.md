@@ -1,3 +1,17 @@
+## 2026-11-10 — PR #172 merged: восстановлено полноценное AI-заполнение растений
+
+- PR #172 merged by squash: 6b10b44f999f2dbf40a46e447bbd9c1175a9756d.
+- Runtime-файлы: functions/api/manager/plants/ai-enrich.ts, src/manager/PlantCatalogManager.tsx.
+- Восстановлена генерация содержательных BG/RU/EN описаний с практическими разделами по освещению, почве, дренажу, поливу, подкормке, обрезке, посадке, сезонным особенностям и использованию в озеленении. Добавлена проверка полноты ответа и повтор генерации, если тексты слишком короткие.
+- Ботанические кандидаты определяются по введённому названию, типу, категории и описанию продавца; фотографии не используются для определения вида. scientificName автоматически заполняется только при высокой уверенности AI и точном подтверждении GBIF: matchType=EXACT, rank=SPECIES, status=ACCEPTED, confidence >=95. Иначе научное имя остаётся пустым, кандидаты показываются Owner для проверки.
+- Улучшен ALT основной фотографии: Vision ориентируется на выбранное растение, а не фон/ряд других товаров; пустой результат Vision повторяется один раз. ALT создаётся на BG/RU/EN только по видимым деталям.
+- Возвращены Owner-only структурированные plantCare и careGuide; для Manager/Seller эти поля не возвращаются и не отправляются в API. Черноморская пригодность всегда остаётся needsVerification, пока Owner не проверит её.
+- Добавлены серверный retry для временных/невалидных ответов модели, client retry для retryable ошибок и понятные stage/code диагностики. Все непустые ручные значения сохраняются.
+- CI на итоговом PR head: Blog and Studio validation #714 — success; Florial D1 migration validation #840 — success. Проверены lint, utility tests, website build, Pages Functions syntax, migration regression и Sanity Studio build.
+- Cloudflare Pages Production deployment bcca7c97-928f-4db5-a5e8-001314d23502, URL https://bcca7c97.florial.pages.dev, commit 6b10b44f999f2dbf40a46e447bbd9c1175a9756d: build и deploy success 2026-11-10 04:18:56 UTC; aliases florial-bg.com и www.florial-bg.com активны.
+- Sanity schema/documents/assets, D1 schema/data, irrigation dataset production, checkout/orders, Header/menu/Footer, Cloudflare settings/secrets не изменялись. AI enrichment формирует черновик в форме; запись в Sanity происходит только после явного сохранения/публикации пользователем.
+- Открытая приёмка: проверить AI в авторизованном Owner и Manager интерфейсе на новом/черновом растении. Реальный end-to-end запрос Workers AI + GBIF с авторизованной сессией ещё не выполнялся. Опубликованная карточка «Лавровишня храсти» не изменялась; её уже заполненные текстовые поля не будут автоматически перезаписаны текущим режимом заполнения только пустых полей. Для её исправления требуется отдельное согласованное действие.
+
 ## 2026-11-10 — PR #171 merged: упрощённый Manager растений опубликован в Production
 
 - PR #171 (`feat(manager): simplify plant editor for Seller and Manager`) успешно объединён методом squash. Merge commit: `40b695821736b6499e58140337e8169d71f14279`.
