@@ -275,7 +275,7 @@ export const describeGeminiJsonError = (value: string): string => {
       : 'JSON синтаксисът е валиден, но коренът на отговора не е обект.'
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Невалиден JSON'
-    const position = message.match(/(?:position|at)\s+(\d+)/i)?.[1]
+    const position = message.match(/(?:position|at)\s+(\d+)/i)?.[1] || (/unexpected end/i.test(message) ? String(value.length) : '')
     return (position ? 'Невалиден JSON около позиция ' + position + '.' : 'Невалиден JSON: ' + message)
       .replace(/[\r\n\t]+/g, ' ')
       .slice(0, 160)
