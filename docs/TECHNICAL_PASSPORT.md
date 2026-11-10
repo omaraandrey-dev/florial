@@ -1,6 +1,14 @@
-## 2026-11-10 — Manager растений: упрощение интерфейса и AI enrichment (feature branch, rollout pending)
+## 2026-11-10 — Manager растений: PR #171 опубликован в Production
 
-- Feature branch: `fix/manager-plants-simplified-staff-form`; код подготовлен к CI/PR, не считать Production deployed до подтверждённого Pages deployment.
+- PR #171 merged by squash at `40b695821736b6499e58140337e8169d71f14279`.
+- CI success: Florial D1 migration validation run #831; Blog and Studio validation run #707. Website lint, utility tests, build, Pages Functions syntax, migration regression checks and Sanity Studio build passed.
+- Cloudflare Pages Production deployment `ef7e07a9-09b3-4b9a-948d-0454ff05dbc5` for commit `40b695821736b6499e58140337e8169d71f14279`: build/deploy success at 2026-11-10 03:37:28 UTC. Domains `florial-bg.com` and `www.florial-bg.com` are active.
+- Owner retains ALT, SKU/variant SKU, slug, translations and SEO fields. Manager/Seller use simplified form. Terminal categories only. Variant names auto-generate from height ±5% and container litres. New slugs are checked against published and draft plant documents, with numeric suffixes for collisions. AI fills blank BG/RU/EN descriptions, localized SEO and main-image ALT while preserving non-empty manual values.
+- Runtime files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plants/ai-enrich.ts`.
+- No Sanity documents/schema/assets, D1 schema/data, irrigation dataset `production`, checkout/orders, Header/menu/Footer, Cloudflare settings or secrets were modified. No live Sanity write operations were performed.
+- Remaining acceptance: authenticated Owner/Manager UI testing; Seller profile was not present in the last D1 audit. No test products were created.
+
+
 - Role visibility: Owner retains ALT, SKU/variant SKU, slug, translations and SEO fields. Manager/Seller see the simplified workflow: image upload/library, plant identity, terminal categories, sale sizes/prices/stock, BG short and full descriptions, and the AI enrichment action.
 - Category selector now lists only terminal categories (categories without child categories); parent grouping nodes are hidden. The save payload keeps only selected terminal category IDs.
 - Variant auto-name: if the name is blank/auto-generated, height generates `Размер {round(0.95*h)}–{round(1.05*h)} см`; container volume appends `C{litres}`. The auto-name follows subsequent dimension edits until a staff member manually edits the name. The UI-only auto-name marker is not sent to Sanity.
