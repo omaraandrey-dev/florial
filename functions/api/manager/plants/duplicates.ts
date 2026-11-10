@@ -1,7 +1,7 @@
 import { json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, requirePlantRole, sanityQuery } from '../plant-direct-lib'
 
-import { buildPlantDuplicateQuery } from '../plant-duplicate-lib'
+import { buildPlantDuplicateQuery } from '../plant-duplicate-lib.mjs'
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: ManagerEnv }) => {
   if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Plant catalogue service is not configured.' }, 503)
