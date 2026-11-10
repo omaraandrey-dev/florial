@@ -1,3 +1,15 @@
+## 2026-11-10 — Manager растений: упрощение формы Seller/Manager и автозаполнение (подготовлено в feature branch)
+
+- Feature branch: `fix/manager-plants-simplified-staff-form`. Изменения подготовлены, но до PR/CI/merge/Production deployment не активированы.
+- `src/manager/PlantCatalogManager.tsx`: Seller и Manager больше не показывают ALT, SKU товара/размера, slug, ручные переводы и SEO; Owner сохраняет полный доступ. Существующие скрытые значения остаются в состоянии формы и передаются при сохранении, чтобы не очищать уже заполненные данные.
+- Категории в форме выбора и фильтре ограничены конечными категориями без родительских пунктов; при сохранении в payload остаются только выбранные конечные категории.
+- Имя варианта автоматически формируется при пустом поле: высота → диапазон ±5% с округлением до целых и префиксом «Размер», объём контейнера → `C{литры}`. Автоимя обновляется при изменении высоты/контейнера до ручного редактирования. Внутренний флаг автоимени не передаётся в API.
+- `functions/api/manager/plants.ts` и `functions/api/manager/plants/[id].ts`: при создании и ручном изменении Owner система проверяет slug в опубликованных и draft документах Sanity dataset `plants`; для новых товаров при совпадении добавляет суффикс `-2`, `-3` и т. д.; существующие URL не меняются без действия Owner.
+- `functions/api/manager/plants/ai-enrich.ts`: AI response теперь возвращает ALT основной фотографии на BG/RU/EN; SEO H1/metaTitle/metaDescription возвращается для BG/RU/EN с безопасным локальным fallback, если модель не вернула обязательное значение.
+- AI enrichment в UI заполняет пустые поля и сохраняет уже заполненные вручную значения: описания, переводы, SEO и ALT основной фотографии.
+- Не изменялись Sanity документы/схема/assets, D1 данные/схема, irrigation dataset `production`, checkout/orders, Header/menu/Footer и Cloudflare settings/secrets.
+- Проверки CI, PR review, merge и Production deployment — ожидают выполнения. Live Sanity write operations не выполнялись.
+
 ## 2026-11-10 — PR #170 merged, D1 0013 applied, Production deployment successful
 
 - PR #170 (feat/manager-plants-direct-editor-final) was marked ready and merged into main.

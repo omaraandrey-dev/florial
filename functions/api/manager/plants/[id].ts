@@ -78,7 +78,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     if (current._rev !== body.expectedRevision) return json({ error: 'Растението е променено от друг служител. Обновете продуктът преди запазване.', conflict: true }, 409)
     if (normalized.set.slug && (normalized.set.slug as {current:string}).current !== current.slug?.current) {
       const slug = (normalized.set.slug as {current:string}).current
-      const duplicate = await sanityQuery<string|null>(env,'*[_type=="product" && slug.current=='+jsonString(slug)+' && _id!='+jsonString(id)+' && !(_id in path("drafts.**"))][0]._id')
+      const duplicate = await sanityQuery<string|null>(env,'*[_type=="product" && slug.current=='+jsonString(slug)+' && _id!='+jsonString(id)+' && _id!='+jsonString('drafts.'+id)+'][0]._id')
       if (duplicate) return errorJson('Този URL адрес вече се използва от друго растение.', 409)
     }
     if (!prior) {

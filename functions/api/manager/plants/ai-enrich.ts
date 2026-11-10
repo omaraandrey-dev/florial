@@ -93,22 +93,42 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const ru=isObject(translations.ru)?translations.ru:{}
   const en=isObject(translations.en)?translations.en:{}
   const seo=isObject(generated.seo)?generated.seo:{}
+  const cleanSeo=(value:unknown,fallbackName:string,language:'bg'|'ru'|'en')=>{
+   const item=isObject(value)?value:{}
+   const bgTitle=fallbackName+' | Несебър | Градински център Флориал'
+   const localizedTitle=language==='bg'?(bgTitle.length<=70?bgTitle:fallbackName+' | Несебър | Florial'):language==='ru'?'Продажа '+fallbackName+' | Несебър | Florial':'Buy '+fallbackName+' | Nessebar | Florial'
+   const localizedDescription=language==='bg'?'Продажба на '+fallbackName+' в Несебър и района — Равда, Слънчев бряг и Свети Влас. Разгледайте наличните размери и цени в градински център Florial.':language==='ru'?'Продажа '+fallbackName+' в Несебре и районе — Равда, Солнечный берег и Свети Влас. Ознакомьтесь с доступными размерами и ценами в садовом центре Florial.':'Buy '+fallbackName+' in Nessebar and nearby Ravda, Sunny Beach and Sveti Vlas. Explore available sizes and prices at Florial garden centre.'
+   return {
+    h1:cleanText(item.h1,160)||fallbackName,
+    metaTitle:cleanText(item.metaTitle,70)||localizedTitle.slice(0,70),
+    metaDescription:cleanText(item.metaDescription,320)||localizedDescription.slice(0,320),
+   }
+  }
+  const bgSeo=cleanSeo(seo,name,'bg')
+  const ruName=cleanText(ru.name,160)||name
+  const enName=cleanText(en.name,160)||name
+  const ruSeo=cleanSeo(ru.seo,ruName,'ru')
+  const enSeo=cleanSeo(en.seo,enName,'en')
+  const mainImageAlt=visibleObservation?cleanText('Купи '+name+' в Несебър — '+visibleObservation,180):''
+  const imageAltEn=cleanText(generated.imageAltEn,180)
+  const imageAltRu=cleanText(generated.imageAltRu,180)
+  const mainImageAltEn=visibleObservation&&imageAltEn?cleanText('Buy '+enName+' in Nessebar — '+imageAltEn,180):''
+  const mainImageAltRu=visibleObservation&&imageAltRu?cleanText('Купите '+ruName+' в Несебре — '+imageAltRu,180):''
   return json({
    ok:true,
    suggestion:{
     shortDescription:cleanText(generated.shortDescription||bg.shortDescription,500),
     description:cleanText(generated.description||bg.description,8000),
     translations:{
-     bg:{name,shortDescription:cleanText(bg.shortDescription||generated.shortDescription,500),description:cleanText(bg.description||generated.description,8000)},
-     ru:{name:cleanText(ru.name,160)||name,shortDescription:cleanText(ru.shortDescription,500),description:cleanText(ru.description,8000),seo:isObject(ru.seo)?ru.seo:{}},
-     en:{name:cleanText(en.name,160)||name,shortDescription:cleanText(en.shortDescription,500),description:cleanText(en.description,8000),seo:isObject(en.seo)?en.seo:{}},
+     bg:{name,shortDescription:cleanText(bg.shortDescription||generated.shortDescription,500),description:cleanText(bg.description||generated.description,8000),seo:bgSeo},
+     ru:{name:ruName,shortDescription:cleanText(ru.shortDescription,500),description:cleanText(ru.description,8000),seo:ruSeo},
+     en:{name:enName,shortDescription:cleanText(en.shortDescription,500),description:cleanText(en.description,8000),seo:enSeo},
     },
-    seo:{
-     h1:cleanText(seo.h1,160)||name,
-     metaTitle:cleanText(seo.metaTitle,70),
-     metaDescription:cleanText(seo.metaDescription,320),
-    },
-    warnings:[...warnings,...(Array.isArray(generated.warnings)?generated.warnings.slice(0,8).map(item=>cleanText(item,240)):[])].slice(0,8),
+    seo:bgSeo,
+    mainImageAlt,
+    mainImageAltEn,
+    mainImageAltRu,
+    warnings:[...warnings,...(visibleObservation&&!imageAltEn?['Не беше генериран английски ALT за основната снимка.']:[]),...(visibleObservation&&!imageAltRu?['Не беше генериран руски ALT за основната снимка.']:[]),...(Array.isArray(generated.warnings)?generated.warnings.slice(0,8).map(item=>cleanText(item,240)):[])].slice(0,8),
    },
    model:MODEL,
    visionModel:visibleObservation?VISION_MODEL:null,

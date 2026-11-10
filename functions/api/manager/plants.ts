@@ -91,11 +91,18 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     }
 
     const normalized = await buildPlantSet(env, body.product, auth.user.role, undefined, true)
-    changedFields = normalized.changedFields
     productName = cleanText(normalized.set.name, 160)
-    const slug = (normalized.set.slug as { current: string }).current
-    const duplicate = await sanityQuery<string | null>(env, '*[_type=="product" && slug.current==' + jsonString(slug) + ' && !(_id in path("drafts.**"))][0]._id')
-    if (duplicate && duplicate !== productId) return errorJson('Този URL адрес вече се използва от друго растение.', 409)
+    const baseSlug = (normalized.set.slug as { current: string }).current.slice(0, 96)
+    let uniqueSlug = ''
+    for (let suffix = 1; suffix <= 100; suffix++) {
+      const tail = suffix === 1 ? '' : '-' + suffix
+      const candidate = baseSlug.slice(0, 96 - tail.length) + tail
+      const duplicate = await sanityQuery<string | null>(env, '*[_type=="product" && slug.current==' + jsonString(candidate) + ' && _id!=' + jsonString(productId) + ' && _id!=' + jsonString('drafts.' + productId) + '][0]._id')
+      if (!duplicate) { uniqueSlug = candidate; break }
+    }
+    if (!uniqueSlug) throw new Error('Не успяхме да генерираме уникален URL адрес за растението.')
+    normalized.set.slug = { _type: 'slug', current: uniqueSlug }
+    changedFields = Object.keys(normalized.set).sort()
 
     if (!existing) {
       await writeAudit(env, auth.user, {
