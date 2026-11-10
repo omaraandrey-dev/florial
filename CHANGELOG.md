@@ -1,3 +1,15 @@
+## 2026-11-10 — PR #170 merged, D1 0013 applied, Production deployment successful
+
+- PR #170 (feat/manager-plants-direct-editor-final) was marked ready and merged into main.
+- Merge commit: 24c90b929692fa6b7a306caf31a31803128ab203.
+- Before merge, both GitHub workflows completed successfully on synchronized PR head 741ac6bffca48406fe6eaf28d64d87ee944bacd7: Florial D1 migration validation and Blog & Studio validation (including Sanity Studio build).
+- Applied additive migration docs/migrations/0013_manager_product_audit.sql to Cloudflare D1 florial-db (database UUID 5fbb0e47-8439-493c-821a-6945eef7d8b2, EU jurisdiction). Verified schema_migrations contains 0013_manager_product_audit, table manager_product_audit, and append-only UPDATE/DELETE triggers. Existing tables and rows were not deleted or rewritten.
+- Cloudflare Pages project florial automatically deployed merge commit to Production: deployment 832b9bbc-2777-4b48-96ed-5af252591a06, URL https://832b9bbc.florial.pages.dev, build and deploy stages success (2026-11-10 02:33 UTC).
+- Custom domains florial-bg.com and www.florial-bg.com both report active in Pages.
+- New Manager code is live. Scope: plant catalogue dataset plants; irrigation dataset production, Sanity schema/documents/assets, orders/checkout, public Header/menu/Footer and Cloudflare secrets/settings were not changed by this release.
+- Live D1 still has active Owner and Manager profiles; Seller profile was not found. Seller-session QA and hands-on mobile/role acceptance remain pending. Pages Preview deployments remain disabled.
+- No claim of end-to-end Manager CRUD against Sanity is made yet; production deployment success confirms build/deploy, not authenticated runtime acceptance.
+
 ## Точное подтверждение Cloudflare Pages deployments
 
 - Commit `fb1d440251415fc31acfa31b216e82968aa2928c` → Production deployment `4d48f564-8845-4912-bbb3-723cebaebbc7`, status `success`, 2026-11-09 20:01 UTC.
