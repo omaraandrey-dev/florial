@@ -71,6 +71,7 @@ export const normalizeGeminiPlantResult = (
   const localized = (source: unknown) => {
     const item = isObject(source) ? source : {}
     return {
+      name: text(item.name, 160),
       shortDescription: text(item.shortDescription, 500),
       description: text(item.description, 8000),
     }
