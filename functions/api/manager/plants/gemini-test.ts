@@ -337,7 +337,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
-      const diagnostics = { providerHttpStatus, providerContentType, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, jsonStatus, jsonParseError }
+      const diagnostics = { providerHttpStatus, providerContentType, providerRetryAttempts, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, jsonStatus, jsonParseError }
       console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'response_validation', code: safe.code, errorType: error instanceof Error ? error.name : 'unknown', ...diagnostics })
       send({ type: 'error', ...safe, ...diagnostics, requestId, stage: 'response_validation', elapsedMs: Date.now() - startedAt, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
     }
