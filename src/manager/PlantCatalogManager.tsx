@@ -66,6 +66,7 @@ export default function PlantCatalogManager({role}:Props){
  const [history,setHistory]=useState<any[]>([])
  const [historyLoading,setHistoryLoading]=useState(false)
  const [aiWarnings,setAiWarnings]=useState<string[]>([])
+ const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
 
  const load=useCallback(async()=>{
@@ -93,7 +94,7 @@ export default function PlantCatalogManager({role}:Props){
   return ()=>window.clearInterval(timer)
  },[aiLoading])
 
- const openNew=()=>{setEditingId(null);setRevision('');setAiProof(null);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
   setError('');setNotice('');setLoading(true)
   try{
@@ -106,7 +107,7 @@ export default function PlantCatalogManager({role}:Props){
    const all=[...(main?[main]:[]),...gallery]
    const translations=p.translations||{}
    setOriginalRichText({description:p.description||null,careGuide:p.careGuide||null,translations:{bg:translations.bg?.description||null,ru:translations.ru?.description||null,en:translations.en?.description||null}})
-   setAiProof(null);setEditingId(id);setRevision(p._rev);setImages(all);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([])
+   setAiProof(null);setAiIdentityNeedsConfirmation(false);setEditingId(id);setRevision(p._rev);setImages(all);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([])
    setForm({
     name:p.name||'',slug:p.slug?.current||slugify(p.name||''),slugAuto:!p.slug?.current,scientificName:p.scientificName||'',sku:p.sku||'',productType:p.productType||'plant',
     categoryId:p.category?._ref||p.categoryId||'',categoryIds:Array.from(new Set([p.category?._ref,...(Array.isArray(p.categories)?p.categories.map((item:any)=>item?._ref):[])].filter(Boolean))),shortDescription:p.shortDescription||'',description:plainText(p.description),
@@ -176,6 +177,7 @@ export default function PlantCatalogManager({role}:Props){
    if(typeof result.aiProof!=='string'||!result.aiProof)throw new Error('ИИ върна непълен резултат за проверка. Натиснете бутона отново.')
    const suggestion=result.suggestion||{}
    setAiProof(result.aiProof)
+   setAiIdentityNeedsConfirmation(suggestion.identityNeedsConfirmation===true)
    setForm(previous=>{const fill=(current:any,incoming:any)=>String(current||'').trim()?current:(incoming||'');const incoming=suggestion.translations&&typeof suggestion.translations==='object'?suggestion.translations:{};const translations={...previous.translations};for(const language of ['bg','ru','en']){const generated=incoming[language]&&typeof incoming[language]==='object'?incoming[language]:{};const current=translations[language]||{};const generatedSeo=generated.seo&&typeof generated.seo==='object'?generated.seo:{};const currentSeo=current.seo&&typeof current.seo==='object'?current.seo:{};translations[language]={...current,name:fill(current.name,generated.name),shortDescription:fill(current.shortDescription,generated.shortDescription),description:fill(current.description,generated.description),seo:Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(currentSeo[key],generatedSeo[key])]))}}const seo={...previous.seo};for(const key of ['h1','metaTitle','metaDescription'] as const)seo[key]=fill(seo[key],suggestion.seo?.[key]);const shortDescription=fill(previous.shortDescription,suggestion.shortDescription);const description=fill(previous.description,suggestion.description);const bgSeo=translations.bg.seo||{};translations.bg.seo=Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(bgSeo[key],seo[key])]));const generatedCare=suggestion.plantCare&&typeof suggestion.plantCare==='object'?suggestion.plantCare:{};const plantCare={...previous.plantCare};for(const [key,value] of Object.entries(generatedCare)){const current=(plantCare as any)[key];const empty=current===undefined||current===null||current===''||(Array.isArray(current)&&current.length===0);if(empty)(plantCare as any)[key]=value}const nextName=fill(previous.name,suggestion.name);const suggestedCategory=categoryOptions.find(item=>item._id===suggestion.categoryId);const categoryIds=previous.categoryIds.length?previous.categoryIds:(suggestedCategory?[suggestedCategory._id]:[]);const categoryId=previous.categoryIds.length?(previous.categoryIds.includes(previous.categoryId)?previous.categoryId:previous.categoryIds[0]):(suggestedCategory?suggestedCategory._id:'');const productType=previous.productType==='plant'&&typeof suggestion.productType==='string'?suggestion.productType:previous.productType;return {...previous,name:nextName,slug:previous.slugAuto?slugify(nextName):previous.slug,productType,categoryId,categoryIds,scientificName:fill(previous.scientificName,suggestion.scientificName),shortDescription,description,translations,seo,plantCare,careGuide:fill(previous.careGuide,suggestion.careGuide)}})
    if(targetImage&&(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu)){
     setImages(previous=>previous.map(image=>image.assetId===targetImage.assetId?{...image,alt:image.alt.trim()?image.alt:suggestion.mainImageAlt||'',altEn:image.altEn.trim()?image.altEn:suggestion.mainImageAltEn||'',altRu:image.altRu.trim()?image.altRu:suggestion.mainImageAltRu||''}:image))
@@ -189,6 +191,7 @@ export default function PlantCatalogManager({role}:Props){
  }
  const save=async()=>{
   if(saving)return
+  if(aiIdentityNeedsConfirmation){setError('Въведете и потвърдете реалното име на растението преди записване.');return}
   if(!aiProof){setError('Първо натиснете „Попълни с ИИ“ и проверете резултата.');return}
   if(!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)){setError('Добавете поне един реален размер: височина или обем на контейнера.');return}
   const allowedCategoryIds=form.categoryIds.filter(id=>categoryOptions.some(item=>item._id===id));
@@ -304,7 +307,7 @@ export default function PlantCatalogManager({role}:Props){
     </section>
     <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <h3 className="font-bold">Основна информация</h3>
-     <label className="block"><span className={labelClass}>Име на растението *</span><input className={inputClass} value={form.name} onChange={event=>{const name=event.target.value;setForm(previous=>({...previous,name,slug:previous.slugAuto?slugify(name):previous.slug}))}}/></label>
+     <label className="block"><span className={labelClass}>Име на растението *</span><input className={inputClass} value={form.name} onChange={event=>{const name=event.target.value;if(aiIdentityNeedsConfirmation&&name.trim()&&name.trim()!=='Растение за идентификация')setAiIdentityNeedsConfirmation(false);setForm(previous=>({...previous,name,slug:previous.slugAuto?slugify(name):previous.slug}))}}/>{aiIdentityNeedsConfirmation&&<span className="mt-1 block text-sm text-amber-700">ИИ не определи надеждно растението. Заменете временното име с реалното име преди записване.</span>}</label>
      <label className="block"><span className={labelClass}>Ботаническо име</span><input className={inputClass} value={form.scientificName} onChange={event=>setField('scientificName',event.target.value)}/></label>
      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label><span className={labelClass}>Тип растение</span><select className={inputClass} value={form.productType} onChange={event=>setField('productType',event.target.value)}>{productTypes.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>

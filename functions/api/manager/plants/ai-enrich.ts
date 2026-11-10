@@ -178,17 +178,19 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
     return json({error:visionTimedOut?'Анализът на снимката отне повече време от очакваното. Опитайте отново или въведете името на растението ръчно.':'ИИ не успя да прочете снимката. Опитайте снимка, на която растението е ясно и заема по-голямата част от кадъра.',code:visionTimedOut?'AI_VISION_TIMEOUT':'AI_IMAGE_ANALYSIS_FAILED',stage,requestId,retryable:true},502)
    }
   }
-  name=suppliedName||imageAnalysis.name
-  if(name.length<2)return json({error:'ИИ не успя да разпознае достатъчно ясно растението. Въведете име ръчно или добавете по-ясна снимка.',code:'AI_PLANT_IDENTITY_UNCLEAR',stage,requestId,retryable:false},422)
+  candidates=imageAnalysis.candidates.length?imageAnalysis.candidates:[]
+  if(!candidates.length&&candidateResult.status==='fulfilled'&&candidateResult.value)candidates=normalizeCandidates(candidateResult.value.candidates)
+  // A missing visual name is recoverable: use a temporary label, but never assert an unverified species.
+  const identityNeedsConfirmation=!(suppliedName||imageAnalysis.name)
+  name=suppliedName||imageAnalysis.name||'Растение за идентификация'
+  if(identityNeedsConfirmation)warnings.push('ИИ не успя да определи надеждно името. Въведете и потвърдете търговското име преди записване.')
   if(suppliedProductType==='plant'&&imageAnalysis.productType!=='plant')productType=imageAnalysis.productType
   if(!categoryId&&imageAnalysis.categoryId)categoryId=imageAnalysis.categoryId
   if(!category&&categoryId)category=categoryOptions.find(item=>item.id===categoryId)?.name||''
-  candidates=imageAnalysis.candidates.length?imageAnalysis.candidates:[]
-  if(!candidates.length&&candidateResult.status==='fulfilled'&&candidateResult.value)candidates=normalizeCandidates(candidateResult.value.candidates)
   if(!suppliedScientificName){
    if(candidates.length){
     stage='botanical_verification'
-    const highCandidates=candidates.filter(item=>item.confidence==='high')
+    const highCandidates=identityNeedsConfirmation?[]:candidates.filter(item=>item.confidence==='high')
     for(const candidate of highCandidates){
      try{
       const match=await withTimeout(matchGbif(candidate.scientificName),8000,'GBIF_TIMEOUT')
@@ -206,7 +208,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const prompt=[
    'Prepare a substantial, accurate, locally optimized plant product listing for Florial, a Bulgarian garden and plant retailer.',
    'LANGUAGES: Bulgarian is the source language and must read like polished native Bulgarian horticultural commerce copy. Then create genuinely fluent Russian and English versions, adapted naturally rather than translated word-for-word.',
-   'VISUAL IDENTITY: '+(imageAnalysis.confidence==='high'?'High-confidence visual candidate, still subject to seller confirmation.':imageAnalysis.confidence==='medium'?'Plausible visual candidate; seller must confirm.':'Low-confidence visual observation; do not assert a species without confirmation.')+' Suggested common name: '+name+'. Verified botanical name: '+(verifiedScientificName||'not confirmed; do not present a candidate as fact.'),
+   'VISUAL IDENTITY: '+(identityNeedsConfirmation?'The plant name is NOT identified. The working label "'+name+'" is a temporary placeholder only. Do not treat it as a real plant name. Generate only a cautious visual description and generic plant-group guidance; do not state a species or species-specific care facts. The seller must enter and confirm the commercial name before saving.':imageAnalysis.confidence==='high'?'High-confidence visual candidate, still subject to seller confirmation.':imageAnalysis.confidence==='medium'?'Plausible visual candidate; seller must confirm.':'Low-confidence visual observation; do not assert a species without confirmation.')+' Suggested common name: '+name+'. Verified botanical name: '+(verifiedScientificName||'not confirmed; do not present a candidate as fact.'),
    'SELLER INPUT: name: '+name+'; type: '+productType+'; category: '+(category||'not supplied')+'; existing short description: '+(shortDescription||'none')+'; existing description: '+(description||'none')+'.',
    'VISIBLE MAIN PHOTO OBSERVATION: '+(visibleObservation||'No visual observation available.'),
    'HORTICULTURAL DESCRIPTION: Write a genuinely useful full product description, normally 2,000–3,000 characters in Bulgarian and 1,500–2,300 characters in Russian and English. Do not pad or repeat. Use clear short headings and practical paragraphs. Cover where reliable: botanical identity and plant group; appearance, foliage, flowering/fruiting and seasonal interest; growth habit and typical mature size; light; soil and drainage; watering and drought tolerance; feeding; pruning and maintenance; planting and container growing; landscape uses in private gardens, courtyards, hotels and commercial green areas; practical suitability and limitations for the Bulgarian Black Sea climate. Distinguish mature size from the size of the item for sale.',
@@ -259,6 +261,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const mainImageAltRu=visibleObservation&&cleanText(generated.imageAltRu,150)?cleanText('Купите '+ruName+' в Несебре — '+cleanText(generated.imageAltRu,150),180):''
   const suggestion:Record<string,unknown>={
    name,productType,categoryId,
+   identityNeedsConfirmation,
    visualIdentificationConfidence:imageAnalysis.confidence,
    scientificName:verifiedScientificName,
    botanicalVerification,
