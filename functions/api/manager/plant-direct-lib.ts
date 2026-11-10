@@ -244,6 +244,15 @@ export const buildPlantSet = async (
   }
   if ('saleVariants' in input) {
     const variants = normalizeVariants(input.saleVariants)
+    const previousVariants = new Map((Array.isArray(existing?.saleVariants) ? existing.saleVariants : []).map(item => [item._key, item]))
+    for (const variant of variants) {
+      if (variant.stockStatus !== 'inStock') continue
+      const previous = previousVariants.get(variant._key)
+      const newlyMarkedInStock = isCreate || !previous || previous.stockStatus !== 'inStock'
+      if (newlyMarkedInStock && (variant.stockQuantity === null || variant.stockQuantity < 1)) {
+        throw new Error('За вариант със статус „В наличност“ въведете реално количество (цяло число над 0).')
+      }
+    }
     if (!variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
       throw new Error('Добавете поне един реален размер: височина или обем на контейнера.')
     }
