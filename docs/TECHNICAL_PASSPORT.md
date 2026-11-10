@@ -6,7 +6,7 @@
 - Variant auto-name: if the name is blank/auto-generated, height generates `Размер {round(0.95*h)}–{round(1.05*h)} см`; container volume appends `C{litres}`. The auto-name follows subsequent dimension edits until a staff member manually edits the name. The UI-only auto-name marker is not sent to Sanity.
 - New product slug is generated from the plant name and checked against published product slugs in Sanity dataset `plants`; collisions use numeric suffixes. Existing slugs remain unchanged during edits unless Owner explicitly edits the slug.
 - AI enrichment response now includes main-image ALT in BG/RU/EN and SEO H1/metaTitle/metaDescription in BG/RU/EN. When model SEO fields are absent, localized safe fallback values are produced. UI fills blank fields only and preserves already populated manual values.
-- Runtime files touched on feature branch: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/ai-enrich.ts`.
+- Runtime files touched on feature branch: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plants/ai-enrich.ts`.
 - No Sanity documents/schema/assets, D1 schema/data, irrigation dataset `production`, checkout/orders, Header/menu/Footer, Cloudflare settings or secrets were modified.
 - No live Sanity write operations were performed. CI, merge, Pages deployment and authenticated Owner/Manager/Seller acceptance remain pending.
 
