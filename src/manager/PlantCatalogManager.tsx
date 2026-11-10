@@ -72,6 +72,7 @@ export default function PlantCatalogManager({role}:Props){
  const [geminiTextQuery,setGeminiTextQuery]=useState('')
  const [geminiStreamText,setGeminiStreamText]=useState('')
  const [geminiStage,setGeminiStage]=useState('')
+ const [geminiRequestId,setGeminiRequestId]=useState('')
  const [geminiElapsedSeconds,setGeminiElapsedSeconds]=useState(0)
  const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
@@ -212,7 +213,7 @@ export default function PlantCatalogManager({role}:Props){
   const requestedName=mode==='text'?geminiTextQuery.trim():form.name.trim()
   if(mode==='photo'&&!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
   if(mode==='text'&&!requestedName){setGeminiError('Въведете име на растение, например „лавровишня“.');return}
-  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…')
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…');setGeminiRequestId('')
   const controller=new AbortController()
   const requestTimeout=window.setTimeout(()=>controller.abort(),310000)
   try{
@@ -237,6 +238,7 @@ export default function PlantCatalogManager({role}:Props){
     if(!raw)return
     let event:any
     try{event=JSON.parse(raw)}catch{return}
+    if(event.requestId)setGeminiRequestId(event.requestId)
     if(event.type==='progress')setGeminiStage(event.message||event.stage||'Gemini обработва заявката…')
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
     if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiStage('Анализът е завършен. Резултатът е само тестов и не е записан.')}
@@ -377,7 +379,7 @@ export default function PlantCatalogManager({role}:Props){
       </button>
       {geminiLoading&&<div className="rounded-xl border border-indigo-200 bg-white p-3 text-sm text-indigo-950" role="status" aria-live="polite">
        <div className="flex flex-wrap items-center justify-between gap-2 font-semibold"><span>{geminiStage||'Gemini обработва заявката…'}</span><span className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</span></div>
-       <p className="mt-1 text-xs text-stone-500">Google изпраща фрагментите по време на генерирането. Общият предел за изчакване е 5 минути.</p>
+       <p className="mt-1 text-xs text-stone-500">Google изпраща фрагментите по време на генерирането. Общият предел за изчакване е 5 минути. Request ID: {geminiRequestId||'получава се…'}</p>
       </div>}
       {geminiStreamText&&<details className="rounded-xl border border-indigo-200 bg-white p-3" open={geminiLoading}><summary className="cursor-pointer text-sm font-semibold">Потоков отговор Gemini — {geminiStreamText.length} символа</summary><pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap break-words text-xs leading-5">{geminiStreamText}</pre></details>}
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
