@@ -189,9 +189,10 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   let bgDescription=cleanText(generated.description||bg.description,8000)
   let ruDescription=cleanText(ru.description,8000)
   let enDescription=cleanText(en.description,8000)
-  if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650){
+  let careGuideText=cleanText(generated.careGuide,5000)
+  if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650||(role==='owner'&&careGuideText.length<250)){
    stage='content_quality_retry'
-   generated=await runJsonModel(env,prompt+'\n\nQUALITY CONTROL: Your previous response was too short. Return the complete JSON again with a substantial, practical description in all three languages: at least 900 characters BG and 650 characters each RU and EN. Include the relevant care sections, but do not invent facts.',8192)
+   generated=await runJsonModel(env,prompt+'\n\nQUALITY CONTROL: Your previous response was too short. Return the complete JSON again with a substantial, practical description in all three languages: at least 900 characters BG and 650 characters each RU and EN. For Owner also return a practical Bulgarian careGuide of at least 250 characters. Include the relevant care sections, but do not invent facts.',8192)
    translations=isObject(generated.translations)?generated.translations:{}
    bg=isObject(translations.bg)?translations.bg:{}
    ru=isObject(translations.ru)?translations.ru:{}
@@ -199,7 +200,8 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    bgDescription=cleanText(generated.description||bg.description,8000)
    ruDescription=cleanText(ru.description,8000)
    enDescription=cleanText(en.description,8000)
-   if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650)throw new Error('AI_CONTENT_TOO_SHORT')
+   careGuideText=cleanText(generated.careGuide,5000)
+   if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650||(role==='owner'&&careGuideText.length<250))throw new Error('AI_CONTENT_TOO_SHORT')
   }
   const seo=isObject(generated.seo)?generated.seo:{}
   const bgSeo=cleanSeo(seo,name,'bg')
@@ -238,7 +240,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
     floweringSeason:allowedValues(care.floweringSeason,['spring','summer','autumn','winter']),
     plantingSeason:allowedValues(care.plantingSeason,['spring','summer','autumn','winter','yearRound']),
    }
-   suggestion.careGuide=cleanText(generated.careGuide,5000)
+   suggestion.careGuide=careGuideText
   }
   return json({ok:true,suggestion,model:MODEL,visionModel:visibleObservation?VISION_MODEL:null,requestId})
  }catch(error){
