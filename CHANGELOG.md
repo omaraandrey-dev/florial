@@ -1,5 +1,17 @@
 ## 2026-11-10 — PR #187: обнаружение существующих растений и добавление варианта
 
+## 2026-11-10 — PR #187 merged and Production deployment verified
+
+- PR #187 squash merged into main. Merge commit: 26ef412e9cddb61bea0c9d73ce2bd5dfc9aa0ddd.
+- Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 completed successfully. Deployment URL: https://02f1e592.florial.pages.dev. Production aliases: https://florial-bg.com and https://www.florial-bg.com.
+- Cloudflare stages queued, initialize, clone_repo, build and deploy all reported success. Deployment commit matches the PR merge commit.
+- CI checks: Blog and Studio validation #807 success; Florial D1 migration validation #957 success. Local Node tests 7/7 passed; TypeScript declaration resolution checked.
+- No Sanity documents/assets, Sanity schema, D1 rows or D1 schema were modified by this feature. The live Sanity duplicate query was read-only and returned two published Cycas revoluta matches.
+- Manual Manager acceptance by Owner/Manager/Seller remains pending. Preview deployments are disabled in Pages; the Production deployment was verified directly.
+
+---
+
+
 - Read-only GROQ запрос по «Цикас» / Cycas revoluta в текущем Sanity plants dataset вернул две опубликованные карточки, подтверждая работу localized/scientific matching. Данные не изменялись.
 - Read-only Cloudflare D1 проверка подтвердила таблицу manager_product_audit и migration 0013_manager_product_audit в schema_migrations. SQL выполнялся только через SELECT/PRAGMA; D1 не изменялась.
 
@@ -10,7 +22,7 @@
 - Новый вариант использует существующий plantSaleVariant: _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. Не создаются новые Sanity поля, schema changes или миграции.
 - Новый API использует текущие Manager session/role, same-origin, Google aiProof с привязкой к загруженному asset, проверку существования asset, Sanity ifRevisionID, idempotency и существующий D1 manager_product_audit.
 - Добавлены unit tests для GROQ escaping/localized name matching, append существующего варианта и безопасного добавления фото в галерею.
-- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. GitHub Actions: Blog and Studio validation run #807 — success (lint, website tests/build, Sanity Studio build); Florial D1 migration validation run #957 — success (lint, website build, Pages Functions syntax, additive migration validation). Production deployment пока не запускался: PR ещё не объединён в main.
+- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. GitHub Actions: Blog and Studio validation run #807 — success (lint, website tests/build, Sanity Studio build); Florial D1 migration validation run #957 — success (lint, website build, Pages Functions syntax, additive migration validation). PR #187 объединён; Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 завершился успешно.
 
 ---
 
