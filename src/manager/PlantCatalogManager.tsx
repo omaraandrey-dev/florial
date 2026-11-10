@@ -295,7 +295,6 @@ export default function PlantCatalogManager({role}:Props){
       <div className="h-2 overflow-hidden rounded-full bg-lime-100" role="progressbar" aria-label="Време за обработка от ИИ" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))}><div className="h-full rounded-full bg-lime-700 transition-[width] duration-1000 ease-linear" style={{width:Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))+'%'}}/></div>
       <p className="mt-2 text-xs text-lime-800">Лентата показва изминалото време, а не точния процент готовност. Генерацията може да отнеме няколко минути.</p>
      </div>}
-     </div>
      {role==='owner'&&images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
       <label><span className={labelClass}>ALT (BG)</span><input className={inputClass} value={image.alt} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,alt:event.target.value}:item))}/></label>
