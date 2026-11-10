@@ -247,12 +247,15 @@ export default function PlantCatalogManager({role}:Props){
   const bgSeo=suggestion.seo?.bg||{}
   const care=suggestion.plantCare||{}
   const numeric=(value:any)=>value!==''&&value!==null&&value!==undefined&&Number.isFinite(Number(value))?Number(value):undefined
-  const nextForm:PlantForm={...form,name:nextName,slug:form.slugAuto?slugify(nextName):form.slug,productType:productTypes.some(([value])=>value===suggestion.productType)?suggestion.productType:form.productType,categoryId:categoryId||form.categoryId,categoryIds:categoryId?[categoryId]:form.categoryIds,shortDescription:suggestion.descriptions?.bg?.shortDescription||'',description:suggestion.descriptions?.bg?.description||'',translations:localized,seo:{h1:bgSeo.h1||'',metaTitle:bgSeo.metaTitle||'',metaDescription:bgSeo.metaDescription||''},...(role==='owner'?{plantCare:{light:['sun','partialShade','shade'].includes(care.light)?care.light:undefined,waterNeeds:['low','medium','high'].includes(care.waterNeeds)?care.waterNeeds:undefined,minWinterTempC:numeric(care.minWinterTempC),adultHeightCm:numeric(care.adultHeightCm),foliageType:['evergreen','deciduous'].includes(care.foliageType)?care.foliageType:undefined,floweringSeason:Array.isArray(care.floweringSeason)?care.floweringSeason:[],plantingSeason:Array.isArray(care.plantingSeason)?care.plantingSeason:[],blackSeaCoast:'needsVerification'},careGuide:suggestion.careGuide||''}:{})}
+  const topScientificCandidate=Array.isArray(suggestion.scientificCandidates)?suggestion.scientificCandidates[0]:null
+  const nextScientificName=topScientificCandidate?.confidence==='high'?topScientificCandidate.scientificName:form.scientificName
+  const needsIdentityConfirmation=!plantName&&!form.name.trim()
+  const nextForm:PlantForm={...form,name:nextName,scientificName:nextScientificName,slug:form.slugAuto?slugify(nextName):form.slug,productType:productTypes.some(([value])=>value===suggestion.productType)?suggestion.productType:form.productType,categoryId:categoryId||form.categoryId,categoryIds:categoryId?[categoryId]:form.categoryIds,shortDescription:suggestion.descriptions?.bg?.shortDescription||'',description:suggestion.descriptions?.bg?.description||'',translations:localized,seo:{h1:bgSeo.h1||'',metaTitle:bgSeo.metaTitle||'',metaDescription:bgSeo.metaDescription||''},...(role==='owner'?{plantCare:{light:['sun','partialShade','shade'].includes(care.light)?care.light:undefined,waterNeeds:['low','medium','high'].includes(care.waterNeeds)?care.waterNeeds:undefined,minWinterTempC:numeric(care.minWinterTempC),adultHeightCm:numeric(care.adultHeightCm),foliageType:['evergreen','deciduous'].includes(care.foliageType)?care.foliageType:undefined,floweringSeason:Array.isArray(care.floweringSeason)?care.floweringSeason:[],plantingSeason:Array.isArray(care.plantingSeason)?care.plantingSeason:[],blackSeaCoast:'needsVerification'},careGuide:suggestion.careGuide||''}:{})}
   const nextImages=geminiResult.mode==='photo'&&suggestion.imageAlt?images.map((image,index)=>index===mainImageIndex?{...image,alt:suggestion.imageAlt.bg||image.alt,altRu:suggestion.imageAlt.ru||image.altRu,altEn:suggestion.imageAlt.en||image.altEn}:image):images
   setForm(nextForm)
   setImages(nextImages)
   setAiProof(geminiProof)
-  setAiIdentityNeedsConfirmation(!plantName)
+  setAiIdentityNeedsConfirmation(needsIdentityConfirmation)
   const warnings:string[]=[]
   if(!plantName)warnings.push('Google не определи достатъчно уверено името. Въведете и потвърдете името ръчно.')
   if(suggestion.confidence==='low')warnings.push('Увереността на идентификацията е ниска. Проверете ботаническото име и описанието.')
@@ -261,7 +264,7 @@ export default function PlantCatalogManager({role}:Props){
   if(Array.isArray(suggestion.scientificCandidates)&&suggestion.scientificCandidates.length)warnings.push('Латинските имена са кандидати, а не научно потвърдено име. Изберете и проверете ботаническото име ръчно.')
   setAiWarnings(warnings)
   setGeminiError('')
-  const saved=await save({form:nextForm,images:nextImages,aiProof:geminiProof,identityNeedsConfirmation:!plantName})
+  const saved=await save({form:nextForm,images:nextImages,aiProof:geminiProof,identityNeedsConfirmation:needsIdentityConfirmation})
   if(saved){setGeminiModalOpen(false);setGeminiError('')}else{setGeminiModalOpen(false)}
  }
  const save=async(overrides?:{form?:PlantForm;images?:ImageItem[];aiProof?:string|null;identityNeedsConfirmation?:boolean}):Promise<boolean>=>{
