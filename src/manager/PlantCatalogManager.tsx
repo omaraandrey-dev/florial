@@ -385,9 +385,9 @@ export default function PlantCatalogManager({role}:Props){
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
       {geminiResult&&<section className="space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
        <div className="flex flex-wrap items-center justify-between gap-2"><h4 className="font-bold text-indigo-950">Резултат Gemini {geminiResult.mode==='text'?'Text':'Photo'} · {geminiResult.model||'gemini-3.8-flash'}</h4><span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-800">Само тест · без запис</span></div>
-       <p className="text-xs text-stone-600">Request ID: {geminiResult.requestId||'—'} · Время: {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p>
+       <p className="text-xs text-stone-600">Request ID: {geminiResult.requestId||'—'} · Време: {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p>
        <div className="rounded-lg bg-white p-3">
-        <h5 className="font-semibold">Ботаническая идентификация</h5>
+        <h5 className="font-semibold">Ботаническа идентификация</h5>
         <p className="mt-1 text-sm"><strong>Предложено име:</strong> {geminiResult.result.plantName||'Неопределено'}</p>
         <p className="text-sm"><strong>Увереност:</strong> {geminiResult.result.confidence||'low'} · <strong>Тип:</strong> {geminiResult.result.productType||'—'}</p>
         <p className="text-sm"><strong>Категория ID:</strong> {geminiResult.result.categoryId||'Няма предложена категория'}</p>
