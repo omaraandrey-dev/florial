@@ -1,5 +1,6 @@
 import { json, newId, nowIso, type ManagerEnv, type ManagerIdentity } from './_lib'
 import { validatePlantVariantStock } from './plant-stock-lib.mjs'
+import { normalizePlantOldPrice } from './plant-old-price-lib.mjs'
 
 export const PLANTS_PROJECT = 'bxvcy0qs'
 export const PLANTS_DATASET = 'plants'
@@ -165,8 +166,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const stockStatus = cleanText(item.stockStatus, 30)
     if (!STOCK_STATUSES.has(stockStatus)) throw new Error('Изберете валиден статус на наличност.')
     const stockQuantity = numberValue(item.stockQuantity, 'Количество', 0, true)
-    const oldPriceEUR = numberValue(item.oldPriceEUR, 'Стара цена', 0)
-    if (oldPriceEUR !== null && oldPriceEUR <= priceEUR) throw new Error('Старата цена трябва да е по-висока от текущата.')
+    const oldPriceEUR = normalizePlantOldPrice(numberValue(item.oldPriceEUR, 'Стара цена', 0), priceEUR)
     return {
       _type: 'plantSaleVariant',
       _key, name,
