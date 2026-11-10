@@ -1,4 +1,4 @@
-## 2026-11-10 — Gemini Photo/Text: потоковое тестирование (подготовка PR)
+## 2026-11-10 — Gemini Photo/Text: потоковое тестирование опубликовано в Production
 
 - Подготовлена изолированная Owner-only тестовая интеграция Gemini 3.8 Flash с двумя режимами: Photo (Sanity plants CDN image + данные формы) и Text (только название/текст, без изображения).
 - Endpoint сохранён: `POST /api/manager/plants/gemini-test`; поле `mode` различает `photo` и `text`.
@@ -10,6 +10,7 @@
 - PR #181 merged squash в `main`: merge commit `06583f5cbdcc5e7a35d696f052e5c091f8e76c03`; branch `feat/gemini-photo-text-streaming`.
 - CI: Blog and Studio validation run #757 — success (lint, website utility tests, website build, migration syntax/dry-run, Sanity Studio build); Florial D1 migration validation run #892 — success (lint, website build, Pages Functions syntax, additive migration validation).
 - Cloudflare Pages Production deployment `89324a26-7360-44cd-bf42-8c1688905861`, URL `https://89324a26.florial.pages.dev`; deployed commit matches merge commit `06583f5cbdcc5e7a35d696f052e5c091f8e76c03`. Stages queued, initialize, clone_repo, build and deploy all success; aliases `https://florial-bg.com` and `https://www.florial-bg.com` assigned.
+- После фиксации релиза обновлены CHANGELOG, TECHNICAL_PASSPORT и MD2 rev60. Финальный docs-sync commit в main: `a72bbae328061730b5a6b1e3888a948950ecf037`; Cloudflare Pages deployment `e55f6549-0e2d-423f-8326-d6fde198c04b` завершился success, deployed commit совпадает с docs-sync commit, production aliases назначены.
 - Owner live Gemini Photo and Gemini Text requests have not yet been performed after this deployment; functional AI acceptance remains pending user test.
 - Не изменялись Sanity schema/documents/assets, D1 schema/data, Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer и глобальная структура сайта.
 
