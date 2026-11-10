@@ -8,7 +8,12 @@
 - Модель gemini-3.5-flash-lite, API endpoint, prompt, response schema, maxOutputTokens=8192, API key, Sanity и D1 не изменялись.
 - Изменены только функции Gemini, Manager diagnostic display, unit tests и документация.
 - Добавлены unit tests для BOM, LF/CRLF/CR, фрагментов чанков, EOF без пустой строки, malformed SSE event и диагностики JSON.
----
+- PR #189 объединён squash в main; merge commit: 1bd2d62e1e386b3293bf386cd75bfe301e49d8cf.
+- Blog and Studio validation #822 — success: lint, 58 tests passed / 0 failed, website build, migration syntax/dry-run и Sanity Studio build.
+- Florial D1 migration validation #982 — success: lint, website build, Pages Functions syntax и additive migration validation.
+- Cloudflare Pages Production deployment b0732d5d-a83b-474b-af09-8c2dfa9555ae, URL https://b0732d5d.florial.pages.dev; deployed main commit 1bd2d62e1e386b3293bf386cd75bfe301e49d8cf. Все стадии queued, initialize, clone_repo, build и deploy завершились success; aliases https://florial-bg.com и https://www.florial-bg.com назначены.
+- Live smoke: главная florial-bg.com и /manager вернули HTTP 200; /manager показывает штатную болгарскую страницу входа. Авторизованный Gemini Photo/Text test после deployment остаётся обязательным и ещё не выполнен.
+- Sanity schema/documents/assets, D1 schema/rows/migrations и Cloudflare secrets/settings не изменялись; production catalog writes не выполнялись.
 
 ---
 
