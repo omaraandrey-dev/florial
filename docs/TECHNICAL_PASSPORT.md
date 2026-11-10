@@ -1,3 +1,15 @@
+## 2026-11-10 — Gemini plant AI test: Production deployment
+
+- PR #178 merged squash to main: `ab63351def7a844f2337702c8515912e8f8724e4`; PR head `fd61e0db9c6596e17fb14f0f49fad3bf1c702323`.
+- CI: Blog and Studio validation run #732 — success; Florial D1 migration validation run #868 — success.
+- Cloudflare Pages project `florial`, Production deployment `2af39055-e508-491b-8670-fe2ed9ac827b`, URL `https://2af39055.florial.pages.dev`, deployed commit `ab63351def7a844f2337702c8515912e8f8724e4`; build and deploy stages success.
+- Production smoke: homepage HTTP 200; Manager entry HTTP 200 and protected login shell with `noindex,nofollow,noarchive`.
+- Production environment metadata confirms `GEMINI_API_KEY` exists as `secret_text`. Secret value is masked by Cloudflare and was not accessed or logged. Actual Google key validity, model entitlement/quota and a successful authenticated Gemini generation remain unverified until Owner runs the test from Manager.
+- Runtime scope: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `functions/api/manager/_lib.ts`, `src/manager/PlantCatalogManager.tsx`, `tests/gemini-plant-ai.test.mjs`.
+- Gemini remains a separate Owner-only, read-only test path. It does not write Sanity or D1, modify the current form, create AI proof or publish products. Existing Workers AI enrichment remains unchanged.
+- No Sanity schema/documents/assets, D1 schema/data, checkout/orders, Header/menu/Footer or global layout were modified.
+- Remaining acceptance: execute one authenticated Owner Gemini request on a real Sanity plants image; verify role restrictions; compare 10–15 images with Workers AI. Do not switch the primary AI button before Owner approval.
+
 ## 2026-11-10 — Подготовка изолированного теста Gemini для Manager растений
 
 - Основа: main commit f29fba24ae8d9db7231d3a71a8dd5dc2d381cd5e; инструкция проекта — MD2 rev56.
