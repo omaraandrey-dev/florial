@@ -1,6 +1,14 @@
-## 2026-11-10 — Manager растений: упрощение формы Seller/Manager и автозаполнение (подготовлено в feature branch)
+## 2026-11-10 — PR #171 merged: упрощённый Manager растений опубликован в Production
 
-- Feature branch: `fix/manager-plants-simplified-staff-form`. Изменения подготовлены, но до PR/CI/merge/Production deployment не активированы.
+- PR #171 (`feat(manager): simplify plant editor for Seller and Manager`) успешно объединён методом squash. Merge commit: `40b695821736b6499e58140337e8169d71f14279`.
+- GitHub Actions прошли успешно на итоговом коде: Florial D1 migration validation run #831 и Blog and Studio validation run #707. Проверены lint, website utility tests/build, Pages Functions syntax, migration regression checks и Sanity Studio build.
+- Cloudflare Pages Production deployment `ef7e07a9-09b3-4b9a-948d-0454ff05dbc5`, URL `https://ef7e07a9.florial.pages.dev`, commit `40b695821736b6499e58140337e8169d71f14279`: build success и deploy success (2026-11-10 03:37:28 UTC). Aliases `florial-bg.com` и `www.florial-bg.com` активны.
+- PR scope: упрощение формы Seller/Manager; Owner сохраняет полный доступ к ALT, SKU, slug, переводам и SEO. Выбор только конечных категорий; автогенерация имени размера; проверка уникальности slug в опубликованных и draft документах; AI заполняет пустые описания, переводы, SEO и ALT основной фотографии.
+- Изменены только `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plants/ai-enrich.ts` и техническая документация.
+- Не изменялись Sanity documents/schema/assets, D1 schema/data, irrigation dataset `production`, checkout/orders, Header/menu/Footer, Cloudflare settings/secrets. Live Sanity write operations не выполнялись.
+- Открытая приёмка: проверить авторизованные Owner и Manager на реальном интерфейсе; Seller profile отсутствовал в последнем D1 audit, Seller-session QA остаётся pending. Дополнительные тестовые товары в Sanity не создавались.
+
+
 - `src/manager/PlantCatalogManager.tsx`: Seller и Manager больше не показывают ALT, SKU товара/размера, slug, ручные переводы и SEO; Owner сохраняет полный доступ. Существующие скрытые значения остаются в состоянии формы и передаются при сохранении, чтобы не очищать уже заполненные данные.
 - Категории в форме выбора и фильтре ограничены конечными категориями без родительских пунктов; при сохранении в payload остаются только выбранные конечные категории.
 - Имя варианта автоматически формируется при пустом поле: высота → диапазон ±5% с округлением до целых и префиксом «Размер», объём контейнера → `C{литры}`. Автоимя обновляется при изменении высоты/контейнера до ручного редактирования. Внутренний флаг автоимени не передаётся в API.
