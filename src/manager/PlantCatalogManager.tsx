@@ -254,6 +254,7 @@ export default function PlantCatalogManager({role}:Props){
    while(true){
     let next:{value:Uint8Array|undefined;done:boolean}
     try{next=await reader.read()}catch{
+     if(controller.signal.aborted)throw new DOMException('Gemini request timed out','AbortError')
      throw new Error(['Потокът отговор прекъсна на връзката с браузъра.', 'Код: GEMINI_CLIENT_STREAM_INTERRUPTED', 'Етап: '+observedStage, observedRequestId?'Request ID: '+observedRequestId:''].filter(Boolean).join(' · '))
     }
     const {value,done}=next
