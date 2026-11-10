@@ -34,3 +34,7 @@ test('changing an existing variant from on-request to in-stock requires quantity
   const existing = [variant('old-key', 'onRequest', null)]
   assert.throws(() => validatePlantVariantStock([variant('old-key', 'inStock', null)], existing, false), /реално количество/)
 })
+
+test('fractional stock quantities are rejected', () => {
+  assert.throws(() => validatePlantVariantStock([variant('new-variant-key', 'inStock', 1.5)], [], true), /реално количество/)
+})
