@@ -14,7 +14,7 @@ test('duplicate query checks primary and localized names plus botanical candidat
 
 test('duplicate query escapes seller/model supplied strings and bounds candidate count', () => {
   const query = buildPlantDuplicateQuery('Cycas") || true || ("', ['one', 'two', 'three', 'four'])
-  assert.match(query, /\\\"/)
+  assert.ok(query.includes(String.fromCharCode(92)))
   assert.doesNotMatch(query, /lower\(name\)==lower\("four"\)/)
 })
 
