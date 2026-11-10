@@ -113,7 +113,17 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
           setOpen(false)
           setRefreshKey(value => value + 1)
         }
-        throw new Error(result.error || 'Не успяхме да добавим размера.')
+        const fieldLabels: Record<string, string> = {
+          body: 'данни на заявката',
+          idempotencyKey: 'идентификатор на операцията',
+          expectedRevision: 'версия на избраната карточка',
+          variant: 'данни за размера, цената и количеството',
+          image: 'данни за снимката',
+        }
+        const missing = Array.isArray(result.missingFields)
+          ? result.missingFields.map((field: string) => fieldLabels[field] || field).join(', ')
+          : ''
+        throw new Error([result.error || 'Не успяхме да добавим размера.', result.code ? 'Код: ' + result.code : '', missing ? 'Липсва: ' + missing : ''].filter(Boolean).join(' · '))
       }
       onAdded({ productName: selected.name, imageAdded: result.imageAdded === true, imageAlreadyPresent: result.imageAlreadyPresent === true, galleryFull: result.galleryFull === true })
     } catch (reason) {
