@@ -52,7 +52,7 @@ test('classifies Gemini authentication and permission errors without exposing pr
   assert.equal(result.code, 'GEMINI_ACCESS_DENIED')
   assert.equal(result.providerStatus, 'PERMISSION_DENIED')
   assert.equal(result.retryable, false)
-  assert.match(result.hint, /API key/)
+  assert.match(result.hint, /GEMINI_API_KEY/)
 })
 
 test('classifies Gemini invalid request and schema errors', () => {
