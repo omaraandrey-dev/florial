@@ -1,3 +1,24 @@
+## 2026-11-10 — Manager растений: PR #173 опубликован в Production
+
+- PR #173 merged by squash: `87048514d0ee5f73980b8ddf450ae0358bd76812`.
+- Изменены только:
+  - `src/manager/PlantCatalogManager.tsx`
+  - `functions/api/manager/plants/ai-enrich.ts`
+  - `functions/api/manager/plant-direct-lib.ts`
+  - `functions/api/manager/plants.ts`
+  - `functions/api/manager/plants/[id].ts`
+- Production Cloudflare Pages deployment: `445cf59b-f019-471f-b567-d0758bf0b15e`, URL `https://445cf59b.florial.pages.dev`, build/deploy success 2026-11-10 05:04:16 UTC; aliases `https://florial-bg.com` and `https://www.florial-bg.com` assigned.
+- CI on latest PR head: Blog and Studio validation #721 success (lint, utility tests, website build, Pages Functions syntax, migration dry-run, Sanity Studio build); Florial D1 migration validation #849 success.
+- AI button `Попълни с ИИ` moved to the plant image area and becomes available after a main photo is added. A seller-entered name is no longer required.
+- Cloudflare Vision model `@cf/meta/llama-3.2-11b-vision-instruct` now proposes a Bulgarian common name, likely botanical candidates, an allowed `productType`, and a category selected only from actual category IDs supplied by Manager. Low/medium visual confidence is explicitly warned; the seller can correct the name, type and category after AI completion.
+- `scientificName` remains conservative: it is automatically populated only after an exact accepted GBIF species match with the existing high-confidence rules. A visual suggestion by itself is not scientific confirmation.
+- The AI completion proof is HMAC-signed with the authenticated HttpOnly Manager session and bound to the selected main-image asset. It is valid for two hours. Create and edit APIs reject a save without a valid proof; changing the main image requires a new AI run. Manual correction of the suggested name/type/category after AI does not invalidate the proof.
+- AI request waits are bounded: model calls 20 seconds each with one server retry, image fetch 10 seconds, GBIF lookup 8 seconds, browser request 150 seconds. The browser no longer repeats a full server AI timeout response; it shows a clear error instead of spinning indefinitely.
+- Save/publish is enabled only after a successful AI run and at least one real size is entered (positive sale height or container volume). The same size requirement is checked by the server for both create and edit.
+- On explicit save only, root legacy `priceEUR` is set to the minimum current `saleVariants[].priceEUR`; root `oldPriceEUR` is set to the minimum populated `saleVariants[].oldPriceEUR`, or null when no variant has an old price. Variant prices remain canonical for storefront/cart/order. Root `stockQuantity` is not aggregated or changed. No mass migration or existing Sanity document update was performed.
+- No Sanity schema/documents/assets, D1 schema/data, irrigation dataset, checkout/orders, global header/menu/footer, or Cloudflare settings/secrets were changed.
+- Manual authenticated end-to-end acceptance of a fresh plant photo by a seller/Owner is still pending. CI and production deployment are confirmed; a live Manager session test is required to confirm the model's real response for a sample photo.
+
 ## 2026-11-10 — PR #172 merged: восстановлено полноценное AI-заполнение растений
 
 - PR #172 merged by squash: 6b10b44f999f2dbf40a46e447bbd9c1175a9756d.
