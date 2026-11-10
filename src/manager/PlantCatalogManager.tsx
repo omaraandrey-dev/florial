@@ -262,7 +262,7 @@ export default function PlantCatalogManager({role}:Props){
   setAiWarnings(warnings)
   setGeminiError('')
   const saved=await save({form:nextForm,images:nextImages,aiProof:geminiProof,identityNeedsConfirmation:!plantName})
-  if(saved){setGeminiModalOpen(false);setGeminiError('')}
+  if(saved){setGeminiModalOpen(false);setGeminiError('')}else{setGeminiModalOpen(false)}
  }
  const save=async(overrides?:{form?:PlantForm;images?:ImageItem[];aiProof?:string|null;identityNeedsConfirmation?:boolean}):Promise<boolean>=>{
   if(saving)return false
