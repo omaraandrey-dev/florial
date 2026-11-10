@@ -58,6 +58,7 @@ export default function PlantCatalogManager({role}:Props){
  const [mainImageIndex,setMainImageIndex]=useState(0)
  const [saving,setSaving]=useState(false)
  const [aiLoading,setAiLoading]=useState(false)
+ const [aiElapsedSeconds,setAiElapsedSeconds]=useState(0)
  const [aiProof,setAiProof]=useState<string|null>(null)
  const [imageLoading,setImageLoading]=useState(false)
  const [libraryOpen,setLibraryOpen]=useState(false)
@@ -83,6 +84,14 @@ export default function PlantCatalogManager({role}:Props){
  },[query,categoryId,sort])
  useEffect(()=>{void load()},[load])
  useEffect(()=>{setPendingIdempotencyKey(null)},[form,images])
+ useEffect(()=>{
+  if(!aiLoading){setAiElapsedSeconds(0);return}
+  const started=Date.now()
+  const update=()=>setAiElapsedSeconds(Math.floor((Date.now()-started)/1000))
+  update()
+  const timer=window.setInterval(update,1000)
+  return ()=>window.clearInterval(timer)
+ },[aiLoading])
 
  const openNew=()=>{setEditingId(null);setRevision('');setAiProof(null);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
@@ -149,7 +158,7 @@ export default function PlantCatalogManager({role}:Props){
   const targetImage=images[mainImageIndex]||null
   if(!targetImage){setAiLoading(false);setError('Първо добавете основна снимка на растението.');return}
   const controller=new AbortController()
-  const requestTimeout=window.setTimeout(()=>controller.abort(),150000)
+  const requestTimeout=window.setTimeout(()=>controller.abort(),300000)
   try{
    const category=categories.find(item=>item._id===form.categoryId)
    const requestBody=JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryId:form.categoryId,categoryIds:form.categoryIds,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},categories:categoryOptions.map(item=>({id:item._id,name:item.name})),mainImage:{assetId:targetImage.assetId,url:targetImage.url}})
@@ -159,11 +168,11 @@ export default function PlantCatalogManager({role}:Props){
     try{
      response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
      result=await responseJson(response)
-    }catch(error){if(attempt===0){await new Promise(resolve=>window.setTimeout(resolve,600));continue}throw error}
+    }catch(error){if(error instanceof Error&&error.name==='AbortError')throw error;if(attempt===0){await new Promise(resolve=>window.setTimeout(resolve,600));continue}throw error}
     break
     await new Promise(resolve=>window.setTimeout(resolve,700))
    }
-   if(!response?.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
+   if(!response?.ok)throw new Error([result.error||'ИИ не успя да попълни данните.',result.code?'Код: '+result.code:'',result.stage?'Етап: '+result.stage:'',result.requestId?'ID: '+result.requestId:''].filter(Boolean).join(' · '))
    if(typeof result.aiProof!=='string'||!result.aiProof)throw new Error('ИИ върна непълен резултат за проверка. Натиснете бутона отново.')
    const suggestion=result.suggestion||{}
    setAiProof(result.aiProof)
@@ -175,7 +184,7 @@ export default function PlantCatalogManager({role}:Props){
    if(role==='owner'&&!suggestion.scientificName&&Array.isArray(suggestion.scientificNameCandidates)&&suggestion.scientificNameCandidates.length){const names=suggestion.scientificNameCandidates.map((item:any)=>item.scientificName+' ('+item.confidence+')').join('; ');warnings.push('Възможни ботанически имена за ръчна проверка: '+names)}
    setAiWarnings(warnings)
    setNotice('ИИ анализира снимката и попълни предложеното име, тип, категория, описания и локализирани данни. Проверете идентификацията преди публикуване.')
-  }catch(e){setError(e instanceof Error?(e.name==='AbortError'?'ИИ не отговори в рамките на 150 секунди. Опитайте отново с по-ясна снимка.':e.message):'ИИ не успя да попълни данните.')}
+  }catch(e){setError(e instanceof Error?(e.name==='AbortError'?'ИИ не отговори в рамките на 5 минути. Вашите данни не са записани; опитайте отново.':e.message):'ИИ не успя да попълни данните.')}
   finally{window.clearTimeout(requestTimeout);setAiLoading(false)}
  }
  const save=async()=>{
@@ -278,9 +287,14 @@ export default function PlantCatalogManager({role}:Props){
      </div>
      {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
      <div className="mt-3 flex flex-wrap items-center gap-3">
-      <button type="button" disabled={aiLoading||imageLoading||!activeImages} onClick={()=>void generateWithAI()} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{aiLoading?'ИИ анализира снимката…':'✦ Попълни с ИИ'}</button>
+      <button type="button" disabled={aiLoading||imageLoading||!activeImages} onClick={()=>void generateWithAI()} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{aiLoading?'ИИ анализира… '+String(Math.floor(aiElapsedSeconds/60)).padStart(2,'0')+':'+String(aiElapsedSeconds%60).padStart(2,'0'):'✦ Попълни с ИИ'}</button>
       <span className="text-xs text-stone-500">След качване на снимка ИИ може да предложи име, тип и категория на растението.</span>
      </div>
+     {aiLoading&&<div className="mt-3 rounded-xl border border-lime-200 bg-lime-50 p-3" role="status" aria-live="polite">
+      <div className="mb-2 flex items-center justify-between gap-2 text-sm font-semibold text-lime-900"><span>ИИ анализира снимката и подготвя данните</span><span className="tabular-nums">{String(Math.floor(aiElapsedSeconds/60)).padStart(2,'0')}:{String(aiElapsedSeconds%60).padStart(2,'0')}</span></div>
+      <div className="h-2 overflow-hidden rounded-full bg-lime-100" role="progressbar" aria-label="Време за обработка от ИИ" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))}><div className="h-full rounded-full bg-lime-700 transition-[width] duration-1000 ease-linear" style={{width:Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))+'%'}}/></div>
+      <p className="mt-2 text-xs text-lime-800">Лентата показва изминалото време, а не точния процент готовност. Генерацията може да отнеме няколко минути.</p>
+     </div>}
      {role==='owner'&&images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
       <label><span className={labelClass}>ALT (BG)</span><input className={inputClass} value={image.alt} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,alt:event.target.value}:item))}/></label>
