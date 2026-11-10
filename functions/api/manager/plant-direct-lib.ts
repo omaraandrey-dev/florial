@@ -1,4 +1,5 @@
 import { json, newId, nowIso, type ManagerEnv, type ManagerIdentity } from './_lib'
+import { validatePlantVariantStock } from './plant-stock-lib.mjs'
 
 export const PLANTS_PROJECT = 'bxvcy0qs'
 export const PLANTS_DATASET = 'plants'
@@ -243,7 +244,7 @@ export const buildPlantSet = async (
     set.gallery = input.gallery.map(imageObject)
   }
   if ('saleVariants' in input) {
-    const variants = normalizeVariants(input.saleVariants)
+    const variants = validatePlantVariantStock(normalizeVariants(input.saleVariants), Array.isArray(existing?.saleVariants) ? existing.saleVariants : [], isCreate)
     if (!variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
       throw new Error('Добавете поне един реален размер: височина или обем на контейнера.')
     }

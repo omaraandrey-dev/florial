@@ -1,3 +1,42 @@
+## Дополнение rev67 — исправления Manager растений и диагностика Gemini
+
+Дата: 10.11.2026
+
+### Поведение Manager
+- При применении результата Google первый корректный ботанический кандидат предварительно переносится в поле `scientificName`, даже если confidence medium/low. Уже введённое вручную ботаническое имя не перезаписывается. Предупреждение о необходимости ручной проверки кандидата сохраняется; кандидат не объявляется научно подтверждённым.
+- Обычное редактирование опубликованной карточки растения через PATCH не требует повторного Google AI proof. Если proof передан, сервер проверяет его. Создание новой карточки через POST по-прежнему требует действительный Google AI proof.
+- Новый вариант по умолчанию получает `stockStatus=inStock`. Для нового варианта и для нового товара при статусе «В наличност» обязательно фактическое целое количество больше нуля.
+- При добавлении варианта через красную точку совпадений сотрудник вводит размер, цену EUR и количество (шт.). Сервер сохраняет `stockStatus=inStock` и введённое `stockQuantity`. Существующие варианты не переписываются; старые варианты со статусом inStock и пустым количеством остаются редактируемыми, если их статус не меняется.
+- Общая галерея остаётся прежней: проверенное изображение добавляется в gallery, не привязывается к отдельному варианту; mainImage и прежние изображения не заменяются. Sanity schema и структура документа не меняются.
+
+### Диагностика Google Gemini
+- Streaming parser сохраняет безопасные метаданные завершения: candidate finishReason, prompt block reason, usage token counts, полученные bytes/chars и состояние JSON parse.
+- `MAX_TOKENS` и safety termination показываются разными кодами; невалидный/неполный JSON сопровождается диагностикой. В Cloudflare logs не записываются API key, заголовки авторизации, raw provider body, полное содержимое ответа или изображения.
+- Модель `gemini-3.5-flash-lite`, prompt, response schema и лимит `maxOutputTokens=8192` не менялись. Увеличение лимита или смена модели не выполняются без данных о фактическом finishReason.
+- Диагностика не доказывает причину уже произошедшей ошибки задним числом; точная причина прежнего ответа на 3835 символов остаётся НЕ ИЗВЕСТНО — нужно уточнить по новому Request ID после публикации.
+
+### Изменённые файлы
+- `src/manager/PlantCatalogManager.tsx`
+- `src/manager/PlantDuplicatePicker.tsx`
+- `functions/api/manager/plants/[id].ts`
+- `functions/api/manager/plants/[id]/add-variant.ts`
+- `functions/api/manager/plant-direct-lib.ts`
+- `functions/api/manager/plant-duplicate-lib.mjs`
+- `functions/api/manager/plants/gemini-test.ts`
+- `functions/api/manager/plants/gemini-test-lib.ts`
+- `tests/plant-duplicates.test.mjs`
+- `tests/plant-direct-stock.test.mjs`
+- `tests/gemini-plant-ai.test.mjs`
+
+### Ограничения и статус
+- Не менялись Sanity schema/documents/assets, D1 schema/rows, Cloudflare secrets/settings, модель Gemini, каталог поливочного оборудования, заказы, Header/menu/Footer и общая структура сайта.
+- Никакие production catalog writes и миграции не выполнялись.
+- CI, сборка и Production deployment: pending до завершения PR.
+- Ручная проверка в Manager ролями Owner/Manager/Seller остаётся обязательной после публикации.
+- Рабочая ветка: `fix/plant-manager-stock-gemini-diagnostics`; merge в main не выполнен.
+
+---
+
 ## 2026-11-10 — Manager растений: обнаружение совпадений и добавление варианта в существующую карточку (PR #187)
 
 - Read-only проверка Sanity dataset plants подтвердила, что точный запрос по «Цикас» / Cycas revoluta возвращает две опубликованные карточки. Данные не изменялись.

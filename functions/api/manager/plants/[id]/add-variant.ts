@@ -32,9 +32,10 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
 
   const variantName = cleanText(body.variant.name, 100)
   const priceEUR = Number(body.variant.priceEUR)
+  const stockQuantity = Number(body.variant.stockQuantity)
   const variantKey = cleanText(body.variant._key, 80)
-  if (variantName.length < 2 || !variantKeyPattern.test(variantKey) || !Number.isFinite(priceEUR) || priceEUR <= 0 || priceEUR > 10000000) {
-    return errorJson('Въведете валиден размер и цена в EUR.', 400)
+  if (variantName.length < 2 || !variantKeyPattern.test(variantKey) || !Number.isFinite(priceEUR) || priceEUR <= 0 || priceEUR > 10000000 || !Number.isInteger(stockQuantity) || stockQuantity < 1 || stockQuantity > 1000000) {
+    return errorJson('Въведете валиден размер, количество (цяло число над 0) и цена в EUR.', 400)
   }
 
   const idempotencyKey = String(body.idempotencyKey)
@@ -106,7 +107,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const asset = await sanityQuery<string | null>(env, '*[_type=="sanity.imageAsset" && _id==' + jsonString(imageAssetId) + '][0]._id')
     if (!asset) return errorJson('Снимката не е намерена в Sanity. Качете я отново.', 400)
 
-    const nextVariants = appendPlantSaleVariant(variants, { key: variantKey, name: variantName, priceEUR })
+    const nextVariants = appendPlantSaleVariant(variants, { key: variantKey, name: variantName, priceEUR, stockQuantity })
     const galleryResult = appendPlantGalleryImage(mainAssetId, currentGallery, {
       assetId: imageAssetId,
       alt: cleanText(body.image.alt, 240),

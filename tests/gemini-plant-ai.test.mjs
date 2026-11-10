@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -91,4 +91,18 @@ test('classifies upstream connection and stream interruptions separately', () =>
   assert.equal(stream.code, 'GEMINI_PROVIDER_STREAM_INTERRUPTED')
   assert.equal(stream.providerStatus, 'STREAM_INTERRUPTED')
   assert.equal(stream.retryable, true)
+})
+
+test('classifies Gemini output-token limit and safety termination', () => {
+  assert.equal(classifyGeminiFinishReason('MAX_TOKENS').code, 'GEMINI_MAX_TOKENS')
+  assert.equal(classifyGeminiFinishReason('SAFETY').code, 'GEMINI_SAFETY_BLOCKED')
+  assert.equal(classifyGeminiFinishReason('STOP'), null)
+  assert.equal(classifyGeminiFinishReason('STOP', 'IMAGE_SAFETY').code, 'GEMINI_SAFETY_BLOCKED')
+})
+
+test('summarizes only numeric Gemini usage metadata', () => {
+  assert.deepEqual(summarizeGeminiUsage({ promptTokenCount: 120, candidatesTokenCount: 900, totalTokenCount: 1020, secret: 'ignored' }), {
+    promptTokenCount: 120, candidatesTokenCount: 900, totalTokenCount: 1020,
+  })
+  assert.equal(summarizeGeminiUsage({}), null)
 })

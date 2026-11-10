@@ -25,12 +25,14 @@ test('duplicate query rejects empty input', () => {
 
 test('appending a plant variant preserves existing variants and permits a repeated size name', () => {
   const existing = [{ _type: 'plantSaleVariant', _key: 'old-size-key', name: '80 см', priceEUR: 90, stockStatus: 'inStock', stockQuantity: 1 }]
-  const result = appendPlantSaleVariant(existing, { key: 'new-size-key', name: '80 см, 2 ствола', priceEUR: 145 })
+  const result = appendPlantSaleVariant(existing, { key: 'new-size-key', name: '80 см, 2 ствола', priceEUR: 145, stockQuantity: 20 })
   assert.equal(result.length, 2)
   assert.deepEqual(result[0], existing[0])
   assert.equal(result[1].name, '80 см, 2 ствола')
   assert.equal(result[1].priceEUR, 145)
-  assert.equal(result[1].stockStatus, 'onRequest')
+  assert.equal(result[1].stockStatus, 'inStock')
+  assert.equal(result[1].stockQuantity, 20)
+  assert.throws(() => appendPlantSaleVariant(existing, { key: 'another-key', name: '90 см', priceEUR: 160, stockQuantity: 0 }), /PLANT_VARIANT_QUANTITY_REQUIRED/)
 })
 
 test('gallery append never replaces the main image or existing gallery and skips duplicates', () => {

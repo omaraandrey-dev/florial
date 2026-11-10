@@ -10,13 +10,14 @@ export const buildPlantDuplicateQuery = (name, scientificNames) => {
 
 export const appendPlantSaleVariant = (existing, variant) => {
   if (existing.length >= 30) throw new Error('PLANT_VARIANT_LIMIT')
+  if (!Number.isInteger(variant.stockQuantity) || variant.stockQuantity < 1) throw new Error('PLANT_VARIANT_QUANTITY_REQUIRED')
   return [...existing, {
     _type: 'plantSaleVariant',
     _key: variant.key,
     name: variant.name,
     priceEUR: variant.priceEUR,
-    stockStatus: 'onRequest',
-    stockQuantity: null,
+    stockStatus: 'inStock',
+    stockQuantity: variant.stockQuantity,
   }]
 }
 
