@@ -58,8 +58,10 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     if (completed?.result === 'success') {
       const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
       const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
-      const replayGalleryHasImage = Array.isArray(current?.gallery) && current.gallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
-      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: false, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage })
+      const replayGallery = Array.isArray(current?.gallery) ? current.gallery : []
+      const replayGalleryHasImage = replayGallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
+      const galleryFull = replayGallery.length + (replayMainId ? 1 : 0) >= 10
+      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: false, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage, galleryFull })
     }
     if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и опитайте отново.', 409)
 
@@ -73,7 +75,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const mainHasImage = mainAssetId === imageAssetId
     const alreadyHasVariant = variants.some((item: any) => item?._key === variantKey)
 
-    if (prior && alreadyHasVariant && (galleryHasImage || mainHasImage || currentGallery.length + (mainAssetId ? 1 : 0) >= 10)) {
+    if (prior && alreadyHasVariant) {
       before = prior.before_data ? JSON.parse(prior.before_data) : null
       after = auditSnapshot(current)
       await writeAudit(env, auth.user, {
@@ -81,10 +83,24 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
         action: 'update', changedFields: prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,
         before, after, result: 'success',
       })
-      return json({ ok: true, documentId: id, revision: current._rev, replayed: true, imageAdded: galleryHasImage, imageAlreadyPresent: mainHasImage || galleryHasImage })
+      return json({ ok: true, documentId: id, revision: current._rev, replayed: true, imageAdded: false, imageAlreadyPresent: mainHasImage || galleryHasImage, galleryFull: currentGallery.length + (mainAssetId ? 1 : 0) >= 10 })
     }
 
-    if (current._rev !== body.expectedRevision) return json({ error: 'Карточката е променена от друг служител. Отворете я отново и опитайте пак.', conflict: true }, 409)
+    if (current._rev !== body.expectedRevision) {
+      if (prior) {
+        try {
+          await writeAudit(env, auth.user, {
+            requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
+            action: 'update', changedFields: prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,
+            before: prior.before_data ? JSON.parse(prior.before_data) : auditSnapshot(current), after: null,
+            result: 'failed', errorCode: 'revision_conflict',
+          })
+        } catch {
+          return json({ error: 'Конфликтът е засечен, но историята не успя да запише резултата. Запазете номера на операцията.', requestId: operationId, auditPending: true }, 503)
+        }
+      }
+      return json({ error: 'Карточката е променена от друг служител. Отворете я отново и опитайте пак.', conflict: true }, 409)
+    }
     if (variants.length >= 30) return errorJson('Карточката вече съдържа максималните 30 размера.', 409)
 
     const asset = await sanityQuery<string | null>(env, '*[_type=="sanity.imageAsset" && _id==' + jsonString(imageAssetId) + '][0]._id')
@@ -108,8 +124,6 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
 
     const beforeSnapshot = auditSnapshot(current)
     before = prior?.before_data ? JSON.parse(prior.before_data) : beforeSnapshot
-    if (prior && current._rev !== body.expectedRevision) return json({ error: 'Карточката е променена от друг служител. Отворете я отново и опитайте пак.', conflict: true }, 409)
-
     if (!prior) {
       await writeAudit(env, auth.user, {
         requestId: operationId, idempotencyKey, phase: 'started', productId: id, productName,
@@ -133,7 +147,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
       requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
       action: 'update', changedFields, before, after, result: 'success',
     })
-    return json({ ok: true, documentId: id, revision: saved._rev, imageAdded, imageAlreadyPresent })
+    return json({ ok: true, documentId: id, revision: saved._rev, imageAdded, imageAlreadyPresent, galleryFull: galleryResult.galleryFull })
   } catch (error) {
     if (error instanceof Error && error.message === 'REVISION_CONFLICT') {
       if (auditStarted) {
