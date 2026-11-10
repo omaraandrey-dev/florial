@@ -111,11 +111,11 @@ test('summarizes only numeric Gemini usage metadata', () => {
 test('parses Gemini SSE events across arbitrary chunks and all standard line endings', () => {
   const payloads = []
   const parser = createGeminiSseParser((payload) => payloads.push(payload))
-  parser.push('\\uFEFFdata: {"candidates":')
-  parser.push('[{"content":{"parts":[{"text":"first"}]}}]}\\r')
-  parser.push('\\ndata: {"candidates":[{"content":{"parts":[{"text":"second"}]}}]}\\n\\n')
-  parser.push(': heartbeat\\r')
-  parser.push('data: {"usageMetadata":{"totalTokenCount":12}}\\r\\r')
+  parser.push('\uFEFFdata: {"candidates":')
+  parser.push('[{"content":{"parts":[{"text":"first"}]}}]}\r')
+  parser.push('\ndata: {"candidates":[{"content":{"parts":[{"text":"second"}]}}]}\n\n')
+  parser.push(': heartbeat\r')
+  parser.push('data: {"usageMetadata":{"totalTokenCount":12}}\r\r')
   const stats = parser.finish()
   assert.equal(payloads.length, 3)
   assert.equal(stats.eventCount, 3)
@@ -136,7 +136,7 @@ test('flushes the final Gemini SSE event when the stream ends without a blank se
 test('counts malformed Gemini SSE events without aborting later valid events', () => {
   const payloads = []
   const parser = createGeminiSseParser((payload) => payloads.push(payload))
-  parser.push('data: {bad json}\\n\\ndata: {"usageMetadata":{"totalTokenCount":7}}\\n\\n')
+  parser.push('data: {bad json}\n\ndata: {"usageMetadata":{"totalTokenCount":7}}\n\n')
   const stats = parser.finish()
   assert.equal(payloads.length, 1)
   assert.equal(stats.eventCount, 2)
