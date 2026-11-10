@@ -9,6 +9,7 @@
 - Blog and Studio validation #757 и Florial D1 migration validation #892 завершились success.
 - Cloudflare Pages Production deployment `89324a26-7360-44cd-bf42-8c1688905861` успешно завершён; aliases `florial-bg.com` и `www.florial-bg.com` назначены.
 - Фактический авторизованный тест Gemini Photo/Text в Owner Manager после публикации остаётся pending.
+- После фиксации документации в main: docs-sync commit `a72bbae328061730b5a6b1e3888a948950ecf037`; финальный Cloudflare Pages deployment `e55f6549-0e2d-423f-8326-d6fde198c04b` — success.
 
 ## 2026-11-10 — Gemini: диагностика ошибок Google API
 
