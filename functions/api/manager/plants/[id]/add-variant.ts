@@ -1,4 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
+import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib'
 import {
   auditSnapshot, cleanText, errorJson, isObject, parseJsonBody, requirePlantRole,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
@@ -8,7 +9,6 @@ const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
 const assetPattern = /^image-[A-Za-z0-9-]+$/
 const variantKeyPattern = /^[A-Za-z0-9_-]{8,80}$/
-import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib'
 
 export const onRequestPost = async ({ request, env, params }: { request: Request; env: ManagerEnv; params: { id: string } }) => {
   if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Plant catalogue service is not configured.' }, 503)
