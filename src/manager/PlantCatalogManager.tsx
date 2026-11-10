@@ -164,7 +164,9 @@ export default function PlantCatalogManager({role}:Props){
    if(targetImage&&(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu)){
     setImages(previous=>previous.map(image=>image.assetId===targetImage.assetId?{...image,alt:image.alt.trim()?image.alt:suggestion.mainImageAlt||'',altEn:image.altEn.trim()?image.altEn:suggestion.mainImageAltEn||'',altRu:image.altRu.trim()?image.altRu:suggestion.mainImageAltRu||''}:image))
    }
-   setAiWarnings(Array.isArray(suggestion.warnings)?suggestion.warnings:[])
+   const warnings=Array.isArray(suggestion.warnings)?suggestion.warnings.slice():[]
+   if(role==='owner'&&!suggestion.scientificName&&Array.isArray(suggestion.scientificNameCandidates)&&suggestion.scientificNameCandidates.length){const names=suggestion.scientificNameCandidates.map((item:any)=>item.scientificName+' ('+item.confidence+')').join('; ');warnings.push('Възможни ботанически имена за ръчна проверка: '+names)}
+   setAiWarnings(warnings)
    setNotice(role==='owner'?'ИИ попълни празните описания, преводи, SEO, ALT и наличните ботанически данни. Проверете съдържанието преди публикуване.':'ИИ попълни празните описания и подготви локализираното съдържание. Проверете го преди публикуване.')
   }catch(e){setError(e instanceof Error?e.message:'ИИ не успя да попълни данните.')}
   finally{setAiLoading(false)}
