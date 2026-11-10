@@ -31,9 +31,12 @@
 ### Ограничения и статус
 - Не менялись Sanity schema/documents/assets, D1 schema/rows, Cloudflare secrets/settings, модель Gemini, каталог поливочного оборудования, заказы, Header/menu/Footer и общая структура сайта.
 - Никакие production catalog writes и миграции не выполнялись.
-- CI, сборка и Production deployment: pending до завершения PR.
+- CI и Production deployment завершены успешно: Blog and Studio validation #819, Florial D1 migration validation #975; deployment `2c9a2e6e-67ce-4cba-8056-a84983db7621`.
 - Ручная проверка в Manager ролями Owner/Manager/Seller остаётся обязательной после публикации.
-- Рабочая ветка: `fix/plant-manager-stock-gemini-diagnostics`; merge в main не выполнен.
+- PR #188 squash merged в `main`; merge commit: `4e53815028d45ea22958ce4feadd1585e90f461f`.
+- Cloudflare Pages Production deployment: `2c9a2e6e-67ce-4cba-8056-a84983db7621`; URL `https://2c9a2e6e.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- GitHub Actions Blog and Studio validation #819 — success; Florial D1 migration validation #975 — success; website lint/tests/build, Studio build, Pages Functions syntax и migration validation — success.
+- Ручная приёмка Owner/Manager/Seller в Production остаётся pending.
 
 ---
 
