@@ -313,8 +313,8 @@ export default function PlantCatalogManager({role}:Props){
       </div></div>
      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {images.map((image,index)=><div key={image.assetId} className={'relative overflow-hidden rounded-xl border-2 '+(mainImageIndex===index?'border-lime-700':'border-stone-200')}>
-       <button type="button" className="block aspect-square w-full" onClick={()=>{setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
-       <button type="button" onClick={()=>{setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
+       <button type="button" className="block aspect-square w-full" onClick={()=>{setGeminiError('');setGeminiResult(null);setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
+       <button type="button" onClick={()=>{setGeminiError('');setGeminiResult(null);setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
       </div>)}
       {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
      </div>
