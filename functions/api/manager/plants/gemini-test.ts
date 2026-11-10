@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
-import { cleanText, errorJson, isObject, parseJsonBody, PRODUCT_TYPES } from '../plant-direct-lib'
+import { cleanText, errorJson, isObject, issuePlantAiProof, parseJsonBody, PRODUCT_TYPES, requirePlantRole } from '../plant-direct-lib'
 import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.5-flash-lite'
@@ -30,9 +30,9 @@ const responseSchema = {
     descriptions: {
       type: 'OBJECT',
       properties: {
-        bg: { type: 'OBJECT', properties: { shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['shortDescription', 'description'] },
-        ru: { type: 'OBJECT', properties: { shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['shortDescription', 'description'] },
-        en: { type: 'OBJECT', properties: { shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['shortDescription', 'description'] },
+        bg: { type: 'OBJECT', properties: { name: { type: 'STRING' }, shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['name', 'shortDescription', 'description'] },
+        ru: { type: 'OBJECT', properties: { name: { type: 'STRING' }, shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['name', 'shortDescription', 'description'] },
+        en: { type: 'OBJECT', properties: { name: { type: 'STRING' }, shortDescription: { type: 'STRING' }, description: { type: 'STRING' } }, required: ['name', 'shortDescription', 'description'] },
       },
       required: ['bg', 'ru', 'en'],
     },
@@ -150,13 +150,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   if (!env.DB) return json({ error: 'Manager database is not configured.' }, 503)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
-  if (auth.user.role !== 'owner') return json({ error: 'Тестът Gemini е достъпен само за Owner.' }, 403)
+  if (!requirePlantRole(auth.user)) return json({ error: 'Недостатъчни права за работа с растения.' }, 403)
   if (!env.GEMINI_API_KEY) return json({ error: 'Добавете GEMINI_API_KEY в Cloudflare Pages → Settings → Variables and Secrets (Production), тип Secret.' }, 503)
 
   const body = await parseJsonBody(request)
   const mode = body?.mode === 'text' ? 'text' : 'photo'
   if (!body || !isObject(body.product)) return errorJson('Въведете име на растение или добавете основна снимка.', 400)
   const product = body.product
+  const proofAssetId = mode === 'photo' ? cleanText(body.mainImage?.assetId, 160) : cleanText(body.mainImageAssetId, 160)
   const productName = cleanText(product.name, 160)
   if (mode === 'text' && !productName) return errorJson('Въведете име на растение за Gemini Text.', 400)
   if (mode === 'photo' && !body.mainImage) return errorJson('Добавете основна снимка за Gemini Photo.', 400)
@@ -195,7 +196,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
           ? 'VISUAL DESCRIPTION: Describe only the main visible plant, not shelves, other plants or unrelated background. Do not infer exact sale height, container volume, price, stock, cultivar, age, winter hardiness or coastal suitability.'
           : 'BOTANICAL DESCRIPTION: Base the plant-specific description on reliable, established botanical knowledge. Clearly distinguish typical species traits from cultivar-specific or local growing claims. Do not infer the seller stock size, container volume, price, stock, age or cultivar. visibleDescription must be an empty string because no image was supplied.',
         'LANGUAGES: Bulgarian is the source language and must sound like native Bulgarian horticultural commerce copy. Produce fluent Russian and English versions, not literal translations.',
-        'DESCRIPTIONS: Write practical, specific product descriptions. Target 2,000–3,000 characters BG and 1,500–2,300 characters RU and EN. Include appearance, foliage, flowering/fruiting where supported, growth habit, typical mature size when reliable, light, soil/drainage, watering, feeding, pruning, planting, containers, landscape uses and relevant Bulgarian Black Sea climate limitations. Do not pad or repeat.',
+        'DESCRIPTIONS: Provide the natural commercial plant name in each language (descriptions.bg.name, descriptions.ru.name, descriptions.en.name). Write practical, specific product descriptions. Target 2,000–3,000 characters BG and 1,500–2,300 characters RU and EN. Include appearance, foliage, flowering/fruiting where supported, growth habit, typical mature size when reliable, light, soil/drainage, watering, feeding, pruning, planting, containers, landscape uses and relevant Bulgarian Black Sea climate limitations. Do not pad or repeat.',
         'CARE: Never invent exact watering schedules, fertilizer quantities, winter temperatures, toxicity or pet safety. If uncertain, use unknown/empty. For plantCare use light sun|partialShade|shade|unknown; waterNeeds low|medium|high|unknown; foliageType evergreen|deciduous|unknown. Put minWinterTempC and adultHeightCm as strings only when defensible; otherwise empty. blackSeaCoast is always needsVerification.',
         'SEO: Create H1, metaTitle (max 70 chars) and metaDescription (max 320 chars) separately in BG/RU/EN. Bulgarian metaDescription begins with Продажба. Use local SEO naturally: primary Несебър; optionally Равда, Слънчев бряг, Свети Влас, Кошарица, Поморие and Бургас. Never mention Созопол. Do not claim stock, delivery price, free delivery, same-day delivery or installation.',
         mode === 'photo'
@@ -308,7 +309,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         normalized.visibleDescription = ''
         normalized.imageAlt = { bg: '', ru: '', en: '' }
       }
-      send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, result: normalized })
+      const aiProof = /^image-[A-Za-z0-9-]+$/.test(proofAssetId) ? await issuePlantAiProof(request, { mainImageAssetId: proofAssetId }) : null
+      send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, aiProof, proofAssetId: aiProof ? proofAssetId : null, result: normalized })
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
