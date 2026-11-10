@@ -1,3 +1,17 @@
+## Дополнение rev72 — безопасная диагностика PATCH-запроса при редактировании растения
+
+Дата: 10.11.2026
+
+- Для `PATCH /api/manager/plants/:id` введена отдельная тестируемая проверка контракта запроса: JSON body, UUID `idempotencyKey`, объект `product` и непустая строка `expectedRevision`.
+- Вместо общего `Invalid product update request` Manager API возвращает код `INVALID_PRODUCT_UPDATE_REQUEST` и только список некорректных/отсутствующих полей с болгарскими пояснениями. Значения карточки, ревизии, UUID, AI proof, фотографии и секреты не возвращаются.
+- Существующие проверки авторизации, роли, same-origin, AI proof (если передан), Sanity optimistic revision, idempotency, D1 audit и сама логика записи не меняются.
+- Добавлены unit tests для валидного UUID `crypto.randomUUID()`, корректного PATCH payload, невалидного JSON body и каждого обязательного поля.
+- Причина исходной ошибки по конкретному сохранению пока `НЕ ИЗВЕСТНО — нужно уточнить`: после публикации диагностический ответ покажет, какой элемент запроса фактически отсутствовал/не прошёл проверку.
+- Изменения ограничены `functions/api/manager/plants/[id].ts`, новым `functions/api/manager/plant-update-request-lib.mjs` и его типами, новым тестом `tests/plant-update-request.test.mjs` и документацией. Sanity schema/documents/assets, D1 schema/rows, Cloudflare secrets/settings, прочие категории и глобальные компоненты не затрагиваются.
+- Production deployment и live сохранение не подтверждены на момент подготовки этого дополнения; результаты CI и публикации будут дописаны после завершения PR.
+
+---
+
 ## Дополнение rev71 — автоматические повторы при временной перегрузке Gemini
 
 Дата: 10.11.2026
