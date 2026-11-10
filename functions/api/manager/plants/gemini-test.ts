@@ -232,13 +232,15 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         const providerPayload = await apiResponse.json().catch(() => null) as unknown
         const providerError = isObject(providerPayload) && isObject(providerPayload.error) ? providerPayload.error : {}
         const diagnostic = classifyGeminiProviderError(apiResponse.status, cleanText(providerError.status, 80))
-        console.error('[manager-plants-gemini-test]', { requestId, mode, providerHttpStatus: apiResponse.status, providerStatus: diagnostic.providerStatus, code: diagnostic.code })
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_http_error', providerHttpStatus: apiResponse.status, providerContentType, providerStatus: diagnostic.providerStatus, code: diagnostic.code })
         send({
           type: 'error',
           error: diagnostic.hint,
           code: diagnostic.code,
           requestId,
+          stage: 'provider_http_error',
           providerHttpStatus: apiResponse.status,
+          providerContentType,
           providerStatus: diagnostic.providerStatus,
           providerMessage: sanitizeGeminiProviderMessage(providerError.message),
           retryable: diagnostic.retryable,
