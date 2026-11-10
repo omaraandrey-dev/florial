@@ -8,6 +8,11 @@ export const sanitizeGeminiProviderMessage = (value: unknown) =>
     .trim()
     .slice(0, 320)
 
+
+export const isRetryableGeminiHttpStatus = (status: number) => [502, 503, 504].includes(status)
+
+export const geminiProviderRetryDelayMs = (retryAttempt: number) => retryAttempt === 1 ? 900 : retryAttempt === 2 ? 1800 : 0
+
 export const classifyGeminiProviderError = (httpStatus: number, providerStatus = '') => {
   const upstreamStatus = providerStatus.trim().toUpperCase().slice(0, 80)
   if (httpStatus === 429 || upstreamStatus === 'RESOURCE_EXHAUSTED') {
