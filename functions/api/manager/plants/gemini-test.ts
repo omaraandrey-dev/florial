@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, issuePlantAiProof, parseJsonBody, PRODUCT_TYPES, requirePlantRole } from '../plant-direct-lib'
-import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.5-flash-lite'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -103,6 +103,8 @@ const failure = (error: unknown) => {
   if (/GEMINI_PROVIDER_CONNECT_FAILED/.test(message)) return { code: 'GEMINI_PROVIDER_CONNECT_FAILED', hint: 'Cloudflare не успя да установи връзка с Google Gemini. Проверете отново след малко.' }
   if (/GEMINI_PROVIDER_STREAM_INTERRUPTED/.test(message)) return { code: 'GEMINI_PROVIDER_STREAM_INTERRUPTED', hint: 'Google започна отговор, но потокът прекъсна преди да завърши. Опитайте отново.' }
   if (/GEMINI_TIMEOUT|AbortError|TimeoutError/.test(message)) return { code: 'GEMINI_TIMEOUT', hint: 'Gemini не отговори в рамките на пет минути. Опитайте отново по-късно.' }
+  if (/GEMINI_MAX_TOKENS/.test(message)) return { code: 'GEMINI_MAX_TOKENS', hint: 'Google достигна лимита на генерирането и прекрати JSON преди завършване.' }
+  if (/GEMINI_SAFETY_BLOCKED/.test(message)) return { code: 'GEMINI_SAFETY_BLOCKED', hint: 'Google прекрати отговора по правилата за безопасност.' }
   if (/GEMINI_INVALID_JSON|GEMINI_EMPTY_RESPONSE/.test(message)) return { code: 'GEMINI_INVALID_RESPONSE', hint: 'Gemini върна непълен или невалиден структуриран отговор.' }
   return { code: 'GEMINI_PROVIDER_ERROR', hint: 'Gemini временно не успя да обработи заявката. Проверете API ключа и лимитите в Google AI Studio.' }
 }
@@ -173,6 +175,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   return streamResponse(requestId, mode, async (send) => {
     const startedAt = Date.now()
     const progress = (stage: string, message: string) => send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
+    let providerHttpStatus: number | undefined
+    let providerContentType = ''
+    let providerFinishReason = ''
+    let providerPromptBlockReason = ''
+    let providerUsageMetadata: Record<string, number> | null = null
+    let providerBytesReceived = 0
+    let modelText = ''
+    let jsonStatus = 'not_attempted'
     try {
       progress('request_received', mode === 'photo' ? 'Заявката Gemini Photo е приета. Подготвяме снимката.' : 'Заявката Gemini Text е приета. Снимка не се изпраща.')
       const parts: Array<Record<string, unknown>> = []
@@ -226,7 +236,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         return
       }
 
-      const providerContentType = (apiResponse.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
+      providerHttpStatus = apiResponse.status
+      providerContentType = (apiResponse.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
       console.info('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_headers', providerHttpStatus: apiResponse.status, providerContentType })
       send({ type: 'progress', stage: 'provider_headers', message: 'Google отговори. Проверяваме статуса и потока.', requestId, mode, providerHttpStatus: apiResponse.status, providerContentType, elapsedMs: Date.now() - startedAt })
       if (!apiResponse.ok) {
@@ -254,7 +265,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       const decoder = new TextDecoder()
       let buffer = ''
       let eventData: string[] = []
-      let modelText = ''
       let firstChunk = true
       const consumeEvent = () => {
         if (!eventData.length) return
@@ -263,6 +273,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         if (raw === '[DONE]') return
         let chunk: unknown
         try { chunk = JSON.parse(raw) } catch { return }
+        if (isObject(chunk)) {
+          const candidate = Array.isArray(chunk.candidates) && isObject(chunk.candidates[0]) ? chunk.candidates[0] : null
+          if (candidate && typeof candidate.finishReason === 'string') providerFinishReason = cleanText(candidate.finishReason, 48)
+          const promptFeedback = isObject(chunk.promptFeedback) ? chunk.promptFeedback : null
+          if (promptFeedback && typeof promptFeedback.blockReason === 'string') providerPromptBlockReason = cleanText(promptFeedback.blockReason, 48)
+          providerUsageMetadata = summarizeGeminiUsage(chunk.usageMetadata)
+        }
         const delta = extractGeminiStreamText(chunk)
         if (!delta) return
         if (firstChunk) {
@@ -278,7 +295,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       }
 
       progress('streaming', 'Получаваме отговора на Gemini на отделни фрагменти.')
-      let providerBytesReceived = 0
       try {
         while (true) {
           const { value, done } = await reader.read()
@@ -301,10 +317,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       buffer += decoder.decode()
       if (buffer) consumeLine(buffer.replace(/\r$/, ''))
       consumeEvent()
-      if (!modelText.trim()) throw new Error('GEMINI_EMPTY_RESPONSE')
+      if (!modelText.trim()) { jsonStatus = 'empty'; throw new Error('GEMINI_EMPTY_RESPONSE') }
+      const completionFailure = classifyGeminiFinishReason(providerFinishReason, providerPromptBlockReason)
+      if (completionFailure) throw new Error(completionFailure.code)
 
       progress('normalizing', 'Потокът приключи. Проверяваме JSON и подготвяме структурираните полета.')
+      jsonStatus = 'invalid'
       const normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
+      jsonStatus = 'valid'
       if (mode === 'text') {
         normalized.visibleDescription = ''
         normalized.imageAlt = { bg: '', ru: '', en: '' }
@@ -314,8 +334,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
-      console.error('[manager-plants-gemini-test]', { requestId, mode, code: safe.code, errorType: error instanceof Error ? error.name : 'unknown' })
-      send({ type: 'error', ...safe, requestId, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
+      const diagnostics = { providerHttpStatus, providerContentType, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, jsonStatus }
+      console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'response_validation', code: safe.code, errorType: error instanceof Error ? error.name : 'unknown', ...diagnostics })
+      send({ type: 'error', ...safe, ...diagnostics, requestId, stage: 'response_validation', elapsedMs: Date.now() - startedAt, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
     }
   })
 }
