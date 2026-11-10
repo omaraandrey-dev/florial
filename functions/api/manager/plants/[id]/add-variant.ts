@@ -1,11 +1,10 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
 import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest } from '../../plant-duplicate-lib.mjs'
 import {
-  auditSnapshot, cleanText, errorJson, isObject, parseJsonBody, requirePlantRole,
+  auditSnapshot, cleanText, errorJson, parseJsonBody, requirePlantRole,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
 } from '../../plant-direct-lib'
 
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
 const assetPattern = /^image-[A-Za-z0-9-]+$/
 const variantKeyPattern = /^[A-Za-z0-9_-]{8,80}$/
