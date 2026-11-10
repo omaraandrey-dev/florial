@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { validatePlantVariantStock } from '../functions/api/manager/plant-direct-lib.ts'
+import { validatePlantVariantStock } from '../functions/api/manager/plant-stock-lib.mjs'
 
 const variant = (key, stockStatus = 'inStock', stockQuantity = 20) => ({
   _key: key, name: '80 см', priceEUR: 100, stockStatus, stockQuantity,
