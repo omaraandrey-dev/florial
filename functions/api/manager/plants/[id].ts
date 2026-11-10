@@ -1,7 +1,7 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../_lib'
 import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit, type PlantDocument } from '../plant-direct-lib'
+import { validatePlantUpdateRequest } from '../plant-update-request-lib.mjs'
 
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
 
 export const onRequestGet = async ({ request, env, params }: { request: Request; env: ManagerEnv; params: { id: string } }) => {
@@ -31,8 +31,19 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)
   const body = await parseJsonBody(request)
-  if (!body || !uuid.test(String(body.idempotencyKey || '')) || !body.product || typeof body.expectedRevision !== 'string') {
-    return errorJson('Invalid product update request.', 400)
+  const invalidFields = validatePlantUpdateRequest(body)
+  if (invalidFields.length) {
+    const labels: Record<string, string> = {
+      body: 'JSON-тяло на заявката',
+      idempotencyKey: 'идентификатор на операцията',
+      product: 'данни на растението',
+      expectedRevision: 'ревизия на растението',
+    }
+    return json({
+      error: 'Заявката за актуализиране на растението е невалидна. Проверете: ' + invalidFields.map(field => labels[field] || field).join(', ') + '.',
+      code: 'INVALID_PRODUCT_UPDATE_REQUEST',
+      invalidFields,
+    }, 400)
   }
   if (body.aiProof !== undefined && body.aiProof !== null && body.aiProof !== '' && !await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Невалиден резултат Google. Обновете карточката и опитайте отново.', 403)
   const idempotencyKey = String(body.idempotencyKey)
