@@ -243,7 +243,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         if (!delta) return
         if (firstChunk) {
           firstChunk = false
-          progress('first_token', 'Google прислал первый фрагмент ответа. Получаем продолжение.')
+          progress('first_token', 'Google изпрати първия фрагмент от отговора. Получаваме продължението.')
         }
         modelText += delta
         send({ type: 'delta', text: delta, chars: modelText.length, elapsedMs: Date.now() - startedAt })
