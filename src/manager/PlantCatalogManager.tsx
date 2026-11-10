@@ -18,7 +18,7 @@ type Props={role:Role}
 type RichTextOriginal={description:any;careGuide:any;translations:Record<string,any>}
 const stockLabels:Record<string,string>={inStock:'В наличност',onRequest:'По заявка',outOfStock:'Няма наличност',mixed:'Различна наличност'}
 const productTypes=[['plant','Растение'],['tree','Дърво'],['shrub','Храст'],['flower','Цвете'],['perennial','Многогодишно растение'],['indoor','Стайно растение'],['citrus','Цитрус'],['palm','Палма'],['conifer','Иглолистно растение'],['fruit','Плодово растение'],['succulent','Сукулент'],['climber','Катерливо растение'],['ornamentalGrass','Декоративна трева'],['groundcover','Почвопокривно растение'],['bulb','Луковично растение'],['herb','Билка'],['aquatic','Водно растение'],['other','Друг вид растение']]
-const newVariant=():Variant=>({_key:crypto.randomUUID().replace(/-/g,'').slice(0,12),name:'',nameEn:'',nameRu:'',sku:'',saleHeightCm:'',containerVolumeL:'',priceEUR:'',oldPriceEUR:'',stockStatus:'onRequest',stockQuantity:'',nameAuto:true})
+const newVariant=():Variant=>({_key:crypto.randomUUID().replace(/-/g,'').slice(0,12),name:'',nameEn:'',nameRu:'',sku:'',saleHeightCm:'',containerVolumeL:'',priceEUR:'',oldPriceEUR:'',stockStatus:'inStock',stockQuantity:'',nameAuto:true})
 const emptyForm=():PlantForm=>({name:'',slug:'',slugAuto:true,scientificName:'',sku:'',productType:'plant',categoryId:'',categoryIds:[],shortDescription:'',description:'',isFeatured:false,isActive:true,saleVariants:[newVariant()],plantCare:{},careGuide:'',translations:{bg:{},ru:{},en:{}},seo:{h1:'',metaTitle:'',metaDescription:''}})
 const plainText=(value:any):string=>typeof value==='string'?value:Array.isArray(value)?value.map((block:any)=>Array.isArray(block?.children)?block.children.map((child:any)=>child?.text||'').join(''):'').filter(Boolean).join('\n\n'):''
 const transliteration:Record<string,string>={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'sht',ъ:'a',ь:'y',ю:'yu',я:'ya',ё:'yo'}
@@ -251,7 +251,7 @@ export default function PlantCatalogManager({role}:Props){
   const care=suggestion.plantCare||{}
   const numeric=(value:any)=>value!==''&&value!==null&&value!==undefined&&Number.isFinite(Number(value))?Number(value):undefined
   const topScientificCandidate=Array.isArray(suggestion.scientificCandidates)?suggestion.scientificCandidates[0]:null
-  const nextScientificName=topScientificCandidate?.confidence==='high'?topScientificCandidate.scientificName:form.scientificName
+  const nextScientificName=form.scientificName.trim()?form.scientificName:(topScientificCandidate?.scientificName||form.scientificName)
   const needsIdentityConfirmation=!plantName&&!form.name.trim()
   const nextForm:PlantForm={...form,name:nextName,scientificName:nextScientificName,slug:form.slugAuto?slugify(nextName):form.slug,productType:productTypes.some(([value])=>value===suggestion.productType)?suggestion.productType:form.productType,categoryId:categoryId||form.categoryId,categoryIds:categoryId?[categoryId]:form.categoryIds,shortDescription:suggestion.descriptions?.bg?.shortDescription||'',description:suggestion.descriptions?.bg?.description||'',translations:localized,seo:{h1:bgSeo.h1||'',metaTitle:bgSeo.metaTitle||'',metaDescription:bgSeo.metaDescription||''},...(role==='owner'?{plantCare:{light:['sun','partialShade','shade'].includes(care.light)?care.light:undefined,waterNeeds:['low','medium','high'].includes(care.waterNeeds)?care.waterNeeds:undefined,minWinterTempC:numeric(care.minWinterTempC),adultHeightCm:numeric(care.adultHeightCm),foliageType:['evergreen','deciduous'].includes(care.foliageType)?care.foliageType:undefined,floweringSeason:Array.isArray(care.floweringSeason)?care.floweringSeason:[],plantingSeason:Array.isArray(care.plantingSeason)?care.plantingSeason:[],blackSeaCoast:'needsVerification'},careGuide:suggestion.careGuide||''}:{})}
   const nextImages=geminiResult.mode==='photo'&&suggestion.imageAlt?images.map((image,index)=>index===mainImageIndex?{...image,alt:suggestion.imageAlt.bg||image.alt,altRu:suggestion.imageAlt.ru||image.altRu,altEn:suggestion.imageAlt.en||image.altEn}:image):images
@@ -278,7 +278,7 @@ export default function PlantCatalogManager({role}:Props){
   const needsIdentityConfirmation=overrides?.identityNeedsConfirmation??aiIdentityNeedsConfirmation
   const fail=(message:string)=>{setError(message);if(overrides)setGeminiError(message);return false}
   if(needsIdentityConfirmation)return fail('Въведете и потвърдете реалното име на растението преди записване.')
-  if(!activeProof)return fail('Първо проверете растението с Google Gemini и потвърдете резултата.')
+  if(!editingId&&!activeProof)return fail('Първо проверете растението с Google Gemini и потвърдете резултата.')
   if(!activeForm.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0))return fail('Добавете поне един реален размер: височина или обем на контейнера.')
   const allowedCategoryIds=activeForm.categoryIds.filter(id=>categoryOptions.some(item=>item._id===id));
   if(!activeForm.name.trim()||!allowedCategoryIds.length||!activeForm.slug.trim()||!activeForm.saleVariants.length||!activeImages.length)return fail('Попълнете име, крайна категория, поне един размер и добавете снимка.')
@@ -439,7 +439,7 @@ export default function PlantCatalogManager({role}:Props){
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Наличност</span><select className={inputClass} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество</span><input type="number" min="0" step="1" className={inputClass} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
