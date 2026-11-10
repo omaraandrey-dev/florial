@@ -70,6 +70,7 @@ export default function PlantCatalogManager({role}:Props){
  const [geminiResult,setGeminiResult]=useState<any|null>(null)
  const [geminiModalOpen,setGeminiModalOpen]=useState(false)
  const [duplicateCheckPending,setDuplicateCheckPending]=useState(false)
+ const [existingPlantSelected,setExistingPlantSelected]=useState(false)
  const [geminiProof,setGeminiProof]=useState<string|null>(null)
  const [geminiProofAssetId,setGeminiProofAssetId]=useState('')
  const [geminiTextQuery,setGeminiTextQuery]=useState('')
@@ -104,9 +105,9 @@ export default function PlantCatalogManager({role}:Props){
   const timer=window.setInterval(update,1000)
   return ()=>window.clearInterval(timer)
  },[geminiLoading])
- const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
-  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
+  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
   try{
    const response=await fetch('/api/manager/plants/'+encodeURIComponent(id),{credentials:'same-origin',cache:'no-store'})
@@ -494,7 +495,7 @@ export default function PlantCatalogManager({role}:Props){
    <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
     <div className="flex items-center justify-between gap-3 border-b border-stone-200 p-4">
      <div><h2 id="gemini-result-title" className="text-lg font-bold text-stone-900">Резултат от Google Gemini</h2><p className="text-xs text-stone-500">{geminiResult.mode==='text'?'Проверка по име':'Проверка по снимка'} · {geminiResult.model} · {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p></div>
-     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false)}}>Затвори</button>
+     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false)}}>Затвори</button>
     </div>
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
      <div className="rounded-xl bg-stone-50 p-3">
@@ -507,6 +508,7 @@ export default function PlantCatalogManager({role}:Props){
         proof={geminiProof}
         proofAssetId={geminiProofAssetId}
         onCheckStateChange={setDuplicateCheckPending}
+        onSelectionStateChange={setExistingPlantSelected}
         image={images[mainImageIndex]?{
          ...images[mainImageIndex],
          alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
@@ -514,7 +516,7 @@ export default function PlantCatalogManager({role}:Props){
          altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
         }:null}
         onAdded={({productName,imageAdded,imageAlreadyPresent,galleryFull})=>{
-         setGeminiModalOpen(false);setDuplicateCheckPending(false);setEditorOpen(false);setEditingId(null)
+         setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setEditorOpen(false);setEditingId(null)
          setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':galleryFull?'Галерията е пълна; размерът е добавен без нова снимка.':'Размерът е добавен без промяна на снимките.'))
          void load()
         }}
@@ -537,8 +539,8 @@ export default function PlantCatalogManager({role}:Props){
      {!geminiProof&&<p className="text-sm text-amber-800">За да се запише резултатът, трябва да има основна снимка в карточката. В Text режим снимката се използва само за защита на записа и не се изпраща към Google.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
-     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false)}}>Отмени</button>
-     <button type="button" disabled={saving||duplicateCheckPending||!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>{duplicateCheckPending?'Проверяваме каталога…':'Да, приложи и запази'}</button>
+     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false)}}>Отмени</button>
+     <button type="button" disabled={saving||duplicateCheckPending||existingPlantSelected||!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>{duplicateCheckPending?'Проверяваме каталога…':existingPlantSelected?'Добавете варианта или затворете списъка':'Да, приложи и запази'}</button>
     </div>
    </div>
   </div>}
