@@ -180,6 +180,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   }
   candidates=imageAnalysis.candidates.length?imageAnalysis.candidates:[]
   if(!candidates.length&&candidateResult.status==='fulfilled'&&candidateResult.value)candidates=normalizeCandidates(candidateResult.value.candidates)
+  // A missing visual name is recoverable: use a temporary label, but never assert an unverified species.
   const identityNeedsConfirmation=!(suppliedName||imageAnalysis.name)
   name=suppliedName||imageAnalysis.name||'Растение за идентификация'
   if(identityNeedsConfirmation)warnings.push('ИИ не успя да определи надеждно името. Въведете и потвърдете търговското име преди записване.')
