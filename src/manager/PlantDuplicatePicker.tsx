@@ -18,7 +18,7 @@ type Props = {
   proof: string | null
   proofAssetId: string
   image: DuplicateImage | null
-  onAdded: (result: { productName: string; imageAdded: boolean; imageAlreadyPresent?: boolean }) => void
+  onAdded: (result: { productName: string; imageAdded: boolean; imageAlreadyPresent?: boolean; galleryFull?: boolean }) => void
   onCheckStateChange: (pending: boolean) => void
 }
 const money = (value: number) => new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'EUR' }).format(value)
@@ -102,7 +102,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
       })
       const result = await responseJson(response)
       if (!response.ok) {
-        if (result.conflict) {
+        if (response.status === 409 || result.conflict) {
           setPendingOperation(null)
           setSelected(null)
           setOpen(false)
@@ -110,7 +110,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
         }
         throw new Error(result.error || 'Не успяхме да добавим размера.')
       }
-      onAdded({ productName: selected.name, imageAdded: result.imageAdded === true, imageAlreadyPresent: result.imageAlreadyPresent === true })
+      onAdded({ productName: selected.name, imageAdded: result.imageAdded === true, imageAlreadyPresent: result.imageAlreadyPresent === true, galleryFull: result.galleryFull === true })
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Не успяхме да добавим размера.')
     } finally {
