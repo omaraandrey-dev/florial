@@ -40,7 +40,7 @@ const text = (value: unknown, max: number) =>
 export const classifyGeminiFinishReason = (finishReason: unknown, promptBlockReason: unknown = '') => {
   const reason = text(finishReason, 48).toUpperCase()
   const promptReason = text(promptBlockReason, 48).toUpperCase()
-  if (promptReason || ['SAFETY', 'BLOCKLIST', 'PROHIBITED_CONTENT', 'SPII', 'RECITATION'].includes(reason)) {
+  if ((promptReason && promptReason !== 'BLOCK_REASON_UNSPECIFIED') || ['SAFETY', 'BLOCKLIST', 'PROHIBITED_CONTENT', 'SPII', 'RECITATION'].includes(reason)) {
     return { code: 'GEMINI_SAFETY_BLOCKED', hint: 'Google прекрати отговора по правилата за безопасност. Проверете снимката или формулировката и опитайте отново.', finishReason: reason || null, promptBlockReason: promptReason || null }
   }
   if (reason === 'MAX_TOKENS') {
