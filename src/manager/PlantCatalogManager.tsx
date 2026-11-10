@@ -206,7 +206,7 @@ export default function PlantCatalogManager({role}:Props){
     if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage((event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''))}
     if(event.type==='heartbeat')setGeminiStage('Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…')
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
-    if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiProof(typeof event.aiProof==='string'?event.aiProof:null);setGeminiProofAssetId(typeof event.proofAssetId==='string'?event.proofAssetId:'');setGeminiModalOpen(true);setGeminiStage('Анализът е завършен. Проверете резултата и потвърдете прилагането.')}
+    if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiProof(typeof event.aiProof==='string'?event.aiProof:null);setGeminiProofAssetId(typeof event.proofAssetId==='string'?event.proofAssetId:'');setDuplicateCheckPending(true);setGeminiModalOpen(true);setGeminiStage('Анализът е завършен. Проверете резултата и потвърдете прилагането.')}
     if(event.type==='error')streamError=[event.error||'Gemini не успя да обработи заявката.',event.code?'Код: '+event.code:'',event.stage?'Етап: '+event.stage:'',event.providerHttpStatus?'Google HTTP: '+event.providerHttpStatus:'',event.providerStatus?'Причина Google: '+event.providerStatus:'',event.providerContentType?'Тип отговора: '+event.providerContentType:'',event.providerBytesReceived!==undefined?'Получени bytes: '+event.providerBytesReceived:'',event.modelCharsReceived!==undefined?'Получени символи: '+event.modelCharsReceived:'',event.providerMessage?'Подробности Google: '+event.providerMessage:'',event.requestId?'ID: '+event.requestId:''].filter(Boolean).join(' · ')
    }
    while(true){
@@ -512,7 +512,7 @@ export default function PlantCatalogManager({role}:Props){
          altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
         }:null}
         onAdded={({productName,imageAdded,imageAlreadyPresent})=>{
-         setGeminiModalOpen(false);setEditorOpen(false);setEditingId(null)
+         setGeminiModalOpen(false);setDuplicateCheckPending(false);setEditorOpen(false);setEditingId(null)
          setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':'Галерията е пълна; размерът е добавен без нова снимка.'))
          void load()
         }}
@@ -535,8 +535,8 @@ export default function PlantCatalogManager({role}:Props){
      {!geminiProof&&<p className="text-sm text-amber-800">За да се запише резултатът, трябва да има основна снимка в карточката. В Text режим снимката се използва само за защита на записа и не се изпраща към Google.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
-     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>setGeminiModalOpen(false)}>Отмени</button>
-     <button type="button" disabled={saving||!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи и запази</button>
+     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false)}}>Отмени</button>
+     <button type="button" disabled={saving||duplicateCheckPending||!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>{duplicateCheckPending?'Проверяваме каталога…':'Да, приложи и запази'}</button>
     </div>
    </div>
   </div>}
