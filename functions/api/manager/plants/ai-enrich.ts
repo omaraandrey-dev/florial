@@ -106,22 +106,27 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
  let verifiedScientificName=suppliedScientificName
  let botanicalVerification:Record<string,unknown>|null=null
  try{
-  stage='image_analysis'
-  if(body.mainImage){try{visibleObservation=await analyzeMainImage(env,body.mainImage);if(!visibleObservation)warnings.push('ALT за основната снимка не беше генериран.')}catch{warnings.push('Основната снимка не можа да бъде анализирана; текстовете ще бъдат генерирани без визуално описание.')}}
+  stage='image_analysis_and_botanical_candidate'
+  const identifyPrompt=[
+   'Identify likely botanical species from the seller-entered plant name and text only. This is taxonomic name resolution, not photo recognition.',
+   'Use Bulgarian common names and horticultural context. Return up to three real Latin binomials, ranked by likelihood. Do not invent cultivars or names. Mark confidence high only when the common name has one clear, widely accepted species meaning; otherwise medium or low.',
+   'Input name: '+name,
+   'Plant type: '+productType,
+   'Category: '+(category||'not supplied'),
+   'Seller description: '+(description||shortDescription||'not supplied'),
+   'Return JSON: {"candidates":[{"scientificName":"Prunus laurocerasus","confidence":"high","reason":"Кратко обяснение на български"}]}',
+  ].join('\n\n')
+  const imageTask=body.mainImage?analyzeMainImage(env,body.mainImage):Promise.resolve('')
+  const candidateTask=!suppliedScientificName?runJsonModel(env,identifyPrompt,900):Promise.resolve(null)
+  const [imageResult,candidateResult]=await Promise.allSettled([imageTask,candidateTask])
+  if(imageResult.status==='fulfilled'){
+   visibleObservation=imageResult.value
+   if(body.mainImage&&!visibleObservation)warnings.push('ALT за основната снимка не беше генериран.')
+  }else if(body.mainImage)warnings.push('Основната снимка не можа да бъде анализирана; текстовете ще бъдат генерирани без визуално описание.')
   if(!suppliedScientificName){
-   stage='botanical_candidate_generation'
-   try{
-    const identifyPrompt=[
-     'Identify likely botanical species from the seller-entered plant name and text only. This is taxonomic name resolution, not photo recognition.',
-     'Use Bulgarian common names and horticultural context. Return up to three real Latin binomials, ranked by likelihood. Do not invent cultivars or names. Mark confidence high only when the common name has one clear, widely accepted species meaning; otherwise medium or low.',
-     'Input name: '+name,
-     'Plant type: '+productType,
-     'Category: '+(category||'not supplied'),
-     'Seller description: '+(description||shortDescription||'not supplied'),
-     'Return JSON: {"candidates":[{"scientificName":"Prunus laurocerasus","confidence":"high","reason":"Кратко обяснение на български"}]}',
-    ].join('\n\n')
-    const identified=await runJsonModel(env,identifyPrompt,900)
-    candidates=normalizeCandidates(identified.candidates)
+   if(candidateResult.status==='fulfilled'&&candidateResult.value){
+    candidates=normalizeCandidates(candidateResult.value.candidates)
+    stage='botanical_verification'
     const highCandidates=candidates.filter(item=>item.confidence==='high')
     for(const candidate of highCandidates){
      try{
@@ -137,7 +142,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
      if(candidates.length)warnings.push('ИИ предложи възможни ботанически имена, но няма точна потвърдена видова идентификация. Научното име не е попълнено автоматично.')
      else warnings.push('ИИ не успя да определи ботаническото име с достатъчна увереност.')
     }
-   }catch{warnings.push('Ботаническото име не беше определено автоматично; описанията ще бъдат генерирани без непотвърдени видови твърдения.')}
+   }else warnings.push('Ботаническото име не беше определено автоматично; описанията ще бъдат генерирани без непотвърдени видови твърдения.')
   }
   stage='content_generation'
   const prompt=[
