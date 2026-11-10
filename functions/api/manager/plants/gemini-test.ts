@@ -253,7 +253,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         if (line.startsWith('data:')) eventData.push(line.slice(5).trimStart())
       }
 
-      progress('streaming', 'Получаем ответ Gemini потоковыми фрагментами.')
+      progress('streaming', 'Получаваме отговора на Gemini на отделни фрагменти.')
       while (true) {
         const { value, done } = await reader.read()
         if (done) break
@@ -270,7 +270,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       consumeEvent()
       if (!modelText.trim()) throw new Error('GEMINI_EMPTY_RESPONSE')
 
-      progress('normalizing', 'Поток завершён. Проверяем JSON и подготавливаем структурированные поля.')
+      progress('normalizing', 'Потокът приключи. Проверяваме JSON и подготвяме структурираните полета.')
       const normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
       if (mode === 'text') {
         normalized.visibleDescription = ''
