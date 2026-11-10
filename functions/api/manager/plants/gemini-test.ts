@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, issuePlantAiProof, parseJsonBody, PRODUCT_TYPES, requirePlantRole } from '../plant-direct-lib'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.5-flash-lite'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -183,6 +183,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     let providerBytesReceived = 0
     let modelText = ''
     let jsonStatus = 'not_attempted'
+    let jsonParseError: string | null = null
+    let providerSseDiagnostics = { eventCount: 0, malformedEventCount: 0, ignoredLineCount: 0, dataChars: 0 }
     try {
       progress('request_received', mode === 'photo' ? 'Заявката Gemini Photo е приета. Подготвяме снимката.' : 'Заявката Gemini Text е приета. Снимка не се изпраща.')
       const parts: Array<Record<string, unknown>> = []
@@ -263,16 +265,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
       const reader = apiResponse.body.getReader()
       const decoder = new TextDecoder()
-      let buffer = ''
-      let eventData: string[] = []
       let firstChunk = true
-      const consumeEvent = () => {
-        if (!eventData.length) return
-        const raw = eventData.join('\n')
-        eventData = []
-        if (raw === '[DONE]') return
-        let chunk: unknown
-        try { chunk = JSON.parse(raw) } catch { return }
+      const sseParser = createGeminiSseParser((chunk: unknown) => {
         if (isObject(chunk)) {
           const candidate = Array.isArray(chunk.candidates) && isObject(chunk.candidates[0]) ? chunk.candidates[0] : null
           if (candidate && typeof candidate.finishReason === 'string') providerFinishReason = cleanText(candidate.finishReason, 48)
@@ -289,11 +283,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         }
         modelText += delta
         send({ type: 'delta', text: delta, chars: modelText.length, elapsedMs: Date.now() - startedAt })
-      }
-      const consumeLine = (line: string) => {
-        if (!line) { consumeEvent(); return }
-        if (line.startsWith('data:')) eventData.push(line.slice(5).trimStart())
-      }
+      })
 
       progress('streaming', 'Получаваме отговора на Gemini на отделни фрагменти.')
       try {
@@ -301,30 +291,30 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
           const { value, done } = await reader.read()
           if (done) break
           providerBytesReceived += value?.byteLength || 0
-          buffer += decoder.decode(value, { stream: true })
-          let newline = buffer.indexOf('\n')
-          while (newline >= 0) {
-            consumeLine(buffer.slice(0, newline).replace(/\r$/, ''))
-            buffer = buffer.slice(newline + 1)
-            newline = buffer.indexOf('\n')
-          }
+          sseParser.push(decoder.decode(value, { stream: true }))
         }
+        sseParser.push(decoder.decode())
+        providerSseDiagnostics = sseParser.finish()
       } catch (error) {
+        providerSseDiagnostics = sseParser.getStats()
         const diagnostic = classifyGeminiTransportError('stream')
-        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown' })
-        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, elapsedMs: Date.now() - startedAt })
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown' })
+        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, elapsedMs: Date.now() - startedAt })
         return
       }
-      buffer += decoder.decode()
-      if (buffer) consumeLine(buffer.replace(/\r$/, ''))
-      consumeEvent()
       const completionFailure = classifyGeminiFinishReason(providerFinishReason, providerPromptBlockReason)
       if (completionFailure) throw new Error(completionFailure.code)
       if (!modelText.trim()) { jsonStatus = 'empty'; throw new Error('GEMINI_EMPTY_RESPONSE') }
 
       progress('normalizing', 'Потокът приключи. Проверяваме JSON и подготвяме структурираните полета.')
       jsonStatus = 'invalid'
-      const normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
+      let normalized
+      try {
+        normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
+      } catch (error) {
+        if (error instanceof Error && error.message === 'GEMINI_INVALID_JSON') jsonParseError = describeGeminiJsonError(modelText)
+        throw error
+      }
       jsonStatus = 'valid'
       if (mode === 'text') {
         normalized.visibleDescription = ''
@@ -335,7 +325,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
-      const diagnostics = { providerHttpStatus, providerContentType, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, jsonStatus }
+      const diagnostics = { providerHttpStatus, providerContentType, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, jsonStatus, jsonParseError }
       console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'response_validation', code: safe.code, errorType: error instanceof Error ? error.name : 'unknown', ...diagnostics })
       send({ type: 'error', ...safe, ...diagnostics, requestId, stage: 'response_validation', elapsedMs: Date.now() - startedAt, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
     }
