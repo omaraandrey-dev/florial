@@ -116,8 +116,8 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   if (!items.length) return error ? <span className="text-xs text-amber-800">{error}</span> : null
 
   return <div className="flex flex-wrap items-center gap-2">
-    <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-600" aria-label="Намерено е съвпадение в каталога" />
-    <button type="button" className="text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); setError('') }}>
+    <button type="button" className="inline-flex items-center gap-2 text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); setError('') }}>
+      <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-600" aria-hidden="true" />
       {items.length === 1 ? 'Има съвпадение в каталога' : 'Има ' + items.length + ' съвпадения в каталога'}
     </button>
     {open && <div className="mt-3 basis-full space-y-3 rounded-xl border border-red-200 bg-red-50/50 p-3">
