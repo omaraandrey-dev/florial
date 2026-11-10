@@ -225,7 +225,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         return
       }
 
-      progress('provider_headers', 'Google отговори. Проверяваме статуса и потока.')
+      const providerContentType = (apiResponse.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
+      console.info('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_headers', providerHttpStatus: apiResponse.status, providerContentType })
+      send({ type: 'progress', stage: 'provider_headers', message: 'Google отговори. Проверяваме статуса и потока.', requestId, mode, providerHttpStatus: apiResponse.status, providerContentType, elapsedMs: Date.now() - startedAt })
       if (!apiResponse.ok) {
         const providerPayload = await apiResponse.json().catch(() => null) as unknown
         const providerError = isObject(providerPayload) && isObject(providerPayload.error) ? providerPayload.error : {}
@@ -245,7 +247,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       }
       if (!apiResponse.body) throw new Error('GEMINI_EMPTY_RESPONSE')
 
-      const providerContentType = (apiResponse.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
       const reader = apiResponse.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
