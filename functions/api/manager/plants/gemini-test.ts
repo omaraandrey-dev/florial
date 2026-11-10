@@ -82,7 +82,9 @@ const readPlantImage = async (value: unknown) => {
   let url: URL
   try { url = new URL(rawUrl) } catch { throw new Error('GEMINI_IMAGE_INVALID') }
   if (url.protocol !== 'https:' || url.hostname !== 'cdn.sanity.io' || !url.pathname.startsWith('/images/bxvcy0qs/plants/')) throw new Error('GEMINI_IMAGE_INVALID')
-  const response = await fetch(url.toString(), { signal: AbortSignal.timeout(IMAGE_TIMEOUT_MS), cache: 'no-store' })
+  let response: Response
+  try { response = await fetch(url.toString(), { signal: AbortSignal.timeout(IMAGE_TIMEOUT_MS), cache: 'no-store' }) }
+  catch (error) { if (error instanceof Error && error.name === 'TimeoutError') throw new Error('GEMINI_IMAGE_DOWNLOAD_TIMEOUT'); throw error }
   if (!response.ok) throw new Error('GEMINI_IMAGE_DOWNLOAD_FAILED')
   const contentType = (response.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) throw new Error('GEMINI_IMAGE_TYPE_INVALID')
@@ -96,9 +98,9 @@ const readPlantImage = async (value: unknown) => {
 const failure = (error: unknown) => {
   const message = error instanceof Error ? error.message : ''
   if (/GEMINI_IMAGE_INVALID/.test(message)) return { code: 'GEMINI_IMAGE_INVALID', hint: 'Основната снимка не е валиден Sanity asset за каталога с растения.' }
-  if (/GEMINI_IMAGE_DOWNLOAD_FAILED|GEMINI_IMAGE_TYPE_INVALID|GEMINI_IMAGE_TOO_LARGE|TimeoutError|GEMINI_IMAGE_DOWNLOAD_TIMEOUT/.test(message)) return { code: 'GEMINI_IMAGE_UNAVAILABLE', hint: 'Снимката не може да бъде заредена за Gemini. Проверете снимката и опитайте отново.' }
+  if (/GEMINI_IMAGE_DOWNLOAD_FAILED|GEMINI_IMAGE_TYPE_INVALID|GEMINI_IMAGE_TOO_LARGE|GEMINI_IMAGE_DOWNLOAD_TIMEOUT/.test(message)) return { code: 'GEMINI_IMAGE_UNAVAILABLE', hint: 'Снимката не може да бъде заредена за Gemini. Проверете снимката и опитайте отново.' }
   if (/GEMINI_RATE_LIMIT|429/.test(message)) return { code: 'GEMINI_RATE_LIMIT', hint: 'Достигнат е текущият лимит на Gemini. Изчакайте възстановяване на квотата и опитайте отново.' }
-  if (/GEMINI_TIMEOUT|AbortError/.test(message)) return { code: 'GEMINI_TIMEOUT', hint: 'Gemini не отговори в рамките на пет минути. Опитайте отново по-късно.' }
+  if (/GEMINI_TIMEOUT|AbortError|TimeoutError/.test(message)) return { code: 'GEMINI_TIMEOUT', hint: 'Gemini не отговори в рамките на пет минути. Опитайте отново по-късно.' }
   if (/GEMINI_INVALID_JSON|GEMINI_EMPTY_RESPONSE/.test(message)) return { code: 'GEMINI_INVALID_RESPONSE', hint: 'Gemini върна непълен или невалиден структуриран отговор.' }
   return { code: 'GEMINI_PROVIDER_ERROR', hint: 'Gemini временно не успя да обработи заявката. Проверете API ключа и лимитите в Google AI Studio.' }
 }
@@ -154,7 +156,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
   return streamResponse(async (send) => {
     const startedAt = Date.now()
-    const progress = (stage: string, message: string) => send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt })
+    const progress = (stage: string, message: string) => send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
     try {
       progress('request_received', mode === 'photo' ? 'Заявката Gemini Photo е приета. Подготвяме снимката.' : 'Заявката Gemini Text е приета. Снимка не се изпраща.')
       const parts: Array<Record<string, unknown>> = []
