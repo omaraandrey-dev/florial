@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
-import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib'
+import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib.mjs'
 import {
   auditSnapshot, cleanText, errorJson, isObject, parseJsonBody, requirePlantRole,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
