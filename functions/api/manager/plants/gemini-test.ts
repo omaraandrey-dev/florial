@@ -110,10 +110,10 @@ const failure = (error: unknown) => {
 export const onRequestPost = async ({ request, env }: { request: Request; env: ManagerEnv }) => {
   const requestId = crypto.randomUUID()
   if (!checkSameOrigin(request)) return json({ error: 'Origin not allowed.' }, 403)
+  if (!env.DB) return json({ error: 'Manager database is not configured.' }, 503)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
   if (auth.user.role !== 'owner') return json({ error: 'Тестът Gemini е достъпен само за Owner.' }, 403)
-  if (!env.DB) return json({ error: 'Manager database is not configured.' }, 503)
   if (!env.GEMINI_API_KEY) return json({ error: 'Добавете GEMINI_API_KEY в Cloudflare Pages → Settings → Variables and Secrets (Production), тип Secret.' }, 503)
   const body = await parseJsonBody(request)
   if (!body || !isObject(body.product) || !body.mainImage) return errorJson('Добавете основна снимка и данни за растението.', 400)
@@ -144,15 +144,21 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       'SAFETY: Never invent price, SKU, sale size, container volume, availability or cultivar. Photo-based candidates are not proof. If plant identity is unclear, do not write species-specific care facts. Return all required JSON fields, using empty strings/arrays for unknown values.',
     ].join('\n\n')
 
-    const apiResponse = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':generateContent', {
+    let apiResponse: Response
+    try {
+      apiResponse = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':generateContent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }, { inlineData: image }] }],
         generationConfig: { temperature: 0.2, maxOutputTokens: 8192, responseMimeType: 'application/json', responseSchema },
       }),
-      signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
-    })
+        signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
+      })
+    } catch (error) {
+      if (error instanceof Error && error.name === 'TimeoutError') throw new Error('GEMINI_TIMEOUT')
+      throw error
+    }
     if (!apiResponse.ok) {
       const providerError = apiResponse.status === 429 ? 'GEMINI_RATE_LIMIT' : 'GEMINI_HTTP_' + apiResponse.status
       console.error('[manager-plants-gemini-test]', { requestId, status: apiResponse.status })
