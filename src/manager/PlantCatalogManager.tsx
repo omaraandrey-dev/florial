@@ -169,7 +169,7 @@ export default function PlantCatalogManager({role}:Props){
   const requestedName=mode==='text'?(geminiTextQuery.trim()||form.name.trim()):form.name.trim()
   if(mode==='photo'&&!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
   if(mode==='text'&&!requestedName){setGeminiError('Въведете име на растение, например „лавровишня“.');return}
-  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…');setGeminiRequestId('')
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…');setGeminiRequestId('')
   const controller=new AbortController()
   const requestTimeout=window.setTimeout(()=>controller.abort(),310000)
   try{
@@ -232,7 +232,8 @@ export default function PlantCatalogManager({role}:Props){
   const suggestion=geminiResult?.result
   if(!suggestion){setGeminiError('Няма завършен резултат от Google за прилагане.');return}
   const selected=images[mainImageIndex]
-  if(!selected||!geminiProof||geminiProofAssetId!==selected.assetId){setGeminiError('За да приложите резултата, изберете основна снимка и изпълнете проверката отново.');return}
+  const proofMatchesSelectedImage=Boolean(selected&&geminiProof&&geminiProofAssetId===selected.assetId)
+  if(geminiResult.mode==='photo'&&!proofMatchesSelectedImage){setGeminiError('За да приложите резултата, изберете основната снимка и изпълнете проверката отново.');return}
   const plantName=String(suggestion.plantName||'').trim()
   const nextName=plantName||form.name||'Растение за идентификация'
   const categoryId=categoryOptions.some(item=>item._id===suggestion.categoryId)?suggestion.categoryId:''
@@ -256,10 +257,10 @@ export default function PlantCatalogManager({role}:Props){
   if(!categoryId)warnings.push('Google не предложи валидна категория. Запазена е текущата категория.')
   if(Array.isArray(suggestion.scientificCandidates)&&suggestion.scientificCandidates.length)warnings.push('Латинските имена са кандидати, а не научно потвърдено име. Изберете и проверете ботаническото име ръчно.')
   setAiWarnings(warnings)
-  setAiProof(geminiProof)
+  setAiProof(proofMatchesSelectedImage?geminiProof:null)
   setGeminiError('')
   setGeminiModalOpen(false)
-  setNotice('Данните от Google са приложени във формата. Проверете ги и натиснете бутона за запис.')
+  setNotice(proofMatchesSelectedImage?'Данните от Google са приложени във формата. Проверете ги и натиснете бутона за запис.':'Данните от Google са приложени във формата. След като добавите основна снимка, изпълнете отново Gemini Text, за да потвърдите операцията преди запис.')
  }
  const save=async()=>{
   if(saving)return
@@ -499,11 +500,11 @@ export default function PlantCatalogManager({role}:Props){
       {(['bg','ru','en'] as const).map(language=><div key={language} className="mt-2 border-b border-stone-100 pb-2 text-sm"><strong>{language.toUpperCase()}</strong><p>H1: {geminiResult.result.seo?.[language]?.h1||'—'}</p><p>Meta title: {geminiResult.result.seo?.[language]?.metaTitle||'—'}</p><p>Meta description: {geminiResult.result.seo?.[language]?.metaDescription||'—'}</p>{geminiResult.mode==='photo'&&<p>ALT: {geminiResult.result.imageAlt?.[language]||'—'}</p>}</div>)}
      </details>
      <details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">Грижи и характеристики</summary><pre className="mt-2 whitespace-pre-wrap text-xs">{JSON.stringify(geminiResult.result.plantCare||{},null,2)}</pre><p className="mt-2 whitespace-pre-wrap text-sm">{geminiResult.result.careGuide||'—'}</p></details>
-     {!geminiProof&&<p className="text-sm text-amber-800">За прилагане и последващ запис е необходима основна снимка в текущата карточка. Text режимът не изпраща снимката към Google.</p>}
+     {!geminiProof&&<p className="text-sm text-amber-800">Text режимът не изпраща снимката към Google. Ако в карточката все още няма основна снимка, можете да приложите текста, след което добавете снимка и повторете Gemini Text преди запис.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
      <button type="button" className={btn+' border border-stone-300'} onClick={()=>setGeminiModalOpen(false)}>Отмени</button>
-     <button type="button" disabled={!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи резултата</button>
+     <button type="button" disabled={geminiResult.mode==='photo'&&(!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId)} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи резултата</button>
     </div>
    </div>
   </div>}
