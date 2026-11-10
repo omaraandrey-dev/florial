@@ -6,7 +6,7 @@
 
 ### Реализация в PR #187
 
-- GET /api/manager/plants/duplicates — read-only поиск по основному имени, BG/RU/EN переводам и ботаническим кандидатам, exact match без учёта регистра, без drafts.
+- GET /api/manager/plants/duplicates — read-only поиск по основному имени, BG/RU/EN переводам, основному и legacy полю scientificName, exact match без учёта регистра, без drafts.
 - src/manager/PlantDuplicatePicker.tsx — красная точка рядом с именем Gemini, список найденных карточек и компактная форма размера/цены.
 - POST /api/manager/plants/:id/add-variant — append-only операция: сохраняет прежние варианты и галерею, добавляет один новый plantSaleVariant, при наличии места добавляет проверенный Google photo asset в общую gallery.
 - Статус нового варианта по умолчанию onRequest, количество null: продавец вводит только размер и цену, поэтому система не должна заявлять неподтверждённое количество в наличии.
