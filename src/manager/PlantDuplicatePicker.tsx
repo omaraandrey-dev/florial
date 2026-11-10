@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type DuplicateVariant = { _key?: string; name?: string; priceEUR?: number; saleHeightCm?: number | null; containerVolumeL?: number | null }
 type DuplicateProduct = {
@@ -33,7 +33,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   const [error, setError] = useState('')
   const [imageNotice, setImageNotice] = useState('')
 
-  const scientificKey = useMemo(() => scientificNames.filter(Boolean).slice(0, 3).join('|'), [scientificNames])
+  const scientificKey = scientificNames.filter(Boolean).slice(0, 3).join('|')
   useEffect(() => {
     const name = plantName.trim()
     const candidates = scientificKey.split('|').filter(Boolean)
@@ -99,8 +99,8 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     }
   }
 
-  if (loading) return <p className="mt-2 text-xs text-stone-500">Проверяваме каталога за същото растение…</p>
-  if (!items.length) return error ? <p className="mt-2 text-xs text-amber-800">{error}</p> : null
+  if (loading) return <span className="text-xs text-stone-500">Проверяваме каталога…</span>
+  if (!items.length) return error ? <span className="text-xs text-amber-800">{error}</span> : null
 
   return <div className="mt-2">
     <div className="flex flex-wrap items-center gap-2">
@@ -109,7 +109,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
         {items.length === 1 ? 'Има съвпадение в каталога' : 'Има ' + items.length + ' съвпадения в каталога'}
       </button>
     </div>
-    {open && <div className="mt-3 space-y-3 rounded-xl border border-red-200 bg-red-50/50 p-3">
+    {open && <div className="mt-3 basis-full space-y-3 rounded-xl border border-red-200 bg-red-50/50 p-3">
       <div className="flex items-center justify-between gap-2">
         <strong className="text-sm text-stone-800">Съществуващи растения</strong>
         <button type="button" className="text-xs font-semibold text-stone-600 underline" onClick={() => { setOpen(false); setSelected(null) }}>Затвори списъка</button>
