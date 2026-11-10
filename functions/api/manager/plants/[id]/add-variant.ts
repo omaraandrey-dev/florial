@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
-import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib.mjs'
+import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest } from '../../plant-duplicate-lib.mjs'
 import {
   auditSnapshot, cleanText, errorJson, isObject, parseJsonBody, requirePlantRole,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
@@ -20,9 +20,15 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)
   const body = await parseJsonBody(request)
-  if (!body || !uuid.test(String(body.idempotencyKey || '')) || typeof body.expectedRevision !== 'string' || !isObject(body.variant) || !isObject(body.image)) {
-    return errorJson('Invalid add-variant request.', 400)
+  const missingFields = validatePlantAddVariantRequest(body)
+  if (missingFields.length) {
+    return json({
+      error: 'Заявката за добавяне на размер е непълна. Обновете прозореца на Manager и опитайте отново.',
+      code: 'INVALID_ADD_VARIANT_REQUEST',
+      missingFields,
+    }, 400)
   }
+  if (!body) return errorJson('Невалидно тяло на заявката.', 400)
 
   const proofAssetId = cleanText(body.proofImageAssetId, 160)
   const imageAssetId = cleanText(body.image.assetId, 160)
