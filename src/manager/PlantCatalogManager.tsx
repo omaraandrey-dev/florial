@@ -492,7 +492,7 @@ export default function PlantCatalogManager({role}:Props){
    <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
     <div className="flex items-center justify-between gap-3 border-b border-stone-200 p-4">
      <div><h2 id="gemini-result-title" className="text-lg font-bold text-stone-900">Резултат от Google Gemini</h2><p className="text-xs text-stone-500">{geminiResult.mode==='text'?'Проверка по име':'Проверка по снимка'} · {geminiResult.model} · {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p></div>
-     <button type="button" className={btn+' border border-stone-300'} onClick={()=>setGeminiModalOpen(false)}>Затвори</button>
+     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>setGeminiModalOpen(false)}>Затвори</button>
     </div>
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
      <div className="rounded-xl bg-stone-50 p-3">
@@ -515,8 +515,8 @@ export default function PlantCatalogManager({role}:Props){
      {!geminiProof&&<p className="text-sm text-amber-800">За да се запише резултатът, трябва да има основна снимка в карточката. В Text режим снимката се използва само за защита на записа и не се изпраща към Google.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
-     <button type="button" className={btn+' border border-stone-300'} onClick={()=>setGeminiModalOpen(false)}>Отмени</button>
-     <button type="button" disabled={!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи и запази</button>
+     <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>setGeminiModalOpen(false)}>Отмени</button>
+     <button type="button" disabled={saving||!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи и запази</button>
     </div>
    </div>
   </div>}
