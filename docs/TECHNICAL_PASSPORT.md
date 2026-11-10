@@ -1,3 +1,16 @@
+## 2026-11-10 — Manager растений: надёжность AI и индикация ожидания (PR #175)
+
+- PR #175 merged by squash: `d76cf69a315aac6c688732922b2539ed97445dcb`.
+- Production Cloudflare Pages deployment: `97ac4255-c6ec-4fe2-876c-4bab2d6cacac`, URL `https://97ac4255.florial.pages.dev`; build and deploy success at 2026-11-10 05:22:31 UTC; aliases `https://florial-bg.com` and `https://www.florial-bg.com`.
+- CI: Blog and Studio validation #724 success; Florial D1 migration validation #854 success. Website lint, utility tests, website build, Pages Functions syntax, read-only migration dry-run and Sanity Studio build passed.
+- Изменены только `src/manager/PlantCatalogManager.tsx` и `functions/api/manager/plants/ai-enrich.ts`.
+- Workers AI vision and text model per-call timeout increased from 20 to 45 seconds; one bounded retry remains. Sanity image fetch increased 10→15 seconds; GBIF lookup 8→10 seconds; browser request timeout 150→300 seconds. Aborted browser requests are not retried.
+- Manager now displays a compact elapsed-time counter and progress bar next to the photo AI button. The bar estimates elapsed request time and explicitly does not claim to represent the model's actual completion percentage.
+- Failed AI responses now expose actionable Bulgarian messages, error code, processing stage and request ID. Vision timeout is distinguished from an inconclusive plant identification; text-generation timeout and invalid model JSON have separate messages.
+- The earlier user-visible generic failures were consistent with the 20-second per-call cap being too aggressive for a multi-stage request (photo vision, optional botanical candidate lookup, three-language content generation and possible quality retry). Per-request runtime details for the user's earlier attempts were not present in retained telemetry, so the exact underlying provider error remains unconfirmed.
+- No Sanity records/schema, D1 schema/data, irrigation catalogue, checkout/orders, global header/menu/footer, or Cloudflare settings/secrets changed.
+- Authenticated live acceptance with a new plant photo is still pending. Owner/seller should retry after deployment and report the request ID if an error remains.
+
 ## 2026-11-10 — Manager растений: PR #173 опубликован в Production
 
 - PR #173 merged by squash: `87048514d0ee5f73980b8ddf450ae0358bd76812`.
