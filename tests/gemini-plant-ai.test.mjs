@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiProviderError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -79,4 +79,15 @@ test('sanitizes and bounds provider error messages before showing them in Manage
 test('extracts streamed text fragments and safely ignores non-content SSE chunks', () => {
   assert.equal(extractGeminiStreamText({ candidates: [{ content: { parts: [{ text: '{"plantName":' }] } }] }), '{"plantName":')
   assert.equal(extractGeminiStreamText({ usageMetadata: { totalTokenCount: 10 } }), '')
+})
+
+test('classifies upstream connection and stream interruptions separately', () => {
+  const connect = classifyGeminiTransportError('connect')
+  const stream = classifyGeminiTransportError('stream')
+  assert.equal(connect.code, 'GEMINI_PROVIDER_CONNECT_FAILED')
+  assert.equal(connect.providerStatus, 'NETWORK_CONNECT_FAILED')
+  assert.equal(connect.retryable, true)
+  assert.equal(stream.code, 'GEMINI_PROVIDER_STREAM_INTERRUPTED')
+  assert.equal(stream.providerStatus, 'STREAM_INTERRUPTED')
+  assert.equal(stream.retryable, true)
 })
