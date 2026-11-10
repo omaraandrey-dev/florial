@@ -115,7 +115,7 @@ export default function PlantCatalogManager({role}:Props){
   }catch(e){setError(e instanceof Error?e.message:'Не успяхме да отворим растението.')}
   finally{setLoading(false)}
  }
- const setField=(key:keyof PlantForm,value:any)=>{if(['name','scientificName','productType','categoryId'].includes(String(key)))setAiProof(null);setForm(previous=>({...previous,[key]:value}))}
+ const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
  const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
  const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
  const uploadFiles=async(filesList:FileList|null)=>{
@@ -290,7 +290,7 @@ export default function PlantCatalogManager({role}:Props){
     </section>
     <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <h3 className="font-bold">Основна информация</h3>
-     <label className="block"><span className={labelClass}>Име на растението *</span><input className={inputClass} value={form.name} onChange={event=>{const name=event.target.value;setAiProof(null);setForm(previous=>({...previous,name,slug:previous.slugAuto?slugify(name):previous.slug}))}}/></label>
+     <label className="block"><span className={labelClass}>Име на растението *</span><input className={inputClass} value={form.name} onChange={event=>{const name=event.target.value;setForm(previous=>({...previous,name,slug:previous.slugAuto?slugify(name):previous.slug}))}}/></label>
      <label className="block"><span className={labelClass}>Ботаническо име</span><input className={inputClass} value={form.scientificName} onChange={event=>setField('scientificName',event.target.value)}/></label>
      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label><span className={labelClass}>Тип растение</span><select className={inputClass} value={form.productType} onChange={event=>setField('productType',event.target.value)}>{productTypes.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
@@ -299,7 +299,7 @@ export default function PlantCatalogManager({role}:Props){
       <span className={labelClass}>Категории и подкатегории * · изберете крайните категории</span>
       <div className="max-h-64 space-y-1 overflow-y-auto rounded-xl border border-stone-300 bg-white p-2">
        {categoryOptions.map(item=><div key={item._id} className="flex items-center justify-between gap-2 rounded-lg px-2 py-2 hover:bg-stone-50">
-        <label className="flex min-w-0 flex-1 items-center gap-2 text-sm"><input type="checkbox" checked={form.categoryIds.includes(item._id)} onChange={event=>{setAiProof(null);setForm(previous=>{const ids=event.target.checked?Array.from(new Set([...previous.categoryIds,item._id])):previous.categoryIds.filter(id=>id!==item._id);return {...previous,categoryIds:ids,categoryId:ids.includes(previous.categoryId)?previous.categoryId:ids[0]||''}})}}/><span className="truncate">{item.label}</span></label>
+        <label className="flex min-w-0 flex-1 items-center gap-2 text-sm"><input type="checkbox" checked={form.categoryIds.includes(item._id)} onChange={event=>setForm(previous=>{const ids=event.target.checked?Array.from(new Set([...previous.categoryIds,item._id])):previous.categoryIds.filter(id=>id!==item._id);return {...previous,categoryIds:ids,categoryId:ids.includes(previous.categoryId)?previous.categoryId:ids[0]||''}})}/><span className="truncate">{item.label}</span></label>
         {form.categoryIds.includes(item._id)&&<button type="button" onClick={()=>setField('categoryId',item._id)} className={'shrink-0 rounded-lg px-2 py-1 text-xs font-semibold '+(form.categoryId===item._id?'bg-lime-800 text-white':'bg-stone-100 text-stone-600')}>{form.categoryId===item._id?'Основна':'Основна?'}</button>}
        </div>)}
       </div>
