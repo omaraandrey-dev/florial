@@ -73,17 +73,8 @@ const plantSessionToken = (request: Request) => {
 }
 const plantAiIdentity = (product: unknown) => {
   const value = isObject(product) ? product : {}
-  const rawIds = Array.isArray(value.categoryIds) ? value.categoryIds : (value.categoryId ? [value.categoryId] : [])
-  const categoryIds = Array.from(new Set(rawIds.map((item: unknown) => cleanText(item, 128)).filter(Boolean))).sort()
   const image = isObject(value.mainImage) ? value.mainImage : {}
-  return {
-    name: cleanText(value.name, 160),
-    scientificName: cleanText(value.scientificName, 160),
-    productType: cleanText(value.productType, 40),
-    categoryId: cleanText(value.categoryId, 128),
-    categoryIds,
-    imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160),
-  }
+  return { imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160) }
 }
 const plantAiSignature = async (sessionToken: string, payload: string) => {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionToken), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
@@ -104,13 +95,13 @@ export const verifyPlantAiProof = async (request: Request, proof: unknown, produ
   const [timestampText, suppliedSignature, extra] = proof.split('.')
   if (extra !== undefined || !/^\d{13}$/.test(timestampText || '') || !/^[a-f0-9]{64}$/.test(suppliedSignature || '')) return false
   const timestamp = Number(timestampText)
-  if (!Number.isFinite(timestamp) || timestamp > Date.now() + 30_000 || Date.now() - timestamp > 30 * 60 * 1000) return false
+  if (!Number.isFinite(timestamp) || timestamp > Date.now() + 30_000 || Date.now() - timestamp > 2 * 60 * 60 * 1000) return false
   const identity = plantAiIdentity(product)
   const expected = await plantAiSignature(token, timestampText + '.' + JSON.stringify(identity))
   if (expected.length !== suppliedSignature.length) return false
   let difference = 0
   for (let index = 0; index < expected.length; index++) difference |= expected.charCodeAt(index) ^ suppliedSignature.charCodeAt(index)
-  return difference === 0 && Boolean(identity.name && identity.imageAssetId)
+  return difference === 0 && Boolean(identity.imageAssetId)
 }
 
 const numberValue = (value: unknown, label: string, min: number, integer = false): number | null => {
