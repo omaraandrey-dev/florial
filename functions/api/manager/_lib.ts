@@ -102,6 +102,7 @@ export type ManagerEnv = {
   CATALOG_REVIEW_EMAIL?: string
   ORDER_NOTIFICATION_EMAIL?: string
   MANAGER_BOOTSTRAP_SECRET?: string
+  GEMINI_API_KEY?: string
   AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }
   PLANT_CARE_WORKFLOW?: { fetch: (request: Request) => Promise<Response> }
 }

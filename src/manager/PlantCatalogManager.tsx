@@ -66,6 +66,9 @@ export default function PlantCatalogManager({role}:Props){
  const [history,setHistory]=useState<any[]>([])
  const [historyLoading,setHistoryLoading]=useState(false)
  const [aiWarnings,setAiWarnings]=useState<string[]>([])
+ const [geminiLoading,setGeminiLoading]=useState(false)
+ const [geminiError,setGeminiError]=useState('')
+ const [geminiResult,setGeminiResult]=useState<any|null>(null)
  const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
 
@@ -94,8 +97,9 @@ export default function PlantCatalogManager({role}:Props){
   return ()=>window.clearInterval(timer)
  },[aiLoading])
 
- const openNew=()=>{setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setGeminiError('');setGeminiResult(null);setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
+  setGeminiError('');setGeminiResult(null)
   setError('');setNotice('');setLoading(true)
   try{
    const response=await fetch('/api/manager/plants/'+encodeURIComponent(id),{credentials:'same-origin',cache:'no-store'})
@@ -130,6 +134,7 @@ export default function PlantCatalogManager({role}:Props){
  const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
  const uploadFiles=async(filesList:FileList|null)=>{
   if(!filesList?.length)return
+  setGeminiError('');setGeminiResult(null)
   if(images.length+filesList.length>10){setError('Максимумът е 10 снимки.');return}
   setImageLoading(true);setAiProof(null);setError('')
   try{
@@ -147,7 +152,7 @@ export default function PlantCatalogManager({role}:Props){
   finally{setImageLoading(false)}
  }
  const toggleLibraryImage=(image:IntakeLibraryImage)=>{
-  setAiProof(null)
+  setGeminiError('');setGeminiResult(null);setAiProof(null)
   const exists=images.some(item=>item.assetId===image.assetId)
   if(exists){setImages(previous=>previous.filter(item=>item.assetId!==image.assetId));return}
   if(images.length>=10){setError('Максимумът е 10 снимки.');return}
@@ -188,6 +193,31 @@ export default function PlantCatalogManager({role}:Props){
    setNotice('ИИ анализира снимката и попълни предложеното име, тип, категория, описания и локализирани данни. Проверете идентификацията преди публикуване.')
   }catch(e){setError(e instanceof Error?(e.name==='AbortError'?'ИИ не отговори в рамките на 5 минути. Вашите данни не са записани; опитайте отново.':e.message):'ИИ не успя да попълни данните.')}
   finally{window.clearTimeout(requestTimeout);setAiLoading(false)}
+ }
+ const runGeminiTest=async()=>{
+  if(role!=='owner'||geminiLoading||aiLoading)return
+  const targetImage=images[mainImageIndex]||null
+  if(!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null)
+  const controller=new AbortController()
+  const requestTimeout=window.setTimeout(()=>controller.abort(),120000)
+  try{
+   const category=categories.find(item=>item._id===form.categoryId)
+   const requestBody=JSON.stringify({
+    product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryId:form.categoryId,categoryIds:form.categoryIds,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},
+    categories:categoryOptions.map(item=>({id:item._id,name:item.name})),
+    mainImage:{assetId:targetImage.assetId,url:targetImage.url},
+   })
+   const response=await fetch('/api/manager/plants/gemini-test',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
+   const result=await responseJson(response)
+   if(!response.ok)throw new Error([result.error||'Gemini не успя да подготви тестовия резултат.',result.code?'Код: '+result.code:'',result.requestId?'ID: '+result.requestId:''].filter(Boolean).join(' · '))
+   if(!result.result||typeof result.result!=='object')throw new Error('Gemini върна непълен структуриран резултат.')
+   setGeminiResult(result)
+  }catch(e){
+   setGeminiError(e instanceof Error?(e.name==='AbortError'?'Gemini не отговори в рамките на 2 минути. Опитайте отново.':e.message):'Неуспешен тест на Gemini.')
+  }finally{
+   window.clearTimeout(requestTimeout);setGeminiLoading(false)
+  }
  }
  const save=async()=>{
   if(saving)return
@@ -283,20 +313,55 @@ export default function PlantCatalogManager({role}:Props){
       </div></div>
      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {images.map((image,index)=><div key={image.assetId} className={'relative overflow-hidden rounded-xl border-2 '+(mainImageIndex===index?'border-lime-700':'border-stone-200')}>
-       <button type="button" className="block aspect-square w-full" onClick={()=>{setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
-       <button type="button" onClick={()=>{setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
+       <button type="button" className="block aspect-square w-full" onClick={()=>{setGeminiError('');setGeminiResult(null);setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
+       <button type="button" onClick={()=>{setGeminiError('');setGeminiResult(null);setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
       </div>)}
       {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
      </div>
      {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
      <div className="mt-3 flex flex-wrap items-center gap-3">
-      <button type="button" disabled={aiLoading||imageLoading||!activeImages} onClick={()=>void generateWithAI()} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{aiLoading?'ИИ анализира… '+String(Math.floor(aiElapsedSeconds/60)).padStart(2,'0')+':'+String(aiElapsedSeconds%60).padStart(2,'0'):'✦ Попълни с ИИ'}</button>
+      <button type="button" disabled={aiLoading||geminiLoading||imageLoading||!activeImages} onClick={()=>void generateWithAI()} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{aiLoading?'ИИ анализира… '+String(Math.floor(aiElapsedSeconds/60)).padStart(2,'0')+':'+String(aiElapsedSeconds%60).padStart(2,'0'):'✦ Попълни с ИИ'}</button>
       <span className="text-xs text-stone-500">След качване на снимка ИИ може да предложи име, тип и категория на растението.</span>
      </div>
      {aiLoading&&<div className="mt-3 rounded-xl border border-lime-200 bg-lime-50 p-3" role="status" aria-live="polite">
       <div className="mb-2 flex items-center justify-between gap-2 text-sm font-semibold text-lime-900"><span>ИИ анализира снимката и подготвя данните</span><span className="tabular-nums">{String(Math.floor(aiElapsedSeconds/60)).padStart(2,'0')}:{String(aiElapsedSeconds%60).padStart(2,'0')}</span></div>
       <div className="h-2 overflow-hidden rounded-full bg-lime-100" role="progressbar" aria-label="Време за обработка от ИИ" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))}><div className="h-full rounded-full bg-lime-700 transition-[width] duration-1000 ease-linear" style={{width:Math.min(94,Math.max(5,8+Math.floor(aiElapsedSeconds/3)))+'%'}}/></div>
       <p className="mt-2 text-xs text-lime-800">Лентата показва изминалото време, а не точния процент готовност. Генерацията може да отнеме няколко минути.</p>
+     </div>}
+     {role==='owner'&&<div className="mt-3 space-y-3">
+      <button type="button" disabled={geminiLoading||aiLoading||imageLoading||!activeImages} onClick={()=>void runGeminiTest()} className={btn+' border border-indigo-300 bg-white text-indigo-800 disabled:opacity-50'}>
+       {geminiLoading?'Gemini анализира снимката…':'✦ Тест Gemini 3.8 Flash'}
+      </button>
+      <span className="text-xs text-stone-500">Отделен тест на същата снимка. Резултатът не се записва и не променя полетата на растението.</span>
+      {geminiLoading&&<div className="rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-sm text-indigo-900" role="status" aria-live="polite">Gemini анализира снимката и подготвя описанията на български, руски и английски. Изчакайте отговора.</div>}
+      {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
+      {geminiResult&&<section className="space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
+       <div className="flex flex-wrap items-center justify-between gap-2"><h4 className="font-bold text-indigo-950">Резултат Gemini · {geminiResult.model||'gemini-3.8-flash'}</h4><span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-800">Само тест · без запис</span></div>
+       <div className="rounded-lg bg-white p-3">
+        <h5 className="font-semibold">Разпознаване</h5>
+        <p className="mt-1 text-sm"><strong>Предложено име:</strong> {geminiResult.result.plantName||'Неопределено'}</p>
+        <p className="text-sm"><strong>Увереност:</strong> {geminiResult.result.confidence||'low'} · <strong>Тип:</strong> {geminiResult.result.productType||'—'}</p>
+        <p className="text-sm"><strong>Категория ID:</strong> {geminiResult.result.categoryId||'Няма предложена категория'}</p>
+        <p className="mt-2 text-sm"><strong>Ботанически кандидати:</strong> {(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName+' ('+item.confidence+')').join('; ')||'Няма'}</p>
+        <p className="mt-2 text-sm"><strong>Видимо описание:</strong> {geminiResult.result.visibleDescription||'—'}</p>
+        <p className="mt-2 text-xs text-amber-800">Латинските имена са само предложения. Те не са потвърдени от GBIF и не се записват в каталога.</p>
+       </div>
+       {(['bg','ru','en'] as const).map(language=><details key={language} className="rounded-lg bg-white p-3" open={language==='bg'}>
+        <summary className="cursor-pointer font-semibold">{language==='bg'?'Описание на български':language==='ru'?'Описание на русском':'English description'}</summary>
+        <div className="mt-2 space-y-2 text-sm">
+         <p><strong>Кратко описание:</strong> {geminiResult.result.descriptions?.[language]?.shortDescription||'—'}</p>
+         <pre className="whitespace-pre-wrap break-words font-sans text-sm leading-6">{geminiResult.result.descriptions?.[language]?.description||'—'}</pre>
+        </div>
+       </details>)}
+       <details className="rounded-lg bg-white p-3"><summary className="cursor-pointer font-semibold">SEO и ALT на трите езика</summary>
+        <div className="mt-2 space-y-3 text-sm">
+         {(['bg','ru','en'] as const).map(language=><div key={language}><strong>{language.toUpperCase()}</strong><p>H1: {geminiResult.result.seo?.[language]?.h1||'—'}</p><p>Meta title: {geminiResult.result.seo?.[language]?.metaTitle||'—'}</p><p>Meta description: {geminiResult.result.seo?.[language]?.metaDescription||'—'}</p><p>ALT: {geminiResult.result.imageAlt?.[language]||'—'}</p></div>)}
+        </div>
+       </details>
+       <details className="rounded-lg bg-white p-3"><summary className="cursor-pointer font-semibold">Грижи и ботанически характеристики</summary>
+        <div className="mt-2 space-y-2 text-sm"><pre className="whitespace-pre-wrap break-words font-sans">{JSON.stringify(geminiResult.result.plantCare||{},null,2)}</pre><p>{geminiResult.result.careGuide||'—'}</p></div>
+       </details>
+      </section>}
      </div>}
      {role==='owner'&&images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
