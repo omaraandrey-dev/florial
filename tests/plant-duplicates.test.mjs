@@ -9,6 +9,7 @@ test('duplicate query checks primary and localized names plus botanical candidat
   assert.match(query, /lower\(translations\.ru\.name\)/)
   assert.match(query, /lower\(translations\.en\.name\)/)
   assert.match(query, /lower\(scientificName\)/)
+  assert.match(query, /lower\(plantDetails\.scientificName\)/)
   assert.match(query, /!\(_id in path\("drafts\.\*\*"\)\)/)
 })
 
