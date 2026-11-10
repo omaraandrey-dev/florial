@@ -26,7 +26,7 @@ const parseModelJson=(value:unknown)=>{
 }
 const analyzeMainImage=async(env:ManagerEnv,value:unknown,categories:Array<{id:string;name:string}>):Promise<ImageAnalysis>=>{
  if(!isObject(value)||typeof value.url!=='string'||!/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(value.url))throw new Error('AI_IMAGE_INVALID')
- const download=await withTimeout(fetch(value.url),10000,'AI_IMAGE_DOWNLOAD_TIMEOUT')
+ const download=await withTimeout(fetch(value.url),15000,'AI_IMAGE_DOWNLOAD_TIMEOUT')
  if(!download.ok)throw new Error('AI_IMAGE_DOWNLOAD_FAILED')
  const contentType=(download.headers.get('content-type')||'').split(';')[0].trim().toLowerCase()
  if(!['image/jpeg','image/png','image/webp'].includes(contentType))throw new Error('AI_IMAGE_TYPE_INVALID')
@@ -53,7 +53,7 @@ const analyzeMainImage=async(env:ManagerEnv,value:unknown,categories:Array<{id:s
      {role:'user',content:prompt},
     ],
     image:imageData,
-   }),20000,'AI_VISION_TIMEOUT')
+   }),45000,'AI_VISION_TIMEOUT')
    const parsed=parseModelJson(response)
    const suggestedType=String(parsed.productType||'')
    const suggestedCategory=cleanText(parsed.categoryId,128)
@@ -82,7 +82,7 @@ const normalizeCandidates=(value:unknown):ScientificCandidate[]=>{
 }
 const acceptedSpecies=(match:GbifMatch|null)=>!!match&&match.matchType==='EXACT'&&typeof match.confidence==='number'&&match.confidence>=95&&match.rank==='SPECIES'&&match.status==='ACCEPTED'&&typeof match.usageKey==='number'
 const matchGbif=async(name:string):Promise<GbifMatch|null>=>{
- const response=await fetch('https://api.gbif.org/v1/species/match?name='+encodeURIComponent(name)+'&kingdom=Plantae&verbose=true',{headers:{Accept:'application/json','User-Agent':'Florial/1.0 (+https://florial-bg.com)'},signal:AbortSignal.timeout(8000)})
+ const response=await fetch('https://api.gbif.org/v1/species/match?name='+encodeURIComponent(name)+'&kingdom=Plantae&verbose=true',{headers:{Accept:'application/json','User-Agent':'Florial/1.0 (+https://florial-bg.com)'},signal:AbortSignal.timeout(10000)})
  if(!response.ok)throw new Error('GBIF_UNAVAILABLE')
  return await response.json() as GbifMatch
 }
@@ -90,7 +90,7 @@ const runJsonModel=async(env:ManagerEnv,prompt:string,maxTokens:number)=>{
  let lastError:unknown=null
  for(let attempt=0;attempt<2;attempt++){
   try{
-   const response=await withTimeout(env.AI!.run(MODEL,{messages:[{role:'system',content:'You are a careful professional horticultural editor for Florial, a Bulgarian garden centre. Return one valid JSON object only. Never invent commercial facts.'},{role:'user',content:prompt}],response_format:{type:'json_object'},max_tokens:maxTokens,temperature:0.15}),20000,'AI_MODEL_TIMEOUT')
+   const response=await withTimeout(env.AI!.run(MODEL,{messages:[{role:'system',content:'You are a careful professional horticultural editor for Florial, a Bulgarian garden centre. Return one valid JSON object only. Never invent commercial facts.'},{role:'user',content:prompt}],response_format:{type:'json_object'},max_tokens:maxTokens,temperature:0.15}),45000,'AI_MODEL_TIMEOUT')
    return parseModelJson(response)
   }catch(error){
    lastError=error
@@ -115,6 +115,10 @@ const transientError=(error:unknown)=>{
 const safeFailure=(error:unknown)=>{
  const message=error instanceof Error?error.message:''
  if(/license|licence|terms/i.test(message))return {code:'AI_MODEL_LICENSE',hint:'Cloudflare изисква приемане на лиценза за AI модела.'}
+  if(/AI_VISION_TIMEOUT/i.test(message))return {code:'AI_VISION_TIMEOUT',hint:'Анализът на снимката отне повече време от очакваното. Опитайте отново или въведете името на растението ръчно.'}
+  if(/AI_MODEL_TIMEOUT/i.test(message))return {code:'AI_MODEL_TIMEOUT',hint:'Генерирането на описанията отне повече време от очакваното. Данните не са записани. Опитайте отново след малко.'}
+  if(/AI_INVALID_JSON/i.test(message))return {code:'AI_INVALID_RESPONSE',hint:'ИИ върна невалиден или непълен отговор. Опитайте отново; въведеното от вас име се запазва.'}
+  if(/AI_IMAGE_DOWNLOAD_TIMEOUT|AI_IMAGE_DOWNLOAD_FAILED/i.test(message))return {code:'AI_IMAGE_UNAVAILABLE',hint:'Снимката не можа да бъде заредена за анализ. Проверете снимката и опитайте отново.'}
  if(/429|quota|neurons|rate.?limit/i.test(message))return {code:'AI_RATE_LIMIT',hint:'Временно е достигнат лимитът на AI модела. Изчакайте малко и опитайте отново.'}
  if(/GBIF_UNAVAILABLE/i.test(message))return {code:'GBIF_UNAVAILABLE',hint:'Ботаническото име не можа да бъде проверено в GBIF; останалото съдържание може да се генерира без автоматично научно име.'}
  if(/AI_CONTENT_TOO_SHORT/i.test(message))return {code:'AI_CONTENT_INCOMPLETE',hint:'ИИ върна непълно описание дори след повторна генерация. Нищо не е записано; опитайте отново.'}
@@ -169,7 +173,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    if(!visibleObservation)warnings.push('ALT за основната снимка не беше генериран.')
   }else{
    warnings.push('Снимката не можа да бъде анализирана. Проверете връзката или опитайте друга снимка.')
-   if(!suppliedName)return json({error:'ИИ не успя да прочете снимката. Опитайте снимку с растението на преден план.',code:'AI_IMAGE_ANALYSIS_FAILED',stage,requestId,retryable:true},502)
+   if(!suppliedName)return json({error:'ИИ не успя да прочете снимката. Опитайте снимка, на която растението е ясно и заема по-голямата част от кадъра.',code:'AI_IMAGE_ANALYSIS_FAILED',stage,requestId,retryable:true},502)
   }
   name=suppliedName||imageAnalysis.name
   if(name.length<2)return json({error:'ИИ не успя да разпознае достатъчно ясно растението. Въведете име ръчно или добавете по-ясна снимка.',code:'AI_PLANT_IDENTITY_UNCLEAR',stage,requestId,retryable:false},422)
@@ -216,7 +220,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   try{generated=await runJsonModel(env,prompt,8192)}catch(error){
    stage='content_generation_failed'
    const failure=safeFailure(error)
-   console.error('[manager-plants-ai-enrich]',{requestId,stage,code:failure.code,role})
+   console.error('[manager-plants-ai-enrich]',{requestId,stage,code:failure.code,role,errorType:error instanceof Error?error.name:'unknown'})
    return json({error:failure.hint,code:failure.code,stage:'content_generation',requestId,retryable:transientError(error)},502)
   }
   stage='response_validation'
@@ -294,7 +298,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   return json({ok:true,suggestion,aiProof,model:MODEL,visionModel:VISION_MODEL,requestId})
  }catch(error){
   const failure=safeFailure(error)
-  console.error('[manager-plants-ai-enrich]',{requestId,stage,code:failure.code,role})
+  console.error('[manager-plants-ai-enrich]',{requestId,stage,code:failure.code,role,errorType:error instanceof Error?error.name:'unknown'})
   return json({error:failure.hint,code:failure.code,stage,requestId,retryable:transientError(error)},502)
  }
 }
