@@ -1,3 +1,16 @@
+## 2026-11-10 — Подготовка изолированного теста Gemini для Manager растений
+
+- Основа: main commit f29fba24ae8d9db7231d3a71a8dd5dc2d381cd5e; инструкция проекта — MD2 rev56.
+- Модель: стабильный Gemini 3.8 Flash (gemini-3.8-flash) через Google Gemini Developer API REST endpoint. Серверная интеграция, API key только в Cloudflare Pages secret GEMINI_API_KEY.
+- Новый route: functions/api/manager/plants/gemini-test.ts (POST /api/manager/plants/gemini-test); только role owner, authenticated Manager session и same-origin.
+- Новый helper: functions/api/manager/plants/gemini-test-lib.ts; структурированный JSON response извлекается и нормализуется; category ID принимается только из фактического списка Sanity categories; латинские кандидаты не считаются подтверждённым scientificName.
+- UI: src/manager/PlantCatalogManager.tsx показывает отдельную кнопку и результат. Не меняет поля формы, не выдаёт AI proof и не влияет на save/publish. Существующий Workers AI path остаётся неизменным.
+- Input: одна выбранная фотография из Sanity CDN (bxvcy0qs/plants), MIME JPEG/PNG/WebP, максимум 10 MB; seller-entered fields and allowed category list.
+- Model call: один запрос без автоматического retry; timeout 120 секунд; ограничение изображения 15 секунд; response schema JSON; no writes to Sanity or D1.
+- Новый GEMINI_API_KEY добавлен только в тип ManagerEnv в коде. Cloudflare Production secret пока не настроен/не проверен. Не вставлять ключ в код, GitHub, frontend или журналы.
+- Test coverage: Gemini candidate extraction, malformed/empty response, output normalization, category allowlist, product type fallback and Latin binomial validation.
+- Результат тестов, CI, PR, deployment и live photo acceptance будут добавлены после фактического выполнения; до этого статус — prepared, not deployed.
+
 ## 2026-11-10 — Manager растений: обработка неопределённого визуального распознавания (PR #177)
 
 - PR #177 объединён squash в main: `7b4bae535f17627530f06a0b72b907dc0faae61b`.
