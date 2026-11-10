@@ -1,3 +1,16 @@
+## 2026-11-10 — Manager растений: PR #172 опубликован в Production
+
+- PR #172 merged by squash: 6b10b44f999f2dbf40a46e447bbd9c1175a9756d.
+- Runtime: functions/api/manager/plants/ai-enrich.ts, src/manager/PlantCatalogManager.tsx.
+- AI plant enrichment восстановлен: развёрнутые BG/RU/EN описания, локальное SEO, practical care sections, ALT основной фотографии на трёх языках.
+- Botanical identity: AI формирует кандидатов только из seller-entered данных; автоматическая запись scientificName разрешена только при confidence=high и GBIF exact accepted species match (EXACT, SPECIES, ACCEPTED, confidence >=95). Фотографии не используются для определения вида.
+- Owner-only fields: AI возвращает plantCare/careGuide только Owner; форма Owner позволяет просмотреть и изменить эти данные. Manager/Seller не получают эти поля.
+- Надёжность: серверный retry для transient/invalid model responses, quality retry для коротких описаний, одна клиентская повторная попытка для retryable ошибок; непустые ручные поля не перезаписываются.
+- CI: Blog and Studio validation #714 success; Florial D1 migration validation #840 success.
+- Production Pages deployment: bcca7c97-928f-4db5-a5e8-001314d23502, https://bcca7c97.florial.pages.dev, commit 6b10b44f999f2dbf40a46e447bbd9c1175a9756d; build/deploy success 2026-11-10 04:18:56 UTC. Production aliases active.
+- No Sanity documents/schema/assets, D1 schema/data, irrigation dataset production, checkout/orders, global layout or Cloudflare settings/secrets changed. No live AI-generated Sanity write was performed.
+- Manual authenticated AI acceptance (Owner/Manager) remains pending. Existing published «Лавровишня храсти» was inspected but not modified; its existing populated content is preserved by the fill-empty-only merge.
+
 ## 2026-11-10 — Manager растений: PR #171 опубликован в Production
 
 - PR #171 merged by squash at `40b695821736b6499e58140337e8169d71f14279`.
