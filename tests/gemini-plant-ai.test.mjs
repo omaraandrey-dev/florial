@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiProviderError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -74,4 +74,9 @@ test('sanitizes and bounds provider error messages before showing them in Manage
   assert.doesNotMatch(result, /AIza123456789012345678901234567890/)
   assert.match(result, /\[redacted\]/)
   assert.ok(sanitizeGeminiProviderMessage('x'.repeat(500)).length <= 320)
+})
+
+test('extracts streamed text fragments and safely ignores non-content SSE chunks', () => {
+  assert.equal(extractGeminiStreamText({ candidates: [{ content: { parts: [{ text: '{"plantName":' }] } }] }), '{"plantName":')
+  assert.equal(extractGeminiStreamText({ usageMetadata: { totalTokenCount: 10 } }), '')
 })
