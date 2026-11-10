@@ -10,7 +10,7 @@
 - Новый вариант использует существующий plantSaleVariant: _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. Не создаются новые Sanity поля, schema changes или миграции.
 - Новый API использует текущие Manager session/role, same-origin, Google aiProof с привязкой к загруженному asset, проверку существования asset, Sanity ifRevisionID, idempotency и существующий D1 manager_product_audit.
 - Добавлены unit tests для GROQ escaping/localized name matching, append существующего варианта и безопасного добавления фото в галерею.
-- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. Финальная GitHub CI-проверка актуального head и production deployment пока не подтверждены; deployment не запускался.
+- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. GitHub Actions: Blog and Studio validation run #807 — success (lint, website tests/build, Sanity Studio build); Florial D1 migration validation run #957 — success (lint, website build, Pages Functions syntax, additive migration validation). Production deployment пока не запускался: PR ещё не объединён в main.
 
 ---
 
