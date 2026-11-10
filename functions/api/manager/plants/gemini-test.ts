@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, parseJsonBody, PRODUCT_TYPES } from '../plant-direct-lib'
-import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult } from './gemini-test-lib'
+import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.8-flash'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
