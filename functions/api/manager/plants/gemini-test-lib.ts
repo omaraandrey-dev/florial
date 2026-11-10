@@ -1,5 +1,13 @@
 export type GeminiPlantCategory = { id: string; name: string }
 
+export const sanitizeGeminiProviderMessage = (value: unknown) =>
+  (typeof value === 'string' ? value : '')
+    .replace(/AIza[0-9A-Za-z_-]{20,}/g, '[redacted]')
+    .replace(/((?:api[_-]?key|key)\\s*[=:]\\s*)[^\\s,;]+/gi, '$1[redacted]')
+    .replace(/[\\r\\n\\t]+/g, ' ')
+    .trim()
+    .slice(0, 320)
+
 export const classifyGeminiProviderError = (httpStatus: number, providerStatus = '') => {
   const upstreamStatus = providerStatus.trim().toUpperCase().slice(0, 80)
   if (httpStatus === 429 || upstreamStatus === 'RESOURCE_EXHAUSTED') {
