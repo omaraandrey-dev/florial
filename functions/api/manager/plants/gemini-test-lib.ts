@@ -3,8 +3,8 @@ export type GeminiPlantCategory = { id: string; name: string }
 export const sanitizeGeminiProviderMessage = (value: unknown) =>
   (typeof value === 'string' ? value : '')
     .replace(/AIza[0-9A-Za-z_-]{20,}/g, '[redacted]')
-    .replace(/((?:api[_-]?key|key)\\s*[=:]\\s*)[^\\s,;]+/gi, '$1[redacted]')
-    .replace(/[\\r\\n\\t]+/g, ' ')
+    .replace(/((?:api[_-]?key|key)\s*[=:]\s*)[^\s,;]+/gi, '$1[redacted]')
+    .replace(/[\r\n\t]+/g, ' ')
     .trim()
     .slice(0, 320)
 
