@@ -1,3 +1,12 @@
+## 2026-11-10 — Gemini: диагностика ошибок Google API
+
+- В изолированном Owner-only тесте Gemini добавлена безопасная классификация ошибок Google API: неверный запрос/response schema (400), отказ доступа или API key (401/403), модель/endpoint не найдены (404), квота (429), timeout (408/504) и временная недоступность Google (5xx).
+- При ошибке Manager теперь показывает код Florial, HTTP status Google, стабильный provider status и request ID.
+- Необработанное тело ответа Google, API key, заголовки и содержимое изображения не возвращаются в браузер и не записываются в логи.
+- Модель gemini-3.8-flash, prompt, response schema, формат изображения, Owner-only guard и read-only поведение теста сохранены.
+- Добавлены unit tests для классификации основных provider ошибок.
+- Проверки и deployment будут записаны после выполнения CI и публикации PR.
+
 ## 2026-11-10 — Gemini plant AI test: PR #178 опубликован в Production
 
 - PR #178 объединён squash в `main`: merge commit `ab63351def7a844f2337702c8515912e8f8724e4`; PR head `fd61e0db9c6596e17fb14f0f49fad3bf1c702323`.
