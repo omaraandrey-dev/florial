@@ -59,7 +59,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
       const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
       const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
       const replayGalleryHasImage = Array.isArray(current?.gallery) && current.gallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
-      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: replayGalleryHasImage, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage })
+      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: false, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage })
     }
     if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и опитайте отново.', 409)
 
