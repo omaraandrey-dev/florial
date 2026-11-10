@@ -220,7 +220,7 @@ export default function PlantCatalogManager({role}:Props){
    const category=categories.find(item=>item._id===form.categoryId)
    const requestBody=JSON.stringify({
     mode,
-    product:{name:requestedName,scientificName:form.scientificName,productType:form.productType,categoryId:form.categoryId,categoryIds:form.categoryIds,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},
+    product:mode==='text'?{name:requestedName,productType:'plant'}:{name:requestedName,scientificName:form.scientificName,productType:form.productType,categoryId:form.categoryId,categoryIds:form.categoryIds,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},
     categories:categoryOptions.map(item=>({id:item._id,name:item.name})),
     ...(mode==='photo'&&targetImage?{mainImage:{assetId:targetImage.assetId,url:targetImage.url}}:{}),
    })
