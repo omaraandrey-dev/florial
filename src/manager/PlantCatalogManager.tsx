@@ -115,7 +115,7 @@ export default function PlantCatalogManager({role}:Props){
   finally{setLoading(false)}
  }
  const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
- const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=Number.isInteger(v)?String(v):String(v).replace(/\\.?0+$/,'');parts.push('C'+volume)}return parts.join(' ')}
+ const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
  const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
  const uploadFiles=async(filesList:FileList|null)=>{
   if(!filesList?.length)return
