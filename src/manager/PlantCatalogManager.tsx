@@ -507,15 +507,16 @@ export default function PlantCatalogManager({role}:Props){
         proof={geminiProof}
         proofAssetId={geminiProofAssetId}
         onCheckStateChange={setDuplicateCheckPending}
+        onCheckStateChange={setDuplicateCheckPending}
         image={images[mainImageIndex]?{
          ...images[mainImageIndex],
          alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
          altRu:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu:images[mainImageIndex].altRu,
          altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
         }:null}
-        onAdded={({productName,imageAdded,imageAlreadyPresent})=>{
+        onAdded={({productName,imageAdded,imageAlreadyPresent,galleryFull})=>{
          setGeminiModalOpen(false);setDuplicateCheckPending(false);setEditorOpen(false);setEditingId(null)
-         setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':'Галерията е пълна; размерът е добавен без нова снимка.'))
+         setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':galleryFull?'Галерията е пълна; размерът е добавен без нова снимка.':'Размерът е добавен без промяна на снимките.'))
          void load()
         }}
        />
