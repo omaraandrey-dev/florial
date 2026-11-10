@@ -1,3 +1,13 @@
+## 2026-11-10 — Gemini Photo/Text: переход тестового endpoint на Flash-Lite
+
+- Тестовая модель Owner-only endpoint `POST /api/manager/plants/gemini-test` изменена с `gemini-3.8-flash` на стабильную `gemini-3.5-flash-lite`.
+- Модель поддерживает текстовый и графический ввод, а также structured outputs; обе тестовые кнопки Photo и Text продолжают использовать общий endpoint с разными payload/prompt.
+- Изменены только `functions/api/manager/plants/gemini-test.ts` и подписи в `src/manager/PlantCatalogManager.tsx`.
+- Сохранены response schema, prompts, SSE streaming, 300-секундный timeout, Owner-only authentication, same-origin guard и read-only режим.
+- Workers AI enrichment, Sanity/D1, Cloudflare secrets/settings, каталог, заказы и глобальные компоненты не затронуты.
+- API key не проверялся напрямую и не изменялся; его валидность остаётся неподтверждённой. Ошибка HTTP 503 UNAVAILABLE от прежней модели классифицирована как временная недоступность/перегрузка провайдера.
+- Результаты CI, Production deployment и live Owner acceptance будут добавлены после выполнения. До фактических Photo/Text тестов статус — prepared, not accepted.
+
 ## 2026-11-10 — Gemini Photo/Text: диагностика обрыва потока опубликована в Production
 
 - Добавлены heartbeat SSE события каждые 3 секунды, пока Owner тест ожидает Google или читает ответ. Они содержат только Request ID, режим, этап и прошедшее время.
