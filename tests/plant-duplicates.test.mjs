@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery } from '../functions/api/manager/plant-duplicate-lib.ts'
+import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery } from '../functions/api/manager/plant-duplicate-lib.mjs'
 
 test('duplicate query checks primary and localized names plus botanical candidates', () => {
   const query = buildPlantDuplicateQuery('Cycas', ['Cycas revoluta'])
