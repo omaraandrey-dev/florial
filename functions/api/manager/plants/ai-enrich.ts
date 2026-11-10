@@ -189,7 +189,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   if(!suppliedScientificName){
    if(candidates.length){
     stage='botanical_verification'
-    const highCandidates=candidates.filter(item=>item.confidence==='high')
+    const highCandidates=identityNeedsConfirmation?[]:candidates.filter(item=>item.confidence==='high')
     for(const candidate of highCandidates){
      try{
       const match=await withTimeout(matchGbif(candidate.scientificName),8000,'GBIF_TIMEOUT')
