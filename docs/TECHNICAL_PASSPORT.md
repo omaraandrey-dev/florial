@@ -8,7 +8,7 @@
 - Модель gemini-3.5-flash-lite, API endpoint, prompt, response schema, maxOutputTokens=8192, API key, Sanity и D1 не изменялись.
 - Изменены только функции Gemini, Manager diagnostic display, unit tests и документация.
 - Добавлены unit tests для BOM, LF/CRLF/CR, фрагментов чанков, EOF без пустой строки, malformed SSE event и диагностики JSON.
-- Production deployment и авторизованный тест Gemini Photo/Text должны быть зафиксированы по фактическому результату после merge в main; не объявлять успешную генерацию без проверки в Manager.
+---
 
 ---
 
