@@ -70,7 +70,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const mainHasImage = mainAssetId === imageAssetId
     const alreadyHasVariant = variants.some((item: any) => item?._key === variantKey)
 
-    if (alreadyHasVariant && (galleryHasImage || mainHasImage || currentGallery.length >= 10)) {
+    if (prior && alreadyHasVariant && (galleryHasImage || mainHasImage || currentGallery.length >= 10)) {
       if (prior) {
         before = prior.before_data ? JSON.parse(prior.before_data) : null
         after = auditSnapshot(current)
