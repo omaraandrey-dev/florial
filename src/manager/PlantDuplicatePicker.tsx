@@ -19,11 +19,12 @@ type Props = {
   proofAssetId: string
   image: DuplicateImage | null
   onAdded: (result: { productName: string; imageAdded: boolean; imageAlreadyPresent?: boolean }) => void
+  onCheckStateChange: (pending: boolean) => void
 }
 const money = (value: number) => new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'EUR' }).format(value)
 const responseJson = async (response: Response) => response.json().catch(() => ({}))
 
-export default function PlantDuplicatePicker({ plantName, scientificNames, proof, proofAssetId, image, onAdded }: Props) {
+export default function PlantDuplicatePicker({ plantName, scientificNames, proof, proofAssetId, image, onAdded, onCheckStateChange }: Props) {
   const [items, setItems] = useState<DuplicateProduct[]>([])
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
@@ -41,12 +42,14 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     const candidates = scientificKey.split('|').filter(Boolean)
     if (!name && !candidates.length) {
       setItems([])
+      onCheckStateChange(false)
       return
     }
     const controller = new AbortController()
     const params = new URLSearchParams()
     if (name) params.set('name', name)
     candidates.forEach(value => params.append('scientificName', value))
+    onCheckStateChange(true)
     setLoading(true)
     setItems([])
     setSelected(null)
@@ -62,10 +65,13 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
       if (reason instanceof Error && reason.name === 'AbortError') return
       setError(reason instanceof Error ? reason.message : 'Не успяхме да проверим каталога.')
     }).finally(() => {
-      if (!controller.signal.aborted) setLoading(false)
+      if (!controller.signal.aborted) {
+        setLoading(false)
+        onCheckStateChange(false)
+      }
     })
     return () => controller.abort()
-  }, [plantName, scientificKey, refreshKey])
+  }, [plantName, scientificKey, refreshKey, onCheckStateChange])
 
   const canSave = Boolean(selected && size.trim().length >= 2 && Number.isFinite(Number(price)) && Number(price) > 0 && proof && image && image.assetId === proofAssetId && !saving && (selected.variants?.length || 0) < 30)
 
