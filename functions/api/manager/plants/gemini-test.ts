@@ -317,9 +317,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       buffer += decoder.decode()
       if (buffer) consumeLine(buffer.replace(/\r$/, ''))
       consumeEvent()
-      if (!modelText.trim()) { jsonStatus = 'empty'; throw new Error('GEMINI_EMPTY_RESPONSE') }
       const completionFailure = classifyGeminiFinishReason(providerFinishReason, providerPromptBlockReason)
       if (completionFailure) throw new Error(completionFailure.code)
+      if (!modelText.trim()) { jsonStatus = 'empty'; throw new Error('GEMINI_EMPTY_RESPONSE') }
 
       progress('normalizing', 'Потокът приключи. Проверяваме JSON и подготвяме структурираните полета.')
       jsonStatus = 'invalid'
