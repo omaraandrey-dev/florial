@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, parseJsonBody, PRODUCT_TYPES } from '../plant-direct-lib'
-import { extractGeminiText, normalizeGeminiPlantResult } from './gemini-test-lib'
+import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.8-flash'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -160,9 +160,24 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       throw error
     }
     if (!apiResponse.ok) {
-      const providerError = apiResponse.status === 429 ? 'GEMINI_RATE_LIMIT' : 'GEMINI_HTTP_' + apiResponse.status
-      console.error('[manager-plants-gemini-test]', { requestId, status: apiResponse.status })
-      throw new Error(providerError)
+      // Read only the provider's stable status identifier. Never return or log its raw body.
+      const providerPayload = await apiResponse.json().catch(() => null) as unknown
+      const providerError = isObject(providerPayload) && isObject(providerPayload.error) ? providerPayload.error : {}
+      const diagnostic = classifyGeminiProviderError(apiResponse.status, cleanText(providerError.status, 80))
+      console.error('[manager-plants-gemini-test]', {
+        requestId,
+        providerHttpStatus: apiResponse.status,
+        providerStatus: diagnostic.providerStatus,
+        code: diagnostic.code,
+      })
+      return json({
+        error: diagnostic.hint,
+        code: diagnostic.code,
+        requestId,
+        providerHttpStatus: apiResponse.status,
+        providerStatus: diagnostic.providerStatus,
+        retryable: diagnostic.retryable,
+      }, 502)
     }
     const payload = await apiResponse.json() as unknown
     const modelText = extractGeminiText(payload)
