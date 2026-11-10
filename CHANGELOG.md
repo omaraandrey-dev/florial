@@ -5,7 +5,7 @@
 - Необработанное тело ответа Google, API key, заголовки и содержимое изображения не возвращаются в браузер и не записываются в логи.
 - Модель gemini-3.8-flash, prompt, response schema, формат изображения, Owner-only guard и read-only поведение теста сохранены.
 - Добавлены unit tests для классификации основных provider ошибок.
-- Проверки и deployment будут записаны после выполнения CI и публикации PR.
+- CI на итоговом кодовом commit `b01bfd422ca8b97f586975b3165182cbaf955f51`: Blog and Studio validation run #740 — success (39 tests passed, lint, website build, migration dry-run, Sanity Studio build); Florial D1 migration validation run #878 — success (lint, build, Pages Functions syntax, additive migration validation). PR #180 создан; Production deployment ожидает merge.
 
 ## 2026-11-10 — Gemini plant AI test: PR #178 опубликован в Production
 
