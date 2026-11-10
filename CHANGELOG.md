@@ -1,3 +1,17 @@
+## Дополнение rev68 — надёжный разбор Gemini SSE и диагностика JSON
+
+Дата: 10.11.2026
+
+- Обработчик Gemini SSE переведён на отдельный тестируемый parser с поддержкой LF, CRLF, CR, BOM, нескольких data lines, произвольного разбиения сетевых чанков и последнего события без завершающего пустого разделителя.
+- Некорректное SSE JSON-событие учитывается и пропускается; последующие корректные события продолжают обрабатываться.
+- В диагностике Manager показываются число SSE-событий, число некорректных событий, пропущенные строки и безопасное описание синтаксической ошибки JSON с позицией. Полный provider body и содержимое ответа в Cloudflare logs не записываются.
+- Модель gemini-3.5-flash-lite, API endpoint, prompt, response schema, maxOutputTokens=8192, API key, Sanity и D1 не изменялись.
+- Изменены только функции Gemini, Manager diagnostic display, unit tests и документация.
+- Добавлены unit tests для BOM, LF/CRLF/CR, фрагментов чанков, EOF без пустой строки, malformed SSE event и диагностики JSON.
+- Production deployment и авторизованный тест Gemini Photo/Text должны быть зафиксированы по фактическому результату после merge в main; не объявлять успешную генерацию без проверки в Manager.
+
+---
+
 ## 2026-11-10 — PR #188: Manager растений и диагностика Gemini (merged and deployed)
 
 - PR #188 squash merged в `main`; merge commit: `4e53815028d45ea22958ce4feadd1585e90f461f`.
