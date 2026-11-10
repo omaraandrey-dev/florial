@@ -6,7 +6,10 @@
 - Сохранены response schema, prompts, SSE streaming, 300-секундный timeout, Owner-only authentication, same-origin guard и read-only режим.
 - Workers AI enrichment, Sanity/D1, Cloudflare secrets/settings, каталог, заказы и глобальные компоненты не затронуты.
 - API key не проверялся напрямую и не изменялся; его валидность остаётся неподтверждённой. Ошибка HTTP 503 UNAVAILABLE от прежней модели классифицирована как временная недоступность/перегрузка провайдера.
-- Результаты CI, Production deployment и live Owner acceptance будут добавлены после выполнения. До фактических Photo/Text тестов статус — prepared, not accepted.
+- PR #185 объединён squash в `main`: merge commit `8a42398c908b2dd0f0acc32121ead7fa85477b7e`.
+- Blog and Studio validation #766 и Florial D1 migration validation #911 завершились success.
+- Cloudflare Pages Production deployment `ce6ed89e-0d90-4ab2-bb9a-8779079cac85`, URL `https://ce6ed89e.florial.pages.dev`; build и deploy success, production aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Авторизованные live Owner Photo/Text tests на новой модели ещё не выполнены; функциональная приёмка остаётся pending.
 
 ## 2026-11-10 — Gemini Photo/Text: диагностика обрыва потока опубликована в Production
 
