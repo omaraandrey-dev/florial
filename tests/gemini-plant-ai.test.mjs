@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiProviderError, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -66,4 +66,12 @@ test('classifies model access, quota and transient provider errors', () => {
   assert.equal(classifyGeminiProviderError(429, 'RESOURCE_EXHAUSTED').code, 'GEMINI_RATE_LIMIT')
   assert.equal(classifyGeminiProviderError(503, 'UNAVAILABLE').code, 'GEMINI_PROVIDER_UNAVAILABLE')
   assert.equal(classifyGeminiProviderError(504, 'DEADLINE_EXCEEDED').code, 'GEMINI_PROVIDER_TIMEOUT')
+})
+
+ 
+test('sanitizes and bounds provider error messages before showing them in Manager', () => {
+  const result = sanitizeGeminiProviderMessage('Invalid request with key=AIza123456789012345678901234567890 and schema field X')
+  assert.doesNotMatch(result, /AIza123456789012345678901234567890/)
+  assert.match(result, /\\[redacted\\]/)
+  assert.ok(sanitizeGeminiProviderMessage('x'.repeat(500)).length <= 320)
 })
