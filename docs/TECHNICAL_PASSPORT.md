@@ -8,7 +8,7 @@
 - Добавлен изолированный helper и unit tests для реальной скидки, равной/меньшей старой цены и обычного повышения цены.
 - Серверная логика прав ролей, текущей цены, вариантов, складских остатков, Sanity optimistic revision, D1 audit и другие проверки не меняются. Поля старой цены по-прежнему могут передаваться в рамках текущей формы продавца/менеджера; эта правка не расширяет права на изменение других полей.
 - Затронуты: `functions/api/manager/plant-direct-lib.ts`, новые `functions/api/manager/plant-old-price-lib.mjs` и `functions/api/manager/plant-old-price-lib.d.mts`, новый `tests/plant-old-price.test.mjs`, а также документация.
-- Unit tests, GitHub Actions, merge и Cloudflare Pages deployment: pending на момент подготовки этой записи; не считать production исправленным до подтверждения публикации.
+- GitHub Actions PR-triggered runs/check statuses для merge commit в доступном ответе не представлены; отдельно не заявлять их как success. Cloudflare Pages production deployment `431d0604-871e-4672-8276-fd8b2dccdc14` (`https://431d0604.florial.pages.dev`) для commit `56546d921c0d3327e33054031be6185567147616` завершился success на всех стадиях queued, initialize, clone_repo, build и deploy; aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
 - Sanity documents/assets/schema, D1 schema/rows, Cloudflare secrets/settings, оборудование, заказы и глобальные компоненты не изменялись.
 
 ---
