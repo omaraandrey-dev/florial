@@ -72,6 +72,6 @@ test('classifies model access, quota and transient provider errors', () => {
 test('sanitizes and bounds provider error messages before showing them in Manager', () => {
   const result = sanitizeGeminiProviderMessage('Invalid request with key=AIza123456789012345678901234567890 and schema field X')
   assert.doesNotMatch(result, /AIza123456789012345678901234567890/)
-  assert.match(result, /\\[redacted\\]/)
+  assert.match(result, /\[redacted\]/)
   assert.ok(sanitizeGeminiProviderMessage('x'.repeat(500)).length <= 320)
 })
