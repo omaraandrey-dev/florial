@@ -210,7 +210,13 @@ export default function PlantCatalogManager({role}:Props){
    })
    const response=await fetch('/api/manager/plants/gemini-test',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
    const result=await responseJson(response)
-   if(!response.ok)throw new Error([result.error||'Gemini не успя да подготви тестовия резултат.',result.code?'Код: '+result.code:'',result.requestId?'ID: '+result.requestId:''].filter(Boolean).join(' · '))
+   if(!response.ok)throw new Error([
+    result.error||'Gemini не успя да подготви тестовия резултат.',
+    result.code?'Код: '+result.code:'',
+    result.providerHttpStatus?'Google HTTP: '+result.providerHttpStatus:'',
+    result.providerStatus?'Причина Google: '+result.providerStatus:'',
+    result.requestId?'ID: '+result.requestId:'',
+   ].filter(Boolean).join(' · '))
    if(!result.result||typeof result.result!=='object')throw new Error('Gemini върна непълен структуриран резултат.')
    setGeminiResult(result)
   }catch(e){
