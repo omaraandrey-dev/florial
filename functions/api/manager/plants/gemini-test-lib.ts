@@ -37,7 +37,12 @@ const isObject = (value: unknown): value is Record<string, any> =>
 const text = (value: unknown, max: number) =>
   typeof value === 'string' ? value.trim().slice(0, max) : ''
 
-export const extractGeminiStreamText = (payload: unknown): string => {\n  if (!isObject(payload) || !Array.isArray(payload.candidates)) return ''\n  const candidate = payload.candidates[0]\n  if (!isObject(candidate) || !isObject(candidate.content) || !Array.isArray(candidate.content.parts)) return ''\n  return candidate.content.parts.filter((part: unknown) => isObject(part) && typeof part.text === 'string').map((part: any) => part.text).join('')\n}\n\nexport const extractGeminiText = (payload: unknown): string => {
+export const extractGeminiStreamText = (payload: unknown): string => {
+  if (!isObject(payload) || !Array.isArray(payload.candidates)) return ''
+  const candidate = payload.candidates[0]
+  if (!isObject(candidate) || !isObject(candidate.content) || !Array.isArray(candidate.content.parts)) return ''
+  return candidate.content.parts.filter((part: unknown) => isObject(part) && typeof part.text === 'string').map((part: any) => part.text).join('')
+}
   if (!isObject(payload) || !Array.isArray(payload.candidates)) throw new Error('GEMINI_EMPTY_RESPONSE')
   const candidate = payload.candidates[0]
   if (!isObject(candidate) || !isObject(candidate.content) || !Array.isArray(candidate.content.parts)) {
