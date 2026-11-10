@@ -1,13 +1,16 @@
 ## 2026-11-10 — Manager растений: обнаружение совпадений и добавление варианта в существующую карточку (PR #187)
 
+- Read-only проверка Sanity dataset plants подтвердила, что точный запрос по «Цикас» / Cycas revoluta возвращает две опубликованные карточки. Данные не изменялись.
+- Read-only проверка Cloudflare D1 подтвердила существование manager_product_audit и применение migration 0013_manager_product_audit; схема и строки не изменялись.
+
 **Scope:** только src/manager/PlantCatalogManager.tsx, новый src/manager/PlantDuplicatePicker.tsx, Manager Pages Functions и unit tests. Production catalog data не изменялись.
 
-- Новый read-only endpoint GET /api/manager/plants/duplicates проверяет опубликованные product документы dataset plants по case-insensitive exact match в name, translations.bg.name, translations.ru.name, translations.en.name и scientificName. Используются имя Gemini и до трёх научных кандидатов. Draft документы исключаются, результат ограничен 12 карточками.
+- Новый read-only endpoint GET /api/manager/plants/duplicates проверяет опубликованные product документы dataset plants по case-insensitive exact match в name, translations.bg.name, translations.ru.name, translations.en.name и scientificName и legacy plantDetails.scientificName. Используются имя Gemini и до трёх научных кандидатов. Draft документы исключаются, результат ограничен 12 карточками.
 - В Gemini review dialog отображается кликабельная красная точка возле предложенного имени. Нажатие показывает найденные карточки с thumbnail, названием, scientificName, категорией и текущими вариантами.
 - Новый вариант добавляется только по выбору сотрудником существующей карточки. Вводятся только свободный текст размера (до 100 символов) и цена EUR. Совпадающие высоты/названия допустимы. Стволы не имеют отдельного поля.
 - Новый variant записывается в существующий saleVariants: _type=plantSaleVariant, случайный _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. saleHeightCm, containerVolumeL, SKU, old price и root price/stock не изменяются этим действием.
 - Новая Pages Function: POST /api/manager/plants/:id/add-variant. Сервер проверяет Manager session/role, same-origin, HMAC aiProof и соответствие proof asset текущей фотографии, наличие Sanity image asset, текущую _rev, максимум 30 вариантов, idempotency и журнал manager_product_audit. Мутация использует Sanity ifRevisionID.
-- Проверенная фотография добавляется в существующий gallery только если asset ещё не присутствует в mainImage/gallery и галерея содержит общий лимит Manager в 10 фотографий с учётом mainImage не превышен. mainImage и существующие gallery entries сохраняются. При заполненной галерее новый вариант всё равно записывается без новой фотографии.
+- Проверенная фотография добавляется в существующий gallery только если asset ещё не присутствует в mainImage/gallery и общее количество фотографий с учётом mainImage не превышает лимит Manager в 10 снимков. mainImage и существующие gallery entries сохраняются. При заполненной галерее новый вариант всё равно записывается без новой фотографии.
 - Никаких Sanity schema changes, Sanity migrations, D1 migrations, D1 schema changes, production catalog mutations или глобальных UI changes нет.
 - Tests: tests/plant-duplicates.test.mjs проверяет query escaping и локализованные поля, допускает повторяющийся размер, подтверждает сохранение прежних вариантов/снимков и поведение лимита gallery.
 - PR #187 открыт. Первичный CI run #776 выявил ошибку test import path; тестовый query builder вынесен в чистый helper functions/api/manager/plant-duplicate-lib.ts, импорт исправлен. Финальный CI на актуальном head: pending confirmation. Cloudflare Production deployment не запускался.
