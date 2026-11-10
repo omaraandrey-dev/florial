@@ -1,28 +1,18 @@
-## 2026-11-10 — PR #187: обнаружение существующих растений и добавление варианта
+## 2026-11-10 — PR #187: обнаружение существующих растений и добавление варианта (merged and deployed)
 
-## 2026-11-10 — PR #187 merged and Production deployment verified
-
-- PR #187 squash merged into main. Merge commit: 26ef412e9cddb61bea0c9d73ce2bd5dfc9aa0ddd.
-- Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 completed successfully. Deployment URL: https://02f1e592.florial.pages.dev. Production aliases: https://florial-bg.com and https://www.florial-bg.com.
-- Cloudflare stages queued, initialize, clone_repo, build and deploy all reported success. Deployment commit matches the PR merge commit.
-- CI checks: Blog and Studio validation #807 success; Florial D1 migration validation #957 success. Local Node tests 7/7 passed; TypeScript declaration resolution checked.
-- No Sanity documents/assets, Sanity schema, D1 rows or D1 schema were modified by this feature. The live Sanity duplicate query was read-only and returned two published Cycas revoluta matches.
-- Manual Manager acceptance by Owner/Manager/Seller remains pending. Preview deployments are disabled in Pages; the Production deployment was verified directly.
-
----
-
-
-- Read-only GROQ запрос по «Цикас» / Cycas revoluta в текущем Sanity plants dataset вернул две опубликованные карточки, подтверждая работу localized/scientific matching. Данные не изменялись.
-- Read-only Cloudflare D1 проверка подтвердила таблицу manager_product_audit и migration 0013_manager_product_audit в schema_migrations. SQL выполнялся только через SELECT/PRAGMA; D1 не изменялась.
-
-- В Manager растений после ответа Gemini добавлена проверка опубликованного каталога Sanity plants на точные совпадения без учёта регистра: основное имя, BG/RU/EN names и до трёх ботанических кандидатов, включая legacy plantDetails.scientificName. Черновики исключены; выдача ограничена 12 карточками.
-- В окне Gemini рядом с предложенным названием появляется кликабельная красная точка/индикатор совпадений. Список показывает фотографию, имя, латинское название, категорию и уже существующие варианты.
-- Сотрудник может выбрать существующую карточку и добавить новый вариант с произвольным текстом размера и ценой EUR. Повторяющиеся высоты/названия не блокируются; отдельное поле для количества стволов не создаётся.
-- Проверенная Google фотография добавляется в общую gallery карточки, если её там ещё нет и общий лимит Manager в 10 фотографий с учётом главной фотографии не достигнут. mainImage и прежние снимки не заменяются. Если галерея заполнена, вариант всё равно добавляется, фотография не добавляется.
-- Новый вариант использует существующий plantSaleVariant: _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. Не создаются новые Sanity поля, schema changes или миграции.
-- Новый API использует текущие Manager session/role, same-origin, Google aiProof с привязкой к загруженному asset, проверку существования asset, Sanity ifRevisionID, idempotency и существующий D1 manager_product_audit.
-- Добавлены unit tests для GROQ escaping/localized name matching, append существующего варианта и безопасного добавления фото в галерею.
-- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. GitHub Actions: Blog and Studio validation run #807 — success (lint, website tests/build, Sanity Studio build); Florial D1 migration validation run #957 — success (lint, website build, Pages Functions syntax, additive migration validation). PR #187 объединён; Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 завершился успешно.
+- PR #187 squash merged в main; merge commit: 26ef412e9cddb61bea0c9d73ce2bd5dfc9aa0ddd.
+- Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 завершился success; URL https://02f1e592.florial.pages.dev, aliases https://florial-bg.com и https://www.florial-bg.com.
+- Все стадии production deployment (queued, initialize, clone_repo, build, deploy) завершились success. Последующий docs-only deployment 805e66ac-80d4-4970-af6c-2b4a7ccfe2ba также завершился success.
+- CI: Blog and Studio validation #807 — success; Florial D1 migration validation #957 — success. Локальные Node tests: 7/7 passed; TypeScript declaration resolution checked.
+- Read-only GROQ запрос по «Цикас» / Cycas revoluta вернул две опубликованные карточки. Sanity documents/assets/schema не изменялись.
+- Read-only Cloudflare D1 проверка подтвердила manager_product_audit и migration 0013_manager_product_audit. D1 rows/schema не изменялись.
+- После ответа Gemini Manager проверяет опубликованные растения по основному имени, BG/RU/EN translations, scientificName и legacy plantDetails.scientificName; drafts исключены, выдача ограничена 12 карточками.
+- Возле предложенного имени показывается кликабельная красная точка. Список совпадений показывает фото, название, латинское имя, категорию и существующие варианты.
+- Сотрудник может выбрать существующую карточку и добавить только свободный текст размера и цену EUR. Повторяющиеся высоты/названия разрешены; отдельное поле количества стволов не создаётся.
+- Проверенная Google фотография добавляется в общую gallery карточки, если её там ещё нет и общий лимит Manager в 10 фотографий (mainImage + gallery) не превышен. Главная фотография и прежние снимки не заменяются. При заполненной галерее размер и цена всё равно добавляются без фото.
+- Новый вариант использует существующий plantSaleVariant: _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. Никаких новых Sanity fields, schema changes, Sanity migrations или D1 migrations.
+- Append API защищён Manager session/role, same-origin, Google aiProof, проверкой asset, Sanity ifRevisionID, idempotency и D1 audit log.
+- Ручная приёмка Owner/Manager/Seller в Manager остаётся pending. Изображения можно удалять/заменять через существующий редактор общей галереи.
 
 ---
 
