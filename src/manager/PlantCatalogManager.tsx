@@ -507,7 +507,6 @@ export default function PlantCatalogManager({role}:Props){
         proof={geminiProof}
         proofAssetId={geminiProofAssetId}
         onCheckStateChange={setDuplicateCheckPending}
-        onCheckStateChange={setDuplicateCheckPending}
         image={images[mainImageIndex]?{
          ...images[mainImageIndex],
          alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
