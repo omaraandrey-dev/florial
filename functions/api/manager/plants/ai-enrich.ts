@@ -95,8 +95,9 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const seo=isObject(generated.seo)?generated.seo:{}
   const cleanSeo=(value:unknown,fallbackName:string,language:'bg'|'ru'|'en')=>{
    const item=isObject(value)?value:{}
-   const localizedTitle=language==='bg'?fallbackName+' | Несебър | Florial':language==='ru'?'Продажа '+fallbackName+' | Несебър | Florial':'Buy '+fallbackName+' | Nessebar | Florial'
-   const localizedDescription=language==='bg'?'Продажба на '+fallbackName+' в Несебър и района. Разгледайте размерите и актуалните цени в градински център Florial.':language==='ru'?'Продажа '+fallbackName+' в Несебре и районе. Ознакомьтесь с доступными размерами и ценами в садовом центре Florial.':'Buy '+fallbackName+' in Nessebar and nearby areas. Explore available sizes and prices at Florial garden centre.'
+   const bgTitle=fallbackName+' | Несебър | Градински център Флориал'
+   const localizedTitle=language==='bg'?(bgTitle.length<=70?bgTitle:fallbackName+' | Несебър | Florial'):language==='ru'?'Продажа '+fallbackName+' | Несебър | Florial':'Buy '+fallbackName+' | Nessebar | Florial'
+   const localizedDescription=language==='bg'?'Продажба на '+fallbackName+' в Несебър и района — Равда, Слънчев бряг и Свети Влас. Разгледайте наличните размери и цени в градински център Florial.':language==='ru'?'Продажа '+fallbackName+' в Несебре и районе — Равда, Солнечный берег и Свети Влас. Ознакомьтесь с доступными размерами и ценами в садовом центре Florial.':'Buy '+fallbackName+' in Nessebar and nearby Ravda, Sunny Beach and Sveti Vlas. Explore available sizes and prices at Florial garden centre.'
    return {
     h1:cleanText(item.h1,160)||fallbackName,
     metaTitle:cleanText(item.metaTitle,70)||localizedTitle.slice(0,70),
