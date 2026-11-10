@@ -1,6 +1,7 @@
-## 2026-11-10 — Manager растений: наличие, редактирование без Google и диагностика Gemini (PR in progress)
+## 2026-11-10 — PR #188: Manager растений и диагностика Gemini (merged and deployed)
 
-- Реализация подготовлена в ветке `fix/plant-manager-stock-gemini-diagnostics`; merge в main и Production deployment пока не выполнены.
+- PR #188 squash merged в `main`; merge commit: `4e53815028d45ea22958ce4feadd1585e90f461f`.
+- Cloudflare Pages Production deployment: `2c9a2e6e-67ce-4cba-8056-a84983db7621`; URL `https://2c9a2e6e.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`. Все стадии queued, initialize, clone_repo, build и deploy завершились success.
 - Ботанический кандидат Google предварительно переносится в scientificName при любом confidence, только если поле не заполнено вручную; предупреждение о ручной проверке сохраняется.
 - Обычный PATCH существующей карточки больше не требует Google proof; POST создания новой карточки продолжает требовать proof. Если proof передан при PATCH, он проверяется.
 - Новые варианты по умолчанию имеют статус inStock. Для новых inStock вариантов требуется целое количество >0; legacy варианты без количества остаются редактируемыми без изменения существующих данных.
@@ -9,7 +10,8 @@
 - Модель gemini-3.5-flash-lite, prompt, response schema и maxOutputTokens=8192 не менялись.
 - Добавлены/обновлены тесты: plant duplicate variants, in-stock quantity validation, Gemini completion diagnostics.
 - Sanity schema/data/assets, D1 schema/rows, Cloudflare secrets/settings, заказы, оборудование полива и глобальные компоненты не изменялись. Production writes и migrations не выполнялись.
-- CI/build/deployment и ручная приёмка Owner/Manager/Seller остаются pending.
+- GitHub Actions Blog and Studio validation #819 — success; Florial D1 migration validation #975 — success. Lint, website tests/build, Studio build, Pages Functions syntax и additive migration validation прошли.
+- Ручная приёмка Owner/Manager/Seller в живом Manager после Production deployment остаётся обязательной и ещё не подтверждена.
 
 ---
 
