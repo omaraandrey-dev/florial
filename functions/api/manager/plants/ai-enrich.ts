@@ -77,6 +77,7 @@ const safeFailure=(error:unknown)=>{
  if(/license|licence|terms/i.test(message))return {code:'AI_MODEL_LICENSE',hint:'Cloudflare изисква приемане на лиценза за AI модела.'}
  if(/429|quota|neurons|rate.?limit/i.test(message))return {code:'AI_RATE_LIMIT',hint:'Временно е достигнат лимитът на AI модела. Изчакайте малко и опитайте отново.'}
  if(/GBIF_UNAVAILABLE/i.test(message))return {code:'GBIF_UNAVAILABLE',hint:'Ботаническото име не можа да бъде проверено в GBIF; останалото съдържание може да се генерира без автоматично научно име.'}
+ if(/AI_CONTENT_TOO_SHORT/i.test(message))return {code:'AI_CONTENT_INCOMPLETE',hint:'ИИ върна непълно описание дори след повторна генерация. Нищо не е записано; опитайте отново.'}
  return {code:'AI_GENERATION_FAILED',hint:'Неуспешен отговор от AI модела след автоматичен повторен опит. Проверете данните и опитайте отново.'}
 }
 
@@ -163,10 +164,25 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    return json({error:failure.hint,code:failure.code,stage:'content_generation',requestId,retryable:transientError(error)},502)
   }
   stage='response_validation'
-  const translations=isObject(generated.translations)?generated.translations:{}
-  const bg=isObject(translations.bg)?translations.bg:{}
-  const ru=isObject(translations.ru)?translations.ru:{}
-  const en=isObject(translations.en)?translations.en:{}
+  let translations=isObject(generated.translations)?generated.translations:{}
+  let bg=isObject(translations.bg)?translations.bg:{}
+  let ru=isObject(translations.ru)?translations.ru:{}
+  let en=isObject(translations.en)?translations.en:{}
+  let bgDescription=cleanText(generated.description||bg.description,8000)
+  let ruDescription=cleanText(ru.description,8000)
+  let enDescription=cleanText(en.description,8000)
+  if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650){
+   stage='content_quality_retry'
+   generated=await runJsonModel(env,prompt+'\n\nQUALITY CONTROL: Your previous response was too short. Return the complete JSON again with a substantial, practical description in all three languages: at least 900 characters BG and 650 characters each RU and EN. Include the relevant care sections, but do not invent facts.',8192)
+   translations=isObject(generated.translations)?generated.translations:{}
+   bg=isObject(translations.bg)?translations.bg:{}
+   ru=isObject(translations.ru)?translations.ru:{}
+   en=isObject(translations.en)?translations.en:{}
+   bgDescription=cleanText(generated.description||bg.description,8000)
+   ruDescription=cleanText(ru.description,8000)
+   enDescription=cleanText(en.description,8000)
+   if(bgDescription.length<900||ruDescription.length<650||enDescription.length<650)throw new Error('AI_CONTENT_TOO_SHORT')
+  }
   const seo=isObject(generated.seo)?generated.seo:{}
   const bgSeo=cleanSeo(seo,name,'bg')
   const ruName=cleanText(ru.name,160)||name
@@ -174,18 +190,18 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const ruSeo=cleanSeo(ru.seo,ruName,'ru')
   const enSeo=cleanSeo(en.seo,enName,'en')
   const mainImageAlt=visibleObservation?cleanText('Купи '+name+' в Несебър — '+visibleObservation,180):''
-  const mainImageAltEn=visibleObservation?cleanText('Buy '+enName+' in Nessebar — '+cleanText(generated.imageAltEn,150),180):''
-  const mainImageAltRu=visibleObservation?cleanText('Купите '+ruName+' в Несебре — '+cleanText(generated.imageAltRu,150),180):''
+  const mainImageAltEn=visibleObservation&&cleanText(generated.imageAltEn,150)?cleanText('Buy '+enName+' in Nessebar — '+cleanText(generated.imageAltEn,150),180):''
+  const mainImageAltRu=visibleObservation&&cleanText(generated.imageAltRu,150)?cleanText('Купите '+ruName+' в Несебре — '+cleanText(generated.imageAltRu,150),180):''
   const suggestion:Record<string,unknown>={
    scientificName:verifiedScientificName,
    botanicalVerification,
    scientificNameCandidates:candidates,
    shortDescription:cleanText(generated.shortDescription||bg.shortDescription,500),
-   description:cleanText(generated.description||bg.description,8000),
+   description:bgDescription,
    translations:{
-    bg:{name,shortDescription:cleanText(bg.shortDescription||generated.shortDescription,500),description:cleanText(bg.description||generated.description,8000),seo:bgSeo},
-    ru:{name:ruName,shortDescription:cleanText(ru.shortDescription,500),description:cleanText(ru.description,8000),seo:ruSeo},
-    en:{name:enName,shortDescription:cleanText(en.shortDescription,500),description:cleanText(en.description,8000),seo:enSeo},
+    bg:{name,shortDescription:cleanText(bg.shortDescription||generated.shortDescription,500),description:bgDescription,seo:bgSeo},
+    ru:{name:ruName,shortDescription:cleanText(ru.shortDescription,500),description:ruDescription,seo:ruSeo},
+    en:{name:enName,shortDescription:cleanText(en.shortDescription,500),description:enDescription,seo:enSeo},
    },
    seo:bgSeo,
    mainImageAlt,mainImageAltEn,mainImageAltRu,
