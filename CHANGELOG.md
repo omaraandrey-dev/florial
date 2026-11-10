@@ -1,3 +1,14 @@
+## 2026-11-10 — Gemini Photo/Text: диагностика обрыва потока (подготовка)
+
+- Добавлены heartbeat SSE события каждые 3 секунды, пока Owner тест ожидает Google или читает ответ. Они содержат только Request ID, режим, этап и прошедшее время.
+- Разделены transport failures при установлении соединения с Google и при прерывании уже начавшегося Google response stream.
+- В Manager различаются ошибка отправки запроса в Florial и прерывание потока к браузеру; показываются безопасный код, последний этап и Request ID.
+- Добавлены структурированные Cloudflare logs с mode, stage, provider HTTP status/content type, количеством полученных bytes/chars, безопасным кодом и типом ошибки. API key, headers, image bytes, raw provider body и сырые exception messages не записываются.
+- Сохранены модель gemini-3.8-flash, prompt, response schema, Owner-only guard, same-origin проверка, 300-секундный provider timeout и read-only режим.
+- Sanity/D1, каталог, основная Workers AI функция, заказы, Header/menu/Footer и Cloudflare secrets/settings не изменялись.
+- Реальный live Owner тест после деплоя ожидает выполнения; до него причина предыдущего network error остаётся НЕ ИЗВЕСТНО.
+- CI, PR и Production deployment: pending.
+
 ## 2026-11-10 — Gemini Photo/Text: потоковый Owner test опубликован в Production
 
 - Добавлен режим Gemini Text без фотографии; запрос принимает введённое название растения (например, «лавровишня») и формирует видоспецифичный тестовый результат на BG/RU/EN.

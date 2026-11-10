@@ -224,28 +224,40 @@ export default function PlantCatalogManager({role}:Props){
     categories:categoryOptions.map(item=>({id:item._id,name:item.name})),
     ...(mode==='photo'&&targetImage?{mainImage:{assetId:targetImage.assetId,url:targetImage.url}}:{}),
    })
-   const response=await fetch('/api/manager/plants/gemini-test',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
+   let response:Response
+   try{
+    response=await fetch('/api/manager/plants/gemini-test',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
+   }catch(fetchError){
+    if(fetchError instanceof Error&&fetchError.name==='AbortError')throw fetchError
+    throw new Error('Не успяхме да установим връзка с Florial Manager. Код: GEMINI_CLIENT_REQUEST_FAILED · Проверете интернет връзката и опитайте отново.')
+   }
    if(!response.ok){
     const result=await responseJson(response)
     throw new Error([result.error||'Gemini не успя да подготви тестовия резултат.',result.code?'Код: '+result.code:'',result.providerHttpStatus?'Google HTTP: '+result.providerHttpStatus:'',result.providerStatus?'Причина Google: '+result.providerStatus:'',result.providerMessage?'Подробности Google: '+result.providerMessage:'',result.requestId?'ID: '+result.requestId:''].filter(Boolean).join(' · '))
    }
    if(!response.body)throw new Error('Браузърът не получи поток отговор от Gemini.')
    const reader=response.body.getReader(),decoder=new TextDecoder()
-   let buffer='',receivedResult=false,streamError=''
+   let buffer='',receivedResult=false,streamError='',observedRequestId='',observedStage='response_open'
    const handleLine=(line:string)=>{
     if(!line.startsWith('data:'))return
     const raw=line.slice(5).trim()
     if(!raw)return
     let event:any
     try{event=JSON.parse(raw)}catch{return}
-    if(event.requestId)setGeminiRequestId(event.requestId)
-    if(event.type==='progress')setGeminiStage(event.message||event.stage||'Gemini обработва заявката…')
+    if(event.requestId){observedRequestId=event.requestId;setGeminiRequestId(event.requestId)}
+    if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage((event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''))}
+    if(event.type==='heartbeat')setGeminiStage('Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…')
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
     if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiStage('Анализът е завършен. Резултатът е само тестов и не е записан.')}
-    if(event.type==='error')streamError=[event.error||'Gemini не успя да обработи заявката.',event.code?'Код: '+event.code:'',event.providerHttpStatus?'Google HTTP: '+event.providerHttpStatus:'',event.providerStatus?'Причина Google: '+event.providerStatus:'',event.providerMessage?'Подробности Google: '+event.providerMessage:'',event.requestId?'ID: '+event.requestId:''].filter(Boolean).join(' · ')
+    if(event.type==='error')streamError=[event.error||'Gemini не успя да обработи заявката.',event.code?'Код: '+event.code:'',event.stage?'Етап: '+event.stage:'',event.providerHttpStatus?'Google HTTP: '+event.providerHttpStatus:'',event.providerStatus?'Причина Google: '+event.providerStatus:'',event.providerContentType?'Тип отговора: '+event.providerContentType:'',event.providerBytesReceived!==undefined?'Получени bytes: '+event.providerBytesReceived:'',event.modelCharsReceived!==undefined?'Получени символи: '+event.modelCharsReceived:'',event.providerMessage?'Подробности Google: '+event.providerMessage:'',event.requestId?'ID: '+event.requestId:''].filter(Boolean).join(' · ')
    }
    while(true){
-    const {value,done}=await reader.read()
+    let next:{value:Uint8Array|undefined;done:boolean}
+    try{next=await reader.read()}catch{
+     if(controller.signal.aborted)throw new DOMException('Gemini request timed out','AbortError')
+     throw new Error(['Потокът отговор прекъсна на връзката с браузъра.', 'Код: GEMINI_CLIENT_STREAM_INTERRUPTED', 'Етап: '+observedStage, observedRequestId?'Request ID: '+observedRequestId:''].filter(Boolean).join(' · '))
+    }
+    const {value,done}=next
     if(done)break
     buffer+=decoder.decode(value,{stream:true})
     let newline=buffer.indexOf('\n')

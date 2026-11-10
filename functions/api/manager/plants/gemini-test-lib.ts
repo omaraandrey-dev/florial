@@ -138,3 +138,7 @@ export const normalizeGeminiPlantResult = (
     careGuide: text(parsed.careGuide, 5000),
   }
 }
+
+export const classifyGeminiTransportError = (phase: 'connect' | 'stream') => phase === 'connect'
+  ? { code: 'GEMINI_PROVIDER_CONNECT_FAILED', hint: 'Cloudflare не успя да установи връзка с Google Gemini. Проверете отново след малко.', providerStatus: 'NETWORK_CONNECT_FAILED', retryable: true }
+  : { code: 'GEMINI_PROVIDER_STREAM_INTERRUPTED', hint: 'Google започна отговор, но потокът прекъсна преди да завърши. Опитайте отново.', providerStatus: 'STREAM_INTERRUPTED', retryable: true }
