@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, parseJsonBody, PRODUCT_TYPES } from '../plant-direct-lib'
-import { classifyGeminiProviderError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
+import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.8-flash'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -100,24 +100,38 @@ const failure = (error: unknown) => {
   if (/GEMINI_IMAGE_INVALID/.test(message)) return { code: 'GEMINI_IMAGE_INVALID', hint: 'Основната снимка не е валиден Sanity asset за каталога с растения.' }
   if (/GEMINI_IMAGE_DOWNLOAD_FAILED|GEMINI_IMAGE_TYPE_INVALID|GEMINI_IMAGE_TOO_LARGE|GEMINI_IMAGE_DOWNLOAD_TIMEOUT/.test(message)) return { code: 'GEMINI_IMAGE_UNAVAILABLE', hint: 'Снимката не може да бъде заредена за Gemini. Проверете снимката и опитайте отново.' }
   if (/GEMINI_RATE_LIMIT|429/.test(message)) return { code: 'GEMINI_RATE_LIMIT', hint: 'Достигнат е текущият лимит на Gemini. Изчакайте възстановяване на квотата и опитайте отново.' }
+  if (/GEMINI_PROVIDER_CONNECT_FAILED/.test(message)) return { code: 'GEMINI_PROVIDER_CONNECT_FAILED', hint: 'Cloudflare не успя да установи връзка с Google Gemini. Проверете отново след малко.' }
+  if (/GEMINI_PROVIDER_STREAM_INTERRUPTED/.test(message)) return { code: 'GEMINI_PROVIDER_STREAM_INTERRUPTED', hint: 'Google започна отговор, но потокът прекъсна преди да завърши. Опитайте отново.' }
   if (/GEMINI_TIMEOUT|AbortError|TimeoutError/.test(message)) return { code: 'GEMINI_TIMEOUT', hint: 'Gemini не отговори в рамките на пет минути. Опитайте отново по-късно.' }
   if (/GEMINI_INVALID_JSON|GEMINI_EMPTY_RESPONSE/.test(message)) return { code: 'GEMINI_INVALID_RESPONSE', hint: 'Gemini върна непълен или невалиден структуриран отговор.' }
   return { code: 'GEMINI_PROVIDER_ERROR', hint: 'Gemini временно не успя да обработи заявката. Проверете API ключа и лимитите в Google AI Studio.' }
 }
 
-const streamResponse = (run: (send: (event: Record<string, unknown>) => void) => Promise<void>) => {
+const streamResponse = (requestId: string, mode: 'photo' | 'text', run: (send: (event: Record<string, unknown>) => void) => Promise<void>) => {
   const encoder = new TextEncoder()
+  const streamStartedAt = Date.now()
+  let currentStage = 'stream_open'
+  let heartbeat: ReturnType<typeof setInterval> | undefined
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
       const send = (event: Record<string, unknown>) => {
+        if (event.type === 'progress' && typeof event.stage === 'string') currentStage = event.stage
         try { controller.enqueue(encoder.encode('data: ' + JSON.stringify(event) + '\n\n')) } catch { /* client disconnected */ }
       }
+      heartbeat = setInterval(() => {
+        send({ type: 'heartbeat', requestId, mode, stage: currentStage, elapsedMs: Date.now() - streamStartedAt })
+      }, 3000)
       void run(send).catch((error) => {
         const safe = failure(error)
-        send({ type: 'error', ...safe })
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: currentStage, code: safe.code, errorType: error instanceof Error ? error.name : 'unknown' })
+        send({ type: 'error', ...safe, requestId, mode, stage: currentStage })
       }).finally(() => {
+        if (heartbeat) clearInterval(heartbeat)
         try { controller.close() } catch { /* already closed */ }
       })
+    },
+    cancel() {
+      if (heartbeat) clearInterval(heartbeat)
     },
   })
   return new Response(stream, {
@@ -125,6 +139,7 @@ const streamResponse = (run: (send: (event: Record<string, unknown>) => void) =>
       'Content-Type': 'text/event-stream; charset=utf-8',
       'Cache-Control': 'no-cache, no-transform',
       'X-Accel-Buffering': 'no',
+      'X-Content-Type-Options': 'nosniff',
     },
   })
 }
@@ -154,7 +169,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   const shortDescription = cleanText(product.shortDescription, 500)
   const description = cleanText(product.description, 3000)
 
-  return streamResponse(async (send) => {
+  return streamResponse(requestId, mode, async (send) => {
     const startedAt = Date.now()
     const progress = (stage: string, message: string) => send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
     try {
@@ -204,9 +219,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         })
       } catch (error) {
         if (error instanceof Error && error.name === 'TimeoutError') throw new Error('GEMINI_TIMEOUT')
-        throw error
+        const diagnostic = classifyGeminiTransportError('connect')
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_connect', code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown' })
+        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_connect', elapsedMs: Date.now() - startedAt })
+        return
       }
 
+      progress('provider_headers', 'Google отговори. Проверяваме статуса и потока.')
       if (!apiResponse.ok) {
         const providerPayload = await apiResponse.json().catch(() => null) as unknown
         const providerError = isObject(providerPayload) && isObject(providerPayload.error) ? providerPayload.error : {}
@@ -226,6 +245,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       }
       if (!apiResponse.body) throw new Error('GEMINI_EMPTY_RESPONSE')
 
+      const providerContentType = (apiResponse.headers.get('content-type') || '').split(';')[0].trim().toLowerCase()
       const reader = apiResponse.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
@@ -254,16 +274,25 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       }
 
       progress('streaming', 'Получаваме отговора на Gemini на отделни фрагменти.')
-      while (true) {
-        const { value, done } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
-        let newline = buffer.indexOf('\n')
-        while (newline >= 0) {
-          consumeLine(buffer.slice(0, newline).replace(/\r$/, ''))
-          buffer = buffer.slice(newline + 1)
-          newline = buffer.indexOf('\n')
+      let providerBytesReceived = 0
+      try {
+        while (true) {
+          const { value, done } = await reader.read()
+          if (done) break
+          providerBytesReceived += value?.byteLength || 0
+          buffer += decoder.decode(value, { stream: true })
+          let newline = buffer.indexOf('\n')
+          while (newline >= 0) {
+            consumeLine(buffer.slice(0, newline).replace(/\r$/, ''))
+            buffer = buffer.slice(newline + 1)
+            newline = buffer.indexOf('\n')
+          }
         }
+      } catch (error) {
+        const diagnostic = classifyGeminiTransportError('stream')
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown' })
+        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_stream', providerHttpStatus: apiResponse.status, providerContentType, providerBytesReceived, modelCharsReceived: modelText.length, elapsedMs: Date.now() - startedAt })
+        return
       }
       buffer += decoder.decode()
       if (buffer) consumeLine(buffer.replace(/\r$/, ''))
