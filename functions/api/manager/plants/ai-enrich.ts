@@ -58,7 +58,13 @@ const runJsonModel=async(env:ManagerEnv,prompt:string,maxTokens:number)=>{
   try{
    const response=await env.AI!.run(MODEL,{messages:[{role:'system',content:'You are a careful professional horticultural editor for Florial, a Bulgarian garden centre. Return one valid JSON object only. Never invent commercial facts.'},{role:'user',content:prompt}],response_format:{type:'json_object'},max_tokens:maxTokens,temperature:0.15})
    return parseModelJson(response)
-  }catch(error){lastError=error}
+  }catch(error){
+   lastError=error
+   const message=error instanceof Error?error.message:String(error)
+   const canRetry=/AI_INVALID_JSON|429|5\d\d|timeout|timed out|temporar|overload|capacity|rate.?limit|network|fetch failed/i.test(message)
+   if(attempt===0&&canRetry){await new Promise(resolve=>setTimeout(resolve,500));continue}
+   throw error
+  }
  }
  throw lastError instanceof Error?lastError:new Error('AI_REQUEST_FAILED')
 }
