@@ -476,6 +476,8 @@ export default function PlantCatalogManager({role}:Props){
    {historyLoading?'Зареждане…':history.length===0?<p className="text-sm text-stone-500">Няма записи.</p>:<div className="divide-y divide-stone-200">{history.map((event:any)=><div key={event.id} className="py-3"><div className="flex flex-wrap justify-between gap-2"><strong>{event.product_name}</strong><span className="text-xs text-stone-500">{new Date(event.created_at).toLocaleString('bg-BG')}</span></div><p className="mt-1 text-sm">{event.actor_name||event.actor_id} · {event.actor_role} · {event.action} · {event.result}</p><p className="mt-1 text-xs text-stone-500">Променени полета: {(event.changed_fields||[]).join(', ')||'—'}</p>
     {(event.before_data||event.after_data)&&<details className="mt-2 rounded-lg bg-stone-50 p-2"><summary className="cursor-pointer text-xs font-semibold text-stone-700">Преди / След</summary><div className="mt-2 grid gap-2 sm:grid-cols-2"><div><div className="mb-1 text-[11px] font-semibold text-stone-500">Преди</div><pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words text-[10px] text-stone-600">{JSON.stringify(event.before_data,null,2)||'—'}</pre></div><div><div className="mb-1 text-[11px] font-semibold text-stone-500">След</div><pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words text-[10px] text-stone-600">{JSON.stringify(event.after_data,null,2)||'—'}</pre></div></div></details>}
     {event.error_code&&<p className="mt-1 text-xs text-red-700">Код: {event.error_code}</p>}</div>)}</div>}
+
+  </div>}
   {geminiModalOpen&&geminiResult&&<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3" role="dialog" aria-modal="true" aria-labelledby="gemini-result-title">
    <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
     <div className="flex items-center justify-between gap-3 border-b border-stone-200 p-4">
@@ -507,7 +509,6 @@ export default function PlantCatalogManager({role}:Props){
      <button type="button" disabled={geminiResult.mode==='photo'&&(!geminiProof||!images[mainImageIndex]||images[mainImageIndex].assetId!==geminiProofAssetId)} className={btn+' bg-lime-800 text-white disabled:opacity-50'} onClick={applyGeminiResult}>Да, приложи резултата</button>
     </div>
    </div>
-  </div>}
   </div>}
  </div>
 }
