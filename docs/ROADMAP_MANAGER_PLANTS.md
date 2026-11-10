@@ -18,7 +18,7 @@
 ### Статус
 
 - PR #187 открыт; финальная CI-проверка выполнена успешно: Blog and Studio #807 и Florial D1 #957.
-- Production deployment не запускался. Согласно границам этого Manager проекта, rollout требует отдельного согласования после CI/Preview.
+- Production deployment пока не запускался, поскольку PR ещё не объединён в main. После merge Cloudflare Pages автоматически запустит production deployment.
 - Авторизованная приёмка на живых карточках Sanity и role matrix Owner/Manager/Seller остаётся pending.
 
 ---
