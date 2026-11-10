@@ -1,13 +1,15 @@
-## 2026-11-10 — Gemini Photo/Text: диагностика обрыва потока (подготовка)
+## 2026-11-10 — Gemini Photo/Text: диагностика обрыва потока опубликована в Production
 
 - Добавлены heartbeat SSE события каждые 3 секунды, пока Owner тест ожидает Google или читает ответ. Они содержат только Request ID, режим, этап и прошедшее время.
-- Разделены transport failures при установлении соединения с Google и при прерывании уже начавшегося Google response stream.
-- В Manager различаются ошибка отправки запроса в Florial и прерывание потока к браузеру; показываются безопасный код, последний этап и Request ID.
-- Добавлены структурированные Cloudflare logs с mode, stage, provider HTTP status/content type, количеством полученных bytes/chars, безопасным кодом и типом ошибки. API key, headers, image bytes, raw provider body и сырые exception messages не записываются.
+- Разделены transport failures при установлении соединения Cloudflare → Google, прерывании upstream stream и обрыве SSE в браузере.
+- Manager показывает последний этап, безопасный error code, Request ID, Google HTTP status/content type и счётчики полученных bytes/chars, если соответствующие данные доступны.
+- Добавлены структурированные Cloudflare logs: mode, stage, HTTP status, content type, counters, stable error code и exception type. API key, auth headers, image bytes, raw provider body и raw exception messages не логируются.
 - Сохранены модель gemini-3.8-flash, prompt, response schema, Owner-only guard, same-origin проверка, 300-секундный provider timeout и read-only режим.
-- Sanity/D1, каталог, основная Workers AI функция, заказы, Header/menu/Footer и Cloudflare secrets/settings не изменялись.
-- Реальный live Owner тест после деплоя ожидает выполнения; до него причина предыдущего network error остаётся НЕ ИЗВЕСТНО.
-- CI, PR и Production deployment: pending.
+- PR #184 объединён squash в main: merge commit 9e24b416b142cbc7f9d0373bb737c7dc72f10dbe.
+- Blog and Studio validation #764 и Florial D1 migration validation #906 завершились success.
+- Cloudflare Pages Production deployment 98eff424-0b8e-4ec4-8301-50891d2d99d4 для merge commit завершился success; aliases florial-bg.com и www.florial-bg.com назначены.
+- Реальный авторизованный Owner тест Photo и Text после деплоя ещё не выполнен. Функциональная приёмка Gemini и фактическая причина предыдущих network error остаются НЕ ИЗВЕСТНО — нужно проверить оба режима.
+- Sanity/D1 данные и схемы, каталог, основная Workers AI функция, заказы, Header/menu/Footer и Cloudflare secrets/settings не изменялись.
 
 ## 2026-11-10 — Gemini Photo/Text: потоковый Owner test опубликован в Production
 
