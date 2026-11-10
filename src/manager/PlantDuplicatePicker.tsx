@@ -11,6 +11,7 @@ type DuplicateProduct = {
   variants: DuplicateVariant[]
 }
 type DuplicateImage = { assetId: string; url: string; alt?: string; altEn?: string; altRu?: string }
+type PendingOperation = { fingerprint: string; idempotencyKey: string; variantKey: string }
 type Props = {
   plantName: string
   scientificNames: string[]
@@ -31,7 +32,8 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   const [price, setPrice] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
-  const [imageNotice, setImageNotice] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
+  const [pendingOperation, setPendingOperation] = useState<PendingOperation | null>(null)
 
   const scientificKey = scientificNames.filter(Boolean).slice(0, 3).join('|')
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
       if (!controller.signal.aborted) setLoading(false)
     })
     return () => controller.abort()
-  }, [plantName, scientificKey])
+  }, [plantName, scientificKey, refreshKey])
 
   const canSave = Boolean(selected && size.trim().length >= 2 && Number.isFinite(Number(price)) && Number(price) > 0 && proof && image && image.assetId === proofAssetId && !saving && (selected.variants?.length || 0) < 30)
 
@@ -71,26 +73,37 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     if (!selected || !canSave || !image || !proof) return
     setSaving(true)
     setError('')
-    setImageNotice('')
     try {
-      const idempotencyKey = crypto.randomUUID()
-      const variantKey = crypto.randomUUID().replace(/-/g, '').slice(0, 12)
+      const fingerprint = [selected._id, selected._rev, size.trim(), price, image.assetId].join('|')
+      const operation = pendingOperation?.fingerprint === fingerprint ? pendingOperation : {
+        fingerprint,
+        idempotencyKey: crypto.randomUUID(),
+        variantKey: crypto.randomUUID().replace(/-/g, '').slice(0, 12),
+      }
+      if (operation !== pendingOperation) setPendingOperation(operation)
       const response = await fetch('/api/manager/plants/' + encodeURIComponent(selected._id) + '/add-variant', {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           expectedRevision: selected._rev,
-          idempotencyKey,
+          idempotencyKey: operation.idempotencyKey,
           aiProof: proof,
           proofImageAssetId: image.assetId,
-          variant: { _key: variantKey, name: size.trim(), priceEUR: Number(price) },
+          variant: { _key: operation.variantKey, name: size.trim(), priceEUR: Number(price) },
           image,
         }),
       })
       const result = await responseJson(response)
-      if (!response.ok) throw new Error(result.error || 'Не успяхме да добавим размера.')
-      if (!result.imageAdded && !result.imageAlreadyPresent) setImageNotice('Размерът е добавен, но галерията вече съдържа максимален брой снимки. Новата снимка не е добавена.')
+      if (!response.ok) {
+        if (result.conflict) {
+          setPendingOperation(null)
+          setSelected(null)
+          setOpen(false)
+          setRefreshKey(value => value + 1)
+        }
+        throw new Error(result.error || 'Не успяхме да добавим размера.')
+      }
       onAdded({ productName: selected.name, imageAdded: result.imageAdded === true, imageAlreadyPresent: result.imageAlreadyPresent === true })
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Не успяхме да добавим размера.')
@@ -102,20 +115,18 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   if (loading) return <span className="text-xs text-stone-500">Проверяваме каталога…</span>
   if (!items.length) return error ? <span className="text-xs text-amber-800">{error}</span> : null
 
-  return <div className="mt-2">
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-600" aria-label="Намерено е съвпадение в каталога" />
-      <button type="button" className="text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); setError('') }}>
-        {items.length === 1 ? 'Има съвпадение в каталога' : 'Има ' + items.length + ' съвпадения в каталога'}
-      </button>
-    </div>
+  return <div className="flex flex-wrap items-center gap-2">
+    <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-600" aria-label="Намерено е съвпадение в каталога" />
+    <button type="button" className="text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); setError('') }}>
+      {items.length === 1 ? 'Има съвпадение в каталога' : 'Има ' + items.length + ' съвпадения в каталога'}
+    </button>
     {open && <div className="mt-3 basis-full space-y-3 rounded-xl border border-red-200 bg-red-50/50 p-3">
       <div className="flex items-center justify-between gap-2">
         <strong className="text-sm text-stone-800">Съществуващи растения</strong>
         <button type="button" className="text-xs font-semibold text-stone-600 underline" onClick={() => { setOpen(false); setSelected(null) }}>Затвори списъка</button>
       </div>
       <div className="space-y-2">
-        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); setSize(''); setPrice(''); setError(''); setImageNotice('') }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
+        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); setSize(''); setPrice(''); setError(''); setPendingOperation(null) }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
           <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-stone-100">
             {item.thumbnail ? <img src={item.thumbnail} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[10px] text-stone-400">Без снимка</div>}
           </div>
@@ -151,13 +162,11 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
               </div>
               : <p className="text-xs text-amber-800">За да добавите този вариант, първо трябва да има снимка, проверена от Google.</p>}
             {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
-            {imageNotice && <p className="text-xs text-amber-800">{imageNotice}</p>}
             <button type="button" disabled={!canSave} onClick={() => void addVariant()} className="w-full rounded-lg bg-lime-800 px-4 py-3 text-sm font-bold text-white disabled:opacity-40">
               {saving ? 'Добавяне…' : 'Добави размер и цена към тази карточка'}
             </button>
           </>}
       </div>}
     </div>}
-    {error && !open && <p className="mt-2 text-xs text-amber-800">{error}</p>}
   </div>
 }
