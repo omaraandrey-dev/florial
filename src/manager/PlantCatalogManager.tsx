@@ -144,15 +144,16 @@ export default function PlantCatalogManager({role}:Props){
  const generateWithAI=async()=>{
   if(aiLoading)return
   setAiLoading(true);setError('');setAiWarnings([])
+  const targetImage=images[mainImageIndex]||null
   try{
    const category=categories.find(item=>item._id===form.categoryId)
-   const response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},mainImage:images[mainImageIndex]?{assetId:images[mainImageIndex].assetId,url:images[mainImageIndex].url}:null})})
+   const response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},mainImage:targetImage?{assetId:targetImage.assetId,url:targetImage.url}:null})})
    const result=await responseJson(response)
    if(!response.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
    const suggestion=result.suggestion||{}
    setForm(previous=>{const fill=(current:any,incoming:any)=>String(current||'').trim()?current:(incoming||'');const incoming=suggestion.translations&&typeof suggestion.translations==='object'?suggestion.translations:{};const translations={...previous.translations};for(const language of ['bg','ru','en']){const generated=incoming[language]&&typeof incoming[language]==='object'?incoming[language]:{};const current=translations[language]||{};const generatedSeo=generated.seo&&typeof generated.seo==='object'?generated.seo:{};const currentSeo=current.seo&&typeof current.seo==='object'?current.seo:{};translations[language]={...current,name:fill(current.name,generated.name),shortDescription:fill(current.shortDescription,generated.shortDescription),description:fill(current.description,generated.description),seo:Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(currentSeo[key],generatedSeo[key])]))}}const seo={...previous.seo};for(const key of ['h1','metaTitle','metaDescription'] as const)seo[key]=fill(seo[key],suggestion.seo?.[key]);const shortDescription=fill(previous.shortDescription,suggestion.shortDescription);const description=fill(previous.description,suggestion.description);const bgSeo=translations.bg.seo||{};translations.bg.seo=Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(bgSeo[key],seo[key])]));return {...previous,shortDescription,description,translations,seo}})
-   if(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu){
-    setImages(previous=>previous.map((image,index)=>index===mainImageIndex?{...image,alt:image.alt||suggestion.mainImageAlt||'',altEn:image.altEn||suggestion.mainImageAltEn||'',altRu:image.altRu||suggestion.mainImageAltRu||''}:image))
+   if(targetImage&&(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu)){
+    setImages(previous=>previous.map(image=>image.assetId===targetImage.assetId?{...image,alt:image.alt.trim()?image.alt:suggestion.mainImageAlt||'',altEn:image.altEn.trim()?image.altEn:suggestion.mainImageAltEn||'',altRu:image.altRu.trim()?image.altRu:suggestion.mainImageAltRu||''}:image))
    }
    setAiWarnings(Array.isArray(suggestion.warnings)?suggestion.warnings:[])
    setNotice('ИИ попълни празните полета за описания, преводи, SEO и ALT на основната снимка. Проверете съдържанието преди публикуване.')
