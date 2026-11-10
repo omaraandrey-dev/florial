@@ -6,9 +6,12 @@
 - HTTP 429 (квота/лимит), 4xx, ошибки доступа, неверный запрос и ошибки потока не повторяются этой логикой. Модель `gemini-3.5-flash-lite`, endpoint, prompt, response schema, параметры генерации, API key, формат результата и AI proof не меняются.
 - Если после двух повторов Google продолжает отвечать 5xx, Manager получает исходную безопасную диагностику, HTTP status, provider status, request ID и число повторов. Автоматические повторы не выполняют запись в Sanity/D1.
 - Добавлены unit tests для разрешённых retry статусов, исключения 429/4xx и фиксированных задержек.
-- Production данные Sanity/D1, Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer не затрагивались. Проверка CI и Production deployment фиксируется после merge.
-
----
+- Blog and Studio validation run #828 — success: website lint, utility tests, website build, migration syntax/dry-run и Sanity Studio build. Florial D1 migration validation run #998 — success.
+- PR #191 объединён squash в `main`; merge commit `68d9b1980b1dbde0e97c1e567dd9d26e5ef2bbda`.
+- Cloudflare Pages Production deployment `4870b7b6-ed1a-4a19-9901-41c4eaaea475`, URL `https://4870b7b6.florial.pages.dev`; deployed commit совпадает с merge commit. Все стадии queued, initialize, clone_repo, build и deploy завершились `success`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
+- Авторизованный live Gemini request с реальной фотографией после deployment остаётся обязательной приёмкой Owner; реальный Google 503 является временной ошибкой провайдера и не гарантирует, что повторная попытка обязательно пройдёт.
+- Production Sanity documents/assets, D1 schema/rows, Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer не изменялись.
+- Изменены только `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `src/manager/PlantCatalogManager.tsx`, `tests/gemini-plant-ai.test.mjs`, `docs/TECHNICAL_PASSPORT.md` и `CHANGELOG.md`.
 
 ## Дополнение rev70 — исправление UUID при добавлении варианта растения
 
