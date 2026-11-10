@@ -215,6 +215,7 @@ export default function PlantCatalogManager({role}:Props){
     result.code?'Код: '+result.code:'',
     result.providerHttpStatus?'Google HTTP: '+result.providerHttpStatus:'',
     result.providerStatus?'Причина Google: '+result.providerStatus:'',
+    result.providerMessage?'Подробности Google: '+result.providerMessage:'',
     result.requestId?'ID: '+result.requestId:'',
    ].filter(Boolean).join(' · '))
    if(!result.result||typeof result.result!=='object')throw new Error('Gemini върна непълен структуриран резултат.')
