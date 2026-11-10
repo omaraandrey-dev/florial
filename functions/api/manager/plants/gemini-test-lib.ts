@@ -165,3 +165,119 @@ export const normalizeGeminiPlantResult = (
 export const classifyGeminiTransportError = (phase: 'connect' | 'stream') => phase === 'connect'
   ? { code: 'GEMINI_PROVIDER_CONNECT_FAILED', hint: 'Cloudflare не успя да установи връзка с Google Gemini. Проверете отново след малко.', providerStatus: 'NETWORK_CONNECT_FAILED', retryable: true }
   : { code: 'GEMINI_PROVIDER_STREAM_INTERRUPTED', hint: 'Google започна отговор, но потокът прекъсна преди да завърши. Опитайте отново.', providerStatus: 'STREAM_INTERRUPTED', retryable: true }
+
+
+export type GeminiSseDiagnostics = {
+  eventCount: number
+  malformedEventCount: number
+  ignoredLineCount: number
+  dataChars: number
+}
+
+export const createGeminiSseParser = (onPayload: (payload: unknown) => void) => {
+  let buffer = ''
+  let dataLines: string[] = []
+  let eventCount = 0
+  let malformedEventCount = 0
+  let ignoredLineCount = 0
+  let dataChars = 0
+  let firstLine = true
+  let finished = false
+
+  const dispatch = () => {
+    if (!dataLines.length) return
+    const raw = dataLines.join('\\n')
+    dataLines = []
+    if (raw.trim() === '[DONE]') return
+    eventCount += 1
+    dataChars += raw.length
+    let payload: unknown
+    try {
+      payload = JSON.parse(raw)
+    } catch {
+      malformedEventCount += 1
+      return
+    }
+    onPayload(payload)
+  }
+
+  const consumeLine = (rawLine: string) => {
+    let line = rawLine
+    if (firstLine) {
+      firstLine = false
+      if (line.charCodeAt(0) === 0xFEFF) line = line.slice(1)
+    }
+    if (line === '') {
+      dispatch()
+      return
+    }
+    if (line.startsWith(':')) return
+    if (line.startsWith('data:')) {
+      let value = line.slice(5)
+      if (value.startsWith(' ')) value = value.slice(1)
+      dataLines.push(value)
+      return
+    }
+    ignoredLineCount += 1
+  }
+
+  const process = (final: boolean) => {
+    let index = 0
+    while (index < buffer.length) {
+      const code = buffer.charCodeAt(index)
+      if (code !== 10 && code !== 13) {
+        index += 1
+        continue
+      }
+      if (code === 13 && index === buffer.length - 1 && !final) break
+      const line = buffer.slice(0, index)
+      const delimiterLength = code === 13 && buffer.charCodeAt(index + 1) === 10 ? 2 : 1
+      buffer = buffer.slice(index + delimiterLength)
+      index = 0
+      consumeLine(line)
+    }
+    if (final) {
+      if (buffer.length) consumeLine(buffer)
+      buffer = ''
+      dispatch()
+    }
+  }
+
+  const getStats = (): GeminiSseDiagnostics => ({
+    eventCount,
+    malformedEventCount,
+    ignoredLineCount,
+    dataChars,
+  })
+
+  return {
+    push(chunk: string) {
+      if (finished) throw new Error('GEMINI_SSE_PARSER_FINISHED')
+      buffer += chunk
+      process(false)
+    },
+    finish(): GeminiSseDiagnostics {
+      if (!finished) {
+        process(true)
+        finished = true
+      }
+      return getStats()
+    },
+    getStats,
+  }
+}
+
+export const describeGeminiJsonError = (value: string): string => {
+  try {
+    const parsed: unknown = JSON.parse(value)
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? 'JSON синтаксисът е валиден, но резултатът не може да бъде нормализиран.'
+      : 'JSON синтаксисът е валиден, но коренът на отговора не е обект.'
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Невалиден JSON'
+    const position = message.match(/(?:position|at)\\s+(\\d+)/i)?.[1]
+    return (position ? 'Невалиден JSON около позиция ' + position + '.' : 'Невалиден JSON: ' + message)
+      .replace(/[\\r\\n\\t]+/g, ' ')
+      .slice(0, 160)
+  }
+}
