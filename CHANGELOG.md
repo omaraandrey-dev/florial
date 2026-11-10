@@ -1,3 +1,18 @@
+## 2026-11-10 — Manager растений: наличие, редактирование без Google и диагностика Gemini (PR in progress)
+
+- Реализация подготовлена в ветке `fix/plant-manager-stock-gemini-diagnostics`; merge в main и Production deployment пока не выполнены.
+- Ботанический кандидат Google предварительно переносится в scientificName при любом confidence, только если поле не заполнено вручную; предупреждение о ручной проверке сохраняется.
+- Обычный PATCH существующей карточки больше не требует Google proof; POST создания новой карточки продолжает требовать proof. Если proof передан при PATCH, он проверяется.
+- Новые варианты по умолчанию имеют статус inStock. Для новых inStock вариантов требуется целое количество >0; legacy варианты без количества остаются редактируемыми без изменения существующих данных.
+- Duplicate picker принимает размер, цену EUR и количество; API сохраняет inStock и stockQuantity. Google proof и проверка asset для сценария добавления варианта сохранены.
+- Gemini streaming сохраняет finishReason, prompt block reason, token usage summary, bytes/chars и JSON parse status; MAX_TOKENS, safety termination и invalid JSON различаются. Секреты и полный текст ответа не логируются.
+- Модель gemini-3.5-flash-lite, prompt, response schema и maxOutputTokens=8192 не менялись.
+- Добавлены/обновлены тесты: plant duplicate variants, in-stock quantity validation, Gemini completion diagnostics.
+- Sanity schema/data/assets, D1 schema/rows, Cloudflare secrets/settings, заказы, оборудование полива и глобальные компоненты не изменялись. Production writes и migrations не выполнялись.
+- CI/build/deployment и ручная приёмка Owner/Manager/Seller остаются pending.
+
+---
+
 ## 2026-11-10 — PR #187: обнаружение существующих растений и добавление варианта (merged and deployed)
 
 - PR #187 squash merged в main; merge commit: 26ef412e9cddb61bea0c9d73ce2bd5dfc9aa0ddd.
