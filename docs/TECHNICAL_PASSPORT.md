@@ -1,3 +1,19 @@
+## 2026-11-10 — Gemini Flash-Lite переведён в основной процесс заполнения растений
+
+- PR #186 объединён squash в `main`; merge commit: `756784c51ada295732ee8c05b29200da5ac468a9`.
+- Основной AI-процесс Manager растений теперь использует Google Gemini `gemini-3.5-flash-lite`; изолированный Owner-only test endpoint переведён в рабочий поток для ролей owner/manager/seller с проверкой `requirePlantRole`.
+- В редакторе растений доступны два режима: Photo (основная фотография передаётся Google) и Text (только название; фотография и её содержимое не отправляются).
+- Результат Google открывается в окне проверки. Кнопка «Да, приложи и запази» применяет AI-поля и сразу запускает существующее создание/обновление Sanity-документа. При успешной проверке не требуется второе ручное сохранение.
+- Для записи endpoint выдаёт подписанный сервером `aiProof`, связанный с asset ID текущей основной фотографии. Существующие same-origin/auth проверки, проверка роли, idempotency key, optimistic revision, audit log и Sanity mutation/verification сохранены.
+- AI-поля: название, тип, категория, краткое и полное описание BG/RU/EN, SEO BG/RU/EN, ALT основной фотографии в Photo режиме, а для Owner — plantCare и careGuide. Высоко-уверенный первый ботанический кандидат может быть предложен в scientificName, но UI предупреждает, что кандидат не подтверждён независимой ботанической базой.
+- Коммерческие поля не генерируются и сохраняются из текущей карточки: SKU, цена, старая цена, размеры, варианты, количество и статус наличности, фотографии/галерея, isActive и isFeatured. При неполных обязательных коммерческих данных Sanity mutation не выполняется; пользователь получает ошибки валидации.
+- Старый `functions/api/manager/plants/ai-enrich.ts` сохранён в репозитории для безопасного отката, но основной Manager UI больше не вызывает Workers AI. Cloudflare AI binding и секреты не изменялись.
+- Runtime-файлы: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`; тест: `tests/gemini-plant-ai.test.mjs`.
+- GitHub Actions Blog and Studio validation #774 — success; Lint, website build, 41 tests (41 passed, 0 failed), Studio build, migration dry-run — success. Florial D1 migration validation #921 — success, включая Pages Functions syntax check и additive migration validation.
+- Cloudflare Pages Production deployment: `2499b1ad-1ecc-402c-8d18-2f6c913c4447`; URL `https://2499b1ad.florial.pages.dev`; deployed commit совпадает с merge commit. Стадии queued, initialize, clone_repo, build и deploy завершились success; aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
+- Существующий Production secret `GEMINI_API_KEY` не читался и не изменялся.
+- Фактическая авторизованная приёмка полного сценария «Photo/Text → окно проверки → прямое сохранение в Sanity» после Production deployment, включая роли Manager/Seller, остаётся pending и должна быть выполнена в Manager.
+
 ## 2026-11-10 — Gemini Photo/Text: переход тестового endpoint на Flash-Lite
 
 - Тестовая модель Owner-only endpoint `POST /api/manager/plants/gemini-test` изменена с `gemini-3.8-flash` на стабильную `gemini-3.5-flash-lite`.
