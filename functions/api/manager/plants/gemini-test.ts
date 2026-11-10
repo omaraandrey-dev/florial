@@ -2,7 +2,7 @@ import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, parseJsonBody, PRODUCT_TYPES } from '../plant-direct-lib'
 import { classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage } from './gemini-test-lib'
 
-const MODEL = 'gemini-3.8-flash'
+const MODEL = 'gemini-3.5-flash-lite'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
 const IMAGE_TIMEOUT_MS = 15_000
 const MODEL_TIMEOUT_MS = 300_000
@@ -204,7 +204,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         'SAFETY: Never invent price, SKU, sale size, container volume, availability or cultivar. Botanical candidates are hypotheses, not scientific proof. If plant identity is unclear, do not write species-specific care facts. Return all required JSON fields, using empty strings/arrays for unknown values.',
       ].join('\n\n')
       parts.unshift({ text: prompt })
-      progress('google_connect', 'Свързваме се с Google Gemini 3.8 Flash. Изчакваме първия фрагмент отговора.')
+      progress('google_connect', 'Свързваме се с Google Gemini 3.5 Flash-Lite. Изчакваме първия фрагмент отговора.')
 
       let apiResponse: Response
       try {
