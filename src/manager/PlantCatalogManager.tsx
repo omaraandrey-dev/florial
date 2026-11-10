@@ -147,16 +147,25 @@ export default function PlantCatalogManager({role}:Props){
   const targetImage=images[mainImageIndex]||null
   try{
    const category=categories.find(item=>item._id===form.categoryId)
-   const response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},mainImage:targetImage?{assetId:targetImage.assetId,url:targetImage.url}:null})})
-   const result=await responseJson(response)
-   if(!response.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
+   const requestBody=JSON.stringify({product:{name:form.name,scientificName:form.scientificName,productType:form.productType,categoryName:category?.name||'',shortDescription:form.shortDescription,description:form.description},mainImage:targetImage?{assetId:targetImage.assetId,url:targetImage.url}:null})
+   let response:Response|undefined
+   let result:any={}
+   for(let attempt=0;attempt<2;attempt++){
+    try{
+     response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody})
+     result=await responseJson(response)
+    }catch(error){if(attempt===0){await new Promise(resolve=>window.setTimeout(resolve,600));continue}throw error}
+    if(response.ok||!result.retryable||attempt===1)break
+    await new Promise(resolve=>window.setTimeout(resolve,700))
+   }
+   if(!response?.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
    const suggestion=result.suggestion||{}
    setForm(previous=>{const fill=(current:any,incoming:any)=>String(current||'').trim()?current:(incoming||'');const incoming=suggestion.translations&&typeof suggestion.translations==='object'?suggestion.translations:{};const translations={...previous.translations};for(const language of ['bg','ru','en']){const generated=incoming[language]&&typeof incoming[language]==='object'?incoming[language]:{};const current=translations[language]||{};const generatedSeo=generated.seo&&typeof generated.seo==='object'?generated.seo:{};const currentSeo=current.seo&&typeof current.seo==='object'?current.seo:{};translations[language]={...current,name:fill(current.name,generated.name),shortDescription:fill(current.shortDescription,generated.shortDescription),description:fill(current.description,generated.description),seo:Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(currentSeo[key],generatedSeo[key])]))}}const seo={...previous.seo};for(const key of ['h1','metaTitle','metaDescription'] as const)seo[key]=fill(seo[key],suggestion.seo?.[key]);const shortDescription=fill(previous.shortDescription,suggestion.shortDescription);const description=fill(previous.description,suggestion.description);const bgSeo=translations.bg.seo||{};translations.bg.seo=Object.fromEntries(['h1','metaTitle','metaDescription'].map(key=>[key,fill(bgSeo[key],seo[key])]));const generatedCare=suggestion.plantCare&&typeof suggestion.plantCare==='object'?suggestion.plantCare:{};const plantCare={...previous.plantCare};for(const [key,value] of Object.entries(generatedCare)){const current=(plantCare as any)[key];const empty=current===undefined||current===null||current===''||(Array.isArray(current)&&current.length===0);if(empty)(plantCare as any)[key]=value}return {...previous,scientificName:fill(previous.scientificName,suggestion.scientificName),shortDescription,description,translations,seo,plantCare,careGuide:fill(previous.careGuide,suggestion.careGuide)}})
    if(targetImage&&(suggestion.mainImageAlt||suggestion.mainImageAltEn||suggestion.mainImageAltRu)){
     setImages(previous=>previous.map(image=>image.assetId===targetImage.assetId?{...image,alt:image.alt.trim()?image.alt:suggestion.mainImageAlt||'',altEn:image.altEn.trim()?image.altEn:suggestion.mainImageAltEn||'',altRu:image.altRu.trim()?image.altRu:suggestion.mainImageAltRu||''}:image))
    }
    setAiWarnings(Array.isArray(suggestion.warnings)?suggestion.warnings:[])
-   setNotice('ИИ попълни празните полета за описания, преводи, SEO и ALT на основната снимка. Проверете съдържанието преди публикуване.')
+   setNotice(role==='owner'?'ИИ попълни празните описания, преводи, SEO, ALT и наличните ботанически данни. Проверете съдържанието преди публикуване.':'ИИ попълни празните описания и подготви локализираното съдържание. Проверете го преди публикуване.')
   }catch(e){setError(e instanceof Error?e.message:'ИИ не успя да попълни данните.')}
   finally{setAiLoading(false)}
  }
