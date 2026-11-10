@@ -1,3 +1,15 @@
+## 2026-11-10 — Manager растений: упрощение интерфейса и AI enrichment (feature branch, rollout pending)
+
+- Feature branch: `fix/manager-plants-simplified-staff-form`; код подготовлен к CI/PR, не считать Production deployed до подтверждённого Pages deployment.
+- Role visibility: Owner retains ALT, SKU/variant SKU, slug, translations and SEO fields. Manager/Seller see the simplified workflow: image upload/library, plant identity, terminal categories, sale sizes/prices/stock, BG short and full descriptions, and the AI enrichment action.
+- Category selector now lists only terminal categories (categories without child categories); parent grouping nodes are hidden. The save payload keeps only selected terminal category IDs.
+- Variant auto-name: if the name is blank/auto-generated, height generates `Размер {round(0.95*h)}–{round(1.05*h)} см`; container volume appends `C{litres}`. The auto-name follows subsequent dimension edits until a staff member manually edits the name. The UI-only auto-name marker is not sent to Sanity.
+- New product slug is generated from the plant name and checked against published product slugs in Sanity dataset `plants`; collisions use numeric suffixes. Existing slugs remain unchanged during edits unless Owner explicitly edits the slug.
+- AI enrichment response now includes main-image ALT in BG/RU/EN and SEO H1/metaTitle/metaDescription in BG/RU/EN. When model SEO fields are absent, localized safe fallback values are produced. UI fills blank fields only and preserves already populated manual values.
+- Runtime files touched on feature branch: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/ai-enrich.ts`.
+- No Sanity documents/schema/assets, D1 schema/data, irrigation dataset `production`, checkout/orders, Header/menu/Footer, Cloudflare settings or secrets were modified.
+- No live Sanity write operations were performed. CI, merge, Pages deployment and authenticated Owner/Manager/Seller acceptance remain pending.
+
 ## 2026-11-10 — Current runtime status after PR #170 rollout
 
 - PR #170 merged into main at commit 24c90b929692fa6b7a306caf31a31803128ab203.
