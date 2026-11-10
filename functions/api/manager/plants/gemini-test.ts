@@ -272,6 +272,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
       progress('normalizing', 'Поток завершён. Проверяем JSON и подготавливаем структурированные поля.')
       const normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
+      if (mode === 'text') {
+        normalized.visibleDescription = ''
+        normalized.imageAlt = { bg: '', ru: '', en: '' }
+      }
       send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, result: normalized })
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
