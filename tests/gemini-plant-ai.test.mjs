@@ -113,7 +113,7 @@ test('parses Gemini SSE events across arbitrary chunks and all standard line end
   const parser = createGeminiSseParser((payload) => payloads.push(payload))
   parser.push('\uFEFFdata: {"candidates":')
   parser.push('[{"content":{"parts":[{"text":"first"}]}}]}\r')
-  parser.push('\ndata: {"candidates":[{"content":{"parts":[{"text":"second"}]}}]}\n\n')
+  parser.push('\r\ndata: {"candidates":[{"content":{"parts":[{"text":"second"}]}}]}\n\n')
   parser.push(': heartbeat\r')
   parser.push('data: {"usageMetadata":{"totalTokenCount":12}}\r\r')
   const stats = parser.finish()
