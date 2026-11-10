@@ -64,7 +64,7 @@ Read-only аудит выполнен по `src/pages/CategoryPage.tsx`, `src/pa
 - ProductPage использует `selectedSaleVariant.priceEUR` и `selectedSaleVariant.oldPriceEUR`.
 - CartPage берёт `saleVariant.priceEUR`, а `product.priceEUR` — только fallback при отсутствии variant price.
 - `functions/api/orders.ts` для dataset plants требует `variantKey`, находит вариант по `_key` и пересчитывает цену из `variant.priceEUR`; ожидаемая цена корзины сравнивается с текущей серверной ценой (допуск 0.009 EUR). При отсутствии положительной цены заказ отклоняется.
-- Следовательно, **каноническая коммерческая цена растения — `saleVariants[].priceEUR`**. Корневые `priceEUR` / `oldPriceEUR` — legacy/совместимость; Manager не должен автоматически переписывать их.
+- Следовательно, **каноническая коммерческая цена растения — `saleVariants[].priceEUR`**. По решению владельца, реализованному в PR #173, при явном сохранении карточки Manager также рассчитывает root `priceEUR` как минимальную текущую цену всех вариантов, а root `oldPriceEUR` — как минимальную заполненную старую цену вариантов (или null, если старых цен нет). Эти root-поля остаются legacy/совместимостью и не заменяют цены выбранного варианта. Массовая синхронизация существующих документов запрещена без отдельного согласования.
 
 **Наличие:**
 - CategoryPage сначала использует root `product.stockStatus`, если это `inStock` или `onRequest`; только иначе смотрит варианты (приоритет `inStock`, затем `onRequest`). Root status может маскировать фактический статус отдельных вариантов.
@@ -74,7 +74,7 @@ Read-only аудит выполнен по `src/pages/CategoryPage.tsx`, `src/pa
 - В Manager list показывать «Различна наличност», если варианты имеют разные статусы; если все одинаковые — общий статус. В редакторе каждый вариант имеет собственный статус.
 
 **Legacy discrepancy:**
-В опубликованной выборке есть карточки с root `priceEUR` отличающимся от variant price (например, `citrus-kumquat`: root 3000, variant 25), а также различающимся root/variant stock. Это подтверждает, что root price нельзя массово синхронизировать с variant price.
+В опубликованной выборке есть карточки с root `priceEUR` отличающимся от variant price (например, `citrus-kumquat`: root 3000, variant 25), а также различающимся root/variant stock. Это подтверждает запрет массовой миграции. Новое правило PR #173 действует только при явном сохранении конкретной карточки: root price/oldPrice вычисляются из её вариантов; существующие документы без явного редактирования не затрагиваются.
 
 Дополнительно:
 - Заказ сохраняет snapshot SKU, имя с вариантом, qty, price, catalog, `variantKey`, `variantName`, `saleHeightCm`, `containerVolumeL`; последующие изменения Sanity не переписывают уже созданные order items.
@@ -191,7 +191,7 @@ Read-only аудит выполнен по `src/pages/CategoryPage.tsx`, `src/pa
 
 - Валюта — EUR; `vatIncluded` не выключать.
 - Каноническая цена растения — `saleVariants[].priceEUR`; category показывает минимальную положительную цену варианта, ProductPage — цену выбранного варианта, CartPage и серверный order validation также используют вариантную цену.
-- Root `priceEUR` / `oldPriceEUR` оставить без автоматической синхронизации; в существующих документах есть legacy расхождения.
+- При явном сохранении карточки синхронизировать root `priceEUR` с минимумом текущих variant prices, root `oldPriceEUR` — с минимумом заполненных variant old prices (иначе null). Не выполнять массовую миграцию; root `stockQuantity` не менять.
 - Статус варианта — самостоятельное значение. ProductPage предпочитает variant status; root `stockStatus` используется fallback. CategoryPage предпочитает root `stockStatus`, поэтому editor должен при явном сохранении пересчитывать root status агрегированно: any inStock → inStock; иначе any onRequest → onRequest; иначе outOfStock. Root `stockQuantity` автоматически не суммировать и не изменять.
 - В списке Manager при смешанных статусах вариантов показывать «Различна наличност»; в редакторе каждый статус варианта изменяется отдельно.
 - Server order validation запрещает только `outOfStock`, допускает `onRequest` при положительной цене и в текущем коде не сверяет `stockQuantity`. Не вводить новое правило запрета по quantity без отдельного изменения order contract.
