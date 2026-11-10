@@ -186,7 +186,7 @@ export const createGeminiSseParser = (onPayload: (payload: unknown) => void) => 
 
   const dispatch = () => {
     if (!dataLines.length) return
-    const raw = dataLines.join('\\n')
+    const raw = dataLines.join('\n')
     dataLines = []
     if (raw.trim() === '[DONE]') return
     eventCount += 1
@@ -275,9 +275,9 @@ export const describeGeminiJsonError = (value: string): string => {
       : 'JSON синтаксисът е валиден, но коренът на отговора не е обект.'
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Невалиден JSON'
-    const position = message.match(/(?:position|at)\\s+(\\d+)/i)?.[1]
+    const position = message.match(/(?:position|at)\s+(\d+)/i)?.[1]
     return (position ? 'Невалиден JSON около позиция ' + position + '.' : 'Невалиден JSON: ' + message)
-      .replace(/[\\r\\n\\t]+/g, ' ')
+      .replace(/[\r\n\t]+/g, ' ')
       .slice(0, 160)
   }
 }
