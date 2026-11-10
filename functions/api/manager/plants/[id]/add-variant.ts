@@ -8,6 +8,7 @@ const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
 const assetPattern = /^image-[A-Za-z0-9-]+$/
 const variantKeyPattern = /^[A-Za-z0-9_-]{8,80}$/
+import { appendPlantGalleryImage, appendPlantSaleVariant } from '../../plant-duplicate-lib'
 
 export const onRequestPost = async ({ request, env, params }: { request: Request; env: ManagerEnv; params: { id: string } }) => {
   if (!env.DB || !env.SANITY_API_TOKEN) return json({ error: 'Plant catalogue service is not configured.' }, 503)
@@ -55,8 +56,10 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const completed = await env.DB.prepare("SELECT result FROM manager_product_audit WHERE idempotency_key=? AND phase='result' LIMIT 1")
       .bind(idempotencyKey).first<{ result: string }>()
     if (completed?.result === 'success') {
-      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev}')
-      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true })
+      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
+      const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
+      const replayGalleryHasImage = Array.isArray(current?.gallery) && current.gallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
+      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: replayGalleryHasImage, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage })
     }
     if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и опитайте отново.', 409)
 
@@ -71,15 +74,13 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const alreadyHasVariant = variants.some((item: any) => item?._key === variantKey)
 
     if (prior && alreadyHasVariant && (galleryHasImage || mainHasImage || currentGallery.length >= 10)) {
-      if (prior) {
-        before = prior.before_data ? JSON.parse(prior.before_data) : null
-        after = auditSnapshot(current)
-        await writeAudit(env, auth.user, {
-          requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
-          action: 'update', changedFields: prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,
-          before, after, result: 'success',
-        })
-      }
+      before = prior.before_data ? JSON.parse(prior.before_data) : null
+      after = auditSnapshot(current)
+      await writeAudit(env, auth.user, {
+        requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
+        action: 'update', changedFields: prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,
+        before, after, result: 'success',
+      })
       return json({ ok: true, documentId: id, revision: current._rev, replayed: true, imageAdded: galleryHasImage, imageAlreadyPresent: mainHasImage || galleryHasImage })
     }
 
@@ -89,27 +90,19 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const asset = await sanityQuery<string | null>(env, '*[_type=="sanity.imageAsset" && _id==' + jsonString(imageAssetId) + '][0]._id')
     if (!asset) return errorJson('Снимката не е намерена в Sanity. Качете я отново.', 400)
 
-    const nextVariant = {
-      _type: 'plantSaleVariant',
-      _key: variantKey,
-      name: variantName,
-      priceEUR,
-      stockStatus: 'onRequest',
-      stockQuantity: null,
-    }
-    const nextVariants = [...variants, nextVariant]
-    const imageAlreadyPresent = mainHasImage || galleryHasImage
-    const imageAdded = !imageAlreadyPresent && currentGallery.length < 10
+    const nextVariants = appendPlantSaleVariant(variants, { key: variantKey, name: variantName, priceEUR })
+    const galleryResult = appendPlantGalleryImage(mainAssetId, currentGallery, {
+      assetId: imageAssetId,
+      alt: cleanText(body.image.alt, 240),
+      altEn: cleanText(body.image.altEn, 240),
+      altRu: cleanText(body.image.altRu, 240),
+      key: 'image-' + crypto.randomUUID().replace(/-/g, '').slice(0, 12),
+    })
+    const imageAdded = galleryResult.imageAdded
+    const imageAlreadyPresent = galleryResult.imageAlreadyPresent
     const set: Record<string, unknown> = { saleVariants: nextVariants }
     if (imageAdded) {
-      set.gallery = [...currentGallery, {
-        _type: 'image',
-        _key: 'image-' + crypto.randomUUID().replace(/-/g, '').slice(0, 12),
-        asset: { _type: 'reference', _ref: imageAssetId },
-        alt: cleanText(body.image.alt, 240),
-        altEn: cleanText(body.image.altEn, 240),
-        altRu: cleanText(body.image.altRu, 240),
-      }]
+      set.gallery = galleryResult.gallery
       changedFields.push('gallery')
     }
 
