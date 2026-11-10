@@ -34,7 +34,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   if (!body || !uuid.test(String(body.idempotencyKey || '')) || !body.product || typeof body.expectedRevision !== 'string') {
     return errorJson('Invalid product update request.', 400)
   }
-  if (!await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Първо натиснете „Попълни с ИИ“ и проверете предложените данни.', 403)
+  if (body.aiProof !== undefined && body.aiProof !== null && body.aiProof !== '' && !await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Невалиден резултат Google. Обновете карточката и опитайте отново.', 403)
   const idempotencyKey = String(body.idempotencyKey)
   let requestId = newId()
   let productName = ''
