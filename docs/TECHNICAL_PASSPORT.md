@@ -1,3 +1,15 @@
+## 2026-11-10 — Gemini Photo/Text: потоковое тестирование (подготовка PR)
+
+- Подготовлена изолированная Owner-only тестовая интеграция Gemini 3.8 Flash с двумя режимами: Photo (Sanity plants CDN image + данные формы) и Text (только название/текст, без изображения).
+- Endpoint сохранён: `POST /api/manager/plants/gemini-test`; поле `mode` различает `photo` и `text`.
+- Google REST method переведён на `streamGenerateContent?alt=sse`; сервер передаёт Owner безопасные события progress/delta/result/error. Сырые текстовые фрагменты модели показываются в Owner панели; итоговый JSON отдельно нормализуется и проверяется перед отображением структурированного результата.
+- Для Text prompt явно запрещает использование изображения, определяет введённое название как предмет анализа, просит botanical candidates, описания BG/RU/EN, SEO и plantCare. ALT и visual description остаются пустыми, так как фотографии нет.
+- Общий лимит ожидания Gemini увеличен до 300 секунд; клиентский watchdog — 310 секунд. Тайм-аут загрузки изображения классифицируется отдельно от тайм-аута генерации модели.
+- Обе кнопки доступны только Owner. Результаты тестовые: без изменения формы, AI proof, записи в Sanity/D1 и публикации. Основной Workers AI путь не изменяется.
+- Изменены runtime-файлы: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `src/manager/PlantCatalogManager.tsx`; тесты: `tests/gemini-plant-ai.test.mjs`.
+- Branch: `feat/gemini-photo-text-streaming`. CI, PR merge и Production deployment: ОЖИДАЮТСЯ; до завершения проверок не считать функциональность опубликованной.
+- Не изменялись Sanity schema/documents/assets, D1 schema/data, Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer и глобальная структура сайта.
+
 ## 2026-11-10 — Gemini plant AI test: safe provider diagnostics
 
 - Диагностическое обновление отдельного Owner-only endpoint `POST /api/manager/plants/gemini-test`.
