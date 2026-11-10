@@ -53,7 +53,7 @@ const analyzeMainImage=async(env:ManagerEnv,value:unknown,categories:Array<{id:s
      {role:'user',content:prompt},
     ],
     image:imageData,
-   }),25000,'AI_VISION_TIMEOUT')
+   }),20000,'AI_VISION_TIMEOUT')
    const parsed=parseModelJson(response)
    const suggestedType=String(parsed.productType||'')
    const suggestedCategory=cleanText(parsed.categoryId,128)
@@ -90,7 +90,7 @@ const runJsonModel=async(env:ManagerEnv,prompt:string,maxTokens:number)=>{
  let lastError:unknown=null
  for(let attempt=0;attempt<2;attempt++){
   try{
-   const response=await withTimeout(env.AI!.run(MODEL,{messages:[{role:'system',content:'You are a careful professional horticultural editor for Florial, a Bulgarian garden centre. Return one valid JSON object only. Never invent commercial facts.'},{role:'user',content:prompt}],response_format:{type:'json_object'},max_tokens:maxTokens,temperature:0.15}),25000,'AI_MODEL_TIMEOUT')
+   const response=await withTimeout(env.AI!.run(MODEL,{messages:[{role:'system',content:'You are a careful professional horticultural editor for Florial, a Bulgarian garden centre. Return one valid JSON object only. Never invent commercial facts.'},{role:'user',content:prompt}],response_format:{type:'json_object'},max_tokens:maxTokens,temperature:0.15}),20000,'AI_MODEL_TIMEOUT')
    return parseModelJson(response)
   }catch(error){
    lastError=error
@@ -252,6 +252,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const mainImageAltRu=visibleObservation&&cleanText(generated.imageAltRu,150)?cleanText('Купите '+ruName+' в Несебре — '+cleanText(generated.imageAltRu,150),180):''
   const suggestion:Record<string,unknown>={
    name,productType,categoryId,
+   visualIdentificationConfidence:imageAnalysis.confidence,
    scientificName:verifiedScientificName,
    botanicalVerification,
    scientificNameCandidates:candidates,
@@ -264,7 +265,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    },
    seo:bgSeo,
    mainImageAlt,mainImageAltEn,mainImageAltRu,
-   warnings:[...warnings,...(visibleObservation&&!generated.imageAltEn?['Не беше генериран английски ALT за основната снимка.']:[]),...(visibleObservation&&!generated.imageAltRu?['Не беше генериран руски ALT за основната снимка.']:[])].slice(0,8),
+   warnings:[...warnings,...(imageAnalysis.confidence==='low'?['Визуалната идентификация е с ниска увереност. Проверете предложеното име ръчно.']:imageAnalysis.confidence==='medium'?['Визуалната идентификация е предварителна. Потвърдете името преди публикуване.']:[]),...(visibleObservation&&!generated.imageAltEn?['Не беше генериран английски ALT за основната снимка.']:[]),...(visibleObservation&&!generated.imageAltRu?['Не беше генериран руски ALT за основната снимка.']:[])].slice(0,8),
   }
   if(role==='owner'){
    const care=isObject(generated.plantCare)?generated.plantCare:{}
