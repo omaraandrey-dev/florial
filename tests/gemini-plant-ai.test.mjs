@@ -75,4 +75,8 @@ test('sanitizes and bounds provider error messages before showing them in Manage
   assert.match(result, /\[redacted\]/)
   assert.ok(sanitizeGeminiProviderMessage('x'.repeat(500)).length <= 320)
 })
-\ntest('extracts streamed text fragments and safely ignores non-content SSE chunks', () => {\n  assert.equal(extractGeminiStreamText({ candidates: [{ content: { parts: [{ text: '{"plantName":' }] } }] }), '{"plantName":')\n  assert.equal(extractGeminiStreamText({ usageMetadata: { totalTokenCount: 10 } }), '')\n})\n
+
+test('extracts streamed text fragments and safely ignores non-content SSE chunks', () => {
+  assert.equal(extractGeminiStreamText({ candidates: [{ content: { parts: [{ text: '{"plantName":' }] } }] }), '{"plantName":')
+  assert.equal(extractGeminiStreamText({ usageMetadata: { totalTokenCount: 10 } }), '')
+})
