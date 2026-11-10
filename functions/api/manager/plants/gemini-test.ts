@@ -176,6 +176,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         requestId,
         providerHttpStatus: apiResponse.status,
         providerStatus: diagnostic.providerStatus,
+        providerMessage: sanitizeGeminiProviderMessage(providerError.message),
         retryable: diagnostic.retryable,
       }, 502)
     }
