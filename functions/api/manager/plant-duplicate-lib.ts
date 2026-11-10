@@ -1,5 +1,5 @@
 const jsonString = (value: string) => JSON.stringify(value)
-const duplicateFields = ['name', 'translations.bg.name', 'translations.ru.name', 'translations.en.name', 'scientificName']
+const duplicateFields = ['name', 'translations.bg.name', 'translations.ru.name', 'translations.en.name', 'scientificName', 'plantDetails.scientificName']
 
 export const buildPlantDuplicateQuery = (name: string, scientificNames: string[]) => {
   const terms = Array.from(new Set([name, ...scientificNames].map(value => value.trim()).filter(Boolean).map(value => value.toLocaleLowerCase('en-US')))).slice(0, 4)
