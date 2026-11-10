@@ -108,6 +108,9 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
   const enName=cleanText(en.name,160)||name
   const ruSeo=cleanSeo(ru.seo,ruName,'ru')
   const enSeo=cleanSeo(en.seo,enName,'en')
+  const mainImageAlt=visibleObservation?cleanText('Купи '+name+' в Несебър — '+visibleObservation,180):''
+  const mainImageAltEn=visibleObservation?cleanText('Buy '+enName+' in Nessebar — '+cleanText(generated.imageAltEn,180),180):''
+  const mainImageAltRu=visibleObservation?cleanText('Купите '+ruName+' в Несебре — '+cleanText(generated.imageAltRu,180),180):''
   return json({
    ok:true,
    suggestion:{
@@ -119,9 +122,9 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
      en:{name:enName,shortDescription:cleanText(en.shortDescription,500),description:cleanText(en.description,8000),seo:enSeo},
     },
     seo:bgSeo,
-    mainImageAlt:visibleObservation,
-    mainImageAltEn:visibleObservation?cleanText(generated.imageAltEn,180):'',
-    mainImageAltRu:visibleObservation?cleanText(generated.imageAltRu,180):'',
+    mainImageAlt,
+    mainImageAltEn,
+    mainImageAltRu,
     warnings:[...warnings,...(Array.isArray(generated.warnings)?generated.warnings.slice(0,8).map(item=>cleanText(item,240)):[])].slice(0,8),
    },
    model:MODEL,
