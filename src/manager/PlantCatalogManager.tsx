@@ -171,7 +171,7 @@ export default function PlantCatalogManager({role}:Props){
     shortDescription:form.shortDescription,
     description:Array.isArray(originalRichText.description)&&form.description===plainText(originalRichText.description)?originalRichText.description:form.description,
     isFeatured:form.isFeatured,isActive:form.isActive,
-    saleVariants:form.saleVariants.map(({nameAuto,...v})=>({...v,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
+    saleVariants:form.saleVariants.map(v=>({...v,nameAuto:undefined,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
     mainImage:selected,gallery:images.filter((_,index)=>index!==mainImageIndex),
     translations:Object.fromEntries(['bg','ru','en'].map(language=>{const current=form.translations[language]||{};const original=originalRichText.translations[language];return [language,{...current,description:Array.isArray(original)&&current.description===plainText(original)?original:current.description}]})),
     seo:form.seo,
