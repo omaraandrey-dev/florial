@@ -173,7 +173,10 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    if(!visibleObservation)warnings.push('ALT за основната снимка не беше генериран.')
   }else{
    warnings.push('Снимката не можа да бъде анализирана. Проверете връзката или опитайте друга снимка.')
-   if(!suppliedName)return json({error:'ИИ не успя да прочете снимката. Опитайте снимка, на която растението е ясно и заема по-голямата част от кадъра.',code:'AI_IMAGE_ANALYSIS_FAILED',stage,requestId,retryable:true},502)
+   if(!suppliedName){
+    const visionTimedOut=imageResult.reason instanceof Error&&/AI_VISION_TIMEOUT/.test(imageResult.reason.message)
+    return json({error:visionTimedOut?'Анализът на снимката отне повече време от очакваното. Опитайте отново или въведете името на растението ръчно.':'ИИ не успя да прочете снимката. Опитайте снимка, на която растението е ясно и заема по-голямата част от кадъра.',code:visionTimedOut?'AI_VISION_TIMEOUT':'AI_IMAGE_ANALYSIS_FAILED',stage,requestId,retryable:true},502)
+   }
   }
   name=suppliedName||imageAnalysis.name
   if(name.length<2)return json({error:'ИИ не успя да разпознае достатъчно ясно растението. Въведете име ръчно или добавете по-ясна снимка.',code:'AI_PLANT_IDENTITY_UNCLEAR',stage,requestId,retryable:false},422)
