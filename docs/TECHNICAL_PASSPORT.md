@@ -8,7 +8,9 @@
 - Тесты классификатора добавлены в `tests/gemini-plant-ai.test.mjs`.
 - PR #180; кодовый commit `b01bfd422ca8b97f586975b3165182cbaf955f51`.
 - CI: Blog and Studio validation #740 — success (39 tests passed, lint, website build, migration dry-run, Sanity Studio build); Florial D1 migration validation #878 — success (lint, website build, Pages Functions syntax, additive migration validation).
-- Merge и Production deployment ожидают завершения PR.
+- PR #180 merged squash в main: `4a26ddbb454b9c8e35b39f7d815ef1bfbff7950c`.
+- Cloudflare Pages Production deployment `d25aad28-0a15-42d0-9ca9-6f5b394d280c`, URL `https://d25aad28.florial.pages.dev`, commit совпадает с merge commit; все стадии, включая deploy, завершились success.
+- Авторизованный live Gemini request Owner остаётся pending. Внешняя HTTP smoke-проверка домена в этом сеансе не подтверждена.
 
 ## 2026-11-10 — Gemini plant AI test: Production deployment
 
