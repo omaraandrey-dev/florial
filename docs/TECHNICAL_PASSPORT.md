@@ -1,3 +1,12 @@
+## 2026-11-10 — Gemini plant AI test: safe provider diagnostics
+
+- Диагностическое обновление отдельного Owner-only endpoint `POST /api/manager/plants/gemini-test`.
+- При non-2xx ответе Google сервер извлекает только стабильный `error.status`, классифицирует ошибку и возвращает Manager: Florial error code, upstream HTTP status, provider status, request ID и безопасную подсказку на болгарском.
+- Категории: invalid request/schema (400), authentication/permission (401/403), model/endpoint not found (404), quota (429), provider timeout (408/504), temporary provider outage (5xx), unknown provider error.
+- Raw provider response body, API key, request headers и image bytes не передаются в клиент и не логируются.
+- Без изменений: `gemini-3.8-flash`, prompt, response schema, input image validation, 120-second timeout, Owner-only authentication, same-origin guard, Workers AI primary path, Sanity/D1 data and schemas.
+- Тесты классификатора добавлены в `tests/gemini-plant-ai.test.mjs`. CI, PR merge и Production deployment фиксируются после фактической проверки.
+
 ## 2026-11-10 — Gemini plant AI test: Production deployment
 
 - PR #178 merged squash to main: `ab63351def7a844f2337702c8515912e8f8724e4`; PR head `fd61e0db9c6596e17fb14f0f49fad3bf1c702323`.
