@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, issuePlantAiProof, parseJsonBody, PRODUCT_TYPES, requirePlantRole } from '../plant-direct-lib'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.5-flash-lite'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -220,21 +220,32 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       progress('google_connect', 'Свързваме се с Google Gemini 3.5 Flash-Lite. Изчакваме първия фрагмент отговора.')
 
       let apiResponse: Response
+      let providerRetryAttempts = 0
+      const maxProviderRetries = 2
       try {
-        apiResponse = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':streamGenerateContent?alt=sse', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-          body: JSON.stringify({
-            contents: [{ role: 'user', parts }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 8192, responseMimeType: 'application/json', responseSchema },
-          }),
-          signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
-        })
+        while (true) {
+          apiResponse = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':streamGenerateContent?alt=sse', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts }],
+              generationConfig: { temperature: 0.2, maxOutputTokens: 8192, responseMimeType: 'application/json', responseSchema },
+            }),
+            signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
+          })
+          if (!isRetryableGeminiHttpStatus(apiResponse.status) || providerRetryAttempts >= maxProviderRetries) break
+          providerRetryAttempts += 1
+          const delayMs = geminiProviderRetryDelayMs(providerRetryAttempts)
+          console.warn('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_retry', providerHttpStatus: apiResponse.status, retryAttempt: providerRetryAttempts, maxProviderRetries, delayMs })
+          send({ type: 'progress', stage: 'provider_retry', message: 'Google Gemini временно е натоварен. Автоматичен повторен опит ' + providerRetryAttempts + ' от ' + maxProviderRetries + '.', requestId, mode, providerHttpStatus: apiResponse.status, retryAttempt: providerRetryAttempts, maxProviderRetries, elapsedMs: Date.now() - startedAt })
+          try { await apiResponse.body?.cancel() } catch { /* release transient response before retry */ }
+          await new Promise(resolve => setTimeout(resolve, delayMs))
+        }
       } catch (error) {
         if (error instanceof Error && error.name === 'TimeoutError') throw new Error('GEMINI_TIMEOUT')
         const diagnostic = classifyGeminiTransportError('connect')
-        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_connect', code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown' })
-        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_connect', elapsedMs: Date.now() - startedAt })
+        console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'provider_connect', code: diagnostic.code, errorType: error instanceof Error ? error.name : 'unknown', providerRetryAttempts })
+        send({ type: 'error', ...diagnostic, requestId, mode, stage: 'provider_connect', providerRetryAttempts, elapsedMs: Date.now() - startedAt })
         return
       }
 
@@ -258,6 +269,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
           providerStatus: diagnostic.providerStatus,
           providerMessage: sanitizeGeminiProviderMessage(providerError.message),
           retryable: diagnostic.retryable,
+          providerRetryAttempts,
         })
         return
       }
