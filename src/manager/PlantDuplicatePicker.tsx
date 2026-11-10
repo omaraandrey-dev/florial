@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 type DuplicateVariant = { _key?: string; name?: string; priceEUR?: number; saleHeightCm?: number | null; containerVolumeL?: number | null }
 type DuplicateProduct = {
   _id: string
+  _rev: string
   name: string
   scientificName?: string
   categoryName?: string
@@ -79,7 +80,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          expectedRevision: (selected as DuplicateProduct & { _rev?: string })._rev,
+          expectedRevision: selected._rev,
           idempotencyKey,
           aiProof: proof,
           proofImageAssetId: image.assetId,
