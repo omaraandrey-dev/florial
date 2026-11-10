@@ -43,6 +43,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     const candidates = scientificKey.split('|').filter(Boolean)
     if (!name && !candidates.length) {
       setItems([])
+      onSelectionStateChange(false)
       onCheckStateChange(false)
       return
     }
@@ -73,7 +74,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
       }
     })
     return () => controller.abort()
-  }, [plantName, scientificKey, refreshKey, onCheckStateChange])
+  }, [plantName, scientificKey, refreshKey, onCheckStateChange, onSelectionStateChange])
 
   const canSave = Boolean(selected && size.trim().length >= 2 && Number.isFinite(Number(price)) && Number(price) > 0 && proof && image && image.assetId === proofAssetId && !saving && (selected.variants?.length || 0) < 30)
 
