@@ -1,3 +1,14 @@
+## 2026-11-10 — Gemini plant AI test: PR #178 опубликован в Production
+
+- PR #178 объединён squash в `main`: merge commit `ab63351def7a844f2337702c8515912e8f8724e4`; PR head `fd61e0db9c6596e17fb14f0f49fad3bf1c702323`.
+- CI на PR head: Blog and Studio validation run #732 — success (lint, utility tests, website build, migration syntax/dry-run, Sanity Studio build); Florial D1 migration validation run #868 — success (lint, website build, Pages Functions syntax, additive migration validation).
+- Cloudflare Pages Production deployment `2af39055-e508-491b-8670-fe2ed9ac827b`, URL `https://2af39055.florial.pages.dev`, branch `main`, deployed commit совпадает с merge commit; build и deploy — success.
+- Live smoke: `https://florial-bg.com/` — HTTP 200; `https://florial-bg.com/manager` — HTTP 200, закрытая форма входа отображается, `noindex,nofollow,noarchive` сохранено.
+- Cloudflare Pages project `florial` Production config содержит `GEMINI_API_KEY` типа `secret_text`. Значение скрыто Cloudflare, не считывалось и не выводилось. Конфигурация переменной подтверждена; валидность Google key, квота и доступ к модели ещё не подтверждены авторизованным запросом.
+- Owner-only кнопка «Тест Gemini 3.8 Flash» и endpoint `POST /api/manager/plants/gemini-test` опубликованы. Workers AI path и основная кнопка не заменялись.
+- Авторизованный live Gemini request, проверка ролей Owner/Manager/Seller и сравнение 10–15 фотографий остаются pending. Не переключать основную AI кнопку без отдельного решения Owner.
+- Sanity schema/documents/assets, D1 schema/data, checkout/orders, Header/menu/Footer и глобальная структура не менялись; Gemini test не записывает данные в Sanity или D1.
+
 ## 2026-11-10 — Gemini: изолированный тест AI-заполнения растений
 
 - Подготовлена отдельная ветка feat/gemini-plant-ai-test от актуального main commit f29fba24ae8d9db7231d3a71a8dd5dc2d381cd5e.
