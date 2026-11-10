@@ -381,7 +381,7 @@ export default function PlantCatalogManager({role}:Props){
       <p className="mt-2 text-xs text-lime-800">Лентата показва изминалото време, а не точния процент готовност. Генерацията може да отнеме няколко минути.</p>
      </div>}
      {role==='owner'&&<div className="mt-3 space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
-      <div><h4 className="font-bold text-indigo-950">Независими тестове Google Gemini 3.8 Flash</h4><p className="mt-1 text-xs text-stone-600">Двата режима се изпращат отделно. Потокът и резултатите се виждат само в Owner панела и не се записват в Sanity или D1.</p></div>
+      <div><h4 className="font-bold text-indigo-950">Независими тестове Google Gemini 3.5 Flash-Lite</h4><p className="mt-1 text-xs text-stone-600">Двата режима се изпращат отделно. Потокът и резултатите се виждат само в Owner панела и не се записват в Sanity или D1.</p></div>
       <button type="button" disabled={geminiLoading||aiLoading||imageLoading||!activeImages} onClick={()=>void runGeminiTest('photo')} className={btn+' border border-indigo-300 bg-white text-indigo-800 disabled:opacity-50'}>
        {geminiLoading&&geminiStage.toLowerCase().includes('сним')?'Gemini Photo работи…':'✦ Gemini Photo · със снимка'}
       </button>
@@ -396,7 +396,7 @@ export default function PlantCatalogManager({role}:Props){
       {geminiStreamText&&<details className="rounded-xl border border-indigo-200 bg-white p-3" open={geminiLoading}><summary className="cursor-pointer text-sm font-semibold">Потоков отговор Gemini — {geminiStreamText.length} символа</summary><pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap break-words text-xs leading-5">{geminiStreamText}</pre></details>}
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
       {geminiResult&&<section className="space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
-       <div className="flex flex-wrap items-center justify-between gap-2"><h4 className="font-bold text-indigo-950">Резултат Gemini {geminiResult.mode==='text'?'Text':'Photo'} · {geminiResult.model||'gemini-3.8-flash'}</h4><span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-800">Само тест · без запис</span></div>
+       <div className="flex flex-wrap items-center justify-between gap-2"><h4 className="font-bold text-indigo-950">Резултат Gemini {geminiResult.mode==='text'?'Text':'Photo'} · {geminiResult.model||'gemini-3.5-flash-lite'}</h4><span className="rounded-full bg-indigo-100 px-2 py-1 text-xs font-semibold text-indigo-800">Само тест · без запис</span></div>
        <p className="text-xs text-stone-600">Request ID: {geminiResult.requestId||'—'} · Време: {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p>
        <div className="rounded-lg bg-white p-3">
         <h5 className="font-semibold">Ботаническа идентификация</h5>
