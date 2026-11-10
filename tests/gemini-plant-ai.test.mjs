@@ -20,7 +20,7 @@ test('normalizes structured plant output and accepts only supplied category IDs'
     productType: 'shrub',
     categoryId: 'cat-shrubs',
     scientificCandidates: [{ scientificName: 'Prunus laurocerasus', confidence: 'high', reason: 'Листата съответстват.' }],
-    descriptions: { bg: { shortDescription: 'Кратко', description: 'Описание' } },
+    descriptions: { bg: { name: 'Лавровишня', shortDescription: 'Кратко', description: 'Описание' } },
     seo: { bg: { h1: 'Лавровишня', metaTitle: 'Лавровишня | Florial' } },
     imageAlt: { bg: 'Купи Лавровишня в Несебър' },
     plantCare: { light: 'partialShade', waterNeeds: 'medium' },
@@ -30,6 +30,7 @@ test('normalizes structured plant output and accepts only supplied category IDs'
   assert.equal(result.productType, 'shrub')
   assert.equal(result.scientificCandidates[0].scientificName, 'Prunus laurocerasus')
   assert.equal(result.plantCare.blackSeaCoast, 'needsVerification')
+  assert.equal(result.descriptions.bg.name, 'Лавровишня')
   assert.equal(result.descriptions.bg.description, 'Описание')
   assert.equal(result.descriptions.ru.description, '')
 })
