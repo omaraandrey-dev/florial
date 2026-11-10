@@ -32,6 +32,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   const [selected, setSelected] = useState<DuplicateProduct | null>(null)
   const [size, setSize] = useState('')
   const [price, setPrice] = useState('')
+  const [quantity, setQuantity] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
@@ -76,14 +77,14 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     return () => controller.abort()
   }, [plantName, scientificKey, refreshKey, onCheckStateChange, onSelectionStateChange])
 
-  const canSave = Boolean(selected && size.trim().length >= 2 && Number.isFinite(Number(price)) && Number(price) > 0 && proof && image && image.assetId === proofAssetId && !saving && (selected.variants?.length || 0) < 30)
+  const canSave = Boolean(selected && size.trim().length >= 2 && Number.isFinite(Number(price)) && Number(price) > 0 && Number.isInteger(Number(quantity)) && Number(quantity) >= 1 && proof && image && image.assetId === proofAssetId && !saving && (selected.variants?.length || 0) < 30)
 
   const addVariant = async () => {
     if (!selected || !canSave || !image || !proof) return
     setSaving(true)
     setError('')
     try {
-      const fingerprint = [selected._id, selected._rev, size.trim(), price, image.assetId].join('|')
+      const fingerprint = [selected._id, selected._rev, size.trim(), price, quantity, image.assetId].join('|')
       const operation = pendingOperation?.fingerprint === fingerprint ? pendingOperation : {
         fingerprint,
         idempotencyKey: crypto.randomUUID(),
@@ -99,7 +100,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
           idempotencyKey: operation.idempotencyKey,
           aiProof: proof,
           proofImageAssetId: image.assetId,
-          variant: { _key: operation.variantKey, name: size.trim(), priceEUR: Number(price) },
+          variant: { _key: operation.variantKey, name: size.trim(), priceEUR: Number(price), stockQuantity: Number(quantity) },
           image,
         }),
       })
@@ -136,7 +137,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
         <button type="button" className="text-xs font-semibold text-stone-600 underline" onClick={() => { setOpen(false); setSelected(null); onSelectionStateChange(false) }}>Затвори списъка</button>
       </div>
       <div className="space-y-2">
-        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); onSelectionStateChange(true); setSize(''); setPrice(''); setError(''); setPendingOperation(null) }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
+        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); onSelectionStateChange(true); setSize(''); setPrice(''); setQuantity(''); setError(''); setPendingOperation(null) }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
           <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-stone-100">
             {item.thumbnail ? <img src={item.thumbnail} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[10px] text-stone-400">Без снимка</div>}
           </div>
@@ -152,7 +153,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
       {selected && <div className="space-y-3 rounded-lg border border-lime-200 bg-white p-3">
         <div>
           <strong className="text-sm">Добавяне към: {selected.name}</strong>
-          <p className="text-xs text-stone-500">Съществуващите размери, цени и основна снимка ще останат непроменени.</p>
+          <p className="text-xs text-stone-500">Новият размер ще бъде със статус „В наличност“. Въведете реалното количество. Съществуващите размери, цени и основна снимка ще останат непроменени.</p>
         </div>
         {(selected.variants?.length || 0) >= 30
           ? <p className="text-sm text-amber-800">Тази карточка вече съдържа максималните 30 размера.</p>
@@ -160,6 +161,10 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
             <label className="block">
               <span className="mb-1 block text-sm font-semibold text-stone-700">Нов размер *</span>
               <input className="w-full rounded-lg border border-stone-300 px-3 py-2 text-base" maxLength={100} placeholder="Напр. 80 см, 2 ствола" value={size} onChange={event => setSize(event.target.value)} />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm font-semibold text-stone-700">Количество (шт.) *</span>
+              <input className="w-full rounded-lg border border-stone-300 px-3 py-2 text-base" type="number" min="1" step="1" placeholder="Напр. 20" value={quantity} onChange={event => setQuantity(event.target.value)} />
             </label>
             <label className="block">
               <span className="mb-1 block text-sm font-semibold text-stone-700">Цена (€) *</span>
