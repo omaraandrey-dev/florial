@@ -182,6 +182,23 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
   })
 }
 
+export const validatePlantVariantStock = (
+  variants: PlantVariant[],
+  existingVariants: Array<Partial<PlantVariant>> = [],
+  isCreate = false,
+) => {
+  const previousVariants = new Map(existingVariants.map(item => [item._key, item]))
+  for (const variant of variants) {
+    if (variant.stockStatus !== 'inStock') continue
+    const previous = previousVariants.get(variant._key)
+    const newlyMarkedInStock = isCreate || !previous || previous.stockStatus !== 'inStock'
+    if (newlyMarkedInStock && (variant.stockQuantity == null || variant.stockQuantity < 1)) {
+      throw new Error('За вариант със статус „В наличност“ въведете реално количество (цяло число над 0).')
+    }
+  }
+  return variants
+}
+
 export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,
@@ -243,16 +260,7 @@ export const buildPlantSet = async (
     set.gallery = input.gallery.map(imageObject)
   }
   if ('saleVariants' in input) {
-    const variants = normalizeVariants(input.saleVariants)
-    const previousVariants = new Map((Array.isArray(existing?.saleVariants) ? existing.saleVariants : []).map(item => [item._key, item]))
-    for (const variant of variants) {
-      if (variant.stockStatus !== 'inStock') continue
-      const previous = previousVariants.get(variant._key)
-      const newlyMarkedInStock = isCreate || !previous || previous.stockStatus !== 'inStock'
-      if (newlyMarkedInStock && (variant.stockQuantity === null || variant.stockQuantity < 1)) {
-        throw new Error('За вариант със статус „В наличност“ въведете реално количество (цяло число над 0).')
-      }
-    }
+    const variants = validatePlantVariantStock(normalizeVariants(input.saleVariants), Array.isArray(existing?.saleVariants) ? existing.saleVariants : [], isCreate)
     if (!variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
       throw new Error('Добавете поне един реален размер: височина или обем на контейнера.')
     }
