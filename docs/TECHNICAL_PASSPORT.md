@@ -1,5 +1,16 @@
 ## 2026-11-10 — Manager растений: обработка неопределённого визуального распознавания (PR #177)
 
+- PR #177 объединён squash в main: `7b4bae535f17627530f06a0b72b907dc0faae61b`.
+- Cloudflare Pages Production deployment: `b7eb0c58-9922-4e9f-8f60-2772c27d4de6`, URL `https://b7eb0c58.florial.pages.dev`; build/deploy success 2026-11-10 05:37:52 UTC; production aliases `florial-bg.com` и `www.florial-bg.com`.
+- CI на исходном PR head: D1 migration validation #858 — success; Blog and Studio validation #726 — success. Cloudflare Pages build/deploy на итоговом merge commit также завершился success. GitHub Actions connector не предоставил отдельный run для поздних коммитов PR; это отмечено как ограничение проверки.
+- Если Vision не вернул коммерческое имя, AI enrichment больше не прекращается только по этой причине. Используется временная метка «Растение за идентификация», а генерация продолжается в осторожном режиме без видоспецифичных утверждений.
+- При неустановленной идентичности кандидаты из одного визуального предположения не используются для автоматического подтверждения научного имени через GBIF.
+- Manager предупреждает продавца и блокирует сохранение до замены временной метки реальным названием растения.
+- Runtime файлы: `functions/api/manager/plants/ai-enrich.ts`, `src/manager/PlantCatalogManager.tsx`.
+- Обновлены `docs/TECHNICAL_PASSPORT.md`, `CHANGELOG.md`, создана актуальная инструкция rev56.
+- Sanity documents/schema/assets, D1 data/schema, dataset `production`, checkout/orders, global Header/menu/Footer, Cloudflare settings/secrets не изменялись.
+- Авторизованный live photo acceptance остаётся открытым: нужно проверить результат на реальной фотографии в Manager после деплоя.
+
 - В AI enrichment устранён ранний отказ `AI_PLANT_IDENTITY_UNCLEAR`, который прерывал весь процесс, если Vision не возвращал коммерческое имя, даже при наличии полезного визуального описания/кандидатов.
 - При отсутствии уверенного имени используется только временная метка «Растение за идентификация». Генерация продолжается в осторожном режиме: модель не должна выдавать вид и видоспецифичный уход как установленные факты.
 - Ботанические кандидаты при неустановленной идентичности не отправляются на автоматическое подтверждение GBIF; научное имя не заполняется на основании одного неуверенного визуального предположения.
