@@ -37,6 +37,28 @@ const isObject = (value: unknown): value is Record<string, any> =>
 const text = (value: unknown, max: number) =>
   typeof value === 'string' ? value.trim().slice(0, max) : ''
 
+export const classifyGeminiFinishReason = (finishReason: unknown, promptBlockReason: unknown = '') => {
+  const reason = text(finishReason, 48).toUpperCase()
+  const promptReason = text(promptBlockReason, 48).toUpperCase()
+  if (promptReason || ['SAFETY', 'BLOCKLIST', 'PROHIBITED_CONTENT', 'SPII', 'RECITATION'].includes(reason)) {
+    return { code: 'GEMINI_SAFETY_BLOCKED', hint: 'Google прекрати отговора по правилата за безопасност. Проверете снимката или формулировката и опитайте отново.', finishReason: reason || null, promptBlockReason: promptReason || null }
+  }
+  if (reason === 'MAX_TOKENS') {
+    return { code: 'GEMINI_MAX_TOKENS', hint: 'Google достигна лимита на генерирането и прекрати JSON преди завършване. Структурираните данни може да са непълни.', finishReason: reason, promptBlockReason: null }
+  }
+  return null
+}
+
+export const summarizeGeminiUsage = (value: unknown) => {
+  if (!isObject(value)) return null
+  const summary: Record<string, number> = {}
+  for (const key of ['promptTokenCount', 'candidatesTokenCount', 'totalTokenCount', 'cachedContentTokenCount']) {
+    const count = value[key]
+    if (typeof count === 'number' && Number.isFinite(count) && count >= 0) summary[key] = count
+  }
+  return Object.keys(summary).length ? summary : null
+}
+
 export const extractGeminiStreamText = (payload: unknown): string => {
   if (!isObject(payload) || !Array.isArray(payload.candidates)) return ''
   const candidate = payload.candidates[0]
