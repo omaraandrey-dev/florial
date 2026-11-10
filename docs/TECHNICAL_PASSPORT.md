@@ -8,7 +8,12 @@
 - Добавлены unit tests для валидного UUID `crypto.randomUUID()`, корректного PATCH payload, невалидного JSON body и каждого обязательного поля.
 - Причина исходной ошибки по конкретному сохранению пока `НЕ ИЗВЕСТНО — нужно уточнить`: после публикации диагностический ответ покажет, какой элемент запроса фактически отсутствовал/не прошёл проверку.
 - Изменения ограничены `functions/api/manager/plants/[id].ts`, новым `functions/api/manager/plant-update-request-lib.mjs` и его типами, новым тестом `tests/plant-update-request.test.mjs` и документацией. Sanity schema/documents/assets, D1 schema/rows, Cloudflare secrets/settings, прочие категории и глобальные компоненты не затрагиваются.
-- Production deployment и live сохранение не подтверждены на момент подготовки этого дополнения; результаты CI и публикации будут дописаны после завершения PR.
+- Unit tests для нового валидатора: 4/4 passed локально. GitHub Actions Florial D1 migration validation run #1001 завершился со статусом `cancelled`; при этом все перечисленные шаги job — Checkout, Setup Node.js, Install dependencies, Lint, Build website, Syntax-check Pages Functions и Validate additive plant audit migration — имели `success`. Не обозначать итог run как success.
+- PR #192 объединён squash в `main`; merge commit `60f345650d51253e2a7d3695e507038d2ea91537`.
+- Cloudflare Pages Production deployment `4b574ecd-5f9c-4b8f-9c61-cc431a53e434`, URL `https://4b574ecd.florial.pages.dev`; deployed commit совпадает с merge commit. Все стадии queued, initialize, clone_repo, build и deploy завершились `success`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
+- Авторизованный live тест редактирования растения и добавления категории после публикации остаётся обязательной приёмкой Owner. Причина прежнего запроса будет установлена по `invalidFields` нового ответа; до такого теста она остаётся `НЕ ИЗВЕСТНО — нужно уточнить`.
+- Production Sanity documents/assets/schema, D1 rows/schema, Cloudflare secrets/settings, каталог поливочного оборудования, заказы, Header/menu/Footer не изменялись; production catalog writes не выполнялись.
+- Изменены только `functions/api/manager/plants/[id].ts`, новые `functions/api/manager/plant-update-request-lib.mjs` и `functions/api/manager/plant-update-request-lib.d.mts`, `tests/plant-update-request.test.mjs`, `docs/TECHNICAL_PASSPORT.md` и `CHANGELOG.md`.
 
 ---
 
