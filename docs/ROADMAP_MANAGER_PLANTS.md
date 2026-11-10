@@ -10,7 +10,7 @@
 - src/manager/PlantDuplicatePicker.tsx — красная точка рядом с именем Gemini, список найденных карточек и компактная форма размера/цены.
 - POST /api/manager/plants/:id/add-variant — append-only операция: сохраняет прежние варианты и галерею, добавляет один новый plantSaleVariant, при наличии места добавляет проверенный Google photo asset в общую gallery.
 - Статус нового варианта по умолчанию onRequest, количество null: продавец вводит только размер и цену, поэтому система не должна заявлять неподтверждённое количество в наличии.
-- Повторяющийся размер разрешён. Максимум 30 вариантов сохраняется. Максимум 10 дополнительных фото в gallery сохраняется.
+- Повторяющийся размер разрешён. Максимум 30 вариантов сохраняется. Максимум 10 фотографий всего (mainImage + gallery) сохраняется.
 - mainImage, прежние saleVariants, прежние gallery entries, цены и остатки существующих вариантов не перезаписываются.
 - Используются текущие auth/session, Google aiProof, asset existence, Sanity revision guard, idempotency и D1 audit log.
 - Sanity schema, D1 schema/data и catalog documents не изменялись.
