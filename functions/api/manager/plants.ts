@@ -97,7 +97,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     for (let suffix = 1; suffix <= 100; suffix++) {
       const tail = suffix === 1 ? '' : '-' + suffix
       const candidate = baseSlug.slice(0, 96 - tail.length) + tail
-      const duplicate = await sanityQuery<string | null>(env, '*[_type=="product" && slug.current==' + jsonString(candidate) + ' && _id!=' + jsonString(productId) + ' && !(_id in path("drafts.**"))][0]._id')
+      const duplicate = await sanityQuery<string | null>(env, '*[_type=="product" && slug.current==' + jsonString(candidate) + ' && _id!=' + jsonString(productId) + ' && _id!=' + jsonString('drafts.' + productId) + '][0]._id')
       if (!duplicate) { uniqueSlug = candidate; break }
     }
     if (!uniqueSlug) throw new Error('Не успяхме да генерираме уникален URL адрес за растението.')
