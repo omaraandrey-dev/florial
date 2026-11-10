@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -148,4 +148,16 @@ test('reports JSON parse position without echoing the provider response', () => 
   assert.match(diagnostic, /позиция/)
   assert.ok(diagnostic.length <= 160)
   assert.equal(describeGeminiJsonError('[]'), 'JSON синтаксисът е валиден, но коренът на отговора не е обект.')
+})
+
+test('retries only transient Gemini server overload responses with bounded backoff', () => {
+  assert.equal(isRetryableGeminiHttpStatus(502), true)
+  assert.equal(isRetryableGeminiHttpStatus(503), true)
+  assert.equal(isRetryableGeminiHttpStatus(504), true)
+  assert.equal(isRetryableGeminiHttpStatus(429), false)
+  assert.equal(isRetryableGeminiHttpStatus(400), false)
+  assert.equal(isRetryableGeminiHttpStatus(403), false)
+  assert.equal(geminiProviderRetryDelayMs(1), 900)
+  assert.equal(geminiProviderRetryDelayMs(2), 1800)
+  assert.equal(geminiProviderRetryDelayMs(3), 0)
 })
