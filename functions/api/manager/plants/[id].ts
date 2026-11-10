@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../_lib'
-import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, writeAudit, type PlantDocument } from '../plant-direct-lib'
+import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit, type PlantDocument } from '../plant-direct-lib'
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
@@ -34,6 +34,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   if (!body || !uuid.test(String(body.idempotencyKey || '')) || !body.product || typeof body.expectedRevision !== 'string') {
     return errorJson('Invalid product update request.', 400)
   }
+  if (!await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Първо натиснете „Попълни с ИИ“ и проверете предложените данни.', 403)
   const idempotencyKey = String(body.idempotencyKey)
   let requestId = newId()
   let productName = ''
