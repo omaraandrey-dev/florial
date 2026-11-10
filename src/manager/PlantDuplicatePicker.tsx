@@ -20,11 +20,12 @@ type Props = {
   image: DuplicateImage | null
   onAdded: (result: { productName: string; imageAdded: boolean; imageAlreadyPresent?: boolean; galleryFull?: boolean }) => void
   onCheckStateChange: (pending: boolean) => void
+  onSelectionStateChange: (selected: boolean) => void
 }
 const money = (value: number) => new Intl.NumberFormat('bg-BG', { style: 'currency', currency: 'EUR' }).format(value)
 const responseJson = async (response: Response) => response.json().catch(() => ({}))
 
-export default function PlantDuplicatePicker({ plantName, scientificNames, proof, proofAssetId, image, onAdded, onCheckStateChange }: Props) {
+export default function PlantDuplicatePicker({ plantName, scientificNames, proof, proofAssetId, image, onAdded, onCheckStateChange, onSelectionStateChange }: Props) {
   const [items, setItems] = useState<DuplicateProduct[]>([])
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
@@ -53,6 +54,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
     setLoading(true)
     setItems([])
     setSelected(null)
+    onSelectionStateChange(false)
     setOpen(false)
     setError('')
     void fetch('/api/manager/plants/duplicates?' + params.toString(), {
@@ -105,6 +107,7 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
         if (response.status === 409 || result.conflict) {
           setPendingOperation(null)
           setSelected(null)
+          onSelectionStateChange(false)
           setOpen(false)
           setRefreshKey(value => value + 1)
         }
@@ -122,17 +125,17 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
   if (!items.length) return error ? <span className="text-xs text-amber-800">{error}</span> : null
 
   return <div className="flex flex-wrap items-center gap-2">
-    <button type="button" className="inline-flex items-center gap-2 text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); setError('') }}>
+    <button type="button" className="inline-flex items-center gap-2 text-sm font-semibold text-red-700 underline underline-offset-2" onClick={() => { setOpen(value => !value); setSelected(null); onSelectionStateChange(false); setError('') }}>
       <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-600" aria-hidden="true" />
       {items.length === 1 ? 'Има съвпадение в каталога' : 'Има ' + items.length + ' съвпадения в каталога'}
     </button>
     {open && <div className="mt-3 basis-full space-y-3 rounded-xl border border-red-200 bg-red-50/50 p-3">
       <div className="flex items-center justify-between gap-2">
         <strong className="text-sm text-stone-800">Съществуващи растения</strong>
-        <button type="button" className="text-xs font-semibold text-stone-600 underline" onClick={() => { setOpen(false); setSelected(null) }}>Затвори списъка</button>
+        <button type="button" className="text-xs font-semibold text-stone-600 underline" onClick={() => { setOpen(false); setSelected(null); onSelectionStateChange(false) }}>Затвори списъка</button>
       </div>
       <div className="space-y-2">
-        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); setSize(''); setPrice(''); setError(''); setPendingOperation(null) }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
+        {items.map(item => <button key={item._id} type="button" onClick={() => { setSelected(item); onSelectionStateChange(true); setSize(''); setPrice(''); setError(''); setPendingOperation(null) }} className={'flex w-full items-start gap-3 rounded-lg border bg-white p-2 text-left ' + (selected?._id === item._id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200')}>
           <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-stone-100">
             {item.thumbnail ? <img src={item.thumbnail} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[10px] text-stone-400">Без снимка</div>}
           </div>
