@@ -44,10 +44,17 @@ test('gallery append never replaces the main image or existing gallery and skips
 })
 
 test('gallery limit does not delete existing images', () => {
-  const existing = Array.from({ length: 10 }, (_, index) => ({ _key: 'image-' + index }))
+  const existing = Array.from({ length: 9 }, (_, index) => ({ _key: 'image-' + index }))
   const result = appendPlantGalleryImage('image-main', existing, { assetId: 'image-new', key: 'new-image-key' })
   assert.equal(result.galleryFull, true)
   assert.equal(result.imageAdded, false)
-  assert.equal(result.gallery.length, 10)
+  assert.equal(result.gallery.length, 9)
   assert.equal(result.gallery[0], existing[0])
+})
+
+test('gallery limit counts the main image as one of ten total photos', () => {
+  const nineGalleryImages = Array.from({ length: 9 }, (_, index) => ({ _key: 'image-' + index }))
+  const result = appendPlantGalleryImage('image-main', nineGalleryImages, { assetId: 'image-new', key: 'new-image-key' })
+  assert.equal(result.galleryFull, true)
+  assert.equal(result.gallery.length, 9)
 })
