@@ -1,4 +1,5 @@
 import { json, newId, nowIso, type ManagerEnv, type ManagerIdentity } from './_lib'
+import { validatePlantVariantStock } from './plant-stock-lib.mjs'
 
 export const PLANTS_PROJECT = 'bxvcy0qs'
 export const PLANTS_DATASET = 'plants'
@@ -180,23 +181,6 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
       stockQuantity,
     }
   })
-}
-
-export const validatePlantVariantStock = (
-  variants: PlantVariant[],
-  existingVariants: Array<Partial<PlantVariant>> = [],
-  isCreate = false,
-) => {
-  const previousVariants = new Map(existingVariants.map(item => [item._key, item]))
-  for (const variant of variants) {
-    if (variant.stockStatus !== 'inStock') continue
-    const previous = previousVariants.get(variant._key)
-    const newlyMarkedInStock = isCreate || !previous || previous.stockStatus !== 'inStock'
-    if (newlyMarkedInStock && (variant.stockQuantity == null || variant.stockQuantity < 1)) {
-      throw new Error('За вариант със статус „В наличност“ въведете реално количество (цяло число над 0).')
-    }
-  }
-  return variants
 }
 
 export const buildPlantSet = async (
