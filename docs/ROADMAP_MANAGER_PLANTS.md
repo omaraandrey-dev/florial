@@ -17,9 +17,9 @@
 
 ### Статус
 
-- PR #187 открыт; финальная CI-проверка выполнена успешно: Blog and Studio #807 и Florial D1 #957.
-- Production deployment пока не запускался, поскольку PR ещё не объединён в main. После merge Cloudflare Pages автоматически запустит production deployment.
-- Авторизованная приёмка на живых карточках Sanity и role matrix Owner/Manager/Seller остаётся pending.
+- PR #187 squash merged в main (26ef412e9cddb61bea0c9d73ce2bd5dfc9aa0ddd); CI Blog and Studio #807 и Florial D1 #957 прошли успешно.
+- Cloudflare Pages Production deployment 02f1e592-440c-49ef-a611-234a42e60cf0 завершился успешно; production URL https://02f1e592.florial.pages.dev, aliases florial-bg.com и www.florial-bg.com.
+- Ручная приёмка в Manager Owner/Manager/Seller на живых карточках Sanity остаётся pending.
 
 ---
 
