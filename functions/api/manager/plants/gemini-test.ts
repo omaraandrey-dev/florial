@@ -278,7 +278,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
           if (candidate && typeof candidate.finishReason === 'string') providerFinishReason = cleanText(candidate.finishReason, 48)
           const promptFeedback = isObject(chunk.promptFeedback) ? chunk.promptFeedback : null
           if (promptFeedback && typeof promptFeedback.blockReason === 'string') providerPromptBlockReason = cleanText(promptFeedback.blockReason, 48)
-          providerUsageMetadata = summarizeGeminiUsage(chunk.usageMetadata)
+          const usageSummary = summarizeGeminiUsage(chunk.usageMetadata)
+          if (usageSummary) providerUsageMetadata = usageSummary
         }
         const delta = extractGeminiStreamText(chunk)
         if (!delta) return
