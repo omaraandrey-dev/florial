@@ -160,7 +160,7 @@ export default function PlantCatalogManager({role}:Props){
      response=await fetch('/api/manager/plants/ai-enrich',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:requestBody,signal:controller.signal})
      result=await responseJson(response)
     }catch(error){if(attempt===0){await new Promise(resolve=>window.setTimeout(resolve,600));continue}throw error}
-    if(response.ok||!result.retryable||attempt===1)break
+    break
     await new Promise(resolve=>window.setTimeout(resolve,700))
    }
    if(!response?.ok)throw new Error(result.error||'ИИ не успя да попълни данните.')
