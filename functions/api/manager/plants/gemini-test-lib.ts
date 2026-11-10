@@ -1,5 +1,28 @@
 export type GeminiPlantCategory = { id: string; name: string }
 
+export const classifyGeminiProviderError = (httpStatus: number, providerStatus = '') => {
+  const upstreamStatus = providerStatus.trim().toUpperCase().slice(0, 80)
+  if (httpStatus === 429 || upstreamStatus === 'RESOURCE_EXHAUSTED') {
+    return { code: 'GEMINI_RATE_LIMIT', hint: 'Google Gemini достигна лимита или квотата за този проект. Проверете квотата и billing в Google AI Studio / Google Cloud.', providerStatus: upstreamStatus || 'RESOURCE_EXHAUSTED', retryable: true }
+  }
+  if (httpStatus === 401 || httpStatus === 403 || upstreamStatus === 'PERMISSION_DENIED' || upstreamStatus === 'UNAUTHENTICATED') {
+    return { code: 'GEMINI_ACCESS_DENIED', hint: 'Google отказа достъп до Gemini. Проверете дали GEMINI_API_KEY е валиден, дали Gemini API е активиран и дали ограниченията на ключа позволяват този API.', providerStatus: upstreamStatus || 'PERMISSION_DENIED', retryable: false }
+  }
+  if (httpStatus === 404 || upstreamStatus === 'NOT_FOUND') {
+    return { code: 'GEMINI_MODEL_NOT_FOUND', hint: 'Google не намира модела или endpoint за този проект. Проверете името на модела и достъпа до него.', providerStatus: upstreamStatus || 'NOT_FOUND', retryable: false }
+  }
+  if (httpStatus === 400 || httpStatus === 422 || upstreamStatus === 'INVALID_ARGUMENT' || upstreamStatus === 'FAILED_PRECONDITION') {
+    return { code: 'GEMINI_INVALID_REQUEST', hint: 'Google отхвърли формата на заявката (възможно е несъвместимо поле или response schema). Нужна е проверка на параметрите на Gemini заявката.', providerStatus: upstreamStatus || 'INVALID_ARGUMENT', retryable: false }
+  }
+  if (httpStatus === 408 || httpStatus === 504 || upstreamStatus === 'DEADLINE_EXCEEDED') {
+    return { code: 'GEMINI_PROVIDER_TIMEOUT', hint: 'Заявката към Google Gemini изтече по време. Опитайте отново по-късно.', providerStatus: upstreamStatus || 'DEADLINE_EXCEEDED', retryable: true }
+  }
+  if (httpStatus >= 500 || upstreamStatus === 'UNAVAILABLE' || upstreamStatus === 'INTERNAL') {
+    return { code: 'GEMINI_PROVIDER_UNAVAILABLE', hint: 'Услугата Google Gemini временно е недостъпна или претоварена. Опитайте отново по-късно.', providerStatus: upstreamStatus || 'UNAVAILABLE', retryable: true }
+  }
+  return { code: 'GEMINI_PROVIDER_ERROR', hint: 'Google Gemini върна неочаквана грешка. Предайте HTTP статуса и ID на заявката за допълнителна проверка.', providerStatus: upstreamStatus || 'UNKNOWN', retryable: false }
+}
+
 const isObject = (value: unknown): value is Record<string, any> =>
   Boolean(value && typeof value === 'object' && !Array.isArray(value))
 
