@@ -1,3 +1,15 @@
+## 2026-11-10 — Gemini: изолированный тест AI-заполнения растений
+
+- Подготовлена отдельная ветка feat/gemini-plant-ai-test от актуального main commit f29fba24ae8d9db7231d3a71a8dd5dc2d381cd5e.
+- Добавлен отдельный owner-only endpoint POST /api/manager/plants/gemini-test для модели gemini-3.8-flash; вызов выполняется серверным REST API Google, без SDK в браузере и без новой зависимости.
+- Gemini получает только выбранную фотографию Sanity и сведения, введённые в форме Manager; результат нормализуется и возвращается только для просмотра.
+- Добавлена кнопка Тест Gemini 3.8 Flash в редакторе растений Owner. Результат не подставляется в форму и не записывается в Sanity; Workers AI и текущая кнопка Попълни с ИИ остаются без изменений.
+- Сервер проверяет Manager-сессию, роль Owner, same-origin, Sanity image host/project/dataset, MIME и размер фотографии; один запрос без автоматического повтора, timeout 120 секунд.
+- Добавлен серверный секрет GEMINI_API_KEY в тип ManagerEnv. Сам секрет не записывался в GitHub и не менялся в Cloudflare; требуется добавить его вручную в Cloudflare Pages Production.
+- Добавлены unit tests для извлечения Gemini response, нормализации JSON и валидации категорий/ботанических кандидатов.
+- Sanity documents/schema/assets, D1 schema/data, Workers AI configuration, storefront, orders, Header/menu/Footer и прочие Manager sections не менялись.
+- Статус: код подготовлен в feature branch; CI, PR, Production deployment и live тест Gemini ожидают завершения проверок. Ключ в Cloudflare пока не подтверждён.
+
 ## 2026-11-10 — Manager растений: обработка неопределённого визуального распознавания (PR #177)
 
 - PR #177 объединён squash в main: `7b4bae535f17627530f06a0b72b907dc0faae61b`.
