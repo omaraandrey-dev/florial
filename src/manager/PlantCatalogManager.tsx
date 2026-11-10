@@ -106,7 +106,7 @@ export default function PlantCatalogManager({role}:Props){
  },[geminiLoading])
  const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
-  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
+  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
   try{
    const response=await fetch('/api/manager/plants/'+encodeURIComponent(id),{credentials:'same-origin',cache:'no-store'})
@@ -506,6 +506,7 @@ export default function PlantCatalogManager({role}:Props){
         scientificNames={(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName).filter(Boolean)}
         proof={geminiProof}
         proofAssetId={geminiProofAssetId}
+        onCheckStateChange={setDuplicateCheckPending}
         image={images[mainImageIndex]?{
          ...images[mainImageIndex],
          alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
