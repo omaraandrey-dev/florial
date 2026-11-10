@@ -255,7 +255,7 @@ export default function PlantCatalogManager({role}:Props){
       {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
      </div>
      {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
-     {role==='owner'&&{images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
+     {role==='owner'&&images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
       <label><span className={labelClass}>ALT (BG)</span><input className={inputClass} value={image.alt} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,alt:event.target.value}:item))}/></label>
       <label><span className={labelClass}>ALT (EN)</span><input className={inputClass} value={image.altEn} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,altEn:event.target.value}:item))}/></label>
