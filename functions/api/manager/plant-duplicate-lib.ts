@@ -30,7 +30,7 @@ export const appendPlantGalleryImage = (
 ) => {
   const alreadyPresent = mainAssetId === image.assetId || existing.some(item => (item?.asset?._ref || item?.asset?._id) === image.assetId)
   if (alreadyPresent) return { gallery: existing, imageAdded: false, imageAlreadyPresent: true, galleryFull: false }
-  if (existing.length >= 10) return { gallery: existing, imageAdded: false, imageAlreadyPresent: false, galleryFull: true }
+  if (existing.length + (mainAssetId ? 1 : 0) >= 10) return { gallery: existing, imageAdded: false, imageAlreadyPresent: false, galleryFull: true }
   return {
     gallery: [...existing, {
       _type: 'image',
