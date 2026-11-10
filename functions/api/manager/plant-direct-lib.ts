@@ -66,6 +66,44 @@ export const sanityMutate = async (env: ManagerEnv, mutations: unknown[]) => {
 export const requirePlantRole = (user: ManagerIdentity) =>
   ['owner','manager','seller'].includes(user.role)
 
+const plantSessionToken = (request: Request) => {
+  const cookie = request.headers.get('Cookie') || ''
+  const entry = cookie.split(';').map(part => part.trim()).find(part => part.startsWith('florial_manager_session='))
+  return entry ? entry.slice('florial_manager_session='.length) : ''
+}
+const plantAiIdentity = (product: unknown) => {
+  const value = isObject(product) ? product : {}
+  const image = isObject(value.mainImage) ? value.mainImage : {}
+  return { imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160) }
+}
+const plantAiSignature = async (sessionToken: string, payload: string) => {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionToken), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+  const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload))
+  return Array.from(new Uint8Array(signature), byte => byte.toString(16).padStart(2, '0')).join('')
+}
+export const issuePlantAiProof = async (request: Request, product: unknown) => {
+  const token = plantSessionToken(request)
+  if (!token || token.length < 40) throw new Error('MANAGER_SESSION_PROOF_UNAVAILABLE')
+  const timestamp = Date.now()
+  const identity = plantAiIdentity(product)
+  const signature = await plantAiSignature(token, String(timestamp) + '.' + JSON.stringify(identity))
+  return String(timestamp) + '.' + signature
+}
+export const verifyPlantAiProof = async (request: Request, proof: unknown, product: unknown) => {
+  const token = plantSessionToken(request)
+  if (!token || token.length < 40 || typeof proof !== 'string') return false
+  const [timestampText, suppliedSignature, extra] = proof.split('.')
+  if (extra !== undefined || !/^\d{13}$/.test(timestampText || '') || !/^[a-f0-9]{64}$/.test(suppliedSignature || '')) return false
+  const timestamp = Number(timestampText)
+  if (!Number.isFinite(timestamp) || timestamp > Date.now() + 30_000 || Date.now() - timestamp > 2 * 60 * 60 * 1000) return false
+  const identity = plantAiIdentity(product)
+  const expected = await plantAiSignature(token, timestampText + '.' + JSON.stringify(identity))
+  if (expected.length !== suppliedSignature.length) return false
+  let difference = 0
+  for (let index = 0; index < expected.length; index++) difference |= expected.charCodeAt(index) ^ suppliedSignature.charCodeAt(index)
+  return difference === 0 && Boolean(identity.imageAssetId)
+}
+
 const numberValue = (value: unknown, label: string, min: number, integer = false): number | null => {
   if (value === '' || value === null || value === undefined) return null
   const parsed = Number(value)
@@ -206,10 +244,15 @@ export const buildPlantSet = async (
   }
   if ('saleVariants' in input) {
     const variants = normalizeVariants(input.saleVariants)
+    if (!variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
+      throw new Error('Добавете поне един реален размер: височина или обем на контейнера.')
+    }
     set.saleVariants = variants
+    set.priceEUR = Math.min(...variants.map(item => item.priceEUR))
+    const oldPrices = variants.map(item => item.oldPriceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+    set.oldPriceEUR = oldPrices.length ? Math.min(...oldPrices) : null
     set.stockStatus = variants.some(item => item.stockStatus === 'inStock') ? 'inStock'
       : variants.some(item => item.stockStatus === 'onRequest') ? 'onRequest' : 'outOfStock'
-    // Root-level legacy price/oldPrice/stockQuantity deliberately remain untouched.
   }
   if ('seo' in input) {
     if (!isObject(input.seo)) throw new Error('Невалидни SEO данни.')

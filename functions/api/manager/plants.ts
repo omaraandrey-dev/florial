@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from './_lib'
-import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, writeAudit } from './plant-direct-lib'
+import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit } from './plant-direct-lib'
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const jsonString = (value: string) => JSON.stringify(value)
@@ -68,6 +68,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   if (!requirePlantRole(auth.user)) return json({ error: 'Insufficient permissions.' }, 403)
   const body = await parseJsonBody(request)
   if (!body || !isValidKey(body.idempotencyKey) || !body.product) return errorJson('Invalid product request.', 400)
+  if (!await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Първо натиснете „Попълни с ИИ“ и проверете предложените данни.', 403)
 
   const idempotencyKey = String(body.idempotencyKey)
   let requestId = newId()
