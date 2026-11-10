@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import PlantImageLibrary, { type IntakeLibraryImage } from './PlantImageLibrary'
+import PlantDuplicatePicker from './PlantDuplicatePicker'
 
 type Role='owner'|'manager'|'seller'
 type ImageItem={assetId:string;url:string;name:string;alt:string;altEn:string;altRu:string}
@@ -498,6 +499,18 @@ export default function PlantCatalogManager({role}:Props){
      <div className="rounded-xl bg-stone-50 p-3">
       <h3 className="font-semibold">Идентификация</h3>
       <p className="mt-1 text-sm"><strong>Предложено име:</strong> {geminiResult.result.plantName||'Неопределено'}</p>
+      <PlantDuplicatePicker
+       plantName={geminiResult.result.plantName||''}
+       scientificNames={(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName).filter(Boolean)}
+       proof={geminiProof}
+       proofAssetId={geminiProofAssetId}
+       image={images[mainImageIndex]||null}
+       onAdded={({productName,imageAdded,imageAlreadyPresent})=>{
+        setGeminiModalOpen(false);setEditorOpen(false);setEditingId(null)
+        setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':'Галерията е пълна; размерът е добавен без нова снимка.'))
+        void load()
+       }}
+      />
       <p className="text-sm"><strong>Увереност:</strong> {geminiResult.result.confidence||'low'} · <strong>Тип:</strong> {geminiResult.result.productType||'—'}</p>
       <p className="text-sm"><strong>Категория:</strong> {categoryOptions.find(item=>item._id===geminiResult.result.categoryId)?.label||'Няма валидна категория'}</p>
       <p className="mt-2 text-sm"><strong>Ботанически кандидати:</strong> {(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName+' ('+item.confidence+') — '+(item.reason||'')).join('; ')||'Няма'}</p>
