@@ -20,7 +20,7 @@
 - `src/manager/PlantDuplicatePicker.tsx`
 - `functions/api/manager/plants/[id].ts`
 - `functions/api/manager/plants/[id]/add-variant.ts`
-- `functions/api/manager/plants/plant-direct-lib.ts` (фактический путь: `functions/api/manager/plant-direct-lib.ts`)
+- `functions/api/manager/plant-direct-lib.ts`
 - `functions/api/manager/plant-duplicate-lib.mjs`
 - `functions/api/manager/plants/gemini-test.ts`
 - `functions/api/manager/plants/gemini-test-lib.ts`
