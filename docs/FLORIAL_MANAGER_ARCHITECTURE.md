@@ -1,4 +1,21 @@
-> **Актуализация 02.11.2026:** исходная архитектура ниже описывает первую реализацию Florial Manager на Supabase. Для нового кода и дальнейшего развития используйте актуальное дополнение «Cloudflare D1» в конце этого файла. Supabase не отключён и остаётся только резервной точкой возврата до завершения rollout. Исторические разделы сохранены, чтобы не потерять первоначальные требования и логику процесса.
+## Дополнение 2026-11-09 — UI media и AI ALT
+
+- Редактор поддерживает выбор существующих Sanity assets через `PlantImageLibrary` и загрузку новых фотографий; обе операции доступны Owner/Manager/Seller.
+- Поддерживается множественный выбор категорий и подкатегорий; основная категория задаётся отдельно, все ссылки сохраняются.
+- При обычном редактировании неизменённый Portable Text сохраняет исходное форматирование; при ручном изменении текста он преобразуется в обычный Portable Text блок.
+- AI использует Workers AI text model для описаний/переводов/SEO и Vision model для визуального ALT только основной фотографии. Остальные фотографии получают ALT вручную. Vision не определяет вид растения и не генерирует биологические свойства.
+- Live D1 migration не применялась; изменения остаются в Draft PR #170.
+
+## 2026-11-09 — PR #170 validation and deployment audit
+
+- GitHub Actions at `495b873856202d9ab19e31d765bbe351dd66e16e`: Blog & Studio validation success; D1 migration validation success. Lint, website tests/build, Pages Functions syntax, SQLite migration test and Studio build passed.
+- SQL test ran in isolated SQLite memory DB only. Live Cloudflare D1 `0013_manager_product_audit` remains unapplied.
+- Pages Preview for PR branch is skipped because `preview_deployments_disabled`; no real preview/mobile acceptance.
+- Two main commits `fb1d440251415fc31acfa31b216e82968aa2928c` and `52f7192b4a1cbe37359f56de72e300e8fc1f7823` changed only the currently unconnected `PlantCatalogManager.tsx` component. Both Pages Production deployments completed successfully; main `ManagerApp.tsx` does not import it, so the Manager UI/public behavior did not change. Full integration remains in Draft PR #170.
+- Pages project still contains legacy environment variable names `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`. New code does not read them; they were not modified. Separate runtime usage audit is required before removal.
+- No Seller profile found in live D1; Seller-session QA remains pending.
+
+> **Историческое примечание:** разделы ранней архитектуры ниже описывают исходный intake и Supabase-пилот; они не являются описанием текущего runtime. Актуальный runtime Manager — Cloudflare Pages Functions + Cloudflare D1 + Sanity. Supabase не использовать.
 
 ## Дополнение 01.11.2026 — коммерческие варианты и отдельная ботаническая проверка
 
@@ -530,3 +547,39 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Регрессионные тесты: `tests/catalog-submission-status.test.mjs` (6 сценариев). CI PR #161: 34/34 теста, lint, website build, Pages Functions syntax, read-only migration dry-run, Sanity Studio build и D1 migration validation — success.
 - PR #161 merged commit `3f8a363ee60b6355209c36d821d50ab80267d806`; Production deployment `35abbc66-d88a-4492-8783-87f827642441` — success.
 - D1 schema/data, Sanity, реальные профили/заявки/события, Header, menu, Footer, checkout и orders не изменялись. Authenticated live Owner/Seller submission test остаётся непроведённым; не создавать тестовые Production заявки без отдельной необходимости.
+
+---
+
+# Актуальное дополнение 09.11.2026 — прямое управление каталогом растений
+
+> Это дополнение имеет приоритет над историческими разделами ниже, которые описывают ранний Supabase-based intake. Текущий runtime Florial Manager использует Cloudflare Pages Functions + Cloudflare D1 для сессий/профилей и Sanity для опубликованного каталога. Supabase не является runtime-основой проекта.
+
+## Согласованная целевая модель
+
+- Только Sanity dataset `plants`; не подключать dataset `production` и не изменять оборудование.
+- Owner, Manager и Seller: create, edit any plant, direct publish.
+- Owner-only: audit history, `plantCare`, `careGuide`, отдельная botanical/GBIF research action.
+- AI-enrich обычных описаний, переводов, ALT и SEO — все три роли; AI не генерирует цены, SKU, размеры продажи, остатки или наличие.
+- Текущие `catalog_submissions` / `catalog_submission_events` — legacy workflow. Не удалять и не мигрировать существующие строки в рамках перехода.
+- Предлагаемый новый D1 `manager_product_audit` — append-only; серверная авторизация Owner-only для чтения.
+- Прямые Sanity create/patch выполняются только серверными Pages Functions с `SANITY_API_TOKEN`, idempotency для create и `ifRevisionID` для patch.
+- Существующая Sanity schema `product` уже содержит `saleVariants` (max 30); `plantSaleVariant` содержит свободное имя варианта, числовую высоту, объём, SKU, цену и наличие. Схему не менять, пока аудит публичного storefront не докажет необходимость.
+- Перед изменением цены/наличия требуется проследить root fields и `saleVariants` через Category/Product/cart/order validation: read-only audit выявил legacy расхождения.
+
+Подробная спецификация и этапы: `docs/ROADMAP_MANAGER_PLANTS.md`.
+
+**Статус:** согласованная спецификация; реализация не начата. Данное дополнение не меняет runtime, D1, Sanity, Cloudflare configuration, права сотрудников или Production.
+
+
+## Дополнение 2026-11-09 — direct plant catalog manager (Draft PR #169)
+
+- Новый маршрут Manager `plantCatalog` открывает мобильный список и единый редактор растений для Owner, Manager и Seller.
+- Старый `submissions` экран оставлен только Owner как архив legacy workflow; существующие submissions/events не удаляются.
+- Новые Pages Functions работают через текущий `requireUser` и D1 session cookie.
+- Sanity write target фиксирован: project `bxvcy0qs`, dataset `plants`; dataset `production` не затрагивается.
+- Для прямых изменений используется allowlisted patch и `ifRevisionID`; создание использует idempotency key.
+- История прямых операций — новая D1 таблица `manager_product_audit`, Owner-only read; миграция `0013` подготовлена, но live D1 не применялась.
+- AI endpoint готовит только тексты, переводы и SEO; коммерческие поля и ботанические свойства не генерирует.
+- Биологические поля остаются выключенными; Owner видит только информационную кнопку/блок.
+- Статус: первая реализация в PR #169, CI/Preview/mobile QA не завершены. Production merge/deploy запрещён до отдельного согласования D1 migration и приёмки.
+

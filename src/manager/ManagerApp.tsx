@@ -9,6 +9,7 @@ import PlantStockChangeForm from './PlantStockChangeForm'
 import PlantImageLibrary from './PlantImageLibrary'
 import OrdersManager from './OrdersManager'
 import ProductSeoManager from './ProductSeoManager'
+import PlantCatalogManager from './PlantCatalogManager'
 import ServiceLeadsManager from './ServiceLeadsManager'
 
 type StaffPermissions = {
@@ -121,7 +122,7 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads'>('submissions')
+  const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads'>('plantCatalog')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
@@ -145,7 +146,7 @@ export default function ManagerApp() {
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
     if (!currentSession) {
-      setSession(null); setProfile(null); setSubmissions([]); setActiveTab('submissions'); setLoading(false); return
+      setSession(null); setProfile(null); setSubmissions([]); setActiveTab('plantCatalog'); setLoading(false); return
     }
     setSession(currentSession)
     const { data, error: profileError } = await managerApi
@@ -672,13 +673,14 @@ export default function ManagerApp() {
     <main className="min-h-screen bg-[#f5f6ef] text-stone-800">
       <header className="border-b border-stone-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-          <div><div className="text-xs font-bold tracking-[.22em] text-lime-800">FLORIAL / INTERNAL</div><div className="text-xl font-semibold">Приемане на растения</div></div>
+          <div><div className="text-xs font-bold tracking-[.22em] text-lime-800">FLORIAL / INTERNAL</div><div className="text-xl font-semibold">Управление на растения</div></div>
           <div className="text-right text-sm"><div className="font-semibold">{profile.display_name || session.user.email}</div><div className="text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div></div>
           <button onClick={signOut} className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold">Изход</button>
         </div>
       </header>
       <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
-        <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Растения</button>
+        <button onClick={() => setActiveTab('plantCatalog')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'plantCatalog' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Каталог на растенията</button>
+        {profile.role === 'owner' && <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Архив заявок</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button onClick={() => setActiveTab('serviceLeads')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки за услуги</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
@@ -686,6 +688,7 @@ export default function ManagerApp() {
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'categories' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Категории</button>}
         {profile.role === 'owner' && <button onClick={() => setActiveTab('productsSeo')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'productsSeo' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>SEO на продуктите</button>}
       </nav>
+      <section className={activeTab === 'plantCatalog' ? 'mx-auto w-full max-w-5xl' : 'hidden'}><PlantCatalogManager role={profile.role} /></section>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
           {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

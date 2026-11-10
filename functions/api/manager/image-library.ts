@@ -1,4 +1,5 @@
-import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
+import { json, requireUser, type ManagerEnv } from './_lib'
+import { PLANTS_DATASET, requirePlantRole } from './plant-direct-lib'
 
 type SanityAsset = {
   _id?: unknown
@@ -16,10 +17,10 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   if (!env.SANITY_API_TOKEN) return json({ error: 'Image library is not configured.' }, 503)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
-  if (!hasPermission(auth.user, 'canCreatePlant') && !hasPermission(auth.user, 'canEditPlantCard')) return json({ error: 'Нямате право да преглеждате библиотеката със снимки.' }, 403)
+  if (!requirePlantRole(auth.user)) return json({ error: 'Нямате право да преглеждате библиотеката със снимки.' }, 403)
 
   const project = env.SANITY_PROJECT_ID || 'bxvcy0qs'
-  const dataset = env.SANITY_PLANTS_DATASET || 'plants'
+  const dataset = PLANTS_DATASET
   const requestedOffset = Number(new URL(request.url).searchParams.get('offset') || 0)
   const offset = Number.isInteger(requestedOffset) ? Math.min(100000, Math.max(0, requestedOffset)) : 0
   const pageSize = 100
