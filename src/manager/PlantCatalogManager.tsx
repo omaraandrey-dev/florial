@@ -498,19 +498,26 @@ export default function PlantCatalogManager({role}:Props){
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
      <div className="rounded-xl bg-stone-50 p-3">
       <h3 className="font-semibold">Идентификация</h3>
-      <p className="mt-1 text-sm"><strong>Предложено име:</strong> {geminiResult.result.plantName||'Неопределено'}</p>
-      <PlantDuplicatePicker
-       plantName={geminiResult.result.plantName||''}
-       scientificNames={(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName).filter(Boolean)}
-       proof={geminiProof}
-       proofAssetId={geminiProofAssetId}
-       image={images[mainImageIndex]||null}
-       onAdded={({productName,imageAdded,imageAlreadyPresent})=>{
-        setGeminiModalOpen(false);setEditorOpen(false);setEditingId(null)
-        setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':'Галерията е пълна; размерът е добавен без нова снимка.'))
-        void load()
-       }}
-      />
+      <div className="mt-1 flex flex-wrap items-center gap-2">
+       <p className="text-sm"><strong>Предложено име:</strong> {geminiResult.result.plantName||'Неопределено'}</p>
+       <PlantDuplicatePicker
+        plantName={geminiResult.result.plantName||''}
+        scientificNames={(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName).filter(Boolean)}
+        proof={geminiProof}
+        proofAssetId={geminiProofAssetId}
+        image={images[mainImageIndex]?{
+         ...images[mainImageIndex],
+         alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
+         altRu:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu:images[mainImageIndex].altRu,
+         altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
+        }:null}
+        onAdded={({productName,imageAdded,imageAlreadyPresent})=>{
+         setGeminiModalOpen(false);setEditorOpen(false);setEditingId(null)
+         setNotice('Новият размер е добавен към '+productName+'. '+(imageAdded?'Снимката е добавена в общата галерия.':imageAlreadyPresent?'Снимката вече присъства в галерията.':'Галерията е пълна; размерът е добавен без нова снимка.'))
+         void load()
+        }}
+       />
+      </div>
       <p className="text-sm"><strong>Увереност:</strong> {geminiResult.result.confidence||'low'} · <strong>Тип:</strong> {geminiResult.result.productType||'—'}</p>
       <p className="text-sm"><strong>Категория:</strong> {categoryOptions.find(item=>item._id===geminiResult.result.categoryId)?.label||'Няма валидна категория'}</p>
       <p className="mt-2 text-sm"><strong>Ботанически кандидати:</strong> {(geminiResult.result.scientificCandidates||[]).map((item:any)=>item.scientificName+' ('+item.confidence+') — '+(item.reason||'')).join('; ')||'Няма'}</p>
