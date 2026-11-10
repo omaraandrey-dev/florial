@@ -7,7 +7,10 @@
 - Общий лимит ожидания Gemini увеличен до 300 секунд; клиентский watchdog — 310 секунд. Тайм-аут загрузки изображения классифицируется отдельно от тайм-аута генерации модели.
 - Обе кнопки доступны только Owner. Результаты тестовые: без изменения формы, AI proof, записи в Sanity/D1 и публикации. Основной Workers AI путь не изменяется.
 - Изменены runtime-файлы: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `src/manager/PlantCatalogManager.tsx`; тесты: `tests/gemini-plant-ai.test.mjs`.
-- Branch: `feat/gemini-photo-text-streaming`. CI, PR merge и Production deployment: ОЖИДАЮТСЯ; до завершения проверок не считать функциональность опубликованной.
+- PR #181 merged squash в `main`: merge commit `06583f5cbdcc5e7a35d696f052e5c091f8e76c03`; branch `feat/gemini-photo-text-streaming`.
+- CI: Blog and Studio validation run #757 — success (lint, website utility tests, website build, migration syntax/dry-run, Sanity Studio build); Florial D1 migration validation run #892 — success (lint, website build, Pages Functions syntax, additive migration validation).
+- Cloudflare Pages Production deployment `89324a26-7360-44cd-bf42-8c1688905861`, URL `https://89324a26.florial.pages.dev`; deployed commit matches merge commit `06583f5cbdcc5e7a35d696f052e5c091f8e76c03`. Stages queued, initialize, clone_repo, build and deploy all success; aliases `https://florial-bg.com` and `https://www.florial-bg.com` assigned.
+- Owner live Gemini Photo and Gemini Text requests have not yet been performed after this deployment; functional AI acceptance remains pending user test.
 - Не изменялись Sanity schema/documents/assets, D1 schema/data, Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer и глобальная структура сайта.
 
 ## 2026-11-10 — Gemini plant AI test: safe provider diagnostics
