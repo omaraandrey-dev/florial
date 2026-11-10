@@ -1,14 +1,15 @@
-## Дополнение rev69 — диагностика запроса добавления варианта растения
+## Дополнение rev70 — исправление UUID при добавлении варианта растения
 
 Дата: 10.11.2026
 
-- Уточнена диагностика ранней серверной проверки `POST /api/manager/plants/:id/add-variant`: вместо общей ошибки `Invalid add-variant request.` API возвращает безопасный код `INVALID_ADD_VARIANT_REQUEST` и список отсутствующих/неверных обязательных полей (`body`, `idempotencyKey`, `expectedRevision`, `variant`, `image`).
-- Manager показывает понятные болгарские названия проблемных полей; значения запроса, токены, AI proof и содержимое фотографии не выводятся.
-- Добавлена единая тестируемая проверка контракта запроса в `functions/api/manager/plant-duplicate-lib.mjs` и декларация TypeScript.
-- Unit tests покрывают корректный payload и точное определение отсутствующих/неверных полей.
-- Сохранены обязательные проверки роли, same-origin, Google AI proof, Sanity asset, optimistic revision, idempotency и D1 audit. Формат данных Sanity и логика добавления варианта не меняются.
-- Причина исходной ошибки установлена: UUID regex был составлен неверно — вместо стандартного шаблона `8-4-4-4-12` он ожидал одну группу из 13 символов и не учитывал последнюю группу UUID. Проверка заменена на корректный стандартный шаблон; дополнительная диагностика оставлена для выявления иных проблем контракта.
-- Production Sanity documents/assets, D1 schema/rows, Cloudflare secrets/settings, заказы, оборудование, Header/menu/Footer не изменялись.
+- Причина `Invalid add-variant request.` установлена и исправлена: серверный UUID regex был неверным — не соответствовал стандартной структуре UUID `8-4-4-4-12`, поэтому отклонял `crypto.randomUUID()` браузера. Теперь проверяется полный стандартный UUID.
+- Ранняя валидация запроса возвращает безопасный код `INVALID_ADD_VARIANT_REQUEST` и имена отсутствующих/неверных полей (`body`, `idempotencyKey`, `expectedRevision`, `variant`, `image`), а Manager показывает болгарские названия полей. Значения запроса, токены, AI proof и изображения не раскрываются.
+- Сохранены проверки роли, same-origin, Google AI proof, Sanity asset, optimistic revision, idempotency и D1 audit. Формат Sanity и логика append варианта не меняются.
+- Unit tests проверяют стандартный UUID, точный контракт запроса и диагностирование отсутствующих полей. Blog and Studio validation run #827 — success: 60 tests passed, lint, website build, migration syntax/dry-run и Sanity Studio build. Florial D1 migration validation run #993 — success.
+- PR #190 объединён squash в `main`; merge commit `19f18b63d2132d5b18c334056808a314c203fee3`.
+- Cloudflare Pages Production deployment `0ed7d8d2-cedb-4b76-b237-dddf4c35aad2`, URL `https://0ed7d8d2.florial.pages.dev`; deployed commit совпадает с merge commit. Стадии queued, initialize, clone_repo, build и deploy завершились `success`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
+- Live homepage fetch вернул страницу Florial с основным содержимым. Авторизованный сценарий сохранения варианта в Manager после deployment ещё должен быть проверен владельцем; Sanity production documents/assets и D1 rows/schema не изменялись.
+- Изменены только `functions/api/manager/plant-duplicate-lib.mjs`, его `.d.mts`, `functions/api/manager/plants/[id]/add-variant.ts`, `src/manager/PlantDuplicatePicker.tsx`, `tests/plant-duplicates.test.mjs`, `docs/TECHNICAL_PASSPORT.md` и `CHANGELOG.md`.
 
 ---
 
