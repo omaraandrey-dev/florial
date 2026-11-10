@@ -19,7 +19,7 @@ const parseModelJson=(value:unknown)=>{
  if(start<0||end<=start)throw new Error('AI_INVALID_JSON')
  try{return JSON.parse(raw.slice(start,end+1)) as Record<string,unknown>}catch{throw new Error('AI_INVALID_JSON')}
 }
-const analyzeMainImage=async(env:ManagerEnv,value:unknown):Promise<string>=>{
+const analyzeMainImage=async(env:ManagerEnv,value:unknown,productName:string):Promise<string>=>{
  if(!isObject(value)||typeof value.url!=='string'||!/^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/plants\//i.test(value.url))return ''
  const download=await fetch(value.url)
  if(!download.ok)throw new Error('AI_IMAGE_DOWNLOAD_FAILED')
@@ -30,7 +30,7 @@ const analyzeMainImage=async(env:ManagerEnv,value:unknown):Promise<string>=>{
  const response=await env.AI!.run(VISION_MODEL,{
   messages:[
    {role:'system',content:'Describe only visible visual details for accessible alt text. Never identify a plant species or infer botanical properties. Return one concise Bulgarian sentence only.'},
-   {role:'user',content:'Describe the main visible plant or plants, their foliage, form, flowers or container only when clearly visible. Maximum 150 characters. No location, SEO keywords, image number or assumptions.'},
+   {role:'user',content:'The seller identifies this product as "'+productName+'". Describe the visible specimen that represents this product, focusing on its own foliage, shape, flowers or container only when clearly visible. Do not describe rows, shelves, other unrelated plants or the nursery background unless that is the actual subject. Do not independently identify the species. Maximum 150 characters. No location, SEO keywords or assumptions.'},
   ],
   image:'data:'+contentType+';base64,'+bytesToBase64(bytes),
  })
@@ -122,7 +122,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:ManagerEnv})
    'Seller description: '+(description||shortDescription||'not supplied'),
    'Return JSON: {"candidates":[{"scientificName":"Prunus laurocerasus","confidence":"high","reason":"Кратко обяснение на български"}]}',
   ].join('\n\n')
-  const imageTask=body.mainImage?analyzeMainImage(env,body.mainImage):Promise.resolve('')
+  const imageTask=body.mainImage?analyzeMainImage(env,body.mainImage,name):Promise.resolve('')
   const candidateTask=!suppliedScientificName?runJsonModel(env,identifyPrompt,900):Promise.resolve(null)
   const [imageResult,candidateResult]=await Promise.allSettled([imageTask,candidateTask])
   if(imageResult.status==='fulfilled'){
