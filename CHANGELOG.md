@@ -1,11 +1,14 @@
-## 2026-11-10 — Gemini Photo/Text: потоковый Owner test (подготовка PR)
+## 2026-11-10 — Gemini Photo/Text: потоковый Owner test опубликован в Production
 
 - Добавлен режим Gemini Text без фотографии; запрос принимает введённое название растения (например, «лавровишня») и формирует видоспецифичный тестовый результат на BG/RU/EN.
 - Gemini Photo остаётся отдельным режимом и отправляет выбранное основное изображение из Sanity plants CDN.
 - Оба режима используют Google `streamGenerateContent`; Owner видит стадии, потоковые фрагменты ответа, request ID, время и структурированный итог/диагностику.
 - Увеличен лимит ожидания генерации до 5 минут; отдельно различаются ошибка загрузки фото и timeout модели.
 - Не затронуты основная Workers AI кнопка, Sanity/D1 данные, схема каталога, заказы и общая структура сайта.
-- Реализация в ветке `feat/gemini-photo-text-streaming`; CI, merge и Production deployment будут зафиксированы после фактической проверки.
+- PR #181 merged squash в `main`: `06583f5cbdcc5e7a35d696f052e5c091f8e76c03`.
+- Blog and Studio validation #757 и Florial D1 migration validation #892 завершились success.
+- Cloudflare Pages Production deployment `89324a26-7360-44cd-bf42-8c1688905861` успешно завершён; aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Фактический авторизованный тест Gemini Photo/Text в Owner Manager после публикации остаётся pending.
 
 ## 2026-11-10 — Gemini: диагностика ошибок Google API
 
