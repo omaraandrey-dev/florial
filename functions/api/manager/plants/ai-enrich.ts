@@ -27,14 +27,21 @@ const analyzeMainImage=async(env:ManagerEnv,value:unknown,productName:string):Pr
  if(!['image/jpeg','image/png','image/webp'].includes(contentType))throw new Error('AI_IMAGE_TYPE_INVALID')
  const bytes=new Uint8Array(await download.arrayBuffer())
  if(!bytes.length||bytes.length>10*1024*1024)throw new Error('AI_IMAGE_SIZE_INVALID')
- const response=await env.AI!.run(VISION_MODEL,{
-  messages:[
-   {role:'system',content:'Describe only visible visual details for accessible alt text. Never identify a plant species or infer botanical properties. Return one concise Bulgarian sentence only.'},
-   {role:'user',content:'The seller identifies this product as "'+productName+'". Describe the visible specimen that represents this product, focusing on its own foliage, shape, flowers or container only when clearly visible. Do not describe rows, shelves, other unrelated plants or the nursery background unless that is the actual subject. Do not independently identify the species. Maximum 150 characters. No location, SEO keywords or assumptions.'},
-  ],
-  image:'data:'+contentType+';base64,'+bytesToBase64(bytes),
- })
- return cleanText(extractText(response),180)
+ const imageData='data:'+contentType+';base64,'+bytesToBase64(bytes)
+ for(let attempt=0;attempt<2;attempt++){
+  try{
+   const response=await env.AI!.run(VISION_MODEL,{
+    messages:[
+     {role:'system',content:'Describe only visible visual details for accessible alt text. Never identify a plant species or infer botanical properties. Return one concise Bulgarian sentence only.'},
+     {role:'user',content:'The seller identifies this product as "'+productName+'". Describe the visible specimen that represents this product, focusing on its own foliage, shape, flowers or container only when clearly visible. Do not describe rows, shelves, other unrelated plants or the nursery background unless that is the actual subject. Do not independently identify the species. Maximum 150 characters. No location, SEO keywords or assumptions.'},
+    ],
+    image:imageData,
+   })
+   const alt=cleanText(extractText(response),180)
+   if(alt)return alt
+  }catch(error){if(attempt===1)throw error}
+ }
+ return ''
 }
 const latinBinomial=(value:unknown)=>typeof value==='string'?(value.trim().match(/\b([A-Z][A-Za-z-]+\s+[a-z][A-Za-z-]+)\b/)?.[1]||''):''
 const normalizeCandidates=(value:unknown):ScientificCandidate[]=>{
