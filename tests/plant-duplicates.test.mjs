@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery } from '../functions/api/manager/plant-duplicate-lib.mjs'
+import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery, validatePlantAddVariantRequest } from '../functions/api/manager/plant-duplicate-lib.mjs'
 
 test('duplicate query checks primary and localized names plus botanical candidates', () => {
   const query = buildPlantDuplicateQuery('Cycas', ['Cycas revoluta'])
@@ -60,4 +60,29 @@ test('gallery limit counts the main image as one of ten total photos', () => {
   const result = appendPlantGalleryImage('image-main', nineGalleryImages, { assetId: 'image-new', key: 'new-image-key' })
   assert.equal(result.galleryFull, true)
   assert.equal(result.gallery.length, 9)
+})
+
+test('add-variant request validation accepts the exact Manager payload contract', () => {
+  const request = {
+    idempotencyKey: 'd3c98287-368b-4d51-9f99-f8e01f9564f1',
+    expectedRevision: 'revision-123',
+    variant: { _key: 'variantkey12', name: '80 см', priceEUR: 145, stockQuantity: 20 },
+    image: { assetId: 'image-asset-123', url: 'https://cdn.sanity.io/image/example' },
+  }
+  assert.deepEqual(validatePlantAddVariantRequest(request), [])
+})
+
+test('add-variant request validation identifies exactly which contract fields are missing', () => {
+  assert.deepEqual(validatePlantAddVariantRequest(null), ['body'])
+  assert.deepEqual(validatePlantAddVariantRequest({
+    expectedRevision: '',
+    variant: null,
+    image: [],
+  }), ['idempotencyKey', 'expectedRevision', 'variant', 'image'])
+  assert.deepEqual(validatePlantAddVariantRequest({
+    idempotencyKey: 'not-a-uuid',
+    expectedRevision: 'revision-123',
+    variant: {},
+    image: {},
+  }), ['idempotencyKey'])
 })

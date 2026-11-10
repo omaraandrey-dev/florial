@@ -1,3 +1,17 @@
+## Дополнение rev69 — диагностика запроса добавления варианта растения
+
+Дата: 10.11.2026
+
+- Уточнена диагностика ранней серверной проверки `POST /api/manager/plants/:id/add-variant`: вместо общей ошибки `Invalid add-variant request.` API возвращает безопасный код `INVALID_ADD_VARIANT_REQUEST` и список отсутствующих/неверных обязательных полей (`body`, `idempotencyKey`, `expectedRevision`, `variant`, `image`).
+- Manager показывает понятные болгарские названия проблемных полей; значения запроса, токены, AI proof и содержимое фотографии не выводятся.
+- Добавлена единая тестируемая проверка контракта запроса в `functions/api/manager/plant-duplicate-lib.mjs` и декларация TypeScript.
+- Unit tests покрывают корректный payload и точное определение отсутствующих/неверных полей.
+- Сохранены обязательные проверки роли, same-origin, Google AI proof, Sanity asset, optimistic revision, idempotency и D1 audit. Формат данных Sanity и логика добавления варианта не меняются.
+- Причина исходной ошибки установлена: UUID regex был составлен неверно — вместо стандартного шаблона `8-4-4-4-12` он ожидал одну группу из 13 символов и не учитывал последнюю группу UUID. Проверка заменена на корректный стандартный шаблон; дополнительная диагностика оставлена для выявления иных проблем контракта.
+- Production Sanity documents/assets, D1 schema/rows, Cloudflare secrets/settings, заказы, оборудование, Header/menu/Footer не изменялись.
+
+---
+
 ## 2026-11-10 — PR #189: Gemini SSE parser и диагностика (merged and deployed)
 
 Дата: 10.11.2026
