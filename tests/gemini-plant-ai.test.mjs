@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -105,4 +105,47 @@ test('summarizes only numeric Gemini usage metadata', () => {
     promptTokenCount: 120, candidatesTokenCount: 900, totalTokenCount: 1020,
   })
   assert.equal(summarizeGeminiUsage({}), null)
+})
+
+
+test('parses Gemini SSE events across arbitrary chunks and all standard line endings', () => {
+  const payloads = []
+  const parser = createGeminiSseParser((payload) => payloads.push(payload))
+  parser.push('\\uFEFFdata: {"candidates":')
+  parser.push('[{"content":{"parts":[{"text":"first"}]}}]}\\r')
+  parser.push('\\ndata: {"candidates":[{"content":{"parts":[{"text":"second"}]}}]}\\n\\n')
+  parser.push(': heartbeat\\r')
+  parser.push('data: {"usageMetadata":{"totalTokenCount":12}}\\r\\r')
+  const stats = parser.finish()
+  assert.equal(payloads.length, 3)
+  assert.equal(stats.eventCount, 3)
+  assert.equal(stats.malformedEventCount, 0)
+  assert.equal(stats.dataChars > 0, true)
+  assert.equal(stats.ignoredLineCount, 0)
+})
+
+test('flushes the final Gemini SSE event when the stream ends without a blank separator', () => {
+  const payloads = []
+  const parser = createGeminiSseParser((payload) => payloads.push(payload))
+  parser.push('data: {"candidates":[{"content":{"parts":[{"text":"tail"}]}}]}')
+  const stats = parser.finish()
+  assert.equal(payloads.length, 1)
+  assert.equal(stats.eventCount, 1)
+})
+
+test('counts malformed Gemini SSE events without aborting later valid events', () => {
+  const payloads = []
+  const parser = createGeminiSseParser((payload) => payloads.push(payload))
+  parser.push('data: {bad json}\\n\\ndata: {"usageMetadata":{"totalTokenCount":7}}\\n\\n')
+  const stats = parser.finish()
+  assert.equal(payloads.length, 1)
+  assert.equal(stats.eventCount, 2)
+  assert.equal(stats.malformedEventCount, 1)
+})
+
+test('reports JSON parse position without echoing the provider response', () => {
+  const diagnostic = describeGeminiJsonError('{"plantName":')
+  assert.match(diagnostic, /позиция/)
+  assert.ok(diagnostic.length <= 160)
+  assert.equal(describeGeminiJsonError('[]'), 'JSON синтаксисът е валиден, но коренът на отговора не е обект.')
 })
