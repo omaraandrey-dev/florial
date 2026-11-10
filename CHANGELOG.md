@@ -1,3 +1,19 @@
+## 2026-11-10 — PR #187: обнаружение существующих растений и добавление варианта
+
+- Read-only GROQ запрос по «Цикас» / Cycas revoluta в текущем Sanity plants dataset вернул две опубликованные карточки, подтверждая работу localized/scientific matching. Данные не изменялись.
+- Read-only Cloudflare D1 проверка подтвердила таблицу manager_product_audit и migration 0013_manager_product_audit в schema_migrations. SQL выполнялся только через SELECT/PRAGMA; D1 не изменялась.
+
+- В Manager растений после ответа Gemini добавлена проверка опубликованного каталога Sanity plants на точные совпадения без учёта регистра: основное имя, BG/RU/EN names и до трёх ботанических кандидатов, включая legacy plantDetails.scientificName. Черновики исключены; выдача ограничена 12 карточками.
+- В окне Gemini рядом с предложенным названием появляется кликабельная красная точка/индикатор совпадений. Список показывает фотографию, имя, латинское название, категорию и уже существующие варианты.
+- Сотрудник может выбрать существующую карточку и добавить новый вариант с произвольным текстом размера и ценой EUR. Повторяющиеся высоты/названия не блокируются; отдельное поле для количества стволов не создаётся.
+- Проверенная Google фотография добавляется в общую gallery карточки, если её там ещё нет и общий лимит Manager в 10 фотографий с учётом главной фотографии не достигнут. mainImage и прежние снимки не заменяются. Если галерея заполнена, вариант всё равно добавляется, фотография не добавляется.
+- Новый вариант использует существующий plantSaleVariant: _key, name, priceEUR, stockStatus=onRequest, stockQuantity=null. Не создаются новые Sanity поля, schema changes или миграции.
+- Новый API использует текущие Manager session/role, same-origin, Google aiProof с привязкой к загруженному asset, проверку существования asset, Sanity ifRevisionID, idempotency и существующий D1 manager_product_audit.
+- Добавлены unit tests для GROQ escaping/localized name matching, append существующего варианта и безопасного добавления фото в галерею.
+- Изменения подготовлены в PR #187 (feat/manager-plant-duplicate-variants). Sanity Production documents/assets и D1 data/schema не изменялись. Локальные Node tests: 7/7 passed; TypeScript declaration resolution проверена. GitHub Actions: Blog and Studio validation run #807 — success (lint, website tests/build, Sanity Studio build); Florial D1 migration validation run #957 — success (lint, website build, Pages Functions syntax, additive migration validation). Production deployment пока не запускался: PR ещё не объединён в main.
+
+---
+
 ## 2026-11-10 — Gemini Flash-Lite переведён в основной процесс заполнения растений
 
 - PR #186 объединён squash в `main`; merge commit: `756784c51ada295732ee8c05b29200da5ac468a9`.
