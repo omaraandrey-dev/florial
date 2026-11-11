@@ -1,6 +1,6 @@
-## 2026-11-11 — Отдельные карточки размеров растений (PR #207, ожидает согласования)
+## 2026-11-11 — Карточки размеров растений объединены в main (PR #207)
 
-- Ветка `feat/plant-catalog-variant-cards`; PR #207 открыт, не объединён. Production не изменён.
+- PR #207 squash-объединён в `main`: `5ec210848db4b30568e5f4ae8ee03d02c4efe3a1` (11.11.2026 12:42 UTC).
 - В категории растений каждая запись `saleVariants[]` разворачивается в отдельную карточку предложения. Карточки используют общий Sanity Product и общий URL `/product/{slug}`; отдельные Sanity документы и SEO URL не создаются.
 - Каждая карточка показывает локализованное название растения, краткое описание и категорию, но собственные цену/старую цену выбранного варианта. Для варианта с максимальной ценой всегда используется отдельное поле Sanity `mainImage`; остальные варианты получают стабильный псевдослучайный выбор из главного фото и всей галереи (включая main), чтобы изображение не менялось при каждом React rerender. Текст перехода содержит локализованное название/параметры размера: BG `Виж размер:`, RU `Посмотреть размер:`, EN `View size:`.
 - При нажатии выбранный `saleVariantKey` передаётся только во внутреннем состоянии SPA. На общей ProductPage этот вариант выбирается автоматически; адрес страницы, canonical, hreflang, sitemap и Product JSON-LD не меняются. При прямом открытии страницы без переданного ключа сохраняется прежнее поведение — выбирается первый вариант.
@@ -8,8 +8,13 @@
 - Для товара без `saleVariants` сохраняется одна обычная карточка. Каталог оборудования не меняется. Пагинация и счётчик категории учитывают карточки предложений, а не только родительские документы.
 - Изменённые файлы: `src/pages/CategoryPage.tsx`, `src/App.tsx`, `src/types.ts`, `src/pages/ProductPage.tsx`, `src/lib/plantCatalogUtils.ts`, `tests/plant-catalog-utils.test.mjs`.
 - Sanity documents/schema, D1, Cloudflare settings/secrets, корзина/оформление заказа, Header, меню и Footer не изменялись.
-- CI на code HEAD `ac107a131f758ebd81c112dec6fdec4b2ba0c5c6`: lint, 89 tests, website build — success; D1 validation run #1074 — success. Sanity Studio build остаётся в процессе run #879. Требуется итоговая проверка CI после документационных изменений.
-- Не объединять PR и не выполнять Production deployment без отдельного явного разрешения владельца.
+- Финальный PR HEAD `6152ad7b816f610e54116fd4e632a8277e3851bf`: Blog and Studio validation run #885 — success; Florial D1 validation run #1078 — success.
+- Автоматический Cloudflare Pages Production deployment `d5f38dd3-6197-430b-8332-5b5ae208f663` для merge commit прошёл clone/build и загрузку assets, но завершился failure на этапе deploy: `Failed to publish your Function. Got error: binding DB of type d1 failed to generate`. Новая версия не опубликована.
+- Через Cloudflare Pages Retry повторно запущен тот же merge commit; deployment `ea9588ed-d9cd-4d3d-9cbf-8bb64513a65a` завершился той же ошибкой D1 binding после успешной сборки и публикации assets.
+- Read-only проверка подтвердила, что D1 `florial-db` существует и `SELECT 1` успешен; Pages project и текущий production Worker показывают binding `DB` с ожидаемым UUID. Это не подтверждает ошибку идентификатора/отсутствия binding.
+- Cloudflare Status на момент проверки показывает Pages и D1 Operational. Точная причина на стороне генерации Cloudflare Pages Function пока не установлена; нужна эскалация в Cloudflare Support с deployment IDs `d5f38dd3-6197-430b-8332-5b5ae208f663` и `ea9588ed-d9cd-4d3d-9cbf-8bb64513a65a`.
+- Последняя успешная Production deployment остаётся `e1453092-2a32-4b12-8d0a-0d3c046e83b9` (commit `11bfc43ec0f80692b04c324df405ebf600e033e7`); production aliases продолжают указывать на неё. Новая версия не опубликована.
+- Не менялись Pages config, D1 binding/settings/data/schema, Sanity или secrets. Rollback не выполнялся.
 
 ---
 

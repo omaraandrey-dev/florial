@@ -1,7 +1,7 @@
 ## Дополнение — карточки вариантов продажи растений в каталоге (PR #207)
 
 Дата: 11.11.2026  
-Статус: PR #207 открыт; merge и Production deployment не выполнялись.
+Статус: PR #207 объединён squash в main; Production deployment для merge commit завершился ошибкой на этапе публикации Pages Function.
 
 ### Поведение storefront
 - `CategoryPage.tsx` строит отдельную карточку на каждый элемент `Product.saleVariants[]`; один документ Sanity остаётся единственным источником данных о растении. Для товара без вариантов сохраняется одна обычная карточка.
@@ -16,9 +16,15 @@
 ### Затронутые компоненты и проверки
 - Runtime: `src/pages/CategoryPage.tsx`, `src/App.tsx`, `src/pages/ProductPage.tsx`, `src/lib/plantCatalogUtils.ts`, `src/types.ts`.
 - Tests: `tests/plant-catalog-utils.test.mjs` — покрытие разворачивания предложений, stock/price sort, отсутствующей цены, порядка Sanity и проверки выбранного ключа.
-- CI code HEAD `ac107a131f758ebd81c112dec6fdec4b2ba0c5c6`: lint, 89 utility tests, website build — success; D1 validation run #1074 — success; Studio build run #879 ещё выполняется на момент записи.
+- Финальный PR HEAD `6152ad7b816f610e54116fd4e632a8277e3851bf`: Blog and Studio validation run #885 — success; Florial D1 validation run #1078 — success. Проверки включили lint, тесты, website build, миграционные проверки и Sanity Studio build.
 - Sanity documents/schema, D1 data/schema, Cloudflare settings/secrets, cart/checkout, Header/menu/Footer не затронуты.
-- PR #207 — `https://github.com/omaraandrey-dev/florial/pull/207`. Не выполнять merge/Production deploy без отдельного явного согласия владельца.
+- Автоматический Cloudflare Pages Production deployment `d5f38dd3-6197-430b-8332-5b5ae208f663` (commit `5ec2108...`) прошёл clone и build, успешно загрузил assets, но завершился failure на стадии deploy: `Failed to publish your Function. Got error: binding DB of type d1 failed to generate`. Это не ошибка Vite build: Cloudflare Pages Function не опубликована.
+- Повтор deployment через официальный Cloudflare Pages Retry создал deployment `ea9588ed-d9cd-4d3d-9cbf-8bb64513a65a` (тот же merge commit `5ec2108...`). Clone, Vite build, Worker compilation и assets upload повторно прошли успешно, но deploy повторно завершился той же ошибкой `binding DB of type d1 failed to generate`.
+- Диагностика read-only: D1 database API подтвердил существование `florial-db`, UUID `5fbb0e47-8439-493c-821a-6945eef7d8b2`, jurisdiction `eu`; контрольный запрос `SELECT 1 AS binding_health` вернул success. Pages project GET показывает production binding `DB` с тем же UUID; текущий активный Pages Worker settings также содержит D1 binding `DB` на этот UUID. Следовательно, отсутствующая/неверная база и отсутствие binding в настройках не подтверждаются.
+- Cloudflare Status на момент диагностики показывает Pages и D1 как Operational; публичного инцидента, который однозначно объясняет ошибку, не найдено. Точная внутренняя причина генерации binding пока НЕ ИЗВЕСТНА — требуется эскалация Cloudflare Support с двумя deployment IDs и логами.
+- Последняя подтверждённая успешная Production deployment остаётся `e1453092-2a32-4b12-8d0a-0d3c046e83b9` для main commit `11bfc43ec0f80692b04c324df405ebf600e033e7`; её aliases `https://florial-bg.com` и `https://www.florial-bg.com` сохраняются. Новая версия с карточками размеров пока не опубликована.
+- Не менялись Pages deployment configs, D1 bindings, database/schema/rows, Sanity, secrets и Worker script settings. Повторная публикация была выполнена только через штатный Retry; rollback не выполнялся. Не добавлять Wrangler config и не менять D1 binding наугад: конфигурация соответствует текущему API-формату Cloudflare.
+- PR #207 — `https://github.com/omaraandrey-dev/florial/pull/207`; squash merge commit: `5ec210848db4b30568e5f4ae8ee03d02c4efe3a1` (11.11.2026 12:42 UTC).
 
 ---
 
