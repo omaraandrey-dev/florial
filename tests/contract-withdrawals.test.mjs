@@ -54,6 +54,11 @@ test('limits user-controlled text and accepts only supported locales', () => {
   assert.equal(result.value.locale, 'bg')
 })
 
+test('builds declaration text in the selected language', () => {
+  assert.match(buildWithdrawalDeclaration({ customerName: 'Иван', contractReference: 'A-1', locale: 'ru' }), /Настоящим однозначно/)
+  assert.match(buildWithdrawalDeclaration({ customerName: 'John', contractReference: 'A-1', locale: 'en' }), /I hereby unequivocally/)
+})
+
 test('accepts only known Manager workflow statuses', () => {
   assert.equal(isWithdrawalStatus('received'), true)
   assert.equal(isWithdrawalStatus('completed'), true)
