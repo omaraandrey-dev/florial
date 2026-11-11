@@ -1,3 +1,15 @@
+## 2026-11-11 — Google AI botanical fields available to Owner, Manager and Seller
+
+- Implemented the owner-approved policy: Google Gemini is the only AI provider for the plant Manager workflow; the existing Gemini Photo/Text flow remains the source of AI-generated plant data.
+- All plant staff roles (Owner, Manager, Seller) can now apply Google AI botanical results, see/edit the botanical care fields in the Manager form, load those fields when opening an existing product, and save them to Sanity.
+- The Manager now carries the complete botanical object through apply/save: `light`, `waterNeeds`, `minWinterTempC`, `adultHeightCm`, `foliageType`, `floweringSeason`, `plantingSeason`, `blackSeaCoast`, plus `careGuide`. Unknown scalar values are represented as null; seasonal arrays remain empty when not known; `blackSeaCoast` remains `needsVerification` pending review. This avoids inventing botanical facts while retaining the requested fields.
+- Updated `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plant-direct-lib.ts`; added `tests/manager-plant-care-permissions.test.mjs` covering Owner/Manager/Seller.
+- No D1 permission changes were necessary: the Manager already had plant-creation permission; there is no separate Google AI permission key, and the plant role gate admits Owner/Manager/Seller. Production D1 had 1 Owner, 1 Manager and 0 Seller accounts at the time of inspection.
+- No Sanity schema/documents, existing plant data, D1 rows/schema, secrets, Cloudflare bindings, order permissions, publish/delete permissions, Header, menu or Footer were changed.
+- Validation status: GitHub Actions validation is being checked against the final main commit. Do not claim Production deployment until the corresponding Cloudflare Pages deployment is confirmed.
+
+---
+
 ## 2026-11-11 — Обязательная политика Google Gemini для AI-заполнения растений
 
 - Решение владельца: единственный основной AI-провайдер для рабочего сценария подготовки карточки растения в Manager — Google Gemini. Альтернативные AI-провайдеры не должны использоваться как основной или резервный источник данных этого сценария.
