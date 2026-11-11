@@ -2265,3 +2265,14 @@
 - The previous controlled profile (390×844, CPU 4×, 150 ms latency, 10/1.5 Mbps, cache disabled) was not reproducible through this browser-rendering endpoint. Keep the previous controlled post-fix comparison marked pending until repeated with that same profile.
 - Docs PR #159 merged as `180a07d356305cc927f185cc748c615c345a48c9`; its Production deployment `9a70fddc-ce74-4743-9cd3-dedc5a9703c8` completed successfully and aliases were assigned.
 
+## 2026-11-11 — Production release и live smoke политики конфиденциальности
+
+- PR #197 успешно объединён в `main`; merge commit `ac03b992cbdd8a7393e39528cc1ceb0594001d6b`.
+- GitHub Actions для PR #197: Lint, website tests, website build, migration syntax, read-only D1 dry-run и Studio build — success.
+- Cloudflare Pages Production deployment `a8425737-e658-48b2-87a2-c471447a5789` для commit `ac03b992...` завершился со статусом success; aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Live smoke `maxAge=0`: `/privacy-policy`, `?lang=ru`, `?lang=en` — HTTP 200; языки BG/RU/EN, локализованные H1/title/description, `index, follow`, self-canonical и hreflang BG/RU/EN/x-default подтверждены в HTML.
+- Главная страница HTTP 200; ссылка Footer на `/privacy-policy` подтверждена. `/sitemap.xml` HTTP 200 и содержит три локализованных URL политики.
+- Ранее полученный HTTP 404 относился к предыдущему deployment до merge middleware fix; после Production deployment повторный smoke успешен.
+- Открыто: юридическая проверка текста в Болгарии; подтверждение регистрационного адреса и transfer safeguards; автоматическое удаление service leads в коде не реализовано и не заявляется.
+
+---
