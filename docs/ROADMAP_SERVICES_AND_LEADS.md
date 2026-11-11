@@ -1,3 +1,17 @@
+## 2026-11-11 — Онлайн-отказ от договора (черновая разработка)
+
+- Ветка: `feat/contract-withdrawal-flow`, базовый `main`: `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Подготовлены публичная страница `/withdrawal` BG/RU/EN, публичный API `POST /api/withdrawals`, D1 migration `0014_contract_withdrawals.sql`, Manager API/UI и тесты.
+- Сценарий: покупатель вводит имя, данные договора/заказа и email; просматривает декларацию; отдельно подтверждает отправку. Сервер фиксирует время и пытается отправить копию заявления на email через Resend.
+- Если договор не сопоставлен с заказом, заявление всё равно сохраняется без привязки к order_id и требует ручной проверки; автоматического отказа пользователю нет.
+- Manager использует существующие права: просмотр — canViewOrders/canEditOrders, обработка и повторная отправка — canEditOrders.
+- Production D1 read-only проверена: latest migration 0013; 7 orders, 26 order_events. Миграция 0014 не применялась.
+- Остаётся согласовать постоянную ссылку в Footer: без видимого постоянного entry point по всему сайту требование доступности функции из чл. 52а не закрывается. Footer пока не менялся.
+- До релиза обязательны: CI, legal review (включая срок хранения и privacy policy), тестовое письмо Resend, проверка Owner/Manager permissions, одобрение Footer link, согласование и применение additive migration, Production deploy и BG/RU/EN smoke.
+- Текущий статус: draft implementation only; не публиковать и не заявлять о compliance до закрытия пунктов выше.
+
+---
+
 ## 2026-11-09 — Internal links on five planting-service photos
 
 - Sanity document `cfdbf22c-a7d9-480b-b88b-d1529a9389ef`, slug `zasazhdane-na-rasteniya`: assigned `contentBlocks[].image.linkUrl` for all five inline photos in their existing article order.
