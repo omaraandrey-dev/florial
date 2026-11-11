@@ -10,8 +10,11 @@
 - Sanity documents/schema, D1, Cloudflare settings/secrets, корзина/оформление заказа, Header, меню и Footer не изменялись.
 - Финальный PR HEAD `6152ad7b816f610e54116fd4e632a8277e3851bf`: Blog and Studio validation run #885 — success; Florial D1 validation run #1078 — success.
 - Автоматический Cloudflare Pages Production deployment `d5f38dd3-6197-430b-8332-5b5ae208f663` для merge commit прошёл clone/build и загрузку assets, но завершился failure на этапе deploy: `Failed to publish your Function. Got error: binding DB of type d1 failed to generate`. Новая версия не опубликована.
-- Последняя подтверждённая Production deployment остаётся `e1453092-2a32-4b12-8d0a-0d3c046e83b9` (commit `11bfc43ec0f80692b04c324df405ebf600e033e7`); production aliases продолжают указывать на неё.
-- D1 и Cloudflare settings не менялись; повторная публикация и rollback не выполнялись. Требуется отдельная диагностика/решение владельца перед повтором deploy.
+- Через Cloudflare Pages Retry повторно запущен тот же merge commit; deployment `ea9588ed-d9cd-4d3d-9cbf-8bb64513a65a` завершился той же ошибкой D1 binding после успешной сборки и публикации assets.
+- Read-only проверка подтвердила, что D1 `florial-db` существует и `SELECT 1` успешен; Pages project и текущий production Worker показывают binding `DB` с ожидаемым UUID. Это не подтверждает ошибку идентификатора/отсутствия binding.
+- Cloudflare Status на момент проверки показывает Pages и D1 Operational. Точная причина на стороне генерации Cloudflare Pages Function пока не установлена; нужна эскалация в Cloudflare Support с deployment IDs `d5f38dd3-6197-430b-8332-5b5ae208f663` и `ea9588ed-d9cd-4d3d-9cbf-8bb64513a65a`.
+- Последняя успешная Production deployment остаётся `e1453092-2a32-4b12-8d0a-0d3c046e83b9` (commit `11bfc43ec0f80692b04c324df405ebf600e033e7`); production aliases продолжают указывать на неё. Новая версия не опубликована.
+- Не менялись Pages config, D1 binding/settings/data/schema, Sanity или secrets. Rollback не выполнялся.
 
 ---
 
