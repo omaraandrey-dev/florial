@@ -1,3 +1,7 @@
+> **АРХИВ SUPABASE — ТОЛЬКО ИСТОРИЯ. НЕ ЗАПУСКАТЬ.** SQL-отчёт для прежней Supabase analytics. Не запускать в D1. Текущая архитектура: Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Эти материалы не являются D1 migrations и не входят в текущий runtime.
+
+---
+
 # Florial anonymous analytics report
 
 Run in the Supabase SQL editor to see visits and contact clicks, with the exact phone number shown for each phone-click event. Dates use Bulgaria local time.

@@ -2646,3 +2646,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Live smoke главной страницы: HTTP 200; сырой HTML подтверждает ссылку «Общи условия» с href https://florial-bg.com/terms в Footer.
 - Изменения ограничены Footer и документацией; D1, Sanity, Cloudflare settings/secrets, checkout и пользовательские данные не менялись.
 
+
+
+## 2026-11-11 — Единый GitHub-центр документации Florial
+
+- Установлена модель: GitHub repository `omaraandrey-dev/florial`, branch `main` — единственное постоянное хранилище технических знаний. ChatGPT Library и параллельные копии исключены.
+- Добавлены `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `OPEN_QUESTIONS.md`; README указывает единый порядок входа.
+- Исторические Supabase migrations и Supabase-only analytics документы архивированы в `docs/archive/supabase/`. Старые Manager setup/mobile QA/architecture документы помечены как исторические.
+- Статическая проверка: package.json не содержит Supabase SDK; поиск `@supabase/supabase-js` не дал результатов; `.env.example` содержит только публичные Sanity параметры. Это не live audit Cloudflare variables.
+- Runtime-код, Sanity documents/schema, Cloudflare settings/secrets/deployments, D1 schema/data, Resend и глобальные компоненты сайта не менялись.
+- Изменения выполняются в отдельной ветке `docs/github-single-source-of-truth`; merge и Production deployment не выполнялись на момент записи.

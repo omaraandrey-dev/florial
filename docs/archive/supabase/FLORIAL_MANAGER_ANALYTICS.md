@@ -1,3 +1,7 @@
+> **АРХИВ SUPABASE — ТОЛЬКО ИСТОРИЯ. НЕ ЗАПУСКАТЬ.** Предыдущая реализация Manager analytics через Supabase Data API/RPC. Текущая архитектура: Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Эти материалы не являются D1 migrations и не входят в текущий runtime.
+
+---
+
 # Florial Manager — owner analytics
 
 ## Scope
