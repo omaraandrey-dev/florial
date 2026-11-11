@@ -72,11 +72,5 @@ BEGIN
   SELECT RAISE(ABORT, 'Contract withdrawal declaration is immutable');
 END;
 
-CREATE TRIGGER trg_contract_withdrawals_no_delete
-BEFORE DELETE ON contract_withdrawals
-BEGIN
-  SELECT RAISE(ABORT, 'Contract withdrawal records cannot be deleted');
-END;
-
 INSERT INTO schema_migrations(version, applied_at)
 VALUES('0014_contract_withdrawals', datetime('now'));
