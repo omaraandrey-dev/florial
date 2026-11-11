@@ -4,7 +4,10 @@
 - Ссылка локализована: BG «Общи условия», RU «Общие условия», EN «Terms and Conditions»; используется localizedHref.
 - Существующее оформление, фон, контакты, CTA и остальные ссылки сохранены.
 - Изменён только Footer component; Header, меню, checkout, Sanity, D1, Cloudflare settings/secrets и пользовательские данные не затронуты.
-- Результаты CI, merge и Production deployment будут добавлены после подтверждения.
+- PR #203 объединён squash merge в main: cb26dcacb0b254c57ac7cc280285516f4c3f3ce7.
+- CI PR HEAD 0376b175e76100113da938a06976d00593b5e7a1: Blog and Studio validation #869 — success; Florial D1 migration validation #1062 — success.
+- Cloudflare Pages Production deployment 1d09957d-31ad-4753-b8fa-ddf5455e75f8 завершился success; production aliases florial-bg.com и www.florial-bg.com назначены.
+- Live smoke: https://florial-bg.com отвечает HTTP 200; HTML подтверждает href https://florial-bg.com/terms и подпись «Общи условия» в Footer.
 
 ## 2026-11-11 — Страница «Общи условия» объединена и опубликована (PR #202)
 
