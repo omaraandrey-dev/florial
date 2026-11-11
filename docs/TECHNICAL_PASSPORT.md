@@ -13,7 +13,7 @@
 - В опубликованном каталоге plants найдено 43 документа: 40 уже используют Portable Text для корневого и трёх локализованных описаний и имеют новые SEO metaTitle/metaDescription; ровно эти три карточки остаются legacy исключениями.
 
 ### SEO, категории и внутренние связи
-- Для трёх карточек `seo.metaTitle` и `seo.metaDescription` отсутствуют; frontend использует legacy fallback `seo.title` и `seo.description`. Локализованные `translations.ru.name` и `translations.en.name` также не заполнены, поэтому до публикации локализованного H1 RU/EN заголовок страницы fallback-ится на болгарское название товара.
+- Для трёх карточек `seo.metaTitle` и `seo.metaDescription` отсутствуют; frontend использует legacy fallback `seo.title` и `seo.description`. Локализованные названия `translations.ru.name` и `translations.en.name` заполнены, но RU для Abies pinsapo («Испанский Пихта») и RU/EN для Picea abies («Ель Смурч» / «Spruce Fir») некорректны или неестественны. До публикации новых H1 страница использует эти локализованные названия как fallback.
 - Найдены ошибки локализации legacy SEO: для испанской пихты RU Title/Description содержат неграмматичное название и ошибочное написание Несебър; для Picea abies используются неестественные/неверные названия «Смърч Ела», «Ель Смурч», «Spruce Fir». Для кавказской пихты RU также используется транслитерация Несебыр вместо Несебър/Несебар. SEO поля не менялись.
 - Все три товара имеют `productType=conifer` и корректную цепочку категорий: `Всички растения` → `Дървета и декоративни храсти` → `Иглолистни дървета и храсти`. `relatedProducts` и `relatedContentBySlug` пусты.
 - Метаданные изображений подтверждают наличие основной и дополнительной фотографии у каждого товара. Разрешения: Abies pinsapo 2000×2000 + 1149×2002; Abies nordmanniana 2000×2000 + 1044×1309; Picea abies 1352×1484 + 748×547. Визуальная проверка содержимого файлов не выполнялась.
@@ -34,7 +34,7 @@
 ### Изменения и проверки
 - Изменён только Sanity draft трёх H1 и добавлен backup JSON в GitHub. Sanity published documents, D1 rows/schema, Cloudflare settings/secrets/bindings и frontend/backend код не менялись.
 - Cloudflare Pages Production deployment после backup commit `d3346733-9165-4dff-8470-8650397e9e22` завершился success; deployment commit `f7b0aa5f68b1e22339a897518dca0262c99febc1`. Документация отражает фактический статус draft-only и не заявляет публикацию H1.
-- Следующее безопасное решение для Owner: разрешить или отклонить техническое преобразование только четырёх legacy description strings в Portable Text blocks с сохранением исходного текста дословно; без этого Sanity не публикует H1.
+- Следующее безопасное решение для Owner: разрешить или отклонить техническое преобразование 12 legacy description string fields (по 4 в каждой карточке: корневое описание и BG/RU/EN) в Portable Text blocks с сохранением исходного текста дословно; без этого Sanity не публикует H1.
 
 ---
 
