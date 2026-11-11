@@ -13,7 +13,8 @@ const translations: Record<Locale, Record<string, string>> = {
   bg: {
     title: 'Откажете се от договора тук',
     intro: 'Тази функция Ви позволява да изпратите онлайн заявление за отказ от договор, сключен от разстояние чрез онлайн интерфейса на Florial.',
-    notice: 'Правото на отказ и срокът му зависят от вида на договора и приложимите законови правила. Подаването на заявлението се регистрира с дата и час. Florial ще прегледа заявлението; формата не взема автоматично решение дали е приложимо законово изключение.',
+    notice: 'В предвидените от закона случаи потребителят има 14-дневен срок за отказ; началният момент зависи от вида на договора. Правото и срокът зависят от приложимите законови правила. Подаването се регистрира с дата и час. Florial ще прегледа заявлението; формата не решава автоматично дали е приложимо законово изключение.',
+    standardForm: 'Стандартен формуляр за отказ (Приложение № 6)',,
     name: 'Име и фамилия',
     reference: 'Номер на поръчка или данни, идентифициращи договора',
     email: 'Имейл адрес за потвърждение',
@@ -36,7 +37,8 @@ const translations: Record<Locale, Record<string, string>> = {
   ru: {
     title: 'Откажитесь от договора здесь',
     intro: 'Эта функция позволяет отправить онлайн-заявление об отказе от договора, заключённого дистанционно через интерфейс Florial.',
-    notice: 'Право на отказ и его срок зависят от вида договора и применимых норм закона. Заявление регистрируется с датой и временем. Florial рассмотрит заявление; форма автоматически не определяет применимость законного исключения.',
+    notice: 'В предусмотренных законом случаях потребитель имеет 14 дней для отказа; начало срока зависит от вида договора. Право и срок определяются применимыми нормами закона. Заявление регистрируется с датой и временем. Florial рассмотрит заявление; форма автоматически не определяет применимость законного исключения.',
+    standardForm: 'Стандартная форма отказа (Приложение № 6)',,
     name: 'Имя и фамилия',
     reference: 'Номер заказа или данные, идентифицирующие договор',
     email: 'Электронная почта для подтверждения',
@@ -59,7 +61,8 @@ const translations: Record<Locale, Record<string, string>> = {
   en: {
     title: 'Withdraw from the contract here',
     intro: 'Use this function to submit an online withdrawal declaration for a distance contract concluded through the Florial online interface.',
-    notice: 'The right of withdrawal and its time limit depend on the contract type and applicable law. Your declaration is registered with a date and time. Florial will review it; the form does not automatically determine whether a legal exception applies.',
+    notice: 'Where provided by law, consumers have 14 days to withdraw; the start of the period depends on the contract type. The right and time limit are governed by applicable law. Your declaration is registered with a date and time. Florial will review it; the form does not automatically determine whether a legal exception applies.',
+    standardForm: 'Standard withdrawal form (Annex No. 6)',,
     name: 'Full name',
     reference: 'Order number or information identifying the contract',
     email: 'Email address for confirmation',
@@ -154,6 +157,7 @@ export function WithdrawalPage() {
       <p className="mt-4 text-sm text-stone-600">{t.contact}</p>
     </section> : <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7">
       <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">{t.notice}</div>
+      <p className="mb-6 text-sm"><a className="font-semibold text-lime-800 underline" href="https://www.mi.government.bg/file/2026/03/zzp_6.03.2026.pdf" target="_blank" rel="noreferrer">{t.standardForm}</a></p>
       {!review ? <form className="space-y-5" onSubmit={continueToReview}>
         <label className="block text-sm font-semibold text-stone-700">{t.name}
           <input required autoComplete="name" maxLength={160} value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="mt-1 w-full rounded-xl border border-stone-300 px-3 py-3 text-base font-normal outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100" />
