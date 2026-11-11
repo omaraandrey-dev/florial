@@ -32,6 +32,16 @@ test('plants are grouped in stock, on request, then out of stock', () => {
   assert.equal(getPlantAvailabilityPriority(plant('C', 'outOfStock')), 2)
 })
 
+test('variant statuses override a contradictory root in-stock status', () => {
+  const product = plant('Sold out palm', 'inStock', [
+    { name: 'small', stockStatus: 'outOfStock' },
+    { name: 'large', stockStatus: 'outOfStock' },
+  ])
+
+  assert.equal(getPlantStockStatus(product), 'outOfStock')
+  assert.equal(getPlantAvailabilityPriority(product), 2)
+})
+
 test('minimum price is taken from real positive variant prices', () => {
   assert.equal(getPlantMinimumPrice(plant('A', 'inStock', [
     { name: 'small', priceEUR: 0 },
