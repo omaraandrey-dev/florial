@@ -1,4 +1,4 @@
-import { json, newId, nowIso, type ManagerEnv, type ManagerIdentity } from './_lib'
+import { json, newId, nowIso, type ManagerEnv, type ManagerIdentity } from './_lib.ts'
 import { validatePlantVariantStock } from './plant-stock-lib.mjs'
 import { normalizePlantOldPrice } from './plant-old-price-lib.mjs'
 
