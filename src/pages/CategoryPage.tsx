@@ -187,21 +187,6 @@ export function CategoryPage({
         aquatic: { bg: 'Водни', ru: 'Водные', en: 'Aquatic plants' },
         plant: { bg: 'Растения', ru: 'Растения', en: 'Plants' },
       },
-      light: {
-        sun: { bg: 'Слънце', ru: 'Солнце', en: 'Full sun' },
-        partialShade: { bg: 'Полусянка', ru: 'Полутень', en: 'Partial shade' },
-        shade: { bg: 'Сянка', ru: 'Тень', en: 'Shade' },
-      },
-      water: {
-        low: { bg: 'Ниска', ru: 'Низкая', en: 'Low' },
-        medium: { bg: 'Умерена', ru: 'Средняя', en: 'Medium' },
-        high: { bg: 'Висока', ru: 'Высокая', en: 'High' },
-      },
-      coast: {
-        suitable: { bg: 'Подходящо', ru: 'Подходит', en: 'Suitable' },
-        notSuitable: { bg: 'Неподходящо', ru: 'Не подходит', en: 'Not suitable' },
-        needsVerification: { bg: 'Нужна проверка', ru: 'Требует проверки', en: 'Needs verification' },
-      },
     }
     return labels[kind]?.[value]?.[language] || value
   }
