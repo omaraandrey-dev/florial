@@ -162,6 +162,7 @@ export async function onRequestGet(): Promise<Response> {
     addLocalizedUrls(urls, '')
     addLocalizedUrls(urls, 'contacts')
     addLocalizedUrls(urls, 'about')
+    addLocalizedUrls(urls, 'privacy-policy')
     addLocalizedUrls(urls, 'services')
     addLocalizedUrls(urls, 'services/dostavka-poliv')
     addLocalizedUrls(urls, 'blog')
