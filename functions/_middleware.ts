@@ -585,6 +585,40 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     }))
   }
 
+  if (path === '/terms') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Общие условия использования и покупки | Florial',
+          description: 'Общие условия Florial: товары, заказы, оплата, доставка, живые растения, отказ от договора, рекламации и садовые услуги.',
+          body: '<main><h1>Общие условия использования и покупки</h1><p>Проект общих условий Florial на болгарском языке для юридического рассмотрения.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Terms of Use and Purchase | Florial',
+            description: 'Florial terms covering products, orders, payment, delivery, live plants, contract withdrawal, complaints and garden services.',
+            body: '<main><h1>Terms of Use and Purchase</h1><p>Bulgarian draft terms and conditions for legal review.</p></main>',
+          }
+        : {
+            title: 'Общи условия за ползване и покупка | Florial',
+            description: 'Общи условия на Florial за продукти, поръчки, плащане, доставка, живи растения, отказ от договор, рекламации и градински услуги.',
+            body: '<main><h1>Общи условия за ползване и покупка от Florial</h1><p>Проект за юридически преглед на условията за използване на сайта, покупки и услуги.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/terms', language)
+    const base = SITE_URL + '/terms'
+    const alternates = {
+      bg: base,
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/privacy-policy') {
     const meta = language === 'ru'
       ? {

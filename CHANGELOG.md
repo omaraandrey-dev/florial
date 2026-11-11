@@ -1,3 +1,12 @@
+## 2026-11-11 — Проект страницы «Общи условия» (PR #202, ожидает проверки)
+
+- Добавлены src/content/terms-bg.md с предоставленным владельцем болгарским проектом из 18 разделов и src/pages/TermsPage.tsx с адаптивным отображением.
+- В src/main.tsx добавлен отдельный маршрут /terms с существующим LanguageProvider и Footer.
+- В functions/_middleware.ts добавлены SEO title/description, canonical и серверный H1 для BG/RU/EN. В functions/sitemap.xml.ts включён болгарский URL; hreflang для RU/EN не заявляются, поскольку перевод текста пока отсутствует.
+- Текст не редактировался юридически. Реквизиты, момент заключения договора, доставка, оплата и изключения права на отказ оставлены для проверки юристом.
+- Header, меню, Footer, корзина, checkout, Sanity, D1, заказы и реальные данные не менялись; ссылка Footer не добавлялась.
+- PR #202 открыт: https://github.com/omaraandrey-dev/florial/pull/202. CI и Production deployment не подтверждены; PR не объединён.
+
 ## 2026-11-11 — Footer обновлён и опубликован в Production
 
 - PR #200 объединён squash merge: `ecd2b6f8a0700f864bfe24bfce047a88334a7753`.

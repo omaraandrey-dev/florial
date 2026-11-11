@@ -6,11 +6,13 @@ import { LanguageProvider } from './lib/i18n'
 import { Footer } from './components/Footer'
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(({ PrivacyPolicyPage }) => ({ default: PrivacyPolicyPage })))
 const WithdrawalPage = lazy(() => import('./pages/WithdrawalPage').then(({ WithdrawalPage }) => ({ default: WithdrawalPage })))
+const TermsPage = lazy(() => import('./pages/TermsPage').then(({ TermsPage }) => ({ default: TermsPage })))
 
 const ManagerApp = lazy(() => import('./manager/ManagerApp'))
 const isManagerRoute = window.location.pathname === '/manager' || window.location.pathname.startsWith('/manager/')
 const isPrivacyPolicyRoute = window.location.pathname.replace(/\/+$/, '') === '/privacy-policy'
 const isWithdrawalRoute = window.location.pathname.replace(/\/+$/, '') === '/withdrawal'
+const isTermsRoute = window.location.pathname.replace(/\/+$/, '') === '/terms'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -30,6 +32,13 @@ createRoot(document.getElementById('root')!).render(
       <LanguageProvider>
         <div className="flex min-h-screen flex-col">
           <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-stone-500">Зареждане на страницата…</main>}><WithdrawalPage /></Suspense>
+          <Footer />
+        </div>
+      </LanguageProvider>
+    ) : isTermsRoute ? (
+      <LanguageProvider>
+        <div className="flex min-h-screen flex-col">
+          <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-slate-500">Зареждане на страницата…</main>}><TermsPage /></Suspense>
           <Footer />
         </div>
       </LanguageProvider>
