@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
+import { resolveInitialPlantVariantKey } from '../lib/plantCatalogUtils'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
@@ -250,7 +251,7 @@ export function ProductPage({
     setFailedImageUrls([])
     setSelectedImage(product.imageUrl || '')
     setQuantity(1)
-    setSelectedSaleVariantKey(initialSaleVariantKey || product.saleVariants?.[0]?._key || '0')
+    setSelectedSaleVariantKey(resolveInitialPlantVariantKey(product.saleVariants, initialSaleVariantKey))
     setRequestedPlantSize('')
   }, [product, language, initialSaleVariantKey])
 
