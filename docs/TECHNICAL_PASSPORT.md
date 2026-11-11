@@ -1,3 +1,14 @@
+## Дополнение rev77 — разрешение privacy-policy route в Cloudflare Middleware
+
+Дата: 11.11.2026
+
+- После Production deployment rev76 live smoke выявил HTTP 404 для /privacy-policy, включая RU/EN query variants.
+- Причина: functions/_middleware.ts завершал неизвестные статические пути через notFoundResponse до передачи запроса в Vite SPA. Клиентский route в src/main.tsx и sitemap уже существовали, но edge middleware не разрешал новый путь.
+- Добавлен явный route /privacy-policy в middleware: локализованные title/description, SSR SEO fallback H1/intro, self-canonical и alternates BG/RU/EN/x-default, index/follow.
+- Изменён только functions/_middleware.ts. Sanity, D1, API, Manager, checkout, Header, Footer, меню и Cloudflare settings/secrets не менялись.
+- PR/CI/Production deployment и повторный live smoke ожидают; не считать исправление опубликованным до подтверждения.
+
+---
 ## Дополнение rev76 — публичная политика конфиденциальности Florial
 
 Дата: 11.11.2026
