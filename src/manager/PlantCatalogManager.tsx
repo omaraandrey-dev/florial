@@ -539,7 +539,25 @@ export default function PlantCatalogManager({role}:Props){
      <details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">SEO и ALT</summary>
       {(['bg','ru','en'] as const).map(language=><div key={language} className="mt-2 border-b border-stone-100 pb-2 text-sm"><strong>{language.toUpperCase()}</strong><p>H1: {geminiResult.result.seo?.[language]?.h1||'—'}</p><p>Meta title: {geminiResult.result.seo?.[language]?.metaTitle||'—'}</p><p>Meta description: {geminiResult.result.seo?.[language]?.metaDescription||'—'}</p>{geminiResult.mode==='photo'&&<p>ALT: {geminiResult.result.imageAlt?.[language]||'—'}</p>}</div>)}
      </details>
-     <details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">Грижи и характеристики и оценка за Черноморието</summary><pre className="mt-2 whitespace-pre-wrap text-xs">{JSON.stringify(geminiResult.result.plantCare||{},null,2)}</pre><p className="mt-2 whitespace-pre-wrap text-sm">{geminiResult.result.careGuide||'—'}</p></details>
+     <details className="rounded-xl border border-stone-200 p-3" open><summary className="cursor-pointer font-semibold">Грижи и характеристики и оценка за Черноморието</summary>
+       {(()=>{const care=geminiResult.result.plantCare||{};const seasons=(values:any[],labels:Record<string,string>)=>Array.isArray(values)&&values.length?values.map(value=>labels[value]||value).join(', '):'—';return <div className="mt-3 space-y-3 text-sm">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+         <p><strong>Осветеност:</strong> {({sun:'Пълно слънце',partialShade:'Полусянка',shade:'Сянка',unknown:'Не е определена'} as Record<string,string>)[care.light]||'—'}</p>
+         <p><strong>Нужда от поливане:</strong> {({low:'Ниска',medium:'Средна',high:'Висока',unknown:'Не е определена'} as Record<string,string>)[care.waterNeeds]||'—'}</p>
+         <p><strong>Тип листна маса:</strong> {({evergreen:'Вечнозелено',deciduous:'Листопадно',unknown:'Не е определен'} as Record<string,string>)[care.foliageType]||'—'}</p>
+         <p><strong>Минимална зимна температура:</strong> {care.minWinterTempC?care.minWinterTempC+' °C':'—'}</p>
+         <p><strong>Височина на възрастното растение:</strong> {care.adultHeightCm?care.adultHeightCm+' см':'—'}</p>
+         <p><strong>Сезон на цъфтеж:</strong> {seasons(care.floweringSeason,{spring:'Пролет',summer:'Лято',autumn:'Есен',winter:'Зима'})}</p>
+         <p><strong>Сезон на засаждане:</strong> {seasons(care.plantingSeason,{spring:'Пролет',summer:'Лято',autumn:'Есен',winter:'Зима',yearRound:'През цялата година'})}</p>
+        </div>
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+         <p className="font-semibold">Предварителна оценка за Черноморието: {({suitable:'Вероятно подходящо',conditional:'Подходящо при условия',notSuitable:'Вероятно неподходящо',insufficientData:'Недостатъчно данни'} as Record<string,string>)[care.blackSeaCoastRecommendation]||'Недостатъчно данни'}</p>
+         <p className="mt-1 whitespace-pre-wrap">{care.blackSeaCoastReason||'Няма обосновка.'}</p>
+         <p className="mt-2 text-xs text-amber-900">Това е само предложение на ИИ. Потвърдената пригодност остава „Непроверено“, докато служител не я провери.</p>
+        </div>
+        <div><strong>Практически грижи:</strong><p className="mt-1 whitespace-pre-wrap">{geminiResult.result.careGuide||'—'}</p></div>
+       </div>})()}
+      </details>
      {!geminiProof&&<p className="text-sm text-amber-800">За да се запише резултатът, трябва да има основна снимка в карточката. В Text режим снимката се използва само за защита на записа и не се изпраща към Google.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
