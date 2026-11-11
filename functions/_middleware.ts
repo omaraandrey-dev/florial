@@ -556,6 +556,42 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
+  if (path === '/privacy-policy') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Политика конфиденциальности | Florial',
+          description: 'Как Florial обрабатывает персональные данные покупателей и посетителей сайта: заказы, обращения, техническая статистика, права по GDPR и контакты оператора.',
+          body: '<main><h1>Политика конфиденциальности</h1><p>Информация об обработке персональных данных при просмотре сайта Florial, оформлении заказов и отправке обращений. Полная версия доступна на болгарском, русском и английском языках.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Privacy Policy | Florial',
+            description: 'How Florial processes personal data of website visitors and customers, including orders, enquiries, technical statistics, GDPR rights and controller contact details.',
+            body: '<main><h1>Privacy Policy</h1><p>Information about personal data processing when browsing Florial, placing orders and sending enquiries. The full policy is available in Bulgarian, Russian and English.</p></main>',
+          }
+        : {
+            title: 'Политика за поверителност | Florial',
+            description: 'Информация как Florial обработва личните данни на посетителите и клиентите: поръчки, запитвания, техническа статистика, права по GDPR и контакти на администратора.',
+            body: '<main><h1>Политика за поверителност</h1><p>Информация за обработването на лични данни при разглеждане на сайта Florial, подаване на поръчки и изпращане на запитвания. Пълната политика е достъпна на български, руски и английски език.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/privacy-policy', language)
+    const base = SITE_URL + '/privacy-policy'
+    const alternates = {
+      bg: base,
+      ru: base + '?lang=ru',
+      en: base + '?lang=en',
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/blog') {
     const meta = language === 'ru'
       ? {title: 'Блог Florial — сад, растения и автоматический полив', description: 'Новости садового центра Florial, выполненные работы, растения и решения для автоматического полива в Болгарии.'}
