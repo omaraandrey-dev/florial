@@ -1,3 +1,13 @@
+## 2026-11-11 — Повторная проверка онлайн-отказа от договора
+
+- Фактический PR #198 HEAD: `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`; PR открыт, mergeable, не объединён. `main` и PR base — `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Blog and Studio validation #847 и Florial D1 migration validation #1033 завершились success на фактическом HEAD. Важно: #1033 содержит шаг «Validate additive plant audit migration» и не должен считаться самостоятельным CI-тестом новой contract withdrawal migration 0014. SQL 0014 отдельно проверялась в SQLite in-memory.
+- Cloudflare Pages preview deployments отключены на уровне проекта (`preview_deployment_setting=none`). Deployment `48859ea7-7b07-4165-a823-4a67faba679a` для текущего HEAD skipped: `preview_deployments_disabled`. Не менять настройку проекта без отдельного согласования.
+- Production остаётся на deployment `d583ec9a-7986-4778-a171-f424c2039bee`, commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; PR deployment и migration 0014 не выполнялись.
+- Footer link, юридическая проверка, Resend test, Owner/Manager live checks, согласование D1 migration, Production release и live smoke BG/RU/EN остаются открытыми.
+
+---
+
 ## 2026-11-11 — Онлайн-отказ от договора (черновая разработка)
 
 - Ветка: `feat/contract-withdrawal-flow`, базовый `main`: `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
