@@ -88,7 +88,12 @@ export const issuePlantAiProof = async (request: Request, product: unknown) => {
   if (!token || token.length < 40) throw new Error('MANAGER_SESSION_PROOF_UNAVAILABLE')
   const timestamp = Date.now()
   const identity = plantAiIdentity(product)
-  const signature = await plantAiSignature(token, String(timestamp) + '.' + JSON.stringify(identity))
+  let signature: string
+  try {
+    signature = await plantAiSignature(token, String(timestamp) + '.' + JSON.stringify(identity))
+  } catch {
+    throw new Error('MANAGER_SESSION_PROOF_SIGN_FAILED')
+  }
   return String(timestamp) + '.' + signature
 }
 export const verifyPlantAiProof = async (request: Request, proof: unknown, product: unknown) => {
