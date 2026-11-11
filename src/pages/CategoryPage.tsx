@@ -8,6 +8,7 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
+import { comparePlantProducts, getPlantDisplayName, getPlantStockStatus, type PlantCatalogSort } from '../lib/plantCatalogUtils'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -32,17 +33,15 @@ export function CategoryPage({
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
   const [plantSearch, setPlantSearch] = useState('')
   const [plantTypeFilter, setPlantTypeFilter] = useState('')
-  const [plantLightFilter, setPlantLightFilter] = useState('')
-  const [plantWaterFilter, setPlantWaterFilter] = useState('')
-  const [plantCoastFilter, setPlantCoastFilter] = useState('')
   const [plantWinterFilter, setPlantWinterFilter] = useState('')
+  const [plantSortOrder, setPlantSortOrder] = useState<PlantCatalogSort>('default')
   const [currentPage, setCurrentPage] = useState(1)
   const productGridRef = useRef<HTMLDivElement | null>(null)
   const shouldScrollToProducts = useRef(false)
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [category._id, products, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
+  }, [category._id, products, plantSearch, plantTypeFilter, plantWinterFilter, plantSortOrder])
 
   useEffect(() => {
     if (!shouldScrollToProducts.current) return
@@ -146,18 +145,12 @@ export function CategoryPage({
 
   const plantFilterOptions = useMemo(() => ({
     types: [...new Set(products.map((product) => product.productType).filter((value): value is string => Boolean(value)))].sort(),
-    lights: [...new Set(products.map((product) => product.plantCare?.light).filter((value): value is string => Boolean(value)))].sort(),
-    waterNeeds: [...new Set(products.map((product) => product.plantCare?.waterNeeds).filter((value): value is string => Boolean(value)))].sort(),
-    coast: [...new Set(products.map((product) => product.plantCare?.blackSeaCoast).filter((value): value is string => Boolean(value)))].sort(),
     winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
   }), [products])
 
   const getStockIndicator = (product: Product): 'inStock' | 'onRequest' | null => {
-    if (product.stockStatus === 'inStock' || product.stockStatus === 'onRequest') return product.stockStatus
-    const variantStatuses = (product.saleVariants || []).map((variant) => variant.stockStatus)
-    if (variantStatuses.includes('inStock')) return 'inStock'
-    if (variantStatuses.includes('onRequest')) return 'onRequest'
-    return null
+    const status = getPlantStockStatus(product)
+    return status === 'inStock' || status === 'onRequest' ? status : null
   }
 
   const getCardPrice = (product: Product) => {
@@ -214,17 +207,14 @@ export function CategoryPage({
   }
 
   const hasActivePlantFilters = Boolean(
-    plantSearch.trim() || plantTypeFilter || plantLightFilter ||
-    plantWaterFilter || plantCoastFilter || plantWinterFilter
+    plantSearch.trim() || plantTypeFilter || plantWinterFilter || plantSortOrder !== 'default'
   )
 
   const resetPlantFilters = () => {
     setPlantSearch('')
     setPlantTypeFilter('')
-    setPlantLightFilter('')
-    setPlantWaterFilter('')
-    setPlantCoastFilter('')
     setPlantWinterFilter('')
+    setPlantSortOrder('default')
   }
 
   const displayedProducts = useMemo(() => {
@@ -240,18 +230,26 @@ export function CategoryPage({
           if (!searchableText.includes(search)) return false
         }
         if (plantTypeFilter && product.productType !== plantTypeFilter) return false
-        if (plantLightFilter && product.plantCare?.light !== plantLightFilter) return false
-        if (plantWaterFilter && product.plantCare?.waterNeeds !== plantWaterFilter) return false
-        if (plantCoastFilter && product.plantCare?.blackSeaCoast !== plantCoastFilter) return false
         if (plantWinterFilter) {
           const minimumTemperature = product.plantCare?.minWinterTempC
           if (typeof minimumTemperature !== 'number' || minimumTemperature > Number(plantWinterFilter)) return false
         }
         return true
       })
-      .sort((a, b) =>
+
+    if (category.isPlantCategory) {
+      filtered.sort((a, b) => comparePlantProducts(
+        a,
+        b,
+        plantSortOrder,
+        (product) => getPlantDisplayName(product, localize(product, 'name'), language),
+        language,
+      ))
+    } else {
+      filtered.sort((a, b) =>
         String(localize(a, 'name') || a.name).localeCompare(String(localize(b, 'name') || b.name), language)
       )
+    }
 
     if (!isIrrigationCatalog) return filtered
 
@@ -336,7 +334,7 @@ export function CategoryPage({
     }
 
     return [...priorityProducts, ...otherProducts]
-  }, [products, allCategories, isIrrigationCatalog, language, localize, plantSearch, plantTypeFilter, plantLightFilter, plantWaterFilter, plantCoastFilter, plantWinterFilter])
+  }, [products, allCategories, isIrrigationCatalog, category.isPlantCategory, language, localize, plantSearch, plantTypeFilter, plantWinterFilter, plantSortOrder])
 
   const pageSize = 20
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
@@ -468,30 +466,6 @@ export function CategoryPage({
               </label>
 
               <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
-                {language === 'ru' ? 'Освещение' : language === 'en' ? 'Light' : 'Осветеност'}
-                <select value={plantLightFilter} onChange={(event) => setPlantLightFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
-                  <option value="">{language === 'ru' ? 'Любое' : language === 'en' ? 'Any' : 'Всички'}</option>
-                  {plantFilterOptions.lights.map((value) => <option key={value} value={value}>{plantFilterLabel('light', value)}</option>)}
-                </select>
-              </label>
-
-              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
-                {language === 'ru' ? 'Потребность в воде' : language === 'en' ? 'Water needs' : 'Нужда от вода'}
-                <select value={plantWaterFilter} onChange={(event) => setPlantWaterFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
-                  <option value="">{language === 'ru' ? 'Любая' : language === 'en' ? 'Any' : 'Всички'}</option>
-                  {plantFilterOptions.waterNeeds.map((value) => <option key={value} value={value}>{plantFilterLabel('water', value)}</option>)}
-                </select>
-              </label>
-
-              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
-                {language === 'ru' ? 'Подходит для Черноморского побережья' : language === 'en' ? 'Black Sea coast suitability' : 'Подходящо за Черноморието'}
-                <select value={plantCoastFilter} onChange={(event) => setPlantCoastFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
-                  <option value="">{language === 'ru' ? 'Все оценки' : language === 'en' ? 'All assessments' : 'Всички оценки'}</option>
-                  {plantFilterOptions.coast.map((value) => <option key={value} value={value}>{plantFilterLabel('coast', value)}</option>)}
-                </select>
-              </label>
-
-              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
                 {language === 'ru' ? 'Зимоустойчивость' : language === 'en' ? 'Winter hardiness' : 'Зимоустойчивост'}
                 <select value={plantWinterFilter} onChange={(event) => setPlantWinterFilter(event.target.value)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
                   <option value="">{language === 'ru' ? 'Без ограничения' : language === 'en' ? 'Any' : 'Всички растения'}</option>
@@ -500,6 +474,15 @@ export function CategoryPage({
                       {language === 'ru' ? `Выдерживает до ${value}°C или ниже` : language === 'en' ? `Tolerates ${value}°C or colder` : `Издържа до ${value}°C или по-ниско`}
                     </option>
                   ))}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-1.5 text-sm font-medium text-slate-700">
+                {language === 'ru' ? 'Сортировка по цене' : language === 'en' ? 'Sort by price' : 'Сортиране по цена'}
+                <select value={plantSortOrder} onChange={(event) => setPlantSortOrder(event.target.value as PlantCatalogSort)} className="w-full rounded-lg border border-[#DDE3D0] bg-white px-3 py-2.5 font-normal">
+                  <option value="default">{language === 'ru' ? 'По названию' : language === 'en' ? 'By name' : 'По име'}</option>
+                  <option value="priceAsc">{language === 'ru' ? 'Сначала дешевле' : language === 'en' ? 'Price: low to high' : 'Цена: възходяща'}</option>
+                  <option value="priceDesc">{language === 'ru' ? 'Сначала дороже' : language === 'en' ? 'Price: high to low' : 'Цена: низходяща'}</option>
                 </select>
               </label>
             </div>
@@ -567,7 +550,7 @@ export function CategoryPage({
                   )}
                 </div>
                 <h3 className="mt-1 mb-1.5 line-clamp-2 break-words text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-emerald-700 sm:text-base">
-                  {localize(product, 'name')}
+                  {getPlantDisplayName(product, localize(product, 'name'), language)}
                 </h3>
                 <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
                   {toPlainText(localize(product, 'shortDescription') || product.shortDescription || '') || t('Висококачествен продукт за поливни системи.')}
