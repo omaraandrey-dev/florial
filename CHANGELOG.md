@@ -1,3 +1,16 @@
+## 2026-11-11 — Повторная проверка PR #198 и статуса Cloudflare
+
+- Проверен фактический PR HEAD: `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`; PR #198 открыт, mergeable, не объединён. Ветка: `feat/contract-withdrawal-flow`.
+- Текущий `main` остаётся на baseline commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; PR base SHA совпадает с ним.
+- GitHub Actions на фактическом HEAD: Blog and Studio validation run #847 — success; Florial D1 migration validation run #1033 — success. В run #847 пройдены lint, utility tests, website build, syntax check migration scripts, read-only description migration dry-run и Sanity Studio build. В run #1033 все шаги workflow завершились success; его job step называется «Validate additive plant audit migration», поэтому этот workflow не является самостоятельным подтверждением CI-проверки новой migration 0014.
+- SQL `docs/migrations/0014_contract_withdrawals.sql` отдельно проверена в SQLite in-memory ранее: создание таблиц/индексов/триггеров, insert декларации и события, обновление статуса, immutability декларации, append-only event и удаление PII-записи при сохранении минимального event log. Production D1 не изменялась.
+- Cloudflare Pages project `florial`: preview deployments глобально отключены (`preview_deployment_setting=none`). Deployment `48859ea7-7b07-4165-a823-4a67faba679a` для текущего HEAD помечен `skipped`, причина `preview_deployments_disabled`; preview URL не является работающим тестовым окружением.
+- Последний Production deployment остаётся `d583ec9a-7986-4778-a171-f424c2039bee`, commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`, все стадии завершились success. Нового Production deployment для PR не выполнялось.
+- Не изменялись Production D1, заказы, Sanity, Cloudflare project settings/secrets, Header, меню, Footer и checkout. Footer link, юридическая проверка, тест Resend, Owner/Manager live-проверки, применение migration и Production release остаются блокерами.
+- Статус: CI для текущего HEAD пройден; функция не опубликована; preview недоступен из-за настройки проекта. Не заявлять о юридической готовности или Production-приёмке.
+
+---
+
 ## 2026-11-11 — Черновая реализация функции онлайн-отказа от договора
 
 - Создана отдельная ветка `feat/contract-withdrawal-flow` от актуального `main` commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
