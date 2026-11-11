@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { useI18n } from '../lib/i18n'
 import { localizedHref } from '../lib/navigation'
 import { applyPageSeo } from '../lib/seo'
@@ -14,7 +14,7 @@ function renderInline(text: string) {
 
 function renderDocument(markdown: string) {
   const lines = markdown.split('\n')
-  const nodes: React.ReactNode[] = []
+  const nodes: ReactNode[] = []
   let listItems: string[] = []
   const flushList = () => {
     if (!listItems.length) return
