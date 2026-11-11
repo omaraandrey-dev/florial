@@ -8,7 +8,10 @@
 - UI PlantDuplicatePicker дополнительно требует ok, variantVerified, ожидаемый documentId и непустую revision перед закрытием окна и показом уведомления об успехе.
 - Добавлены unit tests для полного совпадения и частичных/несовпадающих вариантов. D1 audit фиксирует отдельный код ошибки проверки read-back; секреты, содержимое фото и данные пользователя не логируются.
 - Изменения ограничены add-variant API, helper/типами, PlantDuplicatePicker, тестами и документацией. Sanity schema, существующие документы и изображения не меняются; D1 schema/rows не мигрируются и не редактируются вручную; Cloudflare secrets/settings, каталог оборудования, заказы, Header/menu/Footer не затрагиваются.
-- PR, CI и Production deployment: будут зафиксированы после фактического выполнения. Авторизованный live-тест добавления нового размера владельцем остаётся обязательной приёмкой.
+- PR #194 объединён squash в `main`; merge commit `95375b28d913eb9321f4309c52df76f489492a21` (PR head `7b17a08057b5d23484cf60e3b365919e8baed429`).
+- GitHub Actions: Blog and Studio validation run #832 — success (lint, tests, website build, migration syntax/read-only dry-run и Sanity Studio build); Florial D1 migration validation run #1010 на PR и #1011 после merge в main — success (lint, build, Pages Functions syntax и additive plant audit migration validation).
+- Cloudflare Pages Production deployment `aecbfaf1-aa72-4ae3-aac4-bbf7365b2b0e`, URL `https://aecbfaf1.florial.pages.dev`, commit совпадает с merge commit. Стадии queued, initialize, clone_repo, build и deploy — success; aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
+- Авторизованный live-тест добавления нового размера владельцем после публикации остаётся обязательной приёмкой; он не выполнялся автоматически, так как требует действующей Manager-сессии и осознанного production catalog write.
 
 ---
 
