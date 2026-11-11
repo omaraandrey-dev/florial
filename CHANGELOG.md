@@ -1,3 +1,16 @@
+## 2026-11-11 — Google botanical fields enabled for all plant staff roles
+
+- Removed Owner-only restrictions from applying and saving Google Gemini plantCare/careGuide results.
+- Manager product GET now includes `plantCare` and `careGuide` for Owner, Manager and Seller.
+- Botanical care section is visible in Plant Manager for all three roles.
+- Unknown values are retained as null/empty arrays; Black Sea Coast remains `needsVerification`.
+- Added role coverage test for Owner, Manager and Seller.
+- Files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/manager-plant-care-permissions.test.mjs`.
+- No D1 permission, Sanity schema/data, other staff permissions, order flows or site-wide layout changes.
+- CI/Production status to be recorded after validation and deployment checks.
+
+---
+
 ## 2026-11-11 — Google Gemini как единственная основная AI-модель для растений
 
 - Зафиксировано решение владельца: рабочее AI-заполнение растений в Manager использует только Google Gemini; Owner, Manager и Seller должны получать одинаковый набор ботанических характеристик.
