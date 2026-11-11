@@ -637,6 +637,26 @@ const plantCare = defineType({
       initialValue: 'needsVerification',
     }),
     defineField({
+      name: 'blackSeaCoastRecommendation',
+      title: 'Предварителна AI оценка за Черноморието',
+      description: 'Непотвърдена препоръка от Google AI; не замества проверената пригодност.',
+      type: 'string',
+      options: {list: [
+        {title: 'Вероятно подходящо', value: 'suitable'},
+        {title: 'Подходящо при условия', value: 'conditional'},
+        {title: 'Вероятно неподходящо', value: 'notSuitable'},
+        {title: 'Недостатъчно данни', value: 'insufficientData'},
+      ]},
+      validation: Rule => Rule.custom(value => value == null || ['suitable', 'conditional', 'notSuitable', 'insufficientData'].includes(String(value)) || 'Изберете валидна предварителна оценка.'),
+    }),
+    defineField({
+      name: 'blackSeaCoastReason',
+      title: 'Обосновка на AI оценката за Черноморието',
+      type: 'text',
+      rows: 3,
+      validation: Rule => Rule.max(800),
+    }),
+    defineField({
       name: 'adultHeightCm',
       title: 'Височина на възрастното растение (см)',
       description: 'Очаквана височина на зряло растение при подходящи условия.',

@@ -12,6 +12,8 @@ const botanicalData = {
     floweringSeason: ['spring'],
     plantingSeason: ['spring', 'autumn'],
     blackSeaCoast: 'needsVerification',
+    blackSeaCoastRecommendation: 'conditional',
+    blackSeaCoastReason: 'Нуждае се от защитено място през зимата.',
   },
   careGuide: 'Поливайте умерено и осигурете добре дренирана почва.',
 }

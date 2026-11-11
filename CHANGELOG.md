@@ -1,3 +1,16 @@
+## 2026-11-11 — Gemini botanical form review and preliminary Black Sea suitability
+
+- Fixed the Manager review flow: applying Gemini now fills the editable plant form and leaves it open; it no longer saves immediately or closes the editor. The regular Save/Publish action is separate.
+- Added a preliminary AI recommendation for Bulgarian Black Sea coastal cultivation with four outcomes: likely suitable, suitable with conditions, likely unsuitable, or insufficient data. Gemini also supplies a short Bulgarian rationale.
+- Kept confirmed coastal suitability separate and unchanged by AI (needsVerification until staff review). Public product suitability must rely only on this confirmed status.
+- The assessment prompt considers documented frost tolerance, coastal winds/salt exposure, summer drought, drainage, plant maturity, and open-ground versus container cultivation. It must not invent regional temperature thresholds.
+- Added the recommendation and rationale to the Sanity plantCare schema and Manager form; bounded/validated the new values on server save.
+- Files: functions/api/manager/plants/gemini-test.ts, functions/api/manager/plants/gemini-test-lib.ts, functions/api/manager/plant-direct-lib.ts, src/manager/PlantCatalogManager.tsx, studio/schemaTypes/index.ts, tests/gemini-plant-ai.test.mjs, tests/manager-plant-care-permissions.test.mjs.
+- Read-only Sanity check: published document “Маслина бонсай 4” (b4f7638d-8c5a-469c-8ed1-af6eadae2243) currently has plantCare: null and careGuide: null. No Sanity document was modified.
+- CI, PR merge and Production deployment: pending.
+
+---
+
 ## 2026-11-11 — Gemini: точная диагностика JSON parsing и AI proof signing
 
 - Разделён ранее общий этап `normalizing`: теперь отдельно отображаются `json_parsing`, `normalizing` и `proof_signing`; ошибки возвращают фактический этап.

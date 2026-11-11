@@ -1,3 +1,17 @@
+## 2026-11-11 — Gemini plant care form review and Black Sea coast assessment
+
+- Review found that Gemini response schema and normalizer already carried plantCare and careGuide; Manager mapped them into the form and save payload. The existing apply action immediately called save and closed the editor, preventing staff from reviewing populated botanical fields in the form. A read-only Sanity query for the published product “Маслина бонсай 4” returned plantCare: null and careGuide: null; this confirms the values are not currently stored on that document, but does not prove whether a previous apply/save action was attempted or succeeded.
+- Changed Manager flow: applying a Gemini result now fills the editable form and keeps the editor open. It no longer saves automatically. Staff review/correct the fields and use the ordinary Save/Publish button to persist the record.
+- Added a preliminary AI coastal assessment inside plantCare: blackSeaCoastRecommendation (suitable, conditional, notSuitable, insufficientData) and blackSeaCoastReason (Bulgarian rationale). Gemini considers frost tolerance, coastal wind/salt exposure, summer drought, drainage, maturity, and open-ground versus container cultivation. The prompt forbids inventing local climate thresholds or treating uncertain species identification as sufficient evidence.
+- The existing blackSeaCoast field remains the confirmed staff-reviewed status (suitable, notSuitable, needsVerification). Gemini always leaves it at needsVerification; the preliminary recommendation is separate and must not be presented as confirmed suitability on public product pages.
+- Manager UI displays the preliminary recommendation and rationale separately from the confirmed suitability selector. Both fields are saved in the existing plantCare object and are editable before saving.
+- Server-side save normalization bounds the rationale to 800 characters and restricts recommendation/status values to supported enums.
+- Updated files: functions/api/manager/plants/gemini-test.ts, functions/api/manager/plants/gemini-test-lib.ts, functions/api/manager/plant-direct-lib.ts, src/manager/PlantCatalogManager.tsx, studio/schemaTypes/index.ts, tests/gemini-plant-ai.test.mjs, tests/manager-plant-care-permissions.test.mjs.
+- No Sanity documents/assets, D1 data/schema, orders, employee permissions, Cloudflare settings/secrets, or global site components were changed. Sanity schema source has additive fields; hosted Sanity Studio schema deployment is not yet confirmed and must be verified separately.
+- CI, PR merge, and Production deployment status: pending at time of this entry.
+
+---
+
 ## 2026-11-11 — Разделение этапов проверки ответа Google Gemini и подписи AI proof
 
 - Уточнена диагностика Gemini Photo/Text: единый этап `normalizing` больше не объединяет разбор JSON, нормализацию данных и создание защитной подписи AI proof.

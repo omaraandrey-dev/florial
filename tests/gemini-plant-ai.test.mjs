@@ -29,13 +29,15 @@ test('normalizes structured plant output and accepts only supplied category IDs'
     descriptions: { bg: { name: 'Лавровишня', shortDescription: 'Кратко', description: 'Описание' } },
     seo: { bg: { h1: 'Лавровишня', metaTitle: 'Лавровишня | Florial' } },
     imageAlt: { bg: 'Купи Лавровишня в Несебър' },
-    plantCare: { light: 'partialShade', waterNeeds: 'medium' },
+    plantCare: { light: 'partialShade', waterNeeds: 'medium', blackSeaCoastRecommendation: 'conditional', blackSeaCoastReason: 'Нуждае се от защитено място през зимата.' },
   }, categories, productTypes)
   assert.equal(result.plantName, 'Лавровишня')
   assert.equal(result.categoryId, 'cat-shrubs')
   assert.equal(result.productType, 'shrub')
   assert.equal(result.scientificCandidates[0].scientificName, 'Prunus laurocerasus')
   assert.equal(result.plantCare.blackSeaCoast, 'needsVerification')
+  assert.equal(result.plantCare.blackSeaCoastRecommendation, 'conditional')
+  assert.equal(result.plantCare.blackSeaCoastReason, 'Нуждае се от защитено място през зимата.')
   assert.equal(result.descriptions.bg.name, 'Лавровишня')
   assert.equal(result.descriptions.bg.description, 'Описание')
   assert.equal(result.descriptions.ru.description, '')
