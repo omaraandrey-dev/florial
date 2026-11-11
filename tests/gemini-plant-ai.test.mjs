@@ -29,7 +29,8 @@ test('normalizes structured plant output and accepts only supplied category IDs'
     descriptions: { bg: { name: 'Лавровишня', shortDescription: 'Кратко', description: 'Описание' } },
     seo: { bg: { h1: 'Лавровишня', metaTitle: 'Лавровишня | Florial' } },
     imageAlt: { bg: 'Купи Лавровишня в Несебър' },
-    plantCare: { light: 'partialShade', waterNeeds: 'medium', blackSeaCoastRecommendation: 'conditional', blackSeaCoastReason: 'Нуждае се от защитено място през зимата.' },
+    plantCare: { light: 'partialShade', waterNeeds: 'medium', minWinterTempC: '-12', adultHeightCm: '250', foliageType: 'evergreen', floweringSeason: ['spring', 'summer'], plantingSeason: ['spring', 'autumn'], blackSeaCoastRecommendation: 'conditional', blackSeaCoastReason: 'Нуждае се от защитено място през зимата.' },
+    careGuide: 'Поливайте умерено и осигурете дренаж.',
   }, categories, productTypes)
   assert.equal(result.plantName, 'Лавровишня')
   assert.equal(result.categoryId, 'cat-shrubs')
@@ -38,6 +39,14 @@ test('normalizes structured plant output and accepts only supplied category IDs'
   assert.equal(result.plantCare.blackSeaCoast, 'needsVerification')
   assert.equal(result.plantCare.blackSeaCoastRecommendation, 'conditional')
   assert.equal(result.plantCare.blackSeaCoastReason, 'Нуждае се от защитено място през зимата.')
+  assert.equal(result.plantCare.light, 'partialShade')
+  assert.equal(result.plantCare.waterNeeds, 'medium')
+  assert.equal(result.plantCare.minWinterTempC, '-12')
+  assert.equal(result.plantCare.adultHeightCm, '250')
+  assert.equal(result.plantCare.foliageType, 'evergreen')
+  assert.deepEqual(result.plantCare.floweringSeason, ['spring', 'summer'])
+  assert.deepEqual(result.plantCare.plantingSeason, ['spring', 'autumn'])
+  assert.equal(result.careGuide, 'Поливайте умерено и осигурете дренаж.')
   assert.equal(result.descriptions.bg.name, 'Лавровишня')
   assert.equal(result.descriptions.bg.description, 'Описание')
   assert.equal(result.descriptions.ru.description, '')
