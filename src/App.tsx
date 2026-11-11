@@ -10,6 +10,7 @@ import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { toPlainText } from './lib/richTextUtils.mjs'
+import { mergePlantRelatedContent } from './lib/plantRelatedContentUtils.mjs'
 import { trackEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 
@@ -291,6 +292,7 @@ export default function App() {
         shortDescription, description, seo,
         scientificName, plantCare, careGuide, recommendedIrrigation,
         relatedContentBySlug, isFeatured, plantDetails { availabilityNote }, sourcePageUrl,
+        "categoryRelatedContent": { "buttonUrl": category->helpBlock.buttonUrl },
         "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
         "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
         "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
@@ -326,11 +328,21 @@ export default function App() {
         let enrichedDetails: Product = details
 
         if (isPlant) {
-          const relatedSlugs = Array.from(new Set(
-            (Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
+          const categoryRelatedPath = typeof details.categoryRelatedContent?.buttonUrl === 'string'
+            ? details.categoryRelatedContent.buttonUrl.trim()
+            : ''
+          const categoryRelatedSegments = categoryRelatedPath.split('/').filter(Boolean)
+          const categoryRelatedIsValid = categoryRelatedPath.startsWith('/') &&
+            categoryRelatedSegments.length === 2 &&
+            (categoryRelatedSegments[0] === 'services' || categoryRelatedSegments[0] === 'blog')
+          const categoryRelatedSlug = categoryRelatedIsValid ? categoryRelatedSegments[1] : undefined
+          const categoryRelatedType = categoryRelatedSegments[0] === 'services' ? 'service' : 'blogPost'
+          const relatedSlugs = Array.from(new Set([
+            ...(categoryRelatedSlug ? [categoryRelatedSlug] : []),
+            ...(Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
               .map((item: any) => item?.slug)
-              .filter((slug: any): slug is string => typeof slug === 'string' && slug.length > 0)
-          ))
+              .filter((slug: any): slug is string => typeof slug === 'string' && slug.length > 0),
+          ]))
           const recommendedSlug = details.recommendedIrrigation?.productSlug
 
           const plantRelatedQuery = `
@@ -384,7 +396,14 @@ export default function App() {
 
           if (cancelled) return
 
-          const relatedContent = (Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
+          const categoryRelatedContent = categoryRelatedSlug
+            ? (Array.isArray(relatedDocuments) ? relatedDocuments : []).find((candidate: any) =>
+                candidate._type === categoryRelatedType &&
+                candidate.slug?.current === categoryRelatedSlug &&
+                (candidate._type === 'service' ? candidate.isActive !== false : candidate.isPublished === true)
+              ) || null
+            : null
+          const individualRelatedContent = (Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
             .map((reference: any) => {
               const item = (Array.isArray(relatedDocuments) ? relatedDocuments : []).find((candidate: any) =>
                 candidate._type === reference.contentType &&
@@ -394,6 +413,7 @@ export default function App() {
               return item ? { ...item, linkLabel: reference.label || undefined } : null
             })
             .filter(Boolean)
+          const relatedContent = mergePlantRelatedContent(categoryRelatedContent, individualRelatedContent)
 
           enrichedDetails = {
             ...details,

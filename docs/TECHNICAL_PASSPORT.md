@@ -1,3 +1,15 @@
+## Дополнение — порядок связанных материалов на карточке растения
+
+Дата: 11.11.2026
+
+- В plant detail GROQ projection добавлено чтение category.helpBlock.buttonUrl как источника категорийной услуги/статьи. URL принимается только в виде внутреннего маршрута /services/{slug} или /blog/{slug}.
+- Категорийный документ разрешается в рамках существующего вторичного read-only Sanity query. Он выводится первым; далее выводятся документы из relatedContentBySlug в порядке массива Sanity.
+- src/lib/plantRelatedContentUtils.mjs объединяет последовательности, исключает дубли по _id (fallback: тип + slug), неактивные service и неопубликованные blogPost. Существующий лимит карточек ProductPage не меняется.
+- Затронуты: src/App.tsx, новый src/lib/plantRelatedContentUtils.mjs, новый tests/plant-related-content-utils.test.mjs. Sanity documents/schema и данные не изменяются; категории остаются источником первой связи.
+- PR и Production status фиксируются после CI; до этого merge/deploy не заявлять.
+
+---
+
 ## Дополнение — карточки связанных услуг и статей в категориях (PR #210)
 
 Дата: 11.11.2026
