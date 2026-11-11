@@ -144,8 +144,24 @@ export function buildPlantCatalogOffers(
     const nameDifference = getName(a.product).localeCompare(getName(b.product), locale)
     if (nameDifference !== 0) return nameDifference
 
-    const aVariantName = a.variant ? getVariantName(a.variant, (a.product.saleVariants || []).indexOf(a.variant)) : ''
-    const bVariantName = b.variant ? getVariantName(b.variant, (b.product.saleVariants || []).indexOf(b.variant)) : ''
+    const aVariantIndex = a.variant ? (a.product.saleVariants || []).indexOf(a.variant) : -1
+    const bVariantIndex = b.variant ? (b.product.saleVariants || []).indexOf(b.variant) : -1
+    if (a.product._id === b.product._id && aVariantIndex !== bVariantIndex) return aVariantIndex - bVariantIndex
+
+    const aVariantName = a.variant ? getVariantName(a.variant, aVariantIndex) : ''
+    const bVariantName = b.variant ? getVariantName(b.variant, bVariantIndex) : ''
     return aVariantName.localeCompare(bVariantName, locale)
   })
+}
+
+
+export function resolveInitialPlantVariantKey(
+  variants: PlantSaleVariant[] | undefined,
+  requestedKey?: string | null,
+): string {
+  if (!variants?.length) return '0'
+  if (requestedKey && variants.some((variant, index) => (variant._key || String(index)) === requestedKey)) {
+    return requestedKey
+  }
+  return variants[0]._key || '0'
 }
