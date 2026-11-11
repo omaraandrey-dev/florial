@@ -148,11 +148,6 @@ export function CategoryPage({
     winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
   }), [products])
 
-  const getStockIndicator = (product: Product): 'inStock' | 'onRequest' | null => {
-    const status = getPlantStockStatus(product)
-    return status === 'inStock' || status === 'onRequest' ? status : null
-  }
-
   const getCardPrice = (product: Product, variant?: PlantSaleVariant) => {
     if (category.isPlantCategory) {
       const price = variant?.priceEUR
@@ -339,9 +334,9 @@ export function CategoryPage({
     return [...priorityProducts, ...otherProducts]
   }, [products, allCategories, isIrrigationCatalog, category.isPlantCategory, language, localize, plantSearch, plantTypeFilter, plantWinterFilter, plantSortOrder])
 
-  const displayedCatalogItems = useMemo(() => {
+  const displayedCatalogItems = useMemo<Array<{ product: Product; variant?: PlantSaleVariant; variantKey?: string; key: string }>>(() => {
     if (!category.isPlantCategory) {
-      return displayedProducts.map((product) => ({ product, key: product._id }))
+      return displayedProducts.map((product) => ({ product, variant: undefined, variantKey: undefined, key: product._id }))
     }
 
     return buildPlantCatalogOffers(
@@ -571,7 +566,7 @@ export function CategoryPage({
                   {stockIndicator && (
                     <span
                       aria-label={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
-                      title={getStockIndicator(product) === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
+                      title={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
                       className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${stockIndicator === 'inStock' ? 'bg-emerald-500' : 'bg-sky-500'}`}
                     />
                   )}
