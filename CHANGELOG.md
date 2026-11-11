@@ -1,3 +1,17 @@
+## 2026-11-11 — Карточки связанных материалов в категориях (PR #210)
+
+- PR #210 «feat: показывать карточки связанных материалов в категориях» объединён squash в main после отдельного разрешения владельца: merge commit 38235643054c148c9754428e40403741728735cd.
+- В блоке помощи страницы категории вместо текстовой кнопки отображается карточка связанной услуги или статьи: изображение, локализованное название и переход на целевую страницу.
+- Целевой путь берётся из category.helpBlock.buttonUrl, если это внутренний путь /services/... или /blog/...; иначе используются fallback-маршруты для категорий растений и оборудования для полива.
+- Данные карточки загружаются read-only из Sanity по slug. Поддерживаются документы service и опубликованные blogPost; учитываются активность материала, локализованные названия и alt-тексты изображений. При отсутствии изображения сохраняется нейтральная область карточки.
+- Изменён runtime-файл src/pages/CategoryPage.tsx. Данные и схемы Sanity не изменялись.
+- Проверка Production: /category/rastenia и /category/vsichko-za-polivane — HTTP 200; карточки «Засаждане на растения» и «Автоматично напояване» содержат изображения и ведут на соответствующие service pages. Обе страницы услуг — HTTP 200.
+- Локализация карточки категории растений проверена: BG «Засаждане на растения», RU «Посадка растений», EN «Planting Services». Для RU/EN category pages также получен HTTP 200.
+- Cloudflare Pages Production deployment c2b880a6-c301-48e5-a433-60f490528c98, URL https://c2b880a6.florial.pages.dev, trigger github:push на main commit 38235643054c148c9754428e40403741728735cd; build и deploy — success. Production aliases: https://florial-bg.com и https://www.florial-bg.com.
+- GitHub Actions: Blog and Studio validation и Florial D1 migration validation — success.
+- Sanity documents/schema, D1 schema/data, Cloudflare settings/secrets, API, orders, cart, checkout, Header, основное меню и Footer не изменялись. Миграции не запускались.
+- Владелец подтвердил успешный результат после проверки Production. Дополнительные изменения данных не выполнялись.
+
 ## 2026-11-11 — Подтверждена работа выбора размера растений в Production
 
 - Пользователь проверил сайт после Production deployment commit `ccb5c9bfd7e2882fe0d72c220fda3d4f6216d879` и подтвердил: «Всё работает, всё прошло успешно».
