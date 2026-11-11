@@ -331,9 +331,12 @@ export default function App() {
           const categoryRelatedPath = typeof details.categoryRelatedContent?.buttonUrl === 'string'
             ? details.categoryRelatedContent.buttonUrl.trim()
             : ''
-          const categoryRelatedMatch = categoryRelatedPath.match(/^\\/(services|blog)\\/([^/?#]+)\\/?$/)
-          const categoryRelatedSlug = categoryRelatedMatch?.[2]
-          const categoryRelatedType = categoryRelatedMatch?.[1] === 'services' ? 'service' : 'blogPost'
+          const categoryRelatedSegments = categoryRelatedPath.split('/').filter(Boolean)
+          const categoryRelatedIsValid = categoryRelatedPath.startsWith('/') &&
+            categoryRelatedSegments.length === 2 &&
+            (categoryRelatedSegments[0] === 'services' || categoryRelatedSegments[0] === 'blog')
+          const categoryRelatedSlug = categoryRelatedIsValid ? categoryRelatedSegments[1] : undefined
+          const categoryRelatedType = categoryRelatedSegments[0] === 'services' ? 'service' : 'blogPost'
           const relatedSlugs = Array.from(new Set([
             ...(categoryRelatedSlug ? [categoryRelatedSlug] : []),
             ...(Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
