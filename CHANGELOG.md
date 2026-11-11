@@ -1,3 +1,16 @@
+## 2026-11-11 — Production D1 migration 0014 применена
+
+- По отдельному прямому разрешению владельца применена additive migration docs/migrations/0014_contract_withdrawals.sql в Production D1 florial-db (5fbb0e47-8439-493c-821a-6945eef7d8b2).
+- Перед применением получен D1 Time Travel bookmark 000002bd-00000000-00005120-fb012ce3f8148fe6ae14638b64af462f.
+- Зарегистрирована версия 0014_contract_withdrawals, applied_at 2026-11-11 11:11:19; созданы contract_withdrawals, contract_withdrawal_events, 4 индекса и 4 защитных триггера.
+- Post-check подтвердил наличие всех объектов. Контрольные количества не изменились: 7 orders, 26 order_events, 2 service_leads, 7 service_lead_events; новые таблицы пусты (0/0).
+- Live retrieval: /withdrawal BG/RU/EN — HTTP 200; неавторизованный /api/manager/withdrawals — HTTP 401.
+- Реальные POST-заявления, Resend test и authenticated Owner/Manager checks не выполнялись. End-to-end workflow пока не подтверждён.
+- До контролируемого теста на согласованный email не отправлять реальные заявления. Юридическая проверка и согласование Footer link остаются открытыми.
+- Runtime code, existing data, Sanity, Cloudflare settings/secrets, Header, menu, Footer and checkout were not changed.
+- Документационный follow-up будет отдельным PR; merge не выполняется, чтобы не запускать новый Production deployment без отдельного согласования.
+
+---
 ## 2026-11-11 — PR #198 объединён, Production deployment успешен
 
 - PR #198 объединён с `main` методом squash; merge commit: `1b94b5a749e759ee28197e32daef8733e1b21a3e`.
