@@ -84,6 +84,13 @@ export const extractGeminiText = (payload: unknown): string => {
     .trim()
 }
 
+export const parseGeminiPlantJson = (value: string): Record<string, unknown> => {
+  let parsed: unknown
+  try { parsed = JSON.parse(value) } catch { throw new Error('GEMINI_INVALID_JSON') }
+  if (!isObject(parsed)) throw new Error('GEMINI_INVALID_JSON')
+  return parsed
+}
+
 export const normalizeGeminiPlantResult = (
   value: unknown,
   categories: GeminiPlantCategory[],
