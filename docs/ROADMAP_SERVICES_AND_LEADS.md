@@ -1,3 +1,41 @@
+## 2026-11-11 — CI-тест миграции онлайн-отказа добавлен и пройден
+
+- Добавлен `tests/contract-withdrawals-migration.test.py` для проверки `docs/migrations/0014_contract_withdrawals.sql` в SQLite in-memory.
+- Добавлен отдельный шаг `Validate contract withdrawals migration` в `.github/workflows/validate-d1-migration.yml`.
+- Проверки: таблицы и индексы; insert заявления/event; разрешённое изменение статусов; immutability декларации; JSON metadata; append-only события; уникальность idempotency key; удаление PII-декларации при сохранении минимального audit event.
+- Florial D1 migration validation run #1040 — success, включая новый шаг. Blog and Studio validation run #854 — success.
+- Code/CI baseline commit: `3a8f5b45085e9397f1a1c4a9ccc0d0c711c4bbab`. PR #198 открыт, не объединён; main/base остаётся `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Cloudflare Pages preview deployments отключены; рабочего preview нет. Production остаётся на deployment `d583ec9a-7986-4778-a171-f424c2039bee`; migration 0014 не применялась.
+- До Production остаются legal review, Footer link approval, Resend test, Owner/Manager live checks, отдельное согласование D1 migration, Production deploy и live smoke BG/RU/EN.
+
+---
+
+## 2026-11-11 — Повторная проверка онлайн-отказа от договора
+
+- Фактический PR #198 HEAD: `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`; PR открыт, mergeable, не объединён. `main` и PR base — `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Blog and Studio validation #847 и Florial D1 migration validation #1033 завершились success на фактическом HEAD. Важно: #1033 содержит шаг «Validate additive plant audit migration» и не должен считаться самостоятельным CI-тестом новой contract withdrawal migration 0014. SQL 0014 отдельно проверялась в SQLite in-memory.
+- Cloudflare Pages preview deployments отключены на уровне проекта (`preview_deployment_setting=none`). Deployment `48859ea7-7b07-4165-a823-4a67faba679a` для текущего HEAD skipped: `preview_deployments_disabled`. Не менять настройку проекта без отдельного согласования.
+- Production остаётся на deployment `d583ec9a-7986-4778-a171-f424c2039bee`, commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; PR deployment и migration 0014 не выполнялись.
+- Footer link, юридическая проверка, Resend test, Owner/Manager live checks, согласование D1 migration, Production release и live smoke BG/RU/EN остаются открытыми.
+
+---
+
+## 2026-11-11 — Онлайн-отказ от договора (черновая разработка)
+
+- Ветка: `feat/contract-withdrawal-flow`, базовый `main`: `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Подготовлены публичная страница `/withdrawal` BG/RU/EN, публичный API `POST /api/withdrawals`, D1 migration `docs/migrations/0014_contract_withdrawals.sql`, Manager API/UI и тесты.
+- Сценарий: покупатель вводит имя, данные договора/заказа и email; просматривает декларацию; отдельно подтверждает отправку. Сервер фиксирует время и пытается отправить копию заявления на email через Resend.
+- Если договор не сопоставлен с заказом, заявление всё равно сохраняется без привязки к order_id и требует ручной проверки; автоматического отказа пользователю нет.
+- Manager использует существующие права: просмотр — canViewOrders/canEditOrders, обработка и повторная отправка — canEditOrders.
+- Production D1 read-only проверена: latest migration 0013; 7 orders, 26 order_events. Миграция 0014 не применялась.
+- Остаётся согласовать постоянную ссылку в Footer: без видимого постоянного entry point по всему сайту требование доступности функции из чл. 52а не закрывается. Footer пока не менялся.
+- До релиза обязательны: CI, legal review (включая срок хранения и privacy policy), тестовое письмо Resend, проверка Owner/Manager permissions, одобрение Footer link, согласование и применение additive migration, Production deploy и BG/RU/EN smoke.
+- PR #198 открыт, head `86944fce79ca9e2dbb9bb95fb1c7dd7c826f5862`; CI Blog and Studio #845 и D1 validation #1031 — success. SQL 0014 дополнительно проверена в SQLite in-memory. PR не объединён, Production D1 migration и deployment не выполнялись.
+- Cloudflare Pages preview deployment `e87a10d3-e65a-4536-a7b3-4f657f15a4ce` для branch commit `86944fce79ca9e2dbb9bb95fb1c7dd7c826f5862` создан как `preview`, но все стадии остались `idle`; активного preview и Production deploy не подтверждено.
+- Текущий статус: draft implementation only; не публиковать и не заявлять о compliance до закрытия пунктов выше.
+
+---
+
 ## 2026-11-09 — Internal links on five planting-service photos
 
 - Sanity document `cfdbf22c-a7d9-480b-b88b-d1529a9389ef`, slug `zasazhdane-na-rasteniya`: assigned `contentBlocks[].image.linkUrl` for all five inline photos in their existing article order.

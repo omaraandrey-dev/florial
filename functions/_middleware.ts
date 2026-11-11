@@ -556,6 +556,35 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
+  if (path === '/withdrawal') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Отказ от договора | Florial',
+          description: 'Онлайн-заявление об отказе от договора, заключённого дистанционно через интерфейс Florial.',
+          body: '<main><h1>Откажитесь от договора здесь</h1><p>Онлайн-функция для подачи заявления об отказе от дистанционного договора с подтверждением даты и времени получения.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Contract Withdrawal | Florial',
+            description: 'Submit an online withdrawal declaration for a distance contract concluded through the Florial interface.',
+            body: '<main><h1>Withdraw from the contract here</h1><p>Online function for submitting a distance-contract withdrawal declaration with confirmation of receipt date and time.</p></main>',
+          }
+        : {
+            title: 'Отказ от договор | Florial',
+            description: 'Онлайн заявление за отказ от договор, сключен от разстояние чрез интерфейса на Florial.',
+            body: '<main><h1>Откажете се от договора тук</h1><p>Онлайн функция за подаване на заявление за отказ от договор от разстояние с потвърждение за дата и час на получаване.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/withdrawal', language)
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      noIndex: true,
+      pageType: 'website',
+    }))
+  }
+
   if (path === '/privacy-policy') {
     const meta = language === 'ru'
       ? {

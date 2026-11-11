@@ -1,3 +1,41 @@
+## 2026-11-11 — CI-проверка миграции онлайн-отказа
+
+- Для `docs/migrations/0014_contract_withdrawals.sql` добавлен отдельный SQLite in-memory тест `tests/contract-withdrawals-migration.test.py`.
+- В `.github/workflows/validate-d1-migration.yml` добавлен отдельный шаг `Validate contract withdrawals migration`; тест проверяет структуру таблиц, регистрацию заявления и события, разрешённое изменение рабочих статусов, неизменяемость декларации, JSON metadata, append-only журнал, уникальность idempotency key и удаление PII-записи с сохранением минимального события.
+- На code/CI baseline commit `3a8f5b45085e9397f1a1c4a9ccc0d0c711c4bbab`: Florial D1 migration validation run #1040 — success, включая новый шаг; Blog and Studio validation run #854 — success (lint, tests, website build, migration-script checks, read-only dry-run, Sanity Studio build).
+- PR #198 остаётся открытым и не объединённым. `main` и PR base — `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Cloudflare Pages preview deployments отключены настройкой проекта; ветка PR не получает рабочего preview. Production остаётся на deployment `d583ec9a-7986-4778-a171-f424c2039bee`; миграция 0014 не применялась.
+- До Production остаются legal review, согласование Footer link, тест Resend, Owner/Manager live checks, отдельное одобрение миграции, Production deployment и BG/RU/EN live smoke.
+
+---
+
+## 2026-11-11 — Повторная проверка PR #198 и статуса Cloudflare
+
+- Проверен фактический PR HEAD: `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`; PR #198 открыт, mergeable, не объединён. Ветка: `feat/contract-withdrawal-flow`.
+- Текущий `main` остаётся на baseline commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; PR base SHA совпадает с ним.
+- GitHub Actions на фактическом HEAD: Blog and Studio validation run #847 — success; Florial D1 migration validation run #1033 — success. В run #847 пройдены lint, utility tests, website build, syntax check migration scripts, read-only description migration dry-run и Sanity Studio build. В run #1033 все шаги workflow завершились success; его job step называется «Validate additive plant audit migration», поэтому этот workflow не является самостоятельным подтверждением CI-проверки новой migration 0014.
+- SQL `docs/migrations/0014_contract_withdrawals.sql` отдельно проверена в SQLite in-memory ранее: создание таблиц/индексов/триггеров, insert декларации и события, обновление статуса, immutability декларации, append-only event и удаление PII-записи при сохранении минимального event log. Production D1 не изменялась.
+- Cloudflare Pages project `florial`: preview deployments глобально отключены (`preview_deployment_setting=none`). Deployment `48859ea7-7b07-4165-a823-4a67faba679a` для текущего HEAD помечен `skipped`, причина `preview_deployments_disabled`; preview URL не является работающим тестовым окружением.
+- Последний Production deployment остаётся `d583ec9a-7986-4778-a171-f424c2039bee`, commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`, все стадии завершились success. Нового Production deployment для PR не выполнялось.
+- Не изменялись Production D1, заказы, Sanity, Cloudflare project settings/secrets, Header, меню, Footer и checkout. Footer link, юридическая проверка, тест Resend, Owner/Manager live-проверки, применение migration и Production release остаются блокерами.
+- Статус: CI для текущего HEAD пройден; функция не опубликована; preview недоступен из-за настройки проекта. Не заявлять о юридической готовности или Production-приёмке.
+
+---
+
+## 2026-11-11 — Черновая реализация функции онлайн-отказа от договора
+
+- Создана отдельная ветка `feat/contract-withdrawal-flow` от актуального `main` commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Добавлены локализованная страница `/withdrawal`, двухэтапное заявление и явная кнопка подтверждения; ссылка на стандартный формуляр Приложение № 6 ведёт на официальный PDF Министерства экономики и индустрии.
+- Добавлен публичный `POST /api/withdrawals` с same-origin проверкой, ограничением тела, rate limit, валидацией и сохранением декларации/времени в D1; отправка подтверждения использует существующий Resend.
+- Добавлены additive D1 migration `0014_contract_withdrawals.sql`, таблица заявлений и append-only журнал событий. Production D1 не изменялась.
+- Добавлен Manager API и UI для просмотра/обработки заявлений и повторной отправки подтверждения с использованием существующих прав заказов.
+- Privacy Policy BG/RU/EN дополнена информацией об обработке заявлений и подтверждений.
+- Добавлены unit tests для валидации, локализации декларации, статусов и HTML escaping.
+- Header, меню, Footer, checkout, Sanity, существующие заказы, Cloudflare settings/secrets и Production D1 не изменялись.
+- CI/PR/merge/Production deployment/live smoke ещё не выполнены. Функция не опубликована; постоянная ссылка в Footer требует отдельного согласования, а юридический текст/retention — проверки болгарским юристом.
+
+---
+
 ## 2026-11-11 — Исправление серверного маршрута страницы конфиденциальности
 
 - Live smoke после первого релиза обнаружил HTTP 404 на /privacy-policy и локализованных URL.
@@ -48,7 +86,7 @@
 - Текущий Google-путь в `PlantCatalogManager`: `POST /api/manager/plants/gemini-test`, модель `gemini-3.5-flash-lite`, секрет `GEMINI_API_KEY`. UI вызывает именно этот endpoint.
 - Legacy вкладка заявок использует `PlantPublicationEditor`, который по-прежнему вызывает `/api/manager/enrich-plant` и `/api/manager/enrich-plant-care`. Эти endpoints используют Cloudflare Workers AI (`@cf/meta/llama-3.3-70b-instruct-fp8-fast` и `@cf/meta/llama-3.2-11b-vision-instruct`) и GBIF для отдельной ботанической проверки.
 - Cloudflare Production по-прежнему имеет binding `AI` и service binding `PLANT_CARE_WORKFLOW`; workflow `florial-plant-care-workflow` существует. Проверены 3 экземпляра: 2 complete и 1 errored. Ошибка заявки «Кавказка ела»: этап care_generation завершился невалидным JSON; диагностический кандидат `Abies concolor` не был сохранён в товар. В D1 для этой и ещё трёх заявок остались статусы plantCareJob=queued, хотя один workflow errored, а три соответствующих workflow instance возвращают 404. Это устаревшие статусы, не подтверждение работающих задач.
-- `functions/api/manager/plants/ai-enrich.ts` остаётся резервным неиспользуемым endpoint; актуальная инструкция rev65 указывает, что основной UI его не вызывает. Ничего из Workers AI, workflow и Cloudflare bindings не отключалось и не удалялось.
+- `functions/api/manager/plants/ai-enrich.ts` остаётся резервным неиспользуемым endpoint; актуальная инструкция rev66 указывает, что основной UI его не вызывает. Ничего из Workers AI, workflow и Cloudflare bindings не отключалось и не удалялось.
 - В Pages Production остаются legacy переменные `SUPABASE_*` и `VITE_SUPABASE_*`; текущий `managerApi` — собственный клиент Cloudflare D1, `sanity.ts` использует Sanity, Supabase SDK/runtime references в текущем коде не обнаружены. Переменные не удалялись и значения секретов не читались.
 
 ### Изменения и проверки
