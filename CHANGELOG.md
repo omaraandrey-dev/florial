@@ -1,3 +1,16 @@
+## 2026-11-11 — Footer обновлён и опубликован в Production
+
+- PR #200 объединён squash merge: `ecd2b6f8a0700f864bfe24bfce047a88334a7753`.
+- Cloudflare Pages Production deployment: `6225a42e-4904-442a-8937-393db535ac8a`; все стадии завершились success, доменные aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- GitHub Actions PR #200: Blog and Studio validation #43012114645 — success (lint, utility tests, website build, migration checks, Studio build); Florial D1 migration validation #43012114952 — success. Main D1 validation #43012265621 — success.
+- В `src/components/Footer.tsx` фон подвала изменён на `#F3F5EC` — тот же оттенок, что у нижней информационной секции `src/pages/ServicesListPage.tsx`. Контактный блок использует `#E9EDDB`, рамки — `#DDE3D0`; основной текст — контрастные slate оттенки, ссылки — тёмно-зелёные.
+- Сохранены контактные данные, call/WhatsApp actions, Facebook, локализация BG/RU/EN и tracking events.
+- Добавлена локализованная постоянная ссылка `/withdrawal` рядом с `/privacy-policy`.
+- Изменён только Footer component; Header, меню, checkout, Sanity, D1, Cloudflare settings/secrets и существующие данные не затронуты.
+- Ранее объединённый PR #199 (документация D1 migration 0014 и подтверждённого email smoke test) также уже в main; его Production deployment `fc549c5a-262d-4ea8-97d4-bf4a577c3c19` завершился success.
+
+---
+
 ## 2026-11-11 — Production D1 migration 0014 применена
 
 - По отдельному прямому разрешению владельца применена additive migration docs/migrations/0014_contract_withdrawals.sql в Production D1 florial-db (5fbb0e47-8439-493c-821a-6945eef7d8b2).
