@@ -5,7 +5,9 @@
 - Ошибки сессии Manager и Web Crypto при создании AI proof получают собственные коды вместо общего `GEMINI_PROVIDER_ERROR`.
 - Добавлены тесты полного и оборванного JSON. Существующие SSE/finishReason/transport проверки сохранены.
 - Файлы: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/gemini-plant-ai.test.mjs`.
-- Изменения подготовлены в отдельной ветке; CI/PR и Production deployment ожидают проверки. Sanity, D1 и Cloudflare settings/secrets не изменялись.
+- PR #213 объединён squash в main: merge commit `91cb388106c554eb0488cd8fdfa1c6b57452d5be`. PR CI #895: lint, 97 tests, website build, Pages Functions syntax, read-only migration dry-run и Studio build — success; D1 validation #1111 — success.
+- Cloudflare Pages Production deployment `e4914b63-2ebc-49d9-b753-389df2965148` для main commit `91cb388106c554eb0488cd8fdfa1c6b57452d5be`: build/deploy success; aliases florial-bg.com и www.florial-bg.com активны.
+- Повторный реальный Gemini Photo smoke test с авторизованной Manager-сессией ещё не выполнен. Исходная причина ошибки не подтверждена. Sanity, D1 и Cloudflare settings/secrets не изменялись.
 
 ---
 
