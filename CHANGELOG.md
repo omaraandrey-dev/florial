@@ -7,7 +7,10 @@
 - Added the recommendation and rationale to the Sanity plantCare schema and Manager form; bounded/validated the new values on server save.
 - Files: functions/api/manager/plants/gemini-test.ts, functions/api/manager/plants/gemini-test-lib.ts, functions/api/manager/plant-direct-lib.ts, src/manager/PlantCatalogManager.tsx, studio/schemaTypes/index.ts, tests/gemini-plant-ai.test.mjs, tests/manager-plant-care-permissions.test.mjs.
 - Read-only Sanity check: published document “Маслина бонсай 4” (b4f7638d-8c5a-469c-8ed1-af6eadae2243) currently has plantCare: null and careGuide: null. No Sanity document was modified.
-- CI, PR merge and Production deployment: pending.
+- PR merged into `main` at commit `2b6db5028061c0d27778760b9ac25b59d6629fc6`.
+- Cloudflare Pages Production deployment `abc8d826-84e6-4f5e-a433-60f490528c98` completed successfully; all build/deploy stages succeeded; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached.
+- GitHub Actions status for this exact commit: НЕ ИЗВЕСТНО — нужно уточнить; no passing CI run is claimed here.
+- Hosted Sanity Studio deployment/build is not confirmed. No Sanity document was changed.
 
 ---
 
