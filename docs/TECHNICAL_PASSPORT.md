@@ -19,10 +19,11 @@
 
 
 ### CI и статус PR — 11.11.2026
-- PR #198: `https://github.com/omaraandrey-dev/florial/pull/198`, head `d8b5f99487a6c8558498f9434b12a7391d9c3d16`, открыт, mergeable, не объединён.
-- GitHub Actions Blog and Studio validation run #839 — success: lint, tests, website build, migration script syntax check, read-only dry-run, Sanity Studio build.
-- GitHub Actions Florial D1 migration validation run #1026 — success. Отдельно SQL `docs/migrations/0014_contract_withdrawals.sql` проверена в SQLite in-memory: создание таблиц/индексов/триггеров, регистрация заявления/события, изменение статуса, запрет изменения декларации и append-only event; удаление декларационной строки возможно после утверждённого срока хранения, неидентифицирующий event остаётся.
+- PR #198: `https://github.com/omaraandrey-dev/florial/pull/198`, head `86944fce79ca9e2dbb9bb95fb1c7dd7c826f5862`, открыт, mergeable, не объединён.
+- GitHub Actions Blog and Studio validation run #845 — success: lint, tests, website build, migration script syntax check, read-only dry-run, Sanity Studio build.
+- GitHub Actions Florial D1 migration validation run #1031 — success. Отдельно SQL `docs/migrations/0014_contract_withdrawals.sql` проверена в SQLite in-memory: создание таблиц/индексов/триггеров, регистрация заявления/события, изменение статуса, запрет изменения декларации и append-only event; удаление декларационной строки возможно после утверждённого срока хранения, неидентифицирующий event остаётся.
 - Production D1 migration 0014 не применялась. Cloudflare Production deployment не запускался; PR не merged.
+- Cloudflare Pages preview deployment `e87a10d3-e65a-4536-a7b3-4f657f15a4ce` для branch commit `86944fce79ca9e2dbb9bb95fb1c7dd7c826f5862` создан как `preview`, но все стадии остались `idle`; активного preview и Production deploy не подтверждено.
 - Footer, checkout, Header и меню не изменялись. Постоянная ссылка Footer остаётся блокирующим пунктом и требует отдельного согласования владельца.
 
 ---
