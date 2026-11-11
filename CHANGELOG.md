@@ -1,3 +1,14 @@
+## 2026-11-11 — Gemini: точная диагностика JSON parsing и AI proof signing
+
+- Разделён ранее общий этап `normalizing`: теперь отдельно отображаются `json_parsing`, `normalizing` и `proof_signing`; ошибки возвращают фактический этап.
+- Оборванный/невалидный JSON и JSON с корневым типом, отличным от объекта, классифицируются отдельно от ошибок подписи.
+- Ошибки сессии Manager и Web Crypto при создании AI proof получают собственные коды вместо общего `GEMINI_PROVIDER_ERROR`.
+- Добавлены тесты полного и оборванного JSON. Существующие SSE/finishReason/transport проверки сохранены.
+- Файлы: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/gemini-plant-ai.test.mjs`.
+- Изменения подготовлены в отдельной ветке; CI/PR и Production deployment ожидают проверки. Sanity, D1 и Cloudflare settings/secrets не изменялись.
+
+---
+
 ## 2026-11-11 — Google botanical fields enabled for all plant staff roles
 
 - Removed Owner-only restrictions from applying and saving Google Gemini plantCare/careGuide results.
