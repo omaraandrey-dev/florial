@@ -159,8 +159,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     return json({ ok: true })
   } catch {
     const now = nowIso()
-    await env.DB.prepare(`UPDATE contract_withdrawals SET confirmation_status='failed',confirmation_error=?,updated_at=? WHERE id=?`)
-      .bind('Неуспешно повторно изпращане чрез имейл доставчика.', now, row.id).run().catch(() => undefined)
+    const failureNote = 'Неуспешно повторно изпращане чрез имейл доставчика.'
+    try {
+      await env.DB.batch([
+        env.DB.prepare(`UPDATE contract_withdrawals SET confirmation_status='failed',confirmation_error=?,updated_at=? WHERE id=?`)
+          .bind(failureNote, now, row.id),
+        addEvent(env.DB, row, auth.user, 'confirmation_resend_failed', row.status, row.status, failureNote),
+      ])
+    } catch { /* Keep the original failure response even if audit persistence also fails. */ }
     return json({ error: 'Не успяхме да изпратим потвърждението. Опитайте отново.' }, 502)
   }
 }
