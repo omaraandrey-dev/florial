@@ -1,0 +1,428 @@
+{
+  "backupCreatedAt": "2026-11-11T08:10:00+02:00",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "purpose": "Pre-change snapshot before adding localized product H1 values only.",
+  "documents": [
+    {
+      "_createdAt": "2026-11-09T16:28:29Z",
+      "_id": "plant-3b1f30e9-51e5-4020-847d-bdea5a403dec",
+      "_rev": "t3lAvZDojfoZamv6YXSTi7",
+      "_type": "product",
+      "_updatedAt": "2026-11-09T16:28:29Z",
+      "careGuide": [
+        {
+          "_key": "care-0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "care-span-0",
+              "_type": "span",
+              "marks": [],
+              "text": "За да се осигури добро развитие на дървото, е необходимо да се предостави достатъчно светлина и вода. Следва да се полива умерено, като се избягва прекалената влага. Почвата трябва да бъде добре дренирана, за да се предотврати гниенето на корените. Височината на дървото е 150 см, а съдът е с обем 15 л. Цената му е 70 евро. Подходящо е за района на Несебър и околните населени места като Равда и Слънчев бряг."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "categories": [
+        {
+          "_key": "category-30212ed3-fa1a-4f5f-a7c2-cd66ab86f6f4",
+          "_ref": "plants-conifers",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-5f99c2a3-f63c-4244-9307-1a2f971d9cdd",
+          "_ref": "plants-trees-shrubs",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-eea0f2d0-75fe-44c5-a648-059453853168",
+          "_ref": "plants-root",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "plants-conifers",
+        "_type": "reference"
+      },
+      "description": "Испанска Ела е иглолистно дърво, което може да бъде използвано като солитер или в групировки в градина или парк. То е подходящо за района на Несебър и околните населени места като Равда и Слънчев бряг. Дървото е с височина 150 см и се предлага в съд с обем 15 л. Цената му е 70 евро. \n\nЗа да се осигури добро развитие на дървото, е необходимо да се предостави достатъчно светлина и вода. Следва да се полива умерено, като се избягва прекалената влага. Почвата трябва да бъде добре дренирана, за да се предотврати гниенето на корените. \n\nИглолистното дърво може да бъде използвано за създаване на жив плотове или като солитер в градина. То е подходящо за района на Несебър и околните населени места.",
+      "gallery": [
+        {
+          "_key": "intake-image-1",
+          "_type": "image",
+          "alt": "Испанска Ела — снимка 2",
+          "altEn": "Испанска Ела — plant photo 2",
+          "altRu": "Испанска Ела — фотография растения 2",
+          "asset": {
+            "_ref": "image-228b73a7cdfb66d7d919d33053b39e78b1b6d993-1149x2002-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_key": "intake-image-0",
+        "_type": "image",
+        "alt": "Снимка на малко зелено дърво в черен съд",
+        "altEn": "Photo of a small green tree in a black pot",
+        "altRu": "Фотография небольшого зеленого дерева в черном горшке",
+        "asset": {
+          "_ref": "image-7dcb2fb14696e291ed4c2dd10042978f6a805704-2000x2000-jpg",
+          "_type": "reference"
+        }
+      },
+      "name": "Испанска Ела",
+      "plantCare": {
+        "adultHeightCm": 1000,
+        "blackSeaCoast": "needsVerification",
+        "floweringSeason": [
+          "spring"
+        ],
+        "foliageType": "evergreen",
+        "light": "partialShade",
+        "plantingSeason": [
+          "spring",
+          "autumn"
+        ],
+        "waterNeeds": "medium"
+      },
+      "priceEUR": 70,
+      "productType": "conifer",
+      "saleVariants": [
+        {
+          "_key": "intake-variant",
+          "_type": "plantSaleVariant",
+          "containerVolumeL": 15,
+          "name": "150 сс",
+          "priceEUR": 70,
+          "saleHeightCm": 150,
+          "stockQuantity": 5,
+          "stockStatus": "inStock"
+        }
+      ],
+      "scientificName": "Abies pinsapo",
+      "seo": {
+        "description": "Купете иглолистно дърво в Несебър, Равда и Слънчев бряг. Florial предлага висококачествени иглолистни дървета за вашата градина или парк.",
+        "title": "Иглолистно дърво за градина в Несебър"
+      },
+      "shortDescription": "Иглолистно дърво за градина или парк",
+      "slug": {
+        "_type": "slug",
+        "current": "ispanska-ela"
+      },
+      "stockQuantity": 5,
+      "stockStatus": "inStock",
+      "translations": {
+        "bg": {
+          "description": "Испанска Ела е иглолистно дърво, което може да бъде използвано като солитер или в групировки в градина или парк. То е подходящо за района на Несебър и околните населени места като Равда и Слънчев бряг. Дървото е с височина 150 см и се предлага в съд с обем 15 л. Цената му е 70 евро. \n\nЗа да се осигури добро развитие на дървото, е необходимо да се предостави достатъчно светлина и вода. Следва да се полива умерено, като се избягва прекалената влага. Почвата трябва да бъде добре дренирана, за да се предотврати гниенето на корените. \n\nИглолистното дърво може да бъде използвано за създаване на жив плотове или като солитер в градина. То е подходящо за района на Несебър и околните населени места.",
+          "name": "Испанска Ела",
+          "seo": {
+            "description": "Купете иглолистно дърво в Несебър, Равда и Слънчев бряг. Florial предлага висококачествени иглолистни дървета за вашата градина или парк.",
+            "title": "Иглолистно дърво за градина в Несебър"
+          },
+          "shortDescription": "Иглолистно дърво за градина или парк"
+        },
+        "en": {
+          "description": "Spanish Fir is an evergreen coniferous tree that can be used as a specimen or in groups in a garden or park. It is suitable for the Nesebar area and surrounding towns like Ravda and Sunny Beach. The tree is 150 cm tall and comes in a 15-liter pot. Its price is 70 euros. \n\nTo ensure good tree development, it is necessary to provide sufficient light and water. It should be watered moderately, avoiding excessive moisture. The soil should be well-drained to prevent root rot. \n\nThe coniferous tree can be used to create hedges or as a specimen in a garden. It is suitable for the Nesebar area and surrounding towns.",
+          "name": "Spanish Fir",
+          "seo": {
+            "description": "Buy Spanish Fir tree in Nesebar, Ravda, and Sunny Beach area. Florial offers high-quality coniferous trees for your garden or park.",
+            "title": "Spanish Fir Tree for Sale in Nesebar"
+          },
+          "shortDescription": "Coniferous tree for garden or park"
+        },
+        "ru": {
+          "description": "Испанский Пихта - это вечнозеленое хвойное дерево, которое можно использовать как солитер или в группах в саду или парке. Оно подходит для района Несебыра и окружающих населенных пунктов, таких как Равда и Слънчев бряг. Дерево имеет высоту 150 см и поставляется в горшке объемом 15 л. Его цена составляет 70 евро. \n\nЧтобы обеспечить хорошее развитие дерева, необходимо предоставить достаточное количество света и воды. Полив должен быть умеренным, избегая чрезмерной влажности. Почва должна быть хорошо дренированной, чтобы предотвратить гниение корней. \n\nХвойное дерево можно использовать для создания живых изгородей или как солитер в саду. Оно подходит для района Несебыра и окружающих населенных пунктов.",
+          "name": "Испанский Пихта",
+          "seo": {
+            "description": "Купите Испанский Пихта в Несебыре, Равде и Слънчевом бряге. Florial предлагает высококачественные хвойные деревья для вашего сада или парка.",
+            "title": "Испанский Пихта для продажи в Несебыре"
+          },
+          "shortDescription": "Хвойное дерево для сада или парка"
+        }
+      },
+      "vatIncluded": true
+    },
+    {
+      "_createdAt": "2026-11-09T16:55:16Z",
+      "_id": "plant-b0e4396c-49b8-4a10-a608-ff248b95cc46",
+      "_rev": "Ji9dhAfnSM6Ahsirvmo2Kq",
+      "_type": "product",
+      "_updatedAt": "2026-11-09T16:55:16Z",
+      "careGuide": [
+        {
+          "_key": "care-0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "care-span-0",
+              "_type": "span",
+              "marks": [],
+              "text": "За да се осигури добро развитие на елата, е необходимо да се полива редовно, но без да се преувлажнява почвата. Също така, е необходимо да се предостави достатъчно светлина и да се извършва редовно подрязване, за да се запази формата на дървото. При засуха елатата може да бъде чувствителна, затова е необходимо да се полива внимателно. През зимата е необходимо да се предостави защита на дървото от студа и вятъра."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "categories": [
+        {
+          "_key": "category-2f29fe43-ab38-4cc8-ba58-3d5b9dd84293",
+          "_ref": "plants-conifers",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-4dcd9d03-bf8f-4a7d-a9ab-7241ee812fcd",
+          "_ref": "plants-trees-shrubs",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-0222b2a1-74ef-4a1e-acc6-bfddebd407d0",
+          "_ref": "plants-root",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "plants-conifers",
+        "_type": "reference"
+      },
+      "description": "## Описание\nСмърч Ела е малък, пълзящ ела с бяла пънка и сиво-зелени листа. Той е подходящ за градини и паркове в района на Несебър и околностите, включително Равда и Слънчев бряг.\n## Растителни характеристики\nЕлата е иглолистно дърво, което предпочита добре дренирана почва и пълно слънце до частична сянка. Тя е относително издръжлива на суша, но предпочита редовно поливане.\n## Грижа и поддържане\nЗа да се осигури добро развитие на елата, е необходимо да се полива редовно, но без да се преувлажнява почвата. Също така, е необходимо да се предостави достатъчно светлина и да се извършва редовно подрязване, за да се запази формата на дървото.\n## Приложение\nСмърч Ела е подходящ за градини, паркове и други открити пространства в района на Несебър и околностите. Той може да се използва като солитерно дърво или като част от група дървета и храсти.",
+      "gallery": [
+        {
+          "_key": "intake-image-1",
+          "_type": "image",
+          "alt": "Смърч Ела — снимка 2",
+          "altEn": "Смърч Ела — plant photo 2",
+          "altRu": "Смърч Ела — фотография растения 2",
+          "asset": {
+            "_ref": "image-6840217504371e7a658e480681ad03df9de7ab93-748x547-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_key": "intake-image-0",
+        "_type": "image",
+        "alt": "Малък, пълзящ ела с бяла пънка и сиво-зелени листа",
+        "altEn": "Small, creeping fir with white stem and grey-green leaves",
+        "altRu": "Маленький, ползущий ель с белым стеблем и серо-зелеными листьями",
+        "asset": {
+          "_ref": "image-a89caf7395d2e68d82bef126cd8729b6309e1b64-1352x1484-jpg",
+          "_type": "reference"
+        }
+      },
+      "name": "Смърч Ела",
+      "plantCare": {
+        "blackSeaCoast": "needsVerification",
+        "floweringSeason": [
+          "spring"
+        ],
+        "foliageType": "evergreen",
+        "light": "sun",
+        "plantingSeason": [
+          "spring",
+          "autumn"
+        ],
+        "waterNeeds": "medium"
+      },
+      "priceEUR": 30,
+      "productType": "conifer",
+      "saleVariants": [
+        {
+          "_key": "intake-variant",
+          "_type": "plantSaleVariant",
+          "containerVolumeL": 8,
+          "name": "60 см",
+          "priceEUR": 30,
+          "saleHeightCm": 60,
+          "stockQuantity": 50,
+          "stockStatus": "inStock"
+        }
+      ],
+      "scientificName": "Picea abies",
+      "seo": {
+        "description": "Купете Смърч Ела в Несебър и околностите, включително Равда и Слънчев бряг. Florial предлага висококачествени ели за градини и паркове.",
+        "title": "Смърч Ела в Несебър"
+      },
+      "shortDescription": "Малък, пълзящ ела с бяла пънка и сиво-зелени листа",
+      "slug": {
+        "_type": "slug",
+        "current": "smarch-ela"
+      },
+      "stockQuantity": 50,
+      "stockStatus": "inStock",
+      "translations": {
+        "bg": {
+          "description": "## Описание\nСмърч Ела е малък, пълзящ ела с бяла пънка и сиво-зелени листа. Той е подходящ за градини и паркове в района на Несебър и околностите, включително Равда и Слънчев бряг.\n## Растителни характеристики\nЕлата е иглолистно дърво, което предпочита добре дренирана почва и пълно слънце до частична сянка. Тя е относително издръжлива на суша, но предпочита редовно поливане.\n## Грижа и поддържане\nЗа да се осигури добро развитие на елата, е необходимо да се полива редовно, но без да се преувлажнява почвата. Също така, е необходимо да се предостави достатъчно светлина и да се извършва редовно подрязване, за да се запази формата на дървото.\n## Приложение\nСмърч Ела е подходящ за градини, паркове и други открити пространства в района на Несебър и околностите. Той може да се използва като солитерно дърво или като част от група дървета и храсти.",
+          "name": "Смърч Ела",
+          "seo": {
+            "description": "Купете Смърч Ела в Несебър и околностите, включително Равда и Слънчев бряг. Florial предлага висококачествени ели за градини и паркове.",
+            "title": "Смърч Ела в Несебър"
+          },
+          "shortDescription": "Малък, пълзящ ела с бяла пънка и сиво-зелени листа"
+        },
+        "en": {
+          "description": "## Description\nSpruce Fir is a small, creeping fir with a white stem and grey-green leaves. It is suitable for gardens and parks in the Nesebar area and surrounding towns, including Ravda and Sunny Beach.\n## Plant Characteristics\nThe fir is an evergreen tree that prefers well-drained soil and full sun to partial shade. It is relatively drought-tolerant, but prefers regular watering.\n## Care and Maintenance\nTo ensure good development of the fir, it is necessary to water it regularly, but without overwatering the soil. It is also necessary to provide sufficient light and to perform regular pruning to maintain the shape of the tree.\n## Application\nSpruce Fir is suitable for gardens, parks and other open spaces in the Nesebar area and surrounding towns. It can be used as a solo tree or as part of a group of trees and shrubs.",
+          "name": "Spruce Fir",
+          "seo": {
+            "description": "Buy Spruce Fir trees in Nesebar and surrounding areas, including Ravda and Sunny Beach. Florial offers high-quality fir trees for gardens and parks.",
+            "title": "Spruce Fir for Sale in Nesebar"
+          },
+          "shortDescription": "Small, creeping fir with white stem and grey-green leaves"
+        },
+        "ru": {
+          "description": "## Описание\nЕль Смурч - маленький, ползущий ель с белым стеблем и серо-зелеными листьями. Он подходит для садов и парков в районе Несебыра и окрестностей, включая Равду и Слънчев бряг.\n## Растительные характеристики\nЕль - вечнозеленое дерево, которое предпочитает хорошо дренированную почву и полное солнце до частичной тени. Он относительно устойчив к засухе, но предпочитает регулярный полив.\n## Уход и содержание\nЧтобы обеспечить хорошее развитие ели, необходимо поливать ее регулярно, но без переувлажнения почвы. Также необходимо обеспечить достаточное освещение и выполнять регулярную обрезку, чтобы сохранить форму дерева.\n## Применение\nЕль Смурч подходит для садов, парков и других открытых пространств в районе Несебыра и окрестностей. Он может быть использован как одиночное дерево или как часть группы деревьев и кустарников.",
+          "name": "Ель Смурч",
+          "seo": {
+            "description": "Купите ели Смурч в Несебыре и окрестностях, включая Равду и Слънчев бряг. Florial предлагает высококачественные ели для садов и парков.",
+            "title": "Ель Смурч для продажи в Несебыре"
+          },
+          "shortDescription": "Маленький, ползущий ель с белым стеблем и серо-зелеными листьями"
+        }
+      },
+      "vatIncluded": true
+    },
+    {
+      "_createdAt": "2026-11-09T16:42:15Z",
+      "_id": "plant-dfa442af-261b-4f3b-a0c3-71686132a7e2",
+      "_rev": "ZStqz58tTH2a9LkLHsOPor",
+      "_type": "product",
+      "_updatedAt": "2026-11-09T16:42:15Z",
+      "careGuide": [
+        {
+          "_key": "care-0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "care-span-0",
+              "_type": "span",
+              "marks": [],
+              "text": "За да се осигури добро състояние на дървото, е необходимо да се полива редовно, но да не се преувлажнява почвата. Също така, е необходимо да се извършва редовна обрязка, за да се запази формата на дървото. Почвата трябва да бъде добре дренирана, а мястото - с пълно слънце до частична сянка. Ако се отглежда в саксия, е необходимо да се полива внимателно, за да не се преувлажни почвата. В зимните месеци е необходимо да се предостави защита на дървото от студа."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "categories": [
+        {
+          "_key": "category-e911d1f7-b9e0-4389-b548-6b95c9f1c797",
+          "_ref": "plants-conifers",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-e8591408-bdf0-46ed-8339-142d2a0349de",
+          "_ref": "plants-trees-shrubs",
+          "_type": "reference"
+        },
+        {
+          "_key": "category-ea8fffb8-a191-43d6-8315-a460b2e5dd21",
+          "_ref": "plants-root",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "plants-conifers",
+        "_type": "reference"
+      },
+      "description": "Кавказка ела е иглолистно дърво, което се отличава с красивата си зеленина и способността си да се адаптира към различни условия. То е подходящо за отглеждане в саксии или директно в земята. Височината на това дърво е 150 см, а саксията му е с обем 15 л. Освен това, то е подходящо за градините и парковете в Несебър и околните населени места като Равда и Слънчев бряг. \n## Описание\nКавказка ела е вид, който може да бъде използван като солитер или в групировки. То е относително издръжливо на суша, но все пак изисква редовно поливане. Предпочита добре дренирана почва и пълно слънце до частична сянка. \n## Поддръжка\nЗа да се осигури добро състояние на дървото, е необходимо да се полива редовно, но да не се преувлажнява почвата. Също така, е необходимо да се извършва редовна обрязка, за да се запази формата на дървото.",
+      "gallery": [
+        {
+          "_key": "intake-image-1",
+          "_type": "image",
+          "alt": "Кавказка ела — снимка 2",
+          "altEn": "Кавказка ела — plant photo 2",
+          "altRu": "Кавказка ела — фотография растения 2",
+          "asset": {
+            "_ref": "image-8fad5623ee1d0033f6f6264ebc27fd83b5db71fa-1044x1309-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_key": "intake-image-0",
+        "_type": "image",
+        "alt": "Снимка на иглолистно дърво в саксия",
+        "altEn": "Photo of an evergreen tree in a pot",
+        "altRu": "Фотография вечнозеленого дерева в горшке",
+        "asset": {
+          "_ref": "image-0477ab2c32113d2583f5c3a98cf7317af780a685-2000x2000-jpg",
+          "_type": "reference"
+        }
+      },
+      "name": "Кавказка ела",
+      "plantCare": {
+        "blackSeaCoast": "needsVerification",
+        "floweringSeason": [],
+        "foliageType": "evergreen",
+        "light": "sun",
+        "plantingSeason": [],
+        "waterNeeds": "medium"
+      },
+      "priceEUR": 70,
+      "productType": "conifer",
+      "saleVariants": [
+        {
+          "_key": "intake-variant",
+          "_type": "plantSaleVariant",
+          "containerVolumeL": 15,
+          "name": "150",
+          "priceEUR": 70,
+          "saleHeightCm": 150,
+          "stockQuantity": 10,
+          "stockStatus": "inStock"
+        }
+      ],
+      "scientificName": "Abies nordmanniana",
+      "seo": {
+        "description": "Купете Кавказка ела от Florial в Несебър, подходяща за градините и парковете в Несебър, Равда и Слънчев бряг.",
+        "title": "Кавказка ела в Несебър - Florial"
+      },
+      "shortDescription": "Иглолистно дърво с зелени игли, височина 150 см, в саксия 15 л.",
+      "slug": {
+        "_type": "slug",
+        "current": "kavkazka-ela"
+      },
+      "stockQuantity": 10,
+      "stockStatus": "inStock",
+      "translations": {
+        "bg": {
+          "description": "Кавказка ела е иглолистно дърво, което се отличава с красивата си зеленина и способността си да се адаптира към различни условия. То е подходящо за отглеждане в саксии или директно в земята. Височината на това дърво е 150 см, а саксията му е с обем 15 л. Освен това, то е подходящо за градините и парковете в Несебър и околните населени места като Равда и Слънчев бряг. \n## Описание\nКавказка ела е вид, който може да бъде използван като солитер или в групировки. То е относително издръжливо на суша, но все пак изисква редовно поливане. Предпочита добре дренирана почва и пълно слънце до частична сянка. \n## Поддръжка\nЗа да се осигури добро състояние на дървото, е необходимо да се полива редовно, но да не се преувлажнява почвата. Също така, е необходимо да се извършва редовна обрязка, за да се запази формата на дървото.",
+          "name": "Кавказка ела",
+          "seo": {
+            "description": "Купете Кавказка ела от Florial в Несебър, подходяща за градините и парковете в Несебър, Равда и Слънчев бряг.",
+            "title": "Кавказка ела в Несебър - Florial"
+          },
+          "shortDescription": "Иглолистно дърво с зелени игли, височина 150 см, в саксия 15 л."
+        },
+        "en": {
+          "description": "The Caucasian Fir is an evergreen tree that stands out with its beautiful greenery and ability to adapt to different conditions. It is suitable for growing in pots or directly in the ground. The height of this tree is 150 cm, and its pot is 15 L. Additionally, it is suitable for gardens and parks in Nesebar and surrounding areas like Ravda and Sunny Beach. \n## Description\nThe Caucasian Fir is a species that can be used as a solo tree or in groups. It is relatively drought-tolerant but still requires regular watering. It prefers well-drained soil and full sun to partial shade. \n## Maintenance\nTo ensure the good condition of the tree, it is necessary to water it regularly, but not to overwater the soil. Also, regular pruning is necessary to maintain the shape of the tree.",
+          "name": "Caucasian Fir",
+          "seo": {
+            "description": "Buy Caucasian Fir tree from Florial in Nesebar, suitable for gardens and parks in Nesebar, Ravda, and Sunny Beach.",
+            "title": "Caucasian Fir Tree for Sale in Nesebar"
+          },
+          "shortDescription": "Evergreen tree with green needles, 150 cm tall, in a 15 L pot."
+        },
+        "ru": {
+          "description": "Кавказская ель - это вечнозеленое дерево, которое отличается своей красивой зеленью и способностью адаптироваться к разным условиям. Оно подходит для выращивания в горшках или直接 в земле. Высота этого дерева составляет 150 см, а горшок имеет объем 15 л. Кроме того, оно подходит для садов и парков в Несебыре и окрестных населенных пунктов, таких как Равда и Солнечный берег. \n## Описание\nКавказская ель - это вид, который можно использовать как солитер или в группировках. Оно относительно устойчиво к засухе, но все же требует регулярного полива. Предпочитает хорошо дренированную почву и полное солнце до частичной тени. \n## Поддержка\nЧтобы обеспечить хорошее состояние дерева, необходимо поливать его регулярно, но не переувлажнять почву. Также необходимо проводить регулярную обрезку, чтобы сохранить форму дерева.",
+          "name": "Кавказская ель",
+          "seo": {
+            "description": "Купите Кавказскую ель от Florial в Несебыре, подходящую для садов и парков в Несебыре, Равде и Солнечном берегу.",
+            "title": "Кавказская ель для продажи в Несебыре"
+          },
+          "shortDescription": "Вечнозеленое дерево с зелеными иглами, высота 150 см, в горшке 15 л."
+        }
+      },
+      "vatIncluded": true
+    }
+  ]
+}
