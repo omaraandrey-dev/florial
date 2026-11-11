@@ -1,3 +1,11 @@
+## 2026-11-11 — Исправление серверного маршрута страницы конфиденциальности
+
+- Live smoke после первого релиза обнаружил HTTP 404 на /privacy-policy и локализованных URL.
+- Найдена причина в явном allowlist статических страниц Cloudflare Middleware: путь не передавался SPA fallback.
+- В отдельной ветке добавлен route /privacy-policy с SSR fallback H1/intro, локализованными SEO metadata, canonical и hreflang.
+- Изменён файл: functions/_middleware.ts. CI/Production deployment повторной правки ещё не подтверждены.
+
+---
 ## 2026-11-11 — Страница «Политика за поверителност» подготовлена в отдельной ветке
 
 - Создана локализованная страница /privacy-policy на BG/RU/EN.
