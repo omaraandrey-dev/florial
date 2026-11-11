@@ -1,6 +1,6 @@
 import { checkSameOrigin, json, requireUser, type ManagerEnv } from '../_lib'
 import { cleanText, errorJson, isObject, issuePlantAiProof, parseJsonBody, PRODUCT_TYPES, requirePlantRole } from '../plant-direct-lib'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, normalizeGeminiPlantResult, parseGeminiPlantJson, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from './gemini-test-lib'
 
 const MODEL = 'gemini-3.5-flash-lite'
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -106,6 +106,8 @@ const failure = (error: unknown) => {
   if (/GEMINI_MAX_TOKENS/.test(message)) return { code: 'GEMINI_MAX_TOKENS', hint: 'Google достигна лимита на генерирането и прекрати JSON преди завършване.' }
   if (/GEMINI_SAFETY_BLOCKED/.test(message)) return { code: 'GEMINI_SAFETY_BLOCKED', hint: 'Google прекрати отговора по правилата за безопасност.' }
   if (/GEMINI_INVALID_JSON|GEMINI_EMPTY_RESPONSE/.test(message)) return { code: 'GEMINI_INVALID_RESPONSE', hint: 'Gemini върна непълен или невалиден структуриран отговор.' }
+  if (/MANAGER_SESSION_PROOF_UNAVAILABLE/.test(message)) return { code: 'GEMINI_PROOF_SESSION_UNAVAILABLE', hint: 'Резултатът е получен, но сесията на Manager не позволява да се издаде защитено потвърждение. Обновете страницата и опитайте отново.' }
+  if (/MANAGER_SESSION_PROOF_SIGN_FAILED/.test(message)) return { code: 'GEMINI_PROOF_SIGNING_FAILED', hint: 'Резултатът е получен, но Cloudflare не успя да подпише защитеното потвърждение. Опитайте отново; ако проблемът се повтори, предайте ID на заявката.' }
   return { code: 'GEMINI_PROVIDER_ERROR', hint: 'Gemini временно не успя да обработи заявката. Проверете API ключа и лимитите в Google AI Studio.' }
 }
 
@@ -174,7 +176,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
   return streamResponse(requestId, mode, async (send) => {
     const startedAt = Date.now()
-    const progress = (stage: string, message: string) => send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
+    let processingStage = 'request_received'
+    const progress = (stage: string, message: string) => {
+      processingStage = stage
+      send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
+    }
     let providerHttpStatus: number | undefined
     let providerContentType = ''
     let providerFinishReason = ''
@@ -318,28 +324,35 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       if (completionFailure) throw new Error(completionFailure.code)
       if (!modelText.trim()) { jsonStatus = 'empty'; throw new Error('GEMINI_EMPTY_RESPONSE') }
 
-      progress('normalizing', 'Потокът приключи. Проверяваме JSON и подготвяме структурираните полета.')
+      progress('json_parsing', 'Потокът приключи. Проверяваме дали Google върна завършен JSON.')
       jsonStatus = 'invalid'
-      let normalized
+      let parsedModelResult: Record<string, unknown>
       try {
-        normalized = normalizeGeminiPlantResult(modelText, categories, Array.from(PRODUCT_TYPES))
+        parsedModelResult = parseGeminiPlantJson(modelText)
       } catch (error) {
-        if (error instanceof Error && error.message === 'GEMINI_INVALID_JSON') jsonParseError = describeGeminiJsonError(modelText)
+        jsonParseError = describeGeminiJsonError(modelText)
         throw error
       }
       jsonStatus = 'valid'
+
+      progress('normalizing', 'JSON е валиден. Подготвяме и проверяваме структурираните полета.')
+      const normalized = normalizeGeminiPlantResult(parsedModelResult, categories, Array.from(PRODUCT_TYPES))
       if (mode === 'text') {
         normalized.visibleDescription = ''
         normalized.imageAlt = { bg: '', ru: '', en: '' }
       }
-      const aiProof = /^image-[A-Za-z0-9-]+$/.test(proofAssetId) ? await issuePlantAiProof(request, { mainImageAssetId: proofAssetId }) : null
+      let aiProof: string | null = null
+      if (/^image-[A-Za-z0-9-]+$/.test(proofAssetId)) {
+        progress('proof_signing', 'Данните са подготвени. Подписваме защитеното потвърждение за снимката.')
+        aiProof = await issuePlantAiProof(request, { mainImageAssetId: proofAssetId })
+      }
       send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, aiProof, proofAssetId: aiProof ? proofAssetId : null, result: normalized })
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
       const diagnostics = { providerHttpStatus, providerContentType, providerRetryAttempts, providerFinishReason: providerFinishReason || null, providerPromptBlockReason: providerPromptBlockReason || null, providerUsageMetadata, providerBytesReceived, modelCharsReceived: modelText.length, providerSseDiagnostics, jsonStatus, jsonParseError }
-      console.error('[manager-plants-gemini-test]', { requestId, mode, stage: 'response_validation', code: safe.code, errorType: error instanceof Error ? error.name : 'unknown', ...diagnostics })
-      send({ type: 'error', ...safe, ...diagnostics, requestId, stage: 'response_validation', elapsedMs: Date.now() - startedAt, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
+      console.error('[manager-plants-gemini-test]', { requestId, mode, stage: processingStage, code: safe.code, errorType: error instanceof Error ? error.name : 'unknown', ...diagnostics })
+      send({ type: 'error', ...safe, ...diagnostics, requestId, stage: processingStage, elapsedMs: Date.now() - startedAt, retryable: safe.code === 'GEMINI_TIMEOUT' || safe.code === 'GEMINI_RATE_LIMIT' })
     }
   })
 }

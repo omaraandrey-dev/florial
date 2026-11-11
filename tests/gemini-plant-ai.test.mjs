@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
+import { classifyGeminiFinishReason, classifyGeminiProviderError, classifyGeminiTransportError, geminiProviderRetryDelayMs, isRetryableGeminiHttpStatus, createGeminiSseParser, describeGeminiJsonError, extractGeminiStreamText, extractGeminiText, normalizeGeminiPlantResult, parseGeminiPlantJson, sanitizeGeminiProviderMessage, summarizeGeminiUsage } from '../functions/api/manager/plants/gemini-test-lib.ts'
 
 const categories = [{ id: 'cat-shrubs', name: 'Храсти' }]
 const productTypes = ['plant', 'shrub', 'tree']
@@ -11,6 +11,12 @@ test('extracts generated text from Gemini candidate parts', () => {
 
 test('rejects an empty Gemini candidate response', () => {
   assert.throws(() => extractGeminiText({ candidates: [] }), /GEMINI_EMPTY_RESPONSE/)
+})
+
+test('parses complete Gemini JSON and rejects truncated or non-object JSON before normalization', () => {
+  assert.deepEqual(parseGeminiPlantJson('{"plantName":"Маслина бонсай"}'), { plantName: 'Маслина бонсай' })
+  assert.throws(() => parseGeminiPlantJson('{"plantName":"Маслина бонсай","descriptions":{"bg":'), /GEMINI_INVALID_JSON/)
+  assert.throws(() => parseGeminiPlantJson('[]'), /GEMINI_INVALID_JSON/)
 })
 
 test('normalizes structured plant output and accepts only supplied category IDs', () => {
