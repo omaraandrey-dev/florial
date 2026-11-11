@@ -2485,5 +2485,9 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Существующие ссылки /privacy-policy и /withdrawal, цвета, фон, контакты, CTA, Facebook и tracking events сохранены.
 - Изменён только Footer component в runtime; Header, основное меню, корзина, checkout, Sanity, D1, Cloudflare settings/secrets и реальные данные не затронуты.
 - Страница /terms уже была опубликована отдельным PR #202; этот PR добавляет только постоянную навигационную ссылку.
-- CI, merge и Production deployment будут зафиксированы после фактической проверки.
+- PR #203 merged squash в main; merge commit cb26dcacb0b254c57ac7cc280285516f4c3f3ce7.
+- CI на PR HEAD 0376b175e76100113da938a06976d00593b5e7a1: Blog and Studio validation run #869 — success (lint, website tests, website build, migration syntax/read-only dry-run и Sanity Studio build); Florial D1 migration validation run #1062 — success (lint, website build, Pages Functions syntax и additive migration validation).
+- Cloudflare Pages Production deployment 1d09957d-31ad-4753-b8fa-ddf5455e75f8 для merge commit cb26dcacb0b254c57ac7cc280285516f4c3f3ce7 завершился success; production aliases florial-bg.com и www.florial-bg.com назначены.
+- Live smoke главной страницы: HTTP 200; сырой HTML подтверждает ссылку «Общи условия» с href https://florial-bg.com/terms в Footer.
+- Изменения ограничены Footer и документацией; D1, Sanity, Cloudflare settings/secrets, checkout и пользовательские данные не менялись.
 
