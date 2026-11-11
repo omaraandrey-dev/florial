@@ -607,8 +607,6 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     const base = SITE_URL + '/terms'
     const alternates = {
       bg: base,
-      ru: base + '?lang=ru',
-      en: base + '?lang=en',
       'x-default': base,
     }
     return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
