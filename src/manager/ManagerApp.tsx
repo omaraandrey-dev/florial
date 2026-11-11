@@ -11,6 +11,7 @@ import OrdersManager from './OrdersManager'
 import ProductSeoManager from './ProductSeoManager'
 import PlantCatalogManager from './PlantCatalogManager'
 import ServiceLeadsManager from './ServiceLeadsManager'
+import WithdrawalsManager from './WithdrawalsManager'
 
 type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
@@ -122,7 +123,7 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads'>('plantCatalog')
+  const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads' | 'withdrawals'>('plantCatalog')
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
@@ -683,6 +684,7 @@ export default function ManagerApp() {
         {profile.role === 'owner' && <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Архив заявок</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button onClick={() => setActiveTab('serviceLeads')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки за услуги</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) && <button onClick={() => setActiveTab('withdrawals')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'withdrawals' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Откази от договори</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
         {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'categories' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Категории</button>}
@@ -867,6 +869,9 @@ export default function ManagerApp() {
       </section>
       <section className={activeTab === 'orders' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <OrdersManager canEdit={profile.role === 'owner' || profile.permissions.canEditOrders} canDeleteTestOrders={profile.role === 'owner' || profile.permissions.canDeleteTestOrders} />}
+      </section>
+      <section className={activeTab === 'withdrawals' && (profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
+        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) && <WithdrawalsManager canManage={profile.role === 'owner' || profile.permissions.canEditOrders} />}
       </section>
       <section className={activeTab === 'analytics' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="flex flex-wrap items-center justify-between gap-3">
