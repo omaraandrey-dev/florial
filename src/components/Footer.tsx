@@ -93,6 +93,12 @@ export function Footer() {
             >
               {language === 'en' ? 'Withdrawal from contract' : language === 'ru' ? 'Отказ от договора' : 'Отказ от договор'}
             </a>
+            <a
+              href={localizedHref('/terms', language)}
+              className="font-medium text-emerald-800 underline decoration-[#A9B99B] underline-offset-4 transition hover:text-emerald-950"
+            >
+              {language === 'en' ? 'Terms and Conditions' : language === 'ru' ? 'Общие условия' : 'Общи условия'}
+            </a>
           </div>
           <p className="pt-3 text-[11px] text-slate-600">
             © {new Date().getFullYear()} Florial Landscape & {language === 'en' ? 'Florial Garden Centre. All rights reserved.' : language === 'ru' ? 'Садовый центр Florial. Все права защищены.' : 'Градински център Флориал. Всички права запазени.'}

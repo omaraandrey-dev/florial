@@ -2474,3 +2474,16 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Открытые юридические вопросы: проверить текст болгарским юристом; подтвердить регистрационный адрес по Търговски регистър; сверить договоры обработчиков и конкретные transfer safeguards. Автоматическое удаление service leads отсутствует и честно раскрыто в политике.
 
 ---
+
+
+## Дополнение — постоянная ссылка на «Общи условия» в Footer
+
+Дата: 11.11.2026
+
+- В src/components/Footer.tsx добавлена локализованная ссылка на /terms рядом с существующими юридическими ссылками.
+- Подписи: BG «Общи условия», RU «Общие условия», EN «Terms and Conditions». URL формируется через существующий localizedHref.
+- Существующие ссылки /privacy-policy и /withdrawal, цвета, фон, контакты, CTA, Facebook и tracking events сохранены.
+- Изменён только Footer component в runtime; Header, основное меню, корзина, checkout, Sanity, D1, Cloudflare settings/secrets и реальные данные не затронуты.
+- Страница /terms уже была опубликована отдельным PR #202; этот PR добавляет только постоянную навигационную ссылку.
+- CI, merge и Production deployment будут зафиксированы после фактической проверки.
+
