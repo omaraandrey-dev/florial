@@ -1,3 +1,24 @@
+## Дополнение rev82 — Production D1 migration 0014 применена
+
+Дата: 11.11.2026
+Статус: additive migration 0014 успешно применена в Production D1; read-only post-checks пройдены.
+
+- Актуальный main на момент операции: e60f88abeef830eb160e1dbc9ecdc85908f609cf; инструкция rev69; technical passport до операции rev81.
+- Production D1: florial-db, UUID 5fbb0e47-8439-493c-821a-6945eef7d8b2, jurisdiction eu.
+- Перед изменением получен Time Travel bookmark: 000002bd-00000000-00005120-fb012ce3f8148fe6ae14638b64af462f.
+- До применения последняя версия schema_migrations — 0013_manager_product_audit; две новые таблицы отсутствовали.
+- Применён SQL из docs/migrations/0014_contract_withdrawals.sql. Cloudflare D1 API вернул success для всех SQL statements; applied_at: 2026-11-11 11:11:19.
+- Созданы contract_withdrawals и contract_withdrawal_events, четыре индекса и четыре защитных триггера (JSON metadata, append-only UPDATE/DELETE событий, неизменяемость декларационных полей).
+- Post-check подтвердил наличие всех объектов и регистрацию миграции.
+- Контрольные количества существующих данных до/после совпадают: orders 7; order_events 26; service_leads 2; service_lead_events 7. На момент применения новые таблицы были пусты.
+- После миграции владелец выполнил контролируемый end-to-end POST через Production-форму и подтвердил получение подтверждающего письма заявителем и администратором.
+- Read-only post-test D1 подтвердил: `contract_withdrawals` — 1 запись; `contract_withdrawal_events` — 2 события (`declaration_received`, `confirmation_sent`). Проверочные запросы не меняли БД (`rows_written=0`, `changed_db=false`).
+- Фактическая регистрация заявления и доставка подтверждений обеим сторонам подтверждены. Полная приёмка Manager остаётся частичной: авторизованные Owner/Manager проверки доступа, смена статусов и повторная отправка письма ещё не проверены.
+- Не менялись существующие заказы/заявки, Sanity, Cloudflare settings/secrets, Header, меню, Footer и checkout. Migration additive only; тестовая запись сохранена.
+- Юридическая проверка текста/сроков хранения и отдельное согласование постоянной ссылки Footer остаются открытыми. Тестовую запись не удалять без отдельного согласования.
+- Документационный follow-up фиксирует фактический результат контролируемого теста; его публикация выполняется после проверки CI.
+
+---
 ## Дополнение rev81 — PR #198 объединён и Production опубликована
 
 Дата: 11.11.2026  
