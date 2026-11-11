@@ -11,9 +11,16 @@ export const normalizeContractWithdrawal = (body) => {
   return { value: { customerName, contractReference, customerEmail, locale, customerComment } }
 }
 
-export const buildWithdrawalDeclaration = ({ customerName, contractReference, customerComment }) => {
-  const base = 'С настоящото заявявам недвусмислено, че желая да се откажа от договор, идентифициран с: ' + contractReference + '. Име на потребителя: ' + customerName + '.'
-  return customerComment ? base + ' Допълнителна информация: ' + customerComment : base
+export const buildWithdrawalDeclaration = ({ customerName, contractReference, customerComment, locale = 'bg' }) => {
+  const text = locale === 'ru'
+    ? 'Настоящим однозначно заявляю о желании отказаться от договора, идентифицированного следующим образом: '
+    : locale === 'en'
+      ? 'I hereby unequivocally declare that I wish to withdraw from the contract identified as: '
+      : 'С настоящото заявявам недвусмислено, че желая да се откажа от договор, идентифициран с: '
+  const name = locale === 'ru' ? '. Имя потребителя: ' : locale === 'en' ? '. Consumer name: ' : '. Име на потребителя: '
+  const extra = locale === 'ru' ? ' Дополнительная информация: ' : locale === 'en' ? ' Additional information: ' : ' Допълнителна информация: '
+  const base = text + contractReference + name + customerName + '.'
+  return customerComment ? base + extra + customerComment : base
 }
 
 export const isWithdrawalStatus = (value) =>
