@@ -6,8 +6,12 @@
 - Ошибки выдачи подписи разделены на отсутствие пригодной сессии Manager и сбой Web Crypto signing; они больше не маскируются как общий `GEMINI_PROVIDER_ERROR`.
 - Существующие проверки SSE, `finishReason`, `MAX_TOKENS`, safety block и транспортных ошибок сохранены; повторно не реализовывались.
 - Изменены: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/gemini-plant-ai.test.mjs`.
-- Sanity, D1, пользовательские данные, роли/права, Gemini model/API key, Cloudflare settings/secrets, каталог, Header, меню и Footer не изменялись. Production deployment не выполнялся.
-- Проверки и CI: ожидаются в PR; до их завершения результат не считается опубликованным.
+- Дополнительно исправлен путь импорта `./_lib.ts` в `plant-direct-lib.ts`: Node.js 22 в тестовом раннере не разрешал extensionless import при прямом импорте TypeScript-файла; runtime логика не менялась.
+- PR #213 объединён squash merge в `main`: `91cb388106c554eb0488cd8fdfa1c6b57452d5be`.
+- CI PR HEAD `74496ee14ad10cdbb5b5a8fc9a8ac512c9546526`: Blog and Studio validation run #895 (43077258363) — success; lint, 97 tests, website build, Pages Functions syntax, read-only migration dry-run и Sanity Studio build — success. Florial D1 migration validation run #1111 (43077258310) — success.
+- Cloudflare Pages Production deployment `e4914b63-2ebc-49d9-b753-389df2965148`, commit `91cb388106c554eb0488cd8fdfa1c6b57452d5be`: build и deploy — success; deployment URL `https://e4914b63.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com` активны.
+- Sanity, D1 schema/data, пользовательские данные, роли/права, Gemini model/API key, Cloudflare settings/secrets, каталог, Header, меню и Footer не изменялись. Миграции не запускались.
+- Реальный повторный запуск Gemini Photo на карточке «Маслина бонсай» с пользовательской Manager-сессией после публикации ещё не выполнен; требуется проверка владельцем. Исходный root cause остаётся неподтверждённым до такого повторного запуска.
 - Диагноз исходной ошибки с ID `5ff5260c-e57b-4eaa-8915-cc67028286e5` не подтверждён: Cloudflare Observability не вернул соответствующую запись. Новое разделение этапов позволит определить, завершился ли JSON parsing, normalization или AI proof signing.
 
 ---
