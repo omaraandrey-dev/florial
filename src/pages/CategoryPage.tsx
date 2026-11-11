@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
-import type { CategoryItem, Product } from '../types'
+import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
@@ -8,7 +8,7 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
-import { comparePlantProducts, getPlantDisplayName, getPlantStockStatus, type PlantCatalogSort } from '../lib/plantCatalogUtils'
+import { buildPlantCatalogOffers, comparePlantProducts, getPlantCatalogCardImageUrl, getPlantDisplayName, type PlantCatalogSort } from '../lib/plantCatalogUtils'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -17,7 +17,7 @@ interface CategoryPageProps {
   visibleCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory?: (slug?: string, id?: string) => void
-  onSelectProduct: (product: Product) => void
+  onSelectProduct: (product: Product, saleVariantKey?: string) => void
 }
 
 export function CategoryPage({
@@ -148,22 +148,35 @@ export function CategoryPage({
     winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
   }), [products])
 
-  const getStockIndicator = (product: Product): 'inStock' | 'onRequest' | null => {
-    const status = getPlantStockStatus(product)
-    return status === 'inStock' || status === 'onRequest' ? status : null
-  }
-
-  const getCardPrice = (product: Product) => {
+  const getCardPrice = (product: Product, variant?: PlantSaleVariant) => {
     if (category.isPlantCategory) {
-      const pricedVariants = (product.saleVariants || []).filter((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0).sort((x, y) => (x.priceEUR || 0) - (y.priceEUR || 0))
-      const lowest = pricedVariants[0]
-      return lowest
-        ? { label: (language === 'ru' ? 'от ' : language === 'en' ? 'From ' : 'от ') + lowest.priceEUR!.toFixed(2) + ' €', oldValue: typeof lowest.oldPriceEUR === 'number' && lowest.oldPriceEUR > lowest.priceEUR! ? lowest.oldPriceEUR : undefined }
+      const price = variant?.priceEUR
+      const oldPrice = variant?.oldPriceEUR
+      return typeof price === 'number' && price > 0
+        ? { label: price.toFixed(2) + ' €', oldValue: typeof oldPrice === 'number' && oldPrice > price ? oldPrice : undefined }
         : { label: language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване' }
     }
     const price = Number(product.priceEUR || 0)
     return { label: price.toFixed(2) + ' €', oldValue: typeof product.oldPriceEUR === 'number' && product.oldPriceEUR > price ? product.oldPriceEUR : undefined }
   }
+
+  const getPlantVariantLabel = useCallback((variant: PlantSaleVariant, index: number) => {
+    const translatedName = language === 'ru'
+      ? variant.nameRu || variant.name
+      : language === 'en'
+        ? variant.nameEn || variant.name
+        : variant.name
+    const details = [
+      translatedName?.trim(),
+      typeof variant.saleHeightCm === 'number' && variant.saleHeightCm > 0
+        ? (language === 'ru' ? 'Высота ' : language === 'en' ? 'Height ' : 'Височина ') + variant.saleHeightCm + ' см'
+        : '',
+      typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0
+        ? (language === 'ru' ? 'контейнер ' : language === 'en' ? 'container ' : 'контейнер ') + variant.containerVolumeL + ' L'
+        : '',
+    ].filter(Boolean)
+    return details.join(' · ') || (language === 'ru' ? 'Вариант ' : language === 'en' ? 'Option ' : 'Вариант ') + (index + 1)
+  }, [language])
 
   const plantFilterLabel = (kind: string, value: string) => {
     const labels: Record<string, Record<string, { bg: string; ru: string; en: string }>> = {
@@ -321,16 +334,33 @@ export function CategoryPage({
     return [...priorityProducts, ...otherProducts]
   }, [products, allCategories, isIrrigationCatalog, category.isPlantCategory, language, localize, plantSearch, plantTypeFilter, plantWinterFilter, plantSortOrder])
 
+  const displayedCatalogItems = useMemo<Array<{ product: Product; variant?: PlantSaleVariant; variantKey?: string; key: string }>>(() => {
+    if (!category.isPlantCategory) {
+      return displayedProducts.map((product) => ({ product, variant: undefined, variantKey: undefined, key: product._id }))
+    }
+
+    return buildPlantCatalogOffers(
+      displayedProducts,
+      plantSortOrder,
+      (product) => getPlantDisplayName(product, localize(product, 'name'), language),
+      getPlantVariantLabel,
+      language,
+    ).map((offer) => ({
+      ...offer,
+      key: offer.product._id + '::' + (offer.variantKey || 'product'),
+    }))
+  }, [category.isPlantCategory, displayedProducts, plantSortOrder, localize, language, getPlantVariantLabel])
+
   const pageSize = 20
-  const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
+  const totalPages = Math.max(1, Math.ceil(displayedCatalogItems.length / pageSize))
 
   const goToPage = (page: number) => {
     shouldScrollToProducts.current = true
     setCurrentPage(Math.max(1, Math.min(totalPages, page)))
   }
-  const productsToRender = displayedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-  const firstVisibleProduct = displayedProducts.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
-  const lastVisibleProduct = Math.min(currentPage * pageSize, displayedProducts.length)
+  const productsToRender = displayedCatalogItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const firstVisibleProduct = displayedCatalogItems.length === 0 ? 0 : (currentPage - 1) * pageSize + 1
+  const lastVisibleProduct = Math.min(currentPage * pageSize, displayedCatalogItems.length)
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
@@ -473,8 +503,8 @@ export function CategoryPage({
             </div>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-slate-600">
-                {language === 'ru' ? 'Найдено растений:' : language === 'en' ? 'Plants found:' : 'Намерени растения:'}
-                {' '}<strong className="text-slate-900">{displayedProducts.length}</strong>
+                {language === 'ru' ? 'Найдено предложений:' : language === 'en' ? 'Offers found:' : 'Намерени предложения:'}
+                {' '}<strong className="text-slate-900">{displayedCatalogItems.length}</strong>
                 {' '}{language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'}{' '}
                 <strong className="text-slate-900">{products.length}</strong>
               </p>
@@ -487,7 +517,7 @@ export function CategoryPage({
       )}
 
       {/* Сетка товаров */}
-      {displayedProducts.length === 0 ? (
+      {displayedCatalogItems.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-xl border border-slate-100 shadow-sm">
           <p className="text-slate-500 text-lg">
             {category.isPlantCategory && products.length > 0
@@ -505,20 +535,29 @@ export function CategoryPage({
         </div>
       ) : (
         <div ref={productGridRef} id="category-products-grid" className="scroll-mt-24 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {productsToRender.map((product, index) => (
+          {productsToRender.map((item, index) => {
+            const product = item.product
+            const variant = item.variant
+            const displayName = getPlantDisplayName(product, localize(product, 'name'), language)
+            const variantIndex = variant ? (product.saleVariants || []).indexOf(variant) : -1
+            const variantLabel = variant ? getPlantVariantLabel(variant, variantIndex) : ''
+            const stockStatus = variant?.stockStatus || product.stockStatus
+            const stockIndicator = stockStatus === 'inStock' || stockStatus === 'onRequest' ? stockStatus : null
+            const cardImageUrl = category.isPlantCategory ? getPlantCatalogCardImageUrl(product, variant) : product.imageUrl
+            return (
             <a
-              key={product._id}
+              key={item.key}
               href={localizedHref(`/product/${encodeURIComponent(product.slug?.current || product._id)}`, language)}
-              onClick={(event) => handleInternalLinkClick(event, () => onSelectProduct(product))}
+              onClick={(event) => handleInternalLinkClick(event, () => onSelectProduct(product, item.variantKey))}
               className="min-w-0 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 flex flex-col justify-between cursor-pointer group no-underline"
             >
               <div>
                 <div className="h-32 sm:h-48 bg-slate-50 rounded-lg mb-2 sm:mb-4 flex items-center justify-center overflow-hidden relative">
-                  {product.imageUrl ? (
+                  {cardImageUrl ? (
                     <img
-                      {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
-                      alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
-                      title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
+                      {...getSanityImageProps(cardImageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
+                      alt={getProductImageText(displayName, language, 0, 'alt')}
+                      title={getProductImageText(displayName, language, 0, 'title')}
                       loading={index < 4 ? 'eager' : 'lazy'}
                       decoding="async"
                       className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
@@ -526,16 +565,16 @@ export function CategoryPage({
                   ) : (
                     <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
                   )}
-                  {getStockIndicator(product) && (
+                  {stockIndicator && (
                     <span
-                      aria-label={getStockIndicator(product) === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
-                      title={getStockIndicator(product) === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
-                      className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${getStockIndicator(product) === 'inStock' ? 'bg-emerald-500' : 'bg-sky-500'}`}
+                      aria-label={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
+                      title={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
+                      className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${stockIndicator === 'inStock' ? 'bg-emerald-500' : 'bg-sky-500'}`}
                     />
                   )}
                 </div>
                 <h3 className="mt-1 mb-1.5 line-clamp-2 break-words text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-emerald-700 sm:text-base">
-                  {getPlantDisplayName(product, localize(product, 'name'), language)}
+                  {displayName}
                 </h3>
                 <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
                   {toPlainText(localize(product, 'shortDescription') || product.shortDescription || '') || t('Висококачествен продукт за поливни системи.')}
@@ -544,7 +583,7 @@ export function CategoryPage({
 
               <div className="border-t border-slate-100 pt-2">
                 {(() => {
-                  const cardPrice = getCardPrice(product)
+                  const cardPrice = getCardPrice(product, variant)
                   const categoryName = product.categoryTranslations?.[language]?.name || (product.categoryId ? localize(allCategories.find((item) => item._id === product.categoryId), 'name') : undefined) || product.category || localize(category, 'name')
                   return (
                     <>
@@ -552,20 +591,21 @@ export function CategoryPage({
                         {cardPrice.oldValue !== undefined && <span className="text-[10px] text-slate-400 line-through sm:text-xs">{cardPrice.oldValue.toFixed(2)} €</span>}
                         <span className="text-sm font-bold text-emerald-800 sm:text-lg">{cardPrice.label}</span>
                       </div>
-                      <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{t("Виж детайли")}</span>
+                      <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{variant ? (language === 'ru' ? 'Посмотреть размер: ' : language === 'en' ? 'View size: ' : 'Виж размер: ') + variantLabel : t('Виж детайли')}</span>
                       <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:text-[10px]" title={String(categoryName)}>{categoryName}</p>
                     </>
                   )
                 })()}
               </div>
             </a>
-          ))}
+            )
+          })}
         </div>
       )}
-      {displayedProducts.length > pageSize && (
+      {displayedCatalogItems.length > pageSize && (
         <nav className="mt-6 flex flex-wrap items-center justify-between gap-3" aria-label={language === 'ru' ? 'Страницы товаров' : language === 'en' ? 'Product pages' : 'Страници с продукти'}>
           <p className="text-xs text-slate-500 sm:text-sm">
-            {category.isPlantCategory ? (language === 'ru' ? 'Показаны растения' : language === 'en' ? 'Showing plants' : 'Показани растения') : (language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти')} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedProducts.length}
+            {category.isPlantCategory ? (language === 'ru' ? 'Показаны предложения' : language === 'en' ? 'Showing offers' : 'Показани предложения') : (language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти')} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedCatalogItems.length}
           </p>
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Previous' : language === 'ru' ? 'Назад' : 'Назад'}</button>

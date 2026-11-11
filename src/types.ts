@@ -139,6 +139,7 @@ export interface Product {
   oldPriceEUR?: number
   sku?: string
   brand?: string
+  mainImageUrl?: string
   imageUrl?: string
   imageAlt?: string
   imageAltEn?: string
