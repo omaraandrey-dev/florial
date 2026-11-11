@@ -1,3 +1,34 @@
+## Дополнение — карточки связанных услуг и статей в категориях (PR #210)
+
+Дата: 11.11.2026
+Статус: PR #210 объединён; Cloudflare Pages Production deployment завершён успешно.
+
+### Поведение storefront
+- В src/pages/CategoryPage.tsx блок помощи категории отображает карточку связанного материала вместо прежней текстовой кнопки. Карточка включает изображение, локализованное название, доступное имя для скринридера и внутреннюю ссылку.
+- Целевой URL берётся из category.helpBlock.buttonUrl, только если путь начинается с /services/ или /blog/. Для некорректного/отсутствующего пути используются fallback: /services/zasazhdane-na-rasteniya для категории растений и /services/avtomatichno-napoyavane для остальных категорий.
+- По slug целевого пути выполняется read-only запрос Sanity к документам типов service или blogPost. Для услуг учитывается isActive; для статей — isPublished. Изображение выбирается через fallback-последовательность доступных полей изображения; локализуются title/name и alt для BG/RU/EN.
+- Если связанный документ не найден или запрос завершается ошибкой, сохраняется текстовый fallback карточки; при отсутствии изображения используется пустая нейтральная область.
+- Поддержка карточек блог-публикаций реализована в коде; в рамках live smoke этой задачи фактически проверены две service-карточки.
+
+### Затронутые файлы и границы
+- Runtime: src/pages/CategoryPage.tsx.
+- Документация: CHANGELOG.md, docs/TECHNICAL_PASSPORT.md.
+- PR #210: https://github.com/omaraandrey-dev/florial/pull/210.
+- Merge commit: 38235643054c148c9754428e40403741728735cd.
+- Sanity documents/schema, D1 schema/data, Cloudflare settings/secrets, API, orders, cart, checkout, Header, main menu и Footer не изменялись. SQL/D1 migrations не запускались.
+
+### CI и Production verification
+- GitHub Actions Blog and Studio validation — success.
+- GitHub Actions Florial D1 migration validation — success.
+- Cloudflare Pages Production deployment: c2b880a6-c301-48e5-a433-60f490528c98; trigger github:push на main commit 38235643054c148c9754428e40403741728735cd; build и deploy — success.
+- Production aliases: https://florial-bg.com, https://www.florial-bg.com.
+- Live smoke: /category/rastenia и /category/vsichko-za-polivane — HTTP 200; карточки имеют изображения и корректные ссылки на service pages. /services/zasazhdane-na-rasteniya и /services/avtomatichno-napoyavane — HTTP 200.
+- Локализация карточки растений проверена на BG/RU/EN: «Засаждане на растения» / «Посадка растений» / «Planting Services». RU и EN category routes вернули HTTP 200.
+- Владелец подтвердил успешную проверку Production.
+- Изменение не меняет архитектуру, маршруты, модель данных, SEO URL или инфраструктуру; отдельное обновление архитектурных схем не требуется.
+
+---
+
 ## Дополнение — сброс выбранного варианта растения при внутренней навигации
 
 Дата: 11.11.2026
