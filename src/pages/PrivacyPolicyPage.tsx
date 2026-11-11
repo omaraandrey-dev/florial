@@ -60,7 +60,7 @@ const content: Record<'bg' | 'ru' | 'en', {
     updated: 'Last updated: 11 November 2026.',
     back: 'Back to home',
     sections: [
-      { title: '1. Data controller', paragraphs: ['The controller is Florial Ltd (Bulgarian: „Флориал“ ООД), UIC 206978288, VAT number BG206978288, represented by Desislav Barakov.', 'Address: Florial Garden Centre,  Hан Крум St., 8230 Nessebar, Bulgaria (next to Janet store).', 'Privacy contact: omaraandrey@gmail.com. Telephone: +359 876 777 902 and +359 885 834 860.'] },
+      { title: '1. Data controller', paragraphs: ['The controller is Florial Ltd (Bulgarian: „Флориал“ ООД), UIC 206978288, VAT number BG206978288, represented by Desislav Barakov.', 'Address: Florial Garden Centre,  Khan Krum St., 8230 Nessebar, Bulgaria (next to Janet store).', 'Privacy contact: omaraandrey@gmail.com. Telephone: +359 876 777 902 and +359 885 834 860.'] },
       { title: '2. Personal data we process', paragraphs: ['For orders: name, telephone number, email address (if provided), town, delivery address, collection and payment method, comment, order number and contents, quantities and prices.', 'For enquiries about irrigation design, installation, programming, repair, maintenance or landscaping: the name, telephone number, email, town, site description and other information you choose to provide.', 'The website records limited technical events such as a page view or a click on a telephone/chat link. The record includes event type, website language, page path, date and time; it does not include the visitor’s name, telephone number or email address.', 'For protection of public forms, Cloudflare may process the request IP address. To limit excessive requests, the application creates a daily hash of the IP address; the raw IP is not stored in the site-event statistics table.'] },
       { title: '3. Purposes and legal bases', bullets: ['Receiving, confirming and fulfilling orders — performance of a contract or steps taken at your request before entering into a contract (GDPR Article 6(1)(b)).', 'Issuing and retaining accounting and tax documents — compliance with a legal obligation (GDPR Article 6(1)(c)).', 'Responding to enquiries and preparing quotations — steps taken at your request before entering into a contract (GDPR Article 6(1)(b)).', 'Technical security, abuse prevention and limited website usage statistics — the controller’s legitimate interests (GDPR Article 6(1)(f)), subject to a balancing assessment.'] },
       { title: '4. Orders and payments', paragraphs: ['Order data is used to process the order, contact the customer, arrange delivery or collection, confirm availability and prepare accounting documents. The website stores the selected payment method but does not collect or store full bank-card details.', 'For bank transfers, the relevant banks process the payment and banking details. Where a courier is used, the necessary delivery details are provided to that courier.'] },
@@ -101,11 +101,16 @@ export function PrivacyPolicyPage() {
   }, [language, page.intro])
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
+    <div className="flex-grow bg-slate-50 text-slate-800">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <a href={localizedHref('/', language)} className="text-xl font-extrabold tracking-wide text-emerald-800 no-underline">FLORIAL</a>
-          <a href={localizedHref('/', language)} className="text-sm font-semibold text-emerald-800 hover:underline">{page.back}</a>
+          <div className="flex items-center gap-3 text-sm">
+            <a href="/privacy-policy" className={language === 'bg' ? 'font-bold text-emerald-800' : 'text-slate-500 hover:text-emerald-800'}>BG</a>
+            <a href="/privacy-policy?lang=ru" className={language === 'ru' ? 'font-bold text-emerald-800' : 'text-slate-500 hover:text-emerald-800'}>RU</a>
+            <a href="/privacy-policy?lang=en" className={language === 'en' ? 'font-bold text-emerald-800' : 'text-slate-500 hover:text-emerald-800'}>EN</a>
+            <a href={localizedHref('/', language)} className="ml-2 font-semibold text-emerald-800 hover:underline">{page.back}</a>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:py-14">
