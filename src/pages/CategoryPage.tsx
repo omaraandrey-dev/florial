@@ -6,6 +6,7 @@ import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
+import { sanityClient } from '../lib/sanity'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
 import { buildPlantCatalogOffers, comparePlantProducts, getPlantCatalogCardImageUrl, getPlantDisplayName, type PlantCatalogSort } from '../lib/plantCatalogUtils'
@@ -31,6 +32,62 @@ export function CategoryPage({
 }: CategoryPageProps) {
   const { t, language, localize } = useI18n()
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
+  const helpConfiguredUrl = typeof category.helpBlock?.buttonUrl === 'string' ? category.helpBlock.buttonUrl.trim() : ''
+  const helpTargetUrl = helpConfiguredUrl.startsWith('/services/') || helpConfiguredUrl.startsWith('/blog/')
+    ? helpConfiguredUrl
+    : (category.isPlantCategory ? '/services/zasazhdane-na-rasteniya' : '/services/avtomatichno-napoyavane')
+  const [helpCardContent, setHelpCardContent] = useState<{
+    _type: 'service' | 'blogPost'
+    name?: string
+    title?: string
+    translations?: Record<string, Record<string, any>>
+    imageUrl?: string
+    imageAlt?: string
+    imageAltEn?: string
+    imageAltRu?: string
+  } | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    const targetPath = new URL(helpTargetUrl, window.location.origin).pathname
+    const targetMatch = targetPath.match(/^\\/(services|blog)\\/([^/]+)\\/?$/)
+    if (!targetMatch) {
+      setHelpCardContent(null)
+      return () => { cancelled = true }
+    }
+
+    const slug = decodeURIComponent(targetMatch[2])
+    const query = `
+      *[
+        _type in ["service", "blogPost"] &&
+        coalesce(slug.current, slug) == $slug &&
+        (!defined(isActive) || isActive != false) &&
+        (_type != "blogPost" || isPublished == true)
+      ][0] {
+        _type,
+        name,
+        title,
+        translations,
+        "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url, imageUrl, externalImageUrl),
+        "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, hero.image.alt, name, title),
+        "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, hero.image.altEn, translations.en.title, translations.en.name, title, name),
+        "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, hero.image.altRu, translations.ru.title, translations.ru.name, title, name)
+      }
+    `
+
+    sanityClient.fetch(query, { slug })
+      .then((result) => {
+        if (!cancelled) setHelpCardContent(result || null)
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          setHelpCardContent(null)
+          console.warn('Не удалось загрузить карточку материала категории:', error)
+        }
+      })
+
+    return () => { cancelled = true }
+  }, [helpTargetUrl])
   const [plantSearch, setPlantSearch] = useState('')
   const [plantTypeFilter, setPlantTypeFilter] = useState('')
   const [plantWinterFilter, setPlantWinterFilter] = useState('')
@@ -627,16 +684,42 @@ export function CategoryPage({
         const buttonLabel = help?.buttonLabel || (isPlantCategory
           ? (language === 'ru' ? 'Посадка растений' : language === 'en' ? 'Planting Services' : 'Услуги по засаждане')
           : (language === 'ru' ? 'Монтаж на поливни системи' : language === 'en' ? 'Irrigation Installation' : 'Монтаж на поливни системи'))
-        const configuredUrl = typeof category.helpBlock.buttonUrl === 'string' ? category.helpBlock.buttonUrl.trim() : ''
-        const buttonUrl = configuredUrl.startsWith('/services/') || configuredUrl.startsWith('/blog/')
-          ? configuredUrl
-          : (isPlantCategory ? '/services/zasazhdane-na-rasteniya' : '/services/avtomatichno-napoyavane')
+        const cardTitle = helpCardContent
+          ? String(localize(helpCardContent, helpCardContent._type === 'blogPost' ? 'title' : 'name') || helpCardContent.title || helpCardContent.name || buttonLabel)
+          : buttonLabel
+        const cardImageAlt = language === 'ru'
+          ? (helpCardContent?.imageAltRu || helpCardContent?.imageAlt || cardTitle)
+          : language === 'en'
+            ? (helpCardContent?.imageAltEn || helpCardContent?.imageAlt || cardTitle)
+            : (helpCardContent?.imageAlt || cardTitle)
         return (
           <section className="mt-12 rounded-2xl border border-[#DDE3D0] bg-[#F3F5EC] p-6 md:p-10">
             <h2 className="mb-3 text-2xl font-bold text-slate-900">{title}</h2>
             <p className="mb-6 max-w-4xl leading-7 text-slate-700">{text}</p>
-            <a href={localizedHref(buttonUrl, language)} className="inline-flex rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800 no-underline">
-              {buttonLabel} →
+            <a
+              href={localizedHref(helpTargetUrl, language)}
+              aria-label={cardTitle}
+              className="group block w-full max-w-sm overflow-hidden rounded-xl border border-[#DDE3D0] bg-white text-slate-800 no-underline shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#91A66B] focus-visible:ring-offset-2"
+            >
+              <div className="aspect-[16/9] overflow-hidden bg-[#E9EDDF]">
+                {helpCardContent?.imageUrl ? (
+                  <img
+                    {...getSanityImageProps(helpCardContent.imageUrl, '(min-width: 640px) 384px, 100vw', 800)}
+                    alt={cardImageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center px-4 text-sm text-slate-500">
+                    {language === 'ru' ? 'Загрузка фотографии' : language === 'en' ? 'Loading image' : 'Зареждане на снимката'}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-between gap-3 px-4 py-3.5">
+                <span className="font-semibold leading-snug group-hover:text-[#647746]">{cardTitle}</span>
+                <span aria-hidden="true" className="shrink-0 text-lg text-[#82936A]">→</span>
+              </div>
             </a>
           </section>
         )
