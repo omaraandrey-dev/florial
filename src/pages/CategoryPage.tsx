@@ -8,7 +8,7 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
-import { buildPlantCatalogOffers, comparePlantProducts, getPlantDisplayName, type PlantCatalogSort } from '../lib/plantCatalogUtils'
+import { buildPlantCatalogOffers, comparePlantProducts, getPlantCatalogCardImageUrl, getPlantDisplayName, type PlantCatalogSort } from '../lib/plantCatalogUtils'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -543,6 +543,7 @@ export function CategoryPage({
             const variantLabel = variant ? getPlantVariantLabel(variant, variantIndex) : ''
             const stockStatus = variant?.stockStatus || product.stockStatus
             const stockIndicator = stockStatus === 'inStock' || stockStatus === 'onRequest' ? stockStatus : null
+            const cardImageUrl = category.isPlantCategory ? getPlantCatalogCardImageUrl(product, variant) : product.imageUrl
             return (
             <a
               key={item.key}
@@ -552,9 +553,9 @@ export function CategoryPage({
             >
               <div>
                 <div className="h-32 sm:h-48 bg-slate-50 rounded-lg mb-2 sm:mb-4 flex items-center justify-center overflow-hidden relative">
-                  {product.imageUrl ? (
+                  {cardImageUrl ? (
                     <img
-                      {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
+                      {...getSanityImageProps(cardImageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
                       alt={getProductImageText(displayName, language, 0, 'alt')}
                       title={getProductImageText(displayName, language, 0, 'title')}
                       loading={index < 4 ? 'eager' : 'lazy'}
