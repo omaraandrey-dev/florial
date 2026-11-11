@@ -880,6 +880,7 @@ export default function App() {
     setActiveServiceSlug(route.activeServiceSlug)
     setActiveCategorySlug(route.activeCategorySlug)
     setActiveProductSlug(route.activeProductSlug)
+    setInitialSaleVariantKey(null)
     setCurrentProduct(null)
     setLoadingProductDetails(Boolean(route.activeProductSlug))
     setRouteRevision((revision) => revision + 1)
