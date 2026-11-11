@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -8,7 +8,7 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
-import { buildPlantCatalogOffers, comparePlantProducts, getPlantDisplayName, getPlantOfferAvailabilityPriority, type PlantCatalogSort } from '../lib/plantCatalogUtils'
+import { buildPlantCatalogOffers, comparePlantProducts, getPlantDisplayName, type PlantCatalogSort } from '../lib/plantCatalogUtils'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -160,7 +160,7 @@ export function CategoryPage({
     return { label: price.toFixed(2) + ' €', oldValue: typeof product.oldPriceEUR === 'number' && product.oldPriceEUR > price ? product.oldPriceEUR : undefined }
   }
 
-  const getPlantVariantLabel = (variant: PlantSaleVariant, index: number) => {
+  const getPlantVariantLabel = useCallback((variant: PlantSaleVariant, index: number) => {
     const translatedName = language === 'ru'
       ? variant.nameRu || variant.name
       : language === 'en'
@@ -176,7 +176,7 @@ export function CategoryPage({
         : '',
     ].filter(Boolean)
     return details.join(' · ') || (language === 'ru' ? 'Вариант ' : language === 'en' ? 'Option ' : 'Вариант ') + (index + 1)
-  }
+  }, [language])
 
   const plantFilterLabel = (kind: string, value: string) => {
     const labels: Record<string, Record<string, { bg: string; ru: string; en: string }>> = {
@@ -349,7 +349,7 @@ export function CategoryPage({
       ...offer,
       key: offer.product._id + '::' + (offer.variantKey || 'product'),
     }))
-  }, [category.isPlantCategory, displayedProducts, plantSortOrder, localize, language])
+  }, [category.isPlantCategory, displayedProducts, plantSortOrder, localize, language, getPlantVariantLabel])
 
   const pageSize = 20
   const totalPages = Math.max(1, Math.ceil(displayedCatalogItems.length / pageSize))
