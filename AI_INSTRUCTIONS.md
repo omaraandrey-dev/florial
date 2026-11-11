@@ -10,7 +10,7 @@ ChatGPT Project instructions задают правила поведения Chat
 ## Обязательный старт технического чата
 1. Получить актуальный HEAD `main`.
 2. Прочитать этот файл и `docs/AI/START_HERE.md`.
-3. Прочитать `docs/AI/WORK_PROTOCOL.md`, `MASTER_SPEC.md`, релевантные разделы `docs/TECHNICAL_PASSPORT.md`.
+3. Прочитать `docs/AI/WORK_PROTOCOL.md`, `docs/AI/MASTER_SPEC.md`, релевантные разделы `docs/TECHNICAL_PASSPORT.md`.
 4. Проверить актуальные записи `CHANGELOG.md` и `docs/AI/OPEN_QUESTIONS.md`.
 5. Проверить соответствующие исходники, тесты, workflows, схемы и конфигурации.
 6. При необходимости проверить живые Sanity, Cloudflare Pages/D1 и Resend.
