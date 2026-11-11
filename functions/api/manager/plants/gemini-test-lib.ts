@@ -169,6 +169,8 @@ export const normalizeGeminiPlantResult = (
       floweringSeason: Array.isArray(care.floweringSeason) ? care.floweringSeason.slice(0, 5).map((item: unknown) => text(item, 24)) : [],
       plantingSeason: Array.isArray(care.plantingSeason) ? care.plantingSeason.slice(0, 5).map((item: unknown) => text(item, 24)) : [],
       blackSeaCoast: 'needsVerification',
+      blackSeaCoastRecommendation: ['suitable', 'conditional', 'notSuitable', 'insufficientData'].includes(String(care.blackSeaCoastRecommendation)) ? String(care.blackSeaCoastRecommendation) : 'insufficientData',
+      blackSeaCoastReason: text(care.blackSeaCoastReason, 800),
     },
     careGuide: text(parsed.careGuide, 5000),
   }
