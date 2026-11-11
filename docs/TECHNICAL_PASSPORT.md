@@ -1,3 +1,19 @@
+## Дополнение — каталог растений: названия, наличие и сортировка (PR #204)
+
+Дата: 11.11.2026  
+Статус: реализация находится в отдельном PR; merge и Production deployment не выполнены.
+
+- Диагностика опубликованного Sanity-документа `palm-trachycarpus` подтвердила: корневое `name` заполнено, `translations.bg.name` — пустая строка, BG H1 и RU/EN локализованные поля заполнены. Причина пустого заголовка в карточке — `CategoryPage.tsx` рендерил `localize(product, 'name')` напрямую; локализатор сохраняет пустую строку как значение, поэтому fallback на корневое название не срабатывал.
+- Добавлен helper `getPlantDisplayName`: непустое название выбранного языка → локализованный SEO H1 для RU/EN → корневое `name` → корневой SEO H1.
+- Наличие для сортировки и индикатора карточки определяется по вариантам `saleVariants[].stockStatus`, если они заполнены: любой `inStock` имеет высший приоритет, затем `onRequest`, затем `outOfStock`. Корневой `stockStatus` используется только при отсутствии статусов вариантов. Это устраняет влияние устаревшего root status на порядок карточек.
+- В каталоге растений удалены UI-фильтры освещённости, потребности в воде и пригодности для Черноморского побережья. Оставлены тип растения и зимостойкость; добавлены `priceAsc` и `priceDesc`. Сначала всегда сортируется группа наличия, внутри группы применяется выбранная сортировка. Варианты без положительной цены помещаются после товаров с ценой в той же группе.
+- Изменённые runtime-файлы: `src/pages/CategoryPage.tsx`, новый `src/lib/plantCatalogUtils.ts`. Тест: `tests/plant-catalog-utils.test.mjs`.
+- Live Sanity чтение было read-only; документ `palm-trachycarpus` и любые другие Sanity documents не изменялись. Schema, D1, Cloudflare settings/secrets, orders, cart, checkout, Header, menu и Footer не затронуты.
+- PR #204, ветка `fix/plant-category-stock-filters-names`, финальный HEAD на момент записи `a1f7b10ab4a56b7a3dd2630859a367ab351cb2e6`. CI run #871 и D1 validation #1066 прошли на более раннем HEAD `93f8b1c...`; обязательна повторная проверка финального HEAD после follow-up commits. Production deployment отсутствует.
+- Отдельные индексируемые страницы вариантов не реализованы. Текущий ProductPage хранит выбранный вариант во внутреннем состоянии; `getRouteState` не читает variant query, клиентский canonical не сохраняет такой параметр, middleware Product JSON-LD и sitemap пока не перечисляют варианты. Для безопасной SEO-реализации нужен отдельный проектный этап с variant-aware URL, canonical/hreflang, middleware metadata/JSON-LD и sitemap. Не создавать дублирующие Sanity documents.
+
+---
+
 ## Дополнение — страница «Общи условия» (PR #202, на проверке)
 
 Дата: 11.11.2026
