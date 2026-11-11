@@ -1,3 +1,17 @@
+## 2026-11-11 — Разделение этапов проверки ответа Google Gemini и подписи AI proof
+
+- Уточнена диагностика Gemini Photo/Text: единый этап `normalizing` больше не объединяет разбор JSON, нормализацию данных и создание защитной подписи AI proof.
+- Добавлены отдельные этапы `json_parsing`, `normalizing` и `proof_signing`. В сообщении об ошибке теперь возвращается фактический последний этап обработки, а не общий `response_validation`.
+- Добавлен `parseGeminiPlantJson`: завершённый JSON должен быть объектом. Оборванный JSON и корректный JSON другого корневого типа получают `GEMINI_INVALID_JSON` и безопасную краткую диагностику без вывода полного ответа модели.
+- Ошибки выдачи подписи разделены на отсутствие пригодной сессии Manager и сбой Web Crypto signing; они больше не маскируются как общий `GEMINI_PROVIDER_ERROR`.
+- Существующие проверки SSE, `finishReason`, `MAX_TOKENS`, safety block и транспортных ошибок сохранены; повторно не реализовывались.
+- Изменены: `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plants/gemini-test-lib.ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/gemini-plant-ai.test.mjs`.
+- Sanity, D1, пользовательские данные, роли/права, Gemini model/API key, Cloudflare settings/secrets, каталог, Header, меню и Footer не изменялись. Production deployment не выполнялся.
+- Проверки и CI: ожидаются в PR; до их завершения результат не считается опубликованным.
+- Диагноз исходной ошибки с ID `5ff5260c-e57b-4eaa-8915-cc67028286e5` не подтверждён: Cloudflare Observability не вернул соответствующую запись. Новое разделение этапов позволит определить, завершился ли JSON parsing, normalization или AI proof signing.
+
+---
+
 ## 2026-11-11 — Google AI botanical fields available to Owner, Manager and Seller
 
 - Implemented the owner-approved policy: Google Gemini is the only AI provider for the plant Manager workflow; the existing Gemini Photo/Text flow remains the source of AI-generated plant data.
