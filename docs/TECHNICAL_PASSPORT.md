@@ -1,7 +1,7 @@
 ## Дополнение — карточки вариантов продажи растений в каталоге (PR #207)
 
 Дата: 11.11.2026  
-Статус: PR #207 открыт; merge и Production deployment не выполнялись.
+Статус: PR #207 объединён squash в main; Production deployment для merge commit завершился ошибкой на этапе публикации Pages Function.
 
 ### Поведение storefront
 - `CategoryPage.tsx` строит отдельную карточку на каждый элемент `Product.saleVariants[]`; один документ Sanity остаётся единственным источником данных о растении. Для товара без вариантов сохраняется одна обычная карточка.
@@ -16,9 +16,12 @@
 ### Затронутые компоненты и проверки
 - Runtime: `src/pages/CategoryPage.tsx`, `src/App.tsx`, `src/pages/ProductPage.tsx`, `src/lib/plantCatalogUtils.ts`, `src/types.ts`.
 - Tests: `tests/plant-catalog-utils.test.mjs` — покрытие разворачивания предложений, stock/price sort, отсутствующей цены, порядка Sanity и проверки выбранного ключа.
-- CI code HEAD `ac107a131f758ebd81c112dec6fdec4b2ba0c5c6`: lint, 89 utility tests, website build — success; D1 validation run #1074 — success; Studio build run #879 ещё выполняется на момент записи.
+- Финальный PR HEAD `6152ad7b816f610e54116fd4e632a8277e3851bf`: Blog and Studio validation run #885 — success; Florial D1 validation run #1078 — success. Проверки включили lint, тесты, website build, миграционные проверки и Sanity Studio build.
 - Sanity documents/schema, D1 data/schema, Cloudflare settings/secrets, cart/checkout, Header/menu/Footer не затронуты.
-- PR #207 — `https://github.com/omaraandrey-dev/florial/pull/207`. Не выполнять merge/Production deploy без отдельного явного согласия владельца.
+- Автоматический Cloudflare Pages Production deployment `d5f38dd3-6197-430b-8332-5b5ae208f663` (commit `5ec2108...`) прошёл clone и build, успешно загрузил assets, но завершился failure на стадии deploy: `Failed to publish your Function. Got error: binding DB of type d1 failed to generate`. Это не ошибка Vite build: Cloudflare Pages Function не опубликована.
+- Последняя подтверждённая успешная Production deployment остаётся `e1453092-2a32-4b12-8d0a-0d3c046e83b9` для main commit `11bfc43ec0f80692b04c324df405ebf600e033e7`; её aliases `https://florial-bg.com` и `https://www.florial-bg.com` сохраняются. Новая версия с карточками размеров пока не подтверждена в Production.
+- Повторная публикация/rollback не выполнялись. Для устранения ошибки DB binding требуется отдельное решение владельца и диагностика Cloudflare Pages D1 binding; конфигурация D1 не менялась.
+- PR #207 — `https://github.com/omaraandrey-dev/florial/pull/207`; squash merge commit: `5ec210848db4b30568e5f4ae8ee03d02c4efe3a1` (11.11.2026 12:42 UTC).
 
 ---
 
