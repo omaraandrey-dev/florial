@@ -8,7 +8,7 @@
 - Добавлена публичная локализованная страница `/withdrawal` (BG/RU/EN), двухэтапная форма с отдельной кнопкой подтверждения, ссылкой на официальный стандартен формуляр (Приложение № 6) и серверным timestamp.
 - Добавлен `POST /api/withdrawals`: same-origin, bounded JSON body, D1 rate limit, валидация имени/идентификатора договора/email, регистрация заявления в D1 и попытка отправить подтверждение через существующий Resend.
 - Заявление сохраняется и при отсутствии автоматического совпадения заказа; в этом случае `order_id=NULL`, а Manager показывает необходимость ручной проверки. Публичный ответ не раскрывает факт/отсутствие совпадения с заказом.
-- Добавлена additive миграция `0014_contract_withdrawals.sql`: таблицы `contract_withdrawals` и append-only `contract_withdrawal_events`; декларационные поля защищены от изменения триггером. Существующие orders/order_events не меняются.
+- Добавлена additive миграция `docs/migrations/0014_contract_withdrawals.sql`: таблицы `contract_withdrawals` и append-only `contract_withdrawal_events`; декларационные поля защищены от изменения триггером. Существующие orders/order_events не меняются.
 - Добавлен Manager API `/api/manager/withdrawals` и вкладка `Откази от договори`. Просмотр доступен Owner и Manager с `canViewOrders`/ `canEditOrders`; изменение статуса и повторная отправка подтверждения — Owner/Manager с `canEditOrders`.
 - Privacy Policy BG/RU/EN дополнена раскрытием категорий данных, целей обработки, подтверждений Resend и критериев хранения заявлений. Срок хранения требует юридической фиксации; автоматическое удаление не реализовано.
 - Добавлены helper tests `tests/contract-withdrawals.test.mjs`.
