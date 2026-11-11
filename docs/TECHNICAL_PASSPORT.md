@@ -11,7 +11,7 @@
 - Контакты, Facebook, локализация BG/RU/EN и существующие tracking events сохранены.
 - Header, меню, checkout, Sanity, D1, Cloudflare settings/secrets и пользовательские данные не изменялись.
 - CI PR #200: Blog and Studio validation #43012114645 — success; Florial D1 migration validation #43012114952 — success. Main D1 validation #43012265621 — success.
-- Production deployment: `6225a42e-4904-442a-8937-393db535ac8a), стадия deploy success, aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Production deployment: `6225a42e-4904-442a-8937-393db535ac8a`, стадия deploy success, aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
 
 Остаётся: отдельная визуальная проверка на реальных мобильных/desktop экранах; юридическая проверка текста политики/заявления; authenticated Owner/Manager permission checks и полный Manager workflow.
 
