@@ -50,7 +50,7 @@ export function CategoryPage({
   useEffect(() => {
     let cancelled = false
     const targetPath = new URL(helpTargetUrl, window.location.origin).pathname
-    const targetMatch = targetPath.match(/^\\/(services|blog)\\/([^/]+)\\/?$/)
+    const targetMatch = targetPath.match(/^\/(services|blog)\/([^/]+)\/?$/)
     if (!targetMatch) {
       setHelpCardContent(null)
       return () => { cancelled = true }
@@ -711,9 +711,7 @@ export function CategoryPage({
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center px-4 text-sm text-slate-500">
-                    {language === 'ru' ? 'Загрузка фотографии' : language === 'en' ? 'Loading image' : 'Зареждане на снимката'}
-                  </div>
+                  <div className="h-full w-full" aria-hidden="true" />
                 )}
               </div>
               <div className="flex items-center justify-between gap-3 px-4 py-3.5">
