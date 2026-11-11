@@ -1,3 +1,21 @@
+## Дополнение rev83 — Footer обновлён и опубликован в Production
+
+Дата: 11.11.2026
+Статус: PR #200 объединён; Cloudflare Pages Production deployment успешен.
+
+- PR #200 squash-объединён в main: `ecd2b6f8a0700f864bfe24bfce047a88334a7753`.
+- Изменён только `src/components/Footer.tsx`.
+- Фон подвала `#F3F5EC` совпадает с фоном завершающей информационной секции `src/pages/ServicesListPage.tsx`; контактный блок — `#E9EDDB`, границы — `#DDE3D0`.
+- Основные тексты стали тёмными и контрастными, ссылки — тёмно-зелёными; зелёные CTA звонка и WhatsApp сохранены.
+- Добавлена локализованная постоянная ссылка `/withdrawal` рядом с `/privacy-policy`.
+- Контакты, Facebook, локализация BG/RU/EN и существующие tracking events сохранены.
+- Header, меню, checkout, Sanity, D1, Cloudflare settings/secrets и пользовательские данные не изменялись.
+- CI PR #200: Blog and Studio validation #43012114645 — success; Florial D1 migration validation #43012114952 — success. Main D1 validation #43012265621 — success.
+- Production deployment: `6225a42e-4904-442a-8937-393db535ac8a`, стадия deploy success, aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+
+Остаётся: отдельная визуальная проверка на реальных мобильных/desktop экранах; юридическая проверка текста политики/заявления; authenticated Owner/Manager permission checks и полный Manager workflow.
+
+---
 ## Дополнение rev82 — Production D1 migration 0014 применена
 
 Дата: 11.11.2026
