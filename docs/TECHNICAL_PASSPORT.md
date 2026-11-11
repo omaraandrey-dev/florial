@@ -10,13 +10,13 @@
 - Применён SQL из docs/migrations/0014_contract_withdrawals.sql. Cloudflare D1 API вернул success для всех SQL statements; applied_at: 2026-11-11 11:11:19.
 - Созданы contract_withdrawals и contract_withdrawal_events, четыре индекса и четыре защитных триггера (JSON metadata, append-only UPDATE/DELETE событий, неизменяемость декларационных полей).
 - Post-check подтвердил наличие всех объектов и регистрацию миграции.
-- Контрольные количества до/после совпадают: orders 7; order_events 26; service_leads 2; service_lead_events 7. Новые таблицы пусты: contract_withdrawals 0; contract_withdrawal_events 0.
-- Post-check запросы read-only: changed_db=false, rows_written=0.
-- Live retrieval /withdrawal BG/RU/EN — HTTP 200, локализованные формы отображаются, robots=noindex,nofollow. Неавторизованный GET /api/manager/withdrawals — HTTP 401 Authentication required.
-- Не выполнялись реальные POST-заявления, тест Resend, authenticated Owner/Manager checks. Поэтому end-to-end регистрация, email delivery и полный Manager workflow остаются непроверенными.
-- Не менялись существующие заказы/заявки, Sanity, Cloudflare settings/secrets, Header, меню, Footer и checkout. Migration additive only.
-- Юридическая проверка текста/сроков хранения и отдельное согласование постоянной ссылки Footer остаются открытыми. До контролируемого smoke-теста на согласованный тестовый email не использовать форму для реальных клиентских заявлений.
-- Обновление документации подготовлено отдельным docs-only PR, чтобы не запускать новый Production deployment без отдельного согласования.
+- Контрольные количества существующих данных до/после совпадают: orders 7; order_events 26; service_leads 2; service_lead_events 7. На момент применения новые таблицы были пусты.
+- После миграции владелец выполнил контролируемый end-to-end POST через Production-форму и подтвердил получение подтверждающего письма заявителем и администратором.
+- Read-only post-test D1 подтвердил: `contract_withdrawals` — 1 запись; `contract_withdrawal_events` — 2 события (`declaration_received`, `confirmation_sent`). Проверочные запросы не меняли БД (`rows_written=0`, `changed_db=false`).
+- Фактическая регистрация заявления и доставка подтверждений обеим сторонам подтверждены. Полная приёмка Manager остаётся частичной: авторизованные Owner/Manager проверки доступа, смена статусов и повторная отправка письма ещё не проверены.
+- Не менялись существующие заказы/заявки, Sanity, Cloudflare settings/secrets, Header, меню, Footer и checkout. Migration additive only; тестовая запись сохранена.
+- Юридическая проверка текста/сроков хранения и отдельное согласование постоянной ссылки Footer остаются открытыми. Тестовую запись не удалять без отдельного согласования.
+- Документационный follow-up фиксирует фактический результат контролируемого теста; его публикация выполняется после проверки CI.
 
 ---
 ## Дополнение rev81 — PR #198 объединён и Production опубликована
