@@ -1,3 +1,21 @@
+## Дополнение rev81 — PR #198 объединён и Production опубликована
+
+Дата: 11.11.2026  
+Статус: PR #198 объединён с main; Cloudflare Pages Production deployment завершился успешно; D1 migration 0014 НЕ применялась.
+
+- PR #198: https://github.com/omaraandrey-dev/florial/pull/198, merged=true, squash merge.
+- Merge commit / актуальный main: `1b94b5a749e759ee28197e32daef8733e1b21a3e`.
+- GitHub Actions на main commit: Florial D1 migration validation #1042 — success; включает отдельный шаг `Validate contract withdrawals migration`. Blog and Studio validation #856 — success на PR head до merge; Pages production build также прошёл успешно.
+- Cloudflare Pages project `florial`: Production deployment `8955b559-ce01-4e9a-9292-8da34fa43352`, URL `https://8955b559.florial.pages.dev`, trigger `github:push` на `main` commit `1b94b5a749e759ee28197e32daef8733e1b21a3e`; стадии queued, initialize, clone_repo, build, deploy — success. Production aliases проекта включают `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Live retrieval публичной страницы `/withdrawal` подтвердил отрисовку болгарской формы и ссылок BG/RU/EN; вариант `?lang=ru` вернул русские тексты. `/privacy-policy` вернула обновлённую политику с описанием обработки заявлений.
+- Read-only запрос к Production D1 `schema_migrations` подтвердил, что последняя применённая миграция — `0013_manager_product_audit`; `0014_contract_withdrawals` отсутствует. Запрос прочитал 13 строк, `rows_written=0`, `changed_db=false`.
+- Поэтому публичная страница уже опубликована и отображается, но полноценную отправку заявления и Manager workflow пока нельзя считать активированными: для них нужна миграция 0014. Не отправлять реальные заявления и не заявлять о работающей обработке до миграции и live smoke.
+- Production D1 migration 0014 не применялась. Resend live test и авторизованные Owner/Manager проверки не выполнялись. Юридическая проверка текста, реквизитов и срока хранения не подтверждена.
+- Footer, Header, основное меню, checkout, Sanity, Cloudflare settings/secrets не изменялись. Постоянная ссылка в Footer не добавлена; публичный адрес страницы можно открыть напрямую по `https://florial-bg.com/withdrawal`.
+- Следующие условия: юридическая проверка; отдельное согласование Footer link; отдельное прямое согласие на применение additive migration 0014; затем проверка отправки Resend на контролируемый адрес, Owner/Manager permission checks и live smoke BG/RU/EN.
+
+---
+
 ## Дополнение rev80 — CI-тест миграции онлайн-отказа
 
 Дата: 11.11.2026  

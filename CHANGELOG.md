@@ -1,3 +1,15 @@
+## 2026-11-11 — PR #198 объединён, Production deployment успешен
+
+- PR #198 объединён с `main` методом squash; merge commit: `1b94b5a749e759ee28197e32daef8733e1b21a3e`.
+- Cloudflare Pages автоматически опубликовал Production deployment `8955b559-ce01-4e9a-9292-8da34fa43352`; все стадии сборки и публикации завершились success.
+- Live retrieval подтвердил доступность страницы `/withdrawal` на BG и RU, а также обновлённой Privacy Policy.
+- Read-only запрос Production D1 показал последнюю миграцию `0013_manager_product_audit`; 0014 не применена. Запрос не менял данные (`rows_written=0`, `changed_db=false`).
+- Публичная страница доступна, но подача заявления/обработка через Manager не вводится в эксплуатацию до отдельного согласования и применения migration 0014 и live-проверок.
+- Не изменялись Footer, Header, меню, checkout, Sanity, Cloudflare settings/secrets. Footer link отдельно не согласована и не добавлена.
+- До полного запуска остаются: юридическая проверка, согласование Footer link, прямое разрешение на migration 0014, Resend test, Owner/Manager live checks и BG/RU/EN smoke после миграции.
+
+---
+
 ## 2026-11-11 — CI-проверка миграции онлайн-отказа
 
 - Для `docs/migrations/0014_contract_withdrawals.sql` добавлен отдельный SQLite in-memory тест `tests/contract-withdrawals-migration.test.py`.
