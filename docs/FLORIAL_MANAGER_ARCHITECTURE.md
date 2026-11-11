@@ -1,3 +1,15 @@
+## Дополнение 11.11.2026 — ботанические данные Google AI доступны всем ролям
+
+- Google Gemini остаётся единственным AI-провайдером рабочего сценария подготовки карточек растений.
+- Owner, Manager и Seller могут применять Google AI результаты, видеть ботанические поля, загружать их из Sanity и сохранять обратно.
+- Поля: `plantCare.light`, `plantCare.waterNeeds`, `plantCare.minWinterTempC`, `plantCare.adultHeightCm`, `plantCare.foliageType`, `plantCare.floweringSeason`, `plantCare.plantingSeason`, `plantCare.blackSeaCoast`, `careGuide`.
+- Неизвестные числовые/enum значения сохраняются как null; сезоны как пустые массивы; `blackSeaCoast` как `needsVerification`. Нельзя генерировать неподтверждённые ботанические значения.
+- Runtime files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plant-direct-lib.ts`. Test: `tests/manager-plant-care-permissions.test.mjs`.
+- D1 permission schema/data не менялись: endpoint уже допускал Owner/Manager/Seller; отдельного Google AI permission key нет. Остальные права ролей не расширялись.
+- Sanity schema and existing plant documents were not changed.
+
+---
+
 ## Дополнение 2026-11-11 — AI-заполнение растений: решение владельца
 
 - Единственный основной AI-провайдер рабочего сценария Manager для растений — Google Gemini.
