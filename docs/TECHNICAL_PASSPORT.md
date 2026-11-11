@@ -1,3 +1,27 @@
+## Дополнение — карточки вариантов продажи растений в каталоге (PR #207)
+
+Дата: 11.11.2026  
+Статус: PR #207 открыт; merge и Production deployment не выполнялись.
+
+### Поведение storefront
+- `CategoryPage.tsx` строит отдельную карточку на каждый элемент `Product.saleVariants[]`; один документ Sanity остаётся единственным источником данных о растении. Для товара без вариантов сохраняется одна обычная карточка.
+- Карточка использует `product.imageUrl`, локализованное имя из `getPlantDisplayName`, краткое описание и категорию. Цена и старая цена берутся из текущего варианта, не из минимальной цены всех вариантов. Если цена варианта отсутствует/не положительна, выводится локализованное «Цена по запросу».
+- CTA показывает локализованную метку и имя/параметры варианта: `Виж размер:`, `Посмотреть размер:`, `View size:`.
+- Варианты сортируются индивидуально: собственный `stockStatus` (или root fallback при отсутствии) → цена в соответствии с выбранным режимом → название растения; при стандартной сортировке порядок размеров одного растения сохраняется как в Sanity.
+- Счётчик и пагинация считают отдельные предложения размеров, а не родительские документы.
+### Переход на общую страницу растения
+- `CategoryPage.onSelectProduct(product, saleVariantKey)` передаёт выбранный ключ в `App.navigateToProduct`. Ключ хранится только в React state, URL остаётся `/product/{slug}`; query string, отдельные SEO страницы и новые canonical не добавляются.
+- `ProductPage.initialSaleVariantKey` выбирает запрошенный вариант; `resolveInitialPlantVariantKey` проверяет, что ключ действительно существует, иначе выбирает первый вариант. При прямом открытии URL или browser back/forward без внутреннего ключа остаётся стандартный выбор первого варианта.
+- Корзина уже принимает `PlantSaleVariant`; её контракт не изменялся. Добавление товара использует выбранный вариант ProductPage.
+### Затронутые компоненты и проверки
+- Runtime: `src/pages/CategoryPage.tsx`, `src/App.tsx`, `src/pages/ProductPage.tsx`, `src/lib/plantCatalogUtils.ts`.
+- Tests: `tests/plant-catalog-utils.test.mjs` — покрытие разворачивания предложений, stock/price sort, отсутствующей цены, порядка Sanity и проверки выбранного ключа.
+- CI code HEAD `ac107a131f758ebd81c112dec6fdec4b2ba0c5c6`: lint, 89 utility tests, website build — success; D1 validation run #1074 — success; Studio build run #879 ещё выполняется на момент записи.
+- Sanity documents/schema, D1 data/schema, Cloudflare settings/secrets, cart/checkout, Header/menu/Footer не затронуты.
+- PR #207 — `https://github.com/omaraandrey-dev/florial/pull/207`. Не выполнять merge/Production deploy без отдельного явного согласия владельца.
+
+---
+
 ## Дополнение — каталог растений: названия, наличие и сортировка (PR #204)
 
 Дата: 11.11.2026  
