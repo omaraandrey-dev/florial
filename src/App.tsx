@@ -87,6 +87,7 @@ export default function App() {
 
   const [loadingProducts, setLoadingProducts] = useState(true)
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
+  const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
 
   // Resolve the requested URL before the first render so direct links never flash the homepage.
@@ -171,6 +172,7 @@ export default function App() {
       setActiveServiceSlug(route.activeServiceSlug)
       setActiveCategorySlug(route.activeCategorySlug)
       setActiveProductSlug(route.activeProductSlug)
+      setInitialSaleVariantKey(null)
     }
 
     window.addEventListener('popstate', handlePopState)
@@ -826,7 +828,7 @@ export default function App() {
   }
 
   // Переход в карточку товара
-  const navigateToProduct = (slug: string) => {
+  const navigateToProduct = (slug: string, saleVariantKey?: string) => {
     setActiveSearchQuery(null)
     if (!slug) return
 
@@ -838,6 +840,7 @@ export default function App() {
 
     setCurrentProduct(null)
     setLoadingProductDetails(true)
+    setInitialSaleVariantKey(saleVariantKey ?? null)
     setActiveProductSlug(slug)
 
     setIsCartOpen(false)
@@ -1449,8 +1452,8 @@ export default function App() {
           onNavigateCategory={navigateToCategory}
           allCategories={categories}
           visibleCategories={visibleCategories}
-          onSelectProduct={(product) =>
-            navigateToProduct(product.slug?.current || product._id)
+          onSelectProduct={(product, saleVariantKey) =>
+            navigateToProduct(product.slug?.current || product._id, saleVariantKey)
           }
         />
       ) : activeProductSlug ? (
@@ -1463,6 +1466,7 @@ export default function App() {
         ) : currentProduct ? (
           <ProductPage
             product={currentProduct}
+            initialSaleVariantKey={initialSaleVariantKey}
             allCategories={categories}
             onNavigateHome={navigateToHome}
             onNavigateCategory={navigateToCategory}
