@@ -191,9 +191,6 @@ export const buildPlantSet = async (
   isCreate = false,
 ): Promise<{ set: Record<string, unknown>; changedFields: string[] }> => {
   if (!isObject(input)) throw new Error('Липсват данни за растението.')
-  if (role !== 'owner' && ('plantCare' in input || 'careGuide' in input)) {
-    throw new Error('Биологичните характеристики са достъпни само за собственика.')
-  }
   const set: Record<string, unknown> = {}
   const fields = ['name','scientificName','sku','productType','shortDescription','isFeatured','isActive','sortOrder'] as const
   for (const field of fields) {
@@ -300,8 +297,8 @@ export const buildPlantSet = async (
     }
     if (Object.keys(translations).length) set.translations = translations
   }
-  if (role === 'owner' && 'plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
-  if (role === 'owner' && 'careGuide' in input) set.careGuide = portableText(input.careGuide)
+  if ('plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
+  if ('careGuide' in input) set.careGuide = portableText(input.careGuide)
   if (isCreate) {
     if (!set.name || !set.slug || !set.productType || !set.category || !set.categories || !set.mainImage || !set.saleVariants) {
       throw new Error('За публикуване попълнете име, URL, тип, категория, основна снимка и поне един размер.')
