@@ -1,3 +1,15 @@
+## Дополнение 2026-11-11 — AI-заполнение растений: решение владельца
+
+- Единственный основной AI-провайдер рабочего сценария Manager для растений — Google Gemini.
+- Google AI одинаково доступен Owner, Manager и Seller. AI-подготовка не должна иметь owner-only ограничения по ботаническим данным.
+- Обязательный результат: `plantCare.light`, `plantCare.waterNeeds`, `plantCare.minWinterTempC`, `plantCare.adultHeightCm`, `plantCare.foliageType`, `plantCare.floweringSeason`, `plantCare.plantingSeason`, `plantCare.blackSeaCoast`, `careGuide`.
+- Если характеристика не подтверждена, AI должен вернуть null/пустое значение или `needsVerification`, а не выдумывать точные данные. `blackSeaCoast` остаётся `needsVerification` до подтверждения.
+- Текущая реализация содержит owner-only условия при применении результата и формировании Sanity payload. Это противоречит решению владельца и требует отдельного изменения кода. D1 permission alone не устраняет это ограничение.
+- В Production D1 на дату проверки: 1 Owner, 1 Manager, 0 Seller; Manager уже имеет `canCreatePlant=true`; отдельного AI permission key нет. Изменений D1 в рамках документирования не выполнялось.
+- Старые/неподключённые AI endpoints и их фактическое использование не удалялись и не менялись в рамках этой задачи; перед их удалением требуется отдельная инвентаризация вызовов.
+
+---
+
 ## Дополнение 2026-11-09 — UI media и AI ALT
 
 - Редактор поддерживает выбор существующих Sanity assets через `PlantImageLibrary` и загрузку новых фотографий; обе операции доступны Owner/Manager/Seller.
