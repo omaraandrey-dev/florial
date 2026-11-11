@@ -7,7 +7,8 @@
 - Added role coverage test for Owner, Manager and Seller.
 - Files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plant-direct-lib.ts`, `tests/manager-plant-care-permissions.test.mjs`.
 - No D1 permission, Sanity schema/data, other staff permissions, order flows or site-wide layout changes.
-- CI/Production status to be recorded after validation and deployment checks.
+- GitHub Actions run #1105 (43056763211) on final documentation commit 4442ec129e1d40d04d35531ceace487c97413cae: success (lint, website build, Pages Functions syntax, D1 migration validations).
+- Cloudflare Pages Production deployment e4a85088-7572-41f0-8cdc-e6c71e2a98ce: all stages success; production aliases florial-bg.com and www.florial-bg.com.
 
 ---
 
