@@ -18,7 +18,7 @@ const botanicalData = {
 
 for (const role of ['owner', 'manager', 'seller']) {
   test('saves botanical characteristics and care guide for ' + role, async () => {
-    const result = await buildPlantSet({} as any, botanicalData, role)
+    const result = await buildPlantSet({}, botanicalData, role)
     assert.deepEqual(result.set.plantCare, botanicalData.plantCare)
     assert.equal(Array.isArray(result.set.careGuide), true)
     assert.equal(result.set.careGuide[0].children[0].text, botanicalData.careGuide)
