@@ -8,6 +8,7 @@
 - Production D1 read-only проверена: latest migration 0013; 7 orders, 26 order_events. Миграция 0014 не применялась.
 - Остаётся согласовать постоянную ссылку в Footer: без видимого постоянного entry point по всему сайту требование доступности функции из чл. 52а не закрывается. Footer пока не менялся.
 - До релиза обязательны: CI, legal review (включая срок хранения и privacy policy), тестовое письмо Resend, проверка Owner/Manager permissions, одобрение Footer link, согласование и применение additive migration, Production deploy и BG/RU/EN smoke.
+- PR #198 открыт, head `d8b5f99487a6c8558498f9434b12a7391d9c3d16`; CI Blog and Studio #839 и D1 validation #1026 — success. SQL 0014 дополнительно проверена в SQLite in-memory. PR не объединён, Production D1 migration и deployment не выполнялись.
 - Текущий статус: draft implementation only; не публиковать и не заявлять о compliance до закрытия пунктов выше.
 
 ---
