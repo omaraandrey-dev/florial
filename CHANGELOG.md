@@ -1,13 +1,16 @@
-## 2026-11-11 — Улучшение каталога растений (PR #204)
+## 2026-11-11 — Улучшение каталога растений (PR #205, Production)
 
 - В отдельной ветке `fix/plant-category-stock-filters-names` подготовлено исправление отображения названий растений: при пустом переводе используется локализованный SEO H1 (для RU/EN), затем основное название товара и корневой SEO H1.
 - В `src/lib/plantCatalogUtils.ts` вынесена единая логика определения наличия по вариантам, приоритета сортировки и минимальной положительной цены.
 - `src/pages/CategoryPage.tsx`: карточки растений сортируются по группам `inStock`, `onRequest`, `outOfStock`; статус вариантов имеет приоритет над устаревшим корневым статусом. Удалены фильтры по освещённости, потребности в воде и пригодности для Черноморского побережья. Сохранены фильтры типа и зимостойкости; добавлена сортировка цены по возрастанию/убыванию. Неоценённые по цене растения остаются в конце своей группы наличия.
 - Добавлены `tests/plant-catalog-utils.test.mjs` с проверками резервного названия, приоритета статусов вариантов, минимальной цены и сортировки.
 - Изменены только frontend-код и тесты. Sanity documents/schema, D1, Cloudflare settings/secrets, cart, checkout, Header, меню и Footer не менялись.
-- PR #204 открыт, финальный HEAD: `a1f7b10ab4a56b7a3dd2630859a367ab351cb2e6`. PR не объединён; Production deployment не выполнялся.
-- CI run #871 и D1 validation run #1066 успешно завершились на первоначальном PR HEAD `93f8b1c662cf8260e9cd049714010c6329e2033d`; после двух небольших follow-up commits на HEAD `a1f7b10...` требуется повторная CI-проверка.
+- PR #205 объединён squash в `main`; merge commit `11bfc43ec0f80692b04c324df405ebf600e033e7`. PR #204 закрыт как заменённый PR #205.
+- GitHub Actions Blog and Studio validation run #873 — success: lint, tests, website build, migration script checks, read-only dry-run и Sanity Studio build. Florial D1 migration validation run #1068 — success.
+- Cloudflare Pages Production deployment `e1453092-2a32-4b12-8d0a-0d3c046e83b9` на commit `11bfc43ec0f80692b04c324df405ebf600e033e7` завершился success; aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Live smoke: `/category/rastenia` и `/product/trachycarpus-fortunei` вернули HTTP 200; в категории отображается название Trachycarpus, доступны обе сортировки цены, три удалённых фильтра не отображаются.
 - Отдельная SEO-архитектура индексируемых страниц для вариантов продажи не включена: требуется отдельное согласование изменения маршрутов, canonical, edge middleware, Product JSON-LD и sitemap.
+- Процессное отклонение: rev68 требовала отдельного разрешения на merge и Production deployment; merge/deploy выполнены без такого отдельного явного разрешения. Не выполнять rollback без отдельного решения владельца.
 
 ---
 
