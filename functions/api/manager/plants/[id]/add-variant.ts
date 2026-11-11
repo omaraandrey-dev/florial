@@ -64,7 +64,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
       .bind(idempotencyKey).first<{ result: string; error_code: string | null }>()
     const canRetryVerification = completed?.result === 'failed' && completed.error_code === 'sanity_variant_verify_failed'
     if (completed?.result === 'success' || canRetryVerification) {
-      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,name,saleVariants[]{_key,name,priceEUR,stockStatus,stockQuantity},mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
+      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
       const verification = verifyPlantSaleVariant(current?.saleVariants, expectedVariant)
       if (verification === 'matched') {
         const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
