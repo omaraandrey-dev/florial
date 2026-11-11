@@ -7,6 +7,7 @@
 - Runtime files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants/[id].ts`, `functions/api/manager/plant-direct-lib.ts`. Test: `tests/manager-plant-care-permissions.test.mjs`.
 - D1 permission schema/data не менялись: endpoint уже допускал Owner/Manager/Seller; отдельного Google AI permission key нет. Остальные права ролей не расширялись.
 - Sanity schema and existing plant documents were not changed.
+- GitHub Actions run #1105 passed lint, website build, Pages Functions syntax and D1 migration validation. Cloudflare Pages Production deployment e4a85088-7572-41f0-8cdc-e6c71e2a98ce completed successfully; production aliases are florial-bg.com and www.florial-bg.com.
 
 ---
 
