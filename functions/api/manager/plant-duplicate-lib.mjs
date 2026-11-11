@@ -20,6 +20,16 @@ export const buildPlantDuplicateQuery = (name, scientificNames) => {
   return '*[_type=="product" && !(_id in path("drafts.**")) && (' + matches.join(' || ') + ')]|order(name asc)[0...12]{_id,_rev,name,scientificName,slug,"categoryName":category->name,"thumbnail":coalesce(mainImage.asset->url,gallery[0].asset->url),"variants":saleVariants[]{_key,name,priceEUR,saleHeightCm,containerVolumeL}}'
 }
 
+export const verifyPlantSaleVariant = (variants, expected) => {
+  const found = Array.isArray(variants) ? variants.find(item => item?._key === expected.key) : null
+  if (!found) return 'missing'
+  const matches = found.name === expected.name
+    && Number(found.priceEUR) === Number(expected.priceEUR)
+    && found.stockStatus === 'inStock'
+    && Number(found.stockQuantity) === Number(expected.stockQuantity)
+  return matches ? 'matched' : 'mismatch'
+}
+
 export const appendPlantSaleVariant = (existing, variant) => {
   if (existing.length >= 30) throw new Error('PLANT_VARIANT_LIMIT')
   if (!Number.isInteger(variant.stockQuantity) || variant.stockQuantity < 1) throw new Error('PLANT_VARIANT_QUANTITY_REQUIRED')

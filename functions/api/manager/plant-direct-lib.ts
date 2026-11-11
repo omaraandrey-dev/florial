@@ -393,6 +393,7 @@ export const safeFailureCode = (error: unknown) => {
   const message = error instanceof Error ? error.message : ''
   if (message.startsWith('SANITY_MUTATION_FAILED_')) return 'sanity_mutation_failed'
   if (message.startsWith('SANITY_QUERY_FAILED_')) return 'sanity_query_failed'
+  if (message === 'SANITY_VARIANT_VERIFY_FAILED') return 'sanity_variant_verify_failed'
   if (message === 'D1_NOT_CONFIGURED') return 'd1_not_configured'
   if (message === 'SANITY_NOT_CONFIGURED') return 'sanity_not_configured'
   return 'validation_or_internal_error'

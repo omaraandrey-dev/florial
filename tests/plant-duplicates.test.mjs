@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery, validatePlantAddVariantRequest } from '../functions/api/manager/plant-duplicate-lib.mjs'
+import { appendPlantGalleryImage, appendPlantSaleVariant, buildPlantDuplicateQuery, validatePlantAddVariantRequest, verifyPlantSaleVariant } from '../functions/api/manager/plant-duplicate-lib.mjs'
 
 test('duplicate query checks primary and localized names plus botanical candidates', () => {
   const query = buildPlantDuplicateQuery('Cycas', ['Cycas revoluta'])
@@ -33,6 +33,22 @@ test('appending a plant variant preserves existing variants and permits a repeat
   assert.equal(result[1].stockStatus, 'inStock')
   assert.equal(result[1].stockQuantity, 20)
   assert.throws(() => appendPlantSaleVariant(existing, { key: 'another-key', name: '90 см', priceEUR: 160, stockQuantity: 0 }), /PLANT_VARIANT_QUANTITY_REQUIRED/)
+})
+
+test('variant read-back confirms the exact key, name, EUR price and stock quantity', () => {
+  const expected = { key: 'variantkey12', name: '500 см C300', priceEUR: 300, stockQuantity: 1 }
+  const saved = [{ _key: 'variantkey12', name: '500 см C300', priceEUR: 300, stockStatus: 'inStock', stockQuantity: 1 }]
+  assert.equal(verifyPlantSaleVariant(saved, expected), 'matched')
+  assert.equal(verifyPlantSaleVariant([], expected), 'missing')
+  assert.equal(verifyPlantSaleVariant(null, expected), 'missing')
+})
+
+test('variant read-back rejects partial or mismatched writes instead of reporting success', () => {
+  const expected = { key: 'variantkey12', name: '500 см C300', priceEUR: 300, stockQuantity: 1 }
+  assert.equal(verifyPlantSaleVariant([{ _key: 'variantkey12', name: '500 см C300', priceEUR: 300, stockStatus: 'inStock', stockQuantity: 0 }], expected), 'mismatch')
+  assert.equal(verifyPlantSaleVariant([{ _key: 'variantkey12', name: '500 см C300', priceEUR: 250, stockStatus: 'inStock', stockQuantity: 1 }], expected), 'mismatch')
+  assert.equal(verifyPlantSaleVariant([{ _key: 'variantkey12', name: '500 см C300', priceEUR: 300, stockStatus: 'onRequest', stockQuantity: 1 }], expected), 'mismatch')
+  assert.equal(verifyPlantSaleVariant([{ _key: 'another-key', name: '500 см C300', priceEUR: 300, stockStatus: 'inStock', stockQuantity: 1 }], expected), 'missing')
 })
 
 test('gallery append never replaces the main image or existing gallery and skips duplicates', () => {
