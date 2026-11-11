@@ -5,6 +5,7 @@ import {
   comparePlantProducts,
   getPlantAvailabilityPriority,
   getPlantDisplayName,
+  getPlantCatalogCardImageUrl,
   getPlantMinimumPrice,
   resolveInitialPlantVariantKey,
   getPlantStockStatus,
@@ -159,4 +160,35 @@ test('product page uses the requested sale variant only when the key exists', ()
   assert.equal(resolveInitialPlantVariantKey(variants, '1'), '1')
   assert.equal(resolveInitialPlantVariantKey(variants, 'missing'), 'small')
   assert.equal(resolveInitialPlantVariantKey([], 'missing'), '0')
+})
+
+
+test('highest-priced plant size always uses the main image', () => {
+  const small = { _key: 'small', name: 'Small', priceEUR: 80 }
+  const large = { _key: 'large', name: 'Large', priceEUR: 250 }
+  const product = {
+    ...plant('Palm', 'inStock', [small, large]),
+    mainImageUrl: 'main.jpg',
+    imageUrl: 'fallback.jpg',
+    galleryImages: ['gallery-a.jpg', { url: 'gallery-b.jpg' }],
+  }
+
+  assert.equal(getPlantCatalogCardImageUrl(product, large), 'main.jpg')
+})
+
+test('other plant sizes use a stable pseudo-random image from main and gallery', () => {
+  const small = { _key: 'small', name: 'Small', priceEUR: 80 }
+  const medium = { _key: 'medium', name: 'Medium', priceEUR: 140 }
+  const large = { _key: 'large', name: 'Large', priceEUR: 250 }
+  const product = {
+    ...plant('Palm', 'inStock', [small, medium, large]),
+    mainImageUrl: 'main.jpg',
+    imageUrl: 'fallback.jpg',
+    galleryImages: ['gallery-a.jpg', { url: 'gallery-b.jpg' }],
+  }
+
+  const selected = getPlantCatalogCardImageUrl(product, medium)
+  assert.ok(['main.jpg', 'gallery-a.jpg', 'gallery-b.jpg'].includes(selected))
+  assert.equal(getPlantCatalogCardImageUrl(product, medium), selected)
+  assert.equal(getPlantCatalogCardImageUrl(product, large), 'main.jpg')
 })
