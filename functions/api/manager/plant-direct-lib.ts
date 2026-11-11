@@ -302,7 +302,17 @@ export const buildPlantSet = async (
     }
     if (Object.keys(translations).length) set.translations = translations
   }
-  if ('plantCare' in input && isObject(input.plantCare)) set.plantCare = input.plantCare
+  if ('plantCare' in input && isObject(input.plantCare)) {
+    const plantCare = { ...input.plantCare }
+    if ('blackSeaCoast' in plantCare && !['suitable', 'notSuitable', 'needsVerification'].includes(String(plantCare.blackSeaCoast))) {
+      plantCare.blackSeaCoast = 'needsVerification'
+    }
+    if ('blackSeaCoastRecommendation' in plantCare && !['suitable', 'conditional', 'notSuitable', 'insufficientData'].includes(String(plantCare.blackSeaCoastRecommendation))) {
+      plantCare.blackSeaCoastRecommendation = 'insufficientData'
+    }
+    if ('blackSeaCoastReason' in plantCare) plantCare.blackSeaCoastReason = cleanText(plantCare.blackSeaCoastReason, 800)
+    set.plantCare = plantCare
+  }
   if ('careGuide' in input) set.careGuide = portableText(input.careGuide)
   if (isCreate) {
     if (!set.name || !set.slug || !set.productType || !set.category || !set.categories || !set.mainImage || !set.saleVariants) {
