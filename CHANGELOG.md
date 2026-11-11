@@ -1,11 +1,14 @@
-## 2026-11-11 — Проект страницы «Общи условия» (PR #202, ожидает проверки)
+## 2026-11-11 — Страница «Общи условия» объединена и опубликована (PR #202)
 
 - Добавлены src/content/terms-bg.md с предоставленным владельцем болгарским проектом из 18 разделов и src/pages/TermsPage.tsx с адаптивным отображением.
 - В src/main.tsx добавлен отдельный маршрут /terms с существующим LanguageProvider и Footer.
 - В functions/_middleware.ts добавлены SEO title/description, canonical и серверный H1 для BG/RU/EN. В functions/sitemap.xml.ts включён болгарский URL; hreflang для RU/EN не заявляются, поскольку перевод текста пока отсутствует.
 - Текст не редактировался юридически. Реквизиты, момент заключения договора, доставка, оплата и изключения права на отказ оставлены для проверки юристом.
 - Header, меню, Footer, корзина, checkout, Sanity, D1, заказы и реальные данные не менялись; ссылка Footer не добавлялась.
-- PR #202 открыт: https://github.com/omaraandrey-dev/florial/pull/202. CI и Production deployment не подтверждены; PR не объединён.
+- PR #202 squash-объединён в main: `b66e18b6ee952ff77e07121dcb3d03871f5a6ddc`.
+- Финальный PR HEAD `e2a7b913dfef06f5a1e90267d5c66b45d9882c89`: Blog and Studio validation #868 — success; Florial D1 migration validation #1058 — success.
+- Cloudflare Pages Production deployment `7a4b4deb-f713-4f37-bbd4-0d11adf62913` завершился success; URL deployment `https://7a4b4deb.florial.pages.dev`, домены проекта `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Страница доступна по адресу `https://florial-bg.com/terms`. В RU/EN тексты перевода не заявляются; hreflang ограничен болгарским текстом.
 
 ## 2026-11-11 — Footer обновлён и опубликован в Production
 
