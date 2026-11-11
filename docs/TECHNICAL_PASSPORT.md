@@ -1,3 +1,16 @@
+## 2026-11-11 — Production Cloudflare D1 read-only audit and CI follow-up
+
+- Live database inspected: Cloudflare D1 `florial-db`, region `EEUR`, approximately 1.9 MB. Inspection was read-only; no D1 writes, migrations or schema/data changes.
+- Direct query of `sqlite_master` returned 17 application tables. Cloudflare database-list metadata reported `num_tables: 0` for the same database. This is an unresolved discrepancy between API views.
+- Live migration ledger `schema_migrations` contains continuous entries `0001`–`0014`; latest is `0014_contract_withdrawals`.
+- Counts observed: `orders` 7; `order_events` 26; `catalog_staff_profiles` 2 (Owner + Manager, both active); `manager_sessions` 2 (expired 0); `catalog_submissions` 15; `catalog_submission_events` 57; `catalog_stock_events` 60; `manager_product_audit` 120 (60 started, 60 success, 0 failed); `service_leads` 2; `contract_withdrawals` 1 (confirmation status `sent`). `api_rate_limits` contained 5 expired rows; current code has 1% best-effort cleanup on eligible requests, so this count alone does not indicate a failure.
+- Read-only relationship checks returned zero orphan rows for permission events, stock events, submission events, manager sessions, product audit and order events. No negative order amounts were observed.
+- `PRAGMA integrity_check` and `PRAGMA foreign_key_check` were not reliably confirmed via the API invocation. A full SQLite integrity check is therefore **not confirmed**; do not describe it as passed.
+- GitHub Actions run `43099079700`, commit `2dba36582e8e19079eef6ad80108d882bd85c218`, completed successfully. Job `validate` passed dependency installation, lint, website build, Pages Functions syntax, additive plant audit migration validation and contract withdrawals migration validation.
+- Earlier run `43095667280` for `6c65e01e7c8d99994669158fe0aeb120136bebfa` remains queued without jobs or conclusion. The newer main-commit run passed; the old run was not cancelled or rerun.
+- A concise handoff snapshot is maintained in [CURRENT_STATE.md](AI/CURRENT_STATE.md). Re-check live D1 and Actions before future operational decisions.
+- No application code, Sanity, D1 schema/data, Cloudflare settings/secrets, DNS or Resend were changed by this audit.
+
 > **ВАЖНО — СТАТУС АРХИТЕКТУРЫ НА 11.11.2026.** Действующая архитектура Florial: GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. **Supabase выведен из эксплуатации и не является частью текущего проекта.** Упоминания Supabase, Supabase Auth/Storage/RLS, старых SQL migrations и переменных `SUPABASE_*` в нижележащих исторических записях этого паспорта описывают прежние состояния и не являются инструкциями к выполнению. Старые SQL сохранены только в `docs/archive/supabase/`; не запускать их и не переносить в D1. Актуальные правила: [AI_INSTRUCTIONS.md](../AI_INSTRUCTIONS.md), [START_HERE](AI/START_HERE.md), [OPEN_QUESTIONS](AI/OPEN_QUESTIONS.md). Проверяйте живые Cloudflare settings перед выводами о legacy variables.
 
 ---

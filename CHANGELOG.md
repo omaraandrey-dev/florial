@@ -1,3 +1,16 @@
+## 2026-11-11 — Production D1 read-only audit, CI confirmation and current-state guide
+
+- Read-only live audit of Cloudflare D1 database `florial-db` (region `EEUR`; approximately 1.9 MB). No SQL writes, migrations, schema changes or data changes were performed.
+- Direct `sqlite_master` inspection returned 17 application tables. The Cloudflare database-list response simultaneously reported `num_tables: 0`; this API discrepancy is recorded and must not be silently treated as resolved.
+- Live `schema_migrations` ledger contains a continuous sequence from `0001` through `0014`; latest recorded migration is `0014_contract_withdrawals`.
+- Observed row counts: orders 7; order_events 26; catalog_staff_profiles 2 (one Owner and one Manager, both active); manager_sessions 2 (0 expired); catalog_submissions 15; catalog_submission_events 57; catalog_stock_events 60; manager_product_audit 120 (60 started + 60 success, 0 failed); service_leads 2; contract_withdrawals 1 (confirmation status `sent`). `api_rate_limits` contained 5 expired records; code in `functions/api/_lib/public-api-security.ts` performs best-effort probabilistic cleanup (1% per eligible request), so this alone is not evidence of a fault.
+- Read-only relationship checks found zero orphan rows in permission events, stock events, submission events, manager sessions, product audit and order events. No negative order amounts were found.
+- Full SQLite `PRAGMA integrity_check` and `PRAGMA foreign_key_check` were not reliably confirmed through the API invocation; do not claim a full database integrity check passed. Table-count discrepancy remains a follow-up observation.
+- GitHub Actions run `43099079700` on main commit `2dba36582e8e19079eef6ad80108d882bd85c218` completed with conclusion `success`. Job `validate` passed dependency installation, lint, website build, Pages Functions syntax, additive plant audit migration validation and contract withdrawals migration validation.
+- Older run `43095667280` for commit `6c65e01e7c8d99994669158fe0aeb120136bebfa` remains queued without jobs/conclusion. The later successful run is on a newer main commit and passed; the old queued run was not cancelled or rerun.
+- Added `docs/AI/CURRENT_STATE.md` as a concise handoff snapshot. It is a dated snapshot, not a replacement for live service checks or the detailed passport.
+- No application runtime, Sanity, D1, Cloudflare settings/secrets, DNS or Resend changes were made.
+
 ## 2026-11-11 — Read-only Cloudflare legacy-variable audit and post-merge CI
 
 - Live Cloudflare Pages project `florial` was read without exposing variable values. Production contains legacy names `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`; Preview contains `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`.
