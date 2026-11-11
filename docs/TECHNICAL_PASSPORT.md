@@ -1,3 +1,20 @@
+## Дополнение rev79 — повторная проверка PR #198 и Cloudflare deployment
+
+Дата: 11.11.2026  
+Статус: кодовая ветка проверена на текущем HEAD; Production не менялась.
+
+- PR #198 открыт и mergeable, но не объединён. Branch `feat/contract-withdrawal-flow`; фактический HEAD `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`.
+- GitHub `main` и PR base остаются на commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- GitHub Actions на фактическом HEAD: Blog and Studio validation #847 — success; Florial D1 migration validation #1033 — success. В #847 прошли lint, tests, website build, migration script syntax, read-only description migration dry-run и Sanity Studio build. Job #1033 прошёл success, но его шаг «Validate additive plant audit migration» не является прямой проверкой contract withdrawal migration 0014.
+- Migration `docs/migrations/0014_contract_withdrawals.sql` ранее проверена отдельно на SQLite in-memory (DDL, triggers, insert/update, immutability и append-only). Это отдельная проверка, не CI run #1033.
+- Cloudflare Pages project `florial` имеет `preview_deployment_setting=none`; deployment `48859ea7-7b07-4165-a823-4a67faba679a` для HEAD помечен skipped с причиной `preview_deployments_disabled`. Изменять глобальную настройку preview без отдельного согласования нельзя.
+- Последний Production deployment: `d583ec9a-7986-4778-a171-f424c2039bee`, commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`, все стадии success. Для PR deployment не запускался.
+- Production D1 migration 0014 не применялась; данные D1, заказы, Sanity и Cloudflare settings/secrets не менялись. Header, меню, Footer и checkout не затрагивались.
+- До Production остаются: юридическая проверка текста/реквизитов/срока хранения; отдельное решение о Footer link; тест Resend на контролируемый адрес; авторизованные Owner/Manager checks; отдельное согласование применения migration 0014; Production deployment и live smoke BG/RU/EN.
+- CI workflow success не заменяет правовую проверку, live role checks или production acceptance.
+
+---
+
 ## Дополнение rev78 — черновая реализация онлайн-отказа от договора
 
 Дата: 11.11.2026  
