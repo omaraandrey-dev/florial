@@ -34,7 +34,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Основная информация о компании "{t('За нас')}" */}
+        {/* Основная информация о компании "За нас" */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-slate-800">
           <div>
             <h2 className="text-white text-xl font-extrabold mb-3 tracking-wide">
@@ -82,6 +82,14 @@ export function Footer() {
           </p>
           <p className="pt-4 text-[11px] text-slate-600">
             © {new Date().getFullYear()} Florial Landscape & {language === "en" ? "Florial Garden Centre. All rights reserved." : language === "ru" ? "Садовый центр Florial. Все права защищены." : "Градински център Флориал. Всички права запазени."}
+          </p>
+          <p className="pt-2 text-[11px]">
+            <a
+              href={localizedHref('/privacy-policy', language)}
+              className="text-slate-400 underline decoration-slate-600 underline-offset-4 transition hover:text-emerald-400"
+            >
+              {language === 'en' ? 'Privacy Policy' : language === 'ru' ? 'Политика конфиденциальности' : 'Политика за поверителност'}
+            </a>
           </p>
         </div>
 
