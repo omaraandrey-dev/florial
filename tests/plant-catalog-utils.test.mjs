@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
+  buildPlantCatalogOffers,
   comparePlantProducts,
   getPlantAvailabilityPriority,
   getPlantDisplayName,
@@ -81,4 +82,50 @@ test('price sorting never moves on-request or out-of-stock plants ahead of in-st
     products.slice().sort((a, b) => comparePlantProducts(a, b, 'priceDesc', getName, 'bg')).map((item) => item.name),
     ['Available expensive', 'Available cheap', 'No price', 'On request cheap', 'Out of stock'],
   )
+})
+
+
+test('catalog offers expand each plant size and preserve one shared product record', () => {
+  const product = plant('Trachycarpus', 'inStock', [
+    { _key: 'small', name: 'Small', priceEUR: 90, stockStatus: 'inStock' },
+    { _key: 'large', name: 'Large', priceEUR: 180, stockStatus: 'inStock' },
+  ])
+  const offers = buildPlantCatalogOffers(
+    [product],
+    'default',
+    (item) => item.name,
+    (variant) => variant.name,
+    'bg',
+  )
+
+  assert.equal(offers.length, 2)
+  assert.ok(offers.every((offer) => offer.product === product))
+  assert.deepEqual(offers.map((offer) => offer.variantKey), ['small', 'large'])
+})
+
+test('catalog offers sort each size by its own availability and price', () => {
+  const product = plant('Palm', 'inStock', [
+    { _key: 'sold', name: 'Sold', priceEUR: 20, stockStatus: 'outOfStock' },
+    { _key: 'request', name: 'Request', priceEUR: 10, stockStatus: 'onRequest' },
+    { _key: 'available-expensive', name: 'Available large', priceEUR: 80, stockStatus: 'inStock' },
+    { _key: 'available-cheap', name: 'Available small', priceEUR: 30, stockStatus: 'inStock' },
+  ])
+  const offers = buildPlantCatalogOffers([product], 'priceAsc', (item) => item.name, (v) => v.name, 'bg')
+
+  assert.deepEqual(offers.map((offer) => offer.variantKey), [
+    'available-cheap',
+    'available-expensive',
+    'request',
+    'sold',
+  ])
+})
+
+test('catalog offers keep missing prices after priced offers within availability group', () => {
+  const product = plant('Palm', 'inStock', [
+    { _key: 'unknown', name: 'Unknown price', stockStatus: 'inStock' },
+    { _key: 'priced', name: 'Priced', priceEUR: 30, stockStatus: 'inStock' },
+  ])
+  const offers = buildPlantCatalogOffers([product], 'priceDesc', (item) => item.name, (v) => v.name, 'bg')
+
+  assert.deepEqual(offers.map((offer) => offer.variantKey), ['priced', 'unknown'])
 })
