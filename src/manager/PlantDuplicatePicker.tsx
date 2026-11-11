@@ -125,6 +125,9 @@ export default function PlantDuplicatePicker({ plantName, scientificNames, proof
           : ''
         throw new Error([result.error || 'Не успяхме да добавим размера.', result.code ? 'Код: ' + result.code : '', missing ? 'Липсва: ' + missing : ''].filter(Boolean).join(' · '))
       }
+      if (result.ok !== true || result.variantVerified !== true || result.documentId !== selected._id || typeof result.revision !== 'string' || !result.revision) {
+        throw new Error(result.error || 'Sanity не потвърди запазването на новия размер. Обновете карточката и проверете резултата.')
+      }
       onAdded({ productName: selected.name, imageAdded: result.imageAdded === true, imageAlreadyPresent: result.imageAlreadyPresent === true, galleryFull: result.galleryFull === true })
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Не успяхме да добавим размера.')

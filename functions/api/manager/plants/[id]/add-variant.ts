@@ -1,5 +1,5 @@
 import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
-import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest } from '../../plant-duplicate-lib.mjs'
+import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest, verifyPlantSaleVariant } from '../../plant-duplicate-lib.mjs'
 import {
   auditSnapshot, cleanText, errorJson, parseJsonBody, requirePlantRole,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
@@ -43,6 +43,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     return errorJson('Въведете валиден размер, количество (цяло число над 0) и цена в EUR.', 400)
   }
 
+  const expectedVariant = { key: variantKey, name: variantName, priceEUR, stockQuantity }
   const idempotencyKey = String(body.idempotencyKey)
   const requestId = newId()
   let operationId = requestId
@@ -59,17 +60,33 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     if (prior && prior.product_id !== id) return errorJson('Idempotency key is already used for another product.', 409)
     if (prior) operationId = prior.request_id
 
-    const completed = await env.DB.prepare("SELECT result FROM manager_product_audit WHERE idempotency_key=? AND phase='result' LIMIT 1")
-      .bind(idempotencyKey).first<{ result: string }>()
-    if (completed?.result === 'success') {
-      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
-      const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
-      const replayGallery = Array.isArray(current?.gallery) ? current.gallery : []
-      const replayGalleryHasImage = replayGallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
-      const galleryFull = replayGallery.length + (replayMainId ? 1 : 0) >= 10
-      return json({ ok: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: false, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage, galleryFull })
+    const completed = await env.DB.prepare("SELECT result, error_code FROM manager_product_audit WHERE idempotency_key=? AND phase='result' ORDER BY created_at DESC LIMIT 1")
+      .bind(idempotencyKey).first<{ result: string; error_code: string | null }>()
+    const canRetryVerification = completed?.result === 'failed' && completed.error_code === 'sanity_variant_verify_failed'
+    if (completed?.result === 'success' || canRetryVerification) {
+      const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,name,saleVariants[]{_key,name,priceEUR,stockStatus,stockQuantity},mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
+      const verification = verifyPlantSaleVariant(current?.saleVariants, expectedVariant)
+      if (verification === 'matched') {
+        const replayMainId = cleanText(current?.mainImage?.asset?._id, 160)
+        const replayGallery = Array.isArray(current?.gallery) ? current.gallery : []
+        const replayGalleryHasImage = replayGallery.some((item: any) => cleanText(item?.asset?._id, 160) === imageAssetId)
+        const galleryFull = replayGallery.length + (replayMainId ? 1 : 0) >= 10
+        if (canRetryVerification) {
+          productName = cleanText(current?.name, 160)
+          after = auditSnapshot(current)
+          await writeAudit(env, auth.user, {
+            requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
+            action: 'update', changedFields, before: prior?.before_data ? JSON.parse(prior.before_data) : null,
+            after, result: 'success',
+          })
+        }
+        return json({ ok: true, variantVerified: true, documentId: id, revision: current?._rev || null, replayed: true, imageAdded: false, imageAlreadyPresent: replayMainId === imageAssetId || replayGalleryHasImage, galleryFull })
+      }
+      if (completed?.result === 'success') {
+        return json({ error: 'Sanity не потвърди наличието на добавения размер. Не приемайте операцията за успешна; обновете карточката и проверете размерите.', code: 'SANITY_VARIANT_NOT_CONFIRMED' }, 502)
+      }
     }
-    if (completed) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и опитайте отново.', 409)
+    if (completed && !canRetryVerification) return errorJson('Тази операция вече е приключила с грешка. Обновете карточката и опитайте отново.', 409)
 
     const current = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
     if (!current) return json({ error: 'Растението не е намерено.' }, 404)
@@ -79,9 +96,13 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
     const mainAssetId = cleanText(current.mainImage?.asset?._ref || current.mainImage?.asset?._id, 160)
     const galleryHasImage = currentGallery.some((item: any) => cleanText(item?.asset?._ref || item?.asset?._id, 160) === imageAssetId)
     const mainHasImage = mainAssetId === imageAssetId
-    const alreadyHasVariant = variants.some((item: any) => item?._key === variantKey)
+    const variantVerification = verifyPlantSaleVariant(variants, expectedVariant)
 
-    if (prior && alreadyHasVariant) {
+    if (variantVerification === 'mismatch' || (variantVerification === 'matched' && !prior)) {
+      return json({ error: 'Ключът на операцията вече съществува, но не може да бъде потвърден за тази заявка. Обновете карточката и опитайте с нова операция.', code: 'IDEMPOTENCY_VARIANT_MISMATCH' }, 409)
+    }
+
+    if (prior && variantVerification === 'matched') {
       before = prior.before_data ? JSON.parse(prior.before_data) : null
       after = auditSnapshot(current)
       await writeAudit(env, auth.user, {
@@ -89,7 +110,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
         action: 'update', changedFields: prior.changed_fields ? JSON.parse(prior.changed_fields) : changedFields,
         before, after, result: 'success',
       })
-      return json({ ok: true, documentId: id, revision: current._rev, replayed: true, imageAdded: false, imageAlreadyPresent: mainHasImage || galleryHasImage, galleryFull: currentGallery.length + (mainAssetId ? 1 : 0) >= 10 })
+      return json({ ok: true, variantVerified: true, documentId: id, revision: current._rev, replayed: true, imageAdded: false, imageAlreadyPresent: mainHasImage || galleryHasImage, galleryFull: currentGallery.length + (mainAssetId ? 1 : 0) >= 10 })
     }
 
     if (current._rev !== body.expectedRevision) {
@@ -146,14 +167,15 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
       throw error
     }
 
-    const saved = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
+    const saved = await sanityQuery<Record<string, any> | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]{_rev,name,saleVariants[]{_key,name,priceEUR,stockStatus,stockQuantity},mainImage{asset->{_id}},gallery[]{asset->{_id}}}')
     if (!saved?._rev) throw new Error('SANITY_VERIFY_FAILED')
+    if (verifyPlantSaleVariant(saved.saleVariants, expectedVariant) !== 'matched') throw new Error('SANITY_VARIANT_VERIFY_FAILED')
     after = auditSnapshot(saved)
     await writeAudit(env, auth.user, {
       requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
       action: 'update', changedFields, before, after, result: 'success',
     })
-    return json({ ok: true, documentId: id, revision: saved._rev, imageAdded, imageAlreadyPresent, galleryFull: galleryResult.galleryFull })
+    return json({ ok: true, variantVerified: true, documentId: id, revision: saved._rev, imageAdded, imageAlreadyPresent, galleryFull: galleryResult.galleryFull })
   } catch (error) {
     if (error instanceof Error && error.message === 'REVISION_CONFLICT') {
       if (auditStarted) {
@@ -169,6 +191,19 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
       return json({ error: 'Карточката е променена от друг служител. Отворете я отново и опитайте пак.', conflict: true }, 409)
     }
     const code = safeFailureCode(error)
+    if (error instanceof Error && error.message === 'SANITY_VARIANT_VERIFY_FAILED') {
+      if (auditStarted) {
+        try {
+          await writeAudit(env, auth.user, {
+            requestId: operationId, idempotencyKey, phase: 'result', productId: id, productName,
+            action: 'update', changedFields, before, after: null, result: 'failed', errorCode: 'sanity_variant_verify_failed',
+          })
+        } catch {
+          return json({ error: 'Sanity не потвърди размера, а историята не успя да запише резултата. Запазете номера на операцията.', code: 'SANITY_VARIANT_NOT_CONFIRMED', requestId: operationId, auditPending: true }, 503)
+        }
+      }
+      return json({ error: 'Sanity не потвърди наличието на новия размер. Обновете карточката; не приемайте операцията за успешна.', code: 'SANITY_VARIANT_NOT_CONFIRMED', requestId: operationId }, 502)
+    }
     if (auditStarted && mutationSucceeded) {
       console.error('[manager-plant-add-variant-audit]', { requestId: operationId, code: 'audit_success_write_pending' })
       return json({ error: 'Размерът може да е добавен, но историята не потвърди резултата. Запазете номера на операцията и повторете същата операция без промени.', requestId: operationId, auditPending: true }, 503)
