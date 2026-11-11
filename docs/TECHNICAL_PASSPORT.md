@@ -8,7 +8,9 @@
 - Server-side save normalization bounds the rationale to 800 characters and restricts recommendation/status values to supported enums.
 - Updated files: functions/api/manager/plants/gemini-test.ts, functions/api/manager/plants/gemini-test-lib.ts, functions/api/manager/plant-direct-lib.ts, src/manager/PlantCatalogManager.tsx, studio/schemaTypes/index.ts, tests/gemini-plant-ai.test.mjs, tests/manager-plant-care-permissions.test.mjs.
 - No Sanity documents/assets, D1 data/schema, orders, employee permissions, Cloudflare settings/secrets, or global site components were changed. Sanity schema source has additive fields; hosted Sanity Studio schema deployment is not yet confirmed and must be verified separately.
-- CI, PR merge, and Production deployment status: pending at time of this entry.
+- PR merged into `main`; Cloudflare Pages Production deployment `abc8d826-84e6-4f5e-a433-60f490528c98` for commit `2b6db5028061c0d27778760b9ac25b59d6629fc6` completed successfully (all build/deploy stages success); production aliases `https://florial-bg.com` and `https://www.florial-bg.com` attached. The deployment was confirmed from the Cloudflare Pages deployment record.
+- GitHub Actions status for this exact commit: НЕ ИЗВЕСТНО — нужно уточнить; the available commit-workflow lookup did not return a PR-triggered run. Do not mark CI as passed on this evidence.
+- Sanity Studio source schema was updated, but a separate hosted Studio build/deployment was not confirmed. No Sanity document was written; the published “Маслина бонсай 4” record remains unchanged.
 
 ---
 
