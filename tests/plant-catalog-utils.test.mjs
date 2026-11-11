@@ -6,6 +6,7 @@ import {
   getPlantAvailabilityPriority,
   getPlantDisplayName,
   getPlantMinimumPrice,
+  resolveInitialPlantVariantKey,
   getPlantStockStatus,
 } from '../src/lib/plantCatalogUtils.ts'
 
@@ -128,4 +129,34 @@ test('catalog offers keep missing prices after priced offers within availability
   const offers = buildPlantCatalogOffers([product], 'priceDesc', (item) => item.name, (v) => v.name, 'bg')
 
   assert.deepEqual(offers.map((offer) => offer.variantKey), ['priced', 'unknown'])
+})
+
+
+test('catalog offers keep Sanity variant order when no price sort is selected', () => {
+  const product = plant('Palm', 'inStock', [
+    { _key: 'small', name: 'Small', priceEUR: 90, stockStatus: 'inStock' },
+    { _key: 'large', name: 'Large', priceEUR: 180, stockStatus: 'inStock' },
+  ])
+  const offers = buildPlantCatalogOffers([product], 'default', (item) => item.name, (v) => v.name, 'bg')
+  assert.deepEqual(offers.map((offer) => offer.variantKey), ['small', 'large'])
+})
+
+test('catalog offers support descending price order within availability groups', () => {
+  const product = plant('Palm', 'inStock', [
+    { _key: 'small', name: 'Small', priceEUR: 90, stockStatus: 'inStock' },
+    { _key: 'large', name: 'Large', priceEUR: 180, stockStatus: 'inStock' },
+  ])
+  const offers = buildPlantCatalogOffers([product], 'priceDesc', (item) => item.name, (v) => v.name, 'bg')
+  assert.deepEqual(offers.map((offer) => offer.variantKey), ['large', 'small'])
+})
+
+test('product page uses the requested sale variant only when the key exists', () => {
+  const variants = [
+    { _key: 'small', name: 'Small' },
+    { name: 'Large' },
+  ]
+  assert.equal(resolveInitialPlantVariantKey(variants, '0'), 'small')
+  assert.equal(resolveInitialPlantVariantKey(variants, '1'), '1')
+  assert.equal(resolveInitialPlantVariantKey(variants, 'missing'), 'small')
+  assert.equal(resolveInitialPlantVariantKey([], 'missing'), '0')
 })
