@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import { LanguageProvider } from './lib/i18n'
 import { Footer } from './components/Footer'
-import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage'
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(({ PrivacyPolicyPage }) => ({ default: PrivacyPolicyPage })))
 
 const ManagerApp = lazy(() => import('./manager/ManagerApp'))
 const isManagerRoute = window.location.pathname === '/manager' || window.location.pathname.startsWith('/manager/')
@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')!).render(
     ) : isPrivacyPolicyRoute ? (
       <LanguageProvider>
         <div className="flex min-h-screen flex-col">
-          <PrivacyPolicyPage />
+          <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-slate-500">Зареждане на страницата…</main>}><PrivacyPolicyPage /></Suspense>
           <Footer />
         </div>
       </LanguageProvider>
