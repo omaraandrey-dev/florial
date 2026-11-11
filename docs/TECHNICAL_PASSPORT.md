@@ -1,7 +1,7 @@
 ## Дополнение rev78 — черновая реализация онлайн-отказа от договора
 
 Дата: 11.11.2026  
-Статус: отдельная ветка, CI/merge/Production ещё не подтверждены.
+Статус: PR #198 открыт, CI success; merge и Production не выполнялись.
 
 - Текущий baseline: `main` commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; Cloudflare Pages Production deployment `d583ec9a-7986-4778-a171-f424c2039bee` — success.
 - В GitHub создана ветка `feat/contract-withdrawal-flow`.
@@ -16,6 +16,14 @@
 - Не изменялись Header, основное меню, Footer, checkout, каталог Sanity, существующие заказы, Cloudflare settings/secrets и Production D1.
 - **Открытые блокирующие пункты:** CI и PR review; отдельное согласование постоянной ссылки в Footer (без неё функция не будет видимой и доступной на всех страницах, как требует чл. 52а); юридическая проверка текста, реквизитов и срока хранения; проверка реальной отправки Resend на тестовый адрес; миграция Production D1 и публикация выполняются только после отдельного подтверждения.
 - Не заявлять о юридической готовности или Production-релизе до выполнения блокирующих пунктов и live smoke BG/RU/EN.
+
+
+### CI и статус PR — 11.11.2026
+- PR #198: `https://github.com/omaraandrey-dev/florial/pull/198`, head `d8b5f99487a6c8558498f9434b12a7391d9c3d16`, открыт, mergeable, не объединён.
+- GitHub Actions Blog and Studio validation run #839 — success: lint, tests, website build, migration script syntax check, read-only dry-run, Sanity Studio build.
+- GitHub Actions Florial D1 migration validation run #1026 — success. Отдельно SQL `docs/migrations/0014_contract_withdrawals.sql` проверена в SQLite in-memory: создание таблиц/индексов/триггеров, регистрация заявления/события, изменение статуса, запрет изменения декларации и append-only event; удаление декларационной строки возможно после утверждённого срока хранения, неидентифицирующий event остаётся.
+- Production D1 migration 0014 не применялась. Cloudflare Production deployment не запускался; PR не merged.
+- Footer, checkout, Header и меню не изменялись. Постоянная ссылка Footer остаётся блокирующим пунктом и требует отдельного согласования владельца.
 
 ---
 
