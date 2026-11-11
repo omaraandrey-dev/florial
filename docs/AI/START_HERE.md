@@ -27,7 +27,7 @@
 GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase исключён. Исторические SQL/документы сохранены в [archive/supabase](../archive/supabase/README.md), выполнять их нельзя.
 
 ## Исторические инструкции
-Корневой AI_INSTRUCTIONS, START HERE, Technical Passport и Changelog — актуальные документы. Файлы `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_*_rev*.md` — исторические снимки, не конкурирующие источники. Последний снимок перед новой системой: [rev74](../ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_11-11-2026_rev74.md).
+Корневой AI_INSTRUCTIONS, START HERE, Technical Passport и Changelog — актуальные документы. Файлы `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_*_rev*.md` — исторические снимки, не конкурирующие источники. Последний снимок перед новой системой: [rev74](../%D0%98%D0%9D%D0%A1%D0%A2%D0%A0%D0%A3%D0%9A%D0%A6%D0%98%D0%AF(2)_FLORIAL_%D0%90%D0%9A%D0%A2%D0%A3%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF_11-11-2026_rev74.md).
 
 ## Профильные документы
 Manager: [FLORIAL_MANAGER_ARCHITECTURE](../FLORIAL_MANAGER_ARCHITECTURE.md); checkout: [CHECKOUT_SETUP](../../CHECKOUT_SETUP.md); content: [SERVICE_CONTENT_PLAYBOOK](../SERVICE_CONTENT_PLAYBOOK.md); performance: [ROADMAP_PERFORMANCE_OPTIMIZATION](../ROADMAP_PERFORMANCE_OPTIMIZATION.md); D1 migrations: [docs/migrations](../migrations/0013_manager_product_audit.sql).
