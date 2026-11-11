@@ -2326,3 +2326,16 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - No trusted user interaction was performed, so Event Timing produced no interaction entries and INP remains unmeasured. Lighthouse mobile/desktop remains open.
 - The same controlled 3-run mobile profile after the fix remains a pending verification item.
 
+## Дополнение rev78 — Production-публикация и проверка privacy-policy
+
+Дата: 11.11.2026
+
+- PR #197 merged в `main`; merge commit `ac03b992cbdd8a7393e39528cc1ceb0594001d6b`.
+- CI PR #197: Lint, тесты сайта, сборка сайта, синтаксис миграций, read-only D1 dry-run и сборка Studio — success.
+- Cloudflare Pages Production deployment `a8425737-e658-48b2-87a2-c471447a5789` завершён успешно; commit `ac03b992...`; production aliases `florial-bg.com` и `www.florial-bg.com` назначены.
+- Live smoke с `maxAge=0`: BG `/privacy-policy`, RU `?lang=ru`, EN `?lang=en` — HTTP 200. Проверены локаль документа, локализованные title/description/H1, `robots=index, follow`, self-canonical и hreflang BG/RU/EN/x-default.
+- Главная страница возвращает HTTP 200; Footer содержит ссылку на политику. Sitemap HTTP 200 и включает все три локализованных URL.
+- Изменения кода для устранения 404 ограничены `functions/_middleware.ts`; Sanity, D1, Manager, checkout, Header и меню не изменялись в рамках исправления.
+- Открытые юридические вопросы: проверить текст болгарским юристом; подтвердить регистрационный адрес по Търговски регистър; сверить договоры обработчиков и конкретные transfer safeguards. Автоматическое удаление service leads отсутствует и честно раскрыто в политике.
+
+---
