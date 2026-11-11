@@ -47,6 +47,7 @@ const renderCareGuideBlocks = (blocks: any[]) => blocks.map((block, index) => {
 
 interface ProductPageProps {
   product: Product
+  initialSaleVariantKey?: string | null
   allCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory: (slug?: string, id?: string) => void
@@ -58,6 +59,7 @@ interface ProductPageProps {
 
 export function ProductPage({
   product,
+  initialSaleVariantKey,
   allCategories,
   onNavigateHome,
   onNavigateCategory,
@@ -248,9 +250,9 @@ export function ProductPage({
     setFailedImageUrls([])
     setSelectedImage(product.imageUrl || '')
     setQuantity(1)
-    setSelectedSaleVariantKey(product.saleVariants?.[0]?._key || '0')
+    setSelectedSaleVariantKey(initialSaleVariantKey || product.saleVariants?.[0]?._key || '0')
     setRequestedPlantSize('')
-  }, [product, language])
+  }, [product, language, initialSaleVariantKey])
 
   useEffect(() => {
     if (!product) return
