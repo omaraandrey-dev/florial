@@ -1,7 +1,7 @@
 ## 2026-11-11 — Онлайн-отказ от договора (черновая разработка)
 
 - Ветка: `feat/contract-withdrawal-flow`, базовый `main`: `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
-- Подготовлены публичная страница `/withdrawal` BG/RU/EN, публичный API `POST /api/withdrawals`, D1 migration `0014_contract_withdrawals.sql`, Manager API/UI и тесты.
+- Подготовлены публичная страница `/withdrawal` BG/RU/EN, публичный API `POST /api/withdrawals`, D1 migration `docs/migrations/0014_contract_withdrawals.sql`, Manager API/UI и тесты.
 - Сценарий: покупатель вводит имя, данные договора/заказа и email; просматривает декларацию; отдельно подтверждает отправку. Сервер фиксирует время и пытается отправить копию заявления на email через Resend.
 - Если договор не сопоставлен с заказом, заявление всё равно сохраняется без привязки к order_id и требует ручной проверки; автоматического отказа пользователю нет.
 - Manager использует существующие права: просмотр — canViewOrders/canEditOrders, обработка и повторная отправка — canEditOrders.
