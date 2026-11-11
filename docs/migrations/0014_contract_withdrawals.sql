@@ -30,7 +30,9 @@ CREATE INDEX idx_contract_withdrawals_email_submitted
 
 CREATE TABLE contract_withdrawal_events (
   id TEXT PRIMARY KEY,
-  withdrawal_id TEXT NOT NULL REFERENCES contract_withdrawals(id),
+  -- No FK by design: personal declaration rows may be erased after the approved retention period;
+  -- the minimal, non-identifying audit trail can remain append-only.
+  withdrawal_id TEXT NOT NULL,
   actor_id TEXT,
   actor_name TEXT,
   actor_role TEXT NOT NULL,
