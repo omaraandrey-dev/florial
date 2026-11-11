@@ -3,9 +3,12 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { LanguageProvider } from './lib/i18n'
+import { Footer } from './components/Footer'
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage'
 
 const ManagerApp = lazy(() => import('./manager/ManagerApp'))
 const isManagerRoute = window.location.pathname === '/manager' || window.location.pathname.startsWith('/manager/')
+const isPrivacyPolicyRoute = window.location.pathname.replace(/\/+$/, '') === '/privacy-policy'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +24,13 @@ createRoot(document.getElementById('root')!).render(
       }>
         <ManagerApp />
       </Suspense>
+    ) : isPrivacyPolicyRoute ? (
+      <LanguageProvider>
+        <div className="flex min-h-screen flex-col">
+          <PrivacyPolicyPage />
+          <Footer />
+        </div>
+      </LanguageProvider>
     ) : <LanguageProvider><App /></LanguageProvider>}
   </StrictMode>,
 )
