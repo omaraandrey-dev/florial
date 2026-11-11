@@ -2,6 +2,15 @@
 
 ---
 
+## 2026-11-11 — Read-only Cloudflare legacy-variable audit and post-merge CI
+
+- Live Cloudflare Pages project `florial` was read without exposing variable values. Production contains legacy names `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`; Preview contains `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`.
+- Static scan of 115 tracked application source, Pages Functions, GitHub workflow and key configuration files at commit `6c65e01e7c8d99994669158fe0aeb120136bebfa` found no Supabase references in `src/**`, `functions/**` or `.github/workflows/**`. `package.json` has no Supabase SDK; `.env.example` documents only Sanity public configuration; `src/lib/sanity.ts` reads `VITE_SANITY_*` only.
+- Assessment: all six Cloudflare legacy variables appear unused by the current repository code/workflows. Values were not read. No variables were changed or deleted; removal is a Production/Preview configuration change and requires explicit owner approval.
+- Cloudflare Pages latest Production deployment for merge commit `6c65e01e7c8d99994669158fe0aeb120136bebfa`: deployment `f2114ff2-9efe-480b-a4c9-ced4d24da3dc`, stage `deploy`, status `success`; aliases `florial-bg.com` and `www.florial-bg.com`.
+- GitHub Actions D1 validation run `43095667280` for this exact merge commit remains `queued` with no jobs and no conclusion. Earlier successful CI runs were for a different SHA and are not attributed to this merge commit. The reason for the queue delay is not confirmed.
+- No application code, Sanity content/schema, D1 data/schema, secrets or Cloudflare settings were changed during this audit.
+
 ## 2026-11-11 — Gemini plant care form review and Black Sea coast assessment
 
 - Review found that Gemini response schema and normalizer already carried plantCare and careGuide; Manager mapped them into the form and save payload. The existing apply action immediately called save and closed the editor, preventing staff from reviewing populated botanical fields in the form. A read-only Sanity query for the published product “Маслина бонсай 4” returned plantCare: null and careGuide: null; this confirms the values are not currently stored on that document, but does not prove whether a previous apply/save action was attempted or succeeded.
