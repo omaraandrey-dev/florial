@@ -8,7 +8,10 @@
 - Основной и единственный готовый текст сейчас болгарский. При выборе RU/EN страница явно сообщает, что перевод ещё не подготовлен; RU/EN hreflang не публикуются до появления проверенных переводов.
 - Страница помечена как проект для юридического прегледа. В ней сохранены все 18 разделов, реквизиты и предупреждения из текста владельца. Юридическая корректность и реквизиты не подтверждены.
 - Header, главное меню, Footer, корзина, checkout, Sanity, D1, заказы и клиентские данные не изменялись. Постоянная ссылка Footer не добавлялась.
-- PR #202: https://github.com/omaraandrey-dev/florial/pull/202. CI и Production deployment ожидают проверки; merge не выполнен.
+- PR #202 squash-объединён в main: merge commit `b66e18b6ee952ff77e07121dcb3d03871f5a6ddc`.
+- GitHub Actions на финальном PR HEAD `e2a7b913dfef06f5a1e90267d5c66b45d9882c89`: Blog and Studio validation run #868 — success (lint, tests, website build, read-only dry-run, Studio build); Florial D1 migration validation run #1058 — success (lint, website build, Pages Functions syntax, D1 migration validations).
+- Cloudflare Pages Production deployment `7a4b4deb-f713-4f37-bbd4-0d11adf62913`, URL `https://7a4b4deb.florial.pages.dev`; trigger `github:push` на main commit `b66e18b6ee952ff77e07121dcb3d03871f5a6ddc`; stages queued, initialize, clone_repo, build и deploy — success. Production aliases проекта: `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Публичный URL страницы: `https://florial-bg.com/terms`. Автоматическая проверка HTML через внешний просмотрщик недоступна; deployment status и build подтверждены Cloudflare.
 
 ## Дополнение rev83 — Footer обновлён и опубликован в Production
 
