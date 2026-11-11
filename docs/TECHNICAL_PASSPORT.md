@@ -1,3 +1,7 @@
+> **ВАЖНО — СТАТУС АРХИТЕКТУРЫ НА 11.11.2026.** Действующая архитектура Florial: GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. **Supabase выведен из эксплуатации и не является частью текущего проекта.** Упоминания Supabase, Supabase Auth/Storage/RLS, старых SQL migrations и переменных `SUPABASE_*` в нижележащих исторических записях этого паспорта описывают прежние состояния и не являются инструкциями к выполнению. Старые SQL сохранены только в `docs/archive/supabase/`; не запускать их и не переносить в D1. Актуальные правила: [AI_INSTRUCTIONS.md](../AI_INSTRUCTIONS.md), [START_HERE](AI/START_HERE.md), [OPEN_QUESTIONS](AI/OPEN_QUESTIONS.md). Проверяйте живые Cloudflare settings перед выводами о legacy variables.
+
+---
+
 ## 2026-11-11 — Gemini plant care form review and Black Sea coast assessment
 
 - Review found that Gemini response schema and normalizer already carried plantCare and careGuide; Manager mapped them into the form and save payload. The existing apply action immediately called save and closed the editor, preventing staff from reviewing populated botanical fields in the form. A read-only Sanity query for the published product “Маслина бонсай 4” returned plantCare: null and careGuide: null; this confirms the values are not currently stored on that document, but does not prove whether a previous apply/save action was attempted or succeeded.
@@ -2646,3 +2650,13 @@ Preserved: `canCreatePlant`, `canAddPlantVariant`, `canEditPlantPrice` remain tr
 - Live smoke главной страницы: HTTP 200; сырой HTML подтверждает ссылку «Общи условия» с href https://florial-bg.com/terms в Footer.
 - Изменения ограничены Footer и документацией; D1, Sanity, Cloudflare settings/secrets, checkout и пользовательские данные не менялись.
 
+
+
+## 2026-11-11 — Единый GitHub-центр документации Florial
+
+- Установлена модель: GitHub repository `omaraandrey-dev/florial`, branch `main` — единственное постоянное хранилище технических знаний. ChatGPT Library и параллельные копии исключены.
+- Добавлены `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `OPEN_QUESTIONS.md`; README указывает единый порядок входа.
+- Исторические Supabase migrations и Supabase-only analytics документы архивированы в `docs/archive/supabase/`. Старые Manager setup/mobile QA/architecture документы помечены как исторические.
+- Статическая проверка: package.json не содержит Supabase SDK; поиск `@supabase/supabase-js` не дал результатов; `.env.example` содержит только публичные Sanity параметры. Это не live audit Cloudflare variables.
+- Runtime-код, Sanity documents/schema, Cloudflare settings/secrets/deployments, D1 schema/data, Resend и глобальные компоненты сайта не менялись.
+- Изменения выполняются в отдельной ветке `docs/github-single-source-of-truth`; merge и Production deployment не выполнялись на момент записи.

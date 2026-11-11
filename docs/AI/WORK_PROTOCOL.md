@@ -1,0 +1,26 @@
+# Florial — рабочий протокол
+
+## До начала
+Проверить SHA main, последние commits и открытые PR. Прочитать AI_INSTRUCTIONS, START_HERE, MASTER_SPEC, OPEN_QUESTIONS, changelog и релевантные части паспорта. Зафиксировать цель, критерии готовности, scope и затрагиваемые сервисы. До существенных изменений объяснить владельцу план и риски.
+
+## Доказательства
+Проверять исходники, тесты, package scripts, workflows, конфигурации и относящиеся к задаче живые Sanity/Cloudflare/Resend сервисы. Записывать точные commit SHA, run ID, deployment ID, dataset и document ID. Документ не доказывает текущее состояние live service.
+
+## Статусы
+- **Проверено по коду** — конкретный commit и файлы.
+- **Проверено в живом сервисе** — read-only запрос или безопасный smoke test.
+- **Проверено тестом/CI** — точный run и commit SHA.
+- **Не подтверждено** — нет достаточного доказательства.
+- **НЕ ИЗВЕСТНО — нужно уточнить** — не хватает данных или решения владельца.
+
+## Sanity
+Перед write определить project/dataset/document ID, сохранить backup затрагиваемых документов, выполнить только согласованную запись и перечитать результат. Не публиковать schema/documents без согласования. AI-рекомендацию пригодности к Черноморскому побережью не выдавать за подтверждённый статус сотрудника.
+
+## Cloudflare D1
+Отличать migration SQL в GitHub от реально применённой миграции. До write проверить live schema и migration ledger. Dry-run выполнять изолированно. Production migrations, destructive operations, retention и изменения данных требуют разрешения. Supabase SQL не является D1 migration.
+
+## CI/deployment
+Проверять workflow именно для точного SHA. Проверять Pages deployment и его commit SHA. Если Preview выключен, не заявлять о наличии Preview. Не создавать production orders, emails или data writes в smoke tests без согласования.
+
+## PR и завершение
+Проверить diff, ссылки, секреты и scope. PR описывает изменения, проверки, ограничения и незавершённые действия. Merge/Production release — только при явном разрешении. Обновить CHANGELOG, Technical Passport и Open Questions.

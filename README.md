@@ -1,32 +1,23 @@
-# React + TypeScript + Vite
+# Florial — интернет-магазин Болгарии
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Florial продаёт оборудование для автоматического полива, готовые комплекты и растения; дополнительные направления — проектирование, монтаж и обслуживание полива, ландшафтный дизайн и озеленение.
 
-Currently, two official plugins are available:
+- Production: https://florial-bg.com
+- Рынок: Болгария, включая Черноморское побережье
+- Языки: болгарский (основной), русский, английский
+- Валюта: EUR
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Документация
+Начинайте с [AI_INSTRUCTIONS.md](AI_INSTRUCTIONS.md), затем [docs/AI/START_HERE.md](docs/AI/START_HERE.md).
 
-## React Compiler
+**GitHub repository `omaraandrey-dev/florial`, branch `main` — единственное постоянное хранилище технической документации Florial.** ChatGPT Library и параллельные копии не являются источниками истины.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Действующая архитектура
+GitHub — код и документация; Sanity — каталог и контент; Cloudflare Pages/Functions — сайт и серверные API; Cloudflare D1 — заказы и Manager; Resend — email. Supabase исключён. Исторические материалы находятся в [docs/archive/supabase](docs/archive/supabase/README.md); выполнять их нельзя.
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Основные документы
+- [Технический паспорт](docs/TECHNICAL_PASSPORT.md)
+- [Журнал изменений](CHANGELOG.md)
+- [Мастер-спецификация](docs/AI/MASTER_SPEC.md)
+- [Открытые вопросы](docs/AI/OPEN_QUESTIONS.md)
+- [Протокол работы](docs/AI/WORK_PROTOCOL.md)
