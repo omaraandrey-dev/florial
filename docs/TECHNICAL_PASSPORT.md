@@ -1,3 +1,43 @@
+## Дополнение rev75 — аудит локализованных H1, SEO, изображений, архива заявок и AI-потоков
+
+Дата: 11.11.2026
+
+### Три карточки растений
+- В Sanity dataset `plants` подготовлены только отдельные H1:
+  - `plant-3b1f30e9-51e5-4020-847d-bdea5a403dec` — BG `Испанска ела (Abies pinsapo)`, RU `Испанская пихта (Abies pinsapo)`, EN `Spanish fir (Abies pinsapo)`.
+  - `plant-dfa442af-261b-4f3b-a0c3-71686132a7e2` — BG `Кавказка ела (Abies nordmanniana)`, RU `Пихта Нордмана (кавказская пихта, Abies nordmanniana)`, EN `Nordmann fir (Caucasian fir, Abies nordmanniana)`.
+  - `plant-b0e4396c-49b8-4a10-a608-ff248b95cc46` — BG `Обикновен смърч (Picea abies)`, RU `Ель европейская (Picea abies)`, EN `Norway spruce (Picea abies)`.
+- Поля записаны в draft: корневое `seo.h1` (BG) и `translations.ru.seo.h1` / `translations.en.seo.h1`. Названия товаров, SEO title/description, описания, цены, варианты, категории и изображения не изменялись.
+- Перед записью создан полный снимок трёх документов: `docs/backups/sanity-plant-h1-before-2026-11-11.json`.
+- Публикация не выполнена: Sanity validation показывает для каждой из трёх карточек четыре ошибки типа данных — `description` и `translations.bg/en/ru.description` имеют тип String, а deployed schema ожидает Portable Text Array (`richDescription`). Validation beta сообщает, что custom callbacks не запускались. Опубликованные документы остались без изменений; H1 остаются в draft до отдельного решения по безопасному представлению старых описаний.
+- В опубликованном каталоге plants найдено 43 документа: 40 уже используют Portable Text для корневого и трёх локализованных описаний и имеют новые SEO metaTitle/metaDescription; ровно эти три карточки остаются legacy исключениями.
+
+### SEO, категории и внутренние связи
+- Для трёх карточек `seo.metaTitle` и `seo.metaDescription` отсутствуют; frontend использует legacy fallback `seo.title` и `seo.description`. Локализованные `translations.ru.name` и `translations.en.name` также не заполнены, поэтому до публикации локализованного H1 RU/EN заголовок страницы fallback-ится на болгарское название товара.
+- Найдены ошибки локализации legacy SEO: для испанской пихты RU Title/Description содержат неграмматичное название и ошибочное написание Несебър; для Picea abies используются неестественные/неверные названия «Смърч Ела», «Ель Смурч», «Spruce Fir». Для кавказской пихты RU также используется транслитерация Несебыр вместо Несебър/Несебар. SEO поля не менялись.
+- Все три товара имеют `productType=conifer` и корректную цепочку категорий: `Всички растения` → `Дървета и декоративни храсти` → `Иглолистни дървета и храсти`. `relatedProducts` и `relatedContentBySlug` пусты.
+- Метаданные изображений подтверждают наличие основной и дополнительной фотографии у каждого товара. Разрешения: Abies pinsapo 2000×2000 + 1149×2002; Abies nordmanniana 2000×2000 + 1044×1309; Picea abies 1352×1484 + 748×547. Визуальная проверка содержимого файлов не выполнялась.
+- ALT дополнительных изображений сейчас являются шаблонными «снимка 2» и местами оставлены на болгарском в RU/EN. ALT основной фотографии Picea abies содержит сомнительное описание «пълзящ ела с бяла пънка», не соответствующее нормальному описанию Norway spruce. ALT не изменялись.
+
+### Архив заявок и D1
+- В Cloudflare D1 `florial-db` таблица `catalog_submissions` содержит 15 записей и `catalog_submission_events` — 57 событий: 9 published, 3 draft, 2 submitted, 1 changes_requested.
+- Отдельной archive-таблицы нет: owner-only вкладка «Архив заявок» в `ManagerApp` читает `catalog_submissions` (до 100 записей, сортировка по updated_at). Это отдельный legacy workflow; новый прямой каталог растений работает через Sanity Pages Functions и отдельный D1 audit.
+- Таблица `service_leads` отдельно содержит 2 заявки на услуги; `orders` — 7 записей, archived_at установлен у 0. Данные D1 не изменялись.
+
+### Разделение Google и Cloudflare AI
+- Текущий Google-путь в `PlantCatalogManager`: `POST /api/manager/plants/gemini-test`, модель `gemini-3.5-flash-lite`, секрет `GEMINI_API_KEY`. UI вызывает именно этот endpoint.
+- Legacy вкладка заявок использует `PlantPublicationEditor`, который по-прежнему вызывает `/api/manager/enrich-plant` и `/api/manager/enrich-plant-care`. Эти endpoints используют Cloudflare Workers AI (`@cf/meta/llama-3.3-70b-instruct-fp8-fast` и `@cf/meta/llama-3.2-11b-vision-instruct`) и GBIF для отдельной ботанической проверки.
+- Cloudflare Production по-прежнему имеет binding `AI` и service binding `PLANT_CARE_WORKFLOW`; workflow `florial-plant-care-workflow` существует. Проверены 3 экземпляра: 2 complete и 1 errored. Ошибка заявки «Кавказка ела»: этап care_generation завершился невалидным JSON; диагностический кандидат `Abies concolor` не был сохранён в товар. В D1 для этой и ещё трёх заявок остались статусы plantCareJob=queued, хотя один workflow errored, а три соответствующих workflow instance возвращают 404. Это устаревшие статусы, не подтверждение работающих задач.
+- `functions/api/manager/plants/ai-enrich.ts` остаётся резервным неиспользуемым endpoint; актуальная инструкция rev65 указывает, что основной UI его не вызывает. Ничего из Workers AI, workflow и Cloudflare bindings не отключалось и не удалялось.
+- В Pages Production остаются legacy переменные `SUPABASE_*` и `VITE_SUPABASE_*`; текущий `managerApi` — собственный клиент Cloudflare D1, `sanity.ts` использует Sanity, Supabase SDK/runtime references в текущем коде не обнаружены. Переменные не удалялись и значения секретов не читались.
+
+### Изменения и проверки
+- Изменён только Sanity draft трёх H1 и добавлен backup JSON в GitHub. Sanity published documents, D1 rows/schema, Cloudflare settings/secrets/bindings и frontend/backend код не менялись.
+- Cloudflare Pages Production deployment после backup commit `d3346733-9165-4dff-8470-8650397e9e22` завершился success; deployment commit `f7b0aa5f68b1e22339a897518dca0262c99febc1`. Документация отражает фактический статус draft-only и не заявляет публикацию H1.
+- Следующее безопасное решение для Owner: разрешить или отклонить техническое преобразование только четырёх legacy description strings в Portable Text blocks с сохранением исходного текста дословно; без этого Sanity не публикует H1.
+
+---
+
 ## Дополнение rev74 — подтверждение фактической записи размера растения
 
 Дата: 11.11.2026
