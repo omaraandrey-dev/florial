@@ -165,3 +165,53 @@ export function resolveInitialPlantVariantKey(
   }
   return variants[0]._key || '0'
 }
+
+
+/**
+ * Pick the category-card image for a plant offer.
+ * The most expensive sale variant always uses Sanity mainImage.
+ * Other variants receive a stable pseudo-random image from main + gallery so
+ * React rerenders do not make the card image jump around.
+ */
+export function getPlantCatalogCardImageUrl(
+  product: Product,
+  variant?: PlantSaleVariant,
+): string | undefined {
+  const mainImage = product.mainImageUrl || product.imageUrl
+  const galleryImages = (product.galleryImages || [])
+    .map((image) => typeof image === 'string' ? image : image?.url)
+    .filter((url): url is string => typeof url === 'string' && url.length > 0)
+  const candidates = Array.from(new Set([mainImage, ...galleryImages].filter(
+    (url): url is string => typeof url === 'string' && url.length > 0,
+  )))
+
+  if (!variant) return mainImage || candidates[0]
+
+  const prices = (product.saleVariants || [])
+    .map((item) => item.priceEUR)
+    .filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+  const highestPrice = prices.length > 0 ? Math.max(...prices) : null
+
+  if (
+    highestPrice !== null &&
+    typeof variant.priceEUR === 'number' &&
+    Number.isFinite(variant.priceEUR) &&
+    variant.priceEUR === highestPrice
+  ) {
+    return mainImage || candidates[0]
+  }
+
+  if (candidates.length === 0) return undefined
+  if (candidates.length === 1) return candidates[0]
+
+  const variantIndex = (product.saleVariants || []).indexOf(variant)
+  const variantIdentity = variant._key || variant.sku || variant.name || String(variantIndex)
+  const seed = product._id + ':' + variantIdentity
+  let hash = 2166136261
+  for (let index = 0; index < seed.length; index += 1) {
+    hash ^= seed.charCodeAt(index)
+    hash = Math.imul(hash, 16777619)
+  }
+
+  return candidates[(hash >>> 0) % candidates.length]
+}
