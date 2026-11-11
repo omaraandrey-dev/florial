@@ -11,8 +11,7 @@ export const onRequestGet = async ({ request, env, params }: { request: Request;
   if (!requirePlantRole(auth.user)) return json({ error: 'Insufficient permissions.' }, 403)
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)
-  const ownerFields = auth.user.role === 'owner' ? ',plantCare,careGuide' : ''
-  const query = '*[_type=="product" && _id==' + jsonString(id) + '][0]{_id,_rev,_type,name,slug,sku,productType,scientificName,category, "categoryId":category._ref, "categoryName":category->name, categories, shortDescription,description,mainImage{...,asset->{_id,url}},gallery[]{...,asset->{_id,url}},saleVariants,vatIncluded,isActive,isFeatured,sortOrder,seo,translations' + ownerFields + '}'
+  const query = '*[_type=="product" && _id==' + jsonString(id) + '][0]{_id,_rev,_type,name,slug,sku,productType,scientificName,category, "categoryId":category._ref, "categoryName":category->name, categories, shortDescription,description,mainImage{...,asset->{_id,url}},gallery[]{...,asset->{_id,url}},saleVariants,vatIncluded,isActive,isFeatured,sortOrder,seo,translations,plantCare,careGuide}'
   try {
     const product = await sanityQuery<PlantDocument | null>(env, query)
     if (!product) return json({ error: 'Растението не е намерено.' }, 404)
