@@ -8,7 +8,7 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
-import { buildPlantCatalogOffers, comparePlantProducts, getPlantDisplayName, getPlantStockStatus, getPlantOfferAvailabilityPriority, type PlantCatalogSort } from '../lib/plantCatalogUtils'
+import { buildPlantCatalogOffers, comparePlantProducts, getPlantDisplayName, getPlantOfferAvailabilityPriority, type PlantCatalogSort } from '../lib/plantCatalogUtils'
 
 interface CategoryPageProps {
   category: CategoryItem
@@ -503,7 +503,7 @@ export function CategoryPage({
             </div>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-slate-600">
-                {language === 'ru' ? 'Найдено растений:' : language === 'en' ? 'Plants found:' : 'Намерени растения:'}
+                {language === 'ru' ? 'Найдено предложений:' : language === 'en' ? 'Offers found:' : 'Намерени предложения:'}
                 {' '}<strong className="text-slate-900">{displayedCatalogItems.length}</strong>
                 {' '}{language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'}{' '}
                 <strong className="text-slate-900">{products.length}</strong>
@@ -538,6 +538,7 @@ export function CategoryPage({
           {productsToRender.map((item, index) => {
             const product = item.product
             const variant = item.variant
+            const displayName = getPlantDisplayName(product, localize(product, 'name'), language)
             const variantIndex = variant ? (product.saleVariants || []).indexOf(variant) : -1
             const variantLabel = variant ? getPlantVariantLabel(variant, variantIndex) : ''
             const stockStatus = variant?.stockStatus || product.stockStatus
@@ -554,8 +555,8 @@ export function CategoryPage({
                   {product.imageUrl ? (
                     <img
                       {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
-                      alt={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'alt')}
-                      title={getProductImageText(String(localize(product, 'name') || product.name), language, 0, 'title')}
+                      alt={getProductImageText(displayName, language, 0, 'alt')}
+                      title={getProductImageText(displayName, language, 0, 'title')}
                       loading={index < 4 ? 'eager' : 'lazy'}
                       decoding="async"
                       className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
@@ -572,7 +573,7 @@ export function CategoryPage({
                   )}
                 </div>
                 <h3 className="mt-1 mb-1.5 line-clamp-2 break-words text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-emerald-700 sm:text-base">
-                  {getPlantDisplayName(product, localize(product, 'name'), language)}
+                  {displayName}
                 </h3>
                 <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
                   {toPlainText(localize(product, 'shortDescription') || product.shortDescription || '') || t('Висококачествен продукт за поливни системи.')}
@@ -603,7 +604,7 @@ export function CategoryPage({
       {displayedCatalogItems.length > pageSize && (
         <nav className="mt-6 flex flex-wrap items-center justify-between gap-3" aria-label={language === 'ru' ? 'Страницы товаров' : language === 'en' ? 'Product pages' : 'Страници с продукти'}>
           <p className="text-xs text-slate-500 sm:text-sm">
-            {category.isPlantCategory ? (language === 'ru' ? 'Показаны растения' : language === 'en' ? 'Showing plants' : 'Показани растения') : (language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти')} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedCatalogItems.length}
+            {category.isPlantCategory ? (language === 'ru' ? 'Показаны предложения' : language === 'en' ? 'Showing offers' : 'Показани предложения') : (language === 'ru' ? 'Показаны товары' : language === 'en' ? 'Showing products' : 'Показани продукти')} {firstVisibleProduct}–{lastVisibleProduct} {language === 'ru' ? 'из' : language === 'en' ? 'of' : 'от'} {displayedCatalogItems.length}
           </p>
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Previous' : language === 'ru' ? 'Назад' : 'Назад'}</button>
