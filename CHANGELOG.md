@@ -1,3 +1,14 @@
+## 2026-11-11 — CI-проверка миграции онлайн-отказа
+
+- Для `docs/migrations/0014_contract_withdrawals.sql` добавлен отдельный SQLite in-memory тест `tests/contract-withdrawals-migration.test.py`.
+- В `.github/workflows/validate-d1-migration.yml` добавлен отдельный шаг `Validate contract withdrawals migration`; тест проверяет структуру таблиц, регистрацию заявления и события, разрешённое изменение рабочих статусов, неизменяемость декларации, JSON metadata, append-only журнал, уникальность idempotency key и удаление PII-записи с сохранением минимального события.
+- На code/CI baseline commit `3a8f5b45085e9397f1a1c4a9ccc0d0c711c4bbab`: Florial D1 migration validation run #1040 — success, включая новый шаг; Blog and Studio validation run #854 — success (lint, tests, website build, migration-script checks, read-only dry-run, Sanity Studio build).
+- PR #198 остаётся открытым и не объединённым. `main` и PR base — `28c58401c6015033a9c844a1bf92d8d2151ba1d3`.
+- Cloudflare Pages preview deployments отключены настройкой проекта; ветка PR не получает рабочего preview. Production остаётся на deployment `d583ec9a-7986-4778-a171-f424c2039bee`; миграция 0014 не применялась.
+- До Production остаются legal review, согласование Footer link, тест Resend, Owner/Manager live checks, отдельное одобрение миграции, Production deployment и BG/RU/EN live smoke.
+
+---
+
 ## 2026-11-11 — Повторная проверка PR #198 и статуса Cloudflare
 
 - Проверен фактический PR HEAD: `5d5f3d8cbe815f3d11cb552cee6eecd840f2e3ce`; PR #198 открыт, mergeable, не объединён. Ветка: `feat/contract-withdrawal-flow`.

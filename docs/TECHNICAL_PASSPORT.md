@@ -1,3 +1,19 @@
+## Дополнение rev80 — CI-тест миграции онлайн-отказа
+
+Дата: 11.11.2026  
+Статус: тест миграции включён в CI и успешно пройден; PR #198 не объединён; Production не изменялась.
+
+- Добавлен `tests/contract-withdrawals-migration.test.py`, который применяет `docs/migrations/0014_contract_withdrawals.sql` в SQLite in-memory и проверяет таблицы/индексы, корректное создание заявления и event, изменение разрешённых рабочих статусов, immutability декларационных полей, JSON-object metadata, append-only events, уникальность idempotency key и удаление персональной декларации при сохранении минимального audit event.
+- В `.github/workflows/validate-d1-migration.yml` добавлен отдельный шаг `Validate contract withdrawals migration`; он выполняется отдельно от существующего теста plant audit migration.
+- Code/CI baseline commit: `3a8f5b45085e9397f1a1c4a9ccc0d0c711c4bbab`. Florial D1 migration validation run #1040 — success, новый тест включён. Blog and Studio validation run #854 — success.
+- Текущий PR #198 открыт, mergeable, не объединён. Base/main: `28c58401c6015033a9c844a1bf92d8d2151ba1d3`. Документационный commit после CI не меняет код миграции или приложения.
+- Cloudflare Pages preview deployment setting: `none`; preview deployment пропускается с причиной `preview_deployments_disabled`. Не менять глобальную настройку проекта без отдельного согласования.
+- Production deployment остаётся `d583ec9a-7986-4778-a171-f424c2039bee` на main commit `28c58401c6015033a9c844a1bf92d8d2151ba1d3`; D1 migration 0014 не применялась.
+- Не менялись реальные D1 данные/заказы, Sanity, Cloudflare settings/secrets, Header, меню, Footer и checkout.
+- Открытые условия до Production: юридическая проверка текста/реквизитов/retention; отдельное согласование Footer link; тест Resend на контролируемый адрес; Owner/Manager live checks; согласование и применение migration 0014; Production deployment и live smoke BG/RU/EN.
+
+---
+
 ## Дополнение rev79 — повторная проверка PR #198 и Cloudflare deployment
 
 Дата: 11.11.2026  
