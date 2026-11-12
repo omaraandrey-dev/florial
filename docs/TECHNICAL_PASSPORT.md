@@ -1,9 +1,12 @@
-## 2026-11-12 — RSS-лента услуг (реализация в PR)
+## 2026-11-12 — RSS-лента услуг опубликована и проверена в Production
 
-- Реализуется feed `https://florial-bg.com/feeds/services-bg.xml` в Cloudflare Pages Functions; источник данных — опубликованные документы `service` из Sanity `production`.
-- Read-only GROQ проверил 20 активных услуг. Выборка ограничена документами с slug, активным статусом и `seo.noIndex != true`; draft IDs исключены. Для RSS используется BG name/shortDescription, абсолютная ссылка `/services/{slug}` и `_updatedAt` как дата обновления элемента.
-- RSS 2.0 с Atom self-link, `bg-BG`, безопасным XML escaping и CDN cache TTL 5 минут. В `index.html` добавляется autodiscovery link.
-- Sanity, D1, Cloudflare settings/secrets и Production не менялись. Проверки CI и live endpoint ожидают PR/deployment; до этого Production доступность не подтверждена.
+- Endpoint: `https://florial-bg.com/feeds/services-bg.xml`; Cloudflare Pages Function динамически читает опубликованные документы `service` из Sanity dataset `production`.
+- Фильтр: активные услуги, опубликованный slug, `seo.noIndex != true`, draft IDs исключены. Поля записи: болгарское name, shortDescription (fallback на SEO description), абсолютный URL `/services/{slug}`, `_updatedAt` как pubDate.
+- Формат RSS 2.0, язык `bg-BG`, Atom self-link, XML escaping; cache headers: CDN s-maxage 300 и stale-while-revalidate 600.
+- PR #229 squash-merged в main, commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`. Cloudflare Pages Production deployment `c1e03dc4-3b28-4575-920e-dae1e152ef02` завершился success; все stages включая build/deploy — success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- CI: PR head Blog/Studio run `43176887544` — success; PR head D1 validation run `43176887495` — success; post-merge main D1 run `43177889083` — success.
+- Live smoke: feed HTTP 200, Content-Type `application/rss+xml; charset=utf-8`, возвращает RSS XML с service items. Homepage HTTP 200; RSS autodiscovery link подтверждён в live HTML.
+- Sanity, D1 и Cloudflare settings/secrets не менялись. Не выполнено: регистрация feed в сторонних RSS каталогах/агрегаторах — отдельный следующий шаг.
 
 ---
 
