@@ -372,21 +372,17 @@ export function ProductPage({
       {/* Основной блок товара и галерея */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
         <div className="flex flex-col gap-4">
+          {isPlantProduct(product) && selectedImage && !failedImageUrls.includes(selectedImage) && typeof minimumWinterTemperature === 'number' && (
+            <div className="flex min-h-3 items-center gap-0.5" aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}>
+              <span aria-hidden="true" className="text-xs font-semibold leading-none text-blue-600">❄</span>
+              <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
+            </div>
+          )}
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage && !failedImageUrls.includes(selectedImage) ? (
               <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} decoding="async" onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
-            )}
-            {isPlantProduct(product) && selectedImage && !failedImageUrls.includes(selectedImage) && typeof minimumWinterTemperature === 'number' && (
-              <span
-                aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
-                title={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
-                className="absolute left-1 top-1 z-10 inline-flex items-center gap-0.5"
-              >
-                <span aria-hidden="true" className="text-lg font-semibold leading-none text-blue-600">❄</span>
-                <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
-              </span>
             )}
             {product.stockStatus && (
               <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
