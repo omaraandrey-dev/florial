@@ -1,3 +1,13 @@
+## 2026-11-12 — Homepage hero Sanity photo library: merged and deployed (PR #242)
+
+- PR #242 merged squash into `main`; merge commit `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`.
+- Sanity Production photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` (`florial-homepage-hero-background`) is active and points to compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png`, 1518×957, 1,015,107 bytes. Prior asset was 2,704,931 bytes; Sanity metadata indicates ~62.5% lower stored file size.
+- Homepage first-render fallback in `src/pages/HomePage.tsx` uses the exact same compressed CDN URL as the Sanity record. App resolves the photo record only on homepage route. No intentional old-to-new image source swap on first load.
+- Exact PR head `a7270d4b931009dba4fd27c35a99b5375dbcca3e` CI: Blog and Studio validation run `43271610071` — success (lint, utility tests, website build, migration syntax/dry-run, Studio dependency install and Studio build); D1 validation run `43271609865` — success.
+- Cloudflare Pages Production deployment `4f4dc307-3f6d-416b-b411-4bceccbc3661` deployed exact merge commit `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`; queued, initialize, clone_repo, build and deploy all succeeded. Deployment aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- No Header/menu/Footer/CSS/layout changes; no Sanity schema change, no D1/Resend/Cloudflare settings change. Previous original image asset was retained.
+- Remaining: owner visual check on mobile/desktop and repeat Lighthouse + Network waterfall to confirm the browser fetches the compressed asset and measure actual LCP/transfer bytes. File size reduction is confirmed from Sanity metadata; browser performance improvement is not yet measured.
+
 ## 2026-11-12 — Homepage hero compressed asset linked from Sanity photo library
 
 - Sanity Production photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` (`florial-homepage-hero-background`) is active and now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png`.
