@@ -2,13 +2,14 @@
 
 - В Sanity Production опубликованы 8 специализированных service documents: дождеватели, программаторы, электромагнитные клапаны, ремонт/модернизация полива, годовая профилактика, цветники, топиарная резитба и замена газона.
 - Четыре направления специалистов сохранены: landscaping; irrigation (включая maintenance и delivery); planting; lawn. Новое направление не создавалось.
-- \`landshaften-dizain-proekt-zasazhdenie\` оставлен проектной статьёй блога; он связан с существующей услугой \`landshaften-dizain\`, остаётся опубликованным и не перенаправляется.
-- В 99 product documents заменены \`relatedContent\` references с четырёх blogPost IDs на соответствующие service IDs (46 + 23 + 17 + 13). Live GROQ после публикации: 99 товаров со ссылками на service, 0 старых product-ссылок на эти четыре статьи.
-- Восемь перенесённых blogPost документов сохранены, но получили \`isPublished=false\`; старые URL обрабатываются middleware HTTP 301. Физическое удаление не выполнялось.
-- PR #226 merged squash, commit \`7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f\`; Cloudflare Pages Production deployment \`f22c3b8f-6d75-4228-b764-5bf32bbce497\` завершился success и имеет aliases \`florial-bg.com\` и \`www.florial-bg.com\`.
-- CI: Blog/Studio run \`43170398802\` success; D1 validation run \`43170398659\` success. Live Firecrawl проверил все восемь старых URL: конечные service URL отвечают HTTP 200, \`lang\` query сохраняется; ландшафтный case study остаётся на blog URL с HTTP 200.
-- Backups: 9 исходных blogPost, 5 service documents и field-level snapshot \`relatedContent\` 100 документов сохранены в \`docs/backups/\`. Это целевые snapshots, не полный dataset export.
-- Sanity validation для 8 услуг и 99 товаров: \`valid\`, но \`complete=false\`, так как инструмент не выполняет custom validation callbacks. Ручной визуальный осмотр hosted Studio BG/RU/EN остаётся дополнительной QA-проверкой.
+- `landshaften-dizain-proekt-zasazhdenie` оставлен проектной статьёй блога; он связан с существующей услугой `landshaften-dizain`, остаётся опубликованным и не перенаправляется.
+- В 99 product documents заменены `relatedContent` references с четырёх blogPost IDs на соответствующие service IDs (46 + 23 + 17 + 13). Live GROQ после публикации: 99 товаров со ссылками на service, 0 старых product-ссылок на эти четыре статьи.
+- Восемь перенесённых blogPost документов сохранены, но получили `isPublished=false`; старые URL обрабатываются middleware HTTP 301. Физическое удаление не выполнялось.
+- PR #226 merged squash, commit `7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f`; Cloudflare Pages Production deployment `f22c3b8f-6d75-4228-b764-5bf32bbce497` завершился success и имеет aliases `florial-bg.com` и `www.florial-bg.com`.
+- CI: Blog/Studio run `43170398802` success; D1 validation run `43170398659` success. Live Firecrawl проверил все восемь старых URL: конечные service URL отвечают HTTP 200, `lang` query сохраняется; ландшафтный case study остаётся на blog URL с HTTP 200.
+- Live sitemap.xml: HTTP 200; все восемь service URL присутствуют, восемь деактивированных blog URL отсутствуют, landscape case-study URL остаётся в sitemap.
+- Backups: 9 исходных blogPost, 5 service documents и field-level snapshot `relatedContent` 100 документов сохранены в `docs/backups/`. Это целевые snapshots, не полный dataset export.
+- Sanity validation для 8 услуг и 99 товаров: `valid`, но `complete=false`, так как инструмент не выполняет custom validation callbacks. Ручной визуальный осмотр hosted Studio BG/RU/EN остаётся дополнительной QA-проверкой.
 
 ---
 

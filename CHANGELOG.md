@@ -1,19 +1,19 @@
 ## 2026-11-12 — Перенос коммерческих статей блога в услуги завершён (PR #226)
 
 - В Sanity Production опубликованы 8 специализированных услуг в четырёх существующих направлениях: системы полива (включая maintenance), услуги садовника и услуги газонщика. Ландшафтный дизайн использует существующую общую услугу.
-- Девятая статья \`landshaften-dizain-proekt-zasazhdenie\` оставлена опубликованной в блоге как проектный материал; дублирующая услуга и редирект не создавались.
-- В 99 товарах заменены ссылки \`relatedContent\` с четырёх старых blogPost IDs на соответствующие service IDs: 46 дождеватели, 23 программаторы, 17 клапаны, 13 ремонт/модернизация. Проверка после публикации: 99 товаров со ссылками на услуги, 0 старых ссылок на эти четыре blogPost.
-- Восемь старых коммерческих blogPost получили \`isPublished=false\` после включения и проверки 301. Документы и IDs сохранены; физического удаления нет. Landscape case study остаётся \`isPublished=true\`.
-- PR #226 объединён squash: merge commit \`7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f\`. Добавлены middleware HTTP 301 для восьми URL, сохранение query string, тесты и исправление OG image для service pages.
-- CI по точному PR head: Blog and Studio run \`43170398802\` — success; D1 validation run \`43170398659\` — success.
-- Cloudflare Pages Production deployment \`f22c3b8f-6d75-4228-b764-5bf32bbce497\`, commit \`7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f\` — build/deploy success; aliases \`florial-bg.com\` и \`www.florial-bg.com\`.
-- Live Firecrawl smoke: все 8 legacy blog URL разрешаются на соответствующие service URL, конечный HTTP 200; query \`lang\` сохраняется. Landscape case study отдельно проверен: остаётся на blog URL, HTTP 200. Метаданные service pages локализованы, robots index/follow.
-- Backups: 9 исходных blogPost, 5 существующих service и field-level snapshot \`relatedContent\` 100 документов (99 товаров + одна услуга) сохранены в \`docs/backups/\`; это целевые snapshots, не полный dataset export.
-- Sanity validation: 8 услуг и 99 товаров — \`valid\`; инструмент не выполняет custom validation callbacks, поэтому validation отмечена как incomplete. Ручной визуальный осмотр hosted Studio BG/RU/EN остаётся дополнительной QA-проверкой.
+- Девятая статья `landshaften-dizain-proekt-zasazhdenie` оставлена опубликованной в блоге как проектный материал; дублирующая услуга и редирект не создавались.
+- В 99 товарах заменены ссылки `relatedContent` с четырёх старых blogPost IDs на соответствующие service IDs: 46 дождеватели, 23 программаторы, 17 клапаны, 13 ремонт/модернизация. Проверка после публикации: 99 товаров со ссылками на услуги, 0 старых ссылок на эти четыре blogPost.
+- Восемь старых коммерческих blogPost получили `isPublished=false` после включения и проверки 301. Документы и IDs сохранены; физического удаления нет. Landscape case study остаётся `isPublished=true`.
+- PR #226 объединён squash: merge commit `7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f`. Добавлены middleware HTTP 301 для восьми URL, сохранение query string, тесты и исправление OG image для service pages.
+- CI по точному PR head: Blog and Studio run `43170398802` — success; D1 validation run `43170398659` — success.
+- Cloudflare Pages Production deployment `f22c3b8f-6d75-4228-b764-5bf32bbce497`, commit `7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f` — build/deploy success; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Live Firecrawl smoke: все 8 legacy blog URL разрешаются на соответствующие service URL, конечный HTTP 200; query `lang` сохраняется. Landscape case study отдельно проверен: остаётся на blog URL, HTTP 200. Метаданные service pages локализованы, robots index/follow.
+- Live sitemap.xml: HTTP 200; содержит все восемь новых service URL, не содержит восемь деактивированных blog URL и сохраняет landscape case-study URL.
+- Backups: 9 исходных blogPost, 5 существующих service и field-level snapshot `relatedContent` 100 документов (99 товаров + одна услуга) сохранены в `docs/backups/`; это целевые snapshots, не полный dataset export.
+- Sanity validation: 8 услуг и 99 товаров — `valid`; инструмент не выполняет custom validation callbacks, поэтому validation отмечена как incomplete. Ручной визуальный осмотр hosted Studio BG/RU/EN остаётся дополнительной QA-проверкой.
 - Sanity schema, D1, Manager, Cloudflare secrets/settings, Header, меню и Footer не менялись.
 
 ## 2026-11-12 — Интерактивная фильтрация страницы услуг (PR #225 merged)
- (PR #225 merged)
 
 - PR #225 объединён в main методом squash; merge commit: a8db72ffda86e8d678cfe233a92ae88b0f82a892. Base main до merge: b82fedb92ab30042bcd8ef7d41b25936aae5de72; PR head: d51a04b53f2393b824a78b7affe2700ac75f7014.
 - На /services добавлены четыре фото-карточки направлений специалистов: ландшафтный архитектор (landscaping), инженер по поливным системам (irrigation + maintenance + delivery), садовник (planting), специалист по газонам (lawn).
