@@ -1,3 +1,14 @@
+## 2026-11-12 — Header, homepage и каталог загружаются независимо (PR #240)
+
+- Ветка `perf/header-homepage-data-decoupling-2026-11-12`, PR #240: https://github.com/omaraandrey-dev/florial/pull/240; текущий head `8953f913be649f62af34d7123b15c6373c68171a`.
+- Header получает отдельные компактные запросы меню оборудования, всех категорий растений, списка услуг и логотипа. Эти запросы не входят в page-data/product loading и не являются условием отображения содержимого других страниц. Вёрстка, CSS, Header menu и поведение не менялись.
+- Для главной страницы отдельный Sanity query загружает только шесть карточек растений в заданном порядке: `plants-root`, `plants-palms`, `plants-olives`, `plants-trees-shrubs`, `plants-citrus`, `plants-flowers`. Полный список категорий остаётся доступен для каталожной навигации; все категории растений сохраняются в меню Header.
+- Полный индекс товаров запрашивается только при активном маршруте категории или товара. Поиск использует собственные поисковые запросы. Главная, услуги, About, блог, контакты и корзина не запускают полный каталог.
+- Фильтр видимых категорий больше не скачивает товары: GROQ возвращает `productCount` для категорий, клиент добавляет предков категорий с товарами. Сохранена прежняя логика direct category + multi-category references. Read-only GROQ проверен в Sanity Production (54 категории) и Plants (17 категорий); оба запроса успешно вернули счётчики.
+- Загрузка категорий, услуг и каталога разделена. Страницы услуг не ожидают каталог; категории и товары ожидают только собственные необходимые данные. Поиск не ждёт глобальный product index.
+- Изменены: `src/App.tsx`, `src/pages/HomePage.tsx`, `src/types.ts`, документация. Sanity documents/schema, Cloudflare settings/secrets, D1, Resend и Production не изменялись.
+- **Проверки на момент записи:** PR открыт; GitHub CI по точному head, build/lint/tests и route regression ещё не подтверждены. Lighthouse, Network waterfall и desktop/mobile visual QA не выполнялись. Улучшение скорости пока не заявляется как измеренное. Production deployment не запускался.
+
 ## 2026-11-12 — Header logo: responsive Sanity CDN delivery (PR pending)
 
 - По согласованию владельца обновлён только способ доставки логотипа в `src/components/Header.tsx`: используется существующий `getSanityImageProps` из `src/lib/sanityImage.ts`, который формирует Sanity CDN URL с `auto=format`, `q=75` и адаптивным `srcset`.
