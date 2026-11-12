@@ -464,7 +464,7 @@ export function CategoryPage({
           )}
         </div>
         {category.imageUrl && (
-          <div className="hidden overflow-hidden rounded-2xl bg-[#F3F5EC] lg:col-span-1 lg:block">
+          <div className="category-page-hero-image overflow-hidden rounded-2xl bg-[#F3F5EC] lg:col-span-1">
             <img
               {...getSanityImageProps(category.imageUrl, '(min-width: 1024px) 30vw, 100vw', 960)}
               alt={getCategoryImageText(category, language, 'alt') || ''}
@@ -636,10 +636,10 @@ export function CategoryPage({
                     <span
                       aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
                       title={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
-                      className="absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 shadow-sm ring-1 ring-blue-100"
+                      className="absolute left-1 top-1 z-10 inline-flex items-center gap-0.5"
                     >
-                      <span aria-hidden="true" className="text-3xl font-bold leading-none text-blue-500">❄</span>
-                      <span className="text-xs font-extrabold leading-none text-blue-700">{winterTemperatureLabel}</span>
+                      <span aria-hidden="true" className="text-lg font-semibold leading-none text-blue-600">❄</span>
+                      <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
                     </span>
                   )}
                   {stockIndicator && (
