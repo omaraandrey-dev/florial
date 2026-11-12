@@ -10,6 +10,8 @@ export type BlogTextBlock = {
   markDefs?: Array<{_key?: string; _type?: string; href?: string; blank?: boolean}>
   assetUrl?: string
   alt?: string
+  altRu?: string
+  altEn?: string
   caption?: string
   url?: string
   title?: string
@@ -27,14 +29,14 @@ export type BlogPost = {
   slug?: {current?: string} | string
   publishedAt?: string
   cover?: {asset?: {url?: string}; alt?: string; caption?: string}
-  gallery?: Array<{asset?: {url?: string}; alt?: string; caption?: string}>
+  gallery?: Array<{asset?: {url?: string}; alt?: string; altRu?: string; altEn?: string; caption?: string}>
   tags?: string[]
   translations?: Partial<Record<BlogLanguage, BlogTranslation>>
 }
-export type BlogPostCard = Pick<BlogPost, '_id' | 'slug' | 'publishedAt' | 'cover' | 'translations'>
+export type BlogPostCard = Pick<BlogPost, '_id' | 'slug' | 'publishedAt' | 'cover' | 'translations' | 'tags'>
 
 const blogCardProjection = `{
-  _id, slug, publishedAt,
+  _id, slug, publishedAt, tags,
   "cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption},
   "translations": {
     "bg": translations.bg { title, shortDescription, coverAlt },
@@ -44,13 +46,13 @@ const blogCardProjection = `{
 }`
 const blogDetailTranslationProjection = `{
   title, shortDescription,
-  body[]{..., "assetUrl": asset->url},
+  body[]{..., "assetUrl": asset->url, alt, altRu, altEn},
   seoTitle, seoDescription, coverAlt
 }`
 const blogDetailProjection = `{
   _id, slug, publishedAt, tags,
   "cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption},
-  "gallery": gallery[]{"asset": asset->{"url": url}, alt, caption},
+  "gallery": gallery[]{"asset": asset->{"url": url}, alt, altRu, altEn, caption},
   "translations": {
     "bg": translations.bg${blogDetailTranslationProjection},
     "ru": translations.ru${blogDetailTranslationProjection},
@@ -93,6 +95,11 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 export function blogSlug(post: BlogPostCard | BlogPost): string {
   return typeof post.slug === 'string' ? post.slug : post.slug?.current || post._id
 }
+export function blogImageAlt(image: {alt?: string; altRu?: string; altEn?: string}, language: BlogLanguage, fallback = ''): string {
+  const localized = language === 'ru' ? image.altRu : language === 'en' ? image.altEn : image.alt
+  return localized || image.alt || image.altRu || image.altEn || fallback
+}
+
 export function blogTranslation(post: BlogPostCard | BlogPost, language: BlogLanguage): BlogTranslation {
   const selected = post.translations?.[language]
   const bg = post.translations?.bg || {}

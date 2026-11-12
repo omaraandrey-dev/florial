@@ -1,3 +1,11 @@
+## 2026-11-12 — Блог: этап 1, улучшение навигации и локализации (PR #232)
+
+- Base main: `35fb62bedab13b5a9f500628f0a50432389ca73a`; branch: `feat/blog-content-discovery-stage1`.
+- Реализовано в коде: фильтры страницы `/blog` по существующим tags; локализованные названия четырёх тегов; вывод тематических меток в карточках; передача `alt/altRu/altEn` в запросе для галереи и Portable Text image blocks; locale-aware внутренние ссылки в тексте статьи; похожие статьи ранжируются по пересечению tags и затем по дате.
+- Sanity Production read-only: всего 22 `blogPost`, опубликовано 14; существующие темы: Растения, Автоматично напояване, Озеленяване, Тревни площи. Поля ALT BG/RU/EN подтверждены в Hosted Schema; RU/EN Portable Text содержит свои локализованные значения ALT в поле `alt` соответствующей языковой версии.
+- Изменены только `src/lib/blog.ts`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`. Sanity schema/data и Production не менялись.
+- PR #232 открыт. CI для финального SHA и браузерная визуальная проверка BG/RU/EN и мобильных ширин должны быть подтверждены до merge. Merge и Production deployment не выполнялись.
+
 ## 2026-11-12 — RSS-лента услуг опубликована и проверена в Production
 
 - Endpoint: `https://florial-bg.com/feeds/services-bg.xml`; Cloudflare Pages Function динамически читает опубликованные документы `service` из Sanity dataset `production`.

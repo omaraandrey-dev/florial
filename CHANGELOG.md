@@ -1,3 +1,11 @@
+## 2026-11-12 — Улучшение блога: тематическая навигация и мультиязычность (PR #232, проверка)
+
+- В отдельной ветке `feat/blog-content-discovery-stage1` подготовлены изменения только для блога: тематические фильтры по четырём существующим тегам, локализованные подписи тем, корректная передача ALT для изображений в Portable Text и галерее, сохранение языка для внутренних ссылок Florial, тематическое ранжирование похожих статей.
+- Изменены: `src/lib/blog.ts`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`.
+- Live Sanity Production read-only: 22 документа `blogPost`, из них 14 опубликованы; действующие теги — `Растения`, `Автоматично напояване`, `Озеленяване`, `Тревни площи`. Поля локализованного ALT уже существуют в опубликованной схеме; существующие RU/EN Portable Text изображения используют ALT внутри соответствующих языковых версий.
+- Sanity schema/documents, Header/menu/Footer, маршруты, услуги, Cloudflare settings/secrets, D1, Manager, Resend и Production data не изменялись.
+- PR #232: https://github.com/omaraandrey-dev/florial/pull/232. До завершения CI и визуальной QA изменения не считаются готовыми к Production; merge/deployment не выполнялись.
+
 ## 2026-11-12 — RSS-лента услуг опубликована в Production (PR #229)
 
 - PR #229 объединён squash в `main`: merge commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`; GitHub PR: https://github.com/omaraandrey-dev/florial/pull/229.
