@@ -1,16 +1,16 @@
 ## 2026-11-12 — Header, homepage и каталог загружаются независимо (PR #240)
 
-- Ветка `perf/header-homepage-data-decoupling-2026-11-12`, PR #240: https://github.com/omaraandrey-dev/florial/pull/240; проверенный code head `a033423a7876af96d1f89f70dfefd5589495378d` (последующие commits в этой ветке обновляют только документацию).
+- Ветка `perf/header-homepage-data-decoupling-2026-11-12`, PR #240: https://github.com/omaraandrey-dev/florial/pull/240; текущий PR head `e067660f1896fbce3cb575541434a362ba37c740`.
 - Header получает отдельные компактные запросы меню оборудования, всех категорий растений, списка услуг и логотипа. Эти запросы не входят в page-data/product loading и не являются условием отображения содержимого других страниц. Вёрстка, CSS, Header menu и поведение не менялись.
 - Для главной страницы отдельный Sanity query загружает только шесть карточек растений в заданном порядке: `plants-root`, `plants-palms`, `plants-olives`, `plants-trees-shrubs`, `plants-citrus`, `plants-flowers`. Полный список категорий остаётся доступен для каталожной навигации; все категории растений сохраняются в меню Header.
 - Полный индекс товаров запрашивается только при активном маршруте категории или товара. Поиск использует собственные поисковые запросы. Главная, услуги, About, блог, контакты и корзина не запускают полный каталог.
 - Фильтр видимых категорий больше не скачивает товары: GROQ возвращает `productCount` для категорий, клиент добавляет предков категорий с товарами. Сохранена прежняя логика direct category + multi-category references. Read-only GROQ проверен в Sanity Production (54 категории) и Plants (17 категорий); оба запроса успешно вернули счётчики.
 - Загрузка категорий, услуг и каталога разделена. Страницы услуг не ожидают каталог; категории и товары ожидают только собственные необходимые данные. Поиск не ждёт глобальный product index.
 - Изменены: `src/App.tsx`, `src/pages/HomePage.tsx`, `src/types.ts`, документация. Sanity documents/schema, Cloudflare settings/secrets, D1, Resend и Production не изменялись.
-- **CI по точному head `a033423a7876af96d1f89f70dfefd5589495378d`:** Blog and Studio validation run `43260945549` — success (website lint, utility tests, website build, migration syntax/dry-run, Sanity Studio build); D1 validation run `43260916986` — success (lint, website build, Pages Functions syntax и обе migration validations). Это подтверждает CI/build, но не браузерную route regression.
+- **CI по точному текущему PR head `e067660f1896fbce3cb575541434a362ba37c740`:** Blog and Studio validation run `43261832983` — success (website lint, utility tests, website build, migration syntax/dry-run, Sanity Studio build); D1 validation run `43261833064` — success (lint, website build, Pages Functions syntax и обе migration validations). Это подтверждает lint/tests/build и миграционные проверки, но не браузерную route regression.
 - **Остаётся до merge:** browser/visual QA desktop и mobile для BG/RU/EN и прямых URL главной, шести plant categories, equipment category, product detail, search, services list/detail, About, Blog/list/article, contacts и cart. В Network подтвердить, что homepage и нетоварные страницы не запрашивают полный catalogue index, а Header не блокирует рендер страниц. Lighthouse и Network waterfall before/after ещё не измерены; performance gain не заявляется. Production deployment не запускался.
 
-## 2026-11-12 — Responsive delivery для Header logo (PR pending)
+## 2026-11-12 — Responsive delivery для Header logo (PR #239 closed)
 
 - Branch `perf/header-logo-responsive-srcset`, commit `7923e1534f028e57911109fd30a878dd3f400389`: `src/components/Header.tsx` использует существующий `getSanityImageProps` из `src/lib/sanityImage.ts` для responsive Sanity CDN URL, `srcset`, `sizes`, `auto=format` и `q=75`.
 - Target CSS rendered widths отражены в `sizes`: 80 px mobile, 156 px small/tablet, 200 px desktop; fallback width 480 px. Desktop layout и визуальные CSS-параметры не менялись.
