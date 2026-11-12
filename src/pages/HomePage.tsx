@@ -95,7 +95,17 @@ export function HomePage({
     return (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg')
   })
   // Keep the homepage concise; the catalogue pages retain the complete category lists.
-  const visiblePlantCategories = sortedPlantCategories.slice(0, 6)
+  const homepagePlantCategoryIds = [
+    'plants-root',
+    'plants-palms',
+    'plants-olives',
+    'plants-trees-shrubs',
+    'plants-citrus',
+    'plants-flowers',
+  ]
+  const visiblePlantCategories = homepagePlantCategoryIds
+    .map((id) => plantCategories.find((category) => category._id === id))
+    .filter((category): category is CategoryItem => Boolean(category))
   const visibleEquipmentCategories = sortedCategories.slice(0, 6)
 
   return (
