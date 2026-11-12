@@ -1,0 +1,1336 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:30Z",
+    "_id": "blogPost-topiarna-rezitba-rasteniya",
+    "_rev": "0yPZTxQnrTC5IQk08LVGxN",
+    "_system": {
+      "base": {
+        "id": "blogPost-topiarna-rezitba-rasteniya",
+        "rev": "VQU6VLMbOXBQ4Wjto6lzH7"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-10-24T11:58:18Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Топиарна резитба на растения в Несебър",
+      "asset": {
+        "_ref": "image-cfe56c3397c1db192c9553df5c5229a6c74154ee-1000x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2025-04-09T04:01:13.757Z",
+    "slug": {
+      "_type": "slug",
+      "current": "topiarna-rezitba-rasteniya"
+    },
+    "sourceUrl": "https://bg.drop.od.ua/post/топиарна-резитба-на-растения",
+    "tags": [
+      "Растения",
+      "Озеленяване"
+    ],
+    "title": "Топиарна резитба на растения",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "b8l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8k",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център Флориал ви кани в света на елегантното изкуство – света на топиарната резитба на растения. Пролетната резитба и формиращата подстрижка на дърветата не са просто технически моменти, а истинско изкуство, въплътено от опитните специалисти на нашето студио."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8m",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Подстрижка на жив плет"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8o",
+                "_type": "span",
+                "marks": [],
+                "text": "Майсторите на Флориал професионално формират и поддържат живи плетове, създавайки естетически привлекателни зелени огради."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8q",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Формираща (декоративна) резитба на широколистни храсти"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Широколистните храсти се превръщат в истински произведения на изкуството благодарение на декоративната резитба, придаваща форма и хармония."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8u",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Топиарна резитба на широколистни дървета"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8w",
+                "_type": "span",
+                "marks": [],
+                "text": "Създаването на живи скулптури от дървета е уникално умение, което притежават нашите специалисти, придавайки на дърветата форма и характер."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b8z",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b8y",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Формираща (декоративна) резитба на иглолистни растения"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b91",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b90",
+                "_type": "span",
+                "marks": [],
+                "text": "Иглолистните растения стават елементи на декора благодарение на изкуството на формиращата резитба, придаваща им изискан вид."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b93",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b92",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Фигурална топиарна резитба на вечнозелени растения"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b95",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b94",
+                "_type": "span",
+                "marks": [],
+                "text": "Създаваме уникални фигурални композиции от вечнозелени растения, които радват окото и придават на участъка особен чар."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b97",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b96",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Топиарна резитба на арки"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b99",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b98",
+                "_type": "span",
+                "marks": [],
+                "text": "Топиарните арки стават великолепни елементи на градинския дизайн, вписвайки се в архитектурния стил на вашия участък."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9a",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Топиарна резитба на бонсаи"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9c",
+                "_type": "span",
+                "marks": [],
+                "text": "Издигаме изкуството на бонсаите на ново ниво, създавайки удивителни миниатюрни дървета, притежаващи хармония и изисканост."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9e",
+                "_type": "span",
+                "marks": [],
+                "text": "Извършваме озеленяване на участъци и създаване на живи плетове от туи и храсти в Несебър, Слънчев бряг, Свети Влас, Равда, Каблешково и близките райони."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9g",
+            "_type": "image",
+            "alt": "Топиарна резитба на растения Слънчев Бряг",
+            "asset": {
+              "_ref": "image-cfe56c3397c1db192c9553df5c5229a6c74154ee-1000x1000-jpg",
+              "_type": "reference"
+            },
+            "caption": "Топиарна резитба на растения"
+          },
+          {
+            "_key": "b9h",
+            "_type": "image",
+            "alt": "Топиарна резитба на растения Свети Влас",
+            "asset": {
+              "_ref": "image-6c8f24be18a00a262d96852b46add4c0be93464a-1280x1280-jpg",
+              "_type": "reference"
+            },
+            "caption": "Топиарна резитба на растения"
+          },
+          {
+            "_key": "b9j",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9i",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Кратко за топиарните растения"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b9l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9k",
+                "_type": "span",
+                "marks": [],
+                "text": "Градини с топиарна и орнаментална, фигурална резитба на растения са известни още от времената на Древен Египет и Древен Рим. У нас те получават развитие по времето на Петър I, когато започва строителството на дворци по образец на Версай с регулярни паркове около тях. Топиарната резитба, освен че подчертава представителната част на участъка, е необходима и при създаването на приватни зони за уединение – кабинети, боскети, живи плетове. Отделно стоящите солитери – бонсаи също придобиват любов и популярност в съвременните градини."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9m",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Какво да се подстригва?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b9p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9o",
+                "_type": "span",
+                "marks": [],
+                "text": "За създаване на топиарни обекти обикновено се използват дребнолистни растения: колкото по-големи са листата и по-рядка е короната, толкова повече място заема обектът или композицията. Съответно, кулиса от дребнолистна липа с корона, подстригана във форма на куб, или берсо от дребнолистен бряст са подходящи в паркове, а в малка градина се използват такива растения като орлови нокти, бербериси на Тунберг, туя западна и източна от различни видове, обикновен глог, спирея, хвойни, кипарисовидни, тисове, чемшири и др."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9q",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Класификация на растенията за топиар"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b9t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Съществува класификация на растенията, подходящи за топиарни резитби:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9u",
+                "_type": "span",
+                "marks": [],
+                "text": "за солитери с формована корона (широколистни и иглолистни);"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9w",
+                "_type": "span",
+                "marks": [],
+                "text": "с корона с фигурална формовка (високи, средни, ниски);"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9z",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b9y",
+                "_type": "span",
+                "marks": [],
+                "text": "за подстригани стени (кулиси);"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ba1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ba0",
+                "_type": "span",
+                "marks": [],
+                "text": "за живи плетове (бодливи и небодливи, с различна височина, листопадни и вечнозелени)."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ba3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ba2",
+                "_type": "span",
+                "marks": [],
+                "text": "За България като солитерни насаждения за топиар е най-добре да се използват иглолистни растения, стабилно декоративни през цялата година – туя западна Smaragd, туя източна Aurea nana или хвойни (например, Juniperus virginiana ‘Skyrocket’), за скулптурна резитба може да се вземе вечнозелен чемшир, дребнолистен джел, тис ягоден."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ba5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ba4",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Кога да се подстригва?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "ba7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ba6",
+                "_type": "span",
+                "marks": [],
+                "text": "Резитбата за поддържане на зададената форма трябва да се провежда редовно (но не преди зимата – за да може растението спокойно да се подготви за състояние на покой, а не да изразходва сили за допълнителен прираст) с градински ножици или храсторези (става дума основно за подстригани плетове, когато се отрязва голямо количество клони и посоката на растеж на леторастите вече не е толкова важна), а резитбата се извършва с използване на секатор. За уплътняване на короната на растението срезът се прави над пъпка, „гледаща“ навътре, всяка клонка се отрязва отделно (шпалири, солитери, бонсаи). Раните се обработват по специален начин за по-бързо заздравяване на среза. Резитбата трябва да се провежда през пролетта. Желателно е да се започне подстригването на растенията на възраст от пет години (когато кореновата система вече е добре формирана) и да не се отрязва повече от една трета от зелената маса."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ba9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ba8",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Как се подстригва?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bab",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "baa",
+                "_type": "span",
+                "marks": [],
+                "text": "При подстригване могат да се използват готови шаблони, които помагат за точното спазване на първоначално създадената форма. Идеалната форма за подрязан жив плет е по-широка в основата и стесняваща се към върха, така че долните клони да получават достатъчно светлина.Това изкуство изисква значителни усилия както за създаването на фигури, орнаменти или плетове, така и за поддържането на елементите от градинския дизайн в желаната форма. Във всички случаи грижата за подстриганите растения е най-добре да се повери на специалисти – така замислените от дизайнера оригинални композиции ще красят вашата градина в продължение на много години."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bad",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bac",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Създаване на топиарна резитба"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "baf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bae",
+                "_type": "span",
+                "marks": [],
+                "text": "Доверете създаването на топиарна красота на опитните ръце на ландшафтните дизайнери и градински архитекти от ГЦ Флориал. Направете своята градина уникална и неповторима, като добавите към нея великолепието на топиарната резитба."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bah",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bag",
+                "_type": "span",
+                "marks": [],
+                "text": "Свържете се с нас на следните контакти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bal",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bai",
+                "_type": "span",
+                "marks": [],
+                "text": "🌐Нашият уеб-сайт: "
+              },
+              {
+                "_key": "bak",
+                "_type": "span",
+                "marks": [
+                  "baj"
+                ],
+                "text": "www.drop.od.ua/bg"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "baj",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bap",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bam",
+                "_type": "span",
+                "marks": [],
+                "text": "📧 Имейл: "
+              },
+              {
+                "_key": "bao",
+                "_type": "span",
+                "marks": [
+                  "ban"
+                ],
+                "text": "omaraandrey@gmail.com"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ban",
+                "_type": "link",
+                "blank": false,
+                "href": "mailto:omaraandrey@gmail.com"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bar",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "baq",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Телефон: +359876777902"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bau",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bat",
+                "_type": "span",
+                "marks": [
+                  "bas"
+                ],
+                "text": "Продажа розы сорта Симпатия"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bas",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rozi-sympathy"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bax",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "baw",
+                "_type": "span",
+                "marks": [
+                  "bav"
+                ],
+                "text": "Topiary Pruning of Plants Nessebar"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bav",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bb0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "baz",
+                "_type": "span",
+                "marks": [
+                  "bay"
+                ],
+                "text": "Топиарная стрижка растений Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bay",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Топиарна резитба на растения в Несебър",
+        "seoDescription": "Полезна информация от Florial: Топиарна резитба на растения. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "seoTitle": "Топиарна резитба на растения | Florial",
+        "shortDescription": "Полезна информация от Florial: Топиарна резитба на растения. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "title": "Топиарна резитба на растения"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "te1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial Garden Centre welcomes you to the art of topiary. Spring pruning and shaping trees are more than technical tasks — they are an art practised by our experienced team."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Hedge trimming: we professionally shape and maintain living hedges so they remain neat and attractive."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Formative pruning of deciduous shrubs: we create balanced shapes and turn shrubs into distinctive garden features."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Topiary pruning of deciduous trees: we create living sculptures that highlight each tree’s character and structure."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Formative pruning gives conifers a refined appearance and makes them elegant decorative accents."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Figurative trimming of evergreen plants creates distinctive compositions that add charm to a garden."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Topiary arches complement garden architecture, while bonsai shaping creates expressive miniature trees."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te8s",
+                "_type": "span",
+                "marks": [],
+                "text": "We provide landscaping and create hedges using thuja and shrubs in Nessebar, Sunny Beach, Sveti Vlas, Ravda, Kableshkovo and nearby areas."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te9",
+            "_type": "image",
+            "alt": "Topiary pruning in Sunny Beach",
+            "asset": {
+              "_ref": "image-cfe56c3397c1db192c9553df5c5229a6c74154ee-1000x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "te10",
+            "_type": "image",
+            "alt": "Topiary pruning in Sveti Vlas",
+            "asset": {
+              "_ref": "image-6c8f24be18a00a262d96852b46add4c0be93464a-1280x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "te11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te11s",
+                "_type": "span",
+                "marks": [],
+                "text": "A brief history of topiary"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "te12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Formal gardens with shaped plants have existed since Ancient Egypt and Rome. The tradition later developed in the regular gardens of European palaces. Topiary can emphasise the formal part of a property and create secluded spaces such as green garden rooms, bosquets and hedges. Sculpted specimen plants, including bonsai-style forms, are also popular in modern gardens."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Which plants are suitable?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Small-leaved plants are usually preferred for topiary: larger leaves and a loose crown require more space. Large parks may use small-leaved lime and elm, while smaller gardens can feature honeysuckle, Thunberg’s barberry, western and eastern thuja, hawthorn, spirea, juniper, cypress, yew and boxwood."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Types of plants used for topiary"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Plants can be selected for shaped specimen crowns, sculptural forms of different heights, clipped green walls, or hedges that may be thorny or thornless, deciduous or evergreen."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te17s",
+                "_type": "span",
+                "marks": [],
+                "text": "In Bulgaria, evergreen conifers are useful as year-round specimen plants, including Thuja occidentalis ‘Smaragd’, Thuja orientalis ‘Aurea Nana’ and Juniperus virginiana ‘Skyrocket’. Evergreen boxwood, small-leaved holly and English yew can be used for sculptural pruning."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te18s",
+                "_type": "span",
+                "marks": [],
+                "text": "When should plants be pruned?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Trim regularly to maintain the desired shape, but avoid pruning just before winter so plants can prepare for dormancy. Use hedge shears or a trimmer for hedges and secateurs for precise cuts on individual branches. To thicken the crown, cut above a bud facing inward. Treat wounds appropriately to encourage healing. Major formative pruning is best done in spring. Begin substantial shaping at around five years of age, once the root system is established, and avoid removing more than one-third of the green growth at a time."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te20s",
+                "_type": "span",
+                "marks": [],
+                "text": "How should topiary be shaped?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Templates can help maintain the intended shape. An ideal hedge is wider at the base and narrower at the top, allowing light to reach lower branches. Creating figures, ornaments and hedges takes effort and regular maintenance. Professional care helps preserve the designer’s original composition for years."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Creating a topiary design"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Entrust topiary shaping to the landscape designers and garden architects at Florial. Professional plant shaping can make your garden distinctive and full of character."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Topiary Pruning of Plants",
+        "seoDescription": "Useful advice from Florial: Topiary Pruning of Plants. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "seoTitle": "Topiary Pruning of Plants | Florial",
+        "shortDescription": "Useful advice from Florial: Topiary Pruning of Plants. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "title": "Topiary Pruning of Plants"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "tr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Садовый центр Florial приглашает в мир топиарного искусства. Весенняя обрезка и формирование кроны — не просто технические операции, а искусство, которым владеют специалисты нашей студии."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Стрижка живых изгородей: профессионально формируем и поддерживаем зелёные ограждения, чтобы они оставались аккуратными и декоративными."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Формирующая обрезка лиственных кустарников: придаём кустарникам гармоничную форму и превращаем их в выразительные элементы сада."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Топиарная обрезка лиственных деревьев: создаём живые скульптуры, подчёркивая характер и архитектуру дерева."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Формирующая обрезка хвойных растений помогает сделать их изысканными декоративными акцентами."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Фигурная стрижка вечнозелёных растений: создаём уникальные композиции, которые придают участку особый шарм."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Топиарные арки гармонично дополняют архитектуру сада, а фигурная обрезка бонсай позволяет создавать выразительные миниатюрные деревья."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы выполняем озеленение и создаём живые изгороди из туй и кустарников в Несебре, Солнечном Береге, Святом Власе, Равде, Каблешково и соседних районах."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr9",
+            "_type": "image",
+            "alt": "Обрезка растений в Солнечном Береге",
+            "asset": {
+              "_ref": "image-cfe56c3397c1db192c9553df5c5229a6c74154ee-1000x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "tr10",
+            "_type": "image",
+            "alt": "Топиарная обрезка растений в Святом Власе",
+            "asset": {
+              "_ref": "image-6c8f24be18a00a262d96852b46add4c0be93464a-1280x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "tr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Кратко о топиарном искусстве"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "tr12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Сады с фигурно подстриженными растениями известны со времён Древнего Египта и Рима. Позднее регулярные парки европейских дворцов развили эту традицию. Топиарная обрезка подчёркивает парадную часть участка и помогает создавать уединённые зоны — зелёные кабинеты, боскеты и изгороди. Отдельно растущие растения, сформированные в стиле бонсай, также популярны в современных садах."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Какие растения подходят для стрижки?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Для топиарных форм чаще выбирают мелколистные растения: крупные листья и рыхлая крона требуют больше места. В больших парках используют мелколистную липу и вяз, а в небольших садах — жимолость, барбарис Тунберга, западную и восточную тую, боярышник, спирею, можжевельник, кипарис, тис и самшит."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Классификация топиарных растений"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Растения подбирают для одиночных экземпляров с формованной кроной, фигурных форм разной высоты, стриженых зелёных стен и живых изгородей — колючих или бесколючих, листопадных или вечнозелёных."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "В Болгарии для одиночных декоративных посадок хорошо подходят хвойные растения, сохраняющие декоративность круглый год, например Thuja occidentalis ‘Smaragd’, Thuja orientalis ‘Aurea Nana’ и можжевельник Juniperus virginiana ‘Skyrocket’. Для скульптурной стрижки используют вечнозелёный самшит, мелколистный падуб и тис ягодный."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Когда проводить обрезку?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Форму поддерживают регулярной стрижкой, но не перед зимой: растению нужно подготовиться к периоду покоя. Для живых изгородей используют садовые ножницы или кусторез, а для точной работы с отдельными ветвями — секатор. Чтобы уплотнить крону, срез делают над почкой, направленной внутрь. Раны обрабатывают подходящим средством для ускорения заживления. Основную формирующую обрезку лучше проводить весной. Начинать серьёзное формирование рекомендуется примерно с пятилетнего возраста, когда корневая система уже развита, и за один раз не удалять более трети зелёной массы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Как правильно стричь растения?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Для точного соблюдения формы используют шаблоны. Идеальная живая изгородь шире у основания и уже кверху, чтобы нижние ветви получали достаточно света. Создание фигур, орнаментов и изгородей требует усилий и регулярного ухода. Чтобы композиции сохраняли задуманную форму долгие годы, уход лучше доверять специалистам."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Создание топиарной композиции"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Доверьте топиарную стрижку ландшафтным дизайнерам и садовым архитекторам Florial. С помощью профессионального формирования растений ваш сад станет индивидуальным и выразительным."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Топиарная стрижка растений",
+        "seoDescription": "Полезная информация от Florial: Топиарная стрижка растений. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "seoTitle": "Топиарная стрижка растений | Florial",
+        "shortDescription": "Полезная информация от Florial: Топиарная стрижка растений. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "title": "Топиарная стрижка растений"
+      }
+    }
+  }
+}

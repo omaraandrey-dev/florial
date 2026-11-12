@@ -1,0 +1,1559 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:35Z",
+    "_id": "blogPost-godishna-poddruzhka-avtomatichni-sistemi",
+    "_rev": "0yPZTxQnrTC5IQk08LVGxN",
+    "_system": {
+      "base": {
+        "id": "blogPost-godishna-poddruzhka-avtomatichni-sistemi",
+        "rev": "0yPZTxQnrTC5IQk08KkxCb"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-10-24T11:58:18Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Годишна профилактика на автоматични поливни системи",
+      "asset": {
+        "_ref": "image-802574993bb8aac01745eddb132fa561b6591216-1000x752-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2025-01-28T07:09:34.557Z",
+    "slug": {
+      "_type": "slug",
+      "current": "godishna-poddruzhka-avtomatichni-sistemi"
+    },
+    "sourceUrl": "https://bg.drop.od.ua/post/годишна-поддръжка-на-автоматични-поливни-системи-в-слънчев-бряг-несебър",
+    "tags": [
+      "Автоматично напояване"
+    ],
+    "title": "Годишна профилактика на автоматични поливни системи",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bga",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg9",
+                "_type": "span",
+                "marks": [],
+                "text": "Вашата градина е винаги в перфектно състояние!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgb",
+                "_type": "span",
+                "marks": [],
+                "text": "Специална оферта за хотели и жилищни комплекси, частни къщи"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bge",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgd",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център Флорал предлага комплексна годишна поддръжка на автоматични поливни системи за хотели, жилищни комплекси и други обекти с обществени и частни площи. Намираме се в Несебър, България и обслужваме поливни системи в следните райони: Слънчев бряг, Свети Влас, Поморие, Кошарица, Каблешково, Ахелой. Ние разбираме, че поддържането на перфектното състояние на зелените площи е важна част от имиджа на вашия имот и сме готови да се погрижим за вашата поливна система."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgf",
+            "_type": "image",
+            "alt": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър",
+            "asset": {
+              "_ref": "image-802574993bb8aac01745eddb132fa561b6591216-1000x752-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bgj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgg",
+                "_type": "span",
+                "marks": [],
+                "text": "Разбираме, че много от нашите клиенти, "
+              },
+              {
+                "_key": "bgh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "собственици на частни домове"
+              },
+              {
+                "_key": "bgi",
+                "_type": "span",
+                "marks": [],
+                "text": ", не живеят постоянно в домовете си, а идват за летни ваканции. В същото време те искат зелената зона в близост до къщата винаги да остава добре поддържана и красива. Нашата годишна сервизна оферта е идеална за такива случаи. Във ваше отсъствие ние ще пуснем поливната система, ще осигурим редовен мониторинг на нейната работа и своевременно ще отстраним възникнали проблеми. По този начин можете да се насладите на почивката си, без да се притеснявате за състоянието на вашия имот."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgk",
+                "_type": "span",
+                "marks": [],
+                "text": "Какво включва годишната поддръжка на автоматичните поливни системи?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bgn",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgm",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "1\\. Проверявайте редовно изправността на поливната система"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bgp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgo",
+                "_type": "span",
+                "marks": [],
+                "text": "Нашите специалисти извършват оглед и тест на поливната система. Това ви позволява своевременно да идентифицирате и отстраните възможни проблеми, предотвратявайки сериозни повреди и прекъсвания на поливането."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgr",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgq",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "2\\. Ремонт и модернизация на автоматична поливна система."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bgt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgs",
+                "_type": "span",
+                "marks": [],
+                "text": "При установяване на неизправности ние незабавно извършваме ремонтни дейности. Ние също така предлагаме надстройки на системата, за да подобрим нейната ефективност и издръжливост."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "3\\. Почистване и настройка на поливни съоръжения"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bgx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgw",
+                "_type": "span",
+                "marks": [],
+                "text": "Редовното почистване на филтри, дюзи и други елементи на системата гарантира нейната безпроблемна работа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bgz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bgy",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "4\\. Консултации и препоръки"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bh1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bh0",
+                "_type": "span",
+                "marks": [],
+                "text": "Нашите експерти ще дадат препоръки относно грижата за системата и зелените площи, така че вашият имот винаги да изглежда добре поддържан."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bh4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bh2",
+                "_type": "span",
+                "marks": [],
+                "text": "#### "
+              },
+              {
+                "_key": "bh3",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Пролетно пускане на поливната система"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bh6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bh5",
+                "_type": "span",
+                "marks": [],
+                "text": "Подготовка на автоматичната поливна система за новия сезон, проверка на всички компоненти."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bh9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bh7",
+                "_type": "span",
+                "marks": [],
+                "text": "#### "
+              },
+              {
+                "_key": "bh8",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Есенно запазване на напояването"
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bha",
+                "_type": "span",
+                "marks": [],
+                "text": "Подготовка на системата за зимата за предотвратяване на замръзване."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhc",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо е важна редовната поддръжка на поливната система?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bhf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhe",
+                "_type": "span",
+                "marks": [],
+                "text": "Обществените зони като хотели и жилищни комплекси често са обект на повишен трафик. Невнимателното боравене от страна на посетителите може да доведе до повреда на компонентите на напоителната система. Редовните проверки и поддръжка помагат да се сведе до минимум рискът от повреда и да се удължи експлоатационният живот на оборудването. Правилното поливане е ключът към буйната растителност и обилния цъфтеж. Проверката на вашата напоителна система два пъти месечно ви позволява бързо да идентифицирате и отстраните всички проблеми, причинени например от вандализъм или неправилно използване на системата."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhg",
+                "_type": "span",
+                "marks": [],
+                "text": "Специална оферта за годишна поддръжка на автоматични поливни системи"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bhj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhi",
+                "_type": "span",
+                "marks": [],
+                "text": "За хотели и жилищни комплекси, както и собственици на частни къщи в Слънчев бряг, Несебър и близките райони предлагаме изгодни условия за сътрудничество:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhk",
+                "_type": "span",
+                "marks": [],
+                "text": "Индивидуален сервизен график."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhn",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhm",
+                "_type": "span",
+                "marks": [],
+                "text": "Гъвкава система от отстъпки при сключване на годишен договор."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bho",
+                "_type": "span",
+                "marks": [],
+                "text": "Приоритетно изпълнение на заявки при извънредни ситуации."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bht",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhq",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център "
+              },
+              {
+                "_key": "bhr",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Флориал Несебър"
+              },
+              {
+                "_key": "bhs",
+                "_type": "span",
+                "marks": [],
+                "text": " предлага гъвкави цени за годишна поддръжка на автоматични поливни системи, съобразени с нуждите на вашия обект. Разработихме няколко ценови групи, за да можете да изберете най-добрия вариант за запазване на функционалността и издръжливостта на вашата поливна система."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bhv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhu",
+                "_type": "span",
+                "marks": [],
+                "text": "Ценови групи и тарифи за обслужване на автоматични поливни системи"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bhz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bhw",
+                "_type": "span",
+                "marks": [],
+                "text": "Автоматичните поливни системи са с различна сложност и размери, така че посочените норми са приложими за напоителни системи "
+              },
+              {
+                "_key": "bhx",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "до 6 зони или до 10 дка"
+              },
+              {
+                "_key": "bhy",
+                "_type": "span",
+                "marks": [],
+                "text": " поливна територия. За обекти с голям брой зони или зона на обслужване, тарифата се изчислява индивидуално, въз основа на характеристиките на системата, нейното състояние и обема на работа. Винаги сме готови да предложим гъвкави условия за сътрудничество и да адаптираме нашите услуги към вашите нужди. Цената включва леки ремонти без разходи за материали и необходимо оборудване. Основните ремонти се договарят и заплащат отделно."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bi1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi0",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "1\\. Основен пакет."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bi3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi2",
+                "_type": "span",
+                "marks": [],
+                "text": "Пролетно пускане на системата: подготовка на системата за сезона, проверка на нейната функционалност, настройка на контролери, почистване на филтри и дюзи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bi5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi4",
+                "_type": "span",
+                "marks": [],
+                "text": "Есенна консервация на системата: източване на вода, продухване на тръби, защита на оборудването от замръзване, проверка за повреди."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bi7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi6",
+                "_type": "span",
+                "marks": [],
+                "text": "Две летни инспекции и настройки: проверка на функционалността на системата, настройка на напояването към текущите метеорологични условия, отстраняване на незначителни проблеми."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bi9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi8",
+                "_type": "span",
+                "marks": [],
+                "text": "Цена от 270 евро."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bib",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bia",
+                "_type": "span",
+                "marks": [],
+                "text": "Идеален за обекти с минимално натоварване на поливната система."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bid",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bic",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "2\\. Стандартен пакет"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bif",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bie",
+                "_type": "span",
+                "marks": [],
+                "text": "Базов пакет \\+ три посещения. Един през лятото, един през пролетта през май и един през есента през септември."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bih",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "big",
+                "_type": "span",
+                "marks": [],
+                "text": "Цена от 420 евро."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bij",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bii",
+                "_type": "span",
+                "marks": [],
+                "text": "Идеален за обекти с умерено натоварване на напоителната система, където се изисква редовно наблюдение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bil",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bik",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "3\\. Премиум пакет"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bin",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bim",
+                "_type": "span",
+                "marks": [],
+                "text": "Базов пакет \\+ осем пътувания. четири през лятото, две през пролетта през май и две през есента през септември. Поддръжката и мониторингът на поливната система се извършва два пъти месечно."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bip",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bio",
+                "_type": "span",
+                "marks": [],
+                "text": "Цена от 620 евро."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bir",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "biq",
+                "_type": "span",
+                "marks": [],
+                "text": "Идеален за обекти с високо натоварване на поливната система (хотели, жилищни комплекси, обществени зони), където се изисква максимална надеждност и грижа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bit",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bis",
+                "_type": "span",
+                "marks": [],
+                "text": "Доверете грижата за вашата автоматична поливна система на професионалисти! Свържете се с нас, за да обсъдим подробностите за сътрудничество и да получите лична оферта."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "biv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "biu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Градински център Флориал е вашият надежден партньор в създаването и поддържането на красиви и функционални зелени площи!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "biw",
+            "_type": "image",
+            "alt": "Специална оферта за годишна поддръжка на автоматични поливни системи",
+            "asset": {
+              "_ref": "image-b123026b0542db24a03a31d594abceddbefab4ad-147x147-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "biy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bix",
+                "_type": "span",
+                "marks": [],
+                "text": "Свържете се с нас и получете експертен съвет."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bj0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "biz",
+                "_type": "span",
+                "marks": [],
+                "text": "Контакти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bj2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bj1",
+                "_type": "span",
+                "marks": [],
+                "text": "Работим в Несебър и близките градове. Слънчев бряг, Свети Влас, Поморие, Кошарица, Каблешково, Ахелой и др."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bj4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bj3",
+                "_type": "span",
+                "marks": [],
+                "text": "За да получите оценка на стойността на работата, моля свържете се с нас на следните контакти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bj8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bj5",
+                "_type": "span",
+                "marks": [],
+                "text": "🌐 Нашият уеб-сайт: "
+              },
+              {
+                "_key": "bj7",
+                "_type": "span",
+                "marks": [
+                  "bj6"
+                ],
+                "text": "www.drop.od.ua"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bj6",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bjc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bj9",
+                "_type": "span",
+                "marks": [],
+                "text": "📧 Имейл: "
+              },
+              {
+                "_key": "bjb",
+                "_type": "span",
+                "marks": [
+                  "bja"
+                ],
+                "text": "omaraandrey@gmail.com"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bja",
+                "_type": "link",
+                "blank": false,
+                "href": "mailto:omaraandrey@gmail.com"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bje",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bjd",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Телефон: +359876777902"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bjh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bjg",
+                "_type": "span",
+                "marks": [
+                  "bjf"
+                ],
+                "text": "Пролетна грижа за вашата градина Несебър"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bjf",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bjk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bjj",
+                "_type": "span",
+                "marks": [
+                  "bji"
+                ],
+                "text": "Ремонт и модернизация на автоматични поливни системи в Несебър"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bji",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bjn",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bjm",
+                "_type": "span",
+                "marks": [
+                  "bjl"
+                ],
+                "text": "Пускане на автоматична поливна система през пролетта. Деконсервация "
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bjl",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Годишна профилактика на автоматични поливни системи",
+        "seoDescription": "Полезна информация от Florial: Годишна профилактика на автоматични поливни системи. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "seoTitle": "Годишна профилактика на автоматични поливни системи | Florial",
+        "shortDescription": "Полезна информация от Florial: Годишна профилактика на автоматични поливни системи. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "title": "Годишна профилактика на автоматични поливни системи"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "ye1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Keep your garden in excellent condition throughout the year. Florial provides annual maintenance for automatic irrigation systems at hotels, residential complexes, private homes and other properties."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Annual service for hotels and residential complexes"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ye3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Based in Nessebar, we service irrigation systems in Sunny Beach, Sveti Vlas, Pomorie, Kosharitsa, Kableshkovo, Aheloy and nearby areas. We understand how important well-maintained green spaces are to a property’s appearance and reputation."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye4",
+            "_type": "image",
+            "alt": "Annual maintenance of automatic irrigation systems in Nessebar and Sunny Beach",
+            "asset": {
+              "_ref": "image-802574993bb8aac01745eddb132fa561b6591216-1000x752-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ye5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Many private homeowners live abroad or visit only during the summer. By agreement, we can operate the irrigation system during their absence, monitor it regularly and resolve any issues we find."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye6s",
+                "_type": "span",
+                "marks": [],
+                "text": "What does annual maintenance include?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ye7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye7s",
+                "_type": "span",
+                "marks": [],
+                "text": "1. Routine inspections: inspect and test the system to identify faults early and prevent major breakdowns or watering interruptions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye8s",
+                "_type": "span",
+                "marks": [],
+                "text": "2. Repairs and upgrades: fix identified faults, replace outdated components and improve system efficiency."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye9s",
+                "_type": "span",
+                "marks": [],
+                "text": "3. Cleaning and adjustment: service filters, nozzles and other components to keep the system working reliably."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye10s",
+                "_type": "span",
+                "marks": [],
+                "text": "4. Advice: recommendations on maintaining the irrigation system and green areas."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye11s",
+                "_type": "span",
+                "marks": [],
+                "text": "In spring, the system is prepared for the new season: components are checked, controllers adjusted and filters and nozzles cleaned. In autumn, water is drained and pipes are blown out to reduce the risk of frost damage."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why is regular maintenance important?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ye13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye13s",
+                "_type": "span",
+                "marks": [],
+                "text": "At hotels and residential complexes, equipment can be damaged by heavy foot traffic, accidental impact or incorrect use. Regular inspections help reduce faults and extend equipment life. The original article recommends twice-monthly checks for high-use properties."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Annual maintenance packages"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ye15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye15s",
+                "_type": "span",
+                "marks": [],
+                "text": "For hotels, residential complexes and private homes in Nessebar, Sunny Beach and nearby areas, service can include a tailored schedule, flexible discounts for annual contracts and priority response in emergencies."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye16s",
+                "_type": "span",
+                "marks": [],
+                "text": "The original tariffs are indicative for systems with up to 6 zones or up to 10 decares. Larger or more complex sites are priced individually. Minor repairs are included excluding parts; major repairs are agreed and charged separately."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Basic package — from €270"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ye18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Spring start-up and seasonal preparation, system checks, controller adjustments, filter and nozzle cleaning; autumn winterisation and frost protection; plus two summer inspections and adjustments. Suitable for lightly used systems."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Standard package — from €420"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ye20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Includes the basic package and three additional visits: one in May, one during summer and one in September. Suitable for properties needing regular monitoring."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Premium package — from €620"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ye22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Includes the basic package and eight additional visits: four in summer, two in spring and two in autumn. Monitoring takes place twice a month. Suitable for hotels, residential complexes and public spaces with high irrigation demand."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ye23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ye23s",
+                "_type": "span",
+                "marks": [],
+                "text": "These prices are taken from the original article and should be confirmed before ordering. The final cost depends on the number of zones, system condition and amount of work."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Annual Maintenance for Automatic Irrigation Systems",
+        "seoDescription": "Useful advice from Florial: Annual Maintenance for Automatic Irrigation Systems. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "seoTitle": "Annual Maintenance for Automatic Irrigation Systems | Florial",
+        "shortDescription": "Useful advice from Florial: Annual Maintenance for Automatic Irrigation Systems. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "title": "Annual Maintenance for Automatic Irrigation Systems"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "yr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ваш сад в отличном состоянии круглый год: Florial предлагает ежегодное обслуживание автоматических систем полива для отелей, жилых комплексов, частных домов и других объектов."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Годовое обслуживание для отелей и жилых комплексов"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "yr3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы находимся в Несебре и обслуживаем системы полива в Солнечном Береге, Святом Власе, Поморие, Кошарице, Каблешково, Ахелое и близлежащих районах. Понимаем, насколько ухоженные зелёные зоны важны для внешнего вида и репутации объекта."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr4",
+            "_type": "image",
+            "alt": "Годовое обслуживание систем автоматического полива в Несебре и Солнечном Береге",
+            "asset": {
+              "_ref": "image-802574993bb8aac01745eddb132fa561b6591216-1000x752-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "yr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Многие владельцы частных домов живут за пределами Болгарии или приезжают только на лето. По договорённости мы можем запускать систему во время их отсутствия, регулярно контролировать работу и устранять обнаруженные неисправности."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Что включает ежегодное обслуживание?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "yr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "1. Регулярная проверка: осмотр и тестирование системы, чтобы своевременно выявлять неисправности и предотвращать серьёзные поломки или перебои полива."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "2. Ремонт и модернизация: устранение выявленных проблем, обновление компонентов и повышение эффективности системы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr9s",
+                "_type": "span",
+                "marks": [],
+                "text": "3. Очистка и настройка: обслуживание фильтров, форсунок и других элементов для надёжной работы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr10s",
+                "_type": "span",
+                "marks": [],
+                "text": "4. Консультации: рекомендации по уходу за системой и зелёными зонами."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Весной систему подготавливают к новому сезону, проверяют компоненты, настраивают контроллеры и очищают фильтры и форсунки. Осенью воду удаляют из системы и выполняют продувку труб, чтобы снизить риск повреждений от замерзания."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему важна регулярная профилактика?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "yr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "В отелях и жилых комплексах оборудование может повреждаться из-за высокой проходимости, случайных действий посетителей или неправильного использования. Регулярные проверки помогают уменьшить риск неисправностей и продлить срок службы. В статье рекомендуется проверять систему дважды в месяц на объектах с высокой нагрузкой."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Пакеты ежегодного обслуживания"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "yr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Для отелей, жилых комплексов и частных домов в Несебре, Солнечном Береге и соседних районах предлагаются индивидуальный график сервиса, гибкие скидки при заключении годового договора и приоритетное реагирование в аварийных ситуациях."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Указанные в исходной публикации тарифы рассчитаны ориентировочно на системы до 6 зон или до 10 декаров. Для более крупных и сложных объектов стоимость определяется индивидуально. Небольшие ремонты включены без стоимости материалов; капитальные работы согласуются и оплачиваются отдельно."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Базовый пакет — от 270 €"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "yr18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Весенний запуск и подготовка к сезону, проверка работы системы, настройка контроллеров, очистка фильтров и форсунок; осенняя консервация с удалением воды и защитой от замерзания; две летние проверки и корректировка настроек. Подходит для объектов с небольшой нагрузкой."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Стандартный пакет — от 420 €"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "yr20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Включает базовый пакет и три дополнительных визита: весной в мае, летом и осенью в сентябре. Подходит для объектов, которым нужен регулярный контроль."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Премиум-пакет — от 620 €"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "yr22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Включает базовый пакет и восемь дополнительных визитов: четыре летом, два весной и два осенью. Мониторинг выполняется дважды в месяц. Подходит для отелей, жилых комплексов и общественных территорий с высокой нагрузкой."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "yr23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yr23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Все цены выше перенесены из исходной публикации и должны быть подтверждены перед заказом. Фактическая стоимость зависит от количества зон, состояния системы и объёма работ."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Ежегодное обслуживание систем автоматического полива",
+        "seoDescription": "Полезная информация от Florial: Ежегодное обслуживание систем автоматического полива. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "seoTitle": "Ежегодное обслуживание систем автоматического полива | Florial",
+        "shortDescription": "Полезная информация от Florial: Ежегодное обслуживание систем автоматического полива. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "title": "Ежегодное обслуживание систем автоматического полива"
+      }
+    }
+  }
+}

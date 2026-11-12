@@ -1,0 +1,484 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "c7d2c120-6024-4876-b240-ff6585df91e4",
+    "_rev": "9Jlb6k9xfgGTkBekNDWvEm",
+    "_system": {
+      "base": {
+        "id": "c7d2c120-6024-4876-b240-ff6585df91e4",
+        "rev": "E65Ig8tOfLomYYQb3PKB8C"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-08T04:00:17Z",
+    "advantages": [
+      {
+        "_key": "adv0",
+        "text": "Проектът отразява стила, функциите и бюджета на вашия обект.",
+        "title": "Индивидуален подход"
+      },
+      {
+        "_key": "adv1",
+        "text": "Съчетаваме растителност, тревни площи, алеи и поливна система.",
+        "title": "Единна концепция"
+      },
+      {
+        "_key": "adv2",
+        "text": "Отчитаме изложението, почвата, влагата и климатичните условия.",
+        "title": "Подбор на подходящи растения"
+      },
+      {
+        "_key": "adv3",
+        "text": "Подреждаме работите в логични етапи и помагаме при изпълнението.",
+        "title": "План за реализация"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Разкажете ни за вашия двор и ще обсъдим подходяща концепция.",
+      "title": "Заявете оферта"
+    },
+    "contentBlocks": [
+      {
+        "_key": "block1",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Планиране на градината",
+          "asset": {
+            "_ref": "image-2f637a87a19a6af954d894989e07ef95f742e121-3456x4608-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Ландшафтно проектиране и планиране на градината\nРазработваме индивидуална концепция за ландшафтен дизайн, съобразена с архитектурата на сградата, особеностите на терена, изложението и Вашия начин на живот. Нашата цел е да създадем не просто красива визия, а хармонично, функционално и лесно за поддръжка зелено пространство.\nЕтапи на разработване на ландшафтния проект:\nПървоначален оглед и изготвяне на задание\nЛандшафтният архитект посещава обекта за оглед, точно замерване на терена, анализ на почвата и ориентацията спрямо посоките на света. На този етап обсъждаме подробно всички Ваши желания и оформяме техническото задание.\nИдеен проект\nСъздаваме предварителна скица за разпределението на пространството и подбираме концептуален растителен асортимент (дървета, храсти, цветни лехи, живи плетове). На този етап съгласуваме основните зони и материали.\nГенерален и дендрологичен план\nИзготвяме Генерален план за благоустройство и подробен Дендрологичен план с точно позициониране на всяко растение, съобразено с неговия растеж, диаметър на короната и изисквания към светлината.\n\nПроектиране на алейната мрежа\nРазработваме удобен план за настилките, декоративните пътеки, тротоарните площи и зоните за отдих.\n3D визуализация (при необходимост)\nИзготвяме реалистични скици на отделни кътчета от бъдещата Ви градина от различни гледни точки, за да можете да видите и оцените резултата още преди началото на същинските работи.\nСъдържание на проектната документация:\nГенерален план и трасировъчен чертеж за благоустройството.\nДендроплан и пълна ведомост на растенията (с посочени наименования, количество и размери).\nСхема на системата за автоматично напояване за точно изчисление на офертата за оборудване и монтаж.\nДетайли на сложни ландшафтни елементи (алпинеуми, подпорни стени, водни ефекти) при необходимост.\nПодробни сметки (оферти) за засаждането, благоустройството и монтажа на автоматичното напояване.\n\nНашият екип от опитни ландшафтни архитекти и дизайнери гарантира високо качество, спазване на сроковете и индивидуален подход. Създаваме функционални ландшафти, които с годините стават все по-красиви.\n\nЦени за ландшафтно проектиране:\nПървоначално посещение на място от специалист: от 50 €\n\nДопълнително: 3D визуализация / скици от различни гледни точки (2 бр. скици) — 60 €.\n\n🌿 Сезонът за ландшафтен дизайн е открит! Свържете се с нас днес, за да обсъдим Вашия проект и да заявите посещение на място.",
+        "translations": {
+          "en": {
+            "imageAlt": "Garden planning",
+            "text": "Landscape design and garden planning\nWe develop an individual landscape-design concept tailored to the building’s architecture, site conditions, orientation and your lifestyle. Our goal is not just an attractive appearance, but a harmonious, functional green space that is easy to maintain.\nStages of the landscape project:\nInitial site visit and brief\nOur landscape architect visits the site, measures it, analyses the soil and orientation, discusses your wishes and prepares the technical brief.\nConcept design\nWe prepare a preliminary layout and select a concept plant palette, including trees, shrubs, flower beds and hedges. Main zones and materials are agreed at this stage.\nMaster plan and planting plan\nWe prepare a master landscaping plan and a detailed dendrological plan showing the exact position of each plant, taking account of growth, crown diameter and light requirements.\nPathway layout\nWe plan practical paving, decorative paths, walkways and relaxation areas.\n3D visualisation, if needed\nWe create realistic views of selected garden areas from different angles so you can assess the result before work begins.\nProject documentation includes a master plan and setting-out drawing; a planting plan and full plant schedule with names, quantities and sizes; an automatic-irrigation plan to calculate equipment and installation costs; details of complex landscape features such as rock gardens, retaining walls and water features where needed; and detailed estimates for planting, landscaping and irrigation installation.\nOur experienced landscape architects and designers aim for high quality, agreed deadlines and an individual approach, creating functional landscapes that become more beautiful over time.\nLandscape design prices:\nInitial on-site visit by a specialist: from €50.\nOptional 3D visualisation / views from different angles (2 sketches): €60.\n🌿 The landscape-design season is open! Contact us to discuss your project and arrange a site visit."
+          },
+          "ru": {
+            "imageAlt": "Планирование сада",
+            "text": "Ландшафтное проектирование и планирование сада\nМы разрабатываем индивидуальную концепцию ландшафтного дизайна с учётом архитектуры здания, особенностей и ориентации участка, а также вашего образа жизни. Наша цель — не просто красивая картинка, а гармоничное, функциональное и удобное в уходе зелёное пространство.\nЭтапы разработки проекта:\nПервичный осмотр и техническое задание\nЛандшафтный архитектор выезжает на объект, измеряет участок, анализирует почву и ориентацию по сторонам света, подробно обсуждает ваши пожелания и формирует техническое задание.\nЭскизный проект\nГотовим предварительную схему пространства и подбираем концепцию посадок: деревья, кустарники, цветники и живые изгороди. На этом этапе согласуем основные зоны и материалы.\nГенеральный и дендрологический планы\nСоставляем генеральный план благоустройства и подробный дендроплан с точным расположением растений с учётом их роста, диаметра кроны и требований к освещению.\nПланирование дорожек\nРазрабатываем удобную схему мощения, декоративных дорожек, проходов и зон отдыха.\n3D-визуализация при необходимости\nСоздаём реалистичные изображения отдельных частей будущего сада с разных ракурсов, чтобы вы могли оценить результат до начала работ.\nВ проектную документацию входят генеральный план и разбивочный чертёж; дендроплан и полный перечень растений с названиями, количеством и размерами; схема автоматического полива для расчёта стоимости оборудования и монтажа; детали сложных элементов — альпинариев, подпорных стен и водных объектов — при необходимости; подробные сметы на посадки, благоустройство и монтаж полива.\nНаша команда опытных ландшафтных архитекторов и дизайнеров стремится обеспечить высокое качество, соблюдение сроков и индивидуальный подход. Мы создаём функциональные ландшафты, которые с годами становятся красивее.\nСтоимость ландшафтного проектирования:\nПервичный выезд специалиста на объект — от 50 €.\nДополнительно: 3D-визуализация / виды с разных ракурсов (2 эскиза) — 60 €.\n🌿 Сезон ландшафтного дизайна открыт! Свяжитесь с нами, чтобы обсудить проект и заказать выезд специалиста."
+          }
+        }
+      },
+      {
+        "_key": "block2",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Растителни композиции и настилки",
+          "asset": {
+            "_ref": "image-8d12dc5a73770fdbe1f156c32b2b4c8c745c895a-1280x948-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "text": "Подбираме дървета, храсти и цветя, оформяме цветни лехи, алеи и зони за отдих, за да постигнем хармонична и практична градина.",
+        "translations": {
+          "en": {
+            "imageAlt": "Planting compositions and paving",
+            "text": "We select trees, shrubs and flowers and plan beds, paths and seating areas for a balanced, practical garden."
+          },
+          "ru": {
+            "imageAlt": "Растительные композиции и мощение",
+            "text": "Подбираем деревья, кустарники и цветы, проектируем клумбы, дорожки и зоны отдыха, чтобы сад был гармоничным и удобным."
+          }
+        }
+      },
+      {
+        "_key": "block3",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Поливане и изпълнение",
+          "asset": {
+            "_ref": "image-8eff3a4581b425346ed47d100d34c4fbf86c78ed-3264x2448-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Предвиждаме автоматично напояване и подходящи тревни площи още на етап проект, за да бъде бъдещата градина лесна за поддръжка.",
+        "translations": {
+          "en": {
+            "imageAlt": "Irrigation and implementation",
+            "text": "We plan automatic irrigation and suitable lawn areas from the design stage to make the finished garden easier to maintain."
+          },
+          "ru": {
+            "imageAlt": "Полив и реализация",
+            "text": "Уже на этапе проекта предусматриваем автоматический полив и подходящие газоны, чтобы за готовым садом было проще ухаживать."
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "heading",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "headings",
+            "_type": "span",
+            "marks": [],
+            "text": "Ландшафтен дизайн, създаден за вашия начин на живот"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "intro",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "intros",
+            "_type": "span",
+            "marks": [],
+            "text": "Разработваме цялостни решения за дворове, вили, хотели и обществени пространства. Съчетаваме архитектурата на сградата, релефа, слънчевото изложение и местния климат с подходящи растения, тревни площи, алеи и декоративни акценти. Проектът служи като ясен план за последващата реализация и поддръжка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advhead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "advtext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Индивидуален подход: Проектът отразява стила, функциите и бюджета на вашия обект."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Единна концепция: Съчетаваме растителност, тревни площи, алеи и поливна система."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подбор на подходящи растения: Отчитаме изложението, почвата, влагата и климатичните условия."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "План за реализация: Подреждаме работите в логични етапи и помагаме при изпълнението."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "stepshead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "stepsheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Етапи на работа"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "steptext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Запознаване с обекта: Обсъждаме идеите ви, правим оглед и събираме размери."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Концепция и зониране: Определяме основните зони, маршрути и композиционни акценти."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Растителен и технически план: Подбираме растенията и координираме тревата, напояването и настилките."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Оферта и реализация: Подготвяме следващите стъпки за изпълнение и озеленяване."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ctahead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctaheads",
+            "_type": "span",
+            "marks": [],
+            "text": ""
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "ctatext",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctatexts",
+            "_type": "span",
+            "marks": [],
+            "text": "Разкажете ни за вашия двор и ще обсъдим подходяща концепция."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "img0",
+        "_type": "image",
+        "alt": "Ландшафтен дизайн",
+        "asset": {
+          "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img1",
+        "_type": "image",
+        "alt": "Ландшафтно проектиране",
+        "asset": {
+          "_ref": "image-2f637a87a19a6af954d894989e07ef95f742e121-3456x4608-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img2",
+        "_type": "image",
+        "alt": "Ландшафтен проект и тревна площ",
+        "asset": {
+          "_ref": "image-8d12dc5a73770fdbe1f156c32b2b4c8c745c895a-1280x948-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img3",
+        "_type": "image",
+        "alt": "Градина с декоративно езеро",
+        "asset": {
+          "_ref": "image-8eff3a4581b425346ed47d100d34c4fbf86c78ed-3264x2448-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img4",
+        "_type": "image",
+        "alt": "Градина с природни материали",
+        "asset": {
+          "_ref": "image-ceb9971e63cd68b01fb26b5bc2cc5da6d43c8658-1200x1600-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Ландшафтен дизайн",
+        "asset": {
+          "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Индивидуален проект за градина с функционално зониране, растителни композиции, тревни площи, настилки и напояване.",
+      "title": "Ландшафтен дизайн, създаден за вашия начин на живот"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Ландшафтен дизайн",
+      "asset": {
+        "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Ландшафтен дизайн",
+    "seo": {
+      "metaDescription": "Индивидуален проект за градина с функционално зониране, растения, тревни площи и напояване за имоти в Слънчев бряг, Свети Влас и Несебър.",
+      "metaTitle": "Ландшафтен дизайн в Слънчев бряг и Свети Влас | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "landscaping",
+    "serviceLayout": "standard",
+    "shortDescription": "Индивидуален проект за градина с функционално зониране, растителни композиции, тревни площи, настилки и напояване.",
+    "slug": {
+      "_type": "slug",
+      "current": "landshaften-dizain"
+    },
+    "sortOrder": 10,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/landscape",
+    "steps": [
+      {
+        "_key": "step0",
+        "text": "Обсъждаме идеите ви, правим оглед и събираме размери.",
+        "title": "Запознаване с обекта"
+      },
+      {
+        "_key": "step1",
+        "text": "Определяме основните зони, маршрути и композиционни акценти.",
+        "title": "Концепция и зониране"
+      },
+      {
+        "_key": "step2",
+        "text": "Подбираме растенията и координираме тревата, напояването и настилките.",
+        "title": "Растителен и технически план"
+      },
+      {
+        "_key": "step3",
+        "text": "Подготвяме следващите стъпки за изпълнение и озеленяване.",
+        "title": "Оферта и реализация"
+      }
+    ],
+    "translations": {
+      "en": {
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Tell us about your garden and we will discuss a suitable concept.",
+          "title": "Request a quote"
+        },
+        "description": "Landscape design for the way you live\n\nWe create complete designs for gardens, villas, hotels and public spaces. We combine the architecture of the building, terrain, sun exposure and local climate with suitable plants, lawns, paths and decorative features. The design provides a clear plan for implementation and future maintenance.\n\nBenefits\n\nPersonal approach: The design reflects your style, the function of the space and your budget.\n\nOne coherent concept: We bring planting, lawns, paths and irrigation together.\n\nSuitable plant selection: We consider sunlight, soil, moisture and local climate.\n\nImplementation plan: We organise the work into practical stages and can support delivery.\n\nHow we work\n\n1. Getting to know the site: We discuss your ideas, visit the property and take measurements.\n\n2. Concept and zoning: We define the main areas, routes and focal points.\n\n3. Planting and technical plan: We select plants and coordinate the lawn, irrigation and paving.\n\n4. Quote and implementation: We outline the next steps for construction and planting.\n\nContact Florial\n\nTell us about your garden and we will discuss a suitable concept.",
+        "hero": {
+          "subtitle": "A bespoke garden design with functional zoning, planting compositions, lawns, paths, paving and irrigation.",
+          "title": "Landscape design for the way you live"
+        },
+        "name": "Landscape design",
+        "seo": {
+          "metaDescription": "Bespoke garden design with planting, lawns and irrigation for properties in Sunny Beach, Sveti Vlas and Nessebar, Bulgaria.",
+          "metaTitle": "Landscape Design in Sunny Beach & Sveti Vlas | Florial"
+        },
+        "shortDescription": "A bespoke garden design with functional zoning, planting compositions, lawns, paths, paving and irrigation."
+      },
+      "ru": {
+        "callToAction": {
+          "buttonLabel": "Отправить заявку",
+          "text": "Расскажите о своём саде — обсудим подходящую концепцию.",
+          "title": "Запросить предложение"
+        },
+        "description": "Ландшафтный дизайн под ваш образ жизни\n\nРазрабатываем комплексные проекты для частных дворов, вилл, отелей и общественных пространств. Сочетаем архитектуру здания, рельеф, освещённость и местный климат с подходящими растениями, газонами, дорожками и декоративными элементами. Проект становится понятным планом дальнейшей реализации и ухода.\n\nПреимущества\n\nИндивидуальный подход: учитываем ваш стиль, назначение пространства и бюджет.\n\nЕдиная концепция: объединяем посадки, газон, дорожки и систему полива.\n\nПодбор растений: учитываем освещение, почву, влажность и местный климат.\n\nПлан реализации: распределяем работы по логичным этапам и помогаем с выполнением.\n\nЭтапы работы\n\n1. Знакомство с участком: обсуждаем идеи, осматриваем объект и снимаем размеры.\n\n2. Концепция и зонирование: определяем основные зоны, маршруты и акценты.\n\n3. План посадок и инженерных решений: подбираем растения и согласуем газон, полив и мощение.\n\n4. Смета и реализация: готовим следующие шаги для выполнения проекта и озеленения.\n\nСвяжитесь с Florial\n\nРасскажите о своём саде — обсудим подходящую концепцию.",
+        "hero": {
+          "subtitle": "Индивидуальный проект сада с функциональным зонированием, растительными композициями, газоном, дорожками, мощением и поливом.",
+          "title": "Ландшафтный дизайн под ваш образ жизни"
+        },
+        "name": "Ландшафтный дизайн",
+        "seo": {
+          "metaDescription": "Индивидуальный проект сада с посадками, газоном и поливом для объектов в Солнечном Береге, Святом Власе и Несебре.",
+          "metaTitle": "Ландшафтный дизайн в Солнечном Береге и Святом Власе | Florial"
+        },
+        "shortDescription": "Индивидуальный проект сада с функциональным зонированием, растительными композициями, газоном, дорожками, мощением и поливом."
+      }
+    }
+  }
+}
