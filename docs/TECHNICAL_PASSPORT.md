@@ -1,3 +1,13 @@
+## 2026-11-12 — Блог: аудит коммерческих связей (read-only)
+
+- Sanity Production `bxvcy0qs/production`: 14 опубликованных blogPost, все с BG/RU/EN переводами. Проверены deployed schema `blogPost`, `src/lib/blog.ts`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`.
+- У `blogPost` нет отдельного `relatedContent`/CTA поля. Страница статьи выводит похожие публикации по тегам, но не имеет отдельного коммерческого CTA. `BlogContent` скрывает legacy contact CTA blocks, которые распознаёт `isContactCta`.
+- Во всех 14 статьях shortDescription и seoDescription повторяют общий шаблон для каждой локали. Большинство локализованных RU/EN Portable Text link annotations отсутствует; Rain Bird — исключение.
+- Выявлены пять брендовых ссылок «ФЛОРИАЛ» с ошибочным href `/services/rulonna-treva`; некоторые сервисные anchor labels ведут на `/` вместо соответствующих активных услуг. Legacy `static.wixstatic.com` links требуют визуальной проверки.
+- Активные plant categories в dataset `plants`: olives 5 active products, palms/yukkas 12, flowers/roses 8, conifers 9. Три активные услуги ссылаются обратно на соответствующие статьи. 58 активных irrigation products ссылаются на статью о монтаже полива; relevancy требует отдельного review.
+- Full pre-edit snapshot: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`. Полный audit: `docs/audits/2026-11-12-blog-commercial-links.md`.
+- Статус: **read-only audit complete; no Sanity write/publish, no code/schema/runtime change.** Следующий контентный этап — исправить явно ошибочные ссылки и добавить локализованные коммерческие CTA только после утверждения карты ссылок.
+
 ## 2026-11-12 — Блог: этап 2, улучшение landing page
 
 - Branch: `feat/blog-featured-landing-stage2`.
