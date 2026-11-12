@@ -8,7 +8,6 @@ const migratedSlugs = [
   'montazh-remont-elektromagnitni-klapani',
   'remont-modernizatsiya-polivni-sistemi',
   'godishna-poddruzhka-avtomatichni-sistemi',
-  'landshaften-dizain-proekt-zasazhdenie',
   'izgrazhdane-tsvetni-lehi',
   'topiarna-rezitba-rasteniya',
   'podmyana-stara-travna-plosht',
@@ -20,8 +19,9 @@ for (const slug of migratedSlugs) {
   })
 }
 
-test('keeps the blog index and unrelated blog articles unchanged', () => {
+test('keeps the blog index, landscape project case study and unrelated articles unchanged', () => {
   assert.equal(getBlogServiceRedirectPath('/blog'), null)
+  assert.equal(getBlogServiceRedirectPath('/blog/landshaften-dizain-proekt-zasazhdenie'), null)
   assert.equal(getBlogServiceRedirectPath('/blog/unrelated-article'), null)
 })
 
