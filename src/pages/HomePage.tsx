@@ -12,12 +12,9 @@ interface HomePageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
   plantCategories: CategoryItem[]
-  products: Product[]
   siteSettings: SiteSettings | null
-  loadingProducts: boolean
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
-  onSelectProduct: (product: Product) => void
 }
 
 
@@ -25,12 +22,9 @@ export function HomePage({
   services,
   categories,
   plantCategories,
-  products,
   siteSettings,
-  loadingProducts,
   onNavigateService,
   onNavigateCategory,
-  onSelectProduct,
 }: HomePageProps) {
   const { t, language, localize } = useI18n()
 
