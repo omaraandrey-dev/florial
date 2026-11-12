@@ -1,0 +1,1423 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:34Z",
+    "_id": "blogPost-izgrazhdane-tsvetni-lehi",
+    "_rev": "0yPZTxQnrTC5IQk08LVGxN",
+    "_system": {
+      "base": {
+        "id": "blogPost-izgrazhdane-tsvetni-lehi",
+        "rev": "WPBreg1iFYeuT7x6qYRpmw"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-10-24T11:58:18Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Цветна градина в Слънчев бряг",
+      "asset": {
+        "_ref": "image-1f67c1e2e9b6ba70b96402bf82b612b0ca711c3b-960x1280-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2025-03-07T09:28:07.921Z",
+    "slug": {
+      "_type": "slug",
+      "current": "izgrazhdane-tsvetni-lehi"
+    },
+    "sourceUrl": "https://www.drop.od.ua/bg/post/изграждане-на-цветни-лехи-в-слънчев-бряг",
+    "tags": [
+      "Озеленяване"
+    ],
+    "title": "Изграждане на цветни лехи в Слънчев бряг",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bd4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bd3",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектираме и създаваме цветни лехи и цветни градини пред вашия дом или парцел"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bd6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bd5",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветните лехи са един от най-ефективните начини за оформяне на ландшафтното озеленяване."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bd7",
+            "_type": "image",
+            "alt": "Цветна градина постоянно цъфтящ слънчев бряг",
+            "asset": {
+              "_ref": "image-1f67c1e2e9b6ba70b96402bf82b612b0ca711c3b-960x1280-jpg",
+              "_type": "reference"
+            },
+            "caption": "Цветна градина постоянно цъфтящ слънчев бряг"
+          },
+          {
+            "_key": "bd8",
+            "_type": "image",
+            "alt": "Аранжиране на цветна градина в Слънчев бряг",
+            "asset": {
+              "_ref": "image-b18a97e418c33f92e2831c55943c97315dea2805-960x1280-jpg",
+              "_type": "reference"
+            },
+            "caption": "Аранжиране на цветна градина в Слънчев бряг"
+          },
+          {
+            "_key": "bda",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bd9",
+                "_type": "span",
+                "marks": [],
+                "text": "В засажданията използваме различни видове цветя – луковични, многогодишни и едногодишни растения, както и цъфтящи храсти и декоративни дървета."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdb",
+                "_type": "span",
+                "marks": [],
+                "text": "При създаването на ландшафтно озеленяване използваме различни видове цветни лехи: розариуми, едногодишни и многогодишни цветни градини, миксбордери, алпинеуми и рокарии с цъфтящи растения.Можем да създадем красива цветна градина във вашия двор."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bde",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdd",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Поръчайте красота от ГЦ Флориал!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdf",
+                "_type": "span",
+                "marks": [],
+                "text": "Етапи на създаване на цветна градина:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bdi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdh",
+                "_type": "span",
+                "marks": [],
+                "text": "Съгласуваме вида на цветната градина и цветните лехи;"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdj",
+                "_type": "span",
+                "marks": [],
+                "text": "Разработваме ландшафтен проект с опис на цъфтящите растения;"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdl",
+                "_type": "span",
+                "marks": [],
+                "text": "Очертаваме цветната градина на място според утвърдения проект;"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdo",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdn",
+                "_type": "span",
+                "marks": [],
+                "text": "Засаждаме семена, цветя и растения;"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdq",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdp",
+                "_type": "span",
+                "marks": [],
+                "text": "Осигуряваме последваща поддръжка – торене, поливане и др."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bds",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdr",
+                "_type": "span",
+                "marks": [],
+                "text": "Изпълняваме есенно озеленяване на вашата градина с цветя!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdu",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdt",
+                "_type": "span",
+                "marks": [],
+                "text": "В съвременния дизайн съществуват ландшафти без цветя, когато избраният стил не ги предвижда. Такива терени изглеждат стилно, но еднообразно. Цветята играят ключова роля – в комбинация с алеи, скулптури и малки архитектурни форми създават завършени композиции. Обмисленото използване на растения отваря широки възможности за ландшафтния дизайн."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdv",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветята оказват силно въздействие – те променят настроението и носят положителни емоции. Често се използват за акцентиране на определени зони в градината. Това е само една от техните функции. Те подчертават текстурата и формата на ландшафта, придавайки му уникален облик. Цветните композиции свързват различните растения в градината и създават хармонично цяло."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bdy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdx",
+                "_type": "span",
+                "marks": [],
+                "text": "За допълнителен ефект цветята се комбинират по цветови гами, периоди на цъфтеж и размери. Хаотичните насаждения остават в миналото. За създаване на цветна градина е необходимо да се анализира:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bdz",
+                "_type": "span",
+                "marks": [],
+                "text": "осветеността на терена,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "be1",
+                "_type": "span",
+                "marks": [],
+                "text": "ъгълът на наблюдение,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "be3",
+                "_type": "span",
+                "marks": [],
+                "text": "съчетанието с ландшафта,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "be5",
+                "_type": "span",
+                "marks": [],
+                "text": "възможността за поливане и други фактори."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "be7",
+                "_type": "span",
+                "marks": [],
+                "text": "Ако тези аспекти не се вземат предвид, няма смисъл от засаждането на цветя."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bea",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "be9",
+                "_type": "span",
+                "marks": [],
+                "text": "Видове оформление на цветните градини:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "beg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "beb",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтното оформление с цветя традиционно се дели на два стила – "
+              },
+              {
+                "_key": "bec",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "геометричен"
+              },
+              {
+                "_key": "bed",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "bee",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "пейзажен"
+              },
+              {
+                "_key": "bef",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bej",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "beh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Геометричният стил"
+              },
+              {
+                "_key": "bei",
+                "_type": "span",
+                "marks": [],
+                "text": " се характеризира със строги пропорции и абсолютна симетрия. Формите могат да бъдат квадратни, правоъгълни, кръгли или овални. Клумби и партера са основните елементи на този стил."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bem",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bek",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Пейзажният стил"
+              },
+              {
+                "_key": "bel",
+                "_type": "span",
+                "marks": [],
+                "text": " комбинира различни растителни видове, като създава естествени и живописни композиции. В него често се използват миксбордери, скални градини и единични засаждания."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "beo",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ben",
+                "_type": "span",
+                "marks": [],
+                "text": "Хармоничното съчетание на цветовете се постига, когато ярките оттенъци контрастират с неутрални тонове. Зелената листна маса играе ролята на балансиращ елемент. Цветовете и текстурите се комбинират внимателно, за да се избегне дисонанс между различните растения."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "beq",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bep",
+                "_type": "span",
+                "marks": [],
+                "text": "Подготовка на почвата"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bes",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ber",
+                "_type": "span",
+                "marks": [],
+                "text": "Ключова роля за успеха на цветната градина има плодородният слой на почвата.Подготовката и изборът на почва зависят от подбраните растения и техните изисквания."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bew",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bet",
+                "_type": "span",
+                "marks": [],
+                "text": "Необходимата дебелина на плодородния слой е "
+              },
+              {
+                "_key": "beu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "15-40 см"
+              },
+              {
+                "_key": "bev",
+                "_type": "span",
+                "marks": [],
+                "text": ", в зависимост от избраните цветни култури."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bey",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bex",
+                "_type": "span",
+                "marks": [],
+                "text": "За подобряване на съществуващия чернозем могат да се използват:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bf0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bez",
+                "_type": "span",
+                "marks": [],
+                "text": "Органични торове – листен хумус, биохумус, компост."
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bf2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bf1",
+                "_type": "span",
+                "marks": [],
+                "text": "Минерални торове – прилагани директно в посадъчните ямки."
+              }
+            ],
+            "level": 1,
+            "listItem": "number",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bf4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bf3",
+                "_type": "span",
+                "marks": [],
+                "text": "Засаждане на цветя в Несебър"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bf6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bf5",
+                "_type": "span",
+                "marks": [],
+                "text": "Засаждане на цветя в Несебър"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bf8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bf7",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Изграждане на цветни градини, розариуми, миксбордери"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bf9",
+                "_type": "span",
+                "marks": [],
+                "text": "Най-голямото предизвикателство при цветното оформление е правилният подбор на растенията и местата за засаждане. Необходимо е да се вземат предвид:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfb",
+                "_type": "span",
+                "marks": [],
+                "text": "височината на растенията,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfe",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfd",
+                "_type": "span",
+                "marks": [],
+                "text": "периодът и продължителността на цъфтежа,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bff",
+                "_type": "span",
+                "marks": [],
+                "text": "формата и структурата на композицията."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfh",
+                "_type": "span",
+                "marks": [],
+                "text": "Има множество фактори, които определят успешното цветно оформление. Ако искате да се наслаждавате на красотата на своята градина, "
+              },
+              {
+                "_key": "bfi",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "доверете се на професионалистите"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfk",
+                "_type": "span",
+                "marks": [],
+                "text": "Контакти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bfn",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfm",
+                "_type": "span",
+                "marks": [],
+                "text": "Работим в Несебър и близките градове. Слънчев бряг, Свети Влас, Поморие, Кошарица, Каблешково, Ахелой и др."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bfp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfo",
+                "_type": "span",
+                "marks": [],
+                "text": "За да получите оценка на стойността на работата, моля свържете се с нас на следните контакти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bft",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfq",
+                "_type": "span",
+                "marks": [],
+                "text": "🌐 Нашият уеб-сайт: "
+              },
+              {
+                "_key": "bfs",
+                "_type": "span",
+                "marks": [
+                  "bfr"
+                ],
+                "text": "www.drop.od.ua"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bfr",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bfx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfu",
+                "_type": "span",
+                "marks": [],
+                "text": "📧 Имейл: "
+              },
+              {
+                "_key": "bfw",
+                "_type": "span",
+                "marks": [
+                  "bfv"
+                ],
+                "text": "omaraandrey@gmail.com"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bfv",
+                "_type": "link",
+                "blank": false,
+                "href": "mailto:omaraandrey@gmail.com"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bfz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bfy",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Телефон: +359876777902"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg1",
+                "_type": "span",
+                "marks": [
+                  "bg0"
+                ],
+                "text": "Продажа розы сорта Симпатия"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg0",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rozi-sympathy"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg4",
+                "_type": "span",
+                "marks": [
+                  "bg3"
+                ],
+                "text": "Topiary Pruning of Plants Nessebar"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg3",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg7",
+                "_type": "span",
+                "marks": [
+                  "bg6"
+                ],
+                "text": "Топиарная стрижка растений Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg6",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Цветна градина в Слънчев бряг",
+        "seoDescription": "Полезна информация от Florial: Изграждане на цветни лехи в Слънчев бряг. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "seoTitle": "Изграждане на цветни лехи в Слънчев бряг | Florial",
+        "shortDescription": "Полезна информация от Florial: Изграждане на цветни лехи в Слънчев бряг. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "title": "Изграждане на цветни лехи в Слънчев бряг"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "fe1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Flower beds and floral gardens for your property"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "fe2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe2s",
+                "_type": "span",
+                "marks": [],
+                "text": "We design and create flower beds in front of homes and across garden plots. Flower beds are one of the most effective ways to give a landscape colour and character."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe3",
+            "_type": "image",
+            "alt": "Flowering garden in Sunny Beach",
+            "asset": {
+              "_ref": "image-1f67c1e2e9b6ba70b96402bf82b612b0ca711c3b-960x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "fe4",
+            "_type": "image",
+            "alt": "Flower garden arrangement in Sunny Beach",
+            "asset": {
+              "_ref": "image-b18a97e418c33f92e2831c55943c97315dea2805-960x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "fe5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Our planting schemes combine bulbs, perennials, annuals, flowering shrubs and ornamental trees. We create rose gardens, seasonal and perennial borders, mixed borders, alpine gardens and rock gardens. Each design is adapted to the character of your outdoor space."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Steps in creating a flower garden"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fe7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe7s",
+                "_type": "span",
+                "marks": [],
+                "text": "We agree on the type and style of the flower garden; prepare a landscape plan with a plant list; mark out the design on site; plant seeds, flowers and other plants; and, when required, arrange follow-up care such as watering and feeding."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Autumn planting can also help prepare the garden for the next growing season."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Some contemporary landscape styles intentionally use few or no flowers. However, when combined with paths, sculptures and small architectural features, flowers can complete a composition. They influence mood, create positive impressions, emphasise landscape texture and form, and bring different plants together into a harmonious whole."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe10s",
+                "_type": "span",
+                "marks": [],
+                "text": "For a balanced result, flowers are selected by colour palette, flowering season and height. Before planting, we assess sunlight, viewing angles, the relationship with the surrounding landscape, irrigation options and other site conditions. Ignoring these factors can undermine the result."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Styles of flower-garden design"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fe12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Geometric design uses strict proportions and symmetry, with square, rectangular, circular or oval shapes, flower beds and parterres. Landscape-style design combines different plants into natural-looking compositions, often using mixed borders, rock gardens and specimen plantings."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Colour harmony comes from balancing bright shades with neutral tones. Green foliage helps unify the design, while colours and textures are carefully combined to avoid visual clashes."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Soil preparation"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fe15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe15s",
+                "_type": "span",
+                "marks": [],
+                "text": "A fertile soil layer is essential for a successful flower garden. Soil type and preparation depend on the selected plants and their needs. The required fertile layer is generally around 15–40 cm, depending on the plants being grown."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Existing topsoil can be improved with organic materials such as leaf mould, vermicompost and compost, as well as mineral fertilisers applied directly to planting holes when appropriate."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Flower planting in Nessebar"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fe18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe18s",
+                "_type": "span",
+                "marks": [],
+                "text": "When creating flower beds, rose gardens and mixed borders, it is important to choose suitable plants and planting locations. We consider mature height, flowering time and duration, and the overall shape and structure of the composition."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Many factors contribute to a successful floral design. To create a beautiful, harmonious garden, entrust the planning and planting to Florial’s specialists."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fe20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fe20s",
+                "_type": "span",
+                "marks": [],
+                "text": "We work in Nessebar and nearby areas, including Sunny Beach, Sveti Vlas, Pomorie, Kosharitsa, Kableshkovo, Aheloy and surrounding locations."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Creating Flower Beds in Sunny Beach",
+        "seoDescription": "Useful advice from Florial: Creating Flower Beds in Sunny Beach. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "seoTitle": "Creating Flower Beds in Sunny Beach | Florial",
+        "shortDescription": "Useful advice from Florial: Creating Flower Beds in Sunny Beach. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "title": "Creating Flower Beds in Sunny Beach"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "fr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветники и цветочные композиции для вашего участка"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "fr2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы проектируем и создаём цветники перед домом и на садовых участках. Цветники — один из самых эффективных способов придать ландшафту выразительность."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr3",
+            "_type": "image",
+            "alt": "Цветущий сад в Солнечном Береге",
+            "asset": {
+              "_ref": "image-1f67c1e2e9b6ba70b96402bf82b612b0ca711c3b-960x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "fr4",
+            "_type": "image",
+            "alt": "Оформление цветочного сада в Солнечном Береге",
+            "asset": {
+              "_ref": "image-b18a97e418c33f92e2831c55943c97315dea2805-960x1280-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "fr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "В композициях мы используем луковичные, многолетние и однолетние цветы, цветущие кустарники и декоративные деревья. Создаём розарии, сезонные и многолетние цветники, миксбордеры, альпинарии и рокарии. Можно оформить красивый цветущий сад с учётом особенностей вашего двора."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Этапы создания цветника"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Сначала согласовываем тип цветника и его стиль; затем разрабатываем ландшафтный проект со списком цветущих растений; размечаем композицию на участке согласно проекту; высаживаем семена, цветы и растения; при необходимости организуем последующий уход, включая полив и подкормку."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Осеннее озеленение цветами также помогает подготовить сад к следующему сезону."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr9s",
+                "_type": "span",
+                "marks": [],
+                "text": "В современном ландшафтном дизайне встречаются сады без цветов, если этого требует выбранный стиль. Однако цветы, сочетаясь с дорожками, скульптурами и малыми архитектурными формами, делают композицию завершённой. Они меняют настроение, создают положительные эмоции, подчёркивают фактуру и форму ландшафта и объединяют разные растения в гармоничное целое."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Для выразительного результата цветы подбирают по цветовой гамме, срокам цветения и высоте. Перед созданием композиции анализируют освещённость участка, основные точки обзора, сочетание с окружающим ландшафтом, возможности полива и другие условия. Без этого посадки могут не дать ожидаемого результата."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Стили цветочного оформления"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fr12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Геометрический стиль основан на строгих пропорциях и симметрии: используются квадратные, прямоугольные, круглые и овальные формы, клумбы и партеры. Пейзажный стиль объединяет разные виды растений в естественные композиции; для него характерны миксбордеры, каменистые сады и одиночные посадки."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Гармония достигается сочетанием ярких оттенков с нейтральными тонами. Зелёная листва уравновешивает композицию, а цвета и фактуры подбираются так, чтобы избежать визуального диссонанса."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Подготовка почвы"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Успех цветника во многом зависит от плодородного слоя почвы. Тип грунта и способ подготовки выбирают с учётом требований конкретных растений. Рекомендуемая толщина плодородного слоя обычно составляет 15–40 см в зависимости от выращиваемых культур."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Для улучшения существующего чернозёма используют органические удобрения — листовой перегной, биогумус и компост — а также минеральные удобрения, которые вносят непосредственно в посадочные ямы по потребностям растений."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Посадка цветов в Несебре"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "fr18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr18s",
+                "_type": "span",
+                "marks": [],
+                "text": "При создании цветников, розариев и миксбордеров важно правильно выбрать виды и места посадки. Учитываем высоту растений, сроки и продолжительность цветения, а также форму и структуру композиции."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr19s",
+                "_type": "span",
+                "marks": [],
+                "text": "На успешный результат влияет множество факторов. Чтобы сад радовал красотой и оставался гармоничным, доверьте проектирование и посадку специалистам Florial."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "fr20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fr20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Работаем в Несебре и близлежащих населённых пунктах: Солнечном Береге, Святом Власе, Поморие, Кошарице, Каблешково, Ахелое и других районах."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Создание цветников в Солнечном Береге",
+        "seoDescription": "Полезная информация от Florial: Создание цветников в Солнечном Береге. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "seoTitle": "Создание цветников в Солнечном Береге | Florial",
+        "shortDescription": "Полезная информация от Florial: Создание цветников в Солнечном Береге. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "title": "Создание цветников в Солнечном Береге"
+      }
+    }
+  }
+}
