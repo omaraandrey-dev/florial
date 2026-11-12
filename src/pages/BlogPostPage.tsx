@@ -4,7 +4,7 @@ import {applyPageSeo} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 import {BlogContent} from '../components/BlogContent'
-import {blogSlug, blogTranslation, fetchBlogPost, fetchBlogPosts, formatBlogDate, type BlogPost, type BlogPostCard} from '../lib/blog'
+import {blogImageAlt, blogSlug, blogTranslation, fetchBlogPost, fetchBlogPosts, formatBlogDate, type BlogPost, type BlogPostCard} from '../lib/blog'
 
 export function BlogPostPage({slug}: {slug: string}) {
   const {t, language} = useI18n()
@@ -20,13 +20,16 @@ export function BlogPostPage({slug}: {slug: string}) {
         setPost(result)
         if (result) {
           const currentSlug = blogSlug(result)
-          const currentIndex = allPosts.findIndex((item) => blogSlug(item) === currentSlug)
-          // Show up to three real, published articles adjacent to the current article in publication order.
-          const nearby = currentIndex >= 0
-            ? [...allPosts.slice(Math.max(0, currentIndex - 1), currentIndex), ...allPosts.slice(currentIndex + 1, currentIndex + 4)]
-            : allPosts.filter((item) => blogSlug(item) !== currentSlug).slice(0, 3)
-          const unique = new Map(nearby.filter((item) => blogSlug(item) !== currentSlug).map((item) => [blogSlug(item), item]))
-          setRelatedPosts([...unique.values()].slice(0, 3))
+          const currentTags = new Set(result.tags || [])
+          const candidates = allPosts.filter((item) => blogSlug(item) !== currentSlug)
+          // Prefer articles sharing one or more existing Sanity tags; use publication date as the tie-breaker.
+          candidates.sort((a, b) => {
+            const overlapA = (a.tags || []).filter((tag) => currentTags.has(tag)).length
+            const overlapB = (b.tags || []).filter((tag) => currentTags.has(tag)).length
+            if (overlapA !== overlapB) return overlapB - overlapA
+            return Date.parse(b.publishedAt || '') - Date.parse(a.publishedAt || '')
+          })
+          setRelatedPosts(candidates.slice(0, 3))
         }
       })
       .catch((error) => console.error('Florial blog post could not load:', error))
@@ -54,8 +57,8 @@ export function BlogPostPage({slug}: {slug: string}) {
     <article>
       <header className="mb-8"><time dateTime={post.publishedAt || undefined} className="text-sm text-slate-500">{formatBlogDate(post.publishedAt, language)}</time><h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl">{content.title}</h1>{content.shortDescription ? <p className="mt-5 text-lg leading-8 text-slate-600">{content.shortDescription}</p> : null}</header>
       {post.cover?.asset?.url ? <figure className="mb-9"><img {...getSanityImageProps(post.cover.asset.url, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={content.coverAlt} decoding="async" className="max-h-[620px] w-full rounded-2xl object-cover"/>{post.cover.caption ? <figcaption className="mt-2 text-center text-sm text-slate-500">{post.cover.caption}</figcaption> : null}</figure> : null}
-      <BlogContent blocks={content.body || []}/>
-      {post.gallery?.length ? <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">{post.gallery.map((image,index) => image.asset?.url ? <figure key={index}><img {...getSanityImageProps(image.asset.url, '(min-width: 640px) 50vw, 100vw')} alt={image.alt || content.coverAlt} loading="lazy" decoding="async" className="w-full rounded-xl object-cover"/>{image.caption ? <figcaption className="mt-2 text-sm text-slate-500">{image.caption}</figcaption> : null}</figure> : null)}</div> : null}
+      <BlogContent blocks={content.body || []} language={language}/>
+      {post.gallery?.length ? <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">{post.gallery.map((image,index) => image.asset?.url ? <figure key={index}><img {...getSanityImageProps(image.asset.url, '(min-width: 640px) 50vw, 100vw')} alt={blogImageAlt(image, language, content.coverAlt)} loading="lazy" decoding="async" className="w-full rounded-xl object-cover"/>{image.caption ? <figcaption className="mt-2 text-sm text-slate-500">{image.caption}</figcaption> : null}</figure> : null)}</div> : null}
     </article>
     {relatedPosts.length ? <section className="mt-14 border-t border-[#E1E6D7] pt-8" aria-labelledby="related-blog-title">
       <h2 id="related-blog-title" className="mb-5 text-2xl font-bold tracking-tight text-slate-900">{language === 'ru' ? 'Читайте также' : language === 'en' ? 'Related articles' : 'Още полезни статии'}</h2>
