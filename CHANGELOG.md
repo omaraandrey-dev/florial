@@ -1,3 +1,17 @@
+## 2026-11-12 — Категория «Маслини» опубликована на BG/RU/EN
+
+- В Sanity project `bxvcy0qs`, dataset `plants`, обновлён и опубликован существующий документ `plants-olives` (slug `maslini`); новый документ или URL не создавались.
+- Подготовлены три локализованные версии длинного текста в поле `seoContent`: по 32 Portable Text-блока для BG, RU и EN. Добавлены разделы о выборе места, морозостойкости, посадке, поливе, зимней защите, фитосанитарной прослеживаемости/Xylella fastidiosa, доставке и профессиональной посадке, а также три FAQ.
+- Обновлены краткие описания, H1, meta title, meta description, keywords и `noIndex=false` для всех трёх языков. Финальный блок помощи сокращён и локализован, чтобы не повторять вступление статьи; существующая ссылка ведёт на опубликованную услугу `/services/profesionalno-zasazhdane-na-maslini`.
+- Сохранены исходные document ID, slug, parent, sortOrder, изображения, product references, helpBlock button labels и buttonUrl. Каталог товаров, schema и frontend не менялись.
+- Перед записью создан точный JSON snapshot исходной опубликованной версии: `docs/backups/sanity/2026-11-12-plants-olives-before-content-refresh.json`; исходная revision `dR2WRDI0sXDQ8aCH9UHfWP`. Backup commit в main: `7fcee7433d2d0036159052ac945ebca25842418f`.
+- Sanity document validation: `valid`; `complete=false`, поскольку инструмент не запускает custom validation callbacks. Повторный live GROQ подтвердил опубликованные поля и 32 блока на каждом языке.
+- Production live smoke через Firecrawl, `maxAge=0`, после финальной публикации: BG `/category/maslini`, RU `?lang=ru`, EN `?lang=en` — все HTTP 200; локальные `lang`, H1, title/description, `robots=index, follow`, FAQ, Xylella-раздел и ссылка на услугу подтверждены. Старый повторяющийся заголовок helpBlock заменён новым локализованным CTA.
+- Редакционная проверка морозостойкости опирается на RHS и научный обзор; температурные значения обозначены как ориентиры, а не гарантия. Раздел Xylella учитывает статус вредителя в ЕС и формулирует требование о plant passport как применимое там, где это предписано правилами.
+- Источники: [RHS — Olives](https://www.rhs.org.uk/plants/olives), [RHS — How to grow olives](https://www.rhs.org.uk/plants/olives/how-to-grow-olives), [научный обзор по холодовому стрессу Olea europaea](https://pmc.ncbi.nlm.nih.gov/articles/PMC9144808/), [European Commission — Xylella fastidiosa](https://food.ec.europa.eu/plants/plant-health-and-biosecurity/plant-health-rules/control-measures/xylella-fastidiosa_en).
+- Не менялись код, Sanity schema, Cloudflare Pages settings/secrets, D1, Manager, Resend и Production deployment. Поскольку изменялись только опубликованные Sanity documents, новый build/deployment не требовался.
+
+---
 ## 2026-11-12 — RSS-лента услуг опубликована в Production (PR #229)
 
 - PR #229 объединён squash в `main`: merge commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`; GitHub PR: https://github.com/omaraandrey-dev/florial/pull/229.
