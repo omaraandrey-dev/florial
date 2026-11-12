@@ -5,7 +5,8 @@
 - Cloudflare API dry-run и последующий Production PUT прошли успешно; повторный GET подтвердил сохранённую конфигурацию.
 - Cloudflare Request Tracer: `https://www.florial-bg.com/services` → simulated 301; www homepage с тестовым query → simulated 301; apex `https://florial-bg.com/services` → simulated 200.
 - Код и Pages deployment, DNS, Pages domains/settings/secrets, Sanity, D1 и Resend не менялись.
-- Внешний HTTP smoke test и Google Search Console не завершены: Firecrawl credits исчерпаны, web viewer и сетевой запрос из контейнера недоступны. Фактический Google-selected canonical остаётся НЕ ПОДТВЕРЖДЁННЫМ; после внешнего HTTP smoke проверить четыре URL в Search Console. Детали: `docs/audits/2026-11-12-www-canonical-redirect.md`.
+- **Дополнительная проверка владельцем через обычный браузер 12.11.2026:** при открытии адреса с `www.florial-bg.com` браузер автоматически перенаправляет на `florial-bg.com` без `www`; владелец подтвердил успешный результат на реальных запросах. Практическое перенаправление www → non-www подтверждено пользователем.
+- Google Search Console не проверен. Фактический Google-selected canonical и полнота индексации остаются НЕ ПОДТВЕРЖДЁННЫМИ; URL Inspection для www/apex главной страницы и `/services` остаётся отдельной SEO-проверкой. Детали: `docs/audits/2026-11-12-www-canonical-redirect.md`.
 
 ## 2026-11-12 — Блог: улучшено качество трёх изображений и исправлены ALT
 
