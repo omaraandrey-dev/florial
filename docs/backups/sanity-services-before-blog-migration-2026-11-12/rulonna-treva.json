@@ -1,0 +1,483 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "ea332108-42e7-444f-9632-08111c6fda90",
+    "_rev": "9Jlb6k9xfgGTkBekNEbn5H",
+    "_system": {
+      "base": {
+        "id": "ea332108-42e7-444f-9632-08111c6fda90",
+        "rev": "9Jlb6k9xfgGTkBekNDWvEm"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-09T06:53:49Z",
+    "advantages": [
+      {
+        "_key": "adv0",
+        "text": "Получавате равномерна тревна площ веднага след полагането.",
+        "title": "Незабавен визуален ефект"
+      },
+      {
+        "_key": "adv1",
+        "text": "Правилната основа помага за равномерно вкореняване.",
+        "title": "Професионална подготовка"
+      },
+      {
+        "_key": "adv2",
+        "text": "Подрязваме чима по контурите и проверяваме контактa с почвата.",
+        "title": "Прецизно полагане"
+      },
+      {
+        "_key": "adv3",
+        "text": "Даваме указания за поливане и последваща грижа.",
+        "title": "Съвети за първите дни"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Посочете приблизителната площ и местоположението за оферта.",
+      "title": "Заявете оферта"
+    },
+    "contentBlocks": [
+      {
+        "_key": "block1",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Подготовка и нивелиране",
+          "asset": {
+            "_ref": "image-9c7ab113e1f93ea7dbc3a063fcd79f6bf968b41b-640x474-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Подготовка на терена за полагане на тревен чим\nКачествената подготовка на основата е 80% от успеха при полагането на рулонен тревен чим. От това колко равно и правилно е подготвена почвата, зависи бързото вкореняване на тревната покривка, липсата на задържане на вода и безупречният външен вид на моравата за години напред.\nПодготвителните работи започваме няколко дни преди доставката на прясно отрязаните чимове. В зависимост от площта и сложността на терена подготовката обикновено отнема от 1 до 3 дни.\nЕтапи на подготовка на основата:\nПочистване и химическа обработка срещу плевели\nОсвобождаваме терена от строителни отпадъци, камъни, стар чим и коренища. Ако теренът е силно заплевелен с многогодишни плевели (глухарчета, троскот и др.), 10–14 дни преди основните работи обработваме територията със системни хербициди за пълното им унищожаване.\nМонтаж на система за автоматично напояване\nВсички комуникации, подземни тръби, хидранти и разпръсквачи на поливната система се монтират строго преди финалната подготовка на почвата и полагането на тревния чим.\nДоставка и разпределяне на плодородна почва\nПри необходимост доставяме и разпределяме равномерно върху терена качествен плодороден хумус / хумусна почва (слой от 5–10 см) за създаване на хранителна среда за младите корени.\nОпясъчаване (пясъчна възглавница)\nЗа подобряване на дренажните свойства при глинести почви и създаване на лека „въздушна“ възглавница между слегналата земя и чима, разпределяме фин изравнителен слой от промит пясък.\nФинално подравняване, нивелиране и валиране\nИзвършваме прецизно нивелиране на повърхността, отстраняваме вдлъбнатините и изпъкналостите, след което валираме (уплътняваме) почвата със специален тежък градински валяк. Готовата основа трябва да бъде равна, плътна и да се намира на 2–3 см под нивото на настилките или бордюрите.\nПравилно подготвената основа гарантира 100% прихващане на тревния чим и създава безупречно гладък зелен килим.",
+        "translations": {
+          "en": {
+            "imageAlt": "Ground preparation and levelling",
+            "text": "Ground preparation for laying turf\nProper base preparation accounts for 80% of success when installing roll-out turf. A level, correctly prepared soil helps the turf root quickly, prevents standing water and keeps the lawn looking excellent for years.\nWe begin preparation several days before freshly cut turf is delivered. Depending on the area and site complexity, it usually takes 1–3 days.\nPreparation stages:\nCleaning and weed treatment\nWe remove construction debris, stones, old turf and roots. If perennial weeds such as dandelions or couch grass are widespread, we treat the area with systemic herbicide 10–14 days before the main works to eliminate them.\nAutomatic irrigation installation\nAll utilities, underground pipes, hydrants and sprinklers must be installed before final soil preparation and turf laying.\nDelivery and spreading of fertile soil\nIf needed, we deliver and spread quality fertile topsoil/humus in an even 5–10 cm layer to provide nutrients for young roots.\nSand levelling layer\nFor clay soils, washed sand improves drainage and creates a light, airy layer between compacted ground and turf.\nFinal grading, levelling and rolling\nWe level the surface precisely, remove hollows and bumps, then compact the soil with a heavy garden roller. The finished base must be level and firm, 2–3 cm below paving or edging.\nA properly prepared base supports successful turf rooting and creates a smooth, even green lawn."
+          },
+          "ru": {
+            "imageAlt": "Подготовка и выравнивание основания",
+            "text": "Подготовка участка к укладке рулонного газона\nКачественная подготовка основания — 80% успеха при укладке рулонного газона. От ровности и правильной подготовки почвы зависят быстрое укоренение травы, отсутствие застоя воды и безупречный вид лужайки на долгие годы.\nПодготовку начинаем за несколько дней до доставки свежесрезанного дерна. В зависимости от площади и сложности участка работы обычно занимают 1–3 дня.\nЭтапы подготовки:\nОчистка и обработка от сорняков\nУбираем строительный мусор, камни, старый дёрн и корневища. Если участок сильно зарос многолетними сорняками, например одуванчиками или пыреем, за 10–14 дней до основных работ обрабатываем его системным гербицидом для их полного уничтожения.\nМонтаж автоматического полива\nВсе коммуникации, подземные трубы, гидранты и дождеватели устанавливаются до окончательной подготовки почвы и укладки газона.\nДоставка и распределение плодородного грунта\nПри необходимости доставляем и равномерно распределяем качественный плодородный грунт/гумус слоем 5–10 см, создавая питательную среду для молодых корней.\nПесчаная выравнивающая подушка\nНа глинистых почвах промытый песок улучшает дренаж и формирует лёгкий воздушный слой между уплотнённым грунтом и дерном.\nФинальное выравнивание и прикатывание\nТочно выравниваем поверхность, устраняем впадины и бугры, затем уплотняем почву тяжёлым садовым катком. Готовое основание должно быть ровным и плотным, на 2–3 см ниже уровня дорожек или бордюров.\nПравильно подготовленное основание помогает газону успешно укорениться и образует идеально ровный зелёный ковёр."
+          }
+        }
+      },
+      {
+        "_key": "block2",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Доставка и полагане на чима",
+          "asset": {
+            "_ref": "image-c635e473f5232b89604dc83c15822fb620f299b8-640x474-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "text": "Доставка и полагане на тревен чим\nРулонният тревен чим е жив продукт, който не подлежи на продължително съхранение в навито състояние. За да се вкорени перфектно, той трябва да бъде положен в най-кратки срокове след отрязването и доставката му на обекта. През горещите летни дни започваме полагането рано сутрин (понякога още от 5:00 ч.), за да минимизираме стреса за тревата от високите температури.\nОсобености и технология на полагане:\nРазтоварване и логистика на терена\nТеглото на едно руло от прясно отрязан чим е между 20 и 25 кг. Разтоварването и внимателното пренасяне на рулата по терена изискват сериозни физически усилия и добра организация, за да не се развали вече подготвената основа.\nШахматно подреждане\nРулата се развиват в строго праволинейни редове с разминаване на напречните фуги (по принципа на тухлена зидария). Това осигурява монолитност, здравина и равномерност на бъдещото тревно покритие.\nПлътност на фугите без разстояния и застъпвания\nКраищата на рулата се притискат плътно един към друг. Ние следим внимателно да не остават празнини (фуги) между тях и да няма застъпвания. Крайните парчета се оформят и изрязват със специален остър инструмент точно по контура на алеите, бордюрите и цветните лехи.\nВалиране с градински валяк\nВеднага след полагането цялата площ се минава с воден валяк. Това е задължително за отстраняване на въздушните джобове и осигуряване на 100% контакт между корените на чима и подготвената почва.\nПърво обилно поливане\nНепосредствено след полагането и валирането се извършва обилно поливане до пълно подмокряне на самия чим и почвения слой под него.\nОсновни предимства на тревния чим:\nТова е идеалното решение за всеки, който иска да получи безупречен резултат „тук и сега“. Не е нужно да чакате месеци наред семената да покълнат, да се борите с плевелите и да запълвате редки участъци — получавате гъст, свеж и равен зелен килим още от първия ден след завършване на монтажа.",
+        "translations": {
+          "en": {
+            "imageAlt": "Turf delivery and installation",
+            "text": "Turf delivery and installation\nRolled turf is a living product that cannot be stored for long while rolled up. For successful rooting, it should be laid as soon as possible after cutting and delivery. On hot summer days, we start early in the morning, sometimes at 5:00 a.m., to reduce heat stress.\nInstallation method:\nUnloading and site logistics\nA fresh roll weighs 20–25 kg. Unloading and carefully moving rolls across the site takes physical effort and good coordination so the prepared base is not damaged.\nStaggered layout\nWe lay rolls in straight rows with staggered end joints, like brickwork. This creates a strong, uniform lawn surface.\nTight joints, without gaps or overlaps\nRoll edges are pressed tightly together, with no gaps or overlaps. We trim the edges with a sharp specialist tool to follow paths, edging and flower beds.\nRolling\nImmediately after laying, we roll the entire area with a water-filled garden roller. This removes air pockets and ensures full contact between turf roots and the prepared soil.\nFirst thorough watering\nImmediately after laying and rolling, we water generously until the turf and the soil beneath it are thoroughly wet.\nBenefits of roll-out turf\nIt is ideal for anyone who wants an immediate, high-quality result. There is no need to wait months for seed to germinate, fight weeds or fill bare patches: a dense, fresh and even green lawn is ready from the first day after installation."
+          },
+          "ru": {
+            "imageAlt": "Доставка и укладка газона",
+            "text": "Доставка и укладка рулонного газона\nРулонный газон — живой продукт, который нельзя долго хранить в свёрнутом виде. Чтобы он хорошо укоренился, его нужно уложить как можно скорее после срезки и доставки. В жаркие летние дни мы начинаем работу рано утром, иногда уже в 5:00, чтобы снизить тепловой стресс для травы.\nТехнология укладки:\nРазгрузка и перемещение по участку\nСвежий рулон весит 20–25 кг. Разгрузка и аккуратное перемещение рулонов требуют физических усилий и хорошей организации, чтобы не повредить подготовленное основание.\nШахматная укладка\nРулоны раскладываем ровными рядами со смещением поперечных швов, по принципу кирпичной кладки. Это обеспечивает прочность и равномерность будущего покрытия.\nПлотные стыки без щелей и нахлёстов\nКрая рулонов плотно прижимаем друг к другу, не оставляя щелей и нахлёстов. Крайние фрагменты аккуратно подрезаем острым специальным инструментом по контуру дорожек, бордюров и цветников.\nПрикатывание\nСразу после укладки прокатываем всю площадь водоналивным садовым катком. Это устраняет воздушные карманы и обеспечивает полный контакт корней дерна с подготовленной почвой.\nПервый обильный полив\nСразу после укладки и прикатывания обильно поливаем газон, чтобы промокли и дерн, и слой почвы под ним.\nПреимущества рулонного газона\nЭто идеальное решение для тех, кто хочет получить отличный результат сразу. Не нужно месяцами ждать всходов, бороться с сорняками и подсевать проплешины — густой, свежий и ровный зелёный ковёр готов уже в первый день после укладки."
+          }
+        }
+      },
+      {
+        "_key": "block3",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Първоначално поливане",
+          "asset": {
+            "_ref": "image-a611a662a1351880db4064312c71f3d35d6da1e7-2368x4208-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Първоначално поливане и грижа за новия тревен чим\nВеднага след приключване на полагането и валирането на рулата, тревата се нуждае от обилно и дълбоко поливане. В професионалната практика това състояние понякога се нарича създаване на „оризово поле“: водата трябва напълно да подмокри не само самия чим, но и почвения слой под него на дълбочина 10–15 см.\nРежим на поливане през първите седмици:\nПървите 14 дни (период на активно вкореняване):\nТревният чим се полива ежедневно по 2 пъти на ден (сутрин и вечер), а през горещите летни дни — по 3 пъти на ден (включително освежаващо поливане през деня). Почвата под чима трябва постоянно да остава влажна.\nСледващ период:\nСлед като корените на тревата прораснат в основната почва, честотата на поливане постепенно се намалява до нормален експлоатационен режим (1 път на ден или през ден в зависимост от метеорологичните условия).\n💧 Защо е критично важно ПОЛИВАНЕТО ДА Е АВТОМАТИЧНО?\nПри спазване на технологията за полагане и осигуряване на достатъчно поливане, прихващането на тревния чим е 100%.\nВъпреки това, ръчното поливане с маркуч на прясно положен чим равномерно и в необходимия обем е практически невъзможно:\nАвтоматиката осигурява прецизност: равномерно разпределение на влагата по цялата площ без пропуснати участъци и без отмиване на почвата.\nСпестява време и усилия: системата за автоматично напояване, монтирана още на етапа на подготовка на терена, поема изцяло този трудоемък процес.\nАвтоматичното поливане не е просто удобство, а единствената сигурна гаранция, че Вашият нов тревен килим ще се вкорени перфектно и ще запази своя свеж и наситен зелен цвят.",
+        "translations": {
+          "en": {
+            "imageAlt": "Initial watering",
+            "text": "Initial watering and care for new turf\nImmediately after laying and rolling, the turf needs deep, generous watering. Professionals sometimes describe this as creating a “rice paddy”: water must soak through both the turf and the soil beneath it to a depth of 10–15 cm.\nWatering during the first weeks:\nFirst 14 days — active rooting\nWater the turf twice every day, morning and evening; during hot summer weather, water three times daily, including a light daytime watering. The soil under the turf must remain consistently moist.\nAfter the initial rooting period\nOnce roots have grown into the underlying soil, gradually reduce watering to a normal schedule — once a day or every other day, depending on the weather.\n💧 Why is AUTOMATIC WATERING critically important?\nWhen turf is laid correctly and receives enough water, rooting can reach 100%. However, it is practically impossible to water freshly laid turf evenly and in the right volume by hand with a hose.\nAutomation provides precision: moisture is distributed evenly across the whole lawn, without missed patches or soil washout.\nIt saves time and effort: an automatic irrigation system installed during site preparation takes over this labour-intensive task.\nAutomatic watering is not just convenient; it is the surest way to help your new lawn root properly and retain its fresh, rich green colour."
+          },
+          "ru": {
+            "imageAlt": "Первый полив",
+            "text": "Первый полив и уход за новым рулонным газоном\nСразу после укладки и прикатывания рулонов газону необходим обильный глубокий полив. В профессиональной практике это иногда называют созданием «рисового поля»: вода должна полностью промочить не только дерн, но и слой почвы под ним на глубину 10–15 см.\nРежим полива в первые недели:\nПервые 14 дней — активное укоренение\nПоливайте газон дважды в день, утром и вечером, а в жаркие летние дни — трижды, включая освежающий дневной полив. Почва под дерном должна постоянно оставаться влажной.\nСледующий период\nКогда корни прорастут в основной грунт, постепенно сокращайте частоту полива до обычного режима — раз в день или через день в зависимости от погоды.\n💧 Почему АВТОМАТИЧЕСКИЙ ПОЛИВ критически важен?\nПри соблюдении технологии укладки и достаточном поливе приживаемость рулонного газона может достигать 100%. Однако равномерно и в нужном объёме поливать свежий дерн вручную из шланга практически невозможно.\nАвтоматика обеспечивает точность: равномерно распределяет влагу по всей площади, не оставляя сухих участков и не размывая почву.\nОна экономит время и силы: система автоматического полива, установленная ещё на этапе подготовки участка, берёт на себя эту трудоёмкую работу.\nАвтоматический полив — не просто удобство, а наиболее надёжный способ обеспечить укоренение нового газона и сохранить его свежий насыщенный зелёный цвет."
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "heading",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "headings",
+            "_type": "span",
+            "marks": [],
+            "text": "Гъста и равномерна морава за кратко време"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "intro",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "intros",
+            "_type": "span",
+            "marks": [],
+            "text": "Рулонният тревен чим позволява да получите завършен зелен килим много по-бързо от засяването със семена. Подготвяме терена, изравняваме и уплътняваме основата, доставяме свеж чим и го полагаме с прецизно напасване на фугите. Работим в Несебър и по Южното Черноморие; количеството и логистиката се уточняват предварително."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advhead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "advtext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Незабавен визуален ефект: Получавате равномерна тревна площ веднага след полагането."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Професионална подготовка: Правилната основа помага за равномерно вкореняване."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Прецизно полагане: Подрязваме чима по контурите и проверяваме контактa с почвата."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Съвети за първите дни: Даваме указания за поливане и последваща грижа."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "stepshead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "stepsheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Етапи на работа"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "steptext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Оглед и измерване: Определяме площта, достъпа за доставка и състоянието на почвата."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Подготовка на терена: Почистваме, коригираме нивата и подготвяме основата."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Доставка и полагане: Доставяме чима и го полагаме в деня на доставката."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Първо поливане и инструкции: Проверяваме овлажняването и обясняваме грижите за прихващане."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ctahead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctaheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Свържете се с Florial"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ctatext",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctatexts",
+            "_type": "span",
+            "marks": [],
+            "text": "Посочете приблизителната площ и местоположението за оферта."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "img0",
+        "_type": "image",
+        "alt": "Рулонна трева",
+        "asset": {
+          "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img1",
+        "_type": "image",
+        "alt": "Готова тревна площ",
+        "asset": {
+          "_ref": "image-9c7ab113e1f93ea7dbc3a063fcd79f6bf968b41b-640x474-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img2",
+        "_type": "image",
+        "alt": "Тревна площ с градинска пътека",
+        "asset": {
+          "_ref": "image-c635e473f5232b89604dc83c15822fb620f299b8-640x474-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img3",
+        "_type": "image",
+        "alt": "Подготовка на терена за тревен чим",
+        "asset": {
+          "_ref": "image-a611a662a1351880db4064312c71f3d35d6da1e7-2368x4208-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img4",
+        "_type": "image",
+        "alt": "Полагане на рулонна трева",
+        "asset": {
+          "_ref": "image-faae4ebb57f54500bb3eaecd3f249427dbdc7aa6-2368x4208-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Рулонна трева",
+        "asset": {
+          "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Доставка и професионално полагане на рулонен тревен чим с подготовка на основата и първоначално поливане.",
+      "title": "Гъста и равномерна морава за кратко време"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Рулонна трева",
+      "asset": {
+        "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Рулонна трева",
+    "seo": {
+      "metaDescription": "Доставка и професионално полагане на рулонен тревен чим с подготовка на основата и първоначално поливане в Слънчев бряг, Поморие и Каблешково.",
+      "metaTitle": "Рулонна трева в Слънчев бряг и Поморие | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "lawn",
+    "serviceLayout": "standard",
+    "shortDescription": "Доставка и професионално полагане на рулонен тревен чим с подготовка на основата и първоначално поливане.",
+    "slug": {
+      "_type": "slug",
+      "current": "rulonna-treva"
+    },
+    "sortOrder": 23,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/grass",
+    "steps": [
+      {
+        "_key": "step0",
+        "text": "Определяме площта, достъпа за доставка и състоянието на почвата.",
+        "title": "Оглед и измерване"
+      },
+      {
+        "_key": "step1",
+        "text": "Почистваме, коригираме нивата и подготвяме основата.",
+        "title": "Подготовка на терена"
+      },
+      {
+        "_key": "step2",
+        "text": "Доставяме чима и го полагаме в деня на доставката.",
+        "title": "Доставка и полагане"
+      },
+      {
+        "_key": "step3",
+        "text": "Проверяваме овлажняването и обясняваме грижите за прихващане.",
+        "title": "Първо поливане и инструкции"
+      }
+    ],
+    "translations": {
+      "en": {
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Tell us the approximate area and location for a quote.",
+          "title": "Request a quote"
+        },
+        "description": "A dense, even lawn in less time\n\nRolled turf gives you a finished green lawn much faster than seeding. We prepare, level and compact the base, deliver fresh turf and lay it with carefully aligned seams. We work in Nessebar and along the southern Black Sea coast; quantities and delivery logistics are agreed in advance.\n\nBenefits\n\nImmediate visual result: You get an even lawn as soon as installation is complete.\n\nProfessional preparation: A properly prepared base supports even rooting.\n\nPrecise installation: We trim the turf to the edges and check contact with the soil.\n\nAdvice for the first days: We explain watering and follow-up care.\n\nHow we work\n\n1. Survey and measurements: We confirm the area, delivery access and soil condition.\n\n2. Ground preparation: We clear the site, adjust levels and prepare the base.\n\n3. Delivery and laying: We deliver the turf and install it on the day of delivery.\n\n4. First watering and guidance: We check moisture and explain how to help the turf establish.\n\nContact Florial\n\nTell us the approximate area and location for a quote.",
+        "hero": {
+          "subtitle": "Delivery and professional installation of rolled turf, including ground preparation and initial watering.",
+          "title": "A dense, even lawn in less time"
+        },
+        "name": "Rolled turf",
+        "seo": {
+          "metaDescription": "Delivery and professional installation of rolled turf, including ground preparation and initial watering in Sunny Beach, Pomorie and Kableshkovo.",
+          "metaTitle": "Rolled Turf in Sunny Beach & Pomorie | Florial"
+        },
+        "shortDescription": "Delivery and professional installation of rolled turf, including ground preparation and initial watering."
+      },
+      "ru": {
+        "callToAction": {
+          "buttonLabel": "Отправить заявку",
+          "text": "Укажите примерную площадь и местоположение для расчёта стоимости.",
+          "title": "Запросить предложение"
+        },
+        "description": "Плотный и ровный газон в короткие сроки\n\nРулонный газон позволяет получить готовое зелёное покрытие значительно быстрее, чем посев семян. Подготавливаем, выравниваем и уплотняем основание, доставляем свежий дерн и укладываем его с точной подгонкой стыков. Работаем в Несебре и вдоль Южного Черноморья; объём и логистику согласуем заранее.\n\nПреимущества\n\nМгновенный визуальный результат: ровный газон сразу после укладки.\n\nПрофессиональная подготовка: правильное основание способствует равномерному укоренению.\n\nТочная укладка: подрезаем дерн по контуру и проверяем контакт с почвой.\n\nРекомендации на первые дни: объясняем режим полива и дальнейший уход.\n\nЭтапы работы\n\n1. Осмотр и замеры: определяем площадь, доступ для доставки и состояние почвы.\n\n2. Подготовка участка: очищаем территорию, корректируем уровни и готовим основание.\n\n3. Доставка и укладка: доставляем газон и укладываем его в день доставки.\n\n4. Первый полив и инструкции: проверяем увлажнение и объясняем уход для укоренения.\n\nСвяжитесь с Florial\n\nУкажите примерную площадь и местоположение для расчёта стоимости.",
+        "hero": {
+          "subtitle": "Доставка и профессиональная укладка рулонного газона с подготовкой основания и первым поливом.",
+          "title": "Плотный и ровный газон в короткие сроки"
+        },
+        "name": "Рулонный газон",
+        "seo": {
+          "metaDescription": "Доставка и профессиональная укладка рулонного газона с подготовкой основания и первым поливом в Солнечном Береге, Поморие и Каблешково.",
+          "metaTitle": "Рулонный газон в Солнечном Береге и Поморие | Florial"
+        },
+        "shortDescription": "Доставка и профессиональная укладка рулонного газона с подготовкой основания и первым поливом."
+      }
+    }
+  }
+}
