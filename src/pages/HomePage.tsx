@@ -6,18 +6,15 @@ import { BlogSection } from '../components/BlogSection'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
+import type { ServiceItem, CategoryItem, SiteSettings } from '../types'
 
 interface HomePageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
   plantCategories: CategoryItem[]
-  products: Product[]
   siteSettings: SiteSettings | null
-  loadingProducts: boolean
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
-  onSelectProduct: (product: Product) => void
 }
 
 
@@ -25,12 +22,9 @@ export function HomePage({
   services,
   categories,
   plantCategories,
-  products,
   siteSettings,
-  loadingProducts,
   onNavigateService,
   onNavigateCategory,
-  onSelectProduct,
 }: HomePageProps) {
   const { t, language, localize } = useI18n()
 
@@ -61,13 +55,6 @@ export function HomePage({
       },
     })
   }, [language])
-  const sortedPlantCategories = [...plantCategories].sort((a, b) => {
-    const aRoot = a._id === 'plants-root' || a.slug?.current === 'rastenia'
-    const bRoot = b._id === 'plants-root' || b.slug?.current === 'rastenia'
-    if (aRoot && !bRoot) return -1
-    if (bRoot && !aRoot) return 1
-    return (a.sortOrder || 0) - (b.sortOrder || 0) || a.name.localeCompare(b.name, 'bg')
-  })
   // На главной показываем только корневые категории, без подкатегорий.
   const catalogRootId = categories.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
   const rootCategories = categories.filter((category) => !category.parentId || category.parentId === catalogRootId)
@@ -95,7 +82,18 @@ export function HomePage({
     return (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg')
   })
   // Keep the homepage concise; the catalogue pages retain the complete category lists.
-  const visiblePlantCategories = sortedPlantCategories.slice(0, 6)
+
+  const homepagePlantCategoryIds = [
+    'plants-root',
+    'plants-palms',
+    'plants-olives',
+    'plants-trees-shrubs',
+    'plants-citrus',
+    'plants-flowers',
+  ]
+  const visiblePlantCategories = homepagePlantCategoryIds
+    .map((id) => plantCategories.find((category) => category._id === id))
+    .filter((category): category is CategoryItem => Boolean(category))
   const visibleEquipmentCategories = sortedCategories.slice(0, 6)
 
   return (

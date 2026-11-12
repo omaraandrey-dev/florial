@@ -14,6 +14,7 @@ export interface CategoryItem {
   seoContent?: any[]
   sortOrder?: number
   parentId?: string | null
+  productCount?: number
   seo?: { h1?: string; metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
   isPlantCategory?: boolean
   helpBlock?: { title?: string; text?: string; buttonLabel?: string; buttonUrl?: string; translations?: Record<string, { title?: string; text?: string; buttonLabel?: string }> }

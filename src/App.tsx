@@ -75,10 +75,16 @@ function getRouteState(
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
+  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>([])
+  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>([])
+  const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
+  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
+  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
+  const [loadingCategories, setLoadingCategories] = useState(true)
+  const [loadingServices, setLoadingServices] = useState(true)
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
-  const [plantCategories, setPlantCategories] = useState<CategoryItem[]>([])
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
@@ -88,7 +94,11 @@ export default function App() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
-  const [loadingProducts, setLoadingProducts] = useState(true)
+  const [loadingProducts, setLoadingProducts] = useState(() => {
+    const route = getRouteState()
+    return Boolean(route.activeCategorySlug || route.activeProductSlug)
+  })
+  const [catalogueLoaded, setCatalogueLoaded] = useState(false)
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
@@ -105,6 +115,7 @@ export default function App() {
   const [, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
 
   // Persist the customer's cart between visits on this browser/device.
@@ -127,10 +138,10 @@ export default function App() {
     const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
-    const isMissingDynamicRoute = !loadingProducts && (
-      ((path.startsWith('/product/') || path.startsWith('/products/')) && Boolean(activeProductSlug) && !currentProduct) ||
-      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && Boolean(activeServiceSlug) && !currentService) ||
-      (path.startsWith('/category/') && Boolean(activeCategorySlug) && !currentCategory)
+    const isMissingDynamicRoute = (
+      ((path.startsWith('/product/') || path.startsWith('/products/')) && !loadingProducts && Boolean(activeProductSlug) && !currentProduct) ||
+      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServices && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
       path !== '/contacts' && path !== '/about' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
@@ -163,7 +174,7 @@ export default function App() {
         language,
       })
     }
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts])
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts, loadingCategories, loadingServices])
 
   // Keep browser back/forward navigation in sync with the route resolved on initial render.
   useEffect(() => {
@@ -487,6 +498,223 @@ export default function App() {
   // Очистка корзины
   const handleClearCart = () => setCart([])
 
+  // Header has its own compact data requests. Neither page data nor route rendering waits for them.
+  useEffect(() => {
+    let cancelled = false
+
+    const headerCategoryQuery = `
+      *[_type == "category"] | order(sortOrder asc, name asc) {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, "parentId": parent->_id, "isPlantCategory": false
+      }
+    `
+    const headerPlantCategoryQuery = `
+      *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, "parentId": parent->_id, "isPlantCategory": true
+      }
+    `
+    const headerServiceQuery = `
+      *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, serviceCategory, serviceLayout
+      }
+    `
+    const headerSettingsQuery = `*[_type == "siteSettings"][0] { siteName }`
+    const headerLogoQuery = `
+      *[_type == "photo" && coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"][0] {
+        title, titleEn, titleRu,
+        "logoUrl": image.asset->url,
+        "logoAlt": image.alt, "logoAltEn": image.altEn, "logoAltRu": image.altRu,
+        "logoAssetTitle": image.asset->title, "logoAssetAltText": image.asset->altText,
+        "logoWidth": image.asset->metadata.dimensions.width,
+        "logoHeight": image.asset->metadata.dimensions.height
+      }
+    `
+
+    sanityClient.fetch(headerCategoryQuery)
+      .then((data) => { if (!cancelled) setHeaderCategories(Array.isArray(data) ? data : []) })
+      .catch((error) => console.error('Header: не удалось загрузить категории оборудования:', error))
+    publicPlantsClient.fetch(headerPlantCategoryQuery)
+      .then((data) => { if (!cancelled) setHeaderPlantCategories(Array.isArray(data) ? data : []) })
+      .catch((error) => console.error('Header: не удалось загрузить категории растений:', error))
+    sanityClient.fetch(headerServiceQuery)
+      .then((data) => { if (!cancelled) setHeaderServices(Array.isArray(data) ? data : []) })
+      .catch((error) => console.error('Header: не удалось загрузить пункты услуг:', error))
+    sanityClient.fetch(headerSettingsQuery)
+      .then((data) => { if (!cancelled) setHeaderSiteSettings((previous) => ({ ...(previous || {}), ...(data || {}) })) })
+      .catch((error) => console.error('Header: не удалось загрузить название сайта:', error))
+    sanityClient.fetch(headerLogoQuery)
+      .then((data) => {
+        if (cancelled) return
+        setHeaderSiteSettings((previous) => ({
+          ...(previous || {}),
+          logoUrl: data?.logoUrl || null,
+          logoAlt: data?.logoAlt || null,
+          logoAltEn: data?.logoAltEn || null,
+          logoAltRu: data?.logoAltRu || null,
+          logoAssetTitle: data?.logoAssetTitle || null,
+          logoAssetAltText: data?.logoAssetAltText || null,
+          logoTitle: data?.title || null,
+          logoTitleEn: data?.titleEn || null,
+          logoTitleRu: data?.titleRu || null,
+          logoWidth: data?.logoWidth || null,
+          logoHeight: data?.logoHeight || null,
+        }))
+      })
+      .catch((error) => console.error('Header: не удалось загрузить логотип:', error))
+
+    return () => { cancelled = true }
+  }, [])
+
+  // The six homepage plant cards are requested only while the homepage is active.
+  // This is intentionally separate from the complete category index used by catalogue routes.
+  useEffect(() => {
+    let cancelled = false
+    if (normalizedRoutePath !== '/' && normalizedRoutePath !== '/index.html') {
+      return () => { cancelled = true }
+    }
+
+    const homepagePlantCategoriesQuery = `
+      *[_type == "category" && _id in [
+        "plants-root", "plants-palms", "plants-olives",
+        "plants-trees-shrubs", "plants-citrus", "plants-flowers"
+      ]] {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, "parentId": parent->_id,
+        "imageUrl": coalesce(image.asset->url, externalImageUrl),
+        "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+        "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+        "isPlantCategory": true
+      }
+    `
+
+    publicPlantsClient.fetch(homepagePlantCategoriesQuery)
+      .then((data) => { if (!cancelled) setHomePlantCategories(Array.isArray(data) ? data : []) })
+      .catch((error) => console.error('Homepage: не удалось загрузить категории растений:', error))
+
+    return () => { cancelled = true }
+  }, [normalizedRoutePath])
+
+  // The full catalogue index is fetched only for product/category routes.
+  // Home, service, about, contact, cart, blog and search pages do not wait for it.
+  useEffect(() => {
+    let cancelled = false
+    if (!needsCatalogue || catalogueLoaded) {
+      if (!needsCatalogue) setLoadingProducts(false)
+      return () => { cancelled = true }
+    }
+
+    setLoadingProducts(true)
+    const productQuery = `
+      *[
+        _type == "product" &&
+        isActive != false &&
+        defined(slug)
+      ] {
+        _id,
+        name,
+        translations {
+          bg { name, shortDescription },
+          ru { name, shortDescription },
+          en { name, shortDescription }
+        },
+        "productType": "equipment",
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku,
+        "brand": brand->name,
+        priceEUR,
+        oldPriceEUR,
+        stockStatus,
+        stockQuantity,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        shortDescription,
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]-> {
+          _id,
+          name,
+          translations { bg { name }, ru { name }, en { name } },
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        }
+      }
+    `
+
+    const plantProductQuery = `
+      *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
+        _id,
+        name,
+        translations {
+          bg { name, shortDescription },
+          ru { name, shortDescription },
+          en { name, shortDescription }
+        },
+        productType,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku,
+        priceEUR,
+        oldPriceEUR,
+        stockStatus,
+        stockQuantity,
+        saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
+        shortDescription,
+        scientificName,
+        plantCare { light, waterNeeds, minWinterTempC, blackSeaCoast },
+        "mainImageUrl": mainImage.asset->url,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+        "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
+        "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]-> {
+          _id,
+          name,
+          translations { bg { name }, ru { name }, en { name } },
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        }
+      }
+    `
+
+
+    Promise.allSettled([
+      sanityLiveClient.fetch(productQuery),
+      plantsClient.fetch(plantProductQuery),
+    ]).then(([productResult, plantProductResult]) => {
+      if (cancelled) return
+      const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
+      const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
+      setProducts([...equipmentProducts, ...plantProductData])
+      if (productResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
+      if (plantProductResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
+    }).finally(() => {
+      if (!cancelled) {
+        setLoadingProducts(false)
+        setCatalogueLoaded(true)
+      }
+    })
+
+    return () => { cancelled = true }
+  }, [needsCatalogue, catalogueLoaded])
+
+  // Page data is loaded independently from the Header. Product, category and service
+  // readiness are tracked separately so unrelated routes do not wait for the catalogue.
   // Первоначальная загрузка данных из Sanity.
   // Каждый раздел загружается независимо: ошибка одного запроса не должна
   // блокировать категории, услуги, настройки сайта или логотип.
@@ -502,6 +730,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "parentId": parent->_id,
+          "productCount": count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),
           "imageUrl": image.asset->url,
           "imageAlt": image.alt,
           "imageAltEn": image.altEn,
@@ -513,47 +742,6 @@ export default function App() {
         }
       `
 
-      const productQuery = `
-        *[
-          _type == "product" &&
-          isActive != false &&
-          defined(slug)
-        ] {
-          _id,
-          name,
-          translations {
-            bg { name, shortDescription },
-            ru { name, shortDescription },
-            en { name, shortDescription }
-          },
-          "productType": "equipment",
-          "slug": { "current": coalesce(slug.current, slug) },
-          sku,
-          "brand": brand->name,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          stockQuantity,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
-          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
-          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          shortDescription,
-          "category": category->name,
-          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
-          "categoryId": category->_id,
-          "categorySlug": coalesce(category->slug.current, category->slug),
-          "categoryParentId": category->parent->_id,
-          "categories": categories[]-> {
-            _id,
-            name,
-            translations { bg { name }, ru { name }, en { name } },
-            "slug": { "current": coalesce(slug.current, slug) },
-            "parentId": parent->_id
-          }
-        }
-      `
-
       const plantCategoryQuery = `
         *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
           _id,
@@ -562,6 +750,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "parentId": parent->_id,
+          "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
           "imageUrl": coalesce(image.asset->url, externalImageUrl),
           "imageAlt": image.alt,
           "imageAltEn": image.altEn,
@@ -570,47 +759,6 @@ export default function App() {
           "imageTitleEn": image.titleEn,
           "imageTitleRu": image.titleRu,
           "isPlantCategory": true
-        }
-      `
-
-      const plantProductQuery = `
-        *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
-          _id,
-          name,
-          translations {
-            bg { name, shortDescription },
-            ru { name, shortDescription },
-            en { name, shortDescription }
-          },
-          productType,
-          "slug": { "current": coalesce(slug.current, slug) },
-          sku,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          stockQuantity,
-          saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
-          shortDescription,
-          scientificName,
-          plantCare { light, waterNeeds, minWinterTempC, blackSeaCoast },
-          "mainImageUrl": mainImage.asset->url,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
-          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
-          "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
-          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
-          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          "category": category->name,
-          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
-          "categoryId": category->_id,
-          "categorySlug": coalesce(category->slug.current, category->slug),
-          "categoryParentId": category->parent->_id,
-          "categories": categories[]-> {
-            _id,
-            name,
-            translations { bg { name }, ru { name }, en { name } },
-            "slug": { "current": coalesce(slug.current, slug) },
-            "parentId": parent->_id
-          }
         }
       `
 
@@ -667,113 +815,40 @@ export default function App() {
         }
       `
 
-      const logoQuery = `
-        *[
-          _type == "photo" &&
-          coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"
-        ][0] {
-          _id,
-          title,
-          titleEn,
-          titleRu,
-          slug,
-          seoDescription,
-          "logoUrl": image.asset->url,
-          "logoAlt": image.alt,
-          "logoAltEn": image.altEn,
-          "logoAltRu": image.altRu,
-          "logoAssetTitle": image.asset->title,
-          "logoAssetAltText": image.asset->altText,
-          "logoWidth": image.asset->metadata.dimensions.width,
-          "logoHeight": image.asset->metadata.dimensions.height
-        }
-      `
-
-      const requests = await Promise.allSettled([
+      const categoryPromise = Promise.allSettled([
         sanityClient.fetch(categoryQuery),
-        sanityLiveClient.fetch(productQuery),
-        sanityClient.fetch(serviceQuery),
-        sanityClient.fetch(serviceRolePhotosQuery),
         publicPlantsClient.fetch(plantCategoryQuery),
-        plantsClient.fetch(plantProductQuery),
-        Promise.all([
-          sanityClient.fetch(settingsQuery),
-          sanityClient.fetch(logoQuery),
-        ]),
+      ]).then(([categoryResult, plantCategoryResult]) => {
+        if (cancelled) return
+        const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
+        const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
+        setCategories([...equipmentCategories, ...plantsCategoryData])
+        if (categoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
+        if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
+      }).finally(() => { if (!cancelled) setLoadingCategories(false) })
+
+      const servicePromise = sanityClient.fetch(serviceQuery)
+        .then((data) => { if (!cancelled) setServices(Array.isArray(data) ? data : []) })
+        .catch((error) => console.error('Sanity: не удалось загрузить услуги:', error))
+        .finally(() => { if (!cancelled) setLoadingServices(false) })
+
+      const serviceRolePhotosPromise = sanityClient.fetch(serviceRolePhotosQuery)
+        .then((data) => { if (!cancelled) setServiceRolePhotos(Array.isArray(data) ? data : []) })
+        .catch((error) => console.error('Sanity: не удалось загрузить фотографии направлений услуг:', error))
+
+      const settingsPromise = sanityClient.fetch(settingsQuery)
+        .then((data) => { if (!cancelled) setSiteSettings(data || null) })
+        .catch((error) => console.error('Sanity: не удалось загрузить настройки сайта:', error))
+
+      await Promise.allSettled([
+        categoryPromise,
+        servicePromise,
+        serviceRolePhotosPromise,
+        settingsPromise,
       ])
-
-      if (cancelled) return
-
-      const [categoryResult, productResult, serviceResult, serviceRolePhotosResult, plantCategoryResult, plantProductResult, settingsResult] = requests
-
-      const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
-      const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
-      setPlantCategories(plantsCategoryData)
-      setCategories([...equipmentCategories, ...plantsCategoryData])
-
-      if (categoryResult.status !== 'fulfilled') {
-        console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
-      }
-      if (plantCategoryResult.status !== 'fulfilled') {
-        console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
-      }
-
-      const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
-      const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
-
-      // Keep the global product state limited to fields needed by category cards,
-      // category filters and navigation. Full product records are fetched on demand.
-      setProducts([...equipmentProducts, ...plantProductData])
-
-      if (productResult.status !== 'fulfilled') {
-        console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
-      }
-      if (plantProductResult.status !== 'fulfilled') {
-        console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
-      }
-
-      if (serviceResult.status === 'fulfilled') {
-        setServices(Array.isArray(serviceResult.value) ? serviceResult.value : [])
-      } else {
-        console.error('Sanity: не удалось загрузить услуги:', serviceResult.reason)
-      }
-
-      if (serviceRolePhotosResult.status === 'fulfilled') {
-        setServiceRolePhotos(Array.isArray(serviceRolePhotosResult.value) ? serviceRolePhotosResult.value : [])
-      } else {
-        console.error('Sanity: не удалось загрузить фотографии направлений услуг:', serviceRolePhotosResult.reason)
-      }
-
-      if (settingsResult.status === 'fulfilled') {
-        const [settData, logoData] = settingsResult.value
-        setSiteSettings({
-          ...(settData || {}),
-          logoUrl: logoData?.logoUrl || null,
-          logoAlt: logoData?.logoAlt || null,
-          logoAltEn: logoData?.logoAltEn || null,
-          logoAltRu: logoData?.logoAltRu || null,
-          logoAssetTitle: logoData?.logoAssetTitle || null,
-          logoAssetAltText: logoData?.logoAssetAltText || null,
-          logoTitle: logoData?.title || null,
-          logoTitleEn: logoData?.titleEn || null,
-          logoTitleRu: logoData?.titleRu || null,
-          logoWidth: logoData?.logoWidth || null,
-          logoHeight: logoData?.logoHeight || null,
-        })
-        console.log('Florial: настройки и логотип загружены', {
-          settingsFound: Boolean(settData),
-          logoFound: Boolean(logoData?.logoUrl),
-        })
-      } else {
-        console.error('Sanity: не удалось загрузить настройки или логотип:', settingsResult.reason)
-      }
     }
 
-    fetchData()
-      .catch((err) => console.error('Ошибка загрузки данных Florial:', err))
-      .finally(() => {
-        if (!cancelled) setLoadingProducts(false)
-      })
+    fetchData().catch((err) => console.error('Ошибка загрузки данных Florial:', err))
 
     return () => {
       cancelled = true
@@ -948,11 +1023,6 @@ export default function App() {
       return () => { cancelled = true }
     }
 
-    if (loadingProducts) {
-      setLoadingSearchResults(true)
-      return () => { cancelled = true }
-    }
-
     setLoadingSearchResults(true)
     setSearchProducts([])
 
@@ -1031,7 +1101,7 @@ export default function App() {
       })
 
     return () => { cancelled = true }
-  }, [activeSearchQuery, loadingProducts])
+  }, [activeSearchQuery])
 
   const searchedProducts = useMemo(() => {
     const query = (activeSearchQuery || '').toLocaleLowerCase('bg').trim()
@@ -1074,7 +1144,7 @@ export default function App() {
   useEffect(() => {
     let cancelled = false
 
-    if (!activeServiceSlug || loadingProducts || !currentService || currentService.serviceLayout === 'delivery') {
+    if (!activeServiceSlug || loadingServices || !currentService || currentService.serviceLayout === 'delivery') {
       setCurrentServiceDetails(null)
       setLoadingServiceDetails(false)
       return () => { cancelled = true }
@@ -1158,7 +1228,7 @@ export default function App() {
       })
 
     return () => { cancelled = true }
-  }, [activeServiceSlug, loadingProducts, currentService])
+  }, [activeServiceSlug, loadingServices, currentService])
 
   const currentCategory = categories.find(
     (category) =>
@@ -1177,7 +1247,7 @@ export default function App() {
       return () => { cancelled = true }
     }
 
-    if (loadingProducts) {
+    if (loadingCategories) {
       setLoadingCategoryDetails(true)
       return () => { cancelled = true }
     }
@@ -1244,9 +1314,9 @@ export default function App() {
       })
 
     return () => { cancelled = true }
-  }, [activeCategorySlug, loadingProducts, currentCategory])
+  }, [activeCategorySlug, loadingCategories, currentCategory])
 
-  const isNotFoundRoute = !loadingProducts && (
+  const isNotFoundRoute = (
     (
       normalizedRoutePath !== '/' &&
       normalizedRoutePath !== '/index.html' &&
@@ -1262,10 +1332,11 @@ export default function App() {
       !normalizedRoutePath.startsWith('/services/') &&
       !normalizedRoutePath.startsWith('/category/')
     ) ||
-    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !currentService) ||
-    (normalizedRoutePath.startsWith('/category/') && !currentCategory) ||
+    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServices && !currentService) ||
+    (normalizedRoutePath.startsWith('/category/') && !loadingCategories && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
+      !loadingProducts &&
       !loadingProductDetails &&
       !currentProduct
     )
@@ -1311,36 +1382,31 @@ export default function App() {
 
   // Не показываем в навигации пустые категории; документы Sanity при этом не удаляются.
   const visibleCategories = useMemo(() => {
-    // Keep a category visible when it or any descendant contains a product.
+    // Sanity returns direct product counts; keep each populated category and its ancestors.
     const byId = new Map(categories.map((item) => [item._id, item]))
     const visibleIds = new Set<string>()
-    products.forEach((product) => {
-      const assignedIds = [
-        product.categoryId,
-        ...(product.categories || []).map((item: any) => item?._id),
-      ].filter((id): id is string => Boolean(id))
-      assignedIds.forEach((id) => {
-        let current = byId.get(id)
-        const visited = new Set<string>()
-        while (current && !visited.has(current._id)) {
-          visited.add(current._id)
-          visibleIds.add(current._id)
-          current = current.parentId ? byId.get(current.parentId) : undefined
-        }
-      })
+    categories.forEach((category) => {
+      if ((category.productCount || 0) <= 0) return
+      let current: CategoryItem | undefined = category
+      const visited = new Set<string>()
+      while (current && !visited.has(current._id)) {
+        visited.add(current._id)
+        visibleIds.add(current._id)
+        current = current.parentId ? byId.get(current.parentId) : undefined
+      }
     })
     return categories.filter((category) =>
       category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
     )
-  }, [categories, products])
+  }, [categories])
 
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
-        services={services}
-        categories={categories.filter((category) => !category._id.startsWith('plants-') && category.slug?.current !== 'electromagnetic-valves')}
-        plantCategories={plantCategories}
+        services={headerServices}
+        categories={headerCategories.filter((category) => !category._id.startsWith('plants-') && category.slug?.current !== 'electromagnetic-valves')}
+        plantCategories={headerPlantCategories}
         cart={cart}
         onNavigateHome={navigateToHome}
         onNavigateService={navigateToService}
@@ -1348,7 +1414,7 @@ export default function App() {
         onNavigateContacts={navigateToContacts}
         onNavigateCart={navigateToCart}
         onSearch={navigateToSearch}
-        siteSettings={siteSettings}
+        siteSettings={headerSiteSettings}
       />
 
       <React.Suspense fallback={
@@ -1392,7 +1458,7 @@ export default function App() {
             {t('Търсене:')} „{activeSearchQuery}“
           </p>
 
-          {loadingProducts || loadingSearchResults ? (
+          {loadingSearchResults ? (
             <p className="py-12 text-slate-500">{t('Зареждане на продуктите...')}</p>
           ) : !activeSearchQuery ? (
             <p className="py-12 text-slate-600">
@@ -1481,7 +1547,7 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} rolePhotos={serviceRolePhotos} />
-      ) : activeServiceSlug && (loadingProducts || loadingServiceDetails) ? (
+      ) : activeServiceSlug && (loadingServices || loadingServiceDetails) ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
@@ -1492,6 +1558,7 @@ export default function App() {
         />
       ) : activeCategorySlug && (
         loadingProducts ||
+        loadingCategories ||
         loadingCategoryDetails ||
         Boolean(currentCategory && currentCategoryDetails?._id !== currentCategory._id)
       ) ? (
@@ -1552,15 +1619,10 @@ export default function App() {
         <HomePage
           services={services}
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
-          plantCategories={plantCategories}
-          products={products}
+          plantCategories={homePlantCategories}
           siteSettings={siteSettings}
-          loadingProducts={loadingProducts}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
-          onSelectProduct={(product) =>
-            navigateToProduct(product.slug?.current || product._id)
-          }
         />
         )}
       </React.Suspense>
