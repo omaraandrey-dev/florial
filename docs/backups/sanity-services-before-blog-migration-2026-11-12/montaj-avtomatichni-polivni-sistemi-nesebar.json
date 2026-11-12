@@ -1,0 +1,530 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-29T04:21:46Z",
+    "_id": "7ead4133-8f63-4381-bafe-493499fff5b8",
+    "_rev": "9Jlb6k9xfgGTkBekNDWvEm",
+    "_system": {
+      "base": {
+        "id": "7ead4133-8f63-4381-bafe-493499fff5b8",
+        "rev": "crBDISSd19VdkNCnEbS30O"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-08T04:00:17Z",
+    "contentBlocks": [
+      {
+        "_key": "dropimg01",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Изкопаване на траншеи за автоматична поливна система",
+          "altEn": "Trench excavation for an automatic irrigation system",
+          "altRu": "Копка траншей для системы автоматического полива",
+          "asset": {
+            "_ref": "image-ac76fed32d7cbd1fc181f0b5dec228f5e8c0f90e-1280x960-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:intro"
+      },
+      {
+        "_key": "dropimg02",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Полагане на тръбопровод за поливане",
+          "altEn": "Laying irrigation pipework",
+          "altRu": "Прокладка трубопровода для полива",
+          "asset": {
+            "_ref": "image-ceb53efec225b9880b972e5ab90b02acd12d0317-720x1280-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:intro"
+      },
+      {
+        "_key": "dropimg03",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Оборудване за автоматично напояване",
+          "altEn": "Automatic irrigation equipment",
+          "altRu": "Оборудование для автоматического полива",
+          "asset": {
+            "_ref": "image-848b64b0d0ac3439157cc7bebb59de4c4409be1e-800x600-gif",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:intro"
+      },
+      {
+        "_key": "dropimg04",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Автоматика за управление на поливането",
+          "altEn": "Irrigation control automation",
+          "altRu": "Автоматика управления поливом",
+          "asset": {
+            "_ref": "image-4f225c77574cbcd8ed4c840e0abbda1deeae05dc-450x800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:intro"
+      },
+      {
+        "_key": "dropimg05",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Изкопаване на траншеи за поливна система",
+          "altEn": "Trench excavation for an irrigation system",
+          "altRu": "Копка траншей для системы полива",
+          "asset": {
+            "_ref": "image-195405c49c97795abb0adba576120bfb2baebb24-1800x1350-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:trenches"
+      },
+      {
+        "_key": "dropimg06",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Траншеекопач подготвя трасето за тръбопровод",
+          "altEn": "Trencher preparing the irrigation pipe route",
+          "altRu": "Траншеекопатель подготавливает трассу трубопровода",
+          "asset": {
+            "_ref": "image-a1d34896d54a3b9a7282576685f565670e99f886-1600x1200-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:trenches"
+      },
+      {
+        "_key": "dropimg07",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Траншеекопач Laski TR-50 при монтаж на поливна система",
+          "altEn": "Laski TR-50 trencher during irrigation installation",
+          "altRu": "Траншеекопатель Laski TR-50 при монтаже системы полива",
+          "asset": {
+            "_ref": "image-55104d6a97eb10c9c68940a6c8f3c87c632b362e-600x800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:trenches"
+      },
+      {
+        "_key": "dropimg08",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Монтаж на тръби за автоматично напояване",
+          "altEn": "Installation of automatic irrigation pipes",
+          "altRu": "Монтаж труб для автоматического полива",
+          "asset": {
+            "_ref": "image-1b8f300dbb9b93fc04405d019b36201f7601ff05-1350x1800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:pipeline"
+      },
+      {
+        "_key": "dropimg09",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Полагане на тръбопровод за автоматична поливна система",
+          "altEn": "Laying pipework for an automatic irrigation system",
+          "altRu": "Прокладка трубопровода автоматической системы полива",
+          "asset": {
+            "_ref": "image-bab1c4f19c432e0b75a0d948e632aebd0132047d-1350x1800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:pipeline"
+      },
+      {
+        "_key": "dropimg10",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Монтаж на разпръсквач за автоматична поливна система",
+          "altEn": "Installing a sprinkler for an automatic irrigation system",
+          "altRu": "Установка дождевателя автоматической системы полива",
+          "asset": {
+            "_ref": "image-51b3bf42ac9e419837089113bd9dce795b1f125f-1350x1800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:equipment"
+      },
+      {
+        "_key": "dropimg11",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Монтаж на напоителни дюзи",
+          "altEn": "Installing irrigation nozzles",
+          "altRu": "Установка поливочных форсунок",
+          "asset": {
+            "_ref": "image-cc3f4b4b89c15f79ec26d09fb2abead86a0a664d-1350x1800-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:equipment"
+      },
+      {
+        "_key": "dropimg12",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Автоматика за управление на поливането",
+          "altEn": "Irrigation control automation",
+          "altRu": "Автоматика управления поливом",
+          "asset": {
+            "_ref": "image-5929135e9b96beba460890d9e0cf9407eebf5af2-369x372-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:automation"
+      },
+      {
+        "_key": "dropimg13",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Контролер за поливане Rain Bird ESP-RZX",
+          "altEn": "Rain Bird ESP-RZX irrigation controller",
+          "altRu": "Контроллер полива Rain Bird ESP-RZX",
+          "asset": {
+            "_ref": "image-34afec448dac2bea5f23658a142f4f4b51b8910b-120x120-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:automation"
+      },
+      {
+        "_key": "dropimg14",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Контролер за поливане Rain Bird ESP-TM2",
+          "altEn": "Rain Bird ESP-TM2 irrigation controller",
+          "altRu": "Контроллер полива Rain Bird ESP-TM2",
+          "asset": {
+            "_ref": "image-004fc67bb2ae689a5350f955afce3f57e2fd0bd8-507x525-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:automation"
+      }
+    ],
+    "description": [
+      {
+        "_key": "intro1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s1",
+            "_type": "span",
+            "text": "Садовият център Florial предлага професионален монтаж на автоматични поливни системи в Несебър и околните населени места. Изграждаме решения според площта, растителността, водоизточника и особеностите на терена — от малки частни градини до тревни площи и озеленяване около хотели и бизнес сгради."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "intro2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s2",
+            "_type": "span",
+            "text": "Правилно проектираната система разпределя водата равномерно, намалява ненужния разход и поддържа растенията в добро състояние. Автоматизацията позволява поливането да се извършва в подходящите часове и според нуждите на различните зони."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s3",
+            "_type": "span",
+            "text": "Какво включва монтажът на автоматична поливна система"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s4",
+            "_type": "span",
+            "text": "Работата започва с оглед и уточняване на изискванията. Проверяваме водоизточника, дебита и налягането, измерваме площите и определяме подходящото разположение на поливните зони. На тази основа подбираме оборудването и начина на управление."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s5",
+            "_type": "span",
+            "text": "Полагане на тръби и кабели"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s6",
+            "_type": "span",
+            "text": "Маркираме трасетата и подготвяме необходимите изкопи. Полагаме тръбопроводите, монтираме съединителите и разклоненията и прокарваме управляващите кабели, когато системата използва електромагнитни клапани. След монтажа проверяваме връзките и работното налягане преди окончателното възстановяване на терена."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s7",
+            "_type": "span",
+            "text": "Монтаж на разпръсквачи и капково напояване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s8",
+            "_type": "span",
+            "text": "За тревни площи подбираме роторни или статични разпръсквачи и подходящи дюзи според формата на терена и необходимия радиус. За живи плетове, цветни лехи, храсти и насаждения може да се използва капково напояване. Разположението се планира така, че зоните да получават подходящо количество вода с минимално припокриване и загуби."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s9",
+            "_type": "span",
+            "text": "Клапани, филтри и управление"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s10",
+            "_type": "span",
+            "text": "Монтираме клапанни групи, електромагнитни клапани, филтри и регулатори на налягането според избраната конфигурация. Контролерът управлява отделните зони по зададен график. При подходящо оборудване може да се предвиди Wi‑Fi управление и по-лесна промяна на програмите от телефон."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s11",
+            "_type": "span",
+            "text": "Настройка и пускане в експлоатация"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s12",
+            "_type": "span",
+            "text": "След монтажа тестваме всяка зона, проверяваме за течове, настройваме радиуса и сектора на разпръсквачите и програмираме контролера. Обясняваме на клиента основните настройки и препоръките за сезонна работа и поддръжка."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s13",
+            "_type": "span",
+            "text": "За кои обекти изграждаме системи"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s14",
+            "_type": "span",
+            "text": "• Частни дворове и домашни градини\n• Тревни площи и рулонен тревен чим\n• Цветни лехи, храсти, дървета и живи плетове\n• Градини към хотели, ваканционни имоти и комплекси\n• Озеленени площи около офиси и търговски обекти"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "h7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s15",
+            "_type": "span",
+            "text": "Защо да изберете Florial"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "p7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s16",
+            "_type": "span",
+            "text": "Подхождаме индивидуално към всеки обект и подбираме компонентите според реалните условия, а не по универсална схема. Съчетаваме поливната система с озеленяването, за да улесним грижата за градината и да осигурим удобна експлоатация. Работим в Несебър и района на Южното Черноморие."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "image": {
+      "_type": "image",
+      "alt": "Изкопаване на траншеи за монтаж на автоматична поливна система в Несебър",
+      "altEn": "Trench excavation for automatic irrigation installation in Nessebar",
+      "altRu": "Копка траншей для монтажа автоматического полива в Несебре",
+      "asset": {
+        "_ref": "image-ac76fed32d7cbd1fc181f0b5dec228f5e8c0f90e-1280x960-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "name": "Монтаж на автоматични поливни системи в Несебър",
+    "seo": {
+      "keywords": [
+        "монтаж на автоматични поливни системи Несебър",
+        "изграждане на поливна система",
+        "монтаж на разпръсквачи",
+        "капково напояване",
+        "автоматично напояване Несебър",
+        "поливни системи Бургас",
+        "градински център Florial"
+      ],
+      "metaDescription": "Професионален монтаж на автоматични поливни системи в Несебър, Равда, Слънчев бряг и Бургас. Тръбопроводи, разпръсквачи, капково напояване, контролери и настройка.",
+      "metaTitle": "Монтаж на автоматични поливни системи в Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Проектиране, монтаж и настройка на автоматични поливни системи за частни дворове, градини, тревни площи и търговски обекти в Несебър и района.",
+    "slug": {
+      "_type": "slug",
+      "current": "montaj-avtomatichni-polivni-sistemi-nesebar"
+    },
+    "sortOrder": 80,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/montajpoliva",
+    "translations": {
+      "en": {
+        "description": "Florial Garden Center provides professional installation of automatic irrigation systems in Nessebar and nearby communities. We design each solution around the area, plants, water source and site conditions—from small private gardens to lawns and landscaped grounds around hotels and commercial buildings.\n\nA properly designed system distributes water evenly, reduces unnecessary consumption and keeps plants healthy. Automation allows watering at suitable times and according to the needs of each irrigation zone.\n\nWhat is included in an automatic irrigation system installation\n\nWe begin with a site visit and a discussion of your requirements. We check the water source, flow rate and pressure, measure the areas, and plan the irrigation zones. Based on this assessment, we select suitable equipment and controls.\n\nPipe and cable installation\n\nWe mark the routes and prepare the necessary trenches. We lay the pipes, install connectors and branches, and run control cables when the system uses solenoid valves. After installation, we check the connections and operating pressure before restoring the ground.\n\nSprinkler and drip irrigation installation\n\nFor lawns, we select rotor or spray sprinklers and suitable nozzles according to the shape of the site and required range. Drip irrigation can be used for hedges, flower beds, shrubs and other plantings. We plan the layout so each zone receives the right amount of water with minimal overlap and waste.\n\nValves, filters and controls\n\nWe install valve groups, solenoid valves, filters and pressure regulators to suit the selected configuration. The controller runs each zone to a schedule. Where compatible equipment is used, Wi-Fi control can make it easier to adjust programmes from a phone.\n\nSystem setup and commissioning\n\nAfter installation, we test every zone, check for leaks, adjust sprinkler range and coverage, and programme the controller. We explain the basic settings and provide guidance on seasonal operation and maintenance.\n\nWhere we install irrigation systems\n\nPrivate yards and home gardens\nLawns and roll-out turf\nFlower beds, shrubs, trees and hedges\nGardens at hotels, holiday properties and resorts\nLandscaped areas around offices and commercial premises\n\nWhy choose Florial\n\nWe assess every property individually and select components for its actual conditions rather than relying on a one-size-fits-all plan. We coordinate irrigation with the landscaping to make garden care easier and the system convenient to use. We work in Nessebar and across the Southern Black Sea coast.",
+        "name": "Automatic Irrigation System Installation in Nessebar",
+        "seo": {
+          "keywords": [
+            "automatic irrigation installation Nessebar",
+            "irrigation system installation",
+            "sprinkler installation",
+            "drip irrigation",
+            "automatic watering Nessebar",
+            "irrigation systems Burgas",
+            "Florial Garden Centre"
+          ],
+          "metaDescription": "Professional automatic irrigation installation in Nessebar, Ravda, Sunny Beach and Burgas. Pipework, sprinklers, drip irrigation, controllers and system setup.",
+          "metaTitle": "Automatic Irrigation Installation in Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Design, installation and setup of automatic irrigation systems for private yards, gardens, lawns and commercial properties in Nessebar and nearby areas."
+      },
+      "ru": {
+        "description": "Садовый центр Florial профессионально устанавливает системы автоматического полива в Несебре и близлежащих населённых пунктах. Мы подбираем решение с учётом площади, растений, источника воды и особенностей участка — от небольших частных садов до газонов и озеленённых территорий при гостиницах и коммерческих зданиях.\n\nПравильно спроектированная система равномерно распределяет воду, сокращает её лишний расход и помогает поддерживать растения в хорошем состоянии. Автоматизация позволяет поливать в подходящее время и с учётом потребностей каждой зоны.\n\nЧто включает монтаж системы автоматического полива\n\nРабота начинается с осмотра участка и уточнения требований. Мы проверяем источник воды, расход и давление, измеряем площади и определяем расположение зон полива. На этой основе подбираем оборудование и способ управления.\n\nПрокладка труб и кабелей\n\nМы размечаем трассы и подготавливаем необходимые траншеи. Укладываем трубопроводы, устанавливаем соединители и ответвления, прокладываем управляющие кабели, если используются электромагнитные клапаны. После монтажа проверяем соединения и рабочее давление до окончательного восстановления участка.\n\nМонтаж дождевателей и капельного полива\n\nДля газонов мы подбираем роторные или статические дождеватели и форсунки с учётом формы участка и требуемого радиуса. Для живых изгородей, клумб, кустарников и других посадок можно использовать капельный полив. Размещение планируется так, чтобы каждая зона получала нужное количество воды при минимальном перекрытии и потерях.\n\nКлапаны, фильтры и управление\n\nВ зависимости от выбранной конфигурации мы устанавливаем группы клапанов, электромагнитные клапаны, фильтры и регуляторы давления. Контроллер управляет отдельными зонами по расписанию. При наличии совместимого оборудования можно предусмотреть управление по Wi-Fi и менять программы с телефона.\n\nНастройка и запуск системы\n\nПосле монтажа мы тестируем каждую зону, проверяем герметичность, настраиваем радиус и сектор дождевателей и программируем контроллер. Объясняем основные настройки и даём рекомендации по сезонной эксплуатации и обслуживанию.\n\nДля каких объектов мы устанавливаем системы\n\nЧастные дворы и домашние сады\nГазоны и рулонный газон\nКлумбы, кустарники, деревья и живые изгороди\nСады при гостиницах, объектах отдыха и курортных комплексах\nОзеленённые территории вокруг офисов и коммерческих объектов\n\nПочему выбирают Florial\n\nМы подходим к каждому объекту индивидуально и выбираем компоненты по реальным условиям, а не по универсальной схеме. Согласуем систему полива с озеленением, чтобы упростить уход за садом и сделать эксплуатацию удобной. Работаем в Несебре и на Южном Черноморском побережье.",
+        "name": "Монтаж систем автоматического полива в Несебре",
+        "seo": {
+          "keywords": [
+            "монтаж систем автоматического полива Несебр",
+            "установка системы полива",
+            "установка дождевателей",
+            "капельный полив",
+            "автоматический полив Несебр",
+            "системы полива Бургас",
+            "садовый центр Florial"
+          ],
+          "metaDescription": "Профессиональный монтаж систем автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе. Трубопроводы, дождеватели, капельный полив, контроллеры и настройка.",
+          "metaTitle": "Монтаж систем автоматического полива в Несебре | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Проектирование, монтаж и настройка систем автоматического полива для частных дворов, садов, газонов и коммерческих объектов в Несебре и окрестностях."
+      }
+    }
+  }
+}
