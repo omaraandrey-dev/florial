@@ -1,10 +1,14 @@
-## 2026-11-12 — Индикаторы наличия и зимней температуры на карточках растений (подготовка в отдельной ветке)
+## 2026-11-12 — Индикаторы наличия и зимней температуры на карточках растений (merged + Production deploy)
 
-- В ветке `feat/plant-card-stock-and-winter-indicators`, созданной от актуального main `84052cee404edd572448d0f58fa058889fe7b9df`, подготовлено изменение `src/pages/CategoryPage.tsx`.
+- PR #220 успешно объединён в `main` (squash merge commit `4ab09c5737b1d271042bdb64ffe658176f8e78cc`), ветка создана от main `84052cee404edd572448d0f58fa058889fe7b9df`. Изменение в `src/pages/CategoryPage.tsx`.
 - Индикатор наличия теперь предусматривает три состояния: `inStock` — зелёный, `onRequest` — синий, `outOfStock` — красный. Неизвестный/неуказанный статус по-прежнему не отображает точку.
 - Для карточек растений при числовом `plantCare.minWinterTempC` добавляется синяя снежинка и температура. Поле уже входит в существующую plant detail/category projection и тип `PlantCare`; Sanity schema и документы не менялись.
 - Изменение ограничено отображением карточек категории. Цены, наличие на сервере, варианты, корзина, checkout, Manager, Header, меню, Footer, D1 и Cloudflare settings не затрагиваются.
-- Коммит реализации: `d6f2f8cd12a080c1edab52005846341d133df5c2`. Документация и проверки в работе; CI/build и Production не подтверждены.
+- Коммит реализации: `d6f2f8cd12a080c1edab52005846341d133df5c2`; merge commit: `4ab09c5737b1d271042bdb64ffe658176f8e78cc`.
+- GitHub Actions для PR head `7151fc277f7fd88b6126d4dbf3761497bac248e7`: `Florial D1 migration validation` run `43156657696` и `Blog and Studio validation` run `43156657647` завершились `success`. Успешны website lint/build, utility tests, Pages Functions syntax, D1 migration validations, Sanity Studio build.
+- Cloudflare Pages Production deployment `be092504-d800-4007-832b-c5bb86690cb3` для commit `4ab09c5737b1d271042bdb64ffe658176f8e78cc` завершился `success` 12.11.2026; deployment URL `https://be092504.florial.pages.dev`. Домен привязан к проекту `florial`; deployment trigger — push в `main`.
+- Live browser visual QA карточек на мобильном и desktop отдельно не выполнялся; код/CI/Production deployment подтверждены, визуальное поведение требует просмотра сайта.
+
 - Отдельно отмечено наблюдение владельца о скачке изображения на мобильной странице категории. Текущий код скрывает заглавное изображение категории на ширине ниже Tailwind `lg`; существующий CLS-аудит после PR #156 зафиксировал остаточный сдвиг категории около 0.34385 без определённого source node. Совпадение с наблюдаемым изображением пока НЕ ПОДТВЕРЖДЕНО. Shared layout/App.tsx и Header/Footer не менялись; требуется отдельный controlled mobile capture.
 
 ---
