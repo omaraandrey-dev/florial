@@ -1,10 +1,716 @@
 {
-  "backupType": "Sanity published document snapshot",
+  "backupType": "Sanity published document restore snapshot",
   "projectId": "bxvcy0qs",
   "dataset": "production",
   "perspective": "published",
   "capturedAt": "2026-11-12",
   "document": {
-    "text": "Query executed successfully. Found 1 document: \n<documents>{\"_createdAt\":\"2026-11-12T06:24:00Z\",\"_id\":\"078495b7-168f-4b7d-8dbe-f723aeab0cc9\",\"_rev\":\"qvVg1luYRxJZnxaWi0mXAq\",\"_type\":\"service\",\"_updatedAt\":\"2026-11-12T06:30:32Z\",\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Изпрати запитване\",\"text\":\"Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.\",\"title\":\"Заявете услугата\"},\"contentBlocks\":[],\"description\":[{\"_key\":\"bg0\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg0s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтаж и настройка на програматори за автоматично напояване\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg1\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg1s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Florial предлага монтаж, първоначално програмиране, диагностика, настройка и подмяна на контролери за автоматични поливни системи. Работим с частни градини, хотели, ваканционни комплекси, жилищни сгради и търговски обекти по Южното Черноморие на България.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg2s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Ако новият програматор още не е свързан, ако старият е загубил настройките си или отделни зони не се включват, можем да проверим системата на място и да предложим подходящо решение. Целта е всяка поливна зона да работи по правилен график, съобразен с растенията, сезона и реалните условия на обекта.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg3\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg3s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтаж на нов компютър за поливане\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg4s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтажът започва с проверка на съществуващата система: брой поливни зони, тип електромагнитни клапани, захранване, управляващи кабели, датчици и място за контролера. Проверяваме дали избраният модел е съвместим с инсталацията — например дали системата използва стандартни клапани 24 V AC или автономно управление с батерии 9 V.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg5s\",\"_type\":\"span\",\"marks\":[],\"text\":\"След това монтираме контролера на подходящо място, свързваме зоните и необходимите датчици, проверяваме електрическите връзки и тестваме командите към клапаните. При Wi‑Fi модели съдействаме за първоначално свързване към мрежата и настройка на приложението, когато моделът и интернет връзката го позволяват.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg6\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg6s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Програмиране и настройка на графика за поливане\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg7\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg7s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Настройваме текущия час и дата, началните часове, дните за поливане и продължителността за всяка зона. Продължителността не се задава еднакво за целия двор: тревните площи, живите плетове, дърветата, цветните лехи и капковото напояване имат различни потребности.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg8\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg8s\",\"_type\":\"span\",\"marks\":[],\"text\":\"При настройката вземаме предвид вида на растенията, почвата, слънчевото изложение, наклона, дебита и налягането на водоизточника, както и сезона. Проверяваме дали зоните се изпълняват последователно, дали няма припокриване на програми и дали датчикът за дъжд или друга съвместима автоматика спира поливането, когато това е необходимо.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg9\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg9s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Настройка на съществуващ контролер\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg10\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg10s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Не винаги е необходима смяна на устройството. Ако програматорът работи, но графикът е неправилен, часовникът е объркан, поливането е прекалено често или някои зони са изключени, често е достатъчна професионална пренастройка. Можем да променим сезонните времена, да добавим или премахнем дни, да коригираме продължителността и да обясним на собственика как сам да прави основни промени.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg11\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg11s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Диагностика и ремонт на компютри за поливане\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg12\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg12s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Причината за проблем не винаги е самият контролер. Зона, която не се включва, може да е свързана с прекъснат кабел, дефектна бобина на клапан, проблем в захранването или повреда в управляващия изход. Ако поливането не спира, трябва да се проверят програмата, ръчният режим, клапанът и електрическата верига.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg13\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg13s\",\"_type\":\"span\",\"marks\":[],\"text\":\"При диагностиката проверяваме дисплея и захранването, състоянието на настройките, изходите към зоните, кабелните връзки, клапаните и датчиците. След установяване на причината обсъждаме възможностите: възстановяване на настройките, ремонт на връзка или компонент, или подмяна на контролера, когато ремонтът не е надежден или икономически оправдан.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg14\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg14s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Подмяна на стар програматор с нов\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg15\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg15s\",\"_type\":\"span\",\"marks\":[],\"text\":\"При подмяна първо установяваме как е изградена системата и какво трябва да се запази. Съобразяваме броя станции, типа клапани, захранването, вътрешния или външния монтаж, нуждата от Wi‑Fi управление и съвместимостта с датчиците. Не препоръчваме устройство само по броя бутони или по външния вид — важно е то да работи правилно с цялата инсталация.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg16\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg16s\",\"_type\":\"span\",\"marks\":[],\"text\":\"След монтажа прехвърляме или създаваме нов график, тестваме всяка зона и проверяваме работата на системата в автоматичен режим. Ако старият контролер е бил настроен за различни растения или променен двор, коригираме програмата според актуалното озеленяване.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg17\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg17s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Закупувате контролер от Florial? Поръчайте и монтаж\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg18\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg18s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Можете да изберете програматор от каталога на Florial и да заявите монтаж и настройка като допълнителна услуга. Така ще проверим предварително дали моделът е подходящ за броя зони, клапаните и условията на вашия обект. Предлагаме съдействие при избор на контролери Rain Bird, включително модели с Wi‑Fi и автономни контролери за батерии.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg19\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg19s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Разгледайте например Rain Bird ESP-RC2I8-230 с 8 зони и вграден Wi‑Fi, Rain Bird ESP-TM2 или автономните контролери от серията ESP-9V. Наличността и актуалните характеристики се проверяват в продуктовите страници.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg20\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg20s\",\"_type\":\"span\",\"marks\":[\"bg20m\"],\"text\":\"Rain Bird ESP-RC2I8-230 — контролер 8 зони с Wi‑Fi\"}],\"markDefs\":[{\"_key\":\"bg20m\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-esp-rc2i8-230\"}],\"style\":\"normal\"},{\"_key\":\"bg21\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg21s\",\"_type\":\"span\",\"marks\":[\"bg21m\"],\"text\":\"Rain Bird ESP-TM2-4-230 — контролер 4 зони\"}],\"markDefs\":[{\"_key\":\"bg21m\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-esp-tm2-4-230\"}],\"style\":\"normal\"},{\"_key\":\"bg22\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg22s\",\"_type\":\"span\",\"marks\":[\"bg22m\"],\"text\":\"Rain Bird ESP-9V-4 — автономен контролер 4 зони\"}],\"markDefs\":[{\"_key\":\"bg22m\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-esp-9v-4\"}],\"style\":\"normal\"},{\"_key\":\"bg23\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg23s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Обслужване на частни градини, хотели и комплекси\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg24\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg24s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Настройваме поливни контролери в частни дворове, жилищни комплекси, хотели, ресторанти, ваканционни имоти, паркове и търговски площи. При обекти с много зони можем да проверим логиката на програмите и да помогнем графикът да бъде съобразен с работното време, натоварването на водоизточника и различните видове насаждения.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg25\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg25s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Къде работи Florial\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg26\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg26s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Обслужваме Бургас и района, Несебър, Слънчев бряг, Свети Влас, Равда, Поморие, близките населени места, Ахелой, Сарафово, Кошарица, Каблешково и близките населени места. За обекти извън тези райони възможността за посещение се уточнява индивидуално.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg27\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg27s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Ако търсите монтаж на програматор за поливане в Бургас, настройка на Rain Bird в Несебър, ремонт на контролер на Слънчев бряг или смяна на компютър за автоматично напояване в Равда и Поморие, свържете се с Florial и опишете модела, броя зони и симптомите на проблема.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg28\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg28s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Как да заявите монтаж или диагностика\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg29\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg29s\",\"_type\":\"span\",\"marks\":[],\"text\":\"За по-точна първоначална оценка изпратете снимка на контролера и неговия модел, снимка на клапанния колектор, броя поливни зони и кратко описание на проблема. Посочете населеното място и дали става дума за нов монтаж, настройка, диагностика или подмяна. След уточняване на обекта ще обсъдим посещението, необходимите материали и цената на работата.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg30\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg30s\",\"_type\":\"span\",\"marks\":[\"bg30m\"],\"text\":\"Florial предлага и цялостно обслужване на системи за автоматично напояване — диагностика, ремонт, сезонен старт, настройки и профилактика. Вижте услугата за ремонт и поддръжка на поливни системи.\"}],\"markDefs\":[{\"_key\":\"bg30m\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/services/remont-i-poddrazhka\"}],\"style\":\"normal\"}],\"gallery\":[],\"hero\":{\"image\":{\"_type\":\"image\",\"alt\":\"Настройка и монтаж на контролери за автоматично напояване Равда\",\"altEn\":\"Automatic Irrigation Controller Installation, Setup and Replacement\",\"altRu\":\"Установка, настройка и замена компьютеров автоматического полива\",\"asset\":{\"_ref\":\"image-900bb99c38e050979c2538973801fcb9af37f123-1264x843-jpg\",\"_type\":\"reference\"}},\"subtitle\":\"Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.\",\"title\":\"Монтаж, настройка и подмяна на програматори за автоматично напояване\"},\"image\":{\"_type\":\"image\",\"alt\":\"Настройка и монтаж на контролери за автоматично напояване Равда\",\"altEn\":\"Automatic Irrigation Controller Installation, Setup and Replacement\",\"altRu\":\"Установка, настройка и замена компьютеров автоматического полива\",\"asset\":{\"_ref\":\"image-900bb99c38e050979c2538973801fcb9af37f123-1264x843-jpg\",\"_type\":\"reference\"}},\"isActive\":true,\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Име\",\"name\":\"name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Имейл\",\"name\":\"email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населено място\",\"name\":\"location\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание на проекта\",\"name\":\"details\",\"required\":false}],\"submitLabel\":\"Изпрати запитване\",\"title\":\"Запитване за услуга\"},\"name\":\"Монтаж, настройка и подмяна на програматори за автоматично напояване\",\"relatedContent\":[{\"_key\":\"qvVg1luYRxJZnxaWi0m5IO\",\"_ref\":\"04c7ab3b-1888-41cb-9917-6b9014cd1ac3\",\"_type\":\"reference\"}],\"seo\":{\"keywords\":[\"монтаж на програматор за поливане\",\"настройка на контролер за напояване\",\"ремонт на програматор\",\"смяна на компютър за поливане\",\"Rain Bird контролер\",\"Бургас\",\"Несебър\",\"Слънчев бряг\",\"Свети Влас\",\"Равда\",\"Поморие\",\"близките населени места\"],\"metaDescription\":\"Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.\",\"metaTitle\":\"Настройка на програматори за поливане | Несебър | Florial\",\"noIndex\":false},\"serviceCategory\":\"irrigation\",\"serviceLayout\":\"standard\",\"shortDescription\":\"Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.\",\"slug\":{\"_type\":\"slug\",\"current\":\"montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane\"},\"sortOrder\":110,\"sourcePageUrl\":\"https://florial-bg.com/blog/montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane\",\"steps\":[],\"translations\":{\"en\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Send enquiry\",\"text\":\"Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.\",\"title\":\"Request the service\"},\"description\":\"## Automatic Irrigation Controller Installation and Programming\\n\\nFlorial provides installation, initial programming, diagnostics, adjustment and replacement of automatic irrigation controllers. We work with private gardens, hotels, residential complexes, holiday properties and commercial landscapes along Bulgaria’s Southern Black Sea coast.\\n\\nWhether a new controller needs to be connected, an existing programme keeps resetting or individual irrigation zones fail to start, we can inspect the system on site and recommend a practical solution. Our goal is to make every zone run on a schedule suited to the plants, season and actual site conditions.\\n\\n## Installing a New Irrigation Controller\\n\\nBefore installation, we check the number of irrigation zones, solenoid valve type, power supply, control wiring, sensors and the proposed controller location. We confirm that the selected model is compatible with the system, including whether it uses standard 24 V AC valves or a battery-powered 9 V controller.\\n\\nWe then mount the controller, connect the zones and required sensors, inspect the electrical connections and test the commands to the valves. For Wi‑Fi models, we can assist with the initial network connection and app setup where supported by the controller and the site's internet connection.\\n\\n## Programming and Adjusting the Watering Schedule\\n\\nWe set the date and time, programme start times, watering days and run time for each zone. Run times should not be identical throughout the garden: lawns, hedges, trees, flower beds and drip irrigation have different watering requirements.\\n\\nSettings take account of plant types, soil, sun exposure, slope, water-source flow and pressure, and the season. We check that zones run in the correct sequence, programmes do not conflict and a rain sensor or other compatible automation responds as intended.\\n\\n## Adjusting an Existing Controller\\n\\nReplacing the controller is not always necessary. If the unit works but the schedule is incorrect, the clock is wrong, watering is too frequent or some zones have been disabled, professional reprogramming may be enough. We can adjust seasonal run times, watering days and start times, correct individual zones and explain the basic settings to the owner.\\n\\n## Irrigation Controller Diagnostics and Repair\\n\\nThe controller itself is not always the cause of a fault. A zone may fail to start because of damaged wiring, a faulty valve solenoid, a power-supply issue or a damaged control output. If watering does not stop, the programme, manual mode, valve and electrical circuit should be checked.\\n\\nDuring diagnostics, we inspect the display and power supply, saved settings, zone outputs, wiring, valves and sensors. Once the cause is identified, we discuss the options: restoring the programme, repairing a connection or component, or replacing the controller when repair would not be reliable or cost-effective.\\n\\n## Replacing an Old Controller\\n\\nBefore replacement, we identify the system configuration and what the new unit must support. We consider the number of stations, valve type, power supply, indoor or outdoor installation, Wi‑Fi requirements and sensor compatibility. A controller should be selected for compatibility with the complete irrigation system, not just its appearance or button count.\\n\\nAfter installation, we create or transfer the schedule, test every zone and check automatic operation. If the garden has changed or new planting and lawn areas have been added, we adjust the programme to match the current landscape.\\n\\n## Buying a Controller from Florial? Add Installation and Setup\\n\\nYou can choose an irrigation controller from the Florial catalogue and request installation and programming as an additional service. We can check in advance whether the model suits the number of zones, valves and conditions at your property. We help customers choose Rain Bird controllers, including Wi‑Fi models and battery-powered units.\\n\\nExamples in our catalogue include the Rain Bird ESP-RC2I8-230 with 8 zones and built-in Wi‑Fi, Rain Bird ESP-TM2 models and battery-powered ESP-9V controllers. Please check each product page for current specifications and availability.\\n\\nRain Bird ESP-RC2I8-230 — 8-zone Wi‑Fi controller\\n\\nRain Bird ESP-TM2-4-230 — 4-zone controller\\n\\nRain Bird ESP-9V-4 — 4-zone battery-powered controller\\n\\n## Service for Private Gardens, Hotels and Complexes\\n\\nWe programme irrigation controllers for private yards, residential complexes, hotels, restaurants, holiday properties, parks and commercial landscapes. For systems with many zones, we can review the programme logic and help align watering schedules with site operating hours, water-source capacity and different planting areas.\\n\\n## Florial Service Areas\\n\\nWe serve Burgas and the surrounding area, Nessebar, Sunny Beach, Sveti Vlas, Ravda, Pomorie, nearby areas, Aheloy, Sarafovo, Kosharitsa, Kableshkovo and nearby communities. Visits outside these areas can be discussed individually.\\n\\nIf you need irrigation controller installation in Burgas, Rain Bird programming in Nessebar, controller repair in Sunny Beach or replacement in Ravda and Pomorie, contact Florial. Please share the controller model, number of zones and a description of the symptoms.\\n\\n## How to Request Installation or Diagnostics\\n\\nFor an initial assessment, send a photo of the controller showing its model, a photo of the valve manifold, the number of zones and a short description of the issue. Tell us the town and whether you need a new installation, adjustment, diagnostics or replacement. We can then discuss the site visit, required materials and labour cost.\\n\\nFlorial also provides complete irrigation system maintenance, including diagnostics, repairs, seasonal start-up, adjustments and preventive service. Read more about our irrigation repair and maintenance service.\",\"hero\":{\"subtitle\":\"Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.\",\"title\":\"Automatic Irrigation Controller Installation, Setup and Replacement\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Name\",\"name\":\"name\",\"placeholder\":\"Name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Phone\",\"name\":\"phone\",\"placeholder\":\"Phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Email\",\"name\":\"email\",\"placeholder\":\"Email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Town / city\",\"name\":\"location\",\"placeholder\":\"Town / city\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Describe the work\",\"name\":\"details\",\"placeholder\":\"Describe the work\",\"required\":false}],\"submitLabel\":\"Send enquiry\",\"successMessage\":\"Thank you! Your enquiry has been sent. We will contact you.\",\"title\":\"Service enquiry\"},\"name\":\"Automatic Irrigation Controller Installation, Setup and Replacement\",\"seo\":{\"metaDescription\":\"Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.\",\"metaTitle\":\"Irrigation Controller Setup | Nessebar | Florial\",\"noIndex\":false},\"shortDescription\":\"Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.\",\"steps\":[]},\"ru\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Отправить запрос\",\"text\":\"Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.\",\"title\":\"Закажите услугу\"},\"description\":\"## Установка и настройка компьютеров автоматического полива\\n\\nFlorial выполняет монтаж, первичное программирование, диагностику, настройку и замену контроллеров автоматических систем полива. Работаем с частными садами, отелями, жилыми комплексами, курортными объектами и коммерческими территориями на Южном Черноморском побережье Болгарии.\\n\\nЕсли новый контроллер ещё не подключён, старый сбрасывает программу или отдельные зоны не запускаются, мы проверим систему на объекте и предложим подходящее решение. Наша задача — обеспечить правильную работу каждой зоны по графику, который учитывает растения, сезон и реальные условия участка.\\n\\n## Установка нового компьютера полива\\n\\nПеред монтажом проверяем количество зон, тип электромагнитных клапанов, питание, управляющие кабели, датчики и место установки. Уточняем совместимость выбранной модели с системой: например, используются ли стандартные клапаны 24 V AC или автономное управление от батарей 9 V.\\n\\nЗатем устанавливаем контроллер, подключаем зоны и необходимые датчики, проверяем электрические соединения и команды клапанам. Для Wi‑Fi моделей помогаем с первоначальным подключением к сети и настройкой приложения, если это поддерживается моделью и интернет-соединением на объекте.\\n\\n## Программирование и настройка расписания полива\\n\\nНастраиваем дату и время, время запуска программ, дни полива и продолжительность работы каждой зоны. Продолжительность не должна быть одинаковой для всего участка: газон, живые изгороди, деревья, цветники и капельный полив имеют разные потребности.\\n\\nУчитываем виды растений, тип почвы, солнечное освещение, уклон, расход и давление источника воды, а также сезон. Проверяем последовательность работы зон, отсутствие конфликтующих программ и корректное взаимодействие с датчиком дождя или другой совместимой автоматикой.\\n\\n## Перенастройка существующего контроллера\\n\\nНе всегда требуется менять устройство. Если контроллер исправен, но расписание сбилось, неправильно установлены часы, полив включается слишком часто или некоторые зоны отключены, может быть достаточно профессиональной перенастройки. Изменим сезонную продолжительность, дни и время полива, скорректируем отдельные зоны и объясним владельцу основные настройки.\\n\\n## Диагностика и ремонт компьютера автоматического полива\\n\\nПричина неисправности не всегда заключается в самом контроллере. Зона может не включаться из-за обрыва кабеля, неисправной катушки клапана, проблем с питанием или повреждения управляющего выхода. Если полив не прекращается, необходимо проверить программу, ручной режим, клапан и электрическую цепь.\\n\\nВо время диагностики проверяем дисплей и питание, сохранность настроек, выходы зон, кабельные соединения, клапаны и датчики. После определения причины предлагаем варианты: восстановление программы, ремонт соединения или компонента либо замена контроллера, если ремонт ненадёжен или экономически нецелесообразен.\\n\\n## Замена старого контроллера на новый\\n\\nПеред заменой выясняем конфигурацию системы и требования к новому устройству. Учитываем количество станций, тип клапанов, питание, внутренний или наружный монтаж, необходимость Wi‑Fi и совместимость с датчиками. Контроллер выбирается не только по количеству кнопок или внешнему виду — он должен подходить ко всей системе.\\n\\nПосле монтажа создаём или переносим расписание, тестируем каждую зону и проверяем работу в автоматическом режиме. Если сад изменился, появились новые посадки или газон, корректируем программу под актуальное озеленение.\\n\\n## Покупаете контроллер в Florial? Закажите установку и настройку\\n\\nВы можете выбрать компьютер полива в каталоге Florial и одновременно заказать монтаж и программирование. Мы заранее проверим, подходит ли модель по количеству зон, типу клапанов и условиям вашего объекта. Помогаем подобрать контроллеры Rain Bird, в том числе Wi‑Fi модели и автономные устройства на батарейках.\\n\\nНапример, в каталоге представлены Rain Bird ESP-RC2I8-230 с 8 зонами и встроенным Wi‑Fi, Rain Bird ESP-TM2 и автономные контроллеры серии ESP-9V. Актуальные характеристики и наличие указаны на страницах товаров.\\n\\nRain Bird ESP-RC2I8-230 — контроллер на 8 зон с Wi‑Fi\\n\\nRain Bird ESP-TM2-4-230 — контроллер на 4 зоны\\n\\nRain Bird ESP-9V-4 — автономный контроллер на 4 зоны\\n\\n## Обслуживание частных садов, отелей и комплексов\\n\\nНастраиваем контроллеры в частных дворах, жилых комплексах, отелях, ресторанах, курортных объектах, парках и коммерческих зонах. На объектах с большим количеством зон проверяем логику программ и помогаем составить расписание с учётом режима работы объекта, нагрузки на источник воды и различных типов растений.\\n\\n## География обслуживания Florial\\n\\nРаботаем в Бургасе и районе, Несебре, Солнечном Береге, Святом Власе, Равде, Поморие, ближайшие населённые пунктые, Ахелое, Сарафово, Кошарице, Каблешково и близлежащих населённых пунктах. Возможность выезда в другие районы уточняется индивидуально.\\n\\nЕсли вам нужна установка контроллера полива в Бургасе, настройка Rain Bird в Несебре, ремонт компьютера полива на Солнечном Береге или замена программатора в Равде и Поморие, обратитесь в Florial. Сообщите модель устройства, количество зон и признаки неисправности.\\n\\n## Как заказать установку или диагностику\\n\\nДля предварительной оценки отправьте фотографию контроллера с моделью, фотографию клапанного коллектора, количество зон и короткое описание проблемы. Укажите населённый пункт и вид работ: новый монтаж, настройка, диагностика или замена. После уточнения объекта согласуем выезд, необходимые материалы и стоимость работ.\\n\\nFlorial также выполняет комплексное обслуживание систем автоматического полива: диагностику, ремонт, сезонный запуск, настройку и профилактику. Подробнее — на странице услуги по ремонту и обслуживанию систем полива.\",\"hero\":{\"subtitle\":\"Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.\",\"title\":\"Установка, настройка и замена компьютеров автоматического полива\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Имя\",\"name\":\"name\",\"placeholder\":\"Имя\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"placeholder\":\"Телефон\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Электронная почта\",\"name\":\"email\",\"placeholder\":\"Электронная почта\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населённый пункт\",\"name\":\"location\",\"placeholder\":\"Населённый пункт\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание задачи\",\"name\":\"details\",\"placeholder\":\"Описание задачи\",\"required\":false}],\"submitLabel\":\"Отправить запрос\",\"successMessage\":\"Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.\",\"title\":\"Запрос услуги\"},\"name\":\"Установка, настройка и замена компьютеров автоматического полива\",\"seo\":{\"metaDescription\":\"Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.\",\"metaTitle\":\"Настройка контроллеров полива | Несебр | Florial\",\"noIndex\":false},\"shortDescription\":\"Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.\",\"steps\":[]}}}</documents>\n<count>1</count>\n<totalAvailable>1</totalAvailable>"
+    "_createdAt": "2026-11-12T06:24:00Z",
+    "_id": "078495b7-168f-4b7d-8dbe-f723aeab0cc9",
+    "_rev": "qvVg1luYRxJZnxaWi0mXAq",
+    "_type": "service",
+    "_updatedAt": "2026-11-12T06:30:32Z",
+    "advantages": [],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.",
+      "title": "Заявете услугата"
+    },
+    "contentBlocks": [],
+    "description": [
+      {
+        "_key": "bg0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтаж и настройка на програматори за автоматично напояване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial предлага монтаж, първоначално програмиране, диагностика, настройка и подмяна на контролери за автоматични поливни системи. Работим с частни градини, хотели, ваканционни комплекси, жилищни сгради и търговски обекти по Южното Черноморие на България."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ако новият програматор още не е свързан, ако старият е загубил настройките си или отделни зони не се включват, можем да проверим системата на място и да предложим подходящо решение. Целта е всяка поливна зона да работи по правилен график, съобразен с растенията, сезона и реалните условия на обекта."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтаж на нов компютър за поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтажът започва с проверка на съществуващата система: брой поливни зони, тип електромагнитни клапани, захранване, управляващи кабели, датчици и място за контролера. Проверяваме дали избраният модел е съвместим с инсталацията — например дали системата използва стандартни клапани 24 V AC или автономно управление с батерии 9 V."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg5s",
+            "_type": "span",
+            "marks": [],
+            "text": "След това монтираме контролера на подходящо място, свързваме зоните и необходимите датчици, проверяваме електрическите връзки и тестваме командите към клапаните. При Wi‑Fi модели съдействаме за първоначално свързване към мрежата и настройка на приложението, когато моделът и интернет връзката го позволяват."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Програмиране и настройка на графика за поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg7s",
+            "_type": "span",
+            "marks": [],
+            "text": "Настройваме текущия час и дата, началните часове, дните за поливане и продължителността за всяка зона. Продължителността не се задава еднакво за целия двор: тревните площи, живите плетове, дърветата, цветните лехи и капковото напояване имат различни потребности."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg8s",
+            "_type": "span",
+            "marks": [],
+            "text": "При настройката вземаме предвид вида на растенията, почвата, слънчевото изложение, наклона, дебита и налягането на водоизточника, както и сезона. Проверяваме дали зоните се изпълняват последователно, дали няма припокриване на програми и дали датчикът за дъжд или друга съвместима автоматика спира поливането, когато това е необходимо."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg9s",
+            "_type": "span",
+            "marks": [],
+            "text": "Настройка на съществуващ контролер"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg10s",
+            "_type": "span",
+            "marks": [],
+            "text": "Не винаги е необходима смяна на устройството. Ако програматорът работи, но графикът е неправилен, часовникът е объркан, поливането е прекалено често или някои зони са изключени, често е достатъчна професионална пренастройка. Можем да променим сезонните времена, да добавим или премахнем дни, да коригираме продължителността и да обясним на собственика как сам да прави основни промени."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg11s",
+            "_type": "span",
+            "marks": [],
+            "text": "Диагностика и ремонт на компютри за поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg12s",
+            "_type": "span",
+            "marks": [],
+            "text": "Причината за проблем не винаги е самият контролер. Зона, която не се включва, може да е свързана с прекъснат кабел, дефектна бобина на клапан, проблем в захранването или повреда в управляващия изход. Ако поливането не спира, трябва да се проверят програмата, ръчният режим, клапанът и електрическата верига."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg13s",
+            "_type": "span",
+            "marks": [],
+            "text": "При диагностиката проверяваме дисплея и захранването, състоянието на настройките, изходите към зоните, кабелните връзки, клапаните и датчиците. След установяване на причината обсъждаме възможностите: възстановяване на настройките, ремонт на връзка или компонент, или подмяна на контролера, когато ремонтът не е надежден или икономически оправдан."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg14s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подмяна на стар програматор с нов"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg15s",
+            "_type": "span",
+            "marks": [],
+            "text": "При подмяна първо установяваме как е изградена системата и какво трябва да се запази. Съобразяваме броя станции, типа клапани, захранването, вътрешния или външния монтаж, нуждата от Wi‑Fi управление и съвместимостта с датчиците. Не препоръчваме устройство само по броя бутони или по външния вид — важно е то да работи правилно с цялата инсталация."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg16s",
+            "_type": "span",
+            "marks": [],
+            "text": "След монтажа прехвърляме или създаваме нов график, тестваме всяка зона и проверяваме работата на системата в автоматичен режим. Ако старият контролер е бил настроен за различни растения или променен двор, коригираме програмата според актуалното озеленяване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg17s",
+            "_type": "span",
+            "marks": [],
+            "text": "Закупувате контролер от Florial? Поръчайте и монтаж"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg18s",
+            "_type": "span",
+            "marks": [],
+            "text": "Можете да изберете програматор от каталога на Florial и да заявите монтаж и настройка като допълнителна услуга. Така ще проверим предварително дали моделът е подходящ за броя зони, клапаните и условията на вашия обект. Предлагаме съдействие при избор на контролери Rain Bird, включително модели с Wi‑Fi и автономни контролери за батерии."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg19",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg19s",
+            "_type": "span",
+            "marks": [],
+            "text": "Разгледайте например Rain Bird ESP-RC2I8-230 с 8 зони и вграден Wi‑Fi, Rain Bird ESP-TM2 или автономните контролери от серията ESP-9V. Наличността и актуалните характеристики се проверяват в продуктовите страници."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg20s",
+            "_type": "span",
+            "marks": [
+              "bg20m"
+            ],
+            "text": "Rain Bird ESP-RC2I8-230 — контролер 8 зони с Wi‑Fi"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg20m",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-esp-rc2i8-230"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg21s",
+            "_type": "span",
+            "marks": [
+              "bg21m"
+            ],
+            "text": "Rain Bird ESP-TM2-4-230 — контролер 4 зони"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg21m",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-esp-tm2-4-230"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg22",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg22s",
+            "_type": "span",
+            "marks": [
+              "bg22m"
+            ],
+            "text": "Rain Bird ESP-9V-4 — автономен контролер 4 зони"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg22m",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-esp-9v-4"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg23",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg23s",
+            "_type": "span",
+            "marks": [],
+            "text": "Обслужване на частни градини, хотели и комплекси"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg24",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg24s",
+            "_type": "span",
+            "marks": [],
+            "text": "Настройваме поливни контролери в частни дворове, жилищни комплекси, хотели, ресторанти, ваканционни имоти, паркове и търговски площи. При обекти с много зони можем да проверим логиката на програмите и да помогнем графикът да бъде съобразен с работното време, натоварването на водоизточника и различните видове насаждения."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg25",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg25s",
+            "_type": "span",
+            "marks": [],
+            "text": "Къде работи Florial"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg26",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg26s",
+            "_type": "span",
+            "marks": [],
+            "text": "Обслужваме Бургас и района, Несебър, Слънчев бряг, Свети Влас, Равда, Поморие, близките населени места, Ахелой, Сарафово, Кошарица, Каблешково и близките населени места. За обекти извън тези райони възможността за посещение се уточнява индивидуално."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg27",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg27s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ако търсите монтаж на програматор за поливане в Бургас, настройка на Rain Bird в Несебър, ремонт на контролер на Слънчев бряг или смяна на компютър за автоматично напояване в Равда и Поморие, свържете се с Florial и опишете модела, броя зони и симптомите на проблема."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg28",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg28s",
+            "_type": "span",
+            "marks": [],
+            "text": "Как да заявите монтаж или диагностика"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg29",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg29s",
+            "_type": "span",
+            "marks": [],
+            "text": "За по-точна първоначална оценка изпратете снимка на контролера и неговия модел, снимка на клапанния колектор, броя поливни зони и кратко описание на проблема. Посочете населеното място и дали става дума за нов монтаж, настройка, диагностика или подмяна. След уточняване на обекта ще обсъдим посещението, необходимите материали и цената на работата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg30",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg30s",
+            "_type": "span",
+            "marks": [
+              "bg30m"
+            ],
+            "text": "Florial предлага и цялостно обслужване на системи за автоматично напояване — диагностика, ремонт, сезонен старт, настройки и профилактика. Вижте услугата за ремонт и поддръжка на поливни системи."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg30m",
+            "_type": "link",
+            "href": "https://florial-bg.com/services/remont-i-poddrazhka"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Настройка и монтаж на контролери за автоматично напояване Равда",
+        "altEn": "Automatic Irrigation Controller Installation, Setup and Replacement",
+        "altRu": "Установка, настройка и замена компьютеров автоматического полива",
+        "asset": {
+          "_ref": "image-900bb99c38e050979c2538973801fcb9af37f123-1264x843-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.",
+      "title": "Монтаж, настройка и подмяна на програматори за автоматично напояване"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Настройка и монтаж на контролери за автоматично напояване Равда",
+      "altEn": "Automatic Irrigation Controller Installation, Setup and Replacement",
+      "altRu": "Установка, настройка и замена компьютеров автоматического полива",
+      "asset": {
+        "_ref": "image-900bb99c38e050979c2538973801fcb9af37f123-1264x843-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Монтаж, настройка и подмяна на програматори за автоматично напояване",
+    "relatedContent": [
+      {
+        "_key": "qvVg1luYRxJZnxaWi0m5IO",
+        "_ref": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "монтаж на програматор за поливане",
+        "настройка на контролер за напояване",
+        "ремонт на програматор",
+        "смяна на компютър за поливане",
+        "Rain Bird контролер",
+        "Бургас",
+        "Несебър",
+        "Слънчев бряг",
+        "Свети Влас",
+        "Равда",
+        "Поморие",
+        "близките населени места"
+      ],
+      "metaDescription": "Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.",
+      "metaTitle": "Настройка на програматори за поливане | Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Монтаж, програмиране, диагностика и подмяна на контролери за автоматично напояване в Несебър, Равда, Слънчев бряг и Бургас.",
+    "slug": {
+      "_type": "slug",
+      "current": "montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane"
+    },
+    "sortOrder": 110,
+    "sourcePageUrl": "https://florial-bg.com/blog/montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane",
+    "steps": [],
+    "translations": {
+      "en": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Send enquiry",
+          "text": "Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.",
+          "title": "Request the service"
+        },
+        "description": "## Automatic Irrigation Controller Installation and Programming\n\nFlorial provides installation, initial programming, diagnostics, adjustment and replacement of automatic irrigation controllers. We work with private gardens, hotels, residential complexes, holiday properties and commercial landscapes along Bulgaria’s Southern Black Sea coast.\n\nWhether a new controller needs to be connected, an existing programme keeps resetting or individual irrigation zones fail to start, we can inspect the system on site and recommend a practical solution. Our goal is to make every zone run on a schedule suited to the plants, season and actual site conditions.\n\n## Installing a New Irrigation Controller\n\nBefore installation, we check the number of irrigation zones, solenoid valve type, power supply, control wiring, sensors and the proposed controller location. We confirm that the selected model is compatible with the system, including whether it uses standard 24 V AC valves or a battery-powered 9 V controller.\n\nWe then mount the controller, connect the zones and required sensors, inspect the electrical connections and test the commands to the valves. For Wi‑Fi models, we can assist with the initial network connection and app setup where supported by the controller and the site's internet connection.\n\n## Programming and Adjusting the Watering Schedule\n\nWe set the date and time, programme start times, watering days and run time for each zone. Run times should not be identical throughout the garden: lawns, hedges, trees, flower beds and drip irrigation have different watering requirements.\n\nSettings take account of plant types, soil, sun exposure, slope, water-source flow and pressure, and the season. We check that zones run in the correct sequence, programmes do not conflict and a rain sensor or other compatible automation responds as intended.\n\n## Adjusting an Existing Controller\n\nReplacing the controller is not always necessary. If the unit works but the schedule is incorrect, the clock is wrong, watering is too frequent or some zones have been disabled, professional reprogramming may be enough. We can adjust seasonal run times, watering days and start times, correct individual zones and explain the basic settings to the owner.\n\n## Irrigation Controller Diagnostics and Repair\n\nThe controller itself is not always the cause of a fault. A zone may fail to start because of damaged wiring, a faulty valve solenoid, a power-supply issue or a damaged control output. If watering does not stop, the programme, manual mode, valve and electrical circuit should be checked.\n\nDuring diagnostics, we inspect the display and power supply, saved settings, zone outputs, wiring, valves and sensors. Once the cause is identified, we discuss the options: restoring the programme, repairing a connection or component, or replacing the controller when repair would not be reliable or cost-effective.\n\n## Replacing an Old Controller\n\nBefore replacement, we identify the system configuration and what the new unit must support. We consider the number of stations, valve type, power supply, indoor or outdoor installation, Wi‑Fi requirements and sensor compatibility. A controller should be selected for compatibility with the complete irrigation system, not just its appearance or button count.\n\nAfter installation, we create or transfer the schedule, test every zone and check automatic operation. If the garden has changed or new planting and lawn areas have been added, we adjust the programme to match the current landscape.\n\n## Buying a Controller from Florial? Add Installation and Setup\n\nYou can choose an irrigation controller from the Florial catalogue and request installation and programming as an additional service. We can check in advance whether the model suits the number of zones, valves and conditions at your property. We help customers choose Rain Bird controllers, including Wi‑Fi models and battery-powered units.\n\nExamples in our catalogue include the Rain Bird ESP-RC2I8-230 with 8 zones and built-in Wi‑Fi, Rain Bird ESP-TM2 models and battery-powered ESP-9V controllers. Please check each product page for current specifications and availability.\n\nRain Bird ESP-RC2I8-230 — 8-zone Wi‑Fi controller\n\nRain Bird ESP-TM2-4-230 — 4-zone controller\n\nRain Bird ESP-9V-4 — 4-zone battery-powered controller\n\n## Service for Private Gardens, Hotels and Complexes\n\nWe programme irrigation controllers for private yards, residential complexes, hotels, restaurants, holiday properties, parks and commercial landscapes. For systems with many zones, we can review the programme logic and help align watering schedules with site operating hours, water-source capacity and different planting areas.\n\n## Florial Service Areas\n\nWe serve Burgas and the surrounding area, Nessebar, Sunny Beach, Sveti Vlas, Ravda, Pomorie, nearby areas, Aheloy, Sarafovo, Kosharitsa, Kableshkovo and nearby communities. Visits outside these areas can be discussed individually.\n\nIf you need irrigation controller installation in Burgas, Rain Bird programming in Nessebar, controller repair in Sunny Beach or replacement in Ravda and Pomorie, contact Florial. Please share the controller model, number of zones and a description of the symptoms.\n\n## How to Request Installation or Diagnostics\n\nFor an initial assessment, send a photo of the controller showing its model, a photo of the valve manifold, the number of zones and a short description of the issue. Tell us the town and whether you need a new installation, adjustment, diagnostics or replacement. We can then discuss the site visit, required materials and labour cost.\n\nFlorial also provides complete irrigation system maintenance, including diagnostics, repairs, seasonal start-up, adjustments and preventive service. Read more about our irrigation repair and maintenance service.",
+        "hero": {
+          "subtitle": "Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.",
+          "title": "Automatic Irrigation Controller Installation, Setup and Replacement"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Name",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "Phone",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "Email",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "placeholder": "Town / city",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Describe the work",
+              "name": "details",
+              "placeholder": "Describe the work",
+              "required": false
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+          "title": "Service enquiry"
+        },
+        "name": "Automatic Irrigation Controller Installation, Setup and Replacement",
+        "seo": {
+          "metaDescription": "Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.",
+          "metaTitle": "Irrigation Controller Setup | Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Installation, programming, diagnostics and replacement of automatic irrigation controllers in Nessebar, Ravda, Sunny Beach and Burgas.",
+        "steps": []
+      },
+      "ru": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.",
+          "title": "Закажите услугу"
+        },
+        "description": "## Установка и настройка компьютеров автоматического полива\n\nFlorial выполняет монтаж, первичное программирование, диагностику, настройку и замену контроллеров автоматических систем полива. Работаем с частными садами, отелями, жилыми комплексами, курортными объектами и коммерческими территориями на Южном Черноморском побережье Болгарии.\n\nЕсли новый контроллер ещё не подключён, старый сбрасывает программу или отдельные зоны не запускаются, мы проверим систему на объекте и предложим подходящее решение. Наша задача — обеспечить правильную работу каждой зоны по графику, который учитывает растения, сезон и реальные условия участка.\n\n## Установка нового компьютера полива\n\nПеред монтажом проверяем количество зон, тип электромагнитных клапанов, питание, управляющие кабели, датчики и место установки. Уточняем совместимость выбранной модели с системой: например, используются ли стандартные клапаны 24 V AC или автономное управление от батарей 9 V.\n\nЗатем устанавливаем контроллер, подключаем зоны и необходимые датчики, проверяем электрические соединения и команды клапанам. Для Wi‑Fi моделей помогаем с первоначальным подключением к сети и настройкой приложения, если это поддерживается моделью и интернет-соединением на объекте.\n\n## Программирование и настройка расписания полива\n\nНастраиваем дату и время, время запуска программ, дни полива и продолжительность работы каждой зоны. Продолжительность не должна быть одинаковой для всего участка: газон, живые изгороди, деревья, цветники и капельный полив имеют разные потребности.\n\nУчитываем виды растений, тип почвы, солнечное освещение, уклон, расход и давление источника воды, а также сезон. Проверяем последовательность работы зон, отсутствие конфликтующих программ и корректное взаимодействие с датчиком дождя или другой совместимой автоматикой.\n\n## Перенастройка существующего контроллера\n\nНе всегда требуется менять устройство. Если контроллер исправен, но расписание сбилось, неправильно установлены часы, полив включается слишком часто или некоторые зоны отключены, может быть достаточно профессиональной перенастройки. Изменим сезонную продолжительность, дни и время полива, скорректируем отдельные зоны и объясним владельцу основные настройки.\n\n## Диагностика и ремонт компьютера автоматического полива\n\nПричина неисправности не всегда заключается в самом контроллере. Зона может не включаться из-за обрыва кабеля, неисправной катушки клапана, проблем с питанием или повреждения управляющего выхода. Если полив не прекращается, необходимо проверить программу, ручной режим, клапан и электрическую цепь.\n\nВо время диагностики проверяем дисплей и питание, сохранность настроек, выходы зон, кабельные соединения, клапаны и датчики. После определения причины предлагаем варианты: восстановление программы, ремонт соединения или компонента либо замена контроллера, если ремонт ненадёжен или экономически нецелесообразен.\n\n## Замена старого контроллера на новый\n\nПеред заменой выясняем конфигурацию системы и требования к новому устройству. Учитываем количество станций, тип клапанов, питание, внутренний или наружный монтаж, необходимость Wi‑Fi и совместимость с датчиками. Контроллер выбирается не только по количеству кнопок или внешнему виду — он должен подходить ко всей системе.\n\nПосле монтажа создаём или переносим расписание, тестируем каждую зону и проверяем работу в автоматическом режиме. Если сад изменился, появились новые посадки или газон, корректируем программу под актуальное озеленение.\n\n## Покупаете контроллер в Florial? Закажите установку и настройку\n\nВы можете выбрать компьютер полива в каталоге Florial и одновременно заказать монтаж и программирование. Мы заранее проверим, подходит ли модель по количеству зон, типу клапанов и условиям вашего объекта. Помогаем подобрать контроллеры Rain Bird, в том числе Wi‑Fi модели и автономные устройства на батарейках.\n\nНапример, в каталоге представлены Rain Bird ESP-RC2I8-230 с 8 зонами и встроенным Wi‑Fi, Rain Bird ESP-TM2 и автономные контроллеры серии ESP-9V. Актуальные характеристики и наличие указаны на страницах товаров.\n\nRain Bird ESP-RC2I8-230 — контроллер на 8 зон с Wi‑Fi\n\nRain Bird ESP-TM2-4-230 — контроллер на 4 зоны\n\nRain Bird ESP-9V-4 — автономный контроллер на 4 зоны\n\n## Обслуживание частных садов, отелей и комплексов\n\nНастраиваем контроллеры в частных дворах, жилых комплексах, отелях, ресторанах, курортных объектах, парках и коммерческих зонах. На объектах с большим количеством зон проверяем логику программ и помогаем составить расписание с учётом режима работы объекта, нагрузки на источник воды и различных типов растений.\n\n## География обслуживания Florial\n\nРаботаем в Бургасе и районе, Несебре, Солнечном Береге, Святом Власе, Равде, Поморие, ближайшие населённые пунктые, Ахелое, Сарафово, Кошарице, Каблешково и близлежащих населённых пунктах. Возможность выезда в другие районы уточняется индивидуально.\n\nЕсли вам нужна установка контроллера полива в Бургасе, настройка Rain Bird в Несебре, ремонт компьютера полива на Солнечном Береге или замена программатора в Равде и Поморие, обратитесь в Florial. Сообщите модель устройства, количество зон и признаки неисправности.\n\n## Как заказать установку или диагностику\n\nДля предварительной оценки отправьте фотографию контроллера с моделью, фотографию клапанного коллектора, количество зон и короткое описание проблемы. Укажите населённый пункт и вид работ: новый монтаж, настройка, диагностика или замена. После уточнения объекта согласуем выезд, необходимые материалы и стоимость работ.\n\nFlorial также выполняет комплексное обслуживание систем автоматического полива: диагностику, ремонт, сезонный запуск, настройку и профилактику. Подробнее — на странице услуги по ремонту и обслуживанию систем полива.",
+        "hero": {
+          "subtitle": "Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.",
+          "title": "Установка, настройка и замена компьютеров автоматического полива"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Имя",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "Телефон",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "Электронная почта",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "placeholder": "Населённый пункт",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Описание задачи",
+              "name": "details",
+              "placeholder": "Описание задачи",
+              "required": false
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+          "title": "Запрос услуги"
+        },
+        "name": "Установка, настройка и замена компьютеров автоматического полива",
+        "seo": {
+          "metaDescription": "Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.",
+          "metaTitle": "Настройка контроллеров полива | Несебр | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Установка, программирование, диагностика и замена контроллеров автоматического полива в Несебре, Равде, Солнечном Береге и Бургасе.",
+        "steps": []
+      }
+    }
   }
 }
