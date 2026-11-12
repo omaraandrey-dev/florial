@@ -99,7 +99,7 @@
 
 **RU**
 
-- `shortDescription`: Архивный материал о поставке пальм в 2025 году и представленных тогда видах. Перед покупкой уточняйте текущую доступность и пригодность растения для вашего участка.
+- `shortDescription`: Архивный материал о поставке пальм в 2025 году и представленных тогда видах. Перед покупкой уточняйте наличие и пригодность растения для участка.
 - `seoTitle`: Пальмы для сада: выбор и уход | Florial
 - `seoDescription`: В статье рассматривается поставка пальм 2025 года и выбор видов с учётом места, освещения и зимних условий. Актуальное наличие растений уточняется отдельно.
 
@@ -266,7 +266,7 @@
 **EN**
 
 - `shortDescription`: Why winter can be a useful time to plan a garden, develop its concept, define zones, select plants and prepare for spring landscaping.
-- `seoTitle`: Winter Landscape Design Planning in Burgas | Florial
+- `seoTitle`: Winter Landscape Design in Burgas | Florial
 - `seoDescription`: Winter planning allows time to develop a garden concept, define zones and select plants before spring work begins. Ideas for landscape design around Burgas.
 
 ### landshaften-proekt-nesebar
@@ -313,7 +313,14 @@
 
 ### 4.1. Старые Wix-вставки
 
-Нужно восстановить шесть исходных изображений из Wix CDN как реальные Sanity image blocks либо удалить их, если после проверки они не добавляют самостоятельной ценности:
+Нужно восстановить шесть исходных изображений из Wix CDN как реальные Sanity image blocks либо удалить их, если после проверки они не добавляют самостоятельной ценности. Идентификаторы исходных Wix-файлов:
+
+- `kupete-travna-plosht`: `1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg`.
+- `landshaften-dizain-proekt-zasazhdenie`: `1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg`.
+- `landshaften-proekt-nesebar`: `1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg`.
+- `maslina-sredizemnomorie`: `1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg`, `1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg`, `1b6ca6_d17f2bd62105424ca7831141e9d05daa~mv2.jpg`.
+
+
 
 - `kupete-travna-plosht`: один Wix URL; сейчас блок содержит текстовую конструкцию `![...](/)`.
 - `landshaften-dizain-proekt-zasazhdenie`: один Wix URL; тот же тип legacy-вставки.
