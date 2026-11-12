@@ -1,3 +1,10 @@
+## 2026-11-12 — Responsive delivery для Header logo (PR pending)
+
+- Branch `perf/header-logo-responsive-srcset`, commit `7923e1534f028e57911109fd30a878dd3f400389`: `src/components/Header.tsx` использует существующий `getSanityImageProps` из `src/lib/sanityImage.ts` для responsive Sanity CDN URL, `srcset`, `sizes`, `auto=format` и `q=75`.
+- Target CSS rendered widths отражены в `sizes`: 80 px mobile, 156 px small/tablet, 200 px desktop; fallback width 480 px. Desktop layout и визуальные CSS-параметры не менялись.
+- Для Sanity assets helper предоставляет intrinsic dimensions из имени файла; для non-Sanity URL fallback сохраняет SiteSettings width/height. Изменён только Header component, без CSS, меню или навигации.
+- На момент записи: code change committed, PR/CI/build/Lighthouse/desktop visual regression/Production deployment ещё не подтверждены. Не считать размер фактически загруженного файла и улучшение PSI доказанными до сетевого замера в браузере.
+
 ## 2026-11-12 — Исправлено WWW → non-WWW перенаправление
 
 - Live Cloudflare zone `florial-bg.com`: правило `WWW to non-WWW` исправлено с условия `(http.request.full_uri eq "www.florial-bg.com")` на `(http.host eq "www.florial-bg.com")`. Первое условие сравнивало полный URL с одним hostname и не соответствовало обычным запросам.
