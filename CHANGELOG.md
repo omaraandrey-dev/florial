@@ -1,3 +1,17 @@
+## 2026-11-12 — Категория «Солитери и едроразмерни растения» обновлена и опубликована на BG/RU/EN
+
+- В Sanity project `bxvcy0qs`, dataset `plants`, обновлён существующий документ `plants-solitaires`, slug `soliteri-edrorazmerni`; новые документы и URL не создавались.
+- Подготовлены три локализованные версии SEO-текста под товарами — по 34 Portable Text-блока на BG, RU и EN. Разделы: роль солитера в композиции, места размещения, подбор по зрелому силуэту и условиям участка, проверка доступа и логистики, посадка, укрепление, полив/мульчирование, услуги Florial и три FAQ.
+- Обновлены короткие описания, H1, meta title, meta description, keywords и `noIndex=false` во всех языковых версиях. HelpBlock сокращён до отдельного CTA с локализованным текстом; существующий buttonUrl `/services/zasazhdane-na-rasteniya` и подписи кнопок сохранены.
+- Сохранены `_id`, slug, parent, sortOrder, image asset, локализованные image ALT/title и внешний image URL. Код, schema, товары и связи каталога не менялись.
+- Перед записью сохранён полный snapshot исходного опубликованного документа: `docs/backups/sanity/2026-11-12-plants-solitaires-before-content-refresh.json`; исходная revision `CfWBjShPZkO4mx3kLAgFwy`. Backup commit в main: `36f37ef824a6118af55fddda5f8f8d8626dd94af`.
+- Sanity beta validation: `valid`, `complete=false`; custom validation callbacks инструментом не выполняются. Revision-guarded publish выполнен; повторный live GROQ read-back подтвердил 34 блока BG/RU/EN, SEO-поля, CTA, прежний slug и сохранённые image refs.
+- Практические рекомендации сверены с RHS: посадочная яма шире корневого кома, но не глубже; опоры снимаются после надёжного укоренения (часто 18 месяцев–3 года, для крупных экземпляров дольше); крупномерные деревья требуют особого ухода, нередко 2–3 сезона и более. Значение 20–50 лет приведено только как пример для Olea europaea, а не для всех солитеров.
+- Production page smoke **не подтверждён**: Firecrawl connected-app credit allowance исчерпан, а web viewer не смог открыть category URLs. Sanity published state подтверждён, но HTTP 200 и фактический вывод всех локалей на сайте остаются неподтверждёнными до повторной проверки.
+- Код и Sanity schema не менялись; Cloudflare Pages deployment не запускался и для content-only update не требовался.
+- Редакционные источники: [RHS — planting trees and shrubs](https://www.rhs.org.uk/plants/types/trees/planting-trees-shrubs), [RHS — buying and planting specimens](https://www.rhs.org.uk/plants/types/trees/buying-planting-specimens), [RHS — establishment problems](https://www.rhs.org.uk/plants/types/trees/establishment-trees-shrubs), [RHS — Olea europaea](https://www.rhs.org.uk/plants/11735/olea-europaea-f/details).
+
+---
 ## 2026-11-12 — Блог: улучшено качество трёх изображений и исправлены ALT
 
 - В Sanity Production обновлены три низкоразмерных изображения оригиналами из Wix DROP: схема полива 266×246 → 925×855; фотография сада с работающим дождевателем 147×147 → 2048×2048; эскиз ландшафтного проекта 179×131 → 640×468. Для каждого затронутого документа перед записью сохранён полный backup.
