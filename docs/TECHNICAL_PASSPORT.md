@@ -15,7 +15,7 @@
 - Branch `perf/header-logo-responsive-srcset`, commit `7923e1534f028e57911109fd30a878dd3f400389`: `src/components/Header.tsx` использует существующий `getSanityImageProps` из `src/lib/sanityImage.ts` для responsive Sanity CDN URL, `srcset`, `sizes`, `auto=format` и `q=75`.
 - Target CSS rendered widths отражены в `sizes`: 80 px mobile, 156 px small/tablet, 200 px desktop; fallback width 480 px. Desktop layout и визуальные CSS-параметры не менялись.
 - Для Sanity assets helper предоставляет intrinsic dimensions из имени файла; для non-Sanity URL fallback сохраняет SiteSettings width/height. Изменён только Header component, без CSS, меню или навигации.
-- На момент записи: code change committed, PR/CI/build/Lighthouse/desktop visual regression/Production deployment ещё не подтверждены. Не считать размер фактически загруженного файла и улучшение PSI доказанными до сетевого замера в браузере.
+- PR #239 закрыт; responsive logo implementation присутствует в текущем `main` commit `c80d3f491d399c4df3ddc2662e3157fce7b953f4`. Текущий PR #240 прошёл website lint/build на базе этого кода. **Остаётся не подтверждено:** фактически выбранный srcset candidate/transfer size, desktop/tablet/mobile visual QA и Lighthouse before/after. Не считать улучшение PSI доказанным до сетевого замера.
 
 ## 2026-11-12 — Исправлено WWW → non-WWW перенаправление
 
