@@ -4,7 +4,7 @@
 - Страница `/blog`: первая публикация текущей выборки (или выбранной темы) получает широкую featured-карточку; дата остаётся источником порядка, вручную закреплённой статьи нет.
 - Featured image использует eager loading/high fetch priority; остальные карточки lazy. Topic chips показывают число статей по существующим тегам.
 - Изменён только `src/pages/BlogPage.tsx`; Sanity schema/documents и backend не менялись. Pagination не вводилась при 14 опубликованных публикациях.
-- PR/CI/Production pending; визуальная QA BG/RU/EN и мобильных 320–360 px не подтверждена.
+- PR #233 объединён squash в `main`, commit `5e0c895c38a0903616d25f4dccde6cd596d20aed`. CI по точному PR head `28854bc4c92fb9faa0fa59a6322d6e0eb5cd3ad2`: Blog and Studio run `43201350601` — success, включая Studio build; D1 validation run `43201349713` — success. Cloudflare Pages Production deployment `392ec129-5551-48b2-a63f-cab5ead23c8c` для точного main commit прошёл build и перешёл в deploy; финальный deploy status ещё проверяется. Визуальная QA BG/RU/EN и мобильных 320–360 px не подтверждена.
 - Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
 
 ## 2026-11-12 — Блог: этап 1, улучшение навигации и локализации (PR #232)
