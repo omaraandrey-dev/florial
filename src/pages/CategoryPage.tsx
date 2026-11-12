@@ -465,14 +465,23 @@ export function CategoryPage({
         </div>
         {category.imageUrl && (
           <div className="category-page-hero-image overflow-hidden rounded-2xl bg-[#F3F5EC] lg:col-span-1">
-            <img
-              {...getSanityImageProps(category.imageUrl, '(min-width: 1024px) 30vw, 100vw', 960)}
-              alt={getCategoryImageText(category, language, 'alt') || ''}
-              title={getCategoryImageText(category, language, 'title')}
-              loading="eager"
-              decoding="async"
-              className="aspect-[4/3] max-h-64 w-full object-contain"
-            />
+            <picture>
+              <source
+                media="(min-width: 1024px)"
+                srcSet={(() => {
+                  const imageProps = getSanityImageProps(category.imageUrl!, '30vw', 960)
+                  return imageProps.srcSet || imageProps.src
+                })()}
+                sizes="30vw"
+              />
+              <img
+                alt={getCategoryImageText(category, language, 'alt') || ''}
+                title={getCategoryImageText(category, language, 'title')}
+                loading="eager"
+                decoding="async"
+                className="aspect-[4/3] max-h-64 w-full object-contain"
+              />
+            </picture>
           </div>
         )}
       </div>
@@ -619,6 +628,12 @@ export function CategoryPage({
               className="min-w-0 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 flex flex-col justify-between cursor-pointer group no-underline"
             >
               <div>
+                {hasWinterTemperature && (
+                  <div className="mb-1 flex min-h-3 items-center gap-0.5" aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}>
+                    <span aria-hidden="true" className="text-xs font-semibold leading-none text-blue-600">❄</span>
+                    <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
+                  </div>
+                )}
                 <div className="h-32 sm:h-48 bg-slate-50 rounded-lg mb-2 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                   {cardImageUrl ? (
                     <img
@@ -631,16 +646,6 @@ export function CategoryPage({
                     />
                   ) : (
                     <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
-                  )}
-                  {hasWinterTemperature && (
-                    <span
-                      aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
-                      title={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
-                      className="absolute left-1 top-1 z-10 inline-flex items-center gap-0.5"
-                    >
-                      <span aria-hidden="true" className="text-lg font-semibold leading-none text-blue-600">❄</span>
-                      <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
-                    </span>
                   )}
                   {stockIndicator && (
                     <span
