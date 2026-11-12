@@ -1,0 +1,28 @@
+{
+  "purpose": "Pre-write snapshot for adding the existing homepage hero asset to the Sanity Studio photo collection. No existing photo document is modified.",
+  "capturedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "existingAsset": {
+    "_id": "image-6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957-png",
+    "_type": "sanity.imageAsset",
+    "assetId": "6331b4d39fc6539c970c310c48be3a48cb677d61",
+    "originalFilename": "florial-homepage-garden-background.webp",
+    "title": "Градински проект — фон на началната страница",
+    "description": "Дискретен фонов кадър за първия блок на началната страница Florial.",
+    "url": "https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png",
+    "width": 1518,
+    "height": 957,
+    "size": 2704931,
+    "mimeType": "image/png",
+    "sha1hash": "6331b4d39fc6539c970c310c48be3a48cb677d61"
+  },
+  "currentCodeReference": {
+    "repository": "omaraandrey-dev/florial",
+    "branch": "main",
+    "commit": "aaeb06e7901baaa5215502431ad4dc1d0ec809ee",
+    "file": "src/pages/HomePage.tsx",
+    "field": "hard-coded getSanityImageProps() URL in homepage hero"
+  },
+  "intendedOperation": "Create a new photo document referencing the existing asset; do not upload or duplicate the image binary; do not delete the asset."
+}
