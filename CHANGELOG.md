@@ -1,3 +1,46 @@
+## 2026-11-12 — Блог: улучшено качество трёх изображений и исправлены ALT
+
+- В Sanity Production обновлены три низкоразмерных изображения оригиналами из Wix DROP: схема полива 266×246 → 925×855; фотография сада с работающим дождевателем 147×147 → 2048×2048; эскиз ландшафтного проекта 179×131 → 640×468. Для каждого затронутого документа перед записью сохранён полный backup.
+- В шести опубликованных статьях исправлены BG ALT после визуальной сверки оригиналов: схема полива и дорожек; полив рулонного газона; маслиновое дерево; труба системы мъглуване; логотип Rain Bird; кипарис Тотем.
+- В Wix Media Manager подтверждены исходные файлы и метаданные: эскизный план 25 372 байта; фото газона с дождевателем 1 229 636 байт; GIF RainBirdLogo.gif 3 116 байт. GIF оставлен без замены: это логотип Rain Bird, визуально подтверждён.
+- Повторный анализ 22 документов blogPost нашёл 12 точных совпадений cover asset с изображениями в body. Автоматическое удаление не выполнялось: повтор может быть частью авторского расположения иллюстрации. Отдельно один cover asset 1000×638 используется в двух статьях о ландшафтном проектировании и повторяется внутри обеих; нужна редакционная оценка.
+- Sanity post-publish read-back подтвердил новые asset references, размеры и ALT; drafts по обновлённым документам отсутствуют. Schema beta validation: valid, но complete=false из-за неисполняемых custom callbacks.
+- Веб-просмотр florial-bg.com и CDN через доступный viewer недоступен, поэтому live visual QA страниц не подтверждена. Код/schema не менялись, Cloudflare Pages deployment не запускался. PR #235 остаётся Draft до визуальной проверки владельцем.
+
+Backups:
+- docs/backups/2026-11-12-blog-small-images-before-write.json
+- docs/backups/2026-11-12-blog-alt-before-write.json
+- docs/backups/2026-11-12-blog-sketch-before-write.json
+
+## 2026-11-12 — Блог: шесть изображений восстановлены из Wix DROP в Sanity Production
+
+- Через подключённый Wix Media Manager сайта DROP найдены и визуально сверены все шесть исходных файлов; каждый файл в Wix имел состояние `OK` и `READY`. Оригиналы скачаны напрямую из Wix CDN и загружены в Sanity `bxvcy0qs/production`.
+- Созданы Sanity image assets: рулонная трава 720×1169 (`58cbaf809dfa5883067ea788477c891fdcef51ff`), коллаж «от проекта до посадки» 1564×1564 (`d3fd144b938c3e9c67c3883d1d683c85cada39d0`), этапы проекта 1564×1564 (`0bb24a4f41c62ab97d270ce660227f1ad4796243`), рулоны газона 600×800 (`fab83fa1629a16e4c55e24e71cf63ca7b97a4a32`), кипарис Тотем 1384×3000 (`b8578d79532be0b53646b767084e31d39abbff10`), юкка рострата 3000×2250 (`44077349f1be666c383d730d4b920d5cf9098127`).
+- В четырёх опубликованных `blogPost` заменены шесть Markdown-подобных блоков с Wix-ссылками на настоящие Portable Text `image` blocks; добавлены описательные ALT BG/EN/RU и подписи. Публикация выполнена с revision guards.
+- До записи сохранены четыре полных текущих документа (все локали и Portable Text): `docs/backups/2026-11-12-blog-images-before-write.json` (260 475 байт).
+- Post-publish read-back: 4/4 документа опубликованы, 0 соответствующих drafts; все шесть блоков содержат Sanity asset references и URL, все четыре документа прошли beta validation как `valid` (но `complete=false`, custom callbacks не выполняются); в целевых BG Portable Text блоках Wix CDN-ссылок больше нет.
+- В `maslina-sredizemnomorie` три исходных изображения (газон, кипарис, юкка) не относятся непосредственно к оливе. Они сохранены и восстановлены в прежнем порядке/месте, чтобы не удалять контент без отдельного решения владельца; нужна редакционная оценка, оставить ли их в этой статье или перенести.
+- Проверено по коду `main`: `src/components/BlogContent.tsx` уже отображает Sanity Portable Text image blocks с ALT и caption; изменения frontend и schema не требовались. Cloudflare Pages deployment не запускался и не нужен для этих content-only изменений. Независимая HTTP-проверка Sanity CDN через Wix proxy не удалась: proxy возвращает 403 на `cdn.sanity.io`; доступность подтверждена метаданными Sanity assets/read-back, но не отдельным внешним HTTP smoke.
+- PR #235 остаётся Draft; main не изменялся. Подробности и точные source IDs: `docs/audits/2026-11-12-blog-seo-images.md`.
+
+## 2026-11-12 — SEO-метаданные 14 статей блога опубликованы в Sanity
+
+- В Sanity Production (`bxvcy0qs/production`) опубликованы 14 ранее подготовленных `blogPost`: 42 языковые версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
+- Перед исходной записью сохранён полный snapshot 14 опубликованных документов (все поля и Portable Text): `docs/backups/2026-11-12-blog-seo-before-draft-write.json`. Публикация выполнена с revision guards; после публикации read-back подтвердил 14/14 документов и 0 оставшихся drafts.
+- Перед публикацией дополнительно отредактированы болгарские тексты четырёх статей: формулировки о цене автоматического полива, кипарисе Тотем, рулонном тревном чиме и системе мъглуване. Всего уточнено 9 BG SEO/анонсных значений.
+- Schema validation: 14/14 `valid`, но `complete=false` — beta validator не выполняет custom validation callbacks. Отдельный read-only запрос проверил уникальность slug всех 22 документов `blogPost`; дубликатов не обнаружено.
+- Обложки, body, ALT, галереи, ссылки и Sanity schema не менялись. Открыты image follow-up: шесть старых Wix URL, четыре ALT-кандидата, повторные обложки в body и три изображения малого разрешения. Оригиналы не подменялись без визуальной проверки.
+- Frontend, GitHub main, Cloudflare Pages и Production deployment не менялись; публикация контента выполнена непосредственно в Sanity. PR #235 остаётся draft до завершения отдельной проверки изображений.
+
+## 2026-11-12 — SEO-поля блога записаны в Sanity drafts; опубликованные версии не изменены (PR #235 draft)
+
+- Владелец одобрил запись предложенных SEO-полей в черновики. Перед записью из Sanity `bxvcy0qs/production` (perspective `published`) считаны и сохранены полные документы всех 14 опубликованных `blogPost`, включая переводы и Portable Text: `docs/backups/2026-11-12-blog-seo-before-draft-write.json` (14 документов, 790 174 байта JSON).
+- Созданы 14 draft documents. Записаны только `translations.bg/ru/en.shortDescription`, `seoTitle`, `seoDescription`: 126 значений. Для каждого документа использован revision guard по опубликованному `_rev`.
+- Повторное read-back: 14 drafts, 126/126 полей заполнены; сравнение с backup подтвердило, что все 126 соответствующих SEO-полей published документов остались неизменными. Schema validator сообщил 14/14 `valid`, но `complete=false`: custom validation callbacks не выполнялись, нужна финальная проверка в Studio.
+- ALT, Portable Text body, cover, gallery, schema и опубликованные документы не менялись. Никакой Sanity publish не выполнялся.
+- Image follow-up остаётся заблокированным до визуальной проверки: Firecrawl credits exhausted; прямой просмотр Sanity CDN через доступный web viewer недоступен. Шесть старых Wix image href и четыре ALT-кандидата не изменялись; содержимое и HTTP-доступность оригиналов НЕ ПОДТВЕРЖДЕНЫ. Не подменять изображения случайными assets.
+- PR #235 остаётся draft, не merged. Документация и backup находятся в ветке `docs/blog-seo-image-audit-2026-11-12`. Production frontend/Cloudflare deployment не затрагивались.
+
 ## 2026-11-12 — Блог: этап 2, featured-публикация и счётчики тем (PR #233 merged; Production deployment выполняется)
 
 - В отдельной ветке `feat/blog-featured-landing-stage2` первая статья в текущем списке (или выбранной теме) отображается как широкая featured-карточка; выбор динамический по существующей сортировке даты, без нового editorial-поля.

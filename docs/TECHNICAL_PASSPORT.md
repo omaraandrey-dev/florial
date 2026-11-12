@@ -1,3 +1,32 @@
+## 2026-11-12 — Блог: повышение разрешения иллюстраций и исправление ALT
+
+- Из Wix DROP через Media Manager восстановлены оригиналы для трёх миниатюр в Sanity Production: схема полива 266×246 → 925×855; фотография сада с дождевателем 147×147 → 2048×2048; эскиз ландшафтного плана 179×131 → 640×468. Новые Sanity assets: image-9bb7021d464503eeb9c42e19896c152e75892023-925x855-jpg, image-39434b00c36004a520f6b94d5d91cd61ff5b011d-2048x2048-jpg, image-ca422dbbb9682c5e464b7d42b2ff10f567a5b394-640x468-jpg.
+- Исправлены BG ALT шести image blocks в статьях: cena-sistema-avtomatichno-napoyavane-burgas, kupete-travna-plosht, maslina-sredizemnomorie, sistema-magluvane-terasa-besedka, rain-bird-oborudvane, kiparis-totem. Тексты ALT основаны на визуальной проверке оригиналов Wix.
+- Полные backups перед соответствующими Sanity writes сохранены в PR #235: blog-small-images-before-write.json, blog-alt-before-write.json, blog-sketch-before-write.json.
+- Повторная выборка 22 blogPost: 12 точных повторов cover asset в body. Не удалялись автоматически, так как расположение inline images может быть редакционным. Один cover asset 1000×638 используется в двух статьях о ландшафтном проектировании и повторяется внутри обеих.
+- Rain Bird GIF 220×120 визуально является логотипом; оставлен без замены. Эскиз 640×468 — доступный оригинал из Wix (25 372 байта); больший исходник по точному file ID не подтверждён.
+- Post-publish read-back подтвердил новые refs/размеры и отсутствие drafts. Beta validation: valid, complete=false (custom callbacks не выполняются).
+- Веб-просмотр Production страниц и CDN через доступный viewer не сработал; live visual QA не подтверждена. Код и schema не менялись; Pages deployment не запускался. PR #235 остаётся Draft.
+
+## 2026-11-12 — Восстановлены шесть изображений блога из Wix DROP
+
+- Источник оригиналов: подключённый Wix Media Manager сайта DROP. Шесть точных файлов были найдены по Wix file IDs, все со статусами `OK` / `READY`, визуально проверены и загружены напрямую в Sanity Production `bxvcy0qs/production`.
+- Sanity assets: `58cbaf809dfa5883067ea788477c891fdcef51ff` (720×1169), `d3fd144b938c3e9c67c3883d1d683c85cada39d0` (1564×1564), `0bb24a4f41c62ab97d270ce660227f1ad4796243` (1564×1564), `fab83fa1629a16e4c55e24e71cf63ca7b97a4a32` (600×800), `b8578d79532be0b53646b767084e31d39abbff10` (1384×3000), `44077349f1be666c383d730d4b920d5cf9098127` (3000×2250).
+- В четырёх существующих опубликованных blogPost восстановлены шесть Portable Text image blocks с локализованными ALT BG/EN/RU и caption. Четыре документа опубликованы с revision guards; read-back подтвердил 4/4 и отсутствие drafts, а также отсутствие старых Wix CDN href в целевых BG-блоках.
+- Backup текущего состояния четырёх документов до write: `docs/backups/2026-11-12-blog-images-before-write.json` в PR #235.
+- Frontend `BlogContent.tsx` уже поддерживает image blocks; код, schema, Cloudflare settings и deployment не менялись. Это Sanity content-only update.
+- Редакционный остаток: три восстановленных изображения в конце статьи об оливе показывают газон, кипарис и юкку; они сохранены в исходном порядке, но их уместность требует решения владельца.
+- Beta validation: 4/4 `valid`, `complete=false` из-за неисполняемых custom validation callbacks. Wix proxy запретил независимый запрос к `cdn.sanity.io` (403); asset URLs и размеры подтверждены Sanity read-back. PR #235 остаётся Draft; main и Production frontend deployment не менялись.
+
+## 2026-11-12 — SEO-метаданные блога опубликованы в Sanity
+
+- В Sanity Production опубликованы SEO-поля 14 существующих `blogPost` — 42 версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
+- После публикации read-back подтвердил 14/14 документов; оставшихся draft-версий нет. Перед первоначальной записью сохранён полный snapshot всех 14 документов: `docs/backups/2026-11-12-blog-seo-before-draft-write.json`.
+- Уточнены болгарские SEO/анонсные формулировки четырёх статей. Slug, заголовки H1, тексты статей, обложки, ALT, галереи, schema и frontend не менялись.
+- Валидация: 14/14 `valid`, `complete=false` из-за пропуска custom validation callbacks beta validator; уникальность slug отдельно проверена read-only по всем 22 документам `blogPost`, дубликатов нет.
+- Не завершено: визуальная проверка шести Wix image href, четырёх ALT-кандидатов, повторных cover assets и трёх изображений малого разрешения. Никакие image assets не заменялись и не удалялись.
+- Изменение Sanity content не требовало frontend/Cloudflare deployment; код и Production infrastructure не затрагивались.
+
 ## 2026-11-12 — Блог: этап 2, улучшение landing page
 
 - Branch: `feat/blog-featured-landing-stage2`.
