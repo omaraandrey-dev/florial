@@ -1,0 +1,2815 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:48Z",
+    "_id": "blogPost-landshaften-dizain-proekt-zasazhdenie",
+    "_rev": "VQU6VLMbOXBQ4Wjto7HspN",
+    "_system": {
+      "base": {
+        "id": "blogPost-landshaften-dizain-proekt-zasazhdenie",
+        "rev": "0yPZTxQnrTC5IQk08LVGxN"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-10-24T12:00:25Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Ландшафтен проект в Несебър на етапи на проектиране",
+      "asset": {
+        "_ref": "image-bda855c723b0c965ef3b47f0ea36867e4acd8493-1000x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2024-08-14T07:17:26.523Z",
+    "slug": {
+      "_type": "slug",
+      "current": "landshaften-dizain-proekt-zasazhdenie"
+    },
+    "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-дизайн-от-проект-до-засаждане",
+    "tags": [
+      "Озеленяване"
+    ],
+    "title": "Създаване на ландшафтен дизайн от проект до озеленяване в Несебър",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "b14d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14c",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтно студио Флориал извършва работа по озеленяване на прилежащи площи в Несебър до ключ."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14e",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтният дизайн в Несебър е световен."
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b14j",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14h",
+                "_type": "span",
+                "marks": [
+                  "b14g"
+                ],
+                "text": "![Ландшафтен проект в Несебър на етапи на проектиране"
+              },
+              {
+                "_key": "b14i",
+                "_type": "span",
+                "marks": [],
+                "text": "](/)"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b14g",
+                "_type": "link",
+                "blank": true,
+                "href": "https://static.wixstatic.com/media/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg/v1/fill/w_242,h_242,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b14l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14k",
+                "_type": "span",
+                "marks": [],
+                "text": "Етапи на ландшафтен дизайн"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14n",
+                "_type": "span",
+                "marks": [
+                  "b14m"
+                ],
+                "text": "Необходимо е да се измисли ландшафтен проект"
+              },
+              {
+                "_key": "b14o",
+                "_type": "span",
+                "marks": [],
+                "text": ":"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b14m",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "b14r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14q",
+                "_type": "span",
+                "marks": [],
+                "text": "направете разбивка на зелени площи, места за отдих и алеи,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14s",
+                "_type": "span",
+                "marks": [],
+                "text": "събирам растения,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14u",
+                "_type": "span",
+                "marks": [],
+                "text": "изчисляване и инсталиране на автоматична система за поливане,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14w",
+                "_type": "span",
+                "marks": [],
+                "text": "изберете и поставете плочки,"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b14z",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b14y",
+                "_type": "span",
+                "marks": [],
+                "text": "помислете за система за осветление на растенията."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b151",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b150",
+                "_type": "span",
+                "marks": [],
+                "text": "Да не говорим за засаждане на растения със 100% степен на оцеляване. И разбира се, подгответе площта и поставете рулонна морава."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b153",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b152",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтен дизайн"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b157",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b154",
+                "_type": "span",
+                "marks": [],
+                "text": "Това е интегриран подход към вашия сайт. Когато започва проектирането, нашият "
+              },
+              {
+                "_key": "b155",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "ландшафтен архитект"
+              },
+              {
+                "_key": "b156",
+                "_type": "span",
+                "marks": [],
+                "text": " взема предвид много фактори:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b159",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b158",
+                "_type": "span",
+                "marks": [],
+                "text": "предпочитания, желания на клиента"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15a",
+                "_type": "span",
+                "marks": [],
+                "text": "местоположение на обекта, осветление, състав и състояние на почвата, терен"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15c",
+                "_type": "span",
+                "marks": [],
+                "text": "съществуващи сгради, тяхната архитектура, работим с ландшафта като цяло, всичко трябва да е хармонично и да се допълва взаимно"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15e",
+                "_type": "span",
+                "marks": [],
+                "text": "бюджетът на клиента, отделен за създаване на пейзажа."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15g",
+                "_type": "span",
+                "marks": [],
+                "text": "Процесът на "
+              },
+              {
+                "_key": "b15h",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "ландшафтен дизайн"
+              },
+              {
+                "_key": "b15i",
+                "_type": "span",
+                "marks": [],
+                "text": " е много вълнуващ и е съвместна работа на "
+              },
+              {
+                "_key": "b15j",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "ландшафтния архитект"
+              },
+              {
+                "_key": "b15k",
+                "_type": "span",
+                "marks": [],
+                "text": " и клиента, ще са необходими повече от една среща, обсъждане, корекции и избор на растения в разсадника."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15m",
+                "_type": "span",
+                "marks": [],
+                "text": "Започвайки със скици и завършвайки с "
+              },
+              {
+                "_key": "b15n",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "чертежи на оформление"
+              },
+              {
+                "_key": "b15o",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "b15p",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "списъци за засаждане"
+              },
+              {
+                "_key": "b15q",
+                "_type": "span",
+                "marks": [],
+                "text": ", ние обсъждаме и одобряваме целия път на работа на вашия парцел."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Възможен е и онлайн дизайн, всички етапи и дискусии се провеждат онлайн, ние одобряваме, избираме и започваме работата по засаждане!!!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b15v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15u",
+                "_type": "span",
+                "marks": [],
+                "text": "Препоръчваме озеленяване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b161",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b15w",
+                "_type": "span",
+                "marks": [],
+                "text": "започнете вашия парцел с "
+              },
+              {
+                "_key": "b15x",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "ландшафтен проект"
+              },
+              {
+                "_key": "b15y",
+                "_type": "span",
+                "marks": [],
+                "text": ". В края на краищата един ландшафтен проект е по същество 20 години опит и умения на нашия ландшафтен дизайнер, които могат да бъдат реализирани във вашия преден двор. Това не са само чертежи, рисунки и изчисления. На първо място, това е красота и компетентен подбор на растения за вашия парцел. Това е огромно количество препоръки и съвети. Разбира се, "
+              },
+              {
+                "_key": "b15z",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "изборът на растения"
+              },
+              {
+                "_key": "b160",
+                "_type": "span",
+                "marks": [],
+                "text": " и озеленяване зависи от вас, но ние можем значително да помогнем в тази трудна задача.."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b162",
+            "_type": "image",
+            "alt": "Засаждане на трайни насаждения Равда",
+            "asset": {
+              "_ref": "image-fe6189c1b48d8485576f1f95ab42d7b1897449ed-960x960-jpg",
+              "_type": "reference"
+            },
+            "caption": "Засаждане на трайни насаждения"
+          },
+          {
+            "_key": "b165",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b163",
+                "_type": "span",
+                "marks": [],
+                "text": "Автоматична система за поливане "
+              },
+              {
+                "_key": "b164",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": ":"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b167",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b166",
+                "_type": "span",
+                "marks": [],
+                "text": "монтаж на комуникации за автоматичната система за поливане"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b16c",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b168",
+                "_type": "span",
+                "marks": [],
+                "text": "След като съгласуваме ландшафтния дизайн, започваме полагането на комуникациите за "
+              },
+              {
+                "_key": "b16a",
+                "_type": "span",
+                "marks": [
+                  "b169"
+                ],
+                "text": "системата за автоматично поливане"
+              },
+              {
+                "_key": "b16b",
+                "_type": "span",
+                "marks": [],
+                "text": ". Това е важен етап, от който зависи ефективността и издръжливостта на системата."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b169",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b16e",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16d",
+                "_type": "span",
+                "marks": [],
+                "text": "Каква работа се извършва на този етап:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16f",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Маркировка на обекта"
+              },
+              {
+                "_key": "b16g",
+                "_type": "span",
+                "marks": [],
+                "text": ". На този етап маркираме района и определяме местоположението на всички елементи на автоматичната напоителна система."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16i",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Копаене на окопи"
+              },
+              {
+                "_key": "b16j",
+                "_type": "span",
+                "marks": [],
+                "text": ". В съответствие с маркировките копаем окопи за полагане на напоителни тръби."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16l",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Полагане на тръби за напояване"
+              },
+              {
+                "_key": "b16m",
+                "_type": "span",
+                "marks": [],
+                "text": ". Полагаме напоителни тръби в окопите."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16o",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Монтаж на кладенци"
+              },
+              {
+                "_key": "b16p",
+                "_type": "span",
+                "marks": [],
+                "text": ". Електроклапаните се монтират в кладенци, на кръстовището на напоителните тръби. Те разпределят водата в различни зони за напояване. Те контролират подаването на вода към зоните за напояване."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16r",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Инсталиране на контролера"
+              },
+              {
+                "_key": "b16s",
+                "_type": "span",
+                "marks": [],
+                "text": ". Контролерът контролира работата на цялата система за автоматично напояване."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16u",
+                "_type": "span",
+                "marks": [],
+                "text": "След полагането на комуникациите на автоматичната напоителна система започваме да монтираме пръскачки и други елементи на системата."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b16y",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16w",
+                "_type": "span",
+                "marks": [],
+                "text": "Предимства на автоматичното поливане "
+              },
+              {
+                "_key": "b16x",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": ":"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b171",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b16z",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Спестяване на време и усилия"
+              },
+              {
+                "_key": "b170",
+                "_type": "span",
+                "marks": [],
+                "text": ". Автоматичното поливане ви позволява да не се притеснявате за поливането на вашите растения."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b174",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b172",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Равномерно поливане"
+              },
+              {
+                "_key": "b173",
+                "_type": "span",
+                "marks": [],
+                "text": ". Автоматичното напояване осигурява равномерно разпределение на водата в цялата площ."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b177",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b175",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Подобряване на качеството на растението"
+              },
+              {
+                "_key": "b176",
+                "_type": "span",
+                "marks": [],
+                "text": ". Автоматичното поливане помага на растенията да се развиват и цъфтят по-добре."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b179",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b178",
+                "_type": "span",
+                "marks": [],
+                "text": "Ако искате да създадете красива и добре поддържана градина, автоматичната система за поливане е това, от което се нуждаете."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17a",
+                "_type": "span",
+                "marks": [],
+                "text": "След инсталиране и проверка на функционалността на системата за автоматично поливане, продължаваме работата по озеленяване на района"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17e",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17d",
+                "_type": "span",
+                "marks": [
+                  "b17c"
+                ],
+                "text": "Извършваме дейности по озеленяване"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b17c",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "b17g",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17f",
+                "_type": "span",
+                "marks": [],
+                "text": "Нека започнем да изравняваме района. За целта използваме вносна почва и пясък. Изравняването на площта е необходимо, за да се гарантира, че площта има красив и добре поддържан външен вид, както и да се осигури равномерно разпределение на водата в цялата площ по време на напояване."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17h",
+                "_type": "span",
+                "marks": [],
+                "text": "След това започваме да засаждаме растенията. Когато "
+              },
+              {
+                "_key": "b17i",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "засаждаме растения"
+              },
+              {
+                "_key": "b17j",
+                "_type": "span",
+                "marks": [],
+                "text": ", ние вземаме предвид следните фактори:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17l",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Вид растения"
+              },
+              {
+                "_key": "b17m",
+                "_type": "span",
+                "marks": [],
+                "text": ". Растенията трябва да бъдат адаптирани към климата на региона."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17o",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Размер на растението"
+              },
+              {
+                "_key": "b17p",
+                "_type": "span",
+                "marks": [],
+                "text": ". Растенията трябва да съответстват на дизайна на сайта."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17r",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Условия на растеж"
+              },
+              {
+                "_key": "b17s",
+                "_type": "span",
+                "marks": [],
+                "text": ". Растенията трябва да получават достатъчно светлина, вода и хранителни вещества."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17u",
+                "_type": "span",
+                "marks": [],
+                "text": "След засаждане на растенията ги поливаме и наторяваме."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b17x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17w",
+                "_type": "span",
+                "marks": [],
+                "text": "През пролетта ще продължим с озеленяването на тази територия. През пролетта ще извършим следната работа:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b180",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b17y",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Допълнително засаждане"
+              },
+              {
+                "_key": "b17z",
+                "_type": "span",
+                "marks": [],
+                "text": ". През пролетта можете да засадите растения, които не понасят студено време."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b183",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b181",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Грижи за растенията"
+              },
+              {
+                "_key": "b182",
+                "_type": "span",
+                "marks": [],
+                "text": ". През пролетта е необходимо да се извършва редовно поливане, торене и подрязване на растенията."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b187",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b184",
+                "_type": "span",
+                "marks": [],
+                "text": "Успяхме да извършим цялата тази "
+              },
+              {
+                "_key": "b185",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "работа по озеленяването на тази територия"
+              },
+              {
+                "_key": "b186",
+                "_type": "span",
+                "marks": [],
+                "text": " преди студовете. През пролетта ще продължим с озеленяването на тази територия."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b189",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b188",
+                "_type": "span",
+                "marks": [],
+                "text": "Нашите клиенти могат сами да инсталират автоматична поливна система, като закупят необходимите компоненти от нашия онлайн магазин за поливна техника."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18a",
+                "_type": "span",
+                "marks": [],
+                "text": "Дойде зимата и преустановихме работата по озеленяването на тази къща. Да продължим с озеленяването през пролетта."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18c",
+                "_type": "span",
+                "marks": [],
+                "text": "Завършваме озеленяването на обекта в Несебър."
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b18h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18e",
+                "_type": "span",
+                "marks": [],
+                "text": "Цялото основно засаждане е извършено през есента. Изградена е система за автоматично "
+              },
+              {
+                "_key": "b18f",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "поливане с оборудване Rain Bird"
+              },
+              {
+                "_key": "b18g",
+                "_type": "span",
+                "marks": [],
+                "text": ", съгласно одобрен проект."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18j",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18i",
+                "_type": "span",
+                "marks": [],
+                "text": "След като изследвахме територията през пролетта, установихме, че всички растения презимуваха забележително добре и след като се събудиха, започнаха да растат добре; торенето беше извършено със стимуланти за образуване на корени."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18k",
+                "_type": "span",
+                "marks": [],
+                "text": "Засаждане на цъфтящи растения"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b18n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18m",
+                "_type": "span",
+                "marks": [],
+                "text": "След като мястото беше подготвено, започнахме да засаждаме цъфтящи растения. При избора на растения взехме предвид следните фактори:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18o",
+                "_type": "span",
+                "marks": [],
+                "text": "Време на цъфтеж. Растенията трябва да цъфтят по различно време, за да може градината да цъфти през цялата година."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18q",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветова схема. Растенията трябва да съвпадат едно с друго по цвят."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18t",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Размер на растението. Растенията трябва да съответстват на дизайна на сайта."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18u",
+                "_type": "span",
+                "marks": [],
+                "text": "Цъфтящи акценти:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b18x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18w",
+                "_type": "span",
+                "marks": [],
+                "text": "Рози. Розите са едни от най-популярните цъфтящи растения. Предлагат се в различни цветове и размери, което ги прави подходящи за всяка градина."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b18z",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b18y",
+                "_type": "span",
+                "marks": [],
+                "text": "Лавандула. Лавандулата е ароматно растение, което се съчетава добре с други цветя."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b191",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b190",
+                "_type": "span",
+                "marks": [],
+                "text": "Едногодишни. Едногодишните са растения, които цъфтят за един сезон. Те ви позволяват да създавате ярки и цветни композиции."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b193",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b192",
+                "_type": "span",
+                "marks": [],
+                "text": "Мулчиране:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b195",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b194",
+                "_type": "span",
+                "marks": [],
+                "text": "След засаждането на растенията ги покрихме с мулч. Мулчът помага за задържане на почвената влага, потиска растежа на плевелите и подобрява външния вид на мястото."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b197",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b196",
+                "_type": "span",
+                "marks": [],
+                "text": "Бели камъчета:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b199",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b198",
+                "_type": "span",
+                "marks": [],
+                "text": "На някои места на сайта планираме да запълним земята с бели камъчета. Това ще придаде елегантност и изтънченост на градината."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19a",
+                "_type": "span",
+                "marks": [],
+                "text": "морава:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b19d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19c",
+                "_type": "span",
+                "marks": [],
+                "text": "Разбира се, не забравихме и тревата. Положихме рулонна тревна площ, която веднага придаде на обекта завършен вид на озеленяването."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19e",
+                "_type": "span",
+                "marks": [],
+                "text": "Грижи за растенията:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b19h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19g",
+                "_type": "span",
+                "marks": [],
+                "text": "След засаждането на растенията извършваме редовно поливане, торене и резитба. Това ще им помогне да се вкоренят добре и да цъфтят."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19i",
+                "_type": "span",
+                "marks": [],
+                "text": "Резултатът от извършената работа за подобряване на местната територия "
+              },
+              {
+                "_key": "b19j",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": ":"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b19m",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19l",
+                "_type": "span",
+                "marks": [],
+                "text": "Благодарение на засаждането на цъфтящи растения, нашата градина стана още по-красива и привлекателна. Растенията ни радват с цъфтежа си, а моравата създава уютна атмосфера."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19o",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19n",
+                "_type": "span",
+                "marks": [],
+                "text": "Озеленяването на обекта"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19p",
+                "_type": "span",
+                "marks": [],
+                "text": "Поръчайте работа по комплексно озеленяване на местни територии от специалистите на ландшафтното студио Флориал"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "b19s",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19r",
+                "_type": "span",
+                "marks": [],
+                "text": "Ние ще създадем за вас красива и добре поддържана градина, която ще ви радва дълги години."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19t",
+                "_type": "span",
+                "marks": [],
+                "text": "Нашите предимства:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b19w",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19v",
+                "_type": "span",
+                "marks": [],
+                "text": "Повече от 20 години опит"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b19y",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19x",
+                "_type": "span",
+                "marks": [],
+                "text": "Екип от квалифицирани специалисти"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1a0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b19z",
+                "_type": "span",
+                "marks": [],
+                "text": "Индивидуален подход към всеки клиент"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1a2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1a1",
+                "_type": "span",
+                "marks": [],
+                "text": "Използване само на качествени материали и растения"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1a4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1a3",
+                "_type": "span",
+                "marks": [],
+                "text": "Какво предлагаме:"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b1a6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1a5",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтен дизайн"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1a8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1a7",
+                "_type": "span",
+                "marks": [],
+                "text": "Озеленяване"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1aa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1a9",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на автоматична поливна система"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1ac",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1ab",
+                "_type": "span",
+                "marks": [],
+                "text": "Грижи за градината"
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1ae",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1ad",
+                "_type": "span",
+                "marks": [],
+                "text": "Свържете се с нас днес за безплатна консултация!"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b1ag",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1af",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Заповядайте при нас и ние ще направим вашата градина мечта!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b1aj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1ai",
+                "_type": "span",
+                "marks": [
+                  "b1ah"
+                ],
+                "text": "Продажа розы сорта Симпатия"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b1ah",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rozi-sympathy"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b1am",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1al",
+                "_type": "span",
+                "marks": [
+                  "b1ak"
+                ],
+                "text": "Topiary Pruning of Plants Nessebar"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b1ak",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b1ap",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b1ao",
+                "_type": "span",
+                "marks": [
+                  "b1an"
+                ],
+                "text": "Топиарная стрижка растений Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b1an",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Ландшафтен проект в Несебър на етапи на проектиране",
+        "seoDescription": "Полезна информация от Florial: Създаване на ландшафтен дизайн от проект до озеленяване в Несебър. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "seoTitle": "Създаване на ландшафтен дизайн от проект до озеленяване в Несебър | Florial",
+        "shortDescription": "Полезна информация от Florial: Създаване на ландшафтен дизайн от проект до озеленяване в Несебър. Практически решения за градината, озеленяването и автоматичното напояване в България.",
+        "title": "Създаване на ландшафтен дизайн от проект до озеленяване в Несебър"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "le1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial Landscape Studio provides complete landscaping services in Nessebar, from design and planning to planting and lawn installation."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Stages of landscape design"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "le3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le3s",
+                "_type": "span",
+                "marks": [],
+                "text": "A landscape plan helps organise planting areas, outdoor living spaces and paths, select suitable plants, plan automatic irrigation, choose paving and provide garden lighting. Ground preparation and rolled turf installation can also be included."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Landscape design as an integrated process"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le5s",
+                "_type": "span",
+                "marks": [],
+                "text": "The landscape architect considers the client’s wishes, site location, sunlight, soil composition and condition, terrain, existing buildings and architecture, and the available budget. Every element should work together to create a harmonious outdoor space."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Design is a collaboration between the client and landscape architect. It may involve several meetings, reviewing options, making revisions and selecting plants from nurseries. From initial sketches to setting-out drawings and planting schedules, decisions are discussed and approved by the owner. Online design with remote discussions and approvals is also possible."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why start with a design plan?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le8s",
+                "_type": "span",
+                "marks": [],
+                "text": "A landscape plan is more than drawings and calculations: it includes professional plant selection, composition ideas and practical advice based on experience. The owner makes the final choices, while specialists help avoid mistakes and select plants suited to the property."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le9",
+            "_type": "image",
+            "alt": "Planting perennials in Ravda",
+            "asset": {
+              "_ref": "image-fe6189c1b48d8485576f1f95ab42d7b1897449ed-960x960-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "le10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Automatic irrigation system"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "le11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Installing irrigation infrastructure"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Once the landscape plan is approved, the infrastructure for automatic irrigation is installed. This stage is important for the efficiency and long-term reliability of the system."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le13s",
+                "_type": "span",
+                "marks": [],
+                "text": "The work includes marking the site, positioning system components, digging trenches, laying pipes, installing valve boxes and solenoid valves at branch points to distribute water among zones, and fitting the controller. Sprinklers and other components are installed after the pipework and cables are in place."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Benefits of automatic irrigation"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Automation saves time and effort, provides more consistent watering and helps plants grow and flower well. Once the system has been tested, the remaining landscaping can continue."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Landscaping work on site"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "le17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le17s",
+                "_type": "span",
+                "marks": [],
+                "text": "The site is levelled first, using imported topsoil and sand where necessary. A level surface improves the appearance of the garden and supports even water distribution."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Plant selection takes account of local climate, mature size, design style, sunlight, access to water and nutrients. After planting, the plants are watered and fed as needed."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Some work can be completed in autumn before frost, with further planting and routine watering, feeding and pruning continuing in spring. In one project described in the original article, the main planting was completed in autumn and a Rain Bird automatic irrigation system was installed to the approved design. The plants overwintered well and resumed growth in spring."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Flowering plants and decorative details"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Flowering plants are selected by bloom time, colour palette and mature size. Compositions may include roses, lavender and seasonal annuals. Mulch helps retain soil moisture and suppress weeds; white decorative stones add contrast, while rolled turf gives the property a finished appearance."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le22s",
+                "_type": "span",
+                "marks": [],
+                "text": "After planting, regular care — watering, feeding and pruning — helps plants establish and flower well."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le23s",
+                "_type": "span",
+                "marks": [],
+                "text": "The result of complete landscaping"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "le24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le24s",
+                "_type": "span",
+                "marks": [],
+                "text": "Thoughtful planting, automatic irrigation and rolled turf create an attractive and welcoming garden. Florial offers landscape design, planting, automatic irrigation installation and ongoing garden care."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le25s",
+                "_type": "span",
+                "marks": [],
+                "text": "The studio’s strengths include more than 20 years of experience, qualified specialists, an individual approach and the use of quality materials and plants."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le26",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le26s",
+                "_type": "span",
+                "marks": [],
+                "text": "Property owners can also assemble an automatic irrigation system themselves by purchasing the required components from Florial’s online irrigation shop. Components should be compatible and installed according to a suitable design."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le27",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le27s",
+                "_type": "span",
+                "marks": [],
+                "text": "In one project described in the original article, the main landscaping work was completed before the cold weather, with remaining work scheduled for spring. After winter, the plants were inspected and work resumed when conditions were suitable."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le28",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le28s",
+                "_type": "span",
+                "marks": [],
+                "text": "Continuing the landscaping in spring"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le29",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le29s",
+                "_type": "span",
+                "marks": [],
+                "text": "Spring is a good time to add plants that are sensitive to cold and continue regular watering, feeding and pruning. Seasonal planning makes it easier to respond to local weather and the needs of each species."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le30",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le30s",
+                "_type": "span",
+                "marks": [],
+                "text": "In the project described, the plants established well after autumn planting and survived the winter successfully. Suitable root-development stimulants were used to support establishment."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le31",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le31s",
+                "_type": "span",
+                "marks": [],
+                "text": "Choosing flowering plants"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le32",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le32s",
+                "_type": "span",
+                "marks": [],
+                "text": "Flowering plants are selected by bloom time, colour harmony and mature size. Combining plants with different flowering periods helps keep the garden attractive for longer. Roses, lavender and seasonal annuals can all be used as accents."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le33",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le33s",
+                "_type": "span",
+                "marks": [],
+                "text": "Roses are available in many colours and sizes and suit a wide range of garden compositions. Lavender adds fragrance and combines well with other flowers. Annuals provide bright seasonal displays."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le34",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le34s",
+                "_type": "span",
+                "marks": [],
+                "text": "Mulch and decorative materials"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le35",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le35s",
+                "_type": "span",
+                "marks": [],
+                "text": "Mulch can be applied after planting to retain soil moisture, suppress weeds and create a neat finish. White decorative gravel can add contrast and emphasise plant forms in selected areas."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le36",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le36s",
+                "_type": "span",
+                "marks": [],
+                "text": "Rolled turf completes the composition and quickly provides an even green surface. After installation, it needs timely watering and appropriate care."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le37",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le37s",
+                "_type": "span",
+                "marks": [],
+                "text": "Aftercare"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le38",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le38s",
+                "_type": "span",
+                "marks": [],
+                "text": "Regular watering, feeding and pruning help plants establish, maintain their shape and flower well. Planning should also account for water availability and each plant’s light and nutrient requirements."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "le39",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le39s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial’s complete landscaping service"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "le40",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "le40s",
+                "_type": "span",
+                "marks": [],
+                "text": "Our services include landscape design, site preparation, planting trees and shrubs, creating flower beds, laying rolled turf, installing automatic irrigation and ongoing garden maintenance."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Landscape Design: From Plan to Planting",
+        "seoDescription": "Useful advice from Florial: Landscape Design: From Plan to Planting. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "seoTitle": "Landscape Design: From Plan to Planting | Florial",
+        "shortDescription": "Useful advice from Florial: Landscape Design: From Plan to Planting. Practical solutions for gardens, landscaping and automatic irrigation in Bulgaria.",
+        "title": "Landscape Design: From Plan to Planting"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "lr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтная студия Florial выполняет комплексное озеленение участков в Несебре — от разработки проекта до посадки растений и устройства газона."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Этапы ландшафтного дизайна"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "lr3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектирование помогает спланировать зелёные зоны, места отдыха и дорожки, подобрать растения, рассчитать автоматический полив, выбрать покрытие дорожек и предусмотреть освещение сада. Также подготавливается основание и укладывается рулонный газон."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтный дизайн как комплексный подход"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтный архитектор учитывает пожелания заказчика, расположение участка, освещённость, состав и состояние почвы, рельеф, существующие здания и их архитектуру, а также бюджет. Все элементы должны сочетаться друг с другом и формировать гармоничное пространство."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектирование — совместная работа клиента и ландшафтного архитектора: могут потребоваться несколько встреч, обсуждение вариантов, корректировки и выбор растений в питомниках. От эскизов до чертежей разбивки и посадочных ведомостей все решения согласуются с владельцем. Доступно и онлайн-проектирование с дистанционными обсуждениями и согласованием."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему стоит начать с проекта"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтный проект — это не только чертежи и расчёты, но и профессиональный подбор растений, композиционные решения и рекомендации, основанные на опыте. Владелец принимает окончательные решения, а специалисты помогают избежать ошибок и подобрать растения под условия участка."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr9",
+            "_type": "image",
+            "alt": "Посадка многолетних растений в Равде",
+            "asset": {
+              "_ref": "image-fe6189c1b48d8485576f1f95ab42d7b1897449ed-960x960-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "lr10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Автоматическая система полива"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "lr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж коммуникаций"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr12s",
+                "_type": "span",
+                "marks": [],
+                "text": "После согласования ландшафтного проекта прокладываются коммуникации автоматического полива. Этот этап влияет на эффективность и долговечность системы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Работы включают разметку территории и размещение элементов, рытьё траншей, прокладку труб, установку клапанных боксов и электромагнитных клапанов на ответвлениях для распределения воды по зонам, а также монтаж контроллера. После прокладки коммуникаций устанавливаются дождеватели и остальные компоненты."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Преимущества автоматического полива"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Автоматизация экономит время и усилия, обеспечивает более равномерное распределение воды и помогает растениям лучше расти и цвести. После проверки системы можно переходить к дальнейшему озеленению."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Выполнение работ по озеленению"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "lr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Сначала выравнивают участок, при необходимости добавляя привозной грунт и песок. Ровная поверхность улучшает внешний вид сада и помогает воде распределяться равномерно."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr18s",
+                "_type": "span",
+                "marks": [],
+                "text": "При подборе растений учитывают пригодность к местному климату, размер взрослого растения, соответствие стилю сада, освещённость, доступ к воде и питательным веществам. После посадки растения поливают и подкармливают."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Часть работ можно выполнить осенью до наступления морозов, а весной продолжить посадки теплолюбивых видов, регулярный полив, подкормку и обрезку. В одном из описанных проектов основная посадка была выполнена осенью, а система автоматического полива Rain Bird смонтирована по утверждённому проекту. Весной растения хорошо перезимовали и продолжили рост."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветущие растения и декоративные детали"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr21s",
+                "_type": "span",
+                "marks": [],
+                "text": "При подборе цветущих растений учитывают сроки цветения, сочетание цветов и размеры. В композициях могут использоваться розы, лаванда и сезонные однолетники. Мульча помогает удерживать влагу и ограничивать сорняки; декоративные белые камни добавляют контраст, а рулонный газон придаёт участку завершённый вид."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr22s",
+                "_type": "span",
+                "marks": [],
+                "text": "После посадки необходим регулярный уход: полив, подкормка и обрезка, чтобы растения укоренились и хорошо цвели."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Результат комплексного озеленения"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "lr24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr24s",
+                "_type": "span",
+                "marks": [],
+                "text": "Продуманная посадка цветущих растений, автоматический полив и рулонный газон помогают сделать сад привлекательным и уютным. Florial предлагает ландшафтное проектирование, озеленение, монтаж автоматического полива и дальнейший уход."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr25s",
+                "_type": "span",
+                "marks": [],
+                "text": "Преимущества студии — более 20 лет опыта, квалифицированные специалисты, индивидуальный подход и использование качественных материалов и растений."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr26",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr26s",
+                "_type": "span",
+                "marks": [],
+                "text": "Заказчик может самостоятельно собрать систему автоматического полива, приобретя необходимые компоненты в интернет-магазине оборудования для полива Florial. При этом важно соблюдать проект и подобрать совместимые компоненты."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr27",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr27s",
+                "_type": "span",
+                "marks": [],
+                "text": "В одном из описанных проектов основные работы по озеленению были выполнены до наступления холодов, а завершение перенесли на весну. После зимы специалисты проверили состояние растений и продолжили работу по мере наступления подходящей погоды."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr28",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr28s",
+                "_type": "span",
+                "marks": [],
+                "text": "Весеннее продолжение озеленения"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr29",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr29s",
+                "_type": "span",
+                "marks": [],
+                "text": "Весной можно высадить дополнительные растения, которые чувствительны к холоду, и продолжить регулярный полив, подкормку и обрезку. Сезонный график позволяет учитывать климатические условия и потребности каждого вида."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr30",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr30s",
+                "_type": "span",
+                "marks": [],
+                "text": "В описанном проекте растения хорошо перенесли зиму после осенней посадки. Для поддержки укоренения использовали подходящие стимуляторы корнеобразования."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr31",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr31s",
+                "_type": "span",
+                "marks": [],
+                "text": "Подбор цветущих растений"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr32",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr32s",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветущие растения подбирают так, чтобы учитывать сроки цветения, гармонию цветовой гаммы и размеры растений. Разные сроки цветения помогают поддерживать декоративность сада в течение длительного периода. В качестве акцентов могут использоваться розы, лаванда и сезонные однолетники."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr33",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr33s",
+                "_type": "span",
+                "marks": [],
+                "text": "Розы доступны в разных цветах и размерах и подходят для самых разных садовых композиций. Лаванда добавляет аромат и хорошо сочетается с другими цветами. Однолетние растения позволяют создавать яркие сезонные композиции."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr34",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr34s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мульчирование и декоративные материалы"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr35",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr35s",
+                "_type": "span",
+                "marks": [],
+                "text": "После посадки можно использовать мульчу: она помогает сохранять влагу в почве, сдерживать рост сорняков и придаёт посадкам аккуратный вид. В отдельных зонах белая декоративная галька создаёт контраст и подчёркивает форму растений."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr36",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr36s",
+                "_type": "span",
+                "marks": [],
+                "text": "Рулонный газон завершает композицию и позволяет быстро получить ровную зелёную поверхность. После укладки ему необходимы своевременный полив и уход."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr37",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr37s",
+                "_type": "span",
+                "marks": [],
+                "text": "Уход после посадки"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr38",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr38s",
+                "_type": "span",
+                "marks": [],
+                "text": "Регулярный полив, подкормка и обрезка помогают растениям укорениться, сохранить форму и обильно цвести. При планировании важно учитывать доступность воды и потребности растений в освещении и питательных веществах."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "lr39",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr39s",
+                "_type": "span",
+                "marks": [],
+                "text": "Что включает комплексная услуга Florial"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "lr40",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lr40s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы предлагаем ландшафтный дизайн, подготовку участка, посадку деревьев и кустарников, устройство цветников, укладку рулонного газона, монтаж автоматического полива и последующий уход за садом."
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Создание ландшафтного дизайна: от проекта до озеленения",
+        "seoDescription": "Полезная информация от Florial: Создание ландшафтного дизайна: от проекта до озеленения. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "seoTitle": "Создание ландшафтного дизайна: от проекта до озеленения | Florial",
+        "shortDescription": "Полезная информация от Florial: Создание ландшафтного дизайна: от проекта до озеленения. Практические решения для сада, озеленения и автоматического полива в Болгарии.",
+        "title": "Создание ландшафтного дизайна: от проекта до озеленения"
+      }
+    }
+  }
+}
