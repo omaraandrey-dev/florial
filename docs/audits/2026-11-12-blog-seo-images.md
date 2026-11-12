@@ -46,7 +46,7 @@
 **EN**
 
 - `shortDescription`: Learn what shapes an automatic irrigation estimate, from garden layout and paths to watering zones, sprinklers, drip lines and available water pressure.
-- `seoTitle`: Automatic Irrigation Cost in Burgas Region | Florial
+- `seoTitle`: Automatic Irrigation Cost in the Burgas Region | Florial
 - `seoDescription`: See how garden layout, paths, planting and water pressure affect an automatic irrigation system. Florial helps assess irrigation needs around Nessebar.
 
 ### sistema-magluvane-terasa-besedka
@@ -61,13 +61,13 @@
 
 - `shortDescription`: Как устроена система туманообразования для террасы или беседки, из каких компонентов она состоит и где её удобно использовать на открытом воздухе.
 - `seoTitle`: Система туманообразования для террасы и беседки | Florial
-- `seoDescription`: Узнайте, как работает система туманообразования для террас, беседок и зон отдыха у бассейна. Посмотреть демонстрационный комплект можно в садовом центре Florial.
+- `seoDescription`: Узнайте, как работает система туманообразования для террас и зон отдыха у бассейна. Демонстрационный комплект можно увидеть в садовом центре Florial.
 
 **EN**
 
 - `shortDescription`: Discover how an outdoor misting system works, which components it uses and how it can make terraces, gazebos and poolside seating more comfortable.
 - `seoTitle`: Outdoor Misting System for Terraces and Gazebos | Florial
-- `seoDescription`: Explore the components and operation of an outdoor misting system for terraces, gazebos and poolside areas. See the demonstration setup at Florial Garden Centre.
+- `seoDescription`: Explore an outdoor misting system for terraces, gazebos and poolside areas. See the demonstration setup at Florial Garden Centre.
 
 ### rozi-sympathy
 
@@ -87,7 +87,7 @@
 
 - `shortDescription`: Meet the Sympathy climbing rose, with notes on its flowering habit, suitable supports and practical considerations for choosing and growing it in a garden.
 - `seoTitle`: Sympathy Climbing Rose: Flowers and Care | Florial
-- `seoDescription`: Learn about the Sympathy climbing rose, its flowering and use on arches, pergolas and fences. Find practical guidance for choosing and caring for this garden plant.
+- `seoDescription`: Learn about the Sympathy climbing rose and its use on arches, pergolas and fences, with practical guidance for choosing and caring for the plant.
 
 ### nov-vnos-palmi-2025
 
@@ -106,8 +106,8 @@
 **EN**
 
 - `shortDescription`: An archive of Florial’s 2025 palm shipment, with an overview of the species featured and points to consider when choosing palms for outdoor or indoor spaces.
-- `seoTitle`: Palm Trees for Gardens: Choosing and Caring | Florial
-- `seoDescription`: This article looks back at Florial’s 2025 palm shipment and outlines selection factors such as location, light and winter conditions. Current availability must be confirmed separately.
+- `seoTitle`: Palm Trees for Gardens: Selection and Care | Florial
+- `seoDescription`: A look back at Florial’s 2025 palm shipment, with selection tips for location, light and winter conditions. Current availability must be confirmed separately.
 
 ### maslina-sredizemnomorie
 
@@ -285,7 +285,7 @@
 
 **EN**
 
-- `shortDescription`: How a landscape design project is developed in Nessebar, from the site visit and concept sketch to functional zones, working plans and preparation for implementation.
+- `shortDescription`: How a landscape design project develops in Nessebar, from the site visit and concept sketch to garden zones, working plans and preparation for implementation.
 - `seoTitle`: Landscape Design Project in Nessebar: Stages | Florial
 - `seoDescription`: Learn what a landscape design project in Nessebar can include, from a site visit and concept to garden zoning, planting plans and preparation for landscaping.
 
