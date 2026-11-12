@@ -1,3 +1,11 @@
+## Homepage hero — release deployed (12.11.2026, PR #242)
+
+- PR #242 merged to `main`: `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`.
+- Production deployment `4f4dc307-3f6d-416b-b411-4bceccbc3661` is successful on that exact commit; deployment aliases include apex and www.
+- Sanity photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` points to compressed image asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png` (1,015,107 bytes, 1518×957); homepage fallback URL is synchronized.
+- CI passed on exact PR head `a7270d4b931009dba4fd27c35a99b5375dbcca3e`: Blog/Studio run `43271610071`, D1 run `43271609865`.
+- **Still open:** visual owner QA, actual browser network candidate/transfer measurement and repeat mobile/desktop Lighthouse. Do not equate Sanity asset byte reduction with measured LCP improvement.
+
 ## Homepage hero — compressed Sanity photo asset (12.11.2026)
 
 - Published photo record `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png` (1518×957; 1,015,107 bytes).
