@@ -1,4 +1,4 @@
-> **Актуальный статус — 12.11.2026:** PR #240 открыт; exact-head CI успешно прошёл (Blog and Studio run `43260945549`, D1 validation run `43260916986`). Header, homepage plant cards и полный catalogue index разделены; полный индекс товаров запрашивается только на страницах категорий и товаров, а видимость категорий вычисляется через GROQ productCount. Browser route regression, Network waterfall, Lighthouse и visual QA пока не подтверждены; performance gain не измерен. Production не менялся.
+> **Актуальный статус — 12.11.2026:** PR #240 открыт; exact-head CI успешно прошёл (Blog and Studio run `43261832983`, D1 validation run `43261833064`). Header, homepage plant cards и полный catalogue index разделены; полный индекс товаров запрашивается только на страницах категорий и товаров, а видимость категорий вычисляется через GROQ productCount. Browser route regression, Network waterfall, Lighthouse и visual QA пока не подтверждены; performance gain не измерен. Production не менялся.
 
 # Florial — дорожная карта оптимизации производительности
 
