@@ -1,6 +1,20 @@
 # Florial — CURRENT STATE
 
-> Snapshot date: 2026-11-11. This is a concise handoff document for ChatGPT, Claude, Gemini and developers. It does not replace the mandatory startup protocol, detailed technical passport, source code or live-service checks.
+> Snapshot date: 2026-11-12. This is a concise handoff document for ChatGPT, Claude, Gemini and developers. It does not replace the mandatory startup protocol, detailed technical passport, source code or live-service checks.
+
+## 2026-11-12 — FLORIAL STABLE BASELINE
+
+- Stable baseline name: `FLORIAL-STABLE-2026-11-12`.
+- Immutable source commit: `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388` ([GitHub commit](https://github.com/omaraandrey-dev/florial/commit/d72b9bfdd7036359e1eb2d13f819d24a8bb6c388)).
+- Stable reference branch created: `stable/florial-2026-11-12`, pointing to the exact commit above. The commit SHA is the authoritative immutable identifier; the branch is a convenient pointer and must not be moved.
+- Cloudflare Pages Production deployment: `df1c81a8-4646-4d0e-9871-d389e5523a89`, URL `https://df1c81a8.florial.pages.dev`, environment `production`, deployment stage `success`; deployed from the same commit SHA. Production aliases at verification: `https://florial-bg.com` and `https://www.florial-bg.com`.
+- GitHub Actions run `43100886700` for the exact commit completed with conclusion `success`: [workflow run](https://github.com/omaraandrey-dev/florial/actions/runs/43100886700).
+- The baseline captures the repository source and the successful Pages deployment identity. It is **not** a database snapshot: no D1 backup or Sanity export was created as part of this checkpoint. No D1/Sanity/Resend data, schema, Cloudflare settings, secrets, bindings or DNS were changed.
+- The latest documented D1 audit remains the read-only audit dated 2026-11-11 in this passport; its table-count metadata discrepancy and unconfirmed full SQLite integrity check remain open. Do not imply that this baseline can restore D1 or Sanity data.
+- A Git tag/GitHub Release was not created in this operation because the connected GitHub actions available here expose branch creation but not Git tag or Release creation. The immutable commit SHA plus stable branch and deployment ID provide the current code/deployment reference. Create a true tag/release separately when a Git tag write operation is available.
+- Restore target for application code: deploy the exact commit `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`; verify compatibility with the current D1 schema and external services before any rollback. Do not roll back D1 or Sanity by restoring this code reference alone.
+
+---
 
 ## Project and source of truth
 
