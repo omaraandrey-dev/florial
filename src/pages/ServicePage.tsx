@@ -370,6 +370,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         ? shortDescription
         : `${localizedName} — професионални услуги от Florial в България.`,
       language,
+      imageUrl: service.imageUrl || service.hero?.imageUrl,
       noIndex: false,
       alternates: baseUrl ? alternates : undefined,
     })
