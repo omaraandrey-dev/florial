@@ -7,7 +7,8 @@
 - Фильтр видимых категорий больше не скачивает товары: GROQ возвращает `productCount` для категорий, клиент добавляет предков категорий с товарами. Сохранена прежняя логика direct category + multi-category references. Read-only GROQ проверен в Sanity Production (54 категории) и Plants (17 категорий); оба запроса успешно вернули счётчики.
 - Загрузка категорий, услуг и каталога разделена. Страницы услуг не ожидают каталог; категории и товары ожидают только собственные необходимые данные. Поиск не ждёт глобальный product index.
 - Изменены: `src/App.tsx`, `src/pages/HomePage.tsx`, `src/types.ts`, документация. Sanity documents/schema, Cloudflare settings/secrets, D1, Resend и Production не изменялись.
-- **Проверки на момент записи:** PR открыт; GitHub CI по точному head, build/lint/tests и route regression ещё не подтверждены. Lighthouse, Network waterfall и desktop/mobile visual QA не выполнялись. Улучшение скорости пока не заявляется как измеренное. Production deployment не запускался.
+- **CI по точному head `074165b45d10e615f3ed59ade11181437b4a5ddf`:** Blog and Studio validation run `43260520254` — success (website lint, utility tests, website build, migration syntax/dry-run, Sanity Studio build); D1 validation run `43260520304` — success (lint, website build, Pages Functions syntax и обе migration validations). Это подтверждает CI/build, но не браузерную route regression.
+- **Остаётся до merge:** browser/visual QA desktop и mobile для BG/RU/EN и прямых URL главной, шести plant categories, equipment category, product detail, search, services list/detail, About, Blog/list/article, contacts и cart. В Network подтвердить, что homepage и нетоварные страницы не запрашивают полный catalogue index, а Header не блокирует рендер страниц. Lighthouse и Network waterfall before/after ещё не измерены; performance gain не заявляется. Production deployment не запускался.
 
 ## 2026-11-12 — Responsive delivery для Header logo (PR pending)
 
