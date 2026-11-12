@@ -55,6 +55,34 @@ export function HomePage({
       },
     })
   }, [language])
+  // На главной показываем только корневые категории, без подкатегорий.
+  const catalogRootId = categories.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
+  const rootCategories = categories.filter((category) => !category.parentId || category.parentId === catalogRootId)
+  const categoryOrder = [
+    'vsichko-za-polivane',
+    'gotovi-komplekti-za-polivane',
+    'controllers',
+    'sprinklers',
+    'nozzles',
+    'klapani',
+    'shahti',
+    'kapkovo-napoyavane',
+    'filtri-regulatori-nalyagane',
+    'trabi-fitingi-aksesoari',
+    'drugi-komponenti-za-polivane',
+  ]
+  const sortedCategories = [...rootCategories].sort((a, b) => {
+    const aIndex = categoryOrder.indexOf(a.slug?.current || '')
+    const bIndex = categoryOrder.indexOf(b.slug?.current || '')
+    if (aIndex !== -1 || bIndex !== -1) {
+      if (aIndex === -1) return 1
+      if (bIndex === -1) return -1
+      return aIndex - bIndex
+    }
+    return (a.sortOrder || 999) - (b.sortOrder || 999) || a.name.localeCompare(b.name, 'bg')
+  })
+  // Keep the homepage concise; the catalogue pages retain the complete category lists.
+
   const homepagePlantCategoryIds = [
     'plants-root',
     'plants-palms',
