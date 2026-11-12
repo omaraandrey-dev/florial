@@ -1,3 +1,12 @@
+## 2026-11-12 — RSS-лента услуг (реализация в PR)
+
+- Реализуется feed `https://florial-bg.com/feeds/services-bg.xml` в Cloudflare Pages Functions; источник данных — опубликованные документы `service` из Sanity `production`.
+- Read-only GROQ проверил 20 активных услуг. Выборка ограничена документами с slug, активным статусом и `seo.noIndex != true`; draft IDs исключены. Для RSS используется BG name/shortDescription, абсолютная ссылка `/services/{slug}` и `_updatedAt` как дата обновления элемента.
+- RSS 2.0 с Atom self-link, `bg-BG`, безопасным XML escaping и CDN cache TTL 5 минут. В `index.html` добавляется autodiscovery link.
+- Sanity, D1, Cloudflare settings/secrets и Production не менялись. Проверки CI и live endpoint ожидают PR/deployment; до этого Production доступность не подтверждена.
+
+---
+
 ## 2026-11-12 — Перенос коммерческих страниц из блога в услуги (завершён)
 
 - В Sanity Production опубликованы 8 специализированных service documents: дождеватели, программаторы, электромагнитные клапаны, ремонт/модернизация полива, годовая профилактика, цветники, топиарная резитба и замена газона.
