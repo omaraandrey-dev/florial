@@ -1,10 +1,1217 @@
 {
-  "backupType": "Sanity published document snapshot",
+  "backupType": "Sanity published document restore snapshot",
   "projectId": "bxvcy0qs",
   "dataset": "production",
   "perspective": "published",
   "capturedAt": "2026-11-12",
   "document": {
-    "text": "Query executed successfully. Found 1 document: \n<documents>{\"_createdAt\":\"2026-11-12T06:24:59Z\",\"_id\":\"9f8a5130-49e8-4d34-9f76-c6124503fb5d\",\"_rev\":\"qvVg1luYRxJZnxaWi0mXAq\",\"_type\":\"service\",\"_updatedAt\":\"2026-11-12T06:30:32Z\",\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Изпрати запитване\",\"text\":\"Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.\",\"title\":\"Заявете услугата\"},\"contentBlocks\":[],\"description\":[{\"_key\":\"bjp\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjo\",\"_type\":\"span\",\"marks\":[],\"text\":\"Поддържайте надеждността на вашата автоматична поливна система с професионалисти\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bjs\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjr\",\"_type\":\"span\",\"marks\":[],\"text\":\"Нашият градински център предлага пълна гама от услуги за ремонт и модернизация на автоматични поливни системи в Несебър и околностите. Независимо от сложността на проблема, ние сме готови да отстраним неизправностите, да актуализираме оборудването или да адаптираме системата към новите изисквания на вашия обект.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bju\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjt\",\"_type\":\"span\",\"marks\":[],\"text\":\"Кога се налага ремонт на автоматична поливна система?\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bjw\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjv\",\"_type\":\"span\",\"marks\":[],\"text\":\"Напоителните системи се нуждаят от ремонт по различни причини:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bjy\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjx\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Механични повреди\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bk0\",\"_type\":\"block\",\"children\":[{\"_key\":\"bjz\",\"_type\":\"span\",\"marks\":[],\"text\":\"Пръскачките или дюзите могат да се повредят от косене на трева, неправилна употреба или метеорологични условия.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bk2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bk1\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Воден удар и грешки при монтажа\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bk4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bk3\",\"_type\":\"span\",\"marks\":[],\"text\":\"Неправилни хидравлични изчисления, лошо качество на оборудването или грешки при монтажа водят до течове във връзките, счупени клапани и други неизправности.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bk6\",\"_type\":\"block\",\"children\":[{\"_key\":\"bk5\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Износване на оборудването\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bk8\",\"_type\":\"block\",\"children\":[{\"_key\":\"bk7\",\"_type\":\"span\",\"marks\":[],\"text\":\"Компонентите на системата като помпи, филтри или контролери изискват подмяна след 5-7 години работа.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bka\",\"_type\":\"block\",\"children\":[{\"_key\":\"bk9\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Необходимостта от адаптиране на системата\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkc\",\"_type\":\"block\",\"children\":[{\"_key\":\"bkb\",\"_type\":\"span\",\"marks\":[],\"text\":\"Промените в озеленяването, новите насаждения или строителството изискват коригиране на разположението на спринклерите, добавяне на капкови линии или създаване на нови зони за напояване.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkf\",\"_type\":\"block\",\"children\":[{\"_key\":\"bke\",\"_type\":\"span\",\"marks\":[],\"text\":\"Предимства на сътрудничество с Градински център Флорал\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bkj\",\"_type\":\"block\",\"children\":[{\"_key\":\"bkg\",\"_type\":\"span\",\"marks\":[],\"text\":\"1\\\\. \"},{\"_key\":\"bkh\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Професионален подход\"},{\"_key\":\"bki\",\"_type\":\"span\",\"marks\":[],\"text\":\". Ние не само отстраняваме неизправностите, но и идентифицираме причините за тяхното възникване. Всеки проект започва с диагностика, която включва анализ на работата на помпата, херметичността на системата и разположението на спринклера.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkn\",\"_type\":\"block\",\"children\":[{\"_key\":\"bkk\",\"_type\":\"span\",\"marks\":[],\"text\":\"2\\\\. \"},{\"_key\":\"bkl\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Съвременно оборудване\"},{\"_key\":\"bkm\",\"_type\":\"span\",\"marks\":[],\"text\":\". Използваме само оригинални компоненти от водещи производители като Rain Bird и Hunter, което гарантира надеждността и дългия живот на системата.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkr\",\"_type\":\"block\",\"children\":[{\"_key\":\"bko\",\"_type\":\"span\",\"marks\":[],\"text\":\"3\\\\. \"},{\"_key\":\"bkp\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"Оптимизация на системата\"},{\"_key\":\"bkq\",\"_type\":\"span\",\"marks\":[],\"text\":\". Регулираме зоните за напояване, подменяме остарели елементи и монтираме ново оборудване, без да нарушаваме съществуващия ландшафт.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkt\",\"_type\":\"block\",\"children\":[{\"_key\":\"bks\",\"_type\":\"span\",\"marks\":[],\"text\":\"Услуги, които предоставяме\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bkv\",\"_type\":\"block\",\"children\":[{\"_key\":\"bku\",\"_type\":\"span\",\"marks\":[],\"text\":\"Системна диагностика. Анализ на състоянието на оборудването, идентифициране на проблемни сухи зони.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkx\",\"_type\":\"block\",\"children\":[{\"_key\":\"bkw\",\"_type\":\"span\",\"marks\":[],\"text\":\"Ремонт на оборудване. Смяна на дюзи, спринклери, клапани, помпи и контролери, ремонт на срезове и течове по тръбопроводи.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bkz\",\"_type\":\"block\",\"children\":[{\"_key\":\"bky\",\"_type\":\"span\",\"marks\":[],\"text\":\"Корекция на системата. Преместване на пръскачки, създаване на нови зони за напояване, регулиране на времето и интензитета на напояване.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bl1\",\"_type\":\"block\",\"children\":[{\"_key\":\"bl0\",\"_type\":\"span\",\"marks\":[],\"text\":\"Модернизация на системата. Осъвременяване на остарели елементи, инсталиране на съвременни решения за ефективно и икономично напояване.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bl3\",\"_type\":\"block\",\"children\":[{\"_key\":\"bl2\",\"_type\":\"span\",\"marks\":[],\"text\":\"Защо е важно да се обърнете към професионалисти?\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bl5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bl4\",\"_type\":\"span\",\"marks\":[],\"text\":\"Редовната поддръжка на автоматичната напоителна система ви позволява да избегнете сериозни повреди и допълнителни разходи. Пренебрегването на основните правила за работа води до:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bl7\",\"_type\":\"block\",\"children\":[{\"_key\":\"bl6\",\"_type\":\"span\",\"marks\":[],\"text\":\"Жълти петна по моравата поради запушени дюзи.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bl9\",\"_type\":\"block\",\"children\":[{\"_key\":\"bl8\",\"_type\":\"span\",\"marks\":[],\"text\":\"Поливане в неподходящо време поради дефектен контролер.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blb\",\"_type\":\"block\",\"children\":[{\"_key\":\"bla\",\"_type\":\"span\",\"marks\":[],\"text\":\"Повреда на тръбите поради различни причини.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bld\",\"_type\":\"block\",\"children\":[{\"_key\":\"blc\",\"_type\":\"span\",\"marks\":[],\"text\":\"Сътрудничейки с нас, Вие ще получите:\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"blf\",\"_type\":\"block\",\"children\":[{\"_key\":\"ble\",\"_type\":\"span\",\"marks\":[],\"text\":\"Качествено обслужване.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blh\",\"_type\":\"block\",\"children\":[{\"_key\":\"blg\",\"_type\":\"span\",\"marks\":[],\"text\":\"Бързо отстраняване на неизправности.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blj\",\"_type\":\"block\",\"children\":[{\"_key\":\"bli\",\"_type\":\"span\",\"marks\":[],\"text\":\"Увереност в издръжливостта на системата.\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bll\",\"_type\":\"block\",\"children\":[{\"_key\":\"blk\",\"_type\":\"span\",\"marks\":[],\"text\":\"Цени за ремонт на автоматични поливни системи в Несебър, Слънчев бряг, Равда, Поморие, Свети Влас, Коблешково, Кошарица\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"blp\",\"_type\":\"block\",\"children\":[{\"_key\":\"blm\",\"_type\":\"span\",\"marks\":[],\"text\":\"Цената на ремонта и модернизацията на поливната система \"},{\"_key\":\"bln\",\"_type\":\"span\",\"marks\":[\"strong\"],\"text\":\"започва от 75 евро\"},{\"_key\":\"blo\",\"_type\":\"span\",\"marks\":[],\"text\":\" и зависи от сложността на работата. Част от ремонтните дейности, които извършваме:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blr\",\"_type\":\"block\",\"children\":[{\"_key\":\"blq\",\"_type\":\"span\",\"marks\":[],\"text\":\"Смяна на пръскалка, преместване на лейка, демонтаж на пръскалка\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blt\",\"_type\":\"block\",\"children\":[{\"_key\":\"bls\",\"_type\":\"span\",\"marks\":[],\"text\":\"Смяна на контролера, инсталиране на компютъра за напояване на място\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blv\",\"_type\":\"block\",\"children\":[{\"_key\":\"blu\",\"_type\":\"span\",\"marks\":[],\"text\":\"Полагане на тръбопровод за напояване\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blx\",\"_type\":\"block\",\"children\":[{\"_key\":\"blw\",\"_type\":\"span\",\"marks\":[],\"text\":\"Диагностика на автоматична поливна система\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"blz\",\"_type\":\"block\",\"children\":[{\"_key\":\"bly\",\"_type\":\"span\",\"marks\":[],\"text\":\"смяна на спринклерна дюза\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bm1\",\"_type\":\"block\",\"children\":[{\"_key\":\"bm0\",\"_type\":\"span\",\"marks\":[],\"text\":\"демонтаж/монтиране на помпата на място\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bm3\",\"_type\":\"block\",\"children\":[{\"_key\":\"bm2\",\"_type\":\"span\",\"marks\":[],\"text\":\"пълна подмяна на соленоидния клапан\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bm5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bm4\",\"_type\":\"span\",\"marks\":[],\"text\":\"почистване на соленоидния клапан\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bm7\",\"_type\":\"block\",\"children\":[{\"_key\":\"bm6\",\"_type\":\"span\",\"marks\":[],\"text\":\"подмяна на вътрешността на соленоидния клапан\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bm9\",\"_type\":\"block\",\"children\":[{\"_key\":\"bm8\",\"_type\":\"span\",\"marks\":[],\"text\":\"смяна на соленоид\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmb\",\"_type\":\"block\",\"children\":[{\"_key\":\"bma\",\"_type\":\"span\",\"marks\":[],\"text\":\"почистване на грубия филтър\"}],\"level\":1,\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmd\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmc\",\"_type\":\"span\",\"marks\":[],\"text\":\"Минималната цена на услугата ремонт и поддръжка на поливна система е 75 евро.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmf\",\"_type\":\"block\",\"children\":[{\"_key\":\"bme\",\"_type\":\"span\",\"marks\":[],\"text\":\"\\\\\\\\* без транспортни разходи\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmh\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmg\",\"_type\":\"span\",\"marks\":[],\"text\":\"\\\\*разходите за поливни материали не са включени\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmj\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmi\",\"_type\":\"span\",\"marks\":[],\"text\":\"\\\\*стойност на работата към 1.02.2026г\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bml\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmk\",\"_type\":\"span\",\"marks\":[],\"text\":\"Свържете се с Floral Garden Center, за да се уверите, че вашата автоматична поливна система работи гладко и ефективно. Ние сме готови да ви помогнем по всяко време!\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmn\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmm\",\"_type\":\"span\",\"marks\":[],\"text\":\"Нашите контакти:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmp\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmo\",\"_type\":\"span\",\"marks\":[],\"text\":\"За да получите оценка на разходите за работа по пролетното пускане на автоматична напоителна система, свържете се с нас на следните контакти:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bmt\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmq\",\"_type\":\"span\",\"marks\":[],\"text\":\"🌐 Нашият уебсайт: \"},{\"_key\":\"bms\",\"_type\":\"span\",\"marks\":[\"bmr\"],\"text\":\"www.drop.od.ua\"}],\"markDefs\":[{\"_key\":\"bmr\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"},{\"_key\":\"bmx\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmu\",\"_type\":\"span\",\"marks\":[],\"text\":\"📧 Имейл: \"},{\"_key\":\"bmw\",\"_type\":\"span\",\"marks\":[\"bmv\"],\"text\":\"omaraandrey@gmail.com\"}],\"markDefs\":[{\"_key\":\"bmv\",\"_type\":\"link\",\"href\":\"mailto:omaraandrey@gmail.com\"}],\"style\":\"normal\"},{\"_key\":\"bmz\",\"_type\":\"block\",\"children\":[{\"_key\":\"bmy\",\"_type\":\"span\",\"marks\":[],\"text\":\"📞 Телефон: +359876777902\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bn2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bn1\",\"_type\":\"span\",\"marks\":[\"bn0\"],\"text\":\"Пускане на автоматична поливна система през пролетта. Деконсервация \"}],\"markDefs\":[{\"_key\":\"bn0\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"},{\"_key\":\"bn5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bn4\",\"_type\":\"span\",\"marks\":[\"bn3\"],\"text\":\"Продава тревен чим Несебър\"}],\"markDefs\":[{\"_key\":\"bn3\",\"_type\":\"link\",\"href\":\"/blog/prodavane-traven-chim\"}],\"style\":\"normal\"},{\"_key\":\"bn8\",\"_type\":\"block\",\"children\":[{\"_key\":\"bn7\",\"_type\":\"span\",\"marks\":[\"bn6\"],\"text\":\"Монтаж на автоматична поливна система в Слънчев бряг\"}],\"markDefs\":[{\"_key\":\"bn6\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"}],\"gallery\":[{\"_key\":\"qvVg1luYRxJZnxaWi0m5JZ\",\"_type\":\"image\",\"alt\":\"Ремонт на автоматични поливни системи в Несебър\",\"altEn\":\"Automatic irrigation system repair in Nessebar\",\"altRu\":\"Ремонт систем автоматического полива в Несебре\",\"asset\":{\"_ref\":\"image-574a1c8a8b3d971b43f32277d4d34724c13eb7fb-1000x1000-jpg\",\"_type\":\"reference\"}},{\"_key\":\"qvVg1luYRxJZnxaWi0m5Kk\",\"_type\":\"image\",\"alt\":\"Ремонт на автоматични поливни системи в Слънчев бряг\",\"altEn\":\"Repairing an automatic irrigation system in Sunny Beach\",\"altRu\":\"Ремонт системы автоматического полива в Солнечном Береге\",\"asset\":{\"_ref\":\"image-e16271d9cfc389008b2ada2ca48d38148de21d70-1280x1707-jpg\",\"_type\":\"reference\"}}],\"hero\":{\"image\":{\"_type\":\"image\",\"alt\":\"Ремонт на автоматични поливни системи в Несебър\",\"altEn\":\"Repair and Modernization of Irrigation Systems in Nessebar\",\"altRu\":\"Ремонт и модернизация систем полива в Несебре\",\"asset\":{\"_ref\":\"image-ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022-png\",\"_type\":\"reference\"}},\"subtitle\":\"Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.\",\"title\":\"Ремонт и модернизация на поливни системи в Несебър\"},\"image\":{\"_type\":\"image\",\"alt\":\"Ремонт на автоматични поливни системи в Несебър\",\"altEn\":\"Repair and Modernization of Irrigation Systems in Nessebar\",\"altRu\":\"Ремонт и модернизация систем полива в Несебре\",\"asset\":{\"_ref\":\"image-ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022-png\",\"_type\":\"reference\"}},\"isActive\":true,\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Име\",\"name\":\"name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Имейл\",\"name\":\"email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населено място\",\"name\":\"location\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание на проекта\",\"name\":\"details\",\"required\":false}],\"submitLabel\":\"Изпрати запитване\",\"title\":\"Запитване за услуга\"},\"name\":\"Ремонт и модернизация на поливни системи в Несебър\",\"relatedContent\":[{\"_key\":\"qvVg1luYRxJZnxaWi0m5Lv\",\"_ref\":\"f308f26a-b12c-4975-93f5-6089144ceab6\",\"_type\":\"reference\"},{\"_key\":\"qvVg1luYRxJZnxaWi0m5N6\",\"_ref\":\"04c7ab3b-1888-41cb-9917-6b9014cd1ac3\",\"_type\":\"reference\"}],\"seo\":{\"keywords\":[\"Автоматично напояване\"],\"metaDescription\":\"Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.\",\"metaTitle\":\"Ремонт на поливни системи | Несебър | Florial\",\"noIndex\":false},\"serviceCategory\":\"maintenance\",\"serviceLayout\":\"standard\",\"shortDescription\":\"Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.\",\"slug\":{\"_type\":\"slug\",\"current\":\"remont-modernizatsiya-polivni-sistemi\"},\"sortOrder\":130,\"sourcePageUrl\":\"https://florial-bg.com/blog/remont-modernizatsiya-polivni-sistemi\",\"steps\":[],\"translations\":{\"en\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Send enquiry\",\"text\":\"Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.\",\"title\":\"Request the service\"},\"description\":\"### Professional repair and modernisation of automatic irrigation systems\\n\\nFlorial repairs and modernises automatic irrigation systems in Nessebar and nearby areas. We diagnose faults, replace equipment and adapt systems to changing site requirements.\\n\\n### When is a repair needed?\\n\\nMechanical damage: sprinklers and nozzles can be damaged by lawn mowing, incorrect use or weather conditions.\\n\\nHydraulic issues and installation errors: incorrect calculations, poor-quality components or installation mistakes can cause leaks, valve failures and other faults.\\n\\nEquipment wear: pumps, filters and controllers may need servicing or replacement over time. Service life depends on operating conditions and water quality.\\n\\nChanges to the property: new planting, paths or construction work may require moving sprinklers, adding drip lines or creating new irrigation zones.\\n\\n### Benefits of working with Florial\\n\\nProfessional diagnostics: we check the pump, pipework for leaks, valves, controller and sprinkler layout to identify the cause as well as the symptoms.\\n\\nQuality equipment: we use suitable original components from established manufacturers such as Rain Bird and Hunter where compatible with the system.\\n\\nSystem optimisation: we adjust zones, replace worn parts and add equipment while aiming to preserve the existing landscape.\\n\\n### Our repair services\\n\\nSystem diagnostics and identification of dry areas; replacement of nozzles, sprinklers, valves, pumps and controllers; leak and pipe repairs; sprinkler relocation; creation of new zones; adjustment of watering times and intensity; and upgrades to outdated components.\\n\\n### Why should faults be fixed promptly?\\n\\nBlocked nozzles can create yellow patches in the lawn, a faulty controller can water at the wrong time, and damaged pipes can waste water. Timely repairs help prevent more serious failures and costs.\\n\\n### Indicative repair prices\\n\\nThe original article listed a minimum repair and maintenance price starting at €75. The final price depends on the work required. Listed tasks include replacing or moving a sprinkler, changing a controller, laying pipework, diagnostics, replacing nozzles, installing or removing a pump, servicing or replacing a solenoid valve, and cleaning filters.\\n\\nThe stated minimum excludes travel and materials and was described in the original article as applying on 1 February 2026. Confirm current rates and the scope of work before booking.\\n\\nWe serve Nessebar, Sunny Beach, Ravda, Pomorie, Sveti Vlas, Kableshkovo, Kosharitsa and nearby areas.\",\"hero\":{\"subtitle\":\"Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.\",\"title\":\"Repair and Modernization of Irrigation Systems in Nessebar\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Name\",\"name\":\"name\",\"placeholder\":\"Name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Phone\",\"name\":\"phone\",\"placeholder\":\"Phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Email\",\"name\":\"email\",\"placeholder\":\"Email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Town / city\",\"name\":\"location\",\"placeholder\":\"Town / city\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Describe the work\",\"name\":\"details\",\"placeholder\":\"Describe the work\",\"required\":false}],\"submitLabel\":\"Send enquiry\",\"successMessage\":\"Thank you! Your enquiry has been sent. We will contact you.\",\"title\":\"Service enquiry\"},\"name\":\"Repair and Modernization of Irrigation Systems in Nessebar\",\"seo\":{\"metaDescription\":\"Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.\",\"metaTitle\":\"Irrigation System Repair | Nessebar | Florial\",\"noIndex\":false},\"shortDescription\":\"Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.\",\"steps\":[]},\"ru\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Отправить запрос\",\"text\":\"Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.\",\"title\":\"Закажите услугу\"},\"description\":\"### Профессиональный ремонт и модернизация систем автоматического полива\\n\\nFlorial выполняет ремонт и модернизацию автоматических систем полива в Несебре и окрестностях. Мы диагностируем неисправности, заменяем оборудование и адаптируем систему к новым условиям участка.\\n\\n### Когда нужен ремонт?\\n\\nМеханические повреждения: дождеватели и форсунки могут пострадать при стрижке газона, неправильном использовании или из-за погодных условий.\\n\\nГидравлические проблемы и ошибки монтажа: неверные расчёты, некачественные компоненты и ошибки установки могут приводить к утечкам, повреждению клапанов и других деталей.\\n\\nИзнос оборудования: насосы, фильтры и контроллеры со временем требуют обслуживания или замены. Срок зависит от условий эксплуатации и качества воды.\\n\\nИзменение участка: новые посадки, дорожки или строительные работы могут потребовать переноса дождевателей, добавления капельных линий или создания новых зон.\\n\\n### Преимущества работы с Florial\\n\\nПрофессиональная диагностика: проверяем насос, герметичность трубопроводов, работу клапанов, контроллера и расположение дождевателей, чтобы найти не только симптом, но и причину.\\n\\nСовременное оборудование: при ремонте используем оригинальные компоненты известных производителей, включая Rain Bird и Hunter, если они подходят конкретной системе.\\n\\nОптимизация: настраиваем зоны, заменяем изношенные элементы и добавляем оборудование, стараясь не нарушать существующий ландшафт.\\n\\n### Какие работы выполняем\\n\\nДиагностика системы и выявление сухих зон; замена форсунок, дождевателей, клапанов, насосов и контроллеров; устранение утечек и ремонт труб; перенос дождевателей; создание зон; настройка времени и интенсивности полива; модернизация устаревших компонентов.\\n\\n### Почему нельзя игнорировать неисправности?\\n\\nЗасорённые форсунки могут вызывать жёлтые пятна на газоне, неисправный контроллер — полив в неподходящее время, а повреждённые трубы — утечки и потери воды. Своевременный ремонт помогает избежать более серьёзных повреждений и расходов.\\n\\n### Ориентировочная стоимость ремонта\\n\\nВ исходной публикации указана минимальная стоимость ремонта и обслуживания от 75 €. Цена зависит от сложности работ. В перечень входят замена и перенос дождевателя, замена контроллера, прокладка труб, диагностика, замена форсунок, установка или демонтаж насоса, ремонт или замена соленоидного клапана и очистка фильтра.\\n\\nУказанная минимальная цена не включает транспортные расходы и материалы; она была обозначена в исходной статье как действовавшая на 1 февраля 2026 года. Перед заказом необходимо уточнить актуальные тарифы и состав работ.\\n\\nОбслуживаем Несебр, Солнечный Берег, Равду, Поморие, Святой Влас, Каблешково, Кошарицу и близлежащие районы.\",\"hero\":{\"subtitle\":\"Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.\",\"title\":\"Ремонт и модернизация систем полива в Несебре\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Имя\",\"name\":\"name\",\"placeholder\":\"Имя\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"placeholder\":\"Телефон\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Электронная почта\",\"name\":\"email\",\"placeholder\":\"Электронная почта\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населённый пункт\",\"name\":\"location\",\"placeholder\":\"Населённый пункт\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание задачи\",\"name\":\"details\",\"placeholder\":\"Описание задачи\",\"required\":false}],\"submitLabel\":\"Отправить запрос\",\"successMessage\":\"Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.\",\"title\":\"Запрос услуги\"},\"name\":\"Ремонт и модернизация систем полива в Несебре\",\"seo\":{\"metaDescription\":\"Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.\",\"metaTitle\":\"Ремонт систем полива | Несебр | Florial\",\"noIndex\":false},\"shortDescription\":\"Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.\",\"steps\":[]}}}</documents>\n<count>1</count>\n<totalAvailable>1</totalAvailable>"
+    "_createdAt": "2026-11-12T06:24:59Z",
+    "_id": "9f8a5130-49e8-4d34-9f76-c6124503fb5d",
+    "_rev": "qvVg1luYRxJZnxaWi0mXAq",
+    "_type": "service",
+    "_updatedAt": "2026-11-12T06:30:32Z",
+    "advantages": [],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.",
+      "title": "Заявете услугата"
+    },
+    "contentBlocks": [],
+    "description": [
+      {
+        "_key": "bjp",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjo",
+            "_type": "span",
+            "marks": [],
+            "text": "Поддържайте надеждността на вашата автоматична поливна система с професионалисти"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bjs",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjr",
+            "_type": "span",
+            "marks": [],
+            "text": "Нашият градински център предлага пълна гама от услуги за ремонт и модернизация на автоматични поливни системи в Несебър и околностите. Независимо от сложността на проблема, ние сме готови да отстраним неизправностите, да актуализираме оборудването или да адаптираме системата към новите изисквания на вашия обект."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bju",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjt",
+            "_type": "span",
+            "marks": [],
+            "text": "Кога се налага ремонт на автоматична поливна система?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bjw",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjv",
+            "_type": "span",
+            "marks": [],
+            "text": "Напоителните системи се нуждаят от ремонт по различни причини:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bjy",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjx",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Механични повреди"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bk0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bjz",
+            "_type": "span",
+            "marks": [],
+            "text": "Пръскачките или дюзите могат да се повредят от косене на трева, неправилна употреба или метеорологични условия."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bk2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bk1",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Воден удар и грешки при монтажа"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bk4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bk3",
+            "_type": "span",
+            "marks": [],
+            "text": "Неправилни хидравлични изчисления, лошо качество на оборудването или грешки при монтажа водят до течове във връзките, счупени клапани и други неизправности."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bk6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bk5",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Износване на оборудването"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bk8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bk7",
+            "_type": "span",
+            "marks": [],
+            "text": "Компонентите на системата като помпи, филтри или контролери изискват подмяна след 5-7 години работа."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bka",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bk9",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Необходимостта от адаптиране на системата"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkc",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bkb",
+            "_type": "span",
+            "marks": [],
+            "text": "Промените в озеленяването, новите насаждения или строителството изискват коригиране на разположението на спринклерите, добавяне на капкови линии или създаване на нови зони за напояване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkf",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bke",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства на сътрудничество с Градински център Флорал"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bkj",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bkg",
+            "_type": "span",
+            "marks": [],
+            "text": "1\\. "
+          },
+          {
+            "_key": "bkh",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Професионален подход"
+          },
+          {
+            "_key": "bki",
+            "_type": "span",
+            "marks": [],
+            "text": ". Ние не само отстраняваме неизправностите, но и идентифицираме причините за тяхното възникване. Всеки проект започва с диагностика, която включва анализ на работата на помпата, херметичността на системата и разположението на спринклера."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkn",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bkk",
+            "_type": "span",
+            "marks": [],
+            "text": "2\\. "
+          },
+          {
+            "_key": "bkl",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Съвременно оборудване"
+          },
+          {
+            "_key": "bkm",
+            "_type": "span",
+            "marks": [],
+            "text": ". Използваме само оригинални компоненти от водещи производители като Rain Bird и Hunter, което гарантира надеждността и дългия живот на системата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkr",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bko",
+            "_type": "span",
+            "marks": [],
+            "text": "3\\. "
+          },
+          {
+            "_key": "bkp",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Оптимизация на системата"
+          },
+          {
+            "_key": "bkq",
+            "_type": "span",
+            "marks": [],
+            "text": ". Регулираме зоните за напояване, подменяме остарели елементи и монтираме ново оборудване, без да нарушаваме съществуващия ландшафт."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkt",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bks",
+            "_type": "span",
+            "marks": [],
+            "text": "Услуги, които предоставяме"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bkv",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bku",
+            "_type": "span",
+            "marks": [],
+            "text": "Системна диагностика. Анализ на състоянието на оборудването, идентифициране на проблемни сухи зони."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkx",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bkw",
+            "_type": "span",
+            "marks": [],
+            "text": "Ремонт на оборудване. Смяна на дюзи, спринклери, клапани, помпи и контролери, ремонт на срезове и течове по тръбопроводи."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bkz",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bky",
+            "_type": "span",
+            "marks": [],
+            "text": "Корекция на системата. Преместване на пръскачки, създаване на нови зони за напояване, регулиране на времето и интензитета на напояване."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bl1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bl0",
+            "_type": "span",
+            "marks": [],
+            "text": "Модернизация на системата. Осъвременяване на остарели елементи, инсталиране на съвременни решения за ефективно и икономично напояване."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bl3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bl2",
+            "_type": "span",
+            "marks": [],
+            "text": "Защо е важно да се обърнете към професионалисти?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bl5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bl4",
+            "_type": "span",
+            "marks": [],
+            "text": "Редовната поддръжка на автоматичната напоителна система ви позволява да избегнете сериозни повреди и допълнителни разходи. Пренебрегването на основните правила за работа води до:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bl7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bl6",
+            "_type": "span",
+            "marks": [],
+            "text": "Жълти петна по моравата поради запушени дюзи."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bl9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bl8",
+            "_type": "span",
+            "marks": [],
+            "text": "Поливане в неподходящо време поради дефектен контролер."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blb",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bla",
+            "_type": "span",
+            "marks": [],
+            "text": "Повреда на тръбите поради различни причини."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bld",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blc",
+            "_type": "span",
+            "marks": [],
+            "text": "Сътрудничейки с нас, Вие ще получите:"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "blf",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ble",
+            "_type": "span",
+            "marks": [],
+            "text": "Качествено обслужване."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blh",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blg",
+            "_type": "span",
+            "marks": [],
+            "text": "Бързо отстраняване на неизправности."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blj",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bli",
+            "_type": "span",
+            "marks": [],
+            "text": "Увереност в издръжливостта на системата."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bll",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blk",
+            "_type": "span",
+            "marks": [],
+            "text": "Цени за ремонт на автоматични поливни системи в Несебър, Слънчев бряг, Равда, Поморие, Свети Влас, Коблешково, Кошарица"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "blp",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blm",
+            "_type": "span",
+            "marks": [],
+            "text": "Цената на ремонта и модернизацията на поливната система "
+          },
+          {
+            "_key": "bln",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "започва от 75 евро"
+          },
+          {
+            "_key": "blo",
+            "_type": "span",
+            "marks": [],
+            "text": " и зависи от сложността на работата. Част от ремонтните дейности, които извършваме:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blr",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blq",
+            "_type": "span",
+            "marks": [],
+            "text": "Смяна на пръскалка, преместване на лейка, демонтаж на пръскалка"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blt",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bls",
+            "_type": "span",
+            "marks": [],
+            "text": "Смяна на контролера, инсталиране на компютъра за напояване на място"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blv",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blu",
+            "_type": "span",
+            "marks": [],
+            "text": "Полагане на тръбопровод за напояване"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blx",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "blw",
+            "_type": "span",
+            "marks": [],
+            "text": "Диагностика на автоматична поливна система"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "blz",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bly",
+            "_type": "span",
+            "marks": [],
+            "text": "смяна на спринклерна дюза"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bm1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bm0",
+            "_type": "span",
+            "marks": [],
+            "text": "демонтаж/монтиране на помпата на място"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bm3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bm2",
+            "_type": "span",
+            "marks": [],
+            "text": "пълна подмяна на соленоидния клапан"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bm5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bm4",
+            "_type": "span",
+            "marks": [],
+            "text": "почистване на соленоидния клапан"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bm7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bm6",
+            "_type": "span",
+            "marks": [],
+            "text": "подмяна на вътрешността на соленоидния клапан"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bm9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bm8",
+            "_type": "span",
+            "marks": [],
+            "text": "смяна на соленоид"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmb",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bma",
+            "_type": "span",
+            "marks": [],
+            "text": "почистване на грубия филтър"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmd",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmc",
+            "_type": "span",
+            "marks": [],
+            "text": "Минималната цена на услугата ремонт и поддръжка на поливна система е 75 евро."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmf",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bme",
+            "_type": "span",
+            "marks": [],
+            "text": "\\\\* без транспортни разходи"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmh",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmg",
+            "_type": "span",
+            "marks": [],
+            "text": "\\*разходите за поливни материали не са включени"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmj",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmi",
+            "_type": "span",
+            "marks": [],
+            "text": "\\*стойност на работата към 1.02.2026г"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bml",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmk",
+            "_type": "span",
+            "marks": [],
+            "text": "Свържете се с Floral Garden Center, за да се уверите, че вашата автоматична поливна система работи гладко и ефективно. Ние сме готови да ви помогнем по всяко време!"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmn",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmm",
+            "_type": "span",
+            "marks": [],
+            "text": "Нашите контакти:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmp",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmo",
+            "_type": "span",
+            "marks": [],
+            "text": "За да получите оценка на разходите за работа по пролетното пускане на автоматична напоителна система, свържете се с нас на следните контакти:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bmt",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmq",
+            "_type": "span",
+            "marks": [],
+            "text": "🌐 Нашият уебсайт: "
+          },
+          {
+            "_key": "bms",
+            "_type": "span",
+            "marks": [
+              "bmr"
+            ],
+            "text": "www.drop.od.ua"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bmr",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bmx",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmu",
+            "_type": "span",
+            "marks": [],
+            "text": "📧 Имейл: "
+          },
+          {
+            "_key": "bmw",
+            "_type": "span",
+            "marks": [
+              "bmv"
+            ],
+            "text": "omaraandrey@gmail.com"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bmv",
+            "_type": "link",
+            "href": "mailto:omaraandrey@gmail.com"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bmz",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bmy",
+            "_type": "span",
+            "marks": [],
+            "text": "📞 Телефон: +359876777902"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bn2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bn1",
+            "_type": "span",
+            "marks": [
+              "bn0"
+            ],
+            "text": "Пускане на автоматична поливна система през пролетта. Деконсервация "
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bn0",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bn5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bn4",
+            "_type": "span",
+            "marks": [
+              "bn3"
+            ],
+            "text": "Продава тревен чим Несебър"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bn3",
+            "_type": "link",
+            "href": "/blog/prodavane-traven-chim"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bn8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bn7",
+            "_type": "span",
+            "marks": [
+              "bn6"
+            ],
+            "text": "Монтаж на автоматична поливна система в Слънчев бряг"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bn6",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "qvVg1luYRxJZnxaWi0m5JZ",
+        "_type": "image",
+        "alt": "Ремонт на автоматични поливни системи в Несебър",
+        "altEn": "Automatic irrigation system repair in Nessebar",
+        "altRu": "Ремонт систем автоматического полива в Несебре",
+        "asset": {
+          "_ref": "image-574a1c8a8b3d971b43f32277d4d34724c13eb7fb-1000x1000-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "qvVg1luYRxJZnxaWi0m5Kk",
+        "_type": "image",
+        "alt": "Ремонт на автоматични поливни системи в Слънчев бряг",
+        "altEn": "Repairing an automatic irrigation system in Sunny Beach",
+        "altRu": "Ремонт системы автоматического полива в Солнечном Береге",
+        "asset": {
+          "_ref": "image-e16271d9cfc389008b2ada2ca48d38148de21d70-1280x1707-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Ремонт на автоматични поливни системи в Несебър",
+        "altEn": "Repair and Modernization of Irrigation Systems in Nessebar",
+        "altRu": "Ремонт и модернизация систем полива в Несебре",
+        "asset": {
+          "_ref": "image-ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022-png",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.",
+      "title": "Ремонт и модернизация на поливни системи в Несебър"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Ремонт на автоматични поливни системи в Несебър",
+      "altEn": "Repair and Modernization of Irrigation Systems in Nessebar",
+      "altRu": "Ремонт и модернизация систем полива в Несебре",
+      "asset": {
+        "_ref": "image-ea4b7f34582a5ca4802a33eb268188ca242890de-1539x1022-png",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Ремонт и модернизация на поливни системи в Несебър",
+    "relatedContent": [
+      {
+        "_key": "qvVg1luYRxJZnxaWi0m5Lv",
+        "_ref": "f308f26a-b12c-4975-93f5-6089144ceab6",
+        "_type": "reference"
+      },
+      {
+        "_key": "qvVg1luYRxJZnxaWi0m5N6",
+        "_ref": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "Автоматично напояване"
+      ],
+      "metaDescription": "Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.",
+      "metaTitle": "Ремонт на поливни системи | Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "maintenance",
+    "serviceLayout": "standard",
+    "shortDescription": "Диагностика, ремонт и модернизация на съществуващи автоматични поливни системи в Несебър, Равда, Слънчев бряг и района.",
+    "slug": {
+      "_type": "slug",
+      "current": "remont-modernizatsiya-polivni-sistemi"
+    },
+    "sortOrder": 130,
+    "sourcePageUrl": "https://florial-bg.com/blog/remont-modernizatsiya-polivni-sistemi",
+    "steps": [],
+    "translations": {
+      "en": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Send enquiry",
+          "text": "Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.",
+          "title": "Request the service"
+        },
+        "description": "### Professional repair and modernisation of automatic irrigation systems\n\nFlorial repairs and modernises automatic irrigation systems in Nessebar and nearby areas. We diagnose faults, replace equipment and adapt systems to changing site requirements.\n\n### When is a repair needed?\n\nMechanical damage: sprinklers and nozzles can be damaged by lawn mowing, incorrect use or weather conditions.\n\nHydraulic issues and installation errors: incorrect calculations, poor-quality components or installation mistakes can cause leaks, valve failures and other faults.\n\nEquipment wear: pumps, filters and controllers may need servicing or replacement over time. Service life depends on operating conditions and water quality.\n\nChanges to the property: new planting, paths or construction work may require moving sprinklers, adding drip lines or creating new irrigation zones.\n\n### Benefits of working with Florial\n\nProfessional diagnostics: we check the pump, pipework for leaks, valves, controller and sprinkler layout to identify the cause as well as the symptoms.\n\nQuality equipment: we use suitable original components from established manufacturers such as Rain Bird and Hunter where compatible with the system.\n\nSystem optimisation: we adjust zones, replace worn parts and add equipment while aiming to preserve the existing landscape.\n\n### Our repair services\n\nSystem diagnostics and identification of dry areas; replacement of nozzles, sprinklers, valves, pumps and controllers; leak and pipe repairs; sprinkler relocation; creation of new zones; adjustment of watering times and intensity; and upgrades to outdated components.\n\n### Why should faults be fixed promptly?\n\nBlocked nozzles can create yellow patches in the lawn, a faulty controller can water at the wrong time, and damaged pipes can waste water. Timely repairs help prevent more serious failures and costs.\n\n### Indicative repair prices\n\nThe original article listed a minimum repair and maintenance price starting at €75. The final price depends on the work required. Listed tasks include replacing or moving a sprinkler, changing a controller, laying pipework, diagnostics, replacing nozzles, installing or removing a pump, servicing or replacing a solenoid valve, and cleaning filters.\n\nThe stated minimum excludes travel and materials and was described in the original article as applying on 1 February 2026. Confirm current rates and the scope of work before booking.\n\nWe serve Nessebar, Sunny Beach, Ravda, Pomorie, Sveti Vlas, Kableshkovo, Kosharitsa and nearby areas.",
+        "hero": {
+          "subtitle": "Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.",
+          "title": "Repair and Modernization of Irrigation Systems in Nessebar"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Name",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "Phone",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "Email",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "placeholder": "Town / city",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Describe the work",
+              "name": "details",
+              "placeholder": "Describe the work",
+              "required": false
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+          "title": "Service enquiry"
+        },
+        "name": "Repair and Modernization of Irrigation Systems in Nessebar",
+        "seo": {
+          "metaDescription": "Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.",
+          "metaTitle": "Irrigation System Repair | Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Diagnostics, repair and modernisation of existing automatic irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas.",
+        "steps": []
+      },
+      "ru": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.",
+          "title": "Закажите услугу"
+        },
+        "description": "### Профессиональный ремонт и модернизация систем автоматического полива\n\nFlorial выполняет ремонт и модернизацию автоматических систем полива в Несебре и окрестностях. Мы диагностируем неисправности, заменяем оборудование и адаптируем систему к новым условиям участка.\n\n### Когда нужен ремонт?\n\nМеханические повреждения: дождеватели и форсунки могут пострадать при стрижке газона, неправильном использовании или из-за погодных условий.\n\nГидравлические проблемы и ошибки монтажа: неверные расчёты, некачественные компоненты и ошибки установки могут приводить к утечкам, повреждению клапанов и других деталей.\n\nИзнос оборудования: насосы, фильтры и контроллеры со временем требуют обслуживания или замены. Срок зависит от условий эксплуатации и качества воды.\n\nИзменение участка: новые посадки, дорожки или строительные работы могут потребовать переноса дождевателей, добавления капельных линий или создания новых зон.\n\n### Преимущества работы с Florial\n\nПрофессиональная диагностика: проверяем насос, герметичность трубопроводов, работу клапанов, контроллера и расположение дождевателей, чтобы найти не только симптом, но и причину.\n\nСовременное оборудование: при ремонте используем оригинальные компоненты известных производителей, включая Rain Bird и Hunter, если они подходят конкретной системе.\n\nОптимизация: настраиваем зоны, заменяем изношенные элементы и добавляем оборудование, стараясь не нарушать существующий ландшафт.\n\n### Какие работы выполняем\n\nДиагностика системы и выявление сухих зон; замена форсунок, дождевателей, клапанов, насосов и контроллеров; устранение утечек и ремонт труб; перенос дождевателей; создание зон; настройка времени и интенсивности полива; модернизация устаревших компонентов.\n\n### Почему нельзя игнорировать неисправности?\n\nЗасорённые форсунки могут вызывать жёлтые пятна на газоне, неисправный контроллер — полив в неподходящее время, а повреждённые трубы — утечки и потери воды. Своевременный ремонт помогает избежать более серьёзных повреждений и расходов.\n\n### Ориентировочная стоимость ремонта\n\nВ исходной публикации указана минимальная стоимость ремонта и обслуживания от 75 €. Цена зависит от сложности работ. В перечень входят замена и перенос дождевателя, замена контроллера, прокладка труб, диагностика, замена форсунок, установка или демонтаж насоса, ремонт или замена соленоидного клапана и очистка фильтра.\n\nУказанная минимальная цена не включает транспортные расходы и материалы; она была обозначена в исходной статье как действовавшая на 1 февраля 2026 года. Перед заказом необходимо уточнить актуальные тарифы и состав работ.\n\nОбслуживаем Несебр, Солнечный Берег, Равду, Поморие, Святой Влас, Каблешково, Кошарицу и близлежащие районы.",
+        "hero": {
+          "subtitle": "Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.",
+          "title": "Ремонт и модернизация систем полива в Несебре"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Имя",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "Телефон",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "Электронная почта",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "placeholder": "Населённый пункт",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Описание задачи",
+              "name": "details",
+              "placeholder": "Описание задачи",
+              "required": false
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+          "title": "Запрос услуги"
+        },
+        "name": "Ремонт и модернизация систем полива в Несебре",
+        "seo": {
+          "metaDescription": "Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.",
+          "metaTitle": "Ремонт систем полива | Несебр | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Диагностика, ремонт и модернизация существующих систем автоматического полива в Несебре, Равде, Солнечном Береге и окрестностях.",
+        "steps": []
+      }
+    }
   }
 }
