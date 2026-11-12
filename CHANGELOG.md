@@ -1,10 +1,11 @@
-## 2026-11-12 — RSS-лента услуг (реализация в PR)
+## 2026-11-12 — RSS-лента услуг опубликована в Production (PR #229)
 
-- Добавлен серверный Cloudflare Pages Function endpoint `/feeds/services-bg.xml`, формирующий RSS 2.0 из опубликованных документов Sanity Production.
-- В выборку входят активные услуги с опубликованным slug и без `seo.noIndex=true`; черновики исключаются. Записи содержат болгарское название, абсолютный URL услуги, краткое описание и дату последнего изменения документа.
-- Добавлена HTML RSS autodiscovery-ссылка с типом `application/rss+xml`; подготовлены unit-тесты XML escaping, RSS metadata, absolute links, dates и фильтрации неполных записей.
-- Live read-only GROQ в Sanity Production подтвердил 20 активных опубликованных услуг на момент проверки. Sanity documents/schema, D1 и Production settings не изменялись.
-- Ветка: `feat/services-rss-feed`. CI, merge и Production smoke test ожидают завершения PR; доступность публичного endpoint до deployment не подтверждена.
+- PR #229 объединён squash в `main`: merge commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`; GitHub PR: https://github.com/omaraandrey-dev/florial/pull/229.
+- Cloudflare Pages project `florial`: production branch `main`; Production deployment `c1e03dc4-3b28-4575-920e-dae1e152ef02`, commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`, URL `https://c1e03dc4.florial.pages.dev`; stages queued/initialize/clone_repo/build/deploy — все `success`; deployment aliases включают `florial-bg.com` и `www.florial-bg.com`.
+- CI по точному PR head `5e6dfdcb3d697e91c592f248a74eaa1047023c8a`: Blog and Studio validation run `43176887544` — success (lint, utility tests, website build, migration dry-run, Sanity Studio build); D1 validation run `43176887495` — success. Post-merge D1 validation для main commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`, run `43177889083` — success.
+- Live Production smoke test через Firecrawl, maxAge=0: `https://florial-bg.com/feeds/services-bg.xml` вернул HTTP 200, `Content-Type: application/rss+xml; charset=utf-8`; тело — корректно сформированный RSS 2.0 с `bg-BG`, Atom self-link, абсолютными service URLs, описаниями и датами. В ленте присутствуют опубликованные активные услуги, исключая документы с `seo.noIndex=true`.
+- Live homepage `https://florial-bg.com/` вернул HTTP 200 и содержит `<link rel="alternate" type="application/rss+xml" title="Florial — Услуги" href="https://florial-bg.com/feeds/services-bg.xml">`.
+- Данные Sanity читались только через GROQ; Sanity documents/schema, D1, Cloudflare settings/secrets не изменялись. RSS-каталоги/агрегаторы ещё не регистрировали; это следующий отдельный шаг.
 
 ## 2026-11-12 — Перенос коммерческих статей блога в услуги завершён (PR #226)
 
