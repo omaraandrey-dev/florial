@@ -1,0 +1,2025 @@
+{
+  "createdAt": "2026-11-12",
+  "source": {
+    "projectId": "bxvcy0qs",
+    "dataset": "production",
+    "perspective": "published"
+  },
+  "purpose": "Full pre-write backup before replacing the low-resolution landscape sketch thumbnail with the original Wix file.",
+  "documents": [
+    {
+      "_createdAt": "2026-10-24T09:15:52Z",
+      "_id": "blogPost-etapi-landshaften-proekt-nesebar",
+      "_rev": "wShFcTvKnRduO9ho4JbXhm",
+      "_system": {
+        "base": {
+          "id": "blogPost-etapi-landshaften-proekt-nesebar",
+          "rev": "wShFcTvKnRduO9ho4JC1jI"
+        }
+      },
+      "_type": "blogPost",
+      "_updatedAt": "2026-11-12T13:13:54Z",
+      "cover": {
+        "_type": "image",
+        "alt": "Етапи на създаване на ландшафтен проект в Несебър",
+        "asset": {
+          "_ref": "image-376ba9cd7123125047b0f78028273a770e56dea5-1000x1000-jpg",
+          "_type": "reference"
+        }
+      },
+      "gallery": [],
+      "isPublished": true,
+      "publishedAt": "2024-08-10T08:19:11.940Z",
+      "slug": {
+        "_type": "slug",
+        "current": "etapi-landshaften-proekt-nesebar"
+      },
+      "sourceUrl": "https://bg.drop.od.ua/post/ландшафтен-проект-несебър-етапи",
+      "tags": [
+        "Озеленяване"
+      ],
+      "title": "Етапи на създаване на ландшафтен проект в Несебър",
+      "translations": {
+        "bg": {
+          "body": [
+            {
+              "_key": "b1h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1gw",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Работата на ландшафтен архитект (дизайнер, градинар) на "
+                },
+                {
+                  "_key": "b1gy",
+                  "_type": "span",
+                  "marks": [
+                    "b1gx"
+                  ],
+                  "text": "Градински ценър Florial"
+                },
+                {
+                  "_key": "b1gz",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " по "
+                },
+                {
+                  "_key": "b1h1",
+                  "_type": "span",
+                  "marks": [
+                    "b1h0"
+                  ],
+                  "text": "създаването на ландшафтен проект"
+                },
+                {
+                  "_key": "b1h2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " за озеленяване на територията"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1gx",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/"
+                },
+                {
+                  "_key": "b1h0",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/services/landshaften-dizain"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "b1h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1h4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Етапи на ландшафтен дизайн на територията:"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "b1h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1h6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "1\\. Схематичен дизайн на парцел."
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1h8",
+              "_type": "image",
+              "alt": "Ескизен план за озеленяване на парцел в Несебър",
+              "asset": {
+                "_ref": "image-def19bcdd28e3ab4a1b90c9961276ac29a8c63fe-179x131-jpg",
+                "_type": "reference"
+              }
+            },
+            {
+              "_key": "b1ha",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1h9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ескизен план"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1hc",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hb",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ескизен проект за озеленяване (2-3 варианта), количеството се определя по договаряне."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1he",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hd",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Композицията включва скици на обекта в различни пейзажни стилове, среща, дискусия \\- одобрение на един от предложените варианти. Избирайки една от скиците, можете да направите своите предложения, допълнения, които ще бъдат взети предвид от нашия ландшафтен дизайнер при разработването на окончателния генерален план."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1hg",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hf",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "2\\. Общ план на обекта."
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1hi",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hh",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Общ план"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ho",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hj",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Генералният план е изглед отгоре на вашия парцел, начертан в мащаб според топографско проучване (въз основа на резултатите от измерванията). На него обектът е "
+                },
+                {
+                  "_key": "b1hk",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "условно разделен на функционални зони"
+                },
+                {
+                  "_key": "b1hl",
+                  "_type": "span",
+                  "marks": [],
+                  "text": ". Въз основа на резултатите от скицата съществуващите сгради и вече одобрените пътеки, детски площадки, беседки, езера, зони за барбекю и детски площадки (ако е необходимо) се поставят на генералния план на обекта. При разлика във височината "
+                },
+                {
+                  "_key": "b1hm",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "нашият ландшафтен архитект"
+                },
+                {
+                  "_key": "b1hn",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " ще предложи подпорни стени и терасиране на площта. Генералният план може да включва снимки на вида и вида на MAF (беседки, барбекюта, навеси), подпорни стени, групи растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1hq",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hp",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "3\\. Чертеж на оформлението."
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1hs",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hr",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Разпределителен план"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1hy",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ht",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Създаване на работен чертеж за оформяне на обект на земята и настройка на "
+                },
+                {
+                  "_key": "b1hu",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "проектираните елементи на озеленяване"
+                },
+                {
+                  "_key": "b1hv",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " : пътеки, платформи, малки архитектурни форми, подпорни стени и допълнителни конструкции, свързани с терена. Линиите с размери, радиусите на кривина и разстоянията в метри се прилагат към чертежа за подравняване. Въз основа на чертежа на оформлението строителният екип може да "
+                },
+                {
+                  "_key": "b1hw",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "започне работа"
+                },
+                {
+                  "_key": "b1hx",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1i0",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1hz",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "4\\. Дендроплан -"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1i2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1i1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Дендроплан"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1i6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1i3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "чертеж в мащаб, върху който са нанесени "
+                },
+                {
+                  "_key": "b1i4",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "съществуващи сгради"
+                },
+                {
+                  "_key": "b1i5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": ", граници на обекта, пътеки, платформи, подпорни стени, корони на дървета, храсти, граници на цветни лехи и тревни площи."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ic",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1i7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При изготвянето на дендроплан "
+                },
+                {
+                  "_key": "b1i8",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "ландшафтният дизайнер"
+                },
+                {
+                  "_key": "b1i9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " взема предвид много фактори: архитектурния стил на сградите, общия вид и топографията на обекта, състоянието и състава на почвата, степента на осветеност на обекта (инсолация), съвместимост на растенията, тяхната цветова палитра, декоративност на листа, игли, време на цъфтеж, предпочитания и бюджет на собствениците. Един от важните елементи на изготвянето на дендроплан е "
+                },
+                {
+                  "_key": "b1ia",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "изборът на акцентиращи растения"
+                },
+                {
+                  "_key": "b1ib",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "(тения). Тяхната форма на короната, необичайна текстура или ярък цвят на листата могат да направят тези растения да се открояват от тълпата."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1if",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1id",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "Вторият слой"
+                },
+                {
+                  "_key": "b1ie",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " създава сцени от храсти, иглолистни дървета, декоративни широколистни дървета и жив плет."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ij",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ig",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокривните и житните растения запълват празните пространства в композициите или в определените за проектиране зони. В определените зони за цветни лехи "
+                },
+                {
+                  "_key": "b1ih",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "ландшафтният дизайнер"
+                },
+                {
+                  "_key": "b1ii",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " обмисля асортимент от луковични и коренищни многогодишни цветя, както и декоративно запълване с камъчета, кора или други инертни материали, което служи като отличен фон за композиции. Правилното планиране и подреждане на растенията създава желания визуален ефект на сайта."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1il",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ik",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "5\\. Списък на асортимента на растенията"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1ip",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1im",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Списъкът с асортимент от растения е таблица с растения, посочени в "
+                },
+                {
+                  "_key": "b1in",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "дендроплана"
+                },
+                {
+                  "_key": "b1io",
+                  "_type": "span",
+                  "marks": [],
+                  "text": ". Широколистни иглолистни дървета, храсти и широколистни иглолистни дървета, овощни растения, цветя, луковични растения, почвени покривки, лозя, както и билки, папрати и други трайни насаждения. Най-често списъкът с асортименти се намира на дендроплана, но може да бъде и отделна таблица (ако площта на сайта е голяма)"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ir",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1iq",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "6\\. Визуализация на парцел"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1it",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1is",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "визуализация"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1iv",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1iu",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "(заплаща се отделно) при необходимост."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ix",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1iw",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "По желание на клиента изработваме триизмерни изгледи на най-акцентните зони на обекта. По правило се правят гледки към входа на къщата, към зона за отдих, към декоративно езерце, към гледка от беседка или пейка, към интересни композиционни решения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1iz",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1iy",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Кратко видео за това как създаваме ландшафтен проект."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1j1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1j0",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поетапно създаване на проект за озеленяване"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "b1j3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1j2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "от прехвърляне на размерите на обекта в гр. Несебър на хартия до готовия проект."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1j5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1j4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Измервания на обекта"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1j7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1j6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "След измерване на обекта и прехвърляне на плана на хартия, започваме работа по ландшафтния проект."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1j9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1j8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Проектно зониране"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1jb",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ja",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "На първо място, ние обмисляме пътеките, пътеките, мястото за барбекю, определяме местоположението на зоните за отдих и релакс, място за кола и помощна площ. Решаваме зелените площи. Съгласни сме с Клиента."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jd",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jc",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Работа с разположението на растенията"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1jf",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1je",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В зоните за озеленяване оставяме място за тревен чим, цветна леха, езерце или резервоар с алпийска пързалка и разработваме площи за засаждане на дървета."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jh",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jg",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Първо подреждаме големи дървета: иглолистни или широколистни, след това запълваме пространството с красиви храсти, проектираме цветни лехи и розови градини."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jj",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ji",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Прогнозна документация за ландшафтен проект"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1jl",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jk",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ние съставяме списък с растения, съгласуваме с Клиента асортимента, количеството и възрастта на растенията, тъй като цената на озеленяването в Несебър ще зависи от това."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jn",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jm",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Правим оценка за работата по закупуване и засаждане на растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jp",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jo",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Добавяме разчети за полагане на рулонна морава и инсталиране на система за автоматично поливане."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jr",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jq",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ландшафтен проект"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jt",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1js",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Извършване на озеленяване по проект"
+                }
+              ],
+              "markDefs": [],
+              "style": "h4"
+            },
+            {
+              "_key": "b1jv",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1ju",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "След всички корекции и съгласувания започваме работа по озеленяване на обекта в района на Несебър."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1jx",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jw",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Някои ландшафтни проекти сме изпълнили."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1k0",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1jy",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поръчайте създаването на ландшафтен проект в "
+                },
+                {
+                  "_key": "b1jz",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "Landscape Studio Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1k2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1k1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Контакт и консултация във Флориал център"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1k4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1k3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Свързвайки се с нас, вие ще получите не само професионални съвети, но и индивидуален подход към подобряването на вашата територия. Нашите експерти ще предложат оптимални възможности за озеленяване, като се вземат предвид характеристиките на вашия парцел."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1k8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1k5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Направете своята градина невероятна с помощта на "
+                },
+                {
+                  "_key": "b1k6",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "Флориал \\- вашият надежден партньор"
+                },
+                {
+                  "_key": "b1k7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " в създаването на красиви и добре поддържани градински площи."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1kc",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1k9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "🌐 Нашият уебсайт: "
+                },
+                {
+                  "_key": "b1kb",
+                  "_type": "span",
+                  "marks": [
+                    "b1ka"
+                  ],
+                  "text": "ФЛОРИАЛ"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1ka",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "b1kg",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kd",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "📧 Имейл: "
+                },
+                {
+                  "_key": "b1kf",
+                  "_type": "span",
+                  "marks": [
+                    "b1ke"
+                  ],
+                  "text": "omaraandrey@gmail.com"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1ke",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "mailto:omaraandrey@gmail.com"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "b1kj",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kh",
+                  "_type": "span",
+                  "marks": [
+                    "strong"
+                  ],
+                  "text": "Florial Garden Center"
+                },
+                {
+                  "_key": "b1ki",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " ul. \"Khan Krum\", 8230 Nesebar. Next to the store Janet"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1kl",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kk",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "📞 Телефон: +359876777902"
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ko",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kn",
+                  "_type": "span",
+                  "marks": [
+                    "b1km"
+                  ],
+                  "text": "Продава тревен чим Несебър"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1km",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/blog/prodavane-traven-chim"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "b1kr",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kq",
+                  "_type": "span",
+                  "marks": [
+                    "b1kp"
+                  ],
+                  "text": "Система Автоматического полива Несебр"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1kp",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/services/avtomatichno-napoyavane"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "b1ku",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "b1kt",
+                  "_type": "span",
+                  "marks": [
+                    "b1ks"
+                  ],
+                  "text": "Озеленяване в Несебър и Слънчев бряг"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "b1ks",
+                  "_type": "link",
+                  "blank": false,
+                  "href": "/services/ozelenyavane"
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "cta-blogPost",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cta-t-bg-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Следваща стъпка: разгледайте "
+                },
+                {
+                  "_key": "cta-s-bg-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-a-bg-13"
+                  ],
+                  "text": "ландшафтен дизайн"
+                },
+                {
+                  "_key": "cta-m-bg-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " или "
+                },
+                {
+                  "_key": "cta-e-bg-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-b-bg-13"
+                  ],
+                  "text": "озеленяване на терени"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "cta-a-bg-13",
+                  "_type": "link",
+                  "href": "/services/landshaften-dizain"
+                },
+                {
+                  "_key": "cta-b-bg-13",
+                  "_type": "link",
+                  "href": "/services/ozelenyavane"
+                }
+              ],
+              "style": "normal"
+            }
+          ],
+          "coverAlt": "Етапи на създаване на ландшафтен проект в Несебър",
+          "seoDescription": "Проследете етапите на ландшафтното проектиране в Несебър: скица, генерален план, разпределение, дендроплан, асортимент на растенията и визуализация.",
+          "seoTitle": "Етапи на ландшафтно проектиране в Несебър | Florial",
+          "shortDescription": "Подробно представяне на етапите на ландшафтното проектиране — от скица и генерален план до дендроплан, списък с растения и 3D визуализация.",
+          "title": "Етапи на създаване на ландшафтен проект в Несебър"
+        },
+        "en": {
+          "body": [
+            {
+              "_key": "ee1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee1s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The landscape architects and designers at Florial Garden Centre prepare landscaping plans for private properties. The work may include a concept, functional zoning, plant selection, working drawings and cost estimates for implementation."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee2s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Stages of landscape design"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "ee3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee3s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "1. Concept sketch"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee4",
+              "_type": "image",
+              "alt": "Concept planting plan for a property in Nessebar",
+              "asset": {
+                "_ref": "image-def19bcdd28e3ab4a1b90c9961276ac29a8c63fe-179x131-jpg",
+                "_type": "reference"
+              }
+            },
+            {
+              "_key": "ee5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee5s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "At the initial stage, two or three concept options can be prepared, with the number agreed separately. They may present the property in different landscape styles. After discussion, the client selects a preferred option and suggests adjustments, which are considered in the final master plan."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee6s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "2. Master plan"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee7s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The master plan is a scaled top-down drawing based on site measurements. The property is divided into functional zones, showing existing buildings, paths, paved areas, gazebos, ponds, barbecue areas and play areas where required. If there are changes in elevation, the designer may propose retaining walls and terracing. The plan may also show examples of small architectural features, retaining walls and plant groups."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee8s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "3. Setting-out plan"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee9s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "This working drawing translates the design onto the ground and defines the exact position of paths, paved areas, small architectural features, retaining walls and other elements. Dimensions, curve radii and distances in metres help the construction team set out the work accurately."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee10",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee10s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "4. Planting plan"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee11s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The planting plan is a scaled drawing showing buildings, boundaries, paths, paved areas, retaining walls, tree canopies, shrubs, flower beds and lawns."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee12s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The designer considers the architecture, terrain, soil, sunlight, plant compatibility, foliage and needle colour, flowering periods, the owner’s preferences and budget. Focal plants with distinctive form, texture or colour are selected to give the composition character."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee13",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee13s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The next layer may include shrubs, conifers, ornamental deciduous trees and hedges. Groundcovers and ornamental grasses fill open areas; flower beds may feature bulbs and rhizomatous perennials, with decorative stone or bark as a background."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee14",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee14s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "5. Plant schedule"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee15",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee15s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The schedule lists the plants shown on the planting plan: deciduous and coniferous trees, shrubs, fruit plants, flowers, bulbs, groundcovers, climbers, herbs, ferns and other perennials. For larger properties, it can be provided as a separate table."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee16",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee16s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "6. Site visualisation"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee17",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee17s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "If requested, 3D views can be created for key areas such as the entrance, outdoor seating area, ornamental pond, a view from a gazebo or bench, and other important compositions. Visualisation is charged separately unless included in the agreed package."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee18",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee18s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A short video can demonstrate the project process, from transferring measurements of a property in Nessebar onto paper to the completed design."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee19",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee19s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "How a project is developed"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "ee20",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee20s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Site measurements"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee21s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "After measuring the property and preparing the base plan, the landscape design process begins."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee22s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Zoning"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee23",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee23s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "We first plan paths, a barbecue area, relaxation spaces, parking and utility areas. Green spaces are then defined and the proposed layout is agreed with the client."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee24",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee24s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plant placement"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee25",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee25s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The design allocates space for rolled turf, flower beds, a pond or an alpine feature. Large coniferous and deciduous trees are placed first, followed by shrubs, flower beds and rose gardens."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee26",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee26s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Cost documentation"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee27",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee27s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A plant schedule is prepared and species, quantities and sizes are agreed. Plant purchasing and installation affect the landscaping budget; rolled turf and automatic irrigation are estimated separately."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee28",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee28s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Project implementation"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "ee29",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee29s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Once all revisions are approved, the team can begin landscaping the property in Nessebar and nearby areas."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "ee30",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee30s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Landscape design in Nessebar and nearby areas"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "ee31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ee31s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial offers design, site preparation, planting and ongoing care. We take the owner’s wishes and site conditions into account to create an attractive, functional garden."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "cta-blogPost",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cta-t-en-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Next step: explore "
+                },
+                {
+                  "_key": "cta-s-en-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-a-en-13"
+                  ],
+                  "text": "landscape design"
+                },
+                {
+                  "_key": "cta-m-en-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " or "
+                },
+                {
+                  "_key": "cta-e-en-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-b-en-13"
+                  ],
+                  "text": "landscaping services"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "cta-a-en-13",
+                  "_type": "link",
+                  "href": "/services/landshaften-dizain"
+                },
+                {
+                  "_key": "cta-b-en-13",
+                  "_type": "link",
+                  "href": "/services/ozelenyavane"
+                }
+              ],
+              "style": "normal"
+            }
+          ],
+          "coverAlt": "Stages of Creating a Landscape Design Project in Nessebar",
+          "seoDescription": "Explore the stages of landscape design in Nessebar, including the concept sketch, master plan, layout, planting plan, plant schedule and visualisation.",
+          "seoTitle": "Landscape Design Stages in Nessebar | Florial",
+          "shortDescription": "A detailed look at landscape design stages, from the initial sketch and master plan to layout drawings, planting plans, plant schedules and 3D visualisation.",
+          "title": "Stages of Creating a Landscape Design Project in Nessebar"
+        },
+        "ru": {
+          "body": [
+            {
+              "_key": "er1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er1s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ландшафтный архитектор и дизайнер садового центра Florial разрабатывает проекты озеленения территории. Работа включает концепцию, планирование зон, подбор растений, рабочие чертежи и сметы на реализацию."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er2s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Этапы ландшафтного проектирования"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "er3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er3s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "1. Эскизный план участка"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er4",
+              "_type": "image",
+              "alt": "Эскизный план озеленения участка в Несебре",
+              "asset": {
+                "_ref": "image-def19bcdd28e3ab4a1b90c9961276ac29a8c63fe-179x131-jpg",
+                "_type": "reference"
+              }
+            },
+            {
+              "_key": "er5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er5s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "На начальном этапе готовятся два или три варианта эскиза — их количество согласуется отдельно. Варианты могут показывать участок в разных ландшафтных стилях. После встречи и обсуждения заказчик выбирает понравившийся вариант и предлагает изменения, которые учитываются при подготовке окончательного генерального плана."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er6s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "2. Генеральный план"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er7s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Генеральный план — это масштабный вид участка сверху, подготовленный на основании измерений. Территория условно делится на функциональные зоны; на плане размещаются существующие здания, дорожки, площадки, беседки, водоёмы, зоны барбекю и детские площадки, если они предусмотрены. При перепадах высот дизайнер может предложить подпорные стены и террасирование. План также может включать примеры малых архитектурных форм, подпорных стен и групп растений."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er8s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "3. План разбивки"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er9s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Рабочий чертёж предназначен для переноса проекта на местность и точного размещения дорожек, площадок, малых архитектурных форм, подпорных стен и других элементов. На нём указываются размеры, радиусы кривых и расстояния в метрах, чтобы строительная команда могла выполнить разметку."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er10",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er10s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "4. Дендроплан"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er11s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Дендроплан — масштабный чертёж с расположением зданий, границ участка, дорожек, площадок, подпорных стен, крон деревьев, кустарников, цветников и газонов."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er12s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При подготовке дендроплана учитываются архитектура дома, рельеф и состояние почвы, освещённость, совместимость растений, окраска и декоративность листвы и хвои, сроки цветения, пожелания и бюджет владельца. Отдельно выбираются акцентные растения с выразительной кроной, фактурой или цветом."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er13",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er13s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Следующий ярус композиции формируют кустарники, хвойные и декоративные лиственные деревья и живые изгороди. Почвопокровные и злаковые растения заполняют свободные пространства; для цветников подбираются луковичные и корневищные многолетники, а декоративный камень или кора могут служить фоном."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er14",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er14s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "5. Ведомость растений"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er15",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er15s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В ведомости перечисляются растения, нанесённые на дендроплан: лиственные и хвойные деревья, кустарники, плодовые культуры, цветы, луковичные, почвопокровные растения, лианы, травы, папоротники и другие многолетники. Для крупных участков ведомость может оформляться отдельной таблицей."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er16",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er16s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "6. Визуализация участка"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er17",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er17s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "По желанию заказчика отдельно создаются трёхмерные виды ключевых зон: входа в дом, зоны отдыха, декоративного водоёма, вида из беседки или скамейки и других важных композиций. Визуализация оплачивается отдельно, если не включена в согласованный пакет."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er18",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er18s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Короткое видео может показать последовательность создания ландшафтного проекта — от переноса измерений участка в Несебре на бумагу до готового решения."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er19",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er19s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как создаётся проект шаг за шагом"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "er20",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er20s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обмер участка"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er21s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После измерения территории и подготовки базового плана начинается разработка проекта."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er22s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зонирование"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er23",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er23s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сначала планируются дорожки, зона барбекю, места отдыха, парковка и хозяйственная зона. Затем определяются зелёные пространства и согласуются решения с заказчиком."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er24",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er24s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Размещение растений"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er25",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er25s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для озеленения выделяются места под рулонный газон, цветники, водоём или альпийскую композицию. Сначала размещают крупные хвойные и лиственные деревья, затем заполняют пространство кустарниками, цветниками и розариями."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er26",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er26s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сметная документация"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er27",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er27s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Составляется перечень растений, согласуются виды, количество и размеры. На стоимость озеленения влияют закупка и посадка растений; отдельно рассчитываются укладка рулонного газона и установка автоматического полива."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er28",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er28s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Реализация проекта"
+                }
+              ],
+              "style": "h4"
+            },
+            {
+              "_key": "er29",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er29s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После согласования всех изменений команда приступает к озеленению участка в Несебре и соседних районах."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "er30",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er30s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ландшафтный дизайн в Несебре и окрестностях"
+                }
+              ],
+              "style": "h3"
+            },
+            {
+              "_key": "er31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "er31s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial предлагает проектирование, подготовку участка, посадку растений и последующий уход. Мы учитываем пожелания владельцев и особенности территории, чтобы создать красивый и удобный сад."
+                }
+              ],
+              "style": "normal"
+            },
+            {
+              "_key": "cta-blogPost",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cta-t-ru-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Следующий шаг: посмотрите "
+                },
+                {
+                  "_key": "cta-s-ru-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-a-ru-13"
+                  ],
+                  "text": "ландшафтный дизайн"
+                },
+                {
+                  "_key": "cta-m-ru-13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": " или "
+                },
+                {
+                  "_key": "cta-e-ru-13",
+                  "_type": "span",
+                  "marks": [
+                    "cta-b-ru-13"
+                  ],
+                  "text": "озеленение участков"
+                }
+              ],
+              "markDefs": [
+                {
+                  "_key": "cta-a-ru-13",
+                  "_type": "link",
+                  "href": "/services/landshaften-dizain"
+                },
+                {
+                  "_key": "cta-b-ru-13",
+                  "_type": "link",
+                  "href": "/services/ozelenyavane"
+                }
+              ],
+              "style": "normal"
+            }
+          ],
+          "coverAlt": "Этапы создания ландшафтного проекта в Несебре",
+          "seoDescription": "Разберитесь в этапах ландшафтного проектирования в Несебре: эскиз, генеральный план, планировка, дендроплан, подбор растений и визуализация.",
+          "seoTitle": "Этапы ландшафтного проектирования в Несебре | Florial",
+          "shortDescription": "Подробно об этапах ландшафтного проектирования: от эскиза и генерального плана до дендроплана, ведомости растений и 3D-визуализации.",
+          "title": "Этапы создания ландшафтного проекта в Несебре"
+        }
+      }
+    }
+  ]
+}
