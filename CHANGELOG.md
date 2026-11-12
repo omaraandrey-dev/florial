@@ -1,3 +1,12 @@
+## 2026-11-12 — SEO-поля блога записаны в Sanity drafts; опубликованные версии не изменены (PR #235 draft)
+
+- Владелец одобрил запись предложенных SEO-полей в черновики. Перед записью из Sanity `bxvcy0qs/production` (perspective `published`) считаны и сохранены полные документы всех 14 опубликованных `blogPost`, включая переводы и Portable Text: `docs/backups/2026-11-12-blog-seo-before-draft-write.json` (14 документов, 790 174 байта JSON).
+- Созданы 14 draft documents. Записаны только `translations.bg/ru/en.shortDescription`, `seoTitle`, `seoDescription`: 126 значений. Для каждого документа использован revision guard по опубликованному `_rev`.
+- Повторное read-back: 14 drafts, 126/126 полей заполнены; опубликованные документы остались отдельными и сохранили прежние SEO значения. SEO titles не длиннее 65 символов; shortDescription и seoDescription не длиннее 160.
+- ALT, Portable Text body, cover, gallery, schema и опубликованные документы не менялись. Никакой Sanity publish не выполнялся.
+- Image follow-up остаётся заблокированным до визуальной проверки: Firecrawl credits exhausted; прямой просмотр Sanity CDN через доступный web viewer недоступен. Шесть старых Wix image href и четыре ALT-кандидата не изменялись; содержимое и HTTP-доступность оригиналов НЕ ПОДТВЕРЖДЕНЫ. Не подменять изображения случайными assets.
+- PR #235 остаётся draft, не merged. Документация и backup находятся в ветке `docs/blog-seo-image-audit-2026-11-12`. Production frontend/Cloudflare deployment не затрагивались.
+
 ## 2026-11-12 — Read-only SEO и image audit блога (PR #235 draft)
 
 - Проверены 14 опубликованных blogPost и 42 локализованные версии в Sanity Production. Во всех 42 случаях `shortDescription` совпадает с `seoDescription`; все 42 SEO descriptions используют общий шаблон. 24 SEO title длиннее 60 символов, два — длиннее 70.
