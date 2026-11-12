@@ -1,3 +1,11 @@
+## 2026-11-12 — Header logo: responsive Sanity CDN delivery (PR pending)
+
+- По согласованию владельца обновлён только способ доставки логотипа в `src/components/Header.tsx`: используется существующий `getSanityImageProps` из `src/lib/sanityImage.ts`, который формирует Sanity CDN URL с `auto=format`, `q=75` и адаптивным `srcset`.
+- `sizes` соответствует существующим breakpoint-размерам логотипа: 80 px mobile, 156 px small/tablet, 200 px desktop. Предпочтительный fallback source width — 480 px; браузер выбирает кандидат из srcset с учётом DPR и viewport.
+- CSS-классы, высоты/максимальные ширины, расположение, Header grid, поиск, меню, корзина, навигация и fallback для не-Sanity URL не менялись. Для Sanity URL intrinsic width/height берутся из asset URL helper-а, чтобы сохранить реальное соотношение сторон; для остальных URL остаются SiteSettings dimensions.
+- Изменён только `src/components/Header.tsx`; Sanity assets/data, schema, Cloudflare settings и Production не затрагивались.
+- Branch: `perf/header-logo-responsive-srcset`; commit: `7923e1534f028e57911109fd30a878dd3f400389`. CI/build, desktop/mobile visual QA, Lighthouse before/after и Production deployment ещё НЕ подтверждены; изменения ожидают PR review.
+
 ## 2026-11-12 — Исправлено WWW → non-WWW перенаправление в Cloudflare Production
 
 - По разрешению владельца исправлено живое Cloudflare Redirect Rule `WWW to non-WWW`: условие заменено с некорректного сравнения `http.request.full_uri` на `(http.host eq "www.florial-bg.com")`.
