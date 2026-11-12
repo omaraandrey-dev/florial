@@ -389,3 +389,12 @@ Frontend выводит связанные материалы после осн�
 - [ ] Существующие slug, ID, активность и сортировка не изменены без разрешения.
 - [ ] Production smoke BG/RU/EN выполнен или честно указан как не выполненный.
 - [ ] Документация и changelog обновлены, если изменения существенные.
+
+## 16. Cross-dataset links and rendered inline links (2026-11-12)
+
+- The irrigation/equipment catalog and plant catalog use separate Sanity datasets in the same project. A standard Sanity reference in a service document cannot point directly to a document in the other dataset.
+- `relatedContent` is therefore reserved for supported same-dataset `service`, `blogPost`, `product` and `category` references in the production dataset. Keep this section concise (normally 2–4 highly relevant cards).
+- When a service should link to a plant category, use an inline link in the service description to the verified category route `/category/<slug>`. Confirm the category is published in dataset `plants` and contains active products before adding the link. Do not invent a category slug or link to an empty/unpublished category.
+- BG Portable Text links use a `link` mark definition with a valid relative `href`; RU/EN Markdown descriptions may use `[label](/category/<slug>)`. The service-page renderer must preserve these links and apply the current locale through `localizedHref`. This behavior is implemented in `src/pages/ServicePage.tsx` (commit `e3c794dd406410413d4ca6da29a719e8a713207a`).
+- Before adding inline links to a service, inspect both the Sanity data and the current renderer. Do not assume that generic Portable Text renderers and the service-specific renderer support the same annotations.
+- For localized Markdown links, prefer path-only hrefs; the renderer removes an existing `lang` query parameter and applies the active language consistently. This avoids duplicate or conflicting locale parameters.
