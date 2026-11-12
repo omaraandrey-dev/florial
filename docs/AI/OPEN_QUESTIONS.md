@@ -1,3 +1,10 @@
+## WWW / non-WWW canonical consolidation — 12.11.2026
+
+- **Cloudflare rule repaired:** production Redirect Rule `WWW to non-WWW`, ruleset version 5, condition `(http.host eq "www.florial-bg.com")`, HTTP 301 to apex with original path and query string preserved. Cloudflare API write/read-back successful.
+- **Cloudflare Request Tracer simulated:** www /services → 301; www homepage with query → 301; apex /services → 200.
+- **Not yet closed:** independent external HTTP verification of the actual redirect chain and Location header; Google Search Console URL Inspection for apex/www homepage and /services; Google-selected canonical confirmation. Firecrawl credits were exhausted during this session and direct external network retrieval was unavailable.
+- Do not report Google canonical consolidation as confirmed until Search Console verifies it. Detailed evidence: `../audits/2026-11-12-www-canonical-redirect.md`.
+
 8. **Мобильное изображение категории и зимний индикатор — визуальная Android QA закрыта 12.11.2026:** PR #222 объединён в main (`79e96ce419b4be6513a112deee7c48bb3b0564e5`), CI и Cloudflare Pages Production deployment прошли успешно; владелец подтвердил корректное отображение на физическом Android-устройстве. Индикатор вынесен в отдельную строку над фото в карточках растений и на странице товара; desktop-only category hero использует `<picture>` с media source от 1024 px и fallback `img` без `src/srcSet`. **Не подтверждено отдельно:** Android Network/DevTools capture отсутствует, поэтому отсутствие фактического HTTP-запроса не заявляется как независимо измеренное. Ранее зафиксированный CLS около 0.34385 не был атрибутирован конкретному DOM-узлу и не считается устранённым этим изменением; для его расследования потребуется отдельный замер. Не менять `src/App.tsx`, Header или Footer без отдельного согласования.
 # Florial — открытые вопросы и проверки
 

@@ -1,3 +1,12 @@
+## 2026-11-12 — Исправлено WWW → non-WWW перенаправление в Cloudflare Production
+
+- По разрешению владельца исправлено живое Cloudflare Redirect Rule `WWW to non-WWW`: условие заменено с некорректного сравнения `http.request.full_uri` на `(http.host eq "www.florial-bg.com")`.
+- Production ruleset version 5; HTTP 301 на `https://florial-bg.com` с сохранением исходного пути и query string. Target expression и `preserve_query_string=true` сохранены; правило включено.
+- Cloudflare API dry-run и последующий Production PUT прошли успешно; повторный GET подтвердил сохранённую конфигурацию.
+- Cloudflare Request Tracer: `https://www.florial-bg.com/services` → simulated 301; www homepage с тестовым query → simulated 301; apex `https://florial-bg.com/services` → simulated 200.
+- Код и Pages deployment, DNS, Pages domains/settings/secrets, Sanity, D1 и Resend не менялись.
+- Внешний HTTP smoke test и Google Search Console не завершены: Firecrawl credits исчерпаны, web viewer и сетевой запрос из контейнера недоступны. Фактический Google-selected canonical остаётся НЕ ПОДТВЕРЖДЁННЫМ; после внешнего HTTP smoke проверить четыре URL в Search Console. Детали: `docs/audits/2026-11-12-www-canonical-redirect.md`.
+
 ## 2026-11-12 — Блог: улучшено качество трёх изображений и исправлены ALT
 
 - В Sanity Production обновлены три низкоразмерных изображения оригиналами из Wix DROP: схема полива 266×246 → 925×855; фотография сада с работающим дождевателем 147×147 → 2048×2048; эскиз ландшафтного проекта 179×131 → 640×468. Для каждого затронутого документа перед записью сохранён полный backup.
