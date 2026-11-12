@@ -1,3 +1,15 @@
+## 2026-11-12 — Категория «Маслини»: контент и локализация опубликованы
+
+- Sanity: project `bxvcy0qs`, dataset `plants`, document `plants-olives`, slug `maslini`; существующая категория обновлена, ID/URL/parent/sortOrder/assets/products сохранены.
+- `seoContent`: 32 Portable Text blocks на каждом языке (BG/RU/EN), включая морозостойкость и ограничения, место посадки, уход, зимнюю защиту, Xylella fastidiosa, доставку/посадку/капельный полив и три FAQ.
+- Краткое описание, локализованные H1 и SEO metadata обновлены для всех языков; `noIndex=false`. Заключительный helpBlock переписан как отдельный CTA, ведущий на существующую услугу `/services/profesionalno-zasazhdane-na-maslini`.
+- Backup исходного документа: `docs/backups/sanity/2026-11-12-plants-olives-before-content-refresh.json`; исходная revision `dR2WRDI0sXDQ8aCH9UHfWP`.
+- Sanity validation: valid, но incomplete — custom validation callbacks инструментом не выполняются.
+- Production smoke (Firecrawl, maxAge=0): BG/RU/EN category URLs HTTP 200; корректные language, H1, title, description, robots index/follow, SEO content, FAQ и ссылка на услугу подтверждены.
+- Редакционные источники: RHS olive growing guidance; scientific review of cold stress in Olea europaea; European Commission Xylella fastidiosa plant-health rules.
+- Код, schema, D1, Cloudflare settings/secrets и Pages deployment не менялись. Контент загружается из Sanity без нового build/deployment.
+
+---
 ## 2026-11-12 — RSS-лента услуг опубликована и проверена в Production
 
 - Endpoint: `https://florial-bg.com/feeds/services-bg.xml`; Cloudflare Pages Function динамически читает опубликованные документы `service` из Sanity dataset `production`.
