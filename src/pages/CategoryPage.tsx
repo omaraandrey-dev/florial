@@ -604,7 +604,12 @@ export function CategoryPage({
             const variantIndex = variant ? (product.saleVariants || []).indexOf(variant) : -1
             const variantLabel = variant ? getPlantVariantLabel(variant, variantIndex) : ''
             const stockStatus = variant?.stockStatus || product.stockStatus
-            const stockIndicator = stockStatus === 'inStock' || stockStatus === 'onRequest' ? stockStatus : null
+            const stockIndicator = stockStatus === 'inStock' || stockStatus === 'onRequest' || stockStatus === 'outOfStock' ? stockStatus : null
+            const minimumWinterTemperature = category.isPlantCategory ? product.plantCare?.minWinterTempC : undefined
+            const hasWinterTemperature = typeof minimumWinterTemperature === 'number' && Number.isFinite(minimumWinterTemperature)
+            const winterTemperatureLabel = hasWinterTemperature
+              ? `${minimumWinterTemperature < 0 ? '−' : minimumWinterTemperature > 0 ? '+' : ''}${Math.abs(minimumWinterTemperature)} °C`
+              : ''
             const cardImageUrl = category.isPlantCategory ? getPlantCatalogCardImageUrl(product, variant) : product.imageUrl
             return (
             <a
@@ -627,11 +632,29 @@ export function CategoryPage({
                   ) : (
                     <span className="text-slate-400 text-sm">{t('Няма снимка')}</span>
                   )}
+                  {hasWinterTemperature && (
+                    <span
+                      aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
+                      title={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
+                      className="absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 shadow-sm ring-1 ring-blue-100"
+                    >
+                      <span aria-hidden="true" className="text-3xl font-bold leading-none text-blue-500">❄</span>
+                      <span className="text-xs font-extrabold leading-none text-blue-700">{winterTemperatureLabel}</span>
+                    </span>
+                  )}
                   {stockIndicator && (
                     <span
-                      aria-label={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
-                      title={stockIndicator === 'inStock' ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност') : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')}
-                      className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${stockIndicator === 'inStock' ? 'bg-emerald-500' : 'bg-sky-500'}`}
+                      aria-label={stockIndicator === 'inStock'
+                        ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност')
+                        : stockIndicator === 'onRequest'
+                          ? (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
+                          : (language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан')}
+                      title={stockIndicator === 'inStock'
+                        ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност')
+                        : stockIndicator === 'onRequest'
+                          ? (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
+                          : (language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан')}
+                      className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white ${stockIndicator === 'inStock' ? 'bg-emerald-500' : stockIndicator === 'onRequest' ? 'bg-sky-500' : 'bg-red-500'}`}
                     />
                   )}
                 </div>
