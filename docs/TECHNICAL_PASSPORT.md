@@ -1,15 +1,17 @@
-## 2026-11-12 — Перенос коммерческих страниц из блога в услуги (контент опубликован, 301 PR в работе)
+## 2026-11-12 — Перенос коммерческих страниц из блога в услуги (завершён)
 
-- В Sanity Production опубликованы 8 специализированных услуг: `montazh-podmyana-remont-razpruskvachi-nesebar`, `montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane`, `montazh-remont-elektromagnitni-klapani`, `remont-modernizatsiya-polivni-sistemi`, `godishna-poddruzhka-avtomatichni-sistemi`, `izgrazhdane-tsvetni-lehi`, `topiarna-rezitba-rasteniya`, `podmyana-stara-travna-plosht`.
-- Категории соответствуют четырём направлениям специалистов: landscaping; irrigation (включая maintenance и delivery); planting; lawn. Новые направления не создавались.
-- Статья `landshaften-dizain-proekt-zasazhdenie` остаётся проектным материалом блога; она связана с уже существующей услугой `landshaften-dizain`. Для неё не создаётся дублирующая услуга и не настраивается редирект.
-- Старые статьи о дождевателях, контроллерах, клапанах и ремонте полива имеют 99 входящих product.relatedContent-ссылок (46 + 23 + 17 + 13). Ссылки и исходные blogPost IDs намеренно сохраняются: после включения 301 старые ссылки будут вести на соответствующие услуги без массового изменения 99 товаров. Проектная статья о ландшафтном дизайне имеет одну входящую ссылку из существующей услуги.
-- Восемь новых услуг прошли доступную Sanity schema validation: valid; проверка неполная, поскольку custom validation callbacks не выполняются этим инструментом. Ручной осмотр Studio остаётся дополнительной проверкой.
-- Снимки 9 blogPost и 5 существующих service документов сохранены в `docs/backups/`; дополнительно сохранён field-level snapshot 100 документов для исходных `relatedContent` в `docs/backups/sanity-blog-to-services-2026-11-12/related-content-before.json`. Это целевые backups, не полный export dataset.
-- Ветка `content/blog-posts-to-services-2026-11-12` содержит allowlist из 8 legacy URL, middleware 301 с сохранением query string, unit tests и исправление OG image для service pages. Landscape case-study URL и все прочие статьи блога остаются без редиректа.
-- На момент записи Production code redirect ещё не включён; старые 8 blogPost остаются опубликованными до успешного Production smoke после merge. После проверки 301 нужно отдельно деактивировать только 8 перенесённых blogPost; ландшафтный case study оставить опубликованным.
+- В Sanity Production опубликованы 8 специализированных service documents: дождеватели, программаторы, электромагнитные клапаны, ремонт/модернизация полива, годовая профилактика, цветники, топиарная резитба и замена газона.
+- Четыре направления специалистов сохранены: landscaping; irrigation (включая maintenance и delivery); planting; lawn. Новое направление не создавалось.
+- \`landshaften-dizain-proekt-zasazhdenie\` оставлен проектной статьёй блога; он связан с существующей услугой \`landshaften-dizain\`, остаётся опубликованным и не перенаправляется.
+- В 99 product documents заменены \`relatedContent\` references с четырёх blogPost IDs на соответствующие service IDs (46 + 23 + 17 + 13). Live GROQ после публикации: 99 товаров со ссылками на service, 0 старых product-ссылок на эти четыре статьи.
+- Восемь перенесённых blogPost документов сохранены, но получили \`isPublished=false\`; старые URL обрабатываются middleware HTTP 301. Физическое удаление не выполнялось.
+- PR #226 merged squash, commit \`7acdc09e0ea01739bb69eca1ee4a2711a8fbe75f\`; Cloudflare Pages Production deployment \`f22c3b8f-6d75-4228-b764-5bf32bbce497\` завершился success и имеет aliases \`florial-bg.com\` и \`www.florial-bg.com\`.
+- CI: Blog/Studio run \`43170398802\` success; D1 validation run \`43170398659\` success. Live Firecrawl проверил все восемь старых URL: конечные service URL отвечают HTTP 200, \`lang\` query сохраняется; ландшафтный case study остаётся на blog URL с HTTP 200.
+- Backups: 9 исходных blogPost, 5 service documents и field-level snapshot \`relatedContent\` 100 документов сохранены в \`docs/backups/\`. Это целевые snapshots, не полный dataset export.
+- Sanity validation для 8 услуг и 99 товаров: \`valid\`, но \`complete=false\`, так как инструмент не выполняет custom validation callbacks. Ручной визуальный осмотр hosted Studio BG/RU/EN остаётся дополнительной QA-проверкой.
 
 ---
+
 
 ## 2026-11-12 — Фильтр направлений специалистов на странице услуг (PR #225 merged)
 
