@@ -1,3 +1,11 @@
+## 2026-11-12 — RSS-лента услуг (реализация в PR)
+
+- Добавлен серверный Cloudflare Pages Function endpoint `/feeds/services-bg.xml`, формирующий RSS 2.0 из опубликованных документов Sanity Production.
+- В выборку входят активные услуги с опубликованным slug и без `seo.noIndex=true`; черновики исключаются. Записи содержат болгарское название, абсолютный URL услуги, краткое описание и дату последнего изменения документа.
+- Добавлена HTML RSS autodiscovery-ссылка с типом `application/rss+xml`; подготовлены unit-тесты XML escaping, RSS metadata, absolute links, dates и фильтрации неполных записей.
+- Live read-only GROQ в Sanity Production подтвердил 20 активных опубликованных услуг на момент проверки. Sanity documents/schema, D1 и Production settings не изменялись.
+- Ветка: `feat/services-rss-feed`. CI, merge и Production smoke test ожидают завершения PR; доступность публичного endpoint до deployment не подтверждена.
+
 ## 2026-11-12 — Перенос коммерческих статей блога в услуги завершён (PR #226)
 
 - В Sanity Production опубликованы 8 специализированных услуг в четырёх существующих направлениях: системы полива (включая maintenance), услуги садовника и услуги газонщика. Ландшафтный дизайн использует существующую общую услугу.
