@@ -7,7 +7,7 @@
 - Четыре изображения и локализованные ALT/title читаются read-only из опубликованных Sanity photo documents по slug. Проверены документы и asset URL; визуальный просмотр содержимого фотографий отдельно не выполнен.
 - Существующая сортировка услуг, карточки, URL, SEO title/description, canonical/hreflang и локализация BG/RU/EN сохранены. Sanity documents/schema, D1, API, Header, меню, Footer и Cloudflare settings не изменялись.
 - CI по точному PR head SHA: D1 migration validation run 43165329360 — success; Blog and Studio validation run 43165329362 — success. Подтверждены website lint, utility tests, website build, Pages Functions syntax, D1 migration validation/dry-run и Sanity Studio build.
-- Cloudflare Pages deployment после merge ещё не проверен; визуальный QA на мобильных устройствах ожидает подтверждения владельца.
+- Cloudflare Pages Production deployment точного merge commit a8db72ffda86e8d678cfe233a92ae88b0f82a892 завершился success: deployment 6a9c87fd-a424-4ab8-8895-9c560a0e2336. Последующий Production deployment aa669cbe91d5d467e66e7ccbb02b25b7a06569b8 (документационный commit с тем же кодом) также завершился success и получил aliases florial-bg.com и www.florial-bg.com. Более поздние документационные commits c37d0aefd88a1044c00f7150b4c729e9ba98824b и e55f2b67f45cc9e9c93d8323f6872e56af4ff89d продолжают собираться; они не меняют код приложения. Мобильный визуальный QA ожидает подтверждения владельца.
 
 ---
 
