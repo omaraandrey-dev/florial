@@ -33,7 +33,7 @@ export type BlogPost = {
   tags?: string[]
   translations?: Partial<Record<BlogLanguage, BlogTranslation>>
 }
-export type BlogPostCard = Pick<BlogPost, '_id' | 'slug' | 'publishedAt' | 'cover' | 'translations'>
+export type BlogPostCard = Pick<BlogPost, '_id' | 'slug' | 'publishedAt' | 'cover' | 'translations' | 'tags'>
 
 const blogCardProjection = `{
   _id, slug, publishedAt, tags,
