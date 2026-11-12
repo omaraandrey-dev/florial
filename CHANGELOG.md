@@ -1,3 +1,14 @@
+## 2026-11-12 — Уточнение зимнего индикатора и отключение мобильной загрузки hero image категории
+
+- Base main: `6d41f82414676f8121ed1c374c77c0ad1258b211`; implementation branch: `fix/winter-indicator-card-position-and-responsive-category-image`.
+- `src/pages/CategoryPage.tsx`: индикатор минимальной зимней температуры вынесен из области фотографии в отдельную строку в верхней части карточки растения. Снежинка уменьшена до `text-xs`; размер текста температуры `text-[10px]` сохранён.
+- `src/pages/ProductPage.tsx`: индикатор вынесен из overlay основной фотографии в отдельную строку над изображением. Основная фотография товара остаётся загружаемой и использует существующий responsive `srcSet`; скрытых дублирующих desktop-only изображений в блоке основной галереи не обнаружено.
+- Hero image категории теперь передаётся через `<picture>` с единственным `<source media="(min-width: 1024px)">`; fallback `<img>` не имеет `src`/ `srcSet`. При мобильном viewport ни один source не совпадает, поэтому браузер не должен запрашивать это desktop-only изображение. CSS-класс `category-page-hero-image` сохранён для предотвращения отображения контейнера на мобильном.
+- Sanity, D1, Manager, API, Header, меню, Footer, Cloudflare settings/secrets и Production data не затрагивались.
+- Визуальная проверка на физическом Android и CI по PR должны быть записаны после выполнения; до этого поведение на устройстве считается не подтверждённым.
+
+---
+
 ## 2026-11-12 — Индикатор зимней температуры на карточке товара и мобильное изображение категории (PR #221 merged + Production deploy)
 
 - PR #221 успешно объединён в `main` методом squash. Implementation branch: `fix/plant-winter-indicator-and-mobile-category-flash`; head: `c4225fa3eb7898c4f2b1a5963c45e6f48b94b746`; merge commit: `96cc7508301485b81856981d010f506ea7b5ebe0`.
