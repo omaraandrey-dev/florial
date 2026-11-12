@@ -1,0 +1,1313 @@
+{
+  "createdAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "purpose": "Field-level rollback snapshot before replacing relatedContent references from migrated blog posts to service documents. Only relatedContent will be patched.",
+  "documents": [
+    {
+      "_id": "090dd217-badb-47a0-bbed-e7c123063f59",
+      "_type": "product",
+      "name": "Rain Bird US-418 — разпръсквач с дюза 18-VAN",
+      "slug": "rain-bird-us-418",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "11a27fdf-2904-40b8-9ba3-264bc22a4359",
+      "_type": "product",
+      "name": "Rain Bird 4-VAN — регулируема веерна дюза",
+      "slug": "p10004",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "16804f4a-04c9-49bd-a8c9-05c6fc612b2f",
+      "_type": "product",
+      "name": "Rain Bird US-415HE — разпръсквач с дюза HE-VAN-15",
+      "slug": "rain-bird-us-415he",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "1d4a4b1d-aea5-4d1e-bd19-1f4933de98d4",
+      "_type": "product",
+      "name": "Rain Bird 6-VAN — регулируема веерна дюза",
+      "slug": "p10006",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "20fce09d-ffd6-49f5-b5ca-f4945136014a",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-24 — ротаторна дюза",
+      "slug": "a84661",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "21e4bb9f-c635-4d6f-882d-c9fefb70b8d3",
+      "_type": "product",
+      "name": "Rain Bird HE-VAN-8 — регулируема веерна дюза",
+      "slug": "he0801",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "2e200586-8866-4526-adc7-ae0becb35601",
+      "_type": "product",
+      "name": "Rain Bird VAN-10 — регулируема веерна дюза",
+      "slug": "p1001001",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "3e435ac6-f184-4637-bf06-c34822cc93dc",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-14 — ротаторна дюза",
+      "slug": "a84659",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "3f5c3d95-ec09-40f7-b5ab-86337b3a362a",
+      "_type": "product",
+      "name": "Rain Bird 9-SST — дюза за странична ивица",
+      "slug": "rain-bird-9-sst",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "42f54182-8fc4-41ee-9b8c-2c50b504907d",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-RCS — дюза за десен ъгъл",
+      "slug": "a84668",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "47d220db-38af-4b22-9995-dc52de55efb7",
+      "_type": "product",
+      "name": "Rain Bird VAN-8 — регулируема веерна дюза",
+      "slug": "p10008",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+      "_type": "product",
+      "name": "Rain Bird 1806-SAM — статичен разпръсквач с антидренажен клапан",
+      "slug": "rain-bird-1806-sam",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "4d3214ae-7251-4109-8c70-2ede32ef34d0",
+      "_type": "product",
+      "name": "Rain Bird 5004PC30 — роторен разпръсквач",
+      "slug": "rain-bird-5004pc30",
+      "originalRelatedContent": [
+        {
+          "_key": "9eqmGbUy4mxL63NADURz7f",
+          "_ref": "7ead4133-8f63-4381-bafe-493499fff5b8",
+          "_type": "reference"
+        },
+        {
+          "_key": "9eqmGbUy4mxL63NADURzAr",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "4f4a7e6b-7df5-4ee4-94f1-346b68fc75a9",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-SST — ротаторна дюза за странична ивица",
+      "slug": "a84669",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "556bb59c-ec52-4884-b811-5687d2310343",
+      "_type": "product",
+      "name": "Rain Bird 1806 — статичен разпръсквач",
+      "slug": "a44205",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "59c0c78f-a1d7-4948-bd0f-572b82b83e54",
+      "_type": "product",
+      "name": "Rain Bird US-412HE — разпръсквач с дюза HE-VAN-12",
+      "slug": "rain-bird-us-412he",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "5f6c0504-3cf9-4439-adda-a147d8178799",
+      "_type": "product",
+      "name": "Rain Bird 1812 — статичен разпръсквач",
+      "slug": "a44305",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "63289ec9-c0dd-4f13-ae4d-1f7f00a442c6",
+      "_type": "product",
+      "name": "Rain Bird HE-VAN-15 — регулируема веерна дюза",
+      "slug": "he1501",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "65730615-f75c-4c80-a5b3-2622c9997f61",
+      "_type": "product",
+      "name": "Rain Bird 1812-SAM — висок статичен разпръсквач с антидренажен клапан",
+      "slug": "rain-bird-1812-sam",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "678c8039-dda2-4873-a7cb-98083c4ef971",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-18 — ротаторна дюза",
+      "slug": "a84660",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "6eac9b54-c3e7-41b1-aa6c-560e64012ef4",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-24F — ротаторна дюза, 360°",
+      "slug": "a84666",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "6f45d30e-1d6b-48e5-8ffd-c72faeb733b0",
+      "_type": "product",
+      "name": "Rain Bird 15-SST — дюза за странична ивица",
+      "slug": "rain-bird-15-sst",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "816a0665-1e3e-484c-b08f-fdcf8a68e9d2",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-18F — ротаторна дюза, 360°",
+      "slug": "a84665",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "81dfc913-3bfe-451b-9c76-fa468366cdbb",
+      "_type": "product",
+      "name": "Rain Bird VAN-12 — регулируема веерна дюза",
+      "slug": "p1001201",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "96daa552-e9b6-4d1f-b858-c8bb24dc1cc2",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-14F — ротаторна дюза, 360°",
+      "slug": "a84664",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "97436060-98f6-430e-ba36-3fa11b085b24",
+      "_type": "product",
+      "name": "Rain Bird 1802 — статичен разпръсквач",
+      "slug": "a44020",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "9863df6e-0a8e-4e1e-b5ae-7c6e1450493e",
+      "_type": "product",
+      "name": "Rain Bird FALCON FC — роторен разпръсквач, пълен кръг",
+      "slug": "rain-bird-falcon-fc",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "9c6ab885-2daa-4c2c-896d-7b76814ca633",
+      "_type": "product",
+      "name": "Rain Bird FALCON PC — роторен разпръсквач, регулируем сектор",
+      "slug": "rain-bird-falcon-pc",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a365a2c3-1936-4076-a7a7-ba462b21c07f",
+      "_type": "product",
+      "name": "Rain Bird 15-CST — дюза за централна ивица",
+      "slug": "rain-bird-15-cst",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a6e7016e-7bba-4078-b76c-6afef30661d6",
+      "_type": "product",
+      "name": "Rain Bird VAN-18 — регулируема веерна дюза",
+      "slug": "p10018",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+      "_type": "product",
+      "name": "Rain Bird 1804 — статичен разпръсквач",
+      "slug": "a44120",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "b70be356-b0cf-45a1-9e9c-82414b428122",
+      "_type": "product",
+      "name": "Rain Bird 5004+FC — роторен разпръсквач",
+      "slug": "y45010",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "b905cfab-56da-4367-b623-4e7718886ef7",
+      "_type": "product",
+      "name": "Rain Bird 8005SS — роторен разпръсквач с метален щок",
+      "slug": "rain-bird-8005ss",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "bd82a0c0-b259-42d6-9b27-d2a412925513",
+      "_type": "product",
+      "name": "Rain Bird US-400 — статичен разпръсквач",
+      "slug": "rain-bird-us-400",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "c8902118-2d87-4f8d-aa3e-bbcafdc5593a",
+      "_type": "product",
+      "name": "Rain Bird 15-RCS — дюза за десен ъгъл",
+      "slug": "rain-bird-15-rcs",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "ccbd32bb-7f3f-4109-8928-4518f21e7ec4",
+      "_type": "product",
+      "name": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+      "slug": "rain-bird-15-est",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "d1a1a13d-31dc-4635-a666-21283e58abbd",
+      "_type": "product",
+      "name": "Rain Bird 3504-PC-SAM — роторен разпръсквач",
+      "slug": "y34500",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "d353f503-4ce8-479c-b548-771ed58d590c",
+      "_type": "product",
+      "name": "Rain Bird US-410HE — разпръсквач с дюза HE-VAN-10",
+      "slug": "rain-bird-us-410he",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+      "_type": "product",
+      "name": "Rain Bird 1804-SAM — статичен разпръсквач с антидренажен клапан",
+      "slug": "rain-bird-1804-sam",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "de179416-ef68-48c5-aa70-56a4c528885f",
+      "_type": "product",
+      "name": "Rain Bird 3504-PC — роторен разпръсквач",
+      "slug": "y34001",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "de88e310-c33d-4111-9ad6-c638b49a2ed8",
+      "_type": "product",
+      "name": "Rain Bird HE-VAN-12 — регулируема веерна дюза",
+      "slug": "he1201",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "e25925d0-b54f-45fa-844e-ad4fde8e6440",
+      "_type": "product",
+      "name": "Rain Bird HE-VAN-10 — регулируема веерна дюза",
+      "slug": "he1001",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "ec9baf44-b3f5-4b96-9672-7b580b12539b",
+      "_type": "product",
+      "name": "Rain Bird 8005 — професионален роторен разпръсквач",
+      "slug": "rain-bird-8005",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "f36e2aff-6c5b-4544-a6c0-a7c413fbb181",
+      "_type": "product",
+      "name": "Rain Bird VAN-15 — регулируема веерна дюза",
+      "slug": "p1001501",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "f6a7da86-77fd-4b8d-b761-1d86569a12ae",
+      "_type": "product",
+      "name": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+      "slug": "rain-bird-15-lcs",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "fce79548-830a-4bcd-9ff5-8e9a85f39ab5",
+      "_type": "product",
+      "name": "Rain Bird R-VAN-LCS — дюза за ляв ъгъл",
+      "slug": "a84667",
+      "originalRelatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "4eb9f7c2-8ffe-4e26-881c-4c9aa41a0201",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "0bb2fc6f-f752-49e3-a6ef-85eeed080625",
+      "_type": "product",
+      "name": "ESP-TM2, 8 зони, външен",
+      "slug": "f54228",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXWrnC",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "1b47605e-225d-4343-87cb-e9721bec74ea",
+      "_type": "product",
+      "name": "ESP-TM2, 12 зони, външен",
+      "slug": "f54232",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX1bi",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "413e285c-9b24-4bb5-b13c-e306d881592f",
+      "_type": "product",
+      "name": "Rain Bird LNK2 Wi‑Fi — модул за дистанционно управление",
+      "slug": "rain-bird-lnk2-wifi",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXrg6",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "586681fb-2a5a-4011-95f3-7b075ea84313",
+      "_type": "product",
+      "name": "Rain Bird ESP-RC2I8-230 — контролер 8 зони с вграден Wi‑Fi",
+      "slug": "rain-bird-esp-rc2i8-230",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcgi5",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "6c33f78b-2607-474d-9b70-34b6607a3db6",
+      "_type": "product",
+      "name": "ESP-BAT-BT, 1 зона",
+      "slug": "esp-bat-bt1",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX6mE",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "709d27d0-c870-4d2d-941e-6048a7ac3668",
+      "_type": "product",
+      "name": "Rain Bird ESP-9V-4 — автономен контролер 4 зони",
+      "slug": "rain-bird-esp-9v-4",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX6YI",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "83a9b0c7-7e85-44d5-921c-552b55b0ec81",
+      "_type": "product",
+      "name": "Rain Bird ESP-9V-1 — автономен контролер 1 зона",
+      "slug": "rain-bird-esp-9v-1",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitzRl",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "8ad09d10-59f2-4b38-a36d-8fe9484c6be1",
+      "_type": "product",
+      "name": "ESP-TM2, 4 зони, вътрешен",
+      "slug": "f54234",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcnps",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "8e3d59c4-8ef5-42cf-89c5-9a257da639a5",
+      "_type": "product",
+      "name": "Rain Bird ESP-9V-DVF-KIT — контролер 1 зона с клапан 100-DVF 9V",
+      "slug": "rain-bird-esp-9v-dvf-kit",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitzWg",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "93187163-1e34-4583-8eb2-9ef195b0ea73",
+      "_type": "product",
+      "name": "ESP-BAT-BT, 2 зони",
+      "slug": "esp-bat-bt2",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX9m2",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a5de1f22-3dba-495b-8b56-87f998ac308a",
+      "_type": "product",
+      "name": "ESP-BAT-BT, 6 зони",
+      "slug": "esp-bat-bt6",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcrfl",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a7f98456-700d-4fb6-924c-8acf84cf3809",
+      "_type": "product",
+      "name": "Rain Bird 1ZEHTMR — едноканален таймер за кран с LCD",
+      "slug": "rain-bird-1zehtmr",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXCXu",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "bac970d8-4f3a-4712-9224-5d58a2bd0261",
+      "_type": "product",
+      "name": "Rain Bird ESP-TM2-4-230 — контролер 4 зони, външен монтаж",
+      "slug": "rain-bird-esp-tm2-4-230",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXY72M",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "be547e5b-3348-4724-922b-4e0ce495564e",
+      "_type": "product",
+      "name": "ESP-TM2, 6 зони, вътрешен",
+      "slug": "f54236",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSivL4l",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "bf20d782-3101-4feb-8f3b-3a26a6bedbb0",
+      "_type": "product",
+      "name": "Rain bird ESP-RC2 Indoor, контролер 4 зони с вграден Wi‑Fi зони",
+      "slug": "f56154",
+      "originalRelatedContent": [
+        {
+          "_key": "4d95adbcc0f4",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "bf7db992-9380-4f45-a00c-bda51be6b408",
+      "_type": "product",
+      "name": "Сензор за дъжд Rain Bird RSD-BEx",
+      "slug": "senzor-za-dazhd-rain-bird-rsd-bex",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSivMQO",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "c5f77076-3243-4327-8463-51b6b1070e9d",
+      "_type": "product",
+      "name": "Rain Bird ESP-RC2-230V — контролер 8 зони с Wi‑Fi, външен монтаж",
+      "slug": "rain-bird-esp-rc2-230v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXIEw",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "c821b95d-b82b-4d2e-9cc8-ca634272423e",
+      "_type": "product",
+      "name": "ESP-BAT-BT, 4 зони",
+      "slug": "esp-bat-bt4",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiu9lH",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "dab181a4-8f18-4e8f-8ee1-19d950eb7e67",
+      "_type": "product",
+      "name": "Rain Bird ESP-TM2-6-230 — контролер 6 зони, външен монтаж",
+      "slug": "rain-bird-esp-tm2-6-230",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXISs",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "f5698f3a-65c4-406b-9887-f199199a9959",
+      "_type": "product",
+      "name": "Rain Bird ESP-9V-2 — автономен контролер 2 зони",
+      "slug": "rain-bird-esp-9v-2",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXMxa",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "f5b089b5-d428-4b7a-88c2-aec98c1c4071",
+      "_type": "product",
+      "name": "Rain bird ESP-RC2 Indoor, контролер 6 зони с вграден Wi‑Fi зони",
+      "slug": "f56156",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiuEHg",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "fb24649f-3488-4747-a672-58cd5f693682",
+      "_type": "product",
+      "name": "Rain Bird ESP-TM2I12-230 — контролер 12 зони, вътрешен монтаж",
+      "slug": "rain-bird-esp-tm2i12-230",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGd2Os",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "fb41136d-e54d-4987-950d-4c11a69de944",
+      "_type": "product",
+      "name": "ESP-TM2, 8 зони, вътрешен",
+      "slug": "f54238",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXNBW",
+          "_ref": "5398768e-2661-49b5-9886-54b3d8218ba1",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "064ded5c-2865-487f-883c-f6b61c5a7606",
+      "_type": "product",
+      "name": "Rain Bird 100-PGA-9V — електромагнитен клапан 1″, 9 V",
+      "slug": "rain-bird-100-pga-9v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXWrwU",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "08e19ebf-5048-4987-8c9a-fd7361784ac5",
+      "_type": "product",
+      "name": "Rain Bird 100-DV-MM — електромагнитен клапан 1″, 24 V",
+      "slug": "rain-bird-100-dv-mm-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitlFC",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "21d7ac62-0ed9-4e68-ad82-4684a932f215",
+      "_type": "product",
+      "name": "Rain Bird 150-PGA-9V — електромагнитен клапан 1 1/2″, 9 V",
+      "slug": "rain-bird-150-pga-9v",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGccsC",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "30cbe6a0-c871-4ceb-8111-73790fea66fd",
+      "_type": "product",
+      "name": "Rain Bird 100-HV-9V — електромагнитен клапан 1″ за контролери на батерии",
+      "slug": "h01040",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitooZ",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "38cd6fbd-73b3-4902-adc0-f67ab25a2547",
+      "_type": "product",
+      "name": "Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V",
+      "slug": "rain-bird-100-peb-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitoje",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "43028c39-487a-40aa-9af4-cf3795c25c31",
+      "_type": "product",
+      "name": "Rain Bird 200-PEB — електромагнитен клапан 2″, 24 V",
+      "slug": "rain-bird-200-peb-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXssQ",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "433b1190-beaf-4eb4-a66c-db2c6b24cc35",
+      "_type": "product",
+      "name": "Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V",
+      "slug": "rain-bird-lfv-075-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiusVn",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "59bba3a3-0ed7-4c93-b8e4-9f74929bef0f",
+      "_type": "product",
+      "name": "Rain Bird 150-PGA — електромагнитен клапан 1 1/2″, 24 V",
+      "slug": "rain-bird-150-pga-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX4EI",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "6f00ce33-a6a0-4d69-9646-7c1e558d6963",
+      "_type": "product",
+      "name": "Rain Bird 150-PEB — електромагнитен клапан 1 1/2″, 24 V",
+      "slug": "rain-bird-150-peb-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGckJP",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "6feafb22-5f1a-4515-8da6-9012d33620a0",
+      "_type": "product",
+      "name": "Rain Bird 100-PGA — електромагнитен клапан 1″, 24 V",
+      "slug": "rain-bird-100-pga-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitwLu",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "780cf027-033f-4431-8176-b2f482614ccd",
+      "_type": "product",
+      "name": "Rain Bird 100-DVF — електромагнитен клапан 1″, 24 V с регулатор на дебита",
+      "slug": "rain-bird-100-dvf-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitwGz",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "94b743bb-e6d5-467d-902d-80e3d9bee440",
+      "_type": "product",
+      "name": "Rain Bird 200-PGA — електромагнитен клапан 2″, 24 V",
+      "slug": "rain-bird-200-pga-24v",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcnza",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "98b699ac-0bbf-4857-8084-76913a67b570",
+      "_type": "product",
+      "name": "Rain Bird LFV-075-9V — електромагнитен клапан 3/4″, 9 V",
+      "slug": "rain-bird-lfv-075-9v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXCFK",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "9b0a1df7-64a3-4215-9dad-c057cfe3a69b",
+      "_type": "product",
+      "name": "Rain Bird 100-DVF-TBOS — електромагнитен клапан 1″, 9 V с регулатор на дебита",
+      "slug": "rain-bird-100-dvf-tbos-9v",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXCTG",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a473f223-3fac-44bb-bbad-bf640609c951",
+      "_type": "product",
+      "name": "Rain Bird 100-HVF — електромагнитен клапан 1″ с регулатор на дебита, 24 V",
+      "slug": "h01010",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiu3ZZ",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "a5c07339-5036-44b6-bc85-0b65cb08228a",
+      "_type": "product",
+      "name": "Rain Bird 100-HV — електромагнитен клапан 1″, 24 V",
+      "slug": "h01000",
+      "originalRelatedContent": [
+        {
+          "_key": "35bc48208e2d",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "abe53e4e-9f4b-4ead-a1d7-47a1d23bb31d",
+      "_type": "product",
+      "name": "Rain Bird 200-PGA-9V — електромагнитен клапан 2″, 9 V",
+      "slug": "rain-bird-200-pga-9v",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcrW3",
+          "_ref": "blogPost-montazh-remont-elektromagnitni-klapani",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "090122e8-185e-4abe-87be-6b617fd2b9eb",
+      "_type": "product",
+      "name": "Rain Bird RB1348-010 — капа за колектор 1″",
+      "slug": "rain-bird-rb1348-010",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSitkbq",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "18feb961-af94-4e09-b38f-a02bf3957eab",
+      "_type": "product",
+      "name": "Сферичен кран 2″ Ж, полиетилен, дълга дръжка",
+      "slug": "fitting-01311",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcZf9",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "1ca2120e-744f-4aff-9d7e-affa2122a4fb",
+      "_type": "product",
+      "name": "Rain Bird RB1301-310 — колектор за 3 клапана",
+      "slug": "rain-bird-rb1301-310",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGccnL",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "28c7ab8a-cc39-444e-96b2-98c8430c044b",
+      "_type": "product",
+      "name": "Сферичен кран 1″ Ж, полиетилен",
+      "slug": "fitting-00929",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcdjb",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "2ba7fcbb-76cf-40ab-a516-6863d865f720",
+      "_type": "product",
+      "name": "Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″",
+      "slug": "rain-bird-vba17186",
+      "originalRelatedContent": [
+        {
+          "_key": "nOHEybZSCqHvK8PBPGcd6l",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "65b12add-bc1d-42fd-a3ec-8180a1ee8cb9",
+      "_type": "product",
+      "name": "Rain Bird P33 — пластмасов хидрант 3/4″",
+      "slug": "rain-bird-p33-hidrant",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXX6Fi",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "bd5f3c9a-51fb-45f1-9fb8-4023d33f017e",
+      "_type": "product",
+      "name": "Rain Bird PSI-M30 — регулатор на налягане 2,1 bar",
+      "slug": "rain-bird-psi-m30",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXY7w6",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "c9f6aeed-90e0-4fb7-85be-bb24c646f70b",
+      "_type": "product",
+      "name": "Rain Bird PSI-M40 — регулатор на налягане 2,8 bar",
+      "slug": "rain-bird-psi-m40",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXIAI",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "ca6f1767-67a3-4054-a9b5-9ea093d02737",
+      "_type": "product",
+      "name": "Rain Bird MTT-100 — тройник за клапанен колектор 1″",
+      "slug": "rain-bird-mtt-100",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiu9Hl",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "d453b980-ec2c-4e2b-a2fe-8b977640aa68",
+      "_type": "product",
+      "name": "Rain Bird PRF-100-RBY — филтър с регулатор на налягането",
+      "slug": "rain-bird-prf-100-rby",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSiu9gM",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "e5af2cc5-ba27-4040-8c52-23c67ca00edd",
+      "_type": "product",
+      "name": "Rain Bird PSI-M20 — регулатор на налягане 1,4 bar",
+      "slug": "rain-bird-psi-m20",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSivPRK",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "ef0a57bc-d0ff-4ceb-98ce-55da7be19586",
+      "_type": "product",
+      "name": "Rain Bird RB1301-410 — колектор за 4 клапана",
+      "slug": "rain-bird-rb1301-410",
+      "originalRelatedContent": [
+        {
+          "_key": "3bZOs0N0PGXlOTrFSivQd7",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "f423cc94-03db-4d3f-8c16-d47c94b98657",
+      "_type": "product",
+      "name": "Сферичен кран 1/2″ Ж, полиетилен",
+      "slug": "fitting-00926",
+      "originalRelatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXN2E",
+          "_ref": "blogPost-remont-modernizatsiya-polivni-sistemi",
+          "_type": "reference"
+        }
+      ]
+    },
+    {
+      "_id": "c7d2c120-6024-4876-b240-ff6585df91e4",
+      "_type": "service",
+      "name": "Ландшафтен дизайн",
+      "slug": "landshaften-dizain",
+      "originalRelatedContent": [
+        {
+          "_key": "Cq0WfbdWfPjjye8LFmzM2V",
+          "_ref": "blogPost-landshaften-dizain-proekt-zasazhdenie",
+          "_type": "reference"
+        }
+      ]
+    }
+  ]
+}
