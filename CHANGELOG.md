@@ -1,3 +1,11 @@
+## 2026-11-12 — Read-only SEO и image audit блога (PR #235 draft)
+
+- Проверены 14 опубликованных blogPost и 42 локализованные версии в Sanity Production. Во всех 42 случаях `shortDescription` совпадает с `seoDescription`; все 42 SEO descriptions используют общий шаблон. 24 SEO title длиннее 60 символов, два — длиннее 70.
+- Подготовлены новые варианты `shortDescription`, `seoTitle`, `seoDescription` для BG/RU/EN всех 14 статей в `docs/audits/2026-11-12-blog-seo-images.md`. Все предложенные SEO descriptions — не длиннее 160 символов.
+- Image audit: coverAlt и ALT у проверенных Portable Text image blocks заполнены; 9/14 статей повторяют cover asset в body; один cover asset 1000×638 используется в двух публикациях; отмечены изображения 179×131, GIF 220×120 и 266×246 для визуальной проверки.
+- В четырёх BG-статьях обнаружены шесть старых Wix CDN href и Markdown-подобные image fragments, которые текущий `BlogContent.tsx` не преобразует в изображения. Требуется визуальная проверка оригиналов и перенос только подтверждённых изображений в Sanity.
+- PR #235 открыт как draft, документационный only. Sanity Production, схема, frontend, Cloudflare и опубликованные материалы не менялись. Визуальное содержимое и HTTP-доступность старых Wix originals не подтверждены.
+
 ## 2026-11-12 — Блог: этап 2, featured-публикация и счётчики тем (PR #233 merged; Production deployment выполняется)
 
 - В отдельной ветке `feat/blog-featured-landing-stage2` первая статья в текущем списке (или выбранной теме) отображается как широкая featured-карточка; выбор динамический по существующей сортировке даты, без нового editorial-поля.
