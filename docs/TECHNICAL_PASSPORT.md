@@ -1,3 +1,14 @@
+## 2026-11-12 — Закрытие Android visual QA для зимнего индикатора и category hero
+
+- Владелец сообщил об успешной визуальной проверке опубликованного сайта на физическом Android-устройстве: результат корректный, замечаний по отображению нет.
+- Визуальный QA по PR #222 закрыт. Проверяемый код находится в main commit `79e96ce419b4be6513a112deee7c48bb3b0564e5`; Production deployment: `4113830f-e8ff-4eba-bfc7-263818f8f287`.
+- Поведение индикатора: отдельная строка над изображением карточки растения и страницы товара; снежинка `text-xs`, температура `text-[10px]`.
+- Мобильный category hero: `<picture>` содержит desktop-only source с media `(min-width: 1024px)`; fallback `<img>` не содержит `src`/ `srcSet`. Основное фото товара не отключается и остаётся responsive.
+- Ограничение: владелец подтвердил визуальный результат, но отдельный Android Network/DevTools capture не предоставлен; фактическое отсутствие сетевого запроса не заявляется как независимо измеренное. Это не является новой метрикой CLS и не закрывает расследование иных причин layout shift.
+- Изменялась только документация; приложение, Sanity, D1, Cloudflare settings/secrets и Production deployment не затрагивались.
+
+---
+
 ## 2026-11-12 — Зимний индикатор вне изображения и responsive category hero
 
 - Base main: `6d41f82414676f8121ed1c374c77c0ad1258b211`; branch: `fix/winter-indicator-card-position-and-responsive-category-image`.
