@@ -1,0 +1,1822 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-31T00:44:38Z",
+    "_id": "blogPost-montazh-remont-elektromagnitni-klapani",
+    "_rev": "I3YKJCwIjHh6NxfePVTzHq",
+    "_system": {
+      "base": {
+        "id": "blogPost-montazh-remont-elektromagnitni-klapani",
+        "rev": "nOHEybZSCqHvK8PBPENTM4"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-10-31T00:45:19Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Техник обслужва електромагнитен клапан Rain Bird в клапанна шахта — Florial",
+      "altEn": "Technician servicing a Rain Bird solenoid valve in a valve box — Florial",
+      "altRu": "Специалист обслуживает электромагнитный клапан Rain Bird в клапанном боксе — Florial",
+      "asset": {
+        "_ref": "image-95a24bbe6e98e8205655e910dac6ab29dd293d96-1536x1024-png",
+        "_type": "reference"
+      }
+    },
+    "isPublished": true,
+    "publishedAt": "2026-10-31T00:00:00.000Z",
+    "slug": {
+      "_type": "slug",
+      "current": "montazh-remont-elektromagnitni-klapani"
+    },
+    "tags": [
+      "електромагнитни клапани",
+      "Rain Bird",
+      "ремонт на поливни системи",
+      "Бургас",
+      "Несебър",
+      "Слънчев бряг"
+    ],
+    "title": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bg0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg0s",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Електромагнитните клапани управляват подаването на вода към отделните зони на автоматичната поливна система. Когато клапанът се замърси, мембраната се износи или електрическата част откаже, системата може да пропуска вода, да не включва дадена зона или да работи извън зададения график."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial предлага професионален монтаж, диагностика, ремонт, почистване и подмяна на клапани Rain Bird и други производители за частни градини, хотели, паркове и търговски обекти."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на електромагнитни клапани"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтираме нови клапани и подменяме съществуващи клапанни групи. Подбираме оборудването според дебита, работното налягане, диаметъра на тръбите и електрическото управление. Монтажът включва свързване към колектора и тръбопровода, електрическо свързване към контролера, уплътняване на връзките и тест на всяка зона под работно налягане."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Диагностика и ремонт"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ако зона не се включва или продължава да полива след края на програмата, причината може да е в клапана, бобината, мембраната, управляващите канали или електрическата верига. Проверяваме контролера, кабелите, бобината, механичните части и налягането."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ремонтираме клапани, които не се отварят, не затварят напълно, работят със закъснение, пропускат вода или сработват нестабилно. След диагностиката предлагаме почистване, ремонт на компонент или подмяна, когато това е по-надеждното решение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почистване и профилактика"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Пясъкът, утайките, ръждата и варовиковите отлагания могат да блокират управляващите отвори и да попречат на мембраната да затвори плътно. Разглобяваме клапана според конструкцията му, почистваме мембраната и каналите, проверяваме филтъра, уплътненията и пружината, след което сглобяваме и тестваме механизма."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Редовната профилактика намалява риска от течове, загуба на вода и повреди през активния сезон. При вода с механични примеси препоръчваме проверка и на филтриращия възел."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Подмяна на клапани и избор на оборудване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Когато корпусът е повреден, вътрешните части са силно износени или ремонтът не е икономически оправдан, монтираме нов клапан. Проверяваме резбата, диаметъра, работното налягане, необходимия дебит и съвместимостта с контролера — 24 V или батерийно управление 9 V."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg13s",
+                "_type": "span",
+                "marks": [],
+                "text": "По-долу са показани клапани и клапанни шахти от каталога Florial. Всяка снимка е последвана от директна връзка към съответния продукт."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg0img0",
+            "_type": "image",
+            "alt": "Rain Bird 100-HV",
+            "altEn": "Rain Bird 100-HV",
+            "altRu": "Rain Bird 100-HV",
+            "asset": {
+              "_ref": "image-7d92de4fca10df9d311a978218e9b997d946a78b-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg0prod0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg0prods0",
+                "_type": "span",
+                "marks": [
+                  "mbg0prod0"
+                ],
+                "text": "Вижте продукта: Rain Bird 100-HV · H01000"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg0prod0",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01000"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg1img1",
+            "_type": "image",
+            "alt": "Rain Bird 100-HVF",
+            "altEn": "Rain Bird 100-HVF",
+            "altRu": "Rain Bird 100-HVF",
+            "asset": {
+              "_ref": "image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg1prod1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg1prods1",
+                "_type": "span",
+                "marks": [
+                  "mbg1prod1"
+                ],
+                "text": "Вижте продукта: Rain Bird 100-HVF · H01010"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg1prod1",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01010"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg2img2",
+            "_type": "image",
+            "alt": "Rain Bird VBA02672",
+            "altEn": "Rain Bird VBA02672",
+            "altRu": "Rain Bird VBA02672",
+            "asset": {
+              "_ref": "image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg2prod2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg2prods2",
+                "_type": "span",
+                "marks": [
+                  "mbg2prod2"
+                ],
+                "text": "Вижте продукта: Rain Bird VBA02672 · VBA02672"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg2prod2",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02672"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg3img3",
+            "_type": "image",
+            "alt": "Rain Bird VBA02673",
+            "altEn": "Rain Bird VBA02673",
+            "altRu": "Rain Bird VBA02673",
+            "asset": {
+              "_ref": "image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg3prod3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg3prods3",
+                "_type": "span",
+                "marks": [
+                  "mbg3prod3"
+                ],
+                "text": "Вижте продукта: Rain Bird VBA02673 · VBA02673"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg3prod3",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02673"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg4img4",
+            "_type": "image",
+            "alt": "Rain Bird 100-PGA",
+            "altEn": "Rain Bird 100-PGA",
+            "altRu": "Rain Bird 100-PGA",
+            "asset": {
+              "_ref": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg4prod4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg4prods4",
+                "_type": "span",
+                "marks": [
+                  "mbg4prod4"
+                ],
+                "text": "Вижте продукта: Rain Bird 100-PGA · B31410"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg4prod4",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-pga-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg5img5",
+            "_type": "image",
+            "alt": "Rain Bird 100-PEB",
+            "altEn": "Rain Bird 100-PEB",
+            "altRu": "Rain Bird 100-PEB",
+            "asset": {
+              "_ref": "image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bg5prod5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg5prods5",
+                "_type": "span",
+                "marks": [
+                  "mbg5prod5"
+                ],
+                "text": "Вижте продукта: Rain Bird 100-PEB · B34073"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg5prod5",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-peb-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Кога е необходимо обслужване?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Препоръчваме диагностика, ако забележите някой от следните признаци:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Една или няколко поливни зони не се включват."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Разпръсквачите продължават да подават вода след спиране на програмата."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Налягането в отделна зона е необичайно ниско."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Клапанът се включва със закъснение или работи нестабилно."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg20s",
+                "_type": "span",
+                "marks": [],
+                "text": "В клапанната шахта има вода или следи от теч."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Системата не изпълнява командите на контролера."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Техническо обслужване на цялата поливна система"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Клапаните са само една част от системата. За цялостна диагностика, сезонно пускане, настройка, ремонт и подготовка за зимата разгледайте нашата услуга за ремонт и поддръжка на поливни системи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg24s",
+                "_type": "span",
+                "marks": [
+                  "mbg24"
+                ],
+                "text": "Ремонт и поддръжка на поливни системи — Florial"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mbg24",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/services/remont-i-poddrazhka"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg25s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial обслужва Слънчев бряг, Несебър, Равда, Поморие, Свети Влас, Бургас и близките населени места. Работим по частни дворове, градини, хотели и търговски обекти."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Монтаж и ремонт на електромагнитен клапан Rain Bird от Florial",
+        "seoDescription": "Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване. Rain Bird сервиз в Бургас, Несебър, Равда и Слънчев бряг.",
+        "seoTitle": "Монтаж и ремонт на електромагнитни клапани | Florial",
+        "shortDescription": "Професионален монтаж, диагностика, ремонт, почистване и подмяна на клапани Rain Bird. Обслужване в Бургас, Несебър, Слънчев бряг и Южното Черноморие.",
+        "title": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "en0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en0s",
+                "_type": "span",
+                "marks": [],
+                "text": "Irrigation solenoid valve installation, repair, cleaning and replacement"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Solenoid valves control water delivery to individual zones of an automatic irrigation system. If a valve becomes contaminated, its diaphragm wears out or its electrical components fail, the system may leak, fail to activate a zone or run outside its schedule."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial provides professional installation, diagnostics, repair, cleaning and replacement of Rain Bird and other solenoid valves for private gardens, hotels, parks and commercial properties."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Solenoid valve installation"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en4s",
+                "_type": "span",
+                "marks": [],
+                "text": "We install new valves and replace existing valve assemblies. Equipment is selected according to flow rate, operating pressure, pipe diameter and the system’s electrical control. Installation includes connection to the manifold and pipeline, wiring to the controller, sealing the joints and testing every zone at operating pressure."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Diagnostics and repair"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en6s",
+                "_type": "span",
+                "marks": [],
+                "text": "If a zone does not start or continues watering after the programme ends, the cause may be the valve, solenoid coil, diaphragm, control passages or electrical circuit. We check the controller, wiring, coil, mechanical parts and pressure."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en7s",
+                "_type": "span",
+                "marks": [],
+                "text": "We repair valves that fail to open, do not close fully, operate with a delay, leak or work inconsistently. After diagnosis, we recommend cleaning, component repair or replacement when it is the more reliable option."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Cleaning and preventive maintenance"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Sand, sediment, rust and limescale can block control passages and prevent the diaphragm from closing tightly. We disassemble the valve according to its design, clean the diaphragm and internal passages, inspect the filter, seals and spring, then reassemble and test the mechanism."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Regular preventive maintenance reduces the risk of leaks, water loss and failures during the irrigation season. Where water contains suspended particles, we also recommend checking the filtration assembly."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Valve replacement and equipment selection"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en12s",
+                "_type": "span",
+                "marks": [],
+                "text": "If the valve body is damaged, internal parts are badly worn or repair is not cost-effective, we install a replacement. We check thread and diameter, operating pressure, required flow and controller compatibility — 24 V or 9 V battery-operated control."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Below are valves and valve boxes from the Florial catalogue. A direct product link is provided below each image."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en0img0",
+            "_type": "image",
+            "alt": "Rain Bird 100-HV",
+            "altEn": "Rain Bird 100-HV",
+            "altRu": "Rain Bird 100-HV",
+            "asset": {
+              "_ref": "image-7d92de4fca10df9d311a978218e9b997d946a78b-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en0prod0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en0prods0",
+                "_type": "span",
+                "marks": [
+                  "men0prod0"
+                ],
+                "text": "View product: Rain Bird 100-HV · H01000"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men0prod0",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01000"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en1img1",
+            "_type": "image",
+            "alt": "Rain Bird 100-HVF",
+            "altEn": "Rain Bird 100-HVF",
+            "altRu": "Rain Bird 100-HVF",
+            "asset": {
+              "_ref": "image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en1prod1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en1prods1",
+                "_type": "span",
+                "marks": [
+                  "men1prod1"
+                ],
+                "text": "View product: Rain Bird 100-HVF · H01010"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men1prod1",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01010"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en2img2",
+            "_type": "image",
+            "alt": "Rain Bird VBA02672",
+            "altEn": "Rain Bird VBA02672",
+            "altRu": "Rain Bird VBA02672",
+            "asset": {
+              "_ref": "image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en2prod2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en2prods2",
+                "_type": "span",
+                "marks": [
+                  "men2prod2"
+                ],
+                "text": "View product: Rain Bird VBA02672 · VBA02672"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men2prod2",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02672"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en3img3",
+            "_type": "image",
+            "alt": "Rain Bird VBA02673",
+            "altEn": "Rain Bird VBA02673",
+            "altRu": "Rain Bird VBA02673",
+            "asset": {
+              "_ref": "image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en3prod3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en3prods3",
+                "_type": "span",
+                "marks": [
+                  "men3prod3"
+                ],
+                "text": "View product: Rain Bird VBA02673 · VBA02673"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men3prod3",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02673"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en4img4",
+            "_type": "image",
+            "alt": "Rain Bird 100-PGA",
+            "altEn": "Rain Bird 100-PGA",
+            "altRu": "Rain Bird 100-PGA",
+            "asset": {
+              "_ref": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en4prod4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en4prods4",
+                "_type": "span",
+                "marks": [
+                  "men4prod4"
+                ],
+                "text": "View product: Rain Bird 100-PGA · B31410"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men4prod4",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-pga-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en5img5",
+            "_type": "image",
+            "alt": "Rain Bird 100-PEB",
+            "altEn": "Rain Bird 100-PEB",
+            "altRu": "Rain Bird 100-PEB",
+            "asset": {
+              "_ref": "image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "en5prod5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en5prods5",
+                "_type": "span",
+                "marks": [
+                  "men5prod5"
+                ],
+                "text": "View product: Rain Bird 100-PEB · B34073"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men5prod5",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-peb-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en14s",
+                "_type": "span",
+                "marks": [],
+                "text": "When should a valve be serviced?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en15s",
+                "_type": "span",
+                "marks": [],
+                "text": "We recommend diagnostics if you notice any of the following:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en16s",
+                "_type": "span",
+                "marks": [],
+                "text": "One or more irrigation zones fail to start."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Sprinklers continue running after the programme stops."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Pressure in an individual zone is unusually low."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en19s",
+                "_type": "span",
+                "marks": [],
+                "text": "A valve operates with a delay or works inconsistently."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Water or signs of leakage are visible inside the valve box."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en21s",
+                "_type": "span",
+                "marks": [],
+                "text": "The system does not respond correctly to controller commands."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Maintenance of the complete automatic irrigation system"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Valves are only one part of the system. For full diagnostics, seasonal start-up, adjustment, repairs and winter preparation, see our irrigation system repair and maintenance service."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en24s",
+                "_type": "span",
+                "marks": [
+                  "men24"
+                ],
+                "text": "Irrigation system repair and maintenance — Florial"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "men24",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/services/remont-i-poddrazhka"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en25s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial serves Sunny Beach, Nessebar, Ravda, Pomorie, Sveti Vlas, Burgas and nearby areas. We work with private gardens, hotels and commercial properties."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Florial technician installing and repairing a Rain Bird irrigation solenoid valve",
+        "seoDescription": "Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves. Rain Bird service in Burgas, Nessebar, Ravda and Sunny Beach.",
+        "seoTitle": "Irrigation Solenoid Valve Repair & Installation | Florial",
+        "shortDescription": "Professional installation, diagnostics, repair, cleaning and replacement of Rain Bird valves. Serving Burgas, Nessebar, Sunny Beach and the Southern Black Sea coast.",
+        "title": "Irrigation solenoid valve installation, repair, cleaning and replacement"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "ru0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru0s",
+                "_type": "span",
+                "marks": [],
+                "text": "Установка, ремонт, чистка и замена электромагнитных клапанов систем автоматического полива"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Электромагнитные клапаны управляют подачей воды в отдельные зоны автоматической системы полива. Если клапан загрязняется, мембрана изнашивается или электрическая часть выходит из строя, система может пропускать воду, не включать нужную зону или работать вне заданного расписания."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial выполняет профессиональный монтаж, диагностику, ремонт, чистку и замену клапанов Rain Bird и других производителей для частных садов, гостиниц, парков и коммерческих объектов."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Установка электромагнитных клапанов"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Устанавливаем новые клапаны и заменяем существующие клапанные группы. Подбираем оборудование с учётом расхода воды, рабочего давления, диаметра труб и типа электрического управления. Монтаж включает подключение к коллектору и трубопроводу, электрическое соединение с контроллером, герметизацию стыков и проверку каждой зоны под рабочим давлением."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Диагностика и ремонт"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Если зона не включается или продолжает поливать после завершения программы, причина может быть в клапане, катушке, мембране, управляющих каналах или электрической цепи. Проверяем контроллер, кабели, катушку, механические элементы и давление."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ремонтируем клапаны, которые не открываются, не закрываются полностью, срабатывают с задержкой, пропускают воду или работают нестабильно. После диагностики предлагаем чистку, ремонт компонента или замену, если это надёжнее."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Чистка и профилактика"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Песок, ил, ржавчина и известковые отложения могут засорять управляющие отверстия и мешать мембране плотно закрываться. Разбираем клапан с учётом его конструкции, очищаем мембрану и внутренние каналы, проверяем фильтр, уплотнения и пружину, затем собираем и тестируем механизм."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Регулярная профилактика снижает риск утечек, потери воды и поломок в активный сезон. Если вода содержит механические примеси, рекомендуем проверять и фильтрующий узел."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Замена клапанов и подбор оборудования"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Если корпус повреждён, внутренние детали сильно изношены или ремонт экономически нецелесообразен, устанавливаем новый клапан. Проверяем резьбу, диаметр, рабочее давление, требуемый расход и совместимость с контроллером — 24 V или батарейное управление 9 V."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Ниже представлены клапаны и клапанные боксы из каталога Florial. Под каждым изображением размещена прямая ссылка на соответствующий товар."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru0img0",
+            "_type": "image",
+            "alt": "Rain Bird 100-HV",
+            "altEn": "Rain Bird 100-HV",
+            "altRu": "Rain Bird 100-HV",
+            "asset": {
+              "_ref": "image-7d92de4fca10df9d311a978218e9b997d946a78b-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru0prod0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru0prods0",
+                "_type": "span",
+                "marks": [
+                  "mru0prod0"
+                ],
+                "text": "Посмотреть товар: Rain Bird 100-HV · H01000"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru0prod0",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01000"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru1img1",
+            "_type": "image",
+            "alt": "Rain Bird 100-HVF",
+            "altEn": "Rain Bird 100-HVF",
+            "altRu": "Rain Bird 100-HVF",
+            "asset": {
+              "_ref": "image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru1prod1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru1prods1",
+                "_type": "span",
+                "marks": [
+                  "mru1prod1"
+                ],
+                "text": "Посмотреть товар: Rain Bird 100-HVF · H01010"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru1prod1",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/h01010"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru2img2",
+            "_type": "image",
+            "alt": "Rain Bird VBA02672",
+            "altEn": "Rain Bird VBA02672",
+            "altRu": "Rain Bird VBA02672",
+            "asset": {
+              "_ref": "image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru2prod2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru2prods2",
+                "_type": "span",
+                "marks": [
+                  "mru2prod2"
+                ],
+                "text": "Посмотреть товар: Rain Bird VBA02672 · VBA02672"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru2prod2",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02672"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru3img3",
+            "_type": "image",
+            "alt": "Rain Bird VBA02673",
+            "altEn": "Rain Bird VBA02673",
+            "altRu": "Rain Bird VBA02673",
+            "asset": {
+              "_ref": "image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru3prod3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru3prods3",
+                "_type": "span",
+                "marks": [
+                  "mru3prod3"
+                ],
+                "text": "Посмотреть товар: Rain Bird VBA02673 · VBA02673"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru3prod3",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-vba02673"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru4img4",
+            "_type": "image",
+            "alt": "Rain Bird 100-PGA",
+            "altEn": "Rain Bird 100-PGA",
+            "altRu": "Rain Bird 100-PGA",
+            "asset": {
+              "_ref": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru4prod4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru4prods4",
+                "_type": "span",
+                "marks": [
+                  "mru4prod4"
+                ],
+                "text": "Посмотреть товар: Rain Bird 100-PGA · B31410"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru4prod4",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-pga-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru5img5",
+            "_type": "image",
+            "alt": "Rain Bird 100-PEB",
+            "altEn": "Rain Bird 100-PEB",
+            "altRu": "Rain Bird 100-PEB",
+            "asset": {
+              "_ref": "image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ru5prod5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru5prods5",
+                "_type": "span",
+                "marks": [
+                  "mru5prod5"
+                ],
+                "text": "Посмотреть товар: Rain Bird 100-PEB · B34073"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru5prod5",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/products/rain-bird-100-peb-24v"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Когда требуется обслуживание?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Рекомендуем провести диагностику, если вы заметили следующие признаки:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Одна или несколько зон полива не включаются."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Дождеватели продолжают подавать воду после остановки программы."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Давление в отдельной зоне необычно низкое."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Клапан включается с задержкой или работает нестабильно."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru20s",
+                "_type": "span",
+                "marks": [],
+                "text": "В клапанном боксе обнаружена вода или следы протечки."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Система не выполняет команды контроллера."
+              }
+            ],
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Техническое обслуживание всей системы автоматического полива"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Клапаны — лишь одна часть системы. Для комплексной диагностики, сезонного запуска, настройки, ремонта и подготовки к зиме ознакомьтесь с нашей услугой по ремонту и обслуживанию систем полива."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru24s",
+                "_type": "span",
+                "marks": [
+                  "mru24"
+                ],
+                "text": "Ремонт и обслуживание систем полива — Florial"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "mru24",
+                "_type": "link",
+                "blank": false,
+                "href": "https://florial-bg.com/services/remont-i-poddrazhka"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru25s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial обслуживает Солнечный Берег, Несебр, Равду, Поморие, Святой Влас, Бургас и близлежащие населённые пункты. Работаем с частными садами, гостиницами и коммерческими объектами."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Установка и ремонт электромагнитного клапана Rain Bird специалистами Florial",
+        "seoDescription": "Монтаж, диагностика, чистка и замена электромагнитных клапанов автоматического полива. Обслуживание в Бургасе, Несебре, Равде и Солнечном Береге.",
+        "seoTitle": "Ремонт и установка электромагнитных клапанов | Florial",
+        "shortDescription": "Профессиональный монтаж, диагностика, ремонт, чистка и замена клапанов Rain Bird. Обслуживание в Бургасе, Несебре, Солнечном Береге и на Южном Черноморье.",
+        "title": "Установка, ремонт, чистка и замена электромагнитных клапанов полива"
+      }
+    }
+  }
+}
