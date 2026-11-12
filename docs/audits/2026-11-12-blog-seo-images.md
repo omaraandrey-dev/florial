@@ -428,3 +428,48 @@ ALT должен описывать фактическое изображени�
 - Независимый HTTP smoke к `cdn.sanity.io` через Wix proxy заблокирован самим proxy с HTTP 403 (`requests to cdn.sanity.io not allowed`). Sanity asset records и CDN URL подтверждены read-back, но отдельная внешняя проверка загрузки CDN остаётся неподтверждённой.
 - GitHub `main` не изменялся. PR #235 остаётся Draft; backup и обновлённая документация находятся в ветке `docs/blog-seo-image-audit-2026-11-12`.
 
+
+
+## 9. Проверка миниатюр, повторов и ALT — 12.11.2026
+
+### 9.1. Восстановление оригиналов для малых изображений
+
+Через Sanity asset metadata получены точные Wix source IDs и исходные file URLs; в Wix Media Manager проверены file descriptors, затем оригиналы скачаны Wix CDN напрямую и загружены в Sanity Production.
+
+| Статья / изображение | Wix file | Старый asset | Новый asset | Решение |
+|---|---|---:|---:|---|
+| cena-sistema-avtomatichno-napoyavane-burgas — схема полива и дорожек | 1b6ca6_b2e82f467885441fa0736d60f62e1265~mv2.jpg | 266×246 | 925×855 | Заменён thumbnail оригиналом |
+| godishna-poddruzhka-avtomatichni-sistemi — сад с работающим дождевателем | 1b6ca6_e202f6fce28846d4b7f0b0c4518e3e31~mv2.jpg | 147×147 | 2048×2048 | Заменён thumbnail оригиналом |
+| etapi-landshaften-proekt-nesebar — эскизный план | 1b6ca6_bf0fd1fc9b6b4fe5a63de83499a01066~mv2.jpg | 179×131 | 640×468 | Заменён thumbnail исходным файлом Wix |
+
+Размеры нового файла подтверждены Sanity asset metadata после загрузки. Оригинальный файл эскиза весит 25 372 байта; это доступный оригинал по точному Wix file ID, поэтому больший исходник для этого файла не подтверждён. Изображение остаётся техническим эскизом с мелкими подписями; для читаемости полного плана потребуется отдельный более качественный файл от владельца/дизайнера.
+
+### 9.2. GIF Rain Bird
+
+- Wix Media Manager подтверждает RainBirdLogo.gif, 3 116 байт, состояние OK, READY.
+- Визуальная проверка показала, что это логотип Rain Bird, а не фотография оборудования. BG ALT исправлен на «Лого на Rain Bird».
+- Текущий asset 220×120 оставлен без замены: формат GIF сам по себе не является проблемой для маленького inline logo; frame count/наличие анимации не подтверждены.
+
+### 9.3. Исправленные ALT после визуального просмотра оригиналов
+
+- cena-sistema-avtomatichno-napoyavane-burgas, блок b19: «Влияние на алеите в тревната площ върху цената на автоматичното напояване». Убраны русский язык и Одесса; описание согласовано с содержанием блока.
+- kupete-travna-plosht, блок bx7: «Поливане на рулонна тревна площ с разпръсквач» — оригинал показывает полив рулонного газона.
+- maslina-sredizemnomorie, блок bnb: «Маслиново дърво в Несебър».
+- sistema-magluvane-terasa-besedka, блок b4y: «Тръба за система за мъглуване» — визуально это бухта трубы/шланга, а не готовая система туманообразования.
+- rain-bird-oborudvane, блок b11r: «Лого на Rain Bird».
+- kiparis-totem, блок brr: «Кипарис Тотем в градина в Несебър».
+
+### 9.4. Точные повторы cover в body
+
+Повторный запрос опубликованной выборки вернул 22 документа blogPost и 44 body image blocks. В 12 случаях translations.bg.body[].asset._ref точно совпадает с cover.asset._ref той же статьи. Это точные повторы asset reference, а не визуальное сравнение похожих фотографий. Не удалялись автоматически: в ряде статей inline image может быть намеренно привязано к конкретному разделу, а удаление меняет ритм/структуру материала.
+
+Дополнительно cover asset image-8a3511916dcffd3d1e2502bc119413ff027817ce-1000x638-jpg используется в качестве cover в двух статьях: landshaften-proekt-nesebar и landshaften-proekt-zima-burgas; в обеих статьях этот же asset присутствует и в body. Требуется визуальное решение владельца: оставить общий project photo как релевантный кейс или заменить cover одной статьи на отдельный оригинал. Не удалять asset.
+
+### 9.5. Backup, публикация и границы
+
+- Полные backups до записи: docs/backups/2026-11-12-blog-small-images-before-write.json (2 docs), docs/backups/2026-11-12-blog-alt-before-write.json (6 docs), docs/backups/2026-11-12-blog-sketch-before-write.json (1 doc).
+- Все соответствующие drafts опубликованы с revision guards. Post-publish read-back подтвердил новые asset refs/размеры и ALT; соответствующих drafts нет.
+- Sanity validator: все затронутые документы valid, complete=false — custom callbacks не выполняются beta validator.
+- Открытие страниц florial-bg.com и Sanity CDN через доступный browser viewer вернуло internal error; visual QA опубликованных страниц не подтверждена.
+- Изменены только Sanity assets и content fields. GitHub code/schema, Wix site, Cloudflare Pages settings и deployment не менялись.
+
