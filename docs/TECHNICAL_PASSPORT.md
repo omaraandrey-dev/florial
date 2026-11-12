@@ -1,14 +1,13 @@
-## 2026-11-12 — Фильтр направлений специалистов на странице услуг (ветка реализации)
+## 2026-11-12 — Фильтр направлений специалистов на странице услуг (PR #225 merged)
 
-- Базовый main: b82fedb92ab30042bcd8ef7d41b25936aae5de72. Реализация: feat/services-professional-direction-filter.
-- На /services добавлен блок из четырёх карточек специалистов: ландшафтный архитектор, инженер по поливным системам, садовник, специалист по газонам. Используются четыре опубликованных Sanity photo записи, выбранные по slug.
-- Multi-select работает как объединение категорий: landscaping; irrigation + maintenance + delivery; planting; lawn. При загрузке активны все четыре направления. Снятие последнего выбора возвращает состояние «все услуги».
-- Мобильная раскладка: четыре колонки на одной линии, квадратные фотографии, подписи под фото; карточки доступны с клавиатуры и имеют aria-pressed.
-- Данные фотографий запрашиваются отдельной компактной проекцией из Sanity Production; текущие 12 документов услуг и их serviceCategory не изменялись. Sanity write/backup не требовались.
-- SEO и hreflang страницы услуг, существующие URL, сортировка getOrderedServiceEntries, delivery fallback и блок обслуживания сохранены.
-- Затронутые файлы: src/App.tsx, src/pages/ServicesListPage.tsx, src/types.ts. Код находится в отдельной ветке; CI, production deployment и визуальный QA ещё не подтверждены.
+- PR #225 объединён в main методом squash: merge commit a8db72ffda86e8d678cfe233a92ae88b0f82a892. PR head d51a04b53f2393b824a78b7affe2700ac75f7014; base main b82fedb92ab30042bcd8ef7d41b25936aae5de72.
+- Файлы: src/App.tsx, src/pages/ServicesListPage.tsx, src/types.ts. Документация: CHANGELOG.md, docs/TECHNICAL_PASSPORT.md, docs/AI/OPEN_QUESTIONS.md.
+- На /services реализованы четыре фото-карточки и multi-select: landscaping; irrigation + maintenance + delivery; planting; lawn. Все направления активны при загрузке; при снятии последнего выбора восстанавливается «все услуги».
+- Мобильная раскладка: четыре карточки в одной строке, квадратные фото, подписи снизу. Есть клавиатурная доступность и aria-pressed.
+- Фотографии и локализованные ALT загружаются read-only из четырёх опубликованных Sanity photo documents. Документы и asset URL проверены; визуальный просмотр фотографий отдельно не выполнен.
+- CI по точному PR head SHA: run 43165329360 (D1 migration validation) — success; run 43165329362 (Blog and Studio validation) — success. Включены lint, utility tests, website build, Pages Functions syntax, migration checks/dry-run и Sanity Studio build.
+- Sanity data/schema, D1, API, Header, меню, Footer и Cloudflare settings не изменялись. Production deployment ещё не подтверждён; мобильный визуальный QA ожидает проверки владельцем.
 
----
 
 ## 2026-11-12 — Закрытие Android visual QA для зимнего индикатора и category hero
 
