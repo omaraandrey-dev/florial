@@ -1,3 +1,13 @@
+## 2026-11-12 — Восстановлены шесть изображений блога из Wix DROP
+
+- Источник оригиналов: подключённый Wix Media Manager сайта DROP. Шесть точных файлов были найдены по Wix file IDs, все со статусами `OK` / `READY`, визуально проверены и загружены напрямую в Sanity Production `bxvcy0qs/production`.
+- Sanity assets: `58cbaf809dfa5883067ea788477c891fdcef51ff` (720×1169), `d3fd144b938c3e9c67c3883d1d683c85cada39d0` (1564×1564), `0bb24a4f41c62ab97d270ce660227f1ad4796243` (1564×1564), `fab83fa1629a16e4c55e24e71cf63ca7b97a4a32` (600×800), `b8578d79532be0b53646b767084e31d39abbff10` (1384×3000), `44077349f1be666c383d730d4b920d5cf9098127` (3000×2250).
+- В четырёх существующих опубликованных blogPost восстановлены шесть Portable Text image blocks с локализованными ALT BG/EN/RU и caption. Четыре документа опубликованы с revision guards; read-back подтвердил 4/4 и отсутствие drafts, а также отсутствие старых Wix CDN href в целевых BG-блоках.
+- Backup текущего состояния четырёх документов до write: `docs/backups/2026-11-12-blog-images-before-write.json` в PR #235.
+- Frontend `BlogContent.tsx` уже поддерживает image blocks; код, schema, Cloudflare settings и deployment не менялись. Это Sanity content-only update.
+- Редакционный остаток: три восстановленных изображения в конце статьи об оливе показывают газон, кипарис и юкку; они сохранены в исходном порядке, но их уместность требует решения владельца.
+- Beta validation: 4/4 `valid`, `complete=false` из-за неисполняемых custom validation callbacks. Wix proxy запретил независимый запрос к `cdn.sanity.io` (403); asset URLs и размеры подтверждены Sanity read-back. PR #235 остаётся Draft; main и Production frontend deployment не менялись.
+
 ## 2026-11-12 — SEO-метаданные блога опубликованы в Sanity
 
 - В Sanity Production опубликованы SEO-поля 14 существующих `blogPost` — 42 версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
