@@ -1,11 +1,10 @@
-## 2026-11-12 — Homepage hero управляется через Sanity photo library
+## 2026-11-12 — Homepage hero compressed asset linked from Sanity photo library
 
-- В Sanity Production `bxvcy0qs/production` создан и опубликован документ типа `photo`: `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1`, slug `florial-homepage-hero-background`, category `home`, активен. Заголовки и ALT заполнены на BG/RU/EN.
-- Документ ссылается на уже существующий asset `image-6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957-png` (1518×957, 2,704,931 bytes). Файл повторно не загружался, дубликат asset не создавался, исходный asset не удалялся.
-- До Sanity write создана контрольная копия описания исходного asset и исходной привязки: `docs/backups/2026-11-12-homepage-hero-photo-before-link.json`.
-- Кодовая ветка `content/homepage-hero-photo-library-2026-11-12`: App запрашивает hero URL из опубликованного photo-документа только на главной странице; HomePage использует полученный URL. Чтобы не задерживать LCP, существующий CDN URL остаётся немедленным fallback на первом render и совпадает с asset, на который ссылается Sanity photo record. Запрос выполняется параллельно с шестью homepage plant categories.
-- Визуальная разметка, CSS, Header, меню, Footer, другие маршруты и параметры responsive image не менялись. Изменены `src/App.tsx`, `src/pages/HomePage.tsx` и документация.
-- Read-only post-publish GROQ подтвердил документ, локализованные поля, активный статус и точную ссылку на прежний asset. CI/build и Production deployment для этой ветки пока НЕ ПОДТВЕРЖДЕНЫ; PR не объединён, Production code не обновлялся.
+- Sanity Production photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` (`florial-homepage-hero-background`) is active and now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png`.
+- Live Sanity read-back confirms URL `https://cdn.sanity.io/images/bxvcy0qs/production/460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957.png`, dimensions 1518×957 and file size 1,015,107 bytes. Previous asset size was 2,704,931 bytes; the new asset is approximately 62.5% smaller. This is based on Sanity asset metadata, not a browser transfer measurement.
+- Homepage first-render fallback in `src/pages/HomePage.tsx` was updated to the exact compressed asset URL. The homepage-only Sanity query resolves to the same asset URL, avoiding an intentional initial old-image → compressed-image source swap.
+- The original asset and its prior photo reference were not deleted. The photo record continues to be managed from Sanity Studio.
+- Header, menu, Footer, other routes, visual layout, CSS and responsive image helper were not changed. PR #242 CI must pass on the updated exact head SHA before merge; Production deployment and browser/Lighthouse QA remain pending.
 
 ## 2026-11-12 — Header, homepage и каталог загружаются независимо (PR #240)
 
