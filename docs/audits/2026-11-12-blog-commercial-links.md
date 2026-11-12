@@ -68,3 +68,34 @@ Date: 2026-11-12
 - Confirm BG/RU/EN CTA links resolve to the intended active service/category routes.
 - Run safe live HTTP smoke checks for each destination and each article language.
 - Visually inspect representative article pages at desktop and 320–360 px mobile widths.
+
+
+## Предварительная карта целевых переходов
+
+Все пути ниже сверены с опубликованными service/category documents. Перед фактической записью необходимо повторно проверить active status и конечный HTTP URL.
+
+| Статья | Рекомендуемые коммерческие переходы |
+|---|---|
+| `cena-sistema-avtomatichno-napoyavane-burgas` | `/services/avtomatichno-napoyavane`, `/services/montaj-avtomatichni-polivni-sistemi-nesebar`, `/category/gotovi-komplekti-za-polivane` |
+| `sistema-magluvane-terasa-besedka` | `/services/avtomatichno-napoyavane`; конкретный товар/категория туманообразования не подтверждены в активном каталоге |
+| `rozi-sympathy` | `/category/tsvetya-i-rozi`, при необходимости `/services/zasazhdane-na-rasteniya` |
+| `nov-vnos-palmi-2025` | `/category/palmi-yuki`, `/services/zasazhdane-na-rasteniya`; palm-specific service не подтверждён как active |
+| `maslina-sredizemnomorie` | `/category/maslini`, `/services/profesionalno-zasazhdane-na-maslini` |
+| `prodavane-traven-chim` | `/services/rulonna-treva` |
+| `kiparis-totem` | `/category/igol_listni`, `/services/zasazhdane-na-rasteniya` |
+| `kupete-travna-plosht` | `/services/rulonna-treva`, `/services/podmyana-stara-travna-plosht`, `/services/montaj-avtomatichni-polivni-sistemi-nesebar` |
+| `etapi-montazh-avtomatichna-polivna-instalatsiya` | `/services/montaj-avtomatichni-polivni-sistemi-nesebar`, `/services/avtomatichno-napoyavane`, `/category/vsichko-za-polivane` |
+| `rain-bird-oborudvane` | Сохранить существующие категории Rain Bird; добавить `/services/montaj-avtomatichni-polivni-sistemi-nesebar` |
+| `landshaften-dizain-proekt-zasazhdenie` | `/services/landshaften-dizain`, `/services/ozelenyavane`, `/services/zasazhdane-na-rasteniya` |
+| `landshaften-proekt-zima-burgas` | `/services/landshaften-dizain`, `/services/ozelenyavane` |
+| `landshaften-proekt-nesebar` | `/services/landshaften-dizain`, `/services/ozelenyavane` |
+| `etapi-landshaften-proekt-nesebar` | `/services/landshaften-dizain`, `/services/ozelenyavane` |
+
+### Правила применения
+
+- В каждой публикации добавить один короткий финальный CTA на BG/RU/EN; обычно одна категория + одна услуга, не больше двух коммерческих ссылок в CTA.
+- Существующие полезные links Rain Bird и turf сохранить.
+- Исправлять root href только там, где anchor text однозначно называет существующую услугу/категорию.
+- Пять брендовых anchors «ФЛОРИАЛ» перевести на homepage `/`.
+- Не создавать искусственную товарную ссылку для misting: соответствующий активный товар не найден.
+- Не менять тексты и URL публикаций, не менять SEO descriptions в этой итерации.
