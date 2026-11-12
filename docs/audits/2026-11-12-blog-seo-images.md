@@ -2,7 +2,7 @@
 
 **Дата:** 12.11.2026  
 **Источник данных:** Sanity `bxvcy0qs/production`, perspective `published`; GitHub `main` на `d878f661a45947a373c55dc137a66440f8b62168`.  
-**Статус:** SEO-аудит завершён; 14 статей опубликованы с обновлёнными SEO-полями 12.11.2026. Проверены 42 локализованные версии и 126 значений; post-publish read-back подтвердил 14/14. Изображения остаются на отдельном этапе визуальной проверки; неизвестные Wix originals не заменялись.
+**Статус:** SEO-аудит завершён; 14 статей опубликованы с обновлёнными SEO-полями 12.11.2026. Проверены 42 локализованные версии и 126 значений; post-publish read-back подтвердил 14/14. Шесть Wix originals восстановлены в Sanity Production 12.11.2026; подробности и ограничения — в разделе 8.
 
 ## 1. Объём и подтверждённые результаты
 
@@ -390,3 +390,41 @@ ALT должен описывать фактическое изображени�
 - Поэтому HTTP-доступность, визуальное содержимое и качество шести Wix originals **НЕ ПОДТВЕРЖДЕНЫ**. Нельзя достоверно сопоставить ALT с изображениями, загрузить оригиналы в Sanity или безопасно решить, что именно следует удалить/заменить.
 - ALT-кандидаты из раздела 4.2 не менялись: для каждого требуется увидеть изображение. Никакие опубликованные Sanity документы и assets в этой повторной проверке не изменялись.
 - Следующий безопасный шаг после восстановления доступа к источникам: получить визуальные копии оригиналов, сопоставить их с местом в тексте и затем перенести только полезные изображения в Sanity как image blocks с проверенными BG ALT. Перед любым Sanity write сохранить backup каждого затрагиваемого документа; после patch выполнить read-back и Studio preview. Не удалять исходные assets.
+
+
+## 8. Восстановление шести изображений из Wix DROP — 12.11.2026
+
+### Получение и визуальная сверка оригиналов
+
+Предыдущая попытка через Firecrawl/CDN была неполной: она не использовала подключённый Wix-коннектор. Через Wix Media Manager сайта **DROP ландшафт сервис** выполнен read-only поиск точных file IDs, ранее сохранённых в Portable Text. Все шесть оригиналов существуют в медиатеке со статусами `state=OK`, `operationStatus=READY`. Получены визуальные превью и сопоставлены с исходными подписями.
+
+| Статья / исходное назначение | Wix file ID | Новый Sanity asset | Размер |
+|---|---|---|---:|
+| `kupete-travna-plosht` — крупный план рулонной травы | `1b6ca6_f2f038a39ea943b8964c6bb0c1423da2~mv2.jpg` | `image-58cbaf809dfa5883067ea788477c891fdcef51ff-720x1169-jpg` | 720×1169 |
+| `landshaften-dizain-proekt-zasazhdenie` — коллаж «от проекта до посадки» | `1b6ca6_c11c0aafe3574885bb942353fc16cd4f~mv2_d_1564_1564_s_2.jpg` | `image-d3fd144b938c3e9c67c3883d1d683c85cada39d0-1564x1564-jpg` | 1564×1564 |
+| `landshaften-proekt-nesebar` — этапы ландшафтного проекта | `1b6ca6_395078e18de74a14836bee8546e85872~mv2_d_1564_1564_s_2.jpeg` | `image-0bb24a4f41c62ab97d270ce660227f1ad4796243-1564x1564-jpg` | 1564×1564 |
+| `maslina-sredizemnomorie` — рулоны газона | `1b6ca6_405e8b2ec7ef40baaee15d4fc677d3e0~mv2.jpg` | `image-fab83fa1629a16e4c55e24e71cf63ca7b97a4a32-600x800-jpg` | 600×800 |
+| `maslina-sredizemnomorie` — кипарисы Тотем | `1b6ca6_a668e1d25df74ae5ac333a71b9587e88~mv2.jpg` | `image-b8578d79532be0b53646b767084e31d39abbff10-1384x3000-jpg` | 1384×3000 |
+| `maslina-sredizemnomorie` — юкка рострата | `1b6ca6_d17f2bd62105424ca7831141e9d05daa~mv2.jpg` | `image-44077349f1be666c383d730d4b920d5cf9098127-3000x2250-jpg` | 3000×2250 |
+
+Оригинальные файлы загружены из Wix CDN непосредственно в Content Lake `bxvcy0qs/production`; Sanity сохранил исходные размеры/метаданные. У assets заполнена source attribution на Wix file ID. Сжатые превью использовались только для визуальной проверки; в Sanity загружены оригинальные файлы, не превью.
+
+### Backup, запись и публикация
+
+- Перед записью считаны и сохранены четыре полных опубликованных документа, все локали и Portable Text: `docs/backups/2026-11-12-blog-images-before-write.json` (260 475 байт, commit в ветке PR #235).
+- Revision guard использован для четырёх документов. Шесть Markdown-подобных блоков заменены на настоящие Portable Text `_type: "image"` blocks с Sanity asset references, ALT BG/EN/RU и caption. Существующие `_key` сохранены, чтобы не менять порядок контента.
+- Опубликованы четыре документа: `blogPost-kupete-travna-plosht`, `blogPost-landshaften-dizain-proekt-zasazhdenie`, `blogPost-landshaften-proekt-nesebar`, `blogPost-maslina-sredizemnomorie`.
+- Post-publish read-back: 4/4 опубликованы; 0 drafts; шесть ожидаемых image blocks имеют asset references, CDN URL и размеры; прямой поиск Wix CDN href в целевых BG Portable Text блоках вернул 0 результатов.
+- Beta schema validation: 4/4 `valid`, `complete=false` из-за того, что validator не выполняет custom validation callbacks. Hosted Studio visual QA отдельно не выполнена.
+
+### Редакционная оговорка
+
+В конце `maslina-sredizemnomorie` три исходных изображения показывают не оливу, а рулонный газон, кипарисы Тотем и юкку рострата. Они находились в исходном опубликованном body и были восстановлены в прежнем порядке и месте, без удаления контента. Их дальнейшая уместность в статье об оливе требует отдельного решения владельца; можно сохранить, перенести в тематические материалы или удалить после согласования.
+
+### Границы и ограничения проверки
+
+- Проверены по коду актуального `main`: `src/components/BlogContent.tsx` выводит Sanity image blocks, использует локализованный ALT и caption; `src/lib/blog.ts` получает asset URL. Поэтому изменения frontend/schema не требовались.
+- Изменены только опубликованные Sanity assets и body четырёх blogPost; Wix сайт не менялся. Cloudflare Pages deployment не запускался и не нужен для content-only изменения.
+- Независимый HTTP smoke к `cdn.sanity.io` через Wix proxy заблокирован самим proxy с HTTP 403 (`requests to cdn.sanity.io not allowed`). Sanity asset records и CDN URL подтверждены read-back, но отдельная внешняя проверка загрузки CDN остаётся неподтверждённой.
+- GitHub `main` не изменялся. PR #235 остаётся Draft; backup и обновлённая документация находятся в ветке `docs/blog-seo-image-audit-2026-11-12`.
+
