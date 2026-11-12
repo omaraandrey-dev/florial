@@ -6,7 +6,7 @@
 - Мобильная раскладка: четыре карточки в одной строке, квадратные фото, подписи снизу. Есть клавиатурная доступность и aria-pressed.
 - Фотографии и локализованные ALT загружаются read-only из четырёх опубликованных Sanity photo documents. Документы и asset URL проверены; визуальный просмотр фотографий отдельно не выполнен.
 - CI по точному PR head SHA: run 43165329360 (D1 migration validation) — success; run 43165329362 (Blog and Studio validation) — success. Включены lint, utility tests, website build, Pages Functions syntax, migration checks/dry-run и Sanity Studio build.
-- Sanity data/schema, D1, API, Header, меню, Footer и Cloudflare settings не изменялись. Production deployment ещё не подтверждён; мобильный визуальный QA ожидает проверки владельцем.
+- Sanity data/schema, D1, API, Header, меню, Footer и Cloudflare settings не изменялись. Cloudflare Pages Production deployment точного merge commit a8db72ffda86e8d678cfe233a92ae88b0f82a892 — success, deployment 6a9c87fd-a424-4ab8-8895-9c560a0e2336. Следующий успешный deployment aa669cbe91d5d467e66e7ccbb02b25b7a06569b8 включает тот же код и aliases florial-bg.com / www.florial-bg.com. Более поздние документационные commits продолжают собираться. Мобильный визуальный QA остаётся непроверенным.
 
 
 ## 2026-11-12 — Закрытие Android visual QA для зимнего индикатора и category hero
