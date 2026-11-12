@@ -16,7 +16,7 @@
 - `sizes` соответствует существующим breakpoint-размерам логотипа: 80 px mobile, 156 px small/tablet, 200 px desktop. Предпочтительный fallback source width — 480 px; браузер выбирает кандидат из srcset с учётом DPR и viewport.
 - CSS-классы, высоты/максимальные ширины, расположение, Header grid, поиск, меню, корзина, навигация и fallback для не-Sanity URL не менялись. Для Sanity URL intrinsic width/height берутся из asset URL helper-а, чтобы сохранить реальное соотношение сторон; для остальных URL остаются SiteSettings dimensions.
 - Изменён только `src/components/Header.tsx`; Sanity assets/data, schema, Cloudflare settings и Production не затрагивались.
-- Branch: `perf/header-logo-responsive-srcset`; commit: `7923e1534f028e57911109fd30a878dd3f400389`. CI/build, desktop/mobile visual QA, Lighthouse before/after и Production deployment ещё НЕ подтверждены; изменения ожидают PR review.
+- PR #239 закрыт; responsive logo implementation подтверждена в текущем `main` commit `c80d3f491d399c4df3ddc2662e3157fce7b953f4`. Текущий PR #240 проходит lint/build на базе этого кода. **Остаётся не подтверждено:** фактически выбранный браузером srcset candidate/transfer size, desktop/tablet/mobile visual QA и Lighthouse before/after. Не заявлять измеренное ускорение до сетевого замера.
 
 ## 2026-11-12 — Исправлено WWW → non-WWW перенаправление в Cloudflare Production
 
