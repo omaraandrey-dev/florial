@@ -1,3 +1,12 @@
+## 2026-11-12 — SEO-метаданные 14 статей блога опубликованы в Sanity
+
+- В Sanity Production (`bxvcy0qs/production`) опубликованы 14 ранее подготовленных `blogPost`: 42 языковые версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
+- Перед исходной записью сохранён полный snapshot 14 опубликованных документов (все поля и Portable Text): `docs/backups/2026-11-12-blog-seo-before-draft-write.json`. Публикация выполнена с revision guards; после публикации read-back подтвердил 14/14 документов и 0 оставшихся drafts.
+- Перед публикацией дополнительно отредактированы болгарские тексты четырёх статей: формулировки о цене автоматического полива, кипарисе Тотем, рулонном тревном чиме и системе мъглуване. Всего уточнено 9 BG SEO/анонсных значений.
+- Schema validation: 14/14 `valid`, но `complete=false` — beta validator не выполняет custom validation callbacks. Отдельный read-only запрос проверил уникальность slug всех 22 документов `blogPost`; дубликатов не обнаружено.
+- Обложки, body, ALT, галереи, ссылки и Sanity schema не менялись. Открыты image follow-up: шесть старых Wix URL, четыре ALT-кандидата, повторные обложки в body и три изображения малого разрешения. Оригиналы не подменялись без визуальной проверки.
+- Frontend, GitHub main, Cloudflare Pages и Production deployment не менялись; публикация контента выполнена непосредственно в Sanity. PR #235 остаётся draft до завершения отдельной проверки изображений.
+
 ## 2026-11-12 — SEO-поля блога записаны в Sanity drafts; опубликованные версии не изменены (PR #235 draft)
 
 - Владелец одобрил запись предложенных SEO-полей в черновики. Перед записью из Sanity `bxvcy0qs/production` (perspective `published`) считаны и сохранены полные документы всех 14 опубликованных `blogPost`, включая переводы и Portable Text: `docs/backups/2026-11-12-blog-seo-before-draft-write.json` (14 документов, 790 174 байта JSON).
