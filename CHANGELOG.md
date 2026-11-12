@@ -1,3 +1,19 @@
+## 2026-11-12 — Sanity photo media: BG/RU/EN metadata and SEO descriptions
+
+- Live Content Lake checked: project `bxvcy0qs`, dataset `production`, document type `photo`; 8 records total.
+- Seven records were completed and published: `162d050c-e444-4f95-83be-48bdd4236676` (Florial Ravda), `1b9a7ed4-1149-4391-b4d6-5613120b9df7` (homepage landscaping photo), `2a676906-31e6-4e9e-a729-66b755a96172` (gardener), `309c6f57-7fd9-406a-ba32-3778a65ee3dd` (irrigation engineer), `623e4ea6-6e5f-450b-a129-3468f79c48f7` (landscape architect), `74b0eeb4-8882-458f-bbf3-f0ba7bf6aca9` (lawn specialist), `d13f25ae-fb64-493d-850b-02fffc7f04a0` (Florial Nessebar).
+- Added localized document titles (BG/RU/EN), image ALT (BG/RU/EN), Bulgarian `seoDescription`, relevant Bulgarian tags; created unique slugs for the four new role/profile records and assigned the Nessebar location record to existing `other` category.
+- The official logo record `bf2d25a6-cefe-4d25-9145-3b45a206299b` already had localized titles, localized ALT, SEO description and tags; it was not rewritten.
+- Backup of all 8 original photo documents (including IDs, revisions, fields and asset references) saved at `docs/backups/sanity-photo-media-before-localization-2026-11-12.json` before any Sanity write.
+- Re-read from the `published` perspective after publishing: all 8 photo records present; the 7 changed records contain the expected localized titles/ALT, SEO description, tags and preserved image asset references.
+- Current `photo` schema supports only one `seoDescription` field (BG), not per-locale meta title/description. It has no video field. Dataset query returned 27 `sanity.fileAsset` records, all PDF files; no video asset was found in that query. No video metadata was edited.
+- Existing `isActive` values were deliberately preserved (including false/null); activation is a business visibility decision, not inferred from descriptive metadata.
+- Visual download/inspection of source images was unavailable in this run. Wording was based on existing document titles, old ALT text, category and source filenames; image composition should be visually reviewed in Studio before further refinement.
+- No Sanity schema, frontend, D1, Cloudflare settings, deployment or site code changed. Content-only Sanity write; no new build/deployment required.
+- Base GitHub main commit: `b82fedb92ab30042bcd8ef7d41b25936aae5de72`; working branch: `content/audit-photo-media-localization`.
+
+---
+
 ## 2026-11-12 — Android visual QA: зимний индикатор и мобильная загрузка изображения категории
 
 - После Production deployment PR #222 владелец проверил сайт на физическом Android-устройстве и сообщил, что результат отображается корректно («всё получилось отлично»). Визуальную проверку считаем пройденной по подтверждению владельца.
