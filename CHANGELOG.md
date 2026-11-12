@@ -1,3 +1,14 @@
+## 2026-11-12 — Блог: шесть изображений восстановлены из Wix DROP в Sanity Production
+
+- Через подключённый Wix Media Manager сайта DROP найдены и визуально сверены все шесть исходных файлов; каждый файл в Wix имел состояние `OK` и `READY`. Оригиналы скачаны напрямую из Wix CDN и загружены в Sanity `bxvcy0qs/production`.
+- Созданы Sanity image assets: рулонная трава 720×1169 (`58cbaf809dfa5883067ea788477c891fdcef51ff`), коллаж «от проекта до посадки» 1564×1564 (`d3fd144b938c3e9c67c3883d1d683c85cada39d0`), этапы проекта 1564×1564 (`0bb24a4f41c62ab97d270ce660227f1ad4796243`), рулоны газона 600×800 (`fab83fa1629a16e4c55e24e71cf63ca7b97a4a32`), кипарис Тотем 1384×3000 (`b8578d79532be0b53646b767084e31d39abbff10`), юкка рострата 3000×2250 (`44077349f1be666c383d730d4b920d5cf9098127`).
+- В четырёх опубликованных `blogPost` заменены шесть Markdown-подобных блоков с Wix-ссылками на настоящие Portable Text `image` blocks; добавлены описательные ALT BG/EN/RU и подписи. Публикация выполнена с revision guards.
+- До записи сохранены четыре полных текущих документа (все локали и Portable Text): `docs/backups/2026-11-12-blog-images-before-write.json` (260 475 байт).
+- Post-publish read-back: 4/4 документа опубликованы, 0 соответствующих drafts; все шесть блоков содержат Sanity asset references и URL, все четыре документа прошли beta validation как `valid` (но `complete=false`, custom callbacks не выполняются); в целевых BG Portable Text блоках Wix CDN-ссылок больше нет.
+- В `maslina-sredizemnomorie` три исходных изображения (газон, кипарис, юкка) не относятся непосредственно к оливе. Они сохранены и восстановлены в прежнем порядке/месте, чтобы не удалять контент без отдельного решения владельца; нужна редакционная оценка, оставить ли их в этой статье или перенести.
+- Проверено по коду `main`: `src/components/BlogContent.tsx` уже отображает Sanity Portable Text image blocks с ALT и caption; изменения frontend и schema не требовались. Cloudflare Pages deployment не запускался и не нужен для этих content-only изменений. Независимая HTTP-проверка Sanity CDN через Wix proxy не удалась: proxy возвращает 403 на `cdn.sanity.io`; доступность подтверждена метаданными Sanity assets/read-back, но не отдельным внешним HTTP smoke.
+- PR #235 остаётся Draft; main не изменялся. Подробности и точные source IDs: `docs/audits/2026-11-12-blog-seo-images.md`.
+
 ## 2026-11-12 — SEO-метаданные 14 статей блога опубликованы в Sanity
 
 - В Sanity Production (`bxvcy0qs/production`) опубликованы 14 ранее подготовленных `blogPost`: 42 языковые версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
