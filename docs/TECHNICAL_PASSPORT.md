@@ -1,3 +1,13 @@
+## 2026-11-12 — Индикаторы растений в каталоге (ветка, проверки ожидают)
+
+- Base main: `84052cee404edd572448d0f58fa058889fe7b9df`; branch: `feat/plant-card-stock-and-winter-indicators`.
+- `src/pages/CategoryPage.tsx`: подготовлен красный индикатор `outOfStock` при сохранении зелёного `inStock` и синего `onRequest`; неизвестный статус не отображает точку.
+- Для plant category cards добавлен условный overlay снежинки и значения `plantCare.minWinterTempC`. Отображение использует существующую проекцию данных и не требует Sanity write/schema change.
+- Commit: `d6f2f8cd12a080c1edab52005846341d133df5c2`. Lint/tests/build/CI/PR и Production deployment ещё не подтверждены.
+- Mobile category image shift: по текущему коду header image имеет `hidden lg:block`, то есть на мобильной ширине не должен отображаться. Отдельный controlled CLS report (09.11) после PR #156 показал остаточный category shift около 0.34385, но Performance API не определил source node. Нельзя утверждать, что это именно изображение. Не менять `src/App.tsx`, Header или Footer без отдельного решения и capture.
+
+---
+
 ## 2026-11-12 — Длинный SEO-текст категорий: кодовая реализация в отдельной ветке
 
 - Base main: `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`; implementation branch: `feat/category-long-seo-content`. Изменение добавляет необязательное поле `seoContent` в обе Sanity category schemas (workspace `florial-admin` / dataset `production`, workspace `plants` / dataset `plants`) и в локализованные объекты `translations.en/ru`.
