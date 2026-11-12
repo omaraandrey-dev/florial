@@ -94,7 +94,11 @@ export default function App() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
-  const [loadingProducts, setLoadingProducts] = useState(true)
+  const [loadingProducts, setLoadingProducts] = useState(() => {
+    const route = getRouteState()
+    return Boolean(route.activeCategorySlug || route.activeProductSlug)
+  })
+  const [catalogueLoaded, setCatalogueLoaded] = useState(false)
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
@@ -111,6 +115,7 @@ export default function App() {
   const [, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
 
   // Persist the customer's cart between visits on this browser/device.
@@ -595,6 +600,119 @@ export default function App() {
     return () => { cancelled = true }
   }, [normalizedRoutePath])
 
+  // The full catalogue index is fetched only for product/category routes.
+  // Home, service, about, contact, cart, blog and search pages do not wait for it.
+  useEffect(() => {
+    let cancelled = false
+    if (!needsCatalogue || catalogueLoaded) {
+      if (!needsCatalogue) setLoadingProducts(false)
+      return () => { cancelled = true }
+    }
+
+    setLoadingProducts(true)
+    const productQuery = `
+      *[
+        _type == "product" &&
+        isActive != false &&
+        defined(slug)
+      ] {
+        _id,
+        name,
+        translations {
+          bg { name, shortDescription },
+          ru { name, shortDescription },
+          en { name, shortDescription }
+        },
+        "productType": "equipment",
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku,
+        "brand": brand->name,
+        priceEUR,
+        oldPriceEUR,
+        stockStatus,
+        stockQuantity,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        shortDescription,
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]-> {
+          _id,
+          name,
+          translations { bg { name }, ru { name }, en { name } },
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        }
+      }
+    `
+
+    const plantProductQuery = `
+      *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
+        _id,
+        name,
+        translations {
+          bg { name, shortDescription },
+          ru { name, shortDescription },
+          en { name, shortDescription }
+        },
+        productType,
+        "slug": { "current": coalesce(slug.current, slug) },
+        sku,
+        priceEUR,
+        oldPriceEUR,
+        stockStatus,
+        stockQuantity,
+        saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
+        shortDescription,
+        scientificName,
+        plantCare { light, waterNeeds, minWinterTempC, blackSeaCoast },
+        "mainImageUrl": mainImage.asset->url,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+        "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
+        "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+        "category": category->name,
+        "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
+        "categoryId": category->_id,
+        "categorySlug": coalesce(category->slug.current, category->slug),
+        "categoryParentId": category->parent->_id,
+        "categories": categories[]-> {
+          _id,
+          name,
+          translations { bg { name }, ru { name }, en { name } },
+          "slug": { "current": coalesce(slug.current, slug) },
+          "parentId": parent->_id
+        }
+      }
+    `
+
+
+    Promise.allSettled([
+      sanityLiveClient.fetch(productQuery),
+      plantsClient.fetch(plantProductQuery),
+    ]).then(([productResult, plantProductResult]) => {
+      if (cancelled) return
+      const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
+      const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
+      setProducts([...equipmentProducts, ...plantProductData])
+      if (productResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
+      if (plantProductResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
+    }).finally(() => {
+      if (!cancelled) {
+        setLoadingProducts(false)
+        setCatalogueLoaded(true)
+      }
+    })
+
+    return () => { cancelled = true }
+  }, [needsCatalogue, catalogueLoaded])
+
   // Page data is loaded independently from the Header. Product, category and service
   // readiness are tracked separately so unrelated routes do not wait for the catalogue.
   // Первоначальная загрузка данных из Sanity.
@@ -612,6 +730,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "parentId": parent->_id,
+          "productCount": count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),
           "imageUrl": image.asset->url,
           "imageAlt": image.alt,
           "imageAltEn": image.altEn,
@@ -623,47 +742,6 @@ export default function App() {
         }
       `
 
-      const productQuery = `
-        *[
-          _type == "product" &&
-          isActive != false &&
-          defined(slug)
-        ] {
-          _id,
-          name,
-          translations {
-            bg { name, shortDescription },
-            ru { name, shortDescription },
-            en { name, shortDescription }
-          },
-          "productType": "equipment",
-          "slug": { "current": coalesce(slug.current, slug) },
-          sku,
-          "brand": brand->name,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          stockQuantity,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-          "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
-          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
-          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          shortDescription,
-          "category": category->name,
-          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
-          "categoryId": category->_id,
-          "categorySlug": coalesce(category->slug.current, category->slug),
-          "categoryParentId": category->parent->_id,
-          "categories": categories[]-> {
-            _id,
-            name,
-            translations { bg { name }, ru { name }, en { name } },
-            "slug": { "current": coalesce(slug.current, slug) },
-            "parentId": parent->_id
-          }
-        }
-      `
-
       const plantCategoryQuery = `
         *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
           _id,
@@ -672,6 +750,7 @@ export default function App() {
           "slug": { "current": coalesce(slug.current, slug) },
           sortOrder,
           "parentId": parent->_id,
+          "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
           "imageUrl": coalesce(image.asset->url, externalImageUrl),
           "imageAlt": image.alt,
           "imageAltEn": image.altEn,
@@ -680,47 +759,6 @@ export default function App() {
           "imageTitleEn": image.titleEn,
           "imageTitleRu": image.titleRu,
           "isPlantCategory": true
-        }
-      `
-
-      const plantProductQuery = `
-        *[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false] | order(sortOrder asc) {
-          _id,
-          name,
-          translations {
-            bg { name, shortDescription },
-            ru { name, shortDescription },
-            en { name, shortDescription }
-          },
-          productType,
-          "slug": { "current": coalesce(slug.current, slug) },
-          sku,
-          priceEUR,
-          oldPriceEUR,
-          stockStatus,
-          stockQuantity,
-          saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
-          shortDescription,
-          scientificName,
-          plantCare { light, waterNeeds, minWinterTempC, blackSeaCoast },
-          "mainImageUrl": mainImage.asset->url,
-          "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
-          "galleryImages": gallery[]{_key, "url": asset->url, alt, altEn, altRu},
-          "imageAlt": coalesce(mainImage.alt, name, translations.bg.name),
-          "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
-          "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
-          "category": category->name,
-          "categoryTranslations": category->translations { bg { name }, ru { name }, en { name } },
-          "categoryId": category->_id,
-          "categorySlug": coalesce(category->slug.current, category->slug),
-          "categoryParentId": category->parent->_id,
-          "categories": categories[]-> {
-            _id,
-            name,
-            translations { bg { name }, ru { name }, en { name } },
-            "slug": { "current": coalesce(slug.current, slug) },
-            "parentId": parent->_id
-          }
         }
       `
 
@@ -789,19 +827,6 @@ export default function App() {
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }).finally(() => { if (!cancelled) setLoadingCategories(false) })
 
-      const productPromise = Promise.allSettled([
-        sanityLiveClient.fetch(productQuery),
-        plantsClient.fetch(plantProductQuery),
-      ]).then(([productResult, plantProductResult]) => {
-        if (cancelled) return
-        const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
-        const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
-        // Keep the catalogue index compact; full product records are fetched on demand.
-        setProducts([...equipmentProducts, ...plantProductData])
-        if (productResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
-        if (plantProductResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
-      }).finally(() => { if (!cancelled) setLoadingProducts(false) })
-
       const servicePromise = sanityClient.fetch(serviceQuery)
         .then((data) => { if (!cancelled) setServices(Array.isArray(data) ? data : []) })
         .catch((error) => console.error('Sanity: не удалось загрузить услуги:', error))
@@ -817,7 +842,6 @@ export default function App() {
 
       await Promise.allSettled([
         categoryPromise,
-        productPromise,
         servicePromise,
         serviceRolePhotosPromise,
         settingsPromise,
@@ -1358,28 +1382,23 @@ export default function App() {
 
   // Не показываем в навигации пустые категории; документы Sanity при этом не удаляются.
   const visibleCategories = useMemo(() => {
-    // Keep a category visible when it or any descendant contains a product.
+    // Sanity returns direct product counts; keep each populated category and its ancestors.
     const byId = new Map(categories.map((item) => [item._id, item]))
     const visibleIds = new Set<string>()
-    products.forEach((product) => {
-      const assignedIds = [
-        product.categoryId,
-        ...(product.categories || []).map((item: any) => item?._id),
-      ].filter((id): id is string => Boolean(id))
-      assignedIds.forEach((id) => {
-        let current = byId.get(id)
-        const visited = new Set<string>()
-        while (current && !visited.has(current._id)) {
-          visited.add(current._id)
-          visibleIds.add(current._id)
-          current = current.parentId ? byId.get(current.parentId) : undefined
-        }
-      })
+    categories.forEach((category) => {
+      if ((category.productCount || 0) <= 0) return
+      let current: CategoryItem | undefined = category
+      const visited = new Set<string>()
+      while (current && !visited.has(current._id)) {
+        visited.add(current._id)
+        visibleIds.add(current._id)
+        current = current.parentId ? byId.get(current.parentId) : undefined
+      }
     })
     return categories.filter((category) =>
       category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
     )
-  }, [categories, products])
+  }, [categories])
 
 
   return (
@@ -1601,14 +1620,9 @@ export default function App() {
           services={services}
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
           plantCategories={homePlantCategories}
-          products={products}
           siteSettings={siteSettings}
-          loadingProducts={loadingProducts}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
-          onSelectProduct={(product) =>
-            navigateToProduct(product.slug?.current || product._id)
-          }
         />
         )}
       </React.Suspense>
