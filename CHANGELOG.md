@@ -1,3 +1,16 @@
+## 2026-11-12 — Индикатор зимней температуры на карточке товара и мобильное изображение категории (PR #221 merged + Production deploy)
+
+- PR #221 успешно объединён в `main` методом squash. Implementation branch: `fix/plant-winter-indicator-and-mobile-category-flash`; head: `c4225fa3eb7898c4f2b1a5963c45e6f48b94b746`; merge commit: `96cc7508301485b81856981d010f506ea7b5ebe0`.
+- `src/pages/CategoryPage.tsx`: индикатор зимней температуры уменьшен; удалены белая подложка, рамка, тень и внутренние отступы. Оставлены синяя снежинка и синяя температура, позиция — левый верхний угол (4 px).
+- `src/pages/ProductPage.tsx`: такой же компактный индикатор добавлен поверх основного изображения растения. Используется существующее поле `plantCare.minWinterTempC`; Sanity schema и документы не менялись.
+- Мобильное изображение категории: для `.category-page-hero-image` добавлено критическое правило в `index.html` — скрыто по умолчанию и показывается только при viewport шириной от 1024 px. Компонент категории использует этот класс вместо Tailwind-only `hidden lg:block`, чтобы скрытие применялось до загрузки основного CSS.
+- PR изменил только `index.html`, `src/pages/CategoryPage.tsx`, `src/pages/ProductPage.tsx`. Header, меню, Footer, App/router, Sanity, D1, Manager, API и Production settings не менялись.
+- GitHub Actions по PR head `c4225fa3eb7898c4f2b1a5963c45e6f48b94b746`: D1 migration validation run `43157810821` — success; Blog and Studio validation run `43157810867` — success. Проверены website lint, utility tests, website build, Pages Functions syntax, read-only migration dry-run и Sanity Studio build.
+- Cloudflare Pages Production deployment `edd10fd4-75b4-4c23-8631-0016395b767e` для merge commit `96cc7508301485b81856981d010f506ea7b5ebe0` завершился `success` 12.11.2026. Deployment URL: `https://edd10fd4.florial.pages.dev`; aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Ограничение проверки: автоматическая проверка build/deploy пройдена; визуальная проверка первого кадра и фактического поведения на Android владельца не выполнялась. Остаточный CLS страницы категории и подтверждение исчезновения вспышки на реальном мобильном устройстве остаются отдельной визуальной QA задачей.
+
+---
+
 ## 2026-11-12 — Индикаторы наличия и зимней температуры на карточках растений (merged + Production deploy)
 
 - PR #220 успешно объединён в `main` (squash merge commit `4ab09c5737b1d271042bdb64ffe658176f8e78cc`), ветка создана от main `84052cee404edd572448d0f58fa058889fe7b9df`. Изменение в `src/pages/CategoryPage.tsx`.
