@@ -4,7 +4,7 @@
 - Реализовано в коде: фильтры страницы `/blog` по существующим tags; локализованные названия четырёх тегов; вывод тематических меток в карточках; передача `alt/altRu/altEn` в запросе для галереи и Portable Text image blocks; locale-aware внутренние ссылки в тексте статьи; похожие статьи ранжируются по пересечению tags и затем по дате.
 - Sanity Production read-only: всего 22 `blogPost`, опубликовано 14; существующие темы: Растения, Автоматично напояване, Озеленяване, Тревни площи. Поля ALT BG/RU/EN подтверждены в Hosted Schema; RU/EN Portable Text содержит свои локализованные значения ALT в поле `alt` соответствующей языковой версии.
 - Изменены только `src/lib/blog.ts`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`. Sanity schema/data и Production не менялись.
-- PR #232 открыт. CI для финального SHA и браузерная визуальная проверка BG/RU/EN и мобильных ширин должны быть подтверждены до merge. Merge и Production deployment не выполнялись.
+- PR #232 объединён squash в `main`: merge commit `75fcc9226fc05be2bf56e669b1ddd5ee83094a20`. CI по точному PR head `de12df4f0d55dea6b57fa2ec91b80f32638d41eb`: Blog and Studio run `43198224064` — success, включая Sanity Studio build; D1 validation run `43198224015` — success. Cloudflare Pages Production deployment `fba87951-81aa-406b-a1a7-f8894bf47c7f` для точного merge commit завершился success; aliases `florial-bg.com` и `www.florial-bg.com`. Визуальная QA BG/RU/EN и мобильных ширин 320–360 px остаётся неподтверждённой. Подробный release record: `docs/releases/2026-11-12-blog-stage1.md`.
 
 ## 2026-11-12 — RSS-лента услуг опубликована и проверена в Production
 
