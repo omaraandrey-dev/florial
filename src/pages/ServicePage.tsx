@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceContentBlock, ServiceGalleryImage } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
-import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
+import { localizedHref } from '../lib/navigation'
+import { classifyRichTextHref } from '../lib/richTextUtils.mjs'
 import { getSanityImageProps } from '../lib/sanityImage'
 
 interface ServicePageProps {
@@ -178,10 +179,37 @@ function descriptionHasSection(headings: string[], section: 'advantages' | 'step
   return values.some((heading) => /^(свържете се с florial|свържете се с нас|свяжитесь с florial|свяжитесь с нами|contact florial|contact us)$/.test(heading))
 }
 
-function renderInlineMarkdown(value: string) {
-  return value.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
+function getInternalRichTextPath(href: string) {
+  const url = new URL(href, 'https://florial-bg.com')
+  url.searchParams.delete('lang')
+  return url.pathname + url.search + url.hash
+}
+
+function renderInlineMarkdown(value: string, language: string) {
+  const tokens = value.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g)
+  return tokens.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index}>{part.slice(2, -2)}</strong>
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (linkMatch) {
+      const [, label, href] = linkMatch
+      const kind = classifyRichTextHref(href)
+      if (kind === 'unsafe') return label
+      const resolvedHref = kind === 'internal'
+        ? localizedHref(getInternalRichTextPath(href), language)
+        : href
+      return (
+        <a
+          key={index}
+          href={resolvedHref}
+          target={kind === 'external' ? '_blank' : undefined}
+          rel={kind === 'external' ? 'noopener noreferrer' : undefined}
+          className="font-medium text-emerald-700 underline underline-offset-2 hover:text-emerald-900"
+        >
+          {label}
+        </a>
+      )
     }
     return part
   })
@@ -199,7 +227,7 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
         <React.Fragment key={index}>
           <h2 className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">{heading}</h2>
           {section ? renderImageGallery(imageGroups[section] || [], section, language) : null}
-          {lines.slice(1).length > 0 && <p className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.slice(1).join(' '))}</p>}
+          {lines.slice(1).length > 0 && <p className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.slice(1).join(' '), language)}</p>}
         </React.Fragment>
       )
     }
@@ -209,18 +237,18 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
     if (lines.every((line) => line.startsWith('- '))) {
       return (
         <ul key={index} className="mb-5 list-disc space-y-2 pl-6 leading-7 text-slate-600">
-          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.slice(2))}</li>)}
+          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.slice(2), language)}</li>)}
         </ul>
       )
     }
     if (lines.every((line) => /^\d+\.\s/.test(line))) {
       return (
         <ol key={index} className="mb-5 list-decimal space-y-2 pl-6 leading-7 text-slate-600">
-          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.replace(/^\d+\.\s/, ''))}</li>)}
+          {lines.map((line, itemIndex) => <li key={itemIndex}>{renderInlineMarkdown(line.replace(/^\d+\.\s/, ''), language)}</li>)}
         </ol>
       )
     }
-    return <p key={index} className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.join(' '))}</p>
+    return <p key={index} className="mb-4 leading-7 text-slate-600">{renderInlineMarkdown(lines.join(' '), language)}</p>
   })
 }
 
@@ -237,7 +265,7 @@ function renderPortableText(
     if (block?._type !== 'block') return null
     const children = (block.children || []).map((child: any, childIndex: number) => {
       let node: React.ReactNode = child.text || ''
-      const marks = Array.isArray(child.marks) ? child.marks : []
+      const marks: string[] = Array.isArray(child.marks) ? child.marks : []
       marks.forEach((mark: string) => {
         if (mark === 'strong') node = <strong key={childIndex}>{node}</strong>
         else if (mark === 'em') node = <em key={childIndex}>{node}</em>
@@ -245,6 +273,25 @@ function renderPortableText(
         else if (mark === 'strike-through') node = <s key={childIndex}>{node}</s>
         else if (mark === 'code') node = <code key={childIndex}>{node}</code>
       })
+      const link = (block.markDefs || []).find((definition: any) =>
+        definition?._type === 'link' && definition?._key && marks.includes(definition._key)
+      )
+      const kind = link?.href ? classifyRichTextHref(link.href) : 'unsafe'
+      if (link?.href && kind !== 'unsafe') {
+        const href = kind === 'internal'
+          ? localizedHref(getInternalRichTextPath(link.href), language)
+          : link.href
+        node = (
+          <a
+            href={href}
+            target={kind === 'external' ? '_blank' : undefined}
+            rel={kind === 'external' ? 'noopener noreferrer' : undefined}
+            className="font-medium text-emerald-700 underline underline-offset-2 hover:text-emerald-900"
+          >
+            {node}
+          </a>
+        )
+      }
       return <React.Fragment key={child._key || childIndex}>{node}</React.Fragment>
     })
     const key = block._key || index
