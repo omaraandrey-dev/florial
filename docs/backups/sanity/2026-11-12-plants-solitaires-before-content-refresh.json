@@ -1,0 +1,134 @@
+{
+  "backupCreatedAt": "2026-11-12T16:02:00+02:00",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "documentId": "plants-solitaires",
+  "perspective": "raw",
+  "sourceRevision": "CfWBjShPZkO4mx3kLAgFwy",
+  "document": {
+    "_createdAt": "2026-10-20T11:45:12Z",
+    "_id": "plants-solitaires",
+    "_rev": "CfWBjShPZkO4mx3kLAgFwy",
+    "_system": {
+      "base": {
+        "id": "plants-solitaires",
+        "rev": "jRQlRxMhCRWtYvOuBZO2Uj"
+      }
+    },
+    "_type": "category",
+    "_updatedAt": "2026-11-05T12:13:04Z",
+    "description": "Солитерите и едроразмерните растения са големи, оформени екземпляри, които веднага придават завършен вид на градината – без дългото чакане за растеж. Използват се като централен акцент в двора, пред входа, в представителни градини, хотели и комплекси. Преди покупка преценете размера на растението, достъпа и възможността за транспорт и засаждане, подходящата почва и мястото според осветеността. Големите екземпляри изискват правилно засаждане и редовно поливане през първите сезони – автоматична система за поливане или капково напояване значително улесняват грижата за тях. За зимоустойчивостта на конкретния вид се консултирайте с екипа на Florial.",
+    "externalImageUrl": "https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72t80-A-LsDe8vHx5dqyMAap7Ynp42yhE9Pm1QzPvz_0hK47M_T-9I3sW15jUHRcThEDlne0U8Qg2uliORsPltYbozlNhuWYbPdJ0YuhjDQX4GD491LTIhvfCOTqaJiniupay7J816K3Ka4Vv612JEnSvDeZg96PnJzwF3jJkWz0Ktb3EgJB6xjNm2qHD1fnNS1mGEWmzgWDjXq3KXxadxs11HfrbMLftbFmcA_kCf3I=w1280",
+    "helpBlock": {
+      "buttonLabel": "Професионално засаждане и консултация",
+      "buttonUrl": "/services/zasazhdane-na-rasteniya",
+      "text": "Едроразмерните растения създават завършен акцент веднага след засаждането, но изискват предварително планиране на транспорта, достъпа за разтоварване и размера на посадъчната яма. Съобразете зрелия силует, теглото и размера на кореновата бала, нуждата от укрепване и поливането през първите сезони. За представителни дворове, хотели и комплекси в Несебър, Слънчев бряг и Бургас Florial може да съгласува избора, доставката, позиционирането и професионалното засаждане.",
+      "title": "Едроразмерни растения и солитери с планирана доставка",
+      "translations": {
+        "en": {
+          "buttonLabel": "Professional planting and advice",
+          "text": "Large specimen plants create an immediate focal point, but transport, site access, unloading space and planting-pit dimensions need to be planned in advance. Consider the mature form, root-ball size and weight, whether staking is required and watering during the first seasons. For formal gardens, hotels and complexes in Nessebar, Sunny Beach and Burgas, Florial can coordinate selection, delivery, positioning and professional planting.",
+          "title": "Large specimen plants with planned delivery and planting"
+        },
+        "ru": {
+          "buttonLabel": "Профессиональная посадка и консультация",
+          "text": "Крупномерные растения сразу создают выразительный акцент, однако заранее нужно спланировать транспорт, подъезд к участку, место разгрузки и размеры посадочной ямы. Учитывайте будущую форму растения, размер и вес корневого кома, необходимость фиксации и полив в первые сезоны. Для представительских дворов, гостиниц и комплексов в Несебре, Солнечном Береге и Бургасе Florial поможет согласовать выбор, доставку, размещение и профессиональную посадку.",
+          "title": "Крупномерные растения и солитеры с планированием доставки"
+        }
+      }
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Солитерни и едроразмерни растения за представително озеленяване край Несебър",
+      "altEn": "Specimen and large plants for statement landscaping near Nessebar",
+      "altRu": "Солитерные и крупномерные растения для выразительного озеленения у Несебра",
+      "asset": {
+        "_ref": "image-84ebe705d70c57f6f1520ca241e0d2766ed570fa-800x800-jpg",
+        "_type": "reference"
+      },
+      "title": "Едроразмерни растения за дворове в Несебър и Свети Влас",
+      "titleEn": "Large plants for gardens in Nessebar and Sveti Vlas",
+      "titleRu": "Крупномерные растения для участков в Несебре и Свети-Власе"
+    },
+    "name": "Солитери и едроразмерни растения",
+    "parent": {
+      "_ref": "plants-root",
+      "_type": "reference"
+    },
+    "seo": {
+      "h1": "Солитери и едроразмерни растения за градината и озеленяването",
+      "keywords": [
+        "Солитери и едроразмерни растения",
+        "растения за градината",
+        "декоративни растения",
+        "озеленяване",
+        "градински център Florial"
+      ],
+      "metaDescription": "Солитерите и едроразмерните растения са големи, оформени екземпляри, които веднага придават завършен вид на градината – без дългото чакане за растеж.",
+      "metaTitle": "Солитери и едроразмерни растения | Florial",
+      "suggested": {
+        "generatedAt": "2026-11-05T09:55:34.389Z",
+        "generatorVersion": "assistant-editorial-v1",
+        "h1": "Солитери и едроразмерни растения за градината и озеленяването",
+        "metaDescription": "Солитерите и едроразмерните растения са големи, оформени екземпляри, които веднага придават завършен вид на градината – без дългото чакане за растеж.",
+        "metaTitle": "Солитери и едроразмерни растения | Florial",
+        "status": "approved"
+      }
+    },
+    "slug": {
+      "_type": "slug",
+      "current": "soliteri-edrorazmerni"
+    },
+    "sortOrder": 7,
+    "translations": {
+      "en": {
+        "description": "Specimen and large plants are mature, shaped plants that give a garden a finished look immediately, without waiting years for growth. They are used as focal points in yards, at entrances, in formal gardens, hotels and residential complexes. Before purchasing, consider the plant’s size, access for delivery and planting, suitable soil and the light conditions at the site. Large specimens need correct planting and regular watering during their first seasons; an automatic irrigation or drip system makes care much easier. Ask the Florial team about the winter hardiness of a specific species.",
+        "name": "Specimen and Large Plants",
+        "seo": {
+          "h1": "Specimen and Large Plants for Gardens and Landscaping",
+          "keywords": [
+            "Specimen and Large Plants",
+            "garden plants",
+            "ornamental plants",
+            "landscaping plants",
+            "Florial"
+          ],
+          "metaDescription": "Specimen and large plants are mature, shaped plants that give a garden a finished look immediately, without waiting years for growth.",
+          "metaTitle": "Specimen and Large Plants | Florial",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Specimen and Large Plants for Gardens and Landscaping",
+            "metaDescription": "Specimen and large plants are mature, shaped plants that give a garden a finished look immediately, without waiting years for growth.",
+            "metaTitle": "Specimen and Large Plants | Florial",
+            "status": "approved"
+          }
+        }
+      },
+      "ru": {
+        "description": "Солитеры и крупномерные растения — это большие сформированные экземпляры, которые сразу придают саду законченный вид, без долгого ожидания роста. Их используют как центральный акцент во дворе, перед входом, в представительских садах, отелях и комплексах. Перед покупкой оцените размер растения, доступ и возможность транспортировки и посадки, подходящую почву и место по освещённости. Крупным экземплярам нужны правильная посадка и регулярный полив в первые сезоны — автоматическая система полива или капельное орошение значительно облегчают уход. О зимостойкости конкретного вида проконсультируйтесь с командой Florial.",
+        "name": "Солитеры и крупномерные растения",
+        "seo": {
+          "h1": "Солитеры и крупномерные растения для сада и озеленения",
+          "keywords": [
+            "Солитеры и крупномерные растения",
+            "растения для сада",
+            "декоративные растения",
+            "озеленение",
+            "Florial"
+          ],
+          "metaDescription": "Солитеры и крупномерные растения — это большие сформированные экземпляры, которые сразу придают саду законченный вид, без долгого ожидания роста.",
+          "metaTitle": "Солитеры и крупномерные растения | Florial",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Солитеры и крупномерные растения для сада и озеленения",
+            "metaDescription": "Солитеры и крупномерные растения — это большие сформированные экземпляры, которые сразу придают саду законченный вид, без долгого ожидания роста.",
+            "metaTitle": "Солитеры и крупномерные растения | Florial",
+            "status": "approved"
+          }
+        }
+      }
+    }
+  }
+}
