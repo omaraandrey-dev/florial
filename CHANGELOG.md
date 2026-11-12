@@ -1,10 +1,12 @@
-## 2026-11-12 — Улучшение блога: тематическая навигация и мультиязычность (PR #232, проверка)
+## 2026-11-12 — Улучшение блога: тематическая навигация и мультиязычность (PR #232, merged + Production)
 
-- В отдельной ветке `feat/blog-content-discovery-stage1` подготовлены изменения только для блога: тематические фильтры по четырём существующим тегам, локализованные подписи тем, корректная передача ALT для изображений в Portable Text и галерее, сохранение языка для внутренних ссылок Florial, тематическое ранжирование похожих статей.
-- Изменены: `src/lib/blog.ts`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`.
+- PR #232 объединён squash в `main`; merge commit `75fcc9226fc05be2bf56e669b1ddd5ee83094a20`. Ветка `feat/blog-content-discovery-stage1` содержит изменения только блога: тематические фильтры по четырём существующим тегам, локализованные подписи тем и метки на карточках, корректную передачу локализованных ALT для изображений в Portable Text и галерее, сохранение языка для внутренних ссылок Florial, тематическое ранжирование похожих статей.
+- Изменены: `src/lib/blog.ts`, `src/pages/BlogPage.tsx`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`; документация PR дополнена release record `docs/releases/2026-11-12-blog-stage1.md`.
 - Live Sanity Production read-only: 22 документа `blogPost`, из них 14 опубликованы; действующие теги — `Растения`, `Автоматично напояване`, `Озеленяване`, `Тревни площи`. Поля локализованного ALT уже существуют в опубликованной схеме; существующие RU/EN Portable Text изображения используют ALT внутри соответствующих языковых версий.
+- CI по точному PR head `de12df4f0d55dea6b57fa2ec91b80f32638d41eb`: Blog and Studio validation run `43198224064` — success, включая Sanity Studio build; D1 validation run `43198224015` — success.
+- Cloudflare Pages Production deployment `fba87951-81aa-406b-a1a7-f8894bf47c7f` для точного merge commit `75fcc9226fc05be2bf56e669b1ddd5ee83094a20` завершился `success`; aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`.
 - Sanity schema/documents, Header/menu/Footer, маршруты, услуги, Cloudflare settings/secrets, D1, Manager, Resend и Production data не изменялись.
-- PR #232: https://github.com/omaraandrey-dev/florial/pull/232. До завершения CI и визуальной QA изменения не считаются готовыми к Production; merge/deployment не выполнялись.
+- **Остаётся визуальная QA владельцем:** BG/RU/EN, фильтры и карточки, изображения/ALT, внутренние ссылки, похожие публикации, мобильные ширины 320–360 px. CI и успешный deployment не заменяют визуальную проверку.
 
 ## 2026-11-12 — RSS-лента услуг опубликована в Production (PR #229)
 
