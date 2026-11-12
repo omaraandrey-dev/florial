@@ -4,6 +4,7 @@ import { useI18n, type Language } from '../lib/i18n'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { blogSlug, blogTranslation, fetchBlogPosts, type BlogPostCard } from '../lib/blog'
+import { getSanityImageProps } from '../lib/sanityImage'
 import type {
   ServiceItem,
   CategoryItem,
@@ -60,6 +61,12 @@ export function Header({
   )
 
   const logoImageSrc = siteSettings?.logoUrl || '/logo.png'
+  // Match the existing rendered logo widths at each breakpoint; only the downloaded source changes.
+  const logoImageProps = getSanityImageProps(
+    logoImageSrc,
+    '(min-width: 768px) 200px, (min-width: 640px) 156px, 80px',
+    480
+  )
   const logoAlt = language === 'ru'
     ? siteSettings?.logoAltRu
     : language === 'en'
@@ -146,11 +153,11 @@ export function Header({
           >
             {siteSettings?.logoUrl ? (
               <img
-                src={logoImageSrc}
+                {...logoImageProps}
                 alt={logoAccessibleAlt}
                 title={logoImageTitle || undefined}
-                width={siteSettings?.logoWidth || 1547}
-                height={siteSettings?.logoHeight || 581}
+                width={logoImageProps.width || siteSettings?.logoWidth || 1547}
+                height={logoImageProps.height || siteSettings?.logoHeight || 581}
                 loading="eager"
                 decoding="async"
                 className="florial-header-logo-image block h-[60px] max-w-[100px] object-contain object-left sm:h-[78px] sm:max-w-[160px] md:h-[100px] md:max-w-[230px]"
