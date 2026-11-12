@@ -1,3 +1,13 @@
+## 2026-11-12 — Блог: аудит коммерческих связей (read-only)
+
+- Sanity Production `bxvcy0qs/production`: 14 опубликованных blogPost, все с BG/RU/EN переводами. Проверены deployed schema `blogPost`, `src/lib/blog.ts`, `src/pages/BlogPostPage.tsx`, `src/components/BlogContent.tsx`.
+- У `blogPost` нет отдельного `relatedContent`/CTA поля. Страница статьи выводит похожие публикации по тегам, но не имеет отдельного коммерческого CTA. `BlogContent` скрывает legacy contact CTA blocks, которые распознаёт `isContactCta`.
+- Во всех 14 статьях shortDescription и seoDescription повторяют общий шаблон для каждой локали. Большинство локализованных RU/EN Portable Text link annotations отсутствует; Rain Bird — исключение.
+- Выявлены пять брендовых ссылок «ФЛОРИАЛ» с ошибочным href `/services/rulonna-treva`; некоторые сервисные anchor labels ведут на `/` вместо соответствующих активных услуг. Legacy `static.wixstatic.com` links требуют визуальной проверки.
+- Активные plant categories в dataset `plants`: olives 5 active products, palms/yukkas 12, flowers/roses 8, conifers 9. Три активные услуги ссылаются обратно на соответствующие статьи. 58 активных irrigation products ссылаются на статью о монтаже полива; relevancy требует отдельного review.
+- Full pre-edit snapshot: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`. Полный audit: `docs/audits/2026-11-12-blog-commercial-links.md`.
+- Статус: **read-only audit complete; no Sanity write/publish, no code/schema/runtime change.** Следующий контентный этап — исправить явно ошибочные ссылки и добавить локализованные коммерческие CTA только после утверждения карты ссылок.
+
 ## 2026-11-12 — Блог: этап 2, улучшение landing page
 
 - Branch: `feat/blog-featured-landing-stage2`.
@@ -2905,3 +2915,13 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 3. Проверить все восемь 301, сохранение `lang`/UTM query parameters, новые URL, canonical/hreflang, OG image и sitemap.
 4. После успешной проверки отключить публикацию восьми старых blogPost документов, сохранив документы и ссылки.
 5. Выполнить ручной осмотр новых услуг в Studio на BG/RU/EN.
+
+## 2026-11-12 — Блог: коммерческие ссылки опубликованы в Sanity Production
+
+- Обновлены 14 опубликованных blogPost в `bxvcy0qs/production`: 42 локализованных CTA-блока, 84 ссылки на соответствующие услуги и категории.
+- Исправлены 33 существующие href-ссылки, включая шесть брендовых anchors Florial, которые ранее вели на `/services/rulonna-treva`, теперь ведут на `/`.
+- Patch: 14/14 success; validation: 14/14 valid (custom slug callbacks не исполняются validation tool, поэтому complete=false); publish: 14/14 success.
+- Post-publish Production read confirmed 14/14 documents with two CTA links in every locale BG/RU/EN.
+- Full pre-edit backup: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`; audit: `docs/audits/2026-11-12-blog-commercial-links.md`; release record: `docs/releases/2026-11-12-blog-commercial-links.md`.
+- No Sanity schema, application code, service documents, product/category data, routes or infrastructure changed. Existing body text, image references, SEO metadata, slugs, tags and publication dates preserved.
+- Remaining QA: live browser check of destination routes and visual CTA rendering; web fetch was unable to access the production host during this session. Legacy Wix image URLs require separate media review.

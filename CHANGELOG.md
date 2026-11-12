@@ -1,10 +1,26 @@
+## 2026-11-12 — Коммерческие связи блога опубликованы
+
+- По согласованной карте обновлены 14 опубликованных blogPost в Sanity Production: добавлены 42 локализованных CTA-блока (BG/RU/EN), по две ссылки в каждом, всего 84 новых коммерческих перехода.
+- Исправлены 33 существующие href-ссылки: шесть брендовых ссылок Florial перенаправлены с услуги рулонного газона на главную страницу; остальные исправлены только при однозначном соответствии активной услуге/категории или релевантной статье.
+- Sanity patch: 14/14 успешно; validation: 14/14 valid (неполная проверка только custom slug callbacks); publish: 14/14 успешно. Повторный Production query подтвердил наличие CTA с двумя ссылками во всех трёх локалях каждой статьи.
+- Полный pre-edit backup: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`; отчёт: `docs/audits/2026-11-12-blog-commercial-links.md`; release record: `docs/releases/2026-11-12-blog-commercial-links.md`.
+- Изображения, SEO-поля, slugs, даты, теги, тексты публикаций, схема Sanity и исходный код не менялись. Legacy Wix image URLs оставлены для отдельной проверки.
+- Live HTTP/визуальная проверка целевых страниц не подтверждена: web fetch tool не смог открыть домен в этой сессии. Маршруты сверены с активными service/category documents и действующими route conventions.
+
+## 2026-11-12 — Аудит коммерческих связей блога (read-only)
+
+- Проверены 14 опубликованных blogPost в Sanity Production и текущие blog renderers/schema. Найдены шаблонные shortDescription и seoDescription во всех 14 публикациях в BG/RU/EN; локализованные внутренние ссылки в основном присутствуют только в болгарской версии; выявлены пять брендовых ссылок «ФЛОРИАЛ», ошибочно ведущих на услугу рулонного газона, и ряд ссылок на корень сайта вместо целевых услуг.
+- Проверены активные услуги и plant categories; подготовлена карта коммерческих переходов. Отдельно отмечены 58 product.relatedContent ссылок на одну статью о монтаже полива и legacy Wix image URLs для ручной проверки.
+- Полный backup 14 опубликованных документов: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`; отчёт: `docs/audits/2026-11-12-blog-commercial-links.md`.
+- **Sanity write/publish не выполнялись.** Это аудит и подготовка; дальнейшие изменения контента требуют отдельного согласования конкретной карты ссылок.
+
 ## 2026-11-12 — Блог: этап 2, featured-публикация и счётчики тем (PR #233 merged; Production deployment выполняется)
 
 - В отдельной ветке `feat/blog-featured-landing-stage2` первая статья в текущем списке (или выбранной теме) отображается как широкая featured-карточка; выбор динамический по существующей сортировке даты, без нового editorial-поля.
 - Featured-изображение загружается eager/high priority, остальные карточки остаются lazy; на кнопках тем показано количество публикаций.
 - Изменён только `src/pages/BlogPage.tsx`; Sanity schema/documents, services, Header/menu/Footer, маршруты и backend не менялись.
 - Сейчас в Sanity Production опубликовано 14 blogPost. Pagination не добавлялась: текущий объём не оправдывает усложнение.
-- PR #233 merged (`5e0c895c38a0903616d25f4dccde6cd596d20aed`); exact-head CI passed (runs `43201350601` and `43201349713`); Cloudflare Pages Production deployment `392ec129-5551-48b2-a63f-cab5ead23c8c` для точного merge commit завершился `success`, aliases `florial-bg.com` и `www.florial-bg.com`. Визуальная QA BG/RU/EN и мобильных 320–360 px остаётся обязательной. Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
+- PR #233 merged (`5e0c895c38a0903616d25f4dccde6cd596d20aed`); exact-head CI passed (runs `43201350601` and `43201349713`); Cloudflare Pages Production deployment `392ec129-5551-48b2-a63f-cab5ead23c8c` для точного merge commit завершился `success`, aliases `florial-bg.com` и `www.florial-bg.com`. Владелец подтвердил, что блог работает корректно. Отдельный формальный QA-чек-лист по BG/RU/EN и мобильным ширинам 320–360 px не фиксировался. Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
 
 ## 2026-11-12 — Улучшение блога: тематическая навигация и мультиязычность (PR #232, merged + Production)
 
