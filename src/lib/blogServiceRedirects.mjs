@@ -4,7 +4,6 @@ const BLOG_TO_SERVICE_REDIRECTS = Object.freeze({
   'montazh-remont-elektromagnitni-klapani': 'montazh-remont-elektromagnitni-klapani',
   'remont-modernizatsiya-polivni-sistemi': 'remont-modernizatsiya-polivni-sistemi',
   'godishna-poddruzhka-avtomatichni-sistemi': 'godishna-poddruzhka-avtomatichni-sistemi',
-  'landshaften-dizain-proekt-zasazhdenie': 'landshaften-dizain-proekt-zasazhdenie',
   'izgrazhdane-tsvetni-lehi': 'izgrazhdane-tsvetni-lehi',
   'topiarna-rezitba-rasteniya': 'topiarna-rezitba-rasteniya',
   'podmyana-stara-travna-plosht': 'podmyana-stara-travna-plosht',
