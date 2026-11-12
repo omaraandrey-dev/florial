@@ -1,8 +1,8 @@
-## Homepage hero — Sanity photo library link (12.11.2026)
+## Homepage hero — compressed Sanity photo asset (12.11.2026)
 
-- Sanity Production photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` is published and read-back verified; it references the existing 1518×957 hero asset without re-upload.
-- Branch `content/homepage-hero-photo-library-2026-11-12` reads this document on homepage only. The original URL remains an immediate fallback so image discovery is not delayed by the Sanity metadata request.
-- Awaiting PR CI, source review, and owner browser QA. Do not claim LCP improvement from this content-management change; compare mobile Lighthouse/network waterfall separately.
+- Published photo record `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png` (1518×957; 1,015,107 bytes).
+- Homepage immediate fallback URL is synchronized with this asset on the PR branch; the first render and Sanity query resolve to the same URL.
+- CI must be green on the updated PR head; after merge, verify Cloudflare Pages deployment and inspect mobile/desktop image selection, network transfer and Lighthouse LCP. No measured LCP gain is claimed yet.
 
 ## WWW → non-WWW redirect — practically verified by owner, 12.11.2026
 
