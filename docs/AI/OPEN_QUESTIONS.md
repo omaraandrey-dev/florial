@@ -1,3 +1,13 @@
+## PR #240 — Header, homepage и каталог объединены и опубликованы (12.11.2026)
+
+- PR #240 merged squash; main commit: `aaeb06e7901baaa5215502431ad4dc1d0ec809ee`.
+- Cloudflare Pages Production deployment: `d7c84c1b-2188-4c48-bd61-48de9dbfa6c4`, exact commit match; stages queued/initialize/clone_repo/build/deploy all `success`; aliases `https://florial-bg.com` and `https://www.florial-bg.com`.
+- CI on the code snapshot: Blog and Studio run `43261832983` and D1 validation run `43261833064` — success. The merge commit has no separate PR-triggered workflow runs in the connector view; Production build/deploy is independently confirmed in Cloudflare.
+- Sanity GROQ checks were read-only: 54 equipment categories, 17 plant categories; all six homepage plant category documents, slugs, images and RU/EN names confirmed.
+- **Остаётся проверить вручную в браузере:** homepage six plant cards and full plant menu; equipment and plant category routes; product detail; search; service list/detail; About; blog list/article; contacts and cart; BG/RU/EN and mobile/desktop. Verify Network requests show no full product index on homepage and non-catalogue routes. Network waterfall/Lighthouse before-after are not measured; do not claim a measured speed gain.
+- Automated browser attempt in this pass was unavailable (Firecrawl credits exhausted; web fetch and local HTTP fetch unavailable in this runtime). Deployment success must not be treated as visual or route QA.
+- No Sanity documents/schema, Cloudflare settings/secrets, D1, Resend or API writes were made by PR #240.
+
 ## WWW → non-WWW redirect — practically verified by owner, 12.11.2026
 
 - **Cloudflare rule repaired:** production Redirect Rule `WWW to non-WWW`, ruleset version 5, condition `(http.host eq "www.florial-bg.com")`, HTTP 301 to apex with original path and query string preserved. Cloudflare API write/read-back successful.
