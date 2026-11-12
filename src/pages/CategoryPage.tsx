@@ -6,6 +6,8 @@ import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
+import { RichText } from '../components/RichText'
+import { selectCategorySeoContent } from '../lib/categorySeoContent.mjs'
 import { sanityClient } from '../lib/sanity'
 import { resolveCategorySeo } from '../lib/categorySeo'
 import { toPlainText } from '../lib/richTextUtils.mjs'
@@ -18,6 +20,7 @@ interface CategoryPageProps {
   visibleCategories: CategoryItem[]
   onNavigateHome: () => void
   onNavigateCategory?: (slug?: string, id?: string) => void
+  onNavigateInternalPath?: (path: string) => void
   onSelectProduct: (product: Product, saleVariantKey?: string) => void
 }
 
@@ -28,10 +31,12 @@ export function CategoryPage({
   visibleCategories,
   onNavigateHome,
   onNavigateCategory,
+  onNavigateInternalPath,
   onSelectProduct,
 }: CategoryPageProps) {
   const { t, language, localize } = useI18n()
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
+  const categorySeoContent = selectCategorySeoContent(category, language)
   const helpConfiguredUrl = typeof category.helpBlock?.buttonUrl === 'string' ? category.helpBlock.buttonUrl.trim() : ''
   const helpTargetUrl = helpConfiguredUrl.startsWith('/services/') || helpConfiguredUrl.startsWith('/blog/')
     ? helpConfiguredUrl
@@ -670,6 +675,17 @@ export function CategoryPage({
             <button type="button" onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="rounded-lg border border-[#DDE3D0] bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#F7F8F1] disabled:cursor-not-allowed disabled:opacity-40">{language === 'en' ? 'Next' : language === 'ru' ? 'Далее' : 'Напред'}</button>
           </div>
         </nav>
+      )}
+
+      {categorySeoContent && (
+        <section className="mt-10 max-w-4xl text-slate-700" aria-label={language === 'ru' ? 'SEO-текст категории' : language === 'en' ? 'Category SEO content' : 'SEO текст на категорията'}>
+          <RichText
+            value={categorySeoContent}
+            language={language}
+            onNavigateInternalPath={onNavigateInternalPath}
+            className="text-sm leading-7 sm:text-base"
+          />
+        </section>
       )}
 
       {category.helpBlock && (() => {

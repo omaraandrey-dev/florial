@@ -130,6 +130,56 @@ const richDescription = defineType({
   }],
 })
 
+
+const categorySeoContentField = () => defineField({
+  name: 'seoContent',
+  title: 'SEO текст под продуктите',
+  description: 'Подзаглавия H2/H3 и списъци; показва се под продуктите. Празно = блокът не се показва.',
+  type: 'array',
+  of: [{
+    type: 'block',
+    styles: [
+      {title: 'Параграф', value: 'normal'},
+      {title: 'Заглавие 2', value: 'h2'},
+      {title: 'Заглавие 3', value: 'h3'},
+    ],
+    lists: [
+      {title: 'Неномериран списък', value: 'bullet'},
+      {title: 'Номериран списък', value: 'number'},
+    ],
+    marks: {
+      decorators: [
+        {title: 'Удебелен', value: 'strong'},
+        {title: 'Курсив', value: 'em'},
+      ],
+      annotations: [{
+        name: 'link',
+        title: 'Връзка',
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'href',
+            title: 'URL адрес',
+            type: 'string',
+            validation: Rule => Rule.custom((value: unknown) => {
+              if (typeof value !== 'string' || !value.trim()) return true
+              const href = value.trim()
+              if (href.startsWith('/') && !href.startsWith('//')) return true
+              try {
+                const url = new URL(href)
+                if (url.protocol === 'https:' && !url.username && !url.password) return true
+              } catch {
+                // Invalid absolute URL.
+              }
+              return 'Използвайте вътрешен адрес, започващ с /, или HTTPS адрес.'
+            }),
+          }),
+        ],
+      }],
+    },
+  }],
+})
+
 const productSpec = defineType({
   name: 'productSpec', title: 'Техническа характеристика', type: 'object',
   fields: [
@@ -222,6 +272,7 @@ const categoryTranslations = defineField({
       defineField({name: 'name', title: language === 'en' ? 'Name' : 'Название', type: 'string'}),
       defineField({name: 'description', title: language === 'en' ? 'Description' : 'Описание', type: 'text', rows: 4}),
       defineField({name: 'seo', title: 'SEO за езика', type: 'categorySeoFields'}),
+      categorySeoContentField(),
     ],
   })),
 })
@@ -251,6 +302,7 @@ const irrigationCategory = defineType({
     defineField({name: 'description', title: 'Описание', type: 'text', rows: 4}),
     defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
     categoryTranslations,
+    categorySeoContentField(),
     defineField({name: 'helpBlock', title: 'Блок за помощ при избор на поливна система', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
       defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 8}),
@@ -562,12 +614,15 @@ const plantCategory = defineType({
       defineField({name: 'en', title: 'English', type: 'object', fields: [
         defineField({name: 'name', title: 'Name', type: 'string'}), defineField({name: 'description', title: 'Description', type: 'text'}),
         defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
+        categorySeoContentField(),
       ]}),
       defineField({name: 'ru', title: 'Русский', type: 'object', fields: [
         defineField({name: 'name', title: 'Название', type: 'string'}), defineField({name: 'description', title: 'Описание', type: 'text'}),
         defineField({name: 'seo', title: 'SEO', type: 'categorySeoFields'}),
+        categorySeoContentField(),
       ]}),
     ]}),
+    categorySeoContentField(),
     defineField({name: 'helpBlock', title: 'Блок за помощ при избор и засаждане на растения', type: 'object', fields: [
       defineField({name: 'title', title: 'Заглавие (BG)', type: 'string'}),
       defineField({name: 'text', title: 'Текст (BG)', type: 'text', rows: 8}),

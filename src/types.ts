@@ -11,6 +11,7 @@ export interface CategoryItem {
   imageTitleEn?: string
   imageTitleRu?: string
   description?: any
+  seoContent?: any[]
   sortOrder?: number
   parentId?: string | null
   seo?: { h1?: string; metaTitle?: string; metaDescription?: string; seoTitle?: string; seoDescription?: string; noIndex?: boolean }

@@ -1,3 +1,13 @@
+## 2026-11-12 — Long-form category SEO content (schema source only; not deployed)
+
+- Added reusable optional `seoContent` Portable Text field to both category document schemas and to each category's `translations.en/ru` object.
+- Allowed styles: normal, h2, h3; lists: bullet, number; decorators: strong, em; annotation: link with string `href`. Validation accepts root-relative paths beginning with `/` except protocol-relative `//`, or HTTPS URLs without username/password. This matches the supported navigation classifications of `classifyRichTextHref`.
+- The field description in Studio: `Подзаглавия H2/H3 и списъци; показва се под продуктите. Празно = блокът не се показва.`
+- Additive schema source change only. No Sanity documents were written, migrated or published; no SEO content was authored or populated.
+- Deployment is intentionally pending. The repository's `deploy-sanity-studio.yml` automatically runs on a push to `main` affecting `studio/**`; do not merge the PR without explicit owner approval.
+
+---
+
 ## 2026-11-09 — Service image links and related-content references
 
 - Added optional `linkUrl` metadata to service-specific image fields: service main image, hero image, gallery images and `serviceContentBlock.image`. Internal relative routes and full HTTPS links are supported; empty values keep images non-clickable.
