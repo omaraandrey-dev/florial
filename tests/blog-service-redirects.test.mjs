@@ -2,26 +2,26 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
 
-const migratedRoutes = [
-  ['montazh-podmyana-remont-razpruskvachi-nesebar', 'montazh-podmyana-remont-razpruskvachi-nesebar'],
-  ['montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane', 'montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane'],
-  ['montazh-remont-elektromagnitni-klapani', 'montazh-remont-elektromagnitni-klapani'],
-  ['remont-modernizatsiya-polivni-sistemi', 'remont-modernizatsiya-polivni-sistemi'],
-  ['godishna-poddruzhka-avtomatichni-sistemi', 'godishna-poddruzhka-avtomatichni-sistemi'],
-  ['landshaften-dizain-proekt-zasazhdenie', 'landshaften-dizain'],
-  ['izgrazhdane-tsvetni-lehi', 'izgrazhdane-tsvetni-lehi'],
-  ['topiarna-rezitba-rasteniya', 'topiarna-rezitba-rasteniya'],
-  ['podmyana-stara-travna-plosht', 'podmyana-stara-travna-plosht'],
+const migratedSlugs = [
+  'montazh-podmyana-remont-razpruskvachi-nesebar',
+  'montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane',
+  'montazh-remont-elektromagnitni-klapani',
+  'remont-modernizatsiya-polivni-sistemi',
+  'godishna-poddruzhka-avtomatichni-sistemi',
+  'izgrazhdane-tsvetni-lehi',
+  'topiarna-rezitba-rasteniya',
+  'podmyana-stara-travna-plosht',
 ]
 
-for (const [oldSlug, serviceSlug] of migratedRoutes) {
-  test(`redirects legacy blog path for ${oldSlug}`, () => {
-    assert.equal(getBlogServiceRedirectPath(`/blog/${oldSlug}`), `/services/${serviceSlug}`)
+for (const slug of migratedSlugs) {
+  test(`redirects legacy blog path for ${slug}`, () => {
+    assert.equal(getBlogServiceRedirectPath(`/blog/${slug}`), `/services/${slug}`)
   })
 }
 
-test('keeps the blog index and unrelated articles unchanged', () => {
+test('keeps the blog index, landscape project case study and unrelated articles unchanged', () => {
   assert.equal(getBlogServiceRedirectPath('/blog'), null)
+  assert.equal(getBlogServiceRedirectPath('/blog/landshaften-dizain-proekt-zasazhdenie'), null)
   assert.equal(getBlogServiceRedirectPath('/blog/unrelated-article'), null)
 })
 
