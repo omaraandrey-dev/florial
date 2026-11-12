@@ -1,3 +1,9 @@
+## Homepage hero — compressed Sanity photo asset (12.11.2026)
+
+- Published photo record `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png` (1518×957; 1,015,107 bytes).
+- Homepage immediate fallback URL is synchronized with this asset on the PR branch; the first render and Sanity query resolve to the same URL.
+- CI must be green on the updated PR head; after merge, verify Cloudflare Pages deployment and inspect mobile/desktop image selection, network transfer and Lighthouse LCP. No measured LCP gain is claimed yet.
+
 ## WWW → non-WWW redirect — practically verified by owner, 12.11.2026
 
 - **Cloudflare rule repaired:** production Redirect Rule `WWW to non-WWW`, ruleset version 5, condition `(http.host eq "www.florial-bg.com")`, HTTP 301 to apex with original path and query string preserved. Cloudflare API write/read-back successful.

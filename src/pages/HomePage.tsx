@@ -12,6 +12,7 @@ interface HomePageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
   plantCategories: CategoryItem[]
+  heroImageUrl: string | null
   siteSettings: SiteSettings | null
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
@@ -22,6 +23,7 @@ export function HomePage({
   services,
   categories,
   plantCategories,
+  heroImageUrl,
   siteSettings,
   onNavigateService,
   onNavigateCategory,
@@ -102,7 +104,7 @@ export function HomePage({
         <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
           <img
             {...getSanityImageProps(
-              'https://cdn.sanity.io/images/bxvcy0qs/production/6331b4d39fc6539c970c310c48be3a48cb677d61-1518x957.png',
+              heroImageUrl || 'https://cdn.sanity.io/images/bxvcy0qs/production/460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957.png',
               '100vw',
               1600,
             )}

@@ -1,3 +1,11 @@
+## 2026-11-12 — Homepage hero compressed asset linked from Sanity photo library
+
+- Sanity Production photo document `ec5582be-f4bd-4e3c-9dd7-b5d8e4b31fd1` (`florial-homepage-hero-background`) is active and now references compressed asset `image-460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957-png`.
+- Live Sanity read-back confirms URL `https://cdn.sanity.io/images/bxvcy0qs/production/460eba3d596671187e5a382f4449ed09fcf78bfc-1518x957.png`, dimensions 1518×957 and file size 1,015,107 bytes. Previous asset size was 2,704,931 bytes; the new asset is approximately 62.5% smaller. This is based on Sanity asset metadata, not a browser transfer measurement.
+- Homepage first-render fallback in `src/pages/HomePage.tsx` was updated to the exact compressed asset URL. The homepage-only Sanity query resolves to the same asset URL, avoiding an intentional initial old-image → compressed-image source swap.
+- The original asset and its prior photo reference were not deleted. The photo record continues to be managed from Sanity Studio.
+- Header, menu, Footer, other routes, visual layout, CSS and responsive image helper were not changed. PR #242 CI must pass on the updated exact head SHA before merge; Production deployment and browser/Lighthouse QA remain pending.
+
 ## 2026-11-12 — Header, homepage и каталог загружаются независимо (PR #240)
 
 - Ветка `perf/header-homepage-data-decoupling-2026-11-12`, PR #240: https://github.com/omaraandrey-dev/florial/pull/240; последний кодовый commit `8953f913be649f62af34d7123b15c6373c68171a`; последующие commits в PR содержат только документационные уточнения.
