@@ -31,7 +31,7 @@ Date: 2026-11-12
 ### Internal links and CTAs
 
 - The Bulgarian bodies contain the majority of legacy link annotations. In the read-only projection, localized RU/EN link annotations were found in the Rain Bird article; the other articles need localized links added.
-- Five articles contain a brand anchor labelled `ФЛОРИАЛ` whose href is incorrectly set to `/services/rulonna-treva`: `maslina-sredizemnomorie`, `kiparis-totem`, `landshaften-proekt-zima-burgas`, `landshaften-proekt-nesebar`, and `etapi-landshaften-proekt-nesebar`. The brand anchor should lead to the homepage, not the rolled-turf service.
+- Five articles contain a brand anchor labelled `ФЛОРИАЛ` whose href is incorrectly set to `/services/rulonna-treva`: `maslina-sredizemnomorie`, `prodavane-traven-chim`, `kiparis-totem`, `landshaften-proekt-zima-burgas`, `landshaften-proekt-nesebar`, and `etapi-landshaften-proekt-nesebar`. The brand anchor should lead to the homepage, not the rolled-turf service.
 - Several existing link annotations use href `/` even though their anchor text describes a specific service (for example landscape design, irrigation system design, annual irrigation maintenance, or landscaping). These should be mapped only when the destination is unambiguous and the target service is active.
 - Some old article-to-article links are topically questionable (for example plant articles linking to irrigation-price or turf-sale articles). Review before replacing; do not delete content solely for SEO.
 - Legacy links to `static.wixstatic.com` occur in article Portable Text. They may represent linked legacy images; do not replace them blindly until visual/source usage is checked.
