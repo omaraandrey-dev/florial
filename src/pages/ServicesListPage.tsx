@@ -1,16 +1,78 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
-import type { ServiceItem } from '../types'
+import type { ServiceItem, ServiceRolePhoto } from '../types'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 
 interface ServicesListPageProps {
   services: ServiceItem[]
+  rolePhotos: ServiceRolePhoto[]
 }
 
-export function ServicesListPage({ services }: ServicesListPageProps) {
+type ServiceDirection = 'landscaping' | 'irrigation' | 'planting' | 'lawn'
+
+const SERVICE_DIRECTIONS: Array<{
+  id: ServiceDirection
+  photoSlug: string
+  categories: string[]
+  title: { bg: string; ru: string; en: string }
+}> = [
+  {
+    id: 'landscaping',
+    photoSlug: 'landshaften-arhitekt',
+    categories: ['landscaping'],
+    title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' },
+  },
+  {
+    id: 'irrigation',
+    photoSlug: 'inzhener-polivni-sistemi',
+    categories: ['irrigation', 'maintenance', 'delivery'],
+    title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' },
+  },
+  {
+    id: 'planting',
+    photoSlug: 'gardinar',
+    categories: ['planting'],
+    title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' },
+  },
+  {
+    id: 'lawn',
+    photoSlug: 'specialist-trevni-ploshti',
+    categories: ['lawn'],
+    title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' },
+  },
+]
+
+export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps) {
   const { language, localize } = useI18n()
+  const [selectedDirections, setSelectedDirections] = useState<ServiceDirection[]>(
+    () => SERVICE_DIRECTIONS.map((direction) => direction.id)
+  )
+
+  const orderedEntries = useMemo(() => getOrderedServiceEntries(services), [services])
+  const filteredEntries = useMemo(() => {
+    if (selectedDirections.length === SERVICE_DIRECTIONS.length) return orderedEntries
+    const categories = new Set(
+      SERVICE_DIRECTIONS
+        .filter((direction) => selectedDirections.includes(direction.id))
+        .flatMap((direction) => direction.categories)
+    )
+    return orderedEntries.filter((entry) => {
+      if (entry.kind === 'delivery') return categories.has('delivery')
+      return Boolean(entry.service.serviceCategory && categories.has(entry.service.serviceCategory))
+    })
+  }, [orderedEntries, selectedDirections])
+
+  const toggleDirection = (directionId: ServiceDirection) => {
+    setSelectedDirections((current) => {
+      const next = current.includes(directionId)
+        ? current.filter((id) => id !== directionId)
+        : [...current, directionId]
+      // An empty selection means "all services", so the list never disappears unexpectedly.
+      return next.length === 0 ? SERVICE_DIRECTIONS.map((direction) => direction.id) : next
+    })
+  }
 
   const copy = language === 'ru'
     ? {
@@ -18,6 +80,9 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
         intro: 'Профессиональный ландшафтный дизайн, озеленение и системы автоматического полива на побережье Болгарии: Поморие, Равда, Несебр, Солнечный Берег и Святой Влас.',
         body: 'Мы превращаем обычные участки в живые оазисы, где приятно отдыхать, проводить время с семьёй и наслаждаться природой каждый день. Садовый центр Florial берёт на себя полный цикл работ: от разработки уникального ландшафтного проекта и подбора подходящих растений до профессиональной посадки и монтажа современных систем полива. Наш опыт, внимание к деталям и любовь к растениям помогают создавать гармоничные, долговечные и простые в уходе сады, которые прекрасно выглядят в любой сезон.',
         all: 'Все услуги',
+        directions: 'Направления специалистов',
+        directionsHint: 'Выберите одно или несколько направлений, чтобы увидеть соответствующие услуги.',
+        showing: (count: number) => `Показано услуг: ${count}`,
         maintenance: 'Обслуживание частных и коммерческих объектов',
         maintenanceIntro: 'Мы успешно работаем как с частными клиентами, так и с бизнесом по всему региону: Несебр, Солнечный Берег, Святой Влас, Елените, Равда и Поморие.',
         homes: 'Частные дома, дачи и виллы',
@@ -33,6 +98,9 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
           intro: 'Professional landscape design, planting and automatic irrigation systems along the Bulgarian coast, including Pomorie, Ravda, Nessebar, Sunny Beach and Sveti Vlas.',
           body: 'We transform ordinary plots into living oases where you can relax, spend time with your family and enjoy nature every day. Florial Garden Centre manages the entire process, from a unique landscape plan and carefully selected plants to professional planting and installation of modern irrigation systems. Our experience, attention to detail and love of plants help us create harmonious, long-lasting, easy-care gardens that look their best in every season.',
           all: 'All services',
+          directions: 'Our specialist teams',
+          directionsHint: 'Choose one or more directions to see the related services.',
+          showing: (count: number) => `Services shown: ${count}`,
           maintenance: 'Maintenance for private and commercial properties',
           maintenanceIntro: 'We work with private clients and businesses throughout Nessebar, Sunny Beach, Sveti Vlas, Elenite, Ravda and Pomorie.',
           homes: 'Private homes, holiday houses and villas',
@@ -47,6 +115,9 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
           intro: 'Професионален ландшафтен дизайн, озеленяване и системи за автоматично напояване по българското Черноморие — в Поморие, Равда, Несебър, Слънчев бряг и Свети Влас.',
           body: 'Превръщаме обикновените дворове в живи оазиси, където е приятно да си почивате, да прекарвате време със семейството и да се наслаждавате на природата всеки ден. Градински център Florial поема целия процес — от създаването на индивидуален ландшафтен проект и избора на подходящи растения до професионалното им засаждане и монтажа на съвременни системи за напояване. Нашият опит, вниманието към детайла и любовта към растенията ни помагат да създаваме хармонични, устойчиви и лесни за поддръжка градини, които изглеждат прекрасно през всеки сезон.',
           all: 'Всички услуги',
+          directions: 'Нашите професионални направления',
+          directionsHint: 'Изберете едно или повече направления, за да видите съответните услуги.',
+          showing: (count: number) => `Показани услуги: ${count}`,
           maintenance: 'Поддръжка на частни и търговски обекти',
           maintenanceIntro: 'Работим успешно както с частни клиенти, така и с бизнеси в Несебър, Слънчев бряг, Свети Влас, Елените, Равда и Поморие.',
           homes: 'Частни домове, вили и ваканционни имоти',
@@ -85,9 +156,48 @@ export function ServicesListPage({ services }: ServicesListPageProps) {
         <p className="text-base leading-8 text-slate-600">{copy.body}</p>
       </header>
 
+      <section aria-labelledby="service-directions-heading" className="mb-8">
+        <div className="mb-4 text-center">
+          <h2 id="service-directions-heading" className="mb-2 text-2xl font-bold text-slate-900">{copy.directions}</h2>
+          <p className="text-sm leading-6 text-slate-600">{copy.directionsHint}</p>
+        </div>
+        <div className="grid grid-cols-4 gap-2 sm:gap-4">
+          {SERVICE_DIRECTIONS.map((direction) => {
+            const photo = rolePhotos.find((item) => item.slug === direction.photoSlug)
+            const isSelected = selectedDirections.includes(direction.id)
+            const title = direction.title[language]
+            const imageAlt = language === 'ru'
+              ? photo?.imageAltRu || title
+              : language === 'en'
+                ? photo?.imageAltEn || title
+                : photo?.imageAlt || title
+
+            return (
+              <button
+                key={direction.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => toggleDirection(direction.id)}
+                className={`group min-w-0 overflow-hidden rounded-xl border bg-white p-1.5 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 sm:rounded-2xl sm:p-3 ${isSelected ? 'border-emerald-700 shadow-sm ring-1 ring-emerald-700/20' : 'border-[#DDE3D0] opacity-70 hover:opacity-100'}`}
+              >
+                <span className="block aspect-square overflow-hidden rounded-lg bg-[#E9EDDB] sm:rounded-xl">
+                  {photo?.imageUrl ? (
+                    <img src={photo.imageUrl} alt={imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                  ) : (
+                    <span className="flex h-full items-center justify-center px-1 text-[9px] font-semibold text-slate-600 sm:text-sm">{title}</span>
+                  )}
+                </span>
+                <span className="mt-1.5 block break-words text-[10px] font-semibold leading-tight text-slate-800 sm:mt-2 sm:text-sm">{title}</span>
+              </button>
+            )
+          })}
+        </div>
+        <p className="mt-3 text-center text-xs text-slate-500" aria-live="polite">{copy.showing(filteredEntries.length)}</p>
+      </section>
+
       <section aria-label={copy.all}>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {getOrderedServiceEntries(services).map((entry) => {
+          {filteredEntries.map((entry) => {
             if (entry.kind === 'delivery') {
               return (
                 <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline">

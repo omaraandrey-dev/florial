@@ -188,6 +188,17 @@ export interface ServiceGalleryImage {
   linkUrl?: string
 }
 
+export interface ServiceRolePhoto {
+  slug: string
+  title?: string
+  titleEn?: string
+  titleRu?: string
+  imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+}
+
 export interface ServiceItem {
   translations?: Record<string, Record<string, any>>
   _id: string

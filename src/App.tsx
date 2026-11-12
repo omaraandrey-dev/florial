@@ -18,6 +18,7 @@ import type {
   CategoryItem,
   Product,
   ServiceItem,
+  ServiceRolePhoto,
   SiteSettings,
   CartItem,
 } from './types'
@@ -81,6 +82,7 @@ export default function App() {
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
+  const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
   const [loadingServiceDetails, setLoadingServiceDetails] = useState(false)
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
@@ -634,6 +636,28 @@ export default function App() {
         }
       `
 
+      const serviceRolePhotosQuery = `
+        *[
+          _type == "photo" &&
+          isActive != false &&
+          coalesce(slug.current, slug) in [
+            "landshaften-arhitekt",
+            "inzhener-polivni-sistemi",
+            "gardinar",
+            "specialist-trevni-ploshti"
+          ]
+        ] {
+          "slug": coalesce(slug.current, slug),
+          title,
+          titleEn,
+          titleRu,
+          "imageUrl": image.asset->url,
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu
+        }
+      `
+
       const settingsQuery = `
         *[_type == "siteSettings"][0] {
           siteName,
@@ -669,6 +693,7 @@ export default function App() {
         sanityClient.fetch(categoryQuery),
         sanityLiveClient.fetch(productQuery),
         sanityClient.fetch(serviceQuery),
+        sanityClient.fetch(serviceRolePhotosQuery),
         publicPlantsClient.fetch(plantCategoryQuery),
         plantsClient.fetch(plantProductQuery),
         Promise.all([
@@ -679,7 +704,7 @@ export default function App() {
 
       if (cancelled) return
 
-      const [categoryResult, productResult, serviceResult, plantCategoryResult, plantProductResult, settingsResult] = requests
+      const [categoryResult, productResult, serviceResult, serviceRolePhotosResult, plantCategoryResult, plantProductResult, settingsResult] = requests
 
       const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
       const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
@@ -711,6 +736,12 @@ export default function App() {
         setServices(Array.isArray(serviceResult.value) ? serviceResult.value : [])
       } else {
         console.error('Sanity: не удалось загрузить услуги:', serviceResult.reason)
+      }
+
+      if (serviceRolePhotosResult.status === 'fulfilled') {
+        setServiceRolePhotos(Array.isArray(serviceRolePhotosResult.value) ? serviceRolePhotosResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить фотографии направлений услуг:', serviceRolePhotosResult.reason)
       }
 
       if (settingsResult.status === 'fulfilled') {
@@ -1449,7 +1480,7 @@ export default function App() {
        ) : (normalizedRoutePath === '/services/dostavka-poliv' || currentService?.serviceLayout === 'delivery') ? (
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
-        <ServicesListPage services={services} />
+        <ServicesListPage services={services} rolePhotos={serviceRolePhotos} />
       ) : activeServiceSlug && (loadingProducts || loadingServiceDetails) ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
