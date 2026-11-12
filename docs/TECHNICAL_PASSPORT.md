@@ -1,9 +1,12 @@
-## 2026-11-12 — Индикаторы растений в каталоге (ветка, проверки ожидают)
+## 2026-11-12 — Индикаторы растений в каталоге (merged + Production deploy)
 
-- Base main: `84052cee404edd572448d0f58fa058889fe7b9df`; branch: `feat/plant-card-stock-and-winter-indicators`.
+- Base main: `84052cee404edd572448d0f58fa058889fe7b9df`; branch: `feat/plant-card-stock-and-winter-indicators`; PR #220 merged (squash) as `4ab09c5737b1d271042bdb64ffe658176f8e78cc`.
 - `src/pages/CategoryPage.tsx`: подготовлен красный индикатор `outOfStock` при сохранении зелёного `inStock` и синего `onRequest`; неизвестный статус не отображает точку.
 - Для plant category cards добавлен условный overlay снежинки и значения `plantCare.minWinterTempC`. Отображение использует существующую проекцию данных и не требует Sanity write/schema change.
-- Commit: `d6f2f8cd12a080c1edab52005846341d133df5c2`. Lint/tests/build/CI/PR и Production deployment ещё не подтверждены.
+- Implementation commit: `d6f2f8cd12a080c1edab52005846341d133df5c2`.
+- CI: D1 validation run `43156657696` success; Blog and Studio validation run `43156657647` success. Подтверждены lint, website build, utility tests, Pages Functions syntax, D1 validations и Studio build.
+- Cloudflare Pages Production deployment `be092504-d800-4007-832b-c5bb86690cb3` для merge commit `4ab09c5737b1d271042bdb64ffe658176f8e78cc` — `success`, 2026-11-12. Deployment URL: `https://be092504.florial.pages.dev`.
+- Live visual QA карточек на мобильном/desktop не выполнялся; это не следует смешивать с успешной сборкой и deployment.
 - Mobile category image shift: по текущему коду header image имеет `hidden lg:block`, то есть на мобильной ширине не должен отображаться. Отдельный controlled CLS report (09.11) после PR #156 показал остаточный category shift около 0.34385, но Performance API не определил source node. Нельзя утверждать, что это именно изображение. Не менять `src/App.tsx`, Header или Footer без отдельного решения и capture.
 
 ---
