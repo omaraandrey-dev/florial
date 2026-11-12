@@ -1,3 +1,13 @@
+## 2026-11-12 — Исправлено WWW → non-WWW перенаправление
+
+- Live Cloudflare zone `florial-bg.com`: правило `WWW to non-WWW` исправлено с условия `(http.request.full_uri eq "www.florial-bg.com")` на `(http.host eq "www.florial-bg.com")`. Первое условие сравнивало полный URL с одним hostname и не соответствовало обычным запросам.
+- Ruleset `70edcde1f86a4cdb97324f426a5ea53e`, rule `58851ae78926478aa7bb05dac1480abf`, version 5. Action — HTTP 301; target — `https://florial-bg.com` + исходный path; query string сохраняется; правило enabled.
+- API dry-run, Production write и post-write GET verification успешны.
+- Cloudflare Request Tracer simulated: www /services → 301; www homepage с query → 301; apex /services → 200. Это проверка обработки правил Cloudflare, не внешний HTTP Location-header smoke test.
+- GitHub main code audit: `index.html`, `src/lib/seo.ts`, `functions/_middleware.ts`, `functions/sitemap.xml.ts` и `public/robots.txt` используют основной домен без www. Проверенные исходники: HEAD `36f37ef824a6118af55fddda5f8f8d8626dd94af`.
+- Внешняя HTTP-проверка и Google Search Console не выполнены из-за недоступности web retrieval в этой сессии. Google-selected canonical НЕ ПОДТВЕРЖДЁН. Следующий шаг — live HTTP headers/redirect chain и Search Console URL Inspection для homepage и /services в www/apex вариантах.
+- Source code, Pages deployment, DNS records, Pages settings/secrets, Sanity, D1 и Resend не менялись. Полный протокол: `docs/audits/2026-11-12-www-canonical-redirect.md`.
+
 ## 2026-11-12 — Блог: повышение разрешения иллюстраций и исправление ALT
 
 - Из Wix DROP через Media Manager восстановлены оригиналы для трёх миниатюр в Sanity Production: схема полива 266×246 → 925×855; фотография сада с дождевателем 147×147 → 2048×2048; эскиз ландшафтного плана 179×131 → 640×468. Новые Sanity assets: image-9bb7021d464503eeb9c42e19896c152e75892023-925x855-jpg, image-39434b00c36004a520f6b94d5d91cd61ff5b011d-2048x2048-jpg, image-ca422dbbb9682c5e464b7d42b2ff10f567a5b394-640x468-jpg.
