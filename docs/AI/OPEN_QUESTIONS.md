@@ -30,3 +30,5 @@
 - The service-page audit rechecked the live Cloudflare Pages project `florial`; legacy Supabase-named variables remain configured in Preview/Production. No values were added to documentation, and no variables, secrets, bindings or settings were changed.
 - This confirms the existing 11.11 entry above; the previously recorded static audit found no Supabase references in 115 runtime/source/workflow files and no Supabase SDK in `package.json`. Removal still requires separate owner approval.
 - Status: unchanged; this is not part of the service-content release.
+
+13. **Блог — этап 2, featured landing card:** ветка `feat/blog-featured-landing-stage2` добавляет динамическую featured-карточку первой публикации и счётчики тем на `/blog`. До закрытия: PR, CI по точному SHA, Production deployment и визуальная QA BG/RU/EN на мобильных 320–360 px. Pagination сознательно не добавлялась при текущих 14 опубликованных публикациях. Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
