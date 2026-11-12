@@ -1,0 +1,134 @@
+{
+  "backupCreatedAt": "2026-11-12T10:10:00+02:00",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "documentId": "plants-olives",
+  "perspective": "published",
+  "sourceRevision": "dR2WRDI0sXDQ8aCH9UHfWP",
+  "document": {
+    "_createdAt": "2026-10-20T11:45:12Z",
+    "_id": "plants-olives",
+    "_rev": "dR2WRDI0sXDQ8aCH9UHfWP",
+    "_system": {
+      "base": {
+        "id": "plants-olives",
+        "rev": "CfWBjShPZkO4mx3kLAgFwy"
+      }
+    },
+    "_type": "category",
+    "_updatedAt": "2026-11-11T15:18:56Z",
+    "description": "Маслината е символ на Средиземноморието и отличен избор за слънчеви градини, дворове и тераси. В категорията са декоративни и плододаващи маслинови дървета, включително едроразмерни екземпляри, които веднага придават завършен вид на озеленения имот. Маслините обичат слънчево, топло и защитено място и добре дренирана почва, а вкоренените растения понасят суша по-добре от много други видове. Важно е да обмислите зимните температури – младите и големите екземпляри са чувствителни към силни студове и се нуждаят от защита. През първите години и при отглеждане в саксии поливането трябва да е редовно, но без преовлажняване.",
+    "externalImageUrl": "https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72t80-A-LsDe8vHx5dqyMAap7Ynp42yhE9Pm1QzPvz_0hK47M_T-9I3sW15jUHRcThEDlne0U8Qg2uliORsPltYbozlNhuWYbPdJ0YuhjDQX4GD491LTIhvfCOTqaJiniupay7J816K3Ka4Vv612JEnSvDeZg96PnJzwF3jJkWz0Ktb3EgJB6xjNm2qHD1fnNS1mGEWmzgWDjXq3KXxadxs11HfrbMLftbFmcA_kCf3I=w1280",
+    "helpBlock": {
+      "buttonLabel": "Маслини — избор, продажба и засаждане",
+      "buttonUrl": "/services/profesionalno-zasazhdane-na-maslini",
+      "text": "Маслината се развива най-добре на слънчево място, в добре дренирана почва и с добра циркулация на въздуха. При избора вземете предвид сорта, възрастта, зрелия размер, изложението и защитата от студени зимни ветрове. По Черноморието условията се различават между открити крайбрежни терени и защитени дворове; около Несебър, Равда и Бургас правилното място и оттичането на водата са важни за прихващането. След засаждането поливайте редовно, без да преовлажнявате корените. Florial предлага маслини и консултация за подготовка и засаждане.",
+      "title": "Маслини за слънчеви градини по българското Черноморие",
+      "translations": {
+        "en": {
+          "buttonLabel": "Olive trees — selection, sales and planting",
+          "text": "Olive trees perform best in a sunny position, well-drained soil and good air circulation. When choosing a tree, consider cultivar, age, mature size, exposure and protection from cold winter winds. Conditions vary between exposed coastal plots and sheltered courtyards; around Nessebar, Ravda and Burgas, suitable positioning and drainage help the tree establish. Water regularly after planting without keeping the roots waterlogged. Florial offers olive trees and advice on site preparation and planting.",
+          "title": "Olive trees for sunny gardens on Bulgaria’s Black Sea coast"
+        },
+        "ru": {
+          "buttonLabel": "Оливы — выбор, продажа и посадка",
+          "text": "Олива лучше всего развивается на солнечном месте, в хорошо дренированной почве и при хорошей циркуляции воздуха. При выборе учитывайте сорт, возраст, взрослый размер, расположение участка и защиту от холодных зимних ветров. Условия отличаются на открытых прибрежных участках и в защищённых дворах; возле Несебра, Равды и Бургаса правильное размещение и дренаж помогают растению укорениться. После посадки поливайте регулярно, не допуская переувлажнения корней. Florial предлагает оливы и консультации по подготовке места и посадке.",
+          "title": "Оливы для солнечных садов болгарского побережья"
+        }
+      }
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Маслинови дървета за градини и озеленяване в района на Несебър",
+      "altEn": "Olive trees for gardens and landscaping near Nessebar",
+      "altRu": "Оливковые деревья для садов и озеленения в районе Несебра",
+      "asset": {
+        "_ref": "image-42d08831c6593f935f49339dff8d070519235dab-2500x3750-jpg",
+        "_type": "reference"
+      },
+      "title": "Маслинови дървета за градината в Несебър и Кошарица",
+      "titleEn": "Olive trees for gardens in Nessebar and Kosharitsa",
+      "titleRu": "Оливковые деревья для сада в Несебре и Кошарице"
+    },
+    "name": "Маслини",
+    "parent": {
+      "_ref": "plants-root",
+      "_type": "reference"
+    },
+    "seo": {
+      "h1": "Маслинови дървета за градината, двора и терасата",
+      "keywords": [
+        "Маслини",
+        "растения за градината",
+        "декоративни растения",
+        "озеленяване",
+        "градински център Florial"
+      ],
+      "metaDescription": "Маслината е символ на Средиземноморието и отличен избор за слънчеви градини, дворове и тераси.",
+      "metaTitle": "Маслини | Florial",
+      "suggested": {
+        "generatedAt": "2026-11-05T09:55:34.389Z",
+        "generatorVersion": "assistant-editorial-v1",
+        "h1": "Маслинови дървета за градината, двора и терасата",
+        "metaDescription": "Маслината е символ на Средиземноморието и отличен избор за слънчеви градини, дворове и тераси.",
+        "metaTitle": "Маслини | Florial",
+        "status": "approved"
+      }
+    },
+    "slug": {
+      "_type": "slug",
+      "current": "maslini"
+    },
+    "sortOrder": 2,
+    "translations": {
+      "en": {
+        "description": "Olive trees are a Mediterranean symbol and an excellent choice for sunny gardens, yards and terraces. This category includes ornamental and fruit-bearing olive trees, including large specimens that give a landscaped property an established look straight away. Olives prefer a warm, sunny, sheltered position and well-drained soil; once established, they tolerate drought better than many other species. Winter temperatures are important: young plants and large specimens can be sensitive to severe frost and may need protection. During the first years and when grown in containers, water regularly but avoid waterlogging.",
+        "name": "Olive Trees",
+        "seo": {
+          "h1": "Olive Trees for Gardens, Yards and Terraces",
+          "keywords": [
+            "Olive Trees",
+            "garden plants",
+            "ornamental plants",
+            "landscaping plants",
+            "Florial"
+          ],
+          "metaDescription": "Olive trees are a Mediterranean symbol and an excellent choice for sunny gardens, yards and terraces.",
+          "metaTitle": "Olive Trees | Florial",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Olive Trees for Gardens, Yards and Terraces",
+            "metaDescription": "Olive trees are a Mediterranean symbol and an excellent choice for sunny gardens, yards and terraces.",
+            "metaTitle": "Olive Trees | Florial",
+            "status": "approved"
+          }
+        }
+      },
+      "ru": {
+        "description": "Олива — символ Средиземноморья и отличный выбор для солнечных садов, дворов и террас. В категории — декоративные и плодоносящие оливковые деревья, включая крупномеры, которые сразу придают участку законченный вид. Оливы любят солнечное, тёплое, защищённое место и хорошо дренированную почву, а прижившиеся растения переносят засуху лучше многих других видов. Важно учесть зимние температуры: молодые и крупные экземпляры чувствительны к сильным морозам и нуждаются в защите. В первые годы и при выращивании в кадках полив должен быть регулярным, но без переувлажнения.",
+        "name": "Оливы",
+        "seo": {
+          "h1": "Оливковые деревья для сада, участка и террасы",
+          "keywords": [
+            "Оливы",
+            "растения для сада",
+            "декоративные растения",
+            "озеленение",
+            "Florial"
+          ],
+          "metaDescription": "Олива — символ Средиземноморья и отличный выбор для солнечных садов, дворов и террас.",
+          "metaTitle": "Оливы | Florial",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Оливковые деревья для сада, участка и террасы",
+            "metaDescription": "Олива — символ Средиземноморья и отличный выбор для солнечных садов, дворов и террас.",
+            "metaTitle": "Оливы | Florial",
+            "status": "approved"
+          }
+        }
+      }
+    }
+  }
+}
