@@ -1,10 +1,673 @@
 {
-  "backupType": "Sanity published document snapshot",
+  "backupType": "Sanity published document restore snapshot",
   "projectId": "bxvcy0qs",
   "dataset": "production",
   "perspective": "published",
   "capturedAt": "2026-11-12",
   "document": {
-    "text": "Query executed successfully. Found 1 document: \n<documents>{\"_createdAt\":\"2026-11-12T06:25:19Z\",\"_id\":\"fe90ae56-594e-45e4-b37f-54eb2c3bf0ed\",\"_rev\":\"HeU3jgYwThVFz8ehd0e2LS\",\"_system\":{\"base\":{\"id\":\"fe90ae56-594e-45e4-b37f-54eb2c3bf0ed\",\"rev\":\"qvVg1luYRxJZnxaWi0mXAq\"}},\"_type\":\"service\",\"_updatedAt\":\"2026-11-12T08:02:33Z\",\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Изпрати запитване\",\"text\":\"Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.\",\"title\":\"Заявете услугата\"},\"contentBlocks\":[],\"description\":[{\"_key\":\"bur\",\"_type\":\"block\",\"children\":[{\"_key\":\"buq\",\"_type\":\"span\",\"marks\":[],\"text\":\"Случва се, че по някаква причина съществуващата тревна площ в близост до къщата става неизползваема. Губи външния си вид. Появяват се плешиви петна, подутини, подутини и изгорени места. В 90% от случаите това е резултат от неправилна грижа: не са косили, не са поливали, не са наторявали навреме.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"but\",\"_type\":\"block\",\"children\":[{\"_key\":\"bus\",\"_type\":\"span\",\"marks\":[],\"text\":\"Има изход от тази ситуация \\\\- замяна на старата тревна площ с нова.\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bv0\",\"_type\":\"block\",\"children\":[{\"_key\":\"buv\",\"_type\":\"span\",\"marks\":[\"buu\"],\"text\":\"Градинският център Florial\"},{\"_key\":\"buw\",\"_type\":\"span\",\"marks\":[],\"text\":\" предлага използването на нови технологии за полагане на тревни настилки \\\\- и няма да се налага да чакате седмици, докато черната почва се покрие с деликатна зелена трева. След един-два дни с механична резачка за трева ще премахнем старата тревна настилка, ще подготвим площта и ще поставим \"},{\"_key\":\"buy\",\"_type\":\"span\",\"marks\":[\"bux\"],\"text\":\"нова рулонна тревна площ\"},{\"_key\":\"buz\",\"_type\":\"span\",\"marks\":[],\"text\":\" за вас!!!\"}],\"markDefs\":[{\"_key\":\"buu\",\"_type\":\"link\",\"href\":\"/\"},{\"_key\":\"bux\",\"_type\":\"link\",\"href\":\"/services/rulonna-treva\"}],\"style\":\"normal\"},{\"_key\":\"bv4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bv3\",\"_type\":\"span\",\"marks\":[],\"text\":\"Подмяна на повредена тревна площ с технология Rolled Lawn\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bv6\",\"_type\":\"block\",\"children\":[{\"_key\":\"bv5\",\"_type\":\"span\",\"marks\":[],\"text\":\"За такива случаи предлагаме услугата Подмяна на стара тревна площ с нова рулонна тревна площ. Можем също да ремонтираме старата ви тревна площ, като заменим повредените участъци. Поемаме работа от 30 м2. Повечето работи по реконструкцията на тревата се извършват за един ден. Вие веднага получавате красива тревна площ на вашата територия.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bv8\",\"_type\":\"block\",\"children\":[{\"_key\":\"bv7\",\"_type\":\"span\",\"marks\":[],\"text\":\"Премахване на мъртва тревна площ с помощта на нож за трева\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bva\",\"_type\":\"block\",\"children\":[{\"_key\":\"bv9\",\"_type\":\"span\",\"marks\":[],\"text\":\"Премахване на стара тревна площ от сайта. Подрязване на трева с помощта на фреза за трева. Предлагаме услуга премахване на трева с бензинова резачка за трева. Фрезата за трева отстранява старата тревна настилка на равна ивица. След изрязване на старата тревна площ се получава равна повърхност за полагане на новата рулонна тревна площ. Както можете да видите от видеото, фрезата за трева е доста маневрена и може да подрязва стари тревни площи на площи с различни форми.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bvc\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvb\",\"_type\":\"span\",\"marks\":[],\"text\":\"Демонтаж на старата тревна площ след подрязване с резачка за чимове. След като прекарате тревния нож върху старата тревна площ, получавате спретнати рула трева, удобни за по-нататъшно транспортиране.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bve\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvd\",\"_type\":\"span\",\"marks\":[],\"text\":\"Възстановяване на тревната повърхност\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bvj\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvf\",\"_type\":\"span\",\"marks\":[],\"text\":\"След отстраняване на стария тревен чим се получава равна повърхност, готова за полагане на \"},{\"_key\":\"bvh\",\"_type\":\"span\",\"marks\":[\"bvg\"],\"text\":\"нова рула тревна площ\"},{\"_key\":\"bvi\",\"_type\":\"span\",\"marks\":[],\"text\":\". Трябва само да добавите и рендосвате пясъка, да получите свежа и красива навита тревна площ и внимателно да я постелете. Вашата нова тревна площ е готова.\"}],\"markDefs\":[{\"_key\":\"bvg\",\"_type\":\"link\",\"href\":\"/services/rulonna-treva\"}],\"style\":\"normal\"},{\"_key\":\"bvl\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvk\",\"_type\":\"span\",\"marks\":[],\"text\":\"Необходимостта от инсталиране на автоматична система за поливане\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bvn\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvm\",\"_type\":\"span\",\"marks\":[],\"text\":\"Всяка тревна площ има нужда от поливане. И разбира се най-добре е да се полива с монтирана автоматична поливна система.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bvs\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvo\",\"_type\":\"span\",\"marks\":[],\"text\":\"При извършване на дейности по възстановяване на тревни площи нашите специалисти могат да ремонтират или \"},{\"_key\":\"bvq\",\"_type\":\"span\",\"marks\":[\"bvp\"],\"text\":\"монтират система за автоматично поливане\"},{\"_key\":\"bvr\",\"_type\":\"span\",\"marks\":[],\"text\":\".\"}],\"markDefs\":[{\"_key\":\"bvp\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"},{\"_key\":\"bvu\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvt\",\"_type\":\"span\",\"marks\":[],\"text\":\"поръчайте ремонт на тревни площи, като се свържете с:\"}],\"markDefs\":[],\"style\":\"h3\"},{\"_key\":\"bvy\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvv\",\"_type\":\"span\",\"marks\":[],\"text\":\"🌐 Нашият уебсайт: \"},{\"_key\":\"bvx\",\"_type\":\"span\",\"marks\":[\"bvw\"],\"text\":\"ФЛОРИАЛ\"}],\"markDefs\":[{\"_key\":\"bvw\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"},{\"_key\":\"bw2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bvz\",\"_type\":\"span\",\"marks\":[],\"text\":\"📧 Имейл: \"},{\"_key\":\"bw1\",\"_type\":\"span\",\"marks\":[\"bw0\"],\"text\":\"omaraandrey@gmail.com\"}],\"markDefs\":[{\"_key\":\"bw0\",\"_type\":\"link\",\"href\":\"mailto:omaraandrey@gmail.com\"}],\"style\":\"normal\"},{\"_key\":\"bw4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bw3\",\"_type\":\"span\",\"marks\":[],\"text\":\"📞 Телефон: +359876777902\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bw7\",\"_type\":\"block\",\"children\":[{\"_key\":\"bw6\",\"_type\":\"span\",\"marks\":[\"bw5\"],\"text\":\"Продава тревен чим Несебър\"}],\"markDefs\":[{\"_key\":\"bw5\",\"_type\":\"link\",\"href\":\"/blog/prodavane-traven-chim\"}],\"style\":\"normal\"},{\"_key\":\"bwa\",\"_type\":\"block\",\"children\":[{\"_key\":\"bw9\",\"_type\":\"span\",\"marks\":[\"bw8\"],\"text\":\"Градински център Флориал, Несебър\"}],\"markDefs\":[{\"_key\":\"bw8\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"},{\"_key\":\"bwd\",\"_type\":\"block\",\"children\":[{\"_key\":\"bwc\",\"_type\":\"span\",\"marks\":[\"bwb\"],\"text\":\"Garden Center Florial Nessebar\"}],\"markDefs\":[{\"_key\":\"bwb\",\"_type\":\"link\",\"href\":\"/\"}],\"style\":\"normal\"}],\"gallery\":[{\"_key\":\"Cq0WfbdWfPjjye8LFmxy3V\",\"_type\":\"image\",\"alt\":\"подмяна на стара тревна площ с нова рулонна тревна площ в Несебър\",\"altEn\":\"Replacing an old lawn with new rolled turf in Nessebar\",\"altRu\":\"Замена старого газона на новый рулонный газон в Несебре\",\"asset\":{\"_ref\":\"image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg\",\"_type\":\"reference\"}},{\"_key\":\"Cq0WfbdWfPjjye8LFmxy6V\",\"_type\":\"image\",\"alt\":\"Премахване на стара тревна настилка с фреза за трева Слънчев бряг\",\"altEn\":\"Removing old turf with a turf cutter in Sunny Beach\",\"altRu\":\"Удаление старого газона с помощью дернорезной машины в Солнечном Береге\",\"asset\":{\"_ref\":\"image-5433c9e10f438dd450a943acb501e86a9ad68bb0-960x1460-jpg\",\"_type\":\"reference\"}}],\"hero\":{\"image\":{\"_type\":\"image\",\"alt\":\"Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър\",\"altEn\":\"Replacing an Old Lawn with New Turf in Nessebar\",\"altRu\":\"Замена старого газона на новый в Несебре\",\"asset\":{\"_ref\":\"image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg\",\"_type\":\"reference\"}},\"subtitle\":\"Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.\",\"title\":\"Смяна на стара тревна площ с нова в Несебър\"},\"image\":{\"_type\":\"image\",\"alt\":\"Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър\",\"altEn\":\"Replacing an Old Lawn with New Turf in Nessebar\",\"altRu\":\"Замена старого газона на новый в Несебре\",\"asset\":{\"_ref\":\"image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg\",\"_type\":\"reference\"}},\"isActive\":true,\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Име\",\"name\":\"name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Имейл\",\"name\":\"email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населено място\",\"name\":\"location\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание на проекта\",\"name\":\"details\",\"required\":false}],\"submitLabel\":\"Изпрати запитване\",\"title\":\"Запитване за услуга\"},\"name\":\"Смяна на стара тревна площ с нова в Несебър\",\"relatedContent\":[{\"_key\":\"Cq0WfbdWfPjjye8LFmxy0V\",\"_ref\":\"ea332108-42e7-444f-9632-08111c6fda90\",\"_type\":\"reference\"}],\"seo\":{\"keywords\":[\"Тревни площи\"],\"metaDescription\":\"Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.\",\"metaTitle\":\"Подмяна на тревна площ | Несебър | Florial\",\"noIndex\":false},\"serviceCategory\":\"lawn\",\"serviceLayout\":\"standard\",\"shortDescription\":\"Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.\",\"slug\":{\"_type\":\"slug\",\"current\":\"podmyana-stara-travna-plosht\"},\"sortOrder\":180,\"sourcePageUrl\":\"https://florial-bg.com/blog/podmyana-stara-travna-plosht\",\"steps\":[],\"translations\":{\"en\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Send enquiry\",\"text\":\"Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.\",\"title\":\"Request the service\"},\"description\":\"For various reasons, an existing lawn near a home can deteriorate and lose its appearance. Bare patches, bumps and scorched areas may appear. In many cases, the cause is inadequate maintenance: mowing, watering or feeding was not done at the right time.\\n\\n### The solution: replace the old lawn with new turf\\n\\nFlorial Garden Centre uses modern methods for laying rolled turf, so you do not have to wait weeks for bare soil to turn green. In a day or two, the old lawn can be removed, the ground prepared and fresh turf installed.\\n\\n### Replacing damaged grass with rolled turf\\n\\nWe can replace an old lawn with new rolled turf or repair the existing lawn by replacing damaged areas. We take on projects from 30 m². Most lawn-renovation work is completed in one day, giving you an attractive green lawn straight away.\\n\\n### Removing dead turf with a turf cutter\\n\\nThe old lawn is removed in even strips using a petrol-powered turf cutter. The cut turf forms neat rolls that are easy to transport away. The machine is manoeuvrable and can handle lawns of different shapes.\\n\\n### Preparing the ground for new turf\\n\\nOnce the old turf has been removed, the surface is ready for the new lawn. Add and level sand if needed, then unroll the fresh turf and lay the strips carefully. Your new lawn is ready.\\n\\n### Do you need an automatic irrigation system?\\n\\nEvery lawn needs regular watering. An automatic irrigation system is a convenient way to maintain consistent soil moisture.\\n\\nWhen renovating a lawn, our specialists can repair an existing automatic irrigation system or install a new one.\",\"hero\":{\"subtitle\":\"Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.\",\"title\":\"Replacing an Old Lawn with New Turf in Nessebar\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Name\",\"name\":\"name\",\"placeholder\":\"Name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Phone\",\"name\":\"phone\",\"placeholder\":\"Phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Email\",\"name\":\"email\",\"placeholder\":\"Email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Town / city\",\"name\":\"location\",\"placeholder\":\"Town / city\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Describe the work\",\"name\":\"details\",\"placeholder\":\"Describe the work\",\"required\":false}],\"submitLabel\":\"Send enquiry\",\"successMessage\":\"Thank you! Your enquiry has been sent. We will contact you.\",\"title\":\"Service enquiry\"},\"name\":\"Replacing an Old Lawn with New Turf in Nessebar\",\"seo\":{\"metaDescription\":\"Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.\",\"metaTitle\":\"Lawn Replacement | Nessebar | Florial\",\"noIndex\":false},\"shortDescription\":\"Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.\",\"steps\":[]},\"ru\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Отправить запрос\",\"text\":\"Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.\",\"title\":\"Закажите услугу\"},\"description\":\"Иногда газон возле дома по разным причинам приходит в негодность и теряет привлекательный вид: появляются проплешины, неровности и выгоревшие участки. В большинстве случаев это связано с неправильным уходом — газон вовремя не косили, не поливали или не подкармливали.\\n\\n### Решение — заменить старый газон новым\\n\\nСадовый центр Florial предлагает современную технологию укладки рулонного газона. Не нужно неделями ждать, пока голая почва покроется зеленью. За один-два дня можно удалить старое покрытие, подготовить участок и уложить новый рулонный газон.\\n\\n### Замена повреждённого газона рулонным покрытием\\n\\nМы предлагаем заменить старый газон новым рулонным покрытием или отремонтировать существующий, заменив повреждённые участки. Работаем с площадями от 30 м². Большинство работ по восстановлению газона выполняется за один день — и вы сразу получаете красивую зелёную лужайку.\\n\\n### Удаление отмершего газона дернорезной машиной\\n\\nСтарое покрытие снимают полосами с помощью бензиновой дернорезной машины. После срезания газон образует аккуратные рулоны, которые удобно вывезти. Инструмент манёвренный и подходит для участков разной формы.\\n\\n### Подготовка поверхности к укладке\\n\\nПосле снятия старого дёрна остаётся ровная поверхность для нового газона. При необходимости добавьте и разровняйте песок, затем раскатайте свежий рулонный газон и аккуратно уложите полосы. Новый газон готов.\\n\\n### Нужна ли автоматическая система полива?\\n\\nЛюбой газон нуждается в регулярном поливе. Наиболее удобный вариант — автоматическая система полива, которая помогает поддерживать равномерную влажность.\\n\\nВо время восстановления газона наши специалисты могут отремонтировать существующую систему автоматического полива или установить новую.\",\"hero\":{\"subtitle\":\"Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.\",\"title\":\"Замена старого газона на новый в Несебре\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Имя\",\"name\":\"name\",\"placeholder\":\"Имя\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"placeholder\":\"Телефон\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Электронная почта\",\"name\":\"email\",\"placeholder\":\"Электронная почта\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населённый пункт\",\"name\":\"location\",\"placeholder\":\"Населённый пункт\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание задачи\",\"name\":\"details\",\"placeholder\":\"Описание задачи\",\"required\":false}],\"submitLabel\":\"Отправить запрос\",\"successMessage\":\"Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.\",\"title\":\"Запрос услуги\"},\"name\":\"Замена старого газона на новый в Несебре\",\"seo\":{\"metaDescription\":\"Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.\",\"metaTitle\":\"Замена газона | Несебр | Florial\",\"noIndex\":false},\"shortDescription\":\"Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.\",\"steps\":[]}}}</documents>\n<count>1</count>\n<totalAvailable>1</totalAvailable>"
+    "_createdAt": "2026-11-12T06:25:19Z",
+    "_id": "fe90ae56-594e-45e4-b37f-54eb2c3bf0ed",
+    "_rev": "HeU3jgYwThVFz8ehd0e2LS",
+    "_system": {
+      "base": {
+        "id": "fe90ae56-594e-45e4-b37f-54eb2c3bf0ed",
+        "rev": "qvVg1luYRxJZnxaWi0mXAq"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-12T08:02:33Z",
+    "advantages": [],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.",
+      "title": "Заявете услугата"
+    },
+    "contentBlocks": [],
+    "description": [
+      {
+        "_key": "bur",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "buq",
+            "_type": "span",
+            "marks": [],
+            "text": "Случва се, че по някаква причина съществуващата тревна площ в близост до къщата става неизползваема. Губи външния си вид. Появяват се плешиви петна, подутини, подутини и изгорени места. В 90% от случаите това е резултат от неправилна грижа: не са косили, не са поливали, не са наторявали навреме."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "but",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bus",
+            "_type": "span",
+            "marks": [],
+            "text": "Има изход от тази ситуация \\- замяна на старата тревна площ с нова."
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bv0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "buv",
+            "_type": "span",
+            "marks": [
+              "buu"
+            ],
+            "text": "Градинският център Florial"
+          },
+          {
+            "_key": "buw",
+            "_type": "span",
+            "marks": [],
+            "text": " предлага използването на нови технологии за полагане на тревни настилки \\- и няма да се налага да чакате седмици, докато черната почва се покрие с деликатна зелена трева. След един-два дни с механична резачка за трева ще премахнем старата тревна настилка, ще подготвим площта и ще поставим "
+          },
+          {
+            "_key": "buy",
+            "_type": "span",
+            "marks": [
+              "bux"
+            ],
+            "text": "нова рулонна тревна площ"
+          },
+          {
+            "_key": "buz",
+            "_type": "span",
+            "marks": [],
+            "text": " за вас!!!"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "buu",
+            "_type": "link",
+            "href": "/"
+          },
+          {
+            "_key": "bux",
+            "_type": "link",
+            "href": "/services/rulonna-treva"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bv4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bv3",
+            "_type": "span",
+            "marks": [],
+            "text": "Подмяна на повредена тревна площ с технология Rolled Lawn"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bv6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bv5",
+            "_type": "span",
+            "marks": [],
+            "text": "За такива случаи предлагаме услугата Подмяна на стара тревна площ с нова рулонна тревна площ. Можем също да ремонтираме старата ви тревна площ, като заменим повредените участъци. Поемаме работа от 30 м2. Повечето работи по реконструкцията на тревата се извършват за един ден. Вие веднага получавате красива тревна площ на вашата територия."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bv8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bv7",
+            "_type": "span",
+            "marks": [],
+            "text": "Премахване на мъртва тревна площ с помощта на нож за трева"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bva",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bv9",
+            "_type": "span",
+            "marks": [],
+            "text": "Премахване на стара тревна площ от сайта. Подрязване на трева с помощта на фреза за трева. Предлагаме услуга премахване на трева с бензинова резачка за трева. Фрезата за трева отстранява старата тревна настилка на равна ивица. След изрязване на старата тревна площ се получава равна повърхност за полагане на новата рулонна тревна площ. Както можете да видите от видеото, фрезата за трева е доста маневрена и може да подрязва стари тревни площи на площи с различни форми."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bvc",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvb",
+            "_type": "span",
+            "marks": [],
+            "text": "Демонтаж на старата тревна площ след подрязване с резачка за чимове. След като прекарате тревния нож върху старата тревна площ, получавате спретнати рула трева, удобни за по-нататъшно транспортиране."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bve",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvd",
+            "_type": "span",
+            "marks": [],
+            "text": "Възстановяване на тревната повърхност"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bvj",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvf",
+            "_type": "span",
+            "marks": [],
+            "text": "След отстраняване на стария тревен чим се получава равна повърхност, готова за полагане на "
+          },
+          {
+            "_key": "bvh",
+            "_type": "span",
+            "marks": [
+              "bvg"
+            ],
+            "text": "нова рула тревна площ"
+          },
+          {
+            "_key": "bvi",
+            "_type": "span",
+            "marks": [],
+            "text": ". Трябва само да добавите и рендосвате пясъка, да получите свежа и красива навита тревна площ и внимателно да я постелете. Вашата нова тревна площ е готова."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bvg",
+            "_type": "link",
+            "href": "/services/rulonna-treva"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bvl",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvk",
+            "_type": "span",
+            "marks": [],
+            "text": "Необходимостта от инсталиране на автоматична система за поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bvn",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvm",
+            "_type": "span",
+            "marks": [],
+            "text": "Всяка тревна площ има нужда от поливане. И разбира се най-добре е да се полива с монтирана автоматична поливна система."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bvs",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvo",
+            "_type": "span",
+            "marks": [],
+            "text": "При извършване на дейности по възстановяване на тревни площи нашите специалисти могат да ремонтират или "
+          },
+          {
+            "_key": "bvq",
+            "_type": "span",
+            "marks": [
+              "bvp"
+            ],
+            "text": "монтират система за автоматично поливане"
+          },
+          {
+            "_key": "bvr",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bvp",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bvu",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvt",
+            "_type": "span",
+            "marks": [],
+            "text": "поръчайте ремонт на тревни площи, като се свържете с:"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "bvy",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvv",
+            "_type": "span",
+            "marks": [],
+            "text": "🌐 Нашият уебсайт: "
+          },
+          {
+            "_key": "bvx",
+            "_type": "span",
+            "marks": [
+              "bvw"
+            ],
+            "text": "ФЛОРИАЛ"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bvw",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bw2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bvz",
+            "_type": "span",
+            "marks": [],
+            "text": "📧 Имейл: "
+          },
+          {
+            "_key": "bw1",
+            "_type": "span",
+            "marks": [
+              "bw0"
+            ],
+            "text": "omaraandrey@gmail.com"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bw0",
+            "_type": "link",
+            "href": "mailto:omaraandrey@gmail.com"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bw4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bw3",
+            "_type": "span",
+            "marks": [],
+            "text": "📞 Телефон: +359876777902"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bw7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bw6",
+            "_type": "span",
+            "marks": [
+              "bw5"
+            ],
+            "text": "Продава тревен чим Несебър"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bw5",
+            "_type": "link",
+            "href": "/blog/prodavane-traven-chim"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bwa",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bw9",
+            "_type": "span",
+            "marks": [
+              "bw8"
+            ],
+            "text": "Градински център Флориал, Несебър"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bw8",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bwd",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bwc",
+            "_type": "span",
+            "marks": [
+              "bwb"
+            ],
+            "text": "Garden Center Florial Nessebar"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bwb",
+            "_type": "link",
+            "href": "/"
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "Cq0WfbdWfPjjye8LFmxy3V",
+        "_type": "image",
+        "alt": "подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
+        "altEn": "Replacing an old lawn with new rolled turf in Nessebar",
+        "altRu": "Замена старого газона на новый рулонный газон в Несебре",
+        "asset": {
+          "_ref": "image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "Cq0WfbdWfPjjye8LFmxy6V",
+        "_type": "image",
+        "alt": "Премахване на стара тревна настилка с фреза за трева Слънчев бряг",
+        "altEn": "Removing old turf with a turf cutter in Sunny Beach",
+        "altRu": "Удаление старого газона с помощью дернорезной машины в Солнечном Береге",
+        "asset": {
+          "_ref": "image-5433c9e10f438dd450a943acb501e86a9ad68bb0-960x1460-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
+        "altEn": "Replacing an Old Lawn with New Turf in Nessebar",
+        "altRu": "Замена старого газона на новый в Несебре",
+        "asset": {
+          "_ref": "image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.",
+      "title": "Смяна на стара тревна площ с нова в Несебър"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Подмяна на стара тревна площ с нова рулонна тревна площ в Несебър",
+      "altEn": "Replacing an Old Lawn with New Turf in Nessebar",
+      "altRu": "Замена старого газона на новый в Несебре",
+      "asset": {
+        "_ref": "image-099d7a7e0681c9c9111d1e29016de4b94051fa5e-750x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Смяна на стара тревна площ с нова в Несебър",
+    "relatedContent": [
+      {
+        "_key": "Cq0WfbdWfPjjye8LFmxy0V",
+        "_ref": "ea332108-42e7-444f-9632-08111c6fda90",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "Тревни площи"
+      ],
+      "metaDescription": "Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.",
+      "metaTitle": "Подмяна на тревна площ | Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "lawn",
+    "serviceLayout": "standard",
+    "shortDescription": "Премахване на стара тревна площ, подготовка на терена и полагане на нов тревен чим в Несебър и близките населени места.",
+    "slug": {
+      "_type": "slug",
+      "current": "podmyana-stara-travna-plosht"
+    },
+    "sortOrder": 180,
+    "sourcePageUrl": "https://florial-bg.com/blog/podmyana-stara-travna-plosht",
+    "steps": [],
+    "translations": {
+      "en": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Send enquiry",
+          "text": "Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.",
+          "title": "Request the service"
+        },
+        "description": "For various reasons, an existing lawn near a home can deteriorate and lose its appearance. Bare patches, bumps and scorched areas may appear. In many cases, the cause is inadequate maintenance: mowing, watering or feeding was not done at the right time.\n\n### The solution: replace the old lawn with new turf\n\nFlorial Garden Centre uses modern methods for laying rolled turf, so you do not have to wait weeks for bare soil to turn green. In a day or two, the old lawn can be removed, the ground prepared and fresh turf installed.\n\n### Replacing damaged grass with rolled turf\n\nWe can replace an old lawn with new rolled turf or repair the existing lawn by replacing damaged areas. We take on projects from 30 m². Most lawn-renovation work is completed in one day, giving you an attractive green lawn straight away.\n\n### Removing dead turf with a turf cutter\n\nThe old lawn is removed in even strips using a petrol-powered turf cutter. The cut turf forms neat rolls that are easy to transport away. The machine is manoeuvrable and can handle lawns of different shapes.\n\n### Preparing the ground for new turf\n\nOnce the old turf has been removed, the surface is ready for the new lawn. Add and level sand if needed, then unroll the fresh turf and lay the strips carefully. Your new lawn is ready.\n\n### Do you need an automatic irrigation system?\n\nEvery lawn needs regular watering. An automatic irrigation system is a convenient way to maintain consistent soil moisture.\n\nWhen renovating a lawn, our specialists can repair an existing automatic irrigation system or install a new one.",
+        "hero": {
+          "subtitle": "Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.",
+          "title": "Replacing an Old Lawn with New Turf in Nessebar"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Name",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "Phone",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "Email",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "placeholder": "Town / city",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Describe the work",
+              "name": "details",
+              "placeholder": "Describe the work",
+              "required": false
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+          "title": "Service enquiry"
+        },
+        "name": "Replacing an Old Lawn with New Turf in Nessebar",
+        "seo": {
+          "metaDescription": "Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.",
+          "metaTitle": "Lawn Replacement | Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Removal of old turf, ground preparation and installation of new turf in Nessebar and nearby areas.",
+        "steps": []
+      },
+      "ru": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.",
+          "title": "Закажите услугу"
+        },
+        "description": "Иногда газон возле дома по разным причинам приходит в негодность и теряет привлекательный вид: появляются проплешины, неровности и выгоревшие участки. В большинстве случаев это связано с неправильным уходом — газон вовремя не косили, не поливали или не подкармливали.\n\n### Решение — заменить старый газон новым\n\nСадовый центр Florial предлагает современную технологию укладки рулонного газона. Не нужно неделями ждать, пока голая почва покроется зеленью. За один-два дня можно удалить старое покрытие, подготовить участок и уложить новый рулонный газон.\n\n### Замена повреждённого газона рулонным покрытием\n\nМы предлагаем заменить старый газон новым рулонным покрытием или отремонтировать существующий, заменив повреждённые участки. Работаем с площадями от 30 м². Большинство работ по восстановлению газона выполняется за один день — и вы сразу получаете красивую зелёную лужайку.\n\n### Удаление отмершего газона дернорезной машиной\n\nСтарое покрытие снимают полосами с помощью бензиновой дернорезной машины. После срезания газон образует аккуратные рулоны, которые удобно вывезти. Инструмент манёвренный и подходит для участков разной формы.\n\n### Подготовка поверхности к укладке\n\nПосле снятия старого дёрна остаётся ровная поверхность для нового газона. При необходимости добавьте и разровняйте песок, затем раскатайте свежий рулонный газон и аккуратно уложите полосы. Новый газон готов.\n\n### Нужна ли автоматическая система полива?\n\nЛюбой газон нуждается в регулярном поливе. Наиболее удобный вариант — автоматическая система полива, которая помогает поддерживать равномерную влажность.\n\nВо время восстановления газона наши специалисты могут отремонтировать существующую систему автоматического полива или установить новую.",
+        "hero": {
+          "subtitle": "Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.",
+          "title": "Замена старого газона на новый в Несебре"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Имя",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "Телефон",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "Электронная почта",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "placeholder": "Населённый пункт",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Описание задачи",
+              "name": "details",
+              "placeholder": "Описание задачи",
+              "required": false
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+          "title": "Запрос услуги"
+        },
+        "name": "Замена старого газона на новый в Несебре",
+        "seo": {
+          "metaDescription": "Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.",
+          "metaTitle": "Замена газона | Несебр | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Удаление старого газона, подготовка основания и укладка нового рулонного газона в Несебре и соседних населённых пунктах.",
+        "steps": []
+      }
+    }
   }
 }
