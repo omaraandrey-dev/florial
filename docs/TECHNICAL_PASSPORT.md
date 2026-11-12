@@ -1,3 +1,13 @@
+## 2026-11-12 — Блог: повышение разрешения иллюстраций и исправление ALT
+
+- Из Wix DROP через Media Manager восстановлены оригиналы для трёх миниатюр в Sanity Production: схема полива 266×246 → 925×855; фотография сада с дождевателем 147×147 → 2048×2048; эскиз ландшафтного плана 179×131 → 640×468. Новые Sanity assets: image-9bb7021d464503eeb9c42e19896c152e75892023-925x855-jpg, image-39434b00c36004a520f6b94d5d91cd61ff5b011d-2048x2048-jpg, image-ca422dbbb9682c5e464b7d42b2ff10f567a5b394-640x468-jpg.
+- Исправлены BG ALT шести image blocks в статьях: cena-sistema-avtomatichno-napoyavane-burgas, kupete-travna-plosht, maslina-sredizemnomorie, sistema-magluvane-terasa-besedka, rain-bird-oborudvane, kiparis-totem. Тексты ALT основаны на визуальной проверке оригиналов Wix.
+- Полные backups перед соответствующими Sanity writes сохранены в PR #235: blog-small-images-before-write.json, blog-alt-before-write.json, blog-sketch-before-write.json.
+- Повторная выборка 22 blogPost: 12 точных повторов cover asset в body. Не удалялись автоматически, так как расположение inline images может быть редакционным. Один cover asset 1000×638 используется в двух статьях о ландшафтном проектировании и повторяется внутри обеих.
+- Rain Bird GIF 220×120 визуально является логотипом; оставлен без замены. Эскиз 640×468 — доступный оригинал из Wix (25 372 байта); больший исходник по точному file ID не подтверждён.
+- Post-publish read-back подтвердил новые refs/размеры и отсутствие drafts. Beta validation: valid, complete=false (custom callbacks не выполняются).
+- Веб-просмотр Production страниц и CDN через доступный viewer не сработал; live visual QA не подтверждена. Код и schema не менялись; Pages deployment не запускался. PR #235 остаётся Draft.
+
 ## 2026-11-12 — Восстановлены шесть изображений блога из Wix DROP
 
 - Источник оригиналов: подключённый Wix Media Manager сайта DROP. Шесть точных файлов были найдены по Wix file IDs, все со статусами `OK` / `READY`, визуально проверены и загружены напрямую в Sanity Production `bxvcy0qs/production`.
