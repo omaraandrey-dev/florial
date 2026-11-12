@@ -5,7 +5,8 @@
 - API dry-run, Production write и post-write GET verification успешны.
 - Cloudflare Request Tracer simulated: www /services → 301; www homepage с query → 301; apex /services → 200. Это проверка обработки правил Cloudflare, не внешний HTTP Location-header smoke test.
 - GitHub main code audit: `index.html`, `src/lib/seo.ts`, `functions/_middleware.ts`, `functions/sitemap.xml.ts` и `public/robots.txt` используют основной домен без www. Проверенные исходники: HEAD `36f37ef824a6118af55fddda5f8f8d8626dd94af`.
-- Внешняя HTTP-проверка и Google Search Console не выполнены из-за недоступности web retrieval в этой сессии. Google-selected canonical НЕ ПОДТВЕРЖДЁН. Следующий шаг — live HTTP headers/redirect chain и Search Console URL Inspection для homepage и /services в www/apex вариантах.
+- **Проверка владельцем в обычном браузере 12.11.2026:** владелец подтвердил, что реальные запросы к адресу с `www.florial-bg.com` автоматически перенаправляются на `florial-bg.com` без `www`. Практическое поведение редиректа в браузере подтверждено.
+- Google Search Console не проверен; Google-selected canonical и полнота индексации НЕ ПОДТВЕРЖДЕНЫ. Следующий отдельный SEO-шаг — URL Inspection для homepage и `/services` в www/apex вариантах.
 - Source code, Pages deployment, DNS records, Pages settings/secrets, Sanity, D1 и Resend не менялись. Полный протокол: `docs/audits/2026-11-12-www-canonical-redirect.md`.
 
 ## 2026-11-12 — Блог: повышение разрешения иллюстраций и исправление ALT
