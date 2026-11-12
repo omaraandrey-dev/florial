@@ -1,3 +1,16 @@
+## 2026-11-12 — Индикатор зимней температуры на странице товара и мобильное изображение категории (PR #221)
+
+- Base main: `370e12a33e043e7fe93e686f6c88f6b1c314aae4`; branch: `fix/plant-winter-indicator-and-mobile-category-flash`; PR #221 merged (squash) as `96cc7508301485b81856981d010f506ea7b5ebe0`.
+- `src/pages/CategoryPage.tsx`: уменьшен overlay минимальной зимней температуры; оставлены только синяя снежинка и синяя температура без белой подложки, рамки и тени. Позиция — левый верхний угол с отступом 4 px.
+- `src/pages/ProductPage.tsx`: такой же overlay показывается поверх основного изображения товара-растения, если `plantCare.minWinterTempC` содержит конечное числовое значение. Значение читается из существующего поля; Sanity schema/documents не менялись.
+- `index.html` и `src/pages/CategoryPage.tsx`: hero image категории получает класс `category-page-hero-image`; критический inline CSS скрывает его по умолчанию и показывает при ширине от 1024 px. Это предотвращает ранний flash именно этого desktop-only изображения до загрузки основного stylesheet.
+- Изменены только три файла: `index.html`, `src/pages/CategoryPage.tsx`, `src/pages/ProductPage.tsx`. Не менялись App/router, Header, меню, Footer, Sanity, D1, Manager, API и Cloudflare settings.
+- CI по точному PR head `c4225fa3eb7898c4f2b1a5963c45e6f48b94b746`: run `43157810821` D1 validation — success; run `43157810867` Blog and Studio validation — success (lint, utility tests, website build, Pages Functions syntax, read-only migration dry-run, Studio build).
+- Production deployment `edd10fd4-75b4-4c23-8631-0016395b767e`, commit `96cc7508301485b81856981d010f506ea7b5ebe0` — success. URL `https://edd10fd4.florial.pages.dev`; aliases `florial-bg.com` и `www.florial-bg.com`.
+- Не подтверждено физическим Android visual QA: исчезновение первого кадра с hero image и итоговое визуальное положение/масштаб снежинки. Существующий остаточный CLS около 0.34385 ранее не был атрибутирован конкретному DOM-узлу; не считать root cause полностью закрытым только по этому CSS mitigation.
+
+---
+
 ## 2026-11-12 — Индикаторы растений в каталоге (merged + Production deploy)
 
 - Base main: `84052cee404edd572448d0f58fa058889fe7b9df`; branch: `feat/plant-card-stock-and-winter-indicators`; PR #220 merged (squash) as `4ab09c5737b1d271042bdb64ffe658176f8e78cc`.
