@@ -1,3 +1,16 @@
+## 2026-11-12 — Sanity photo media metadata localization
+
+- Scope: `bxvcy0qs/production`, Sanity document type `photo`; 8 documents inventoried.
+- Backup created before writes: `docs/backups/sanity-photo-media-before-localization-2026-11-12.json` (8 complete source documents and asset references).
+- Seven incomplete records published with BG/RU/EN titles and image ALT, BG SEO descriptions, tags and missing search slugs. The existing Florial logo record was already complete and remained unchanged.
+- Post-write verification used Sanity `perspective: published`; all 8 records returned and all 7 edited records contained the expected fields. Existing image asset references, category values except the missing Nessebar category (set to existing `other`), and active flags were preserved.
+- The schema has only a single Bulgarian `seoDescription`; localized metaTitle/metaDescription fields are not available for `photo`. The `photo` schema has no video field. A query of `sanity.fileAsset` found 27 PDF files and no video asset.
+- Visual review limitation: CDN images could not be downloaded in this run. Descriptions/ALT were written conservatively from existing titles, ALT, category and filenames; composition-level verification remains pending.
+- No schema, website code, API, D1, Cloudflare configuration or deployment changes. Production site behavior was not smoke-tested because this task edited photo-library metadata only.
+- GitHub base main: `b82fedb92ab30042bcd8ef7d41b25936aae5de72`; branch: `content/audit-photo-media-localization`.
+
+---
+
 ## 2026-11-12 — Закрытие Android visual QA для зимнего индикатора и category hero
 
 - Владелец сообщил об успешной визуальной проверке опубликованного сайта на физическом Android-устройстве: результат корректный, замечаний по отображению нет.

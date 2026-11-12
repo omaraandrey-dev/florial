@@ -1,0 +1,184 @@
+{
+  "backupType": "sanity-document-snapshot",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentType": "photo",
+  "capturedAt": "2026-11-12T07:46:00+02:00",
+  "sourceBranch": "main",
+  "sourceCommit": "b82fedb92ab30042bcd8ef7d41b25936aae5de72",
+  "count": 8,
+  "documents": [
+    {
+      "_createdAt": "2026-10-19T08:40:33Z",
+      "_id": "162d050c-e444-4f95-83be-48bdd4236676",
+      "_rev": "OJ4LxEd9Ag47qy7bItAWj2",
+      "_type": "photo",
+      "_updatedAt": "2026-10-20T00:03:41Z",
+      "category": "other",
+      "image": {
+        "_type": "image",
+        "alt": "Флориал Равда вход в Градинский цънтър",
+        "asset": {
+          "_ref": "image-3fb79259745b6bb2004f28ad3697669e7665d281-3072x4096-jpg",
+          "_type": "reference"
+        }
+      },
+      "isActive": false,
+      "slug": "Florial-ravda",
+      "title": "Флориал Равда"
+    },
+    {
+      "_createdAt": "2026-10-18T15:43:20Z",
+      "_id": "1b9a7ed4-1149-4391-b4d6-5613120b9df7",
+      "_rev": "qvVg1luYRxJZnxaWi0jumj",
+      "_type": "photo",
+      "_updatedAt": "2026-11-12T05:44:50Z",
+      "category": "home",
+      "image": {
+        "_type": "image",
+        "alt": "Ще извършим озеленяване на територията на къщата от Свети Влас до Ахелой",
+        "asset": {
+          "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+          "_type": "reference"
+        }
+      },
+      "isActive": true,
+      "slug": "MAINPHOTO",
+      "title": "Главная страница"
+    },
+    {
+      "_createdAt": "2026-11-12T05:40:53Z",
+      "_id": "2a676906-31e6-4e9e-a729-66b755a96172",
+      "_rev": "Cq0WfbdWfPjjye8LFmspNV",
+      "_system": {
+        "base": {
+          "id": "2a676906-31e6-4e9e-a729-66b755a96172",
+          "rev": "Cq0WfbdWfPjjye8LFmslPV"
+        }
+      },
+      "_type": "photo",
+      "_updatedAt": "2026-11-12T05:44:27Z",
+      "category": "landscape",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-7f96518e8cb1e821962a662e28015d90a363c2dc-1024x1024-jpg",
+          "_type": "reference"
+        }
+      },
+      "titleRu": "Садовник"
+    },
+    {
+      "_createdAt": "2026-11-12T05:42:43Z",
+      "_id": "309c6f57-7fd9-406a-ba32-3778a65ee3dd",
+      "_rev": "qvVg1luYRxJZnxaWi0juYb",
+      "_system": {
+        "base": {
+          "id": "309c6f57-7fd9-406a-ba32-3778a65ee3dd",
+          "rev": "Cq0WfbdWfPjjye8LFmsnaV"
+        }
+      },
+      "_type": "photo",
+      "_updatedAt": "2026-11-12T05:44:07Z",
+      "category": "irrigation",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-c2adae940f504703da3bc3f0a86cdee7663cd19c-1024x1024-jpg",
+          "_type": "reference"
+        }
+      },
+      "titleRu": "Инженер полива"
+    },
+    {
+      "_createdAt": "2026-11-12T05:39:42Z",
+      "_id": "623e4ea6-6e5f-450b-a129-3468f79c48f7",
+      "_rev": "wShFcTvKnRduO9ho4IF50L",
+      "_type": "photo",
+      "_updatedAt": "2026-11-12T05:40:36Z",
+      "category": "landscape",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-9ddf87c0da94400c7dc3e0eef32b6aa0621ba115-1024x1024-jpg",
+          "_type": "reference"
+        }
+      },
+      "titleRu": "Ландшафтный архитектор"
+    },
+    {
+      "_createdAt": "2026-11-12T05:43:23Z",
+      "_id": "74b0eeb4-8882-458f-bbf3-f0ba7bf6aca9",
+      "_rev": "Cq0WfbdWfPjjye8LFmsohV",
+      "_type": "photo",
+      "_updatedAt": "2026-11-12T05:43:50Z",
+      "category": "lawn",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-931c503bb63c74a7e5d14fe84d9b52ef539da933-867x992-jpg",
+          "_type": "reference"
+        }
+      },
+      "titleRu": "Специалист по газону"
+    },
+    {
+      "_createdAt": "2026-10-18T13:49:08Z",
+      "_id": "bf2d25a6-cefe-4d25-9145-3b45a206299b",
+      "_rev": "s0woJMOB7mWiVecre66sg0",
+      "_system": {
+        "base": {
+          "id": "bf2d25a6-cefe-4d25-9145-3b45a206299b",
+          "rev": "Rg2xmZQP3k6AcEo9YtYZxy"
+        }
+      },
+      "_type": "photo",
+      "_updatedAt": "2026-11-09T18:20:57Z",
+      "category": "home",
+      "image": {
+        "_type": "image",
+        "alt": "Официално лого на градински център Florial в България — синя водна капка, зелено листо и надпис FLORIAL ГРАДИНСКИ ЦЕНТЪР",
+        "altEn": "Florial logo with a blue water droplet, green leaf and Garden Centre lettering",
+        "altRu": "Логотип Florial: синяя капля воды, зелёный лист и надпись «Садовый центр»",
+        "asset": {
+          "_ref": "image-4639ccd71968fdb2b691ab69cb95185661641455-887x444-png",
+          "_type": "reference"
+        }
+      },
+      "isActive": true,
+      "seoDescription": "Официално лого на Florial — градински център в България за оборудване за автоматично напояване, растения, озеленяване и градински услуги.",
+      "slug": "oficialno-logo-florial-gradinski-centar",
+      "tags": [
+        "Florial",
+        "лого Florial",
+        "градински център",
+        "автоматично напояване",
+        "поливни системи",
+        "озеленяване",
+        "България",
+        "Burgas",
+        "Sunny Beach",
+        "Несебър"
+      ],
+      "title": "Официално лого на Florial — градински център",
+      "titleEn": "Official Florial logo - garden centre and automatic irrigation store",
+      "titleRu": "Официальный логотип Florial — садовый центр и магазин оборудования для автоматического полива"
+    },
+    {
+      "_createdAt": "2026-10-20T06:48:05Z",
+      "_id": "d13f25ae-fb64-493d-850b-02fffc7f04a0",
+      "_rev": "edquEzoKvkO8iFy3nUp4hk",
+      "_type": "photo",
+      "_updatedAt": "2026-10-20T06:50:52Z",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-513aee1bc313eb12cc52b16338bb31525028aad0-1872x4056-jpg",
+          "_type": "reference"
+        }
+      },
+      "slug": "Florial-nesebr",
+      "title": "Флориал Несебър"
+    }
+  ]
+}
