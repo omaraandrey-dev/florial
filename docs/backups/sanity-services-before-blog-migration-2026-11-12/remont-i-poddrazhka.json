@@ -1,0 +1,483 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "f308f26a-b12c-4975-93f5-6089144ceab6",
+    "_rev": "9Jlb6k9xfgGTkBekNDWvEm",
+    "_system": {
+      "base": {
+        "id": "f308f26a-b12c-4975-93f5-6089144ceab6",
+        "rev": "E65Ig8tOfLomYYQb3PKB8C"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-08T04:00:17Z",
+    "advantages": [
+      {
+        "_key": "adv0",
+        "text": "Проверяваме контролера, зоните, налягането, разпръсквачите и течовете.",
+        "title": "Бърза диагностика"
+      },
+      {
+        "_key": "adv1",
+        "text": "Подготвяме системата за пролетта и зимата.",
+        "title": "Сезонна профилактика"
+      },
+      {
+        "_key": "adv2",
+        "text": "Оценяваме състоянието и предлагаме практично решение.",
+        "title": "Ремонт вместо ненужна подмяна"
+      },
+      {
+        "_key": "adv3",
+        "text": "При нужда обновяваме контролера или отделни компоненти.",
+        "title": "Модернизация"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване за диагностика или сезонно обслужване.",
+      "title": "Заявете оферта"
+    },
+    "contentBlocks": [
+      {
+        "_key": "block1",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Диагностика на системата",
+          "asset": {
+            "_ref": "image-a734bc3b00dfa98e72145ee19e5f462607e41048-1254x1254-png",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Диагностика и ремонт на поливни системи\nДори най-надеждната система за автоматично напояване изисква периодична техническа поддръжка, а понякога и професионален ремонт. Това се дължи на редица обективни фактори при експлоатацията:\nКачество на водата: наличие на фини частици, пясък, ръжда или варовик, които с времето запушват дюзите и клапаните.\nКолебания в електрическото напрежение: нестабилната мрежа може да увреди помпената автоматика, захранващите блокове и контролерите.\nМеханични повреди: неволно прекъсване на тръби, кабели или разпръсквачи при косене, аериране на тревата или засаждане на нови растения.\nПромени в ландшафта: израстване на градината, препланиране на цветни лехи, разширяване на тревните площи или добавяне на нови зони, които изискват пренастройка на поливането.\nКакво включва диагностиката и ремонтът на системата:\nКомплексна диагностика — проверка на цялостната работа на системата: налягане, херметичност на магистралите, изправност на електрическите вериги и сензорите.\nСезонна настройка на оборудването — регулиране на секторите и радиусите на поливане, пренастройка на програмите на контролера спрямо текущите метеорологични условия.\nРемонт и подмяна на компоненти — бърза подмяна на повредени дюзи, роторни разпръсквачи, електромагнитни клапани, контролери и сензори за дъжд.\nПочистване и промиване на елементите — основно почистване на филтри, електроклапани, разпръсквачи и тръби от натрупан пясък, утайки и замърсявания.\nОбслужване на помпено оборудване — проверка и настройка на помпени станции, пресостати, хидрофори, автоматика за защита и резервоари за вода.\nНашите специалисти ще реагират бързо, ще установят с точност причината за неизправността и ще възстановят безупречната работа на Вашата поливна система.",
+        "translations": {
+          "en": {
+            "imageAlt": "System diagnostics",
+            "text": "Irrigation system diagnostics and repair\nEven the most reliable automatic irrigation system needs periodic technical maintenance and sometimes professional repair. Common causes include water containing fine particles, sand, rust or limescale that gradually clog nozzles and valves; voltage fluctuations that can damage pump controls, power supplies and controllers; accidental damage to pipes, cables or sprinklers during mowing, lawn aeration or planting; and landscape changes such as growing plants, redesigned flower beds, expanded lawns or new zones that require irrigation adjustments.\nDiagnostics and repair include:\nComprehensive system checks — assessing overall operation, pressure, mainline tightness, electrical circuits and sensors.\nSeasonal equipment adjustment — tuning sprinkler sectors and radius and updating controller programmes for current weather.\nRepair and component replacement — replacing damaged nozzles, rotary sprinklers, solenoid valves, controllers and rain sensors.\nCleaning and flushing — removing sand, sediment and dirt from filters, valves, sprinklers and pipes.\nPump equipment service — checking and adjusting pump stations, pressure switches, pressure tanks, safety controls and water reservoirs.\nOur specialists respond promptly, identify the cause accurately and restore reliable operation of your irrigation system."
+          },
+          "ru": {
+            "imageAlt": "Диагностика системы",
+            "text": "Диагностика и ремонт систем полива\nДаже самая надёжная система автоматического полива нуждается в периодическом техническом обслуживании, а иногда и в профессиональном ремонте. Причинами могут быть примеси в воде — мелкие частицы, песок, ржавчина или известковый налёт, постепенно засоряющие форсунки и клапаны; перепады напряжения, способные повредить автоматику насосов, блоки питания и контроллеры; механические повреждения труб, кабелей или дождевателей при стрижке и аэрации газона либо посадке растений; изменения ландшафта — разросшиеся растения, новые цветники, расширение газона или добавление зон, требующих перенастройки полива.\nДиагностика и ремонт включают:\nКомплексную диагностику — проверку работы системы, давления, герметичности магистралей, электрических цепей и датчиков.\nСезонную настройку оборудования — регулировку секторов и радиуса полива, обновление программ контроллера с учётом погоды.\nРемонт и замену компонентов — повреждённых форсунок, роторных дождевателей, электромагнитных клапанов, контроллеров и датчиков дождя.\nОчистку и промывку — удаление песка, осадка и загрязнений из фильтров, клапанов, дождевателей и труб.\nОбслуживание насосного оборудования — проверку и настройку насосных станций, реле давления, гидроаккумуляторов, защитной автоматики и резервуаров.\nНаши специалисты оперативно определят причину неисправности и восстановят надёжную работу системы полива."
+          }
+        }
+      },
+      {
+        "_key": "block2",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Ремонт и настройка",
+          "asset": {
+            "_ref": "image-b83619f5a21a6d2e40b2cd6961ced10f5b9e1a7b-1254x1254-png",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "text": "Сезонна поддръжка на поливни системи\nАвтоматичната система за поливане изисква задължителна сезонна техническа поддръжка. Пролетта системата трябва да бъде правилно въведена в експлоатация, а през есента — професионално подготвена за зимните застудявания, за да се избегне пукане на тръби, клапани и помпено оборудване от замръзване.\n🌸 Пролетно пускане и разконсервация (Пролетен пуск)\nПролетното пускане представлява цялостна проверка и подготовка на автоматичното напояване за безотказна работа през целия топъл сезон.\nПролетното пускане включва:\nМонтаж на оборудването: инсталиране на помпеното оборудване, елементите на автоматиката и сензорите, демонтирани за зимата.\nПодготовка на водоизточника: пълнене на резервоарите за вода, проверка на поплавковите вентили и спирателната арматура.\nПромиване и филтрация: почистване, промиване и монтаж на филтриращите елементи (дискови/мрежести).\nПълнене и проверка под налягане: плавно пускане на водата в системата, проверка на главния тръбопровод за течове и повреди след зимния период.\nТестване на поливните зони: последователно тестово пускане на всеки сектор (разпръсквачи, капкови линии, хидранти).\nНастройка на разпръсквачите: регулиране на секторите и радиусите на поливане на всяка дюза и ротор за елиминиране на „сухи петна“.\nНастройка на автоматиката: диагностика на контролера, подмяна на батериите, настройка на актуална програма за поливане съобразена с пролетния режим.\nДребни ремонти: отстраняване на възникнали незначителни неизправности на място.\n❄️ Есенна консервация и подготовка за зимата (Зазимяване)\nЕсенната продухване на системата със сгъстен въздух е най-важният етап, гарантиращ запазването на оборудването през зимния период. Водата, останала в тръбите или клапаните, при замръзване води до спукване на магистралите и скъпоструващи ремонти през пролетта.\nПроцесът на зазимяване включва:\nИзключване на водоподаването и електрическото захранване на системата.\nДемонтаж и подготовка за съхранение на помпеното оборудване и външната автоматика (при необходимост).\nПродухване на магистралите с компресор: последователно издухване на остатъчната вода от всички поливни зони, капкови маркучи и водни контакти със сгъстен въздух под безопасно налягане.\nИзточване на водата от резервоарите, филтрите и захранващите възли.\nРедовната професионална поддръжка удължава живота на Вашата поливна система с десетилетия и Ви спестява неочаквани аварии в най-големите горещини.",
+        "translations": {
+          "en": {
+            "imageAlt": "Repair and adjustment",
+            "text": "Seasonal irrigation system maintenance\nAutomatic irrigation requires seasonal technical maintenance. In spring, the system must be recommissioned correctly; in autumn, it must be prepared for winter to prevent freezing from cracking pipes, valves and pump equipment.\n🌸 Spring start-up and recommissioning\nSpring start-up is a full inspection and preparation of the irrigation system for reliable operation throughout the warm season. It includes:\nEquipment installation: reinstalling pump equipment, automation components and sensors removed for winter.\nWater-source preparation: filling tanks and checking float valves and shut-off fittings.\nFlushing and filtration: cleaning, flushing and installing disc or mesh filter elements.\nFilling and pressure checks: gradually restoring water supply and checking the main pipeline for leaks or winter damage.\nZone testing: testing each sector in sequence, including sprinklers, drip lines and hydrants.\nSprinkler adjustment: tuning the arc and radius of each nozzle and rotor to eliminate dry spots.\nAutomation setup: checking the controller, replacing batteries and setting a spring watering programme.\nMinor repairs: fixing small faults on site.\n❄️ Autumn winterisation\nBlowing the system out with compressed air is a key step in protecting equipment over winter. Water left in pipes or valves can freeze, rupture lines and lead to expensive spring repairs.\nWinterisation includes shutting off water and electrical power; removing and storing pump equipment and external controls if needed; using a compressor to remove residual water from all zones, drip lines and water outlets at safe pressure; and draining tanks, filters and supply assemblies.\nRegular professional maintenance can extend the life of your irrigation system for many years and prevent unexpected failures during the hottest weather."
+          },
+          "ru": {
+            "imageAlt": "Ремонт и настройка",
+            "text": "Сезонное обслуживание систем полива\nАвтоматический полив требует обязательного сезонного технического обслуживания. Весной систему необходимо правильно запустить, а осенью профессионально подготовить к морозам, чтобы замерзание воды не повредило трубы, клапаны и насосное оборудование.\n🌸 Весенний запуск и расконсервация\nВесенний запуск — это полная проверка и подготовка системы к надёжной работе в течение тёплого сезона. Он включает:\nМонтаж оборудования: установку насосного оборудования, элементов автоматики и датчиков, снятых на зиму.\nПодготовку источника воды: заполнение резервуаров, проверку поплавковых клапанов и запорной арматуры.\nПромывку и фильтрацию: очистку, промывку и монтаж дисковых или сетчатых фильтров.\nЗаполнение и проверку под давлением: постепенную подачу воды и проверку магистрального трубопровода на утечки и повреждения после зимы.\nТестирование зон: последовательную проверку каждого сектора — дождевателей, капельных линий и гидрантов.\nНастройку дождевателей: регулировку секторов и радиуса каждой форсунки и ротора для устранения сухих участков.\nНастройку автоматики: диагностику контроллера, замену батареек и установку актуальной весенней программы полива.\nМелкий ремонт: устранение небольших неисправностей на месте.\n❄️ Осенняя консервация и подготовка к зиме\nПродувка системы сжатым воздухом — важнейший этап защиты оборудования зимой. Оставшаяся в трубах или клапанах вода при замерзании может разорвать магистрали и привести к дорогому ремонту весной.\nПодготовка к зиме включает отключение воды и электропитания; демонтаж и хранение насосного оборудования и внешней автоматики при необходимости; продувку всех зон, капельных трубок и водяных розеток компрессором под безопасным давлением; слив воды из резервуаров, фильтров и узлов подачи.\nРегулярное профессиональное обслуживание продлевает срок службы системы на долгие годы и помогает избежать внезапных аварий в самую жаркую погоду."
+          }
+        }
+      },
+      {
+        "_key": "block3",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Сезонна поддръжка",
+          "asset": {
+            "_ref": "image-f0c38ed25499c7dcdde87b0c5e12e7ae2af5d84f-960x1280-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Подмяна на оборудването и модернизация\nВ процеса на експлоатация на поливната система — поради слягане на почвата, работа на градинска техника (косачки), израстване на растенията или изкопни работи — отделни възли могат да се повредят или да изискват обновяване. Ние извършваме бърз ремонт, подмяна на компоненти и цялостна модернизация на системи с всяко ниво на сложност.\nОсновни видове работи:\nПодмяна на разпръсквачи и дюзи\nПодмяна на разпръсквачи (спринклери), срязани от косачка или повредени поради слягане на почвата. Повреденият корпус или дюза подлежат на задължителна подмяна за възстановяване на херметичността и правилния радиус на поливане. Извършваме и подмяна на разпръсквачи при промяна в геометрията на тревните площи и цветните лехи.\nРемонт на подземния тръбопровод\nБързо откриване и отстраняване на течове, ремонт на подземни тръби и фитинги, случайно повредени при засаждане на дървета, храсти или препланиране на ландшафта.\nРемонт и разширение на капковото напояване\nОтстраняване на прекъсвания и повреди по капковите маркучи. Свързване на нови групи растения, дървета и цветни лехи към съществуващата система за капково напояване, както и полагане на допълнителни линии с компенсация на налягането.\nПрофилактика и фина настройка\nПромиване на диафрагмите на електромагнитните клапани, почистване на филтрите на дюзите, регулиране на секторите и радиусите на поливане, препрограмиране на контролера спрямо променените сезонни нужди на градината.\nРеконструкция и модернизация (Апгрейд)\nЦялостно или частично преустройство на остарели системи: преместване на поливни зони според новия ландшафтен дизайн, добавяне на нови сектори, преминаване към Wi-Fi управление от телефон, инсталиране на съвременни икономични дюзи с висока ефективност (R-VAN, MP Rotator).\nНие бързо ще подберем оригинални резервни части от Rain Bird, Hunter, Irritec и ще възстановим безупречната функционалност на Вашата система.",
+        "translations": {
+          "en": {
+            "imageAlt": "Seasonal maintenance",
+            "text": "Equipment replacement and modernisation\nDuring operation, individual irrigation components may be damaged or need upgrading because of soil settlement, garden machinery, plant growth or excavation work. We provide prompt repairs, component replacement and complete modernisation for systems of any complexity.\nMain services:\nSprinkler and nozzle replacement\nWe replace sprinklers cut by lawnmowers or damaged by soil settlement. Damaged housings and nozzles must be replaced to restore watertightness and the correct watering radius. We also replace sprinklers when the shape of lawns or flower beds changes.\nUnderground pipeline repair\nWe quickly locate and repair leaks and underground pipes or fittings accidentally damaged while planting trees and shrubs or redesigning the landscape.\nDrip irrigation repair and extension\nWe repair damaged dripline and connect new groups of plants, trees and flower beds to the existing drip system, adding pressure-compensating lines where needed.\nPreventive service and fine adjustment\nWe flush solenoid-valve diaphragms, clean nozzle filters, adjust watering arcs and radius, and reprogramme the controller to match the garden’s changing seasonal needs.\nReconstruction and upgrades\nWe can partially or fully modernise older systems: move irrigation zones to suit a new landscape design, add sectors, switch to Wi-Fi phone control and install efficient modern nozzles such as R-VAN and MP Rotator.\nWe will quickly select original spare parts from Rain Bird, Hunter and Irritec and restore your system’s reliable performance."
+          },
+          "ru": {
+            "imageAlt": "Сезонное обслуживание",
+            "text": "Замена оборудования и модернизация\nВ процессе эксплуатации отдельные узлы системы могут повредиться или потребовать обновления из-за просадки грунта, работы садовой техники, роста растений или земляных работ. Мы оперативно ремонтируем, заменяем компоненты и модернизируем системы любой сложности.\nОсновные виды работ:\nЗамена дождевателей и форсунок\nЗаменяем дождеватели, повреждённые газонокосилкой или из-за просадки грунта. Повреждённый корпус или форсунку необходимо заменить, чтобы восстановить герметичность и правильный радиус полива. Также меняем дождеватели при изменении формы газонов и цветников.\nРемонт подземного трубопровода\nБыстро находим и устраняем утечки, ремонтируем подземные трубы и фитинги, случайно повреждённые при посадке деревьев и кустарников или изменении ландшафта.\nРемонт и расширение капельного полива\nУстраняем разрывы и повреждения капельных трубок, подключаем новые группы растений, деревья и цветники к существующей системе, при необходимости прокладываем дополнительные линии с компенсацией давления.\nПрофилактика и точная настройка\nПромываем мембраны электромагнитных клапанов, очищаем фильтры форсунок, регулируем секторы и радиус полива, перепрограммируем контроллер с учётом сезонных потребностей сада.\nРеконструкция и модернизация\nЧастично или полностью обновляем устаревшие системы: переносим зоны по новому ландшафтному проекту, добавляем сектора, устанавливаем управление по Wi-Fi с телефона и современные экономичные форсунки высокой эффективности R-VAN и MP Rotator.\nМы быстро подберём оригинальные запасные части Rain Bird, Hunter и Irritec и восстановим полноценную работу вашей системы."
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "heading",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "headings",
+            "_type": "span",
+            "marks": [],
+            "text": "Поливната система трябва да работи надеждно през целия сезон"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "intro",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "intros",
+            "_type": "span",
+            "marks": [],
+            "text": "Извършваме диагностика и ремонт на автоматични поливни системи: смяна на разпръсквачи и дюзи, отстраняване на течове, ремонт на капкови линии, настройка на контролери и електромагнитни клапани. Предлагаме пролетно пускане, профилактика и подготовка за зимата с продухване, когато системата го изисква."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advhead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "advtext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Бърза диагностика: Проверяваме контролера, зоните, налягането, разпръсквачите и течовете."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Сезонна профилактика: Подготвяме системата за пролетта и зимата."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ремонт вместо ненужна подмяна: Оценяваме състоянието и предлагаме практично решение."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "advtext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "advtext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Модернизация: При нужда обновяваме контролера или отделни компоненти."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "stepshead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "stepsheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Етапи на работа"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "steptext0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext0s",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Заявка и уточняване: Описвате симптомите, обекта и удобното време за посещение."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext1s",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Проверка на място: Тестваме зоните и установяваме причината за проблема."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext2s",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Ремонт и настройка: Подменяме или регулираме необходимите компоненти след съгласуване."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "steptext3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "steptext3s",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Финален тест: Проверяваме работата и даваме препоръки за поддръжка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ctahead",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctaheads",
+            "_type": "span",
+            "marks": [],
+            "text": "Свържете се с Florial"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ctatext",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ctatexts",
+            "_type": "span",
+            "marks": [],
+            "text": "Изпратете запитване за диагностика или сезонно обслужване."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "img0",
+        "_type": "image",
+        "alt": "Ремонт на поливна система",
+        "asset": {
+          "_ref": "image-d8b65d940b3076d0d74c0e69117c88ba96ae3ef6-1254x1254-png",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img1",
+        "_type": "image",
+        "alt": "Пролетно пускане на системата",
+        "asset": {
+          "_ref": "image-a734bc3b00dfa98e72145ee19e5f462607e41048-1254x1254-png",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img2",
+        "_type": "image",
+        "alt": "Консервация на поливна система",
+        "asset": {
+          "_ref": "image-b83619f5a21a6d2e40b2cd6961ced10f5b9e1a7b-1254x1254-png",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img3",
+        "_type": "image",
+        "alt": "Смяна на разпръсквач или дюза",
+        "asset": {
+          "_ref": "image-f0c38ed25499c7dcdde87b0c5e12e7ae2af5d84f-960x1280-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img4",
+        "_type": "image",
+        "alt": "Ремонт на капкова тръба",
+        "asset": {
+          "_ref": "image-88d203bba3f54a66331a295bb6372a93b0c95b97-720x1280-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Ремонт на поливна система",
+        "asset": {
+          "_ref": "image-d8b65d940b3076d0d74c0e69117c88ba96ae3ef6-1254x1254-png",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Диагностика, ремонт, сезонно пускане, настройка и подготовка за зимата на автоматични и капкови поливни системи.",
+      "title": "Поливната система трябва да работи надеждно през целия сезон"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Ремонт на поливна система",
+      "asset": {
+        "_ref": "image-d8b65d940b3076d0d74c0e69117c88ba96ae3ef6-1254x1254-png",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Ремонт и поддръжка на поливни системи",
+    "seo": {
+      "metaDescription": "Диагностика, ремонт, настройка и сезонно обслужване на автоматични и капкови поливни системи в Равда, Кошарица и Ахелой.",
+      "metaTitle": "Ремонт на поливни системи в Равда и Кошарица | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "maintenance",
+    "serviceLayout": "standard",
+    "shortDescription": "Диагностика, ремонт, сезонно пускане, настройка и подготовка за зимата на автоматични и капкови поливни системи.",
+    "slug": {
+      "_type": "slug",
+      "current": "remont-i-poddrazhka"
+    },
+    "sortOrder": 70,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/remontpoliva",
+    "steps": [
+      {
+        "_key": "step0",
+        "text": "Описвате симптомите, обекта и удобното време за посещение.",
+        "title": "Заявка и уточняване"
+      },
+      {
+        "_key": "step1",
+        "text": "Тестваме зоните и установяваме причината за проблема.",
+        "title": "Проверка на място"
+      },
+      {
+        "_key": "step2",
+        "text": "Подменяме или регулираме необходимите компоненти след съгласуване.",
+        "title": "Ремонт и настройка"
+      },
+      {
+        "_key": "step3",
+        "text": "Проверяваме работата и даваме препоръки за поддръжка.",
+        "title": "Финален тест"
+      }
+    ],
+    "translations": {
+      "en": {
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Request diagnostics or seasonal maintenance.",
+          "title": "Request a quote"
+        },
+        "description": "Reliable irrigation throughout the season\n\nWe diagnose and repair automatic irrigation systems, including replacing sprinklers and nozzles, fixing leaks, repairing drip lines and adjusting controllers and solenoid valves. We also offer spring start-up, preventive maintenance and winterisation with blow-out where required.\n\nBenefits\n\nFast diagnostics: We check the controller, zones, pressure, sprinklers and leaks.\n\nSeasonal maintenance: We prepare the system for spring and winter.\n\nRepair instead of unnecessary replacement: We assess the condition and recommend a practical solution.\n\nModernisation: When needed, we upgrade the controller or individual components.\n\nHow we work\n\n1. Request and details: You describe the symptoms, property and preferred visit time.\n\n2. On-site inspection: We test the zones and identify the cause of the problem.\n\n3. Repair and adjustment: We replace or adjust the necessary components after approval.\n\n4. Final test: We check operation and provide maintenance recommendations.\n\nContact Florial\n\nRequest diagnostics or seasonal maintenance.",
+        "hero": {
+          "subtitle": "Diagnostics, repairs, seasonal start-up, adjustments and winterisation for automatic and drip irrigation systems.",
+          "title": "Reliable irrigation throughout the season"
+        },
+        "name": "Irrigation system repair and maintenance",
+        "seo": {
+          "metaDescription": "Diagnostics, repairs, controller adjustments and seasonal servicing for automatic and drip irrigation systems in Ravda, Kosharitsa and Aheloy.",
+          "metaTitle": "Irrigation Repair in Ravda & Kosharitsa | Florial"
+        },
+        "shortDescription": "Diagnostics, repairs, seasonal start-up, adjustments and winterisation for automatic and drip irrigation systems."
+      },
+      "ru": {
+        "callToAction": {
+          "buttonLabel": "Отправить заявку",
+          "text": "Оставьте заявку на диагностику или сезонное обслуживание.",
+          "title": "Запросить предложение"
+        },
+        "description": "Надёжная работа системы полива весь сезон\n\nПроводим диагностику и ремонт автоматических систем полива: заменяем дождеватели и форсунки, устраняем протечки, ремонтируем капельные линии, настраиваем контроллеры и электромагнитные клапаны. Выполняем весенний запуск, профилактику и подготовку к зиме с продувкой, если она необходима.\n\nПреимущества\n\nБыстрая диагностика: проверяем контроллер, зоны, давление, дождеватели и возможные протечки.\n\nСезонное обслуживание: готовим систему к весне и зиме.\n\nРемонт вместо ненужной замены: оцениваем состояние и предлагаем практичное решение.\n\nМодернизация: при необходимости обновляем контроллер или отдельные компоненты.\n\nЭтапы работы\n\n1. Заявка и уточнение: вы описываете симптомы, объект и удобное время визита.\n\n2. Проверка на месте: тестируем зоны и определяем причину неисправности.\n\n3. Ремонт и настройка: после согласования заменяем или регулируем необходимые компоненты.\n\n4. Финальная проверка: проверяем работу системы и даём рекомендации по обслуживанию.\n\nСвяжитесь с Florial\n\nОставьте заявку на диагностику или сезонное обслуживание.",
+        "hero": {
+          "subtitle": "Диагностика, ремонт, сезонный запуск, настройка и подготовка к зиме автоматических систем и капельного полива.",
+          "title": "Надёжная работа системы полива весь сезон"
+        },
+        "name": "Ремонт и обслуживание систем полива",
+        "seo": {
+          "metaDescription": "Диагностика, ремонт, настройка и сезонное обслуживание автоматического и капельного полива в Равде, Кошарице и Ахелое.",
+          "metaTitle": "Ремонт систем полива в Равде и Кошарице | Florial"
+        },
+        "shortDescription": "Диагностика, ремонт, сезонный запуск, настройка и подготовка к зиме автоматических систем и капельного полива."
+      }
+    }
+  }
+}
