@@ -1,3 +1,15 @@
+## 2026-11-12 — Перенос коммерческих статей блога в услуги (контент опубликован, redirect PR в работе)
+
+- В Sanity Production опубликованы 8 специализированных service documents: дождеватели, программаторы, электромагнитные клапаны, ремонт/модернизация полива, годовая профилактика, цветники, топиарная резитба и замена газона. Категории распределены по существующим четырём направлениям: landscaping; irrigation + maintenance + delivery; planting; lawn.
+- Девятая статья `landshaften-dizain-proekt-zasazhdenie` оставлена в блоге как проектный материал: существующая услуга `landshaften-dizain` уже есть; blogPost добавлен в её `relatedContent`. Пятое направление не создавалось.
+- Обновлены `relatedContent` существующих услуг монтажа полива, ремонта/обслуживания полива, посадки растений и рулонной травы — они связывают общие страницы со специализированными услугами.
+- Входящие ссылки из товаров проверены read-only: 46 product docs → статья о дождевателях; 23 → программаторы; 17 → электромагнитные клапаны; 13 → ремонт/модернизация. Эти ссылки не переписывались: исходные blogPost документы и IDs сохраняются, после включения 301 ссылки продолжат работать. Проектная статья о ландшафтном дизайне имеет одну ссылку из существующей service.
+- До Sanity write сохранены JSON snapshots 9 исходных blogPost и 5 существующих service в `docs/backups/sanity-blog-to-services-2026-11-12/` и `docs/backups/sanity-services-before-blog-migration-2026-11-12/`. Это целевые snapshots, не полный dataset export.
+- Все 8 новых услуг имеют BG/RU/EN, SEO, исходные изображения и локализованные ALT; документы опубликованы с `isActive=true`. Schema validation: 8 valid, но custom validation callbacks не выполнялись — требуется ручной осмотр Studio.
+- Live smoke: три новые service pages BG/RU/EN — HTTP 200, index/follow; `/services` — HTTP 200, 20 услуг и все восемь новых slug; sitemap — HTTP 200, содержит новые service URL. Старые blog URLs пока опубликованы и отвечают HTTP 200 — их не снимаем до включения redirect.
+- В ветке `content/blog-posts-to-services-2026-11-12-main` подготовлены allowlist redirect helper, Pages Functions middleware 301 с сохранением query string, unit tests и исправление передачи service image в client-side `applyPageSeo` (до фикса live OG image использовал логотип).
+- Cloudflare Pages Production baseline проверен: deployment `46473f2b-5f04-4d83-9611-2e5b68f0dbd0`, commit `74fe0b9da63413cfde586782532637b558954a5f`, success. Preview выключен; Production code changes не выполнялись. Redirect PR/CI/merge/Production smoke и последующая деактивация старых blogPost остаются открытыми.
+
 ## 2026-11-12 — Интерактивная фильтрация страницы услуг (PR #225 merged)
 
 - PR #225 объединён в main методом squash; merge commit: a8db72ffda86e8d678cfe233a92ae88b0f82a892. Base main до merge: b82fedb92ab30042bcd8ef7d41b25936aae5de72; PR head: d51a04b53f2393b824a78b7affe2700ac75f7014.
