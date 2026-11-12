@@ -79,6 +79,7 @@ export default function App() {
   const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>([])
   const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
   const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
+  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [loadingServices, setLoadingServices] = useState(true)
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
@@ -565,6 +566,36 @@ export default function App() {
     return () => { cancelled = true }
   }, [])
 
+  // The six homepage plant cards are requested only while the homepage is active.
+  // This is intentionally separate from the complete category index used by catalogue routes.
+  useEffect(() => {
+    let cancelled = false
+    if (normalizedRoutePath !== '/' && normalizedRoutePath !== '/index.html') {
+      return () => { cancelled = true }
+    }
+
+    const homepagePlantCategoriesQuery = `
+      *[_type == "category" && _id in [
+        "plants-root", "plants-palms", "plants-olives",
+        "plants-trees-shrubs", "plants-citrus", "plants-flowers"
+      ]] {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, "parentId": parent->_id,
+        "imageUrl": coalesce(image.asset->url, externalImageUrl),
+        "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+        "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+        "isPlantCategory": true
+      }
+    `
+
+    publicPlantsClient.fetch(homepagePlantCategoriesQuery)
+      .then((data) => { if (!cancelled) setHomePlantCategories(Array.isArray(data) ? data : []) })
+      .catch((error) => console.error('Homepage: не удалось загрузить категории растений:', error))
+
+    return () => { cancelled = true }
+  }, [normalizedRoutePath])
+
   // Page data is loaded independently from the Header. Product, category and service
   // readiness are tracked separately so unrelated routes do not wait for the catalogue.
   // Первоначальная загрузка данных из Sanity.
@@ -754,7 +785,6 @@ export default function App() {
         if (cancelled) return
         const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
         const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
-        setPlantCategories(plantsCategoryData)
         setCategories([...equipmentCategories, ...plantsCategoryData])
         if (categoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
@@ -1571,7 +1601,7 @@ export default function App() {
         <HomePage
           services={services}
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
-          plantCategories={plantCategories}
+          plantCategories={homePlantCategories}
           products={products}
           siteSettings={siteSettings}
           loadingProducts={loadingProducts}
