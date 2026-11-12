@@ -1,0 +1,1132 @@
+{
+  "backupCreatedAt": "2026-11-12",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "cfdbf22c-a7d9-480b-b88b-d1529a9389ef",
+    "_rev": "9Jlb6k9xfgGTkBekNEY2fH",
+    "_system": {
+      "base": {
+        "id": "cfdbf22c-a7d9-480b-b88b-d1529a9389ef",
+        "rev": "3ZWSWJ5PmrYEk5hKEBnMNO"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-09T05:13:47Z",
+    "advantages": [
+      {
+        "_key": "plant-adv1",
+        "text": "Съобразяваме растенията със слънцето, почвата, влагата, вятъра и размера им в зряла възраст.",
+        "title": "Подбор според мястото"
+      },
+      {
+        "_key": "plant-adv2",
+        "text": "Оценяваме структурата и оттичането на водата и подбираме подходящ субстрат според конкретните видове.",
+        "title": "Подготовка на почвата"
+      },
+      {
+        "_key": "plant-adv3",
+        "text": "Спазваме правилната дълбочина, разстоянията и особеностите на кореновата система.",
+        "title": "Прецизно засаждане"
+      },
+      {
+        "_key": "plant-adv4",
+        "text": "Извършваме първоначално поливане и даваме ясни препоръки за периода на прихващане.",
+        "title": "Грижа след засаждането"
+      },
+      {
+        "_key": "plant-adv5",
+        "text": "Работим по отделни посадъчни места и по-големи проекти за частни дворове, ваканционни имоти и хотели.",
+        "title": "Решения за различни обекти"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете ни информация за обекта, видовете растения и приблизителните количества. Ще обсъдим подходящото решение и ще подготвим индивидуална оферта.",
+      "title": "Планирате засаждане на растения?"
+    },
+    "contentBlocks": [
+      {
+        "_key": "plant-gallery-layout",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Разполагане на растенията и проверка на композицията преди засаждане в Несебър",
+          "altEn": "Positioning plants and checking the layout before planting in Nessebar",
+          "altRu": "Размещение растений и проверка композиции перед посадкой в Несебре",
+          "asset": {
+            "_ref": "image-79c439d55facff2bb333ab2de775764aff1c9b11-1195x896-jpg",
+            "_type": "reference"
+          },
+          "linkUrl": "https://florial-bg.com/category/rastenia"
+        },
+        "imagePosition": "left",
+        "title": "__gallery:intro"
+      },
+      {
+        "_key": "plant-gallery-soil",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Подготовка на почвата и посадъчните места за озеленяване в Несебър",
+          "altEn": "Preparing soil and planting areas for landscaping in Nessebar",
+          "altRu": "Подготовка почвы и посадочных мест для озеленения в Несебре",
+          "asset": {
+            "_ref": "image-0a0bc9b13cb7b15348ec3c15ce2b6bd567b0b64d-896x1195-jpg",
+            "_type": "reference"
+          },
+          "linkUrl": "https://florial-bg.com/category/darveta-i-hrasti"
+        },
+        "imagePosition": "right",
+        "title": "__gallery:trenches"
+      },
+      {
+        "_key": "plant-gallery-trees",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Засаждане на декоративни растения и оформяне на жив плет в Несебър",
+          "altEn": "Planting ornamental shrubs and establishing a hedge in Nessebar",
+          "altRu": "Посадка декоративных растений и устройство живой изгороди в Несебре",
+          "asset": {
+            "_ref": "image-b2ce36d658fbb54137c4a1403180afeaae3d3db2-1517x704-jpg",
+            "_type": "reference"
+          },
+          "linkUrl": "https://florial-bg.com/category/soliteri-edrorazmerni"
+        },
+        "imagePosition": "left",
+        "title": "__gallery:equipment"
+      },
+      {
+        "_key": "plant-gallery-perennials",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Засаждане на декоративни треви и лавандула в градинска композиция край Несебър",
+          "altEn": "Planting ornamental grasses and lavender in a garden scheme near Nessebar",
+          "altRu": "Посадка декоративных трав и лаванды в садовой композиции возле Несебра",
+          "asset": {
+            "_ref": "image-ae47127869479bd2d8d0bfd01b0e7b2a4676923d-896x1195-jpg",
+            "_type": "reference"
+          },
+          "linkUrl": "https://florial-bg.com/category/tsvetya-i-rozi"
+        },
+        "imagePosition": "right",
+        "title": "__gallery:automation"
+      },
+      {
+        "_key": "plant-gallery-watering-2026",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Полагане на капкова тръба за напояване на новозасадени растения в градина край Несебър",
+          "altEn": "Installing drip irrigation tubing for newly planted garden plants near Nessebar",
+          "altRu": "Монтаж капельной линии для полива новых посадок в саду рядом с Несебром",
+          "asset": {
+            "_ref": "image-3bfa49590b6f3271e64a2666411feeacf1f785c4-1152x1536-jpg",
+            "_type": "reference"
+          },
+          "linkUrl": "https://florial-bg.com/category/kapkovo-napoyavane"
+        },
+        "imagePosition": "left",
+        "title": "__gallery:watering"
+      }
+    ],
+    "description": [
+      {
+        "_key": "p-h2-1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Защо правилното засаждане е толкова важно"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-1s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Красивата градина започва не само с добър избор на растения, но и с правилното им засаждане. "
+          },
+          {
+            "_key": "p-p-1s1",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Начинът, по който се подготвя мястото, кореновата зона и поливането в първите седмици"
+          },
+          {
+            "_key": "p-p-1s2",
+            "_type": "span",
+            "marks": [],
+            "text": ", оказва пряко влияние върху прихващането, растежа и бъдещия вид на градината."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-2s0",
+            "_type": "span",
+            "marks": [],
+            "text": "В градински център Florial извършваме професионално засаждане на декоративни и плодни дървета, храсти, иглолистни растения, цветя, многогодишни видове, декоративни треви и живи плетове. Работим както по отделни посадъчни места, така и по цялостни проекти за частни дворове, ваканционни имоти, хотели и обществени пространства."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-3s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Подхождаме към всеки обект според конкретните условия. Не използваме една и съща почвена смес или схема за всички растения: различните видове имат различни изисквания към структурата на почвата, влагата, реакцията на субстрата, светлината и свободното пространство."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Планиране на засаждането и избор на растения"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-4s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Преди да започнем, уточняваме какъв резултат искате да постигнете — единични акцентни дървета, зелени групи, цветни лехи, жив плет или цялостно озеленяване. Когато има ландшафтен проект, съобразяваме работата с него; когато няма, можем да помогнем с практично разпределение на растенията според мястото и целите."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Място, светлина и бъдещ размер"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-5s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Оценяваме изложението, часовете пряко слънце, засенчването от сгради и съществуващи дървета, ветровите коридори и близостта до настилки, огради и комуникации. Важно е да предвидим "
+          },
+          {
+            "_key": "p-p-5s1",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "размера на растението в зряла възраст"
+          },
+          {
+            "_key": "p-p-5s2",
+            "_type": "span",
+            "marks": [],
+            "text": " — не само размера му в деня на засаждането. Така се избягва прекалено гъсто засаждане и последваща необходимост от често преместване или силна резитба."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Разстояния и композиция"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-6s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Разполагаме растенията предварително на терена, проверяваме пропорциите и разстоянията и едва след това започваме изкопните работи. При живите плетове отчитаме избрания вид, желаната плътност, ширината на бъдещата корона и необходимото пространство за поддръжка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготовка на терена и почвата"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-7s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Качественото засаждане започва под повърхността. Проверяваме състоянието на почвата, уплътняването, пропускливостта и оттичането на водата. При необходимост отстраняваме плевели и строителни остатъци, разрохкваме уплътнени участъци и подготвяме посадъчните места с размер, съобразен с кореновата бала и особеностите на вида."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подходящ субстрат за конкретното растение"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-8s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Почвената смес се подбира според растението и реалните условия на обекта. Може да включва наличната почва, качествен компост или подходящ субстрат, минерални компоненти за подобряване на структурата и материали за по-добра аерация. "
+          },
+          {
+            "_key": "p-p-8s1",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Не добавяме торф, пясък, перлит, варовик или тор по универсална рецепта"
+          },
+          {
+            "_key": "p-p-8s2",
+            "_type": "span",
+            "marks": [],
+            "text": " — изборът зависи от почвата, pH и нуждите на конкретния вид."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Дренаж и отвеждане на излишната вода"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-9s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Особено внимание отделяме на местата със задържане на вода. Ако теренът е тежък или има високи подпочвени води, първо преценяваме как може да се осигури реално отвеждане на излишната влага. Самостоятелен слой чакъл на дъното на ямата не е универсално решение и не замества работещ дренаж."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Засаждане на дървета, храсти и живи плетове"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-10s0",
+            "_type": "span",
+            "marks": [],
+            "text": "При дърветата и големите храсти внимателно запазваме кореновата бала, позиционираме растението вертикално и проверяваме нивото на кореновата шийка. Засаждаме на правилната дълбочина — горната част на кореновата бала и кореновото разширение не трябва да остават заровени прекомерно дълбоко."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-5s",
+            "_type": "span",
+            "marks": [],
+            "text": "Декоративни и плодни дървета"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-11s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготвяме ямата според размера и състоянието на кореновата система. При контейнерни растения проверяваме корените и внимателно освобождаваме силно завити корени, когато това е подходящо за вида. При по-едри екземпляри планираме безопасното преместване и позициониране с подходяща техника и достатъчно работно пространство."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Храсти и живи плетове"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-12s0",
+            "_type": "span",
+            "marks": [],
+            "text": "За жив плет разчертаваме линията, броя растения и разстоянията според вида и желания ефект. Подготвяме равномерна посадъчна траншея или отделни ями според терена, засаждаме на еднакво ниво и оформяме почвата така, че да няма големи въздушни кухини около корените."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-5s",
+            "_type": "span",
+            "marks": [],
+            "text": "Засаждане на цветя и декоративни треви"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-13s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Цветните лехи и многогодишните композиции изискват съчетаване на височина, период на цъфтеж, цвят, текстура и нужди от вода. Подреждаме растенията така, че композицията да изглежда добре не само непосредствено след засаждането, но и когато видовете достигнат нормалния си размер."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-14s0",
+            "_type": "span",
+            "marks": [],
+            "text": "При декоративните треви, лавандулата и други сухоустойчиви видове обръщаме специално внимание на слънчевото изложение и оттичането на водата. При растения, които предпочитат по-влажна почва или полусянка, подготвяме съответната зона отделно, вместо да прилагаме еднакъв режим за цялата градина."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Поливане и грижи след засаждането"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-15s0",
+            "_type": "span",
+            "marks": [],
+            "text": "След засаждането поливаме така, че почвата да прилепне добре към кореновата бала и влагата да достигне кореновата зона. Количеството и честотата зависят от вида, размера на растението, сезона, почвата, времето и наличната поливна система. Прекомерното поливане също може да бъде проблем — важно е да се поддържа подходящ баланс."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "plant-irrigation-h3-2026",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "plant-irrigation-h3s-2026",
+            "_type": "span",
+            "marks": [],
+            "text": "Капково напояване за по-лесна грижа"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "plant-irrigation-p-2026",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "plant-irrigation-p0-2026",
+            "_type": "span",
+            "marks": [],
+            "text": "При градини с повече растения или зони с различни нужди от вода можем да предвидим система за капково напояване. Капковите линии подават водата постепенно в кореновата зона, а разположението им и режимът на работа се съобразяват с видовете растения, разстоянията, почвата и водоизточника. "
+          },
+          {
+            "_key": "plant-irrigation-p1-2026",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "Така поливането става по-равномерно и по-лесно за управление"
+          },
+          {
+            "_key": "plant-irrigation-p2-2026",
+            "_type": "span",
+            "marks": [],
+            "text": ", без да е необходимо всяка зона да се полива ръчно. Вижте и нашата услуга за капково напояване на градини."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-7s",
+            "_type": "span",
+            "marks": [],
+            "text": "Укрепване и мулчиране"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-16s0",
+            "_type": "span",
+            "marks": [],
+            "text": "При необходимост укрепваме дърветата с подходящи колове или опори, без да притискаме и нараняваме ствола. Можем да положим мулч, който ограничава изпарението и плевелите; оставяме свободно пространство около стъблото, за да не задържаме влага непосредствено до кората."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h3-8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h3-8s",
+            "_type": "span",
+            "marks": [],
+            "text": "Инструкции за първоначална поддръжка"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "p-p-17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-17s0",
+            "_type": "span",
+            "marks": [],
+            "text": "След приключване на работата обясняваме как да се следи влажността, кога да се полива и за какви признаци да се наблюдава растението през периода на прихващане. При необходимост можем да обсъдим последваща поддръжка и настройка на поливането."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-7s",
+            "_type": "span",
+            "marks": [],
+            "text": "Засаждане в условията на Южното Черноморие"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-18s0",
+            "_type": "span",
+            "marks": [],
+            "text": "В района на Несебър и Южното Черноморие изборът и разполагането на растенията трябва да отчитат силното лятно слънце, периодите без валежи, ветровете и възможното влияние на морския аерозол. На открити места подбираме видове и позиции с оглед на устойчивостта им към конкретните условия, а по-защитените зони можем да използваме за по-чувствителни растения."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-19",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-19s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Проверяваме дали водата достига равномерно до новозасадените растения и дали почвата не остава постоянно преовлажнена. При по-големи проекти можем да съчетаем засаждането с проектиране или монтаж на автоматична поливна система, така че различните групи растения да получават подходящ режим на напояване."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-8s",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво включва услугата по засаждане"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-li-0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Оглед и уточняване на видовете, количествата и особеностите на терена."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Планиране на местата и разстоянията за засаждане."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготовка на почвата и посадъчните ями или траншеи."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подбор и влагане на подходящ субстрат и почвени подобрители според нуждите."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Доставка и внимателно разполагане на растенията — според договорения обхват."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-5s",
+            "_type": "span",
+            "marks": [],
+            "text": "Засаждане, оформяне на почвата и първоначално поливане."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-li-6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-li-6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Укрепване, мулчиране и инструкции за последваща грижа, когато са необходими."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-20s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Точният обхват се определя след разговор и оглед. Доставка на растения, почвени материали, дренаж, поливна система, извозване на отпадъци и последваща поддръжка се уточняват в индивидуалната оферта, за да знаете предварително какво е включено."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-h2-9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-h2-9s",
+            "_type": "span",
+            "marks": [],
+            "text": "Професионално засаждане от Florial"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "p-p-21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-21s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial съчетава градински център, познаване на растенията и практически опит в озеленяването. Можем да помогнем както с отделни посадъчни работи, така и с изпълнение на по-цялостни решения за частни градини, ваканционни имоти и търговски обекти в Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой и района на Бургас."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "p-p-22",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "p-p-22s0",
+            "_type": "span",
+            "marks": [],
+            "text": "Изпратете ни запитване с кратко описание на обекта, желаните растения и приблизителните количества. Ще обсъдим задачата и ще предложим подходящ начин за изпълнение."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Професионално засаждане на дървета, храсти и декоративни растения в градина край Несебър",
+        "altEn": "Professional planting of trees, shrubs and ornamental plants in a garden near Nessebar",
+        "altRu": "Профессиональная посадка деревьев, кустарников и декоративных растений в саду рядом с Несебром",
+        "asset": {
+          "_ref": "image-35a734709168d464fa345c4f4a718908ca492fec-1376x768-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Засаждане на дървета, декоративни храсти, цветя и живи плетове с индивидуален подход към почвата, мястото и нуждите на всяко растение.",
+      "title": "Професионално засаждане на растения за красива и устойчива градина"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Професионално засаждане на дървета, храсти и декоративни растения в градина край Несебър",
+      "altEn": "Professional planting of trees, shrubs and ornamental plants in a garden near Nessebar",
+      "altRu": "Профессиональная посадка деревьев, кустарников и декоративных растений в саду рядом с Несебром",
+      "asset": {
+        "_ref": "image-35a734709168d464fa345c4f4a718908ca492fec-1376x768-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Засаждане на растения",
+    "relatedContent": [
+      {
+        "_key": "related-olive-planting",
+        "_ref": "6afc3eff-944c-4085-a48c-38686999b0f3",
+        "_type": "reference"
+      },
+      {
+        "_key": "related-drip-irrigation",
+        "_ref": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "засаждане на растения Несебър",
+        "професионално засаждане",
+        "засаждане на дървета",
+        "засаждане на храсти",
+        "засаждане на жив плет",
+        "озеленяване Равда",
+        "засаждане Слънчев бряг",
+        "озеленяване Свети Влас",
+        "засаждане Поморие",
+        "озеленяване Бургас"
+      ],
+      "metaDescription": "Професионално засаждане на дървета, храсти, цветя и живи плетове с подготовка на почвата и грижа за прихващането в Несебър и Южното Черноморие.",
+      "metaTitle": "Засаждане на растения в Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "planting",
+    "serviceLayout": "standard",
+    "shortDescription": "Професионално засаждане на дървета, храсти, цветя, иглолистни растения и живи плетове с подготовка на почвата, правилно разполагане и грижа за прихващането.",
+    "slug": {
+      "_type": "slug",
+      "current": "zasazhdane-na-rasteniya"
+    },
+    "sortOrder": 20,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/planting-plants",
+    "steps": [
+      {
+        "_key": "plant-step1",
+        "text": "Обсъждаме целите, видовете и количествата растения, условията на терена и необходимия обхват на работата.",
+        "title": "Оглед и уточняване"
+      },
+      {
+        "_key": "plant-step2",
+        "text": "Определяме местата и разстоянията, проверяваме композицията и достъпа за работа.",
+        "title": "Планиране и разчертаване"
+      },
+      {
+        "_key": "plant-step3",
+        "text": "Подготвяме почвата, посадъчните ями или траншеи и подходящите почвени материали.",
+        "title": "Подготовка на терена"
+      },
+      {
+        "_key": "plant-step4",
+        "text": "Разполагаме растенията внимателно, спазваме правилното ниво и оформяме почвата около корените.",
+        "title": "Доставка и засаждане"
+      },
+      {
+        "_key": "plant-step5",
+        "text": "Поливаме след засаждането и даваме препоръки за наблюдение и грижа през първите седмици.",
+        "title": "Поливане и предаване"
+      }
+    ],
+    "translations": {
+      "en": {
+        "advantages": [
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER15O",
+            "text": "We consider sunlight, soil, moisture, wind exposure and the plant's mature size.",
+            "title": "Plants suited to the site"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER16H",
+            "text": "We assess soil structure and drainage and select suitable materials for the species and site.",
+            "title": "Proper soil preparation"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER17A",
+            "text": "We use appropriate planting depths and spacing and take the root system into account.",
+            "title": "Careful planting"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER183",
+            "text": "We water after planting and explain how to care for plants during establishment.",
+            "title": "Aftercare guidance"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER18w",
+            "text": "We handle individual planting jobs and larger projects for private gardens, holiday homes and hotels.",
+            "title": "For a range of properties"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Send us a few details about the site, the plants you have in mind and the approximate quantities. We will discuss a suitable solution and prepare a tailored quotation.",
+          "title": "Planning a planting project?"
+        },
+        "description": "## Professional planting for a healthy garden that lasts\n\nA beautiful garden starts with more than choosing attractive plants. The planting area, soil, root zone and aftercare all need to be considered. Mistakes during planting can slow establishment, weaken growth and put even good-quality plants at risk.\n\nFlorial Garden Centre provides professional planting of ornamental and fruit trees, shrubs, conifers, flowers, perennials, ornamental grasses and hedges. We handle individual planting jobs as well as wider landscaping projects for private gardens, holiday homes, hotels and commercial properties.\n\nWe do not apply one universal method to every plant. **The planting approach depends on the species, root system, soil, sunlight, moisture and the actual conditions on site.**\n\n## Planning the planting and selecting suitable plants\n\nBefore work begins, we clarify the goal: feature trees, shrub groups, flower beds, hedges or a complete planting scheme. If a landscape design is available, we follow it. If not, we can help arrange the plants in a practical way that reflects the site and the owner's preferences.\n\n### Location, sunlight and mature plant size\n\nWe assess sunlight throughout the day, shade from buildings and existing trees, wind exposure, and the proximity of paths, patios, fences and utilities. We plan for **the plant's mature size**, not only the dimensions it has when purchased. This helps prevent overcrowding, competition for light and the need for frequent relocation or severe pruning later.\n\n### Spacing and overall composition\n\nBefore excavation, we position the plants on site and check proportions, spacing and the overall composition. For hedges, we consider the species, desired density, mature canopy width and access for future maintenance.\n\n## Preparing the site and soil\n\nGood planting starts with understanding the soil. We assess its structure, compaction, permeability and how excess water drains away. Where needed, we clear weeds and construction debris, loosen compacted areas and prepare planting holes or trenches to suit the root ball and the plant species.\n\n### A soil mix suited to each plant\n\nThe soil mix depends on the plant and the existing ground conditions. Depending on the site, it may include native soil, mature compost, a suitable planting substrate and mineral components to improve structure and aeration. **Peat, sand, perlite, lime-based materials and fertilisers are not added according to a one-size-fits-all recipe**; their use depends on soil properties, pH and the needs of the particular plant.\n\n### Drainage and excess water\n\nWe pay special attention to areas where water remains after rain or irrigation. On heavy soils or sites with a high water table, we first assess how excess water can be properly discharged. A layer of gravel at the bottom of a planting hole is not a universal solution and cannot replace a functioning drainage system.\n\n## Planting trees, shrubs and hedges\n\nWhen planting trees and larger shrubs, it is important to protect the root ball, keep the plant upright and set the root collar at the correct level. Plants should not be buried too deeply: the top of the root ball and the root flare must not end up excessively below ground level.\n\n### Ornamental and fruit trees\n\nWe size each planting hole according to the root system and soil conditions. For container-grown plants, we inspect the roots and carefully loosen tightly circling roots when this is appropriate for the species. For larger specimens, we plan safe handling and positioning in advance, taking access and working space into account.\n\n### Shrubs and living hedges\n\nFor a hedge, we mark out the planting line, plant count and spacing. We consider the selected species, the required density and the mature size of the shrubs. Depending on the site, we prepare a continuous trench or individual holes, keep planting levels consistent and carefully backfill around the roots without leaving large air pockets.\n\n## Planting flowers and ornamental grasses\n\nFlower beds and perennial schemes require a considered combination of height, flowering season, colour, texture and water requirements. We position plants so the composition remains attractive not only immediately after planting, but also as the plants mature.\n\nFor ornamental grasses, lavender and other drought-tolerant species, a sunny position and good drainage are particularly important. Plants that prefer moist soil or partial shade are placed in suitable areas. We avoid imposing the same irrigation schedule on the whole garden when plant groups have different needs.\n\n## Watering and aftercare\n\nAfter planting, we water thoroughly enough to settle the soil around the root ball and bring moisture into the root zone. The amount and frequency depend on the species, plant size, season, weather, soil structure and the available irrigation system. Excess water can also cause problems, so the aim is to maintain the right balance.\n\n### Drip irrigation for easier aftercare\n\nFor gardens with many plants or separate areas with different watering needs, we can plan a drip irrigation system. Drip lines deliver water gradually to the root zone, with their layout and operating schedule tailored to the plant species, spacing, soil and available water source. **This makes watering more consistent and easier to manage**, while reducing the time needed for routine garden care. You can also explore our drip irrigation service for gardens.\n\n### Staking and mulching\n\nWhere necessary, we support trees with suitable stakes or ties without damaging or constricting the trunk. Mulch can help reduce evaporation and weed growth. We leave a clear space around the trunk so that mulch does not hold moisture directly against the bark.\n\n### Guidance for ongoing care\n\nWhen the work is complete, we explain how to monitor soil moisture, when to water and what to watch for during the establishment period. Further garden maintenance and irrigation adjustments can be discussed separately if required.\n\n## Planting in the Southern Black Sea coastal climate\n\nAround Nessebar and the Southern Black Sea coast, plant selection and positioning should take account of strong summer sun, dry periods, wind and possible exposure to sea spray. In exposed areas, we select plants and locations with their tolerance of local conditions in mind; more sheltered areas can be used for less tolerant species.\n\nWe also check that newly planted areas receive water evenly and that the soil does not remain constantly waterlogged. For larger projects, planting can be coordinated with the design or installation of an automatic irrigation system, allowing different plant groups to receive suitable watering schedules.\n\n## What the planting service can include\n\nDepending on the project and the agreed scope, the service may include:\n\n- Site assessment and confirmation of plant types and quantities.\n- Planning planting positions and spacing.\n- Preparing the soil, planting holes and trenches.\n- Selecting suitable substrates and soil amendments.\n- Delivery and careful positioning of plants, where included in the proposal.\n- Planting, shaping the soil around the root zone and initial watering.\n- Staking, mulching and aftercare guidance where required.\n\nThe exact scope is agreed after discussing the project and, where appropriate, visiting the site. Plant and material delivery, drainage works, irrigation installation, waste removal and ongoing maintenance are listed separately in the quotation so it is clear what is included.\n\n## Professional planting by Florial\n\nFlorial combines a garden centre, practical plant knowledge and hands-on landscaping experience. We can carry out individual planting jobs or help deliver a more complete solution for private gardens, holiday properties, hotels and commercial outdoor spaces.\n\nWe work in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy, Burgas and nearby settlements.\n\nSend us an enquiry with a short description of the site, the plants you have in mind and the approximate quantities. We will discuss the project and suggest a suitable way forward.",
+        "hero": {
+          "subtitle": "Planting trees, ornamental shrubs, flowers and hedges with an individual approach to the soil, location and needs of each plant.",
+          "title": "Professional Planting for a Beautiful, Healthy Garden"
+        },
+        "name": "Planting Services",
+        "seo": {
+          "keywords": [
+            "planting services Nessebar",
+            "professional tree planting Bulgaria",
+            "shrub planting",
+            "hedge planting",
+            "garden planting Ravda",
+            "landscaping Sunny Beach",
+            "planting Sveti Vlas",
+            "garden planting Pomorie",
+            "landscaping Burgas"
+          ],
+          "metaDescription": "Professional planting of trees, shrubs, flowers and hedges, including soil preparation and aftercare, in Nessebar and the Southern Black Sea coast.",
+          "metaTitle": "Planting Services in Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Professional planting of trees, shrubs, flowers, conifers and hedges, including soil preparation, careful positioning and establishment guidance.",
+        "steps": [
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER10x",
+            "text": "We discuss your goals, plant types and quantities, site conditions and the required scope of work.",
+            "title": "Site review and brief"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER11q",
+            "text": "We mark planting positions and spacing, check the composition and confirm access.",
+            "title": "Planning and setting out"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER12j",
+            "text": "We prepare the soil, planting holes or trenches and suitable planting materials.",
+            "title": "Site preparation"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER13c",
+            "text": "We position plants carefully, set the correct planting level and finish the soil around the roots.",
+            "title": "Delivery and planting"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER14V",
+            "text": "We water after planting and provide guidance for the first weeks of care.",
+            "title": "Watering and handover"
+          }
+        ]
+      },
+      "ru": {
+        "advantages": [
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER19p",
+            "text": "Учитываем солнце, почву, влажность, ветер и размеры растения во взрослом состоянии.",
+            "title": "Подбор с учётом участка"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1Ai",
+            "text": "Оцениваем структуру грунта и отвод воды, подбираем подходящий субстрат для конкретных видов.",
+            "title": "Подготовка почвы"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1Bb",
+            "text": "Соблюдаем правильную глубину, расстояния и особенности корневой системы.",
+            "title": "Аккуратная посадка"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1CU",
+            "text": "Выполняем первоначальный полив и даём рекомендации на период укоренения.",
+            "title": "Уход после посадки"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1DN",
+            "text": "Выполняем отдельные посадки и более масштабные проекты для частных садов, домов отдыха и гостиниц.",
+            "title": "Работа с разными объектами"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Отправить заявку",
+          "text": "Отправьте нам информацию об участке, желаемых растениях и примерном количестве. Мы обсудим подходящее решение и подготовим индивидуальное предложение.",
+          "title": "Планируете посадку растений?"
+        },
+        "description": "## Профессиональная посадка растений для здорового сада на долгие годы\n\nКрасивая и ухоженная территория начинается не только с выбора растений. Не менее важно правильно подготовить место, посадочную яму, почву и организовать уход после пересадки. Ошибки на этом этапе могут замедлить рост, ухудшить приживаемость и привести к потере даже качественного посадочного материала.\n\nВ садовом центре Florial мы выполняем профессиональную посадку декоративных и плодовых деревьев, кустарников, хвойных растений, цветов, многолетников, декоративных трав и живых изгородей. Работаем как с отдельными посадками, так и с комплексным озеленением частных садов, домов для отдыха, гостиниц и коммерческих объектов.\n\nМы не используем одну универсальную схему для всех растений. **Технология посадки зависит от вида, состояния корневой системы, почвы, освещения, влажности и условий конкретного участка.**\n\n## Планирование посадки и выбор растений\n\nПеред началом работ уточняем задачу: акцентные деревья, группы кустарников, цветники, живая изгородь или комплексное озеленение. Если есть ландшафтный проект, выполняем посадки в соответствии с ним. Если проекта нет, помогаем рационально распределить растения с учётом особенностей территории и пожеланий владельца.\n\n### Место, освещение и взрослые размеры\n\nОцениваем освещённость в течение дня, затенение от зданий и существующих деревьев, направление ветра, близость дорожек, площадок, ограждений и коммуникаций. При планировании учитываем **размер растения во взрослом состоянии**, а не только его высоту и ширину в момент покупки. Это помогает избежать слишком плотной посадки, конкуренции за свет и необходимости частых пересадок или сильной обрезки.\n\n### Расстояния и композиция\n\nДо начала земляных работ расставляем растения на участке, проверяем пропорции, интервалы и общий вид композиции. Для живых изгородей учитываем вид растения, желаемую плотность, будущую ширину кроны и доступ для дальнейшего ухода.\n\n## Подготовка участка и почвы\n\nКачественная посадка начинается с оценки почвы. Проверяем её структуру, степень уплотнения, водопроницаемость и условия отвода лишней влаги. При необходимости очищаем место от сорняков и строительных остатков, разрыхляем уплотнённые участки и готовим посадочные ямы или траншеи с учётом размеров корневого кома и особенностей растения.\n\n### Почвенная смесь подбирается индивидуально\n\nСостав грунта зависит от вида растения и исходной почвы. В зависимости от условий могут использоваться местный грунт, зрелый компост, подходящий специализированный субстрат и минеральные компоненты для улучшения структуры и аэрации. **Торф, песок, перлит, известковые материалы и удобрения не добавляются по универсальному рецепту** — их применение определяется свойствами почвы, её pH и потребностями конкретного растения.\n\n### Дренаж и отвод воды\n\nОсобое внимание уделяем участкам, где после дождя или полива задерживается вода. На тяжёлых почвах и при высоком уровне грунтовых вод сначала оцениваем, как можно обеспечить реальный отвод избыточной влаги. Один только слой щебня на дне посадочной ямы не является универсальным решением и не заменяет работающую дренажную систему.\n\n## Посадка деревьев, кустарников и живых изгородей\n\nПри посадке деревьев и крупных кустарников важно сохранить корневой ком, установить растение вертикально и правильно определить уровень корневой шейки. Растение нельзя заглублять произвольно: верх корневого кома и место перехода ствола в корни не должны оказаться слишком глубоко под землёй.\n\n### Декоративные и плодовые деревья\n\nРазмер посадочной ямы подбираем с учётом корневой системы и состояния грунта. У контейнерных растений осматриваем корни; если они сильно закручены, аккуратно освобождаем их, когда это допустимо для конкретного вида. Для крупных экземпляров заранее планируем безопасное перемещение и установку, учитывая доступ техники и рабочее пространство.\n\n### Кустарники и живые изгороди\n\nДля живой изгороди размечаем линию посадки, количество растений и расстояния между ними. Учитываем выбранный вид, желаемую плотность и будущие размеры кустарников. В зависимости от участка готовим общую траншею или отдельные посадочные ямы, выравниваем уровень посадки и аккуратно заполняем пространство вокруг корней, не оставляя крупных воздушных полостей.\n\n## Посадка цветов и декоративных трав\n\nЦветники и композиции из многолетников требуют продуманного сочетания высоты, сроков цветения, окраски, фактуры и потребности во влаге. Располагаем растения так, чтобы композиция сохраняла выразительность не только сразу после посадки, но и по мере их разрастания.\n\nДля декоративных трав, лаванды и других засухоустойчивых видов особенно важны солнечное место и хороший отвод лишней воды. Растениям, предпочитающим более влажную почву или полутень, выделяем подходящие зоны. При этом не назначаем одинаковый режим полива для всей территории, если потребности растений различаются.\n\n## Полив и уход после посадки\n\nПосле посадки поливаем растения так, чтобы почва плотно соприкоснулась с корневым комом, а влага достигла корневой зоны. Объём и частота полива зависят от вида и размера растения, сезона, погоды, структуры почвы и наличия системы полива. Избыточная влажность также опасна, поэтому важно поддерживать подходящий баланс.\n\n### Капельный полив для регулярного ухода\n\nДля сада с большим количеством растений или отдельными зонами с разной потребностью во влаге можно предусмотреть систему капельного полива. Капельные линии постепенно подают воду непосредственно в корневую зону. Их расположение и режим работы подбираются с учётом видов растений, расстояний между ними, почвы и источника воды. **Так полив становится более равномерным и удобным в управлении**, а повседневный уход требует меньше времени. Подробнее — на странице услуги капельного полива для сада.\n\n### Фиксация и мульчирование\n\nПри необходимости устанавливаем опоры или крепления для деревьев, не повреждая ствол и не пережимая его. Можем использовать мульчу для уменьшения испарения и роста сорняков. При этом оставляем свободное пространство вокруг ствола, чтобы мульча не удерживала влагу непосредственно у коры.\n\n### Рекомендации по дальнейшему уходу\n\nПосле завершения работ объясняем, как контролировать влажность почвы, когда поливать и на какие признаки обращать внимание в период укоренения. При необходимости можно отдельно согласовать дальнейшее обслуживание сада и настройку полива.\n\n## Особенности посадки на Южном Черноморье\n\nВ районе Несебра и Южного Черноморья при выборе растений и места посадки важно учитывать сильное летнее солнце, периоды без осадков, ветер и возможное воздействие морского аэрозоля. На открытых участках подбираем растения и места с учётом их устойчивости к местным условиям, а более защищённые зоны можно использовать для чувствительных видов.\n\nПроверяем, равномерно ли поступает вода к новым посадкам и не остаётся ли почва постоянно переувлажнённой. Для крупных проектов посадку можно объединить с проектированием или монтажом автоматического полива, чтобы разные группы растений получали подходящий режим орошения.\n\n## Что входит в услугу посадки растений\n\nВ зависимости от задачи и согласованного объёма работ услуга может включать:\n\n- Осмотр участка и уточнение видов и количества растений.\n- Планирование мест и расстояний посадки.\n- Подготовку почвы, посадочных ям и траншей.\n- Подбор подходящего субстрата и почвенных добавок.\n- Доставку и аккуратное размещение растений — если это предусмотрено предложением.\n- Посадку, формирование приствольной зоны и первоначальный полив.\n- Установку опор, мульчирование и рекомендации по уходу, когда это необходимо.\n\nТочный состав работ определяем после обсуждения проекта и, при необходимости, осмотра участка. Доставка растений и материалов, устройство дренажа, монтаж полива, вывоз отходов и последующее обслуживание отдельно указываются в предложении, чтобы заранее было понятно, что входит в стоимость.\n\n## Профессиональная посадка растений от Florial\n\nFlorial объединяет садовый центр, знание растений и практический опыт в озеленении. Мы можем выполнить отдельные посадочные работы или помочь с более комплексным решением для частного сада, дома для отдыха, гостиницы и коммерческой территории.\n\nРаботаем в Несебре, Равде, Солнечном Береге, Святом Власе, Поморие, Ахелое, Бургасе и близлежащих населённых пунктах.\n\nОтправьте заявку с кратким описанием участка, перечнем желаемых растений и примерным количеством. Мы обсудим задачу и предложим подходящий вариант выполнения работ.",
+        "hero": {
+          "subtitle": "Посадка деревьев, декоративных кустарников, цветов и живых изгородей с учётом почвы, места и потребностей каждого растения.",
+          "title": "Профессиональная посадка растений для красивого и здорового сада"
+        },
+        "name": "Посадка растений",
+        "seo": {
+          "keywords": [
+            "посадка растений Несебр",
+            "профессиональная посадка деревьев",
+            "посадка кустарников",
+            "посадка живой изгороди",
+            "озеленение Равда",
+            "посадка растений Солнечный Берег",
+            "озеленение Святой Влас",
+            "посадка Поморие",
+            "озеленение Бургас"
+          ],
+          "metaDescription": "Профессиональная посадка деревьев, кустарников, цветов и живых изгородей с подготовкой почвы и рекомендациями по уходу в Несебре и на Южном Черноморье.",
+          "metaTitle": "Посадка растений в Несебре | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Профессиональная посадка деревьев, кустарников, цветов, хвойных растений и живых изгородей с подготовкой почвы, правильным размещением и рекомендациями по приживаемости.",
+        "steps": [
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1EG",
+            "text": "Обсуждаем цели, виды и количество растений, условия участка и необходимый объём работ.",
+            "title": "Осмотр и уточнение задачи"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1F9",
+            "text": "Определяем места и расстояния, проверяем композицию и доступ для выполнения работ.",
+            "title": "Планирование и разметка"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1G2",
+            "text": "Готовим почву, посадочные ямы или траншеи и подходящие материалы.",
+            "title": "Подготовка участка"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1Gv",
+            "text": "Аккуратно размещаем растения, соблюдаем уровень посадки и формируем почву вокруг корней.",
+            "title": "Доставка и посадка"
+          },
+          {
+            "_key": "9Jlb6k9xfgGTkBekNER1Ho",
+            "text": "Поливаем после посадки и объясняем, как ухаживать за растениями в первые недели.",
+            "title": "Полив и рекомендации"
+          }
+        ]
+      }
+    }
+  }
+}
