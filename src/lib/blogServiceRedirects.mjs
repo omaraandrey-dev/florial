@@ -4,6 +4,7 @@ const BLOG_TO_SERVICE_REDIRECTS = Object.freeze({
   'montazh-remont-elektromagnitni-klapani': 'montazh-remont-elektromagnitni-klapani',
   'remont-modernizatsiya-polivni-sistemi': 'remont-modernizatsiya-polivni-sistemi',
   'godishna-poddruzhka-avtomatichni-sistemi': 'godishna-poddruzhka-avtomatichni-sistemi',
+  'landshaften-dizain-proekt-zasazhdenie': 'landshaften-dizain',
   'izgrazhdane-tsvetni-lehi': 'izgrazhdane-tsvetni-lehi',
   'topiarna-rezitba-rasteniya': 'topiarna-rezitba-rasteniya',
   'podmyana-stara-travna-plosht': 'podmyana-stara-travna-plosht',
@@ -12,7 +13,11 @@ const BLOG_TO_SERVICE_REDIRECTS = Object.freeze({
 export function getBlogServiceRedirectPath(pathname) {
   if (typeof pathname !== 'string') return null
 
-  const normalizedPath = pathname.replace(/\\/+$/, '') || '/'
+  let normalizedPath = pathname
+  while (normalizedPath.length > 1 && normalizedPath.endsWith('/')) {
+    normalizedPath = normalizedPath.slice(0, -1)
+  }
+
   const prefix = '/blog/'
   if (!normalizedPath.startsWith(prefix)) return null
 
@@ -25,6 +30,8 @@ export function getBlogServiceRedirectPath(pathname) {
   } catch {
     return null
   }
+
+  if (slug.includes('/')) return null
 
   const serviceSlug = BLOG_TO_SERVICE_REDIRECTS[slug]
   return serviceSlug ? `/services/${serviceSlug}` : null
