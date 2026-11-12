@@ -4,7 +4,8 @@
 - Allowed styles: normal, h2, h3; lists: bullet, number; decorators: strong, em; annotation: link with string `href`. Validation accepts root-relative paths beginning with `/` except protocol-relative `//`, or HTTPS URLs without username/password. This matches the supported navigation classifications of `classifyRichTextHref`.
 - The field description in Studio: `Подзаглавия H2/H3 и списъци; показва се под продуктите. Празно = блокът не се показва.`
 - Additive schema source change only. No Sanity documents were written, migrated or published; no SEO content was authored or populated.
-- Deployment is intentionally pending. The repository's `deploy-sanity-studio.yml` automatically runs on a push to `main` affecting `studio/**`; do not merge the PR without explicit owner approval.
+- Studio source validation/build succeeded in GitHub Actions run #147 (`43153746938`) for implementation commit `e9fbbf25b5279102226ec9d7c6ea4856e6b80442`; the second Studio build in Blog and Studio validation run #908 (`43153746750`) also succeeded.
+- Deployment is intentionally pending. The repository's `deploy-sanity-studio.yml` automatically runs on a push to `main` affecting `studio/**`; PR #219 remains open and must not be merged without explicit owner approval. No live Sanity schema check or deployment was performed.
 
 ---
 

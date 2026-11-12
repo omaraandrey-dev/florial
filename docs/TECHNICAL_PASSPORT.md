@@ -7,7 +7,8 @@
 - Добавлены `src/lib/categorySeoContent.mjs`, declaration `.d.mts` и тесты для локалей, отсутствующих/пустых полей и массивов без Portable Text blocks.
 - В рамках задачи Sanity Content Lake не изменялся: документы не записывались, не мигрировались и не публиковались; SEO-тексты не создавались. Поле не заполнялось этой задачей ни у одной категории.
 - **Deployment gate:** `.github/workflows/deploy-sanity-studio.yml` запускается автоматически при push в `main`, если меняется `studio/**` или сам workflow; после build выполняет `npx sanity deploy --yes --schema-required --json`. PR validation workflow отдельно запускает website lint/tests/build и Studio build. Не объединять PR до явного разрешения владельца.
-- Live Sanity schema не проверялась и deployment не запускался. Результаты CI будут добавлены после проверки.
+- GitHub Actions для implementation commit `e9fbbf25b5279102226ec9d7c6ea4856e6b80442`: Blog and Studio validation #908 / run `43153746750`, D1 validation #1133 / run `43153746827`, Sanity Studio validation #147 / run `43153746938` — все `success`. Подтверждены lint, website tests/build, Pages Functions syntax, migration validations и Studio build.
+- PR #219 открыт, не объединён. Workflow `deploy-sanity-studio.yml` не запускался, так как он не имеет `pull_request` trigger. Live Sanity schema не проверялась; deployment не выполнялся.
 
 ---
 
