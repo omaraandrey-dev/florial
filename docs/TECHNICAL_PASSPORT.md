@@ -1,3 +1,12 @@
+## 2026-11-12 — SEO-метаданные блога опубликованы в Sanity
+
+- В Sanity Production опубликованы SEO-поля 14 существующих `blogPost` — 42 версии BG/RU/EN и 126 значений `shortDescription`, `seoTitle`, `seoDescription`.
+- После публикации read-back подтвердил 14/14 документов; оставшихся draft-версий нет. Перед первоначальной записью сохранён полный snapshot всех 14 документов: `docs/backups/2026-11-12-blog-seo-before-draft-write.json`.
+- Уточнены болгарские SEO/анонсные формулировки четырёх статей. Slug, заголовки H1, тексты статей, обложки, ALT, галереи, schema и frontend не менялись.
+- Валидация: 14/14 `valid`, `complete=false` из-за пропуска custom validation callbacks beta validator; уникальность slug отдельно проверена read-only по всем 22 документам `blogPost`, дубликатов нет.
+- Не завершено: визуальная проверка шести Wix image href, четырёх ALT-кандидатов, повторных cover assets и трёх изображений малого разрешения. Никакие image assets не заменялись и не удалялись.
+- Изменение Sanity content не требовало frontend/Cloudflare deployment; код и Production infrastructure не затрагивались.
+
 ## 2026-11-12 — Блог: этап 2, улучшение landing page
 
 - Branch: `feat/blog-featured-landing-stage2`.
