@@ -1,3 +1,13 @@
+## 2026-11-12 — Android visual QA: зимний индикатор и мобильная загрузка изображения категории
+
+- После Production deployment PR #222 владелец проверил сайт на физическом Android-устройстве и сообщил, что результат отображается корректно («всё получилось отлично»). Визуальную проверку считаем пройденной по подтверждению владельца.
+- Проверяемые изменения находятся в merge commit `79e96ce419b4be6513a112deee7c48bb3b0564e5`: индикатор зимостойкости расположен отдельно над фотографией; desktop-only hero image категории подключён через `<picture>` с media source от 1024 px и fallback `img` без `src/srcSet`.
+- CI и Cloudflare Pages Production deployment для PR #222 уже подтверждены в предыдущей записи/проверке; deployment ID `4113830f-e8ff-4eba-bfc7-263818f8f287`, commit `79e96ce419b4be6513a112deee7c48bb3b0564e5`, aliases `florial-bg.com` и `www.florial-bg.com`.
+- Ограничение доказательств: проверка владельца подтверждает визуальный результат на Android, но отдельная запись Network/DevTools с доказательством отсутствия HTTP-запроса category hero не получена. Отсутствие запроса следует из responsive HTML-механизма в коде, но не маркируется как независимо измеренное. Остаточный CLS и его источники не переоценивались.
+- Изменения документационные: Sanity, D1, сайт, настройки Cloudflare и Production deployment не изменялись.
+
+---
+
 ## 2026-11-12 — Уточнение зимнего индикатора и отключение мобильной загрузки hero image категории
 
 - Base main: `6d41f82414676f8121ed1c374c77c0ad1258b211`; implementation branch: `fix/winter-indicator-card-position-and-responsive-category-image`.
