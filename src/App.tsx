@@ -133,7 +133,7 @@ export default function App() {
     const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
-    const isMissingDynamicRoute = !loadingProducts && (
+    const isMissingDynamicRoute = (
       ((path.startsWith('/product/') || path.startsWith('/products/')) && !loadingProducts && Boolean(activeProductSlug) && !currentProduct) ||
       (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServices && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
@@ -169,7 +169,7 @@ export default function App() {
         language,
       })
     }
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts])
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts, loadingCategories, loadingServices])
 
   // Keep browser back/forward navigation in sync with the route resolved on initial render.
   useEffect(() => {
@@ -1283,6 +1283,7 @@ export default function App() {
     (normalizedRoutePath.startsWith('/category/') && !loadingCategories && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
+      !loadingProducts &&
       !loadingProductDetails &&
       !currentProduct
     )
