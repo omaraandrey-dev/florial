@@ -137,6 +137,12 @@ export function ProductPage({
     .slice(0, 4)
 
   const plantCare = isPlantProduct(product) ? product.plantCare : undefined
+  const minimumWinterTemperature = typeof plantCare?.minWinterTempC === 'number' && Number.isFinite(plantCare.minWinterTempC)
+    ? plantCare.minWinterTempC
+    : undefined
+  const winterTemperatureLabel = typeof minimumWinterTemperature === 'number'
+    ? `${minimumWinterTemperature < 0 ? '−' : minimumWinterTemperature > 0 ? '+' : ''}${Math.abs(minimumWinterTemperature)} °C`
+    : ''
   const saleHeightCm = typeof selectedSaleVariant?.saleHeightCm === 'number'
     ? selectedSaleVariant.saleHeightCm
     : plantCare?.saleFormat?.saleHeightCm
@@ -371,6 +377,16 @@ export function ProductPage({
               <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} decoding="async" onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
+            )}
+            {isPlantProduct(product) && selectedImage && !failedImageUrls.includes(selectedImage) && typeof minimumWinterTemperature === 'number' && (
+              <span
+                aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
+                title={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}
+                className="absolute left-1 top-1 z-10 inline-flex items-center gap-0.5"
+              >
+                <span aria-hidden="true" className="text-lg font-semibold leading-none text-blue-600">❄</span>
+                <span className="text-[10px] font-bold leading-none text-blue-700">{winterTemperatureLabel}</span>
+              </span>
             )}
             {product.stockStatus && (
               <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
