@@ -1,12 +1,13 @@
-## 2026-11-12 — Интерактивная фильтрация страницы услуг (подготовка в отдельной ветке)
+## 2026-11-12 — Интерактивная фильтрация страницы услуг (PR #225 merged)
 
-- В src/pages/ServicesListPage.tsx добавлены четыре карточки направлений с multi-select фильтрацией: ландшафтный архитектор (landscaping), инженер по поливным системам (irrigation + maintenance + delivery), садовник (planting), специалист по газонам (lawn).
-- При первом открытии активны все четыре направления и отображаются все услуги. Если пользователь снимает последнее активное направление, выбор автоматически возвращается к «все услуги», чтобы список не становился пустым.
-- Мобильная сетка фиксирована в четыре колонки; фотографии квадратные, подписи расположены снизу. На больших экранах сохраняется четыре карточки в ряд.
-- Четыре изображения и локализованные ALT/title читаются read-only из опубликованных Sanity photo документов по slug. Проверены опубликованные записи и asset URL; визуальный просмотр содержимого фотографий отдельно не выполнен.
-- src/App.tsx загружает только четыре нужные photo-записи отдельным компактным GROQ query; добавлен тип ServiceRolePhoto в src/types.ts.
-- Существующая сортировка услуг, карточки, URL, SEO title/description, canonical/hreflang и локализация BG/RU/EN сохранены. Санити-документы/схема, D1, API, Header, меню, Footer, Cloudflare settings и Production не изменялись.
-- Base main: b82fedb92ab30042bcd8ef7d41b25936aae5de72; branch feat/services-professional-direction-filter. CI/PR/deployment ожидают отдельной проверки; merge не выполнялся.
+- PR #225 объединён в main методом squash; merge commit: a8db72ffda86e8d678cfe233a92ae88b0f82a892. Base main до merge: b82fedb92ab30042bcd8ef7d41b25936aae5de72; PR head: d51a04b53f2393b824a78b7affe2700ac75f7014.
+- На /services добавлены четыре фото-карточки направлений специалистов: ландшафтный архитектор (landscaping), инженер по поливным системам (irrigation + maintenance + delivery), садовник (planting), специалист по газонам (lawn).
+- Multi-select фильтрует услуги по объединению категорий. При первом открытии активны все четыре направления; снятие последнего выбора автоматически возвращает отображение всех услуг.
+- Мобильная сетка — четыре колонки в одну линию, квадратные изображения и подписи снизу. Карточки доступны с клавиатуры, используют aria-pressed.
+- Четыре изображения и локализованные ALT/title читаются read-only из опубликованных Sanity photo documents по slug. Проверены документы и asset URL; визуальный просмотр содержимого фотографий отдельно не выполнен.
+- Существующая сортировка услуг, карточки, URL, SEO title/description, canonical/hreflang и локализация BG/RU/EN сохранены. Sanity documents/schema, D1, API, Header, меню, Footer и Cloudflare settings не изменялись.
+- CI по точному PR head SHA: D1 migration validation run 43165329360 — success; Blog and Studio validation run 43165329362 — success. Подтверждены website lint, utility tests, website build, Pages Functions syntax, D1 migration validation/dry-run и Sanity Studio build.
+- Cloudflare Pages deployment после merge ещё не проверен; визуальный QA на мобильных устройствах ожидает подтверждения владельца.
 
 ---
 
