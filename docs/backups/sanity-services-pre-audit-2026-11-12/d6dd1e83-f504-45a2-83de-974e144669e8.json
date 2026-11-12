@@ -1,10 +1,826 @@
 {
-  "backupType": "Sanity published document snapshot",
+  "backupType": "Sanity published document restore snapshot",
   "projectId": "bxvcy0qs",
   "dataset": "production",
   "perspective": "published",
   "capturedAt": "2026-11-12",
   "document": {
-    "text": "Query executed successfully. Found 1 document: \n<documents>{\"_createdAt\":\"2026-11-12T06:24:03Z\",\"_id\":\"d6dd1e83-f504-45a2-83de-974e144669e8\",\"_rev\":\"qvVg1luYRxJZnxaWi0mXAq\",\"_type\":\"service\",\"_updatedAt\":\"2026-11-12T06:30:32Z\",\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Изпрати запитване\",\"text\":\"Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.\",\"title\":\"Заявете услугата\"},\"contentBlocks\":[],\"description\":[{\"_key\":\"bg0\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg0s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg1\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg1s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Електромагнитните клапани управляват подаването на вода към отделните зони на автоматичната поливна система. Когато клапанът се замърси, мембраната се износи или електрическата част откаже, системата може да пропуска вода, да не включва дадена зона или да работи извън зададения график.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg2s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Florial предлага професионален монтаж, диагностика, ремонт, почистване и подмяна на клапани Rain Bird и други производители за частни градини, хотели, паркове и търговски обекти.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg3\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg3s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтаж на електромагнитни клапани\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg4s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Монтираме нови клапани и подменяме съществуващи клапанни групи. Подбираме оборудването според дебита, работното налягане, диаметъра на тръбите и електрическото управление. Монтажът включва свързване към колектора и тръбопровода, електрическо свързване към контролера, уплътняване на връзките и тест на всяка зона под работно налягане.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg5s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Диагностика и ремонт\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg6\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg6s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Ако зона не се включва или продължава да полива след края на програмата, причината може да е в клапана, бобината, мембраната, управляващите канали или електрическата верига. Проверяваме контролера, кабелите, бобината, механичните части и налягането.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg7\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg7s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Ремонтираме клапани, които не се отварят, не затварят напълно, работят със закъснение, пропускат вода или сработват нестабилно. След диагностиката предлагаме почистване, ремонт на компонент или подмяна, когато това е по-надеждното решение.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg8\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg8s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Почистване и профилактика\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg9\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg9s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Пясъкът, утайките, ръждата и варовиковите отлагания могат да блокират управляващите отвори и да попречат на мембраната да затвори плътно. Разглобяваме клапана според конструкцията му, почистваме мембраната и каналите, проверяваме филтъра, уплътненията и пружината, след което сглобяваме и тестваме механизма.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg10\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg10s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Редовната профилактика намалява риска от течове, загуба на вода и повреди през активния сезон. При вода с механични примеси препоръчваме проверка и на филтриращия възел.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg11\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg11s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Подмяна на клапани и избор на оборудване\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg12\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg12s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Когато корпусът е повреден, вътрешните части са силно износени или ремонтът не е икономически оправдан, монтираме нов клапан. Проверяваме резбата, диаметъра, работното налягане, необходимия дебит и съвместимостта с контролера — 24 V или батерийно управление 9 V.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg13\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg13s\",\"_type\":\"span\",\"marks\":[],\"text\":\"По-долу са показани клапани и клапанни шахти от каталога Florial. Всяка снимка е последвана от директна връзка към съответния продукт.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg0prod0\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg0prods0\",\"_type\":\"span\",\"marks\":[\"mbg0prod0\"],\"text\":\"Вижте продукта: Rain Bird 100-HV · H01000\"}],\"markDefs\":[{\"_key\":\"mbg0prod0\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/h01000\"}],\"style\":\"normal\"},{\"_key\":\"bg1prod1\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg1prods1\",\"_type\":\"span\",\"marks\":[\"mbg1prod1\"],\"text\":\"Вижте продукта: Rain Bird 100-HVF · H01010\"}],\"markDefs\":[{\"_key\":\"mbg1prod1\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/h01010\"}],\"style\":\"normal\"},{\"_key\":\"bg2prod2\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg2prods2\",\"_type\":\"span\",\"marks\":[\"mbg2prod2\"],\"text\":\"Вижте продукта: Rain Bird VBA02672 · VBA02672\"}],\"markDefs\":[{\"_key\":\"mbg2prod2\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-vba02672\"}],\"style\":\"normal\"},{\"_key\":\"bg3prod3\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg3prods3\",\"_type\":\"span\",\"marks\":[\"mbg3prod3\"],\"text\":\"Вижте продукта: Rain Bird VBA02673 · VBA02673\"}],\"markDefs\":[{\"_key\":\"mbg3prod3\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-vba02673\"}],\"style\":\"normal\"},{\"_key\":\"bg4prod4\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg4prods4\",\"_type\":\"span\",\"marks\":[\"mbg4prod4\"],\"text\":\"Вижте продукта: Rain Bird 100-PGA · B31410\"}],\"markDefs\":[{\"_key\":\"mbg4prod4\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-100-pga-24v\"}],\"style\":\"normal\"},{\"_key\":\"bg5prod5\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg5prods5\",\"_type\":\"span\",\"marks\":[\"mbg5prod5\"],\"text\":\"Вижте продукта: Rain Bird 100-PEB · B34073\"}],\"markDefs\":[{\"_key\":\"mbg5prod5\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/products/rain-bird-100-peb-24v\"}],\"style\":\"normal\"},{\"_key\":\"bg14\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg14s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Кога е необходимо обслужване?\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg15\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg15s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Препоръчваме диагностика, ако забележите някой от следните признаци:\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg16\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg16s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Една или няколко поливни зони не се включват.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg17\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg17s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Разпръсквачите продължават да подават вода след спиране на програмата.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg18\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg18s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Налягането в отделна зона е необичайно ниско.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg19\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg19s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Клапанът се включва със закъснение или работи нестабилно.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg20\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg20s\",\"_type\":\"span\",\"marks\":[],\"text\":\"В клапанната шахта има вода или следи от теч.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg21\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg21s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Системата не изпълнява командите на контролера.\"}],\"listItem\":\"bullet\",\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg22\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg22s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Техническо обслужване на цялата поливна система\"}],\"markDefs\":[],\"style\":\"h2\"},{\"_key\":\"bg23\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg23s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Клапаните са само една част от системата. За цялостна диагностика, сезонно пускане, настройка, ремонт и подготовка за зимата разгледайте нашата услуга за ремонт и поддръжка на поливни системи.\"}],\"markDefs\":[],\"style\":\"normal\"},{\"_key\":\"bg24\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg24s\",\"_type\":\"span\",\"marks\":[\"mbg24\"],\"text\":\"Ремонт и поддръжка на поливни системи — Florial\"}],\"markDefs\":[{\"_key\":\"mbg24\",\"_type\":\"link\",\"href\":\"https://florial-bg.com/services/remont-i-poddrazhka\"}],\"style\":\"normal\"},{\"_key\":\"bg25\",\"_type\":\"block\",\"children\":[{\"_key\":\"bg25s\",\"_type\":\"span\",\"marks\":[],\"text\":\"Florial обслужва Слънчев бряг, Несебър, Равда, Поморие, Свети Влас, Бургас и близките населени места. Работим по частни дворове, градини, хотели и търговски обекти.\"}],\"markDefs\":[],\"style\":\"normal\"}],\"gallery\":[{\"_key\":\"wShFcTvKnRduO9ho4IJZNX\",\"_type\":\"image\",\"alt\":\"Rain Bird 100-HV\",\"altEn\":\"Rain Bird 100-HV\",\"altRu\":\"Rain Bird 100-HV\",\"asset\":{\"_ref\":\"image-7d92de4fca10df9d311a978218e9b997d946a78b-1195x896-jpg\",\"_type\":\"reference\"}},{\"_key\":\"wShFcTvKnRduO9ho4IJZQ6\",\"_type\":\"image\",\"alt\":\"Rain Bird 100-HVF\",\"altEn\":\"Rain Bird 100-HVF\",\"altRu\":\"Rain Bird 100-HVF\",\"asset\":{\"_ref\":\"image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg\",\"_type\":\"reference\"}},{\"_key\":\"wShFcTvKnRduO9ho4IJZSf\",\"_type\":\"image\",\"alt\":\"Rain Bird VBA02672\",\"altEn\":\"Rain Bird VBA02672\",\"altRu\":\"Rain Bird VBA02672\",\"asset\":{\"_ref\":\"image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg\",\"_type\":\"reference\"}},{\"_key\":\"wShFcTvKnRduO9ho4IJZVE\",\"_type\":\"image\",\"alt\":\"Rain Bird VBA02673\",\"altEn\":\"Rain Bird VBA02673\",\"altRu\":\"Rain Bird VBA02673\",\"asset\":{\"_ref\":\"image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg\",\"_type\":\"reference\"}},{\"_key\":\"wShFcTvKnRduO9ho4IJZXn\",\"_type\":\"image\",\"alt\":\"Rain Bird 100-PGA\",\"altEn\":\"Rain Bird 100-PGA\",\"altRu\":\"Rain Bird 100-PGA\",\"asset\":{\"_ref\":\"image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg\",\"_type\":\"reference\"}},{\"_key\":\"wShFcTvKnRduO9ho4IJZaM\",\"_type\":\"image\",\"alt\":\"Rain Bird 100-PEB\",\"altEn\":\"Rain Bird 100-PEB\",\"altRu\":\"Rain Bird 100-PEB\",\"asset\":{\"_ref\":\"image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg\",\"_type\":\"reference\"}}],\"hero\":{\"image\":{\"_type\":\"image\",\"alt\":\"Техник обслужва електромагнитен клапан Rain Bird в клапанна шахта — Florial\",\"altEn\":\"Irrigation solenoid valve installation, repair, cleaning and replacement\",\"altRu\":\"Установка, ремонт, чистка и замена электромагнитных клапанов полива\",\"asset\":{\"_ref\":\"image-95a24bbe6e98e8205655e910dac6ab29dd293d96-1536x1024-png\",\"_type\":\"reference\"}},\"subtitle\":\"Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.\",\"title\":\"Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи\"},\"image\":{\"_type\":\"image\",\"alt\":\"Техник обслужва електромагнитен клапан Rain Bird в клапанна шахта — Florial\",\"altEn\":\"Irrigation solenoid valve installation, repair, cleaning and replacement\",\"altRu\":\"Установка, ремонт, чистка и замена электромагнитных клапанов полива\",\"asset\":{\"_ref\":\"image-95a24bbe6e98e8205655e910dac6ab29dd293d96-1536x1024-png\",\"_type\":\"reference\"}},\"isActive\":true,\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Име\",\"name\":\"name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Имейл\",\"name\":\"email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населено място\",\"name\":\"location\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание на проекта\",\"name\":\"details\",\"required\":false}],\"submitLabel\":\"Изпрати запитване\",\"title\":\"Запитване за услуга\"},\"name\":\"Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи\",\"relatedContent\":[{\"_key\":\"wShFcTvKnRduO9ho4IJZIP\",\"_ref\":\"04c7ab3b-1888-41cb-9917-6b9014cd1ac3\",\"_type\":\"reference\"},{\"_key\":\"wShFcTvKnRduO9ho4IJZKy\",\"_ref\":\"f308f26a-b12c-4975-93f5-6089144ceab6\",\"_type\":\"reference\"}],\"seo\":{\"keywords\":[\"електромагнитни клапани\",\"Rain Bird\",\"ремонт на поливни системи\",\"Бургас\",\"Несебър\",\"Слънчев бряг\"],\"metaDescription\":\"Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.\",\"metaTitle\":\"Монтаж и ремонт на клапани за поливане | Несебър | Florial\",\"noIndex\":false},\"serviceCategory\":\"irrigation\",\"serviceLayout\":\"standard\",\"shortDescription\":\"Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.\",\"slug\":{\"_type\":\"slug\",\"current\":\"montazh-remont-elektromagnitni-klapani\"},\"sortOrder\":120,\"sourcePageUrl\":\"https://florial-bg.com/blog/montazh-remont-elektromagnitni-klapani\",\"steps\":[],\"translations\":{\"en\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Send enquiry\",\"text\":\"Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.\",\"title\":\"Request the service\"},\"description\":\"## Irrigation solenoid valve installation, repair, cleaning and replacement\\n\\nSolenoid valves control water delivery to individual zones of an automatic irrigation system. If a valve becomes contaminated, its diaphragm wears out or its electrical components fail, the system may leak, fail to activate a zone or run outside its schedule.\\n\\nFlorial provides professional installation, diagnostics, repair, cleaning and replacement of Rain Bird and other solenoid valves for private gardens, hotels, parks and commercial properties.\\n\\n## Solenoid valve installation\\n\\nWe install new valves and replace existing valve assemblies. Equipment is selected according to flow rate, operating pressure, pipe diameter and the system’s electrical control. Installation includes connection to the manifold and pipeline, wiring to the controller, sealing the joints and testing every zone at operating pressure.\\n\\n## Diagnostics and repair\\n\\nIf a zone does not start or continues watering after the programme ends, the cause may be the valve, solenoid coil, diaphragm, control passages or electrical circuit. We check the controller, wiring, coil, mechanical parts and pressure.\\n\\nWe repair valves that fail to open, do not close fully, operate with a delay, leak or work inconsistently. After diagnosis, we recommend cleaning, component repair or replacement when it is the more reliable option.\\n\\n## Cleaning and preventive maintenance\\n\\nSand, sediment, rust and limescale can block control passages and prevent the diaphragm from closing tightly. We disassemble the valve according to its design, clean the diaphragm and internal passages, inspect the filter, seals and spring, then reassemble and test the mechanism.\\n\\nRegular preventive maintenance reduces the risk of leaks, water loss and failures during the irrigation season. Where water contains suspended particles, we also recommend checking the filtration assembly.\\n\\n## Valve replacement and equipment selection\\n\\nIf the valve body is damaged, internal parts are badly worn or repair is not cost-effective, we install a replacement. We check thread and diameter, operating pressure, required flow and controller compatibility — 24 V or 9 V battery-operated control.\\n\\nBelow are valves and valve boxes from the Florial catalogue. A direct product link is provided below each image.\\n\\nView product: Rain Bird 100-HV · H01000\\n\\nView product: Rain Bird 100-HVF · H01010\\n\\nView product: Rain Bird VBA02672 · VBA02672\\n\\nView product: Rain Bird VBA02673 · VBA02673\\n\\nView product: Rain Bird 100-PGA · B31410\\n\\nView product: Rain Bird 100-PEB · B34073\\n\\n## When should a valve be serviced?\\n\\nWe recommend diagnostics if you notice any of the following:\\n\\n- One or more irrigation zones fail to start.\\n- Sprinklers continue running after the programme stops.\\n- Pressure in an individual zone is unusually low.\\n- A valve operates with a delay or works inconsistently.\\n- Water or signs of leakage are visible inside the valve box.\\n- The system does not respond correctly to controller commands.\\n\\n## Maintenance of the complete automatic irrigation system\\n\\nValves are only one part of the system. For full diagnostics, seasonal start-up, adjustment, repairs and winter preparation, see our irrigation system repair and maintenance service.\\n\\nIrrigation system repair and maintenance — Florial\\n\\nFlorial serves Sunny Beach, Nessebar, Ravda, Pomorie, Sveti Vlas, Burgas and nearby areas. We work with private gardens, hotels and commercial properties.\",\"hero\":{\"subtitle\":\"Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.\",\"title\":\"Irrigation solenoid valve installation, repair, cleaning and replacement\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Name\",\"name\":\"name\",\"placeholder\":\"Name\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Phone\",\"name\":\"phone\",\"placeholder\":\"Phone\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Email\",\"name\":\"email\",\"placeholder\":\"Email\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Town / city\",\"name\":\"location\",\"placeholder\":\"Town / city\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Describe the work\",\"name\":\"details\",\"placeholder\":\"Describe the work\",\"required\":false}],\"submitLabel\":\"Send enquiry\",\"successMessage\":\"Thank you! Your enquiry has been sent. We will contact you.\",\"title\":\"Service enquiry\"},\"name\":\"Irrigation solenoid valve installation, repair, cleaning and replacement\",\"seo\":{\"metaDescription\":\"Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.\",\"metaTitle\":\"Irrigation Valve Repair | Nessebar | Florial\",\"noIndex\":false},\"shortDescription\":\"Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.\",\"steps\":[]},\"ru\":{\"advantages\":[],\"callToAction\":{\"buttonLabel\":\"Отправить запрос\",\"text\":\"Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.\",\"title\":\"Закажите услугу\"},\"description\":\"## Установка, ремонт, чистка и замена электромагнитных клапанов систем автоматического полива\\n\\nЭлектромагнитные клапаны управляют подачей воды в отдельные зоны автоматической системы полива. Если клапан загрязняется, мембрана изнашивается или электрическая часть выходит из строя, система может пропускать воду, не включать нужную зону или работать вне заданного расписания.\\n\\nFlorial выполняет профессиональный монтаж, диагностику, ремонт, чистку и замену клапанов Rain Bird и других производителей для частных садов, гостиниц, парков и коммерческих объектов.\\n\\n## Установка электромагнитных клапанов\\n\\nУстанавливаем новые клапаны и заменяем существующие клапанные группы. Подбираем оборудование с учётом расхода воды, рабочего давления, диаметра труб и типа электрического управления. Монтаж включает подключение к коллектору и трубопроводу, электрическое соединение с контроллером, герметизацию стыков и проверку каждой зоны под рабочим давлением.\\n\\n## Диагностика и ремонт\\n\\nЕсли зона не включается или продолжает поливать после завершения программы, причина может быть в клапане, катушке, мембране, управляющих каналах или электрической цепи. Проверяем контроллер, кабели, катушку, механические элементы и давление.\\n\\nРемонтируем клапаны, которые не открываются, не закрываются полностью, срабатывают с задержкой, пропускают воду или работают нестабильно. После диагностики предлагаем чистку, ремонт компонента или замену, если это надёжнее.\\n\\n## Чистка и профилактика\\n\\nПесок, ил, ржавчина и известковые отложения могут засорять управляющие отверстия и мешать мембране плотно закрываться. Разбираем клапан с учётом его конструкции, очищаем мембрану и внутренние каналы, проверяем фильтр, уплотнения и пружину, затем собираем и тестируем механизм.\\n\\nРегулярная профилактика снижает риск утечек, потери воды и поломок в активный сезон. Если вода содержит механические примеси, рекомендуем проверять и фильтрующий узел.\\n\\n## Замена клапанов и подбор оборудования\\n\\nЕсли корпус повреждён, внутренние детали сильно изношены или ремонт экономически нецелесообразен, устанавливаем новый клапан. Проверяем резьбу, диаметр, рабочее давление, требуемый расход и совместимость с контроллером — 24 V или батарейное управление 9 V.\\n\\nНиже представлены клапаны и клапанные боксы из каталога Florial. Под каждым изображением размещена прямая ссылка на соответствующий товар.\\n\\nПосмотреть товар: Rain Bird 100-HV · H01000\\n\\nПосмотреть товар: Rain Bird 100-HVF · H01010\\n\\nПосмотреть товар: Rain Bird VBA02672 · VBA02672\\n\\nПосмотреть товар: Rain Bird VBA02673 · VBA02673\\n\\nПосмотреть товар: Rain Bird 100-PGA · B31410\\n\\nПосмотреть товар: Rain Bird 100-PEB · B34073\\n\\n## Когда требуется обслуживание?\\n\\nРекомендуем провести диагностику, если вы заметили следующие признаки:\\n\\n- Одна или несколько зон полива не включаются.\\n- Дождеватели продолжают подавать воду после остановки программы.\\n- Давление в отдельной зоне необычно низкое.\\n- Клапан включается с задержкой или работает нестабильно.\\n- В клапанном боксе обнаружена вода или следы протечки.\\n- Система не выполняет команды контроллера.\\n\\n## Техническое обслуживание всей системы автоматического полива\\n\\nКлапаны — лишь одна часть системы. Для комплексной диагностики, сезонного запуска, настройки, ремонта и подготовки к зиме ознакомьтесь с нашей услугой по ремонту и обслуживанию систем полива.\\n\\nРемонт и обслуживание систем полива — Florial\\n\\nFlorial обслуживает Солнечный Берег, Несебр, Равду, Поморие, Святой Влас, Бургас и близлежащие населённые пункты. Работаем с частными садами, гостиницами и коммерческими объектами.\",\"hero\":{\"subtitle\":\"Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.\",\"title\":\"Установка, ремонт, чистка и замена электромагнитных клапанов полива\"},\"leadForm\":{\"fields\":[{\"_key\":\"f1\",\"label\":\"Имя\",\"name\":\"name\",\"placeholder\":\"Имя\",\"required\":true},{\"_key\":\"f2\",\"label\":\"Телефон\",\"name\":\"phone\",\"placeholder\":\"Телефон\",\"required\":true},{\"_key\":\"f3\",\"label\":\"Электронная почта\",\"name\":\"email\",\"placeholder\":\"Электронная почта\",\"required\":false},{\"_key\":\"f4\",\"label\":\"Населённый пункт\",\"name\":\"location\",\"placeholder\":\"Населённый пункт\",\"required\":true},{\"_key\":\"f5\",\"label\":\"Описание задачи\",\"name\":\"details\",\"placeholder\":\"Описание задачи\",\"required\":false}],\"submitLabel\":\"Отправить запрос\",\"successMessage\":\"Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.\",\"title\":\"Запрос услуги\"},\"name\":\"Установка, ремонт, чистка и замена электромагнитных клапанов полива\",\"seo\":{\"metaDescription\":\"Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.\",\"metaTitle\":\"Ремонт клапанов полива | Несебр | Florial\",\"noIndex\":false},\"shortDescription\":\"Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.\",\"steps\":[]}}}</documents>\n<count>1</count>\n<totalAvailable>1</totalAvailable>"
+    "_createdAt": "2026-11-12T06:24:03Z",
+    "_id": "d6dd1e83-f504-45a2-83de-974e144669e8",
+    "_rev": "qvVg1luYRxJZnxaWi0mXAq",
+    "_type": "service",
+    "_updatedAt": "2026-11-12T06:30:32Z",
+    "advantages": [],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване и опишете каква работа е необходима. Ще уточним подробностите и възможността за посещение.",
+      "title": "Заявете услугата"
+    },
+    "contentBlocks": [],
+    "description": [
+      {
+        "_key": "bg0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg0s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Електромагнитните клапани управляват подаването на вода към отделните зони на автоматичната поливна система. Когато клапанът се замърси, мембраната се износи или електрическата част откаже, системата може да пропуска вода, да не включва дадена зона или да работи извън зададения график."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial предлага професионален монтаж, диагностика, ремонт, почистване и подмяна на клапани Rain Bird и други производители за частни градини, хотели, паркове и търговски обекти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтаж на електромагнитни клапани"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтираме нови клапани и подменяме съществуващи клапанни групи. Подбираме оборудването според дебита, работното налягане, диаметъра на тръбите и електрическото управление. Монтажът включва свързване към колектора и тръбопровода, електрическо свързване към контролера, уплътняване на връзките и тест на всяка зона под работно налягане."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg5s",
+            "_type": "span",
+            "marks": [],
+            "text": "Диагностика и ремонт"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ако зона не се включва или продължава да полива след края на програмата, причината може да е в клапана, бобината, мембраната, управляващите канали или електрическата верига. Проверяваме контролера, кабелите, бобината, механичните части и налягането."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg7s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ремонтираме клапани, които не се отварят, не затварят напълно, работят със закъснение, пропускат вода или сработват нестабилно. След диагностиката предлагаме почистване, ремонт на компонент или подмяна, когато това е по-надеждното решение."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg8s",
+            "_type": "span",
+            "marks": [],
+            "text": "Почистване и профилактика"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg9s",
+            "_type": "span",
+            "marks": [],
+            "text": "Пясъкът, утайките, ръждата и варовиковите отлагания могат да блокират управляващите отвори и да попречат на мембраната да затвори плътно. Разглобяваме клапана според конструкцията му, почистваме мембраната и каналите, проверяваме филтъра, уплътненията и пружината, след което сглобяваме и тестваме механизма."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg10s",
+            "_type": "span",
+            "marks": [],
+            "text": "Редовната профилактика намалява риска от течове, загуба на вода и повреди през активния сезон. При вода с механични примеси препоръчваме проверка и на филтриращия възел."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg11s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подмяна на клапани и избор на оборудване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg12s",
+            "_type": "span",
+            "marks": [],
+            "text": "Когато корпусът е повреден, вътрешните части са силно износени или ремонтът не е икономически оправдан, монтираме нов клапан. Проверяваме резбата, диаметъра, работното налягане, необходимия дебит и съвместимостта с контролера — 24 V или батерийно управление 9 V."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg13s",
+            "_type": "span",
+            "marks": [],
+            "text": "По-долу са показани клапани и клапанни шахти от каталога Florial. Всяка снимка е последвана от директна връзка към съответния продукт."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg0prod0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg0prods0",
+            "_type": "span",
+            "marks": [
+              "mbg0prod0"
+            ],
+            "text": "Вижте продукта: Rain Bird 100-HV · H01000"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg0prod0",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/h01000"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg1prod1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg1prods1",
+            "_type": "span",
+            "marks": [
+              "mbg1prod1"
+            ],
+            "text": "Вижте продукта: Rain Bird 100-HVF · H01010"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg1prod1",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/h01010"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg2prod2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg2prods2",
+            "_type": "span",
+            "marks": [
+              "mbg2prod2"
+            ],
+            "text": "Вижте продукта: Rain Bird VBA02672 · VBA02672"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg2prod2",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-vba02672"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg3prod3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg3prods3",
+            "_type": "span",
+            "marks": [
+              "mbg3prod3"
+            ],
+            "text": "Вижте продукта: Rain Bird VBA02673 · VBA02673"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg3prod3",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-vba02673"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg4prod4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg4prods4",
+            "_type": "span",
+            "marks": [
+              "mbg4prod4"
+            ],
+            "text": "Вижте продукта: Rain Bird 100-PGA · B31410"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg4prod4",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-100-pga-24v"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg5prod5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg5prods5",
+            "_type": "span",
+            "marks": [
+              "mbg5prod5"
+            ],
+            "text": "Вижте продукта: Rain Bird 100-PEB · B34073"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg5prod5",
+            "_type": "link",
+            "href": "https://florial-bg.com/products/rain-bird-100-peb-24v"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg14s",
+            "_type": "span",
+            "marks": [],
+            "text": "Кога е необходимо обслужване?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg15s",
+            "_type": "span",
+            "marks": [],
+            "text": "Препоръчваме диагностика, ако забележите някой от следните признаци:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg16s",
+            "_type": "span",
+            "marks": [],
+            "text": "Една или няколко поливни зони не се включват."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg17s",
+            "_type": "span",
+            "marks": [],
+            "text": "Разпръсквачите продължават да подават вода след спиране на програмата."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg18s",
+            "_type": "span",
+            "marks": [],
+            "text": "Налягането в отделна зона е необичайно ниско."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg19",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg19s",
+            "_type": "span",
+            "marks": [],
+            "text": "Клапанът се включва със закъснение или работи нестабилно."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg20s",
+            "_type": "span",
+            "marks": [],
+            "text": "В клапанната шахта има вода или следи от теч."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg21s",
+            "_type": "span",
+            "marks": [],
+            "text": "Системата не изпълнява командите на контролера."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg22",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg22s",
+            "_type": "span",
+            "marks": [],
+            "text": "Техническо обслужване на цялата поливна система"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg23",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg23s",
+            "_type": "span",
+            "marks": [],
+            "text": "Клапаните са само една част от системата. За цялостна диагностика, сезонно пускане, настройка, ремонт и подготовка за зимата разгледайте нашата услуга за ремонт и поддръжка на поливни системи."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg24",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg24s",
+            "_type": "span",
+            "marks": [
+              "mbg24"
+            ],
+            "text": "Ремонт и поддръжка на поливни системи — Florial"
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "mbg24",
+            "_type": "link",
+            "href": "https://florial-bg.com/services/remont-i-poddrazhka"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg25",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg25s",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial обслужва Слънчев бряг, Несебър, Равда, Поморие, Свети Влас, Бургас и близките населени места. Работим по частни дворове, градини, хотели и търговски обекти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZNX",
+        "_type": "image",
+        "alt": "Rain Bird 100-HV",
+        "altEn": "Rain Bird 100-HV",
+        "altRu": "Rain Bird 100-HV",
+        "asset": {
+          "_ref": "image-7d92de4fca10df9d311a978218e9b997d946a78b-1195x896-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZQ6",
+        "_type": "image",
+        "alt": "Rain Bird 100-HVF",
+        "altEn": "Rain Bird 100-HVF",
+        "altRu": "Rain Bird 100-HVF",
+        "asset": {
+          "_ref": "image-d5b248f8007700f72fdcc0508d422a16221bfcc8-700x700-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZSf",
+        "_type": "image",
+        "alt": "Rain Bird VBA02672",
+        "altEn": "Rain Bird VBA02672",
+        "altRu": "Rain Bird VBA02672",
+        "asset": {
+          "_ref": "image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZVE",
+        "_type": "image",
+        "alt": "Rain Bird VBA02673",
+        "altEn": "Rain Bird VBA02673",
+        "altRu": "Rain Bird VBA02673",
+        "asset": {
+          "_ref": "image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZXn",
+        "_type": "image",
+        "alt": "Rain Bird 100-PGA",
+        "altEn": "Rain Bird 100-PGA",
+        "altRu": "Rain Bird 100-PGA",
+        "asset": {
+          "_ref": "image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZaM",
+        "_type": "image",
+        "alt": "Rain Bird 100-PEB",
+        "altEn": "Rain Bird 100-PEB",
+        "altRu": "Rain Bird 100-PEB",
+        "asset": {
+          "_ref": "image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Техник обслужва електромагнитен клапан Rain Bird в клапанна шахта — Florial",
+        "altEn": "Irrigation solenoid valve installation, repair, cleaning and replacement",
+        "altRu": "Установка, ремонт, чистка и замена электромагнитных клапанов полива",
+        "asset": {
+          "_ref": "image-95a24bbe6e98e8205655e910dac6ab29dd293d96-1536x1024-png",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.",
+      "title": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Техник обслужва електромагнитен клапан Rain Bird в клапанна шахта — Florial",
+      "altEn": "Irrigation solenoid valve installation, repair, cleaning and replacement",
+      "altRu": "Установка, ремонт, чистка и замена электромагнитных клапанов полива",
+      "asset": {
+        "_ref": "image-95a24bbe6e98e8205655e910dac6ab29dd293d96-1536x1024-png",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Монтаж, ремонт, почистване и подмяна на електромагнитни клапани за поливни системи",
+    "relatedContent": [
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZIP",
+        "_ref": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+        "_type": "reference"
+      },
+      {
+        "_key": "wShFcTvKnRduO9ho4IJZKy",
+        "_ref": "f308f26a-b12c-4975-93f5-6089144ceab6",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "електромагнитни клапани",
+        "Rain Bird",
+        "ремонт на поливни системи",
+        "Бургас",
+        "Несебър",
+        "Слънчев бряг"
+      ],
+      "metaDescription": "Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.",
+      "metaTitle": "Монтаж и ремонт на клапани за поливане | Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Монтаж, диагностика, почистване и подмяна на електромагнитни клапани за автоматично напояване в Несебър и Южното Черноморие.",
+    "slug": {
+      "_type": "slug",
+      "current": "montazh-remont-elektromagnitni-klapani"
+    },
+    "sortOrder": 120,
+    "sourcePageUrl": "https://florial-bg.com/blog/montazh-remont-elektromagnitni-klapani",
+    "steps": [],
+    "translations": {
+      "en": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Send enquiry",
+          "text": "Send an enquiry and describe the work you need. We will clarify the details and arrange a site visit if possible.",
+          "title": "Request the service"
+        },
+        "description": "## Irrigation solenoid valve installation, repair, cleaning and replacement\n\nSolenoid valves control water delivery to individual zones of an automatic irrigation system. If a valve becomes contaminated, its diaphragm wears out or its electrical components fail, the system may leak, fail to activate a zone or run outside its schedule.\n\nFlorial provides professional installation, diagnostics, repair, cleaning and replacement of Rain Bird and other solenoid valves for private gardens, hotels, parks and commercial properties.\n\n## Solenoid valve installation\n\nWe install new valves and replace existing valve assemblies. Equipment is selected according to flow rate, operating pressure, pipe diameter and the system’s electrical control. Installation includes connection to the manifold and pipeline, wiring to the controller, sealing the joints and testing every zone at operating pressure.\n\n## Diagnostics and repair\n\nIf a zone does not start or continues watering after the programme ends, the cause may be the valve, solenoid coil, diaphragm, control passages or electrical circuit. We check the controller, wiring, coil, mechanical parts and pressure.\n\nWe repair valves that fail to open, do not close fully, operate with a delay, leak or work inconsistently. After diagnosis, we recommend cleaning, component repair or replacement when it is the more reliable option.\n\n## Cleaning and preventive maintenance\n\nSand, sediment, rust and limescale can block control passages and prevent the diaphragm from closing tightly. We disassemble the valve according to its design, clean the diaphragm and internal passages, inspect the filter, seals and spring, then reassemble and test the mechanism.\n\nRegular preventive maintenance reduces the risk of leaks, water loss and failures during the irrigation season. Where water contains suspended particles, we also recommend checking the filtration assembly.\n\n## Valve replacement and equipment selection\n\nIf the valve body is damaged, internal parts are badly worn or repair is not cost-effective, we install a replacement. We check thread and diameter, operating pressure, required flow and controller compatibility — 24 V or 9 V battery-operated control.\n\nBelow are valves and valve boxes from the Florial catalogue. A direct product link is provided below each image.\n\nView product: Rain Bird 100-HV · H01000\n\nView product: Rain Bird 100-HVF · H01010\n\nView product: Rain Bird VBA02672 · VBA02672\n\nView product: Rain Bird VBA02673 · VBA02673\n\nView product: Rain Bird 100-PGA · B31410\n\nView product: Rain Bird 100-PEB · B34073\n\n## When should a valve be serviced?\n\nWe recommend diagnostics if you notice any of the following:\n\n- One or more irrigation zones fail to start.\n- Sprinklers continue running after the programme stops.\n- Pressure in an individual zone is unusually low.\n- A valve operates with a delay or works inconsistently.\n- Water or signs of leakage are visible inside the valve box.\n- The system does not respond correctly to controller commands.\n\n## Maintenance of the complete automatic irrigation system\n\nValves are only one part of the system. For full diagnostics, seasonal start-up, adjustment, repairs and winter preparation, see our irrigation system repair and maintenance service.\n\nIrrigation system repair and maintenance — Florial\n\nFlorial serves Sunny Beach, Nessebar, Ravda, Pomorie, Sveti Vlas, Burgas and nearby areas. We work with private gardens, hotels and commercial properties.",
+        "hero": {
+          "subtitle": "Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.",
+          "title": "Irrigation solenoid valve installation, repair, cleaning and replacement"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Name",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "Phone",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "Email",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "placeholder": "Town / city",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Describe the work",
+              "name": "details",
+              "placeholder": "Describe the work",
+              "required": false
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+          "title": "Service enquiry"
+        },
+        "name": "Irrigation solenoid valve installation, repair, cleaning and replacement",
+        "seo": {
+          "metaDescription": "Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.",
+          "metaTitle": "Irrigation Valve Repair | Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Installation, diagnostics, cleaning and replacement of automatic irrigation solenoid valves in Nessebar and Bulgaria’s Southern Black Sea coast.",
+        "steps": []
+      },
+      "ru": {
+        "advantages": [],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте запрос и опишите, какая работа требуется. Мы уточним детали и возможность выезда.",
+          "title": "Закажите услугу"
+        },
+        "description": "## Установка, ремонт, чистка и замена электромагнитных клапанов систем автоматического полива\n\nЭлектромагнитные клапаны управляют подачей воды в отдельные зоны автоматической системы полива. Если клапан загрязняется, мембрана изнашивается или электрическая часть выходит из строя, система может пропускать воду, не включать нужную зону или работать вне заданного расписания.\n\nFlorial выполняет профессиональный монтаж, диагностику, ремонт, чистку и замену клапанов Rain Bird и других производителей для частных садов, гостиниц, парков и коммерческих объектов.\n\n## Установка электромагнитных клапанов\n\nУстанавливаем новые клапаны и заменяем существующие клапанные группы. Подбираем оборудование с учётом расхода воды, рабочего давления, диаметра труб и типа электрического управления. Монтаж включает подключение к коллектору и трубопроводу, электрическое соединение с контроллером, герметизацию стыков и проверку каждой зоны под рабочим давлением.\n\n## Диагностика и ремонт\n\nЕсли зона не включается или продолжает поливать после завершения программы, причина может быть в клапане, катушке, мембране, управляющих каналах или электрической цепи. Проверяем контроллер, кабели, катушку, механические элементы и давление.\n\nРемонтируем клапаны, которые не открываются, не закрываются полностью, срабатывают с задержкой, пропускают воду или работают нестабильно. После диагностики предлагаем чистку, ремонт компонента или замену, если это надёжнее.\n\n## Чистка и профилактика\n\nПесок, ил, ржавчина и известковые отложения могут засорять управляющие отверстия и мешать мембране плотно закрываться. Разбираем клапан с учётом его конструкции, очищаем мембрану и внутренние каналы, проверяем фильтр, уплотнения и пружину, затем собираем и тестируем механизм.\n\nРегулярная профилактика снижает риск утечек, потери воды и поломок в активный сезон. Если вода содержит механические примеси, рекомендуем проверять и фильтрующий узел.\n\n## Замена клапанов и подбор оборудования\n\nЕсли корпус повреждён, внутренние детали сильно изношены или ремонт экономически нецелесообразен, устанавливаем новый клапан. Проверяем резьбу, диаметр, рабочее давление, требуемый расход и совместимость с контроллером — 24 V или батарейное управление 9 V.\n\nНиже представлены клапаны и клапанные боксы из каталога Florial. Под каждым изображением размещена прямая ссылка на соответствующий товар.\n\nПосмотреть товар: Rain Bird 100-HV · H01000\n\nПосмотреть товар: Rain Bird 100-HVF · H01010\n\nПосмотреть товар: Rain Bird VBA02672 · VBA02672\n\nПосмотреть товар: Rain Bird VBA02673 · VBA02673\n\nПосмотреть товар: Rain Bird 100-PGA · B31410\n\nПосмотреть товар: Rain Bird 100-PEB · B34073\n\n## Когда требуется обслуживание?\n\nРекомендуем провести диагностику, если вы заметили следующие признаки:\n\n- Одна или несколько зон полива не включаются.\n- Дождеватели продолжают подавать воду после остановки программы.\n- Давление в отдельной зоне необычно низкое.\n- Клапан включается с задержкой или работает нестабильно.\n- В клапанном боксе обнаружена вода или следы протечки.\n- Система не выполняет команды контроллера.\n\n## Техническое обслуживание всей системы автоматического полива\n\nКлапаны — лишь одна часть системы. Для комплексной диагностики, сезонного запуска, настройки, ремонта и подготовки к зиме ознакомьтесь с нашей услугой по ремонту и обслуживанию систем полива.\n\nРемонт и обслуживание систем полива — Florial\n\nFlorial обслуживает Солнечный Берег, Несебр, Равду, Поморие, Святой Влас, Бургас и близлежащие населённые пункты. Работаем с частными садами, гостиницами и коммерческими объектами.",
+        "hero": {
+          "subtitle": "Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.",
+          "title": "Установка, ремонт, чистка и замена электромагнитных клапанов полива"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Имя",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "Телефон",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "Электронная почта",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "placeholder": "Населённый пункт",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Описание задачи",
+              "name": "details",
+              "placeholder": "Описание задачи",
+              "required": false
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+          "title": "Запрос услуги"
+        },
+        "name": "Установка, ремонт, чистка и замена электромагнитных клапанов полива",
+        "seo": {
+          "metaDescription": "Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.",
+          "metaTitle": "Ремонт клапанов полива | Несебр | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Монтаж, диагностика, очистка и замена электромагнитных клапанов систем автоматического полива в Несебре и на Южном Черноморье.",
+        "steps": []
+      }
+    }
   }
 }
