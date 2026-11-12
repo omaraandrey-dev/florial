@@ -1,3 +1,17 @@
+## 2026-11-12 — Длинный SEO-текст категорий: кодовая реализация в отдельной ветке
+
+- Base main: `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`; implementation branch: `feat/category-long-seo-content`. Изменение добавляет необязательное поле `seoContent` в обе Sanity category schemas (workspace `florial-admin` / dataset `production`, workspace `plants` / dataset `plants`) и в локализованные объекты `translations.en/ru`.
+- Portable Text ограничен тем, что умеет `src/components/RichText.tsx`: normal/H2/H3; bullet/number; strong/em; link.href как string с внутренними путями `/` (кроме `//`) и HTTPS без userinfo. Не допускаются H1/H4+, blockquote, underline и прочие неподдерживаемые варианты.
+- `src/App.tsx` добавляет поле только в две detail queries, вызываемые для открытой страницы категории; полные `translations` уже выбираются целиком. Компактные index queries не менялись.
+- `CategoryPage` выбирает BG из root `seoContent`, RU/EN из соответствующей локали без fallback на BG. Секция условная, располагается после pagination и перед helpBlock. Используется существующий `RichText` и `onNavigateInternalPath`.
+- Добавлены `src/lib/categorySeoContent.mjs`, declaration `.d.mts` и тесты для локалей, отсутствующих/пустых полей и массивов без Portable Text blocks.
+- В рамках задачи Sanity Content Lake не изменялся: документы не записывались, не мигрировались и не публиковались; SEO-тексты не создавались. Поле не заполнялось этой задачей ни у одной категории.
+- **Deployment gate:** `.github/workflows/deploy-sanity-studio.yml` запускается автоматически при push в `main`, если меняется `studio/**` или сам workflow; после build выполняет `npx sanity deploy --yes --schema-required --json`. PR validation workflow отдельно запускает website lint/tests/build и Studio build. Не объединять PR до явного разрешения владельца.
+- GitHub Actions для implementation commit `e9fbbf25b5279102226ec9d7c6ea4856e6b80442`: Blog and Studio validation #908 / run `43153746750`, D1 validation #1133 / run `43153746827`, Sanity Studio validation #147 / run `43153746938` — все `success`. Подтверждены lint, website tests/build, Pages Functions syntax, migration validations и Studio build.
+- PR #219 открыт, не объединён. Workflow `deploy-sanity-studio.yml` не запускался, так как он не имеет `pull_request` trigger. Live Sanity schema не проверялась; deployment не выполнялся.
+
+---
+
 ## 2026-11-11 — Production Cloudflare D1 read-only audit and CI follow-up
 
 - Live database inspected: Cloudflare D1 `florial-db`, region `EEUR`, approximately 1.9 MB. Inspection was read-only; no D1 writes, migrations or schema/data changes.

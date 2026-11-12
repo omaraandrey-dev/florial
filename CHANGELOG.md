@@ -1,3 +1,16 @@
+## 2026-11-12 — Длинный SEO-контент категорий (подготовка к публикации)
+
+- В ветке `feat/category-long-seo-content`, созданной от main `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`, подготовлено необязательное поле Portable Text `seoContent` для обеих схем категорий: оборудование (`production`) и растения (`plants`), включая локали BG/RU/EN.
+- Разрешённые элементы соответствуют текущему `RichText`: normal/H2/H3, bullet/number, strong/em и ссылки только на внутренние пути `/` (кроме `//`) или HTTPS без userinfo. H1/H4+, blockquote, underline и прочие marks/styles не разрешены.
+- Длинный текст выбирается только для активной локали и выводится после сетки/пагинации перед существующим `helpBlock`. При отсутствии валидных блоков секция не рендерится. Внутренние ссылки используют SPA navigation.
+- Добавлены unit tests для BG/RU/EN и пустых/отсутствующих/невалидных значений. Компактные category index queries не расширялись; detail queries получили `seoContent`, `translations` остаётся полной выборкой.
+- Изменение аддитивное. В рамках этой задачи документы Sanity не записывались и не публиковались; поле не заполнялось ни у одной категории. Никакая миграция контента не выполнялась.
+- Важно: merge в `main` при изменении `studio/**` автоматически запускает `.github/workflows/deploy-sanity-studio.yml` и `npx sanity deploy`. Schema deployment и merge не выполнялись; ожидается отдельное разрешение владельца.
+- GitHub Actions для implementation commit `e9fbbf25b5279102226ec9d7c6ea4856e6b80442`: Blog and Studio validation run #908 (`43153746750`), D1 validation run #1133 (`43153746827`) и Sanity Studio validation run #147 (`43153746938`) завершились `success`. Подтверждены website lint/tests/build, Pages Functions syntax, существующие migration validations и Studio build обеих workspaces.
+- PR #219 остаётся открытым и не объединённым. Sanity deployment workflow на PR не запускался; live Sanity schema не проверялась.
+
+---
+
 ## 2026-11-11 — Production D1 read-only audit, CI confirmation and current-state guide
 
 - Read-only live audit of Cloudflare D1 database `florial-db` (region `EEUR`; approximately 1.9 MB). No SQL writes, migrations, schema changes or data changes were performed.

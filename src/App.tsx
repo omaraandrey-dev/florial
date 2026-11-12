@@ -1172,14 +1172,14 @@ export default function App() {
         "imageTitle": image.title,
         "imageTitleEn": image.titleEn,
         "imageTitleRu": image.titleRu,
-        description, seo, helpBlock,
+        description, seo, seoContent, helpBlock,
         "isPlantCategory": false
       }
     `
 
     const plantCategoryDetailQuery = `
       *[_type == "category" && _id == $id][0] {
-        _id, name, translations, seo,
+        _id, name, translations, seo, seoContent,
         "slug": { "current": coalesce(slug.current, slug) },
         sortOrder, description,
         "parentId": parent->_id,
@@ -1475,6 +1475,7 @@ export default function App() {
           onNavigateCategory={navigateToCategory}
           allCategories={categories}
           visibleCategories={visibleCategories}
+          onNavigateInternalPath={navigateToInternalPath}
           onSelectProduct={(product, saleVariantKey) =>
             navigateToProduct(product.slug?.current || product._id, saleVariantKey)
           }
