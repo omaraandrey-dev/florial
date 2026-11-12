@@ -1,3 +1,12 @@
+## 2026-11-12 — Блог: этап 2, улучшение landing page
+
+- Branch: `feat/blog-featured-landing-stage2`.
+- Страница `/blog`: первая публикация текущей выборки (или выбранной темы) получает широкую featured-карточку; дата остаётся источником порядка, вручную закреплённой статьи нет.
+- Featured image использует eager loading/high fetch priority; остальные карточки lazy. Topic chips показывают число статей по существующим тегам.
+- Изменён только `src/pages/BlogPage.tsx`; Sanity schema/documents и backend не менялись. Pagination не вводилась при 14 опубликованных публикациях.
+- PR/CI/Production pending; визуальная QA BG/RU/EN и мобильных 320–360 px не подтверждена.
+- Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
+
 ## 2026-11-12 — Блог: этап 1, улучшение навигации и локализации (PR #232)
 
 - Base main: `35fb62bedab13b5a9f500628f0a50432389ca73a`; branch: `feat/blog-content-discovery-stage1`.
