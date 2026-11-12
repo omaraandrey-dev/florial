@@ -368,3 +368,25 @@ ALT должен описывать фактическое изображени�
 8. **PR #235 остаётся draft и не объединён.** Ветка содержит audit и полный backup; после визуальной проверки изображений обновить image follow-up и отдельно рассмотреть готовность документационного PR.
 
 **Границы выполненных изменений:** в Sanity Production опубликованы только SEO/анонсные поля 14 blogPost (с уточнением 9 BG значений в четырёх документах). Исходные body, H1/title, cover, gallery, ALT, Wix href, schema, frontend, routes, Cloudflare settings и Production deployment не менялись. Полный backup исходных документов находится в ветке PR #235. Изображения остаются отдельной незавершённой задачей.
+
+
+## 7. Повторная проверка изображений — 12.11.2026
+
+Повторно сверены опубликованные Sanity Production документы и код именно актуального GitHub `main`:
+
+- `src/components/BlogContent.tsx` (blob `c81ea2dd6fe2c106b8d1ebefa285b31320edae65`): изображения выводятся только для Portable Text block с `_type == "image"` и разрешённым `assetUrl`; Markdown image syntax в обычном тексте не разбирается.
+- `src/lib/blog.ts` (blob `b788777c7c209bc20313972a00dbc083a85c3cdc`): Sanity image blocks получают URL через `asset->url`; исходные Markdown-ссылки не преобразуются в image blocks.
+
+### Подтверждённые live-данные
+
+- В четырёх болгарских статьях действительно остались 6 Wix CDN href в link markDefs. В самих Portable Text блоках это Markdown-текст вида `![описание](/)`, помеченный ссылкой на Wix URL, а не Sanity image block. Следовательно, текущий frontend не отображает их как изображения; текст Markdown выводится как обычный текст.
+- Распределение: `kupete-travna-plosht` — 1; `landshaften-dizain-proekt-zasazhdenie` — 1; `landshaften-proekt-nesebar` — 1; `maslina-sredizemnomorie` — 3.
+- Sanity assets, уже существующие в этих публикациях, прочитаны read-only. Например, в `cena-sistema-avtomatichno-napoyavane-burgas` действительно имеется image asset 266×246 с ALT, содержащим русский текст и Одессу; в `maslina-sredizemnomorie` три Wix-ссылки сопровождают markdown-подобные текстовые блоки, в то время как два других изображения уже являются настоящими Sanity image blocks.
+- Повторный cover asset 1000×638 в статьях `landshaften-proekt-nesebar` и `landshaften-proekt-zima-burgas` также подтверждён по Sanity asset ID. Само по себе совпадение asset ID не доказывает визуальную уместность или неуместность повтора.
+
+### Ограничение и решение по безопасности
+
+- Firecrawl live retrieval на повторной проверке не выполнился: connected account исчерпал доступные кредиты; инструмент указал время восстановления суточного лимита 13.11.2026 06:10:06 UTC. Web viewer также не смог открыть Wix CDN и Sanity CDN image URLs. Прямой сетевой запрос из рабочей среды завершился DNS resolution error.
+- Поэтому HTTP-доступность, визуальное содержимое и качество шести Wix originals **НЕ ПОДТВЕРЖДЕНЫ**. Нельзя достоверно сопоставить ALT с изображениями, загрузить оригиналы в Sanity или безопасно решить, что именно следует удалить/заменить.
+- ALT-кандидаты из раздела 4.2 не менялись: для каждого требуется увидеть изображение. Никакие опубликованные Sanity документы и assets в этой повторной проверке не изменялись.
+- Следующий безопасный шаг после восстановления доступа к источникам: получить визуальные копии оригиналов, сопоставить их с местом в тексте и затем перенести только полезные изображения в Sanity как image blocks с проверенными BG ALT. Перед любым Sanity write сохранить backup каждого затрагиваемого документа; после patch выполнить read-back и Studio preview. Не удалять исходные assets.
