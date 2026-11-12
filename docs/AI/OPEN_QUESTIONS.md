@@ -20,3 +20,11 @@
 
 
 11. **RSS-лента услуг — опубликована и проверена 12.11.2026.** PR #229 объединён в main, commit `d9f8ded8a10ba3f477026e2ba04affeb427e5480`. Cloudflare Pages Production deployment `c1e03dc4-3b28-4575-920e-dae1e152ef02` — success, все build/deploy stages завершены. CI: Blog/Studio run `43176887544`, D1 PR run `43176887495` и post-merge D1 run `43177889083` — success. Live feed `https://florial-bg.com/feeds/services-bg.xml`: HTTP 200, `application/rss+xml; charset=utf-8`, RSS 2.0 XML; live homepage HTML содержит autodiscovery link на этот URL. **Осталось:** выбрать релевантные RSS-агрегаторы/каталоги и отправить туда URL; регистрация ещё не выполнялась.
+
+
+## 2026-11-12 — Legacy Supabase environment variables remain in Cloudflare Pages
+
+- A read-only inspection of Cloudflare Pages project `florial` showed legacy Supabase-named environment variables still configured in Preview and Production (including `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`). Values are intentionally not recorded here.
+- This conflicts with the current Florial architecture, which excludes Supabase. No variables, secrets, bindings or Production settings were changed during the service-page audit.
+- Before cleanup, verify by repository-wide code search and deployed Functions bindings that no active runtime path reads these variables. Then obtain explicit approval and remove only confirmed-unused variables from Preview/Production in a separate infrastructure task. Recheck build/deployment and live Manager/order flows afterwards.
+- Status: open; configuration discrepancy confirmed live, actual runtime usage of each variable not fully established in this audit.
