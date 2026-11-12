@@ -1,3 +1,15 @@
+## 2026-11-12 — Категория «Солитери и едроразмерни растения»: контент опубликован
+
+- Sanity: project `bxvcy0qs`, dataset `plants`, document `plants-solitaires`, slug `soliteri-edrorazmerni`; обновлён существующий документ, URL/ID/parent/sortOrder сохранены.
+- `seoContent`: по 34 Portable Text-блока BG/RU/EN, включая композиционную роль солитера, места размещения, подбор по зрелым размерам, логистику, правила посадки, укрепление, уход и полив, услуги Florial и 3 FAQ.
+- Краткие описания, локализованные H1, meta title/description, keywords и `noIndex=false` обновлены во всех языках. HelpBlock локализован как CTA; прежний URL услуги `/services/zasazhdane-na-rasteniya` и button labels сохранены.
+- Полный backup до записи: `docs/backups/sanity/2026-11-12-plants-solitaires-before-content-refresh.json`; исходная revision `CfWBjShPZkO4mx3kLAgFwy`.
+- Sanity beta validation: valid, но incomplete из-за пропуска custom callbacks. Revision-guarded publish и live GROQ read-back подтвердили 34 блока на каждом языке и сохранение прежних assets/slug/parent/sortOrder.
+- RHS-based editorial details: planting hole wider than rootball but not deeper; support removal based on actual establishment, commonly 18 months–3 years and longer for large specimens; specimen establishment often needs 2–3 seasons or more. RHS maturity value 20–50 years is explicitly limited to olive (Olea europaea).
+- Production HTTP/live visual smoke не подтверждён: Firecrawl credits exhausted, web viewer could not access URLs. Не заявлять HTTP 200 или визуальную проверку до повторного smoke.
+- Код, schema, Cloudflare settings/secrets, D1 и Pages deployment не менялись. Контент опубликован непосредственно в Sanity.
+
+---
 ## 2026-11-12 — Блог: повышение разрешения иллюстраций и исправление ALT
 
 - Из Wix DROP через Media Manager восстановлены оригиналы для трёх миниатюр в Sanity Production: схема полива 266×246 → 925×855; фотография сада с дождевателем 147×147 → 2048×2048; эскиз ландшафтного плана 179×131 → 640×468. Новые Sanity assets: image-9bb7021d464503eeb9c42e19896c152e75892023-925x855-jpg, image-39434b00c36004a520f6b94d5d91cd61ff5b011d-2048x2048-jpg, image-ca422dbbb9682c5e464b7d42b2ff10f567a5b394-640x468-jpg.
