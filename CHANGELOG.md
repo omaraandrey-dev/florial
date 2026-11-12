@@ -4,7 +4,7 @@
 - Featured-изображение загружается eager/high priority, остальные карточки остаются lazy; на кнопках тем показано количество публикаций.
 - Изменён только `src/pages/BlogPage.tsx`; Sanity schema/documents, services, Header/menu/Footer, маршруты и backend не менялись.
 - Сейчас в Sanity Production опубликовано 14 blogPost. Pagination не добавлялась: текущий объём не оправдывает усложнение.
-- PR #233 merged (`5e0c895c38a0903616d25f4dccde6cd596d20aed`); exact-head CI passed (runs `43201350601` and `43201349713`); Cloudflare Pages Production deployment `392ec129-5551-48b2-a63f-cab5ead23c8c` для точного merge commit завершился `success`, aliases `florial-bg.com` и `www.florial-bg.com`. Визуальная QA BG/RU/EN и мобильных 320–360 px остаётся обязательной. Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
+- PR #233 merged (`5e0c895c38a0903616d25f4dccde6cd596d20aed`); exact-head CI passed (runs `43201350601` and `43201349713`); Cloudflare Pages Production deployment `392ec129-5551-48b2-a63f-cab5ead23c8c` для точного merge commit завершился `success`, aliases `florial-bg.com` и `www.florial-bg.com`. Владелец подтвердил, что блог работает корректно. Отдельный формальный QA-чек-лист по BG/RU/EN и мобильным ширинам 320–360 px не фиксировался. Подробности: `docs/releases/2026-11-12-blog-stage2.md`.
 
 ## 2026-11-12 — Улучшение блога: тематическая навигация и мультиязычность (PR #232, merged + Production)
 
