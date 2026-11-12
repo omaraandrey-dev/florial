@@ -1,3 +1,14 @@
+## 2026-11-12 — Зимний индикатор вне изображения и responsive category hero
+
+- Base main: `6d41f82414676f8121ed1c374c77c0ad1258b211`; branch: `fix/winter-indicator-card-position-and-responsive-category-image`.
+- `src/pages/CategoryPage.tsx`: зимний индикатор теперь находится в отдельной строке карточки растения перед фотографией, а не поверх изображения. Снежинка уменьшена до `text-xs`; температура оставлена `text-[10px]`.
+- `src/pages/ProductPage.tsx`: тот же индикатор вынесен над основной фотографией растения. Основное фото остаётся необходимым содержимым страницы товара; оно загружается с responsive `srcSet`. Отдельного скрытого desktop-only фото в основной галерее не обнаружено.
+- Hero image категории переведён на `<picture>` с desktop-only `<source media="(min-width: 1024px)">`. Fallback `<img>` намеренно не имеет `src` и `srcSet`, поэтому на мобильной ширине изображение не должно загружаться вообще. Контейнер по-прежнему скрывается критическим CSS ниже 1024 px.
+- Это устраняет лишний запрос именно для desktop-only category hero на мобильном; не доказывает устранение всех возможных причин CLS.
+- Изменения не затрагивают Sanity, D1, Manager, API, Header, меню, Footer или Cloudflare Production settings. CI/Production/Android QA ожидают отдельной проверки по PR.
+
+---
+
 ## 2026-11-12 — Индикатор зимней температуры на странице товара и мобильное изображение категории (PR #221)
 
 - Base main: `370e12a33e043e7fe93e686f6c88f6b1c314aae4`; branch: `fix/plant-winter-indicator-and-mobile-category-flash`; PR #221 merged (squash) as `96cc7508301485b81856981d010f506ea7b5ebe0`.
