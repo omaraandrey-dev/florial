@@ -54,5 +54,4 @@
 ## Performance — responsive Header logo (12.11.2026)
 
 - Ветка `perf/header-logo-responsive-srcset`, commit `7923e1534f028e57911109fd30a878dd3f400389`: применён существующий Sanity image helper к логотипу в Header. Визуальные CSS-параметры десктопа и мобильного Header не менялись.
-- **Ожидает проверки:** CI lint/tests/build; фактический выбранный srcset candidate и transfer size на DPR1/DPR2; визуальная регрессия desktop, tablet и mobile; повторный Lighthouse mobile/desktop. PSI исходный отчёт владельца: mobile Performance 96, LCP 2.7 s; logo image 887×444 / 331.2 KiB, Lighthouse estimate 267.1 KiB potential savings.
-- Не считать desktop сохранность подтверждённой до визуального QA на desktop viewport. Production не изменён.
+- PR #239 закрыт; responsive logo implementation присутствует в `main` commit `c80d3f491d399c4df3ddc2662e3157fce7b953f4`. CI website lint/tests/build прошёл в рамках PR #240 (run `43260945549`). **Остаётся:** проверить выбранный srcset candidate и transfer size на DPR1/DPR2, визуальную регрессию desktop/tablet/mobile и повторный Lighthouse mobile/desktop. PSI исходный отчёт владельца: mobile Performance 96, LCP 2.7 s; logo image 887×444 / 331.2 KiB, Lighthouse estimate 267.1 KiB potential savings. Production для этого PR не менялся.
