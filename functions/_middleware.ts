@@ -1,4 +1,5 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
+import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -519,6 +520,20 @@ async function handleRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
   const path = url.pathname.replace(/\/+$/, '') || '/'
   const languageParam = url.searchParams.get('lang')
+
+  // Preserve old blog URLs and their query parameters while moving service content.
+  const serviceRedirectPath = getBlogServiceRedirectPath(path)
+  if (serviceRedirectPath) {
+    const destination = new URL(context.request.url)
+    destination.pathname = serviceRedirectPath
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: destination.toString(),
+        'Cache-Control': 'public, max-age=3600',
+      },
+    })
+  }
 
   // The internal Manager is a separate SPA entry selected in src/main.tsx.
   // Keep the Pages SPA fallback, but apply server-side noindex before the client app runs.
