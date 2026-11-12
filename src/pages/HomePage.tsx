@@ -6,7 +6,7 @@ import { BlogSection } from '../components/BlogSection'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import type { ServiceItem, CategoryItem, Product, SiteSettings } from '../types'
+import type { ServiceItem, CategoryItem, SiteSettings } from '../types'
 
 interface HomePageProps {
   services: ServiceItem[]
