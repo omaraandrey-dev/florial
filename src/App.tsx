@@ -80,6 +80,7 @@ export default function App() {
   const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
   const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
+  const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [loadingServices, setLoadingServices] = useState(true)
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
@@ -596,6 +597,20 @@ export default function App() {
     publicPlantsClient.fetch(homepagePlantCategoriesQuery)
       .then((data) => { if (!cancelled) setHomePlantCategories(Array.isArray(data) ? data : []) })
       .catch((error) => console.error('Homepage: не удалось загрузить категории растений:', error))
+
+    // Resolve the hero from the Studio photo collection. Keep the existing CDN URL
+    // as the immediate render fallback so the LCP image starts loading without waiting
+    // for this content query; the Sanity result points to the same existing asset.
+    const homepageHeroImageQuery = `
+      *[_type == "photo" && slug == "florial-homepage-hero-background" && isActive == true][0] {
+        "imageUrl": image.asset->url
+      }
+    `
+    sanityClient.fetch(homepageHeroImageQuery)
+      .then((data) => {
+        if (!cancelled && typeof data?.imageUrl === 'string') setHomeHeroImageUrl(data.imageUrl)
+      })
+      .catch((error) => console.error('Homepage: не удалось загрузить фоновое изображение:', error))
 
     return () => { cancelled = true }
   }, [normalizedRoutePath])
@@ -1620,6 +1635,7 @@ export default function App() {
           services={services}
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
           plantCategories={homePlantCategories}
+          heroImageUrl={homeHeroImageUrl}
           siteSettings={siteSettings}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
