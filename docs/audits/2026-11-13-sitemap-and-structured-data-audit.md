@@ -1,6 +1,6 @@
 # Florial — sitemap и структурированные данные Google
 Дата аудита: 13.11.2026
-Статус: аудит Production завершён; исправления подготовлены в PR #257, CI и Production deployment ещё не подтверждены.
+Статус: Production audit и CI/Preview validation завершены; PR #257 открыт, merge и Production deployment ещё не выполнены.
 
 ## Метод и источники
 
