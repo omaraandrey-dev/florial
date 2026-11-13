@@ -1,3 +1,15 @@
+- Cloudflare Pages Preview deployment for the implementation commit 766309804eff29ffe36033fe464cb2603bd84a0c completed successfully: deployment 27b617f5-807c-4a43-a264-0bd2e613fc37, https://27b617f5.florial.pages.dev. Documentation-only commits followed; a newer Preview deployment for the current docs head was still queued at the time of checking.
+- Mobile visual/browser QA was attempted but could not run because the connected browser service had exhausted its credits. Do not treat the Preview build/deploy as proof of mobile interaction behavior.
+## 2026-11-13 — Direct quantity entry and equipment weight in cart (PR #256)
+
+- Replaced the read-only quantity display on product details and cart rows with numeric inputs (type=number, numeric mobile keyboard, minimum 1, integer step). Existing plus/minus controls remain; focusing the number selects it for quick replacement.
+- Added the equipment product's existing Sanity weightKg field to the catalogue/detail projections and the persisted cart snapshot.
+- The cart now shows total equipment weight below the order/delivery totals in a smaller text style. Plant-only carts do not show weight. In mixed carts, only equipment weight is summed and the label explicitly says equipment. If any equipment item's weight is absent, the cart does not present an incomplete sum and instead indicates that weight is missing for some products.
+- Existing saved carts are supported: when the cart opens, missing equipment weights are refreshed by a read-only query to Sanity production; no documents are written.
+- Runtime files: src/App.tsx, src/lib/cartStorage.ts, src/lib/routeData/productDetails.ts, src/pages/CartPage.tsx, src/pages/ProductPage.tsx, src/types.ts.
+- No Sanity schema/content, D1, Resend, Cloudflare configuration/secrets, routing, Header/menu/Footer or global layout changes.
+- PR: https://github.com/omaraandrey-dev/florial/pull/256. GitHub Actions: website lint, tests, build and read-only description migration dry-run passed on PR head 766309804eff29ffe36033fe464cb2603bd84a0c; Studio dependency installation/build was still running at the time of this entry. D1 migration validation run 43427588045 passed. Mobile browser QA and Production deployment are not yet confirmed.
+
 ## 2026-11-13 — SEO content published for 42 remaining irrigation categories
 
 - Updated and published 42 existing irrigation category documents in Sanity project `bxvcy0qs`, dataset `production`, including the irrigation catalogue root and every remaining category with product references. Combined with the first 10 primary categories, 52 of 54 category documents now have the full category SEO treatment.

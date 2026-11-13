@@ -24,6 +24,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
           oldPriceEUR,
           stockStatus,
           stockQuantity,
+          weightKg,
           "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
           "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
           "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),

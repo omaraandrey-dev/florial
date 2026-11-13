@@ -124,6 +124,7 @@ export interface Product {
   saleVariants?: PlantSaleVariant[]
   vatIncluded?: boolean
   stockQuantity?: number
+  weightKg?: number
   careGuide?: any[]
   recommendedIrrigation?: {
     irrigationType?: 'drip' | 'rotator' | 'root' | 'mist'

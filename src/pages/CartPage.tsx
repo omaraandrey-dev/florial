@@ -72,6 +72,15 @@ export function CartPage({
   })
 
   const totalPrice = cart.reduce((sum, item) => sum + getItemPrice(item) * item.quantity, 0)
+  const equipmentItems = cart.filter(({ product }) => product.productType === 'equipment')
+  const hasCompleteEquipmentWeight = equipmentItems.length > 0 && equipmentItems.every(({ product }) =>
+    typeof product.weightKg === 'number' && Number.isFinite(product.weightKg) && product.weightKg >= 0
+  )
+  const totalEquipmentWeightKg = equipmentItems.reduce((sum, item) =>
+    sum + (typeof item.product.weightKg === 'number' && Number.isFinite(item.product.weightKg)
+      ? item.product.weightKg * item.quantity
+      : 0), 0
+  )
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -211,9 +220,20 @@ export function CartPage({
                     >
                       -
                     </button>
-                    <span className="px-3 py-1.5 font-bold text-slate-800 text-sm">
-                      {quantity}
-                    </span>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      min={1}
+                      step={1}
+                      aria-label={language === 'ru' ? 'Количество товара' : language === 'en' ? 'Product quantity' : 'Количество на продукта'}
+                      value={quantity}
+                      onFocus={(event) => event.currentTarget.select()}
+                      onChange={(event) => {
+                        const nextQuantity = Number(event.target.value)
+                        if (Number.isInteger(nextQuantity) && nextQuantity >= 1) onUpdateQuantity(getCartItemKey(item), nextQuantity)
+                      }}
+                      className="w-14 bg-transparent px-1 py-1.5 text-center font-bold text-slate-800 text-sm outline-none"
+                    />
                     <button
                       onClick={() => onUpdateQuantity(getCartItemKey(item), quantity + 1)}
                       className="px-3 py-1.5 text-slate-600 hover:bg-slate-200 transition cursor-pointer font-bold"
@@ -270,6 +290,14 @@ export function CartPage({
               <p className="text-xs text-slate-500">{language === 'ru' ? 'Стоимость доставки и окончательная сумма будут согласованы с вами по телефону.' : language === 'en' ? 'The delivery fee and final total will be agreed with you by phone.' : 'Цената за доставка и крайната сума ще бъдат уточнени с вас по телефона.'}</p>
             )}
 
+            {equipmentItems.length > 0 && (
+              <p className="text-sm text-slate-500 -mt-4 text-right">
+                {language === 'ru' ? 'Общий вес оборудования:' : language === 'en' ? 'Total equipment weight:' : 'Общо тегло на оборудването:'}{' '}
+                {hasCompleteEquipmentWeight
+                  ? `${totalEquipmentWeightKg.toLocaleString(language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG', { maximumFractionDigits: 3 })} кг`
+                  : (language === 'ru' ? 'не указан для всех товаров' : language === 'en' ? 'not available for all items' : 'не е посочено за всички продукти')}
+              </p>
+            )}
             <form onSubmit={handleSubmitOrder} className="space-y-4 pt-2">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">

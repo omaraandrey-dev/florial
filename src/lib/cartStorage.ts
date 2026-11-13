@@ -92,6 +92,7 @@ export const saveCart = (items: CartItem[]): void => {
           imageAltEn: item.product.imageAltEn,
           imageAltRu: item.product.imageAltRu,
           stockStatus: item.product.stockStatus,
+          weightKg: item.product.weightKg,
           vatIncluded: item.product.vatIncluded,
         },
       })),
