@@ -2,7 +2,8 @@
 
 Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; no merge or Production deployment yet.
 
-- **Services directory:** global bootstrap retains only a compact service navigation projection for Header. Full service cards and role photos are fetched only on `/services`.
+- **Services directory:** global bootstrap retains a compact Header projection, now including only the image URLs/ALT fields required for homepage cards and About-page service images. `HomePage` and `AboutPage` reuse it; full service cards and role photos are fetched only on `/services`.
+- Homepage plant-category cards now use the Sanity category `plants-solitaires` instead of `plants-citrus` (synchronized query and render IDs).
 - **Service detail:** fetch one published service by slug with the active language projection; 60-second in-memory cache. Avoid fetching the full service list as a prerequisite.
 - **Service images:** responsive Sanity URLs for listing cards/role photos; service hero and first intro image are high priority; secondary gallery images are lazy.
 - **Blog cards:** request only title, summary, cover alt and cover URL for the active language. Header, homepage BlogSection and BlogPage share language-aware list cache.
