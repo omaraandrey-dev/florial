@@ -171,3 +171,15 @@ export function generateProductSeo(product, locale, stableIndex = 0) {
 }
 
 export const PRODUCT_SEO_LOCATIONS = LOCATIONS.map((location) => location.key)
+
+
+/** Return generated SEO values only for fields that are currently empty. */
+export function getMissingProductSeoFields(existingSeo, generated) {
+  const source = existingSeo && typeof existingSeo === 'object' ? existingSeo : {}
+  const result = {}
+  for (const field of ['h1', 'metaTitle', 'metaDescription']) {
+    const current = source[field]
+    if (typeof current !== 'string' || current.trim().length === 0) result[field] = generated[field]
+  }
+  return result
+}
