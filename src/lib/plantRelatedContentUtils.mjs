@@ -2,7 +2,7 @@ export function parseCategoryRelatedContentPath(value) {
   if (typeof value !== 'string') return null
 
   const path = value.trim()
-  const match = path.match(/^\/(services|blog)\/([^/]+)$/)
+  const match = path.match(/^\/(services|blog)\/([^/]+)\/?$/)
   if (!match) return null
 
   return {
