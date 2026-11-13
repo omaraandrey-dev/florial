@@ -999,7 +999,7 @@ export default function App() {
     })
   }, [searchProducts, activeSearchQuery])
 
-  const currentService = currentServiceDetails
+  const currentService = activeServiceSlug ? currentServiceDetails : null
 
   useEffect(() => {
     let cancelled = false
@@ -1312,7 +1312,7 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
-      ) : activeServiceSlug && loadingServiceDetails ? (
+      ) : activeServiceSlug && loadingServiceDetails && !currentService ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
