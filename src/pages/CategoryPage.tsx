@@ -472,7 +472,7 @@ export function CategoryPage({
                   const imageProps = getSanityImageProps(category.imageUrl!, '(min-width: 1280px) 408px, 30vw', 640, 70)
                   return imageProps.srcSet || imageProps.src
                 })()}
-                sizes="30vw"
+                sizes="(min-width: 1280px) 408px, 30vw"
               />
               <img
                 alt={getCategoryImageText(category, language, 'alt') || ''}
