@@ -469,7 +469,7 @@ export function CategoryPage({
               <source
                 media="(min-width: 1024px)"
                 srcSet={(() => {
-                  const imageProps = getSanityImageProps(category.imageUrl!, '30vw', 960)
+                  const imageProps = getSanityImageProps(category.imageUrl!, '(min-width: 1280px) 408px, 30vw', 640, 70)
                   return imageProps.srcSet || imageProps.src
                 })()}
                 sizes="30vw"
@@ -637,10 +637,10 @@ export function CategoryPage({
                 <div className="h-32 sm:h-48 bg-slate-50 rounded-lg mb-2 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                   {cardImageUrl ? (
                     <img
-                      {...getSanityImageProps(cardImageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw')}
+                      {...getSanityImageProps(cardImageUrl, '(min-width: 1280px) 300px, (min-width: 1024px) calc((100vw - 4rem) / 3), (min-width: 640px) calc((100vw - 3rem) / 2), calc((100vw - 2.75rem) / 2)', 640, 65)}
                       alt={getProductImageText(displayName, language, 0, 'alt')}
                       title={getProductImageText(displayName, language, 0, 'title')}
-                      loading={index < 4 ? 'eager' : 'lazy'}
+                      loading={index < 2 ? 'eager' : 'lazy'}
                       decoding="async"
                       className="h-full w-full rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
                     />
