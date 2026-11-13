@@ -1,8 +1,13 @@
 # Plant category server-rendered HTML — 13.11.2026
 
-## Status
+## Status — checkpoint 13.11.2026
 
-Implementation is on branch `feat/plant-category-server-rendering`; PR #251 is open. GitHub Actions passed on the implementation head: lint, tests, website build, Pages Functions syntax check and Studio build. Raw Production HTML/browser QA and release remain pending.
+- Implementation branch: `feat/plant-category-server-rendering`; PR #251 is open, not merged. Current implementation head at this checkpoint: `0ef46d74d7fd5e48af38c80985a1604e968bbf30`.
+- GitHub Actions passed on that exact SHA: Blog and Studio validation run `43396561749` — success; Florial D1 migration validation run `43396561879` — success.
+- Cloudflare Pages project `florial` was inspected live. With owner approval, `preview_deployment_setting` changed from `none` to `all`; branch includes remain `*`, production branch remains `main`, and automatic Production deployments remain enabled.
+- The latest deployment record for the PR head was created before the setting change and remains skipped with `preview_deployments_disabled`. A fresh Preview deployment is still required; raw HTML QA has not yet happened.
+- Production is still `main` commit `0df7a52bb2a923f71096179c3837141382446554`; deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` completed successfully on that exact commit. PR #251 is not in Production.
+- Preview currently has no D1 binding. Use it for the public plant-category HTML/SEO test only; Manager, orders and D1-backed flows are out of scope. Preview URLs are public unless access controls are separately configured.
 
 ## Scope
 
@@ -37,11 +42,16 @@ Phase 1 covers plant category routes only (`plants` Sanity dataset). Equipment c
 
 ## Pending verification
 
-- GitHub Actions lint, unit tests, website build and Pages Functions validation on the exact PR SHA.
-- Inspect the PR build output and Cloudflare Pages deployment only after merge authorization.
-- After a permitted Production release, inspect raw HTML for BG/RU/EN plant category routes, verify product links and ItemList JSON-LD, then compare JavaScript-enabled rendering and confirm no duplicate/incorrect empty-state content.
-- Repeat the same pattern for equipment categories only after Phase 1 is stable.
+1. Generate a fresh Cloudflare Pages Preview deployment from a new commit on the PR branch after enabling Preview.
+2. Confirm Preview deployment reaches `success` and is tied to the exact current PR head SHA.
+3. Inspect raw HTML for plant category routes in BG/RU/EN: HTTP status, document language, canonical/hreflang/robots, H1 and SEO text, `data-florial-server-catalogue`, product links/names/prices/known stock labels and matching `ItemList` JSON-LD.
+4. Compare JavaScript-enabled output with the initial server HTML; confirm the React app starts, no duplicate catalogue remains, and a real empty state is not shown when products exist.
+5. Keep Manager/orders/D1-backed smoke tests out of Preview because the live Preview configuration has no D1 binding. Do not copy Production secrets/bindings into Preview as part of this task.
+6. Only after Preview HTML and browser checks pass, consider merging PR #251 under the existing owner authorization. Then verify the exact Production deployment and live HTML separately.
+7. Equipment category rendering remains Phase 2 and must not be added until Phase 1 is stable.
 
-## Not changed
+## Configuration changes and non-changes
 
-No Sanity content/schema, D1, Resend, Cloudflare Pages settings/secrets, DNS, routing, Header, menu, Footer or global React architecture changes.
+- **Changed with owner approval:** Cloudflare Pages project `florial` source config `preview_deployment_setting`: `none` → `all`; branch include pattern remains `*`.
+- **Not changed:** Production branch (`main`), automatic Production deployments, Production environment variables/secrets/bindings, Preview environment variables/secrets/bindings, DNS, D1, Sanity, Resend, routing, Header, menu, Footer and global React architecture.
+- Preview environment has no D1 binding at this checkpoint. Legacy `VITE_SUPABASE_*` variable names remain visible in the Preview environment configuration; values were not read or disclosed. Their current code usage has not been re-audited in this PR.
