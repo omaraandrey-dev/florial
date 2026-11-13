@@ -1,3 +1,15 @@
+## 2026-11-13 — SEO metadata unified for all 17 plant categories
+
+- Updated and published all 17 existing category documents in Sanity project `bxvcy0qs`, dataset `plants`; no category IDs, slugs, parent references, images, product relationships, category descriptions or SEO body blocks were changed.
+- Filled localized `seo.metaTitle` and `seo.metaDescription` for BG, RU and EN: 51 titles and 51 descriptions. Each description is category-specific, begins with a localized sale/for-sale phrase, includes relevant local geography (Nessebar/Несебър, Ravda/Равда and the Southern Black Sea coast where appropriate), and mentions delivery/planting only where relevant.
+- Title format follows the agreed local SEO pattern: category name + geographic location + Florial garden-centre brand. The shorter Florial suffix is used when the full centre name would make a title exceed 70 characters. All 51 titles passed the 70-character check.
+- Existing H1 values were preserved. Comparison of the exact pre-write backup with the published documents found zero H1 changes across all 17 categories and all three locales. `noIndex` values were not intentionally changed.
+- Pre-write backup: `docs/backups/sanity-plant-categories-before-seo-2026-11-13.json` (17 complete published-document snapshots; 358,092 characters).
+- Sanity write result: 17/17 document patches successful; 17/17 published. Post-publish GROQ read-back confirmed all 17 documents and all 102 localized meta fields (51 title + 51 description); no missing values or title-length violations.
+- No schema, application code, Cloudflare configuration, D1, Resend, product records, individual plant product SEO, or deployment was changed.
+- **CI on exact content/docs head `6100fbe1ba79f977700c4a442005b37266f4f4c7`:** Blog and Studio validation run `43406072024` — success (lint, website utility tests, website build, read-only migration dry-run and Studio build); D1 migration validation run `43406071860` — success. No application code changed.
+- Live Production HTML/crawler rendering and Google re-crawl are not independently confirmed in this operation. Metadata is confirmed in published Sanity; runtime rendering is governed by the existing category SEO resolver/middleware.
+
 ## 2026-11-13 — PR #251 merged and deployed; owner QA pending
 
 - PR #251: https://github.com/omaraandrey-dev/florial/pull/251 — squash-merged.
