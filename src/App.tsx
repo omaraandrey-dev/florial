@@ -71,6 +71,50 @@ function getRouteState(
   }
 }
 
+function CategoryLoadingState({ label }: { label: string }) {
+  return (
+    <main
+      className="mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-7xl flex-grow flex-col px-4 py-8"
+      aria-busy="true"
+    >
+      <p className="sr-only" role="status" aria-live="polite">{label}</p>
+
+      <div aria-hidden="true" className="mb-6 h-4 w-44 animate-pulse rounded bg-slate-200" />
+
+      <div aria-hidden="true" className="mb-8 grid grid-cols-1 items-center gap-6 lg:grid-cols-3">
+        <div className="space-y-3 lg:col-span-2">
+          <div className="h-9 w-3/4 max-w-xl animate-pulse rounded-lg bg-slate-200" />
+          <div className="h-4 w-full max-w-3xl animate-pulse rounded bg-slate-100" />
+          <div className="h-4 w-5/6 max-w-2xl animate-pulse rounded bg-slate-100" />
+        </div>
+        <div className="hidden aspect-[4/3] animate-pulse rounded-2xl bg-slate-100 lg:block" />
+      </div>
+
+      <div aria-hidden="true" className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+        {Array.from({ length: 8 }, (_, index) => (
+          <div key={index} className="flex min-h-16 items-center gap-3 rounded-xl border border-[#E5E8DC] bg-white p-2 sm:rounded-2xl sm:p-3">
+            <div className="h-12 w-12 shrink-0 animate-pulse rounded-lg bg-slate-100 sm:h-14 sm:w-14" />
+            <div className="h-3 w-2/3 animate-pulse rounded bg-slate-100" />
+          </div>
+        ))}
+      </div>
+
+      <div aria-hidden="true" className="mb-6 h-16 animate-pulse rounded-2xl bg-slate-100" />
+      <div aria-hidden="true" className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="overflow-hidden rounded-2xl border border-slate-100 bg-white">
+            <div className="aspect-[4/5] animate-pulse bg-slate-100" />
+            <div className="space-y-3 p-3">
+              <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+              <div className="h-4 w-1/2 animate-pulse rounded bg-slate-100" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
+
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
@@ -1063,13 +1107,17 @@ export default function App() {
       />
 
       <React.Suspense fallback={
-        <main
-          className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
-          role="status"
-          aria-live="polite"
-        >
-          {t('Зареждане на страницата...')}
-        </main>
+        activeCategorySlug
+          ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
+          : (
+            <main
+              className="mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
+              role="status"
+              aria-live="polite"
+            >
+              {t('Зареждане на страницата...')}
+            </main>
+          )
       }>
         {normalizedRoutePath === '/about' ? (
         <AboutPage services={services} categories={categories} />
@@ -1207,9 +1255,7 @@ export default function App() {
         loadingCategoryDetails ||
         Boolean(currentCategory && currentCategoryDetails?._id !== currentCategory._id)
       ) ? (
-        <div className="flex-grow flex items-center justify-center py-20">
-          <p className="text-slate-500 font-medium">{t("Зареждане на категорията...")}</p>
-        </div>
+        <CategoryLoadingState label={t('Зареждане на категорията...')} />
       ) : activeCategorySlug && currentCategory ? (
         <CategoryPage
           category={currentCategoryDetails || currentCategory}
