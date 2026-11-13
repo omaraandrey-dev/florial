@@ -1,3 +1,14 @@
+
+
+## 2026-11-13 — Responsive category fallback and plant catalogue images (PR pending)
+
+- functions/_middleware.ts documentBody() no longer inserts a raw fallback image for category documents. The image was being emitted as an ordinary <img src> before React/CSS, so hiding .category-page-hero-image below 1024 px did not prevent the browser from downloading that fallback image.
+- Category image metadata (og:image) remains unchanged. The client-rendered category hero remains desktop-only via its existing responsive <picture> source.
+- src/lib/sanityImage.ts accepts an optional per-image quality value; default remains 75 for every existing caller.
+- src/pages/CategoryPage.tsx uses grid-accurate sizes values for plant/product cards, quality 65 for those card images, and eager loading only for the first two visible offers. Desktop category hero is capped at a 408 px source-size estimate and quality 70.
+- No Sanity, D1, Cloudflare configuration/secrets, global shell, Header/Footer, routing or SEO metadata changes.
+- Verification status: code changes are on a separate PR branch; CI, browser Network inspection and repeat Lighthouse are pending. Do not claim measured savings or improved LCP until verified.
+
 ## 2026-11-13 — PR #246: loading skeleton каталога категорий опубликован в Production
 
 **Статус:** PR #246 squash-merged в `main`, commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`; Cloudflare Pages Production deployment `6208bca0-23a6-48b0-a84b-b1861bac9523` завершён успешно на том же commit. Aliases: `https://florial-bg.com`, `https://www.florial-bg.com`. CI на PR head `2e0fa03` прошёл: Blog/Studio `43370628228`, D1 validation `43370628255`.
