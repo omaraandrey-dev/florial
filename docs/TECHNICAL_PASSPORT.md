@@ -1,3 +1,5 @@
+Preview deployment for implementation SHA 766309804eff29ffe36033fe464cb2603bd84a0c succeeded: 27b617f5-807c-4a43-a264-0bd2e613fc37 (https://27b617f5.florial.pages.dev). Mobile browser QA is not confirmed; the browser inspection could not start because the connected browser service had exhausted its credits. This does not affect the confirmed GitHub CI/build result.
+
 ## 2026-11-13 — Cart quantity input and equipment weight (PR #256)
 
 Product detail quantity and cart-row quantity are editable numeric inputs on mobile and desktop; plus/minus buttons remain. The inputs accept positive whole numbers and select the current value on focus. Equipment products expose the existing Sanity weightKg field through both the equipment catalogue and detail query. Cart persistence retains this field.
