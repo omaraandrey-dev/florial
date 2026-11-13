@@ -189,6 +189,7 @@ export function Header({
               />
               <button
                 type="submit"
+                aria-label={t('Търси')}
                 disabled={!searchQuery.trim()}
                 className="florial-header-search-submit m-1 shrink-0 rounded-lg bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
               >
