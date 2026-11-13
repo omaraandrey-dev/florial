@@ -1,6 +1,6 @@
 ## 2026-11-13 — PR #249 (draft): service and blog route loading optimization
 
-**Статус:** Draft PR #249 — https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged, not deployed. CI and browser QA pending.
+**Статус:** PR #249 — https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`. CI: Blog and Studio run `43388956826` — success; D1 validation run `43388956805` — success. Not merged or deployed. Browser QA and Lighthouse remain pending.
 
 - Full service listing data and role photos load only on `/services`. A compact service query remains in the global Header data loader and includes only navigation fields plus service image URLs/ALT fields; this same compact result supplies homepage service cards and About-page service images. The full directory query remains route-specific.
 - Homepage plant-category selection is synchronized in `src/App.tsx` and `src/pages/HomePage.tsx`: `plants-solitaires` replaces `plants-citrus` in the six homepage category cards.
