@@ -1,3 +1,13 @@
+## JavaScript split — PR #244: функциональная browser QA закрыта владельцем (13.11.2026)
+
+- PR #244 merged в `main`: `c97255f4fc843714f0a453727a77f22b75fdf0f7`.
+- Cloudflare Pages Production deployment `cc421986-4aa0-49e3-85db-33d78d8546ce` — build/deploy success; deployment commit совпадает с merge commit.
+- CI: Blog and Studio run `43359151357` — success; D1 validation run `43359151359` — success.
+- Владелец вручную проверил переключение языков в обе стороны, категории, товары, корзину, поиск и переводы; сообщил, что всё работает корректно. Функциональная проверка владельца закрыта. Автоматизированный browser test или отдельный Network capture не заявляются.
+- Initial JS entry: 398.12 kB raw / 108.66 kB gzip → 336.08 kB raw / 97.95 kB gzip. Это сравнение build artifacts, не измерение LCP.
+- **Остаётся только performance measurement:** Network waterfall по маршрутам и языкам; повторный Lighthouse mobile/desktop; сравнение LCP/INP/CLS. Lighthouse unused-JS estimate «32 KiB» считать закрытым только при новом отчёте.
+- Sanity, D1, Resend и Cloudflare settings/secrets не менялись.
+
 ## JavaScript split — PR #244: CI passed, ожидает browser QA (13.11.2026)
 
 - Draft PR: https://github.com/omaraandrey-dev/florial/pull/244; code snapshot `1c36472e52cbc0f7219f7827a5452b10581a317b`.
