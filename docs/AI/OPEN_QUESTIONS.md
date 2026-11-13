@@ -3,6 +3,7 @@
 - Completed the category-wide SEO update: 17/17 published plant categories in Sanity dataset `plants`.
 - BG/RU/EN each have category-specific Meta Title and Meta Description values (51 pairs in total). All titles are 70 characters or shorter; descriptions are localized and include relevant local intent.
 - The H1 fields, category descriptions, slugs, images, category tree and product data were preserved. Backup and exact verification details: `docs/backups/sanity-plant-categories-before-seo-2026-11-13.json` and `docs/audits/2026-11-13-plant-category-seo.md`.
+- **CI on exact content/docs head `6100fbe1ba79f977700c4a442005b37266f4f4c7`:** Blog and Studio validation run `43406072024` — success (lint, website utility tests, website build, read-only migration dry-run and Studio build); D1 migration validation run `43406071860` — success. No application code changed.
 - No code/schema/deployment changes. **Still open:** verify the initial HTTP HTML metadata for representative plant category routes in BG/RU/EN and request/observe Google recrawl; Google AI/search results may continue to reflect previously indexed metadata until refreshed.
 
 ## 2026-11-13 — PR #251 merged and deployed; owner QA pending
