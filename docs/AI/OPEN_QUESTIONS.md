@@ -1,3 +1,11 @@
+## Каталог растений — загрузочное состояние и CLS (13.11.2026)
+
+- Ветка `fix/plant-category-loading-layout-2026-11-13`: category-specific skeleton в `src/App.tsx` используется и для загрузки данных, и как React.Suspense fallback. Он резервирует минимум один viewport после Header, чтобы Footer не попадал в первый экран до готовности каталога.
+- Кодовый осмотр: `index.html` скрывает `.category-page-hero-image` на ширине менее 1024 px. Подкатегорийные thumbnails в `CategoryPage.tsx` отображаются 48×48 px на mobile / 56×56 px на desktop.
+- Baseline владельца (mobile, 13.11.2026 06:52 GMT+2): Performance 61, LCP 4.507 s, CLS 0.693, TBT 10 ms.
+- **Ожидается:** PR CI; проверка прямого URL `/category/rastenia` и SPA navigation; visual QA на Android/mobile и desktop; повторный Lighthouse; layout shift attribution. После skeleton отдельно оптимизировать plant catalogue GROQ projection/payload только после измерения Network waterfall.
+- Не утверждать, что Footer был единственной причиной CLS или что skeleton улучшил метрики до фактического повторного замера. Изменение не затрагивает Sanity/Production.
+
 ## JavaScript split — PR #244: функциональная browser QA закрыта владельцем (13.11.2026)
 
 - PR #244 merged в `main`: `c97255f4fc843714f0a453727a77f22b75fdf0f7`.
