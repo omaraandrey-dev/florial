@@ -17,8 +17,8 @@
 
 - Project `florial`, production branch `main`; Preview deployments are enabled for all branches (`preview_deployment_setting=all`, include pattern `*`) after owner approval.
 - Production deployments remain enabled. This change did not alter Production deployment configuration, environment variables/secrets, bindings or DNS.
-- Preview currently has no D1 binding. Treat it as a public, limited validation environment for static/public routes and plant-category SSR only; do not claim parity with Production or test D1-backed Manager/orders flows there. Preview URLs are public unless protected separately.
-- Legacy `VITE_SUPABASE_*` variable names remain present in Preview configuration; values were not read or disclosed. Removal is not part of this change.
+- Production D1 binding `DB` remains configured; Preview has no D1 binding. Treat Preview as a public, limited validation environment for public routes and plant-category SSR only; do not test Manager/orders flows there. Preview URLs are public unless protected separately.
+- Legacy Supabase-named environment keys remain in Cloudflare configuration: Preview has `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`; Production has those two plus `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. Only key names were inspected; values were not read. Runtime usage was not re-audited in this task. These are residual configuration keys, not evidence of an active Supabase architecture; removal requires a separate code-usage audit and owner approval.
 
 ## 2026-11-13 — Production incident after PR #249: root cause and hotfix
 
