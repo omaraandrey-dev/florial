@@ -161,8 +161,11 @@ Preview smoke:
 - PR #257: https://github.com/omaraandrey-dev/florial/pull/257 — squash-merged 13.11.2026.
 - Merge commit в `main`: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
 - Cloudflare Pages Production deployment `e3408322-80c3-4663-9dcd-48d8feec3e42`, URL `https://e3408322.florial.pages.dev` — build и deploy stages `success` на точном merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
-- Live Production smoke, JavaScript disabled: `/product/citrus-japonica-kumquat` — HTTP 200, `robots=index, follow`, self-canonical, Product JSON-LD Offer price `25.00 EUR`. Ранее Production baseline отдавал `3 000 EUR`; после релиза цена соответствует первому sale variant.
-- Повторная проверка остальных маршрутов на основном домене ограничена rate limit Cloudflare Browser Rendering (HTTP 429, требование паузы 10 секунд). Не выдавать Preview smoke за повторный Production smoke.
+- Live Production smoke, JavaScript disabled:
+  - `/product/citrus-japonica-kumquat` — HTTP 200, `robots=index, follow`, self-canonical, Product JSON-LD Offer price `25.00 EUR`. Ранее Production baseline отдавал `3 000 EUR`; после релиза цена соответствует первому sale variant.
+  - `/services/avtomatizirano-kapkovo-napoyavane` — HTTP 200, `robots=index, follow`, self-canonical, JSON-LD `Service` присутствует.
+  - `/terms?lang=ru` — HTTP 200, `robots=noindex, nofollow`, self-canonical, hreflang отсутствует.
+- Повторная выборка оставшихся product/category/blog языковых маршрутов была ограничена rate limit Cloudflare Browser Rendering (HTTP 429). Не выдавать Preview smoke за повторный Production smoke.
 
 ## 8. Что ещё не подтверждено
 
