@@ -40,7 +40,8 @@ These figures were independently checked against published Sanity product docume
 
 ## Operational state
 
-- Implementation is proposed in PR #259; CI/review status must be checked on the exact PR head.
+- PR #259 is open and mergeable; current head `dee62f99950a400a631c10e3d021dfd0da0f74a1` is 25 commits ahead of and 0 behind `main`. No review threads are open.
+- Exact-head CI passed: Blog and Studio run `43440703026` and D1 validation run `43440703050`. Cloudflare Pages Preview `https://0ffb5f32.florial.pages.dev` deployed successfully on the exact head. Production deployment and merge are not performed.
 - No Sanity mutation or publication was run during this implementation.
 - No Cloudflare secrets, bindings, D1 data/schema, Sanity schema, Resend, public navigation, Header, Footer or Production configuration were changed.
 - The existing Sanity backup was not recreated. Its exact object/path and coverage were not independently verified in this code-only task.
