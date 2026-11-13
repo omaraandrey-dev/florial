@@ -40,12 +40,16 @@ These figures were independently checked against published Sanity product docume
 
 ## Operational state
 
-- PR #259 is open and mergeable; current head `dee62f99950a400a631c10e3d021dfd0da0f74a1` is 25 commits ahead of and 0 behind `main`. No review threads are open.
-- Exact-head CI passed: Blog and Studio run `43440703026` and D1 validation run `43440703050`. Cloudflare Pages Preview `https://0ffb5f32.florial.pages.dev` deployed successfully on the exact head. Production deployment and merge are not performed.
-- No Sanity mutation or publication was run during this implementation.
-- No Cloudflare secrets, bindings, D1 data/schema, Sanity schema, Resend, public navigation, Header, Footer or Production configuration were changed.
-- The existing Sanity backup was not recreated. Its exact object/path and coverage were not independently verified in this code-only task.
-- After merge and deployment, owner should open Manager, refresh the preview, review generated examples, and only then decide whether to trigger the explicit apply action.
+## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
+
+- PR #259 squash-merged into `main`: merge commit `3c909da0fc235aff2cc19ccdb73a1edba7960670`.
+- Exact merge commit checks: GitHub Actions `validate` run `43446693123` passed (lint, website build, Pages Functions syntax and D1 migration validation); Cloudflare Pages check `131958296250` passed.
+- Cloudflare Pages Production deployment `4db8a0e1-ff55-4470-9fd5-c179f2993ba7`, URL `https://4db8a0e1.florial.pages.dev`, completed build and deploy successfully for exact merge commit. Production aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Fresh read-only Sanity Production recount after deployment: 275 published products, 193 with missing SEO fields, 1,153 missing fields and 1,322 populated fields to preserve. Per locale: BG H1 193 / Meta Title 1 / Meta Description 1; RU and EN each H1 193 / Meta Title 143 / Meta Description 143. All 275 products have RU and EN names.
+- Read-only sample review of the first six published products: products 1, 2, 4 and 5 have only BG H1 missing while their existing BG Meta Title/Description are preserved; RU/EN have all three SEO fields missing. Products 3 and 6 already have all sampled SEO fields populated and are marked preserve-only. No writes were run.
+- The actual Manager UI preview endpoint requires an authenticated Owner session. No Owner session was available to this verification, so a click-through in the Manager UI is **not confirmed**. The live Sanity read-only recount and sample inspection independently match the Manager preview implementation and documented baseline.
+- No Sanity mutation/publication, D1 change, Cloudflare setting/secret change, Resend or schema change was made. SEO apply remains pending a separate explicit owner instruction after review of the preview samples.
+- Cloudflare Pages project configuration still contains legacy variables named `SUPABASE_*` and `VITE_SUPABASE_*` in Preview/Production. They were only observed; no values are reproduced here and nothing was changed. Supabase remains excluded from the Florial runtime architecture. Inventory/removal requires a separate approved change after checking whether any deployed code still references them.
 
 ## Related inventory
 
