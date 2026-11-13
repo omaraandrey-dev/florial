@@ -65,6 +65,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [language])
 
   const setLanguage = (next: Language) => {
+    if (next === 'bg') {
+      setLocale(bgLocale)
+      setLoadedLanguage('bg')
+    }
     setLanguageState(next)
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('florial-language', next)
