@@ -1,7 +1,8 @@
 import { sanityLiveClient, plantsClient } from '../sanity'
 import type { Product } from '../../types'
 
-export async function fetchSearchProducts(): Promise<Product[]> {
+export async function fetchSearchProducts(isCancelled: () => boolean = () => false): Promise<Product[]> {
+  if (isCancelled()) return []
   const equipmentSearchQuery = `
         *[_type == "product" && isActive != false && defined(slug)] {
           _id, name,
@@ -54,6 +55,8 @@ export async function fetchSearchProducts(): Promise<Product[]> {
     sanityLiveClient.fetch(equipmentSearchQuery),
     plantsClient.fetch(plantSearchQuery),
   ])
+  if (isCancelled()) return []
+
   const equipment = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
     ? equipmentResult.value
     : []
