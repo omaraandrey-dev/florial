@@ -2946,3 +2946,14 @@ Backups:
 - Cloudflare Pages build and Production deployment succeeded for code commit `e3c794dd406410413d4ca6da29a719e8a713207a`; latest deployment for documentation commit `a4fa14d1381d171b8097489ff8fb425e174911ec` also reached `success` and carries the custom domains. Further docs-only commits followed; their final deployment status is checked separately.
 - Read-only Cloudflare configuration review reconfirmed legacy Supabase-named variables in Preview and Production. The existing 11.11 static audit recorded no Supabase references in 115 runtime/source/workflow files and no SDK dependency; the variables were not changed. The repeated finding is recorded in `docs/AI/OPEN_QUESTIONS.md` for separate owner-approved cleanup.
 - No Sanity schema, code architecture, API, D1, Resend, Cloudflare bindings/settings/secrets or global site components were intentionally changed. The only runtime code change is the inline-link renderer in `src/pages/ServicePage.tsx`.
+
+
+## 2026-11-13 — Production sitemap и структурированные данные Google (PR #257, CI pending)
+
+- Read-only Production audit: live `/sitemap.xml` HTTP 200; 1 312 уникальных URL, 438 основных URL и 874 локализованных URL; повторов нет. Sitemap покрывает 325 товаров, 71 категорию, 21 услугу, 14 статей блога и основные статические страницы.
+- Sanity published inventory: 275 irrigation products, 50 plant products, 54 irrigation categories, 17 plant categories, 21 active services, 14 published blog posts — всего 431 объект. Количество основных URL совпадает с опубликованными документами.
+- Выявлено: 143/275 irrigation products не имеют полной пары локализованных RU/EN metaTitle/metaDescription; 19/50 plant products имеют root `priceEUR`, не совпадающий с первым sale variant. У четырёх категорий нет активных товаров/дочерних категорий; пока сохранены в sitemap.
+- Live raw HTML для kumquat подтверждал ошибочную цену 3 000 EUR в initial HTML/JSON-LD при цене первого sale variant 25 EUR. PR #257 выносит product offer helpers, формирует Offer/AggregateOffer из saleVariants и исправляет fallback price в initial HTML.
+- PR #257 добавляет Schema.org Service, BlogPosting, CollectionPage/ItemList, уважение Sanity noIndex на сервере и клиенте, согласование product hreflang с переводами и тесты.
+- Изменения в ветке `feat/google-seo-schema-audit`; отчёт: `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`. На момент записи PR открыт; CI/merge/Production deployment ещё не подтверждены.
+- Sanity documents/schema, D1, Cloudflare settings/secrets, Resend и Production не изменялись. Firecrawl не использовался; live sitemap и raw HTML получены через Cloudflare Browser Rendering.
