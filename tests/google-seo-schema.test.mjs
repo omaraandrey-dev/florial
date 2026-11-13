@@ -82,13 +82,15 @@ test('server middleware emits Product, Service, BlogPosting and CollectionPage s
 })
 
 test('client-side SEO preserves noIndex and restores page structured data after hydration', async () => {
-  const [product, service, blog, category, blogIndex, servicesIndex] = await Promise.all([
+  const [product, service, blog, category, blogIndex, servicesIndex, terms, middleware] = await Promise.all([
     readFile(new URL('../src/pages/ProductPage.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/pages/ServicePage.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/pages/BlogPostPage.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/pages/CategoryPage.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/pages/BlogPage.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/pages/ServicesListPage.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/pages/TermsPage.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8'),
   ])
   assert.match(product, /noIndex: localizedSeoSource\?\.noIndex === true/)
   assert.match(service, /noIndex: localizedSeo\?\.noIndex === true/)
@@ -97,4 +99,6 @@ test('client-side SEO preserves noIndex and restores page structured data after 
   assert.match(category, /setStructuredData\('collection-page'/)
   assert.match(blogIndex, /setStructuredData\('collection-page'/)
   assert.match(servicesIndex, /setStructuredData\('collection-page'/)
+  assert.match(terms, /noIndex: language !== 'bg'/)
+  assert.match(middleware, /noIndex: language !== 'bg'/)
 })
