@@ -1,6 +1,6 @@
-## 2026-11-13 — PR #249 (draft): service and blog route loading optimization
+## 2026-11-13 — PR #249: service and blog route loading optimization merged and deployed
 
-**Статус:** PR #249 — https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`. CI: Blog and Studio run `43388956826` — success; D1 validation run `43388956805` — success. Not merged or deployed. Browser QA and Lighthouse remain pending.
+**Статус:** PR #249 squash-merged в `main`, commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`. Cloudflare Pages Production deployment `467d9866-0d04-4ef1-b265-3f84b6533950` — success на точном commit; URL `https://467d9866.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`. CI на final PR head `91bc8abd042f6624dc531081bbde077d254d76cc`: Blog and Studio run `43389185896` — success; D1 validation run `43389169540` — success. Browser QA and Lighthouse remain pending.
 
 - Full service listing data and role photos load only on `/services`. A compact service query remains in the global Header data loader and includes only navigation fields plus service image URLs/ALT fields; this same compact result supplies homepage service cards and About-page service images. The full directory query remains route-specific.
 - Homepage plant-category selection is synchronized in `src/App.tsx` and `src/pages/HomePage.tsx`: `plants-solitaires` replaces `plants-citrus` in the six homepage category cards.
