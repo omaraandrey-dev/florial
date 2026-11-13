@@ -1,6 +1,6 @@
-## 2026-11-13 — PR pending: loading skeleton каталога категорий
+## 2026-11-13 — PR #246: loading skeleton каталога категорий опубликован в Production
 
-**Статус:** ветка `fix/plant-category-loading-layout-2026-11-13`; изменение ожидает PR review/CI и не является частью `main` или Production.
+**Статус:** PR #246 squash-merged в `main`, commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`; Cloudflare Pages Production deployment `6208bca0-23a6-48b0-a84b-b1861bac9523` завершён успешно на том же commit. Aliases: `https://florial-bg.com`, `https://www.florial-bg.com`. CI на PR head `2e0fa03` прошёл: Blog/Studio `43370628228`, D1 validation `43370628255`.
 
 - `src/App.tsx`: category-specific `CategoryLoadingState` резервирует минимум `100svh` после Header, содержит skeleton breadcrumb/title/description, subcategory tiles, filter area и product cards. Это предотвращает схлопывание области основного содержимого в короткую текстовую заглушку и не позволяет Footer попадать в первый viewport во время ожидания каталога.
 - Route-specific React.Suspense fallback для category routes использует тот же skeleton, избегая двух разных промежуточных состояний.
