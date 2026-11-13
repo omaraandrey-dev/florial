@@ -1,3 +1,16 @@
+## 2026-11-13 — PR #249 (draft): service and blog route loading optimization
+
+**Статус:** Draft PR #249 — https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged, not deployed. CI and browser QA pending.
+
+- Full service listing data and role photos load only on `/services`. A compact service query remains in the global Header data loader so service navigation is available on all routes.
+- Service detail routes query the selected Sanity service by slug directly. Query projection is localized for BG/RU/EN and cached in memory for 60 seconds. No full service directory is required to render a service detail.
+- Service list cards and role images use responsive Sanity image URLs. Service hero and first intro image are eager/high priority; other images remain lazy.
+- Blog list/homepage/Header cards request the active language only. Blog article page fetches its own localized document first and loads up to three related posts in a separate request.
+- Blog Portable Text query now selects only the fields used by `BlogContent`, with image/video block-specific projections. List, detail and related-post requests use language-aware short-lived caches.
+- Regression tests added in `tests/content-route-performance.test.mjs`.
+- **Not yet verified:** final GitHub Actions on PR head, browser Network waterfall, direct route and SPA navigation, service form/related links, blog filtering and article content in BG/RU/EN, visual quality, repeat Lighthouse/transfer savings.
+- Production, Sanity content/schema, D1, Resend, Cloudflare configuration and secrets have not been changed.
+
 ## 2026-11-13 — PR #248: category-specific catalogue loading merged and deployed
 
 **Статус:** PR #248 squash-merged в `main`, commit `fe3e528320b88eebe3331e288bbf45591df64482`. Cloudflare Pages Production deployment `db437e51-7794-4bcd-93d0-e2ca004d59f7` — success на том же commit; URL `https://db437e51.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
