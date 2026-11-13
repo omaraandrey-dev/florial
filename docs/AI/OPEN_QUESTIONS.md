@@ -1,7 +1,7 @@
-## JavaScript split — PR #244: ожидает D1 CI и browser QA (13.11.2026)
+## JavaScript split — PR #244: CI passed, ожидает browser QA (13.11.2026)
 
 - Draft PR: https://github.com/omaraandrey-dev/florial/pull/244; code snapshot `1c36472e52cbc0f7219f7827a5452b10581a317b`.
-- Blog and Studio validation run `43358684058` прошёл: lint, utility tests, Vite build, migration syntax/dry-run и Sanity Studio build. D1 validation run `43358684081` на момент записи ожидает запуска.
+- Final PR-head checks on docs SHA `0bdc3f72272d04a13bff4dfc0498b23364d99ac4`: Blog and Studio run `43358984471` — success; D1 migration validation run `43358984398` — success.
 - Build artifact initial entry: до — 398.12 kB raw / 108.66 kB gzip; после — 336.08 kB raw / 97.95 kB gzip. Динамические chunks отдельно включают RU/EN и route data loaders. Это build comparison, не Lighthouse или CrUX measurement.
 - **Нужно проверить в браузере до merge:** initial BG на homepage; прямые URL с `?lang=ru` и `?lang=en`; переключение BG/RU/EN и возврат на BG; товары (оборудование и растения), категории обоих каталогов, услуги, поиск, блог, контакты, корзина, legal pages; browser Back/Forward и переходы SPA.
 - В Network подтвердить, что на homepage не загружаются RU/EN locale chunks и route-data chunks; при переходе загружается только соответствующий loader; переключение языка загружает нужный locale chunk. Проверить отсутствие ошибок/неверных текстов.
