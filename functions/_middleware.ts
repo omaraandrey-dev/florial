@@ -1,6 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
-import { buildPlantCategoryItemList, collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -43,10 +43,14 @@ type SeoDocument = {
   shortDescription?: string
   description?: unknown
   priceEUR?: number
+  productType?: string
+  saleVariants?: Array<{ priceEUR?: number; stockStatus?: string; name?: string }>
   sku?: string
   stockStatus?: string
+  serviceCategory?: string
   imageUrl?: string
   coverUrl?: string
+  _updatedAt?: string
   brandName?: string
   seo?: Record<string, unknown> | null
   translations?: Record<string, Record<string, any>>
@@ -295,22 +299,25 @@ async function querySanityData<T>(
   return body.result as T
 }
 
-async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantProduct[]> {
+async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string): Promise<SeoPlantProduct[]> {
   const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref}'
   const categories = await querySanityData<Array<{ _id: string; parentId?: string }>>(
-    'plants',
+    dataset,
     categoryQuery,
     {},
-    'sanity/plants/category-tree',
+    'sanity/' + dataset + '/category-tree',
     300,
   )
-  if (!Array.isArray(categories)) throw new Error('Sanity plants category tree is not an array')
+  if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
 
   const categoryIds = collectDescendantCategoryIds(categoryId, categories)
+  const plantFilter = dataset === 'plants'
+    ? 'productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&'
+    : ''
   const productQuery = `
     *[
       _type == "product" &&
-      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      ${plantFilter}
       isActive != false &&
       defined(slug.current) &&
       references($categoryIds)
@@ -326,18 +333,18 @@ async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantP
     }
   `
   const products = await querySanityData<SeoPlantProduct[]>(
-    'plants',
+    dataset,
     productQuery,
     { categoryIds },
-    'sanity/plants/category-products/' + encodeURIComponent(categoryId),
+    'sanity/' + dataset + '/category-products/' + encodeURIComponent(categoryId),
     30,
   )
-  if (!Array.isArray(products)) throw new Error('Sanity plants category products is not an array')
+  if (!Array.isArray(products)) throw new Error('Sanity ' + dataset + ' category products is not an array')
   return products
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
-  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,publishedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
+  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,productType,saleVariants[]{priceEUR,stockStatus,name},serviceCategory,sku,stockStatus,publishedAt,_updatedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('$type', JSON.stringify(type))
@@ -584,13 +591,18 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     : ''
   let extra = ''
   if (type === 'product') {
-    const price = typeof doc.priceEUR === 'number' && doc.priceEUR > 0
-      ? '<p><strong>' + (language === 'ru' ? 'Цена' : language === 'en' ? 'Price' : 'Цена') + ': ' + doc.priceEUR.toFixed(2) + ' EUR</strong></p>'
+    const plantVariant = doc._dataset === 'plants'
+      ? doc.saleVariants?.find((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)
+      : undefined
+    const displayPrice = doc._dataset === 'plants' ? plantVariant?.priceEUR : doc.priceEUR
+    const displayStockStatus = doc._dataset === 'plants' ? (plantVariant?.stockStatus || doc.stockStatus) : doc.stockStatus
+    const price = typeof displayPrice === 'number' && displayPrice > 0
+      ? '<p><strong>' + (language === 'ru' ? 'Цена' : language === 'en' ? 'Price' : 'Цена') + ': ' + displayPrice.toFixed(2) + ' EUR</strong></p>'
       : ''
     const sku = doc.sku ? '<p>SKU: ' + escapeHtml(doc.sku) + '</p>' : ''
-    const stockLabel = doc.stockStatus === 'inStock'
+    const stockLabel = displayStockStatus === 'inStock'
       ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност')
-      : doc.stockStatus === 'outOfStock'
+      : displayStockStatus === 'outOfStock'
         ? (language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан')
         : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
     extra = price + sku + '<p>' + stockLabel + '</p>'
@@ -613,16 +625,40 @@ function makeBreadcrumb(path: string, name: string, language: string): Record<st
 }
 
 function makeProductJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
-  const hasPrice = typeof doc.priceEUR === 'number' && doc.priceEUR > 0
-  const offer: Record<string, unknown> | null = hasPrice ? {
-    '@type': 'Offer',
-    price: doc.priceEUR!.toFixed(2),
-    priceCurrency: 'EUR',
-    url,
-    itemCondition: 'https://schema.org/NewCondition',
-    ...(doc.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
-    ...(doc.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
-  } : null
+  let offer: Record<string, unknown> | null = null
+  if (doc._dataset === 'plants') {
+    const prices = [...new Set((doc.saleVariants || [])
+      .map((variant) => variant.priceEUR)
+      .filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0))].sort((a, b) => a - b)
+    if (prices.length === 1) {
+      offer = {
+        '@type': 'Offer',
+        price: prices[0].toFixed(2),
+        priceCurrency: 'EUR',
+        url,
+        itemCondition: 'https://schema.org/NewCondition',
+      }
+    } else if (prices.length > 1) {
+      offer = {
+        '@type': 'AggregateOffer',
+        lowPrice: prices[0].toFixed(2),
+        highPrice: prices[prices.length - 1].toFixed(2),
+        offerCount: prices.length,
+        priceCurrency: 'EUR',
+        url,
+      }
+    }
+  } else if (typeof doc.priceEUR === 'number' && doc.priceEUR > 0) {
+    offer = {
+      '@type': 'Offer',
+      price: doc.priceEUR.toFixed(2),
+      priceCurrency: 'EUR',
+      url,
+      itemCondition: 'https://schema.org/NewCondition',
+      ...(doc.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
+      ...(doc.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
+    }
+  }
 
   return {
     '@context': 'https://schema.org',
@@ -634,6 +670,71 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
     ...(doc.sku ? { sku: doc.sku } : {}),
     ...(doc.brandName ? { brand: { '@type': 'Brand', name: doc.brandName } } : {}),
     ...(offer ? { offers: offer } : {}),
+  }
+}
+
+function makeServiceJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': url + '#service',
+    name,
+    description,
+    url,
+    serviceType: doc.serviceCategory || name,
+    provider: { '@id': SITE_URL + '/#organization' },
+    areaServed: [
+      { '@type': 'City', name: 'Nessebar' },
+      { '@type': 'City', name: 'Ravda' },
+      { '@type': 'City', name: 'Sunny Beach' },
+      { '@type': 'City', name: 'Sveti Vlas' },
+      { '@type': 'City', name: 'Aheloy' },
+      { '@type': 'City', name: 'Pomorie' },
+    ],
+    ...(doc.imageUrl ? { image: [doc.imageUrl] } : {}),
+  }
+}
+
+function makeBlogPostingJsonLd(doc: SeoDocument, name: string, description: string, url: string, language: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: name,
+    description,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    ...(doc.publishedAt ? { datePublished: doc.publishedAt } : {}),
+    ...(doc._updatedAt ? { dateModified: doc._updatedAt } : {}),
+    ...(doc.coverUrl ? { image: [doc.coverUrl] } : {}),
+    author: { '@id': SITE_URL + '/#organization' },
+    publisher: { '@id': SITE_URL + '/#organization' },
+    inLanguage: language,
+  }
+}
+
+function makeCategoryCollectionJsonLd(name: string, description: string, url: string, products: SeoPlantProduct[], language: string): Record<string, unknown> {
+  const entries = (products || []).filter((product) => product?._id && product.slugValue)
+    .slice(0, 20)
+    .map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: product.translations?.[language]?.name || product.name || product.slugValue,
+      url: SITE_URL + '/product/' + encodeURIComponent(product.slugValue!) + (language === 'ru' || language === 'en' ? '?lang=' + language : ''),
+    }))
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url,
+    ...(entries.length ? {
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: entries.length,
+        itemListOrder: 'https://schema.org/ItemListOrderAscending',
+        itemListElement: entries,
+      },
+    } : {}),
   }
 }
 
@@ -802,6 +903,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       language, title: meta.title, description: meta.description, canonical,
       alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
       pageType: 'website',
+      structuredData: [{
+        id: 'collection-page',
+        data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
+      }],
     }))
   }
 
@@ -837,6 +942,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       canonical,
       alternates,
       pageType: 'website',
+      structuredData: [{
+        id: 'collection-page',
+        data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
+      }],
     }))
   }
 
@@ -873,6 +982,15 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       canonical,
       alternates,
       pageType: 'website',
+      structuredData: [{
+        id: 'service',
+        data: makeServiceJsonLd(
+          { serviceCategory: 'delivery' },
+          meta.title,
+          meta.description,
+          canonical,
+        ),
+      }],
     }))
   }
 
@@ -998,8 +1116,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
       // Plant category pages receive a real product listing in the first HTML response.
       // The client catalogue still loads live data after React starts.
-      const plantCategoryProducts = type === 'category' && doc._dataset === 'plants'
-        ? await fetchPlantCategoryProducts(doc._id)
+      const categoryProducts = type === 'category'
+        ? await fetchCategoryProducts(doc._dataset === 'plants' ? 'plants' : 'production', doc._id)
         : null
 
       const localized = language === 'bg' ? null : doc.translations?.[language]
@@ -1021,7 +1139,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const brand = language === 'bg' ? 'Флориал' : 'Florial'
       const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
       const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
-      const noIndex = false
+      const noIndex = seo?.noIndex === true || categorySeo?.noIndex === true
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, language)
@@ -1034,17 +1152,23 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
         { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
       ]
-      if (plantCategoryProducts?.length) {
+      if (type === 'category') {
         structuredData.push({
-          id: 'category-products',
-          data: buildPlantCategoryItemList(plantCategoryProducts, language, SITE_URL),
+          id: 'collection-page',
+          data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryProducts || [], language),
         })
       }
       if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
+      if (type === 'service') {
+        structuredData.push({ id: 'service', data: makeServiceJsonLd(doc, name, metaDescription, canonicalUrl) })
+      }
+      if (type === 'blogPost') {
+        structuredData.push({ id: 'blog-posting', data: makeBlogPostingJsonLd(doc, name, metaDescription, canonicalUrl, language) })
+      }
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
-      const body = documentBody(doc, type, name, description, language, pageH1, plantCategoryProducts || undefined)
+      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
