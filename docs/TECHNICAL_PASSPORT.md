@@ -2,7 +2,8 @@
 
 **Статус:** Draft PR #249 — https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged, not deployed. CI and browser QA pending.
 
-- Full service listing data and role photos load only on `/services`. A compact service query remains in the global Header data loader so service navigation is available on all routes.
+- Full service listing data and role photos load only on `/services`. A compact service query remains in the global Header data loader and includes only navigation fields plus service image URLs/ALT fields; this same compact result supplies homepage service cards and About-page service images. The full directory query remains route-specific.
+- Homepage plant-category selection is synchronized in `src/App.tsx` and `src/pages/HomePage.tsx`: `plants-solitaires` replaces `plants-citrus` in the six homepage category cards.
 - Service detail routes query the selected Sanity service by slug directly. Query projection is localized for BG/RU/EN and cached in memory for 60 seconds. No full service directory is required to render a service detail.
 - Service list cards and role images use responsive Sanity image URLs. Service hero and first intro image are eager/high priority; other images remain lazy.
 - Blog list/homepage/Header cards request the active language only. Blog article page fetches its own localized document first and loads up to three related posts in a separate request.
