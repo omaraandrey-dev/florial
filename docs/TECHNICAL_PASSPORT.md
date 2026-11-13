@@ -1,3 +1,11 @@
+## 2026-11-13 — Cart quantity input and equipment weight (PR #256)
+
+Product detail quantity and cart-row quantity are editable numeric inputs on mobile and desktop; plus/minus buttons remain. The inputs accept positive whole numbers and select the current value on focus. Equipment products expose the existing Sanity weightKg field through both the equipment catalogue and detail query. Cart persistence retains this field.
+
+The order summary displays total equipment weight after the order/delivery totals, using a smaller text style. Plant-only carts omit the weight line; mixed carts sum equipment only. A total is shown only when every equipment item has a valid weight; otherwise the UI says that weight is missing for some products rather than displaying a misleading partial total. When opening a cart saved before this update, missing equipment weights are fetched read-only from Sanity production and merged into the cart snapshot.
+
+Implementation branch: feat/cart-direct-quantity-and-equipment-weight; PR #256. No Sanity schema/content writes, D1, Resend, Cloudflare settings/secrets, global navigation or routing changes. CI status and manual mobile/Production QA are tracked in CHANGELOG and OPEN_QUESTIONS.
+
 ## 2026-11-13 — SEO content for the remaining irrigation categories
 
 The category SEO rollout now covers 52 of the 54 published irrigation category documents in Sanity `bxvcy0qs/production`: the first 10 primary categories plus 42 remaining category documents, including the `vsichko-za-polivane` catalogue root and all remaining categories with product references. Two empty documents with zero product references (`electromagnetic-valves` and `troynik-90-plastmasov-vatreshna-rezba`) were intentionally left unchanged.
