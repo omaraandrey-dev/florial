@@ -5,7 +5,7 @@
 - The existing React catalogue remains responsible for the interactive filters, sorting, pagination and live data after JavaScript starts. Initial HTML is a crawler/no-JS fallback and is replaced by `createRoot`.
 - Product data and HTML are cached for 30 seconds; the category tree for 300 seconds. Sanity failures return 503/noindex instead of a false empty-category state.
 - Read-only query validation found 12 products in `plants-palms` and 50 in the complete plant root tree. No writes.
-- **Pending:** CI, PR review, Pages Functions verification and raw-HTML/browser QA after an authorized Production release. No speed gain or Google indexing improvement is claimed. Equipment categories are a separate Phase 2.
+- **Status:** PR #251 is open; lint, tests, website build and Pages Functions syntax validation passed on the previous head. Final CI, PR review and raw-HTML/browser QA after an authorized Production release remain pending. No speed gain or Google indexing improvement is claimed. Equipment categories are a separate Phase 2.
 - Details: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
 
 ## 2026-11-13 — Production incident: blank screen after PR #249
