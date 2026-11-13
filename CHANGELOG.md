@@ -1,4 +1,15 @@
-## 2026-11-13 — Исправление загрузки изображения категории и оптимизация карточек растений (PR pending)
+## 2026-11-13 — PR #247 объединён и опубликован: responsive images каталога растений
+
+- PR #247: https://github.com/omaraandrey-dev/florial/pull/247; squash merge commit `5801d390a468952563f8f339b233d15774ca74d9`.
+- Cloudflare Pages Production deployment `579f4c88-fc98-4357-ab61-21c57f7fed23` завершился успешно на точном merge commit `5801d390a468952563f8f339b233d15774ca74d9`; URL: `https://579f4c88.florial.pages.dev`; production aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- CI на точном PR head `c94f0c5ba481a7d1a386b242629d6c376b82822c`: Blog and Studio validation run `43376289807` — success; D1 migration validation run `43376289788` — success.
+- В `functions/_middleware.ts` для category HTML fallback больше не вставляется обычный raw `<img src>` внутрь `#root`. Изображение остаётся в Open Graph metadata; desktop hero продолжает отображаться React-компонентом с responsive source начиная с 1024 px.
+- `src/lib/sanityImage.ts` поддерживает необязательное качество изображения; default 75 сохранён. `src/pages/CategoryPage.tsx`: sizes соответствуют сетке 2/2/3/4 колонки, качество карточек 65, desktop hero — quality 70 и source-size cap 408 px; eager только первые две карточки, остальные lazy.
+- Изменены: `functions/_middleware.ts`, `src/lib/sanityImage.ts`, `src/pages/CategoryPage.tsx`, `CHANGELOG.md`, `docs/AI/OPEN_QUESTIONS.md`, `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md`, `docs/TECHNICAL_PASSPORT.md`.
+- Sanity documents/schema/assets, D1 schema/data, Cloudflare settings/secrets, SEO metadata, Header, Footer и routing не менялись.
+- Lighthouse baseline mobile владельца от 13.11.2026 07:35 GMT+2: Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Повторный Lighthouse, Network capture (mobile/desktop), currentSrc/transfer-size comparison и визуальная QA после merge ещё не выполнены. Фактическая экономия трафика и изменение LCP НЕ ПОДТВЕРЖДЕНЫ; merge и успешный deployment сами по себе этого не доказывают.
+
+
 
 - В functions/_middleware.ts для type === 'category' исключено изображение из HTML-fallback внутри #root. До этого серверный fallback вставлял обычный <img src="..."> с оригинальным Sanity URL; браузер мог скачать его ещё до запуска React, даже когда CSS скрывал desktop-only category hero на мобильном экране.
 - Изображение категории продолжает передаваться в og:image/metadata и остаётся доступным для preview; React-страница сохраняет desktop hero через responsive <picture> начиная с 1024 px. Мобильная версия не должна запрашивать скрытый fallback image.
