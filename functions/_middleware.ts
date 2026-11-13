@@ -406,7 +406,7 @@ function hasTranslation(doc: SeoDocument, type: string, language: string): boole
     return Boolean((translated.name || fallback?.name) && (translated.description || fallback?.description) && translated.seo?.noIndex !== true)
   }
   if (type === 'product') {
-    return Boolean(translated.shortDescription && translated.seo?.metaTitle && translated.seo?.metaDescription)
+    return Boolean(translated.shortDescription && translated.seo?.noIndex !== true)
   }
   return Boolean(translated.seo?.metaTitle && translated.seo?.metaDescription)
 }
@@ -1114,8 +1114,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
       if (!doc) return notFoundResponse(language)
 
-      // Plant category pages receive a real product listing in the first HTML response.
-      // The client catalogue still loads live data after React starts.
+      // Category pages receive server-side product data for collection structured data.
+      // Plant category listings are also rendered into the initial HTML; React remains interactive.
       const categoryProducts = type === 'category'
         ? await fetchCategoryProducts(doc._dataset === 'plants' ? 'plants' : 'production', doc._id)
         : null
@@ -1182,7 +1182,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
-      }, plantCategoryProducts !== null
+      }, categoryProducts !== null
         ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
         : undefined)
     } catch {
