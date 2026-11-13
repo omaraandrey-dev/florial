@@ -361,7 +361,11 @@ export default function App() {
       *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
         _id, name, translations { bg { name }, ru { name }, en { name } },
         "slug": { "current": coalesce(slug.current, slug) },
-        sortOrder, serviceCategory, serviceLayout
+        sortOrder, serviceCategory, serviceLayout,
+        "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+        "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+        "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu)
       }
     `
     const headerSettingsQuery = `*[_type == "siteSettings"][0] { siteName }`
@@ -422,7 +426,7 @@ export default function App() {
     const homepagePlantCategoriesQuery = `
       *[_type == "category" && _id in [
         "plants-root", "plants-palms", "plants-olives",
-        "plants-trees-shrubs", "plants-citrus", "plants-flowers"
+        "plants-trees-shrubs", "plants-solitaires", "plants-flowers"
       ]] {
         _id, name, translations { bg { name }, ru { name }, en { name } },
         "slug": { "current": coalesce(slug.current, slug) },
@@ -1192,7 +1196,7 @@ export default function App() {
           )
       }>
         {normalizedRoutePath === '/about' ? (
-        <AboutPage services={services} categories={categories} />
+        <AboutPage services={headerServices} categories={categories} />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}
@@ -1380,7 +1384,7 @@ export default function App() {
         )
       ) : (
         <HomePage
-          services={services}
+          services={headerServices}
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
           plantCategories={homePlantCategories}
           heroImageUrl={homeHeroImageUrl}
