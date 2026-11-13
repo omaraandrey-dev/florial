@@ -78,6 +78,6 @@ test('compact Header service data preserves homepage service cards and About pag
   const headerQuery = app.slice(headerQueryStart, headerQueryEnd)
   assert.match(headerQuery, /"imageUrl": coalesce\\(image\\.asset->url, mainImage\\.asset->url, hero\\.image\\.asset->url\\)/)
   assert.match(headerQuery, /sortOrder, serviceCategory, serviceLayout/)
-  assert.match(app, /<AboutPage services=\\{headerServices\\} categories=\\{categories\\} \\/>/)
+  assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} />'))
   assert.match(app, /<HomePage[\\s\\S]*services=\\{headerServices\\}/)
 })
