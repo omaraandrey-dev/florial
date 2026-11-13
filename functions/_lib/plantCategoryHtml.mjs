@@ -12,9 +12,10 @@ function escapeHtml(value) {
 
 function localizedProductName(product, language) {
   const translated = product.translations?.[language]?.name
-  return typeof translated === 'string' && translated.trim()
-    ? translated.trim()
-    : String(product.name || '').trim()
+  if (typeof translated === 'string' && translated.trim()) return translated.trim()
+  const translatedH1 = language === 'bg' ? '' : product.translations?.[language]?.seo?.h1
+  if (typeof translatedH1 === 'string' && translatedH1.trim()) return translatedH1.trim()
+  return String(product.name || product.seo?.h1 || '').trim()
 }
 
 function getAvailability(product) {
