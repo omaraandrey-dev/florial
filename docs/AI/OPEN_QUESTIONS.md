@@ -1,3 +1,15 @@
+## PR #249 — services and blog route loading optimization (draft; validation pending, 13.11.2026)
+
+- Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged or deployed.
+- Code separates the full service directory from global route loading while preserving a compact Header service query. Individual service routes fetch one localized service document by slug.
+- Blog card queries are locale-specific. Blog article details are fetched independently from the full blog index; related posts are a separate query limited to three.
+- Responsive Sanity image sizing and selective eager loading were added for service pages. Blog article cover remains eager/high priority; galleries and cards are lazy.
+- Automated regression tests were added. **Final CI status is pending confirmation.**
+- **Required browser QA:** `/services` list and all visible service links; direct service URLs and SPA navigation; lead form, related content and image galleries; blog index/filtering; direct blog article and related links; BG/RU/EN content; Header service navigation on non-`/services` routes.
+- **Required Network QA:** confirm full service directory query is absent on unrelated routes; confirm service detail issues one detail query, not full list; confirm blog article does not request the entire blog index; inspect query payload sizes and responsive image currentSrc/transfer bytes.
+- **Required measurement:** repeat Lighthouse mobile and desktop on matched URLs/network profiles; record FCP/LCP/TBT/CLS/Speed Index and transfer bytes. Do not infer an improvement before measurement.
+- Production deployment and owner visual QA remain pending. Sanity documents/schema, D1, Resend and Cloudflare settings/secrets were not changed.
+
 ## Category-specific catalogue loading — PR #248 merged/deployed; browser QA pending (13.11.2026)
 
 - PR #248 объединён в `main` squash commit `fe3e528320b88eebe3331e288bbf45591df64482`.
