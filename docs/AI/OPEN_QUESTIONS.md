@@ -227,3 +227,4 @@
 **Уточнение 13.11.2026:** выполнено точное сравнение slug URL Sanity с Production sitemap, не только сравнение counts. Для products 325/325, categories 71/71, services 21/21, blog posts 14/14: missing=0, extra=0, duplicate paths=0. URL-карта по опубликованным документам полная; открытые вопросы относятся к SEO-полям, пустым категориям и нормализации цен, а не к пропущенным URL.
 
 **Preview smoke update 13.11.2026:** кроме двух вариантов Product и обеих категорий, без JavaScript проверены service detail (`Service`) и blog article (`BlogPosting`); HTTP 200, ожидаемые JSON-LD типы найдены.
+**Terms locale correction 13.11.2026:** sitemap correctly contains only BG `/terms`, because RU/EN pages show the Bulgarian draft with an untranslated-content notice. PR now applies server/client noindex to RU/EN variants; BG remains indexable.
