@@ -312,14 +312,14 @@ async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantP
       _type == "product" &&
       productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
       isActive != false &&
-      defined(slug) &&
+      defined(slug.current) &&
       references($categoryIds)
     ] | order(sortOrder asc) {
       _id,
       name,
       translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
       seo { h1 },
-      "slugValue": coalesce(slug.current, slug, _id),
+      "slugValue": slug.current,
       priceEUR,
       stockStatus,
       saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
