@@ -1,4 +1,12 @@
-## 2026-11-13 — Current SEO catalogue SSR checkpoint (PR #251)\n\n- CI passed on exact PR head `0ef46d74d7fd5e48af38c80985a1604e968bbf30`: Blog and Studio run `43396561749`; D1 migration validation run `43396561879`.\n- Cloudflare Pages project `florial` Preview deployments are enabled for all branches (`preview_deployment_setting=all`, include `*`) after owner approval. Production branch remains `main`; Production deployment configuration is unchanged.\n- Previous Preview records were skipped before the setting change. A fresh Preview deployment is required; raw HTML and browser checks in BG/RU/EN are not yet confirmed.\n- Preview has no D1 binding, so it is limited to public route/SSR validation and must not be used for Manager/orders tests.\n- Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`, Pages deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` success. PR #251 remains unmerged. No SEO/indexing or performance improvement is claimed before HTML/crawler validation.\n\n## 2026-11-13 — SEO catalogue rendering, Phase 1 (plant categories)
+## 2026-11-13 — Current SEO catalogue SSR checkpoint (PR #251)
+
+- CI passed on exact PR head `0ef46d74d7fd5e48af38c80985a1604e968bbf30`: Blog and Studio run `43396561749`; D1 migration validation run `43396561879`.
+- Cloudflare Pages project `florial` Preview deployments are enabled for all branches (`preview_deployment_setting=all`, include `*`) after owner approval. Production branch remains `main`; Production deployment configuration is unchanged.
+- Preview deployment `5fc9f0fb-3f3c-4e82-b1a1-8556866f093c` completed successfully on documentation-updated PR head `73c2132f4ac69546c26697d48b33a156991460d3`. Initial no-JavaScript HTML checks in BG/RU/EN remain unconfirmed; the available scrape returned the client-rendered DOM.
+- Preview has no D1 binding, so it is limited to public route/SSR validation and must not be used for Manager/orders tests.
+- Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`, Pages deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` success. PR #251 remains unmerged. No SEO/indexing or performance improvement is claimed before HTML/crawler validation.
+
+## 2026-11-13 — SEO catalogue rendering, Phase 1 (plant categories)
 
 - Prepared server-rendered product links and catalogue text in Cloudflare Pages Middleware for published plant category routes.
 - The Middleware resolves descendant category IDs from the Sanity plants category tree and fetches active products with a parameterized `references($categoryIds)` query.

@@ -1,8 +1,8 @@
 ## Current checkpoint — PR #251 / Cloudflare Preview (13.11.2026)
 
-- PR #251 is open on `feat/plant-category-server-rendering`, current reviewed head `0ef46d74d7fd5e48af38c80985a1604e968bbf30`; exact-SHA GitHub Actions runs `43396561749` (Blog and Studio) and `43396561879` (D1 migration validation) both completed successfully.
+- PR #251 is open on `feat/plant-category-server-rendering`. Code implementation SHA `0ef46d74d7fd5e48af38c80985a1604e968bbf30` passed exact-SHA GitHub Actions: `43396561749` (Blog and Studio) and `43396561879` (D1 migration validation). Later commits in the PR update documentation only.
 - Cloudflare Pages project `florial`: Preview setting is now `all` with include pattern `*`, changed after explicit owner approval. Production branch `main` and automatic Production deployments remain enabled.
-- Latest Preview deployment records for the PR were created before the setting change and remain skipped; a fresh Preview deployment and BG/RU/EN raw HTML QA are still required.
+- Preview deployment `5fc9f0fb-3f3c-4e82-b1a1-8556866f093c` (`https://5fc9f0fb.florial.pages.dev`) completed successfully on documentation-updated PR head `73c2132f4ac69546c26697d48b33a156991460d3`. Initial HTTP HTML QA for BG/RU/EN remains unconfirmed: the available scrape returned the client-rendered DOM after React startup, not the original response.
 - Preview currently has no D1 binding; do not use it for Manager, order, or D1-backed tests. Do not copy Production bindings or secrets into Preview as part of this task. Preview URLs are public unless protected separately.
 - Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`; deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` succeeded on that commit. PR #251 has not been merged.
 - Legacy Supabase-named environment variables remain in Cloudflare configuration; names only were inspected, values were not read. Do not remove them without a separate usage audit and explicit approval.
@@ -13,7 +13,7 @@
 - The Middleware includes published plant products in initial category HTML and emits localized product links plus ItemList JSON-LD. React continues to load live catalogue data and replaces the server fallback after JavaScript starts.
 - Sanity read-only GROQ check: 12 products for `plants-palms`; 50 for `plants-root` across 17 category documents. No Sanity writes.
 - CI on exact implementation head `0ef46d74d7fd5e48af38c80985a1604e968bbf30`: Blog/Studio `43396561749` and D1 validation `43396561879` — success.
-- Cloudflare Preview setting is `all`; a fresh Preview deployment is active for the updated documentation head. Raw HTML QA for BG/RU/EN remains pending.
+- Cloudflare Preview setting is `all`; the Preview deployment on head `73c2132f4ac69546c26697d48b33a156991460d3` completed successfully. Initial no-JavaScript HTML QA remains pending; post-JS DOM inspection is not a substitute.
 - Preview has no D1 binding; Manager/orders checks are excluded. Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`; PR #251 is not merged or deployed.
 - Do not extend to equipment categories until Phase 1 Preview HTML/browser QA passes.
 - Details: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
