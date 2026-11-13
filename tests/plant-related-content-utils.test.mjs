@@ -73,6 +73,7 @@ test('category related path accepts service and blog routes only', () => {
   assert.equal(parseCategoryRelatedContentPath('https://florial-bg.com/services/irrigation-installation'), null)
   assert.deepEqual(parseCategoryRelatedContentPath('/services/irrigation-installation/'), {
     type: 'service', slug: 'irrigation-installation',
-  })\n  assert.equal(parseCategoryRelatedContentPath('/services/nested/path'), null)
+  })
+  assert.equal(parseCategoryRelatedContentPath('/services/nested/path'), null)
   assert.equal(parseCategoryRelatedContentPath(''), null)
 })
