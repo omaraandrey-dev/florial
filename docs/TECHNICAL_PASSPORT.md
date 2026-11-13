@@ -1,3 +1,9 @@
+## 2026-11-13 — Category-first related content on irrigation product pages
+
+The existing plant-card rule (category CTA first, then product-specific links, without duplicates) is generalized to irrigation equipment products. For every equipment product, the detail query reads `category->helpBlock.buttonUrl` from its assigned primary category. A valid `/services/<slug>` or `/blog/<slug>` target is resolved as the first related card, followed by the product's individual `relatedContent` references in their existing order. Duplicate document IDs are removed; inactive services and unpublished blog posts are excluded. The shared display limit remains four cards. The implementation is data-driven and applies to existing and future categories, including subcategories, without a hard-coded category allowlist. Plant behavior is preserved through a compatibility export of the original utility name.
+
+No Sanity data/schema, Cloudflare configuration, D1, Resend or global navigation/layout is changed by this runtime feature. See the audit `docs/audits/2026-11-13-category-related-content.md` for implementation and verification status.
+
 ## 2026-11-13 — SEO content published for 10 primary irrigation categories
 
 - Updated and published 10 existing irrigation category documents in Sanity project `bxvcy0qs`, dataset `production`; all 10 were read back successfully.
