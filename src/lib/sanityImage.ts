@@ -2,7 +2,7 @@
  * Build responsive, format-negotiated URLs for Florial's Sanity image assets.
  * Non-Sanity and non-image URLs are returned unchanged.
  */
-export function getSanityImageProps(imageUrl: string, sizes: string, preferredWidth = 640) {
+export function getSanityImageProps(imageUrl: string, sizes: string, preferredWidth = 640, quality = 75) {
   const fallback = { src: imageUrl }
 
   try {
@@ -23,7 +23,7 @@ export function getSanityImageProps(imageUrl: string, sizes: string, preferredWi
       image.searchParams.set('w', String(sourceWidth ? Math.min(width, sourceWidth) : width))
       image.searchParams.set('fit', 'max')
       image.searchParams.set('auto', 'format')
-      image.searchParams.set('q', '75')
+      image.searchParams.set('q', String(Math.min(100, Math.max(1, Math.round(quality)))))
       return image.toString()
     }
 

@@ -1,3 +1,16 @@
+
+
+## 2026-11-13 — Category fallback image and catalogue image sizing (PR pending)
+
+Implemented on branch fix/category-image-responsive-loading-2026-11-13; awaiting CI and measurement.
+
+1. Prevent the category image from being emitted as a raw HTML fallback image by the Pages Middleware. This addresses the early request seen in the mobile Lighthouse report despite the desktop-only CSS rule.
+2. Preserve the category image in Open Graph metadata and keep the React desktop hero at >=1024 px.
+3. Align plant/product card sizes with the actual CSS grid widths; use Sanity quality 65 for catalog cards and quality 70 for the desktop hero.
+4. Reduce initial eager card images from four to two; subsequent cards remain lazy-loaded.
+
+Validation still required: confirm no request for the category fallback image at mobile width; confirm a responsive hero image is requested at desktop width; inspect currentSrc, transfer size and visual quality; run Lighthouse mobile and desktop. The owner's 13.11.2026 07:35 mobile baseline is Performance 84 / FCP 0.9 s / LCP 4.5 s / TBT 0 ms / CLS 0.001 / Speed Index 2.4 s. No post-change performance result is available yet.
+
 > **13.11.2026 — PR #246: loading skeleton каталога категорий объединён и опубликован в Production.** Merge commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`; Pages deployment `6208bca0-23a6-48b0-a84b-b1861bac9523` — success на точном commit. CI: Blog/Studio `43370628228` и D1 validation `43370628255` — success на PR head.  `src/App.tsx` получает category-specific skeleton с высотой не менее одного viewport и тот же fallback для lazy CategoryPage; цель — исключить короткую заглушку, из-за которой Footer оказывается в первом экране, и снизить layout shift. Header/Footer, запросы Sanity, карточки/изображения и данные не менялись. Исходный mobile Lighthouse: Performance 61, LCP 4.507 s, CLS 0.693. Повторные измерения не выполнены; улучшение не заявляется.
 
 > **13.11.2026 — PR #244 release status:** merged and deployed; owner browser QA passed for languages, categories, products, cart and search. Network waterfall/Lighthouse remain measurement tasks.

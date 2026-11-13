@@ -1,3 +1,14 @@
+## 2026-11-13 — Исправление загрузки изображения категории и оптимизация карточек растений (PR pending)
+
+- В functions/_middleware.ts для type === 'category' исключено изображение из HTML-fallback внутри #root. До этого серверный fallback вставлял обычный <img src="..."> с оригинальным Sanity URL; браузер мог скачать его ещё до запуска React, даже когда CSS скрывал desktop-only category hero на мобильном экране.
+- Изображение категории продолжает передаваться в og:image/metadata и остаётся доступным для preview; React-страница сохраняет desktop hero через responsive <picture> начиная с 1024 px. Мобильная версия не должна запрашивать скрытый fallback image.
+- В src/lib/sanityImage.ts добавлен необязательный параметр качества (по умолчанию 75, поведение существующих вызовов сохранено).
+- В src/pages/CategoryPage.tsx карточки каталога получили sizes, рассчитанные по фактической сетке: 2 колонки mobile, 2 tablet, 3 large, 4 xl; качество Sanity CDN для карточек установлено 65. Для desktop category hero задан responsive sizes с ограничением 408 px и quality 70.
+- Первые две карточки остаются eager, остальные переводятся на lazy (ранее первые четыре загружались eager).
+- Sanity documents/schema, D1, Cloudflare settings/secrets, Header, Footer, routing, SEO metadata и image assets не менялись.
+- Baseline Lighthouse mobile от владельца (13.11.2026 07:35 GMT+2): Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Это baseline перед данным PR.
+- Не подтверждено до merge и нового замера: фактическое отсутствие запроса fallback image на mobile, выбранные srcset candidates на mobile/desktop, transfer savings и новое значение LCP. Требуются CI и повторный Lighthouse mobile/desktop.
+
 ## 2026-11-13 — PR #246 объединён и опубликован: стабильное состояние загрузки каталога категорий
 
 - PR #246: https://github.com/omaraandrey-dev/florial/pull/246; squash merge commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`.

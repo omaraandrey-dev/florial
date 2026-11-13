@@ -1,3 +1,11 @@
+## Каталог растений — fallback image и responsive image sizing (13.11.2026)
+
+- На main report владельца от 13.11.2026 07:35 GMT+2: Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Lighthouse показал категорийное изображение «Всички растения» 1021×979, 268 KB, и plant card images 480×640 при фактическом контейнере около 168×224.
+- Кодовая причина найдена: functions/_middleware.ts documentBody() вставлял category doc.imageUrl как raw HTML <img src> до запуска React. CSS desktop-only hero в index.html не отменяет сетевой запрос уже присутствующего HTML image.
+- PR branch fix/category-image-responsive-loading-2026-11-13 suppresses that category fallback <img> while preserving og:image, responsive desktop React hero, and all product metadata. It also aligns catalog sizes to grid geometry, sets per-image quality 65 for catalog cards / 70 for desktop hero, and limits eager loading to two first cards.
+- Остаётся: CI on exact PR SHA; mobile raw HTML/Network verification that category fallback image is not requested; desktop verification that responsive category hero is requested and correctly sized; visual quality review; repeat Lighthouse mobile and desktop. Actual transfer savings and LCP change are NOT CONFIRMED.
+- No Sanity, D1, Cloudflare settings/secrets, SEO metadata, image assets, Header/Footer or routing changes.
+
 ## Каталог растений — loading skeleton опубликован; визуальная QA и повторные метрики открыты (13.11.2026)
 
 - PR #246 объединён в `main` (commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`) и опубликован Cloudflare Pages Production deployment `6208bca0-23a6-48b0-a84b-b1861bac9523` на том же commit. Category-specific skeleton в `src/App.tsx` используется и для загрузки данных, и как React.Suspense fallback.
