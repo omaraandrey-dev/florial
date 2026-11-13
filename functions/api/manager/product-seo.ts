@@ -1,4 +1,4 @@
-import { generateProductSeo, getMissingProductSeoFields } from '../../../src/lib/productSeo.mjs'
+import { generateProductSeo, getMissingProductSeoFields, isProductSeoFieldMissing } from '../../../src/lib/productSeo.mjs'
 import { checkSameOrigin, json, parseBody, requireUser, type ManagerEnv } from './_lib'
 
 type Locale = 'bg' | 'ru' | 'en'
@@ -17,6 +17,14 @@ type ProductDocument = {
     shortDescription?: string
     description?: unknown
     seo?: Record<string, any>
+  }>>
+}
+
+type SeoGapProduct = {
+  seo?: Record<string, unknown> | null
+  translations?: Partial<Record<'ru' | 'en', {
+    name?: string
+    seo?: Record<string, unknown> | null
   }>>
 }
 
@@ -69,35 +77,69 @@ const countProducts = (condition = '') =>
 const fetchProductCount = (projectId: string, dataset: string, token?: string) =>
   sanityQuery<number>(projectId, dataset, countProducts(), token)
 
-const fetchSeoGapStats = (projectId: string, dataset: string): Promise<SeoGapStats> => {
-  const missing = (path: string) => '(!defined(' + path + ') || ' + path + ' match "^\\\\s*$")'
-  const fields = [
-    ['missingH1BG', 'seo.h1', ''],
-    ['missingMetaTitleBG', 'seo.metaTitle', ''],
-    ['missingMetaDescriptionBG', 'seo.metaDescription', ''],
-    ['missingH1RU', 'translations.ru.seo.h1', 'defined(translations.ru.name)'],
-    ['missingMetaTitleRU', 'translations.ru.seo.metaTitle', 'defined(translations.ru.name)'],
-    ['missingMetaDescriptionRU', 'translations.ru.seo.metaDescription', 'defined(translations.ru.name)'],
-    ['missingH1EN', 'translations.en.seo.h1', 'defined(translations.en.name)'],
-    ['missingMetaTitleEN', 'translations.en.seo.metaTitle', 'defined(translations.en.name)'],
-    ['missingMetaDescriptionEN', 'translations.en.seo.metaDescription', 'defined(translations.en.name)'],
-  ] as const
-  const entries = fields.map(([key, path, localeFilter]) =>
-    '"' + key + '":' + countProducts([localeFilter, missing(path)].filter(Boolean).join(' && ')),
-  )
-  const anyMissing = fields.map(([, path, localeFilter]) =>
-    '(' + [localeFilter, missing(path)].filter(Boolean).join(' && ') + ')',
-  ).join(' || ')
-  const query = '{' +
-    '"productsWithMissingFields":' + countProducts(anyMissing) + ',' +
-    '"availableBgProducts":' + countProducts() + ',' +
-    '"availableRuProducts":' + countProducts('defined(translations.ru.name)') + ',' +
-    '"availableEnProducts":' + countProducts('defined(translations.en.name)') + ',' +
-    entries.join(',') +
-    '}'
-  return sanityQuery<SeoGapStats>(projectId, dataset, query)
-}
+const fetchSeoGapStats = async (projectId: string, dataset: string): Promise<SeoGapStats> => {
+  const stats: SeoGapStats = {
+    productsWithMissingFields: 0,
+    missingH1BG: 0,
+    missingMetaTitleBG: 0,
+    missingMetaDescriptionBG: 0,
+    missingH1RU: 0,
+    missingMetaTitleRU: 0,
+    missingMetaDescriptionRU: 0,
+    missingH1EN: 0,
+    missingMetaTitleEN: 0,
+    missingMetaDescriptionEN: 0,
+    availableBgProducts: 0,
+    availableRuProducts: 0,
+    availableEnProducts: 0,
+  }
+  const fields = ['h1', 'metaTitle', 'metaDescription'] as const
+  const statsKeys = {
+    bg: { h1: 'missingH1BG', metaTitle: 'missingMetaTitleBG', metaDescription: 'missingMetaDescriptionBG' },
+    ru: { h1: 'missingH1RU', metaTitle: 'missingMetaTitleRU', metaDescription: 'missingMetaDescriptionRU' },
+    en: { h1: 'missingH1EN', metaTitle: 'missingMetaTitleEN', metaDescription: 'missingMetaDescriptionEN' },
+  } as const
+  const pageSize = 50
+  let offset = 0
 
+  while (true) {
+    const query = '*[_type == "product" && defined(name) && !(_id in path("drafts.**"))] | order(_id asc)[' +
+      offset + '...' + (offset + pageSize) + ']{seo{h1,metaTitle,metaDescription},translations{ru{name,seo{h1,metaTitle,metaDescription}},en{name,seo{h1,metaTitle,metaDescription}}}}'
+    const products = await sanityQuery<SeoGapProduct[]>(projectId, dataset, query)
+    if (!products.length) break
+
+    for (const product of products) {
+      let productHasMissing = false
+      const locales: Array<{ locale: Locale; seo: Record<string, unknown> | null | undefined }> = [
+        { locale: 'bg', seo: product.seo },
+      ]
+      stats.availableBgProducts += 1
+
+      for (const locale of ['ru', 'en'] as const) {
+        const translation = product.translations?.[locale]
+        if (typeof translation?.name === 'string' && translation.name.trim()) {
+          stats[locale === 'ru' ? 'availableRuProducts' : 'availableEnProducts'] += 1
+          locales.push({ locale, seo: translation.seo })
+        }
+      }
+
+      for (const { locale, seo } of locales) {
+        for (const field of fields) {
+          if (isProductSeoFieldMissing(seo?.[field])) {
+            stats[statsKeys[locale][field]] += 1
+            productHasMissing = true
+          }
+        }
+      }
+      if (productHasMissing) stats.productsWithMissingFields += 1
+    }
+
+    offset += products.length
+    if (products.length < pageSize) break
+  }
+
+  return stats
+}
 const fetchProducts = (projectId: string, dataset: string, offset: number, limit: number, token?: string) => {
   const query = '*[_type == "product" && defined(name) && !(_id in path("drafts.**"))] | order(_id asc)[' + offset + '...' + (offset + limit) + ']{' +
     '_id,_rev,name,"slug":coalesce(slug.current,slug),shortDescription,description,scientificName,productType,' +
