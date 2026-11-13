@@ -1,3 +1,5 @@
+- Cloudflare Pages Preview deployment for the implementation commit 766309804eff29ffe36033fe464cb2603bd84a0c completed successfully: deployment 27b617f5-807c-4a43-a264-0bd2e613fc37, https://27b617f5.florial.pages.dev. Documentation-only commits followed; a newer Preview deployment for the current docs head was still queued at the time of checking.
+- Mobile visual/browser QA was attempted but could not run because the connected browser service had exhausted its credits. Do not treat the Preview build/deploy as proof of mobile interaction behavior.
 ## 2026-11-13 — Direct quantity entry and equipment weight in cart (PR #256)
 
 - Replaced the read-only quantity display on product details and cart rows with numeric inputs (type=number, numeric mobile keyboard, minimum 1, integer step). Existing plus/minus controls remain; focusing the number selects it for quick replacement.
