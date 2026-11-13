@@ -1111,7 +1111,7 @@ export default function App() {
           ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
           : (
             <main
-              className="mx-auto flex min-h-[100svh] w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
+              className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
               role="status"
               aria-live="polite"
             >
