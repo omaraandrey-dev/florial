@@ -1,12 +1,13 @@
-## 2026-11-13 — Manager product SEO safe mode (implementation PR #259)
+## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
 
-- Manager SEO generation is restricted server-side to the irrigation equipment catalogue only (`SANITY_DATASET`, expected `production`). Requests for `plants` are rejected.
-- API requires `strategy: missing-only`; apply requires owner authentication and `confirm: true`. UI shows a whole-catalogue gap count and sample field-level fill/preserve decisions. Preview gap totals are calculated from paginated read-only Sanity projections using the same shared missing-value predicate as apply; whitespace-only and non-string values are classified as missing.
-- Only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` values are written. Populated values are never included in the patch. Sanity `ifRevisionID` guards reject a write if the source document revision changed after it was read.
-- Read-only live Sanity aggregate query: 275 products; 193 products with at least one missing SEO value; 1,153 missing fields total. BG: H1 193, Meta Title 1, Meta Description 1. RU: H1 193, Meta Title 143, Meta Description 143. EN: H1 193, Meta Title 143, Meta Description 143. 1,322 available SEO fields are already populated and will be preserved.
-- No Sanity write or publish was executed during implementation. Exact-head CI on `dee62f99950a400a631c10e3d021dfd0da0f74a1` passed: Blog and Studio run `43440703026` and D1 validation run `43440703050`. Cloudflare Pages Preview `https://0ffb5f32.florial.pages.dev` deployed successfully for this exact commit. PR #259 remains open; no Production deployment has been made. Merge awaits owner approval.
-- Full implementation details: `docs/audits/2026-11-13-product-seo-safe-mode.md`.
-
+- PR #259 squash-merged into `main`: merge commit `3c909da0fc235aff2cc19ccdb73a1edba7960670`.
+- Exact merge commit checks: GitHub Actions `validate` run `43446693123` passed (lint, website build, Pages Functions syntax and D1 migration validation); Cloudflare Pages check `131958296250` passed.
+- Cloudflare Pages Production deployment `4db8a0e1-ff55-4470-9fd5-c179f2993ba7`, URL `https://4db8a0e1.florial.pages.dev`, completed build and deploy successfully for exact merge commit. Production aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Fresh read-only Sanity Production recount after deployment: 275 published products, 193 with missing SEO fields, 1,153 missing fields and 1,322 populated fields to preserve. Per locale: BG H1 193 / Meta Title 1 / Meta Description 1; RU and EN each H1 193 / Meta Title 143 / Meta Description 143. All 275 products have RU and EN names.
+- Read-only sample review of the first six published products: products 1, 2, 4 and 5 have only BG H1 missing while their existing BG Meta Title/Description are preserved; RU/EN have all three SEO fields missing. Products 3 and 6 already have all sampled SEO fields populated and are marked preserve-only. No writes were run.
+- The actual Manager UI preview endpoint requires an authenticated Owner session. No Owner session was available to this verification, so a click-through in the Manager UI is **not confirmed**. The live Sanity read-only recount and sample inspection independently match the Manager preview implementation and documented baseline.
+- No Sanity mutation/publication, D1 change, Cloudflare setting/secret change, Resend or schema change was made. SEO apply remains pending a separate explicit owner instruction after review of the preview samples.
+- Cloudflare Pages project configuration still contains legacy variables named `SUPABASE_*` and `VITE_SUPABASE_*` in Preview/Production. They were only observed; no values are reproduced here and nothing was changed. Supabase remains excluded from the Florial runtime architecture. Inventory/removal requires a separate approved change after checking whether any deployed code still references them.
 ## 2026-11-13 — SEO sitemap/schema fixes PR #257 merged and deployed
 
 - PR #257 squash-merged into `main`; merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
