@@ -1,3 +1,10 @@
+## 2026-11-13 — Category-first related content for irrigation products
+
+- Owner confirmed that the recent irrigation-category content publication completed successfully. This records the owner's confirmation; it is not a separate HTTP/visual or Google-crawler verification.
+- Extended the existing plant category-first related-content rule to **all irrigation equipment product categories**, not only the ten primary categories. The product detail query reads the assigned category's `helpBlock.buttonUrl` dynamically, so the behavior also applies to subcategories and future categories without maintaining a hard-coded category list.
+- A valid `/services/<slug>` or `/blog/<slug>` category link is resolved and placed first. Existing product-specific related services/articles follow in their Sanity order; the same document is not shown twice. Inactive services and unpublished articles remain excluded. The product page retains its existing maximum of four related cards.
+- No Sanity documents/schema, product records, Cloudflare configuration, D1, Resend, Header/menu/Footer or global routing were changed. Runtime code and regression tests are included in the associated PR; CI/build and Production deployment status must be recorded against the exact final commit after PR validation.
+
 ## 2026-11-13 — SEO content published for 10 primary irrigation categories
 
 - Updated and published 10 existing irrigation category documents in Sanity project `bxvcy0qs`, dataset `production`; all 10 were read back successfully.
