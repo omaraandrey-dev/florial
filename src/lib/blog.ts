@@ -58,7 +58,15 @@ function blogDetailProjection(language: BlogLanguage) {
       "${language}": {
         "title": coalesce(translations.${language}.title, translations.bg.title),
         "shortDescription": coalesce(translations.${language}.shortDescription, translations.bg.shortDescription),
-        "body": coalesce(translations.${language}.body, translations.bg.body)[]{..., "assetUrl": asset->url, alt, altRu, altEn},
+        "body": coalesce(translations.${language}.body, translations.bg.body)[]{
+          _key, _type, style, listItem,
+          children[]{_key, text, marks},
+          markDefs[]{_key, _type, href, blank},
+          _type == "image" => {
+            "assetUrl": asset->url, alt, altRu, altEn, caption
+          },
+          _type == "youtubeEmbed" => {url, title, caption}
+        },
         "seoTitle": coalesce(translations.${language}.seoTitle, translations.bg.seoTitle),
         "seoDescription": coalesce(translations.${language}.seoDescription, translations.bg.seoDescription),
         "coverAlt": coalesce(translations.${language}.coverAlt, translations.bg.coverAlt)
