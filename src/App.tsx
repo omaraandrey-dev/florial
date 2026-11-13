@@ -224,7 +224,7 @@ export default function App() {
 
     setLoadingProductDetails(true)
     import('./lib/routeData/productDetails')
-      .then(({ fetchProductDetails }) => fetchProductDetails(foundProduct))
+      .then(({ fetchProductDetails }) => fetchProductDetails(foundProduct, () => cancelled))
       .then((details) => {
         if (!cancelled) setCurrentProduct(details)
       })
@@ -830,7 +830,7 @@ export default function App() {
     setSearchProducts([])
 
     import('./lib/routeData/search')
-      .then(({ fetchSearchProducts }) => fetchSearchProducts())
+      .then(({ fetchSearchProducts }) => fetchSearchProducts(() => cancelled))
       .then((results) => {
         if (!cancelled) setSearchProducts(results)
       })
@@ -897,7 +897,7 @@ export default function App() {
     setLoadingServiceDetails(true)
 
     import('./lib/routeData/serviceDetails')
-      .then(({ fetchServiceDetails }) => fetchServiceDetails(activeServiceSlug))
+      .then(({ fetchServiceDetails }) => fetchServiceDetails(activeServiceSlug, () => cancelled))
       .then((service) => {
         if (!cancelled) setCurrentServiceDetails(service || null)
       })
@@ -945,7 +945,7 @@ export default function App() {
     setLoadingCategoryDetails(true)
 
     import('./lib/routeData/categoryDetails')
-      .then(({ fetchCategoryDetails }) => fetchCategoryDetails(currentCategory))
+      .then(({ fetchCategoryDetails }) => fetchCategoryDetails(currentCategory, () => cancelled))
       .then((details) => {
         if (!cancelled) setCurrentCategoryDetails(details || currentCategory)
       })
