@@ -1,3 +1,5 @@
+- Cloudflare Pages Preview deployment for implementation SHA 766309804eff29ffe36033fe464cb2603bd84a0c succeeded: 27b617f5-807c-4a43-a264-0bd2e613fc37 (https://27b617f5.florial.pages.dev). This is Preview only, not Production.
+- Mobile visual/browser QA remains open: the attempted browser inspection could not run because the connected browser service had exhausted its credits. Do not infer successful mobile QA from the Pages deployment.
 ## 2026-11-13 — Cart quantity input and equipment weight (PR #256)
 
 - PR #256: https://github.com/omaraandrey-dev/florial/pull/256 — direct numeric quantity editing on product details and cart rows; plus/minus controls retained.
