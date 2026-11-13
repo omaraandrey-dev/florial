@@ -9,7 +9,7 @@
 - Blog list/homepage/Header cards request the active language only. Blog article page fetches its own localized document first and loads up to three related posts in a separate request.
 - Blog Portable Text query now selects only the fields used by `BlogContent`, with image/video block-specific projections. List, detail and related-post requests use language-aware short-lived caches.
 - Regression tests added in `tests/content-route-performance.test.mjs`.
-- **Not yet verified:** final GitHub Actions on PR head, browser Network waterfall, direct route and SPA navigation, service form/related links, blog filtering and article content in BG/RU/EN, visual quality, repeat Lighthouse/transfer savings.
+- **Still pending:** browser Network waterfall, direct route and SPA navigation, service form/related links, blog filtering and article content in BG/RU/EN, visual quality, repeat Lighthouse/transfer savings. CI and Production deployment are confirmed above.
 - Production, Sanity content/schema, D1, Resend, Cloudflare configuration and secrets have not been changed.
 
 ## 2026-11-13 — PR #248: category-specific catalogue loading merged and deployed
