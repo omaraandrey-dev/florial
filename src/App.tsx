@@ -172,6 +172,36 @@ export default function App() {
     saveCart(cart)
   }, [cart])
 
+  // Older persisted carts may not contain weightKg. Refresh missing equipment weights
+  // from the published Sanity catalogue when the cart is opened.
+  useEffect(() => {
+    if (!isCartOpen) return
+    const missingWeightIds = [...new Set(cart
+      .filter((item) => item.product.productType === 'equipment' &&
+        !(typeof item.product.weightKg === 'number' && Number.isFinite(item.product.weightKg) && item.product.weightKg >= 0))
+      .map((item) => item.product._id))]
+    if (missingWeightIds.length === 0) return
+
+    let cancelled = false
+    sanityLiveClient.fetch(
+      '*[_type == "product" && _id in $ids]{_id, weightKg}',
+      { ids: missingWeightIds }
+    ).then((records: Array<{ _id: string; weightKg?: number }>) => {
+      if (cancelled || !Array.isArray(records) || records.length === 0) return
+      const weightsById = new Map(records.map((record) => [record._id, record.weightKg]))
+      setCart((current) => current.map((item) => {
+        if (item.product.productType !== 'equipment' ||
+          (typeof item.product.weightKg === 'number' && Number.isFinite(item.product.weightKg) && item.product.weightKg >= 0)) return item
+        const weightKg = weightsById.get(item.product._id)
+        return typeof weightKg === 'number' && Number.isFinite(weightKg) && weightKg >= 0
+          ? { ...item, product: { ...item.product, weightKg } }
+          : item
+      }))
+    }).catch((error) => console.error('Cart: не удалось обновить вес оборудования:', error))
+
+    return () => { cancelled = true }
+  }, [isCartOpen, cart])
+
   const currentService = activeServiceSlug ? currentServiceDetails : null
 
   useEffect(() => {
@@ -519,6 +549,7 @@ export default function App() {
         oldPriceEUR,
         stockStatus,
         stockQuantity,
+        weightKg,
         "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
         "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
         "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
