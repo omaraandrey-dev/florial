@@ -1,11 +1,14 @@
-## Category-specific catalogue loading — PR #248 open; CI passed, Network QA pending (13.11.2026)
+## Category-specific catalogue loading — PR #248 merged/deployed; browser QA pending (13.11.2026)
 
-- Кодовая ветка: `perf/lazy-load-catalogue-by-category`; base main `c212a3e1c2eeebeaf4d5ec61c2a0c6b03d7a2421`; code commit `662cf3b7ce46fde8e7fe6314acc2c591671f71e2`.
-- По коду plant categories запрашивают только dataset `plants`, equipment categories — только `production`; загрузка обоих каталогов сохранена для прямых product detail routes. Данные каждого каталога кэшируются отдельно.
-- **Обязательно проверить:** direct URL и SPA для `/category/maslini`, других plant categories и equipment category; Network должен подтвердить отсутствие именно полного GROQ product-index запроса противоположного каталога (не путать с небольшими запросами категорий/услуг); переключение plant ↔ equipment; product detail из обоих datasets; search, cart, BG/RU/EN; ошибки/пустые результаты.
-- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio run `43379741579` и D1 validation run `43379741478` — success; lint, utility tests, website build, Pages Functions syntax, migration validations и Studio build прошли.
-- **Не подтверждено:** browser Network capture, фактический transfer saving, повторный Lighthouse и Cloudflare Pages deployment. PR #248 открыт, merge не выполнялся.
-- Не выполнять merge/Production release до успешного CI и проверки diff; Production release требует отдельного явного разрешения владельца. Sanity/D1/Cloudflare settings не затрагивались.
+- PR #248 объединён в `main` squash commit `fe3e528320b88eebe3331e288bbf45591df64482`.
+- Cloudflare Pages Production deployment `db437e51-7794-4bcd-93d0-e2ca004d59f7` — success на точном commit; URL `https://db437e51.florial.pages.dev`; aliases apex и www.
+- CI на точном PR head `d70ec7936a8d58c8f16550688536bd0f918a4089`: Blog/Studio runs `43379996722` и `43380019954` — success; D1 validation `43379996726` — success.
+- По коду plant categories загружают только dataset `plants`, equipment categories — только `production`; product detail routes по-прежнему загружают оба индекса. Независимое кэширование предотвращает повторную загрузку уже полученного каталога.
+- **Остаётся проверить в браузере:** direct URL и SPA для `/category/maslini`, других plant categories и equipment category; отсутствие полного product-index запроса противоположного dataset; переходы plant ↔ equipment; product detail из обоих datasets; search, cart, BG/RU/EN; ошибки/пустые результаты.
+- Не путать небольшие необходимые `production` запросы категорий/услуг/help content с полным каталогом оборудования.
+- **Не подтверждено:** browser Network capture, фактический transfer saving, повторный Lighthouse и изменение LCP/critical request chain. Production deployment подтверждён, но не заменяет browser QA и performance measurement.
+- Sanity documents/schema, D1, Resend, Cloudflare settings/secrets не затрагивались.
+
 
 ## Каталог растений — fallback image и responsive image sizing (PR #247 merged/deployed; QA open, 13.11.2026)
 
