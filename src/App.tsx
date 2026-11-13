@@ -125,13 +125,14 @@ export default function App() {
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
-  const [loadingServices, setLoadingServices] = useState(true)
+  const [loadingServices, setLoadingServices] = useState(() => (window.location.pathname.replace(/\/+$/, '') || '/') === '/services')
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
+  const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
   const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
   const [loadingServiceDetails, setLoadingServiceDetails] = useState(false)
@@ -159,6 +160,7 @@ export default function App() {
   const [, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isServicesListRoute = normalizedRoutePath === '/services'
   const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
 
@@ -184,7 +186,7 @@ export default function App() {
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = (
       ((path.startsWith('/product/') || path.startsWith('/products/')) && !loadingProducts && Boolean(activeProductSlug) && !currentProduct) ||
-      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServices && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
@@ -218,7 +220,7 @@ export default function App() {
         language,
       })
     }
-  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, loadingProducts, loadingCategories, loadingServices])
+  }, [language, activeServiceSlug, activeCategorySlug, activeProductSlug, activeSearchQuery, isContactsOpen, isCartOpen, currentProduct, currentService, loadingServiceDetails, loadingProducts, loadingCategories, loadingServices])
 
   // Keep browser back/forward navigation in sync with the route resolved on initial render.
   useEffect(() => {
@@ -228,6 +230,8 @@ export default function App() {
       setIsCartOpen(route.isCartOpen)
       setIsContactsOpen(route.isContactsOpen)
       setActiveServiceSlug(route.activeServiceSlug)
+      setCurrentServiceDetails(null)
+      setLoadingServiceDetails(Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv'))
       setActiveCategorySlug(route.activeCategorySlug)
       setActiveProductSlug(route.activeProductSlug)
       setInitialSaleVariantKey(null)
@@ -656,50 +660,6 @@ export default function App() {
         }
       `
 
-      const serviceQuery = `
-        *[_type == "service" && isActive != false] {
-          _id,
-          name,
-          translations {
-            bg { name, shortDescription },
-            ru { name, shortDescription },
-            en { name, shortDescription }
-          },
-          "slug": { "current": coalesce(slug.current, slug) },
-          shortDescription,
-          "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
-          "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
-          "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
-          "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu),
-          "imageLinkUrl": coalesce(image.linkUrl, mainImage.linkUrl),
-          "sortOrder": sortOrder,
-          serviceCategory,
-          serviceLayout
-        }
-      `
-
-      const serviceRolePhotosQuery = `
-        *[
-          _type == "photo" &&
-          isActive != false &&
-          coalesce(slug.current, slug) in [
-            "landshaften-arhitekt",
-            "inzhener-polivni-sistemi",
-            "gardinar",
-            "specialist-trevni-ploshti"
-          ]
-        ] {
-          "slug": coalesce(slug.current, slug),
-          title,
-          titleEn,
-          titleRu,
-          "imageUrl": image.asset->url,
-          "imageAlt": image.alt,
-          "imageAltEn": image.altEn,
-          "imageAltRu": image.altRu
-        }
-      `
-
       const settingsQuery = `
         *[_type == "siteSettings"][0] {
           siteName,
@@ -721,23 +681,12 @@ export default function App() {
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }).finally(() => { if (!cancelled) setLoadingCategories(false) })
 
-      const servicePromise = sanityClient.fetch(serviceQuery)
-        .then((data) => { if (!cancelled) setServices(Array.isArray(data) ? data : []) })
-        .catch((error) => console.error('Sanity: не удалось загрузить услуги:', error))
-        .finally(() => { if (!cancelled) setLoadingServices(false) })
-
-      const serviceRolePhotosPromise = sanityClient.fetch(serviceRolePhotosQuery)
-        .then((data) => { if (!cancelled) setServiceRolePhotos(Array.isArray(data) ? data : []) })
-        .catch((error) => console.error('Sanity: не удалось загрузить фотографии направлений услуг:', error))
-
       const settingsPromise = sanityClient.fetch(settingsQuery)
         .then((data) => { if (!cancelled) setSiteSettings(data || null) })
         .catch((error) => console.error('Sanity: не удалось загрузить настройки сайта:', error))
 
       await Promise.allSettled([
         categoryPromise,
-        servicePromise,
-        serviceRolePhotosPromise,
         settingsPromise,
       ])
     }
@@ -748,6 +697,81 @@ export default function App() {
       cancelled = true
     }
   }, [])
+
+  // The full service directory is needed only by /services; the Header keeps its compact navigation query.
+  useEffect(() => {
+    let cancelled = false
+
+    if (!isServicesListRoute || loadedServicesLanguage === language) {
+      return () => { cancelled = true }
+    }
+
+    setLoadingServices(true)
+
+    const serviceQuery = `
+      *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+        _id,
+        name,
+        translations { ${language} { name, shortDescription } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        shortDescription,
+        "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+        "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+        "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu),
+        "imageLinkUrl": coalesce(image.linkUrl, mainImage.linkUrl),
+        sortOrder,
+        serviceCategory,
+        serviceLayout
+      }
+    `
+
+    const serviceRolePhotosQuery = `
+      *[
+        _type == "photo" &&
+        isActive != false &&
+        coalesce(slug.current, slug) in [
+          "landshaften-arhitekt",
+          "inzhener-polivni-sistemi",
+          "gardinar",
+          "specialist-trevni-ploshti"
+        ]
+      ] {
+        "slug": coalesce(slug.current, slug),
+        title,
+        titleEn,
+        titleRu,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu
+      }
+    `
+
+    Promise.allSettled([
+      sanityClient.fetch(serviceQuery),
+      sanityClient.fetch(serviceRolePhotosQuery),
+    ]).then(([servicesResult, photosResult]) => {
+      if (cancelled) return
+      if (servicesResult.status === 'fulfilled') {
+        setServices(Array.isArray(servicesResult.value) ? servicesResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить услуги:', servicesResult.reason)
+        setServices([])
+      }
+      if (photosResult.status === 'fulfilled') {
+        setServiceRolePhotos(Array.isArray(photosResult.value) ? photosResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить фотографии направлений услуг:', photosResult.reason)
+        setServiceRolePhotos([])
+      }
+      setLoadedServicesLanguage(language)
+    }).finally(() => {
+      if (!cancelled) setLoadingServices(false)
+    })
+
+    return () => { cancelled = true }
+  }, [isServicesListRoute, language, loadedServicesLanguage])
 
   // Переход на главную страницу
   const navigateToHome = () => {
@@ -840,6 +864,8 @@ export default function App() {
     )
 
     setActiveServiceSlug(target)
+    setCurrentServiceDetails(null)
+    setLoadingServiceDetails(true)
     setIsCartOpen(false)
     setIsContactsOpen(false)
     setActiveCategorySlug(null)
@@ -898,6 +924,8 @@ export default function App() {
     setIsCartOpen(route.isCartOpen)
     setIsContactsOpen(route.isContactsOpen)
     setActiveServiceSlug(route.activeServiceSlug)
+    setCurrentServiceDetails(null)
+    setLoadingServiceDetails(Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv'))
     setActiveCategorySlug(route.activeCategorySlug)
     setActiveProductSlug(route.activeProductSlug)
     setInitialSaleVariantKey(null)
@@ -968,26 +996,21 @@ export default function App() {
     })
   }, [searchProducts, activeSearchQuery])
 
-  const currentService = services.find(
-    (service) =>
-      service.slug?.current === activeServiceSlug ||
-      service._id === activeServiceSlug
-  )
+  const currentService = currentServiceDetails
 
   useEffect(() => {
     let cancelled = false
 
-    if (!activeServiceSlug || loadingServices || !currentService || currentService.serviceLayout === 'delivery') {
+    if (!activeServiceSlug || activeServiceSlug === 'dostavka-poliv') {
       setCurrentServiceDetails(null)
       setLoadingServiceDetails(false)
       return () => { cancelled = true }
     }
 
-    setCurrentServiceDetails(null)
     setLoadingServiceDetails(true)
 
     import('./lib/routeData/serviceDetails')
-      .then(({ fetchServiceDetails }) => fetchServiceDetails(activeServiceSlug, () => cancelled))
+      .then(({ fetchServiceDetails }) => fetchServiceDetails(activeServiceSlug, language, () => cancelled))
       .then((service) => {
         if (!cancelled) setCurrentServiceDetails(service || null)
       })
@@ -1002,7 +1025,7 @@ export default function App() {
       })
 
     return () => { cancelled = true }
-  }, [activeServiceSlug, loadingServices, currentService])
+  }, [activeServiceSlug, language])
 
   const currentCategory = categories.find(
     (category) =>
@@ -1067,7 +1090,7 @@ export default function App() {
       !normalizedRoutePath.startsWith('/services/') &&
       !normalizedRoutePath.startsWith('/category/')
     ) ||
-    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServices && !currentService) ||
+    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServiceDetails && !currentService) ||
     (normalizedRoutePath.startsWith('/category/') && !loadingCategories && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
@@ -1285,8 +1308,8 @@ export default function App() {
        ) : (normalizedRoutePath === '/services/dostavka-poliv' || currentService?.serviceLayout === 'delivery') ? (
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
-        <ServicesListPage services={services} rolePhotos={serviceRolePhotos} />
-      ) : activeServiceSlug && (loadingServices || loadingServiceDetails) ? (
+        <ServicesListPage services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
+      ) : activeServiceSlug && loadingServiceDetails ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
