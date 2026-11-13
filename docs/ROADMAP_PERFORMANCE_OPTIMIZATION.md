@@ -1,4 +1,4 @@
-> **13.11.2026 — PR #244: initial JS split:** BG dictionary remains in the initial entry; RU/EN locale maps and product/search/service/category data loaders are dynamic chunks. CI build comparison: initial entry 398.12 kB raw / 108.66 kB gzip before → 336.08 kB raw / 97.95 kB gzip after (−62.04 kB raw / −10.71 kB gzip). Blog/Studio validation run `43358684058` passed on code SHA `1c36472`; D1 validation pending at note time. Draft PR only; no Production release. Browser route/language QA, Network waterfall and Lighthouse re-test remain open; no LCP/field improvement is claimed.
+> **13.11.2026 — PR #244: initial JS split:** BG dictionary remains in the initial entry; RU/EN locale maps and product/search/service/category data loaders are dynamic chunks. CI build comparison: initial entry 398.12 kB raw / 108.66 kB gzip before → 336.08 kB raw / 97.95 kB gzip after (−62.04 kB raw / −10.71 kB gzip). Blog/Studio validation run `43358984471` and D1 validation run `43358984398` passed on PR documentation head `0bdc3f7` (code snapshot `1c36472`). Draft PR only; no Production release. Browser route/language QA, Network waterfall and Lighthouse re-test remain open; no LCP/field improvement is claimed.
 
 > **12.11.2026 — Homepage hero Sanity photo library:** PR #242 merged as `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`; Cloudflare Production deployment `4f4dc307-3f6d-416b-b411-4bceccbc3661` succeeded on the exact commit. The photo record and first-render fallback use the compressed 1518×957 asset (1,015,107 bytes vs 2,704,931 bytes). CI passed on PR head. Browser Network/Lighthouse and owner visual QA still required; no measured LCP claim.
 
@@ -118,7 +118,7 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 - Static source audit found all three UI/known-content/known-category locale maps inside `src/lib/i18n.tsx`, plus route-specific GROQ query strings in `src/App.tsx`.
 - PR #244 separates BG/RU/EN locale modules and dynamically loads RU/EN only when selected. It also dynamically loads full product details, search, service details and category details through separate modules.
 - Vite initial entry comparison on equivalent source baseline: 398.12 kB raw / 108.66 kB gzip → 336.08 kB raw / 97.95 kB gzip. This is a build artifact measurement; not a Lighthouse/CrUX result.
-- Blog/Studio CI passed on code SHA `1c36472`; D1 CI was pending when recorded. PR is draft; no Production release.
+- Blog/Studio run `43358984471` and D1 run `43358984398` both passed on PR docs head `0bdc3f7` (code snapshot `1c36472`). PR is draft; no Production release.
 - Browser locale/navigation regression, Network confirmation of on-demand chunks and repeat Lighthouse remain required. Do not claim that the 32 KiB unused-JS audit item is fully resolved until a new report is available.
 
 ## 4. Очерёдность работ
