@@ -1,6 +1,6 @@
-## 2026-11-13 — PR #249 (draft): service and blog route loading optimization
+## 2026-11-13 — PR #249 объединён и опубликован: service and blog route loading optimization
 
-- PR #249: https://github.com/omaraandrey-dev/florial/pull/249. Draft PR; not merged. Branch `perf/optimize-services-and-blog-pages`.
+- PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`. Branch `perf/optimize-services-and-blog-pages`.
 - `src/App.tsx`: full service directory and role-photo data are requested only on `/services`; Header retains a compact service query with navigation fields and only the image URLs/alt text needed by homepage service cards and About-page service images. `HomePage` and `AboutPage` reuse this compact data, so they do not depend on the `/services` full-list loader. A service detail route fetches one service document directly by slug rather than waiting for the full service list.
 - Homepage plant cards now select `plants-solitaires` (Солитерни и едроразмерни растения) instead of `plants-citrus`; both the homepage-only Sanity query and render selection use the same category ID.
 - Added regression coverage for the homepage category selection and preservation of compact service image data on `/` and `/about`.
@@ -9,7 +9,8 @@
 - `src/lib/blog.ts`: blog cards project only the active locale; article details project only the active locale and the Portable Text fields used by `BlogContent`. Article content renders as soon as its own document arrives; related articles are fetched separately and limited to three.
 - Header, homepage BlogSection and BlogPage use the active language for blog card data. In-memory list/detail/related caches are language-aware.
 - Added `tests/content-route-performance.test.mjs` for route-specific service loading, localized queries, responsive service images and blog article loading order.
-- **CI on final code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`:** Blog and Studio validation run `43388956826` — success (lint, 126 utility/regression tests, website build, Pages Functions syntax/dry-run, Studio build); D1 migration validation run `43388956805` — success. No Production deployment yet.
+- **CI on final PR head `91bc8abd042f6624dc531081bbde077d254d76cc`:** Blog and Studio validation run `43389185896` — success (lint, tests, website build, Pages Functions syntax/dry-run, Studio build); D1 migration validation run `43389169540` — success.
+- Cloudflare Pages Production deployment `467d9866-0d04-4ef1-b265-3f84b6533950` — `success` на точном merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`; URL `https://467d9866.florial.pages.dev`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
 - **Not yet verified:** browser Network/functional QA and repeat Lighthouse mobile/desktop. No performance gain or transfer-size reduction is claimed before measurement.
 - Studio dependency installation reported 23 npm audit findings (13 moderate, 9 high, 1 critical); exact affected packages were not inspected or changed in this PR.
 - No Sanity documents/schema/assets, D1, Resend, Cloudflare settings/secrets, URL/routing policy or SEO policy were changed intentionally. Header menu structure and Footer design were not changed.
