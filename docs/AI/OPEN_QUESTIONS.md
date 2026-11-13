@@ -1,7 +1,9 @@
 ## PR #249 — services and blog route loading optimization (draft; validation pending, 13.11.2026)
 
 - Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged or deployed.
-- Code separates the full service directory from global route loading while preserving a compact Header service query. Individual service routes fetch one localized service document by slug.
+- Code separates the full service directory from global route loading while preserving a compact Header service query. That compact query also carries the small image fields required by homepage service cards and About-page service images; both pages use it instead of the `/services` full directory state. Individual service routes fetch one localized service document by slug.
+- During final review, a regression was found where homepage and About page still consumed the now route-specific full service state. It was corrected before merge and covered by new tests.
+- Homepage's sixth plant category is now the published Sanity category `plants-solitaires` (slug `soliteri-edrorazmerni`) instead of `plants-citrus`; no Sanity content was written.
 - Blog card queries are locale-specific. Blog article details are fetched independently from the full blog index; related posts are a separate query limited to three.
 - Responsive Sanity image sizing and selective eager loading were added for service pages. Blog article cover remains eager/high priority; galleries and cards are lazy.
 - Automated regression tests were added. **Final CI status is pending confirmation.**
