@@ -70,7 +70,7 @@ const fetchProductCount = (projectId: string, dataset: string, token?: string) =
   sanityQuery<number>(projectId, dataset, countProducts(), token)
 
 const fetchSeoGapStats = (projectId: string, dataset: string): Promise<SeoGapStats> => {
-  const missing = (path: string) => '(!defined(' + path + ') || ' + path + ' == "")'
+  const missing = (path: string) => '(!defined(' + path + ') || ' + path + ' match "^\\\\s*$")'
   const fields = [
     ['missingH1BG', 'seo.h1', ''],
     ['missingMetaTitleBG', 'seo.metaTitle', ''],
