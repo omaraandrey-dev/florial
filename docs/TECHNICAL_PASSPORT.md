@@ -1,3 +1,11 @@
+## 2026-11-13 — Irrigation product SEO gap inventory (read-only)
+
+- Live Sanity `bxvcy0qs/production`: 275/275 slugged irrigation products are active.
+- Read-only recount: 193/275 lack separate H1 in all three locales; 143/275 lack at least one RU/EN active Meta Title/Meta Description; one product (`irritec-iq20120f0n20b`) lacks BG Meta Title and Meta Description.
+- Full row-level inventory and document IDs: `docs/audits/2026-11-13-irrigation-product-seo-inventory.md`.
+- Existing Manager API `functions/api/manager/product-seo.ts` writes generated H1/Meta Title/Meta Description across every published product in both catalogues and can overwrite already populated values. Do not use its bulk apply path for this repair without changing the write strategy to missing-fields-only and preserving existing values.
+- No Sanity writes were performed. Owner reports an existing backup, but the exact backup path and coverage of all 275 equipment product documents were not independently verified. The repository's known plant H1 backup covers dataset `plants`, not `production`.
+
 ## 2026-11-13 — SEO sitemap/schema fixes PR #257 merged and deployed
 
 - PR #257 squash-merged into `main`; merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
