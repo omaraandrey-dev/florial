@@ -1,3 +1,11 @@
+## 2026-11-13 — Production incident after PR #249: root cause and hotfix
+
+- **Incident:** initial React render of the storefront fails, resulting in an empty `#root`.
+- **Root cause confirmed by source inspection:** `src/App.tsx` has a dependency array for the SEO effect that evaluates `currentService` before its `const` declaration later in the component. This is a temporal-dead-zone `ReferenceError`; it occurs before React can render the page.
+- Cloudflare deployment `467d9866-0d04-4ef1-b265-3f84b6533950` had successful build/deploy stages, but no client-side runtime smoke test. This did not validate app startup.
+- Corrective branch: `hotfix/app-current-service-initialization`. The declaration is moved above its first use; regression test added.
+- **Production status:** no rollback or hotfix deployment has been performed yet. Awaiting CI and explicit release authorization.
+
 ## 2026-11-13 — PR #249: service and blog route loading optimization merged and deployed
 
 **Статус:** PR #249 squash-merged в `main`, commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`. Cloudflare Pages Production deployment `467d9866-0d04-4ef1-b265-3f84b6533950` — success на точном commit; URL `https://467d9866.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`. CI на final PR head `91bc8abd042f6624dc531081bbde077d254d76cc`: Blog and Studio run `43389185896` — success; D1 validation run `43389169540` — success. Browser QA and Lighthouse remain pending.

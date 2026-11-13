@@ -172,6 +172,8 @@ export default function App() {
     saveCart(cart)
   }, [cart])
 
+  const currentService = activeServiceSlug ? currentServiceDetails : null
+
   useEffect(() => {
     const pageKey = language + ':' + normalizedRoutePath
     if (lastTrackedPage.current === pageKey) return
@@ -1002,8 +1004,6 @@ export default function App() {
       return words.every((word) => searchableText.includes(word))
     })
   }, [searchProducts, activeSearchQuery])
-
-  const currentService = activeServiceSlug ? currentServiceDetails : null
 
   useEffect(() => {
     let cancelled = false
