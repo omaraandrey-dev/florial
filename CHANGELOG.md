@@ -1,3 +1,12 @@
+## 2026-11-13 — PR pending: category-specific Sanity catalogue loading
+
+- Подготовлена отдельная ветка `perf/lazy-load-catalogue-by-category` от актуального main `c212a3e1c2eeebeaf4d5ec61c2a0c6b03d7a2421`.
+- В `src/App.tsx` загрузка полного индекса теперь выбирает только нужный набор данных по `category.isPlantCategory`: plant categories загружают dataset `plants`, irrigation categories — dataset `production`. Полный каталог второго направления не запрашивается на категории другого направления.
+- Загруженные наборы кэшируются независимо в состоянии приложения. При последующем переходе в другую корневую категорию загружается только ещё не загруженный набор; уже загруженные товары сохраняются. Product detail route по-прежнему загружает оба индекса, поскольку slug сам по себе не определяет dataset. Search loader не менялся.
+- Сохранены существующие GROQ projections, live Sanity clients, цены/остатки, сортировка/фильтры, корзина и категории. Sanity documents/schema, D1, Resend, Cloudflare settings/secrets, Header/menu/Footer и routing не менялись.
+- **Статус проверки:** код записан в ветку; PR/CI/build/browser Network/Lighthouse ещё не выполнены. Не утверждать, что запрос оборудования уже отсутствует в Production или что измерена экономия трафика. Требуются прямые URL и SPA переходы для plant/equipment categories, product detail, search, cart, BG/RU/EN и Network waterfall.
+- Lighthouse-контекст владельца: mobile homepage 13.11.2026 08:18 GMT+2 — FCP 0.9 s, LCP 0.9 s, TBT 0 ms, CLS 0.001, Speed Index 1.8 s. Это отдельный результат и не является измерением данной ветки или категории `/category/maslini`.
+
 ## 2026-11-13 — PR #247 объединён и опубликован: responsive images каталога растений
 
 - PR #247: https://github.com/omaraandrey-dev/florial/pull/247; squash merge commit `5801d390a468952563f8f339b233d15774ca74d9`.
