@@ -24,11 +24,26 @@ test('plant with one unique sale price emits a regular Offer', () => {
   const product = {
     _dataset: 'plants',
     priceEUR: 3000,
-    saleVariants: [{ priceEUR: 13 }, { priceEUR: 13 }],
+    saleVariants: [{ priceEUR: 13 }],
   }
   assert.equal(getServerProductPrice(product), 13)
   assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/fuchsia').price, '13.00')
   assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/fuchsia')['@type'], 'Offer')
+})
+
+test('multiple plant variants with the same price keep the true offer count', () => {
+  const offer = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25 }, { priceEUR: 25 }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.deepEqual(offer, {
+    '@type': 'AggregateOffer',
+    lowPrice: '25.00',
+    highPrice: '25.00',
+    offerCount: 2,
+    priceCurrency: 'EUR',
+    url: 'https://florial-bg.com/product/plant',
+  })
 })
 
 test('plant without a priced sale variant does not publish the unrelated root price', () => {
