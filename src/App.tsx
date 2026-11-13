@@ -74,7 +74,7 @@ function getRouteState(
 function CategoryLoadingState({ label }: { label: string }) {
   return (
     <main
-      className="mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-7xl flex-grow flex-col px-4 py-8"
+      className="mx-auto flex min-h-[100svh] w-full max-w-7xl flex-grow flex-col px-4 py-8"
       aria-busy="true"
     >
       <p className="sr-only" role="status" aria-live="polite">{label}</p>
@@ -1111,7 +1111,7 @@ export default function App() {
           ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
           : (
             <main
-              className="mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
+              className="mx-auto flex min-h-[100svh] w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
               role="status"
               aria-live="polite"
             >
