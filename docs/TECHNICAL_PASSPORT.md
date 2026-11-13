@@ -8,7 +8,8 @@
 - Product detail route сохраняет прежнее поведение и загружает оба индекса, так как URL slug не сообщает, в каком dataset находится товар. Search route остаётся на отдельном search loader.
 - При переходе между направлениями ранее загруженный массив сохраняется, второй dataset подгружается только при первом обращении.
 - GROQ projections, клиенты (live, не CDN), поля цены/остатков, обработка вариантов растений и filtering не менялись.
-- **Не проверено:** CI, website build, browser QA, Network waterfall, repeat Lighthouse и Production deployment. Не считать реализацию опубликованной до подтверждения PR merge и точного Pages deployment.
+- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio validation run `43379741579` — success; D1 validation run `43379741478` — success. Lint, website tests/build, Pages Functions syntax, migration validations и Sanity Studio build прошли.
+- **Не проверено:** browser QA, Network waterfall, repeat Lighthouse и Production deployment. PR #248 открыт, merge не выполнялся; не считать реализацию опубликованной до подтверждения точного Pages deployment.
 - Sanity, D1, Resend, Cloudflare settings/secrets, SEO, Header/menu/Footer и routing не менялись.
 
 
