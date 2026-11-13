@@ -6,7 +6,7 @@
 - Homepage's sixth plant category is now the published Sanity category `plants-solitaires` (slug `soliteri-edrorazmerni`) instead of `plants-citrus`; no Sanity content was written.
 - Blog card queries are locale-specific. Blog article details are fetched independently from the full blog index; related posts are a separate query limited to three.
 - Responsive Sanity image sizing and selective eager loading were added for service pages. Blog article cover remains eager/high priority; galleries and cards are lazy.
-- Automated regression tests were added. **Final CI status is pending confirmation.**
+- Automated regression tests cover route-specific loading, localized blog data, homepage specimen category and compact service-card data. CI on code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`: Blog and Studio run `43388956826` — success; D1 validation run `43388956805` — success.
 - **Required browser QA:** `/services` list and all visible service links; direct service URLs and SPA navigation; lead form, related content and image galleries; blog index/filtering; direct blog article and related links; BG/RU/EN content; Header service navigation on non-`/services` routes.
 - **Required Network QA:** confirm full service directory query is absent on unrelated routes; confirm service detail issues one detail query, not full list; confirm blog article does not request the entire blog index; inspect query payload sizes and responsive image currentSrc/transfer bytes.
 - **Required measurement:** repeat Lighthouse mobile and desktop on matched URLs/network profiles; record FCP/LCP/TBT/CLS/Speed Index and transfer bytes. Do not infer an improvement before measurement.
