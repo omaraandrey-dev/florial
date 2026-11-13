@@ -1,3 +1,10 @@
+## Production incident — blank storefront after PR #249 (13.11.2026)
+
+- Confirmed source-level cause: temporal-dead-zone `ReferenceError` in `src/App.tsx` because the SEO effect dependency array reads `currentService` before its `const` initialization later in `App`. This causes initial render failure and an empty root.
+- Cloudflare deployment `467d9866-0d04-4ef1-b265-3f84b6533950` reports build/deploy success; client-side JS startup was not exercised by that pipeline.
+- Hotfix branch `hotfix/app-current-service-initialization` moves the declaration before the SEO effect and adds a test guarding declaration order.
+- Open: wait for CI; obtain owner authorization before rollback or Production release; verify browser console, root render, homepage, service routes, blog and locales after recovery.
+
 ## PR #249 — services and blog route loading optimization (merged/deployed, browser QA pending, 13.11.2026)
 
 - PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`.
