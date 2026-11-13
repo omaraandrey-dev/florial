@@ -1,3 +1,15 @@
+## 2026-11-13 — PR #244 опубликован в Production и функционально проверен владельцем
+
+- PR #244: https://github.com/omaraandrey-dev/florial/pull/244; squash merge commit: `c97255f4fc843714f0a453727a77f22b75fdf0f7`.
+- Cloudflare Pages Production deployment: `cc421986-4aa0-49e3-85db-33d78d8546ce`; URL `https://cc421986.florial.pages.dev`; deployment trigger — GitHub push в `main`, точный commit совпадает с merge commit. Build и deploy stages завершились `success`. Production aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- CI на PR code snapshot: Blog and Studio validation run `43359151357` — success; D1 migration validation run `43359151359` — success. Включены lint/tests/website build, Pages Functions syntax, migration dry-run и Sanity Studio build.
+- Владелец вручную проверил в браузере обе стороны переключения языков, категории, товары, корзину, поиск и переводы; сообщил, что всё работает корректно. Это зафиксировано как owner-reported browser QA, а не как независимый автоматизированный browser test.
+- Реализация: болгарский словарь остаётся в initial entry; RU/EN словари загружаются динамическими locale chunks. Product detail, search, service detail и category detail data loaders вынесены в отдельные динамические модули. Существующие URL `?lang=`, localStorage, `document.documentElement.lang`, Sanity translations, fallback и cancellation semantics сохранены.
+- Build artifact comparison: initial entry до — 398.12 kB raw / 108.66 kB gzip; после — 336.08 kB raw / 97.95 kB gzip. Снижение — 62.04 kB raw (≈15.6%) и 10.71 kB gzip (≈9.9%). Это размер build artifact, не замер пользовательского LCP или Core Web Vitals.
+- В Production deployment manifest присутствуют отдельные chunks `ru`, `en`, `productDetails`, `search`, `serviceDetails`, `categoryDetails`; это подтверждает публикацию разделённых модулей.
+- Sanity schema/documents, D1 schema/data, Resend, Cloudflare settings/secrets, Header/menu/Footer и глобальная маршрутизация не менялись.
+- **Остаётся для performance measurement:** браузерный Network waterfall и повторный Lighthouse (mobile/desktop). Не заявлять, что Lighthouse unused-JS estimate «32 KiB» устранён, или что LCP/field metrics улучшились, пока нет новых измерений.
+
 ## 2026-11-13 — Начальный JavaScript: разделены языковые словари и route-data loaders (PR #244)
 
 - Рабочая ветка: `perf/split-i18n-locales-2026-11-13`; PR: https://github.com/omaraandrey-dev/florial/pull/244. PR открыт как Draft; merge и Production deployment не выполнялись.
