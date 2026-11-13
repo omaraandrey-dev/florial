@@ -208,7 +208,6 @@ export async function fetchProductDetails(foundProduct: Product): Promise<Produc
                 relatedContent,
                 recommendedIrrigationProduct: recommendedProduct || undefined,
               }
-            }
   }
 
   return enrichedDetails
