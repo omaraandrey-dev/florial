@@ -1,3 +1,15 @@
+## 2026-11-13 — PR #249 (draft): service and blog route loading optimization
+
+- PR #249: https://github.com/omaraandrey-dev/florial/pull/249. Draft PR; not merged. Branch `perf/optimize-services-and-blog-pages`.
+- `src/App.tsx`: full service directory and role-photo data are requested only on `/services`; Header retains a separate compact service-navigation query. A service detail route fetches one service document directly by slug rather than waiting for the full service list.
+- `src/lib/routeData/serviceDetails.ts`: localized BG/RU/EN service projection and short in-memory cache. The service page's existing lead form, related content, SEO fields and content structure are retained in the query.
+- Service listing images use responsive Sanity URLs; only the first role image and the service hero/first intro image are prioritized. Other gallery and card images remain lazy.
+- `src/lib/blog.ts`: blog cards project only the active locale; article details project only the active locale and the Portable Text fields used by `BlogContent`. Article content renders as soon as its own document arrives; related articles are fetched separately and limited to three.
+- Header, homepage BlogSection and BlogPage use the active language for blog card data. In-memory list/detail/related caches are language-aware.
+- Added `tests/content-route-performance.test.mjs` for route-specific service loading, localized queries, responsive service images and blog article loading order.
+- **Validation status:** GitHub Actions and browser QA are not yet confirmed for the final PR head. No Production deployment. No Lighthouse or transfer-size result is claimed.
+- No Sanity documents/schema/assets, D1, Resend, Cloudflare settings/secrets, URL/routing policy or SEO policy were changed intentionally. Header menu structure and Footer design were not changed.
+
 ## 2026-11-13 — PR #248 объединён и опубликован: category-specific Sanity catalogue loading
 
 - PR #248: https://github.com/omaraandrey-dev/florial/pull/248; squash merge commit `fe3e528320b88eebe3331e288bbf45591df64482`.
