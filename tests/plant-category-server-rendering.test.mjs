@@ -34,6 +34,7 @@ test('renders escaped product links, localized labels, and no false empty-state 
   ]
   const html = renderPlantCategoryListing(products, 'bg')
   assert.match(html, /data-florial-server-catalogue="plants"/)
+  assert.match(html, /Показани продукти: 1/)
   assert.match(html, /href="https:\/\/florial-bg\.com\/product\/yucca-rostrata"/)
   assert.match(html, /&lt;Юка&gt;/)
   assert.doesNotMatch(html, /В тази категория все още няма налични продукти/)
