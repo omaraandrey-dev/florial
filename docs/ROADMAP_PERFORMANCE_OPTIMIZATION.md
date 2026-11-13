@@ -1,6 +1,17 @@
 
 
-## 2026-11-13 — Category fallback image and catalogue image sizing (PR pending)
+## 2026-11-13 — Category fallback image and catalogue image sizing (PR #247 merged and deployed)
+
+PR #247 squash-merged в `main`: `5801d390a468952563f8f339b233d15774ca74d9`. Production deployment `579f4c88-fc98-4357-ab61-21c57f7fed23` — success на точном commit; URL `https://579f4c88.florial.pages.dev`.
+
+- Middleware no longer emits the category image as a raw HTML fallback image inside `#root`; Open Graph image metadata remains.
+- Responsive desktop category hero remains available from 1024 px; image sizing is capped at a 408 px source-size estimate with Sanity quality 70.
+- Catalog card `sizes` match the rendered 2/2/3/4-column grid; quality 65; only first two cards eager, remaining cards lazy.
+- Optional per-image quality was added to `src/lib/sanityImage.ts`; default 75 preserves existing callers.
+- CI on PR head `c94f0c5ba481a7d1a386b242629d6c376b82822c`: Blog/Studio `43376289807` success; D1 validation `43376289788` success.
+- Still required: inspect mobile raw HTML/Network to confirm fallback is not requested; inspect desktop currentSrc and responsive hero; compare actual image transfer sizes; visual quality review; repeat Lighthouse mobile and desktop. Baseline mobile 13.11.2026 07:35 GMT+2: Performance 84 / FCP 0.9 s / LCP 4.5 s / TBT 0 ms / CLS 0.001 / Speed Index 2.4 s. **No post-change performance result is available; transfer savings and LCP improvement are not confirmed.**
+
+
 
 Implemented on branch fix/category-image-responsive-loading-2026-11-13; awaiting CI and measurement.
 
