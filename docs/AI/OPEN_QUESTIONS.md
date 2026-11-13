@@ -1,3 +1,11 @@
+## 2026-11-13 — Irrigation product SEO inventory prepared; publication not started
+
+- Read-only live recount: 275/275 irrigation products active in `bxvcy0qs/production`; 193 lack separate BG/RU/EN H1; 143 lack at least one RU/EN Meta Title/Meta Description; one product `irritec-iq20120f0n20b` lacks BG Meta Title/Meta Description.
+- Complete row-level list: `docs/audits/2026-11-13-irrigation-product-seo-inventory.md`.
+- Before applying values, preserve existing populated SEO fields. Current Manager bulk apply overwrites all active SEO fields for both product catalogues; do not use unchanged.
+- Owner states a backup already exists and requested no new backup. Exact path, capture date and coverage of all 275 published `production` product documents remain unverified in GitHub records. Known plant H1 backup is a different dataset and is not evidence for the irrigation product backup.
+- No Sanity content writes have been made. Next: confirm the existing backup coverage, then prepare/apply only missing fields in controlled batches with revision checks and post-write read-back.
+
 
 
 ## SEO release checkpoint 13.11.2026
