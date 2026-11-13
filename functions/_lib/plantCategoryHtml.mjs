@@ -130,7 +130,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
 
   return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants" style="margin:24px 0">' +
     '<h2 id="florial-category-products">' + heading + '</h2>' +
-    '<p>' + (language === 'ru' ? 'Товаров: ' : language === 'en' ? 'Products: ' : 'Продукти: ') + entries.length + '</p>' +
+    '<p>' + (language === 'ru' ? 'Показано товаров: ' : language === 'en' ? 'Showing products: ' : 'Показани продукти: ') + entries.length + '</p>' +
     '<ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;list-style:none;padding:0">' + cards + '</ul></section>'
 }
 
