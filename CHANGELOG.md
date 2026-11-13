@@ -3,7 +3,7 @@
 - Reworked Manager product SEO generation to operate only on the irrigation equipment catalogue (`SANITY_DATASET`, expected `production`); the plants catalogue is rejected by the API.
 - Both preview and apply require the explicit `missing-only` strategy. Apply additionally requires owner role and explicit confirmation.
 - The generator now sets only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` fields. Existing non-empty values are preserved. Every document patch retains the Sanity `ifRevisionID` guard.
-- Preview now reports whole-catalogue field-level gaps plus a six-product sample with per-field fill/preserve labels.
+- Preview now reports whole-catalogue field-level gaps plus a six-product sample with per-field fill/preserve labels. Aggregate GROQ gap counts also recognize whitespace-only strings, matching the patch helper.
 - Read-only Sanity Production aggregate query confirmed 275 products, 193 products with gaps and 1,153 missing SEO fields: BG H1 193 / Meta Title 1 / Meta Description 1; RU H1 193 / Meta Title 143 / Meta Description 143; EN same as RU. No Sanity write was executed.
 - Added regression tests for populated, absent, null and whitespace-only values. Implementation and verification are tracked in PR #259.
 
