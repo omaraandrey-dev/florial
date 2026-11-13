@@ -1,5 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
+import { buildPlantCategoryItemList, collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -10,6 +11,25 @@ const SANITY_API_VERSION = '2024-01-01'
 type PagesContext = {
   request: Request
   next: () => Promise<Response>
+}
+
+type SeoPlantProduct = {
+  _id: string
+  name?: string
+  slugValue?: string
+  priceEUR?: number
+  stockStatus?: string
+  translations?: Record<string, { name?: string; seo?: { h1?: string } } | undefined>
+  seo?: { h1?: string }
+  saleVariants?: Array<{
+    name?: string
+    nameEn?: string
+    nameRu?: string
+    priceEUR?: number
+    stockStatus?: string
+    saleHeightCm?: number
+    containerVolumeL?: number
+  }>
 }
 
 type SeoDocument = {
@@ -218,6 +238,104 @@ function unavailableResponse(language: string | null): Response {
   })
 }
 
+
+async function querySanityData<T>(
+  dataset: string,
+  query: string,
+  params: Record<string, unknown>,
+  cachePath: string,
+  ttlSeconds: number,
+): Promise<T> {
+  const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
+  const cache = cacheStorage?.default
+  const cacheKey = new Request(SITE_URL + '/__edge-cache/' + cachePath, { method: 'GET' })
+
+  if (cache) {
+    try {
+      const cached = await cache.match(cacheKey)
+      if (cached) {
+        const cachedBody = (await cached.json()) as { result?: T }
+        if (cachedBody && Object.prototype.hasOwnProperty.call(cachedBody, 'result')) {
+          return cachedBody.result as T
+        }
+      }
+    } catch {
+      // A cache failure must not prevent the live Sanity lookup.
+    }
+  }
+
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
+  url.searchParams.set('query', query)
+  url.searchParams.set('perspective', 'published')
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set('$' + key, JSON.stringify(value))
+  })
+
+  const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
+  if (!response.ok) throw new Error('Sanity ' + dataset + ' query failed: ' + response.status)
+  const body = (await response.json()) as { result?: T }
+  if (!Object.prototype.hasOwnProperty.call(body, 'result')) {
+    throw new Error('Sanity ' + dataset + ' query returned no result field')
+  }
+
+  if (cache) {
+    try {
+      const cachedResponse = new Response(JSON.stringify({ result: body.result }), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'public, max-age=' + ttlSeconds,
+        },
+      })
+      await cache.put(cacheKey, cachedResponse)
+    } catch {
+      // Cache write errors are non-fatal; the live response remains usable.
+    }
+  }
+
+  return body.result as T
+}
+
+async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantProduct[]> {
+  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref}'
+  const categories = await querySanityData<Array<{ _id: string; parentId?: string }>>(
+    'plants',
+    categoryQuery,
+    {},
+    'sanity/plants/category-tree',
+    300,
+  )
+  if (!Array.isArray(categories)) throw new Error('Sanity plants category tree is not an array')
+
+  const categoryIds = collectDescendantCategoryIds(categoryId, categories)
+  const productQuery = `
+    *[
+      _type == "product" &&
+      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      isActive != false &&
+      defined(slug.current) &&
+      references($categoryIds)
+    ] | order(sortOrder asc) {
+      _id,
+      name,
+      translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
+      seo { h1 },
+      "slugValue": slug.current,
+      priceEUR,
+      stockStatus,
+      saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
+    }
+  `
+  const products = await querySanityData<SeoPlantProduct[]>(
+    'plants',
+    productQuery,
+    { categoryIds },
+    'sanity/plants/category-products/' + encodeURIComponent(categoryId),
+    30,
+  )
+  if (!Array.isArray(products)) throw new Error('Sanity plants category products is not an array')
+  return products
+}
+
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
   const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,publishedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
@@ -389,7 +507,7 @@ function renderRoot(html: string, body: string): string {
   return html.replace(/<div id="root"><\/div>/i, '<div id="root">' + body + '</div>')
 }
 
-async function transformHtmlResponse(response: Response, transform: (html: string) => string): Promise<Response> {
+async function transformHtmlResponse(response: Response, transform: (html: string) => string, cacheControl = 'public, max-age=0, s-maxage=300, stale-while-revalidate=600'): Promise<Response> {
   const contentType = response.headers.get('content-type') || ''
   if (!contentType.includes('text/html') || response.status !== 200) return response
   const html = transform(await response.text())
@@ -397,7 +515,7 @@ async function transformHtmlResponse(response: Response, transform: (html: strin
   headers.delete('content-length')
   headers.delete('content-encoding')
   headers.delete('etag')
-  headers.set('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=600')
+  headers.set('Cache-Control', cacheControl)
   return new Response(html, { status: response.status, statusText: response.statusText, headers })
 }
 
@@ -457,7 +575,7 @@ function localizedRouteUrl(path: string, language: string): string {
   return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name, plantProducts?: SeoPlantProduct[]): string {
   // Category hero imagery is rendered responsively by the client app.
   // Do not emit a raw fallback <img> for categories: it is downloaded before
   // the responsive desktop-only category hero CSS can hide it on mobile.
@@ -480,7 +598,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -878,6 +996,12 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
       if (!doc) return notFoundResponse(language)
 
+      // Plant category pages receive a real product listing in the first HTML response.
+      // The client catalogue still loads live data after React starts.
+      const plantCategoryProducts = type === 'category' && doc._dataset === 'plants'
+        ? await fetchPlantCategoryProducts(doc._id)
+        : null
+
       const localized = language === 'bg' ? null : doc.translations?.[language]
       const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
       const name = String(type === 'blogPost' ? (localized?.title || doc.translations?.bg?.title || doc.title || slug) : (localized?.name || categoryFallback?.name || doc.name || slug))
@@ -910,11 +1034,17 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
         { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
       ]
+      if (plantCategoryProducts?.length) {
+        structuredData.push({
+          id: 'category-products',
+          data: buildPlantCategoryItemList(plantCategoryProducts, language, SITE_URL),
+        })
+      }
       if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
-      const body = documentBody(doc, type, name, description, language, pageH1)
+      const body = documentBody(doc, type, name, description, language, pageH1, plantCategoryProducts || undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -928,7 +1058,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
-      })
+      }, plantCategoryProducts !== null
+        ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
+        : undefined)
     } catch {
       // Do not turn an upstream Sanity outage into a false 200 or false 404.
       return unavailableResponse(language)

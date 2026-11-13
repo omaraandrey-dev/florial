@@ -1,3 +1,25 @@
+## 2026-11-13 — Plant category server-rendered catalogue (PR #251; CI and Preview deployment passed)
+
+- Phase 1 adds the plant catalogue to the first HTML response for category routes resolved from the published Sanity `plants` dataset.
+- `functions/_middleware.ts` loads the published category tree, computes descendants, then fetches active plant products using `references($categoryIds)`. Projection is limited to localized display names/SEO H1 fallback, slug, price, stock status and sale variants.
+- `functions/_lib/plantCategoryHtml.mjs` renders a semantic list of up to 20 plant products, detail links, starting prices and known availability labels; unknown stock status is not guessed. It also creates an ItemList JSON-LD object.
+- Existing React rendering and browser-side live catalogue fetches remain unchanged. The first HTML is replaced by React `createRoot` after JavaScript starts; this is not hydration.
+- Category tree cache 300 s; product list cache 30 s; plant-category HTML edge cache 30 s / stale-while-revalidate 60 s. Sanity failure or malformed response produces the middleware 503/noindex response, not an empty-category message.
+- Read-only live Sanity query validation: 17 category documents; 12 product documents returned for `plants-palms`; 50 product documents returned for the full `plants-root` category tree. No content/schema writes.
+- Regression tests cover category descendant resolution, localized names/links, HTML escaping, known/unknown availability, empty result handling, ItemList and middleware integration.
+- **CI:** exact PR head `0ef46d74d7fd5e48af38c80985a1604e968bbf30` passed Blog and Studio validation run `43396561749` and D1 migration validation run `43396561879`.
+- **Cloudflare Preview:** project setting changed with owner approval from `none` to `all`; branch include pattern remains `*`. Preview deployment `5fc9f0fb-3f3c-4e82-b1a1-8556866f093c` succeeded on documentation-updated PR head `73c2132f4ac69546c26697d48b33a156991460d3`. Initial HTTP HTML QA remains pending; the available scrape captured the post-JS DOM. Preview has no D1 binding and is not suitable for Manager/orders tests.
+- **Production:** remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`; deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` succeeded on that commit. PR #251 is not merged/deployed.
+- **Not yet confirmed:** raw HTML in BG/RU/EN, Googlebot/AI crawler interpretation, browser JS/no-JS parity or indexing impact. Equipment category rendering is Phase 2.
+- Detailed design and verification ledger: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
+
+## Cloudflare Pages Preview policy — live checkpoint 13.11.2026
+
+- Project `florial`, production branch `main`; Preview deployments are enabled for all branches (`preview_deployment_setting=all`, include pattern `*`) after owner approval.
+- Production deployments remain enabled. This change did not alter Production deployment configuration, environment variables/secrets, bindings or DNS.
+- Production D1 binding `DB` remains configured; Preview has no D1 binding. Treat Preview as a public, limited validation environment for public routes and plant-category SSR only; do not test Manager/orders flows there. Preview URLs are public unless protected separately.
+- Legacy Supabase-named environment keys remain in Cloudflare configuration: Preview has `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`; Production has those two plus `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. Only key names were inspected; values were not read. Runtime usage was not re-audited in this task. These are residual configuration keys, not evidence of an active Supabase architecture; removal requires a separate code-usage audit and owner approval.
+
 ## 2026-11-13 — Production incident after PR #249: root cause and hotfix
 
 - **Incident:** initial React render of the storefront fails, resulting in an empty `#root`.

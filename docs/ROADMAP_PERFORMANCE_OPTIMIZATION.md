@@ -1,3 +1,21 @@
+## 2026-11-13 — Current SEO catalogue SSR checkpoint (PR #251)
+
+- CI passed on exact PR head `0ef46d74d7fd5e48af38c80985a1604e968bbf30`: Blog and Studio run `43396561749`; D1 migration validation run `43396561879`.
+- Cloudflare Pages project `florial` Preview deployments are enabled for all branches (`preview_deployment_setting=all`, include `*`) after owner approval. Production branch remains `main`; Production deployment configuration is unchanged.
+- Preview deployment `5fc9f0fb-3f3c-4e82-b1a1-8556866f093c` completed successfully on documentation-updated PR head `73c2132f4ac69546c26697d48b33a156991460d3`. Initial no-JavaScript HTML checks in BG/RU/EN remain unconfirmed; the available scrape returned the client-rendered DOM.
+- Preview has no D1 binding, so it is limited to public route/SSR validation and must not be used for Manager/orders tests.
+- Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`, Pages deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` success. PR #251 remains unmerged. No SEO/indexing or performance improvement is claimed before HTML/crawler validation.
+
+## 2026-11-13 — SEO catalogue rendering, Phase 1 (plant categories)
+
+- Prepared server-rendered product links and catalogue text in Cloudflare Pages Middleware for published plant category routes.
+- The Middleware resolves descendant category IDs from the Sanity plants category tree and fetches active products with a parameterized `references($categoryIds)` query.
+- The existing React catalogue remains responsible for the interactive filters, sorting, pagination and live data after JavaScript starts. Initial HTML is a crawler/no-JS fallback and is replaced by `createRoot`.
+- Product data and HTML are cached for 30 seconds; the category tree for 300 seconds. Sanity failures return 503/noindex instead of a false empty-category state.
+- Read-only query validation found 12 products in `plants-palms` and 50 in the complete plant root tree. No writes.
+- **Status:** PR #251 remains open and unmerged. CI passed on the implementation SHA recorded above. Cloudflare Preview is enabled for all branches and a Preview build completed successfully; initial no-JavaScript HTTP HTML QA in BG/RU/EN remains pending. The available scrape captured the post-JavaScript DOM and cannot prove what the first response contains. No speed gain or Google indexing improvement is claimed. Equipment categories are a separate Phase 2.
+- Details: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
+
 ## 2026-11-13 — Production incident: blank screen after PR #249
 
 - Cause: `currentService` referenced in an effect dependency array before its `const` declaration in `src/App.tsx`. This throws during first render and prevents the storefront from mounting.
