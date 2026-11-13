@@ -117,7 +117,8 @@ PR: https://github.com/omaraandrey-dev/florial/pull/257
 1. Вынесены тестируемые helpers `getServerProductPrice` и `buildProductOffer`. Для растений сервер использует saleVariants, а не потенциально устаревший root `priceEUR`; при нескольких вариантах формируется `AggregateOffer` с корректными low/high price и offerCount.
 2. Первоначальный HTML карточки растения теперь показывает цену первого доступного варианта, согласованную с начальным выбором в React.
 3. Middleware больше не выставляет `noIndex=false` безусловно; он учитывает SEO-поле выбранной локали. ProductPage и ServicePage на клиенте также сохраняют `noIndex`.
-4. Условия product hreflang выровнены с реальными переводами и sitemap: наличие локализованных name/shortDescription достаточно, если локаль не помечена noIndex. Отсутствие необязательных meta-полей больше не разрывает alternate links.
+4. Условия product/service hreflang выровнены с реальными переводами и sitemap: наличие локализованных name/shortDescription достаточно, если локаль не помечена noIndex. Отсутствие необязательных meta-полей больше не разрывает alternate links.
+5. RU/EN версии `/terms` содержали болгарский юридический проект с предупреждением о непроверенном переводе, но оставались indexable. Теперь server middleware и TermsPage ставят для RU/EN `noindex, nofollow`; BG остаётся индексируемой и единственной языковой версией в sitemap.
 5. Добавлена Schema.org `Service` для страниц услуг и статической страницы доставки.
 6. Добавлена `BlogPosting` для статей с headline, description, published/modified dates, image, publisher/author и inLanguage.
 7. Добавлена `CollectionPage` + `ItemList` для категорий полива и растений, а также для списков услуг и блога. Структурированные данные восстанавливаются на клиенте после `applyPageSeo`, который очищает page-specific JSON-LD.
