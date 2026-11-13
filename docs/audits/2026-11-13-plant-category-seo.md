@@ -46,6 +46,10 @@ The agreed title structure is localized category name + geographic location + Fl
 - H1 comparison against the snapshot: zero differences across BG/RU/EN for all categories.
 - The change only updates the six localized meta fields per category (two fields per locale). H1, noIndex, category content, seoContent, images, slugs, relationships and product data remain as before.
 
+## CI
+
+- Exact head `6100fbe1ba79f977700c4a442005b37266f4f4c7`: Blog and Studio validation run `43406072024` — success; D1 migration validation run `43406071860` — success.
+
 ## Limitations / follow-up
 
 - This confirms published Sanity content, not the HTML emitted by Cloudflare Pages on a live request. Representative BG/RU/EN category pages should be checked in the initial HTTP response.
