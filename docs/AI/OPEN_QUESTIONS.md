@@ -1,3 +1,11 @@
+## 2026-11-13 — Cart quantity input and equipment weight (PR #256)
+
+- PR #256: https://github.com/omaraandrey-dev/florial/pull/256 — direct numeric quantity editing on product details and cart rows; plus/minus controls retained.
+- Existing Sanity weightKg is now projected into equipment products and persisted cart items. The cart summary shows the sum of equipment weights only, beneath order/delivery totals; plant-only carts omit it. Mixed carts explicitly label the value as equipment weight. If any equipment weight is missing, the UI avoids a partial sum and reports missing weight data.
+- Old persisted carts are handled by a read-only Sanity Production lookup when the cart is opened.
+- Still to verify: final CI including Studio build on the exact latest PR head; mobile browser QA for direct entry, focus/select behavior and plus/minus synchronization; verify equipment-only, plant-only and mixed carts, including one missing-weight edge case; after owner-approved merge, verify Production deployment and live storefront behavior.
+- No Sanity writes/schema changes, D1, Resend, Cloudflare configuration/secrets or global layout/navigation changes.
+
 ## 2026-11-13 — Remaining irrigation category SEO published
 
 - Completed the remaining category SEO batch: 42 published Sanity category documents in `bxvcy0qs/production`, including the irrigation catalogue root and every remaining category with product references. Together with the previous 10 primary categories, **52/54 category documents** now have the full BG/RU/EN SEO treatment.
