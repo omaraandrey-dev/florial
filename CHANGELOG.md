@@ -1,3 +1,12 @@
+## 2026-11-13 — PR #257: merge и Production release
+
+- PR #257 squash-merged: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`; branch `feat/google-seo-schema-audit` закрыта merge-ом.
+- Exact-head CI: Blog and Studio `43433210752` (#1121), `43433196806` (#1120), D1 validation `43433196666` (#1432) — success on `6a9db96989f065cc930e3e2fa0e1e04f44450bf8`.
+- Cloudflare Pages Production deployment `e3408322-80c3-4663-9dcd-48d8feec3e42` / `https://e3408322.florial.pages.dev` — build/deploy success on exact merge commit.
+- Live Production smoke, JS disabled: Kumquat HTTP 200, `robots=index, follow`, self-canonical, Product JSON-LD Offer `25.00 EUR`, matching the first sale variant (previous Production baseline: `3 000 EUR`).
+- Browser Rendering rate limit prevented further immediate Production smoke requests; Google Search Console recrawl/indexing is not confirmed. No Sanity writes, D1 changes, Cloudflare settings/secrets, Resend or Studio schema changes.
+- Detailed audit: `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`.
+
 - Cloudflare Pages Preview deployment for the implementation commit 766309804eff29ffe36033fe464cb2603bd84a0c completed successfully: deployment 27b617f5-807c-4a43-a264-0bd2e613fc37, https://27b617f5.florial.pages.dev. Documentation-only commits followed; a newer Preview deployment for the current docs head was still queued at the time of checking.
 - Mobile visual/browser QA was attempted but could not run because the connected browser service had exhausted its credits. Do not treat the Preview build/deploy as proof of mobile interaction behavior.
 ## 2026-11-13 — Direct quantity entry and equipment weight in cart (PR #256)
@@ -2948,15 +2957,15 @@ Backups:
 - No Sanity schema, code architecture, API, D1, Resend, Cloudflare bindings/settings/secrets or global site components were intentionally changed. The only runtime code change is the inline-link renderer in `src/pages/ServicePage.tsx`.
 
 
-## 2026-11-13 — Production sitemap и структурированные данные Google (PR #257, CI pending)
+## 2026-11-13 — Production sitemap и структурированные данные Google (PR #257 объединён и опубликован)
 
 - Read-only Production audit: live `/sitemap.xml` HTTP 200; 1 312 уникальных URL, 438 основных URL и 874 локализованных URL; повторов нет. Sitemap покрывает 325 товаров, 71 категорию, 21 услугу, 14 статей блога и основные статические страницы.
 - Sanity published inventory: 275 irrigation products, 50 plant products, 54 irrigation categories, 17 plant categories, 21 active services, 14 published blog posts — всего 431 объект. Количество основных URL совпадает с опубликованными документами.
 - Выявлено: 143/275 irrigation products не имеют полной пары локализованных RU/EN metaTitle/metaDescription; 19/50 plant products имеют root `priceEUR`, не совпадающий с первым sale variant. У четырёх категорий нет активных товаров/дочерних категорий; пока сохранены в sitemap.
 - Live raw HTML для kumquat подтверждал ошибочную цену 3 000 EUR в initial HTML/JSON-LD при цене первого sale variant 25 EUR. PR #257 выносит product offer helpers, формирует Offer/AggregateOffer из saleVariants и исправляет fallback price в initial HTML.
 - PR #257 добавляет Schema.org Service, BlogPosting, CollectionPage/ItemList, уважение Sanity noIndex на сервере и клиенте, согласование product hreflang с переводами и тесты.
-- Изменения в ветке `feat/google-seo-schema-audit`; отчёт: `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`. PR #257 открыт. CI success on commit `61582d3e0e69d11fe5efe10422ee1e5bf965643b`: Blog and Studio run `43432840090` (#1115), D1 validation run `43432839974` (#1427). Cloudflare Pages Preview deployment `8e427191-12ee-41b3-82ff-6a7a634066cd` success; preview smoke проверил цены растений, категории, Service, BlogPosting, CollectionPage/ItemList и noindex RU/EN Terms. Merge и Production deployment ещё не выполнялись.
-- Sanity documents/schema, D1, Cloudflare settings/secrets, Resend и Production не изменялись. Firecrawl не использовался; live sitemap и raw HTML получены через Cloudflare Browser Rendering.
+- Изменения в ветке `feat/google-seo-schema-audit`; отчёт: `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`. PR #257 squash-merged в `main`, merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`. На точном PR head `6a9db96989f065cc930e3e2fa0e1e04f44450bf8` Blog and Studio runs `43433210752` (#1121) и `43433196806` (#1120), D1 validation run `43433196666` (#1432) — success. Cloudflare Pages Production deployment `e3408322-80c3-4663-9dcd-48d8feec3e42` на точном merge commit прошёл build и deploy — success. Production smoke без JavaScript для `/product/citrus-japonica-kumquat`: HTTP 200, index/follow, self-canonical, Product Offer price 25 EUR (вместо прежних 3 000 EUR). Повторная выборка остальных маршрутов на основном домене была ограничена Browser Rendering rate limit 429; Google Search Console recrawl/indexing не подтверждены.
+- Sanity documents/schema, D1, Cloudflare settings/secrets и Resend не изменялись. Production deployment выполнен после merge. Firecrawl не использовался; live sitemap и raw HTML получены через Cloudflare Browser Rendering.
 
 - Дополнительно выполнено точное set-to-set сравнение URL: все 325 товарных, 71 категорийный, 21 service и 14 article URL из опубликованных Sanity slugs совпадают с живым sitemap; для каждого типа missing=0, extra=0, duplicate slug paths=0.
 
