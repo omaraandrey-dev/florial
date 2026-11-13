@@ -1,3 +1,15 @@
+## 2026-11-13 — Начальный JavaScript: разделены языковые словари и route-data loaders (PR #244)
+
+- Рабочая ветка: `perf/split-i18n-locales-2026-11-13`; PR: https://github.com/omaraandrey-dev/florial/pull/244. PR открыт как Draft; merge и Production deployment не выполнялись.
+- Кодовый snapshot: `1c36472e52cbc0f7219f7827a5452b10581a317b`.
+- `src/lib/i18n.tsx` оставляет болгарский словарь в initial bundle; RU и EN загружаются динамическими locale chunks. Отдельно разделены UI translations, known content translations и known category translations. Сохранены URL `?lang=`, localStorage, `document.documentElement.lang`, Sanity translations и fallback на исходный текст. При загрузке другой локали страница не рендерится с неверным языком.
+- Route-specific запросы вынесены в динамические модули: `src/lib/routeData/productDetails.ts`, `search.ts`, `serviceDetails.ts`, `categoryDetails.ts`. App импортирует их только при открытии соответствующего маршрута. GROQ projections, Sanity clients, result handling и fallback сохранены; loaders принимают cancellation callback.
+- Сравнение Vite build artifacts в одном workflow. Baseline PR #242 head `a7270d4b931009dba4fd27c35a99b5375dbcca3e` имеет те же blob SHA для `src/App.tsx`, `src/lib/i18n.tsx`, `package.json` и `vite.config.ts`, что и исходный main `3e3168997ff40ba532d1be451f3432a2f54771f0`. До изменений: `index-Ms-oKrTF.js` — 398.12 kB raw / 108.66 kB gzip. На PR head `1c36472`: `index-H36PXtsT.js` — 336.08 kB raw / 97.95 kB gzip. Initial entry уменьшен на 62.04 kB raw и 10.71 kB gzip (примерно 15.6% и 9.9% соответственно).
+- Отдельные chunks в build: EN 23.98 kB, RU 33.16 kB, product details 8.64 kB, search 3.40 kB, service details 2.58 kB, category details 1.39 kB (raw). Они не входят в начальный entry, а подключаются по динамическому импорту.
+- Final PR-head validation on documentation head `0bdc3f72272d04a13bff4dfc0498b23364d99ac4`: Blog and Studio run `43358984471` — success; D1 migration validation run `43358984398` — success. Code snapshot tested: `1c36472e52cbc0f7219f7827a5452b10581a317b`.
+- **Не подтверждено:** browser regression BG/RU/EN, переключение языков, direct URLs/SPA navigation, Network waterfall и повторный Lighthouse. Build artifact reduction не является доказательством изменения LCP/field performance и не подтверждает автоматически оценку Lighthouse «32 KiB unused JS».
+- Затронуты только frontend source и документация. Sanity, Cloudflare settings/secrets, D1 schema/data, Resend, Header/menu/Footer layout и Production не изменялись.
+
 ## 2026-11-13 — Подготовлен SEO-текст категории хвойных растений (черновик Sanity)
 
 - Категория: dataset `plants`, document ID `plants-conifers`, slug `igol_listni`.

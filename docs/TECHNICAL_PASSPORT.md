@@ -1,3 +1,12 @@
+## 2026-11-13 — Initial JavaScript split: locale dictionaries and route-specific data loaders (PR #244)
+
+- Branch `perf/split-i18n-locales-2026-11-13`, Draft PR #244; code snapshot `1c36472e52cbc0f7219f7827a5452b10581a317b`. No merge or Production deployment.
+- Locale data is split into `src/lib/i18n/bg.ts`, `en.ts`, `ru.ts`; shared type in `src/lib/i18n/types.ts`. Bulgarian is statically imported; RU/EN are dynamic imports. Each locale includes UI strings, known content translations and known category translations. `LanguageProvider` keeps URL, localStorage, document lang and fallback behavior. Content rendering waits for the selected locale to avoid a wrong-language flash.
+- Full product detail, full-text search, service detail and category detail queries moved to dynamically imported modules under `src/lib/routeData/`. App retains routing and state; each loader receives a cancellation predicate. Existing Sanity client selection, datasets, GROQ fields, error handling and fallback semantics are preserved.
+- Build comparison (same CI workflow; baseline main and PR #242 head have identical blob SHA for App, i18n, package and Vite config): initial JS 398.12 kB raw / 108.66 kB gzip before, 336.08 kB raw / 97.95 kB gzip after. Difference: −62.04 kB raw / −10.71 kB gzip. EN/RU and route loaders emit separate dynamic chunks.
+- Final PR-head validation on documentation head `0bdc3f72272d04a13bff4dfc0498b23364d99ac4`: Blog and Studio run `43358984471` — success; D1 migration validation run `43358984398` — success. Code snapshot tested: `1c36472e52cbc0f7219f7827a5452b10581a317b`.
+- Browser-level verification, BG/RU/EN route regression, Network and Lighthouse re-measurement remain open. Build output does not establish an LCP or field Core Web Vitals improvement. No Production, Sanity, D1, Cloudflare configuration or Resend changes.
+
 ## 2026-11-13 — Категория хвойных: SEO-контент подготовлен в draft
 
 - Sanity Production project `bxvcy0qs`, dataset `plants`; категория `plants-conifers`, slug `igol_listni`.
