@@ -4,7 +4,8 @@ export type PlantCategoryProduct = {
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
-  translations?: Record<string, { name?: string } | undefined>
+  translations?: Record<string, { name?: string; seo?: { h1?: string } } | undefined>
+  seo?: { h1?: string }
   saleVariants?: Array<{
     name?: string
     nameEn?: string
