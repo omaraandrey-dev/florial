@@ -142,7 +142,7 @@ export default function App() {
     const route = getRouteState()
     return Boolean(route.activeCategorySlug || route.activeProductSlug)
   })
-  const [catalogueLoaded, setCatalogueLoaded] = useState(false)
+  const [loadedCatalogueTypes, setLoadedCatalogueTypes] = useState<string[]>([])
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
   const [loadingProductDetails, setLoadingProductDetails] = useState(false)
@@ -448,12 +448,39 @@ export default function App() {
     return () => { cancelled = true }
   }, [normalizedRoutePath])
 
-  // The full catalogue index is fetched only for product/category routes.
-  // Home, service, about, contact, cart, blog and search pages do not wait for it.
+  // Load only the catalogue required by the active category. Product detail routes
+  // still load both indexes because the URL does not identify the Sanity dataset.
+  // Each dataset is cached independently so switching catalogue roots fetches only
+  // the missing dataset, without downloading irrigation products on plant categories.
   useEffect(() => {
     let cancelled = false
-    if (!needsCatalogue || catalogueLoaded) {
-      if (!needsCatalogue) setLoadingProducts(false)
+
+    if (!needsCatalogue) {
+      setLoadingProducts(false)
+      return () => { cancelled = true }
+    }
+
+    if (activeCategorySlug && loadingCategories) {
+      setLoadingProducts(true)
+      return () => { cancelled = true }
+    }
+
+    const routeCategory = activeCategorySlug
+      ? categories.find((category) =>
+          category.slug?.current === activeCategorySlug || category._id === activeCategorySlug
+        )
+      : null
+    const requestedCatalogueTypes = activeProductSlug
+      ? ['equipment', 'plants']
+      : routeCategory
+        ? [routeCategory.isPlantCategory ? 'plants' : 'equipment']
+        : []
+    const catalogueTypesToLoad = requestedCatalogueTypes.filter(
+      (type) => !loadedCatalogueTypes.includes(type)
+    )
+
+    if (catalogueTypesToLoad.length === 0) {
+      setLoadingProducts(false)
       return () => { cancelled = true }
     }
 
@@ -541,25 +568,44 @@ export default function App() {
     `
 
 
-    Promise.allSettled([
-      sanityLiveClient.fetch(productQuery),
-      plantsClient.fetch(plantProductQuery),
-    ]).then(([productResult, plantProductResult]) => {
+
+    const catalogueRequests = catalogueTypesToLoad.map((type) =>
+      type === 'plants'
+        ? plantsClient.fetch(plantProductQuery)
+        : sanityLiveClient.fetch(productQuery)
+    )
+
+    Promise.allSettled(catalogueRequests).then((results) => {
       if (cancelled) return
-      const equipmentProducts = productResult.status === 'fulfilled' && Array.isArray(productResult.value) ? productResult.value : []
-      const plantProductData = plantProductResult.status === 'fulfilled' && Array.isArray(plantProductResult.value) ? plantProductResult.value : []
-      setProducts([...equipmentProducts, ...plantProductData])
-      if (productResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить товары оборудования:', productResult.reason)
-      if (plantProductResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить растения:', plantProductResult.reason)
+
+      results.forEach((result, index) => {
+        const catalogueType = catalogueTypesToLoad[index]
+        if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+          const incomingProducts = result.value as Product[]
+          setProducts((previous) => {
+            const existingIds = new Set(previous.map((product) => product._id))
+            return [...previous, ...incomingProducts.filter((product) => !existingIds.has(product._id))]
+          })
+        } else if (result.status === 'rejected') {
+          console.error(
+            catalogueType === 'plants'
+              ? 'Sanity: не удалось загрузить растения:'
+              : 'Sanity: не удалось загрузить товары оборудования:',
+            result.reason
+          )
+        }
+      })
     }).finally(() => {
       if (!cancelled) {
+        setLoadedCatalogueTypes((previous) =>
+          Array.from(new Set([...previous, ...catalogueTypesToLoad]))
+        )
         setLoadingProducts(false)
-        setCatalogueLoaded(true)
       }
     })
 
     return () => { cancelled = true }
-  }, [needsCatalogue, catalogueLoaded])
+  }, [needsCatalogue, activeCategorySlug, activeProductSlug, categories, loadingCategories, loadedCatalogueTypes])
 
   // Page data is loaded independently from the Header. Product, category and service
   // readiness are tracked separately so unrelated routes do not wait for the catalogue.
