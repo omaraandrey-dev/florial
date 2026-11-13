@@ -1,7 +1,6 @@
-import { generateProductSeo } from '../../../src/lib/productSeo.mjs'
+import { generateProductSeo, getMissingProductSeoFields } from '../../../src/lib/productSeo.mjs'
 import { checkSameOrigin, json, parseBody, requireUser, type ManagerEnv } from './_lib'
 
-type Catalog = 'irrigation' | 'plants'
 type Locale = 'bg' | 'ru' | 'en'
 type ProductDocument = {
   _id: string
@@ -21,12 +20,28 @@ type ProductDocument = {
   }>>
 }
 
+type SeoGapStats = {
+  productsWithMissingFields: number
+  missingH1BG: number
+  missingMetaTitleBG: number
+  missingMetaDescriptionBG: number
+  missingH1RU: number
+  missingMetaTitleRU: number
+  missingMetaDescriptionRU: number
+  missingH1EN: number
+  missingMetaTitleEN: number
+  missingMetaDescriptionEN: number
+  availableBgProducts: number
+  availableRuProducts: number
+  availableEnProducts: number
+}
+
 const API_VERSION = '2024-01-01'
 const BATCH_SIZE = 10
+const PREVIEW_SIZE = 6
 const LOCALES: Locale[] = ['bg', 'ru', 'en']
-
-const getDataset = (catalog: Catalog, env: ManagerEnv) =>
-  catalog === 'plants' ? env.SANITY_PLANTS_DATASET || 'plants' : env.SANITY_DATASET || 'production'
+const SEO_FIELDS = ['h1', 'metaTitle', 'metaDescription'] as const
+const getDataset = (env: ManagerEnv) => env.SANITY_DATASET || 'production'
 
 const sanityQuery = async <T,>(
   projectId: string,
@@ -47,8 +62,41 @@ const sanityQuery = async <T,>(
   return body.result as T
 }
 
+const PRODUCT_FILTER = '_type == "product" && defined(name) && !(_id in path("drafts.**"))'
+const countProducts = (condition = '') =>
+  'count(*[' + PRODUCT_FILTER + (condition ? ' && (' + condition + ')' : '') + '])'
+
 const fetchProductCount = (projectId: string, dataset: string, token?: string) =>
-  sanityQuery<number>(projectId, dataset, 'count(*[_type == "product" && defined(name) && !(_id in path("drafts.**"))])', token)
+  sanityQuery<number>(projectId, dataset, countProducts(), token)
+
+const fetchSeoGapStats = (projectId: string, dataset: string): Promise<SeoGapStats> => {
+  const missing = (path: string) => '(!defined(' + path + ') || ' + path + ' == "")'
+  const fields = [
+    ['missingH1BG', 'seo.h1', ''],
+    ['missingMetaTitleBG', 'seo.metaTitle', ''],
+    ['missingMetaDescriptionBG', 'seo.metaDescription', ''],
+    ['missingH1RU', 'translations.ru.seo.h1', 'defined(translations.ru.name)'],
+    ['missingMetaTitleRU', 'translations.ru.seo.metaTitle', 'defined(translations.ru.name)'],
+    ['missingMetaDescriptionRU', 'translations.ru.seo.metaDescription', 'defined(translations.ru.name)'],
+    ['missingH1EN', 'translations.en.seo.h1', 'defined(translations.en.name)'],
+    ['missingMetaTitleEN', 'translations.en.seo.metaTitle', 'defined(translations.en.name)'],
+    ['missingMetaDescriptionEN', 'translations.en.seo.metaDescription', 'defined(translations.en.name)'],
+  ] as const
+  const entries = fields.map(([key, path, localeFilter]) =>
+    '"' + key + '":' + countProducts([localeFilter, missing(path)].filter(Boolean).join(' && ')),
+  )
+  const anyMissing = fields.map(([, path, localeFilter]) =>
+    '(' + [localeFilter, missing(path)].filter(Boolean).join(' && ') + ')',
+  ).join(' || ')
+  const query = '{' +
+    '"productsWithMissingFields":' + countProducts(anyMissing) + ',' +
+    '"availableBgProducts":' + countProducts() + ',' +
+    '"availableRuProducts":' + countProducts('defined(translations.ru.name)') + ',' +
+    '"availableEnProducts":' + countProducts('defined(translations.en.name)') + ',' +
+    entries.join(',') +
+    '}'
+  return sanityQuery<SeoGapStats>(projectId, dataset, query)
+}
 
 const fetchProducts = (projectId: string, dataset: string, offset: number, limit: number, token?: string) => {
   const query = '*[_type == "product" && defined(name) && !(_id in path("drafts.**"))] | order(_id asc)[' + offset + '...' + (offset + limit) + ']{' +
@@ -64,6 +112,18 @@ const getExistingSeo = (product: ProductDocument, locale: Locale) =>
 
 const getSeoPrefix = (locale: Locale) => locale === 'bg' ? 'seo' : 'translations.' + locale + '.seo'
 
+const getPreviewStats = (stats: SeoGapStats) => {
+  const fieldCounts = {
+    bg: { h1: stats.missingH1BG, metaTitle: stats.missingMetaTitleBG, metaDescription: stats.missingMetaDescriptionBG },
+    ru: { h1: stats.missingH1RU, metaTitle: stats.missingMetaTitleRU, metaDescription: stats.missingMetaDescriptionRU },
+    en: { h1: stats.missingH1EN, metaTitle: stats.missingMetaTitleEN, metaDescription: stats.missingMetaDescriptionEN },
+  }
+  const missingFields = Object.values(fieldCounts).reduce((total, locale) =>
+    total + Object.values(locale).reduce((sum, count) => sum + count, 0), 0)
+  const availableFields = (stats.availableBgProducts + stats.availableRuProducts + stats.availableEnProducts) * SEO_FIELDS.length
+  return { fieldCounts, missingFields, preservedFields: Math.max(0, availableFields - missingFields) }
+}
+
 export const onRequestPost = async ({ request, env }: { request: Request; env: ManagerEnv }) => {
   if (!checkSameOrigin(request)) return json({ error: 'Origin not allowed.' }, 403)
   const auth = await requireUser(request, env, ['owner'])
@@ -74,12 +134,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   const catalog = body?.catalog
   const offset = Number(body?.offset ?? 0)
   if (mode !== 'preview' && mode !== 'apply') return json({ error: 'Invalid product SEO mode.' }, 400)
+  if (catalog !== 'irrigation') return json({ error: 'Only the irrigation equipment catalogue is enabled for this SEO operation.' }, 400)
+  if (body?.strategy !== 'missing-only') return json({ error: 'The missing-only strategy must be selected explicitly.' }, 400)
   if (mode === 'apply' && body?.confirm !== true) return json({ error: 'Explicit owner confirmation is required before writing product SEO.' }, 400)
-  if (catalog !== 'irrigation' && catalog !== 'plants') return json({ error: 'Invalid product catalogue.' }, 400)
   if (!Number.isInteger(offset) || offset < 0) return json({ error: 'Invalid offset.' }, 400)
 
   const projectId = env.SANITY_PROJECT_ID || env.VITE_SANITY_PROJECT_ID || 'bxvcy0qs'
-  const dataset = getDataset(catalog, env)
+  const dataset = getDataset(env)
   const token = env.SANITY_API_TOKEN
 
   if (mode === 'apply' && !token) {
@@ -91,10 +152,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     if (offset > total) return json({ error: 'The requested offset is outside the product list.' }, 400)
 
     if (mode === 'preview') {
-      const products = await fetchProducts(projectId, dataset, 0, 6)
-      const sample: Array<Record<string, string>> = []
-      let generatedFields = 0
-      let overwrittenFields = 0
+      const [products, stats] = await Promise.all([
+        fetchProducts(projectId, dataset, 0, PREVIEW_SIZE),
+        fetchSeoGapStats(projectId, dataset),
+      ])
+      const sample: Array<Record<string, unknown>> = []
+      let sampleFieldsToFill = 0
+      let sampleFieldsPreserved = 0
       let skippedLocales = 0
 
       products.forEach((product, index) => {
@@ -104,12 +168,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
             skippedLocales += 1
             continue
           }
-          const existing = getExistingSeo(product, locale)
-          const prefix = getSeoPrefix(locale)
-          generatedFields += 3
-          overwrittenFields += ['h1', 'metaTitle', 'metaDescription'].filter((field) =>
-            typeof existing[field] === 'string' && existing[field].trim().length > 0,
-          ).length
+          const missing = getMissingProductSeoFields(getExistingSeo(product, locale), generated)
+          const fieldsToFill = Object.keys(missing)
+          const fieldsToPreserve = SEO_FIELDS.filter((field) => !fieldsToFill.includes(field))
+          sampleFieldsToFill += fieldsToFill.length
+          sampleFieldsPreserved += fieldsToPreserve.length
           sample.push({
             product: product.name,
             locale,
@@ -117,19 +180,26 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
             metaTitle: generated.metaTitle,
             metaDescription: generated.metaDescription,
             location: generated.location,
-            fieldPath: prefix,
+            fieldsToFill,
+            fieldsToPreserve,
           })
         }
       })
 
+      const totals = getPreviewStats(stats)
       return json({
         mode,
+        strategy: 'missing-only',
         catalog,
         dataset,
         total,
+        productsWithMissingFields: stats.productsWithMissingFields,
+        missingFields: totals.missingFields,
+        preservedFields: totals.preservedFields,
+        missingFieldCounts: totals.fieldCounts,
         previewProducts: products.length,
-        generatedFields,
-        overwrittenFields,
+        sampleFieldsToFill,
+        sampleFieldsPreserved,
         skippedLocales,
         sample,
       })
@@ -137,12 +207,12 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
 
     const products = await fetchProducts(projectId, dataset, offset, BATCH_SIZE, token)
     if (products.length === 0) {
-      return json({ mode, catalog, dataset, total, processed: 0, generatedFields: 0, overwrittenFields: 0, skippedLocales: 0, nextOffset: offset, hasMore: false })
+      return json({ mode, strategy: 'missing-only', catalog, dataset, total, processed: 0, generatedFields: 0, preservedFields: 0, nextOffset: offset, hasMore: false })
     }
 
     const mutations: Array<{ patch: { id: string; ifRevisionID: string; set: Record<string, string> } }> = []
     let generatedFields = 0
-    let overwrittenFields = 0
+    let preservedFields = 0
     let skippedLocales = 0
 
     products.forEach((product, index) => {
@@ -154,14 +224,16 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
           continue
         }
         const existing = getExistingSeo(product, locale)
-        overwrittenFields += ['h1', 'metaTitle', 'metaDescription'].filter((field) =>
-          typeof existing[field] === 'string' && existing[field].trim().length > 0,
-        ).length
+        const missing = getMissingProductSeoFields(existing, generated)
         const prefix = getSeoPrefix(locale)
-        set[prefix + '.h1'] = generated.h1
-        set[prefix + '.metaTitle'] = generated.metaTitle
-        set[prefix + '.metaDescription'] = generated.metaDescription
-        generatedFields += 3
+        for (const field of SEO_FIELDS) {
+          if (Object.prototype.hasOwnProperty.call(missing, field)) {
+            set[prefix + '.' + field] = missing[field]
+            generatedFields += 1
+          } else {
+            preservedFields += 1
+          }
+        }
       }
       if (Object.keys(set).length) {
         mutations.push({ patch: { id: product._id, ifRevisionID: product._rev, set } })
@@ -188,12 +260,13 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     const nextOffset = offset + products.length
     return json({
       mode,
+      strategy: 'missing-only',
       catalog,
       dataset,
       total,
       processed: products.length,
       generatedFields,
-      overwrittenFields,
+      preservedFields,
       skippedLocales,
       nextOffset,
       hasMore: nextOffset < total,
