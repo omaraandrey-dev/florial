@@ -1,7 +1,7 @@
 ## 2026-11-13 — Manager product SEO safe mode (implementation PR #259)
 
 - Manager SEO generation is restricted server-side to the irrigation equipment catalogue only (`SANITY_DATASET`, expected `production`). Requests for `plants` are rejected.
-- API requires `strategy: missing-only`; apply requires owner authentication and `confirm: true`. UI shows a whole-catalogue gap count and sample field-level fill/preserve decisions. Aggregate GROQ counts classify whitespace-only strings as missing, consistently with the write helper.
+- API requires `strategy: missing-only`; apply requires owner authentication and `confirm: true`. UI shows a whole-catalogue gap count and sample field-level fill/preserve decisions. Preview gap totals are calculated from paginated read-only Sanity projections using the same shared missing-value predicate as apply; whitespace-only and non-string values are classified as missing.
 - Only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` values are written. Populated values are never included in the patch. Sanity `ifRevisionID` guards reject a write if the source document revision changed after it was read.
 - Read-only live Sanity aggregate query: 275 products; 193 products with at least one missing SEO value; 1,153 missing fields total. BG: H1 193, Meta Title 1, Meta Description 1. RU: H1 193, Meta Title 143, Meta Description 143. EN: H1 193, Meta Title 143, Meta Description 143. 1,322 available SEO fields are already populated and will be preserved.
 - No Sanity write or publish was executed during implementation. CI and PR review are pending; this code is not in Production until separately merged and deployed.
