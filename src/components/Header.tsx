@@ -50,9 +50,9 @@ export function Header({
 
   useEffect(() => {
     let active = true
-    fetchBlogPosts(3).then((posts) => { if (active) setBlogPosts(posts) }).catch((error) => console.error('Florial recent blog posts could not load:', error))
+    fetchBlogPosts(3, language).then((posts) => { if (active) setBlogPosts(posts) }).catch((error) => console.error('Florial recent blog posts could not load:', error))
     return () => { active = false }
-  }, [])
+  }, [language])
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalCartPrice = cart.reduce(

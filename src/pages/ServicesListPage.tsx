@@ -4,10 +4,12 @@ import type { ServiceItem, ServiceRolePhoto } from '../types'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
+import { getSanityImageProps } from '../lib/sanityImage'
 
 interface ServicesListPageProps {
   services: ServiceItem[]
   rolePhotos: ServiceRolePhoto[]
+  loading?: boolean
 }
 
 type ServiceDirection = 'landscaping' | 'irrigation' | 'planting' | 'lawn'
@@ -44,7 +46,7 @@ const SERVICE_DIRECTIONS: Array<{
   },
 ]
 
-export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps) {
+export function ServicesListPage({ services, rolePhotos, loading = false }: ServicesListPageProps) {
   const { language, localize } = useI18n()
   const [selectedDirections, setSelectedDirections] = useState<ServiceDirection[]>(
     () => SERVICE_DIRECTIONS.map((direction) => direction.id)
@@ -162,7 +164,7 @@ export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps
           <p className="text-sm leading-6 text-slate-600">{copy.directionsHint}</p>
         </div>
         <div className="grid grid-cols-4 gap-2 sm:gap-4">
-          {SERVICE_DIRECTIONS.map((direction) => {
+          {SERVICE_DIRECTIONS.map((direction, index) => {
             const photo = rolePhotos.find((item) => item.slug === direction.photoSlug)
             const isSelected = selectedDirections.includes(direction.id)
             const title = direction.title[language]
@@ -182,7 +184,7 @@ export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps
               >
                 <span className="block aspect-square overflow-hidden rounded-lg bg-[#E9EDDB] sm:rounded-xl">
                   {photo?.imageUrl ? (
-                    <img src={photo.imageUrl} alt={imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                    <img {...getSanityImageProps(photo.imageUrl, '(min-width: 640px) 160px, 25vw', 320, 65)} alt={imageAlt} loading="eager" decoding="async" fetchPriority={index === 0 ? 'high' : undefined} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
                   ) : (
                     <span className="flex h-full items-center justify-center px-1 text-[9px] font-semibold text-slate-600 sm:text-sm">{title}</span>
                   )}
@@ -192,17 +194,31 @@ export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps
             )
           })}
         </div>
-        <p className="mt-3 text-center text-xs text-slate-500" aria-live="polite">{copy.showing(filteredEntries.length)}</p>
+        <p className="mt-3 text-center text-xs text-slate-500" aria-live="polite">{loading ? (language === 'ru' ? 'Загрузка услуг…' : language === 'en' ? 'Loading services…' : 'Зареждане на услугите…') : copy.showing(filteredEntries.length)}</p>
       </section>
 
       <section aria-label={copy.all}>
+        {loading ? (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+            {Array.from({ length: 6 }, (_, index) => (
+              <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
+                <div className="h-52 animate-pulse bg-[#E9EDDB]" />
+                <div className="space-y-3 p-5">
+                  <div className="h-5 w-4/5 animate-pulse rounded bg-slate-100" />
+                  <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                  <div className="h-4 w-2/3 animate-pulse rounded bg-slate-100" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filteredEntries.map((entry) => {
             if (entry.kind === 'delivery') {
               return (
                 <a key="service-delivery" href={localizedHref('/services/dostavka-poliv', language)} className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline">
                   <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
-                    <img src="https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg" alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} loading="lazy" className="h-full w-full object-cover" />
+                    <img {...getSanityImageProps('https://cdn.sanity.io/images/bxvcy0qs/production/97ebd01d7dc8a7e709720377e58cee7662223b26-1536x1024.jpg', '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', 640, 65)} alt={language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery and engineer consultation' : 'Доставка на оборудване и консултация с инженер'} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <h2 className="mb-2 text-xl font-bold text-slate-900">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h2>
@@ -216,7 +232,7 @@ export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps
             return (
               <a key={service._id} href={localizedHref(`/services/${encodeURIComponent(service.slug?.current || service._id)}`, language)} className="flex flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white shadow-sm transition hover:border-[#B9C79C] hover:shadow-md no-underline">
                 <div className="flex h-52 items-center justify-center overflow-hidden bg-[#E9EDDB]">
-                  {service.imageUrl ? <img src={service.imageUrl} alt={String(localize(service, 'name') || '')} loading="lazy" className="h-full w-full object-cover" /> : <span className="p-4 text-center font-semibold text-slate-700">{localize(service, 'name')}</span>}
+                  {service.imageUrl ? <img {...getSanityImageProps(service.imageUrl, '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', 640, 65)} alt={String(localize(service, 'name') || '')} loading="lazy" decoding="async" className="h-full w-full object-cover" /> : <span className="p-4 text-center font-semibold text-slate-700">{localize(service, 'name')}</span>}
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <h2 className="mb-2 text-xl font-bold text-slate-900">{localize(service, 'name')}</h2>
@@ -227,6 +243,7 @@ export function ServicesListPage({ services, rolePhotos }: ServicesListPageProps
             )
           })}
         </div>
+        )}
       </section>
 
       <section className="mt-12 rounded-2xl bg-[#F3F5EC] p-6 md:p-10">

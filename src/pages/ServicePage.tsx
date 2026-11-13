@@ -52,6 +52,7 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
       className={singleImage ? 'my-8 flex justify-center' : group === 'intro' ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
     >
       {images.map((image, index) => {
+        const isPriorityImage = group === 'intro' && index === 0
         const alt = language === 'ru'
           ? image.imageAltRu || image.imageAlt || ''
           : language === 'en'
@@ -67,9 +68,9 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
             {image.imageUrl && (
               image.imageLinkUrl || image.linkUrl
                 ? <a href={(image.imageLinkUrl || image.linkUrl || '').startsWith('/') ? localizedHref(image.imageLinkUrl || image.linkUrl || '/', language) : (image.imageLinkUrl || image.linkUrl)} className="block" aria-label={alt || undefined}>
-                    <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
+                    <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading={isPriorityImage ? "eager" : "lazy"} fetchPriority={isPriorityImage ? "high" : undefined} decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
                   </a>
-                : <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading="lazy" decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
+                : <img {...getSanityImageProps(image.imageUrl, singleImage ? '(min-width: 768px) 672px, 100vw' : group === 'intro' ? '(min-width: 1024px) 25vw, 50vw' : '(min-width: 768px) 33vw, 50vw')} alt={alt} loading={isPriorityImage ? "eager" : "lazy"} fetchPriority={isPriorityImage ? "high" : undefined} decoding="async" className={singleImage ? 'mx-auto max-h-[520px] w-full object-contain' : group === 'intro' ? 'h-36 w-full object-cover sm:h-44 lg:h-48' : 'h-40 w-full object-cover sm:h-52 md:h-56'} />
             )}
             {!singleImage && alt && (
               <figcaption className="px-3 py-2.5 text-xs leading-5 text-slate-600 sm:text-sm">{alt}</figcaption>
@@ -492,9 +493,9 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
             <div className="mb-8 overflow-hidden rounded-2xl bg-slate-100 shadow-sm md:mb-12">
               {hero.imageLinkUrl || service.imageLinkUrl
                 ? <a href={(hero.imageLinkUrl || service.imageLinkUrl || '').startsWith('/') ? localizedHref(hero.imageLinkUrl || service.imageLinkUrl || '/', language) : (hero.imageLinkUrl || service.imageLinkUrl)} className="block">
-                    <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />
+                    <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} loading="eager" fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />
                   </a>
-                : <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />}
+                : <img {...getSanityImageProps(heroImageUrl, '(min-width: 896px) 896px, calc(100vw - 2rem)', 1200)} alt={heroImageAlt} loading="eager" fetchPriority="high" decoding="async" className="max-h-[560px] min-h-[220px] w-full object-cover" />}
             </div>
           )}
 

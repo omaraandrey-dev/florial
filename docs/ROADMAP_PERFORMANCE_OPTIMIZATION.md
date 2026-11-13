@@ -1,3 +1,17 @@
+## 2026-11-13 — PR #249 (draft): services and blog route loading
+
+Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; no merge or Production deployment yet.
+
+- **Services directory:** global bootstrap retains a compact Header projection, now including only the image URLs/ALT fields required for homepage cards and About-page service images. `HomePage` and `AboutPage` reuse it; full service cards and role photos are fetched only on `/services`.
+- Homepage plant-category cards now use the Sanity category `plants-solitaires` instead of `plants-citrus` (synchronized query and render IDs).
+- **Service detail:** fetch one published service by slug with the active language projection; 60-second in-memory cache. Avoid fetching the full service list as a prerequisite.
+- **Service images:** responsive Sanity URLs for listing cards/role photos; service hero and first intro image are high priority; secondary gallery images are lazy.
+- **Blog cards:** request only title, summary, cover alt and cover URL for the active language. Header, homepage BlogSection and BlogPage share language-aware list cache.
+- **Blog article:** request only the selected article and fields used by Portable Text renderer; render before the separate related-post query completes. Related query returns at most three posts.
+- **Automated coverage:** `tests/content-route-performance.test.mjs`.
+
+**CI passed on code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`:** Blog and Studio run `43388956826`; D1 validation run `43388956805`. Still required: browser Network checks for list/detail request counts and bytes; browser Network checks for list/detail request counts and bytes; direct URL and SPA route checks; service form and blog filter/related-post functional checks; BG/RU/EN visual QA; responsive image currentSrc and transfer size; matched mobile/desktop Lighthouse runs. No performance gain is claimed until measured.
+
 ## 2026-11-13 — Category-specific catalogue loading (PR #248 merged and deployed)
 
 PR #248 squash-merged в `main`: `fe3e528320b88eebe3331e288bbf45591df64482`. Cloudflare Pages Production deployment `db437e51-7794-4bcd-93d0-e2ca004d59f7` — success на точном commit; URL `https://db437e51.florial.pages.dev`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.

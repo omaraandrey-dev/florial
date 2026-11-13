@@ -9,9 +9,9 @@ export function BlogSection() {
   const [posts, setPosts] = useState<BlogPostCard[]>([])
   useEffect(() => {
     let active = true
-    fetchBlogPosts(3).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error))
+    fetchBlogPosts(3, language).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error))
     return () => { active = false }
-  }, [])
+  }, [language])
   return <section className="border-t border-[#E4E8DA] bg-[#F7F8F1] px-4 py-10 md:py-14">
     <div className="mx-auto max-w-7xl">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

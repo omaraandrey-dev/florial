@@ -90,7 +90,7 @@ export function HomePage({
     'plants-palms',
     'plants-olives',
     'plants-trees-shrubs',
-    'plants-citrus',
+    'plants-solitaires',
     'plants-flowers',
   ]
   const visiblePlantCategories = homepagePlantCategoryIds
