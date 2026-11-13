@@ -37,8 +37,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     if (language === 'bg') {
-      setLocale(bgLocale)
-      setLoadedLanguage('bg')
       return () => { cancelled = true }
     }
 
