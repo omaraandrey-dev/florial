@@ -78,6 +78,7 @@ test('server middleware emits Product, Service, BlogPosting and CollectionPage s
   assert.match(middleware, /seo\?\.noIndex === true \|\| categorySeo\?\.noIndex === true/)
   assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id\)/)
   assert.match(middleware, /fetchCategoryProducts\('production', doc\._id\)/)
+  assert.match(middleware, /type === 'product' \|\| type === 'service'/)
 })
 
 test('client-side SEO preserves noIndex and restores page structured data after hydration', async () => {
