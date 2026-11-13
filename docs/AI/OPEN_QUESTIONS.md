@@ -1,16 +1,18 @@
-## PR #249 — services and blog route loading optimization (draft; validation pending, 13.11.2026)
+## PR #249 — services and blog route loading optimization (merged/deployed, browser QA pending, 13.11.2026)
 
-- Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; not merged or deployed.
+- PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`.
 - Code separates the full service directory from global route loading while preserving a compact Header service query. That compact query also carries the small image fields required by homepage service cards and About-page service images; both pages use it instead of the `/services` full directory state. Individual service routes fetch one localized service document by slug.
 - During final review, a regression was found where homepage and About page still consumed the now route-specific full service state. It was corrected before merge and covered by new tests.
 - Homepage's sixth plant category is now the published Sanity category `plants-solitaires` (slug `soliteri-edrorazmerni`) instead of `plants-citrus`; no Sanity content was written.
 - Blog card queries are locale-specific. Blog article details are fetched independently from the full blog index; related posts are a separate query limited to three.
 - Responsive Sanity image sizing and selective eager loading were added for service pages. Blog article cover remains eager/high priority; galleries and cards are lazy.
-- Automated regression tests cover route-specific loading, localized blog data, homepage specimen category and compact service-card data. CI on code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`: Blog and Studio run `43388956826` — success; D1 validation run `43388956805` — success.
+- Automated regression tests cover route-specific loading, localized blog data, homepage specimen category and compact service-card data. CI on final PR head `91bc8abd042f6624dc531081bbde077d254d76cc`: Blog and Studio run `43389185896` — success; D1 validation run `43389169540` — success.
+- Cloudflare Pages Production deployment `467d9866-0d04-4ef1-b265-3f84b6533950` — `success` на точном merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`; URL `https://467d9866.florial.pages.dev`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Studio dependency installation reported 23 npm audit findings (13 moderate, 9 high, 1 critical). Affected packages and production exposure have not been investigated; no dependency changes were made as part of PR #249.
 - **Required browser QA:** `/services` list and all visible service links; direct service URLs and SPA navigation; lead form, related content and image galleries; blog index/filtering; direct blog article and related links; BG/RU/EN content; Header service navigation on non-`/services` routes.
 - **Required Network QA:** confirm full service directory query is absent on unrelated routes; confirm service detail issues one detail query, not full list; confirm blog article does not request the entire blog index; inspect query payload sizes and responsive image currentSrc/transfer bytes.
 - **Required measurement:** repeat Lighthouse mobile and desktop on matched URLs/network profiles; record FCP/LCP/TBT/CLS/Speed Index and transfer bytes. Do not infer an improvement before measurement.
-- Production deployment and owner visual QA remain pending. Sanity documents/schema, D1, Resend and Cloudflare settings/secrets were not changed.
+- Production deployment is complete. Owner visual/functional QA and browser Network/Lighthouse measurements remain pending. Sanity documents/schema, D1, Resend and Cloudflare settings/secrets were not changed.
 
 ## Category-specific catalogue loading — PR #248 merged/deployed; browser QA pending (13.11.2026)
 
