@@ -1,3 +1,13 @@
+## 2026-11-13 — Remaining irrigation category SEO published
+
+- Completed the remaining category SEO batch: 42 published Sanity category documents in `bxvcy0qs/production`, including the irrigation catalogue root and every remaining category with product references. Together with the previous 10 primary categories, **52/54 category documents** now have the full BG/RU/EN SEO treatment.
+- Published 126 localized SEO articles with four visible FAQ pairs each. All have 13 Portable Text blocks; article lengths are 1,676–2,061 characters. All localized titles are <=70 characters and descriptions <=160 characters.
+- Two zero-product categories were deliberately left unchanged: `electromagnetic-valves` and `troynik-90-plastmasov-vatreshna-rezba`. Do not create SEO copy for them until they have an actual assortment or a separate indexing decision is approved.
+- Backup and exact verification: `docs/backups/sanity-irrigation-remaining-categories-before-seo-2026-11-13.json`; full audit: `docs/audits/2026-11-13-irrigation-remaining-category-seo.md`.
+- Post-publish comparison confirms IDs, slugs, parent references, images, sort order, help blocks and all `noIndex` values are unchanged. No code/schema/Production deployment changes.
+- **Still to verify:** inspect initial HTTP HTML and rendered Production category routes in BG/RU/EN for H1, metadata, canonical/hreflang and article placement. Google recrawl/index refresh is not confirmed.
+- **Existing schema warnings:** six documents still trigger Sanity beta validator errors for pre-existing root-level `seoTitle` / `seoDescription`; the root category also has legacy `order`. These fields were preserved. No cleanup without a separate approved migration and backup.
+
 ## 2026-11-13 — Related service priority for irrigation product categories
 
 - Owner approved applying the category-first related-content rule to every irrigation equipment category, including future categories and subcategories.
