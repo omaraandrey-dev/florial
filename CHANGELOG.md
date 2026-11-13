@@ -2959,3 +2959,5 @@ Backups:
 - Sanity documents/schema, D1, Cloudflare settings/secrets, Resend и Production не изменялись. Firecrawl не использовался; live sitemap и raw HTML получены через Cloudflare Browser Rendering.
 
 - Дополнительно выполнено точное set-to-set сравнение URL: все 325 товарных, 71 категорийный, 21 service и 14 article URL из опубликованных Sanity slugs совпадают с живым sitemap; для каждого типа missing=0, extra=0, duplicate slug paths=0.
+
+- Дополнительный Preview smoke без JavaScript: irrigation category и plant category возвращают CollectionPage + ItemList по 20 элементов; service detail возвращает Service; blog article возвращает BlogPosting с датами, изображением, publisher и inLanguage.
