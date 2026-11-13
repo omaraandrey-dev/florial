@@ -1,3 +1,10 @@
+## Категория хвойных — SEO-текст подготовлен, публикация ожидает владельца (13.11.2026)
+
+- Sanity draft `drafts.plants-conifers` содержит новые локализованные BG/RU/EN статьи в `seoContent` (по 25 Portable Text блоков на язык).
+- Backup до записи: `../backups/sanity/2026-11-13-plants-conifers-before-seo-content.json`.
+- Read-back успешен; beta schema validator сообщил `valid`, но `complete=false` (custom validation не выполнялась).
+- **Ожидает:** визуальная проверка всех трёх языков в Sanity Studio и отдельное разрешение владельца на публикацию. Не публиковать автоматически.
+
 ## Homepage hero — release deployed (12.11.2026, PR #242)
 
 - PR #242 merged to `main`: `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`.
