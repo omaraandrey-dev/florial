@@ -123,15 +123,15 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
       : (language === 'ru' ? 'Цена от ' : language === 'en' ? 'From ' : 'Цена от ') +
         (language === 'en' ? '€' + price.toFixed(2) : price.toFixed(2) + ' €')
     const status = availabilityLabel(product, language)
-    return '<li><article><h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
+    return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:16px"><h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
       (priceLabel ? '<p>' + escapeHtml(priceLabel) + '</p>' : '') +
       (status ? '<p>' + escapeHtml(status) + '</p>' : '') + '</article></li>'
   }).join('')
 
-  return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants">' +
+  return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants" style="margin:24px 0">' +
     '<h2 id="florial-category-products">' + heading + '</h2>' +
     '<p>' + (language === 'ru' ? 'Товаров: ' : language === 'en' ? 'Products: ' : 'Продукти: ') + entries.length + '</p>' +
-    '<ul>' + cards + '</ul></section>'
+    '<ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;list-style:none;padding:0">' + cards + '</ul></section>'
 }
 
 export function buildPlantCategoryItemList(products, language = 'bg', siteUrl = 'https://florial-bg.com') {
