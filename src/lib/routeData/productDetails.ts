@@ -10,7 +10,7 @@ const PLANT_PRODUCT_TYPES = new Set([
 
 const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(productType || '')
 
-export async function fetchProductDetails(foundProduct: Product): Promise<Product | null> {
+export async function fetchProductDetails(foundProduct: Product, isCancelled: () => boolean = () => false): Promise<Product | null> {
   const equipmentDetailQuery = `
         *[_type == "product" && _id == $id][0] {
           _id,
@@ -112,7 +112,7 @@ export async function fetchProductDetails(foundProduct: Product): Promise<Produc
     isPlant ? plantDetailQuery : equipmentDetailQuery,
     { id: foundProduct._id }
   )
-  if (!details) return null
+  if (isCancelled() || !details) return null
 
   let enrichedDetails: Product = details
   if (isPlant) {
@@ -181,6 +181,7 @@ export async function fetchProductDetails(foundProduct: Product): Promise<Produc
                     })
                   : Promise.resolve(null),
               ])
+              if (isCancelled()) return null
     
               
     
