@@ -1,3 +1,13 @@
+## Plant category server-rendered catalogue — Phase 1 PR pending (13.11.2026)
+
+- Branch: `feat/plant-category-server-rendering`. Plant categories only; equipment categories remain Phase 2.
+- The Middleware now includes published plant products in the initial category HTML and emits localized product links plus ItemList JSON-LD. React continues to load the live catalogue and replaces the server fallback after JavaScript starts.
+- Sanity read-only GROQ check: 12 products for `plants-palms`; 50 for `plants-root` across 17 category documents. No Sanity writes.
+- **Pending:** GitHub Actions on the exact PR SHA; Pages Functions build verification; PR review; raw HTML inspection for BG/RU/EN after an authorized Production release; verify that real empty results and Sanity failures remain distinguishable.
+- **Not confirmed:** any Production deployment, improved Google indexing, crawler interpretation, browser rendering parity or performance improvement.
+- Do not extend to equipment categories until Phase 1 CI and raw-HTML QA pass.
+- Details: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
+
 ## Production incident — blank storefront after PR #249 (13.11.2026)
 
 - Confirmed source-level cause: temporal-dead-zone `ReferenceError` in `src/App.tsx` because the SEO effect dependency array reads `currentService` before its `const` initialization later in `App`. This causes initial render failure and an empty root.
