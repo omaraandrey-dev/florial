@@ -1,6 +1,17 @@
 
 
-## 2026-11-13 — Responsive category fallback and plant catalogue images (PR pending)
+## 2026-11-13 — PR #247: responsive category fallback and plant catalogue images deployed
+
+**Статус:** PR #247 squash-merged в `main`, commit `5801d390a468952563f8f339b233d15774ca74d9`. Cloudflare Pages Production deployment `579f4c88-fc98-4357-ab61-21c57f7fed23` — success на том же commit; URL `https://579f4c88.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+
+- CI на точном PR head `c94f0c5ba481a7d1a386b242629d6c376b82822c`: Blog and Studio validation run `43376289807` — success; D1 migration validation run `43376289788` — success.
+- `functions/_middleware.ts`: для category document удалён raw fallback `<img src>` из HTML внутри `#root`; category image остаётся в Open Graph metadata. Desktop category hero отображается клиентским responsive `<picture>` начиная с 1024 px.
+- `src/lib/sanityImage.ts`: добавлен необязательный параметр quality; default 75 для существующих вызовов сохранён.
+- `src/pages/CategoryPage.tsx`: sizes карточек согласованы с фактической grid-сеткой; quality карточек 65; первые две карточки eager, остальные lazy; desktop hero — sizes с пределом 408 px и quality 70.
+- Не менялись Sanity documents/schema/assets, D1 schema/data, Cloudflare settings/secrets, SEO metadata, Header/Footer и routing.
+- **Не подтверждено:** mobile/desktop browser Network inspection, выбранные currentSrc/srcset, фактический transfer saving, визуальная проверка качества и повторные Lighthouse mobile/desktop. Baseline владельца mobile 13.11.2026 07:35 GMT+2: Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Не заявлять измеренное улучшение LCP/скорости до повторных измерений.
+
+
 
 - functions/_middleware.ts documentBody() no longer inserts a raw fallback image for category documents. The image was being emitted as an ordinary <img src> before React/CSS, so hiding .category-page-hero-image below 1024 px did not prevent the browser from downloading that fallback image.
 - Category image metadata (og:image) remains unchanged. The client-rendered category hero remains desktop-only via its existing responsive <picture> source.
