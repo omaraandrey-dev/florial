@@ -1,13 +1,10 @@
-## 2026-11-13 — Safe missing-only SEO implementation in review
+## 2026-11-13 — Manager product SEO safe mode deployed; content apply pending
 
-- PR #259 implements a safe Manager workflow for irrigation equipment only. Server rejects the plants catalogue; `missing-only` strategy is mandatory; apply requires owner authentication and explicit confirmation.
-- Only absent/null/empty/whitespace SEO fields are patched; populated values are preserved. Sanity revision guards remain enabled. Whole-catalogue preview reports field-level gaps before any write; counts use the same shared missing-value predicate as apply.
-- Read-only live aggregate: 275 products, 193 with gaps, 1,153 missing fields; 1,322 existing fields will be preserved. BG gaps: H1 193, Meta Title 1, Meta Description 1; RU and EN each: H1 193, Meta Title 143, Meta Description 143.
-- Exact-head CI passed on `dee62f99950a400a631c10e3d021dfd0da0f74a1`: Blog and Studio run `43440703026`; D1 validation run `43440703050`. Cloudflare Pages Preview `https://0ffb5f32.florial.pages.dev` deployed successfully. PR #259 remains open/mergeable, 25 commits ahead and 0 behind `main`; no review threads are open. Merge and Production deployment await owner approval.
-- No Sanity documents have been written or published. After merge/deployment, refresh the Manager preview and manually review generated examples before deciding whether to run apply. The apply action remains a separate owner-triggered operation.
-- Inventory report and per-product gap list are in PR #258; check its merge status before using that report as a permanent main-branch reference.
-
-
+- PR #259 is merged into `main` at `3c909da0fc235aff2cc19ccdb73a1edba7960670`; Production Pages deployment `4db8a0e1-ff55-4470-9fd5-c179f2993ba7` completed successfully.
+- Fresh read-only Sanity recount remains 275 published products, 193 with gaps, 1,153 missing fields and 1,322 populated fields to preserve. First six product samples were inspected for fill/preserve decisions.
+- No Sanity writes or publication have been run. **Open owner decision:** after reviewing the live Manager preview, explicitly authorize the separate Apply operation if desired.
+- Direct Manager UI click-through remains unconfirmed because verification did not have an authenticated Owner session; read-only Sanity recount and sample inspection match the Manager preview code.
+- Cloudflare Pages still lists legacy `SUPABASE_*` / `VITE_SUPABASE_*` environment-variable names. They were not changed. Separately verify code references and remove obsolete variables only with owner approval.
 
 ## SEO release checkpoint 13.11.2026
 
