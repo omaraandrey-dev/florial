@@ -79,9 +79,12 @@ Read-only counts:
 - Все 275 irrigation products имеют RU/EN name и shortDescription.
 - У **143 из 275** irrigation products отсутствует как минимум одно из четырёх полей RU/EN `seo.metaTitle` / `seo.metaDescription`.
 - Остальные 132 irrigation products имеют полный набор этих локализованных meta-полей.
-- Все 50 plant products имеют RU/EN name, shortDescription и SEO meta title/description.
-- У 54 irrigation и 17 plant categories заполнены локализованные name/description и SEO meta title/description.
+- Все 50 plant products имеют BG/RU/EN H1, name, shortDescription и SEO meta title/description.
+- У 54 irrigation и 17 plant categories заполнены BG/RU/EN H1, name/description и SEO meta title/description.
 - У 21 активной услуги не найдено пропусков RU/EN name, shortDescription и SEO meta title/description.
+- У **193/275 irrigation products** отсутствует отдельное поле H1 во всех трёх языках; сервер/клиент используют fallback на имя товара. Это не блокирует индексирование, но не соответствует принятому требованию хранить H1 отдельно.
+- У **143/275 irrigation products** (включены в эти 193) отсутствует как минимум одно RU/EN metaTitle/metaDescription. У одного irrigation product отсутствуют оба BG meta-поля: `irritec-iq20120f0n20b`.
+- У трёх активных услуг отсутствует `hero.title` во всех трёх локалях: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`; страницы используют fallback на название услуги.
 - У 14 опубликованных статей не найдено пропусков RU/EN title, shortDescription, seoTitle, seoDescription и body.
 
 Для 143 irrigation products сайт может использовать корректный fallback title/description из локализованных названия и краткого описания. Массовая запись SEO-полей в Sanity не выполнялась. Подготовить отдельный контентный список для заполнения meta-полей следует после согласования владельца и резервного копирования Sanity.
