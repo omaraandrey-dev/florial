@@ -126,11 +126,28 @@ PR: https://github.com/omaraandrey-dev/florial/pull/257
 
 Никаких Sanity documents, схем Studio, Cloudflare variables/secrets, D1, Resend, Header/Footer или глобальной архитектуры не менялось.
 
-## 6. Что ещё не подтверждено
+## 6. CI и Preview validation
 
-- GitHub Actions для PR #257 должны завершиться success.
+Для runtime commit `dd83b76db47012e2d0a3f781fb15c6afdc9d5b72` оба GitHub Actions workflow завершились success:
+
+- Blog and Studio validation run `43431627121` (#1102): lint, npm test, website build, migration syntax/dry-run и Sanity Studio build — success.
+- Florial D1 migration validation run `43431627266` (#1416): lint, website build, Pages Functions syntax, additive plant audit migration validation и contract withdrawals migration validation — success.
+
+Cloudflare Pages Preview deployment для этого runtime commit:
+- deployment `bffc1ed8-6d73-4157-9541-d41f97daf56f`, URL `https://bffc1ed8.florial.pages.dev`, status success.
+- Production не менялся.
+
+Raw HTML smoke на Preview, JavaScript отключён:
+- Kumquat: HTTP 200, `robots=index, follow`; initial HTML price 25.00 EUR; Product Offer 25.00 EUR (вместо 3 000 EUR в Production baseline).
+- Conifer on standard: HTTP 200; initial HTML price 40.00 EUR; Product JSON-LD AggregateOffer lowPrice 40.00, highPrice 50.00, offerCount 3.
+
+## 7. Что ещё не подтверждено
+
 - После merge необходим Production deployment и повторная проверка sitemap.
-- После Production deployment нужно повторить raw HTML smoke без JavaScript для товара полива, растения с несколькими вариантами, категории полива, категории растений, услуги, статьи, /services и /blog.
+- После Production deployment нужно повторить raw HTML smoke без JavaScript для товара полива, категории полива, категории растений, услуги, статьи, /services и /blog. Preview проверка категорий/услуг/статей ещё ожидает завершения rate limit Cloudflare Browser Rendering.
+- Не выполнялась проверка Google Search Console и фактической индексации URL. Наличие URL в sitemap не означает, что Google уже проиндексировал страницу.
+- Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в live/preview HTML и код генерации.
+- Firecrawl не использовался; Cloudflare Browser Rendering имеет отдельный rate limit.
 - Не выполнялась проверка Google Search Console и фактической индексации URL. Наличие URL в sitemap не означает, что Google уже проиндексировал страницу.
 - Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в live HTML и код генерации.
 - В Cloudflare Browser Rendering действует отдельный rate limit; повторные запросы выполнялись с паузами, Firecrawl не использовался.
