@@ -1,3 +1,11 @@
+## 2026-11-13 — Irrigation category SEO follow-up
+
+- 10/10 primary irrigation categories are published with BG/RU/EN H1, Meta Title, Meta Description, concise descriptions and localized SEO articles/visible FAQ. Details: `docs/audits/2026-11-13-irrigation-category-seo.md`.
+- **Still to verify:** inspect the initial HTTP HTML and rendered Production routes for representative categories in BG/RU/EN; confirm metadata, canonical/hreflang and the SEO article are visible to crawlers. No application deployment was made in this content-only update.
+- **Still to do:** monitor/request Google recrawling after route verification. Search results may continue to show cached metadata temporarily.
+- **Schema follow-up:** four existing category documents contain root-level legacy `seoTitle` and `seoDescription` fields absent from the deployed category schema. They were preserved. Any schema registration or data cleanup requires a separate approved migration and backup.
+- Visible FAQ content was added, but FAQPage structured data was not. Revisit only if there is a concrete search-feature requirement; do not assume FAQ rich snippets will be displayed.
+
 ## 2026-11-13 — Plant category SEO metadata published
 
 - Completed the category-wide SEO update: 17/17 published plant categories in Sanity dataset `plants`.

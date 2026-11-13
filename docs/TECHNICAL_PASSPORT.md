@@ -1,3 +1,17 @@
+## 2026-11-13 — SEO content published for 10 primary irrigation categories
+
+- Updated and published 10 existing irrigation category documents in Sanity project `bxvcy0qs`, dataset `production`; all 10 were read back successfully.
+- Completed BG/RU/EN H1, Meta Title, Meta Description and short category introductions. Added a separate localized SEO article with four visible FAQ entries to each category: 30 localized articles in total.
+- Article text lengths are 1,500–1,948 characters per locale. Each localized SEO article is stored as Portable Text (13 blocks) and is rendered by the existing `CategoryPage` / `RichText` implementation below the product grid. The short category description is displayed above the products.
+- All 30 Meta Titles are at most 70 characters; all 30 Meta Descriptions are at most 160 characters. The localized titles use Nessebar/Несебър/Несебр and the Florial brand. Product brand terms are used only where the published category assortment supports them.
+- Verified category assortment references at the time of the audit: kits 12, controllers 23, sprinklers 20, nozzles 26, valves 17, valve boxes 7, drip irrigation 22, pipes/fittings/accessories 136, filters/pressure regulators 5, other components 6 (274 category-product references; not a unique-product count).
+- Pre-write snapshot: `docs/backups/sanity-irrigation-categories-before-seo-2026-11-13.json` (10 complete published-document snapshots).
+- Post-publish comparison against the snapshot confirmed that category IDs, names, slugs, parent references, images, sort order, help blocks, existing legacy SEO fields and all BG/RU/EN `noIndex` values were preserved.
+- Four existing category documents (controllers, sprinklers, nozzles and valve boxes) contain root-level legacy `seoTitle` / `seoDescription` fields that are not declared in the currently deployed `category` schema. The Sanity beta validator reports these pre-existing unknown fields; they were preserved, not removed. Publishing succeeded for all 10 documents. Do not clean up these legacy fields without an approved migration and backup.
+- FAQ is visible editorial content. No FAQPage JSON-LD or schema changes were added; the category schema and application code were not changed.
+- No product documents, category relationships, Cloudflare configuration, D1, Resend or Production deployment were changed. This was a Sanity content-only update.
+- Follow-up: inspect initial HTTP HTML and rendered production category pages in BG/RU/EN, then request/observe Google recrawling. Google may continue showing previously indexed metadata until recrawl.
+
 ## 2026-11-13 — SEO metadata unified for all 17 plant categories
 
 - Updated and published all 17 existing category documents in Sanity project `bxvcy0qs`, dataset `plants`; no category IDs, slugs, parent references, images, product relationships, category descriptions or SEO body blocks were changed.
