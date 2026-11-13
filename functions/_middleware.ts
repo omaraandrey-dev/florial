@@ -344,6 +344,10 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
   return products
 }
 
+async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantProduct[]> {
+  return fetchCategoryProducts('plants', categoryId)
+}
+
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
   const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,productType,saleVariants[]{priceEUR,stockStatus,name},serviceCategory,sku,stockStatus,publishedAt,_updatedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
@@ -1085,7 +1089,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
-          categoryProducts = await fetchCategoryProducts('plants', doc._id)
+          categoryProducts = await fetchPlantCategoryProducts(doc._id)
         } else {
           // Irrigation listings remain client-rendered; structured data is an enhancement.
           // A temporary catalogue-query failure must not turn a valid category page into 503.
