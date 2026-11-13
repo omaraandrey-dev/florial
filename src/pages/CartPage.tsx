@@ -274,14 +274,6 @@ export function CartPage({
                 {totalPrice.toFixed(2)} €
               </span>
             </div>
-            {equipmentItems.length > 0 && (
-              <p className="text-xs text-slate-500 -mt-4 text-right">
-                {language === 'ru' ? 'Общий вес оборудования:' : language === 'en' ? 'Total equipment weight:' : 'Общо тегло на оборудването:'}{' '}
-                {hasCompleteEquipmentWeight
-                  ? `${totalEquipmentWeightKg.toLocaleString(language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG', { maximumFractionDigits: 3 })} кг`
-                  : (language === 'ru' ? 'не указан для всех товаров' : language === 'en' ? 'not available for all items' : 'не е посочено за всички продукти')}
-              </p>
-            )}
             {deliveryMethod === 'courier' && deliveryRate !== undefined && (
               <>
                 <div className="flex justify-between items-center text-sm text-slate-700">
@@ -298,6 +290,14 @@ export function CartPage({
               <p className="text-xs text-slate-500">{language === 'ru' ? 'Стоимость доставки и окончательная сумма будут согласованы с вами по телефону.' : language === 'en' ? 'The delivery fee and final total will be agreed with you by phone.' : 'Цената за доставка и крайната сума ще бъдат уточнени с вас по телефона.'}</p>
             )}
 
+            {equipmentItems.length > 0 && (
+              <p className="text-sm text-slate-500 -mt-4 text-right">
+                {language === 'ru' ? 'Общий вес оборудования:' : language === 'en' ? 'Total equipment weight:' : 'Общо тегло на оборудването:'}{' '}
+                {hasCompleteEquipmentWeight
+                  ? `${totalEquipmentWeightKg.toLocaleString(language === 'en' ? 'en-GB' : language === 'ru' ? 'ru-RU' : 'bg-BG', { maximumFractionDigits: 3 })} кг`
+                  : (language === 'ru' ? 'не указан для всех товаров' : language === 'en' ? 'not available for all items' : 'не е посочено за всички продукти')}
+              </p>
+            )}
             <form onSubmit={handleSubmitOrder} className="space-y-4 pt-2">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
