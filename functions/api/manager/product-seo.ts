@@ -228,8 +228,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         const prefix = getSeoPrefix(locale)
         for (const field of SEO_FIELDS) {
           if (Object.prototype.hasOwnProperty.call(missing, field)) {
-            set[prefix + '.' + field] = missing[field]
-            generatedFields += 1
+            const value = missing[field]
+            if (typeof value === 'string') {
+              set[prefix + '.' + field] = value
+              generatedFields += 1
+            }
           } else {
             preservedFields += 1
           }
