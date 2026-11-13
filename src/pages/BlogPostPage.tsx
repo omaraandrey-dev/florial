@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
-import {applyPageSeo} from '../lib/seo'
+import {applyPageSeo, setStructuredData} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 import {BlogContent} from '../components/BlogContent'
@@ -45,6 +45,29 @@ export function BlogPostPage({slug}: {slug: string}) {
       noIndex: false,
       language,
       alternates: {bg:base,ru:base+'?lang=ru',en:base+'?lang=en','x-default':base},
+    })
+    const articleUrl = new URL(localizedHref('/blog/' + encodeURIComponent(typeof post.slug === 'string' ? post.slug : post.slug?.current || post._id), language), window.location.origin).toString()
+    setStructuredData('blog-posting', {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: content.title,
+      description: content.seoDescription || content.shortDescription || content.title,
+      url: articleUrl,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+      ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
+      ...(post.cover?.asset?.url ? { image: [post.cover.asset.url] } : {}),
+      author: { '@id': 'https://florial-bg.com/#organization' },
+      publisher: { '@id': 'https://florial-bg.com/#organization' },
+      inLanguage: language,
+    })
+    setStructuredData('breadcrumbs', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало', item: new URL(localizedHref('/', language), window.location.origin).toString() },
+        { '@type': 'ListItem', position: 2, name: language === 'ru' ? 'Блог' : language === 'en' ? 'Blog' : 'Блог', item: new URL(localizedHref('/blog', language), window.location.origin).toString() },
+        { '@type': 'ListItem', position: 3, name: content.title, item: articleUrl },
+      ],
     })
   }, [post, language, content?.seoTitle, content?.seoDescription, content?.title, content?.shortDescription])
   if (!loaded) return <main className="mx-auto w-full max-w-4xl flex-grow px-4 py-16 text-slate-500">{t('Зареждане на статия…')}</main>

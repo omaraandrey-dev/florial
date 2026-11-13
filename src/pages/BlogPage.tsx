@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
-import {applyPageSeo} from '../lib/seo'
+import {applyPageSeo, setStructuredData} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPostCard} from '../lib/blog'
@@ -34,6 +34,21 @@ export function BlogPage() {
     fetchBlogPosts(undefined, language).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error)).finally(() => { if (active) setLoaded(true) })
     return () => { active = false }
   }, [language])
+  useEffect(() => {
+    if (!loaded) return
+    const items = posts.slice(0, 50).map((post, index) => {
+      const content = blogTranslation(post, language)
+      const url = new URL(localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language), window.location.origin).toString()
+      return { '@type': 'ListItem', position: index + 1, name: content.title, url }
+    })
+    setStructuredData('collection-page', {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: language === 'ru' ? 'Блог Florial' : language === 'en' ? 'Florial Blog' : 'Блог Florial',
+      url: new URL(localizedHref('/blog', language), window.location.origin).toString(),
+      ...(items.length ? { mainEntity: { '@type': 'ItemList', numberOfItems: items.length, itemListElement: items } } : {}),
+    })
+  }, [posts, loaded, language])
   return <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-10 md:py-14">
     <nav className="mb-5 text-sm text-slate-500"><a href={localizedHref('/', language)} className="text-[#647746] no-underline">{t('Начало')}</a><span className="mx-2">/</span><span>{t('Блог')}</span></nav>
     <header className="mb-8 max-w-3xl"><p className="text-xs font-bold uppercase tracking-widest text-[#71824F]">Florial</p><h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">{t('Блог')}</h1><p className="mt-4 text-base leading-7 text-slate-600">{t('Полезни статии за градината и поливането')}</p></header>

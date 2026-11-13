@@ -167,7 +167,29 @@ export function CategoryPage({
         '@type': 'ListItem', position: index + 1, name: item.name, item: item.item,
       })),
     })
-  }, [category, allCategories, language, localize, t])
+    const categoryUrl = new URL(localizedHref(categoryPath, language), window.location.origin).toString()
+    const listedProducts = products.slice(0, 20).filter((product) => product.slug?.current || product._id)
+    setStructuredData('collection-page', {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: localizedName,
+      description,
+      url: categoryUrl,
+      ...(listedProducts.length ? {
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: listedProducts.length,
+          itemListOrder: 'https://schema.org/ItemListOrderAscending',
+          itemListElement: listedProducts.map((product, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: String(localize(product, 'name') || product.name),
+            url: new URL(localizedHref('/product/' + encodeURIComponent(product.slug?.current || product._id), language), window.location.origin).toString(),
+          })),
+        },
+      } : {}),
+    })
+  }, [category, allCategories, products, language, localize, t])
 
   // Показываем только непосредственные дочерние категории текущей категории.
   // Для конечной категории не подставляем соседние разделы каталога.

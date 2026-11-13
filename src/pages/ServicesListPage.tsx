@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceRolePhoto } from '../types'
-import { applyPageSeo } from '../lib/seo'
+import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { getSanityImageProps } from '../lib/sanityImage'
@@ -144,6 +144,35 @@ export function ServicesListPage({ services, rolePhotos, loading = false }: Serv
       },
     })
   }, [language])
+  useEffect(() => {
+    const items = filteredEntries.slice(0, 50).flatMap((entry, index) => {
+      if (entry.kind === 'delivery') {
+        return [{
+          '@type': 'ListItem',
+          position: index + 1,
+          name: language === 'ru' ? 'Доставка оборудования для полива' : language === 'en' ? 'Irrigation equipment delivery' : 'Доставка на оборудване за поливане',
+          url: new URL(localizedHref('/services/dostavka-poliv', language), window.location.origin).toString(),
+        }]
+      }
+      const service = entry.service
+      const slug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : '')
+      if (!slug) return []
+      return [{
+        '@type': 'ListItem',
+        position: index + 1,
+        name: String(localize(service, 'name') || service.name),
+        url: new URL(localizedHref('/services/' + encodeURIComponent(slug), language), window.location.origin).toString(),
+      }]
+    })
+    setStructuredData('collection-page', {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: copy.titleTag,
+      description: copy.description,
+      url: new URL(localizedHref('/services', language), window.location.origin).toString(),
+      ...(items.length ? { mainEntity: { '@type': 'ItemList', numberOfItems: items.length, itemListElement: items } } : {}),
+    })
+  }, [filteredEntries, language, localize, copy.titleTag, copy.description])
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">

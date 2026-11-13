@@ -419,11 +419,31 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         : `${localizedName} — професионални услуги от Florial в България.`,
       language,
       imageUrl: service.imageUrl || service.hero?.imageUrl,
-      noIndex: false,
+      noIndex: localizedSeo?.noIndex === true,
       alternates: baseUrl ? alternates : undefined,
     })
 
     if (baseUrl) {
+      const serviceUrl = new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString()
+      setStructuredData('service', {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': serviceUrl + '#service',
+        name: localizedName,
+        description: typeof shortDescription === 'string' ? shortDescription : localizedName,
+        url: serviceUrl,
+        serviceType: service.serviceCategory || localizedName,
+        provider: { '@id': 'https://florial-bg.com/#organization' },
+        areaServed: [
+          { '@type': 'City', name: 'Nessebar' },
+          { '@type': 'City', name: 'Ravda' },
+          { '@type': 'City', name: 'Sunny Beach' },
+          { '@type': 'City', name: 'Sveti Vlas' },
+          { '@type': 'City', name: 'Aheloy' },
+          { '@type': 'City', name: 'Pomorie' },
+        ],
+        ...(service.imageUrl ? { image: [service.imageUrl] } : {}),
+      })
       setStructuredData('breadcrumbs', {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',

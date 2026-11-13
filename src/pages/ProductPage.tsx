@@ -297,7 +297,7 @@ export function ProductPage({
       pageType: 'product',
       imageUrl: product.imageUrl,
       language,
-      noIndex: false,
+      noIndex: localizedSeoSource?.noIndex === true,
       alternates,
     })
 

@@ -53,7 +53,11 @@ export function TermsPage() {
       fallbackTitle: language === 'bg' ? 'Общи условия за ползване и покупка | Florial' : language === 'ru' ? 'Общие условия использования и покупки | Florial' : 'Terms of Use and Purchase | Florial',
       fallbackDescription: 'Общи условия за използване на сайта florial-bg.com, поръчки, плащане, доставка, отказ, рекламации и услуги на Florial.',
       language,
-      noIndex: false,
+      // RU/EN display the Bulgarian source draft with a notice, not translated legal terms.
+      noIndex: language !== 'bg',
+      alternates: language === 'bg'
+        ? { bg: 'https://florial-bg.com/terms', 'x-default': 'https://florial-bg.com/terms' }
+        : undefined,
     })
   }, [language])
 
