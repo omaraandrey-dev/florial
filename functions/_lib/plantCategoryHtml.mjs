@@ -84,6 +84,7 @@ export function buildPlantCategoryEntries(products, language = 'bg') {
 
 function availabilityLabel(product, language) {
   const status = getAvailability(product)
+  if (!status) return ''
   if (language === 'ru') {
     return status === 'inStock' ? 'В наличии' : status === 'outOfStock' ? 'Нет в наличии' : 'По запросу'
   }
@@ -124,7 +125,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
     const status = availabilityLabel(product, language)
     return '<li><article><h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
       (priceLabel ? '<p>' + escapeHtml(priceLabel) + '</p>' : '') +
-      '<p>' + escapeHtml(status) + '</p></article></li>'
+      (status ? '<p>' + escapeHtml(status) + '</p>' : '') + '</article></li>'
   }).join('')
 
   return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants">' +
