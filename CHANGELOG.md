@@ -9,7 +9,9 @@
 - `src/lib/blog.ts`: blog cards project only the active locale; article details project only the active locale and the Portable Text fields used by `BlogContent`. Article content renders as soon as its own document arrives; related articles are fetched separately and limited to three.
 - Header, homepage BlogSection and BlogPage use the active language for blog card data. In-memory list/detail/related caches are language-aware.
 - Added `tests/content-route-performance.test.mjs` for route-specific service loading, localized queries, responsive service images and blog article loading order.
-- **Validation status:** GitHub Actions and browser QA are not yet confirmed for the final PR head. No Production deployment. No Lighthouse or transfer-size result is claimed.
+- **CI on final code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`:** Blog and Studio validation run `43388956826` — success (lint, 126 utility/regression tests, website build, Pages Functions syntax/dry-run, Studio build); D1 migration validation run `43388956805` — success. No Production deployment yet.
+- **Not yet verified:** browser Network/functional QA and repeat Lighthouse mobile/desktop. No performance gain or transfer-size reduction is claimed before measurement.
+- Studio dependency installation reported 23 npm audit findings (13 moderate, 9 high, 1 critical); exact affected packages were not inspected or changed in this PR.
 - No Sanity documents/schema/assets, D1, Resend, Cloudflare settings/secrets, URL/routing policy or SEO policy were changed intentionally. Header menu structure and Footer design were not changed.
 
 ## 2026-11-13 — PR #248 объединён и опубликован: category-specific Sanity catalogue loading
