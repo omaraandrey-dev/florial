@@ -1,3 +1,26 @@
+## 2026-11-13 — Текущее состояние: locale и route-data code splitting в Production
+
+**Источник состояния:** GitHub `main`, merge commit `c97255f4fc843714f0a453727a77f22b75fdf0f7`; Cloudflare Pages Production deployment `cc421986-4aa0-49e3-85db-33d78d8546ce` (точный commit совпадает, build/deploy success).
+
+### Реализация по коду
+
+- `src/lib/i18n.tsx` — provider и механизм выбора языка. Болгарский словарь загружается статически как default locale; RU и EN импортируются динамически по запросу.
+- Locale modules: `src/lib/i18n/bg.ts`, `en.ts`, `ru.ts`; общие типы — `src/lib/i18n/types.ts`. Локали содержат UI strings, known content translations и known category translations.
+- Сохранены query parameter `?lang=`, localStorage, `document.documentElement.lang`, интеграция с Sanity translations и fallback на исходный текст. При смене локали отображение ожидает выбранный словарь, чтобы не показывать контент на неверном языке.
+- Route data loaders находятся в `src/lib/routeData/`: `productDetails.ts`, `search.ts`, `serviceDetails.ts`, `categoryDetails.ts`. `src/App.tsx` загружает соответствующий модуль динамически при необходимости. Это разделение data/query loaders; оно не означает, что вся UI-логика поиска или вся маршрутизация вынесены из App.
+- Существующие Sanity clients/dataset selection, GROQ projections, result handling, fallbacks и cancellation behavior сохранены. Каждый loader получает cancellation predicate от вызывающего кода.
+- Build outputs для соответствующего snapshot: entry `index-H36PXtsT.js` — 336.08 kB raw / 97.95 kB gzip; до изменений `index-Ms-oKrTF.js` — 398.12 kB raw / 108.66 kB gzip. Изменение entry: −62.04 kB raw / −10.71 kB gzip.
+- Отдельные raw chunks: EN 23.98 kB; RU 33.16 kB; product details 8.64 kB; search 3.40 kB; service details 2.58 kB; category details 1.39 kB. Это значения Vite build artifact, не network transfer measurements.
+- CI runs: Blog and Studio `43359151357` — success; D1 validation `43359151359` — success. Production manifest подтверждает наличие соответствующих locale и route chunks.
+- **Ручная функциональная QA владельца:** подтверждены переключение языков в обе стороны, категории, товары, корзина, поиск и переводы; владелец сообщил, что все проверки прошли успешно. Отдельный автоматизированный browser test/network capture не заявляется.
+- **Не измерено:** повторный Lighthouse mobile/desktop, Network waterfall, фактический transfer по маршрутам, LCP/INP/CLS и field Core Web Vitals. Уменьшение initial entry не доказывает автоматически улучшение этих метрик.
+
+### Границы изменений
+
+Изменены frontend source и документация. Sanity schema/documents, Cloudflare bindings/settings/secrets, D1 schema/data, Resend, Header/menu/Footer layout и глобальная архитектура не менялись. Production release опубликован через штатный GitHub → Cloudflare Pages deployment.
+
+---
+
 ## 2026-11-13 — Initial JavaScript split: locale dictionaries and route-specific data loaders (PR #244)
 
 - Branch `perf/split-i18n-locales-2026-11-13`, Draft PR #244; code snapshot `1c36472e52cbc0f7219f7827a5452b10581a317b`. No merge or Production deployment.
