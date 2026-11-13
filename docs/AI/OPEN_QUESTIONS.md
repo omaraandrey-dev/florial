@@ -1,3 +1,10 @@
+## 2026-11-13 — Plant category SEO metadata published
+
+- Completed the category-wide SEO update: 17/17 published plant categories in Sanity dataset `plants`.
+- BG/RU/EN each have category-specific Meta Title and Meta Description values (51 pairs in total). All titles are 70 characters or shorter; descriptions are localized and include relevant local intent.
+- The H1 fields, category descriptions, slugs, images, category tree and product data were preserved. Backup and exact verification details: `docs/backups/sanity-plant-categories-before-seo-2026-11-13.json` and `docs/audits/2026-11-13-plant-category-seo.md`.
+- No code/schema/deployment changes. **Still open:** verify the initial HTTP HTML metadata for representative plant category routes in BG/RU/EN and request/observe Google recrawl; Google AI/search results may continue to reflect previously indexed metadata until refreshed.
+
 ## 2026-11-13 — PR #251 merged and deployed; owner QA pending
 
 - PR #251: https://github.com/omaraandrey-dev/florial/pull/251 — squash-merged.
