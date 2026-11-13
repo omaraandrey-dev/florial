@@ -10,7 +10,7 @@ Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/opti
 - **Blog article:** request only the selected article and fields used by Portable Text renderer; render before the separate related-post query completes. Related query returns at most three posts.
 - **Automated coverage:** `tests/content-route-performance.test.mjs`.
 
-**Validation still required:** GitHub Actions on final PR head; browser Network checks for list/detail request counts and bytes; direct URL and SPA route checks; service form and blog filter/related-post functional checks; BG/RU/EN visual QA; responsive image currentSrc and transfer size; matched mobile/desktop Lighthouse runs. No performance gain is claimed until measured.
+**CI passed on code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`:** Blog and Studio run `43388956826`; D1 validation run `43388956805`. Still required: browser Network checks for list/detail request counts and bytes; browser Network checks for list/detail request counts and bytes; direct URL and SPA route checks; service form and blog filter/related-post functional checks; BG/RU/EN visual QA; responsive image currentSrc and transfer size; matched mobile/desktop Lighthouse runs. No performance gain is claimed until measured.
 
 ## 2026-11-13 — Category-specific catalogue loading (PR #248 merged and deployed)
 
