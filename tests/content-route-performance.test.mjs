@@ -81,3 +81,13 @@ test('compact Header service data preserves homepage service cards and About pag
   assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} />'))
   assert.ok(app.includes('services={headerServices}\n          categories={visibleCategories'))
 })
+
+
+test('currentService is initialized before the SEO effect reads it during the first render', async () => {
+  const app = await read('../src/App.tsx')
+  const declaration = app.indexOf('const currentService = activeServiceSlug ? currentServiceDetails : null')
+  const seoEffect = app.indexOf('const pageKey = language +')
+  const dependencyReference = app.indexOf('[language, activeServiceSlug')
+  assert.ok(declaration >= 0 && declaration < seoEffect)
+  assert.ok(dependencyReference > seoEffect)
+})
