@@ -1,3 +1,11 @@
+## 2026-11-13 — Production hotfix prepared: App render crash after PR #249
+
+- Incident source identified in `src/App.tsx`: the SEO `useEffect` dependency array referenced `currentService` before the later `const currentService` declaration. This triggers a JavaScript temporal-dead-zone `ReferenceError` during the initial `App` render, leaving `#root` empty on all normal storefront routes.
+- Cloudflare Pages deployment `467d9866-0d04-4ef1-b265-3f84b6533950` built and uploaded successfully, but the build did not execute the browser runtime; deployment success was not sufficient to detect this client-side exception.
+- Hotfix branch `hotfix/app-current-service-initialization` moves the derived `currentService` declaration above the first effect that reads it and adds a regression test asserting declaration order.
+- Production rollback/hotfix release has not been performed. Awaiting CI and explicit authorization to publish the corrective release.
+- No Sanity, D1, Resend or Cloudflare configuration/data changes.
+
 ## 2026-11-13 — PR #249 объединён и опубликован: service and blog route loading optimization
 
 - PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`. Branch `perf/optimize-services-and-blog-pages`.
