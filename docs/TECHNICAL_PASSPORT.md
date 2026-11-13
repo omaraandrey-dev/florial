@@ -1,3 +1,15 @@
+## 2026-11-13 — PR #251 merged and deployed; owner QA pending
+
+- PR #251: https://github.com/omaraandrey-dev/florial/pull/251 — squash-merged.
+- Merge commit: `eb8553f73732bc18d8b64cdcf112f8f2d00fd4d4`.
+- Cloudflare Pages Production deployment `928ed2ca-fffb-4941-8942-529bf3119c3b` — **success** on the exact merge commit; deployment URL: https://928ed2ca.florial.pages.dev.
+- Preview deployment policy remains `all` with branch include `*`; Production branch remains `main`.
+- CI passed on final PR head `6170907cc7aefbf0b92cd94641590cd4a1ed46b7`: Blog and Studio runs `43400080140` and `43400000309` — success; D1 migration validation run `43400000333` — success. Documentation-only follow-up commits did not alter implementation code.
+- Phase 1 implements server-rendered plant category product fallback and ItemList JSON-LD. Existing React catalogue remains responsible for interactive browsing; equipment-category SSR is deferred to Phase 2.
+- **Owner QA remains pending:** check live category pages in BG/RU/EN, product cards, links, prices/availability, layout and browser console.
+- **Initial-response QA limitation:** the earlier browser scrape captured the DOM after React startup, not a proven JavaScript-disabled first HTTP response. The documentation does not claim that raw initial HTML was independently inspected.
+- No Sanity writes, D1 schema/data changes, Resend changes, Production secrets/bindings/DNS changes, or Header/menu/Footer/global React architecture changes. Cloudflare Preview deployment policy was changed earlier with owner approval.
+
 ## 2026-11-13 — Plant category server-rendered catalogue (PR #251; CI and Preview deployment passed)
 
 - Phase 1 adds the plant catalogue to the first HTML response for category routes resolved from the published Sanity `plants` dataset.
