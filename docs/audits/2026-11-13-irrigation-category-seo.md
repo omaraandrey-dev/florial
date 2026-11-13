@@ -90,3 +90,8 @@ Four documents — controllers, sprinklers, nozzles and valve boxes — already 
 2. Confirm title, description, H1, canonical/hreflang and SEO article visibility on those routes.
 3. Monitor/request Google recrawling after route verification.
 4. Handle the legacy root-level SEO fields only through a separately approved schema/data migration.
+
+
+## Owner publication confirmation
+
+The owner subsequently confirmed that publication completed successfully. This is recorded as owner confirmation and does not replace an independent Production HTTP/visual inspection or Google-crawler verification; those checks remain separate follow-up items.
