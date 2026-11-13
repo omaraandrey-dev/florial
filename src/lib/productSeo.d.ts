@@ -14,6 +14,8 @@ export function resolveProductLocation(product: Record<string, any>, stableIndex
 export const PRODUCT_SEO_MAX_TITLE_LENGTH: number
 export const PRODUCT_SEO_LOCATIONS: string[]
 
+export function isProductSeoFieldMissing(value: unknown): boolean
+
 export function getMissingProductSeoFields(
   existingSeo: Record<string, unknown> | null | undefined,
   generated: ProductSeoOutput,
