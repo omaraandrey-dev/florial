@@ -1,3 +1,13 @@
+## 2026-11-13 — Подготовлен SEO-текст категории хвойных растений (черновик Sanity)
+
+- Категория: dataset `plants`, document ID `plants-conifers`, slug `igol_listni`.
+- Перед записью сохранён read-only backup опубликованной и существовавшей черновой версии: `docs/backups/sanity/2026-11-13-plants-conifers-before-seo-content.json` (backup commit `b59d1957c44a31edb17a8794575043770f779f51`).
+- Подготовлены BG/RU/EN версии статьи в Portable Text для полей `seoContent`, `translations.ru.seoContent`, `translations.en.seoContent`. Это именно SEO-контент под карточками товаров, не короткое поле `description`.
+- Сохранены существующие ID, slug, описания, SEO metadata, изображения, helpBlock и остальные поля. Обновлён только draft `drafts.plants-conifers`; опубликованный документ не изменён и публикация не выполнялась.
+- Read-back после записи подтвердил три массива Portable Text: по 25 блоков на язык. Schema validation вернула `valid`; проверка неполная (`complete=false`), поскольку beta validator не запускает custom validation callbacks. Требуется ручной просмотр в Sanity Studio.
+- Редакционные уточнения: RHS hardiness H7/H5 приведены к точным диапазонам; подчёркнуто, что RHS — ориентир, а не гарантия для участка в Болгарии; оговорена видо-/сортовая разница по обрезке. Проверенные источники: RHS hardiness scale, RHS profiles for Abies nordmanniana / Picea abies / Cupressus sempervirens / Thuja occidentalis 'Brabant', RHS conifer pruning guide, UC IPM cypress canker.
+- Код, schema, frontend, Cloudflare, D1, Resend и Production deployment не менялись. Остаётся: владелец проверяет визуальный вывод BG/RU/EN в Studio; публикация — только после отдельного подтверждения.
+
 ## 2026-11-12 — Homepage hero Sanity photo library: merged and deployed (PR #242)
 
 - PR #242 merged squash into `main`; merge commit `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`.
