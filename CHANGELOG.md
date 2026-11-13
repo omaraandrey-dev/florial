@@ -1,4 +1,4 @@
-## 2026-11-13 — Plant category server-rendered catalogue prepared (PR validation pending)
+## 2026-11-13 — Plant category server-rendered catalogue: CI passed, Cloudflare Preview enabled; raw HTML QA pending
 
 - Branch: `feat/plant-category-server-rendering`. Phase 1 targets plant categories only; equipment categories are intentionally deferred until this phase is verified.
 - `functions/_middleware.ts` now fetches the published plant category tree, resolves descendant IDs and queries active plant products with `references($categoryIds)`. The first HTML response includes localized product links, available starting-price data, known stock labels and an `ItemList` JSON-LD block.
