@@ -1,7 +1,8 @@
 import { publicPlantsClient, sanityClient } from '../sanity'
 import type { CategoryItem } from '../../types'
 
-export async function fetchCategoryDetails(category: CategoryItem): Promise<CategoryItem | null> {
+export async function fetchCategoryDetails(category: CategoryItem, isCancelled: () => boolean = () => false): Promise<CategoryItem | null> {
+  if (isCancelled()) return null
   const equipmentCategoryDetailQuery = `
         *[_type == "category" && _id == $id][0] {
           _id, name, translations,
@@ -38,5 +39,6 @@ export async function fetchCategoryDetails(category: CategoryItem): Promise<Cate
       `
   const client = category.isPlantCategory ? publicPlantsClient : sanityClient
   const query = category.isPlantCategory ? plantCategoryDetailQuery : equipmentCategoryDetailQuery
-  return client.fetch(query, { id: category._id })
+  const details = await client.fetch(query, { id: category._id })
+  return isCancelled() ? null : details
 }
