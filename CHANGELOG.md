@@ -2962,3 +2962,5 @@ Backups:
 
 - Дополнительный Preview smoke без JavaScript: irrigation category и plant category возвращают CollectionPage + ItemList по 20 элементов; service detail возвращает Service; blog article возвращает BlogPosting с датами, изображением, publisher и inLanguage.
 - Выявлено и исправлено: RU/EN версии `/terms` показывали болгарский юридический проект с notice, но оставались indexable, хотя sitemap включал только BG. Server middleware и TermsPage теперь ставят noindex для RU/EN; BG остаётся индексируемой.
+
+- Контентный аудит H1: 193/275 irrigation products не имеют отдельного `seo.h1` в BG/RU/EN (страницы используют name fallback); 143 из этих 193 также не имеют полного RU/EN metaTitle/metaDescription; один товар `irritec-iq20120f0n20b` не имеет BG metaTitle/metaDescription. Все 50 растений и 71 категории имеют H1 и meta-поля на BG/RU/EN. У трёх услуг отсутствует `hero.title` во всех локалях: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`. Требуется отдельная редакционная работа и Sanity backup; данные не менялись.
