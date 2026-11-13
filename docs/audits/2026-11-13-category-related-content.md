@@ -10,7 +10,7 @@
 Apply the established plant category rule to every irrigation equipment category, including subcategories and categories added in the future:
 
 1. Resolve the assigned product category's `helpBlock.buttonUrl`.
-2. If it points to a valid service or blog route, display that category-linked item first.
+2. If it points to a valid service or blog route, display that category-linked item first; if empty or invalid, use the same default `/services/avtomatichno-napoyavane` service fallback as `CategoryPage`.
 3. Append the product's individual related services/articles in their existing Sanity order.
 4. Do not display the same document twice.
 5. Continue excluding inactive services and unpublished blog posts.
@@ -19,7 +19,7 @@ Apply the established plant category rule to every irrigation equipment category
 ## Implementation
 
 - `src/lib/plantRelatedContentUtils.mjs`: added a shared category-link path parser and generalized merge helper; the old plant helper name remains as a compatibility export.
-- `src/lib/routeData/productDetails.ts`: equipment detail GROQ now reads `category->helpBlock.buttonUrl`; a valid category target is resolved from the published Sanity content and merged ahead of product-specific related content. No hard-coded category list is used.
+- `src/lib/routeData/productDetails.ts`: equipment detail GROQ now reads `category->helpBlock.buttonUrl`; a valid category target (or the existing CategoryPage fallback) is resolved from the published Sanity content and merged ahead of product-specific related content. No hard-coded category list is used.
 - `tests/plant-related-content-utils.test.mjs`: added coverage for equipment ordering, duplicate suppression and accepted/rejected category paths.
 - `src/pages/ProductPage.tsx`: no change; the existing display order and four-item limit consume the enriched `product.relatedContent` list.
 
