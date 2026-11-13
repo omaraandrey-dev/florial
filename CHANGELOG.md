@@ -1,12 +1,13 @@
-## 2026-11-13 — PR #248 открыт: category-specific Sanity catalogue loading
+## 2026-11-13 — PR #248 объединён и опубликован: category-specific Sanity catalogue loading
 
-- Подготовлена отдельная ветка `perf/lazy-load-catalogue-by-category` от актуального main `c212a3e1c2eeebeaf4d5ec61c2a0c6b03d7a2421`.
-- В `src/App.tsx` загрузка полного индекса теперь выбирает только нужный набор данных по `category.isPlantCategory`: plant categories загружают dataset `plants`, irrigation categories — dataset `production`. Полный каталог второго направления не запрашивается на категории другого направления.
-- Загруженные наборы кэшируются независимо в состоянии приложения. При последующем переходе в другую корневую категорию загружается только ещё не загруженный набор; уже загруженные товары сохраняются. Product detail route по-прежнему загружает оба индекса, поскольку slug сам по себе не определяет dataset. Search loader не менялся.
-- Сохранены существующие GROQ projections, live Sanity clients, цены/остатки, сортировка/фильтры, корзина и категории. Sanity documents/schema, D1, Resend, Cloudflare settings/secrets, Header/menu/Footer и routing не менялись.
-- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio validation run `43379741579` — success (lint, utility tests, website build, Studio build); D1 validation run `43379741478` — success (lint, website build, Pages Functions syntax, migration validations). PR #248 открыт, merge не выполнялся.
-- **Остаётся:** browser Network/functional QA и Lighthouse. Не утверждать, что запрос оборудования уже отсутствует в Production или что измерена экономия трафика. Требуются прямые URL и SPA переходы для plant/equipment categories, product detail, search, cart, BG/RU/EN и Network waterfall.
-- Lighthouse-контекст владельца: mobile homepage 13.11.2026 08:18 GMT+2 — FCP 0.9 s, LCP 0.9 s, TBT 0 ms, CLS 0.001, Speed Index 1.8 s. Это отдельный результат и не является измерением данной ветки или категории `/category/maslini`.
+- PR #248: https://github.com/omaraandrey-dev/florial/pull/248; squash merge commit `fe3e528320b88eebe3331e288bbf45591df64482`.
+- Cloudflare Pages Production deployment `db437e51-7794-4bcd-93d0-e2ca004d59f7` завершился успешно на точном merge commit `fe3e528320b88eebe3331e288bbf45591df64482`; URL: `https://db437e51.florial.pages.dev`; aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- CI на точном PR head `d70ec7936a8d58c8f16550688536bd0f918a4089`: Blog and Studio validation runs `43379996722` и `43380019954` — success; D1 migration validation run `43379996726` — success.
+- `src/App.tsx`: plant category routes загружают только dataset `plants`; irrigation/equipment category routes — только `production`. Каталоги кэшируются независимо; при переходе в другое направление загружается недостающий набор. Прямой product detail route сохраняет загрузку обоих индексов, поскольку slug не определяет dataset.
+- GROQ projections, live Sanity clients, цены/остатки, фильтры, сортировка, корзина и search loader не менялись. Sanity documents/schema/assets, D1, Resend, Cloudflare settings/secrets, SEO, Header/menu/Footer и routing не менялись.
+- Изменены 5 файлов: `src/App.tsx`, `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md`, `docs/AI/OPEN_QUESTIONS.md`.
+- **Остаётся browser QA:** Network для прямых plant/equipment category routes и SPA переходов; проверить product detail, search/cart и BG/RU/EN. На `/category/maslini` необходимо подтвердить отсутствие именно полного equipment product-index query; небольшие необходимые `production` запросы для категорий/услуг могут оставаться.
+- Экономия transfer bytes, изменение critical request chain и Lighthouse LCP/Speed Index пока **НЕ ИЗМЕРЕНЫ**. Homepage Lighthouse 08:18 (FCP/LCP 0.9 s) не является измерением данной оптимизации категории.
 
 ## 2026-11-13 — PR #247 объединён и опубликован: responsive images каталога растений
 
