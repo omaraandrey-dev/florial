@@ -1,17 +1,13 @@
-## 2026-11-13 — Safe missing-only SEO mode for irrigation products (PR pending)
+## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
 
-- Reworked Manager product SEO generation to operate only on the irrigation equipment catalogue (`SANITY_DATASET`, expected `production`); the plants catalogue is rejected by the API.
-- Both preview and apply require the explicit `missing-only` strategy. Apply additionally requires owner role and explicit confirmation.
-- The generator now sets only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` fields. Existing non-empty values are preserved. Every document patch retains the Sanity `ifRevisionID` guard.
-- Preview reports whole-catalogue field-level gaps plus a six-product sample. Counts are calculated from paginated read-only Sanity projections with the same shared missing-value predicate used by apply, including whitespace-only and non-string values.
-- Read-only Sanity Production aggregate query confirmed 275 products, 193 products with gaps and 1,153 missing SEO fields: BG H1 193 / Meta Title 1 / Meta Description 1; RU H1 193 / Meta Title 143 / Meta Description 143; EN same as RU. No Sanity write was executed.
-- Added regression tests for populated, absent, null and whitespace-only values. Implementation and verification are tracked in PR #259.
-- Exact-head validation on `dee62f99950a400a631c10e3d021dfd0da0f74a1`: Blog and Studio run `43440703026` — success (lint, 149 utility tests, website build, migration syntax, read-only migration dry-run, Sanity Studio build); D1 validation run `43440703050` — success (lint, website build, Pages Functions syntax, both migration validations).
-- An earlier test run on `def0e3c73231fbd9dd86fb6e3f55e27d7a13689a` failed because the fixture used literal backslash sequences instead of actual whitespace. The fixture was corrected in `dee62f9`; both workflows above pass on that exact corrected HEAD.
-- Cloudflare Pages Preview for `dee62f99950a400a631c10e3d021dfd0da0f74a1` deployed successfully: `https://0ffb5f32.florial.pages.dev`. This is Preview only; no Production deployment or Sanity write was performed.
-- PR #259 remains open and mergeable; branch is 25 commits ahead of and 0 behind `main`. Merge and Production release remain pending owner approval.
-
-
+- PR #259 squash-merged into `main`: merge commit `3c909da0fc235aff2cc19ccdb73a1edba7960670`.
+- Exact merge commit checks: GitHub Actions `validate` run `43446693123` passed (lint, website build, Pages Functions syntax and D1 migration validation); Cloudflare Pages check `131958296250` passed.
+- Cloudflare Pages Production deployment `4db8a0e1-ff55-4470-9fd5-c179f2993ba7`, URL `https://4db8a0e1.florial.pages.dev`, completed build and deploy successfully for exact merge commit. Production aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Fresh read-only Sanity Production recount after deployment: 275 published products, 193 with missing SEO fields, 1,153 missing fields and 1,322 populated fields to preserve. Per locale: BG H1 193 / Meta Title 1 / Meta Description 1; RU and EN each H1 193 / Meta Title 143 / Meta Description 143. All 275 products have RU and EN names.
+- Read-only sample review of the first six published products: products 1, 2, 4 and 5 have only BG H1 missing while their existing BG Meta Title/Description are preserved; RU/EN have all three SEO fields missing. Products 3 and 6 already have all sampled SEO fields populated and are marked preserve-only. No writes were run.
+- The actual Manager UI preview endpoint requires an authenticated Owner session. No Owner session was available to this verification, so a click-through in the Manager UI is **not confirmed**. The live Sanity read-only recount and sample inspection independently match the Manager preview implementation and documented baseline.
+- No Sanity mutation/publication, D1 change, Cloudflare setting/secret change, Resend or schema change was made. SEO apply remains pending a separate explicit owner instruction after review of the preview samples.
+- Cloudflare Pages project configuration still contains legacy variables named `SUPABASE_*` and `VITE_SUPABASE_*` in Preview/Production. They were only observed; no values are reproduced here and nothing was changed. Supabase remains excluded from the Florial runtime architecture. Inventory/removal requires a separate approved change after checking whether any deployed code still references them.
 ## 2026-11-13 — PR #257: merge и Production release
 
 - PR #257 squash-merged: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`; branch `feat/google-seo-schema-audit` закрыта merge-ом.
