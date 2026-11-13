@@ -98,6 +98,6 @@ test('returns all generated fields when no SEO values exist', () => {
 })
 
 test('classifies missing SEO values consistently for preview and apply', () => {
-  for (const value of [undefined, null, '', '   ', '\\t\\n']) assert.equal(isProductSeoFieldMissing(value), true)
+  for (const value of [undefined, null, '', '   ', String.fromCharCode(9, 10)]) assert.equal(isProductSeoFieldMissing(value), true)
   for (const value of ['0', ' H1 ', 'Existing title']) assert.equal(isProductSeoFieldMissing(value), false)
 })
