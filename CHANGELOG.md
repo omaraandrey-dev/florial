@@ -1,3 +1,17 @@
+## 2026-11-13 — Safe missing-only SEO mode for irrigation products (PR pending)
+
+- Reworked Manager product SEO generation to operate only on the irrigation equipment catalogue (`SANITY_DATASET`, expected `production`); the plants catalogue is rejected by the API.
+- Both preview and apply require the explicit `missing-only` strategy. Apply additionally requires owner role and explicit confirmation.
+- The generator now sets only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` fields. Existing non-empty values are preserved. Every document patch retains the Sanity `ifRevisionID` guard.
+- Preview reports whole-catalogue field-level gaps plus a six-product sample. Counts are calculated from paginated read-only Sanity projections with the same shared missing-value predicate used by apply, including whitespace-only and non-string values.
+- Read-only Sanity Production aggregate query confirmed 275 products, 193 products with gaps and 1,153 missing SEO fields: BG H1 193 / Meta Title 1 / Meta Description 1; RU H1 193 / Meta Title 143 / Meta Description 143; EN same as RU. No Sanity write was executed.
+- Added regression tests for populated, absent, null and whitespace-only values. Implementation and verification are tracked in PR #259.
+- Exact-head validation on `dee62f99950a400a631c10e3d021dfd0da0f74a1`: Blog and Studio run `43440703026` — success (lint, 149 utility tests, website build, migration syntax, read-only migration dry-run, Sanity Studio build); D1 validation run `43440703050` — success (lint, website build, Pages Functions syntax, both migration validations).
+- An earlier test run on `def0e3c73231fbd9dd86fb6e3f55e27d7a13689a` failed because the fixture used literal backslash sequences instead of actual whitespace. The fixture was corrected in `dee62f9`; both workflows above pass on that exact corrected HEAD.
+- Cloudflare Pages Preview for `dee62f99950a400a631c10e3d021dfd0da0f74a1` deployed successfully: `https://0ffb5f32.florial.pages.dev`. This is Preview only; no Production deployment or Sanity write was performed.
+- PR #259 remains open and mergeable; branch is 25 commits ahead of and 0 behind `main`. Merge and Production release remain pending owner approval.
+
+
 ## 2026-11-13 — PR #257: merge и Production release
 
 - PR #257 squash-merged: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`; branch `feat/google-seo-schema-audit` закрыта merge-ом.

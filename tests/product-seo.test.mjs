@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { generateProductSeo, PRODUCT_SEO_MAX_TITLE_LENGTH } from '../src/lib/productSeo.mjs'
+import { generateProductSeo, getMissingProductSeoFields, isProductSeoFieldMissing, PRODUCT_SEO_MAX_TITLE_LENGTH } from '../src/lib/productSeo.mjs'
 
 test('uses the approved separator and keeps Meta Title within 70 characters', () => {
   const result = generateProductSeo({ name: 'Маслина Olea Europaea', shortDescription: 'Вечнозелено дърво с декоративна корона.' }, 'bg', 0)
@@ -74,4 +74,30 @@ test('localizes location and uses natural sale-first copy for RU and EN', () => 
   assert.ok(en?.metaDescription.startsWith('For sale: '))
   assert.ok(ru?.metaTitle.includes('Несебр'))
   assert.ok(en?.metaTitle.includes('Nessebar'))
+})
+
+
+test('returns only SEO fields that are missing and preserves populated values', () => {
+  const generated = { h1: 'New H1', metaTitle: 'New title', metaDescription: 'New description', location: 'Nessebar' }
+  const existing = { h1: 'Owner H1', metaTitle: 'Owner title', metaDescription: '' }
+  assert.deepEqual(getMissingProductSeoFields(existing, generated), { metaDescription: 'New description' })
+})
+
+test('treats absent, null and whitespace-only SEO values as missing', () => {
+  const generated = { h1: 'H1', metaTitle: 'Title', metaDescription: 'Description', location: 'Nessebar' }
+  assert.deepEqual(getMissingProductSeoFields({ h1: null, metaTitle: '   ' }, generated), {
+    h1: 'H1', metaTitle: 'Title', metaDescription: 'Description',
+  })
+})
+
+test('returns all generated fields when no SEO values exist', () => {
+  const generated = { h1: 'H1', metaTitle: 'Title', metaDescription: 'Description', location: 'Nessebar' }
+  assert.deepEqual(getMissingProductSeoFields(undefined, generated), {
+    h1: 'H1', metaTitle: 'Title', metaDescription: 'Description',
+  })
+})
+
+test('classifies missing SEO values consistently for preview and apply', () => {
+  for (const value of [undefined, null, '', '   ', String.fromCharCode(9, 10)]) assert.equal(isProductSeoFieldMissing(value), true)
+  for (const value of ['0', ' H1 ', 'Existing title']) assert.equal(isProductSeoFieldMissing(value), false)
 })

@@ -1,3 +1,12 @@
+## 2026-11-13 — Manager product SEO safe mode (implementation PR #259)
+
+- Manager SEO generation is restricted server-side to the irrigation equipment catalogue only (`SANITY_DATASET`, expected `production`). Requests for `plants` are rejected.
+- API requires `strategy: missing-only`; apply requires owner authentication and `confirm: true`. UI shows a whole-catalogue gap count and sample field-level fill/preserve decisions. Preview gap totals are calculated from paginated read-only Sanity projections using the same shared missing-value predicate as apply; whitespace-only and non-string values are classified as missing.
+- Only absent, null, empty or whitespace-only `h1`, `metaTitle`, `metaDescription` values are written. Populated values are never included in the patch. Sanity `ifRevisionID` guards reject a write if the source document revision changed after it was read.
+- Read-only live Sanity aggregate query: 275 products; 193 products with at least one missing SEO value; 1,153 missing fields total. BG: H1 193, Meta Title 1, Meta Description 1. RU: H1 193, Meta Title 143, Meta Description 143. EN: H1 193, Meta Title 143, Meta Description 143. 1,322 available SEO fields are already populated and will be preserved.
+- No Sanity write or publish was executed during implementation. Exact-head CI on `dee62f99950a400a631c10e3d021dfd0da0f74a1` passed: Blog and Studio run `43440703026` and D1 validation run `43440703050`. Cloudflare Pages Preview `https://0ffb5f32.florial.pages.dev` deployed successfully for this exact commit. PR #259 remains open; no Production deployment has been made. Merge awaits owner approval.
+- Full implementation details: `docs/audits/2026-11-13-product-seo-safe-mode.md`.
+
 ## 2026-11-13 — SEO sitemap/schema fixes PR #257 merged and deployed
 
 - PR #257 squash-merged into `main`; merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.

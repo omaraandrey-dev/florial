@@ -171,3 +171,19 @@ export function generateProductSeo(product, locale, stableIndex = 0) {
 }
 
 export const PRODUCT_SEO_LOCATIONS = LOCATIONS.map((location) => location.key)
+
+
+/** Return true when an SEO field is absent, non-string, empty, or whitespace-only. */
+export function isProductSeoFieldMissing(value) {
+  return typeof value !== 'string' || value.trim().length === 0
+}
+
+/** Return generated SEO values only for fields that are currently empty. */
+export function getMissingProductSeoFields(existingSeo, generated) {
+  const source = existingSeo && typeof existingSeo === 'object' ? existingSeo : {}
+  const result = {}
+  for (const field of ['h1', 'metaTitle', 'metaDescription']) {
+    if (isProductSeoFieldMissing(source[field])) result[field] = generated[field]
+  }
+  return result
+}
