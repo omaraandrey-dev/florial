@@ -140,6 +140,8 @@ Cloudflare Pages Preview deployment для этого runtime commit:
 Raw HTML smoke на Preview, JavaScript отключён:
 - Kumquat: HTTP 200, `robots=index, follow`; initial HTML price 25.00 EUR; Product Offer 25.00 EUR (вместо 3 000 EUR в Production baseline).
 - Conifer on standard: HTTP 200; initial HTML price 40.00 EUR; Product JSON-LD AggregateOffer lowPrice 40.00, highPrice 50.00, offerCount 3.
+- Irrigation root category `/category/vsichko-za-polivane`: HTTP 200; CollectionPage + ItemList, 20 entries; first item URLs use canonical apex domain.
+- Plant root category `/category/rastenia`: HTTP 200; CollectionPage + ItemList, 20 entries; localized Bulgarian names and canonical product URLs.
 
 ## 7. Что ещё не подтверждено
 
