@@ -39,6 +39,14 @@ test('renders escaped product links, localized labels, and no false empty-state 
   assert.doesNotMatch(html, /В тази категория все още няма налични продукти/)
 })
 
+test('does not invent an availability label when Sanity has no stock status', () => {
+  const html = renderPlantCategoryListing([
+    { _id: 'p1', slugValue: 'unknown-stock', name: 'Plant without stock status' },
+  ], 'en')
+  assert.doesNotMatch(html, /On request/)
+  assert.match(html, /Plant without stock status/)
+})
+
 test('renders a real empty state only when the successful result is empty', () => {
   assert.match(renderPlantCategoryListing([], 'ru'), /В этой категории пока нет товаров/)
   assert.match(renderPlantCategoryListing([], 'en'), /There are currently no products/)
