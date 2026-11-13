@@ -1,3 +1,14 @@
+## 2026-11-13 — Категория хвойных: SEO-контент подготовлен в draft
+
+- Sanity Production project `bxvcy0qs`, dataset `plants`; категория `plants-conifers`, slug `igol_listni`.
+- Backup опубликованного документа и существующего draft сохранён в `docs/backups/sanity/2026-11-13-plants-conifers-before-seo-content.json` до записи.
+- Подготовлены локализованные BG/RU/EN Portable Text статьи в полях `seoContent` и вложенных `translations.ru/en.seoContent`. Frontend schema подтверждает назначение `seoContent`: SEO текст под продуктами, поддерживает H2/H3, bullet/number lists, strong/emphasis и link annotations.
+- Запись выполнена только в `drafts.plants-conifers`; read-back подтвердил по 25 блоков на каждый язык. Published version остаётся прежней; автоматическая публикация не выполнялась.
+- Существующие `description`, `seo`, H1/meta title/meta description, image, helpBlock, slug, parent и sortOrder сохранены без изменений.
+- Schema validation: status `valid`, но `complete=false`; custom validation callbacks не запускались. Требуется ручной просмотр в Sanity Studio и визуальная проверка локалей до публикации.
+- RHS hardiness values and pruning guidance were checked against official RHS profiles/advice; cypress canker information checked against UC IPM. RHS ratings are presented as guidance, not a Bulgarian-site guarantee.
+- Code, schema, frontend, Cloudflare, D1, Resend and deployment were not changed.
+
 ## 2026-11-12 — Homepage hero Sanity photo library: merged and deployed (PR #242)
 
 - PR #242 merged squash into `main`; merge commit `16bd410ad4b246f4d20594823ea5fe7be2f20bdd`.
