@@ -72,7 +72,8 @@ test('server middleware emits Product, Service, BlogPosting and CollectionPage s
   assert.match(middleware, /makeBlogPostingJsonLd\(doc, name, metaDescription, canonicalUrl, language\)/)
   assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryProducts \|\| \[\], language\)/)
   assert.match(middleware, /seo\?\.noIndex === true \|\| categorySeo\?\.noIndex === true/)
-  assert.match(middleware, /fetchCategoryProducts\(doc\._dataset === 'plants' \? 'plants' : 'production', doc\._id\)/)
+  assert.match(middleware, /fetchCategoryProducts\('plants', doc\._id\)/)
+  assert.match(middleware, /fetchCategoryProducts\('production', doc\._id\)/)
 })
 
 test('client-side SEO preserves noIndex and restores page structured data after hydration', async () => {
