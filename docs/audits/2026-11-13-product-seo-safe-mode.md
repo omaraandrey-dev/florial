@@ -18,7 +18,7 @@ Sanity project `bxvcy0qs`, dataset `production`:
 | RU | 193 | 143 | 143 |
 | EN | 193 | 143 | 143 |
 
-These figures were independently checked using the same aggregate GROQ shape now used by the Manager preview. Query perspective excludes drafts and counts published product documents.
+These figures were independently checked against published Sanity product documents. Manager preview reads the same published product set in deterministic 50-document pages and applies the same shared JavaScript missing-value predicate as apply; drafts are excluded.
 
 ## Safe behavior implemented
 
