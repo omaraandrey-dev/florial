@@ -1,0 +1,1274 @@
+{
+  "backupType": "sanity-category-content-pre-seo",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "createdAt": "2026-11-13T10:20:16.340Z",
+  "documents": [
+    {
+      "_createdAt": "2026-10-18T08:18:29Z",
+      "_id": "587a2ee3-8152-4193-bff1-dfd3838f12c5",
+      "_rev": "iDEMx5YC3o85c6iUZc7jVU",
+      "_system": {
+        "base": {
+          "id": "587a2ee3-8152-4193-bff1-dfd3838f12c5",
+          "rev": "9Jlb6k9xfgGTkBekNAMDnq"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:19:58Z",
+      "description": "Контролерът е мозъкът на автоматичната поливна система: по зададена програма той включва и изключва електромагнитните клапани и така определя кога, колко време и в кои зони се полива. В категорията са външни, вътрешни и автономни (батерийни) контролери Rain Bird за градини и дворове. Изборът зависи от броя на поливните зони, от мястото на монтаж – на закрито, на открито или без достъп до електрическа мрежа – и от необходимите допълнителни функции. Важно е да проверите и типа на клапаните – 24 V или 9 V, за да са съвместими с контролера. Правилно настроената програма спестява вода и време.",
+      "helpBlock": {
+        "buttonLabel": "Монтаж и настройка на програматори",
+        "buttonUrl": "/blog/montazh-nastroika-podmyana-programatori-avtomatichno-napoyavane",
+        "text": "Контролерът координира поливните зони и графика на работа според конфигурацията на обекта. За тази категория проверете броят на необходимите станции, захранването и съвместимостта с управляваните клапани. Съобразете броя станции, захранването, типа клапани и необходимите функции; настройвайте графика според сезона и нуждите на растенията. Florial помага с подбора на съвместими компоненти за обекти в Слънчев бряг и Кошарица.",
+        "title": "Контролери за управление на автоматичното напояване",
+        "translations": {
+          "en": {
+            "buttonLabel": "Controller Installation and Setup",
+            "text": "A controller coordinates irrigation zones and schedules according to the site's configuration. For this category, check the required number of stations, power supply and compatibility with the controlled valves. Match the station count, power supply, valve type and required features; adjust schedules to the season and plant needs. Florial helps select compatible components for irrigation projects in Sunny Beach and Kosharitsa.",
+            "title": "Controllers for automatic irrigation management"
+          },
+          "ru": {
+            "buttonLabel": "Монтаж и настройка контроллеров",
+            "text": "Контроллер координирует поливочные зоны и расписание с учётом конфигурации объекта. Для этой категории проверьте необходимое количество станций, питание и совместимость с управляемыми клапанами. Учитывайте количество зон, питание, тип клапанов и необходимые функции; корректируйте расписание по сезону и потребностям растений. Florial помогает подобрать совместимые компоненты для систем полива в Солнечный берег и Кошарица.",
+            "title": "Контроллеры для управления автоматическим поливом"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Контролери за автоматично напояване за градини в България",
+        "altEn": "Automatic irrigation controllers for gardens and irrigation systems in Bulgaria",
+        "altRu": "Контроллеры автоматического полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-96fb45bd932636c49078e5240b3d9326679f9e36-1254x1254-png",
+          "_type": "reference"
+        },
+        "title": "Контролери за автоматично напояване – оборудване за напояване",
+        "titleEn": "Automatic irrigation controllers – irrigation equipment",
+        "titleRu": "Контроллеры автоматического полива — оборудование для полива"
+      },
+      "name": "Контролери",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "_type": "seoFields",
+        "h1": "Контролери за управление на автоматичното поливане",
+        "keywords": [
+          "Контролери",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Контролерът е мозъкът на автоматичната поливна система: по зададена програма той включва и изключва електромагнитните клапани и така определя кога.",
+        "metaTitle": "Контролери | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Контролери за управление на автоматичното поливане",
+          "metaDescription": "Контролерът е мозъкът на автоматичната поливна система: по зададена програма той включва и изключва електромагнитните клапани и така определя кога.",
+          "metaTitle": "Контролери | Florial",
+          "status": "approved"
+        }
+      },
+      "seoDescription": "Контролери Rain Bird за автоматично управление на поливането в градини и дворове. Изберете контролер според броя зони и нуждите на вашата система.",
+      "seoTitle": "Контролери за автоматично напояване | Florial",
+      "slug": {
+        "_type": "slug",
+        "current": "controllers"
+      },
+      "sortOrder": 10,
+      "translations": {
+        "en": {
+          "description": "The controller is the brain of an automatic irrigation system: according to a schedule, it opens and closes solenoid valves and determines when, for how long and in which zones watering takes place. This category includes Rain Bird outdoor, indoor and battery-powered controllers for gardens and yards. Choose according to the number of irrigation zones, installation location and required features. Check valve voltage—24 V or 9 V—to ensure compatibility with the controller. A properly configured schedule saves both water and time.",
+          "name": "Irrigation Controllers",
+          "seo": {
+            "h1": "Controllers for Automatic Irrigation Systems",
+            "keywords": [
+              "Irrigation Controllers",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "The controller is the brain of an automatic irrigation system: according to a schedule.",
+            "metaTitle": "Irrigation Controllers | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Controllers for Automatic Irrigation Systems",
+              "metaDescription": "The controller is the brain of an automatic irrigation system: according to a schedule.",
+              "metaTitle": "Irrigation Controllers | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Контроллер — это «мозг» автоматической системы полива: по заданной программе он включает и выключает электромагнитные клапаны и определяет, когда, как долго и в каких зонах идёт полив. В категории — наружные, внутренние и автономные (батарейные) контроллеры Rain Bird для садов и дворов. Выбор зависит от числа зон полива, места установки — в помещении, на улице или там, где нет электросети, — и нужных дополнительных функций. Обязательно проверьте тип клапанов — 24 V или 9 V — чтобы они были совместимы с контроллером. Правильно настроенная программа экономит воду и время.",
+          "name": "Контроллеры полива",
+          "seo": {
+            "h1": "Контроллеры для управления автоматическим поливом",
+            "keywords": [
+              "Контроллеры полива",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Контроллер — это «мозг» автоматической системы полива: по заданной программе он включает и выключает электромагнитные клапаны и определяет.",
+            "metaTitle": "Контроллеры полива | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Контроллеры для управления автоматическим поливом",
+              "metaDescription": "Контроллер — это «мозг» автоматической системы полива: по заданной программе он включает и выключает электромагнитные клапаны и определяет.",
+              "metaTitle": "Контроллеры полива | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-24T02:34:09Z",
+      "_id": "65742b44-11c2-43ae-9551-e91eb675dc93",
+      "_rev": "9Jlb6k9xfgGTkBekNAMDnq",
+      "_system": {
+        "base": {
+          "id": "65742b44-11c2-43ae-9551-e91eb675dc93",
+          "rev": "iDEMx5YC3o85c6iUZbtxgn"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:11:59Z",
+      "description": "Клапаните отварят и затварят подаването на вода към отделните зони на поливната система по команда от контролера. В категорията са електромагнитните клапани за автоматично поливане, включително модели Rain Bird от серия 100, с 24 V и 9 V соленоид. При избора ключови са типът на соленоида – съобразен с контролера, диаметърът на връзката, необходимият дебит и работното налягане на зоната. Клапаните обикновено се групират в клапанна шахта и се свързват с колектор и фитинги. Правилно избраният клапан осигурява надеждно управление на зоната и лесна поддръжка. Разгледайте подкатегориите за по-точен избор.",
+      "helpBlock": {
+        "buttonLabel": "Монтаж и поддръжка на клапани",
+        "buttonUrl": "/blog/montazh-remont-elektromagnitni-klapani",
+        "text": "Клапаните управляват подаването на вода към отделните зони и са важен възел за надеждната работа на автоматичната система. За тази категория проверете предназначението на клапана, диаметъра на връзката, потока и работното налягане. Проверете посоката на потока, диаметъра, работното налягане и съвместимостта с управляващото оборудване; осигурете достъп за сервиз. Florial помага с подбора на съвместими компоненти за обекти в Несебър и Ахелой.",
+        "title": "Клапани за управление на поливните зони",
+        "translations": {
+          "en": {
+            "buttonLabel": "Valve Installation and Maintenance",
+            "text": "Valves control water supply to individual zones and are essential to reliable automatic irrigation. For this category, check the valve's purpose, connection size, flow direction and operating pressure. Check flow direction, connection size, operating pressure and controller compatibility, and keep the valve accessible for service. Florial helps select compatible components for irrigation projects in Nessebar and Aheloy.",
+            "title": "Valves for irrigation zone control"
+          },
+          "ru": {
+            "buttonLabel": "Монтаж и обслуживание клапанов",
+            "text": "Клапаны управляют подачей воды в отдельные зоны и являются важным узлом автоматической системы полива. Для этой категории проверьте назначение клапана, диаметр соединения, направление потока и рабочее давление. Проверьте направление потока, диаметр, рабочее давление и совместимость с контроллером; предусмотрите доступ для обслуживания. Florial помогает подобрать совместимые компоненты для систем полива в Несебр и Ахелой.",
+            "title": "Клапаны для управления зонами полива"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Клапани за автоматични поливни системи за градини в България",
+        "altEn": "Valves for automatic irrigation systems for gardens and irrigation systems in Bulgaria",
+        "altRu": "Клапаны для систем автоматического полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-617cbabe98b2806578a9cb370ed3921afa5384d9-767x618-png",
+          "_type": "reference"
+        },
+        "title": "Клапани за автоматични поливни системи – оборудване за напояване",
+        "titleEn": "Valves for automatic irrigation systems – irrigation equipment",
+        "titleRu": "Клапаны для систем автоматического полива — оборудование для полива"
+      },
+      "name": "Клапани",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Клапани за управление на зоните за поливане",
+        "keywords": [
+          "Клапани за поливни системи",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Клапаните отварят и затварят подаването на вода към отделните зони на поливната система по команда от контролера.",
+        "metaTitle": "Клапани за поливни системи | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Клапани за управление на зоните за поливане",
+          "metaDescription": "Клапаните отварят и затварят подаването на вода към отделните зони на поливната система по команда от контролера.",
+          "metaTitle": "Клапани за поливни системи | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "klapani"
+      },
+      "sortOrder": 40,
+      "translations": {
+        "en": {
+          "description": "Irrigation valves open and close the water supply to individual zones of an automatic irrigation system when commanded by the controller. When choosing a valve, consider solenoid voltage—24 V or 9 V—connection size, required flow rate and operating pressure. Valves are usually installed in a valve box with a manifold and fittings. Check controller compatibility and keep the assembly accessible for maintenance.",
+          "name": "Irrigation Valves",
+          "seo": {
+            "h1": "Valves for Irrigation Zone Control",
+            "keywords": [
+              "Irrigation Valves",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Irrigation valves open and close the water supply to individual zones of an automatic irrigation system when commanded by the controller.",
+            "metaTitle": "Irrigation Valves | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Valves for Irrigation Zone Control",
+              "metaDescription": "Irrigation valves open and close the water supply to individual zones of an automatic irrigation system when commanded by the controller.",
+              "metaTitle": "Irrigation Valves | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Клапаны открывают и перекрывают подачу воды в отдельные зоны автоматической системы полива по команде контроллера. При выборе учитывайте напряжение соленоида — 24 В или 9 В, размер подключения, требуемый расход и рабочее давление. Клапаны обычно устанавливают в клапанном боксе вместе с коллектором и фитингами. Проверьте совместимость с контроллером и оставьте свободный доступ для обслуживания.",
+          "name": "Клапаны для полива",
+          "seo": {
+            "h1": "Клапаны для управления зонами полива",
+            "keywords": [
+              "Клапаны для полива",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Клапаны открывают и перекрывают подачу воды в отдельные зоны автоматической системы полива по команде контроллера.",
+            "metaTitle": "Клапаны для полива | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Клапаны для управления зонами полива",
+              "metaDescription": "Клапаны открывают и перекрывают подачу воды в отдельные зоны автоматической системы полива по команде контроллера.",
+              "metaTitle": "Клапаны для полива | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-18T08:18:29Z",
+      "_id": "6d09232c-4c54-4ba2-b463-1cb61d7345b8",
+      "_rev": "9Jlb6k9xfgGTkBekNAMEya",
+      "_system": {
+        "base": {
+          "id": "6d09232c-4c54-4ba2-b463-1cb61d7345b8",
+          "rev": "iDEMx5YC3o85c6iUZbtxgn"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:12:11Z",
+      "description": "Шахтите, известни още като клапанни кутии, защитават електромагнитните клапани, колекторите и другите подземни компоненти на поливната система и осигуряват лесен достъп до тях при настройка, проверка и ремонт. Капакът пази връзките от пръст, камъни и животни и скрива системата в тревната площ. Размерът се избира според броя на клапаните и фитингите, които ще се разположат вътре – при тясна шахта работата с връзките е затруднена, затова е добре да се остави резерв. Изберете подходящ тип според натоварването на мястото и условията на монтаж. Правилно поставената шахта улеснява обслужването през годините.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране и монтаж на поливни системи",
+        "buttonUrl": "/services/avtomatichno-napoyavane",
+        "text": "Клапанните шахти осигуряват подреден и защитен достъп до подземните клапани и връзки. За тази категория проверете броят и размерите на клапаните, мястото за кабелните връзки и достъпа за обслужване. Съобразете броя и габаритите на компонентите, достъпа за сервиз и оттичането на водата; капакът трябва да остане видим и достъпен. Florial помага с подбора на съвместими компоненти за обекти в Слънчев бряг и Кошарица.",
+        "title": "Шахти за защита и достъп до клапаните",
+        "translations": {
+          "en": {
+            "buttonLabel": "Irrigation System Design and Installation",
+            "text": "Valve boxes provide organised and protected access to underground valves and connections. For this category, check the number and size of valves, space for cable connections and service access. Allow for component count and dimensions, service access and drainage; keep the lid visible and accessible. Florial helps select compatible components for irrigation projects in Sunny Beach and Kosharitsa.",
+            "title": "Valve boxes for protection and service access"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование и монтаж систем полива",
+            "text": "Клапанные боксы обеспечивают аккуратный и защищённый доступ к подземным клапанам и соединениям. Для этой категории проверьте количество и размеры клапанов, место для кабельных соединений и доступ для обслуживания. Учитывайте количество и размеры компонентов, доступ для обслуживания и отвод воды; крышка должна оставаться видимой и доступной. Florial помогает подобрать совместимые компоненты для систем полива в Солнечный берег и Кошарица.",
+            "title": "Шахты для защиты клапанов и доступа к обслуживанию"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Шахти за поливни клапани и оборудване за градини в България",
+        "altEn": "Valve boxes for irrigation valves and equipment for gardens and irrigation systems in Bulgaria",
+        "altRu": "Боксы для поливочных клапанов и оборудования для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-32cac4bc7aa3612e2fdb3c53c6a4e40526620673-1031x1024-png",
+          "_type": "reference"
+        },
+        "title": "Шахти за поливни клапани и оборудване – оборудване за напояване",
+        "titleEn": "Valve boxes for irrigation valves and equipment – irrigation equipment",
+        "titleRu": "Боксы для поливочных клапанов и оборудования — оборудование для полива"
+      },
+      "name": "Шахти",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "_type": "seoFields",
+        "h1": "Клапанни шахти за защита на поливните клапани",
+        "keywords": [
+          "Шахти",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Шахтите, известни още като клапанни кутии, защитават електромагнитните клапани, колекторите и другите подземни компоненти на поливната система и.",
+        "metaTitle": "Шахти | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Клапанни шахти за защита на поливните клапани",
+          "metaDescription": "Шахтите, известни още като клапанни кутии, защитават електромагнитните клапани, колекторите и другите подземни компоненти на поливната система и.",
+          "metaTitle": "Шахти | Florial",
+          "status": "approved"
+        }
+      },
+      "seoDescription": "Клапани за управление на водоподаването към отделните зони на автоматични поливни системи. Разгледайте компоненти за надеждно напояване от Florial.",
+      "seoTitle": "Клапани за автоматични поливни системи | Florial",
+      "slug": {
+        "_type": "slug",
+        "current": "shahti"
+      },
+      "sortOrder": 39,
+      "translations": {
+        "en": {
+          "description": "Valve boxes protect solenoid valves, manifolds and other underground irrigation components while keeping them accessible for adjustment, inspection and repair. The lid shields connections from soil, stones and animals and helps conceal the system in the lawn. Choose a size based on the number of valves and fittings inside; a box that is too small makes maintenance difficult, so allow extra space. Select a model suited to the expected surface load and installation conditions. A properly installed valve box makes long-term maintenance easier.",
+          "name": "Valve Boxes",
+          "seo": {
+            "h1": "Valve Boxes for Irrigation System Protection",
+            "keywords": [
+              "Valve Boxes",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Valve boxes protect solenoid valves, manifolds and other underground irrigation components while keeping them accessible for adjustment, inspection.",
+            "metaTitle": "Valve Boxes | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Valve Boxes for Irrigation System Protection",
+              "metaDescription": "Valve boxes protect solenoid valves, manifolds and other underground irrigation components while keeping them accessible for adjustment, inspection.",
+              "metaTitle": "Valve Boxes | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Клапанные боксы защищают электромагнитные клапаны, коллекторы и другие подземные компоненты системы полива и обеспечивают удобный доступ к ним при настройке, проверке и ремонте. Крышка защищает соединения от грунта, камней и животных и скрывает систему в газоне. Размер выбирают по количеству клапанов и фитингов внутри: в тесном боксе работать с соединениями неудобно, поэтому лучше оставить запас. Выбирайте тип с учётом нагрузки на месте и условий монтажа. Правильно установленный бокс упрощает обслуживание на долгие годы.",
+          "name": "Клапанные боксы",
+          "seo": {
+            "h1": "Клапанные боксы для защиты поливных клапанов",
+            "keywords": [
+              "Клапанные боксы",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Клапанные боксы защищают электромагнитные клапаны, коллекторы и другие подземные компоненты системы полива и обеспечивают удобный доступ к ним при.",
+            "metaTitle": "Клапанные боксы | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Клапанные боксы для защиты поливных клапанов",
+              "metaDescription": "Клапанные боксы защищают электромагнитные клапаны, коллекторы и другие подземные компоненты системы полива и обеспечивают удобный доступ к ним при.",
+              "metaTitle": "Клапанные боксы | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-18T08:18:29Z",
+      "_id": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+      "_rev": "iDEMx5YC3o85c6iUZc7jVU",
+      "_system": {
+        "base": {
+          "id": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "rev": "9Jlb6k9xfgGTkBekNAMEya"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:19:58Z",
+      "description": "Дюзата е малкият елемент, който решава как точно ще се разпредели водата: на какво разстояние, под какъв ъгъл и с каква интензивност. В категорията ще намерите spray (веерни) и ротаторни дюзи Rain Bird, които се монтират върху корпуси на статични разпръсквачи. Правилният избор на дюза помага за равномерно покритие, по-малък разход на вода и по-добро състояние на тревата. При подбора обърнете внимание на радиуса на действие, ъгъла на сектора, интензивността на поливане и налягането в системата, както и на това дали дюзите в една зона са от един и същи тип. Така избягвате преовлажнени и пресъхнали участъци.",
+      "helpBlock": {
+        "buttonLabel": "Монтаж и ремонт на разпръсквачи",
+        "buttonUrl": "/blog/montazh-podmyana-remont-razpruskvachi-nesebar",
+        "text": "Дюзата определя начина на разпределение на водата и влияе върху радиуса, сектора и дебита на разпръсквача. За тази категория проверете типът на дюзата, съвместимият корпус, необходимият радиус и разходът. Проверете съвместимостта с конкретния корпус и настройте сектора според формата на поливаната площ. Florial помага с подбора на съвместими компоненти за обекти в Равда и Слънчев бряг.",
+        "title": "Дюзи за разпръсквачи според радиус и сектор на поливане",
+        "translations": {
+          "en": {
+            "buttonLabel": "Sprinkler Installation and Repair",
+            "text": "The nozzle determines how water is distributed and affects a sprinkler's radius, arc and flow. For this category, check the nozzle type, compatible body, required radius and flow. Check compatibility with the exact sprinkler body and set the arc to suit the shape of the area. Florial helps select compatible components for irrigation projects in Ravda and Sunny Beach.",
+            "title": "Sprinkler nozzles selected by spray radius and arc"
+          },
+          "ru": {
+            "buttonLabel": "Монтаж и ремонт дождевателей",
+            "text": "Форсунка определяет характер распределения воды и влияет на радиус, сектор и расход дождевателя. Для этой категории проверьте тип форсунки, совместимый корпус, необходимый радиус и расход. Проверьте совместимость с конкретным корпусом и настройте сектор по форме поливаемой площади. Florial помогает подобрать совместимые компоненты для систем полива в Равда и Солнечный берег.",
+            "title": "Форсунки для дождевателей с подбором по радиусу и сектору полива"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Дюзи за разпръсквачи в автоматични поливни системи за градини в България",
+        "altEn": "Nozzles for automatic irrigation sprinklers for gardens and irrigation systems in Bulgaria",
+        "altRu": "Форсунки для дождевателей автоматического полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-d16da6d231f4e4e8524293afe4d5c3f22f55a22d-960x1096-png",
+          "_type": "reference"
+        },
+        "title": "Дюзи за разпръсквачи в автоматични поливни системи – оборудване за напояване",
+        "titleEn": "Nozzles for automatic irrigation sprinklers – irrigation equipment",
+        "titleRu": "Форсунки для дождевателей автоматического полива — оборудование для полива"
+      },
+      "name": "Дюзи",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "_type": "seoFields",
+        "h1": "Дюзи за разпръсквачи и поливни системи",
+        "keywords": [
+          "Дюзи",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Дюзата е малкият елемент, който решава как точно ще се разпредели водата: на какво разстояние, под какъв ъгъл и с каква интензивност.",
+        "metaTitle": "Дюзи | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Дюзи за разпръсквачи и поливни системи",
+          "metaDescription": "Дюзата е малкият елемент, който решава как точно ще се разпредели водата: на какво разстояние, под какъв ъгъл и с каква интензивност.",
+          "metaTitle": "Дюзи | Florial",
+          "status": "approved"
+        }
+      },
+      "seoDescription": "Дюзи за поливни системи — Spray и ротаторни модели Rain Bird за избор на обхват, ъгъл и интензитет на поливане. Намерете подходящите компоненти от Florial.",
+      "seoTitle": "Дюзи за автоматично напояване | Florial",
+      "slug": {
+        "_type": "slug",
+        "current": "nozzles"
+      },
+      "sortOrder": 30,
+      "translations": {
+        "en": {
+          "description": "A nozzle determines how water is distributed: the throw distance, watering arc and application rate. This category includes Rain Bird spray and rotary nozzles fitted to spray sprinkler bodies. Choosing the right nozzle helps deliver even coverage, reduce water use and maintain a healthier lawn. Consider the radius, arc, application rate and system pressure, and use the same nozzle type within each irrigation zone to avoid areas that are overwatered or too dry.",
+          "name": "Nozzles",
+          "seo": {
+            "h1": "Nozzles for Sprinklers and Irrigation Systems",
+            "keywords": [
+              "Nozzles",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "A nozzle determines how water is distributed: the throw distance, watering arc and application rate.",
+            "metaTitle": "Nozzles | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Nozzles for Sprinklers and Irrigation Systems",
+              "metaDescription": "A nozzle determines how water is distributed: the throw distance, watering arc and application rate.",
+              "metaTitle": "Nozzles | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Форсунка — небольшой элемент, который определяет, как именно распределится вода: на какое расстояние, под каким углом и с какой интенсивностью. В категории — веерные (Spray) и ротаторные форсунки Rain Bird, устанавливаемые на корпуса статических дождевателей. Правильно выбранная форсунка даёт равномерное покрытие, снижает расход воды и улучшает состояние газона. При подборе учитывайте радиус действия, угол сектора, интенсивность полива и давление в системе, а также используйте в одной зоне форсунки одного типа. Так вы избежите переувлажнённых и пересохших участков.",
+          "name": "Форсунки",
+          "seo": {
+            "h1": "Форсунки для дождевателей и систем полива",
+            "keywords": [
+              "Форсунки",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Форсунка — небольшой элемент, который определяет, как именно распределится вода: на какое расстояние, под каким углом и с какой интенсивностью.",
+            "metaTitle": "Форсунки | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Форсунки для дождевателей и систем полива",
+              "metaDescription": "Форсунка — небольшой элемент, который определяет, как именно распределится вода: на какое расстояние, под каким углом и с какой интенсивностью.",
+              "metaTitle": "Форсунки | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-18T08:18:29Z",
+      "_id": "de7ecefe-0a25-41ed-8146-ce475efb2378",
+      "_rev": "iDEMx5YC3o85c6iUZc5cSo",
+      "_system": {
+        "base": {
+          "id": "de7ecefe-0a25-41ed-8146-ce475efb2378",
+          "rev": "3ZWSWJ5PmrYEk5hKDtts9C"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:12:54Z",
+      "description": "Разпръсквачите са основният елемент на системата за автоматично поливане на трева: те разпределят водата по зададен сектор и разстояние. В категорията са роторните и статичните разпръсквачи Rain Bird, предназначени за подземен монтаж в градини, дворове и паркови площи. Роторните са подходящи за по-големи открити пространства, а статичните – за малки и средни зони, ъгли и тесни ивици. Изборът зависи от размера и формата на тревната площ, наличното налягане и дебит на водата и от съвместимостта с дюзите и клапаните. Правилно подбраните разпръсквачи осигуряват равномерно покритие без излишен разход на вода.",
+      "helpBlock": {
+        "buttonLabel": "Монтаж и ремонт на разпръсквачи",
+        "buttonUrl": "/blog/montazh-podmyana-remont-razpruskvachi-nesebar",
+        "text": "Роторните и статичните разпръсквачи се избират според формата и размера на тревната зона, наличните дебит и налягане и необходимото припокриване на струите. Проверете радиуса, сектора, вида на дюзата, височината на корпуса и разстоянието между главите. В една зона съчетавайте модели с подходяща интензивност на поливане, за да избегнете сухи петна и преовлажняване. Florial помага с подбора, разположението, настройката и ремонта на системи в Несебър, Равда и Свети Влас.",
+        "title": "Разпръсквачи за равномерно напояване на тревни площи",
+        "translations": {
+          "en": {
+            "buttonLabel": "Sprinkler Installation and Repair",
+            "text": "Rotor and spray sprinklers should be selected for the shape and size of the lawn zone, available flow and pressure, and the required head-to-head coverage. Check radius, arc, nozzle type, body height and spacing. Use sprinklers with compatible precipitation rates within one zone to avoid dry patches and overwatering. Florial can help select, position, adjust and repair irrigation systems in Nessebar, Ravda and Sveti Vlas.",
+            "title": "Sprinklers for even lawn irrigation"
+          },
+          "ru": {
+            "buttonLabel": "Монтаж и ремонт дождевателей",
+            "text": "Роторные и статические дождеватели подбирают с учётом формы и площади зоны, доступного расхода и давления, а также необходимого перекрытия струй. Проверьте радиус, сектор, тип форсунки, высоту корпуса и расстояние между головками. В одной зоне сочетайте модели с совместимой интенсивностью полива, чтобы избежать сухих пятен и переувлажнения. Florial помогает с подбором, размещением, настройкой и ремонтом систем в Несебре, Равде и Святом Власе.",
+            "title": "Дождеватели для равномерного полива газона"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Разпръсквачи за автоматични поливни системи за градини в България",
+        "altEn": "Sprinklers for automatic irrigation systems for gardens and irrigation systems in Bulgaria",
+        "altRu": "Дождеватели для систем автоматического полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-03d8e1d6d7213a385e65c0cdebb61f722b040e43-691x774-png",
+          "_type": "reference"
+        },
+        "title": "Разпръсквачи за автоматични поливни системи – оборудване за напояване",
+        "titleEn": "Sprinklers for automatic irrigation systems – irrigation equipment",
+        "titleRu": "Дождеватели для систем автоматического полива — оборудование для полива"
+      },
+      "name": "Разпръсквачи",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "_type": "seoFields",
+        "h1": "Разпръсквачи за автоматично напояване на тревни площи",
+        "keywords": [
+          "Разпръсквачи",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Разпръсквачите са основният елемент на системата за автоматично поливане на трева: те разпределят водата по зададен сектор и разстояние.",
+        "metaTitle": "Разпръсквачи | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Разпръсквачи за автоматично напояване на тревни площи",
+          "metaDescription": "Разпръсквачите са основният елемент на системата за автоматично поливане на трева: те разпределят водата по зададен сектор и разстояние.",
+          "metaTitle": "Разпръсквачи | Florial",
+          "status": "approved"
+        }
+      },
+      "seoDescription": "Разпръсквачи Rain Bird за автоматично напояване на градини, дворове и тревни площи. Изберете роторни и статични модели според площта и налягането.",
+      "seoTitle": "Разпръсквачи за автоматично поливане | Florial",
+      "slug": {
+        "_type": "slug",
+        "current": "sprinklers"
+      },
+      "sortOrder": 11,
+      "translations": {
+        "en": {
+          "description": "Sprinklers are a core part of an automatic lawn irrigation system, distributing water across a set arc and distance. This category includes Rain Bird rotor and spray sprinklers designed for underground installation in gardens, yards and parks. Rotors suit larger open areas, while spray sprinklers are ideal for small and medium zones, corners and narrow strips. Selection depends on lawn size and shape, available water pressure and flow, and compatibility with nozzles and valves. Correctly selected sprinklers provide even coverage without wasting water.",
+          "name": "Sprinklers",
+          "seo": {
+            "h1": "Sprinklers for Automatic Lawn Irrigation",
+            "keywords": [
+              "Sprinklers",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Sprinklers are a core part of an automatic lawn irrigation system, distributing water across a set arc and distance.",
+            "metaTitle": "Sprinklers | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Sprinklers for Automatic Lawn Irrigation",
+              "metaDescription": "Sprinklers are a core part of an automatic lawn irrigation system, distributing water across a set arc and distance.",
+              "metaTitle": "Sprinklers | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Дождеватели — основной элемент системы автоматического полива газона: они распределяют воду по заданному сектору и на заданное расстояние. В категории — роторные и статические дождеватели Rain Bird для подземной установки в садах, дворах и парковых зонах. Роторные подходят для больших открытых пространств, статические — для небольших и средних зон, углов и узких полос. Выбор зависит от размера и формы газона, имеющегося давления и расхода воды, а также от совместимости с форсунками и клапанами. Правильно подобранные дождеватели дают равномерное покрытие без лишнего расхода воды.",
+          "name": "Дождеватели",
+          "seo": {
+            "h1": "Дождеватели для автоматического полива газонов",
+            "keywords": [
+              "Дождеватели",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Дождеватели — основной элемент системы автоматического полива газона: они распределяют воду по заданному сектору и на заданное расстояние.",
+            "metaTitle": "Дождеватели | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Дождеватели для автоматического полива газонов",
+              "metaDescription": "Дождеватели — основной элемент системы автоматического полива газона: они распределяют воду по заданному сектору и на заданное расстояние.",
+              "metaTitle": "Дождеватели | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-23T13:03:49Z",
+      "_id": "1893467b-642c-4b5f-b6bf-e9d3219c0a2d",
+      "_rev": "9Jlb6k9xfgGTkBekNAMDnq",
+      "_system": {
+        "base": {
+          "id": "1893467b-642c-4b5f-b6bf-e9d3219c0a2d",
+          "rev": "iDEMx5YC3o85c6iUZbtxgn"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:11:59Z",
+      "description": "Филтрите задържат механичните частици от водата и предпазват капковите излъчватели от запушване, а регулаторите на налягане понижават и стабилизират налягането до стойността, подходяща за капковата система. Заедно те удължават живота на тръбите и фитингите и осигуряват равномерно поливане на всички растения. Категорията е особено важна при вода от кладенец, сондаж или резервоар, където е по-вероятно да има пясък и други частици. При избора съобразете дебита, налягането на водоизточника, размера на връзката и степента на филтрация. Филтърът се почиства редовно – това е най-лесният начин да избегнете проблеми.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране и монтаж на поливни системи",
+        "buttonUrl": "/services/avtomatichno-napoyavane",
+        "text": "Филтрацията предпазва дюзите и капковите елементи от частици, а регулирането на налягането подпомага правилната им работа. За тази категория проверете необходимата степен на филтрация и подходящият диапазон за регулиране на налягането. Подберете филтъра според водоизточника и изискванията на системата; предвидете достъп за промиване и периодична проверка. Florial помага с подбора на съвместими компоненти за обекти в Слънчев бряг и Кошарица.",
+        "title": "Филтрация и контрол на налягането",
+        "translations": {
+          "en": {
+            "buttonLabel": "Irrigation System Design and Installation",
+            "text": "Filtration protects nozzles and drip components from particles, while pressure regulation helps them operate correctly. For this category, check the required filtration level and suitable pressure-adjustment range. Select filtration for the water source and system requirements, with access for flushing and periodic inspection. Florial helps select compatible components for irrigation projects in Sunny Beach and Kosharitsa.",
+            "title": "Filtration and pressure control"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование и монтаж систем полива",
+            "text": "Фильтрация защищает форсунки и элементы капельного полива от частиц, а регулирование давления помогает им работать корректно. Для этой категории проверьте необходимую степень фильтрации и подходящий диапазон регулирования давления. Подбирайте фильтр с учётом источника воды и требований системы; предусмотрите доступ для промывки и регулярной проверки. Florial помогает подобрать совместимые компоненты для систем полива в Солнечный берег и Кошарица.",
+            "title": "Фильтрация и регулирование давления"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Филтри и регулатори на налягане за градини в България",
+        "altEn": "Filters and pressure regulators for gardens and irrigation systems in Bulgaria",
+        "altRu": "Фильтры и регуляторы давления для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-a7cf67cd8a36989c81658d208de17beba265a165-592x590-png",
+          "_type": "reference"
+        },
+        "title": "Филтри и регулатори на налягане – оборудване за напояване",
+        "titleEn": "Filters and pressure regulators – irrigation equipment",
+        "titleRu": "Фильтры и регуляторы давления — оборудование для полива"
+      },
+      "name": "Филтри и регулатори на налягане",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Филтри и регулатори на налягане за поливни системи",
+        "keywords": [
+          "Филтри и регулатори на налягане",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Филтрите задържат механичните частици от водата и предпазват капковите излъчватели от запушване.",
+        "metaTitle": "Филтри и регулатори на налягане | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Филтри и регулатори на налягане за поливни системи",
+          "metaDescription": "Филтрите задържат механичните частици от водата и предпазват капковите излъчватели от запушване.",
+          "metaTitle": "Филтри и регулатори на налягане | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "filtri-regulatori-nalyagane"
+      },
+      "sortOrder": 90,
+      "translations": {
+        "en": {
+          "description": "Filters trap particles in the water and protect drip emitters from clogging, while pressure regulators reduce and stabilise pressure to a level suitable for the irrigation system. These components are especially important when using water from a well, borehole or tank. Consider flow rate, source pressure, connection size and filtration rating when choosing. Clean the filter regularly to maintain even watering and extend equipment life.",
+          "name": "Filters & Pressure Regulators",
+          "seo": {
+            "h1": "Filters and Pressure Regulators for Irrigation Systems",
+            "keywords": [
+              "Filters & Pressure Regulators",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Filters trap particles in the water and protect drip emitters from clogging.",
+            "metaTitle": "Filters & Pressure Regulators | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Filters and Pressure Regulators for Irrigation Systems",
+              "metaDescription": "Filters trap particles in the water and protect drip emitters from clogging.",
+              "metaTitle": "Filters & Pressure Regulators | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Фильтры задерживают частицы в воде и защищают капельные эмиттеры от засорения, а регуляторы снижают и стабилизируют давление до подходящего для системы уровня. Эти компоненты особенно важны при использовании воды из колодца, скважины или резервуара. При выборе учитывайте расход, давление источника, размер подключения и степень фильтрации. Регулярно очищайте фильтр, чтобы поддерживать равномерный полив и продлить срок службы оборудования.",
+          "name": "Фильтры и регуляторы давления",
+          "seo": {
+            "h1": "Фильтры и регуляторы давления для систем полива",
+            "keywords": [
+              "Фильтры и регуляторы давления",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Фильтры задерживают частицы в воде и защищают капельные эмиттеры от засорения.",
+            "metaTitle": "Фильтры и регуляторы давления | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Фильтры и регуляторы давления для систем полива",
+              "metaDescription": "Фильтры задерживают частицы в воде и защищают капельные эмиттеры от засорения.",
+              "metaTitle": "Фильтры и регуляторы давления | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-29T19:04:49Z",
+      "_id": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+      "_rev": "9Jlb6k9xfgGTkBekNAMDnq",
+      "_system": {
+        "base": {
+          "id": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+          "rev": "iDEMx5YC3o85c6iUZbtxgn"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:11:59Z",
+      "description": "Готови комплекти за автоматично поливане на тревни площи и градини. Изберете решение според площта, броя поливни зони, водния дебит и работното налягане.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране и монтаж на поливни системи",
+        "buttonUrl": "/services/avtomatichno-napoyavane",
+        "text": "Готовият комплект улеснява изграждането на поливна система за двор, градина или отделна зона. За тази категория проверете площта за напояване, наличният дебит и налягане, както и броят на отделните зони. Преди покупка проверете наличния дебит и налягане, площта и броя на зоните; при сложен терен компонентите трябва да се оразмерят индивидуално. Florial помага с подбора на съвместими компоненти за обекти в Несебър и Равда.",
+        "title": "Готови комплекти за автоматично поливане",
+        "translations": {
+          "en": {
+            "buttonLabel": "Irrigation System Design and Installation",
+            "text": "A ready-made kit simplifies the installation of an irrigation system for a courtyard, garden or individual zone. For this category, check the irrigation area, available flow and pressure, and the number of separate zones. Before buying, check available flow and pressure, the area and number of zones; complex sites may require individual sizing. Florial helps select compatible components for irrigation projects in Nessebar and Ravda.",
+            "title": "Ready-made automatic irrigation kits"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование и монтаж систем полива",
+            "text": "Готовый комплект упрощает создание системы полива для двора, сада или отдельной зоны. Для этой категории проверьте площадь полива, доступный расход и давление, а также количество отдельных зон. Перед покупкой проверьте доступный расход и давление, площадь и количество зон; для сложного участка может потребоваться индивидуальный расчёт. Florial помогает подобрать совместимые компоненты для систем полива в Несебр и Равда.",
+            "title": "Готовые комплекты автоматического полива"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Готови комплекти за автоматично поливане на градини за градини в България",
+        "altEn": "Ready-made automatic garden irrigation kits for gardens and irrigation systems in Bulgaria",
+        "altRu": "Готовые комплекты автоматического полива для сада для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-e747c2b0726c96c773ed663b795edd6bbe86663f-1000x918-png",
+          "_type": "reference"
+        },
+        "title": "Готови комплекти за автоматично поливане на градини – оборудване за напояване",
+        "titleEn": "Ready-made automatic garden irrigation kits – irrigation equipment",
+        "titleRu": "Готовые комплекты автоматического полива для сада — оборудование для полива"
+      },
+      "name": "Готови комплекти за автоматично поливане",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Готови комплекти за автоматично поливане на градини",
+        "keywords": [
+          "Готови комплекти за автоматично поливане",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Готови комплекти за автоматично поливане на тревни площи и градини.",
+        "metaTitle": "Готови комплекти за автоматично поливане | Florial",
+        "noIndex": false,
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Готови комплекти за автоматично поливане на градини",
+          "metaDescription": "Готови комплекти за автоматично поливане на тревни площи и градини.",
+          "metaTitle": "Готови комплекти за автоматично поливане | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "gotovi-komplekti-za-polivane"
+      },
+      "sortOrder": 90,
+      "translations": {
+        "en": {
+          "description": "Ready-made equipment kits for automatic irrigation of lawns and gardens. Choose a solution according to the area to be watered, the number of irrigation zones, the available water flow rate and working pressure. This category includes kits with controllers and solenoid valves as well as simpler manually operated options. Before purchasing, check the water source parameters and make sure the kit configuration matches the site layout.",
+          "name": "Ready-made automatic irrigation kits",
+          "seo": {
+            "h1": "Complete Automatic Irrigation Kits for Gardens",
+            "keywords": [
+              "Ready-made automatic irrigation kits",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Ready-made equipment kits for automatic irrigation of lawns and gardens.",
+            "metaTitle": "Ready-made automatic irrigation kits | Florial",
+            "noIndex": false,
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Complete Automatic Irrigation Kits for Gardens",
+              "metaDescription": "Ready-made equipment kits for automatic irrigation of lawns and gardens.",
+              "metaTitle": "Ready-made automatic irrigation kits | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Готовые комплекты оборудования для автоматического полива газонов и садов. Подберите решение с учётом площади участка, количества зон полива, доступного расхода воды и рабочего давления. В категории представлены комплекты с контроллерами и электромагнитными клапанами, а также более простые варианты с ручным управлением. Перед покупкой проверьте параметры источника воды и соответствие комплектации плану участка.",
+          "name": "Готовые комплекты автоматического полива",
+          "seo": {
+            "h1": "Готовые комплекты автоматического полива для сада",
+            "keywords": [
+              "Готовые комплекты автоматического полива",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Готовые комплекты оборудования для автоматического полива газонов и садов.",
+            "metaTitle": "Готовые комплекты автоматического полива | Florial",
+            "noIndex": false,
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Готовые комплекты автоматического полива для сада",
+              "metaDescription": "Готовые комплекты оборудования для автоматического полива газонов и садов.",
+              "metaTitle": "Готовые комплекты автоматического полива | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-23T13:03:49Z",
+      "_id": "7b11a55e-19a1-4fe5-8a94-2df53864aaf0",
+      "_rev": "9Jlb6k9xfgGTkBekNAMEya",
+      "_system": {
+        "base": {
+          "id": "7b11a55e-19a1-4fe5-8a94-2df53864aaf0",
+          "rev": "iDEMx5YC3o85c6iUZbtxgn"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:12:11Z",
+      "description": "Тази категория включва всичко за свързване на поливната система: тръби, гъвкави връзки, фитинги, съединители и аксесоари. Те пренасят водата от водоизточника до клапаните и разпръсквачите и осигуряват херметични и дълготрайни връзки. Изборът зависи от диаметъра и типа на тръбата, работното налягане и дебита, както и от начина на монтаж на конкретния обект. Съобразете размерите и типа на съединенията, за да са съвместими с останалите компоненти – така избягвате течове и загуба на налягане. В подкатегориите ще намерите фитинги за разпръсквачи и за клапани. При нужда екипът на Florial ще ви помогне да подберете компонентите.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране и монтаж на поливни системи",
+        "buttonUrl": "/services/avtomatichno-napoyavane",
+        "text": "Тръбите и съединителите образуват разпределителната мрежа, която доставя водата до отделните поливни зони. За тази категория проверете диаметърът и материалът на тръбите, типът на връзките и класът на налягане. Съобразете диаметъра, материала, PN класа и начина на полагане; планирайте трасето с възможност за достъп и ремонт. Florial помага с подбора на съвместими компоненти за обекти в Равда и Слънчев бряг.",
+        "title": "Тръби и съединители за изграждане на поливна мрежа",
+        "translations": {
+          "en": {
+            "buttonLabel": "Irrigation System Design and Installation",
+            "text": "Pipes and connectors form the distribution network that carries water to individual irrigation zones. For this category, check pipe diameter and material, connection type and pressure rating. Consider diameter, material, PN rating and installation method; plan routes so joints remain accessible for maintenance. Florial helps select compatible components for irrigation projects in Ravda and Sunny Beach.",
+            "title": "Pipes and connectors for irrigation networks"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование и монтаж систем полива",
+            "text": "Трубы и соединители образуют распределительную сеть, подающую воду к отдельным зонам полива. Для этой категории проверьте диаметр и материал труб, тип соединений и класс давления. Учитывайте диаметр, материал, класс PN и способ укладки; планируйте трассу так, чтобы соединения оставались доступными для ремонта. Florial помогает подобрать совместимые компоненты для систем полива в Равда и Солнечный берег.",
+            "title": "Трубы и соединители для устройства поливной сети"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Тръби, фитинги и аксесоари за поливни системи за градини в България",
+        "altEn": "Pipes, fittings and accessories for irrigation systems for gardens and irrigation systems in Bulgaria",
+        "altRu": "Трубы, фитинги и аксессуары для систем полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-10ce9f2e83e79da7af97bfc975b74977637e565e-800x800-jpg",
+          "_type": "reference"
+        },
+        "title": "Тръби, фитинги и аксесоари за поливни системи – оборудване за напояване",
+        "titleEn": "Pipes, fittings and accessories for irrigation systems – irrigation equipment",
+        "titleRu": "Трубы, фитинги и аксессуары для систем полива — оборудование для полива"
+      },
+      "name": "Тръби, фитинги и аксесоари",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Тръби и фитинги за изграждане на поливни системи",
+        "keywords": [
+          "Тръби, фитинги и аксесоари",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Тази категория включва всичко за свързване на поливната система: тръби, гъвкави връзки, фитинги, съединители и аксесоари.",
+        "metaTitle": "Тръби, фитинги и аксесоари | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Тръби и фитинги за изграждане на поливни системи",
+          "metaDescription": "Тази категория включва всичко за свързване на поливната система: тръби, гъвкави връзки, фитинги, съединители и аксесоари.",
+          "metaTitle": "Тръби, фитинги и аксесоари | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "trabi-fitingi-aksesoari"
+      },
+      "sortOrder": 70,
+      "translations": {
+        "en": {
+          "description": "This category brings together pipes, flexible connections, fittings, couplers and accessories for installing an irrigation system. They carry water from the source to valves and sprinklers and provide secure, leak-resistant connections. Consider pipe diameter and type, operating pressure, flow rate and installation method. Check connection sizes and types to ensure compatibility and avoid leaks or pressure loss.",
+          "name": "Pipes, Fittings & Accessories",
+          "seo": {
+            "h1": "Pipes and Fittings for Irrigation Systems",
+            "keywords": [
+              "Pipes, Fittings & Accessories",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "This category brings together pipes, flexible connections, fittings, couplers and accessories for installing an irrigation system.",
+            "metaTitle": "Pipes, Fittings & Accessories | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Pipes and Fittings for Irrigation Systems",
+              "metaDescription": "This category brings together pipes, flexible connections, fittings, couplers and accessories for installing an irrigation system.",
+              "metaTitle": "Pipes, Fittings & Accessories | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "В этой категории собраны трубы, гибкие соединения, фитинги, соединители и аксессуары для монтажа системы полива. Они подают воду от источника к клапанам и дождевателям и обеспечивают герметичное соединение компонентов. При выборе учитывайте диаметр и тип трубы, рабочее давление, расход и способ монтажа. Проверьте размеры и тип соединений, чтобы все детали были совместимы и не возникали утечки или потери давления.",
+          "name": "Трубы, фитинги и аксессуары",
+          "seo": {
+            "h1": "Трубы и фитинги для систем полива",
+            "keywords": [
+              "Трубы, фитинги и аксессуары",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "В этой категории собраны трубы, гибкие соединения, фитинги, соединители и аксессуары для монтажа системы полива.",
+            "metaTitle": "Трубы, фитинги и аксессуары | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Трубы и фитинги для систем полива",
+              "metaDescription": "В этой категории собраны трубы, гибкие соединения, фитинги, соединители и аксессуары для монтажа системы полива.",
+              "metaTitle": "Трубы, фитинги и аксессуары | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-23T13:03:49Z",
+      "_id": "d9a591ba-c63b-4d8c-8cae-3a6aed6e2b8d",
+      "_rev": "iDEMx5YC3o85c6iUZc5cSo",
+      "_system": {
+        "base": {
+          "id": "d9a591ba-c63b-4d8c-8cae-3a6aed6e2b8d",
+          "rev": "3ZWSWJ5PmrYEk5hKDtts9C"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:12:54Z",
+      "description": "В тази категория са допълнителните компоненти и аксесоари, които не попадат в другите групи, но са нужни за изграждане, свързване и поддръжка на системата за автоматично напояване. Те допълват основното оборудване – разпръсквачи, клапани, контролери и тръби – и помагат да завършите проекта без компромиси. Преди покупка проверете съвместимостта с вашата система, размера на връзките и работното налягане. Ако търсите конкретна част и не я намирате в другите категории, прегледайте и този раздел или се свържете с екипа на Florial – ще ви помогнем да подберете подходящия компонент.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране и монтаж на поливни системи",
+        "buttonUrl": "/services/avtomatichno-napoyavane",
+        "text": "В тази категория са помощни елементи за свързване, защита и обслужване на автоматичното напояване, които не попадат в основните продуктови групи. При избора проверете конкретното предназначение, материала, размера на връзките и допустимото работно налягане; не приемайте, че външно сходни части са взаимозаменяеми. Ако не сте сигурни кой компонент е необходим, изпратете снимка на съществуващия възел или схема на системата. Florial помага на клиенти в Бургас, Ахелой и Каблешково да подберат съвместими части.",
+        "title": "Допълнителни компоненти за завършване на поливната система",
+        "translations": {
+          "en": {
+            "buttonLabel": "Irrigation System Design and Installation",
+            "text": "This category contains supporting parts for connecting, protecting and maintaining automatic irrigation that do not belong to the main product groups. Check the exact function, material, connection sizes and permitted operating pressure; visually similar parts are not necessarily interchangeable. If you are unsure which component is required, send a photo of the existing assembly or an irrigation layout. Florial helps customers in Burgas, Aheloy and Kableshkovo select compatible parts.",
+            "title": "Additional components to complete an irrigation system"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование и монтаж систем полива",
+            "text": "В этой категории собраны вспомогательные детали для соединения, защиты и обслуживания автоматического полива, которые не относятся к основным товарным группам. При подборе проверьте назначение, материал, размеры соединений и допустимое рабочее давление: внешне похожие детали не всегда взаимозаменяемы. Если вы не уверены, какая деталь нужна, отправьте фото существующего узла или схему системы. Florial помогает подобрать совместимые компоненты в Бургасе, Ахелое и Каблешково.",
+            "title": "Дополнительные компоненты для комплектации системы полива"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Други компоненти и резервни части за поливни системи за градини в България",
+        "altEn": "Other components and spare parts for irrigation systems for gardens and irrigation systems in Bulgaria",
+        "altRu": "Другие компоненты и запасные части для систем полива для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-6f5c17343c95bebc1191858f3057be231f240466-1254x1254-png",
+          "_type": "reference"
+        },
+        "title": "Други компоненти и резервни части за поливни системи – оборудване за напояване",
+        "titleEn": "Other components and spare parts for irrigation systems – irrigation equipment",
+        "titleRu": "Другие компоненты и запасные части для систем полива — оборудование для полива"
+      },
+      "name": "Други компоненти за поливане",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Допълнителни компоненти за поливни системи",
+        "keywords": [
+          "Други компоненти за поливане",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "В тази категория са допълнителните компоненти и аксесоари, които не попадат в другите групи, но са нужни за изграждане, свързване и поддръжка на.",
+        "metaTitle": "Други компоненти за поливане | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Допълнителни компоненти за поливни системи",
+          "metaDescription": "В тази категория са допълнителните компоненти и аксесоари, които не попадат в другите групи, но са нужни за изграждане, свързване и поддръжка на.",
+          "metaTitle": "Други компоненти за поливане | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "drugi-komponenti-za-polivane"
+      },
+      "sortOrder": 80,
+      "translations": {
+        "en": {
+          "description": "Additional components and accessories for installing, connecting and maintaining automatic irrigation systems. They complement sprinklers, valves, controllers and pipes to help complete your project. Before purchasing, check compatibility with your system, connection sizes and operating pressure. If you cannot find a specific part in another category, check this section.",
+          "name": "Other Irrigation Components",
+          "seo": {
+            "h1": "Additional Components for Irrigation Systems",
+            "keywords": [
+              "Other Irrigation Components",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Additional components and accessories for installing, connecting and maintaining automatic irrigation systems.",
+            "metaTitle": "Other Irrigation Components | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Additional Components for Irrigation Systems",
+              "metaDescription": "Additional components and accessories for installing, connecting and maintaining automatic irrigation systems.",
+              "metaTitle": "Other Irrigation Components | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Дополнительные компоненты и аксессуары для монтажа, соединения и обслуживания систем автоматического полива. Они дополняют дождеватели, клапаны, контроллеры и трубы и помогают завершить проект. Перед покупкой проверьте совместимость с вашей системой, размеры подключений и рабочее давление. Если нужной детали нет в других категориях, проверьте этот раздел.",
+          "name": "Другие компоненты для полива",
+          "seo": {
+            "h1": "Дополнительные компоненты для систем полива",
+            "keywords": [
+              "Другие компоненты для полива",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Дополнительные компоненты и аксессуары для монтажа, соединения и обслуживания систем автоматического полива.",
+            "metaTitle": "Другие компоненты для полива | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Дополнительные компоненты для систем полива",
+              "metaDescription": "Дополнительные компоненты и аксессуары для монтажа, соединения и обслуживания систем автоматического полива.",
+              "metaTitle": "Другие компоненты для полива | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-23T13:03:49Z",
+      "_id": "e577ef6b-d164-488f-b2f0-29ff7e8e7e9b",
+      "_rev": "iDEMx5YC3o85c6iUZc5cSo",
+      "_system": {
+        "base": {
+          "id": "e577ef6b-d164-488f-b2f0-29ff7e8e7e9b",
+          "rev": "3ZWSWJ5PmrYEk5hKDtts9C"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-05T12:12:54Z",
+      "description": "Капковото напояване подава вода бавно и директно в кореновата зона на растенията – за по-малък разход на вода, по-малко изпарение и по-малко плевели между растенията. Подходящо е за живи плетове, храсти, дървета, цветни лехи, зеленчукови градини и саксии. В категорията ще намерите капкови маркучи и тръби, фитинги, а също филтри и регулатори на налягане – важни за дълготрайната работа на системата. Изборът на компоненти зависи от водоизточника, налягането, дебита и схемата на засаждане. Системата лесно се свързва с контролер и клапани за автоматично управление. Разгледайте подкатегориите за тръби, фитинги и защита.",
+      "helpBlock": {
+        "buttonLabel": "Проектиране на капково напояване",
+        "buttonUrl": "/services/avtomatizirano-kapkovo-napoyavane",
+        "text": "Капковото напояване подава водата директно в кореновата зона и е подходящо за живи плетове, дървета, храсти, цветни лехи и насаждения в редове. Схемата се определя според вида и разположението на растенията, дължината на линиите, водоизточника и наличния дебит. Предвидете филтър, подходящо регулиране на налягането и възможност за промиване на тръбите. Florial проектира и монтира капкови системи за градини и хотели в Несебър, Слънчев бряг и Бургас.",
+        "title": "Капково напояване за живи плетове, дървета и лехи",
+        "translations": {
+          "en": {
+            "buttonLabel": "Drip Irrigation Design",
+            "text": "Drip irrigation delivers water directly to the root zone and suits hedges, trees, shrubs, flower beds and row planting. The layout depends on plant type and spacing, line length, water source and available flow. Include filtration, suitable pressure regulation and a way to flush the lines. Florial designs and installs drip systems for gardens and hotels in Nessebar, Sunny Beach and Burgas.",
+            "title": "Drip irrigation for hedges, trees and planting beds"
+          },
+          "ru": {
+            "buttonLabel": "Проектирование капельного полива",
+            "text": "Капельный полив подаёт воду непосредственно в корневую зону и подходит для живых изгородей, деревьев, кустарников, цветников и рядовых посадок. Схему определяют по видам и расположению растений, длине линий, источнику воды и доступному расходу. Предусмотрите фильтрацию, подходящее регулирование давления и возможность промывки трубок. Florial проектирует и монтирует капельные системы для садов и гостиниц в Несебре, Солнечном Береге и Бургасе.",
+            "title": "Капельный полив для изгородей, деревьев и клумб"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Системи за капково напояване на градини за градини в България",
+        "altEn": "Drip irrigation systems for gardens for gardens and irrigation systems in Bulgaria",
+        "altRu": "Системы капельного полива для сада для садов и систем полива в Болгарии",
+        "asset": {
+          "_ref": "image-048aeb8ad4cb9c4afcc493e7c7742945b8de793c-1037x1024-png",
+          "_type": "reference"
+        },
+        "title": "Системи за капково напояване на градини – оборудване за напояване",
+        "titleEn": "Drip irrigation systems for gardens – irrigation equipment",
+        "titleRu": "Системы капельного полива для сада — оборудование для полива"
+      },
+      "name": "Капково напояване",
+      "parent": {
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Капково напояване за градини и насаждения",
+        "keywords": [
+          "Капково напояване",
+          "оборудване за напояване",
+          "автоматично напояване",
+          "поливни системи",
+          "Florial"
+        ],
+        "metaDescription": "Капковото напояване подава вода бавно и директно в кореновата зона на растенията – за по-малък разход на вода.",
+        "metaTitle": "Капково напояване | Florial",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Капково напояване за градини и насаждения",
+          "metaDescription": "Капковото напояване подава вода бавно и директно в кореновата зона на растенията – за по-малък разход на вода.",
+          "metaTitle": "Капково напояване | Florial",
+          "status": "approved"
+        }
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "kapkovo-napoyavane"
+      },
+      "sortOrder": 100,
+      "translations": {
+        "en": {
+          "description": "Drip irrigation delivers water slowly and directly to plant root zones, reducing evaporation and water use. It is suitable for hedges, shrubs, trees, flower beds, vegetable gardens and container plants. This category includes drip tubing, fittings, filters and pressure regulators. Choose components according to the water source, pressure, flow rate and planting layout. The system can be automated with a controller and valves.",
+          "name": "Drip Irrigation",
+          "seo": {
+            "h1": "Drip Irrigation for Gardens and Planting Beds",
+            "keywords": [
+              "Drip Irrigation",
+              "irrigation equipment",
+              "automatic irrigation",
+              "irrigation systems",
+              "Florial"
+            ],
+            "metaDescription": "Drip irrigation delivers water slowly and directly to plant root zones, reducing evaporation and water use.",
+            "metaTitle": "Drip Irrigation | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Drip Irrigation for Gardens and Planting Beds",
+              "metaDescription": "Drip irrigation delivers water slowly and directly to plant root zones, reducing evaporation and water use.",
+              "metaTitle": "Drip Irrigation | Florial",
+              "status": "approved"
+            }
+          }
+        },
+        "ru": {
+          "description": "Капельный полив подаёт воду медленно и непосредственно к корням растений, сокращая испарение и расход воды. Он подходит для живых изгородей, кустарников, деревьев, цветников, огородов и контейнерных растений. В категории представлены капельные трубки и шланги, фитинги, фильтры и регуляторы давления. Выбирайте компоненты с учётом источника воды, давления, расхода и схемы посадки. Система может работать автоматически с контроллером и клапанами.",
+          "name": "Капельный полив",
+          "seo": {
+            "h1": "Капельный полив для садов и посадок",
+            "keywords": [
+              "Капельный полив",
+              "оборудование для полива",
+              "автоматический полив",
+              "системы полива",
+              "Florial"
+            ],
+            "metaDescription": "Капельный полив подаёт воду медленно и непосредственно к корням растений, сокращая испарение и расход воды.",
+            "metaTitle": "Капельный полив | Florial",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Капельный полив для садов и посадок",
+              "metaDescription": "Капельный полив подаёт воду медленно и непосредственно к корням растений, сокращая испарение и расход воды.",
+              "metaTitle": "Капельный полив | Florial",
+              "status": "approved"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
