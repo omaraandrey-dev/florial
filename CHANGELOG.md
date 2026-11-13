@@ -2961,3 +2961,4 @@ Backups:
 - Дополнительно выполнено точное set-to-set сравнение URL: все 325 товарных, 71 категорийный, 21 service и 14 article URL из опубликованных Sanity slugs совпадают с живым sitemap; для каждого типа missing=0, extra=0, duplicate slug paths=0.
 
 - Дополнительный Preview smoke без JavaScript: irrigation category и plant category возвращают CollectionPage + ItemList по 20 элементов; service detail возвращает Service; blog article возвращает BlogPosting с датами, изображением, publisher и inLanguage.
+- Выявлено и исправлено: RU/EN версии `/terms` показывали болгарский юридический проект с notice, но оставались indexable, хотя sitemap включал только BG. Server middleware и TermsPage теперь ставят noindex для RU/EN; BG остаётся индексируемой.
