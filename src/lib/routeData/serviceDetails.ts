@@ -1,7 +1,8 @@
 import { sanityClient } from '../sanity'
 import type { ServiceItem } from '../../types'
 
-export async function fetchServiceDetails(slug: string): Promise<ServiceItem | null> {
+export async function fetchServiceDetails(slug: string, isCancelled: () => boolean = () => false): Promise<ServiceItem | null> {
+  if (isCancelled()) return null
   const serviceDetailQuery = `
         *[
           _type == "service" &&
@@ -61,5 +62,6 @@ export async function fetchServiceDetails(slug: string): Promise<ServiceItem | n
           seo
         }
       `
-  return sanityClient.fetch(serviceDetailQuery, { slug })
+  const service = await sanityClient.fetch(serviceDetailQuery, { slug })
+  return isCancelled() ? null : service
 }
