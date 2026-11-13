@@ -5,7 +5,6 @@
 - Preview deployment `5fc9f0fb-3f3c-4e82-b1a1-8556866f093c` (`https://5fc9f0fb.florial.pages.dev`) completed successfully on documentation-updated PR head `73c2132f4ac69546c26697d48b33a156991460d3`. Initial HTTP HTML QA for BG/RU/EN remains unconfirmed: the available scrape returned the client-rendered DOM after React startup, not the original response.
 - Production D1 binding `DB` remains configured; Preview has no D1 binding. Legacy Supabase-named environment keys remain in Cloudflare configuration: Preview has `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`; Production has those two plus `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. Only key names were inspected; values were not read. Their current runtime usage was not re-audited in this task. These residual keys are not evidence that Supabase is part of the active Florial architecture; do not remove them without a separate code-usage audit and owner approval. Do not copy Production bindings or secrets into Preview as part of this task. Preview URLs are public unless protected separately.
 - Production remains on `main` commit `0df7a52bb2a923f71096179c3837141382446554`; deployment `5c52db09-707f-47a7-a4c7-1ffea0300130` succeeded on that commit. PR #251 has not been merged.
-- The residual Supabase-named environment keys listed above are not treated as active services. Keep them pending a separate code-usage audit and explicit owner approval before removal.
 
 ## Plant category server-rendered catalogue — PR #251 open (13.11.2026)
 

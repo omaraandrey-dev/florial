@@ -46,9 +46,9 @@ Phase 1 covers plant category routes only (`plants` Sanity dataset). Equipment c
 1. Preview deployment is confirmed successful for code implementation SHA `0ef46d74d7fd5e48af38c80985a1604e968bbf30` and documentation head `73c2132f4ac69546c26697d48b33a156991460d3` (deployment ID and URL are recorded above).
 2. Capture the **initial HTTP response with JavaScript disabled** for BG/RU/EN plant category routes. Verify HTTP status, document language, canonical/hreflang/robots, H1 and SEO text, `data-florial-server-catalogue`, product links/names/prices/known stock labels and matching `ItemList` JSON-LD. The available browser scrape ran React and is not evidence of the initial response.
 3. Separately compare JavaScript-enabled output with the initial server HTML; confirm React starts, the server fallback is replaced without duplicate content, and a real empty state is not shown when products exist.
-5. Keep Manager/orders/D1-backed smoke tests out of Preview because the live Preview configuration has no D1 binding. Do not copy Production secrets/bindings into Preview as part of this task.
-6. Only after Preview HTML and browser checks pass, consider merging PR #251 under the existing owner authorization. Then verify the exact Production deployment and live HTML separately.
-7. Equipment category rendering remains Phase 2 and must not be added until Phase 1 is stable.
+4. Keep Manager/orders/D1-backed smoke tests out of Preview because the live Preview configuration has no D1 binding. Do not copy Production secrets/bindings into Preview as part of this task.
+5. Only after Preview HTML and browser checks pass, consider merging PR #251 under the existing owner authorization. Then verify the exact Production deployment and live HTML separately.
+6. Equipment category rendering remains Phase 2 and must not be added until Phase 1 is stable.
 
 ## Configuration changes and non-changes
 
