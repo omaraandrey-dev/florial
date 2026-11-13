@@ -1,6 +1,8 @@
-## 2026-11-13 — PR pending: стабильное состояние загрузки каталога категорий
+## 2026-11-13 — PR #246 объединён и опубликован: стабильное состояние загрузки каталога категорий
 
-- Ветка: `fix/plant-category-loading-layout-2026-11-13`. Изменение подготовлено для review; оно ещё не находится в `main` и не опубликовано в Production.
+- PR #246: https://github.com/omaraandrey-dev/florial/pull/246; squash merge commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`.
+- Cloudflare Pages Production deployment `6208bca0-23a6-48b0-a84b-b1861bac9523` завершился успешно; опубликован точный merge commit `3f2099e6ac2c11c2461c4c14618128c618a8d413`. Production URL: `https://6208bca0.florial.pages.dev`; aliases: `https://florial-bg.com`, `https://www.florial-bg.com`.
+- CI на точном PR head `2e0fa03a288944ce193fa925d0b1c43a8f1a8490`: Blog and Studio validation run `43370628228` — success; D1 migration validation run `43370628255` — success.
 - В `src/App.tsx` добавлено специальное состояние загрузки для маршрутов категорий: резервируется высота не менее одного viewport после Header, показывается skeleton структуры каталога вместо короткой текстовой заглушки. Это должно удерживать Footer ниже первого экрана, пока загружаются каталог и модуль CategoryPage.
 - Тот же skeleton используется как route-specific React.Suspense fallback, чтобы не было промежуточной общей заглушки перед skeleton каталога.
 - Header, основное меню, Footer, CategoryPage layout после загрузки, маршрутизация, Sanity queries/schema/documents, D1, Cloudflare settings и изображения не менялись.
