@@ -503,9 +503,20 @@ export function ProductPage({
                 >
                   -
                 </button>
-                <span className="px-4 py-2 font-semibold text-slate-800 text-sm">
-                  {quantity}
-                </span>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  step={1}
+                  aria-label={language === 'ru' ? 'Количество товара' : language === 'en' ? 'Product quantity' : 'Количество на продукта'}
+                  value={quantity}
+                  onFocus={(event) => event.currentTarget.select()}
+                  onChange={(event) => {
+                    const nextQuantity = Number(event.target.value)
+                    if (Number.isInteger(nextQuantity) && nextQuantity >= 1) setQuantity(nextQuantity)
+                  }}
+                  className="w-14 bg-transparent px-1 py-2 text-center font-semibold text-slate-800 text-sm outline-none"
+                />
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="px-3 py-2 text-slate-600 hover:bg-slate-200 transition cursor-pointer"
