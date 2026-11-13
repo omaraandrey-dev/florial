@@ -143,6 +143,7 @@ Raw HTML smoke на Preview, JavaScript отключён:
 - Irrigation root category `/category/vsichko-za-polivane`: HTTP 200; CollectionPage + ItemList, 20 entries; first item URLs use canonical apex domain.
 - Plant root category `/category/rastenia`: HTTP 200; CollectionPage + ItemList, 20 entries; localized Bulgarian names and canonical product URLs.
 - Service `/services/avtomatichno-napoyavane`: HTTP 200; Service schema with serviceType, Organization provider and areaServed city entities.
+- Blog article `/blog/cena-sistema-avtomatichno-napoyavane-burgas`: HTTP 200; BlogPosting schema with headline, publication/modification dates, image, publisher and `inLanguage=bg`.
 
 ## 7. Что ещё не подтверждено
 
