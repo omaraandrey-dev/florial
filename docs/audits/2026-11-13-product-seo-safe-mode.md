@@ -25,7 +25,7 @@ These figures were independently checked against published Sanity product docume
 1. API accepts only `catalog: irrigation`. Requests for `plants` are rejected server-side, even if a caller bypasses the UI.
 2. Both preview and apply require `strategy: missing-only`.
 3. Apply requires owner authentication and `confirm: true`.
-4. A generated field is added only when its existing value is absent, null, empty, or whitespace-only. Non-empty existing values are not included in the Sanity patch. The whole-catalogue GROQ preview uses a whitespace-aware regular-expression predicate so its aggregate counts follow the same rule.
+4. A generated field is added only when its existing value is absent, null, empty, or whitespace-only. Non-empty existing values are not included in the Sanity patch. The whole-catalogue preview uses paginated read-only projections and the shared missing-value predicate, so preview totals and apply decisions follow the same rule.
 5. Each patch retains the existing `ifRevisionID` guard. If a document changes after read, Sanity rejects that patch rather than silently overwriting the newer revision.
 6. Only `h1`, `metaTitle`, and `metaDescription` paths are written. Product names, descriptions, slugs, SKUs, categories, prices, stock, images, relationships, noIndex and all other fields are outside the patch.
 7. Manager preview reports the gap totals for the entire equipment catalogue and shows six sample products with per-field labels for values that will be added or preserved.
