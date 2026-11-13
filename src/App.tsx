@@ -135,7 +135,10 @@ export default function App() {
   const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
   const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
-  const [loadingServiceDetails, setLoadingServiceDetails] = useState(false)
+  const [loadingServiceDetails, setLoadingServiceDetails] = useState(() => {
+    const route = getRouteState()
+    return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
+  })
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
