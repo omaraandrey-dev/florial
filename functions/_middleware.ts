@@ -1083,9 +1083,21 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
       // Category pages receive server-side product data for collection structured data.
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
-      const categoryProducts = type === 'category'
-        ? await fetchCategoryProducts(doc._dataset === 'plants' ? 'plants' : 'production', doc._id)
-        : null
+      let categoryProducts: SeoPlantProduct[] | null = null
+      if (type === 'category') {
+        if (doc._dataset === 'plants') {
+          // Preserve the existing fail-closed behavior for plant category SSR.
+          categoryProducts = await fetchCategoryProducts('plants', doc._id)
+        } else {
+          // Irrigation listings remain client-rendered; structured data is an enhancement.
+          // A temporary catalogue-query failure must not turn a valid category page into 503.
+          try {
+            categoryProducts = await fetchCategoryProducts('production', doc._id)
+          } catch {
+            categoryProducts = null
+          }
+        }
+      }
 
       const localized = language === 'bg' ? null : doc.translations?.[language]
       const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
