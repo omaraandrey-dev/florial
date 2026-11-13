@@ -1,6 +1,6 @@
 # Florial — sitemap и структурированные данные Google
 Дата аудита: 13.11.2026
-Статус: Production audit и CI/Preview validation завершены; PR #257 открыт, merge и Production deployment ещё не выполнены.
+Статус: PR #257 объединён в main; Cloudflare Pages Production deployment успешен. Первичный Production smoke после публикации подтверждён для Kumquat; дополнительные URL ограничены Browser Rendering rate limit и остаются выборочной проверкой.
 
 ## Метод и источники
 
@@ -132,14 +132,16 @@ PR: https://github.com/omaraandrey-dev/florial/pull/257
 
 ## 6. CI и Preview validation
 
-Для кода и тестов, включая RU/EN noindex для Terms, оба GitHub Actions workflow завершились success на commit `61582d3e0e69d11fe5efe10422ee1e5bf965643b`:
+На точном PR head `6a9db96989f065cc930e3e2fa0e1e04f44450bf8` GitHub Actions завершились успешно:
 
-- Blog and Studio validation run `43432840090` (#1115): lint, website utility tests, website build, migration syntax/read-only dry-run и Sanity Studio build — success.
-- Florial D1 migration validation run `43432839974` (#1427): lint, website build, Pages Functions syntax и обе migration validations — success.
+- Blog and Studio validation runs `43433210752` (#1121) и `43433196806` (#1120) — success.
+- Florial D1 migration validation run `43433196666` (#1432) — success.
+
+Более ранние успешные validation runs на implementation SHA `61582d3e0e69d11fe5efe10422ee1e5bf965643b` сохранены в истории PR. Preview deployment `8e427191-12ee-41b3-82ff-6a7a634066cd` был успешен до merge.
 
 Cloudflare Pages Preview deployment:
 - deployment `8e427191-12ee-41b3-82ff-6a7a634066cd`, URL `https://8e427191.florial.pages.dev`, status success.
-- Production не менялся.
+- Production на момент Preview validation не менялся.
 
 Preview smoke:
 
@@ -154,21 +156,28 @@ Preview smoke:
 - RU product version without localized SEO meta fields, JavaScript off: HTTP 200; self-canonical, BG/RU/EN/x-default hreflang, `robots=index, follow`.
 - RU `/terms?lang=ru`, JavaScript on: HTTP 200; self-canonical, no alternate links, `robots=noindex, nofollow`.
 
-## 7. Что ещё не подтверждено
+## 7. Merge и Production deployment
 
-- PR #257 ещё не объединён. После merge необходим Production deployment и повторная проверка sitemap/HTML на основном домене.
+- PR #257: https://github.com/omaraandrey-dev/florial/pull/257 — squash-merged 13.11.2026.
+- Merge commit в `main`: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
+- Cloudflare Pages Production deployment `e3408322-80c3-4663-9dcd-48d8feec3e42`, URL `https://e3408322.florial.pages.dev` — build и deploy stages `success` на точном merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
+- Live Production smoke, JavaScript disabled: `/product/citrus-japonica-kumquat` — HTTP 200, `robots=index, follow`, self-canonical, Product JSON-LD Offer price `25.00 EUR`. Ранее Production baseline отдавал `3 000 EUR`; после релиза цена соответствует первому sale variant.
+- Повторная проверка остальных маршрутов на основном домене ограничена rate limit Cloudflare Browser Rendering (HTTP 429, требование паузы 10 секунд). Не выдавать Preview smoke за повторный Production smoke.
+
+## 8. Что ещё не подтверждено
+
 - Не выполнялась проверка Google Search Console и фактической индексации URL. Наличие URL в sitemap не означает, что Google уже проиндексировал страницу.
 - Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в Production baseline, Preview HTML и код генерации.
 - Полный браузерный обход 1 312 языковых URL не выполнялся: точное сравнение Sanity slugs с sitemap сделано для всех 431 документов, а HTML smoke — по представительным шаблонам.
 - Firecrawl не использовался; Cloudflare Browser Rendering имеет отдельный rate limit.
 
-## 8. Открытые решения владельца
+## 9. Открытые решения владельца
 
 1. Заполнить отдельный H1 для 193 irrigation products в BG/RU/EN; у 143 из них также заполнить RU/EN metaTitle/metaDescription. У одного товара `irritec-iq20120f0n20b` заполнить BG metaTitle/metaDescription. Нужен отдельный backup Sanity и согласование массовой записи.
 2. Заполнить `hero.title` для трёх услуг: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`.
 3. Решить, оставлять ли четыре опубликованные пустые категории индексируемыми и в sitemap. В PR они сохранены.
 4. После исправления кода решить, нужно ли отдельно нормализовать 19 root `priceEUR` у растений в Sanity. Сейчас пользовательская цена и JSON-LD берутся из saleVariants; сами документы не изменялись.
 
-## 9. Итог
+## 10. Итог
 
-Sitemap Production покрывает все 431 опубликованный объект каталога и контента, имеет 1 312 уникальных URL с языковыми вариантами и не содержит повторов. Полнота URL-карты подтверждена. Основные пробелы находятся не в количестве URL, а в контентных SEO-полях 193 irrigation products (H1), 143 из них (RU/EN meta), одном BG meta и H1 трёх услуг, а также в исходных root ценах 19 plant documents. Кодовые исправления проверены в CI и Preview; Sanity content changes не выполнялись. Исправления кода находятся в PR #257 и не считаются опубликованными до успешного CI, merge и Production smoke.
+Sitemap Production покрывает все 431 опубликованный объект каталога и контента, имеет 1 312 уникальных URL с языковыми вариантами и не содержит повторов. Полнота URL-карты подтверждена. Основные пробелы находятся не в количестве URL, а в контентных SEO-полях 193 irrigation products (H1), 143 из них (RU/EN meta), одном BG meta и H1 трёх услуг, а также в исходных root ценах 19 plant documents. Кодовые исправления проверены в CI и Preview, PR #257 объединён и опубликован в Production; первичный Production smoke Kumquat подтвердил корректную цену 25 EUR и indexable HTML. Sanity content changes не выполнялись. Фактическая индексация Google и повторная выборка остальных Production шаблонов остаются отдельными проверками.
