@@ -1,3 +1,12 @@
+## Category-specific catalogue loading — PR #248 open; CI passed, Network QA pending (13.11.2026)
+
+- Кодовая ветка: `perf/lazy-load-catalogue-by-category`; base main `c212a3e1c2eeebeaf4d5ec61c2a0c6b03d7a2421`; code commit `662cf3b7ce46fde8e7fe6314acc2c591671f71e2`.
+- По коду plant categories запрашивают только dataset `plants`, equipment categories — только `production`; загрузка обоих каталогов сохранена для прямых product detail routes. Данные каждого каталога кэшируются отдельно.
+- **Обязательно проверить:** direct URL и SPA для `/category/maslini`, других plant categories и equipment category; Network должен подтвердить отсутствие именно полного GROQ product-index запроса противоположного каталога (не путать с небольшими запросами категорий/услуг); переключение plant ↔ equipment; product detail из обоих datasets; search, cart, BG/RU/EN; ошибки/пустые результаты.
+- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio run `43379741579` и D1 validation run `43379741478` — success; lint, utility tests, website build, Pages Functions syntax, migration validations и Studio build прошли.
+- **Не подтверждено:** browser Network capture, фактический transfer saving, повторный Lighthouse и Cloudflare Pages deployment. PR #248 открыт, merge не выполнялся.
+- Не выполнять merge/Production release до успешного CI и проверки diff; Production release требует отдельного явного разрешения владельца. Sanity/D1/Cloudflare settings не затрагивались.
+
 ## Каталог растений — fallback image и responsive image sizing (PR #247 merged/deployed; QA open, 13.11.2026)
 
 - PR #247 merged в `main`: commit `5801d390a468952563f8f339b233d15774ca74d9`.

@@ -1,3 +1,15 @@
+## 2026-11-13 — Category-specific catalogue loading (PR #248 open; CI passed)
+
+Цель: не скачивать полный каталог оборудования для полива при открытии категории растений и наоборот.
+
+- Реализация в ветке `perf/lazy-load-catalogue-by-category`, кодовый commit `662cf3b7ce46fde8e7fe6314acc2c591671f71e2`.
+- `src/App.tsx` выбирает dataset по `isPlantCategory`: растения → `plants`; оборудование → `production`.
+- Состояние загрузки кэшируется раздельно. При навигации в другой каталог загружается только отсутствующий набор; продуктовая карточка по прямому URL сохраняет прежний fallback и получает оба индекса.
+- Запросы используют прежние GROQ projections и live Sanity clients. По коду устраняется запрос полного product index неактивного каталога; другие необходимые запросы `production` (категории, услуги/help content и т.п.) могут оставаться и не должны ошибочно считаться полным каталогом оборудования.
+- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio run `43379741579` и D1 validation run `43379741478` — success (включая lint, tests, website build и Studio build).
+- **Остаётся browser QA:** Network для прямого `/category/maslini` и других plant categories должен подтвердить отсутствие GROQ запроса полного equipment product index; equipment category — отсутствие полного plant product index. Проверить SPA переходы между направлениями, product detail, search/cart и BG/RU/EN; затем повторить Lighthouse mobile/desktop.
+- Экономия байтов, уменьшение critical path и изменение LCP пока НЕ ИЗМЕРЕНЫ. Не смешивать homepage Lighthouse 08:18 (FCP/LCP 0.9 s) с результатом category route.
+
 
 
 ## 2026-11-13 — Category fallback image and catalogue image sizing (PR #247 merged and deployed)
