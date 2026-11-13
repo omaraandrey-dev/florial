@@ -12,12 +12,12 @@ export function getServerProductPrice(product) {
 
 export function buildProductOffer(product, url) {
   if (product?._dataset === 'plants') {
-    const prices = [...new Set((product.saleVariants || [])
+    const variantPrices = (product.saleVariants || [])
       .map((variant) => variant?.priceEUR)
-      .filter((price) => typeof price === 'number' && Number.isFinite(price) && price > 0))]
-      .sort((a, b) => a - b)
+      .filter((price) => typeof price === 'number' && Number.isFinite(price) && price > 0)
+    const prices = [...new Set(variantPrices)].sort((a, b) => a - b)
 
-    if (prices.length === 1) {
+    if (variantPrices.length === 1) {
       return {
         '@type': 'Offer',
         price: prices[0].toFixed(2),
@@ -26,12 +26,12 @@ export function buildProductOffer(product, url) {
         itemCondition: 'https://schema.org/NewCondition',
       }
     }
-    if (prices.length > 1) {
+    if (variantPrices.length > 1) {
       return {
         '@type': 'AggregateOffer',
         lowPrice: prices[0].toFixed(2),
         highPrice: prices[prices.length - 1].toFixed(2),
-        offerCount: prices.length,
+        offerCount: variantPrices.length,
         priceCurrency: 'EUR',
         url,
       }
