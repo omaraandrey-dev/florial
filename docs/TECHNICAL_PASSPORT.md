@@ -1,3 +1,15 @@
+## 2026-11-13 — Plant category server-rendered catalogue (PR validation pending)
+
+- Phase 1 adds the plant catalogue to the first HTML response for category routes resolved from the published Sanity `plants` dataset.
+- `functions/_middleware.ts` loads the published category tree, computes descendants, then fetches active plant products using `references($categoryIds)`. Projection is limited to localized display names/SEO H1 fallback, slug, price, stock status and sale variants.
+- `functions/_lib/plantCategoryHtml.mjs` renders a semantic list of up to 20 plant products, detail links, starting prices and known availability labels; unknown stock status is not guessed. It also creates an ItemList JSON-LD object.
+- Existing React rendering and browser-side live catalogue fetches remain unchanged. The first HTML is replaced by React `createRoot` after JavaScript starts; this is not hydration.
+- Category tree cache 300 s; product list cache 30 s; plant-category HTML edge cache 30 s / stale-while-revalidate 60 s. Sanity failure or malformed response produces the middleware 503/noindex response, not an empty-category message.
+- Read-only live Sanity query validation: 17 category documents; 12 product documents returned for `plants-palms`; 50 product documents returned for the full `plants-root` category tree. No content/schema writes.
+- Regression tests cover category descendant resolution, localized names/links, HTML escaping, known/unknown availability, empty result handling, ItemList and middleware integration.
+- **Not yet confirmed:** CI on final PR SHA, Pages Functions build output, raw Production HTML, Googlebot/AI crawler behavior, browser JS/no-JS parity, or a Production deployment. Equipment category rendering is Phase 2 and is not included.
+- Detailed design and verification ledger: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
+
 ## 2026-11-13 — Production incident after PR #249: root cause and hotfix
 
 - **Incident:** initial React render of the storefront fails, resulting in an empty `#root`.
