@@ -1,5 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
+import { buildPlantCategoryItemList, collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -10,6 +11,24 @@ const SANITY_API_VERSION = '2024-01-01'
 type PagesContext = {
   request: Request
   next: () => Promise<Response>
+}
+
+type SeoPlantProduct = {
+  _id: string
+  name?: string
+  slugValue?: string
+  priceEUR?: number
+  stockStatus?: string
+  translations?: Record<string, { name?: string } | undefined>
+  saleVariants?: Array<{
+    name?: string
+    nameEn?: string
+    nameRu?: string
+    priceEUR?: number
+    stockStatus?: string
+    saleHeightCm?: number
+    containerVolumeL?: number
+  }>
 }
 
 type SeoDocument = {
@@ -216,6 +235,857 @@ function unavailableResponse(language: string | null): Response {
       'X-Content-Type-Options': 'nosniff',
     },
   })
+}
+
+
+async function querySanityData<T>(
+  dataset: string,
+  query: string,
+  params: Record<string, unknown>,
+  cachePath: string,
+  ttlSeconds: number,
+): Promise<T> {
+  const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
+  const cache = cacheStorage?.default
+  const cacheKey = new Request(SITE_URL + '/__edge-cache/' + cachePath, { method: 'GET' })
+
+  if (cache) {
+    try {
+      const cached = await cache.match(cacheKey)
+      if (cached) {
+        const cachedBody = (await cached.json()) as { result?: T }
+        if (cachedBody && Object.prototype.hasOwnProperty.call(cachedBody, 'result')) {
+          return cachedBody.result as T
+        }
+      }
+    } catch {
+      // A cache failure must not prevent the live Sanity lookup.
+    }
+  }
+
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
+  url.searchParams.set('query', query)
+  url.searchParams.set('perspective', 'published')
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set('
+  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,sku,stockStatus,publishedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
+  url.searchParams.set('query', query)
+  url.searchParams.set('$type', JSON.stringify(type))
+  url.searchParams.set('$slug', JSON.stringify(slug))
+
+  // Cache Sanity lookups at the edge for five minutes. The synthetic cache key
+  // stays on our own zone because Cloudflare Cache API cannot cache arbitrary
+  // cross-zone URLs directly.
+  const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
+  const cache = cacheStorage?.default
+  const cacheKey = new Request(
+    SITE_URL + '/__edge-cache/sanity/' + encodeURIComponent(dataset) + '/' +
+    encodeURIComponent(type) + '/' + encodeURIComponent(slug),
+    { method: 'GET' },
+  )
+
+  if (cache) {
+    try {
+      const cached = await cache.match(cacheKey)
+      if (cached) {
+        const cachedBody = (await cached.json()) as { result?: SeoDocument | null }
+        return cachedBody.result ? { ...cachedBody.result, _dataset: dataset } : null
+      }
+    } catch {
+      // A cache failure must not prevent the live Sanity lookup.
+    }
+  }
+
+  const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
+  if (!response.ok) throw new Error('Sanity lookup failed: ' + response.status)
+  const body = (await response.json()) as { result?: SeoDocument | null }
+  const result = body.result ? { ...body.result, _dataset: dataset } : null
+
+  if (cache) {
+    try {
+      const ttl = result ? 300 : 60
+      const cachedResponse = new Response(JSON.stringify({ result }), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'public, max-age=' + ttl,
+        },
+      })
+      await cache.put(cacheKey, cachedResponse)
+    } catch {
+      // Cache write errors are non-fatal; the live response remains usable.
+    }
+  }
+
+  return result
+}
+
+function hasTranslation(doc: SeoDocument, type: string, language: string): boolean {
+  if (language === 'bg') return true
+  const translated = doc.translations?.[language]
+  if (type === 'blogPost') return Boolean(translated?.title && translated?.shortDescription && translated?.seoTitle && translated?.seoDescription)
+  if (!translated?.name || translated.seo?.noIndex === true) return false
+  if (type === 'category') {
+    const fallback = categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en']
+    return Boolean((translated.name || fallback?.name) && (translated.description || fallback?.description) && translated.seo?.noIndex !== true)
+  }
+  if (type === 'product') {
+    return Boolean(translated.shortDescription && translated.seo?.metaTitle && translated.seo?.metaDescription)
+  }
+  return Boolean(translated.seo?.metaTitle && translated.seo?.metaDescription)
+}
+
+function setMetaTag(html: string, attribute: string, name: string, content: string): string {
+  let found = false
+  const next = html.replace(/<meta\b[^>]*>/gi, (tag) => {
+    if (tag.includes(attribute + '="' + name + '"') || tag.includes(attribute + "='" + name + "'")) {
+      found = true
+      return '<meta ' + attribute + '="' + name + '" content="' + escapeHtml(content) + '" />'
+    }
+    return tag
+  })
+  if (found) return next
+  return next.replace(/<\/head>/i, '<meta ' + attribute + '="' + name + '" content="' + escapeHtml(content) + '" />\n</head>')
+}
+
+function setCanonical(html: string, canonical: string): string {
+  const tag = '<link rel="canonical" href="' + escapeHtml(canonical) + '" />'
+  if (/<link\b[^>]*rel=["']canonical["'][^>]*>/i.test(html)) {
+    return html.replace(/<link\b[^>]*rel=["']canonical["'][^>]*>/i, tag)
+  }
+  return html.replace(/<\/head>/i, tag + '\n</head>')
+}
+
+function setPageHead(
+  sourceHtml: string,
+  options: {
+    language: string
+    title: string
+    description: string
+    canonical: string
+    image?: string
+    noIndex?: boolean
+    alternates?: Record<string, string>
+    structuredData?: Array<{ id: string; data: Record<string, unknown> }>
+    pageType?: string
+  },
+): string {
+  let html = sourceHtml
+  html = html.replace(/<html\b[^>]*>/i, (tag) => {
+    if (/\blang=["'][^"']*["']/i.test(tag)) return tag.replace(/\blang=["'][^"']*["']/i, 'lang="' + options.language + '"')
+    return tag.replace(/>$/, ' lang="' + options.language + '">')
+  })
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>' + escapeHtml(options.title) + '</title>')
+  html = setMetaTag(html, 'name', 'description', options.description)
+  html = setMetaTag(html, 'name', 'robots', options.noIndex ? 'noindex, nofollow' : 'index, follow')
+  html = setMetaTag(html, 'property', 'og:title', options.title)
+  html = setMetaTag(html, 'property', 'og:description', options.description)
+  html = setMetaTag(html, 'property', 'og:type', options.pageType || 'website')
+  html = setMetaTag(html, 'property', 'og:url', options.canonical)
+  html = setMetaTag(html, 'property', 'og:locale', options.language === 'ru' ? 'ru_RU' : options.language === 'en' ? 'en_US' : 'bg_BG')
+  html = setMetaTag(html, 'property', 'og:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
+  const defaultLogoAlt = options.language === 'ru'
+    ? 'Официальный логотип Florial — садовый центр и магазин оборудования для автоматического полива'
+    : options.language === 'en'
+      ? 'Official Florial logo — garden centre and automatic irrigation store'
+      : 'Официално лого на Florial — градински център и магазин за автоматично напояване'
+  html = setMetaTag(html, 'property', 'og:image:alt', options.image ? options.title : defaultLogoAlt)
+  if (options.image) {
+    html = html.replace(/<meta\b[^>]*property=["']og:image:(width|height)["'][^>]*>/gi, '')
+  } else {
+    html = setMetaTag(html, 'property', 'og:image:width', '1547')
+    html = setMetaTag(html, 'property', 'og:image:height', '581')
+  }
+  html = setMetaTag(html, 'name', 'twitter:card', 'summary_large_image')
+  html = setMetaTag(html, 'name', 'twitter:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
+  html = setMetaTag(html, 'name', 'twitter:title', options.title)
+  html = setMetaTag(html, 'name', 'twitter:description', options.description)
+  html = setCanonical(html, options.canonical)
+  html = html.replace(/<link\b(?=[^>]*rel=["']alternate["'])(?=[^>]*hreflang=)[^>]*>/gi, '')
+  html = html.replace(/<script\b(?=[^>]*data-florial-jsonld=)[^>]*>[\s\S]*?<\/script>/gi, '')
+
+  const additions: string[] = []
+  Object.entries(options.alternates || {}).forEach(([language, href]) => {
+    additions.push('<link rel="alternate" hreflang="' + escapeHtml(language) + '" href="' + escapeHtml(href) + '" />')
+  })
+  const organization = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': SITE_URL + '/#organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: LOGO_URL,
+      width: 1547,
+      height: 581,
+    },
+    areaServed: { '@type': 'Country', name: 'Bulgaria' },
+  }
+  const structured = options.structuredData || []
+  structured.forEach((entry) => {
+    const json = JSON.stringify(entry.data).replace(/</g, '\\u003c')
+    additions.push('<script type="application/ld+json" data-florial-jsonld="' + escapeHtml(entry.id) + '">' + json + '</script>')
+  })
+  if (!structured.some((entry) => entry.id === 'organization')) {
+    additions.push('<script type="application/ld+json" data-florial-jsonld="organization">' + JSON.stringify(organization).replace(/</g, '\\u003c') + '</script>')
+  }
+  if (additions.length) html = html.replace(/<\/head>/i, additions.join('\n') + '\n</head>')
+  return html
+}
+
+function renderRoot(html: string, body: string): string {
+  return html.replace(/<div id="root"><\/div>/i, '<div id="root">' + body + '</div>')
+}
+
+async function transformHtmlResponse(response: Response, transform: (html: string) => string, cacheControl = 'public, max-age=0, s-maxage=300, stale-while-revalidate=600'): Promise<Response> {
+  const contentType = response.headers.get('content-type') || ''
+  if (!contentType.includes('text/html') || response.status !== 200) return response
+  const html = transform(await response.text())
+  const headers = new Headers(response.headers)
+  headers.delete('content-length')
+  headers.delete('content-encoding')
+  headers.delete('etag')
+  headers.set('Cache-Control', cacheControl)
+  return new Response(html, { status: response.status, statusText: response.statusText, headers })
+}
+
+function staticPageMetadata(path: string, language: string) {
+  if (path === '/about') {
+    if (language === 'ru') return {
+      title: 'О нас — Florial | Садовый центр и автоматический полив в Болгарии',
+      description: 'Florial: ландшафтный дизайн, озеленение, системы автоматического полива, рулонный газон и обслуживание садов в Несебре, Равде и по Черноморскому побережью Болгарии.',
+      body: '<main><h1>О нас — Florial</h1><p>Ландшафтный дизайн, озеленение, автоматический полив и уход за садами в Болгарии.</p></main>',
+    }
+    if (language === 'en') return {
+      title: 'About Florial | Garden Centre & Irrigation in Bulgaria',
+      description: 'Florial provides landscape design, planting, automatic irrigation systems, roll turf and garden maintenance in Nessebar, Ravda and along Bulgaria’s Black Sea coast.',
+      body: '<main><h1>About Florial</h1><p>Landscape design, planting, automatic irrigation and garden care in Bulgaria.</p></main>',
+    }
+    return {
+      title: 'За нас — Florial | Градински център и автоматично напояване',
+      description: 'Florial предлага ландшафтен дизайн, озеленяване, системи за автоматично напояване, тревен чим и поддръжка на градини в Несебър, Равда и по българското Черноморие.',
+      body: '<main><h1>За нас — Florial</h1><p>Ландшафтен дизайн, озеленяване, автоматично напояване и поддръжка на градини в България.</p></main>',
+    }
+  }
+  if (path === '/contacts') {
+    if (language === 'ru') return {
+      title: 'Контакты Florial — садовые центры в Несебре и Равде',
+      description: 'Адреса и контакты садовых центров Florial в Несебре и Равде, Болгария. Растения, оборудование для полива и услуги по озеленению.',
+      body: '<main><h1>Контакты Florial</h1><p>Свяжитесь с нами по вопросам растений, оборудования для автоматического полива и ландшафтных услуг в Болгарии.</p></main>',
+    }
+    if (language === 'en') return {
+      title: 'Contact Florial — Garden Centres in Nessebar & Ravda',
+      description: 'Find Florial garden centre locations in Nessebar and Ravda, Bulgaria. Contact us about plants, irrigation equipment and landscaping services.',
+      body: '<main><h1>Contact Florial</h1><p>Contact us about plants, automatic irrigation equipment and landscaping services in Bulgaria.</p></main>',
+    }
+    return {
+      title: 'Контакти Florial — градински центрове в Несебър и Равда',
+      description: 'Адреси и контакти на градинските центрове Florial в Несебър и Равда. Растения, оборудване за напояване и услуги по озеленяване.',
+      body: '<main><h1>Контакти Florial</h1><p>Свържете се с нас за растения, оборудване за автоматично напояване и услуги по озеленяване в България.</p></main>',
+    }
+  }
+  if (language === 'ru') return {
+    title: 'Florial — садовый центр и магазин систем автополива в Болгарии',
+    description: 'Растения, оборудование для автоматического полива, ландшафтный дизайн и озеленение в Несебре, Равде, Солнечном Береге и Бургасе.',
+    body: '<main><h1>Florial — садовый центр и магазин автополива</h1><p>Растения, оборудование для автоматического полива и услуги по озеленению в Болгарии.</p></main>',
+  }
+  if (language === 'en') return {
+    title: 'Florial — Garden Centre & Irrigation Shop in Bulgaria',
+    description: 'Plants, automatic irrigation equipment, landscape design and gardening services in Nessebar, Ravda, Sunny Beach and Burgas.',
+    body: '<main><h1>Florial — Garden Centre & Irrigation Shop</h1><p>Plants, automatic irrigation equipment, landscape design and gardening services in Bulgaria.</p></main>',
+  }
+  return {
+    title: 'Florial — градински център и системи за напояване',
+    description: 'Растения, оборудване за автоматично напояване, ландшафтен дизайн и озеленяване в Несебър, Равда, Слънчев бряг и Бургас.',
+    body: '<main><h1>Градински център Флориал</h1><p>Растения, оборудване за автоматично напояване, ландшафтен дизайн и озеленяване в България.</p></main>',
+  }
+}
+
+function localizedRouteUrl(path: string, language: string): string {
+  return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
+}
+
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name, plantProducts?: SeoPlantProduct[]): string {
+  // Category hero imagery is rendered responsively by the client app.
+  // Do not emit a raw fallback <img> for categories: it is downloaded before
+  // the responsive desktop-only category hero CSS can hide it on mobile.
+  const image = type !== 'category' && doc.imageUrl
+    ? '<img src="' + escapeHtml(doc.imageUrl) + '" alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
+    : ''
+  let extra = ''
+  if (type === 'product') {
+    const price = typeof doc.priceEUR === 'number' && doc.priceEUR > 0
+      ? '<p><strong>' + (language === 'ru' ? 'Цена' : language === 'en' ? 'Price' : 'Цена') + ': ' + doc.priceEUR.toFixed(2) + ' EUR</strong></p>'
+      : ''
+    const sku = doc.sku ? '<p>SKU: ' + escapeHtml(doc.sku) + '</p>' : ''
+    const stockLabel = doc.stockStatus === 'inStock'
+      ? (language === 'ru' ? 'В наличии' : language === 'en' ? 'In stock' : 'В наличност')
+      : doc.stockStatus === 'outOfStock'
+        ? (language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан')
+        : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
+    extra = price + sku + '<p>' + stockLabel + '</p>'
+  }
+  return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
+    '<h1>' + escapeHtml(h1) + '</h1>' + image +
+    (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+}
+
+function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало', item: localizedRouteUrl('/', language) },
+      { '@type': 'ListItem', position: 2, name, item: localizedRouteUrl(path, language) },
+    ],
+  }
+}
+
+function makeProductJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
+  const hasPrice = typeof doc.priceEUR === 'number' && doc.priceEUR > 0
+  const offer: Record<string, unknown> | null = hasPrice ? {
+    '@type': 'Offer',
+    price: doc.priceEUR!.toFixed(2),
+    priceCurrency: 'EUR',
+    url,
+    itemCondition: 'https://schema.org/NewCondition',
+    ...(doc.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
+    ...(doc.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
+  } : null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    url,
+    ...(doc.imageUrl ? { image: [doc.imageUrl] } : {}),
+    ...(doc.sku ? { sku: doc.sku } : {}),
+    ...(doc.brandName ? { brand: { '@type': 'Brand', name: doc.brandName } } : {}),
+    ...(offer ? { offers: offer } : {}),
+  }
+}
+
+async function handleRequest(context: PagesContext): Promise<Response> {
+  const url = new URL(context.request.url)
+  const path = url.pathname.replace(/\/+$/, '') || '/'
+  const languageParam = url.searchParams.get('lang')
+
+  // Preserve old blog URLs and their query parameters while moving service content.
+  const serviceRedirectPath = getBlogServiceRedirectPath(path)
+  if (serviceRedirectPath) {
+    const destination = new URL(context.request.url)
+    destination.pathname = serviceRedirectPath
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: destination.toString(),
+        'Cache-Control': 'public, max-age=3600',
+      },
+    })
+  }
+
+  // The internal Manager is a separate SPA entry selected in src/main.tsx.
+  // Keep the Pages SPA fallback, but apply server-side noindex before the client app runs.
+  if (path === '/manager' || path.startsWith('/manager/')) {
+    const response = await context.next()
+    const headers = new Headers(response.headers)
+    headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive')
+
+    const contentType = headers.get('content-type') || ''
+    if (context.request.method !== 'HEAD' && contentType.includes('text/html') && response.status === 200) {
+      let html = await response.text()
+      const robotsMeta = '<meta name="robots" content="noindex, nofollow, noarchive">'
+      const robotsMetaPattern = /<meta\b(?=[^>]*\bname\s*=\s*(["'])robots\1)[^>]*>/i
+      if (robotsMetaPattern.test(html)) {
+        html = html.replace(robotsMetaPattern, robotsMeta)
+      } else {
+        html = html.replace(/<\/head>/i, robotsMeta + '</head>')
+      }
+      headers.delete('content-length')
+      headers.delete('content-encoding')
+      headers.delete('etag')
+      return new Response(html, { status: response.status, statusText: response.statusText, headers })
+    }
+
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+  }
+  const language = languageParam === 'ru' || languageParam === 'en' ? languageParam : 'bg'
+
+  if (
+    path.startsWith('/api/') ||
+    path === '/sitemap.xml' ||
+    path === '/robots.txt' ||
+    path === '/favicon.png' ||
+    path === '/index.html' ||
+    /^\/google[a-z0-9_-]+\.html$/i.test(path)
+  ) return context.next()
+
+  if (path === '/withdrawal') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Отказ от договора | Florial',
+          description: 'Онлайн-заявление об отказе от договора, заключённого дистанционно через интерфейс Florial.',
+          body: '<main><h1>Откажитесь от договора здесь</h1><p>Онлайн-функция для подачи заявления об отказе от дистанционного договора с подтверждением даты и времени получения.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Contract Withdrawal | Florial',
+            description: 'Submit an online withdrawal declaration for a distance contract concluded through the Florial interface.',
+            body: '<main><h1>Withdraw from the contract here</h1><p>Online function for submitting a distance-contract withdrawal declaration with confirmation of receipt date and time.</p></main>',
+          }
+        : {
+            title: 'Отказ от договор | Florial',
+            description: 'Онлайн заявление за отказ от договор, сключен от разстояние чрез интерфейса на Florial.',
+            body: '<main><h1>Откажете се от договора тук</h1><p>Онлайн функция за подаване на заявление за отказ от договор от разстояние с потвърждение за дата и час на получаване.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/withdrawal', language)
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      noIndex: true,
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/terms') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Общие условия использования и покупки | Florial',
+          description: 'Общие условия Florial: товары, заказы, оплата, доставка, живые растения, отказ от договора, рекламации и садовые услуги.',
+          body: '<main><h1>Общие условия использования и покупки</h1><p>Проект общих условий Florial на болгарском языке для юридического рассмотрения.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Terms of Use and Purchase | Florial',
+            description: 'Florial terms covering products, orders, payment, delivery, live plants, contract withdrawal, complaints and garden services.',
+            body: '<main><h1>Terms of Use and Purchase</h1><p>Bulgarian draft terms and conditions for legal review.</p></main>',
+          }
+        : {
+            title: 'Общи условия за ползване и покупка | Florial',
+            description: 'Общи условия на Florial за продукти, поръчки, плащане, доставка, живи растения, отказ от договор, рекламации и градински услуги.',
+            body: '<main><h1>Общи условия за ползване и покупка от Florial</h1><p>Проект за юридически преглед на условията за използване на сайта, покупки и услуги.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/terms', language)
+    const base = SITE_URL + '/terms'
+    const alternates = {
+      bg: base,
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/privacy-policy') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Политика конфиденциальности | Florial',
+          description: 'Как Florial обрабатывает персональные данные покупателей и посетителей сайта: заказы, обращения, техническая статистика, права по GDPR и контакты оператора.',
+          body: '<main><h1>Политика конфиденциальности</h1><p>Информация об обработке персональных данных при просмотре сайта Florial, оформлении заказов и отправке обращений. Полная версия доступна на болгарском, русском и английском языках.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Privacy Policy | Florial',
+            description: 'How Florial processes personal data of website visitors and customers, including orders, enquiries, technical statistics, GDPR rights and controller contact details.',
+            body: '<main><h1>Privacy Policy</h1><p>Information about personal data processing when browsing Florial, placing orders and sending enquiries. The full policy is available in Bulgarian, Russian and English.</p></main>',
+          }
+        : {
+            title: 'Политика за поверителност | Florial',
+            description: 'Информация как Florial обработва личните данни на посетителите и клиентите: поръчки, запитвания, техническа статистика, права по GDPR и контакти на администратора.',
+            body: '<main><h1>Политика за поверителност</h1><p>Информация за обработването на лични данни при разглеждане на сайта Florial, подаване на поръчки и изпращане на запитвания. Пълната политика е достъпна на български, руски и английски език.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/privacy-policy', language)
+    const base = SITE_URL + '/privacy-policy'
+    const alternates = {
+      bg: base,
+      ru: base + '?lang=ru',
+      en: base + '?lang=en',
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/blog') {
+    const meta = language === 'ru'
+      ? {title: 'Блог Florial — сад, растения и автоматический полив', description: 'Новости садового центра Florial, выполненные работы, растения и решения для автоматического полива в Болгарии.'}
+      : language === 'en'
+        ? {title: 'Florial Blog — Gardens, Plants & Irrigation', description: 'Florial Garden Centre news, recent projects, plants and automatic irrigation solutions in Bulgaria.'}
+        : {title: 'Блог Florial — градини, растения и автоматично напояване', description: 'Новини от градински център Florial, текущи проекти, растения и решения за автоматично напояване в България.'}
+    const canonical = localizedRouteUrl('/blog', language)
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
+      language, title: meta.title, description: meta.description, canonical,
+      alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/services') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Услуги садового центра Florial — ландшафтный дизайн и автополив',
+          description: 'Ландшафтный дизайн, монтаж систем автоматического полива, озеленение и уход за садами в Несебре, Равде, Солнечном Береге и по побережью Болгарии.',
+          body: '<main><h1>Услуги садового центра Florial</h1><p>Ландшафтный дизайн, автоматический полив, озеленение и обслуживание садов в Болгарии.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Florial Garden Centre Services — Landscaping & Irrigation',
+            description: 'Landscape design, automatic irrigation installation, planting and garden maintenance in Nessebar, Ravda, Sunny Beach and along the Bulgarian coast.',
+            body: '<main><h1>Florial Garden Centre Services</h1><p>Landscape design, automatic irrigation, planting and garden maintenance in Bulgaria.</p></main>',
+          }
+        : {
+            title: 'Услуги на градински център Florial — озеленяване и напояване',
+            description: 'Ландшафтен дизайн, изграждане на системи за автоматично напояване, озеленяване и поддръжка на градини в Несебър, Равда, Слънчев бряг и по българското Черноморие.',
+            body: '<main><h1>Услуги на градински център Florial</h1><p>Ландшафтен дизайн, автоматично напояване, озеленяване и поддръжка на градини в България.</p></main>',
+          }
+    const canonical = localizedRouteUrl('/services', language)
+    const alternates = {
+      bg: SITE_URL + '/services',
+      ru: SITE_URL + '/services?lang=ru',
+      en: SITE_URL + '/services?lang=en',
+      'x-default': SITE_URL + '/services',
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/services/dostavka-poliv') {
+    const meta = language === 'ru'
+      ? {
+          title: 'Доставка оборудования для полива и консультация инженера | Florial',
+          description: 'Доставка оборудования для автоматического полива в 30 населённых пунктов района Несебра и Поморие: тарифы от 0 до 25 €. Бесплатная консультация инженера на объекте. Ремонт от 30 €.',
+          body: '<main><h1>Оборудование для полива с доставкой и помощью инженера</h1><p>Бесплатная доставка в Солнечном Береге. По 10 €: Несебр, Святой Влас, Тънково, Равда, Кошарица, Ахелой, Александрово, Оризаре, Гюльовца, Медово, Порой и Каблешково. По 15 €: Поморие, Каменар, Лъка, Баня, Бата, Гълъбец и Габерово. Дъбник — 17 €. По 20 €: Горица, Белодол, Емона, Страцин и Обзор. По 25 €: Приселци, Козичино, Раковсково и Паницово. Бесплатная консультация инженера на объекте. Ремонт от 30 €.</p></main>',
+        }
+      : language === 'en'
+        ? {
+            title: 'Irrigation Equipment Delivery & Engineer Consultation | Florial',
+            description: 'Irrigation equipment delivery to 30 locations around Nessebar and Pomorie, with rates from €0 to €25. Free on-site engineer consultation. Repairs from €30.',
+            body: '<main><h1>Irrigation equipment delivered, with help from an engineer</h1><p>Free delivery in Sunny Beach. €10: Nessebar, Sveti Vlas, Tankovo, Ravda, Kosharitsa, Aheloy, Alexandrovo, Orizare, Gyulyovtsa, Medovo, Poroy and Kableshkovo. €15: Pomorie, Kamenar, Laka, Banya, Bata, Galabets and Gaberovo. Dubnik — €17. €20: Goritsa, Belodol, Emona, Stratsin and Obzor. €25: Priseltsi, Kozichino, Rakovskovo and Panitsovo. Free on-site engineer consultation. Repairs from €30.</p></main>',
+          }
+        : {
+            title: 'Доставка на оборудване за поливане и консултация с инженер | Florial',
+            description: 'Доставка на оборудване за напояване до 30 населени места в района на Несебър и Поморие, с цени от 0 до 25 €. Безплатна консултация с инженер на място. Ремонт от 30 €.',
+            body: '<main><h1>Оборудване за поливане с доставка и помощ от инженер</h1><p>Безплатна доставка в Слънчев бряг. По 10 €: Несебър, Свети Влас, Тънково, Равда, Кошарица, Ахелой, Александрово, Оризаре, Гюльовца, Медово, Порой и Каблешково. По 15 €: Поморие, Каменар, Лъка, Баня, Бата, Гълъбец и Габерово. Дъбник — 17 €. По 20 €: Горица, Белодол, Емона, Страцин и Обзор. По 25 €: Приселци, Козичино, Раковсково и Паницово. Безплатна консултация с инженер на място. Ремонт от 30 €.</p></main>',
+          }
+    const base = SITE_URL + '/services/dostavka-poliv'
+    const canonical = localizedRouteUrl('/services/dostavka-poliv', language)
+    const alternates = {
+      bg: base,
+      ru: base + '?lang=ru',
+      en: base + '?lang=en',
+      'x-default': base,
+    }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical,
+      alternates,
+      pageType: 'website',
+    }))
+  }
+
+  if (path === '/' || path === '/contacts' || path === '/about') {
+    const meta = staticPageMetadata(path, language)
+    const canonical = localizedRouteUrl(path, language)
+    const alternates = {
+      bg: SITE_URL + path,
+      ru: SITE_URL + path + '?lang=ru',
+      en: SITE_URL + path + '?lang=en',
+      'x-default': SITE_URL + path,
+    }
+    return transformHtmlResponse(await context.next(), (html) => {
+      const root = renderRoot(html, meta.body)
+      return setPageHead(root, {
+        language,
+        title: meta.title,
+        description: meta.description,
+        canonical,
+        alternates,
+        pageType: 'website',
+        structuredData: [{
+          id: 'local-business-nessebar',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'GardenStore',
+            '@id': SITE_URL + '/#store-nessebar',
+            name: 'Florial — градински център Несебър',
+            url: SITE_URL + '/contacts',
+            telephone: '+359885834860',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'ул. „Хан Крум“',
+              postalCode: '8230',
+              addressLocality: 'Несебър',
+              addressCountry: 'BG',
+            },
+            openingHoursSpecification: [{
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: [
+                'https://schema.org/Monday',
+                'https://schema.org/Tuesday',
+                'https://schema.org/Wednesday',
+                'https://schema.org/Thursday',
+                'https://schema.org/Friday',
+              ],
+              opens: '09:00',
+              closes: '17:00',
+            }],
+            parentOrganization: { '@id': SITE_URL + '/#organization' },
+          },
+        }, {
+          id: 'local-business-ravda',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'GardenStore',
+            '@id': SITE_URL + '/#store-ravda',
+            name: 'Florial — градински център Равда',
+            url: SITE_URL + '/contacts',
+            telephone: '+359877055605',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Чешме тарла',
+              postalCode: '8238',
+              addressLocality: 'Равда',
+              addressCountry: 'BG',
+            },
+            parentOrganization: { '@id': SITE_URL + '/#organization' },
+          },
+        }],
+      })
+    })
+  }
+
+  if (path === '/cart' || path === '/search') {
+    const meta = path === '/cart'
+      ? language === 'ru'
+        ? { title: 'Корзина | Florial', description: 'Содержимое корзины интернет-магазина Florial.' }
+        : language === 'en'
+          ? { title: 'Shopping Cart | Florial', description: 'Your Florial online shop shopping cart.' }
+          : { title: 'Количка | Florial', description: 'Съдържание на количката в онлайн магазина Florial.' }
+      : language === 'ru'
+        ? { title: 'Поиск товаров | Florial', description: 'Поиск оборудования для полива и растений в магазине Florial.' }
+        : language === 'en'
+          ? { title: 'Product Search | Florial', description: 'Search irrigation equipment and plants in the Florial shop.' }
+          : { title: 'Търсене на продукти | Florial', description: 'Търсете оборудване за напояване и растения в магазина Florial.' }
+    return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
+      language,
+      title: meta.title,
+      description: meta.description,
+      canonical: SITE_URL + path,
+      noIndex: true,
+      pageType: 'website',
+    }))
+  }
+
+  const parts = path.split('/').filter(Boolean)
+  const route = parts[0]
+  const rawSlug = parts[1]
+  let slug: string | null = null
+  try {
+    slug = rawSlug ? decodeURIComponent(rawSlug) : null
+  } catch {
+    return notFoundResponse(language)
+  }
+
+  if (
+    parts.length === 2 &&
+    slug &&
+    (route === 'product' || route === 'products' || route === 'category' || route === 'services' || route === 'blog')
+  ) {
+    try {
+      let doc: SeoDocument | null = null
+      let type = route === 'services' ? 'service' : route === 'category' ? 'category' : route === 'blog' ? 'blogPost' : 'product'
+      if (route === 'services') {
+        doc = await queryDocument('production', type, slug)
+      } else if (route === 'category') {
+        doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
+      } else {
+        doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
+      }
+      if (!doc) return notFoundResponse(language)
+
+      // Plant category pages receive a real product listing in the first HTML response.
+      // The client catalogue still loads live data after React starts.
+      const plantCategoryProducts = type === 'category' && doc._dataset === 'plants'
+        ? await fetchPlantCategoryProducts(doc._id)
+        : null
+
+      const localized = language === 'bg' ? null : doc.translations?.[language]
+      const categoryFallback = type === 'category' ? categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en'] : undefined
+      const name = String(type === 'blogPost' ? (localized?.title || doc.translations?.bg?.title || doc.title || slug) : (localized?.name || categoryFallback?.name || doc.name || slug))
+      const translatedDescription = localized?.shortDescription || localized?.description || categoryFallback?.description
+      const description = plainText(translatedDescription || doc.shortDescription || doc.description)
+      const seo = (type === 'blogPost'
+        ? {metaTitle: localized?.seoTitle || doc.translations?.bg?.seoTitle, metaDescription: localized?.seoDescription || doc.translations?.bg?.seoDescription}
+        : (language === 'bg' ? doc.seo : localized?.seo)) as Record<string, any> | null | undefined
+      const categorySeo = type === 'category' ? resolveCategorySeo(seo, {
+        _id: doc._id,
+        name: doc.name || name,
+        slug: doc.slugValue,
+        description: doc.description,
+        catalog: doc._dataset === 'plants' ? 'plants' : 'irrigation',
+        translations: doc.translations,
+      }, language as 'bg' | 'ru' | 'en') : null
+      const brand = language === 'bg' ? 'Флориал' : 'Florial'
+      const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
+      const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
+      const noIndex = false
+      const canonicalRoute = route === 'products' ? 'product' : route
+      const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
+      const canonicalUrl = localizedRouteUrl(pagePath, language)
+      const alternates: Record<string, string> = {}
+      if (hasTranslation(doc, type, 'bg')) alternates.bg = localizedRouteUrl(pagePath, 'bg')
+      if (hasTranslation(doc, type, 'ru')) alternates.ru = localizedRouteUrl(pagePath, 'ru')
+      if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl(pagePath, 'en')
+      alternates['x-default'] = localizedRouteUrl(pagePath, 'bg')
+
+      const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
+        { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
+      ]
+      if (plantCategoryProducts?.length) {
+        structuredData.push({
+          id: 'category-products',
+          data: buildPlantCategoryItemList(plantCategoryProducts, language, SITE_URL),
+        })
+      }
+      if (type === 'product') {
+        structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
+      }
+      const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
+      const body = documentBody(doc, type, name, description, language, pageH1, plantCategoryProducts || undefined)
+      return transformHtmlResponse(await context.next(), (html) => {
+        const root = renderRoot(html, body)
+        return setPageHead(root, {
+          language,
+          title,
+          description: metaDescription,
+          canonical: canonicalUrl,
+          image: doc?.imageUrl,
+          noIndex,
+          alternates,
+          structuredData,
+          pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
+        })
+      }, plantCategoryProducts !== null
+        ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
+        : undefined)
+    } catch {
+      // Do not turn an upstream Sanity outage into a false 200 or false 404.
+      return unavailableResponse(language)
+    }
+  }
+
+  const response = await context.next()
+  const contentType = response.headers.get('content-type') || ''
+  const lastSegment = path.split('/').pop() || ''
+  const looksLikeFile = /\.[a-zA-Z0-9]{1,8}$/.test(lastSegment)
+  if (looksLikeFile) return contentType.includes('text/html') ? notFoundResponse(language) : response
+  return notFoundResponse(language)
+}
+
+
+const applySecurityHeaders = (response: Response, request: Request): Response => {
+  const headers = new Headers(response.headers)
+  headers.set('X-Content-Type-Options', 'nosniff')
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  headers.set('X-Frame-Options', 'DENY')
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  if (new URL(request.url).protocol === 'https:') headers.set('Strict-Transport-Security', 'max-age=31536000')
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+}
+
+export async function onRequest(context: PagesContext): Promise<Response> {
+  const response = await handleRequest(context)
+  return applySecurityHeaders(response, context.request)
+}
+ + key, JSON.stringify(value))
+  })
+
+  const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
+  if (!response.ok) throw new Error('Sanity ' + dataset + ' query failed: ' + response.status)
+  const body = (await response.json()) as { result?: T }
+  if (!Object.prototype.hasOwnProperty.call(body, 'result')) {
+    throw new Error('Sanity ' + dataset + ' query returned no result field')
+  }
+
+  if (cache) {
+    try {
+      const cachedResponse = new Response(JSON.stringify({ result: body.result }), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'public, max-age=' + ttlSeconds,
+        },
+      })
+      await cache.put(cacheKey, cachedResponse)
+    } catch {
+      // Cache write errors are non-fatal; the live response remains usable.
+    }
+  }
+
+  return body.result as T
+}
+
+async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantProduct[]> {
+  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref}'
+  const categories = await querySanityData<Array<{ _id: string; parentId?: string }>>(
+    'plants',
+    categoryQuery,
+    {},
+    'sanity/plants/category-tree',
+    300,
+  )
+  if (!Array.isArray(categories)) throw new Error('Sanity plants category tree is not an array')
+
+  const categoryIds = collectDescendantCategoryIds(categoryId, categories)
+  const productQuery = `
+    *[
+      _type == "product" &&
+      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      isActive != false &&
+      defined(slug) &&
+      references($categoryIds)
+    ] | order(sortOrder asc) {
+      _id,
+      name,
+      translations { bg { name }, ru { name }, en { name } },
+      "slugValue": coalesce(slug.current, slug, _id),
+      priceEUR,
+      stockStatus,
+      saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
+    }
+  `
+  const products = await querySanityData<SeoPlantProduct[]>(
+    'plants',
+    productQuery,
+    { categoryIds },
+    'sanity/plants/category-products/' + encodeURIComponent(categoryId),
+    30,
+  )
+  if (!Array.isArray(products)) throw new Error('Sanity plants category products is not an array')
+  return products
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
