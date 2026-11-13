@@ -1,9 +1,9 @@
 export function getServerProductPrice(product) {
   if (product?._dataset === 'plants') {
-    const variant = (product.saleVariants || []).find((item) =>
-      typeof item?.priceEUR === 'number' && Number.isFinite(item.priceEUR) && item.priceEUR > 0
-    )
-    return variant?.priceEUR ?? null
+    const variant = product.saleVariants?.[0]
+    return typeof variant?.priceEUR === 'number' && Number.isFinite(variant.priceEUR) && variant.priceEUR > 0
+      ? variant.priceEUR
+      : null
   }
   return typeof product?.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0
     ? product.priceEUR
