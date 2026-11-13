@@ -19,7 +19,8 @@ type SeoPlantProduct = {
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
-  translations?: Record<string, { name?: string } | undefined>
+  translations?: Record<string, { name?: string; seo?: { h1?: string } } | undefined>
+  seo?: { h1?: string }
   saleVariants?: Array<{
     name?: string
     nameEn?: string
@@ -316,7 +317,8 @@ async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantP
     ] | order(sortOrder asc) {
       _id,
       name,
-      translations { bg { name }, ru { name }, en { name } },
+      translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
+      seo { h1 },
       "slugValue": coalesce(slug.current, slug, _id),
       priceEUR,
       stockStatus,
