@@ -1,4 +1,4 @@
-## Plant category server-rendered catalogue — Phase 1 PR pending (13.11.2026)
+## Plant category server-rendered catalogue — PR #251 open (13.11.2026)
 
 - Branch: `feat/plant-category-server-rendering`. Plant categories only; equipment categories remain Phase 2.
 - The Middleware now includes published plant products in the initial category HTML and emits localized product links plus ItemList JSON-LD. React continues to load the live catalogue and replaces the server fallback after JavaScript starts.
