@@ -7,6 +7,7 @@
 - Pre-write backup: `docs/backups/sanity-plant-categories-before-seo-2026-11-13.json` (17 complete published-document snapshots; 358,092 characters).
 - Sanity write result: 17/17 document patches successful; 17/17 published. Post-publish GROQ read-back confirmed all 17 documents and all 102 localized meta fields (51 title + 51 description); no missing values or title-length violations.
 - No schema, application code, Cloudflare configuration, D1, Resend, product records, individual plant product SEO, or deployment was changed.
+- **CI on exact content/docs head `6100fbe1ba79f977700c4a442005b37266f4f4c7`:** Blog and Studio validation run `43406072024` — success (lint, website utility tests, website build, read-only migration dry-run and Studio build); D1 migration validation run `43406071860` — success. No application code changed.
 - Live Production HTML/crawler rendering and Google re-crawl are not independently confirmed in this operation. Metadata is confirmed in published Sanity; runtime rendering is governed by the existing category SEO resolver/middleware.
 
 ## 2026-11-13 — PR #251 merged and deployed; owner QA pending
