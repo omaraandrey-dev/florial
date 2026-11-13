@@ -1,6 +1,7 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
 import { collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -594,7 +595,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     const plantVariant = doc._dataset === 'plants'
       ? doc.saleVariants?.find((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)
       : undefined
-    const displayPrice = doc._dataset === 'plants' ? plantVariant?.priceEUR : doc.priceEUR
+    const displayPrice = getServerProductPrice(doc)
     const displayStockStatus = doc._dataset === 'plants' ? (plantVariant?.stockStatus || doc.stockStatus) : doc.stockStatus
     const price = typeof displayPrice === 'number' && displayPrice > 0
       ? '<p><strong>' + (language === 'ru' ? 'Цена' : language === 'en' ? 'Price' : 'Цена') + ': ' + displayPrice.toFixed(2) + ' EUR</strong></p>'
@@ -625,41 +626,7 @@ function makeBreadcrumb(path: string, name: string, language: string): Record<st
 }
 
 function makeProductJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
-  let offer: Record<string, unknown> | null = null
-  if (doc._dataset === 'plants') {
-    const prices = [...new Set((doc.saleVariants || [])
-      .map((variant) => variant.priceEUR)
-      .filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0))].sort((a, b) => a - b)
-    if (prices.length === 1) {
-      offer = {
-        '@type': 'Offer',
-        price: prices[0].toFixed(2),
-        priceCurrency: 'EUR',
-        url,
-        itemCondition: 'https://schema.org/NewCondition',
-      }
-    } else if (prices.length > 1) {
-      offer = {
-        '@type': 'AggregateOffer',
-        lowPrice: prices[0].toFixed(2),
-        highPrice: prices[prices.length - 1].toFixed(2),
-        offerCount: prices.length,
-        priceCurrency: 'EUR',
-        url,
-      }
-    }
-  } else if (typeof doc.priceEUR === 'number' && doc.priceEUR > 0) {
-    offer = {
-      '@type': 'Offer',
-      price: doc.priceEUR.toFixed(2),
-      priceCurrency: 'EUR',
-      url,
-      itemCondition: 'https://schema.org/NewCondition',
-      ...(doc.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
-      ...(doc.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
-    }
-  }
-
+  const offer = buildProductOffer(doc, url)
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
