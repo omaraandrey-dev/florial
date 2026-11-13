@@ -46,10 +46,14 @@ test('multiple plant variants with the same price keep the true offer count', ()
   })
 })
 
-test('plant without a priced sale variant does not publish the unrelated root price', () => {
-  const product = { _dataset: 'plants', priceEUR: 3000, saleVariants: [{ name: 'Size pending' }] }
+test('plant fallback price matches the initially selected first variant', () => {
+  const product = {
+    _dataset: 'plants',
+    priceEUR: 3000,
+    saleVariants: [{ name: 'Size pending' }, { priceEUR: 13 }],
+  }
   assert.equal(getServerProductPrice(product), null)
-  assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/plant'), null)
+  assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/plant').price, '13.00')
 })
 
 test('irrigation product continues to use its published root price and stock status', () => {
