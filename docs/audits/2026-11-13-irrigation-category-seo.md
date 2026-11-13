@@ -95,3 +95,8 @@ Four documents — controllers, sprinklers, nozzles and valve boxes — already 
 ## Owner publication confirmation
 
 The owner subsequently confirmed that publication completed successfully. This is recorded as owner confirmation and does not replace an independent Production HTTP/visual inspection or Google-crawler verification; those checks remain separate follow-up items.
+
+
+## Expanded category coverage
+
+The remaining 42 irrigation category documents (including the catalogue root and all other categories with product references) were subsequently updated and published. The combined rollout now covers 52 of 54 category documents; two zero-product documents remain untouched. See `docs/audits/2026-11-13-irrigation-remaining-category-seo.md` for the follow-up batch, complete slug list, backup and post-publish verification.

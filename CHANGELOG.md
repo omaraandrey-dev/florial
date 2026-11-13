@@ -1,3 +1,15 @@
+## 2026-11-13 — SEO content published for 42 remaining irrigation categories
+
+- Updated and published 42 existing irrigation category documents in Sanity project `bxvcy0qs`, dataset `production`, including the irrigation catalogue root and every remaining category with product references. Combined with the first 10 primary categories, 52 of 54 category documents now have the full category SEO treatment.
+- Added 126 localized BG/RU/EN SEO articles with four visible FAQ pairs each (504 localized FAQ pairs). Each article is Portable Text with 13 blocks; final plain-text lengths are 1,676–2,061 characters.
+- Verified all 126 Meta Titles at 70 characters or less, including Несебър / Несебр / Nessebar and Florial; all 126 Meta Descriptions are at most 160 characters. Existing H1 values were retained and verified in all locales. Useful existing category descriptions were retained; generic legacy boilerplate was replaced with concise localized descriptions.
+- Two zero-product category documents were intentionally left unchanged: `electromagnetic-valves` (`25a5e3e5-b937-4beb-882c-b6708337c81d`) and `troynik-90-plastmasov-vatreshna-rezba` (`90ab6b0d-7b56-4cf2-946e-129c60ab204f`). No SEO copy was added to these empty pages.
+- Pre-write snapshot: `docs/backups/sanity-irrigation-remaining-categories-before-seo-2026-11-13.json` (42 complete published-document snapshots).
+- Post-publish read-back confirmed 42/42 documents, 13 Portable Text blocks in every locale, all title/description limits and zero remaining drafts. Comparison with the backup found zero changes to IDs, names, slugs, parent references, images, sort order, `helpBlock` or BG/RU/EN `noIndex` values.
+- Sanity beta validation reports six documents with pre-existing undeclared root-level legacy fields `seoTitle` / `seoDescription`; the root category also has legacy `order`. These fields were preserved, not removed. Custom validation callbacks were not run by the beta validator.
+- This is a Sanity content-only update. No code/schema, product records, category relationships, Cloudflare, D1, Resend, secrets, DNS, global navigation or Production deployment changed. No FAQPage JSON-LD was added.
+- Live initial-HTML/rendered-page inspection and Google recrawl are not independently confirmed; see `docs/audits/2026-11-13-irrigation-remaining-category-seo.md`.
+
 ## 2026-11-13 — Category-first related content for irrigation products
 
 - Owner confirmed that the recent irrigation-category content publication completed successfully. This records the owner's confirmation; it is not a separate HTTP/visual or Google-crawler verification.

@@ -1,3 +1,15 @@
+## 2026-11-13 — SEO content for the remaining irrigation categories
+
+The category SEO rollout now covers 52 of the 54 published irrigation category documents in Sanity `bxvcy0qs/production`: the first 10 primary categories plus 42 remaining category documents, including the `vsichko-za-polivane` catalogue root and all remaining categories with product references. Two empty documents with zero product references (`electromagnetic-valves` and `troynik-90-plastmasov-vatreshna-rezba`) were intentionally left unchanged.
+
+The 42-document batch adds 126 localized BG/RU/EN SEO articles, each with four visible FAQ pairs and 13 Portable Text blocks. Final article lengths are 1,676–2,061 characters. All 126 Meta Titles are at most 70 characters and include Несебър / Несебр / Nessebar plus Florial; all 126 Meta Descriptions are at most 160 characters. Existing localized H1 values and useful category descriptions were retained; only generic legacy boilerplate descriptions were replaced.
+
+Backup: `docs/backups/sanity-irrigation-remaining-categories-before-seo-2026-11-13.json`. Post-publish read-back confirmed 42/42 documents, no remaining drafts, all three locales and SEO length limits. The comparison found no changes to IDs, names, slugs, parent references, image references, sort order, `helpBlock` or `noIndex`.
+
+The Sanity beta validator reports six documents with pre-existing undeclared root-level `seoTitle` / `seoDescription` fields; the irrigation root also has legacy `order`. These were preserved. Custom validation callbacks were not run. No application code, schema, product/category relationships, Cloudflare, D1, Resend or Production deployment changed. See `docs/audits/2026-11-13-irrigation-remaining-category-seo.md` for the complete audit and category slug list.
+
+Live initial-HTML/rendered-page inspection in BG/RU/EN and Google recrawl remain separate follow-up checks.
+
 ## 2026-11-13 — Category-first related content on irrigation product pages
 
 The existing plant-card rule (category CTA first, then product-specific links, without duplicates) is generalized to irrigation equipment products. For every equipment product, the detail query reads `category->helpBlock.buttonUrl` from its assigned primary category. A valid `/services/<slug>` or `/blog/<slug>` target is resolved as the first related card; if the category CTA is empty or invalid, the same default irrigation-installation service used by `CategoryPage` is used. Product-specific `relatedContent` references follow in their existing order. Duplicate document IDs are removed; inactive services and unpublished blog posts are excluded. The shared display limit remains four cards. The implementation is data-driven and applies to existing and future categories, including subcategories, without a hard-coded category allowlist. Plant behavior is preserved through a compatibility export of the original utility name.
