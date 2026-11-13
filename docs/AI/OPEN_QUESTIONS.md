@@ -1,3 +1,9 @@
+## 2026-11-13 — Related service priority for irrigation product categories
+
+- Owner approved applying the category-first related-content rule to every irrigation equipment category, including future categories and subcategories.
+- Implementation is in PR work branch `feat/category-related-services-for-equipment`: resolve the assigned category's `helpBlock.buttonUrl` (falling back to the same default irrigation-installation service as `CategoryPage` when empty/invalid), show the active service/published article first, append product-specific related content in Sanity order, and suppress duplicates. Existing four-card limit remains.
+- No category data migration is needed; this is runtime logic driven by the existing category field. Verify CI/build and review the exact PR diff before merge. After merge, verify one product from a category with a matching individual link and one without a match, then confirm a subcategory route.
+
 ## 2026-11-13 — Irrigation category SEO follow-up
 
 - 10/10 primary irrigation categories are published with BG/RU/EN H1, Meta Title, Meta Description, concise descriptions and localized SEO articles/visible FAQ. Details: `docs/audits/2026-11-13-irrigation-category-seo.md`.
