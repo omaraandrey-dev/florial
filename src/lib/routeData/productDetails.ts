@@ -1,5 +1,5 @@
 import { sanityClient, sanityLiveClient, plantsClient } from '../sanity'
-import { mergeCategoryRelatedContent, mergePlantRelatedContent, parseCategoryRelatedContentPath } from '../plantRelatedContentUtils.mjs'
+import { mergeCategoryRelatedContent, parseCategoryRelatedContentPath } from '../plantRelatedContentUtils.mjs'
 import type { Product } from '../../types'
 
 const PLANT_PRODUCT_TYPES = new Set([
