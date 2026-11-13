@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation is on branch `feat/plant-category-server-rendering`. Pull request and CI validation are pending. No Production release has been performed.
+Implementation is on branch `feat/plant-category-server-rendering`; PR #251 is open. CI validation is running on the latest branch head. No Production release has been performed.
 
 ## Scope
 
