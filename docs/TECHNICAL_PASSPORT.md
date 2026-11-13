@@ -1,3 +1,16 @@
+## 2026-11-13 — PR pending: loading skeleton каталога категорий
+
+**Статус:** ветка `fix/plant-category-loading-layout-2026-11-13`; изменение ожидает PR review/CI и не является частью `main` или Production.
+
+- `src/App.tsx`: category-specific `CategoryLoadingState` резервирует минимум `100svh` после Header, содержит skeleton breadcrumb/title/description, subcategory tiles, filter area и product cards. Это предотвращает схлопывание области основного содержимого в короткую текстовую заглушку и не позволяет Footer попадать в первый viewport во время ожидания каталога.
+- Route-specific React.Suspense fallback для category routes использует тот же skeleton, избегая двух разных промежуточных состояний.
+- Не меняются Header/Footer/меню, CategoryPage markup после готовности данных, Sanity queries/datasets/schema/documents, цены/остатки, изображения, D1, Cloudflare settings и routing.
+- По коду `index.html` содержит inline CSS: `.category-page-hero-image { display:none }`, desktop media query включает изображение с 1024 px. Подкатегорийные изображения в `CategoryPage.tsx` имеют 48×48 px mobile / 56×56 px desktop и `object-cover`.
+- Lighthouse baseline от владельца, mobile 13.11.2026 06:52 GMT+2: score 61; FCP 0.9 s; LCP 4.507 s; TBT 10 ms; CLS 0.693; Speed Index 1.4 s.
+- **Не подтверждено:** browser layout-shift attribution, новый Lighthouse, реальный CLS/LCP gain и визуальная проверка. Skeleton является layout-stability mitigation; он не ускоряет сам запрос Sanity и не доказывает оптимизацию каталожного data payload.
+
+---
+
 ## 2026-11-13 — Текущее состояние: locale и route-data code splitting в Production
 
 **Источник состояния:** GitHub `main`, merge commit `c97255f4fc843714f0a453727a77f22b75fdf0f7`; Cloudflare Pages Production deployment `cc421986-4aa0-49e3-85db-33d78d8546ce` (точный commit совпадает, build/deploy success).

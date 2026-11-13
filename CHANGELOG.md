@@ -1,3 +1,13 @@
+## 2026-11-13 — PR pending: стабильное состояние загрузки каталога категорий
+
+- Ветка: `fix/plant-category-loading-layout-2026-11-13`. Изменение подготовлено для review; оно ещё не находится в `main` и не опубликовано в Production.
+- В `src/App.tsx` добавлено специальное состояние загрузки для маршрутов категорий: резервируется высота не менее одного viewport после Header, показывается skeleton структуры каталога вместо короткой текстовой заглушки. Это должно удерживать Footer ниже первого экрана, пока загружаются каталог и модуль CategoryPage.
+- Тот же skeleton используется как route-specific React.Suspense fallback, чтобы не было промежуточной общей заглушки перед skeleton каталога.
+- Header, основное меню, Footer, CategoryPage layout после загрузки, маршрутизация, Sanity queries/schema/documents, D1, Cloudflare settings и изображения не менялись.
+- Проверено по исходникам: `index.html` скрывает `.category-page-hero-image` ниже 1024 px; изображения подкатегорий в `CategoryPage.tsx` показываются в контейнерах 48×48 px на mobile и 56×56 px на desktop с `object-cover`.
+- Исходный Lighthouse report владельца (13.11.2026, mobile): Performance 61, FCP 0.9 s, LCP 4.507 s, TBT 10 ms, CLS 0.693, Speed Index 1.4 s. Это исходная точка для повторного замера, не результат исправления.
+- **Не измерено:** фактическое уменьшение CLS/LCP; требуется CI, визуальная browser QA на mobile/desktop и повторный Lighthouse. Не считать CLS причиной только Footer без анализа layout-shift entries.
+
 ## 2026-11-13 — PR #244 опубликован в Production и функционально проверен владельцем
 
 - PR #244: https://github.com/omaraandrey-dev/florial/pull/244; squash merge commit: `c97255f4fc843714f0a453727a77f22b75fdf0f7`.
