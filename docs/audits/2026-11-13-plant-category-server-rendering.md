@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation is on branch `feat/plant-category-server-rendering`; PR #251 is open. CI validation is running on the latest branch head. No Production release has been performed.
+Implementation is on branch `feat/plant-category-server-rendering`; PR #251 is open. GitHub Actions passed on the implementation head: lint, tests, website build, Pages Functions syntax check and Studio build. Raw Production HTML/browser QA and release remain pending.
 
 ## Scope
 
