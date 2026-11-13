@@ -67,7 +67,7 @@ test('Cloudflare Pages middleware includes plant products in the initial categor
   assert.match(middleware, /if \(doc\._dataset === 'plants'\)/)
   assert.match(middleware, /await fetchPlantCategoryProducts\(doc\._id\)/)
   assert.match(middleware, /defined\(slug\.current\)/)
-  assert.match(middleware, /renderPlantCategoryListing\(categoryProducts \|\| \[\], language, SITE_URL\)/)
+  assert.match(middleware, /renderPlantCategoryListing\(plantProducts \|\| \[\], language, SITE_URL\)/)
   assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryProducts \|\| \[\], language\)/)
 })
 
