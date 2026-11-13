@@ -1,3 +1,12 @@
+## 2026-11-13 — Read-only inventory of irrigation product SEO gaps
+
+- Rechecked all 275 published, active irrigation products in Sanity `bxvcy0qs/production` using read-only GROQ queries.
+- Confirmed 193 products lack separate H1 in BG/RU/EN; 143 lack at least one RU/EN Meta Title/Meta Description; one product (`irritec-iq20120f0n20b`) lacks BG Meta Title and Meta Description.
+- Added the complete 193-product document-level inventory, including IDs, slugs, names, categories and per-locale missing-meta flags: `docs/audits/2026-11-13-irrigation-product-seo-inventory.md`.
+- No Sanity documents were patched or published. No schema, application code, Cloudflare, D1, Resend or Production deployment changed.
+- Safety finding: the current Manager `product-seo` apply path overwrites active SEO fields for all published products in both catalogues, including populated values; it is not suitable for a missing-fields-only repair without modification or a targeted patch process.
+- Owner says a Sanity backup already exists; its path and coverage of the 275 `production` product documents were not independently verified. The repository's plant-product H1 backup is for dataset `plants`, not this equipment dataset.
+
 ## 2026-11-13 — PR #257: merge и Production release
 
 - PR #257 squash-merged: `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`; branch `feat/google-seo-schema-audit` закрыта merge-ом.
