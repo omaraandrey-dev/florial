@@ -1,17 +1,15 @@
-## 2026-11-13 — Category-specific catalogue loading (PR pending)
+## 2026-11-13 — PR #248: category-specific catalogue loading merged and deployed
 
-**Branch:** `perf/lazy-load-catalogue-by-category`, основана на main `c212a3e1c2eeebeaf4d5ec61c2a0c6b03d7a2421`. **Кодовый commit:** `662cf3b7ce46fde8e7fe6314acc2c591671f71e2`.
+**Статус:** PR #248 squash-merged в `main`, commit `fe3e528320b88eebe3331e288bbf45591df64482`. Cloudflare Pages Production deployment `db437e51-7794-4bcd-93d0-e2ca004d59f7` — success на том же commit; URL `https://db437e51.florial.pages.dev`; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
 
-- `src/App.tsx`: вместо единого `catalogueLoaded` используются независимые отметки загрузки `equipment` и `plants`.
-- На plant category route выбирается только `plantsClient` / dataset `plants`; на irrigation category route — только `sanityLiveClient` / dataset `production`.
-- Category route ждёт завершения загрузки списка категорий, чтобы достоверно определить `isPlantCategory`. Неизвестный category slug не инициирует product catalogue query.
-- Product detail route сохраняет прежнее поведение и загружает оба индекса, так как URL slug не сообщает, в каком dataset находится товар. Search route остаётся на отдельном search loader.
-- При переходе между направлениями ранее загруженный массив сохраняется, второй dataset подгружается только при первом обращении.
-- GROQ projections, клиенты (live, не CDN), поля цены/остатков, обработка вариантов растений и filtering не менялись.
-- **CI на кодовом snapshot `90efb2516dbb4c27c53d63f81dd8448731016589`:** Blog and Studio validation run `43379741579` — success; D1 validation run `43379741478` — success. Lint, website tests/build, Pages Functions syntax, migration validations и Sanity Studio build прошли.
-- **Не проверено:** browser QA, Network waterfall, repeat Lighthouse и Production deployment. PR #248 открыт, merge не выполнялся; не считать реализацию опубликованной до подтверждения точного Pages deployment.
-- Sanity, D1, Resend, Cloudflare settings/secrets, SEO, Header/menu/Footer и routing не менялись.
-
+- CI на точном PR head `d70ec7936a8d58c8f16550688536bd0f918a4089`: Blog and Studio validation runs `43379996722` и `43380019954` — success; D1 validation run `43379996726` — success.
+- `src/App.tsx`: plant category routes загружают только `plantsClient` / dataset `plants`; equipment category routes — только `sanityLiveClient` / dataset `production`.
+- Состояние загрузки кэшируется независимо для `plants` и `equipment`. При SPA переходе в другой каталог загружается только ещё не загруженный dataset; уже полученные товары сохраняются без дублирования по `_id`.
+- Category route ожидает загрузки категорий для определения `isPlantCategory`; неизвестный category slug не инициирует product catalogue query.
+- Product detail route по-прежнему загружает оба индекса, поскольку slug не идентифицирует Sanity dataset. Search loader не менялся.
+- GROQ projections, live clients, цены/остатки, фильтры, сортировка, корзина и обработка вариантов растений не менялись.
+- Browser Network/functional QA и повторный Lighthouse пока не выполнены. Не подтверждены фактическое отсутствие противоположного product-index query в браузере, transfer saving и изменение LCP/critical path.
+- Sanity documents/schema/assets, D1 schema/data, Resend, Cloudflare settings/secrets, SEO metadata, Header/menu/Footer и routing не менялись.
 
 
 ## 2026-11-13 — PR #247: responsive category fallback and plant catalogue images deployed
