@@ -118,47 +118,49 @@ PR: https://github.com/omaraandrey-dev/florial/pull/257
 Подготовлено:
 
 1. Вынесены тестируемые helpers `getServerProductPrice` и `buildProductOffer`. Для растений сервер использует saleVariants, а не потенциально устаревший root `priceEUR`; при нескольких вариантах формируется `AggregateOffer` с корректными low/high price и offerCount.
-2. Первоначальный HTML карточки растения теперь показывает цену первого доступного варианта, согласованную с начальным выбором в React.
+2. Первоначальный HTML карточки растения теперь показывает цену первого выбранного варианта, согласованную с начальным выбором в React.
 3. Middleware больше не выставляет `noIndex=false` безусловно; он учитывает SEO-поле выбранной локали. ProductPage и ServicePage на клиенте также сохраняют `noIndex`.
-4. Условия product/service hreflang выровнены с реальными переводами и sitemap: наличие локализованных name/shortDescription достаточно, если локаль не помечена noIndex. Отсутствие необязательных meta-полей больше не разрывает alternate links.
+4. Условия product/service hreflang выровнены с реальными переводами и sitemap: локализованные name/shortDescription достаточны, если локаль не помечена noIndex. Отсутствие необязательных meta-полей больше не разрывает alternate links.
 5. RU/EN версии `/terms` содержали болгарский юридический проект с предупреждением о непроверенном переводе, но оставались indexable. Теперь server middleware и TermsPage ставят для RU/EN `noindex, nofollow`; BG остаётся индексируемой и единственной языковой версией в sitemap.
-5. Добавлена Schema.org `Service` для страниц услуг и статической страницы доставки.
-6. Добавлена `BlogPosting` для статей с headline, description, published/modified dates, image, publisher/author и inLanguage.
-7. Добавлена `CollectionPage` + `ItemList` для категорий полива и растений, а также для списков услуг и блога. Структурированные данные восстанавливаются на клиенте после `applyPageSeo`, который очищает page-specific JSON-LD.
-8. Для equipment category query failure страница остаётся доступной; ItemList пропускается как необязательное обогащение. Существующее fail-closed поведение plant category SSR сохранено.
-9. Добавлены unit/static tests для цен вариантов и наличия структурированных данных.
+6. Добавлена Schema.org `Service` для страниц услуг и статической страницы доставки.
+7. Добавлена `BlogPosting` для статей с headline, description, published/modified dates, image, publisher/author и inLanguage.
+8. Добавлена `CollectionPage` + `ItemList` для категорий полива и растений, а также для списков услуг и блога. Структурированные данные восстанавливаются на клиенте после `applyPageSeo`, который очищает page-specific JSON-LD.
+9. Для equipment category query failure страница остаётся доступной; ItemList пропускается как необязательное обогащение. Существующее fail-closed поведение plant category SSR сохранено.
+10. Добавлены unit/static tests для цен вариантов, hreflang, noIndex и наличия структурированных данных.
 
 Никаких Sanity documents, схем Studio, Cloudflare variables/secrets, D1, Resend, Header/Footer или глобальной архитектуры не менялось.
 
 ## 6. CI и Preview validation
 
-Для runtime commit `dd83b76db47012e2d0a3f781fb15c6afdc9d5b72` оба GitHub Actions workflow завершились success:
+Для кода и тестов, включая RU/EN noindex для Terms, оба GitHub Actions workflow завершились success на commit `61582d3e0e69d11fe5efe10422ee1e5bf965643b`:
 
-- Blog and Studio validation run `43431627121` (#1102): lint, npm test, website build, migration syntax/dry-run и Sanity Studio build — success.
-- Florial D1 migration validation run `43431627266` (#1416): lint, website build, Pages Functions syntax, additive plant audit migration validation и contract withdrawals migration validation — success.
+- Blog and Studio validation run `43432840090` (#1115): lint, website utility tests, website build, migration syntax/read-only dry-run и Sanity Studio build — success.
+- Florial D1 migration validation run `43432839974` (#1427): lint, website build, Pages Functions syntax и обе migration validations — success.
 
-Cloudflare Pages Preview deployment для этого runtime commit:
-- deployment `bffc1ed8-6d73-4157-9541-d41f97daf56f`, URL `https://bffc1ed8.florial.pages.dev`, status success.
+Cloudflare Pages Preview deployment:
+- deployment `8e427191-12ee-41b3-82ff-6a7a634066cd`, URL `https://8e427191.florial.pages.dev`, status success.
 - Production не менялся.
 
-Raw HTML smoke на Preview, JavaScript отключён:
-- Kumquat: HTTP 200, `robots=index, follow`; initial HTML price 25.00 EUR; Product Offer 25.00 EUR (вместо 3 000 EUR в Production baseline).
-- Conifer on standard: HTTP 200; initial HTML price 40.00 EUR; Product JSON-LD AggregateOffer lowPrice 40.00, highPrice 50.00, offerCount 3.
-- Irrigation root category `/category/vsichko-za-polivane`: HTTP 200; CollectionPage + ItemList, 20 entries; first item URLs use canonical apex domain.
-- Plant root category `/category/rastenia`: HTTP 200; CollectionPage + ItemList, 20 entries; localized Bulgarian names and canonical product URLs.
-- Service `/services/avtomatichno-napoyavane`: HTTP 200; Service schema with serviceType, Organization provider and areaServed city entities.
-- Blog article `/blog/cena-sistema-avtomatichno-napoyavane-burgas`: HTTP 200; BlogPosting schema with headline, publication/modification dates, image, publisher and `inLanguage=bg`.
+Preview smoke:
+
+- Kumquat, JavaScript off: HTTP 200, `robots=index, follow`; initial HTML price 25.00 EUR; Product Offer 25.00 EUR (вместо 3 000 EUR в Production baseline).
+- Conifer on standard, JavaScript off: HTTP 200; initial HTML price 40.00 EUR; Product JSON-LD AggregateOffer lowPrice 40.00, highPrice 50.00, offerCount 3.
+- Irrigation root category, JavaScript off: HTTP 200; CollectionPage + ItemList, 20 entries.
+- Plant root category, JavaScript off: HTTP 200; CollectionPage + ItemList, 20 entries.
+- Service detail, JavaScript off: HTTP 200; Service schema с serviceType, Organization provider и areaServed.
+- Blog article, JavaScript off: HTTP 200; BlogPosting schema с headline, publication/modification dates, image, publisher и `inLanguage=bg`.
+- Services index, JavaScript on: HTTP 200; CollectionPage + ItemList, 21 services.
+- Blog index, JavaScript on: HTTP 200; CollectionPage + ItemList, 14 articles.
+- RU product version without localized SEO meta fields, JavaScript off: HTTP 200; self-canonical, BG/RU/EN/x-default hreflang, `robots=index, follow`.
+- RU `/terms?lang=ru`, JavaScript on: HTTP 200; self-canonical, no alternate links, `robots=noindex, nofollow`.
 
 ## 7. Что ещё не подтверждено
 
-- После merge необходим Production deployment и повторная проверка sitemap.
-- После Production deployment нужно повторить raw HTML smoke без JavaScript для товара полива, категории полива, категории растений, услуги, статьи, /services и /blog. Preview проверка категорий/услуг/статей ещё ожидает завершения rate limit Cloudflare Browser Rendering.
+- PR #257 ещё не объединён. После merge необходим Production deployment и повторная проверка sitemap/HTML на основном домене.
 - Не выполнялась проверка Google Search Console и фактической индексации URL. Наличие URL в sitemap не означает, что Google уже проиндексировал страницу.
-- Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в live/preview HTML и код генерации.
+- Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в Production baseline, Preview HTML и код генерации.
+- Полный браузерный обход 1 312 языковых URL не выполнялся: точное сравнение Sanity slugs с sitemap сделано для всех 431 документов, а HTML smoke — по представительным шаблонам.
 - Firecrawl не использовался; Cloudflare Browser Rendering имеет отдельный rate limit.
-- Не выполнялась проверка Google Search Console и фактической индексации URL. Наличие URL в sitemap не означает, что Google уже проиндексировал страницу.
-- Google Rich Results Test / Schema Markup Validator не запускались; проверены исходный JSON-LD в live HTML и код генерации.
-- В Cloudflare Browser Rendering действует отдельный rate limit; повторные запросы выполнялись с паузами, Firecrawl не использовался.
 
 ## 7. Открытые решения владельца
 
