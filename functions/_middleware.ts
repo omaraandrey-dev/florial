@@ -410,7 +410,7 @@ function hasTranslation(doc: SeoDocument, type: string, language: string): boole
     const fallback = categoryFallbacks[doc.slugValue || '']?.[language as 'ru' | 'en']
     return Boolean((translated.name || fallback?.name) && (translated.description || fallback?.description) && translated.seo?.noIndex !== true)
   }
-  if (type === 'product') {
+  if (type === 'product' || type === 'service') {
     return Boolean(translated.shortDescription && translated.seo?.noIndex !== true)
   }
   return Boolean(translated.seo?.metaTitle && translated.seo?.metaDescription)
