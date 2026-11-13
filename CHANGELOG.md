@@ -12,7 +12,7 @@
 
 ## 2026-11-13 — Начальный JavaScript: разделены языковые словари и route-data loaders (PR #244)
 
-- Рабочая ветка: `perf/split-i18n-locales-2026-11-13`; PR: https://github.com/omaraandrey-dev/florial/pull/244. PR открыт как Draft; merge и Production deployment не выполнялись.
+- Исторический статус на момент первоначальной записи до merge: PR оставался Draft. Актуальный статус merge и Production deployment указан в записи выше.
 - Кодовый snapshot: `1c36472e52cbc0f7219f7827a5452b10581a317b`.
 - `src/lib/i18n.tsx` оставляет болгарский словарь в initial bundle; RU и EN загружаются динамическими locale chunks. Отдельно разделены UI translations, known content translations и known category translations. Сохранены URL `?lang=`, localStorage, `document.documentElement.lang`, Sanity translations и fallback на исходный текст. При загрузке другой локали страница не рендерится с неверным языком.
 - Route-specific запросы вынесены в динамические модули: `src/lib/routeData/productDetails.ts`, `search.ts`, `serviceDetails.ts`, `categoryDetails.ts`. App импортирует их только при открытии соответствующего маршрута. GROQ projections, Sanity clients, result handling и fallback сохранены; loaders принимают cancellation callback.
