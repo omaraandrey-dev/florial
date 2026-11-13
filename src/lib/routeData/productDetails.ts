@@ -206,6 +206,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
               }
   } else {
     const categoryRelated = parseCategoryRelatedContentPath(details.categoryRelatedContent?.buttonUrl)
+      || parseCategoryRelatedContentPath('/services/avtomatichno-napoyavane')
     if (categoryRelated) {
       const categoryRelatedQuery = `
         *[
