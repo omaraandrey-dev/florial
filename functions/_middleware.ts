@@ -592,9 +592,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     : ''
   let extra = ''
   if (type === 'product') {
-    const plantVariant = doc._dataset === 'plants'
-      ? doc.saleVariants?.find((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)
-      : undefined
+    const plantVariant = doc._dataset === 'plants' ? doc.saleVariants?.[0] : undefined
     const displayPrice = getServerProductPrice(doc)
     const displayStockStatus = doc._dataset === 'plants' ? (plantVariant?.stockStatus || doc.stockStatus) : doc.stockStatus
     const price = typeof displayPrice === 'number' && displayPrice > 0
