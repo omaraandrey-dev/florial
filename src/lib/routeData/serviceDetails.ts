@@ -22,13 +22,40 @@ export async function fetchServiceDetails(
 
   const localeProjection = language === 'bg'
     ? '"translations": {}'
-    : `"translations": { "${language}": translations.${language} }`
+    : `"translations": {
+        "${language}": {
+          "name": translations.${language}.name,
+          "shortDescription": translations.${language}.shortDescription,
+          "description": translations.${language}.description,
+          "hero": translations.${language}.hero{title, subtitle},
+          "advantages": translations.${language}.advantages[]{_key, title, text},
+          "steps": translations.${language}.steps[]{_key, title, text},
+          "callToAction": translations.${language}.callToAction{title, text, buttonLabel},
+          "leadForm": translations.${language}.leadForm{
+            title, submitLabel, successMessage,
+            "fields": fields[]{_key, name, type, label, placeholder, required}
+          },
+          "seo": translations.${language}.seo{metaTitle, metaDescription, noIndex, keywords}
+        }
+      }`
   const blockTranslations = language === 'bg'
     ? '"translations": {}'
-    : `"translations": { "${language}": translations.${language} }`
+    : `"translations": {
+        "${language}": {
+          "title": translations.${language}.title,
+          "text": translations.${language}.text,
+          "imageAlt": translations.${language}.imageAlt
+        }
+      }`
   const relatedTranslations = language === 'bg'
     ? '"translations": {}'
-    : `"translations": { "${language}": translations.${language} }`
+    : `"translations": {
+        "${language}": {
+          "name": translations.${language}.name,
+          "title": translations.${language}.title,
+          "shortDescription": translations.${language}.shortDescription
+        }
+      }`
 
   const serviceDetailQuery = `
     *[
@@ -73,7 +100,8 @@ export async function fetchServiceDetails(
         ${blockTranslations}
       },
       "relatedContent": relatedContent[]->{
-        _id, _type, name, title, ${relatedTranslations},
+        _id, _type, name, title,
+        ${relatedTranslations},
         "slug": { "current": coalesce(slug.current, slug) },
         shortDescription, isActive, isPublished,
         "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
