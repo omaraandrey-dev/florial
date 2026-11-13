@@ -1,3 +1,13 @@
+## 2026-11-13 — SEO sitemap/schema fixes PR #257 merged and deployed
+
+- PR #257 squash-merged into `main`; merge commit `1e5344a6faa8053f2020f1f3fbdb03f1200a149e`.
+- Exact PR-head CI (`6a9db96989f065cc930e3e2fa0e1e04f44450bf8`): Blog and Studio runs `43433210752` / `43433196806` and D1 validation `43433196666` — success.
+- Cloudflare Pages Production deployment `e3408322-80c3-4663-9dcd-48d8feec3e42`, `https://e3408322.florial.pages.dev` — build and deploy success on exact merge commit.
+- Live Production initial-HTML smoke with JavaScript disabled: Kumquat `/product/citrus-japonica-kumquat` HTTP 200, `robots=index, follow`, self-canonical and Product Offer `25.00 EUR`; this corrects the former `3 000 EUR` initial HTML/JSON-LD price and matches the first published sale variant.
+- The PR also aligns locale-specific noIndex and product/service hreflang with translation availability; marks RU/EN `/terms` noindex; adds Service, BlogPosting, CollectionPage and ItemList structured data; handles sale-variant Offer/AggregateOffer values.
+- Browser Rendering rate limit (HTTP 429) prevented immediate further Production smoke checks. Do not infer every route was live-verified from the single Kumquat check or from Preview smoke. Google Search Console recrawl/indexing remains unconfirmed.
+- No Sanity documents/schema, D1, Cloudflare settings/secrets, Resend, DNS, Header/menu/Footer or global architecture changes. Content gaps (193 irrigation H1s, 143 incomplete RU/EN meta pairs, one BG meta pair, three service hero titles, four empty categories) remain separate owner-approved content decisions. See `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`.
+
 Preview deployment for implementation SHA 766309804eff29ffe36033fe464cb2603bd84a0c succeeded: 27b617f5-807c-4a43-a264-0bd2e613fc37 (https://27b617f5.florial.pages.dev). Mobile browser QA is not confirmed; the browser inspection could not start because the connected browser service had exhausted its credits. This does not affect the confirmed GitHub CI/build result.
 
 ## 2026-11-13 — Cart quantity input and equipment weight (PR #256)
