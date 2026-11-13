@@ -811,16 +811,17 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           }
     const canonical = localizedRouteUrl('/terms', language)
     const base = SITE_URL + '/terms'
-    const alternates = {
+    const alternates = language === 'bg' ? {
       bg: base,
       'x-default': base,
-    }
+    } : undefined
     return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
       language,
       title: meta.title,
       description: meta.description,
       canonical,
       alternates,
+      noIndex: language !== 'bg',
       pageType: 'website',
     }))
   }
