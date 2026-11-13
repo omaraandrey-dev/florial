@@ -64,16 +64,16 @@ test('builds a localized ItemList with stable product URLs', () => {
 
 test('Cloudflare Pages middleware includes plant products in the initial category HTML', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /type === 'category' && doc\._dataset === 'plants'/)
+  assert.match(middleware, /if \(doc\._dataset === 'plants'\)/)
   assert.match(middleware, /await fetchPlantCategoryProducts\(doc\._id\)/)
   assert.match(middleware, /defined\(slug\.current\)/)
-  assert.match(middleware, /renderPlantCategoryListing\(plantProducts \|\| \[\], language, SITE_URL\)/)
-  assert.match(middleware, /buildPlantCategoryItemList\(plantCategoryProducts, language, SITE_URL\)/)
+  assert.match(middleware, /renderPlantCategoryListing\(categoryProducts \|\| \[\], language, SITE_URL\)/)
+  assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryProducts \|\| \[\], language\)/)
 })
 
 test('plant catalogue failures do not become a false empty-category response', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /return unavailableResponse\(language\)/)
-  assert.match(middleware, /if \(!Array\.isArray\(products\)\) throw new Error\('Sanity plants category products is not an array'\)/)
+  assert.match(middleware, /if \(!Array\.isArray\(products\)\) throw new Error\('Sanity ' \+ dataset \+ ' category products is not an array'\)/)
   assert.match(middleware, /s-maxage=30, stale-while-revalidate=60/)
 })
