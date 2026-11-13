@@ -1,5 +1,5 @@
 import { sanityClient, sanityLiveClient, plantsClient } from '../sanity'
-import { mergePlantRelatedContent } from '../plantRelatedContentUtils.mjs'
+import { mergeCategoryRelatedContent, mergePlantRelatedContent, parseCategoryRelatedContentPath } from '../plantRelatedContentUtils.mjs'
 import type { Product } from '../../types'
 
 const PLANT_PRODUCT_TYPES = new Set([
@@ -38,6 +38,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
           "catalogPDFUrl": catalogPDF.asset->url,
           "category": category->name,
           "categoryTranslations": category->translations,
+          "categoryRelatedContent": { "buttonUrl": category->helpBlock.buttonUrl },
           "categoryId": category->_id,
           "categorySlug": coalesce(category->slug.current, category->slug),
           "categoryParentId": category->parent->_id,
@@ -116,15 +117,9 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
 
   let enrichedDetails: Product = details
   if (isPlant) {
-    const categoryRelatedPath = typeof details.categoryRelatedContent?.buttonUrl === 'string'
-                ? details.categoryRelatedContent.buttonUrl.trim()
-                : ''
-              const categoryRelatedSegments = categoryRelatedPath.split('/').filter(Boolean)
-              const categoryRelatedIsValid = categoryRelatedPath.startsWith('/') &&
-                categoryRelatedSegments.length === 2 &&
-                (categoryRelatedSegments[0] === 'services' || categoryRelatedSegments[0] === 'blog')
-              const categoryRelatedSlug = categoryRelatedIsValid ? categoryRelatedSegments[1] : undefined
-              const categoryRelatedType = categoryRelatedSegments[0] === 'services' ? 'service' : 'blogPost'
+    const categoryRelated = parseCategoryRelatedContentPath(details.categoryRelatedContent?.buttonUrl)
+              const categoryRelatedSlug = categoryRelated?.slug
+              const categoryRelatedType = categoryRelated?.type
               const relatedSlugs = Array.from(new Set([
                 ...(categoryRelatedSlug ? [categoryRelatedSlug] : []),
                 ...(Array.isArray(details.relatedContentBySlug) ? details.relatedContentBySlug : [])
@@ -202,13 +197,49 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
                   return item ? { ...item, linkLabel: reference.label || undefined } : null
                 })
                 .filter(Boolean)
-              const relatedContent = mergePlantRelatedContent(categoryRelatedContent, individualRelatedContent)
+              const relatedContent = mergeCategoryRelatedContent(categoryRelatedContent, individualRelatedContent)
     
               enrichedDetails = {
                 ...details,
                 relatedContent,
                 recommendedIrrigationProduct: recommendedProduct || undefined,
               }
+  } else {
+    const categoryRelated = parseCategoryRelatedContentPath(details.categoryRelatedContent?.buttonUrl)
+    if (categoryRelated) {
+      const categoryRelatedQuery = `
+        *[
+          _type == $type &&
+          coalesce(slug.current, slug) == $slug
+        ][0] {
+          _id, _type, name, title,
+          "slug": { "current": coalesce(slug.current, slug) },
+          shortDescription, isActive, isPublished,
+          translations {
+            bg { name, title, shortDescription },
+            ru { name, title, shortDescription },
+            en { name, title, shortDescription }
+          },
+          "imageUrl": coalesce(image.asset->url, mainImage.asset->url, cover.asset->url, hero.image.asset->url),
+          "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
+          "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+          "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+        }
+      `
+      const categoryRelatedContent = await sanityClient.fetch(categoryRelatedQuery, {
+        type: categoryRelated.type,
+        slug: categoryRelated.slug,
+      }).catch((error) => {
+        console.error('Sanity: не удалось загрузить услугу или статью категории оборудования:', error)
+        return null
+      })
+      if (isCancelled()) return null
+
+      enrichedDetails = {
+        ...details,
+        relatedContent: mergeCategoryRelatedContent(categoryRelatedContent, details.relatedContent || []),
+      }
+    }
   }
 
   return enrichedDetails
