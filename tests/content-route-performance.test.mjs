@@ -61,3 +61,23 @@ test('blog article renders after its localized document, without waiting for the
   assert.match(page, /setLoaded\(true\)[\s\S]*fetchRelatedBlogPosts/)
   assert.match(page, /loading="eager" fetchPriority="high"/)
 })
+
+
+test('homepage features specimen plants instead of citrus in the six plant category cards', async () => {
+  const app = await read('../src/App.tsx')
+  const home = await read('../src/pages/HomePage.tsx')
+  assert.match(app, /"plants-root", "plants-palms", "plants-olives",[\\s\\S]*"plants-trees-shrubs", "plants-solitaires", "plants-flowers"/)
+  assert.match(home, /'plants-trees-shrubs',[\\s\\S]*'plants-solitaires',[\\s\\S]*'plants-flowers'/)
+  assert.doesNotMatch(home, /'plants-citrus'/)
+})
+
+test('compact Header service data preserves homepage service cards and About page service images', async () => {
+  const app = await read('../src/App.tsx')
+  const headerQueryStart = app.indexOf('const headerServiceQuery')
+  const headerQueryEnd = app.indexOf('const headerSettingsQuery', headerQueryStart)
+  const headerQuery = app.slice(headerQueryStart, headerQueryEnd)
+  assert.match(headerQuery, /"imageUrl": coalesce\\(image\\.asset->url, mainImage\\.asset->url, hero\\.image\\.asset->url\\)/)
+  assert.match(headerQuery, /sortOrder, serviceCategory, serviceLayout/)
+  assert.match(app, /<AboutPage services=\\{headerServices\\} categories=\\{categories\\} \\/>/)
+  assert.match(app, /<HomePage[\\s\\S]*services=\\{headerServices\\}/)
+})
