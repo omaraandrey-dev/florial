@@ -228,3 +228,5 @@
 
 **Preview smoke update 13.11.2026:** кроме двух вариантов Product и обеих категорий, без JavaScript проверены service detail (`Service`) и blog article (`BlogPosting`); HTTP 200, ожидаемые JSON-LD типы найдены.
 **Terms locale correction 13.11.2026:** sitemap correctly contains only BG `/terms`, because RU/EN pages show the Bulgarian draft with an untranslated-content notice. PR now applies server/client noindex to RU/EN variants; BG remains indexable.
+
+**H1/content completeness 13.11.2026:** 193/275 irrigation products lack separate H1 in BG/RU/EN (fallback name is rendered); 143 of those also miss at least one RU/EN metaTitle/metaDescription; one product `irritec-iq20120f0n20b` misses BG metaTitle/metaDescription. All 50 plants and all 71 categories have H1/meta complete in BG/RU/EN. Three services miss `hero.title` in all three locales: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`. No Sanity writes; plan separate content pass after backup and approval.
