@@ -6,7 +6,7 @@
 - Cache policy: category tree 300 seconds, product query 30 seconds, plant-category HTML 30 seconds with 60-second stale-while-revalidate. A Sanity error returns the existing 503/noindex response; only a successful empty result displays the empty-category message.
 - Read-only Sanity validation: published dataset has 17 categories; the same `references($categoryIds)` product-query pattern returned 12 products for `plants-palms` and 50 for the `plants-root` tree. No Sanity writes.
 - Added helper module and regression tests for nested categories, localized product links, escaping, empty/error states and ItemList output.
-- **Pending:** GitHub Actions lint/tests/build/Pages Functions validation on the exact PR SHA; PR creation and review; later raw-HTML/browser QA after authorized Production release. No Production deployment is claimed.
+- **Status:** PR #251 is open. GitHub Actions lint, tests, website build and Pages Functions syntax validation have passed on the previous head; the latest small presentation update is awaiting its own CI run. Studio build and later raw-HTML/browser QA after authorized Production release remain pending. No Production deployment is claimed.
 - No Sanity documents/schema/assets, D1, Resend, Cloudflare settings/secrets, DNS, routing, Header/menu/Footer or global React architecture were changed.
 - Details: `docs/audits/2026-11-13-plant-category-server-rendering.md`.
 
