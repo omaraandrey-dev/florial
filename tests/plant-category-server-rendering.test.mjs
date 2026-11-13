@@ -65,6 +65,7 @@ test('Cloudflare Pages middleware includes plant products in the initial categor
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /type === 'category' && doc\._dataset === 'plants'/)
   assert.match(middleware, /await fetchPlantCategoryProducts\(doc\._id\)/)
+  assert.match(middleware, /defined\(slug\.current\)/)
   assert.match(middleware, /renderPlantCategoryListing\(plantProducts \|\| \[\], language, SITE_URL\)/)
   assert.match(middleware, /buildPlantCategoryItemList\(plantCategoryProducts, language, SITE_URL\)/)
 })
