@@ -1,4 +1,17 @@
-export function mergePlantRelatedContent(categoryItem, individualItems = []) {
+export function parseCategoryRelatedContentPath(value) {
+  if (typeof value !== 'string') return null
+
+  const path = value.trim()
+  const match = path.match(/^\/(services|blog)\/([^/]+)$/)
+  if (!match) return null
+
+  return {
+    type: match[1] === 'services' ? 'service' : 'blogPost',
+    slug: match[2],
+  }
+}
+
+export function mergeCategoryRelatedContent(categoryItem, individualItems = []) {
   const seen = new Set()
 
   return [categoryItem, ...individualItems].filter((item) => {
@@ -12,3 +25,6 @@ export function mergePlantRelatedContent(categoryItem, individualItems = []) {
     return true
   })
 }
+
+// Keep the established plant helper name for existing callers.
+export const mergePlantRelatedContent = mergeCategoryRelatedContent
