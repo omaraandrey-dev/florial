@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mergePlantRelatedContent } from '../src/lib/plantRelatedContentUtils.mjs'
+import { mergeCategoryRelatedContent, mergePlantRelatedContent, parseCategoryRelatedContentPath } from '../src/lib/plantRelatedContentUtils.mjs'
 
 const service = (slug, overrides = {}) => ({
   _id: `service-${slug}`,
@@ -43,4 +43,34 @@ test('inactive services and unpublished articles are excluded', () => {
 test('empty category relation preserves individual content order', () => {
   const individual = [article('first'), service('second')]
   assert.deepEqual(mergePlantRelatedContent(null, individual).map((item) => item.slug.current), ['first', 'second'])
+})
+
+
+test('equipment category service is first and keeps remaining product links in order', () => {
+  const category = service('irrigation-installation')
+  const individual = [article('controller-guide'), service('valve-maintenance')]
+  assert.deepEqual(mergeCategoryRelatedContent(category, individual).map((item) => item.slug.current), [
+    'irrigation-installation', 'controller-guide', 'valve-maintenance',
+  ])
+})
+
+test('equipment category link already in product links is not repeated', () => {
+  const category = service('sprinkler-installation')
+  const individual = [service('sprinkler-installation'), article('sprinkler-guide')]
+  assert.deepEqual(mergeCategoryRelatedContent(category, individual).map((item) => item.slug.current), [
+    'sprinkler-installation', 'sprinkler-guide',
+  ])
+})
+
+test('category related path accepts service and blog routes only', () => {
+  assert.deepEqual(parseCategoryRelatedContentPath('/services/irrigation-installation'), {
+    type: 'service', slug: 'irrigation-installation',
+  })
+  assert.deepEqual(parseCategoryRelatedContentPath('/blog/controller-guide'), {
+    type: 'blogPost', slug: 'controller-guide',
+  })
+  assert.equal(parseCategoryRelatedContentPath('/category/controllers'), null)
+  assert.equal(parseCategoryRelatedContentPath('https://florial-bg.com/services/irrigation-installation'), null)
+  assert.equal(parseCategoryRelatedContentPath('/services/nested/path'), null)
+  assert.equal(parseCategoryRelatedContentPath(''), null)
 })
