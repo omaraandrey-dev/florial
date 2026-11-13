@@ -2957,3 +2957,5 @@ Backups:
 - PR #257 добавляет Schema.org Service, BlogPosting, CollectionPage/ItemList, уважение Sanity noIndex на сервере и клиенте, согласование product hreflang с переводами и тесты.
 - Изменения в ветке `feat/google-seo-schema-audit`; отчёт: `docs/audits/2026-11-13-sitemap-and-structured-data-audit.md`. На момент записи PR открыт; CI/merge/Production deployment ещё не подтверждены.
 - Sanity documents/schema, D1, Cloudflare settings/secrets, Resend и Production не изменялись. Firecrawl не использовался; live sitemap и raw HTML получены через Cloudflare Browser Rendering.
+
+- Дополнительно выполнено точное set-to-set сравнение URL: все 325 товарных, 71 категорийный, 21 service и 14 article URL из опубликованных Sanity slugs совпадают с живым sitemap; для каждого типа missing=0, extra=0, duplicate slug paths=0.
