@@ -1,4 +1,14 @@
-## Каталог растений — fallback image и responsive image sizing (13.11.2026)
+## Каталог растений — fallback image и responsive image sizing (PR #247 merged/deployed; QA open, 13.11.2026)
+
+- PR #247 merged в `main`: commit `5801d390a468952563f8f339b233d15774ca74d9`.
+- Cloudflare Pages Production deployment `579f4c88-fc98-4357-ab61-21c57f7fed23` — success на точном commit; URL `https://579f4c88.florial.pages.dev`; production aliases apex и www.
+- CI на точном PR head `c94f0c5ba481a7d1a386b242629d6c376b82822c`: Blog and Studio `43376289807` — success; D1 validation `43376289788` — success.
+- Кодовая реализация: category raw fallback `<img>` удалён из HTML внутри `#root`, og:image сохранён; desktop React hero responsive от 1024 px; catalog card sizes согласованы с grid, Sanity quality 65, desktop hero quality 70 / cap 408 px; eager только первые две карточки.
+- **Остаётся:** проверить на реальном mobile Network отсутствие category fallback request; на desktop проверить responsive hero/currentSrc и качество; измерить фактический transfer size; повторить Lighthouse mobile/desktop. Визуальная browser QA после публикации не заявлена.
+- Baseline владельца mobile 13.11.2026 07:35 GMT+2: Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Post-deploy metrics отсутствуют; transfer savings и LCP improvement НЕ ПОДТВЕРЖДЕНЫ.
+- Изменения не затрагивали Sanity, D1, Cloudflare settings/secrets, SEO metadata, Header/Footer или routing.
+
+
 
 - На main report владельца от 13.11.2026 07:35 GMT+2: Performance 84, FCP 0.9 s, LCP 4.5 s, TBT 0 ms, CLS 0.001, Speed Index 2.4 s. Lighthouse показал категорийное изображение «Всички растения» 1021×979, 268 KB, и plant card images 480×640 при фактическом контейнере около 168×224.
 - Кодовая причина найдена: functions/_middleware.ts documentBody() вставлял category doc.imageUrl как raw HTML <img src> до запуска React. CSS desktop-only hero в index.html не отменяет сетевой запрос уже присутствующего HTML image.
