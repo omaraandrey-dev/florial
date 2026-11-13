@@ -1,6 +1,7 @@
-## 2026-11-13 — PR #249 (draft): services and blog route loading
+## 2026-11-13 — PR #249 merged/deployed: services and blog route loading
 
-Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/optimize-services-and-blog-pages`; no merge or Production deployment yet.
+PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`.
+- Cloudflare Pages Production deployment `467d9866-0d04-4ef1-b265-3f84b6533950` — `success` на точном merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`; URL `https://467d9866.florial.pages.dev`; production aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
 
 - **Services directory:** global bootstrap retains a compact Header projection, now including only the image URLs/ALT fields required for homepage cards and About-page service images. `HomePage` and `AboutPage` reuse it; full service cards and role photos are fetched only on `/services`.
 - Homepage plant-category cards now use the Sanity category `plants-solitaires` instead of `plants-citrus` (synchronized query and render IDs).
@@ -10,7 +11,7 @@ Draft PR: https://github.com/omaraandrey-dev/florial/pull/249. Branch `perf/opti
 - **Blog article:** request only the selected article and fields used by Portable Text renderer; render before the separate related-post query completes. Related query returns at most three posts.
 - **Automated coverage:** `tests/content-route-performance.test.mjs`.
 
-**CI passed on code/test SHA `e4535ddc5f129a5dc2bf1c49a74700c5617aad3f`:** Blog and Studio run `43388956826`; D1 validation run `43388956805`. Still required: browser Network checks for list/detail request counts and bytes; browser Network checks for list/detail request counts and bytes; direct URL and SPA route checks; service form and blog filter/related-post functional checks; BG/RU/EN visual QA; responsive image currentSrc and transfer size; matched mobile/desktop Lighthouse runs. No performance gain is claimed until measured.
+**CI passed on final PR head `91bc8abd042f6624dc531081bbde077d254d76cc`:** Blog and Studio run `43389185896`; D1 validation run `43389169540`. Still required: browser Network checks for list/detail request counts and bytes; direct URL and SPA route checks; service form and blog filter/related-post functional checks; BG/RU/EN visual QA; responsive image currentSrc and transfer size; matched mobile/desktop Lighthouse runs. No performance gain is claimed until measured.
 
 ## 2026-11-13 — Category-specific catalogue loading (PR #248 merged and deployed)
 
