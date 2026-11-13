@@ -1,3 +1,11 @@
+## 2026-11-13 — Safe missing-only SEO implementation in review
+
+- PR #259 implements a safe Manager workflow for irrigation equipment only. Server rejects the plants catalogue; `missing-only` strategy is mandatory; apply requires owner authentication and explicit confirmation.
+- Only absent/null/empty/whitespace SEO fields are patched; populated values are preserved. Sanity revision guards remain enabled. Whole-catalogue preview reports field-level gaps before any write.
+- Read-only live aggregate: 275 products, 193 with gaps, 1,153 missing fields; 1,322 existing fields will be preserved. BG gaps: H1 193, Meta Title 1, Meta Description 1; RU and EN each: H1 193, Meta Title 143, Meta Description 143.
+- No Sanity documents have been written or published. After PR #259 CI/review/merge and deployment, refresh the Manager preview and manually review generated examples before deciding whether to run apply. The apply action remains a separate owner-triggered operation.
+- Inventory report and per-product gap list are in PR #258; check its merge status before using that report as a permanent main-branch reference.
+
 
 
 ## SEO release checkpoint 13.11.2026
