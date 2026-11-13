@@ -1,3 +1,9 @@
+## 2026-11-13 — Production incident: blank screen after PR #249
+
+- Cause: `currentService` referenced in an effect dependency array before its `const` declaration in `src/App.tsx`. This throws during first render and prevents the storefront from mounting.
+- Corrective branch `hotfix/app-current-service-initialization` moves the derived value before the first effect that reads it and adds a regression test. Runtime browser QA must be part of release validation; Vite build success alone is insufficient.
+- No rollback or corrective Production deployment yet; CI and owner authorization pending.
+
 ## 2026-11-13 — PR #249 merged/deployed: services and blog route loading
 
 PR #249: https://github.com/omaraandrey-dev/florial/pull/249; squash merge commit `d4b19a59775cb6370ed28a3d90dd4ef36760db9f`.
