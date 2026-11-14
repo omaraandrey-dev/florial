@@ -136,7 +136,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 1. First improve the existing `/category/palmi-yuki` landing page around broad Bulgarian local-commercial intent and a clear species navigation structure. The current GSC query/page sample returned no visible query rows for the category in the last 28 days, while species pages already have visible query rows.
 2. Add/verify contextual internal links from category to each relevant palm product, and from products back to the category.
 3. Keep product-page SEO focused on species-specific queries; verify BG/RU/EN localization and botanical accuracy.
-4. Investigate the two Washingtonia pages before changing their keyword targets.
+4. Differentiate the SEO fields and search targets of the two confirmed Washingtonia offers; preserve both products.
 5. After stage 9.4, decide whether local landing-page strategy belongs on the main domain, the second domain, or both. Avoid duplicate local pages until that is resolved.
 6. Measure after indexing refresh; use a longer GSC history when the Windsor plan permits it. Do not infer success from a short sample.
 
