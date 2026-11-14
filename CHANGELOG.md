@@ -1,3 +1,48 @@
+## 2026-11-14 — Palm category GSC page totals and source-level SEO rendering check
+
+- A page-only GSC report for `/category/palmi-yuki` returned 5 impressions / 0 clicks over the last-28-day preset: BG base URL 1 impression (avg position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). The query-level report returned no visible query strings for this category; do not report zero total impressions.
+- Read-only source inspection of `functions/_middleware.ts` confirms canonical URL generation, hreflang alternates, `index, follow` unless `noIndex` is true, and CollectionPage JSON-LD. The localized RU/EN `?lang=` URLs are intentional canonical language routes in the code.
+- The middleware's initial HTML body for a category includes the short description and server-rendered plant product listing. The 32-block localized `seoContent` is rendered by client-side `CategoryPage` through `RichText` after hydration.
+- Live initial response, Google-rendered HTML and Google-selected canonical remain to be verified through URL Inspection / a capable browser. GSC also showed apex and www variants for standard Washingtonia queries; source canonical host is apex, but Google-selected canonical has not been confirmed.
+- No application code, Sanity content, Cloudflare settings or Production deployment changed. Updated audit and 90-day plan record the findings.
+
+## 2026-11-14 — Palm category metadata and Washingtonia offer verification
+
+- Read-only Sanity check of `plants-palms`: Meta Titles are 48 BG / 47 RU / 51 EN characters; Meta Descriptions are 170 BG / 163 RU / 191 EN characters, exceeding the project's 160-character target. `noIndex` is null in the three locales.
+- The category already has 32 localized SEO content blocks in each of BG/RU/EN, including coastal local context, species selection, winter protection and FAQs. Do not add more long-form copy until live rendering and internal links are checked.
+- Read-only product comparison confirmed two distinct Washingtonia offers: standard `/product/washingtonia` = 240 cm / 50 L / EUR 600 / stock 50; large specimen `/product/ventlieva-palyma-vashintoniya` = 475–525 cm / 300 L / EUR 3,000 / stock 1. They are not duplicate inventory.
+- Last-28-day GSC query/page sample returned five Bulgarian Washingtonia query/page rows, all pointing to `/product/washingtonia`; no matching row for the large-specimen URL in this sample. Apex and www variants appear for the standard URL; this requires canonical verification, not an assumption of a defect.
+- Updated the keyword map and 90-day plan with separate Washingtonia query ownership and the category metadata issue. No Sanity writes or content changes were made.
+
+## 2026-11-14 — Palm SEO priorities and 90-day roadmap (stages 9.5–9.6)
+
+- Prepared a prioritized action plan based on the BG/RU/EN keyword map and second-domain review.
+- P0 gates: verify palm category initial HTML/canonical/hreflang/structured data; inspect the two Washingtonia records; confirm second-domain ownership/control and intended role; verify apex/www canonical consistency.
+- P1: strengthen the existing `/category/palmi-yuki` landing page, improve category↔product internal links, preserve species-specific query ownership and botanical taxonomy.
+- P2/P3: local topical content, GBP consistency, conditional cold-hardy category, and a separate second-domain decision. No new category or domain changes are applied.
+- Added a 90-day schedule with approval gates and measurement rules; GSC remains limited to the last 30 days in the connected Windsor trial.
+- No Sanity writes, code/schema changes, Cloudflare/domain/DNS changes or GBP writes. Detailed plan: `docs/audits/2026-11-14-palm-seo-priorities-and-90-day-plan.md`.
+
+## 2026-11-14 — Second-domain SEO review: palmandolivetrees.com (stage 9.4)
+
+- Reviewed indexed content for `www.palmandolivetrees.com`; its homepage and olive page explicitly display Florial branding, Nessebar and the same phone number as the connected Google Business Profile.
+- Read-only Windsor.ai Google Business Profile check confirms the official listing website is `https://florial-bg.com/`, phone `087 677 7902`, business name `Градински център "Флориал"`, primary category `Разсадник`.
+- The second domain has substantial topic overlap with the main Florial site: palm sales, cold-hardy palms, the same species, olives, planting, landscaping and irrigation. Exact verbatim duplication was not established.
+- Connected Windsor.ai Search Console account list contains the main property `sc-domain:florial-bg.com`; a second-domain GSC property was not present. Its search performance is unknown.
+- Direct verification of second-domain robots.txt, sitemap.xml, canonical/hreflang, HTTP redirects, registrar ownership, DNS and hosting access was not possible with available read-only sources. No platform is assumed.
+- Recommendation: keep `florial-bg.com` as the primary commercial domain and GBP destination. Do not redirect, canonicalize or remove the second domain until the owner/control and technical state are confirmed.
+- No domain, DNS, Cloudflare, Google Business Profile, Sanity or website settings were changed. Detailed report: `docs/audits/2026-11-14-second-domain-seo-review.md`.
+
+## 2026-11-14 — Palm keyword map (SEO plan 9.3)
+
+- Completed a read-only BG/RU/EN keyword-to-URL map for the existing palm and yucca catalogue; no Sanity documents, schemas, application code or Production settings were changed.
+- Windsor.ai confirmed the connected Search Console property `sc-domain:florial-bg.com`. Current trial access is limited to the last 30 days; the 12-month query was rejected. The working report uses the last-28-day preset and records low-volume query/page observations without inventing search volumes.
+- GSC sample shows impressions for several species queries, including Yucca rostrata, Washingtonia, Butia, Brahea, Phoenix and Chamaerops; the `/category/palmi-yuki` filter returned no rows for this 28-day window. This is not a lifetime ranking conclusion.
+- Read-only Sanity confirmed category `plants-palms` slug `palmi-yuki`; ten published palm-type products reference it. Yucca rostrata is primarily in `plants-exotic` with a secondary `plants-palms` reference; Cycas is `other` in `plants-exotic`.
+- The map assigns generic commercial/local intent to the category and exact species intent to product pages, with separate BG/RU/EN query clusters. No new categories or content changes are authorized by this analysis.
+- GSC history beyond 30 days, keyword volumes/difficulty, Google recrawl/indexing, category initial HTML/canonical/hreflang and the second domain relationship remain unconfirmed.
+- Detailed report: `docs/audits/2026-11-14-palm-keyword-map.md` (branch `seo/palm-keyword-map-2026-11-14`).
+
 ## 2026-11-14 — Trachycarpus fortunei priority-2 catalogue correction published
 
 - In Sanity project `bxvcy0qs`, dataset `plants`, document `palm-trachycarpus`, retained the two-trunk sale variant with stock quantity 5 and removed its duplicate with quantity 21.
