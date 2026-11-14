@@ -1,0 +1,481 @@
+{
+  "createdAt": "2026-11-14",
+  "source": {
+    "projectId": "bxvcy0qs",
+    "dataset": "plants",
+    "perspective": "published",
+    "repository": "omaraandrey-dev/florial",
+    "baseCommit": "708f6bcbd1861aef2b608d1a9bd7fdafb3f7f7d7"
+  },
+  "scope": "Pre-change snapshot of original SEO objects, localized SEO objects and main-image ALT fields for all 11 published productType=palm documents. No other fields included.",
+  "documents": [
+    {
+      "_id": "a2f17ef5-bafd-4e41-ae5a-97126b640ad2",
+      "_rev": "o07YzOhjuONidFrXBj9oAz",
+      "mainImage": {
+        "alt": "Купи Вашинтония в Несебър — едроразмерна палма с ветрилообразни листа в контейнер",
+        "altEn": "Buy Washingtonia palm in Nessebar — large specimen palm with fan-shaped leaves",
+        "altRu": "Купить Вашингтония в Несебре — крупномерная пальма с веерообразными листьями"
+      },
+      "name": "Вашинтония",
+      "seo": {
+        "h1": "Вашинтония - едроразмерна палма",
+        "metaDescription": "Продажба на едроразмерна палма Вашинтония в Несебър. Поръчайте екзотично вечнозелено растение за вашата градина или двор с доставка в региона.",
+        "metaTitle": "Продажба на Вашинтония в Несебър | Екзотични палми"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "ventlieva-palyma-vashintoniya"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "Вашинтония - едроразмерна палма",
+            "metaDescription": "Продажба на едроразмерна палма Вашинтония в Несебър. Поръчайте екзотично вечнозелено растение за вашата градина или двор с доставка в региона.",
+            "metaTitle": "Продажба на Вашинтония в Несебър | Екзотични палми"
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Washingtonia Palm - Large Specimen",
+            "metaDescription": "Purchase large Washingtonia palms in Nessebar. Order stunning exotic evergreen plants for your garden, terrace, or landscape project.",
+            "metaTitle": "Buy Washingtonia Palm in Nessebar | Exotic Plants"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Вашингтония - крупномерная пальма",
+            "metaDescription": "Продажа крупномерных пальм Вашингтония в Несебре. Закажите экзотическое вечнозеленое растение для сада или ландшафтного дизайна.",
+            "metaTitle": "Купить пальму Вашингтония в Несебре | Экзотические растения"
+          }
+        }
+      }
+    },
+    {
+      "_id": "ac0fa4a7-54fd-4149-b0af-aa9759867ec5",
+      "_rev": "o07YzOhjuONidFrXBjBzYw",
+      "mainImage": {
+        "alt": "Купи Цяка в Несебър — екзотична саговникова палма в голяма пластмасова саксия",
+        "altEn": "Sago Palm in a large plastic pot displayed at a garden centre",
+        "altRu": "Цикас в горшке на фоне теплицы садового центра"
+      },
+      "name": "Цяка (Цикас)",
+      "seo": {
+        "h1": "Цикас (Cycas revoluta) – Екзотична палма",
+        "metaDescription": "Продажба на Цикас (Cycas revoluta) в Несебър, Слънчев бряг и Бургас. Елегантна екзотична палма за дома и градината. Открийте качество във Флориал.",
+        "metaTitle": "Купуй Цикас (Цяка) в Несебър и Слънчев бряг | Флориал"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "tsyaka-tsikas"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "Цикас (Cycas revoluta) – Екзотична палма",
+            "metaDescription": "Продажба на Цикас (Cycas revoluta) в Несебър, Слънчев бряг и Бургас. Елегантна екзотична палма за дома и градината. Открийте качество във Флориал.",
+            "metaTitle": "Купуй Цикас (Цяка) в Несебър и Слънчев бряг | Флориал"
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Sago Palm (Cycas revoluta)",
+            "metaDescription": "Explore the majestic Sago Palm (Cycas revoluta) for home and garden landscaping. Premium exotic plants available at Florial.",
+            "metaTitle": "Buy Cycas Revoluta Sago Palm in Bulgaria | Florial"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Цикас революта (Саговая пальма)",
+            "metaDescription": "Заказать цикас революта в Несебре и на побережье. Экзотическое растение для дома и сада от садового центра Флориал.",
+            "metaTitle": "Купить Цикас (Саговую пальму) в Болгарии | Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-brahea",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Браея (Brahea armata) – снимка на декоративна палма",
+        "altEn": "Brahea palm (Brahea armata) — ornamental palm photo",
+        "altRu": "Брахея (Brahea armata) — фотография декоративной пальмы"
+      },
+      "name": "Браея (Brahea armata) Палма",
+      "seo": {
+        "description": "Браея (Brahea armata) – декоративна палма със сиво-сини ветрилообразни листа. Наличност и размер – при запитване във Florial, градински център в България.",
+        "h1": "Браея (Brahea armata)",
+        "metaDescription": "Продажба на Браея (Brahea armata) — декоративна палма със сиво-сини ветрилообразни листа за слънчеви места. Градински център Флориал в Каблешково и района.",
+        "metaTitle": "Браея | Каблешково | Градински център Флориал",
+        "title": "Браея (Brahea armata) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "brahea-armata"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Blue hesper palm (Brahea armata)",
+            "metaDescription": "For sale: Blue hesper palm (Brahea armata) — an ornamental palm with blue-grey fan-shaped leaves for sunny locations. Florial Garden Centre in Kableshkovo and nearby areas.",
+            "metaTitle": "Blue hesper palm | Kableshkovo | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Брахея вооружённая (Brahea armata)",
+            "metaDescription": "Продажа: Брахея вооружённая (Brahea armata) — декоративная пальма с серо-голубыми веерными листьями для солнечных мест. Садовый центр Флориал в Каблешково и окрестностях.",
+            "metaTitle": "Брахея вооружённая | Каблешково | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-butia",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Бутиа (Butia capitata) – снимка на декоративна палма",
+        "altEn": "Butia palm (Butia capitata) — ornamental palm photo",
+        "altRu": "Бутиа (Butia capitata) — фотография декоративной пальмы"
+      },
+      "name": "Бутиа (Butia capitata) палма",
+      "seo": {
+        "description": "Бутиа (Butia capitata) – декоративна палма с дълги извити листа и широка корона. Наличност и размер – при запитване във Florial, градински център в България.",
+        "h1": "Бутиа (Butia capitata)",
+        "metaDescription": "Продажба на Бутиа (Butia capitata) — декоративна палма с дълги извити листа и широка корона за слънчеви градини. Градински център Флориал в Кошарица и района.",
+        "metaTitle": "Бутиа | Кошарица | Градински център Флориал",
+        "title": "Бутиа (Butia capitata) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "butia-capitata"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Jelly palm (Butia capitata)",
+            "metaDescription": "For sale: Jelly palm (Butia capitata) — an ornamental palm with long arching leaves and a broad crown for sunny gardens. Florial Garden Centre in Kosharitsa and nearby areas.",
+            "metaTitle": "Jelly palm | Kosharitsa | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Бутиа головчатая (Butia capitata)",
+            "metaDescription": "Продажа: Бутиа головчатая (Butia capitata) — декоративная пальма с длинными изогнутыми листьями и широкой кроной для солнечных садов. Садовый центр Флориал в Кошарица и окрестностях.",
+            "metaTitle": "Бутиа головчатая | Кошарица | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-chamaerops",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Купи европейска ветрилообразна палма в Несебър — многостъблено екзотично растение в голяма пластмасова саксия",
+        "altEn": "European Fan Palm in a large nursery container outdoors",
+        "altRu": "Европейская веерная пальма в контейнере на торговой площадке садового центра"
+      },
+      "name": "Хамеропс Палма (Chamaerops humilis)",
+      "seo": {
+        "description": "Хамеропс (Chamaerops humilis) – компактна средиземноморска палма за градини и големи саксии. Наличност и размер – при запитване във Florial.",
+        "h1": "Хамеропс (Chamaerops humilis)",
+        "metaDescription": "Продажба на Хамеропс (Chamaerops humilis) — компактна декоративна средиземноморска палма, описана като устойчива на по-хладни условия. Градински център Флориал в Несебър и района.",
+        "metaTitle": "Хамеропс | Несебър | Градински център Флориал",
+        "title": "Хамеропс (Chamaerops humilis) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "chamaerops-humilis"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Mediterranean fan palm (Chamaerops humilis)",
+            "metaDescription": "For sale: Mediterranean fan palm (Chamaerops humilis) — a compact ornamental Mediterranean palm described as tolerant of cooler conditions. Florial Garden Centre in Nessebar and nearby areas.",
+            "metaTitle": "Mediterranean fan palm | Nessebar | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Хамеропс приземистый (Chamaerops humilis)",
+            "metaDescription": "Продажа: Хамеропс приземистый (Chamaerops humilis) — компактная декоративная средиземноморская пальма, устойчивая к более прохладным условиям. Садовый центр Флориал в Несебр и окрестностях.",
+            "metaTitle": "Хамеропс приземистый | Несебр | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-phoenix-canariensis",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Купи Канарска финикова палма в Несебър — голяма палма с дебел ствол в черен контейнер на бетонна основа",
+        "altEn": "Canary Island date palm in a black container on a concrete slab",
+        "altRu": "Канарская финиковая пальма в черном контейнере на бетонной площадке"
+      },
+      "name": "Канарска финикова палма (Phoenix canariensis)",
+      "seo": {
+        "description": "Канарска финикова палма (Phoenix canariensis) – внушителна палма с голяма корона за просторни градини. Наличност и размер – при запитване във Florial.",
+        "h1": "Канарска финикова палма (Phoenix canariensis)",
+        "metaDescription": "Продажба на Канарска финикова палма (Phoenix canariensis) — екзотична палма с изразена декоративна корона; при студ е необходима защита. Градински център Флориал в Слънчев бряг и района.",
+        "metaTitle": "Канарска финикова палма | Слънчев бряг | Градински център Флориал",
+        "title": "Канарска финикова палма (Phoenix canariensis) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "phoenix-canariensis"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Canary Island date palm (Phoenix canariensis)",
+            "metaDescription": "For sale: Canary Island date palm (Phoenix canariensis) — an exotic palm with a distinctive crown that needs protection in cold conditions. Florial Garden Centre in Sunny Beach and nearby areas.",
+            "metaTitle": "Canary Island date palm | Sunny Beach | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Канарская финиковая пальма (Phoenix canariensis)",
+            "metaDescription": "Продажа: Канарская финиковая пальма (Phoenix canariensis) — экзотическая пальма с выразительной кроной; в холодную погоду необходима защита. Садовый центр Флориал в Солнечный берег и окрестностях.",
+            "metaTitle": "Канарская финиковая пальма | Солнечный берег | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-phoenix-dactylifera",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Финикова палма (Phoenix dactylifera) – снимка на финикова палма",
+        "altEn": "Date palm (Phoenix dactylifera) — date palm photo",
+        "altRu": "Финиковая пальма (Phoenix dactylifera) — фотография финиковой пальмы"
+      },
+      "name": "Финикова палма (Phoenix dactylifera)",
+      "seo": {
+        "description": "Финикова палма (Phoenix dactylifera) – палма за топли и слънчеви места. Наличност и размер – при запитване във Florial, градински център в България.",
+        "h1": "Финикова палма (Phoenix dactylifera)",
+        "metaDescription": "Продажба на Финикова палма (Phoenix dactylifera) — палма за топли и слънчеви места; нуждата от зимна защита зависи от условията. Градински център Флориал в Свети Влас и района.",
+        "metaTitle": "Финикова палма | Свети Влас | Градински център Флориал",
+        "title": "Финикова палма (Phoenix dactylifera) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "phoenix-dactylifera"
+      },
+      "translations": {
+        "bg": null,
+        "en": {
+          "seo": {
+            "h1": "Date palm (Phoenix dactylifera)",
+            "metaDescription": "For sale: Date palm (Phoenix dactylifera) — a palm for warm, sunny locations; winter protection depends on local conditions. Florial Garden Centre in Sveti Vlas and nearby areas.",
+            "metaTitle": "Date palm | Sveti Vlas | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Финиковая пальма (Phoenix dactylifera)",
+            "metaDescription": "Продажа: Финиковая пальма (Phoenix dactylifera) — пальма для тёплых солнечных мест; необходимость зимней защиты зависит от условий. Садовый центр Флориал в Святой Влас и окрестностях.",
+            "metaTitle": "Финиковая пальма | Святой Влас | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-phoenix-roebelenii",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Палма Робелини (Phoenix roebelenii) – снимка на компактна финикова палма",
+        "altEn": "Pygmy date palm (Phoenix roebelenii) — compact palm photo",
+        "altRu": "Финиковая пальма Робелена (Phoenix roebelenii) — фотография компактной пальмы"
+      },
+      "name": "Палма Робелини (Phoenix roebelenii)",
+      "seo": {
+        "description": "Палма Робелини (Phoenix roebelenii) – компактна финикова палма за защитени места и контейнер. Наличност и размер – при запитване във Florial.",
+        "h1": "Палма Робелини (Phoenix roebelenii)",
+        "metaDescription": "Продажба на Палма Робелини (Phoenix roebelenii) — компактна финикова палма за защитени места и отглеждане в контейнер. Градински център Флориал в Поморие и района.",
+        "metaTitle": "Палма Робелини | Поморие | Градински център Флориал",
+        "title": "Палма Робелини (Phoenix roebelenii) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "phoenix-roebelenii"
+      },
+      "translations": {
+        "bg": null,
+        "en": {
+          "seo": {
+            "h1": "Pygmy date palm (Phoenix roebelenii)",
+            "metaDescription": "For sale: Pygmy date palm (Phoenix roebelenii) — a compact date palm for sheltered locations and container growing. Florial Garden Centre in Pomorie and nearby areas.",
+            "metaTitle": "Pygmy date palm | Pomorie | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Финик Робелини (Phoenix roebelenii)",
+            "metaDescription": "Продажа: Финик Робелини (Phoenix roebelenii) — компактная финиковая пальма для защищённых мест и выращивания в контейнере. Садовый центр Флориал в Поморие и окрестностях.",
+            "metaTitle": "Финик Робелини | Поморие | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-sabal",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Сабал палмето (Sabal palmetto) – снимка на ветрилообразна палма",
+        "altEn": "Sabal palmetto (Sabal palmetto) — fan palm photo",
+        "altRu": "Сабаль пальметто (Sabal palmetto) — фотография веерной пальмы"
+      },
+      "name": "Сабал палмето ( Палма Sabal palmetto)",
+      "seo": {
+        "description": "Сабал палмето (Sabal palmetto) – палма с широки ветрилообразни листа за открити градини. Наличност и размер – при запитване във Florial.",
+        "h1": "Сабал палмето (Sabal palmetto)",
+        "metaDescription": "Продажба на Сабал палмето (Sabal palmetto) — издръжлива палма с широки ветрилообразни листа за открити пространства и градини. Градински център Флориал в Бургас и района.",
+        "metaTitle": "Сабал палмето | Бургас | Градински център Флориал",
+        "title": "Сабал палмето (Sabal palmetto) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "sabal-palmetto"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Sabal palmetto palm",
+            "metaDescription": "For sale: Sabal palmetto palm — a hardy fan palm for open spaces and gardens. Florial Garden Centre in Burgas and nearby areas.",
+            "metaTitle": "Sabal palmetto palm | Burgas | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Пальма сабаль (Sabal palmetto)",
+            "metaDescription": "Продажа: Пальма сабаль (Sabal palmetto) — выносливая веерная пальма для открытых пространств и садов. Садовый центр Флориал в Бургас и окрестностях.",
+            "metaTitle": "Пальма сабаль | Бургас | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-trachycarpus",
+      "_rev": "Nq1z00fCiO1HLUK0zBfPcJ",
+      "mainImage": {
+        "alt": "Купи палма Трахикарпус в Несебър — здрави екземпляри в контейнери",
+        "altEn": "Buy Trachycarpus palm in Nesebar — large specimens in containers",
+        "altRu": "Купить пальму Трахикарпус в Несебре — крупные экземпляры в кашпо"
+      },
+      "name": "Палма Трахикарпус (Trachycarpus fortunei)",
+      "seo": {
+        "description": "Трахикарпус (Trachycarpus fortunei) – студоустойчива палма за градини и дворове. Наличност и размер – при запитване във Florial, градински център в България.",
+        "h1": "Трахикарпус (Trachycarpus fortunei)",
+        "metaDescription": "Продажба на Трахикарпус (Trachycarpus fortunei) — студоустойчива палма за градини и дворове, подходяща за външно засаждане в по-меките райони. Градински център Флориал в Ахелой и района.",
+        "metaTitle": "Трахикарпус | Ахелой | Градински център Флориал",
+        "title": "Трахикарпус (Trachycarpus fortunei) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "trachycarpus-fortunei"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Chinese windmill palm (Trachycarpus fortunei)",
+            "metaDescription": "For sale: Chinese windmill palm (Trachycarpus fortunei) — a cold-hardy palm for gardens and courtyards, suited to outdoor planting in milder regions. Florial Garden Centre in Aheloy and nearby areas.",
+            "metaTitle": "Chinese windmill palm | Aheloy | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Трахикарпус Форчуна (Trachycarpus fortunei)",
+            "metaDescription": "Продажа: Трахикарпус Форчуна (Trachycarpus fortunei) — холодостойкая пальма для сада и двора, подходящая для открытого грунта в более мягких регионах. Садовый центр Флориал в Ахелой и окрестностях.",
+            "metaTitle": "Трахикарпус Форчуна | Ахелой | Садовый центр Флориал"
+          }
+        }
+      }
+    },
+    {
+      "_id": "palm-washingtonia",
+      "_rev": "Nq1z00fCiO1HLUK0zKd4Rr",
+      "mainImage": {
+        "alt": "",
+        "altEn": "",
+        "altRu": ""
+      },
+      "name": "Вашингтония Палма  (Washingtonia robusta / filifera)",
+      "seo": {
+        "description": "Вашингтония (Washingtonia robusta / filifera) – висока декоративна палма за просторни градини. Наличност и размер – при запитване във Florial.",
+        "h1": "Вашингтония (Washingtonia robusta / filifera)",
+        "metaDescription": "Продажба на Вашингтония (Washingtonia robusta / filifera) — висока декоративна палма; защитата от студ зависи от местните условия. Градински център Флориал в Каблешково и района.",
+        "metaTitle": "Вашингтония | Каблешково | Градински център Флориал",
+        "title": "Вашингтония (Washingtonia robusta / filifera) | Florial"
+      },
+      "slug": {
+        "_type": "slug",
+        "current": "washingtonia"
+      },
+      "translations": {
+        "bg": {
+          "seo": {
+            "h1": "",
+            "metaDescription": "",
+            "metaTitle": ""
+          }
+        },
+        "en": {
+          "seo": {
+            "h1": "Washingtonia palm (Washingtonia robusta / filifera)",
+            "metaDescription": "For sale: Washingtonia palm (Washingtonia robusta / filifera) — a tall ornamental palm; cold protection depends on local conditions. Florial Garden Centre in Kableshkovo and nearby areas.",
+            "metaTitle": "Washingtonia palm | Kableshkovo | Florial Garden Centre"
+          }
+        },
+        "ru": {
+          "seo": {
+            "h1": "Вашингтония (Washingtonia robusta / filifera)",
+            "metaDescription": "Продажа: Вашингтония (Washingtonia robusta / filifera) — высокая декоративная пальма; защита от холода зависит от местных условий. Садовый центр Флориал в Каблешково и окрестностях.",
+            "metaTitle": "Вашингтония | Каблешково | Садовый центр Флориал"
+          }
+        }
+      }
+    }
+  ]
+}
