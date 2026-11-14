@@ -26,7 +26,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 | Priority | Task | Reason / evidence | Completion condition |
 |---|---|---|---|
 | P0 | Verify `/category/palmi-yuki` initial HTML, indexability, canonical, hreflang and JSON-LD | Sanity slug and route are confirmed, but direct HTTP HTML inspection was unavailable. GSC returned no visible query rows for this page in the last 28 days. | Record the exact live response, title/description/H1, canonical, hreflang, robots and category/product structured data in a technical audit. |
-| P0 | Confirm category metadata and rendered output | Read-only Sanity check: category Meta Descriptions are 170 BG / 163 RU / 191 EN characters; Meta Titles are 48 / 47 / 51 characters. The category already has 32 SEO content blocks per locale. | Verify live HTML and then shorten all three descriptions to the project target of 160 characters or fewer; preserve the existing detailed content unless rendering reveals a real gap. |
+| P0 | Verify category metadata and rendered output | Read-only Sanity check: Meta Descriptions are 170 BG / 163 RU / 191 EN characters; Meta Titles are 48 / 47 / 51 characters. The category already has 32 SEO content blocks per locale. | Verify which localized metadata and SEO blocks appear in live HTML, and record canonical/hreflang/indexability before any content write. |
 | P0 | Confirm control and intended role of `palmandolivetrees.com` | The secondary site uses Florial branding and the same phone, but registrar/DNS/hosting control is not verified. GBP points to the main domain. | Owner confirms account control and whether the domain is intended as a separate lead-generation site or to be retired. |
 | P0 | Check apex / www canonical consistency | Last-28-day GSC sample included both apex and www page URLs for some species queries. This does not prove a canonical defect. | Confirm Google-selected canonical and live canonical redirects for representative product URLs and the palm category. |
 
@@ -34,7 +34,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 | Priority | Task | Recommended scope | Success signal |
 |---|---|---|---|
-| P1 | Correct the existing category Meta Descriptions and verify SEO content rendering | Published Sanity currently has 32 SEO content blocks in BG, RU and EN, with local geography, species guidance and FAQs. Meta Descriptions are overlong: BG 170, RU 163, EN 191 characters; titles are within 70. Proposed shorter descriptions are included below. | Live HTML shows the intended localized description and existing SEO content; later GSC data shows relevant category query rows. |
+| P1 | Shorten the existing category Meta Descriptions | Published Sanity has 32 SEO content blocks in BG, RU and EN, with local geography, species guidance and FAQs. Meta Descriptions exceed the 160-character project target: BG 170, RU 163, EN 191; titles are within 70. Proposed localized descriptions are listed in the Days 8–21 section. | After approval and publish, read-back confirms all three descriptions at or below 160 characters and the live HTML emits the correct locale values. |
 | P1 | Add contextual internal links between category and products | Category links to all relevant species; each product links back to the category and to relevant planting/care services where appropriate. | Crawl confirms links are present, crawl depth is reasonable and product pages are reachable from the category. |
 | P1 | Separate the two Washingtonia product-page search targets | Read-only Sanity confirmed distinct offers: standard page `/product/washingtonia` = 240 cm / 50 L / EUR 600 / stock 50; large specimen `/product/ventlieva-palyma-vashintoniya` = 475–525 cm / 300 L / EUR 3,000 / stock 1. GSC species-query rows currently point to the standard URL. | Standard page owns general Washingtonia species terms; large page owns large-specimen / 5 m / 300 L intent. Keep both offers; do not merge or redirect. |
 | P1 | Preserve botanical separation | Yucca rostrata is primarily in `plants-exotic`; Cycas is `other` in `plants-exotic`. Neither should be represented as a true palm in product taxonomy or botanical copy. | Product copy and category labels remain botanically accurate. |
@@ -43,7 +43,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 | Priority | Task | Recommended scope | Success signal |
 |---|---|---|---|
-| P2 | Add useful category-level decision support | Explain which existing palm species suit open-ground planting, containers, exposed/windy locations and winter protection, only where supported by verified horticultural information. | More relevant long-tail impressions and better engagement; no unsupported hardiness claims. |
+| P2 | Audit and maintain existing category-level decision support | The current 32-block localized content already covers species selection, coastal conditions, winter protection, planting and FAQs. Verify rendering and factual consistency first; add content only for a demonstrated gap. | Accurate, fully rendered guidance with no duplicated paragraphs or unsupported hardiness claims. |
 | P2 | Improve image and product presentation | Confirm meaningful BG/RU/EN ALT for all gallery images, actual product sizes/containers and clear availability. Existing priority-1 work already corrected the main-image ALT gaps for the 11 palm records. | No missing image ALT on target pages; product details match published stock/variants. |
 | P2 | Keep GBP aligned with the primary site | GBP already links to `florial-bg.com`. Maintain the same brand, phone and primary URL. Any category, service, photo or post changes require a separate review. | Consistent business identity and more relevant local actions. |
 | P2 | Obtain better GSC history if economically justified | Current Windsor trial blocks ranges older than 30 days. Do not upgrade solely on assumption; first use weekly snapshots and decide whether historical trend analysis is worth the cost. | A reliable 3–6 month baseline or explicit decision that rolling weekly data is sufficient. |
@@ -96,7 +96,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 ### Days 22–35 — Species pages and catalogue alignment
 
-- Review the Washingtonia pages and implement only the approved distinction/consolidation plan.
+- Differentiate the SEO fields of the two Washingtonia pages: general species intent on the 240 cm / 50 L offer; large-specimen / 5 m intent on the 475–525 cm / 300 L offer. Preserve both distinct products.
 - Review each species page against its assigned query cluster.
 - Confirm BG/RU/EN H1, Meta Title, Meta Description, image ALT and product identity.
 - Verify variant dimensions, container size, price and stock presentation against published Sanity data.
@@ -106,7 +106,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 ### Days 36–50 — Local authority and topical depth
 
-- Add useful category-level species-selection guidance based on verified horticultural data.
+- Verify the existing localized category guide and FAQs are rendered correctly; add no new long-form blocks unless a specific gap is found.
 - Review product/category image relevance and image accessibility text.
 - Review GBP palm/olive category relevance, services, photos and website link; propose changes separately before applying them.
 - Decide whether a cold-hardy palm subcategory is justified by assortment and observed search demand.
