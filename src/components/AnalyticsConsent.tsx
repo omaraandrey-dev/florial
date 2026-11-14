@@ -39,6 +39,7 @@ export function AnalyticsConsent() {
   const choose = (value: 'accepted' | 'rejected') => {
     setAnalyticsConsent(value)
     setChoice(value)
+    window.dispatchEvent(new Event('florial:analytics-consent-change'))
     if (value === 'accepted') trackEvent('page_view', language, window.location.pathname)
     setIsOpen(false)
   }
