@@ -1,3 +1,14 @@
+## 2026-11-14 — Consent-gated analytics and PostHog integration (PR pending review)
+
+- Added a BG/RU/EN analytics consent control on public storefront and legal pages, with allow/reject choices and a persistent settings control to revise the choice.
+- Existing D1 site-event tracking is disabled unless the visitor has explicitly accepted analytics; the Manager route remains outside this public consent UI.
+- Added optional PostHog EU ingestion via `VITE_POSTHOG_PROJECT_KEY`; if the variable is absent, PostHog transmission stays disabled.
+- Implemented privacy-limited events for page views, product/category views, cart views, add-to-cart and checkout start, plus phone/chat clicks. No customer/order fields, SKU, product name or order values are sent.
+- No session replay, heatmaps, broad autocapture or marketing tracking was added. PostHog uses a temporary in-memory random identifier, not a persistent browser ID.
+- Updated the BG/RU/EN Privacy Policy as a technical disclosure draft. Bulgarian legal review, PostHog DPA/retention/transfer checks and owner approval of the Production project key remain release gates.
+- No Production deployment, Cloudflare environment change, D1 schema/data change or Sanity write was performed.
+- Implementation notes: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+
 ## 2026-11-14 — Manual SEO remediation published for all 275 equipment products
 
 - Reviewed all 275 published equipment products in Sanity project bxvcy0qs / dataset production. All 2,475 BG/RU/EN H1, Meta Title and Meta Description fields are populated.
