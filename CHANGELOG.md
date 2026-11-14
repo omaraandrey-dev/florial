@@ -1,13 +1,23 @@
-## 2026-11-14 — Consent-gated analytics and PostHog integration (PR pending review)
+## 2026-11-14 — Analytics consent settings moved to the Footer (PR pending)
 
-- Added a BG/RU/EN analytics consent control on public storefront and legal pages, with allow/reject choices and a persistent settings control to revise the choice.
-- Existing D1 site-event tracking is disabled unless the visitor has explicitly accepted analytics; the Manager route remains outside this public consent UI.
-- Added optional PostHog EU ingestion via `VITE_POSTHOG_PROJECT_KEY`; if the variable is absent, PostHog transmission stays disabled.
+- Following owner feedback after the first live consent test, the always-visible floating analytics-settings button is being removed.
+- The existing consent panel will instead reopen from a small localized text link in the public Footer: BG „Настройки за поверителност“, RU „Настройки конфиденциальности“, EN “Privacy settings”.
+- The link dispatches a local UI event; consent storage, accept/reject behavior and analytics gating remain unchanged. Manager remains excluded.
+- The implementation is prepared on branch `fix/footer-analytics-settings-link`; PR/CI/Production status will be recorded after validation.
+
+## 2026-11-14 — Consent-gated analytics and PostHog integration (PR #262 merged; Production deployed)
+
+- PR #262 merged to `main` with merge commit `19ace984706900b51560cefb244ea56db76de79a`.
+- Cloudflare Pages Production deployment `69918c8b-a8df-4906-a2fd-66ce9046148b` completed successfully; aliases `florial-bg.com` and `www.florial-bg.com`.
+- Added a BG/RU/EN analytics consent control on public storefront and legal pages, with allow/reject choices and a persistent settings entry point. Existing D1 site-event tracking is disabled unless the visitor explicitly accepts analytics; Manager is excluded.
+- Optional PostHog EU ingestion via `VITE_POSTHOG_PROJECT_KEY` remains inactive because the variable is not configured. No Cloudflare environment change was made.
 - Implemented privacy-limited events for page views, product/category views, cart views, add-to-cart and checkout start, plus phone/chat clicks. No customer/order fields, SKU, product name or order values are sent.
 - No session replay, heatmaps, broad autocapture or marketing tracking was added. PostHog uses a temporary in-memory random identifier, not a persistent browser ID.
-- Updated the BG/RU/EN Privacy Policy as a technical disclosure draft. Bulgarian legal review, PostHog DPA/retention/transfer checks and owner approval of the Production project key remain release gates.
-- No Production deployment, Cloudflare environment change, D1 schema/data change or Sanity write was performed.
+- The BG/RU/EN Privacy Policy wording remains a technical disclosure draft. Bulgarian legal review, PostHog DPA/retention/transfer checks and separate owner approval of the Production project key remain open.
+- Owner manually confirmed that the consent panel closes after rejecting in Incognito; browser DevTools network-level verification of accept/revocation remains outstanding.
+- No D1 schema/data change, Sanity write or Cloudflare setting/secret change was performed.
 - Implementation notes: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+
 
 ## 2026-11-14 — Manual SEO remediation published for all 275 equipment products
 
@@ -298,7 +308,6 @@
 - Повторный анализ 22 документов blogPost нашёл 12 точных совпадений cover asset с изображениями в body. Автоматическое удаление не выполнялось: повтор может быть частью авторского расположения иллюстрации. Отдельно один cover asset 1000×638 используется в двух статьях о ландшафтном проектировании и повторяется внутри обеих; нужна редакционная оценка.
 - Sanity post-publish read-back подтвердил новые asset references, размеры и ALT; drafts по обновлённым документам отсутствуют. Schema beta validation: valid, но complete=false из-за неисполняемых custom callbacks.
 - Веб-просмотр florial-bg.com и CDN через доступный viewer недоступен, поэтому live visual QA страниц не подтверждена. Код/schema не менялись, Cloudflare Pages deployment не запускался. PR #235 остаётся Draft до визуальной проверки владельцем.
-
 Backups:
 - docs/backups/2026-11-12-blog-small-images-before-write.json
 - docs/backups/2026-11-12-blog-alt-before-write.json
@@ -598,7 +607,6 @@ Backups:
 - CI PR HEAD 0376b175e76100113da938a06976d00593b5e7a1: Blog and Studio validation #869 — success; Florial D1 migration validation #1062 — success.
 - Cloudflare Pages Production deployment 1d09957d-31ad-4753-b8fa-ddf5455e75f8 завершился success; production aliases florial-bg.com и www.florial-bg.com назначены.
 - Live smoke: https://florial-bg.com отвечает HTTP 200; HTML подтверждает href https://florial-bg.com/terms и подпись «Общи условия» в Footer.
-
 ## 2026-11-11 — Страница «Общи условия» объединена и опубликована (PR #202)
 
 - Добавлены src/content/terms-bg.md с предоставленным владельцем болгарским проектом из 18 разделов и src/pages/TermsPage.tsx с адаптивным отображением.
@@ -897,7 +905,6 @@ Backups:
 - Cloudflare Pages Production deployment: `2499b1ad-1ecc-402c-8d18-2f6c913c4447`; URL `https://2499b1ad.florial.pages.dev`; deployed commit совпадает с merge commit. Стадии queued, initialize, clone_repo, build и deploy завершились success; aliases `https://florial-bg.com` и `https://www.florial-bg.com` назначены.
 - Существующий Production secret `GEMINI_API_KEY` не читался и не изменялся.
 - Фактическая авторизованная приёмка полного сценария «Photo/Text → окно проверки → прямое сохранение в Sanity» после Production deployment, включая роли Manager/Seller, остаётся pending и должна быть выполнена в Manager.
-
 ## 2026-11-10 — Gemini Photo/Text: переход на Gemini 3.5 Flash-Lite для изолированного теста
 
 - После повторяющихся ответов Google HTTP 503 UNAVAILABLE на модели gemini-3.8-flash тестовый Owner-only endpoint переключён на стабильную модель `gemini-3.5-flash-lite`.
@@ -1197,8 +1204,7 @@ Backups:
 ## 2026-11-09 — Homepage Hero LCP (PR #152)
 
 - PR #152: [optimize homepage Hero LCP image](https://github.com/omaraandrey-dev/florial/pull/152), merge commit `a88ce6ca513abcad4b7ee107c441fa62ec570ec3`, Production deployment `6cad50d7-291a-4004-ae15-b77786f3d292` — success.
-- Controlled PerformanceObserver capture confirmed the actual HomePage LCP element was the CSS Hero background PNG (1518×957, 2,704,931 B).
-- Replaced only the background image with a decorative responsive `img` using the existing Sanity helper; `srcSet`, `sizes=100vw`, `auto=format`, `fit=max`, `q=75`, eager loading and `fetchPriority=high`. Same centered cover crop, same `rgba(247,248,241,0.68)` overlay and unchanged Hero section/content.
+- Controlled PerformanceObserver capture confirmed the actual HomePage LCP element was the CSS Hero background PNG (1518×957, 2,704,931 B).- Replaced only the background image with a decorative responsive `img` using the existing Sanity helper; `srcSet`, `sizes=100vw`, `auto=format`, `fit=max`, `q=75`, eager loading and `fetchPriority=high`. Same centered cover crop, same `rgba(247,248,241,0.68)` overlay and unchanged Hero section/content.
 - Mobile profile 390×844, CPU 4×, 150 ms, 10/1.5 Mbps, cache disabled, 3 runs: LCP median 3,620→696 ms (−80.8%); image 2,704,931→17,439 B (−99.4%); CLS 0.00025→0.00025.
 - Desktop profile 1440×900, same network/CPU profile, 3 runs: LCP median 3,908→912 ms (−76.7%); image 2,704,931→141,597 B (−94.8%); CLS 0.01417→0.01417.
 - Browser selected 480w AVIF on mobile and 1518w AVIF on desktop. No preload hint added.
@@ -1497,7 +1503,6 @@ Backups:
 - CI PR #125: website + Studio validation `42471440144` — success; D1 migration validation `42471440098` — success; post-merge D1 migration validation `42473330879` — success.
 
 ---
-
 ## 2026-11-08 — Production D1 migration 0011_service_leads применена
 
 - По явному разрешению владельца к Production D1 `5fbb0e47-8439-493c-821a-6945eef7d8b2` применена миграция `0011_service_leads` из `main` commit `c47c9d0033007c5fbe02a023efdd7851d34a03a0`.
@@ -1797,8 +1802,7 @@ Backups:
 
 - Добавлен общий модуль `src/lib/categorySeo.ts`: локализованные правила BG/RU/EN, словарь терминов по фактическим категориям полива и растений, генерация H1/Meta Title/Meta Description, резервные формулировки и ограничение длины Meta Description.
 - Для страниц категорий подключено утверждённое поле H1: React CategoryPage и Cloudflare Middleware используют общий resolver. Варианты из `seo.suggested` публичной страницей не используются.
-- В Manager добавлен раздел «Категории» с двумя режимами: полная генерация предложений для всех категорий и заполнение только тех SEO-полей, где пусты и утверждённое значение, и прежнее предложение.
-- Добавлен защищённый Cloudflare endpoint `/api/manager/category-seo`: авторизация через существующую D1 Manager session, проверка права `canManageCategorySeo`, чтение Sanity datasets `production` и `plants`, пакетная запись только в `seo.suggested` с revision guard.
+- В Manager добавлен раздел «Категории» с двумя режимами: полная генерация предложений для всех категорий и заполнение только тех SEO-полей, где пусты и утверждённое значение, и прежнее предложение.- Добавлен защищённый Cloudflare endpoint `/api/manager/category-seo`: авторизация через существующую D1 Manager session, проверка права `canManageCategorySeo`, чтение Sanity datasets `production` и `plants`, пакетная запись только в `seo.suggested` с revision guard.
 - Добавлено новое право `canManageCategorySeo`; владелец имеет доступ через owner bypass, менеджер получает доступ только после назначения права владельцем. D1 migration не требуется: разрешения хранятся в JSON и нормализуются сервером.
 - Проверочный read-only запрос Sanity подтвердил 54 категории в `production` и 17 категорий в `plants` (включая корневую категорию растений). Данные категорий не изменялись.
 - Генератор работает по локальным языковым правилам и словарю; внешняя AI-служба не подключалась. Массовая генерация не запускалась.
@@ -2097,7 +2101,6 @@ Backups:
 - Последващата Production build/deploy проверка се проследява по последния commit след тези корекции.
 
 ## 2026-11-03 — Финална проверка на лимита снимки и текстовете на Manager
-
 - Добавена е клиентска проверка за максимум 10 снимки в редактора на публикуваната растителна карта; ограничението вече се проверява както в UI, така и при сървърното обогатяване, ботаническата проверка и публикуването.
 - Остатъчните съобщения на руски/английски от AI/GBIF endpoint-ите, които могат да се покажат на служителя, са приведени към български език.
 - Проверена е Production D1 таблицата `orders` само чрез агрегирана заявка: има 1 поръчка със статус `new`. Данните на клиента не са прочетени или променяни.
@@ -2397,8 +2400,7 @@ Backups:
 ## 2026-11-01 — Florial Manager: объединение и production rollout
 
 - PR #39 объединён в `main`: merge commit `7d13d25ad7f8f1396d1033a221813058bef28f6b`. Первоначальный конфликтующий PR #38 закрыт без объединения.
-- GitHub Actions validation run `41287365219` завершился успешно: lint, website build, migration syntax check, Sanity Studio build.
-- Cloudflare Pages production deployment `98ba0318-dfc6-419a-9906-62e90f7980de` завершился успешно; deployment связан с merge commit и production branch `main`.
+- GitHub Actions validation run `41287365219` завершился успешно: lint, website build, migration syntax check, Sanity Studio build.- Cloudflare Pages production deployment `98ba0318-dfc6-419a-9906-62e90f7980de` завершился успешно; deployment связан с merge commit и production branch `main`.
 - Supabase migration `create_florial_manager` применена к production project `shzbflgqfffgzzgpwjxt`, version `20261101080656`.
 - Проверено: созданы три таблицы Manager, 6 table RLS policies, 4 Storage policies, helper function, review RPC и один private bucket `florial-manager-intake`.
 - Проверено: staff profiles, submissions и audit events пока пусты; Auth users/roles не создавались.
@@ -2697,8 +2699,7 @@ Backups:
 
 ## 2026-11-02 — Диагностика первичного создания владельца Florial Manager
 
-- В `functions/api/manager/auth/bootstrap.ts` добавлена обработка неожиданных исключений с request ID и безопасным этапом выполнения (`configuration`, `origin_check`, `owner_lookup`, `request_body`, `password_hash`, `owner_insert`). В журнал записываются только ID запроса, этап, тип и ограниченное сообщение ошибки; пароль, bootstrap secret, соль и хеш пароля не логируются.
-- Ошибки конфигурации, same-origin, неверного одноразового секрета, валидации и уже существующего owner сохраняют отдельные HTTP-ответы; неожиданные сбои возвращают HTTP 500 с кодом проверки и этапом, не раскрывая SQL-детали клиенту.
+- В `functions/api/manager/auth/bootstrap.ts` добавлена обработка неожиданных исключений с request ID и безопасным этапом выполнения (`configuration`, `origin_check`, `owner_lookup`, `request_body`, `password_hash`, `owner_insert`). В журнал записываются только ID запроса, этап, тип и ограниченное сообщение ошибки; пароль, bootstrap secret, соль и хеш пароля не логируются.- Ошибки конфигурации, same-origin, неверного одноразового секрета, валидации и уже существующего owner сохраняют отдельные HTTP-ответы; неожиданные сбои возвращают HTTP 500 с кодом проверки и этапом, не раскрывая SQL-детали клиенту.
 - В Manager UI добавлен разбор текстового ответа сервера, отображение HTTP-статуса, этапа и request ID; сетевой сбой получает отдельное понятное сообщение.
 - Под полем постоянного пароля явно показано ограничение 12–128 символов; клиентское поле теперь также ограничено максимумом 128.
 - Не менялись D1 schema/data, Cloudflare secrets/bindings, Sanity, Supabase, каталог, публичные маршруты, Header, menu, Footer и checkout. Owner не создавался автоматически; bootstrap остаётся одноразовым.
@@ -2997,8 +2998,7 @@ Backups:
 - ALT BG/RU/EN is non-empty for every inspected hero, primary image and gallery image across the eight services. Existing assets were preserved. A pixel-level visual inspection of every source photo was not completed; no photo was replaced. The current images were checked in the rendered page output and their existing context/ALT reviewed.
 - Live rendered smoke was completed for all 8 service routes in BG/RU/EN (24 variants). All routes rendered content rather than a loading placeholder after cache-busted retries. Localized category/service/blog links were verified; plant categories resolve from the separate `plants` dataset.
 - Published product references were verified active in the production catalog. Controller service related cards now include the controllers category and three actual controller products. Solenoid valve service includes the valve category and two actual solenoid-valve products. The existing BG inline product links remain intact; product cards provide localized product links in RU/EN as well.
-- Live rendered forms and CTA sections remain present on the checked pages. No real service enquiry was submitted. Mobile screenshot-level layout and form submission end-to-end were not tested.
-- Cloudflare Pages build and Production deployment succeeded for code commit `e3c794dd406410413d4ca6da29a719e8a713207a`; latest deployment for documentation commit `a4fa14d1381d171b8097489ff8fb425e174911ec` also reached `success` and carries the custom domains. Further docs-only commits followed; their final deployment status is checked separately.
+- Live rendered forms and CTA sections remain present on the checked pages. No real service enquiry was submitted. Mobile screenshot-level layout and form submission end-to-end were not tested.- Cloudflare Pages build and Production deployment succeeded for code commit `e3c794dd406410413d4ca6da29a719e8a713207a`; latest deployment for documentation commit `a4fa14d1381d171b8097489ff8fb425e174911ec` also reached `success` and carries the custom domains. Further docs-only commits followed; their final deployment status is checked separately.
 - Read-only Cloudflare configuration review reconfirmed legacy Supabase-named variables in Preview and Production. The existing 11.11 static audit recorded no Supabase references in 115 runtime/source/workflow files and no SDK dependency; the variables were not changed. The repeated finding is recorded in `docs/AI/OPEN_QUESTIONS.md` for separate owner-approved cleanup.
 - No Sanity schema, code architecture, API, D1, Resend, Cloudflare bindings/settings/secrets or global site components were intentionally changed. The only runtime code change is the inline-link renderer in `src/pages/ServicePage.tsx`.
 
