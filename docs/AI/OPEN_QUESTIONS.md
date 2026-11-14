@@ -1,3 +1,11 @@
+## 2026-11-14 — Stages 9.5–9.6: palm SEO priorities and 90-day plan recorded
+
+- The prioritized action list and 90-day calendar are documented in `docs/audits/2026-11-14-palm-seo-priorities-and-90-day-plan.md`.
+- First gates are technical verification of the existing palm category, identity review of both Washingtonia records, apex/www canonical consistency, and confirmation of second-domain control and intended business role.
+- The existing category and species product pages remain the planned SEO targets. No new category, duplicate catalogue, domain redirect or canonical change is approved by this planning report.
+- No Sanity writes, code/schema changes, Cloudflare/DNS settings or GBP writes were performed.
+- Execution remains conditional on the relevant owner approvals and the evidence checks listed in the plan.
+
 ## 2026-11-14 — Stage 9.4: second-domain review completed; owner/control verification remains open
 
 - Public indexed content on `www.palmandolivetrees.com` explicitly names Florial, Nessebar and the same phone as the connected Google Business Profile. The live GBP record links to `https://florial-bg.com/`.
