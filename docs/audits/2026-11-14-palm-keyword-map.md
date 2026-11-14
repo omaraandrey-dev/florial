@@ -48,7 +48,7 @@ All-query sample returned 82 rows. A palm/species-filtered query-to-page sample 
 
 These are low-volume observations with small sample sizes; positions fluctuate and are not guaranteed rankings. The list is not a complete demand estimate.
 
-The category-page filter for `/category/palmi-yuki` returned zero rows in this 28-day window. Product-page queries were observed for several species. This suggests that current measurable search exposure is concentrated on product pages rather than the broad category landing page.
+The category-page query/page filter for `/category/palmi-yuki` returned zero visible query rows in this 28-day window. Product-page queries were observed for several species. This suggests that the visible query sample is concentrated on product pages rather than the broad category landing page; it does not establish zero total page impressions because anonymized queries may be omitted.
 
 The GSC query/page sample included both apex and `www` URL forms for some product queries (for example Butia and Washingtonia). This is a reporting observation only; it does not prove a canonical defect. Canonical selection should be checked separately in the planned technical verification.
 
@@ -130,7 +130,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 
 ## 7. Recommended implementation order (not applied)
 
-1. First improve the existing `/category/palmi-yuki` landing page around broad Bulgarian local-commercial intent and a clear species navigation structure. The current GSC sample shows no category impressions in the last 28 days, while species pages already receive some impressions.
+1. First improve the existing `/category/palmi-yuki` landing page around broad Bulgarian local-commercial intent and a clear species navigation structure. The current GSC query/page sample returned no visible query rows for the category in the last 28 days, while species pages already have visible query rows.
 2. Add/verify contextual internal links from category to each relevant palm product, and from products back to the category.
 3. Keep product-page SEO focused on species-specific queries; verify BG/RU/EN localization and botanical accuracy.
 4. Investigate the two Washingtonia pages before changing their keyword targets.
@@ -141,7 +141,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 
 - Search volume and keyword difficulty for all proposed terms: **NOT KNOWN — not supplied by the connected Search Console trial or the web SERP sample**.
 - GSC history older than 30 days: **NOT AVAILABLE in the current Windsor.ai trial**; the 12-month request returned an explicit trial-history restriction.
-- Exact category URL HTTP response and initial HTML: the Sanity slug is confirmed, but direct fetch of `https://florial-bg.com/category/palmi-yuki` was not accessible in the available web reader. Do not treat raw HTML/canonical/hreflang as verified by this report.
+- Category route: Sanity slug `palmi-yuki` and the `/category/:slug` route handler in `src/App.tsx` confirm the expected URL `https://florial-bg.com/category/palmi-yuki`. Direct HTTP fetch of the route was not accessible in the available web reader, so initial HTML, canonical and hreflang are not verified.
 - Google recrawl, indexing and current rankings: **not confirmed**.
 - Ownership/SEO relationship of `palmandolivetrees.com`: reserved for stage 9.4.
 
