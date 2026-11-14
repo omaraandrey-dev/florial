@@ -206,7 +206,10 @@ export default function App() {
   const currentService = activeServiceSlug ? currentServiceDetails : null
 
   useEffect(() => {
-    const handleConsentChange = () => setRouteRevision((revision) => revision + 1)
+    const handleConsentChange = () => {
+      lastTrackedContent.current = null
+      setRouteRevision((revision) => revision + 1)
+    }
     window.addEventListener('florial:analytics-consent-change', handleConsentChange)
     return () => window.removeEventListener('florial:analytics-consent-change', handleConsentChange)
   }, [])
