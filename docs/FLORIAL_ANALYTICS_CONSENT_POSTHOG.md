@@ -1,61 +1,70 @@
-# Florial — consent-based analytics and PostHog
+# Florial — first-party D1 statistics and optional PostHog analytics
 
-Status: consent-gated D1 analytics is deployed to Production; PostHog ingestion remains inactive.
+Status: implementation prepared on branch `fix/d1-baseline-posthog-consent`; not merged or deployed.
 Date: 14.11.2026
-Consent implementation: PR #262, commit `19ace984706900b51560cefb244ea56db76de79a`.
-Footer settings UX: PR #263, commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`.
-Latest Production deployment: Cloudflare Pages deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d`.
+PostHog project: EU project ID `349453`.
+Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 
-## Scope
+## Data flow
 
-- A BG/RU/EN analytics consent panel is mounted on public storefront and legal pages; the Manager route is excluded.
-- Visitors can explicitly allow or reject analytics. Until a choice is made, analytics stays disabled.
-- The choice is stored in localStorage under `florial:analytics-consent:v1`. If storage is unavailable or no choice exists, analytics stays disabled.
-- Existing Cloudflare D1 tracking (`/api/track`) records page views, phone clicks and chat clicks only after consent.
-- Optional PostHog events are sent directly to the EU ingestion endpoint `https://eu.i.posthog.com/i/v0/e/` only after consent and only when the build variable is configured.
-- PostHog receives a random in-memory identifier that is not stored in cookies or browser storage. It groups events only in the current browser tab until the page is reloaded.
-- Events currently implemented: `florial_page_view`, `florial_phone_click`, `florial_chat_click`, `florial_product_view`, `florial_category_view`, `florial_cart_view`, `florial_add_to_cart`, `florial_checkout_start`.
-- Product/cart event properties are limited to language, page path, product type and quantity. No SKU, product name, order number, order contents, customer name, phone, email, address or form text is sent.
-- No session replay, heatmaps, autocapture or advertising tracking is implemented.
+### Cloudflare D1 — baseline site statistics
 
-## Consent settings entry point
+- The four existing first-party events continue to be sent to `/api/track` regardless of whether the visitor accepts or rejects optional PostHog analytics:
+  - `page_view`
+  - `call_bg`
+  - `call_en_ru`
+  - `chat_click`
+- D1 stores only event type, language, page path and event timestamp in `site_events`.
+- The tracking endpoint retains same-origin checks, request-size limits, event/language/path validation and rate limiting.
+- The raw request IP is not written to `site_events`; Cloudflare/network security systems may still process connection metadata.
+- No customer/order details, contact data, product names/SKUs, form contents or order values are sent to D1 by this tracking path.
+- Automatic deletion is not currently configured for `site_events`. A concrete retention period and a documented balancing assessment for the legitimate-interest basis remain required operational/legal follow-ups.
 
-- The initial consent panel offers allow/reject choices in Bulgarian, Russian and English.
-- After a choice, there is no floating settings button. The visitor can reopen the same consent panel using the small text link `Настройки за поверителност` / `Настройки конфиденциальности` / `Privacy settings` in the public site Footer.
-- The Footer link dispatches `florial:open-analytics-settings`; the consent component listens for that event and opens the existing panel. The choice and analytics gating logic are unchanged.
-- The link's fallback destination is the localized Privacy Policy page if client-side interaction is unavailable.
+### PostHog — optional additional analytics
 
-## PostHog configuration
+- PostHog transmission remains disabled unless the visitor's stored choice is exactly `accepted`.
+- A rejection does not stop the first-party D1 baseline events; it prevents the optional PostHog requests.
+- Events sent to PostHog: `florial_page_view`, `florial_phone_click`, `florial_chat_click`, `florial_product_view`, `florial_category_view`, `florial_cart_view`, `florial_add_to_cart`, `florial_checkout_start`.
+- PostHog uses a random in-memory identifier, not a persistent cookie or browser-storage identifier. It groups events only within the current tab until reload.
+- Event properties are limited to language, page path, product type and quantity where applicable. No SKU, product name, order number, order contents, customer name, phone, email, address, form text or order values are sent.
+- No PostHog SDK, session replay, heatmaps, broad autocapture or advertising tracking is implemented.
 
-Set the following variable in Cloudflare Pages for the Production build only after review and separate owner approval:
+## Consent interface
 
-- `VITE_POSTHOG_PROJECT_KEY` — the public project ingestion key for the Florial PostHog project (project ID 349453).
+- The BG/RU/EN panel explains that basic D1 statistics are recorded regardless of the optional PostHog choice, while additional PostHog events require acceptance.
+- Visitors can accept or reject optional PostHog analytics.
+- The choice is stored in localStorage under `florial:analytics-consent:v1`.
+- After a choice, the panel can be reopened through the localized Footer link: BG `Настройки за поверителност`, RU `Настройки конфиденциальности`, EN `Privacy settings`.
+- Manager routes remain excluded.
+- This lightweight preference control is not a full CMP and does not control third-party embeds such as YouTube.
 
-Do not put a personal API key or a secret API token in frontend code. The variable is optional: if it is absent, consent controls and consent-gated D1 analytics still work, while PostHog transmission remains disabled.
+## PostHog project configuration
 
-PostHog project configuration should keep session recordings disabled, IP anonymization enabled, and broad autocapture/heatmaps disabled. Verify these settings in the PostHog project before enabling the key.
+- Project ID: `349453`; EU API host: `https://eu.i.posthog.com`.
+- Project public ingestion key is available from PostHog project settings. It must be used only as the public `VITE_POSTHOG_PROJECT_KEY` build variable; never use a personal API key or secret token in frontend code.
+- At last inspection, PostHog reported IP anonymization enabled and session recordings disabled. No PostHog events had been ingested from Florial.
+- `VITE_POSTHOG_PROJECT_KEY` was not present in the Cloudflare Pages Production environment at the last verified configuration read. The Cloudflare API read showed secret values masked; do not rewrite the full env-var map because that could overwrite existing secrets.
+- Configure the public key through the Cloudflare dashboard UI or a safe additive mechanism that preserves all existing Production variables and secrets. Do not change Preview unless separately requested.
 
-## Important implementation details
+## Privacy and retention follow-ups
 
-- No third-party analytics script is loaded before consent.
-- No PostHog cookie or persistent distinct ID is created by this integration.
-- The browser sends analytics requests without credentials and with a no-referrer policy.
-- D1 and PostHog analytics remain disabled unless the saved choice is exactly `accepted`.
-- The existing technical rate-limiting controls remain separate from optional analytics.
-- Consent choice is not a consent to marketing or advertising.
+- The public BG/RU/EN notice now distinguishes D1 baseline events from optional PostHog analytics and states that D1 automatic deletion is not currently configured.
+- The stated legitimate-interest basis for D1 must be supported by a documented balancing test (LIA) before treating it as legally confirmed.
+- Confirm and implement a concrete D1 retention period, including an appropriate cleanup mechanism.
+- Review PostHog's DPA, retention, subprocessors and international access/transfer safeguards; obtain Bulgarian legal review of the privacy notice and consent wording, including applicable ePrivacy requirements.
+- These technical changes do not constitute legal advice or a conclusion that consent is never required for any analytics processing.
 
-## Production verification and open gates
+## Verification plan
 
-- PR #262 was merged to `main`; Production deployment `69918c8b-a8df-4906-a2fd-66ce9046148b` completed successfully.
-- Live homepage HTML contained the Bulgarian consent panel labels. Owner manually confirmed in Incognito that rejecting closes the panel and that the settings entry point remains available.
-- The exact interactive acceptance/revocation network behavior has not yet been independently inspected in browser DevTools.
-- `VITE_POSTHOG_PROJECT_KEY` is not configured; actual PostHog ingestion is therefore inactive.
-- Before enabling PostHog: check the current PostHog Data Processing Agreement, EU hosting/region, subprocessors, retention and international access/transfer safeguards; obtain Bulgarian legal review of the BG/RU/EN privacy notice and consent wording, including applicable ePrivacy requirements. The privacy wording is a technical disclosure draft, not legal advice.
-- YouTube embeds are not controlled by this analytics consent component and require a separate assessment.
+1. Reject optional PostHog analytics in a clean browser profile.
+2. Confirm `/api/track` still receives and stores the four baseline event types in D1.
+3. Confirm no request is sent to `eu.i.posthog.com` after rejection.
+4. Accept PostHog analytics and confirm a request reaches the EU ingestion endpoint.
+5. Verify the event schema in PostHog, then add dashboard charts using only observed event names.
+6. Confirm the Footer privacy-settings link reopens the panel in BG/RU/EN.
 
-## Known limits
+## Previous production releases
 
-- This is a lightweight analytics consent control, not a full CMP or a control for all third-party embeds.
-- The consent record is stored in localStorage; if the visitor clears site storage, the panel will appear again.
-- Existing service providers and technical security processing are not controlled by this optional analytics preference.
-- The current PostHog event scope intentionally excludes detailed product identifiers and order values. Additional commerce analytics requires a separate privacy review.
+- PR #262 consent panel: merge commit `19ace984706900b51560cefb244ea56db76de79a`; deployment `69918c8b-a8df-4906-a2fd-66ce9046148b`.
+- PR #263 Footer settings link: merge commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`; deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d`.
+- The behavior described in this document is the proposed next revision, not yet active on Production.
