@@ -1,3 +1,14 @@
+## 2026-11-14 — Palm priority-1 SEO corrections published
+
+- Live Sanity Production content update: project `bxvcy0qs`, dataset `plants`; 11 published documents where `productType == palm`.
+- Corrected all 23 Meta Description values above 160 characters (BG 7, RU 8, EN 8). Final published verification: 0/33 descriptions above 160 characters and 0/33 Meta Titles above 70 characters.
+- Cycas revoluta corrected in all three SEO locales: H1, Meta Title, Meta Description and main-image ALT now accurately describe a cycad, not a palm. Classification changed to `productType: other`; category references changed from `plants-palms` to `plants-exotic`. The deployed product schema allows `other` but has no dedicated `cycad` enum.
+- Added BG/RU/EN main-image ALT to the second Washingtonia product. Final published verification: no empty main-image ALT values among the 11 target products.
+- Revision-guarded draft edits were reviewed and published. No prices, stock, variants, slugs, product names, long descriptions, care guides, image assets, schema or code changed.
+- Backup of every affected field and original revision IDs: `docs/backups/palm-seo-before-priority-1-2026-11-14.json` (branch `seo/palm-priority-1-2026-11-14`). Sanity dataset copy was blocked by quota; do not claim a full dataset snapshot.
+- No code deployment was required. Google recrawl/indexing and ranking impact remain unconfirmed.
+- Detailed audit: `docs/audits/2026-11-14-palm-priority-1-remediation.md`.
+
 ## 2026-11-14 — Baseline D1 site statistics separated from optional PostHog analytics (PR #264 merged and deployed)
 
 - Proposed runtime behavior: the four existing first-party events (`page_view`, `call_bg`, `call_en_ru`, `chat_click`) are sent to Cloudflare D1 regardless of the optional PostHog preference. The visitor's reject choice disables only additional PostHog transmission.
