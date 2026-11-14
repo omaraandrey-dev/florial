@@ -1,9 +1,13 @@
-## 2026-11-14 — Product SEO quality remediation remains open
+## 2026-11-14 — Product SEO content remediation completed; Google verification remains open
 
-- Read-only Sanity Production audit covers all 275 published equipment products. Active SEO fields are complete (2,475/2,475), but automated screening found title-length, description truncation/punctuation and localization contamination candidates. Full counts and examples: docs/audits/2026-11-14-product-seo-quality-audit.md.
-- Generator hardening and regression tests are prepared in PR #260. Exact implementation-head CI on a1fd16ce3c4150b14126bc89d24a4f0db032b1b6 passed (Blog and Studio run 43563174822; D1 validation run 43563174858). PR remains open and unmerged.
-- **Still open:** existing populated SEO fields are not fixed by the missing-only Manager action. Build an item-level queue with old/new values, correct source translations where necessary, export a complete backup of affected published documents and show the owner a preview.
-- No Sanity writes/publication, Production deployment or Google recrawl has been performed. Do not apply a batch repair until the owner approves the exact preview and the backup is verified.
+- Manual SEO review and corrections are complete for all 275 published equipment products in Sanity Production. All 2,475 BG/RU/EN H1, Meta Title and Meta Description fields are populated.
+- 228 product documents received one or more manual SEO corrections (1,130 field values); 47 products were retained unchanged because their existing metadata passed review. The generator was not used to populate Sanity SEO content.
+- Final read-only checks: zero missing SEO fields; zero titles over 70 characters; zero descriptions over 160 characters; zero ellipses/truncation; zero suspicious empty/dangling punctuation; zero Cyrillic in English SEO; zero Sozopol references; zero product noIndex=true in BG/RU/EN.
+- Pre-write backup of all 275 products' original SEO subdocuments and revisions is saved in docs/backups/product-seo-before-manual-repair-2026-11-14.json and parts 01–11. Detailed results: docs/audits/2026-11-14-manual-product-seo-remediation.md.
+- PR #260 was merged to main at 9b49f56591cc9297e725bec24c40b7219f5dc287. Cloudflare Pages Production deployment bc022ecf-8777-4575-9f11-e1f6fa33072f succeeded for that commit.
+- **Still open for Google verification:** GSC sitemap processing, URL Inspection, Google-selected canonical, indexing and recrawl status have not been accessed. The current live sitemap XML and representative production HTML were not re-fetched after deployment; last live sitemap verification was 2026-11-13 (1,312 unique URLs).
+- OpenSEO can connect Search Console data, but it is not connected in this session. After connection, verify sitemap status, coverage, canonical selection, impressions/clicks and representative product URLs.
+- Legacy SUPABASE_/VITE_SUPABASE_ variable names remain visible in Cloudflare Pages configuration. They were not changed; separate code-reference verification and explicit approval are required before removal.
 
 ## 2026-11-13 — Manager product SEO safe mode deployed; content apply pending
 
