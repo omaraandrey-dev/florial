@@ -65,7 +65,8 @@ The GSC query/page sample included both apex and `www` URL forms for some produc
 | Broad commercial / local palm shopping | `/category/palmi-yuki` | палми; палми и юки; продажба на палми; палми Несебър; палми в Несебър; палми България; палми за градина; декоративни палми; едроразмерни палми |
 | Cold-hardy palms — broad category intent | `/category/palmi-yuki` | студоустойчиви палми; студоустойчива палма; студоустойчиви палми за България; палми за двор; палми за градина |
 | Trachycarpus species / purchase | `/product/trachycarpus-fortunei` | трахикарпус; трахикарпус форчуна; трахикарпус палма; палма трахикарпус; студоустойчив трахикарпус; трахикарпус цена |
-| Washingtonia species | `/product/washingtonia` and `/product/ventlieva-palyma-vashintoniya` | вашингтония; вашингтония филифера; вашингтония робуста; палма вашингтония |
+| Standard Washingtonia offer (240 cm / 50 L / EUR 600 / stock 50) | `/product/washingtonia` | вашингтония; вашингтония филифера; вашингтония робуста; палма вашингтония; купить вашингтонию |
+| Large Washingtonia specimen (475–525 cm / 300 L / EUR 3,000 / stock 1) | `/product/ventlieva-palyma-vashintoniya` | едроразмерна вашингтония; голяма палма вашингтония; вашингтония 5 метра; крупномерная вашингтония; large Washingtonia palm 5 m |
 | Canary Island date palm | `/product/phoenix-canariensis` | канарска финикова палма; канарска палма; Phoenix canariensis |
 | Date palm | `/product/phoenix-dactylifera` | финикова палма; Phoenix dactylifera |
 | Pygmy date palm | `/product/phoenix-roebelenii` | робелини; палма робелини; финик робелини; Phoenix roebelenii |
@@ -75,7 +76,7 @@ The GSC query/page sample included both apex and `www` URL forms for some produc
 | Sabal | `/product/sabal-palmetto` | сабал; сабал палмето; Sabal palmetto |
 | Yucca rostrata (not a palm) | `/product/yucca-rostrata` | юка рострата; Yucca rostrata; юка за градина |
 
-The two Washingtonia product URLs are both present in the current product catalogue and must be inspected before any consolidation or redirect decision. Do not merge or redirect them based only on similar species names.
+Read-only Sanity comparison confirms these are distinct offers, not duplicate inventory: the `washingtonia` page is 240 cm / 50 L / EUR 600 / stock 50; `ventlieva-palyma-vashintoniya` is 475–525 cm / 300 L / EUR 3,000 / stock 1. GSC query/page rows for Washingtonia species terms currently point to `/product/washingtonia`; the large-specimen URL had no matching row in this query sample. Keep both pages but give the large specimen a distinct size-led search target.
 
 ## 4. URL ownership — Russian
 
@@ -86,7 +87,8 @@ Russian keyword ideas are hypotheses for page copy and later GSC validation; no 
 | Broad commercial / local | `/category/palmi-yuki` | купить пальмы в Несебре; пальмы в Болгарии; продажа пальм Болгария; пальмы для сада; пальмы и юкки; крупномерные пальмы |
 | Cold-hardy palms | `/category/palmi-yuki` | морозостойкие пальмы; зимостойкие пальмы для сада; пальмы для открытого грунта в Болгарии |
 | Trachycarpus | `/product/trachycarpus-fortunei` | трахикарпус Форчуна; купить трахикарпус; морозостойкая пальма трахикарпус |
-| Washingtonia | Washingtonia product pages | вашингтония; вашингтония филифера; вашингтония робуста |
+| Standard Washingtonia offer (240 cm / 50 L / EUR 600) | `/product/washingtonia` | вашингтония; вашингтония филифера; вашингтония робуста; купить вашингтонию |
+| Large Washingtonia specimen (475–525 cm / 300 L / EUR 3,000) | `/product/ventlieva-palyma-vashintoniya` | крупномерная вашингтония; большая пальма вашингтония; вашингтония 5 метров |
 | Phoenix canariensis | `/product/phoenix-canariensis` | канарская финиковая пальма |
 | Phoenix dactylifera | `/product/phoenix-dactylifera` | финиковая пальма; финик пальма |
 | Phoenix roebelenii | `/product/phoenix-roebelenii` | финик Робелини; пальма Робелини |
@@ -107,7 +109,8 @@ English terms are hypotheses for the EN locale and should be validated against l
 | Broad commercial / local | `/category/palmi-yuki` | palm trees for sale Bulgaria; buy palm trees in Nessebar; palms in Bulgaria; garden palm trees; palms and yuccas |
 | Cold-hardy palms | `/category/palmi-yuki` | cold hardy palm trees Bulgaria; hardy palms for gardens; outdoor palm trees Bulgaria |
 | Trachycarpus | `/product/trachycarpus-fortunei` | windmill palm for sale; Trachycarpus fortunei; cold hardy windmill palm |
-| Washingtonia | Washingtonia product pages | Washingtonia palm; Washingtonia filifera; Washingtonia robusta |
+| Standard Washingtonia offer (240 cm / 50 L / EUR 600) | `/product/washingtonia` | Washingtonia palm; Washingtonia filifera; Washingtonia robusta |
+| Large Washingtonia specimen (475–525 cm / 300 L / EUR 3,000) | `/product/ventlieva-palyma-vashintoniya` | large Washingtonia palm; 5 m Washingtonia; specimen Washingtonia |
 | Canary Island date palm | `/product/phoenix-canariensis` | Canary Island date palm; Phoenix canariensis |
 | Date palm | `/product/phoenix-dactylifera` | date palm; Phoenix dactylifera |
 | Pygmy date palm | `/product/phoenix-roebelenii` | pygmy date palm; Phoenix roebelenii |
@@ -125,7 +128,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 4. “Cold-hardy palms” is a category-level discovery cluster; Trachycarpus owns the exact Trachycarpus terms. Avoid making a new cold-hardy category until stage 9.5 evaluates product count, filters, user experience and actual demand.
 5. Yucca rostrata is currently primarily assigned to `plants-exotic` and secondarily referenced by `plants-palms`; optimize the exact Yucca query on its product page. Do not describe Yucca as a palm in taxonomy or botanical copy.
 6. Cycas revoluta is currently `productType: other` in `plants-exotic`; keep “цикас / cycas / sago cycad” on its product page and out of the palm cluster.
-7. Do not optimize the two Washingtonia product pages for the exact same offer without first checking whether they are distinct inventory/products. Their similar names and GSC page appearances require a product identity review.
+7. The two Washingtonia pages are confirmed as distinct size/container/price/stock offers. Keep both, assign general species queries to the 240 cm / 50 L product, and assign large-specimen / 5 m queries to the 475–525 cm / 300 L product. Current GSC species-query rows point to the standard offer; no matching row was returned for the large specimen in this sample.
 8. Do not split BG/RU/EN into separate URL families unless the current routing architecture already does so; language targeting should follow the site's existing locale/canonical/hreflang implementation.
 
 ## 7. Recommended implementation order (not applied)
@@ -149,7 +152,8 @@ English terms are hypotheses for the EN locale and should be validated against l
 
 - Connected Search Console property and query/page metrics retrieved read-only through Windsor.ai on 2026-11-14.
 - Published Sanity read-only category lookup: `plants-palms`, slug `palmi-yuki`.
-- Published Sanity read-only product lookup: 10 palm-type products linked to `plants-palms`; Yucca rostrata is primarily `plants-exotic` and secondarily linked to `plants-palms`; Cycas is `other` in `plants-exotic`.
+- Published Sanity read-only product lookup: 10 palm-type products linked to `plants-palms`; Yucca rostrata is primarily `plants-exotic` and secondarily linked to `plants-palms`; Cycas is `other` in `plants-exotic`. The two Washingtonia offers were compared read-only and confirmed as distinct size/container/price/stock records.
+- Windsor.ai GSC query/page sample for Washingtonia queries: all five Bulgarian query/page rows pointed to `/product/washingtonia`; none pointed to the large-specimen URL in this sample.
 - Palmi.bg cold-hardy category: https://palmi.bg/category/35/studoustoychivi-palmi.html
 - Palmi.bg Trachycarpus / Chamaerops category: https://palmi.bg/category/47/trahikarpus-hamerops-trachycarpus-chamaerops.html
 - Search result for the separate Nessebar domain: https://www.palmandolivetrees.com/
