@@ -78,7 +78,7 @@ function capturePostHogEvent(
 }
 
 export function trackPostHogEvent(
-  eventName: 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | 'florial_add_to_cart' | 'florial_checkout_start',
+  eventName: 'florial_page_view' | 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | 'florial_add_to_cart' | 'florial_checkout_start',
   lang: TrackingLanguage,
   pagePath: string,
   details: { product_type?: string; quantity?: number } = {},
