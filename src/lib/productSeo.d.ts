@@ -12,6 +12,7 @@ export function generateProductSeo(
 ): ProductSeoOutput | null
 export function resolveProductLocation(product: Record<string, any>, stableIndex?: number): Record<string, any>
 export const PRODUCT_SEO_MAX_TITLE_LENGTH: number
+export const PRODUCT_SEO_MAX_DESCRIPTION_LENGTH: number
 export const PRODUCT_SEO_LOCATIONS: string[]
 
 export function isProductSeoFieldMissing(value: unknown): boolean

@@ -3,6 +3,7 @@
  * The generator writes only active H1 / Meta Title / Meta Description fields.
  */
 export const PRODUCT_SEO_MAX_TITLE_LENGTH = 70
+export const PRODUCT_SEO_MAX_DESCRIPTION_LENGTH = 160
 
 const LOCATIONS = [
   { key: 'nessebar', aliases: ['Несебър', 'Несебр', 'Несебыр', 'Несебре', 'Несебыре', 'Nessebar', 'Nesebar'], names: { bg: 'Несебър', ru: 'Несебр', en: 'Nessebar' } },
@@ -22,6 +23,9 @@ const BRAND_LABELS = {
   en: { full: 'Florial Garden Centre', short: 'Florial' },
 }
 const EXCLUDED_LOCATION_PATTERN = /созопол|созополь|sozopol/i
+const CYRILLIC_PATTERN = /[А-Яа-яЁё]/
+const BULGARIAN_ONLY_PATTERN = /(?:вътрешна|външна|капков|маркуч|колче|дълга дръжка|полиетилен|редукционен)/i
+const PRICE_ONLY_PATTERN = /(?:VAT included|price includes VAT|цена\s+с\s+ддс|цена\s+с\s+д\.д\.с\.)/i
 
 const asText = (value) => {
   if (typeof value === 'string') return value
@@ -120,30 +124,62 @@ const stripAllowedLocationMentions = (value) => {
     .trim()
 }
 
-const cleanFeature = (value, productName) => {
+const cleanFeature = (value, productName, locale) => {
   let text = asText(value).replace(/\s+/g, ' ').trim()
   if (!text) return ''
-  text = text.split(/(?<=[.!?])\s+/).filter((sentence) => !EXCLUDED_LOCATION_PATTERN.test(sentence)).join(' ')
+  text = text
+    .split(/(?<=[.!?])\s+/)
+    .filter((sentence) => !EXCLUDED_LOCATION_PATTERN.test(sentence) && !PRICE_ONLY_PATTERN.test(sentence))
+    .join(' ')
+  if (locale === 'en' && CYRILLIC_PATTERN.test(text)) return ''
+  if (locale === 'ru' && BULGARIAN_ONLY_PATTERN.test(text)) return ''
   text = stripAllowedLocationMentions(text)
+
   const normalizedName = String(productName || '').trim().toLocaleLowerCase()
-  const nameIndex = normalizedName ? text.toLocaleLowerCase().indexOf(normalizedName) : -1
-  if (nameIndex >= 0 && nameIndex < 40) {
-    text = (text.slice(0, nameIndex) + ' ' + text.slice(nameIndex + String(productName).length)).replace(/^[\s:—–,-]+/, '')
+  if (normalizedName && text.toLocaleLowerCase().startsWith(normalizedName)) {
+    text = text.slice(String(productName).length).replace(/^[\s:—–,.-]+/, '')
   }
-  return text.replace(/\s+/g, ' ').trim()
+  return text
+    .replace(/^[\s:—–,.-]+/, '')
+    .replace(/[\s:—–,.-]+$/, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
+/** Build a complete sentence without clipping a product feature mid-word or leaving an empty dash. */
 const buildMetaDescription = (name, feature, locationName, locale) => {
-  const brand = BRAND_LABELS[locale].full
-  const templates = {
-    bg: { prefix: 'Продажба на ', join: ' — ', suffix: '. ' + brand + ' предлага продукта за клиенти в ' + locationName + ' и района.' },
-    ru: { prefix: 'Продажа: ', join: ' — ', suffix: '. ' + brand + ' предлагает товар покупателям в ' + locationName + ' и окрестностях.' },
-    en: { prefix: 'For sale: ', join: ' — ', suffix: '. ' + brand + ' serves customers in ' + locationName + ' and nearby areas.' },
+  const prefix = {
+    bg: 'Продажба на ',
+    ru: 'Продажа: ',
+    en: 'For sale: ',
+  }[locale]
+  const fullSuffix = {
+    bg: '. Градински център Флориал предлага продукта за клиенти в ' + locationName + '.',
+    ru: '. Садовый центр Флориал предлага товар покупателям в ' + locationName + '.',
+    en: '. Florial Garden Centre serves customers in ' + locationName + '.',
+  }[locale]
+  const compactSuffix = {
+    bg: '. Флориал, ' + locationName + '.',
+    ru: '. Флориал, ' + locationName + '.',
+    en: '. Florial, ' + locationName + '.',
+  }[locale]
+
+  const candidates = []
+  if (feature) {
+    candidates.push(prefix + name + ' — ' + feature + fullSuffix)
+    candidates.push(prefix + feature + compactSuffix)
   }
-  const template = templates[locale]
-  const featureBudget = Math.max(0, 180 - template.prefix.length - name.length - template.suffix.length - template.join.length)
-  const conciseFeature = feature ? shortenAtWordBoundary(feature, featureBudget) : ''
-  return template.prefix + name + (conciseFeature ? template.join + conciseFeature : '') + template.suffix
+  candidates.push(prefix + name + fullSuffix)
+  candidates.push(prefix + name + compactSuffix)
+  candidates.push(prefix + name)
+
+  const complete = candidates.find((candidate) => candidate.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
+  if (complete) return complete
+
+  const budget = PRODUCT_SEO_MAX_DESCRIPTION_LENGTH - prefix.length - compactSuffix.length
+  const shortenedName = shortenAtWordBoundary(name, budget)
+  if (shortenedName) return prefix + shortenedName + compactSuffix
+  return shortenAtWordBoundary(prefix + name, PRODUCT_SEO_MAX_DESCRIPTION_LENGTH) || prefix.trim()
 }
 
 /**
@@ -157,10 +193,16 @@ export function generateProductSeo(product, locale, stableIndex = 0) {
   const name = String(locale === 'bg' ? product?.name || '' : translation?.name || '').trim()
   if (!name) return null
 
+  // Do not generate localized metadata from a visibly contaminated source name.
+  if (locale === 'en' && CYRILLIC_PATTERN.test(name)) return null
+  if (locale === 'ru' && BULGARIAN_ONLY_PATTERN.test(name)) return null
+
   const location = resolveProductLocation(product, stableIndex)
   const locationName = location.names[locale]
-  const featureSource = locale === 'bg' ? product?.shortDescription || product?.description : translation?.shortDescription || translation?.description
-  const feature = cleanFeature(featureSource, name)
+  const featureSource = locale === 'bg'
+    ? product?.shortDescription || product?.description
+    : translation?.shortDescription || translation?.description
+  const feature = cleanFeature(featureSource, name, locale)
 
   return {
     h1: name,
@@ -172,13 +214,12 @@ export function generateProductSeo(product, locale, stableIndex = 0) {
 
 export const PRODUCT_SEO_LOCATIONS = LOCATIONS.map((location) => location.key)
 
-
 /** Return true when an SEO field is absent, non-string, empty, or whitespace-only. */
 export function isProductSeoFieldMissing(value) {
   return typeof value !== 'string' || value.trim().length === 0
 }
 
-/** Return generated SEO values only for fields that are currently empty. */
+/** Return SEO fields only when they are currently empty. */
 export function getMissingProductSeoFields(existingSeo, generated) {
   const source = existingSeo && typeof existingSeo === 'object' ? existingSeo : {}
   const result = {}

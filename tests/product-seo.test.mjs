@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { generateProductSeo, getMissingProductSeoFields, isProductSeoFieldMissing, PRODUCT_SEO_MAX_TITLE_LENGTH } from '../src/lib/productSeo.mjs'
+import { generateProductSeo, getMissingProductSeoFields, isProductSeoFieldMissing, PRODUCT_SEO_MAX_TITLE_LENGTH, PRODUCT_SEO_MAX_DESCRIPTION_LENGTH } from '../src/lib/productSeo.mjs'
 
 test('uses the approved separator and keeps Meta Title within 70 characters', () => {
   const result = generateProductSeo({ name: 'Маслина Olea Europaea', shortDescription: 'Вечнозелено дърво с декоративна корона.' }, 'bg', 0)
@@ -45,7 +45,7 @@ test('keeps product characteristics while removing duplicate location phrases', 
   }, 'en', 0)
   assert.ok(result)
   assert.match(result.metaDescription, /vibrant colors and green leaves/)
-  assert.match(result.metaDescription, /customers in Nessebar/)
+  assert.match(result.metaDescription, /Florial, Nessebar|customers in Nessebar/)
   assert.ok(!result.metaDescription.includes('Nesebar and surrounding areas'))
 })
 
@@ -100,4 +100,63 @@ test('returns all generated fields when no SEO values exist', () => {
 test('classifies missing SEO values consistently for preview and apply', () => {
   for (const value of [undefined, null, '', '   ', String.fromCharCode(9, 10)]) assert.equal(isProductSeoFieldMissing(value), true)
   for (const value of ['0', ' H1 ', 'Existing title']) assert.equal(isProductSeoFieldMissing(value), false)
+})
+
+
+test('keeps generated descriptions within 160 characters without clipping feature text', () => {
+  const result = generateProductSeo({
+    name: 'Rain Bird PCD-2333-100 — pressure-compensating dripline, 100 m',
+    translations: {
+      en: {
+        name: 'Rain Bird PCD-2333-100 — pressure-compensating dripline, 100 m',
+        shortDescription: 'Dripline with pressure-compensating emitters for uniform water delivery along the full irrigation line.',
+      },
+    },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.ok(result.metaDescription.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
+  assert.ok(!result.metaDescription.includes('…'))
+  assert.ok(!result.metaDescription.endsWith('for'))
+  assert.match(result.metaDescription, /Florial/)
+})
+
+test('does not create empty feature fragments from VAT-only source text', () => {
+  const result = generateProductSeo({
+    name: 'Irritec 16 mm barbed dripline valve with 3/4 inch male thread',
+    translations: {
+      en: {
+        name: 'Irritec 16 mm barbed dripline valve with 3/4 inch male thread',
+        shortDescription: 'Irritec 16 mm barbed dripline valve with 3/4 inch male thread. VAT included.',
+      },
+    },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.ok(result.metaDescription.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
+  assert.ok(!/—\s*[.,]|\.\./.test(result.metaDescription))
+  assert.ok(!result.metaDescription.includes('VAT included'))
+})
+
+test('skips English or Russian SEO generation when the source name contains Bulgarian text', () => {
+  assert.equal(generateProductSeo({
+    translations: { en: { name: 'Support stake за капков маркуч 16 mm' } },
+  }, 'en', 0), null)
+  assert.equal(generateProductSeo({
+    translations: { ru: { name: 'Опорный колышек за капков маркуч 16 mm' } },
+  }, 'ru', 0), null)
+})
+
+test('falls back to a complete product description when the feature does not fit', () => {
+  const result = generateProductSeo({
+    name: 'Rain Bird controller',
+    translations: {
+      en: {
+        name: 'Rain Bird controller',
+        shortDescription: 'A very long product feature description that must not be clipped into an unfinished phrase or an incomplete word because it cannot fit in the available search description length.',
+      },
+    },
+  }, 'en', 0)
+  assert.ok(result)
+  assert.ok(result.metaDescription.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
+  assert.ok(!result.metaDescription.includes('…'))
+  assert.match(result.metaDescription, /^For sale:/)
 })
