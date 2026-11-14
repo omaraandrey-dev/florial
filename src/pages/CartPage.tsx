@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CartItem } from '../types'
 import { createOrder } from '../services/orderService'
+import { trackPostHogEvent } from '../services/trackingService'
 
 interface CartPageProps {
   cart: CartItem[]
@@ -86,6 +87,7 @@ export function CartPage({
     e.preventDefault()
     if (cart.length === 0 || isSubmitting) return
 
+    trackPostHogEvent('florial_checkout_start', language, window.location.pathname)
     setIsSubmitting(true)
     setSubmitError('')
 
