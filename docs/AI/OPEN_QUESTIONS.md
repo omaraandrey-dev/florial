@@ -1,7 +1,7 @@
 ## 2026-11-14 — Product SEO quality remediation remains open
 
 - Read-only Sanity Production audit covers all 275 published equipment products. Active SEO fields are complete (2,475/2,475), but automated screening found title-length, description truncation/punctuation and localization contamination candidates. Full counts and examples: docs/audits/2026-11-14-product-seo-quality-audit.md.
-- Generator hardening and regression tests are prepared in branch fix/product-seo-quality-audit. Await exact-commit CI and PR review.
+- Generator hardening and regression tests are prepared in PR #260. Exact implementation-head CI on a1fd16ce3c4150b14126bc89d24a4f0db032b1b6 passed (Blog and Studio run 43563174822; D1 validation run 43563174858). PR remains open and unmerged.
 - **Still open:** existing populated SEO fields are not fixed by the missing-only Manager action. Build an item-level queue with old/new values, correct source translations where necessary, export a complete backup of affected published documents and show the owner a preview.
 - No Sanity writes/publication, Production deployment or Google recrawl has been performed. Do not apply a batch repair until the owner approves the exact preview and the backup is verified.
 
