@@ -1,3 +1,14 @@
+## 2026-11-14 — Baseline D1 site statistics separated from optional PostHog analytics (implementation branch)
+
+- Proposed runtime behavior: the four existing first-party events (`page_view`, `call_bg`, `call_en_ru`, `chat_click`) are sent to Cloudflare D1 regardless of the optional PostHog preference. The visitor's reject choice disables only additional PostHog transmission.
+- The `/api/track` endpoint retains same-origin validation, bounded request parsing, event/language/path allowlists and rate limiting. D1 stores event type, language, page path and timestamp; raw request IP is not inserted into `site_events`.
+- PostHog events remain gated on explicit `accepted`; accepting sends a page-view event directly to PostHog without a duplicate D1 write.
+- BG/RU/EN consent copy and Privacy Policy have been revised to explain the distinct flows and disclose that automatic D1 event deletion is not currently configured.
+- Regression tests added in `tests/analytics-consent-scope.test.mjs`.
+- PostHog EU project 349453 dashboard created: https://eu.posthog.com/project/349453/dashboard/1114600. No Florial event has yet been ingested; charts must use observed event schema after activation.
+- Branch: `fix/d1-baseline-posthog-consent`; not merged or deployed. No D1 schema/data, Sanity documents, Cloudflare environment settings or secrets were changed.
+- Legal/operational gates: document the legitimate-interest balancing test for D1, define and implement event retention/cleanup, review PostHog DPA/subprocessors/retention/international access, and obtain Bulgarian legal review. Do not describe the legal basis as confirmed until the assessment is completed.
+
 ## 2026-11-14 — Manual SEO remediation completed in Sanity Production
 
 - Scope: all 275 published irrigation/equipment products in project bxvcy0qs, dataset production.
