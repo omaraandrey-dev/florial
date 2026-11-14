@@ -1,3 +1,11 @@
+## 2026-11-14 — Palm category page-level GSC metrics and rendering follow-up
+
+- Page-only GSC last-28-day report returned 5 impressions / 0 clicks for `/category/palmi-yuki`: BG base URL 1 impression (position 60), EN `?lang=en` 2 (position 3), RU `?lang=ru` 2 (position 7.5). The query-level report exposed no query text; this is not zero total impressions.
+- Source code inspection confirms canonical/hreflang generation, index/follow unless `noIndex=true`, and CollectionPage JSON-LD. RU/EN `?lang=` URLs are intentional language routes.
+- The middleware initial HTML includes the short description and server-rendered product listing; the 32-block localized SEO content is rendered by React after hydration. **Pending:** verify the actual Google-rendered HTML and Google's selected canonical for all locales.
+- GSC has shown apex/www page variants for Washingtonia. Source code uses apex canonical URLs, but Google-selected canonical is not confirmed.
+- No app code or Sanity content was changed.
+
 ## 2026-11-14 — Palm category and Washingtonia verification findings
 
 - **Category metadata correction proposed, not applied:** `plants-palms` Meta Descriptions are 170 BG / 163 RU / 191 EN characters; the project target is 160 or fewer. Meta Titles are 48 / 47 / 51 characters. `noIndex` is null in all three locales.
