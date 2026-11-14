@@ -10,9 +10,9 @@ Primary domain: https://florial-bg.com/
 Keep the existing Florial architecture and catalogue. The available evidence does not justify creating a new palm category or duplicating the catalogue on another domain yet.
 
 The highest-value sequence is:
-1. Verify the technical SEO state of the existing palm category and the two Washingtonia product pages.
+1. Verify the technical SEO state of the existing palm category; the two Washingtonia offers have now been confirmed as distinct and need separate search targeting.
 2. Keep `florial-bg.com` as the primary commercial site and GBP destination.
-3. Improve the existing `/category/palmi-yuki` landing page for broad Bulgarian local-commercial intent and strengthen internal links to species pages.
+3. Audit the existing `/category/palmi-yuki` content and rendered output, shorten its overlong localized Meta Descriptions, and strengthen internal links. The category already has 32 SEO content blocks in each language, so do not add more copy by default.
 4. Keep each product page focused on one species and its botanical/common-name variants.
 5. Resolve the second domain's intended role only after confirming ownership/control and obtaining technical access.
 6. Measure progress through the connected Search Console property, recognizing the current 30-day Windsor trial history limit.
@@ -26,7 +26,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 | Priority | Task | Reason / evidence | Completion condition |
 |---|---|---|---|
 | P0 | Verify `/category/palmi-yuki` initial HTML, indexability, canonical, hreflang and JSON-LD | Sanity slug and route are confirmed, but direct HTTP HTML inspection was unavailable. GSC returned no visible query rows for this page in the last 28 days. | Record the exact live response, title/description/H1, canonical, hreflang, robots and category/product structured data in a technical audit. |
-| P0 | Inspect the two Washingtonia product documents and URLs | Two different product records/slugs exist for Washingtonia; the keyword map assigns similar queries to both. | Confirm whether these are distinct products/stock offers or duplicates. Only then decide separate targeting, consolidation or redirect. |
+| P0 | Confirm category metadata and rendered output | Read-only Sanity check: category Meta Descriptions are 170 BG / 163 RU / 191 EN characters; Meta Titles are 48 / 47 / 51 characters. The category already has 32 SEO content blocks per locale. | Verify live HTML and then shorten all three descriptions to the project target of 160 characters or fewer; preserve the existing detailed content unless rendering reveals a real gap. |
 | P0 | Confirm control and intended role of `palmandolivetrees.com` | The secondary site uses Florial branding and the same phone, but registrar/DNS/hosting control is not verified. GBP points to the main domain. | Owner confirms account control and whether the domain is intended as a separate lead-generation site or to be retired. |
 | P0 | Check apex / www canonical consistency | Last-28-day GSC sample included both apex and www page URLs for some species queries. This does not prove a canonical defect. | Confirm Google-selected canonical and live canonical redirects for representative product URLs and the palm category. |
 
@@ -34,9 +34,9 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 | Priority | Task | Recommended scope | Success signal |
 |---|---|---|---|
-| P1 | Strengthen the existing palm category landing page | BG-first copy for “палми”, “палми и юки”, “продажба на палми”, “палми Несебър”, “студоустойчиви палми”; clear species links; local delivery/planting details that match actual service coverage. Localize RU/EN without literal keyword stuffing. | Category begins receiving visible relevant GSC query rows, clicks and impressions. |
+| P1 | Correct the existing category Meta Descriptions and verify SEO content rendering | Published Sanity currently has 32 SEO content blocks in BG, RU and EN, with local geography, species guidance and FAQs. Meta Descriptions are overlong: BG 170, RU 163, EN 191 characters; titles are within 70. Proposed shorter descriptions are included below. | Live HTML shows the intended localized description and existing SEO content; later GSC data shows relevant category query rows. |
 | P1 | Add contextual internal links between category and products | Category links to all relevant species; each product links back to the category and to relevant planting/care services where appropriate. | Crawl confirms links are present, crawl depth is reasonable and product pages are reachable from the category. |
-| P1 | Keep product-page intent species-specific | Trachycarpus → windmill palm / Trachycarpus fortunei; Washingtonia → filifera/robusta; Phoenix pages separated by species; Brahea, Butia, Chamaerops, Sabal each own their botanical/common-name terms. | Queries map to one primary URL per species; fewer competing URLs for the same intent. |
+| P1 | Separate the two Washingtonia product-page search targets | Read-only Sanity confirmed distinct offers: standard page `/product/washingtonia` = 240 cm / 50 L / EUR 600 / stock 50; large specimen `/product/ventlieva-palyma-vashintoniya` = 475–525 cm / 300 L / EUR 3,000 / stock 1. GSC species-query rows currently point to the standard URL. | Standard page owns general Washingtonia species terms; large page owns large-specimen / 5 m / 300 L intent. Keep both offers; do not merge or redirect. |
 | P1 | Preserve botanical separation | Yucca rostrata is primarily in `plants-exotic`; Cycas is `other` in `plants-exotic`. Neither should be represented as a true palm in product taxonomy or botanical copy. | Product copy and category labels remain botanically accurate. |
 
 ### P2 — Local authority and content quality
@@ -62,7 +62,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 - Exact common-name and botanical-name intent belongs to the matching species product page.
 - “Студоустойчиви палми” is currently a broad discovery theme for the existing category; Trachycarpus owns its exact species phrases.
 - Yucca rostrata and Cycas stay outside true-palm taxonomy.
-- Do not assign the same exact offer to both Washingtonia pages until their commercial identity is confirmed.
+- Keep both Washingtonia pages: they represent distinct inventory offers. Assign general species searches to the 240 cm / 50 L product and large-specimen / 5 m searches to the 475–525 cm / 300 L product.
 - Do not repeat generic “buy palms in Bulgaria” phrases in every product title and description.
 - Keep Nessebar as the primary local reference and use nearby service locations naturally; do not add Sozopol.
 - Avoid publishing a second copy of Florial's product catalogue or duplicating local palm landing pages across both domains.
@@ -74,19 +74,23 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 - Check live initial HTML and rendered output for `/category/palmi-yuki` in BG/RU/EN.
 - Verify canonical, hreflang, robots/indexability and structured data on the category and representative species pages.
 - Compare apex and www behavior and Google-selected canonical where GSC exposes it.
-- Inspect both Washingtonia records, inventory, variants and page content.
+- Record the already verified Washingtonia offer split and assign separate search targets.
 - Confirm whether the owner controls `palmandolivetrees.com` and what role it should serve.
 - Do not publish content changes during this diagnostic week.
 
-**Deliverable:** technical baseline, Washingtonia identity decision, secondary-domain ownership/role decision or a clearly recorded blocker.
+**Deliverable:** technical baseline, confirmed Washingtonia search-target split, secondary-domain ownership/role decision or a clearly recorded blocker.
 
 ### Days 8–21 — Category landing page and internal links
 
-- Prepare improved BG category copy for broad local-commercial palm intent.
-- Prepare natural RU and EN versions with their own search phrasing.
+- Shorten the existing BG/RU/EN category Meta Descriptions after checking the live rendered values.
+- Proposed text (all within 160 characters):
+  - BG (144): `Продажба на палми и юки в Несебър, Равда и по Южното Черноморие. Изберете подходящ вид за градина или двор с доставка и професионално засаждане.`
+  - RU (142): `Продажа пальм и юкк в Несебре, Равде и на Южном Черноморье. Подберём вид для сада или участка, организуем доставку и профессиональную посадку.`
+  - EN (152): `Buy palms and yuccas in Nessebar, Ravda and Bulgaria’s southern Black Sea coast. Choose a suitable garden plant with delivery and professional planting.`
+- Do not add new long SEO blocks: the existing category already has 32 blocks per locale; first verify that they render correctly and that internal product links are present.
 - Add or verify navigation from category to each palm product and from products back to the category.
 - Include planting/delivery/service details only where they accurately reflect the published service offer.
-- Review the category's existing SEO content before adding new blocks; avoid duplicate FAQ or repeated paragraphs.
+- Preserve the existing 32-block localized SEO content unless the live rendering audit identifies a specific omission; avoid duplicate FAQ or repeated paragraphs.
 
 **Deliverable:** approved category content and internal-link map; publish only after the normal Sanity backup and owner approval process.
 
