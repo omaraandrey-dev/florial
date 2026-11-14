@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { localizedHref } from '../lib/navigation'
-import { getAnalyticsConsent, setAnalyticsConsent } from '../services/trackingService'
+import { getAnalyticsConsent, setAnalyticsConsent, trackEvent } from '../services/trackingService'
 
 const copy = {
   bg: {
@@ -39,6 +39,7 @@ export function AnalyticsConsent() {
   const choose = (value: 'accepted' | 'rejected') => {
     setAnalyticsConsent(value)
     setChoice(value)
+    if (value === 'accepted') trackEvent('page_view', language, window.location.pathname.replace(/\\/+$/, '') || '/')
     setIsOpen(false)
   }
 
