@@ -91,6 +91,20 @@
             "metaTitle": "Купить Цикас (Саговую пальму) в Болгарии | Флориал"
           }
         }
+      },
+      "classification": {
+        "productType": "palm",
+        "category": {
+          "_ref": "plants-palms",
+          "_type": "reference"
+        },
+        "categories": [
+          {
+            "_key": "category-1b3q5t7",
+            "_ref": "plants-palms",
+            "_type": "reference"
+          }
+        ]
       }
     },
     {
