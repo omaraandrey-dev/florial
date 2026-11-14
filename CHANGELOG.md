@@ -2,7 +2,7 @@
 
 - Completed a read-only BG/RU/EN keyword-to-URL map for the existing palm and yucca catalogue; no Sanity documents, schemas, application code or Production settings were changed.
 - Windsor.ai confirmed the connected Search Console property `sc-domain:florial-bg.com`. Current trial access is limited to the last 30 days; the 12-month query was rejected. The working report uses the last-28-day preset and records low-volume query/page observations without inventing search volumes.
-- GSC sample shows impressions for several species pages (including Yucca rostrata, Washingtonia, Butia, Brahea, Trachycarpus-adjacent species terms, Phoenix and Chamaerops); the `/category/palmi-yuki` filter returned no rows for this 28-day window. This is not a lifetime ranking conclusion.
+- GSC sample shows impressions for several species pages (including Yucca rostrata, Washingtonia, Butia, Brahea, Brahea, Butia, Washingtonia, Yucca, Phoenix and Chamaerops terms, Phoenix and Chamaerops); the `/category/palmi-yuki` filter returned no rows for this 28-day window. This is not a lifetime ranking conclusion.
 - Read-only Sanity confirmed category `plants-palms` slug `palmi-yuki`; ten published palm-type products reference it. Yucca rostrata is primarily in `plants-exotic` with a secondary `plants-palms` reference; Cycas is `other` in `plants-exotic`.
 - The map assigns generic commercial/local intent to the category and exact species intent to product pages, with separate BG/RU/EN query clusters. No new categories or content changes are authorized by this analysis.
 - GSC history beyond 30 days, keyword volumes/difficulty, Google recrawl/indexing, category initial HTML/canonical/hreflang and the second domain relationship remain unconfirmed.
