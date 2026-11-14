@@ -1,3 +1,10 @@
+## 2026-11-14 — Trachycarpus fortunei priority-2 completed
+
+- Duplicate two-trunk variant removed from `palm-trachycarpus`; retained the owner-selected variant with stock 5, EUR 1,000 and 50 L container.
+- Product H1, Meta Title and Meta Description completed in BG/RU/EN; missing second-gallery ALT fields completed in all three languages.
+- Post-publication read-back confirmed the change. Pre-change field backup and audit are in `docs/backups/trachycarpus-before-priority-2-2026-11-14.json` and `docs/audits/2026-11-14-trachycarpus-priority-2.md`.
+- No code deployment. Google recrawl/indexing remains unverified.
+
 ## 2026-11-14 — Palm priority-1 SEO remediation completed in Sanity
 
 - All 11 published palm-type product documents in `bxvcy0qs/plants` were reviewed and corrected where needed.

@@ -1,3 +1,12 @@
+## 2026-11-14 — Trachycarpus fortunei priority-2 content update
+
+- Published Sanity content update in project `bxvcy0qs`, dataset `plants`, document `palm-trachycarpus` (published revision `VWXvaWDagJu6vWTEQnSyij`).
+- Removed duplicate two-trunk variant with stock 21; retained variant key `ec474552d87b` with stock 5, price EUR 1,000, status `inStock`, and container volume 50 L. Localized variant names were added in BG/RU/EN.
+- Completed product H1, Meta Title and Meta Description in BG/RU/EN, with Nessebar geo targeting. Filled missing BG/RU/EN ALT values for the second gallery image.
+- Pre-write affected-field backup is stored at `docs/backups/trachycarpus-before-priority-2-2026-11-14.json`; detailed audit at `docs/audits/2026-11-14-trachycarpus-priority-2.md`.
+- Read-back after publication confirmed three variants, the exact retained inventory/price/container values and all localized SEO/ALT fields. Other product content and commercial fields were preserved.
+- No code/schema/Cloudflare changes or deployment. Google recrawl/indexing remains unconfirmed.
+
 ## 2026-11-14 — Palm priority-1 SEO corrections published
 
 - Live Sanity Production content update: project `bxvcy0qs`, dataset `plants`; 11 published documents where `productType == palm`.
