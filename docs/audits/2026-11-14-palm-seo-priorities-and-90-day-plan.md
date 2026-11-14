@@ -1,3 +1,15 @@
+## 0. Latest execution checkpoint — 2026-11-14
+
+### Completed: localized category Meta Descriptions
+
+Published in Sanity Production, document `plants-palms`:
+
+- BG: `Продажба на палми и юки в Несебър, Равда и по Южното Черноморие. Изберете подходящ вид за градина или двор с доставка и професионално засаждане.` (144 characters)
+- RU: `Продажа пальм и юкк в Несебре, Равде и на Южном Черноморье. Подберём вид для сада или участка, организуем доставку и профессиональную посадку.` (142 characters)
+- EN: `Buy palms and yuccas in Nessebar, Ravda and Bulgaria’s southern Black Sea coast. Choose a suitable garden plant with delivery and professional planting.` (152 characters)
+
+Only the three localized Meta Description fields changed. The write was revision-guarded and post-publish read-back confirmed all values. No per-write backup was created under the owner's temporary instruction for routine editorial catalogue changes. Live BG metadata is confirmed; RU/EN live description verification remains to be completed due incomplete extraction/rate limiting. Google-selected canonical and recrawl remain open.
+
 # Florial — palm SEO priorities and 90-day plan
 
 Date: 2026-11-14  
