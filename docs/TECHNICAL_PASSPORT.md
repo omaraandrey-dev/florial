@@ -1,4 +1,4 @@
-## 2026-11-14 — Baseline D1 site statistics separated from optional PostHog analytics (implementation branch)
+## 2026-11-14 — Baseline D1 site statistics separated from optional PostHog analytics (PR #264 merged and deployed)
 
 - Proposed runtime behavior: the four existing first-party events (`page_view`, `call_bg`, `call_en_ru`, `chat_click`) are sent to Cloudflare D1 regardless of the optional PostHog preference. The visitor's reject choice disables only additional PostHog transmission.
 - The `/api/track` endpoint retains same-origin validation, bounded request parsing, event/language/path allowlists and rate limiting. D1 stores event type, language, page path and timestamp; raw request IP is not inserted into `site_events`.
@@ -6,7 +6,9 @@
 - BG/RU/EN consent copy and Privacy Policy have been revised to explain the distinct flows and disclose that automatic D1 event deletion is not currently configured.
 - Regression tests added in `tests/analytics-consent-scope.test.mjs`.
 - PostHog EU project 349453 dashboard created: https://eu.posthog.com/project/349453/dashboard/1114600. No Florial event has yet been ingested; charts must use observed event schema after activation.
-- Branch: `fix/d1-baseline-posthog-consent`; not merged or deployed. No D1 schema/data, Sanity documents, Cloudflare environment settings or secrets were changed.
+- PR #264 squash-merged to `main`: `047e03172f2571b6542adb4a0ed8d4b855df6b24`. Cloudflare Pages Production deployment `1fd6a8da-1bdd-4222-93b4-79adc23841f3` succeeded for the exact merge commit; aliases `florial-bg.com` and `www.florial-bg.com` are active.
+- Exact PR-head CI passed: website lint/tests/build, Pages Functions checks, read-only migration dry-run, Studio dependency install/build, D1 validation and Cloudflare Preview/Production deployments.
+- No D1 schema/data migration, Sanity writes, Cloudflare environment settings or secrets were changed. `VITE_POSTHOG_PROJECT_KEY` remains unconfigured; PostHog ingestion is inactive.
 - Legal/operational gates: document the legitimate-interest balancing test for D1, define and implement event retention/cleanup, review PostHog DPA/subprocessors/retention/international access, and obtain Bulgarian legal review. Do not describe the legal basis as confirmed until the assessment is completed.
 
 ## 2026-11-14 — Manual SEO remediation completed in Sanity Production
