@@ -1,6 +1,7 @@
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import { AnalyticsConsent } from './components/AnalyticsConsent'
 import App from './App.tsx'
 import { LanguageProvider } from './lib/i18n'
 import { Footer } from './components/Footer'
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')!).render(
           <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-stone-500">Зареждане на страницата…</main>}><WithdrawalPage /></Suspense>
           <Footer />
         </div>
+              <AnalyticsConsent />
       </LanguageProvider>
     ) : isTermsRoute ? (
       <LanguageProvider>
@@ -41,6 +43,7 @@ createRoot(document.getElementById('root')!).render(
           <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-slate-500">Зареждане на страницата…</main>}><TermsPage /></Suspense>
           <Footer />
         </div>
+              <AnalyticsConsent />
       </LanguageProvider>
     ) : isPrivacyPolicyRoute ? (
       <LanguageProvider>
@@ -48,7 +51,8 @@ createRoot(document.getElementById('root')!).render(
           <Suspense fallback={<main className="flex flex-grow items-center justify-center px-4 py-16 text-sm text-slate-500">Зареждане на страницата…</main>}><PrivacyPolicyPage /></Suspense>
           <Footer />
         </div>
+              <AnalyticsConsent />
       </LanguageProvider>
-    ) : <LanguageProvider><App /></LanguageProvider>}
+    ) : <LanguageProvider><><App /><AnalyticsConsent /></></LanguageProvider>}
   </StrictMode>,
 )
