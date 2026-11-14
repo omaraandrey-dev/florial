@@ -1,3 +1,13 @@
+## 2026-11-14 — Palm priority-1 SEO remediation completed in Sanity
+
+- All 11 published palm-type product documents in `bxvcy0qs/plants` were reviewed and corrected where needed.
+- 23 overlength BG/RU/EN Meta Descriptions were shortened; final published check: zero descriptions over 160 characters and zero Meta Titles over 70 characters across the 11 products.
+- Cycas revoluta now has accurate cycad wording in all three SEO locales and image ALT values. Its `productType` is `other`; category references now point to `plants-exotic`, not `plants-palms`.
+- The second Washingtonia product now has all three main-image ALT values. Final check: zero missing ALT among these 11 products.
+- Revision-guarded drafts were published. Affected-field backup and original revisions are in `docs/backups/palm-seo-before-priority-1-2026-11-14.json` on the SEO remediation branch. A separate Sanity dataset copy was not possible because the project quota was exceeded; the backup is field-scoped, not a full dataset export.
+- No code or Production deployment changes. Google recrawl/indexing remains unverified.
+- Detailed audit: `docs/audits/2026-11-14-palm-priority-1-remediation.md`.
+
 ## 2026-11-14 — Product SEO content remediation completed; Google verification remains open
 
 - Manual SEO review and corrections are complete for all 275 published equipment products in Sanity Production. All 2,475 BG/RU/EN H1, Meta Title and Meta Description fields are populated.
