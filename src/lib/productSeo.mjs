@@ -24,7 +24,7 @@ const BRAND_LABELS = {
 }
 const EXCLUDED_LOCATION_PATTERN = /созопол|созополь|sozopol/i
 const CYRILLIC_PATTERN = /[А-Яа-яЁё]/
-const BULGARIAN_ONLY_PATTERN = /\b(?:вътрешна|външна|капков|маркуч|колче|дълга дръжка|полиетилен|редукционен)\b/i
+const BULGARIAN_ONLY_PATTERN = /(?:вътрешна|външна|капков|маркуч|колче|дълга дръжка|полиетилен|редукционен)/i
 const PRICE_ONLY_PATTERN = /(?:VAT included|price includes VAT|цена\s+с\s+ддс|цена\s+с\s+д\.д\.с\.)/i
 
 const asText = (value) => {
