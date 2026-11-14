@@ -45,6 +45,7 @@ function capturePostHogEvent(
   eventName: string,
   lang: TrackingLanguage,
   pagePath: string,
+  details: { product_type?: string; quantity?: number } = {},
 ): void {
   if (!postHogProjectKey || getAnalyticsConsent() !== 'accepted') return
   try {
@@ -64,6 +65,7 @@ function capturePostHogEvent(
           page_path: pagePath,
           consent_version: ANALYTICS_CONSENT_VERSION,
           $lib: 'florial-web',
+          ...details,
         },
       }),
       keepalive: true,
@@ -73,6 +75,20 @@ function capturePostHogEvent(
   } catch {
     // Analytics delivery must never interfere with the storefront.
   }
+}
+
+export function trackPostHogEvent(
+  eventName: 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | 'florial_add_to_cart',
+  lang: TrackingLanguage,
+  pagePath: string,
+  details: { product_type?: string; quantity?: number } = {},
+): void {
+  if (testMode || typeof window === 'undefined') return
+  if (!['bg', 'ru', 'en'].includes(lang)) return
+  if (typeof pagePath !== 'string' || !pagePath.startsWith('/') || pagePath.length > MAX_PAGE_PATH_LENGTH) return
+  if (details.product_type !== undefined && (typeof details.product_type !== 'string' || details.product_type.length > 40)) return
+  if (details.quantity !== undefined && (!Number.isFinite(details.quantity) || details.quantity < 1 || details.quantity > 9999)) return
+  capturePostHogEvent(eventName, lang, pagePath, details)
 }
 
 export function trackEvent(
