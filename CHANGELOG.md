@@ -1,3 +1,16 @@
+## 2026-11-14 — Palm catalogue priority-1 SEO remediation published in Sanity
+
+- Reviewed and corrected all 11 published plant documents with `productType == palm` in project `bxvcy0qs`, dataset `plants`.
+- Shortened all 23 BG/RU/EN Meta Description fields that exceeded 160 characters (BG 7, RU 8, EN 8). Post-publication recount: 0 descriptions over 160 characters across all 33 localized fields.
+- Corrected Cycas revoluta SEO in BG/RU/EN: H1, Meta Title, Meta Description and main-image ALT now identify it as a cycad/sagovnik, not a palm.
+- Corrected Cycas classification using deployed schema values: `productType: other`; primary and additional category references moved from `plants-palms` to `plants-exotic`. No dedicated `cycad` productType enum exists in the deployed schema.
+- Filled the three empty main-image ALT values for the second Washingtonia product (BG/RU/EN). Post-publication recount: 0 empty main-image ALT fields across all 11 target documents.
+- All 11 document edits were saved as revision-guarded drafts, checked, and published. No unrelated product fields were modified.
+- Pre-change affected-field snapshot (SEO objects, localized SEO objects, main-image ALT, revision IDs and original Cycas classification) is stored at `docs/backups/palm-seo-before-priority-1-2026-11-14.json` on branch `seo/palm-priority-1-2026-11-14`.
+- Creating a separate Sanity dataset backup was blocked by the project's dataset quota (Payment Required / Quota exceeded); no plan or quota change was made. The GitHub snapshot preserves all fields changed by this operation.
+- No code, schema, Cloudflare settings, build or Pages deployment changes. Google recrawl/indexing and ranking impact remain unconfirmed.
+- Detailed report: `docs/audits/2026-11-14-palm-priority-1-remediation.md`.
+
 ## 2026-11-14 — Separate baseline D1 statistics from optional PostHog consent (PR #264 merged; Production deployed)
 
 - Updated `trackEvent()`: page views, phone clicks and chat clicks continue to be posted to Cloudflare D1 regardless of the visitor's optional PostHog choice. The existing same-origin, validation, body-size and rate-limit protections in `/api/track` remain unchanged.
