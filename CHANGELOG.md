@@ -1,4 +1,4 @@
-## 2026-11-14 — Separate baseline D1 statistics from optional PostHog consent (PR preparation)
+## 2026-11-14 — Separate baseline D1 statistics from optional PostHog consent (PR #264 merged; Production deployed)
 
 - Updated `trackEvent()`: page views, phone clicks and chat clicks continue to be posted to Cloudflare D1 regardless of the visitor's optional PostHog choice. The existing same-origin, validation, body-size and rate-limit protections in `/api/track` remain unchanged.
 - PostHog remains separately consent-gated. Rejecting optional analytics prevents PostHog ingestion but does not disable the first-party D1 baseline.
@@ -6,8 +6,9 @@
 - Prevented a duplicate D1 page-view when the visitor accepts PostHog analytics: consent-time page view is sent directly to PostHog, while the ordinary route event is still recorded once in D1.
 - Added regression tests for D1/PostHog consent separation and localized consent/privacy wording.
 - PostHog dashboard `Florial — Website Analytics` created in EU project 349453: https://eu.posthog.com/project/349453/dashboard/1114600. It currently contains a status note only; no real Florial events have been ingested yet, so event charts are deferred until verified events arrive.
-- No D1 schema or data migration, Sanity write, Manager change, or Cloudflare environment-variable change. This branch is not merged/deployed.
-- Open before Production activation: confirm/document the D1 legitimate-interest balancing assessment, define and implement a concrete D1 retention period and cleanup, review PostHog DPA/subprocessors/retention/transfers, and obtain Bulgarian legal review. The Cloudflare API returns existing secrets masked; do not replace the entire environment-variable map just to add the public PostHog key.
+- PR #264 squash-merged to `main`: `047e03172f2571b6542adb4a0ed8d4b855df6b24`. Cloudflare Pages Production deployment `1fd6a8da-1bdd-4222-93b4-79adc23841f3` succeeded on the exact merge commit; apex and www aliases are active.
+- No D1 schema or data migration, Sanity write, Manager change, or Cloudflare environment-variable change. `VITE_POSTHOG_PROJECT_KEY` remains unconfigured, so PostHog ingestion is still inactive.
+- Open follow-ups: confirm/document the D1 legitimate-interest balancing assessment, define and implement a concrete D1 retention period and cleanup, review PostHog DPA/subprocessors/retention/transfers, obtain Bulgarian legal review, and add the public PostHog key to Cloudflare Production through a safe additive settings change. The Cloudflare API returns existing secrets masked; do not replace the entire environment-variable map just to add the public PostHog key.
 ## 2026-11-14 — Analytics consent settings moved to the Footer (PR #263 merged; Production deployed)
 
 - Following owner feedback after the first live consent test, the always-visible floating analytics-settings button was removed.
