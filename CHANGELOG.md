@@ -1,9 +1,12 @@
-## 2026-11-14 — Analytics consent settings moved to the Footer (PR #263 pending)
+## 2026-11-14 — Analytics consent settings moved to the Footer (PR #263 merged; Production deployed)
 
-- Following owner feedback after the first live consent test, the always-visible floating analytics-settings button is being removed.
-- The existing consent panel will instead reopen from a small localized text link in the public Footer: BG „Настройки за поверителност“, RU „Настройки конфиденциальности“, EN “Privacy settings”.
+- Following owner feedback after the first live consent test, the always-visible floating analytics-settings button was removed.
+- The existing consent panel now reopens from a small localized text link in the public Footer: BG „Настройки за поверителност“, RU „Настройки конфиденциальности“, EN “Privacy settings”.
 - The link dispatches a local UI event; consent storage, accept/reject behavior and analytics gating remain unchanged. Manager remains excluded.
-- PR #263: https://github.com/omaraandrey-dev/florial/pull/263. CI, Preview interaction and Production status are pending.
+- PR #263 merged to `main` with squash commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`.
+- Cloudflare Pages Production deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d` completed successfully; aliases `florial-bg.com` and `www.florial-bg.com`.
+- GitHub validation passed: website lint, utility tests, website build, Pages Functions checks, read-only migration dry-run and Sanity Studio build. Cloudflare Preview and Production deployments succeeded.
+- Owner should verify the small Footer link and reopening of the consent panel on the live site in BG/RU/EN.
 
 ## 2026-11-14 — Consent-gated analytics and PostHog integration (PR #262 merged; Production deployed)
 
