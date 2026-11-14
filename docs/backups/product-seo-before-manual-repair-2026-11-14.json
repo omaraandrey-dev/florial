@@ -1,0 +1,60 @@
+{
+  "backup": "Pre-write snapshot of SEO values for published irrigation/equipment products",
+  "createdAt": "2026-11-14",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "expectedProductCount": 275,
+  "fields": [
+    "seo",
+    "translations.ru.seo",
+    "translations.en.seo"
+  ],
+  "scope": "Only SEO subfields h1, metaTitle, metaDescription will be changed. All other Sanity fields must remain untouched.",
+  "files": [
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-01.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-02.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-03.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-04.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-05.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-06.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-07.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-08.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-09.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-10.json",
+      "count": 25
+    },
+    {
+      "path": "docs/backups/product-seo-before-manual-repair-2026-11-14-part-11.json",
+      "count": 25
+    }
+  ]
+}
