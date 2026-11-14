@@ -25,7 +25,7 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 | Priority | Task | Reason / evidence | Completion condition |
 |---|---|---|---|
-| P0 | Verify `/category/palmi-yuki` initial and rendered HTML | Source code generates localized canonical URLs, hreflang, index/follow robots and CollectionPage JSON-LD. The long 32-block `seoContent` is rendered by client-side React after hydration, not by the middleware's initial HTML. GSC page-only totals show 5 impressions / 0 clicks across BG, RU and EN, but no query text rows. | Compare the raw response with Google-rendered HTML and URL Inspection; confirm the localized SEO text is visible after rendering and Google selects the intended canonical for each language. |
+| P0 | Confirm Google's selected canonical for the palm category | Cloudflare Browser Rendering has verified HTTP 200, localized title/description, index/follow, self-canonical, hreflang, CollectionPage JSON-LD and the rendered 32-block SEO content in BG/RU/EN. GSC page-only totals are 5 impressions / 0 clicks. | Use Search Console URL Inspection to confirm Google-selected canonical for the BG base URL and RU/EN `?lang=` URLs; check apex/www selection on Washingtonia separately. |
 | P0 | Verify category metadata and rendered output | Read-only Sanity check: Meta Descriptions are 170 BG / 163 RU / 191 EN characters; Meta Titles are 48 / 47 / 51 characters. The category already has 32 SEO content blocks per locale. | Verify which localized metadata and SEO blocks appear in live HTML, and record canonical/hreflang/indexability before any content write. |
 | P0 | Confirm control and intended role of `palmandolivetrees.com` | The secondary site uses Florial branding and the same phone, but registrar/DNS/hosting control is not verified. GBP points to the main domain. | Owner confirms account control and whether the domain is intended as a separate lead-generation site or to be retired. |
 | P0 | Check apex / www canonical consistency | Last-28-day GSC sample included both apex and www page URLs for some species queries. This does not prove a canonical defect. | Confirm Google-selected canonical and live canonical redirects for representative product URLs and the palm category. |
@@ -71,9 +71,8 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 ### Days 1–7 — Technical baseline and owner decisions
 
-- Check live initial HTML and rendered output for `/category/palmi-yuki` in BG/RU/EN; the middleware source emits the localized head and product listing, while the 32-block SEO content is client-rendered after hydration.
-- Verify live canonical, hreflang, robots/indexability and CollectionPage structured data against the source-level implementation.
-- Use URL Inspection to compare Google's selected canonical for the BG base URL and RU/EN `?lang=` URLs; compare apex and www behavior.
+- Completed 14 Nov: Cloudflare Browser Rendering confirmed HTTP 200 and the full JavaScript-rendered category SEO section in BG/RU/EN, with localized metadata, index/follow, self-canonical, hreflang and CollectionPage JSON-LD.
+- Pending: use Search Console URL Inspection to compare Google's selected canonical for the BG base URL and RU/EN `?lang=` URLs; compare apex and www behavior.
 - Record the already verified Washingtonia offer split and assign separate search targets.
 - Confirm whether the owner controls `palmandolivetrees.com` and what role it should serve.
 - Do not publish content changes during this diagnostic week.
@@ -164,7 +163,7 @@ Do not define numeric traffic targets until a stable baseline exists. The curren
 
 - Search volumes and keyword difficulty for BG/RU/EN.
 - Search Console history older than 30 days in the connected Windsor trial.
-- Live initial HTML and canonical/hreflang of the palm category.
+- Google's selected canonical for the BG/RU/EN palm category URLs and apex/www product URL variants; live rendered HTML, canonical tags and hreflang are verified.
 - Final BG/RU/EN SEO differentiation for the two confirmed Washingtonia offers.
 - Legal/technical ownership and access to `palmandolivetrees.com`.
 - Second-domain Search Console performance and full URL inventory.
