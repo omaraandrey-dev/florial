@@ -3,8 +3,8 @@
 - A page-only GSC report for `/category/palmi-yuki` returned 5 impressions / 0 clicks over the last-28-day preset: BG base URL 1 impression (avg position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). The query-level report returned no visible query strings for this category; do not report zero total impressions.
 - Read-only source inspection of `functions/_middleware.ts` confirms canonical URL generation, hreflang alternates, `index, follow` unless `noIndex` is true, and CollectionPage JSON-LD. The localized RU/EN `?lang=` URLs are intentional canonical language routes in the code.
 - The middleware's initial HTML body for a category includes the short description and server-rendered plant product listing. The 32-block localized `seoContent` is rendered by client-side `CategoryPage` through `RichText` after hydration.
-- Live initial response, Google-rendered HTML and Google-selected canonical remain to be verified through URL Inspection / a capable browser. GSC also showed apex and www variants for standard Washingtonia queries; source canonical host is apex, but Google-selected canonical has not been confirmed.
-- No application code, Sanity content, Cloudflare settings or Production deployment changed. Updated audit and 90-day plan record the findings.
+- Cloudflare Browser Rendering verified HTTP 200 and the JavaScript-rendered SEO section for BG/RU/EN. All three live versions emit the expected localized title/description, index/follow, canonical, hreflang and CollectionPage JSON-LD. Google-selected canonical via Search Console URL Inspection remains pending. GSC also showed apex and www variants for standard Washingtonia queries; source canonical host is apex.
+- No application code, Sanity content or Cloudflare settings changed. The documentation-only merge to main triggered Production deployment for commit `91c9bb859eb3a7bc9a6a246b3a3b29dbc36cd181`; Cloudflare Pages build and deploy both completed successfully. Runtime application code was unchanged.
 
 ## 2026-11-14 — Palm category metadata and Washingtonia offer verification
 

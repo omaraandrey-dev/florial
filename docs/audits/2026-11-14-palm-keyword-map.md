@@ -144,7 +144,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 
 - Search volume and keyword difficulty for all proposed terms: **NOT KNOWN — not supplied by the connected Search Console trial or the web SERP sample**.
 - GSC history older than 30 days: **NOT AVAILABLE in the current Windsor.ai trial**; the 12-month request returned an explicit trial-history restriction.
-- Category route: Sanity slug `palmi-yuki` and the `/category/:slug` route handler in `src/App.tsx` confirm `https://florial-bg.com/category/palmi-yuki`. Source inspection of `functions/_middleware.ts` confirms localized canonical URLs, hreflang alternates, `index, follow` unless `noIndex` is true, and CollectionPage JSON-LD. The middleware's initial HTML includes the short description and product listing; the 32-block `seoContent` is rendered by client-side `CategoryPage` through `RichText` after hydration. Direct live HTML / Google rendered-HTML verification remains pending.
+- Category route: Sanity slug `palmi-yuki` and the `/category/:slug` route handler confirm `https://florial-bg.com/category/palmi-yuki`. Cloudflare Browser Rendering verified HTTP 200 and JavaScript-rendered SEO content for BG/RU/EN. Each live locale has the expected localized title/description, `index, follow`, self-canonical, all four hreflang alternates and CollectionPage JSON-LD. The 32-block localized `seoContent` is present after hydration. Google's selected canonical via URL Inspection remains pending.
 - Google recrawl, indexing and current rankings: **not confirmed**.
 - Ownership/SEO relationship of `palmandolivetrees.com`: reserved for stage 9.4.
 
