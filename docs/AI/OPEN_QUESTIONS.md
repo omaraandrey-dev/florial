@@ -1,3 +1,11 @@
+## 2026-11-14 — Palm category Meta Description correction completed
+
+- The previously proposed BG/RU/EN Meta Description correction is now published in Sanity category `plants-palms`. Counts: BG 144, RU 142, EN 152 characters. Post-publish read-back confirms all three values.
+- No other category fields changed. No per-write backup was created under the owner's temporary instruction for routine editorial work.
+- Live rendering: BG HTTP 200 with the new description, index/follow and self-canonical confirmed; RU title observed but exact description extraction pending; EN Browser Rendering check was rate-limited and must be retried.
+- Remaining P0: verify Google-selected canonical in Search Console URL Inspection for BG/RU/EN and apex/www consistency on representative Washingtonia URLs. Google recrawl/indexing is not confirmed.
+- Next recommended work: complete the category/product internal-link audit, then assign distinct search intent and improve the large Washingtonia product page without merging or redirecting the two distinct offers. Confirm ownership and intended role of `palmandolivetrees.com` before any domain action.
+
 ## 2026-11-14 — Palm category page-level GSC metrics and rendering follow-up
 
 - Page-only GSC last-28-day report returned 5 impressions / 0 clicks for `/category/palmi-yuki`: BG base URL 1 impression (position 60), EN `?lang=en` 2 (position 3), RU `?lang=ru` 2 (position 7.5). The query-level report exposed no query text; this is not zero total impressions.
