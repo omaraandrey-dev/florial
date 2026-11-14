@@ -1,15 +1,22 @@
-# Draft only — privacy notice text for first-party analytics
+# Florial — first-party statistics and PostHog privacy wording (technical draft)
 
-Do not publish this text until the final implementation, retention period, data-controller details, and applicable legal requirements have been reviewed.
+Status: technical draft only. It does not replace Bulgarian legal review, a documented legitimate-interest balancing test, or a retention policy.
 
 ## Български
 
-За да разбираме по-добре как се използва сайтът Florial и кои начини за връзка са полезни, можем да записваме обобщени събития: посещение на страница, клик върху телефонна връзка или отваряне на WhatsApp чат. Към събитието се записват езикът на интерфейса, пътят на страницата и часът на събитието. За тази аналитична функция не използваме бисквитки, localStorage или рекламни тракери и не записваме IP адрес, User-Agent, идентификатори на посетители или съдържание на формуляри. Данните се използват за обобщена статистика за подобряване на сайта.
+Сайтът записва основни статистически събития в Cloudflare D1 независимо от избора на посетителя за допълнителна аналитика чрез PostHog. Основните събития включват посещение на страница и клик върху телефонна или чат връзка. За всяко събитие се записват видът, езикът на интерфейса, пътят на страницата и часът. Не се записват в таблицата `site_events` IP адреси, User-Agent, имена, телефони, имейли, идентификатори на посетители или съдържание на формуляри. Cloudflare и мрежовите доставчици могат отделно да обработват технически данни за връзката. Допълнителните събития към PostHog се изпращат само след изрично съгласие.
 
 ## Русский
 
-Чтобы лучше понимать, как используется сайт Florial и какие способы связи полезны посетителям, мы можем записывать агрегируемые события: просмотр страницы, нажатие на телефонную ссылку или переход к чату WhatsApp. Для события сохраняются язык интерфейса, путь страницы и время события. Для этой аналитической функции мы не используем cookies, localStorage или рекламные трекеры и не сохраняем IP-адрес, User-Agent, идентификаторы посетителей или содержимое форм. Данные используются для обобщённой статистики и улучшения сайта.
+Сайт записывает основные статистические события в Cloudflare D1 независимо от выбора посетителя в отношении дополнительной аналитики PostHog. Базовые события включают просмотр страницы и нажатия на телефонную ссылку или чат. Для каждого события сохраняются тип, язык интерфейса, путь страницы и время. В таблицу `site_events` не записываются IP-адреса, User-Agent, имена, телефоны, email, идентификаторы посетителей или содержимое форм. Cloudflare и сетевые поставщики могут отдельно обрабатывать технические данные соединения. Дополнительные события в PostHog отправляются только после явного согласия.
 
 ## English
 
-To better understand how the Florial website is used and which contact options are helpful, we may record aggregated events such as a page view, a click on a phone link, or opening a WhatsApp chat. The interface language, page path, and event time are recorded with each event. This analytics feature does not use cookies, localStorage, or advertising trackers, and does not store IP addresses, User-Agent strings, visitor identifiers, or form contents. The data is used for aggregated statistics to improve the website.
+The website records basic statistical events in Cloudflare D1 regardless of the visitor's choice about optional PostHog analytics. Baseline events include page views and telephone/chat link clicks. Each record contains the event type, interface language, page path and timestamp. IP addresses, User-Agent strings, names, phone numbers, email addresses, visitor identifiers and form contents are not written to the `site_events` table. Cloudflare and network providers may separately process technical connection data. Additional events are sent to PostHog only after explicit consent.
+
+## Required before treating this as final
+
+- Confirm and document the legal basis for D1 baseline statistics, including a legitimate-interest balancing assessment where applicable.
+- Define and implement a concrete retention period and automatic deletion for `site_events`.
+- Review the PostHog DPA, subprocessors, retention and international access/transfer safeguards.
+- Obtain Bulgarian legal review of the BG/RU/EN notice and the consent interface, including applicable ePrivacy requirements.

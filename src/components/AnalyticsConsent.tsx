@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { localizedHref } from '../lib/navigation'
-import { getAnalyticsConsent, setAnalyticsConsent, trackEvent } from '../services/trackingService'
+import { getAnalyticsConsent, setAnalyticsConsent, trackPostHogEvent } from '../services/trackingService'
 
 const copy = {
   bg: {
     title: 'Настройки за поверителност',
-    body: 'Използваме необходимото локално съхранение за езика и количката. Аналитични събития се изпращат само ако разрешите това. Не изпращаме данни за поръчки или контакти.',
+    body: 'Сайтът записва основна статистика за използването му в Cloudflare D1 (вид събитие, език, адрес на страницата и дата/час) независимо от избора ви. Допълнителни аналитични събития се изпращат до PostHog само ако ги разрешите. Не изпращаме данни за поръчки или контакти.',
     accept: 'Приемам аналитиката',
     reject: 'Отказвам',
     privacy: 'Политика за поверителност',
   },
   ru: {
     title: 'Настройки конфиденциальности',
-    body: 'Мы используем необходимое локальное хранение для языка и корзины. Аналитические события отправляются только с вашего разрешения. Данные заказов и контакты не передаются.',
+    body: 'Сайт записывает базовую статистику использования в Cloudflare D1 (тип события, язык, путь страницы и дата/время) независимо от вашего выбора. Дополнительные аналитические события отправляются в PostHog только с вашего разрешения. Данные заказов и контакты не передаются.',
     accept: 'Разрешить аналитику',
     reject: 'Отклонить',
     privacy: 'Политика конфиденциальности',
   },
   en: {
     title: 'Privacy settings',
-    body: 'We use necessary local storage for language and your cart. Analytics events are sent only if you allow them. Order details and contact information are not sent.',
+    body: 'The website records basic usage statistics in Cloudflare D1 (event type, language, page path and date/time) regardless of your choice. Additional analytics events are sent to PostHog only if you allow them. Order details and contact information are not sent.',
     accept: 'Allow analytics',
     reject: 'Reject',
     privacy: 'Privacy Policy',
@@ -41,7 +41,7 @@ export function AnalyticsConsent() {
   const choose = (value: 'accepted' | 'rejected') => {
     setAnalyticsConsent(value)
     window.dispatchEvent(new Event('florial:analytics-consent-change'))
-    if (value === 'accepted') trackEvent('page_view', language, window.location.pathname)
+    if (value === 'accepted') trackPostHogEvent('florial_page_view', language, window.location.pathname)
     setIsOpen(false)
   }
 

@@ -78,7 +78,7 @@ function capturePostHogEvent(
 }
 
 export function trackPostHogEvent(
-  eventName: 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | 'florial_add_to_cart' | 'florial_checkout_start',
+  eventName: 'florial_page_view' | 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | 'florial_add_to_cart' | 'florial_checkout_start',
   lang: TrackingLanguage,
   pagePath: string,
   details: { product_type?: string; quantity?: number } = {},
@@ -97,7 +97,6 @@ export function trackEvent(
   page_path: string,
 ): void {
   if (testMode || typeof window === 'undefined' || typeof navigator === 'undefined') return
-  if (getAnalyticsConsent() !== 'accepted') return
 
   const allowedEvents: TrackingEventType[] = ['page_view', 'call_bg', 'call_en_ru', 'chat_click']
   const allowedLanguages: TrackingLanguage[] = ['bg', 'ru', 'en']
@@ -109,6 +108,9 @@ export function trackEvent(
     : event_type === 'chat_click'
       ? 'florial_chat_click'
       : 'florial_phone_click'
+  // D1 is the first-party baseline site-statistics store and is independent of
+  // the optional PostHog preference. PostHog remains consent-gated inside
+  // capturePostHogEvent().
   capturePostHogEvent(postHogEvent, lang, page_path)
 
   const payload = JSON.stringify({ event_type, lang, page_path })
