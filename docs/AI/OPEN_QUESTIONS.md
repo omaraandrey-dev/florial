@@ -17,7 +17,7 @@
 ## 2026-11-14 — Stages 9.5–9.6: palm SEO priorities and 90-day plan recorded
 
 - The prioritized action list and 90-day calendar are documented in `docs/audits/2026-11-14-palm-seo-priorities-and-90-day-plan.md`.
-- First gates are technical verification of the existing palm category, identity review of both Washingtonia records, apex/www canonical consistency, and confirmation of second-domain control and intended business role.
+- First gates are technical verification of the existing palm category, separate SEO targeting for the two confirmed distinct Washingtonia offers, apex/www canonical consistency, and confirmation of second-domain control and intended business role.
 - The existing category and species product pages remain the planned SEO targets. No new category, duplicate catalogue, domain redirect or canonical change is approved by this planning report.
 - No Sanity writes, code/schema changes, Cloudflare/DNS settings or GBP writes were performed.
 - Execution remains conditional on the relevant owner approvals and the evidence checks listed in the plan.
@@ -37,9 +37,9 @@
 
 - A read-only BG/RU/EN keyword map and page ownership plan is recorded in `docs/audits/2026-11-14-palm-keyword-map.md`.
 - GSC data was retrieved through the connected Windsor.ai Search Console property. Trial access currently allows only the last 30 days; a 12-month request was rejected. Last-28-day metrics are a small directional sample, not a search-volume estimate or stable ranking baseline.
-- No matching query rows were returned for `/category/palmi-yuki` in the last-28-day filter, while species product pages did receive impressions. This should be monitored after category-page improvements and recrawl; it does not prove the category has never ranked.
+- No visible query strings were returned for `/category/palmi-yuki` in the last-28-day query report; a page-only report shows 5 impressions / 0 clicks across BG (1), EN (2) and RU (2). Monitor query visibility and clicks after the technical rendering review; this does not prove the category has never ranked.
 - Existing category/product URL ownership is mapped. No Sanity content, category structure, schema or application code was changed.
-- **Next:** stage 9.4 — inspect `palmandolivetrees.com` for ownership signals, indexing, canonical/redirect behavior, duplicate content and overlap with Florial. Do not merge, redirect or duplicate content before that assessment.
+- **Next:** execute the P0 checks in the 90-day roadmap: verify the category's live/Google-rendered HTML and selected canonicals; assign separate SEO targets to the two distinct Washingtonia offers; confirm ownership/control and intended role of `palmandolivetrees.com`. Do not redirect or rewrite the secondary domain before that confirmation.
 - **Still unknown:** keyword volumes/difficulty; GSC history beyond 30 days; Google recrawl/indexing; initial HTML and canonical/hreflang for the palm category; the second domain's technical relationship to Florial.
 
 ## 2026-11-14 — Trachycarpus fortunei priority-2 completed
