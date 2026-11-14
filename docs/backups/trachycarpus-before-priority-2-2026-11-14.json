@@ -1,0 +1,105 @@
+{
+  "snapshotType": "field-scoped Sanity pre-change backup",
+  "capturedAt": "2026-11-14",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "documentId": "palm-trachycarpus",
+  "revision": "oFgU2xnFzJTvQ0oNTyJEm5",
+  "note": "Not a full dataset export. Preserves the exact fields intended for this operation before mutation: root and localized SEO, saleVariants, and gallery image ALT fields.",
+  "fields": {
+    "seo": {
+      "description": "Трахикарпус (Trachycarpus fortunei) – студоустойчива палма за градини и дворове. Наличност и размер – при запитване във Florial, градински център в България.",
+      "h1": "Трахикарпус (Trachycarpus fortunei)",
+      "metaDescription": "Продажба на Трахикарпус (Trachycarpus fortunei) в Несебър. Студоустойчива палма за градини и дворове при подходящи условия.",
+      "metaTitle": "Трахикарпус | Ахелой | Градински център Флориал",
+      "title": "Трахикарпус (Trachycarpus fortunei) | Florial"
+    },
+    "translations": {
+      "bg": {
+        "name": "",
+        "seo": {
+          "h1": "",
+          "metaDescription": "",
+          "metaTitle": ""
+        }
+      },
+      "en": {
+        "name": "Trachycarpus fortunei palm",
+        "seo": {
+          "h1": "Chinese windmill palm (Trachycarpus fortunei)",
+          "metaDescription": "Buy Trachycarpus fortunei in Nessebar, Bulgaria. A cold-hardy palm for gardens and courtyards in suitable conditions.",
+          "metaTitle": "Chinese windmill palm | Aheloy | Florial Garden Centre"
+        }
+      },
+      "ru": {
+        "name": "Трахикарпус Форчуна",
+        "seo": {
+          "h1": "Трахикарпус Форчуна (Trachycarpus fortunei)",
+          "metaDescription": "Продажа трахикарпуса (Trachycarpus fortunei) в Несебре. Холодостойкая пальма для сада и двора при подходящих условиях.",
+          "metaTitle": "Трахикарпус Форчуна | Ахелой | Садовый центр Флориал"
+        }
+      }
+    },
+    "saleVariants": [
+      {
+        "_key": "height-110",
+        "name": "Стандартен размер — 200 см",
+        "nameEn": "Standard size — 200 cm",
+        "nameRu": "Стандартный размер — 200 см",
+        "saleHeightCm": 200,
+        "containerVolumeL": null,
+        "priceEUR": 600,
+        "stockQuantity": 20,
+        "stockStatus": "inStock"
+      },
+      {
+        "_key": "9bdc99b9103a",
+        "name": "Размер 240",
+        "nameEn": null,
+        "nameRu": null,
+        "saleHeightCm": null,
+        "containerVolumeL": null,
+        "priceEUR": 600,
+        "stockQuantity": 50,
+        "stockStatus": "inStock"
+      },
+      {
+        "_key": "ec474552d87b",
+        "name": "два ствола на растения",
+        "nameEn": null,
+        "nameRu": null,
+        "saleHeightCm": null,
+        "containerVolumeL": null,
+        "priceEUR": 1000,
+        "stockQuantity": 5,
+        "stockStatus": "inStock"
+      },
+      {
+        "_key": "4c45af723248",
+        "name": "два ствола на растения",
+        "nameEn": null,
+        "nameRu": null,
+        "saleHeightCm": null,
+        "containerVolumeL": null,
+        "priceEUR": 1000,
+        "stockQuantity": 21,
+        "stockStatus": "inStock"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "image-14v3ted",
+        "alt": "Трахикарпус (Trachycarpus fortunei) – снимка на ветрилиста палма",
+        "altEn": "Windmill palm (Trachycarpus fortunei) — fan palm photo",
+        "altRu": "Трахикарпус (Trachycarpus fortunei) — фотография веерной пальмы"
+      },
+      {
+        "_key": "image-09ota76",
+        "alt": "",
+        "altEn": "",
+        "altRu": ""
+      }
+    ]
+  }
+}
