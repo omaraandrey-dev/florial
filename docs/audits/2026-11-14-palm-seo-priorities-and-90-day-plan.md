@@ -1,3 +1,15 @@
+## 0. Latest execution checkpoint — 2026-11-14
+
+### Completed: localized category Meta Descriptions
+
+Published in Sanity Production, document `plants-palms`:
+
+- BG: `Продажба на палми и юки в Несебър, Равда и по Южното Черноморие. Изберете подходящ вид за градина или двор с доставка и професионално засаждане.` (144 characters)
+- RU: `Продажа пальм и юкк в Несебре, Равде и на Южном Черноморье. Подберём вид для сада или участка, организуем доставку и профессиональную посадку.` (142 characters)
+- EN: `Buy palms and yuccas in Nessebar, Ravda and Bulgaria’s southern Black Sea coast. Choose a suitable garden plant with delivery and professional planting.` (152 characters)
+
+Only the three localized Meta Description fields changed. The write was revision-guarded and post-publish read-back confirmed all values. No per-write backup was created under the owner's temporary instruction for routine editorial catalogue changes. Live BG metadata is confirmed; RU/EN live description verification remains to be completed due incomplete extraction/rate limiting. Google-selected canonical and recrawl remain open.
+
 # Florial — palm SEO priorities and 90-day plan
 
 Date: 2026-11-14  
@@ -73,25 +85,22 @@ No content, category, product, domain, Google Business Profile, Cloudflare or Sa
 
 - Completed 14 Nov: Cloudflare Browser Rendering confirmed HTTP 200 and the full JavaScript-rendered category SEO section in BG/RU/EN, with localized metadata, index/follow, self-canonical, hreflang and CollectionPage JSON-LD.
 - Pending: use Search Console URL Inspection to compare Google's selected canonical for the BG base URL and RU/EN `?lang=` URLs; compare apex and www behavior.
-- Record the already verified Washingtonia offer split and assign separate search targets.
+- The distinct Washingtonia offers and their separate search-target requirement are verified; detailed page-level optimization remains in Days 22–35.
 - Confirm whether the owner controls `palmandolivetrees.com` and what role it should serve.
-- Do not publish content changes during this diagnostic week.
+- The palm-category Meta Descriptions were published on 14 Nov; avoid further category copy changes until internal-link and rendering checks identify a specific need.
 
 **Deliverable:** technical baseline, confirmed Washingtonia search-target split, secondary-domain ownership/role decision or a clearly recorded blocker.
 
 ### Days 8–21 — Category landing page and internal links
 
-- Shorten the existing BG/RU/EN category Meta Descriptions after checking the live rendered values.
-- Proposed text (all within 160 characters):
-  - BG (144): `Продажба на палми и юки в Несебър, Равда и по Южното Черноморие. Изберете подходящ вид за градина или двор с доставка и професионално засаждане.`
-  - RU (142): `Продажа пальм и юкк в Несебре, Равде и на Южном Черноморье. Подберём вид для сада или участка, организуем доставку и профессиональную посадку.`
-  - EN (152): `Buy palms and yuccas in Nessebar, Ravda and Bulgaria’s southern Black Sea coast. Choose a suitable garden plant with delivery and professional planting.`
+- Completed 14 Nov: published the shortened BG/RU/EN category Meta Descriptions (144/142/152 characters). Sanity post-publish read-back confirmed all three; live BG and EN descriptions were confirmed through Cloudflare Browser Rendering. RU live title was confirmed, but exact description extraction remains pending due rate limiting.
+- The owner's temporary Sanity editing instruction now supersedes the former per-write backup wording: routine editorial catalogue edits do not require a separate backup before every write during the current intensive work period. Revision guards and post-publish read-back remain mandatory; higher-risk operations require a separate recovery-risk decision.
 - Do not add new long SEO blocks: the existing category already has 32 blocks per locale; first verify that they render correctly and that internal product links are present.
 - Add or verify navigation from category to each palm product and from products back to the category.
 - Include planting/delivery/service details only where they accurately reflect the published service offer.
 - Preserve the existing 32-block localized SEO content unless the live rendering audit identifies a specific omission; avoid duplicate FAQ or repeated paragraphs.
 
-**Deliverable:** approved category content and internal-link map; publish only after the normal Sanity backup and owner approval process.
+**Deliverable:** approved category content and internal-link map; publish only after the owner has approved the specific content change; follow the current temporary Sanity backup policy recorded in `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
 
 ### Days 22–35 — Species pages and catalogue alignment
 

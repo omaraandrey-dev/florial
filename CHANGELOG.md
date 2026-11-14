@@ -1,3 +1,12 @@
+## 2026-11-14 — Palm category Meta Description shortened and published
+
+- In Sanity project `bxvcy0qs`, dataset `plants`, published category `plants-palms`, updated only the three localized `metaDescription` fields: BG `seo.metaDescription`, RU `translations.ru.seo.metaDescription`, EN `translations.en.seo.metaDescription`.
+- Published values: BG 144 characters; RU 142; EN 152. All are within the project target of 160 characters. Meta Titles, H1, descriptions, SEO content blocks, images, category references and other fields were not changed.
+- The write used a revision guard against published revision `oFgU2xnFzJTvQ0oNTmRA8H`; draft `drafts.plants-palms` revision `oFgU2xnFzJTvQ0oNU0F6M9` was published. Post-publication read-back confirmed all three exact values; published revision is `VWXvaWDagJu6vWTEQnhVLI`.
+- Per the owner's temporary instruction on 2026-11-14, no per-write Sanity backup was created for this routine editorial change. This temporary mode remains active until the owner changes it; higher-risk bulk/structural/destructive work requires a separate recovery-risk discussion.
+- Cloudflare Browser Rendering verified the BG production page at HTTP 200 with the new Bulgarian meta description, index/follow and self-canonical. RU rendered title was confirmed; its description was not fully extracted in this check. EN live verification was rate-limited and remains pending. No code, schema, Cloudflare configuration, build or deployment changes were made.
+- Google recrawl, indexing, Google-selected canonical and ranking impact remain unverified.
+
 ## 2026-11-14 — Palm category GSC page totals and source-level SEO rendering check
 
 - A page-only GSC report for `/category/palmi-yuki` returned 5 impressions / 0 clicks over the last-28-day preset: BG base URL 1 impression (avg position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). The query-level report returned no visible query strings for this category; do not report zero total impressions.

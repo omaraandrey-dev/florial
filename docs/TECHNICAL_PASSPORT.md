@@ -1,3 +1,12 @@
+## 2026-11-14 — Palm category localized Meta Descriptions published
+
+- Sanity Production: project `bxvcy0qs`, dataset `plants`, category `plants-palms`. Updated only BG `seo.metaDescription`, RU `translations.ru.seo.metaDescription`, EN `translations.en.seo.metaDescription`.
+- Published character counts: BG 144, RU 142, EN 152 (project target <=160). Post-publish read-back confirmed all three exact values and published revision `VWXvaWDagJu6vWTEQnhVLI`.
+- Revision-guarded write used base published revision `oFgU2xnFzJTvQ0oNTmRA8H`; draft revision `oFgU2xnFzJTvQ0oNU0F6M9` was published. No other category fields changed.
+- No Sanity backup was created, per the owner's temporary 2026-11-14 instruction for routine editorial catalogue work. AI operating instructions and work protocol were updated to record this temporary exception; revision guard and read-back remain mandatory. Bulk, structural, migration or destructive operations require a separate risk/recovery decision.
+- Cloudflare Browser Rendering: BG production route HTTP 200, new BG description present, `index, follow` and self-canonical present. RU localized title was observed; exact RU description not yet independently extracted. EN check hit Cloudflare Browser Rendering rate limit and remains pending. Google-selected canonical/recrawl/indexing remain unverified.
+- No application code, schema, Cloudflare settings, build or Pages deployment changed.
+
 ## 2026-11-14 — Palm category GSC and source-level rendering verification
 
 - Page-only GSC last-28-day totals for `/category/palmi-yuki`: 5 impressions, 0 clicks — BG base URL 1 impression (average position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). Query-level data exposed no query strings for this page.
