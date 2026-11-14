@@ -1,3 +1,11 @@
+## 2026-11-14 — Palm category GSC and source-level rendering verification
+
+- Page-only GSC last-28-day totals for `/category/palmi-yuki`: 5 impressions, 0 clicks — BG base URL 1 impression (average position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). Query-level data exposed no query strings for this page.
+- Source code in `functions/_middleware.ts` generates localized canonical URLs, hreflang alternates, index/follow robots unless `noIndex=true`, and CollectionPage JSON-LD. RU/EN `?lang=` URLs are intentional locale URLs.
+- The initial middleware HTML includes the short category description and server-rendered plant product listing. The localized 32-block `seoContent` is rendered by client-side `CategoryPage` via `RichText` after hydration.
+- Live raw HTML, Google-rendered HTML and Google-selected canonical remain unverified; URL Inspection / a capable browser is required. GSC apex/www variants on Washingtonia still need Google-selected canonical verification.
+- No code or Sanity writes were made.
+
 ## 2026-11-14 — Palm category metadata and Washingtonia offer check
 
 - Published category `plants-palms` has Meta Titles at 48 BG / 47 RU / 51 EN characters; Meta Descriptions are 170 BG / 163 RU / 191 EN characters, above the project's 160-character target. `noIndex` is null in BG/RU/EN.
