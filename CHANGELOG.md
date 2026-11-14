@@ -1,12 +1,21 @@
-## 2026-11-14 — Consent-gated analytics and PostHog integration (PR pending review)
+## 2026-11-14 — Analytics consent settings moved to the Footer (PR #263 pending)
 
-- Added a BG/RU/EN analytics consent control on public storefront and legal pages, with allow/reject choices and a persistent settings control to revise the choice.
-- Existing D1 site-event tracking is disabled unless the visitor has explicitly accepted analytics; the Manager route remains outside this public consent UI.
-- Added optional PostHog EU ingestion via `VITE_POSTHOG_PROJECT_KEY`; if the variable is absent, PostHog transmission stays disabled.
+- Following owner feedback after the first live consent test, the always-visible floating analytics-settings button is being removed.
+- The existing consent panel will instead reopen from a small localized text link in the public Footer: BG „Настройки за поверителност“, RU „Настройки конфиденциальности“, EN “Privacy settings”.
+- The link dispatches a local UI event; consent storage, accept/reject behavior and analytics gating remain unchanged. Manager remains excluded.
+- PR #263: https://github.com/omaraandrey-dev/florial/pull/263. CI, Preview interaction and Production status are pending.
+
+## 2026-11-14 — Consent-gated analytics and PostHog integration (PR #262 merged; Production deployed)
+
+- PR #262 merged to `main` with merge commit `19ace984706900b51560cefb244ea56db76de79a`.
+- Cloudflare Pages Production deployment `69918c8b-a8df-4906-a2fd-66ce9046148b` completed successfully; aliases `florial-bg.com` and `www.florial-bg.com`.
+- Added a BG/RU/EN analytics consent control on public storefront and legal pages, with allow/reject choices and a persistent settings entry point. Existing D1 site-event tracking is disabled unless the visitor explicitly accepts analytics; Manager is excluded.
+- Optional PostHog EU ingestion via `VITE_POSTHOG_PROJECT_KEY` remains inactive because the variable is not configured. No Cloudflare environment change was made.
 - Implemented privacy-limited events for page views, product/category views, cart views, add-to-cart and checkout start, plus phone/chat clicks. No customer/order fields, SKU, product name or order values are sent.
 - No session replay, heatmaps, broad autocapture or marketing tracking was added. PostHog uses a temporary in-memory random identifier, not a persistent browser ID.
-- Updated the BG/RU/EN Privacy Policy as a technical disclosure draft. Bulgarian legal review, PostHog DPA/retention/transfer checks and owner approval of the Production project key remain release gates.
-- No Production deployment, Cloudflare environment change, D1 schema/data change or Sanity write was performed.
+- The BG/RU/EN Privacy Policy wording remains a technical disclosure draft. Bulgarian legal review, PostHog DPA/retention/transfer checks and separate owner approval of the Production project key remain open.
+- Owner manually confirmed that the consent panel closes after rejecting in Incognito; browser DevTools network-level verification of accept/revocation remains outstanding.
+- No D1 schema/data change, Sanity write or Cloudflare setting/secret change was performed.
 - Implementation notes: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
 
 ## 2026-11-14 — Manual SEO remediation published for all 275 equipment products

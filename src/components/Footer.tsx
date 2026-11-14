@@ -83,6 +83,16 @@ export function Footer() {
           <div className="flex flex-col items-center justify-center gap-x-6 gap-y-2 pt-3 sm:flex-row">
             <a
               href={localizedHref('/privacy-policy', language)}
+              onClick={(event) => {
+                event.preventDefault()
+                window.dispatchEvent(new Event('florial:open-analytics-settings'))
+              }}
+              className="font-medium text-emerald-800 underline decoration-[#A9B99B] underline-offset-4 transition hover:text-emerald-950"
+            >
+              {language === 'en' ? 'Privacy settings' : language === 'ru' ? 'Настройки конфиденциальности' : 'Настройки за поверителност'}
+            </a>
+            <a
+              href={localizedHref('/privacy-policy', language)}
               className="font-medium text-emerald-800 underline decoration-[#A9B99B] underline-offset-4 transition hover:text-emerald-950"
             >
               {language === 'en' ? 'Privacy Policy' : language === 'ru' ? 'Политика конфиденциальности' : 'Политика за поверителност'}
