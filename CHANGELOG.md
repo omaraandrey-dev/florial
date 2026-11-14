@@ -17,7 +17,7 @@
 ## 2026-11-14 — Palm SEO priorities and 90-day roadmap (stages 9.5–9.6)
 
 - Prepared a prioritized action plan based on the BG/RU/EN keyword map and second-domain review.
-- P0 gates: verify palm category initial HTML/canonical/hreflang/structured data; inspect the two Washingtonia records; confirm second-domain ownership/control and intended role; verify apex/www canonical consistency.
+- P0 gates: verify palm category initial/rendered HTML, canonical/hreflang/structured data; differentiate SEO targets for the two Washingtonia offers (distinct inventory confirmed); confirm second-domain ownership/control and intended role; verify apex/www canonical consistency.
 - P1: strengthen the existing `/category/palmi-yuki` landing page, improve category↔product internal links, preserve species-specific query ownership and botanical taxonomy.
 - P2/P3: local topical content, GBP consistency, conditional cold-hardy category, and a separate second-domain decision. No new category or domain changes are applied.
 - Added a 90-day schedule with approval gates and measurement rules; GSC remains limited to the last 30 days in the connected Windsor trial.
