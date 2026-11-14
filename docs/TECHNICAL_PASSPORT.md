@@ -1,3 +1,11 @@
+## 2026-11-14 — Palm SEO priorities and 90-day roadmap
+
+- Stages 9.5–9.6 documented in `docs/audits/2026-11-14-palm-seo-priorities-and-90-day-plan.md`.
+- P0: verify category initial HTML/indexability/canonical/hreflang/schema; investigate the two Washingtonia records; confirm second-domain ownership/control and intended role; check apex/www canonical consistency.
+- P1: improve the existing palm category for broad BG local-commercial intent, strengthen category/product internal links, and keep exact species queries on product pages.
+- P2/P3: species-selection guidance, local authority, GBP consistency, conditional cold-hardy category and secondary-domain strategy.
+- The 90-day schedule is a plan, not a claim of completed work. No Sanity content, schema, application code, Cloudflare, domain, DNS or GBP changes were applied.
+
 ## 2026-11-14 — Second-domain SEO review checkpoint
 
 - Indexed content at `www.palmandolivetrees.com` explicitly identifies “Градински център Флориал”, Nessebar and phone `+359 87 677 7902`. The connected Google Business Profile independently confirms the same phone and currently links to `https://florial-bg.com/`.
