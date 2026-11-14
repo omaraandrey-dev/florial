@@ -48,9 +48,9 @@ All-query sample returned 82 rows. A palm/species-filtered query-to-page sample 
 
 These are low-volume observations with small sample sizes; positions fluctuate and are not guaranteed rankings. The list is not a complete demand estimate.
 
-The category-page query/page filter for `/category/palmi-yuki` returned zero visible query rows in this 28-day window. Product-page queries were observed for several species. This suggests that the visible query sample is concentrated on product pages rather than the broad category landing page; it does not establish zero total page impressions because anonymized queries may be omitted.
+The query-level filter for `/category/palmi-yuki` returned zero visible query-text rows in this 28-day window. A separate page-only GSC report returned **5 impressions and 0 clicks** across the three locale URLs: BG base URL — 1 impression, average position 60; EN `?lang=en` — 2 impressions, average position 3; RU `?lang=ru` — 2 impressions, average position 7.5. Thus the category is receiving a small number of impressions, but no query strings were exposed in the query-level sample. Product pages have more visible species-query rows.
 
-The GSC query/page sample included both apex and `www` URL forms for some product queries (for example Butia and Washingtonia). This is a reporting observation only; it does not prove a canonical defect. Canonical selection should be checked separately in the planned technical verification.
+The GSC query/page sample included both apex and `www` URL forms for some product queries (for example Butia and Washingtonia). The source code sets the canonical host to the apex domain and emits localized canonical/hreflang URLs; the RU/EN category query-parameter URLs are intentional locale routes. GSC's www rows still merit URL Inspection to confirm Google's selected canonical.
 
 ### Live SERP / competitor observations
 
@@ -144,7 +144,7 @@ English terms are hypotheses for the EN locale and should be validated against l
 
 - Search volume and keyword difficulty for all proposed terms: **NOT KNOWN — not supplied by the connected Search Console trial or the web SERP sample**.
 - GSC history older than 30 days: **NOT AVAILABLE in the current Windsor.ai trial**; the 12-month request returned an explicit trial-history restriction.
-- Category route: Sanity slug `palmi-yuki` and the `/category/:slug` route handler in `src/App.tsx` confirm the expected URL `https://florial-bg.com/category/palmi-yuki`. Direct HTTP fetch of the route was not accessible in the available web reader, so initial HTML, canonical and hreflang are not verified.
+- Category route: Sanity slug `palmi-yuki` and the `/category/:slug` route handler in `src/App.tsx` confirm `https://florial-bg.com/category/palmi-yuki`. Source inspection of `functions/_middleware.ts` confirms localized canonical URLs, hreflang alternates, `index, follow` unless `noIndex` is true, and CollectionPage JSON-LD. The middleware's initial HTML includes the short description and product listing; the 32-block `seoContent` is rendered by client-side `CategoryPage` through `RichText` after hydration. Direct live HTML / Google rendered-HTML verification remains pending.
 - Google recrawl, indexing and current rankings: **not confirmed**.
 - Ownership/SEO relationship of `palmandolivetrees.com`: reserved for stage 9.4.
 
