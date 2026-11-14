@@ -9,7 +9,7 @@ const ANALYTICS_CONSENT_VERSION = '2026-11-14-v1'
 const POSTHOG_HOST = 'https://eu.i.posthog.com'
 const postHogProjectKey = import.meta.env.VITE_POSTHOG_PROJECT_KEY as string | undefined
 
-// A random in-memory identifier groups events only within this page session.
+// A random in-memory identifier groups events only within this browser tab until the page is reloaded.
 // It is not stored in cookies or browser storage and is not linked to a customer.
 const anonymousSessionId = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
   ? crypto.randomUUID()
