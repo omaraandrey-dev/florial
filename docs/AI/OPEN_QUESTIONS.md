@@ -1,3 +1,14 @@
+## 2026-11-14 — Stage 9.4: second-domain review completed; owner/control verification remains open
+
+- Public indexed content on `www.palmandolivetrees.com` explicitly names Florial, Nessebar and the same phone as the connected Google Business Profile. The live GBP record links to `https://florial-bg.com/`.
+- The secondary domain overlaps strongly with the primary site on palm sales, cold-hardy palms, species names, olives, planting, landscaping and irrigation. Exact verbatim duplication has not been proven.
+- The connected Windsor.ai account list does not include a separate Search Console property for the second domain. Its clicks, impressions, queries and indexing data are unknown.
+- **Owner confirmation needed:** does the user/business control `palmandolivetrees.com` (registrar, DNS and hosting/CMS), and is it intended to remain a separate lead-generation site or be retired?
+- **Technical verification pending:** robots.txt, sitemap.xml, HTTP status/redirects, canonical, hreflang, meta robots, registrar/DNS/hosting and full URL inventory. The available web reader could not fetch the technical endpoints.
+- Do not redirect, remove, canonicalize or rewrite the second domain before ownership/control and the intended business role are confirmed.
+- Primary Florial commercial domain remains `florial-bg.com`, matching the connected Google Business Profile website field.
+- Full report: `docs/audits/2026-11-14-second-domain-seo-review.md`.
+
 ## 2026-11-14 — Palm keyword map (stage 9.3) completed; follow-ups remain
 
 - A read-only BG/RU/EN keyword map and page ownership plan is recorded in `docs/audits/2026-11-14-palm-keyword-map.md`.
