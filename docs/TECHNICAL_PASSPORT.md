@@ -1,3 +1,15 @@
+## 2026-11-14 — Product SEO quality audit (implementation branch; no live data writes)
+
+- Live read-only Sanity check: project bxvcy0qs, dataset production, published perspective; 275 published equipment products.
+- Completeness: all 275 products have BG/RU/EN H1, Meta Title and Meta Description (2,475/2,475 active fields). This is field completeness, not quality certification.
+- Automated quality screening: Meta Titles >70 chars: BG 16, RU 7, EN 2. Meta Descriptions >160 chars: BG 132, RU 166, EN 133; >180 chars: BG 105, RU 23, EN 6. Ellipsis indicators in descriptions: BG 1, RU 112, EN 73. Suspicious punctuation/empty feature indicators: BG 8, RU 32, EN 70.
+- 32 products contain Cyrillic in English localized name/SEO fields. A Bulgarian-specific word heuristic flags 109 products in RU/EN; manual review is needed because shared technical terms may produce false positives. 244 products have at least one screening flag.
+- Source-level issue: productSeo.mjs used a 180-character description budget and clipped features before adding fixed boilerplate; VAT-only source phrases and contaminated translations were not reliably screened. Manager Product SEO is missing-only and therefore does not repair populated SEO fields.
+- Proposed generator hardening in branch fix/product-seo-quality-audit: 160-character description target, complete-sentence fallback instead of clipping feature text, removal of VAT-only fragments, skip visibly contaminated RU/EN source names, and regression tests.
+- Detailed report: docs/audits/2026-11-14-product-seo-quality-audit.md.
+- No Sanity write/publication or backup was run because no content mutation was attempted. Existing product names, translations and SEO fields are unchanged. Production deployment and Google recrawl are not confirmed.
+- Next data step: prepare an item-by-item repair queue and proposed old/new values; create a full backup of affected documents; show owner preview; perform writes only after explicit approval.
+
 ## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
 
 - PR #259 squash-merged into `main`: merge commit `3c909da0fc235aff2cc19ccdb73a1edba7960670`.
