@@ -11,7 +11,7 @@ Base: `main` at the time the feature branch was created.
 - The choice is stored in localStorage under `florial:analytics-consent:v1`. If storage is unavailable or no choice exists, analytics stays disabled.
 - Existing Cloudflare D1 tracking (`/api/track`) now records page views, phone clicks and chat clicks only after consent.
 - PostHog events are sent directly to the EU ingestion endpoint `https://eu.i.posthog.com/i/v0/e/` only after consent and only when the build variable is configured.
-- PostHog receives a random in-memory identifier that is not stored in cookies or browser storage. It groups events only during the current page session.
+- PostHog receives a random in-memory identifier that is not stored in cookies or browser storage. It groups events only in the current browser tab until the page is reloaded.
 - Events currently implemented: `florial_page_view`, `florial_phone_click`, `florial_chat_click`, `florial_product_view`, `florial_category_view`, `florial_cart_view`, `florial_add_to_cart`, `florial_checkout_start`.
 - Product/cart event properties are limited to language, page path, product type and quantity. No SKU, product name, order number, order contents, customer name, phone, email, address or form text is sent.
 - The Manager route is not mounted with the public consent component and does not send these events.
