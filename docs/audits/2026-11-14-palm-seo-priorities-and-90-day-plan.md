@@ -165,7 +165,7 @@ Do not define numeric traffic targets until a stable baseline exists. The curren
 - Search volumes and keyword difficulty for BG/RU/EN.
 - Search Console history older than 30 days in the connected Windsor trial.
 - Live initial HTML and canonical/hreflang of the palm category.
-- Whether the two Washingtonia records represent distinct offers.
+- Final BG/RU/EN SEO differentiation for the two confirmed Washingtonia offers.
 - Legal/technical ownership and access to `palmandolivetrees.com`.
 - Second-domain Search Console performance and full URL inventory.
 - Google recrawl and ranking impact of the recent Sanity SEO corrections.
