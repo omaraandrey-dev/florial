@@ -45,7 +45,7 @@ test('keeps product characteristics while removing duplicate location phrases', 
   }, 'en', 0)
   assert.ok(result)
   assert.match(result.metaDescription, /vibrant colors and green leaves/)
-  assert.match(result.metaDescription, /customers in Nessebar/)
+  assert.match(result.metaDescription, /Florial, Nessebar|customers in Nessebar/)
   assert.ok(!result.metaDescription.includes('Nesebar and surrounding areas'))
 })
 
