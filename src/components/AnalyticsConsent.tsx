@@ -39,7 +39,7 @@ export function AnalyticsConsent() {
   const choose = (value: 'accepted' | 'rejected') => {
     setAnalyticsConsent(value)
     setChoice(value)
-    if (value === 'accepted') trackEvent('page_view', language, window.location.pathname.replace(/\\/+$/, '') || '/')
+    if (value === 'accepted') trackEvent('page_view', language, window.location.pathname)
     setIsOpen(false)
   }
 
