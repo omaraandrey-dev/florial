@@ -1,3 +1,11 @@
+## 2026-11-14 — Palm category metadata and Washingtonia offer check
+
+- Published category `plants-palms` has Meta Titles at 48 BG / 47 RU / 51 EN characters; Meta Descriptions are 170 BG / 163 RU / 191 EN characters, above the project's 160-character target. `noIndex` is null in BG/RU/EN.
+- The category already contains 32 localized SEO content blocks in each language with local coastal context, species selection, cold-weather guidance and FAQs. Further long-form copy should wait until live rendering and internal links are verified.
+- Two Washingtonia products are distinct offers: `washingtonia` = 240 cm / 50 L / EUR 600 / stock 50; `ventlieva-palyma-vashintoniya` = 475–525 cm / 300 L / EUR 3,000 / stock 1. Do not merge or redirect these pages as duplicates.
+- Five Bulgarian Washingtonia query/page rows in the last-28-day GSC sample point to `/product/washingtonia`; none pointed to the large-specimen page. Apex and www variants appear for the standard URL; canonical behavior still needs verification.
+- Keyword map and roadmap updated. No Sanity content write was made.
+
 ## 2026-11-14 — Palm SEO priorities and 90-day roadmap
 
 - Stages 9.5–9.6 documented in `docs/audits/2026-11-14-palm-seo-priorities-and-90-day-plan.md`.
