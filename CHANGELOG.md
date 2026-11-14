@@ -1,3 +1,13 @@
+## 2026-11-14 — Second-domain SEO review: palmandolivetrees.com (stage 9.4)
+
+- Reviewed indexed content for `www.palmandolivetrees.com`; its homepage and olive page explicitly display Florial branding, Nessebar and the same phone number as the connected Google Business Profile.
+- Read-only Windsor.ai Google Business Profile check confirms the official listing website is `https://florial-bg.com/`, phone `087 677 7902`, business name `Градински център "Флориал"`, primary category `Разсадник`.
+- The second domain has substantial topic overlap with the main Florial site: palm sales, cold-hardy palms, the same species, olives, planting, landscaping and irrigation. Exact verbatim duplication was not established.
+- Connected Windsor.ai Search Console account list contains the main property `sc-domain:florial-bg.com`; a second-domain GSC property was not present. Its search performance is unknown.
+- Direct verification of second-domain robots.txt, sitemap.xml, canonical/hreflang, HTTP redirects, registrar ownership, DNS and hosting access was not possible with available read-only sources. No platform is assumed.
+- Recommendation: keep `florial-bg.com` as the primary commercial domain and GBP destination. Do not redirect, canonicalize or remove the second domain until the owner/control and technical state are confirmed.
+- No domain, DNS, Cloudflare, Google Business Profile, Sanity or website settings were changed. Detailed report: `docs/audits/2026-11-14-second-domain-seo-review.md`.
+
 ## 2026-11-14 — Palm keyword map (SEO plan 9.3)
 
 - Completed a read-only BG/RU/EN keyword-to-URL map for the existing palm and yucca catalogue; no Sanity documents, schemas, application code or Production settings were changed.
