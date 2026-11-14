@@ -132,7 +132,7 @@ test('does not create empty feature fragments from VAT-only source text', () => 
   }, 'en', 0)
   assert.ok(result)
   assert.ok(result.metaDescription.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
-  assert.ok(!/—\\s*[.,]|\\.\\./.test(result.metaDescription))
+  assert.ok(!/—\s*[.,]|\.\./.test(result.metaDescription))
   assert.ok(!result.metaDescription.includes('VAT included'))
 })
 
