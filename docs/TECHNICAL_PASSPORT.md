@@ -1,3 +1,12 @@
+## 2026-11-14 — Second-domain SEO review checkpoint
+
+- Indexed content at `www.palmandolivetrees.com` explicitly identifies “Градински център Флориал”, Nessebar and phone `+359 87 677 7902`. The connected Google Business Profile independently confirms the same phone and currently links to `https://florial-bg.com/`.
+- The second domain has high topical overlap with the primary Florial website across palms, cold-hardy palms, species names, olive trees, planting, landscaping and irrigation. Exact duplicate text is not established.
+- The connected Windsor.ai Search Console account list exposes only `sc-domain:florial-bg.com`; separate Search Console performance for `palmandolivetrees.com` is unknown.
+- Robots, sitemap, canonical, hreflang, redirects, domain registrar/owner, DNS, hosting and CMS are not verified. No redirect, canonical or domain setting was changed.
+- Recommended primary commercial destination remains `florial-bg.com`, consistent with the connected Google Business Profile.
+- Detailed read-only review: `docs/audits/2026-11-14-second-domain-seo-review.md`.
+
 ## 2026-11-14 — Palm keyword map research checkpoint
 
 - Read-only GSC query/page research via Windsor.ai for `sc-domain:florial-bg.com` was limited by the current trial to the last 30 days; a 12-month request returned a trial-history restriction. The last-28-day sample is directional only and contains low impression counts.
