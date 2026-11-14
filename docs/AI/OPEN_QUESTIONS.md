@@ -1,3 +1,12 @@
+## 2026-11-14 — Palm keyword map (stage 9.3) completed; follow-ups remain
+
+- A read-only BG/RU/EN keyword map and page ownership plan is recorded in `docs/audits/2026-11-14-palm-keyword-map.md`.
+- GSC data was retrieved through the connected Windsor.ai Search Console property. Trial access currently allows only the last 30 days; a 12-month request was rejected. Last-28-day metrics are a small directional sample, not a search-volume estimate or stable ranking baseline.
+- No matching query rows were returned for `/category/palmi-yuki` in the last-28-day filter, while species product pages did receive impressions. This should be monitored after category-page improvements and recrawl; it does not prove the category has never ranked.
+- Existing category/product URL ownership is mapped. No Sanity content, category structure, schema or application code was changed.
+- **Next:** stage 9.4 — inspect `palmandolivetrees.com` for ownership signals, indexing, canonical/redirect behavior, duplicate content and overlap with Florial. Do not merge, redirect or duplicate content before that assessment.
+- **Still unknown:** keyword volumes/difficulty; GSC history beyond 30 days; Google recrawl/indexing; initial HTML and canonical/hreflang for the palm category; the second domain's technical relationship to Florial.
+
 ## 2026-11-14 — Palm priority-1 SEO remediation completed in Sanity
 
 - All 11 published palm-type product documents in `bxvcy0qs/plants` were reviewed and corrected where needed.
