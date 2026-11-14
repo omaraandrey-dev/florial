@@ -1,3 +1,17 @@
+## 2026-11-14 — Manual SEO remediation completed in Sanity Production
+
+- Scope: all 275 published irrigation/equipment products in project bxvcy0qs, dataset production.
+- Completeness: 275/275 products have BG/RU/EN H1, Meta Title and Meta Description (2,475/2,475 active localized fields).
+- Manual changes: 228 product documents changed, 47 retained unchanged after review; 1,130 individual SEO field values updated. Field breakdown: BG H1 33 / Meta Title 116 / Meta Description 213; RU H1 40 / Meta Title 126 / Meta Description 227; EN H1 35 / Meta Title 114 / Meta Description 226.
+- Final published-data checks: missing fields 0; titles >70 characters 0; descriptions >160 characters 0; ellipsis/truncation 0; suspicious empty/dangling punctuation 0; Cyrillic in English SEO 0; Sozopol references 0; product noIndex=true across BG/RU/EN 0.
+- Manual translations were based on published localized names, descriptions and technical product details. No generator was used to populate the Sanity SEO values. Only H1, Meta Title and Meta Description subfields were changed; no product names, descriptions, SKUs, slugs, prices, stock or category data were modified.
+- Pre-write SEO snapshot: docs/backups/product-seo-before-manual-repair-2026-11-14.json and parts 01–11 (275 products, original revisions and BG/RU/EN SEO objects).
+- Detailed report: docs/audits/2026-11-14-manual-product-seo-remediation.md.
+- PR #260 merged to main at 9b49f56591cc9297e725bec24c40b7219f5dc287. Cloudflare Pages Production deployment bc022ecf-8777-4575-9f11-e1f6fa33072f succeeded for that commit.
+- robots.txt allows crawling and declares the apex sitemap. Sitemap code and eligibility logic were not changed by this work. Last live sitemap check 2026-11-13: 1,312 unique URLs (438 base + 874 localized), zero duplicates. A new post-deployment live HTTP fetch is not confirmed.
+- Google Search Console processing, URL Inspection, Google-selected canonical and actual indexing/recrawl remain unverified; connect Search Console data before treating indexing as confirmed.
+- Unchanged Cloudflare configuration includes legacy SUPABASE_/VITE_SUPABASE_ variable names. They were observed but not removed; verify all code references and obtain approval before cleanup.
+
 ## 2026-11-14 — Product SEO quality audit (implementation branch; no live data writes)
 
 - Live read-only Sanity check: project bxvcy0qs, dataset production, published perspective; 275 published equipment products.
