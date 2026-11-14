@@ -10,7 +10,7 @@ import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { toPlainText } from './lib/richTextUtils.mjs'
-import { trackEvent, trackPostHogEvent } from './services/trackingService'
+import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 
 import type {
@@ -160,7 +160,7 @@ export default function App() {
 
   const [isContactsOpen, setIsContactsOpen] = useState(initialRoute.isContactsOpen)
   const [isCartOpen, setIsCartOpen] = useState(initialRoute.isCartOpen)
-  const [, setRouteRevision] = useState(0)
+  const [routeRevision, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const isServicesListRoute = normalizedRoutePath === '/services'
@@ -206,6 +206,12 @@ export default function App() {
   const currentService = activeServiceSlug ? currentServiceDetails : null
 
   useEffect(() => {
+    const handleConsentChange = () => setRouteRevision((revision) => revision + 1)
+    window.addEventListener('florial:analytics-consent-change', handleConsentChange)
+    return () => window.removeEventListener('florial:analytics-consent-change', handleConsentChange)
+  }, [])
+
+  useEffect(() => {
     const pageKey = language + ':' + normalizedRoutePath
     if (lastTrackedPage.current === pageKey) return
     lastTrackedPage.current = pageKey
@@ -217,12 +223,12 @@ export default function App() {
     if (activeProductSlug && currentProduct) eventName = 'florial_product_view'
     else if (activeCategorySlug && currentCategoryDetails) eventName = 'florial_category_view'
     else if (isCartOpen) eventName = 'florial_cart_view'
-    if (!eventName) return
+    if (!eventName || getAnalyticsConsent() !== 'accepted') return
     const eventKey = eventName + ':' + language + ':' + normalizedRoutePath
     if (lastTrackedContent.current === eventKey) return
     lastTrackedContent.current = eventKey
     trackPostHogEvent(eventName, language, normalizedRoutePath)
-  }, [activeProductSlug, currentProduct, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath])
+  }, [activeProductSlug, currentProduct, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath, routeRevision])
 
 
 
