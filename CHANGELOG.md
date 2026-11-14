@@ -1,3 +1,14 @@
+## 2026-11-14 — Product SEO quality audit and generator hardening (PR in progress)
+
+- Read-only audit of all 275 published equipment products in Sanity project bxvcy0qs / dataset production confirms 2,475/2,475 active BG/RU/EN H1, Meta Title and Meta Description fields are populated.
+- Quality screening found title lengths over 70 characters (BG 16, RU 7, EN 2); descriptions over 160 characters (BG 132, RU 166, EN 133); and over 180 characters (BG 105, RU 23, EN 6). Description ellipsis indicators: BG 1, RU 112, EN 73. Suspicious punctuation/empty-feature indicators: BG 8, RU 32, EN 70.
+- 32 products have Cyrillic characters in English SEO/name fields; a broader Bulgarian-specific vocabulary heuristic flagged 109 products in RU/EN for manual review. These are screening candidates, not all confirmed mistranslations. 244 products had at least one automated flag.
+- Root cause: productSeo generator allowed 180-character descriptions, clipped feature text with ellipsis and appended a fixed suffix; it could leave unfinished sentences and empty feature punctuation. Existing Manager endpoint is missing-only and cannot repair populated values.
+- Hardening prepared in branch fix/product-seo-quality-audit: 160-character description target, complete-feature fallback (no mid-sentence clipping), VAT-only fragment removal and skip generation for visibly contaminated RU/EN source names. Added regression tests.
+- Full read-only audit: docs/audits/2026-11-14-product-seo-quality-audit.md.
+- No Sanity mutation/publication, backup, D1, Cloudflare settings/secrets, Resend, schema or Production deployment was performed. Existing Sanity SEO values are unchanged. Data remediation remains pending a field-level preview, complete backup and explicit owner approval.
+- CI and PR review are required before merge; Production release has not been authorized or performed.
+
 ## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
 
 - PR #259 squash-merged into `main`: merge commit `3c909da0fc235aff2cc19ccdb73a1edba7960670`.
