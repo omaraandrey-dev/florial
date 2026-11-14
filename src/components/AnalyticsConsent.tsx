@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { localizedHref } from '../lib/navigation'
-import { getAnalyticsConsent, setAnalyticsConsent, trackEvent } from '../services/trackingService'
+import { getAnalyticsConsent, setAnalyticsConsent, trackPostHogEvent } from '../services/trackingService'
 
 const copy = {
   bg: {
@@ -41,7 +41,7 @@ export function AnalyticsConsent() {
   const choose = (value: 'accepted' | 'rejected') => {
     setAnalyticsConsent(value)
     window.dispatchEvent(new Event('florial:analytics-consent-change'))
-    if (value === 'accepted') trackEvent('page_view', language, window.location.pathname)
+    if (value === 'accepted') trackPostHogEvent('florial_page_view', language, window.location.pathname)
     setIsOpen(false)
   }
 
