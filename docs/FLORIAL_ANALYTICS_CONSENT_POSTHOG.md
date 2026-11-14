@@ -2,8 +2,9 @@
 
 Status: consent-gated D1 analytics is deployed to Production; PostHog ingestion remains inactive.
 Date: 14.11.2026
-Production merge: PR #262, commit `19ace984706900b51560cefb244ea56db76de79a`.
-Production deployment: Cloudflare Pages deployment `69918c8b-a8df-4906-a2fd-66ce9046148b`.
+Consent implementation: PR #262, commit `19ace984706900b51560cefb244ea56db76de79a`.
+Footer settings UX: PR #263, commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`.
+Latest Production deployment: Cloudflare Pages deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d`.
 
 ## Scope
 
