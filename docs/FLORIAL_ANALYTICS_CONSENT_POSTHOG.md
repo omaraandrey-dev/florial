@@ -1,7 +1,9 @@
 # Florial — first-party D1 statistics and optional PostHog analytics
 
-Status: implementation prepared on branch `fix/d1-baseline-posthog-consent`; not merged or deployed.
+Status: PR #264 merged to `main` and deployed to Production. PostHog ingestion remains inactive until the public project key is configured.
 Date: 14.11.2026
+PR #264 merge commit: `047e03172f2571b6542adb4a0ed8d4b855df6b24`.
+Production deployment: `1fd6a8da-1bdd-4222-93b4-79adc23841f3` (`https://1fd6a8da.florial.pages.dev`), successful on the exact merge commit.
 PostHog project: EU project ID `349453`.
 Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 
@@ -67,4 +69,4 @@ Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 
 - PR #262 consent panel: merge commit `19ace984706900b51560cefb244ea56db76de79a`; deployment `69918c8b-a8df-4906-a2fd-66ce9046148b`.
 - PR #263 Footer settings link: merge commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`; deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d`.
-- The behavior described in this document is the proposed next revision, not yet active on Production.
+- The D1/PostHog separation and revised consent/privacy text described here are active on Production. PostHog ingestion itself remains inactive because `VITE_POSTHOG_PROJECT_KEY` is not configured.
