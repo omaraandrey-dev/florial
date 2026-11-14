@@ -7,7 +7,7 @@
 - Hardening prepared in branch fix/product-seo-quality-audit: 160-character description target, complete-feature fallback (no mid-sentence clipping), VAT-only fragment removal and skip generation for visibly contaminated RU/EN source names. Added regression tests.
 - Full read-only audit: docs/audits/2026-11-14-product-seo-quality-audit.md.
 - No Sanity mutation/publication, backup, D1, Cloudflare settings/secrets, Resend, schema or Production deployment was performed. Existing Sanity SEO values are unchanged. Data remediation remains pending a field-level preview, complete backup and explicit owner approval.
-- CI and PR review are required before merge; Production release has not been authorized or performed.
+- Exact PR-head CI on a1fd16ce3c4150b14126bc89d24a4f0db032b1b6 passed: Blog and Studio validation run 43563174822 (lint, 153 utility tests, website build, read-only dry-run, Studio install/build) and D1 validation run 43563174858. PR #260 remains open and unmerged; Production release has not been authorized or performed.
 
 ## 2026-11-13 — Manager product SEO safe mode merged and deployed (PR #259)
 
