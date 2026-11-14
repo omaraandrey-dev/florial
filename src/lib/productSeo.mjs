@@ -153,7 +153,12 @@ const buildMetaDescription = (name, feature, locationName, locale) => {
     ru: 'Продажа: ',
     en: 'For sale: ',
   }[locale]
-  const suffix = {
+  const fullSuffix = {
+    bg: '. Градински център Флориал предлага продукта за клиенти в ' + locationName + '.',
+    ru: '. Садовый центр Флориал предлага товар покупателям в ' + locationName + '.',
+    en: '. Florial Garden Centre serves customers in ' + locationName + '.',
+  }[locale]
+  const compactSuffix = {
     bg: '. Флориал, ' + locationName + '.',
     ru: '. Флориал, ' + locationName + '.',
     en: '. Florial, ' + locationName + '.',
@@ -161,16 +166,16 @@ const buildMetaDescription = (name, feature, locationName, locale) => {
 
   const candidates = []
   if (feature) {
-    candidates.push(prefix + name + ' — ' + feature + suffix)
-    candidates.push(prefix + feature + suffix)
+    candidates.push(prefix + name + ' — ' + feature + fullSuffix)
+    candidates.push(prefix + feature + compactSuffix)
   }
-  candidates.push(prefix + name + suffix)
+  candidates.push(prefix + name + fullSuffix)
+  candidates.push(prefix + name + compactSuffix)
   candidates.push(prefix + name)
 
   const complete = candidates.find((candidate) => candidate.length <= PRODUCT_SEO_MAX_DESCRIPTION_LENGTH)
   if (complete) return complete
 
-  const compactSuffix = '. ' + (locale === 'en' ? 'Florial' : 'Флориал') + '.'
   const budget = PRODUCT_SEO_MAX_DESCRIPTION_LENGTH - prefix.length - compactSuffix.length
   const shortenedName = shortenAtWordBoundary(name, budget)
   if (shortenedName) return prefix + shortenedName + compactSuffix
