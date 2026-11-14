@@ -1,3 +1,12 @@
+## 2026-11-14 — Palm keyword map research checkpoint
+
+- Read-only GSC query/page research via Windsor.ai for `sc-domain:florial-bg.com` was limited by the current trial to the last 30 days; a 12-month request returned a trial-history restriction. The last-28-day sample is directional only and contains low impression counts.
+- The broad Sanity category `plants-palms` has slug `palmi-yuki`; a matching GSC page filter returned zero rows during this window, while multiple species product URLs received impressions. Do not infer long-term absence of rankings from this short sample.
+- Keyword ownership is mapped: broad “palms / palms for sale / Nessebar / Bulgaria / cold-hardy palms” intent to the existing category; exact botanical/common-name terms to the relevant product pages. RU and EN groups are research hypotheses pending more GSC data.
+- Ten published palm-type products currently reference `plants-palms`. Yucca rostrata is primarily `plants-exotic` (also secondarily linked to `plants-palms`); Cycas is `other` in `plants-exotic`.
+- No Sanity writes, schema/code changes, Cloudflare changes, builds or deployments were made. Full report: `docs/audits/2026-11-14-palm-keyword-map.md`.
+- Remaining: stage 9.4 investigation of `palmandolivetrees.com`; then 9.5 prioritized recommendations and 9.6 90-day plan. Google recrawl/indexing and keyword volumes are not confirmed.
+
 ## 2026-11-14 — Palm priority-1 SEO corrections published
 
 - Live Sanity Production content update: project `bxvcy0qs`, dataset `plants`; 11 published documents where `productType == palm`.
