@@ -10,7 +10,7 @@ import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { toPlainText } from './lib/richTextUtils.mjs'
-import { trackEvent } from './services/trackingService'
+import { trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 
 import type {
@@ -166,6 +166,7 @@ export default function App() {
   const isServicesListRoute = normalizedRoutePath === '/services'
   const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
+  const lastTrackedContent = useRef<string | null>(null)
 
   // Persist the customer's cart between visits on this browser/device.
   useEffect(() => {
@@ -210,6 +211,18 @@ export default function App() {
     lastTrackedPage.current = pageKey
     trackEvent('page_view', language, normalizedRoutePath)
   }, [language, normalizedRoutePath])
+
+  useEffect(() => {
+    let eventName: 'florial_product_view' | 'florial_category_view' | 'florial_cart_view' | null = null
+    if (activeProductSlug && currentProduct) eventName = 'florial_product_view'
+    else if (activeCategorySlug && currentCategoryDetails) eventName = 'florial_category_view'
+    else if (isCartOpen) eventName = 'florial_cart_view'
+    if (!eventName) return
+    const eventKey = eventName + ':' + language + ':' + normalizedRoutePath
+    if (lastTrackedContent.current === eventKey) return
+    lastTrackedContent.current = eventKey
+    trackPostHogEvent(eventName, language, normalizedRoutePath)
+  }, [activeProductSlug, currentProduct, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath])
 
 
 
@@ -345,6 +358,7 @@ export default function App() {
 
   // Одна корзина для оборудования и растений; разные варианты растения — отдельные строки.
   const handleAddToCart = (product: Product, qty: number, saleVariant?: CartItem['saleVariant']) => {
+    trackPostHogEvent('florial_add_to_cart', language, normalizedRoutePath, { product_type: product.productType || 'unknown', quantity: qty })
     const itemKey = getCartItemKey(product, saleVariant)
     setCart((prev) => {
       const existing = prev.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
