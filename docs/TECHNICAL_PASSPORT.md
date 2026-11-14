@@ -3,8 +3,8 @@
 - Page-only GSC last-28-day totals for `/category/palmi-yuki`: 5 impressions, 0 clicks — BG base URL 1 impression (average position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). Query-level data exposed no query strings for this page.
 - Source code in `functions/_middleware.ts` generates localized canonical URLs, hreflang alternates, index/follow robots unless `noIndex=true`, and CollectionPage JSON-LD. RU/EN `?lang=` URLs are intentional locale URLs.
 - The initial middleware HTML includes the short category description and server-rendered plant product listing. The localized 32-block `seoContent` is rendered by client-side `CategoryPage` via `RichText` after hydration.
-- Live raw HTML, Google-rendered HTML and Google-selected canonical remain unverified; URL Inspection / a capable browser is required. GSC apex/www variants on Washingtonia still need Google-selected canonical verification.
-- No code or Sanity writes were made.
+- Cloudflare Browser Rendering verified HTTP 200 and JavaScript-rendered SEO content for BG/RU/EN. Live title/description, index/follow, localized canonical, hreflang and CollectionPage JSON-LD are present in all three versions. Google-selected canonical via Search Console URL Inspection remains unverified; GSC apex/www variants on Washingtonia also need URL Inspection.
+- No code or Sanity writes were made. The documentation-only main merge at `91c9bb859eb3a7bc9a6a246b3a3b29dbc36cd181` triggered a successful Cloudflare Pages Production build and deploy; runtime code was unchanged.
 
 ## 2026-11-14 — Palm category metadata and Washingtonia offer check
 
