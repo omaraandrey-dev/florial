@@ -133,6 +133,7 @@ export default function App() {
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
+  const [serviceDirectionDocuments, setServiceDirectionDocuments] = useState<any[]>([])
   const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
   const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
@@ -792,6 +793,26 @@ export default function App() {
       }
     `
 
+    const serviceDirectionQuery = `
+      *[_type == "serviceDirection" && isActive != false] | order(sortOrder asc, name asc) {
+        _id,
+        name,
+        "slug": { "current": coalesce(slug.current, slug) },
+        directionKey,
+        serviceCategories,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu,
+        translations {
+          bg { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
+          ru { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
+          en { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore }
+        },
+        seo { metaTitle, metaDescription, noIndex }
+      }
+    `
+
     const serviceRolePhotosQuery = `
       *[
         _type == "photo" &&
@@ -817,7 +838,8 @@ export default function App() {
     Promise.allSettled([
       sanityClient.fetch(serviceQuery),
       sanityClient.fetch(serviceRolePhotosQuery),
-    ]).then(([servicesResult, photosResult]) => {
+      sanityClient.fetch(serviceDirectionQuery),
+    ]).then(([servicesResult, photosResult, directionsResult]) => {
       if (cancelled) return
       if (servicesResult.status === 'fulfilled') {
         setServices(Array.isArray(servicesResult.value) ? servicesResult.value : [])
@@ -830,6 +852,12 @@ export default function App() {
       } else {
         console.error('Sanity: не удалось загрузить фотографии направлений услуг:', photosResult.reason)
         setServiceRolePhotos([])
+      }
+      if (directionsResult.status === 'fulfilled') {
+        setServiceDirectionDocuments(Array.isArray(directionsResult.value) ? directionsResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить направления услуг:', directionsResult.reason)
+        setServiceDirectionDocuments([])
       }
       setLoadedServicesLanguage(language)
     }).finally(() => {
@@ -1376,7 +1404,7 @@ export default function App() {
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
       ) : serviceDirectionSlug && isValidServiceDirectionRoute ? (
-        <ServiceDirectionPage directionSlug={serviceDirectionSlug} services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
+        <ServiceDirectionPage directionSlug={serviceDirectionSlug} services={services} rolePhotos={serviceRolePhotos} directionDocument={serviceDirectionDocuments.find((item) => item.slug?.current === serviceDirectionSlug)} loading={loadingServices || loadedServicesLanguage !== language} />
       ) : activeServiceSlug && loadingServiceDetails && !currentService ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
