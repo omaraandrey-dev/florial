@@ -6,13 +6,6 @@
 - PR #292 remains open/unmerged. Explicit merge approval is still required before main and the production Studio/Pages workflows can run.
 - Audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
 
-## 2026-11-15 — Service specialist landing pages: release verification pending
-
-- Four new localized category routes and service-detail breadcrumb levels are implemented on feature branch `feat/service-specialist-landing-pages`.
-- Read-only Sanity Production query confirmed 22 active service documents and the existing category assignments; no Sanity writes or schema changes were made.
-- Website lint, utility tests, Vite build, Pages Functions syntax and read-only migration checks passed in PR CI; D1 workflow succeeded. Sanity Studio build also passed in Blog and Studio validation run #1232. Pending: final Studio CI result, PR merge authorization, Production deployment, direct-route HTTP and rendered metadata checks for BG/RU/EN, mobile visual QA, sitemap validation and Google Search Console URL inspection. Landing-page editorial copy currently resides in source code rather than Sanity; a Studio-managed content model needs separate approval.
-- Audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
-
 ## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
 
 - All 26 published products in Sanity category `nozzles` and its two child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 26/26 published and zero remaining drafts.
