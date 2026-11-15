@@ -65,3 +65,17 @@ Implemented four dedicated, localized service-direction landing pages and insert
 - The audit remains a unique, task-specific record in this PR.
 - Shared files `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally not changed here. Several older open documentation PRs still modify those same shared files from stale base commits.
 - Integrate this audit into the shared documents only after those documentation branches are reconciled with the then-current `main`; this avoids dropping or duplicating their records.
+
+## Final implementation pass — 2026-11-15
+
+- Frontend integration added in `src/App.tsx`: active `serviceDirection` documents are queried from the published Sanity perspective with BG/RU/EN translations, service-category mapping, localized image alt text and SEO fields. The page component prefers the Sanity document and retains the existing localized source copy as a fallback until the documents exist.
+- The GROQ projection used by the frontend was submitted to the live Sanity Production query endpoint and parsed successfully. It currently returns zero documents, matching the earlier read-only inventory.
+- Final code snapshot before this audit-only update: `4d34c9a418f2012e3aacbb3bf6c77c7dfcf68e46`.
+- CI on that snapshot passed:
+  - Website lint, utility tests and Vite build; Studio build: run `43727227106`.
+  - Sanity Studio both-workspace validation: run `43727200675`.
+  - D1 migration validation: run `43727200774`.
+  - An additional full website/Studio validation run `43727200685` also succeeded.
+- Cloudflare Pages Preview deployment succeeded for `4d34c9a`: `https://444bc83b.florial.pages.dev`. A direct browser/visual smoke test could not be completed in this pass.
+- The additive Studio schema is still not deployed to Production; no new direction documents have been created or published. Existing service records remain untouched.
+- Shared changelog/passport/open-questions records are intentionally deferred to a synchronized integration pass because older open PRs overlap those files.
