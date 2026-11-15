@@ -127,7 +127,7 @@ Example normalization response:
 
 React sends minimum customer input to a dedicated Cloudflare Pages Function. The function validates payload size/schema/units, rate limits abuse, and constructs system instructions plus curated catalogue context server-side. Gemini key is a Cloudflare server-side secret, never in Vite/client bundles, HTML, logs or Git.
 
-Do not send contact details, order data or unrelated personal information to Gemini. Do not use the free Gemini API tier for production customer data without a reviewed privacy decision. Prefer a paid Gemini API project for production; verify current terms, DPA, region and retention before launch.
+Do not send contact details, order data or unrelated personal information to Gemini. Do not use the free Gemini API tier for production customer data without a reviewed privacy decision. Prefer a paid Gemini API project for production; verify current terms, DPA, region and retention before launch. Official references: https://ai.google.dev/gemini-api/docs/structured-output, https://ai.google.dev/gemini-api/docs/function-calling, https://ai.google.dev/gemini-api/docs/pricing and https://ai.google.dev/gemini-api/terms.
 
 Apply per-session/IP limits, timeouts, token/output budgets, retry ceilings and cost ceilings. Log request ID, model, prompt/schema version, latency, token usage, validation outcome and error class; redact customer free text and personal data. Deterministic forms/calculations must remain usable if Gemini is unavailable.
 
