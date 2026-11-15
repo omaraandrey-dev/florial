@@ -1,0 +1,1768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sanity Production pre-write snapshots. Project bxvcy0qs, dataset production. Retrieved 2026-11-15. Exact get_document payloads preserved below. -->
+<sanity-backup>
+Found document "9c7da8ea-ac30-4faf-afe3-75301a4c250b": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>9c7da8ea-ac30-4faf-afe3-75301a4c250b</_id>
+  <_rev>Wxh00JcLN6cQgy9skuq0RM</_rev>
+  <_system>
+    <base>
+      <id>9c7da8ea-ac30-4faf-afe3-75301a4c250b</id>
+      <rev>Wxh00JcLN6cQgy9skuofiK</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:30:41Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFD-2333-100 е капкова тръба от серия XFD за напояване на лехи, храсти, живи плетове и озеленени площи. Вградените капкообразуватели подават вода директно в кореновата зона и намаляват изпарението спрямо поливане с разпръсквачи. Ролката е 100 m. Използвайте съвместими фитинги за капкова тръба и подходяща филтрация; точният дебит и разстоянието между капкообразувателите трябва да се потвърдят по спецификацията на доставения модел.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>xfd-lifestyle</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-8918b67b437c365a8b07be3e53f1ba5137b523ad-1000x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>xfd-flexibility</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-a35fb14f347da84dbdb0068bf08817ebf45998b6-1000x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>xfd-flow</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-4897a4475edd9cc3b27026a4cc6aaaddd3f1086c-1000x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>xfd-specification</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-ba4466edb208c384716fc0e93bd3da9d7eab08aa-371x366-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFD-2333-100 — капкова тръба XFD, 100 m</alt>
+    <altEn>Rain Bird XFD-2333-100 — XFD dripline, 100 m</altEn>
+    <altRu>Rain Bird XFD-2333-100 — капельная трубка XFD, 100 м</altRu>
+    <asset>
+      <_ref>image-3413227674efa1302c9da8866f933f24d5523020-709x720-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-8e25c3256edf1301af66002b28b6e82ae0f75564-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFD-2333-100 — капкова тръба XFD, 100 m</name>
+  <priceEUR>186.13</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcrHU</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfObF</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOeU</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOhj</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOky</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOoD</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFD-2333-100 — капкова тръба XFD, 100 m</h1>
+    <metaDescription>Продажба на капкова тръба Rain Bird XFD, 100 m, за лехи, храсти и озеленени площи. Подходяща за наземен или подземен монтаж. Флориал, Слънчев бряг.</metaDescription>
+    <metaTitle>Rain Bird XFD-2333-100 — капкова тръба XFD, 100 m | Слънчев бряг</metaTitle>
+  </seo>
+  <shortDescription>Капкова тръба серия XFD за подземно или надземно капково напояване, 100 m.</shortDescription>
+  <sku>X44202</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xfd-2333-100</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFD-2333-100</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XFD</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Повърхностна капкова тръба с компенсиращи капкообразуватели</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xfd, dripline, pressure-compensating, 16mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Дължина на ролката</name>
+    <value>100 m</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър</name>
+    <value>16,1 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Вътрешен диаметър</name>
+    <value>13,6 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Дебелина на стената</name>
+    <value>1,2 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Дебит на капкообразувател</name>
+    <value>2,3 l/h</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Разстояние между капкообразувателите</name>
+    <value>33 cm</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>0,58–4,14 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Филтрация</name>
+    <value>Препоръчителен филтър 120 mesh</value>
+  </specifications>
+  <specifications>
+    <_key>audit13</_key>
+    <_type>productSpec</_type>
+    <name>Тип капкообразувателя</name>
+    <value>Вграден, компенсиращ налягането</value>
+  </specifications>
+  <specifications>
+    <_key>audit14</_key>
+    <_type>productSpec</_type>
+    <name>Материал и устойчивост</name>
+    <value>UV-устойчив полиетилен за надземен монтаж</value>
+  </specifications>
+  <specifications>
+    <_key>audit15</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Капково напояване на жив плет, лехи и редови насаждения</value>
+  </specifications>
+  <specifications>
+    <_key>xfdwatertemp378</_key>
+    <_type>productSpec</_type>
+    <name>Максимална температура на водата</name>
+    <value>До 37,8 °C</value>
+  </specifications>
+  <specifications>
+    <_key>xfdambient517</_key>
+    <_type>productSpec</_type>
+    <name>Максимална температура на околната среда</name>
+    <value>До 51,7 °C</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFD-2333-100 is an XFD series dripline for beds, shrubs, hedges and landscaped areas. Integrated emitters deliver water directly to the root zone and can reduce evaporation compared with sprinkler watering. Supplied as a 100 m roll. Use compatible dripline fittings and suitable filtration; confirm exact emitter flow and spacing against the specification of the supplied model.</description>
+      <name>Rain Bird XFD-2333-100 — XFD dripline, 100 m</name>
+      <seo>
+        <h1>Rain Bird XFD-2333-100 — XFD dripline, 100 m</h1>
+        <metaDescription>For sale: Rain Bird XFD-2333-100, 100 m dripline for beds, shrubs and landscaped areas. Suitable for surface or subsurface installation. Florial, Sunny Beach.</metaDescription>
+        <metaTitle>Rain Bird XFD-2333-100 — XFD dripline, 100 m | Sunny Beach | Florial</metaTitle>
+      </seo>
+      <shortDescription>XFD dripline for drip irrigation of beds, shrubs and landscaped areas, 100 m.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFD-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XFD</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Surface dripline with pressure-compensating emitters</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xfd, dripline, pressure-compensating, 16 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Coil length</name>
+        <value>100 m</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Outside diameter</name>
+        <value>16.1 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Inside diameter</name>
+        <value>13.6 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Wall thickness</name>
+        <value>1.2 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Emitter flow rate</name>
+        <value>2.3 L/h</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Emitter spacing</name>
+        <value>33 cm</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>0.58–4.14 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Filtration</name>
+        <value>Recommended 120-mesh filter</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Emitter type</name>
+        <value>Integrated, pressure-compensating</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Material and durability</name>
+        <value>UV-resistant polyethylene for surface installation</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Drip irrigation for hedges, beds and row plantings</value>
+      </specifications>
+      <specifications>
+        <_key>xfdwatertemp378</_key>
+        <_type>productSpec</_type>
+        <name>Maximum water temperature</name>
+        <value>Up to 37.8 °C</value>
+      </specifications>
+      <specifications>
+        <_key>xfdambient517</_key>
+        <_type>productSpec</_type>
+        <name>Maximum ambient temperature</name>
+        <value>Up to 51.7 °C</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFD-2333-100 — капельная трубка серии XFD для клумб, кустарников, живых изгородей и озеленённых участков. Встроенные эмиттеры подают воду непосредственно в корневую зону и могут уменьшить испарение по сравнению с поливом дождевателями. Бухта 100 м. Используйте совместимые фитинги и подходящую фильтрацию; точный расход и шаг эмиттеров проверьте по спецификации поставляемой модели.</description>
+      <name>Rain Bird XFD-2333-100 — капельная трубка XFD, 100 м</name>
+      <seo>
+        <h1>Rain Bird XFD-2333-100 — капельная трубка XFD, 100 м</h1>
+        <metaDescription>Продажа капельной трубки Rain Bird XFD-2333-100, 100 м, для клумб и кустарников. Наземный или подземный монтаж. Флориал, Солнечный берег.</metaDescription>
+        <metaTitle>Rain Bird XFD-2333-100 — капельная трубка… | Солнечный берег | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Капельная трубка XFD для полива клумб, кустарников и озеленённых зон, 100 м.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFD-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XFD</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Наземная капельная трубка с компенсирующими капельницами</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xfd, капельная трубка, компенсация давления, 16 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Длина бухты</name>
+        <value>100 м</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр</name>
+        <value>16,1 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Внутренний диаметр</name>
+        <value>13,6 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Толщина стенки</name>
+        <value>1,2 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Расход капельницы</name>
+        <value>2,3 л/ч</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Расстояние между капельницами</name>
+        <value>33 см</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>0,58–4,14 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Фильтрация</name>
+        <value>Рекомендуемый фильтр 120 mesh</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Тип капельницы</name>
+        <value>Встроенная, с компенсацией давления</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Материал и устойчивость</name>
+        <value>Устойчивый к УФ-излучению полиэтилен для наземного монтажа</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Применение</name>
+        <value>Капельный полив живых изгородей, клумб и рядовых посадок</value>
+      </specifications>
+      <specifications>
+        <_key>xfdwatertemp378</_key>
+        <_type>productSpec</_type>
+        <name>Максимальная температура воды</name>
+        <value>До 37,8 °C</value>
+      </specifications>
+      <specifications>
+        <_key>xfdambient517</_key>
+        <_type>productSpec</_type>
+        <name>Максимальная температура окружающей среды</name>
+        <value>До 51,7 °C</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>5.897</weightKg>
+</document>
+Found document "9d2784c8-f36b-471e-afc3-4927c5dd22d8": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>9d2784c8-f36b-471e-afc3-4927c5dd22d8</_id>
+  <_rev>Wxh00JcLN6cQgy9skuofiK</_rev>
+  <_system>
+    <base>
+      <id>9d2784c8-f36b-471e-afc3-4927c5dd22d8</id>
+      <rev>rOW11EP0h6V5YhExSWR2TG</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:16:38Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFS-2333-100 е капкова тръба, предназначена за подземно капково напояване в озеленени площи, живи плетове и тревни зони. Специалната конструкция на серията XFS е разработена за работа под земята и устойчивост на проникване на корени. Вградените капкообразуватели подават вода близо до корените, като оставят повърхността по-суха и намаляват видимостта на системата. Ролката е 100 m. Необходима е правилна филтрация и монтаж според указанията на производителя.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxfs233310020261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-9d5b1954c95ac34758a656d73b68ff7ea7769a6b-900x900-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFS-2333-100 — подземна капкова тръба XFS, 100 m</alt>
+    <altEn>Rain Bird XFS-2333-100 — subsurface XFS dripline, 100 m</altEn>
+    <altRu>Rain Bird XFS-2333-100 — подземная капельная трубка XFS, 100 м</altRu>
+    <asset>
+      <_ref>image-0193415997afe4641bbb0c6a35f4f9b33632781f-550x550-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-a02eddfe8f9a7a6281a2bf483e0edd8860133615-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFS-2333-100 — подземна капкова тръба XFS, 100 m</name>
+  <priceEUR>259.92</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSiu3Ue</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBJ8x</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBJCd</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBJGJ</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBJJz</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBJNf</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFS-2333-100 — подземна капкова тръба XFS, 100 m</h1>
+    <metaDescription>Продажба на подземна капкова тръба Rain Bird XFS, 100 m, с устойчивост на проникване на корени за подземно напояване. Флориал, Поморие.</metaDescription>
+    <metaTitle>Rain Bird XFS-2333-100 — подземна капкова тръба XFS | Поморие</metaTitle>
+  </seo>
+  <shortDescription>Капкова тръба XFS за подземно напояване с устойчивост на проникване на корени, 100 m.</shortDescription>
+  <sku>X48201</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xfs-2333-100</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFS-2333-100</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XFS</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Подземна капкова тръба с компенсиращи капкообразуватели</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xfs, subsurface dripline, pressure-compensating, 16mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Дължина на ролката</name>
+    <value>100 m</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър</name>
+    <value>16,1 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Вътрешен диаметър</name>
+    <value>13,6 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Дебелина на стената</name>
+    <value>1,2 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Дебит на капкообразувател</name>
+    <value>2,3 l/h</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Разстояние между капкообразувателите</name>
+    <value>33 cm</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>0,58–4,14 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Филтрация</name>
+    <value>Препоръчителен филтър 120 mesh</value>
+  </specifications>
+  <specifications>
+    <_key>audit13</_key>
+    <_type>productSpec</_type>
+    <name>Тип капкообразувателя</name>
+    <value>Вграден, компенсиращ налягането</value>
+  </specifications>
+  <specifications>
+    <_key>audit14</_key>
+    <_type>productSpec</_type>
+    <name>Защита от корени</name>
+    <value>Технология Copper Shield™: медният елемент в капкообразувателя предпазва от проникване на корени; не се изисква периодично добавяне на химикали за защита от корени.</value>
+  </specifications>
+  <specifications>
+    <_key>audit15</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Подземно капково напояване на тревни площи и озеленени зони. При подземен монтаж използвайте комплект за обезвъздушаване и вакуумно освобождаване според указанията на Rain Bird.</value>
+  </specifications>
+  <specifications>
+    <_key>xfsAirVacuumRequirement</_key>
+    <_type>productSpec</_type>
+    <name>Изискване при подземен монтаж</name>
+    <value>Предвидете комплект за обезвъздушаване и вакуумно освобождаване (Air/Vacuum Relief Valve Kit) и монтирайте според схемата на производителя.</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFS-2333-100 is a dripline designed for subsurface irrigation in landscaped areas, hedges and turf zones. The XFS series construction is intended for underground use and resistance to root intrusion. Integrated emitters deliver water near the root zone while keeping the surface drier and the irrigation system less visible. Supplied as a 100 m roll. Correct filtration and installation according to the manufacturer's instructions are required.</description>
+      <name>Rain Bird XFS-2333-100 — subsurface XFS dripline, 100 m</name>
+      <seo>
+        <h1>Rain Bird XFS-2333-100 — subsurface XFS dripline, 100 m</h1>
+        <metaDescription>For sale: Rain Bird XFS-2333-100, 100 m subsurface dripline with root-intrusion resistance for underground irrigation. Florial, Pomorie.</metaDescription>
+        <metaTitle>Rain Bird XFS-2333-100 — subsurface XFS dripline… | Pomorie | Florial</metaTitle>
+      </seo>
+      <shortDescription>XFS dripline for subsurface irrigation with root-intrusion resistance, 100 m.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFS-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XFS</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Subsurface dripline with integrated pressure-compensating emitters</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xfs, subsurface dripline, pressure-compensating, 16 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Coil length</name>
+        <value>100 m</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Outside diameter</name>
+        <value>16.1 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Inside diameter</name>
+        <value>13.6 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Wall thickness</name>
+        <value>1.2 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Emitter flow rate</name>
+        <value>2.3 L/h</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Emitter spacing</name>
+        <value>33 cm</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>0.58–4.14 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Filtration</name>
+        <value>Recommended 120-mesh filter</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Emitter type</name>
+        <value>Integrated, pressure-compensating</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Root protection</name>
+        <value>Copper Shield™ technology: a copper element in the emitter helps prevent root intrusion; periodic addition of root-protection chemicals is not required.</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Subsurface drip irrigation for lawns and landscaped areas. For subsurface installation, use an air/vacuum relief kit according to Rain Bird instructions.</value>
+      </specifications>
+      <specifications>
+        <_key>xfsAirVacuumRequirement</_key>
+        <_type>productSpec</_type>
+        <name>Subsurface installation requirement</name>
+        <value>Provide an Air/Vacuum Relief Valve Kit and install it according to the manufacturer's layout.</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFS-2333-100 — капельная трубка для подземного полива озеленённых участков, живых изгородей и газонов. Конструкция серии XFS рассчитана на подземную установку и устойчивость к проникновению корней. Встроенные эмиттеры подают воду вблизи корневой зоны, оставляя поверхность более сухой и делая систему менее заметной. Бухта 100 м. Требуются правильная фильтрация и монтаж по инструкции производителя.</description>
+      <name>Rain Bird XFS-2333-100 — подземная капельная трубка XFS, 100 м</name>
+      <seo>
+        <h1>Rain Bird XFS-2333-100 — подземная капельная трубка XFS, 100 м</h1>
+        <metaDescription>Продажа подземной капельной трубки Rain Bird XFS-2333-100, 100 м, с защитой от проникновения корней для подземного полива. Флориал, Поморие.</metaDescription>
+        <metaTitle>Rain Bird XFS-2333-100 — подземная капельная… | Поморие | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Капельная трубка XFS для подземного полива с защитой от проникновения корней, 100 м.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFS-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XFS</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Подземная капельная трубка со встроенными компенсирующими капельницами</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xfs, подземная капельная трубка, компенсация давления, 16 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Длина бухты</name>
+        <value>100 м</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр</name>
+        <value>16,1 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Внутренний диаметр</name>
+        <value>13,6 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Толщина стенки</name>
+        <value>1,2 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Расход капельницы</name>
+        <value>2,3 л/ч</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Расстояние между капельницами</name>
+        <value>33 см</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>0,58–4,14 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Фильтрация</name>
+        <value>Рекомендуемый фильтр 120 mesh</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Тип капельницы</name>
+        <value>Встроенная, с компенсацией давления</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Защита от корней</name>
+        <value>Технология Copper Shield™: медный элемент в капельнице помогает предотвращать проникновение корней; периодическое добавление химикатов для защиты от корней не требуется.</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Применение</name>
+        <value>Подземный капельный полив газонов и озеленённых зон. При подземном монтаже используйте комплект для вентиляции и вакуумного сброса согласно инструкции Rain Bird.</value>
+      </specifications>
+      <specifications>
+        <_key>xfsAirVacuumRequirement</_key>
+        <_type>productSpec</_type>
+        <name>Требование для подземного монтажа</name>
+        <value>Предусмотрите комплект клапана для выпуска воздуха и вакуумного сброса (Air/Vacuum Relief Valve Kit) и установите его по схеме производителя.</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>5.897</weightKg>
+</document>
+Found document "cce8b863-a3b8-4945-9db8-33236ce8f40a": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>cce8b863-a3b8-4945-9db8-33236ce8f40a</_id>
+  <_rev>Wxh00JcLN6cQgy9skuoveE</_rev>
+  <_system>
+    <base>
+      <id>cce8b863-a3b8-4945-9db8-33236ce8f40a</id>
+      <rev>1qyPYQSEDVHtpwb6uBSfEB</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:20:23Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFD1600-100 е глуха тръба с диаметър 16 mm без вградени капкообразуватели. Използва се като разпределителна линия в системи за капково напояване, когато капкообразувателите се поставят отделно на местата на растенията. Тръбата е предназначена за външен монтаж и трябва да се използва със съвместими фитинги за съответния диаметър. Ролката е 100 m; при проектиране съобразете дължината на линията и дебита на поставените капкообразуватели.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxfd1600100extra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-3a52460b44caf5112927703308b7ac24f38585c1-1000x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFD1600-100 — глуха тръба 16 mm, 100 m</alt>
+    <altEn>Rain Bird XFD1600-100 — blank 16 mm tubing, 100 m</altEn>
+    <altRu>Rain Bird XFD1600-100 — глухая трубка 16 мм, 100 м</altRu>
+    <asset>
+      <_ref>image-0b888aad8b5cc9baf3ec5c38116b0fe993242413-812x702-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-0f589735b9d96fcf7fec9f24239720e7ca15e43c-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFD1600-100 — глуха тръба 16 mm, 100 m</name>
+  <priceEUR>147.49</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcxcj</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfcVb</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfcYq</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlfcc5</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfcfK</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfciZ</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFD1600-100 — глуха тръба 16 mm, 100 m</h1>
+    <metaDescription>Продажба на глуха полиетиленова тръба Rain Bird XFD1600-100, 16 mm, ролка 100 m, без вградени капкообразуватели. Флориал, Свети Влас.</metaDescription>
+    <metaTitle>Rain Bird XFD1600-100 — глуха тръба 16 mm, 100 m | Свети Влас</metaTitle>
+  </seo>
+  <shortDescription>Глуха полиетиленова тръба 16 mm без вградени капкообразуватели, ролка 100 m.</shortDescription>
+  <sku>X45009</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xfd1600-100</current>
+  </slug>
+  <specifications>
+    <_key>spec0</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFD1600-100</value>
+  </specifications>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XFD</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Глуха полиетиленова тръба за капкова система</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>drip, blank-tubing, 16mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Дължина на ролката</name>
+    <value>100 m</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър</name>
+    <value>16,1 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Вътрешен диаметър</name>
+    <value>13,6 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Дебелина на стената</name>
+    <value>1,2 mm</value>
+  </specifications>
+  <specifications>
+    <_key>more1</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Глуха тръба за подаваща линия и свързване на капкови линии</value>
+  </specifications>
+  <specifications>
+    <_key>more2</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Полиетилен, устойчив на UV лъчение</value>
+  </specifications>
+  <specifications>
+    <_key>more3</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Фитинги за капкова тръба с външен диаметър 16 mm</value>
+  </specifications>
+  <specifications>
+    <_key>more4</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>До 4,1 bar (за данни за XFD1600-100; проверявайте ограниченията на всички компоненти в системата)</value>
+  </specifications>
+  <specifications>
+    <_key>spec13</_key>
+    <_type>productSpec</_type>
+    <name>Минимален радиус на огъване</name>
+    <value>Около 7,6 cm без прегъване</value>
+  </specifications>
+  <specifications>
+    <_key>spec14</_key>
+    <_type>productSpec</_type>
+    <name>Цвят</name>
+    <value>Кафяв външен слой, черен вътрешен слой</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFD1600-100 is blank 16 mm tubing without built-in emitters. It is used as a distribution line in drip-irrigation systems where emitters are installed separately at plant locations. The tubing is intended for outdoor use and must be paired with fittings compatible with its diameter. Supplied as a 100 m roll; account for line length and emitter flow when designing the system.</description>
+      <name>Rain Bird XFD1600-100 — blank 16 mm tubing, 100 m</name>
+      <seo>
+        <h1>Rain Bird XFD1600-100 — blank 16 mm tubing, 100 m</h1>
+        <metaDescription>For sale: Rain Bird XFD1600-100 blank 16 mm polyethylene tubing without built-in emitters, supplied in a 100 m roll. Florial, Sveti Vlas.</metaDescription>
+        <metaTitle>Rain Bird XFD1600-100 — blank 16 mm tubing… | Sveti Vlas | Florial</metaTitle>
+      </seo>
+      <shortDescription>Blank 16 mm polyethylene tubing without built-in emitters, 100 m roll.</shortDescription>
+      <specifications>
+        <_key>spec0</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFD1600-100</value>
+      </specifications>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XFD</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Blank polyethylene tubing for drip irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>drip irrigation, blank tubing, 16 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Coil length</name>
+        <value>100 m</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Outside diameter</name>
+        <value>16.1 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Inside diameter</name>
+        <value>13.6 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Wall thickness</name>
+        <value>1.2 mm</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Blank tubing for supply lines and connecting drip lines</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>UV-resistant polyethylene</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Fittings for drip tubing with a 16 mm outside diameter</value>
+      </specifications>
+      <specifications>
+        <_key>more4</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>Up to 4.1 bar (for XFD1600-100; observe the limits of all system components)</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Minimum bend radius</name>
+        <value>About 7.6 cm without kinking</value>
+      </specifications>
+      <specifications>
+        <_key>spec14</_key>
+        <_type>productSpec</_type>
+        <name>Colour</name>
+        <value>Brown outer layer, black inner layer</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFD1600-100 — глухая трубка диаметром 16 мм без встроенных эмиттеров. Используется как распределительная линия в системах капельного полива, где капельницы устанавливаются отдельно возле растений. Трубка предназначена для наружного монтажа и применяется с фитингами соответствующего диаметра. Бухта 100 м; при проектировании учитывайте длину линии и расход установленных эмиттеров.</description>
+      <name>Rain Bird XFD1600-100 — глухая трубка 16 мм, 100 м</name>
+      <seo>
+        <h1>Rain Bird XFD1600-100 — глухая трубка 16 мм, 100 м</h1>
+        <metaDescription>Продажа глухой полиэтиленовой трубки Rain Bird XFD1600-100 диаметром 16 мм без встроенных капельниц, бухта 100 м. Флориал, Святой Влас.</metaDescription>
+        <metaTitle>Rain Bird XFD1600-100 — глухая трубка 16 мм… | Святой Влас | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Глухая полиэтиленовая трубка 16 мм без встроенных эмиттеров, бухта 100 м.</shortDescription>
+      <specifications>
+        <_key>spec0</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFD1600-100</value>
+      </specifications>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XFD</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Глухая полиэтиленовая трубка для капельной системы</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>капельный полив, глухая трубка, 16 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Длина бухты</name>
+        <value>100 м</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр</name>
+        <value>16,1 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Внутренний диаметр</name>
+        <value>13,6 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Толщина стенки</name>
+        <value>1,2 мм</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Применение</name>
+        <value>Глухая трубка для подающей линии и соединения капельных линий</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Полиэтилен, устойчивый к УФ-излучению</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Фитинги для капельной трубки с наружным диаметром 16 мм</value>
+      </specifications>
+      <specifications>
+        <_key>more4</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>До 4,1 бар (для модели XFD1600-100; учитывайте ограничения всех компонентов системы)</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Минимальный радиус изгиба</name>
+        <value>Около 7,6 см без перегиба</value>
+      </specifications>
+      <specifications>
+        <_key>spec14</_key>
+        <_type>productSpec</_type>
+        <name>Цвет</name>
+        <value>Коричневый внешний слой, чёрный внутренний слой</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>5.897</weightKg>
+</document>
+Found document "fb4c4f20-4299-41fb-97ce-badb13b04eac": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>fb4c4f20-4299-41fb-97ce-badb13b04eac</_id>
+  <_rev>rOW11EP0h6V5YhExSWWPB8</_rev>
+  <_system>
+    <base>
+      <id>fb4c4f20-4299-41fb-97ce-badb13b04eac</id>
+      <rev>1qyPYQSEDVHtpwb6uBSfQl</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:23:29Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-tubes</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird PCD-2333-100 е капкова тръба с интегрирани компенсиращи капкообразуватели за напояване на живи плетове, храсти, лехи и редови насаждения. Компенсацията на налягането подпомага равномерния дебит по дължината на линията при подходящи работни условия. Ролката е 100 m. За надеждна работа използвайте филтрация, съобразена с изискванията на капковата система, и спазвайте допустимия диапазон на налягането за конкретния модел.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>pcd-lifestyle</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-32efdacc2f338aeeaa3151de3604f2b6e5e7ee69-1425x930-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>pcd-emitter</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-017bd62d3ebcc23dc21207fcec2b14521f52c977-3262x3502-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>pcd-application</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-26ba277ba7dca81717f4c70fd9824b29332a14dc-3600x1943-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>pcd-detail</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-c5a462e338ccde497ee66b4d5ddff06617a785a9-2773x4461-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird PCD-2333-100 — компенсираща капкова тръба, 100 m</alt>
+    <altEn>Rain Bird PCD-2333-100 — pressure-compensating dripline, 100 m</altEn>
+    <altRu>Rain Bird PCD-2333-100 — компенсированная капельная трубка, 100 м</altRu>
+    <asset>
+      <_ref>image-b3b56f3030405c7541d2992107c731e2bfdaf6d3-2915x2915-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-c352d12959d40fc011ac4026d0e795d3e99cef7e-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird PCD-2333-100 — компенсираща капкова тръба, 100 m</name>
+  <priceEUR>114.24</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGd1m2</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBMdv</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBMhb</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBMlH</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBMox</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBMsd</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird PCD-2333-100 — компенсираща капкова тръба, 100 m</h1>
+    <metaDescription>Продажба на компенсираща капкова тръба Rain Bird PCD-2333-100, 100 m, с капкообразуватели за равномерно подаване на вода. Флориал, Равда.</metaDescription>
+    <metaTitle>Rain Bird PCD-2333-100 — компенсираща капкова тръба, 100 m | Равда</metaTitle>
+  </seo>
+  <shortDescription>Капкова тръба с компенсиращи капкообразуватели за равномерно подаване на вода.</shortDescription>
+  <sku>X44402</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-pcd-2333-100</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>PCD-2333-100</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>PCD</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Компенсираща капкова тръба</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>pcd, dripline, pressure-compensating, 16mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Дължина на ролката</name>
+    <value>100 m</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър</name>
+    <value>15,9 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Вътрешен диаметър</name>
+    <value>13,61 mm</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Дебит на капкообразувател</name>
+    <value>2,3 l/h</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Разстояние между капкообразувателите</name>
+    <value>33 cm</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>0,58–4,14 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Филтрация</name>
+    <value>Препоръчителен филтър 120 mesh</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Тип капкообразувателя</name>
+    <value>Вграден, компенсиращ налягането</value>
+  </specifications>
+  <specifications>
+    <_key>audit13</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Капково напояване на редови насаждения и жив плет</value>
+  </specifications>
+  <specifications>
+    <_key>audit14</_key>
+    <_type>productSpec</_type>
+    <name>Устойчивост</name>
+    <value>UV-устойчив полиетилен за външен монтаж</value>
+  </specifications>
+  <specifications>
+    <_key>pcdwall114</_key>
+    <_type>productSpec</_type>
+    <name>Дебелина на стената</name>
+    <value>1,14 mm</value>
+  </specifications>
+  <specifications>
+    <_key>pcdwatertemp378</_key>
+    <_type>productSpec</_type>
+    <name>Максимална температура на водата</name>
+    <value>До 37,8 °C</value>
+  </specifications>
+  <specifications>
+    <_key>pcdambient517</_key>
+    <_type>productSpec</_type>
+    <name>Максимална температура на околната среда</name>
+    <value>До 51,7 °C</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird PCD-2333-100 is a dripline with integrated pressure-compensating emitters for hedges, shrubs, beds and row planting. Pressure compensation helps maintain more uniform emitter flow along the line under suitable operating conditions. Supplied as a 100 m roll. Use filtration appropriate to the drip system and observe the operating-pressure range for the specific model.</description>
+      <name>Rain Bird PCD-2333-100 — pressure-compensating dripline, 100 m</name>
+      <seo>
+        <h1>Rain Bird PCD-2333-100 — pressure-compensating dripline, 100 m</h1>
+        <metaDescription>For sale: Rain Bird PCD-2333-100, 100 m pressure-compensating dripline with emitters for uniform water delivery. Florial, Ravda.</metaDescription>
+        <metaTitle>Rain Bird PCD-2333-100 — pressure-compensating… | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Dripline with pressure-compensating emitters for uniform water delivery.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>PCD-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>PCD</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Pressure-compensating dripline</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>pcd, dripline, pressure-compensating, 16 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Coil length</name>
+        <value>100 m</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Outside diameter</name>
+        <value>15.9 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Inside diameter</name>
+        <value>13.61 mm</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Emitter flow rate</name>
+        <value>2.3 L/h</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Emitter spacing</name>
+        <value>33 cm</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>0.58–4.14 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Filtration</name>
+        <value>Recommended 120-mesh filter</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Emitter type</name>
+        <value>Integrated, pressure-compensating</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Drip irrigation for row plantings and hedges</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Durability</name>
+        <value>UV-resistant polyethylene for outdoor installation</value>
+      </specifications>
+      <specifications>
+        <_key>pcdwall114</_key>
+        <_type>productSpec</_type>
+        <name>Wall thickness</name>
+        <value>1.14 mm</value>
+      </specifications>
+      <specifications>
+        <_key>pcdwatertemp378</_key>
+        <_type>productSpec</_type>
+        <name>Maximum water temperature</name>
+        <value>Up to 37.8 °C</value>
+      </specifications>
+      <specifications>
+        <_key>pcdambient517</_key>
+        <_type>productSpec</_type>
+        <name>Maximum ambient temperature</name>
+        <value>Up to 51.7 °C</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird PCD-2333-100 — капельная трубка со встроенными компенсирующими эмиттерами для живых изгородей, кустарников, клумб и рядовых посадок. Компенсация давления помогает поддерживать более равномерный расход вдоль линии при подходящих условиях работы. Бухта 100 м. Используйте фильтрацию, соответствующую требованиям капельной системы, и соблюдайте рабочий диапазон давления конкретной модели.</description>
+      <name>Rain Bird PCD-2333-100 — компенсированная капельная трубка, 100 м</name>
+      <seo>
+        <h1>Rain Bird PCD-2333-100 — компенсированная капельная трубка, 100 м</h1>
+        <metaDescription>Продажа компенсированной капельной трубки Rain Bird PCD-2333-100, 100 м, с эмиттерами для равномерной подачи воды. Флориал, Равда.</metaDescription>
+        <metaTitle>Rain Bird PCD-2333-100 — компенсированная капельная… | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Капельная трубка с компенсирующими эмиттерами для равномерной подачи воды.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>PCD-2333-100</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>PCD</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Капельная трубка с компенсацией давления</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>pcd, капельная трубка, компенсация давления, 16 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Длина бухты</name>
+        <value>100 м</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр</name>
+        <value>15,9 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Внутренний диаметр</name>
+        <value>13,61 мм</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Расход капельницы</name>
+        <value>2,3 л/ч</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Расстояние между капельницами</name>
+        <value>33 см</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>0,58–4,14 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Фильтрация</name>
+        <value>Рекомендуемый фильтр 120 mesh</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Тип капельницы</name>
+        <value>Встроенная, с компенсацией давления</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Применение</name>
+        <value>Капельный полив рядовых посадок и живых изгородей</value>
+      </specifications>
+      <specifications>
+        <_key>audit14</_key>
+        <_type>productSpec</_type>
+        <name>Устойчивость</name>
+        <value>Устойчивый к УФ-излучению полиэтилен для наружного монтажа</value>
+      </specifications>
+      <specifications>
+        <_key>pcdwall114</_key>
+        <_type>productSpec</_type>
+        <name>Толщина стенки</name>
+        <value>1,14 мм</value>
+      </specifications>
+      <specifications>
+        <_key>pcdwatertemp378</_key>
+        <_type>productSpec</_type>
+        <name>Максимальная температура воды</name>
+        <value>До 37,8 °C</value>
+      </specifications>
+      <specifications>
+        <_key>pcdambient517</_key>
+        <_type>productSpec</_type>
+        <name>Максимальная температура окружающей среды</name>
+        <value>До 51,7 °C</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>5.897</weightKg>
+</document>
+</sanity-backup>

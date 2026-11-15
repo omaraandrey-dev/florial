@@ -1,10 +1,41 @@
+## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
+
+- All 26 published products in Sanity category `nozzles` and its two child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 26/26 published and zero remaining drafts.
+- Visual QA remains open for representative VAN, HE-VAN, R-VAN and strip-nozzle pages in BG/RU/EN, including mobile layout and internal-link navigation. Google recrawl/indexing is unconfirmed.
+- Backup: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`; audit: `docs/audits/2026-11-15-nozzle-product-descriptions.md`.
+
+## 2026-11-15 — Valve product descriptions published; storefront visual check remains open
+
+- All 17 published products in Sanity category `klapani` and its 24 V / 9 V child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 17/17 published and zero remaining drafts.
+- Visual QA remains open for representative DV/DVF, HV/HVF, PGA, PEB and LFV pages in BG/RU/EN, including mobile layout and internal-link navigation. Google recrawl/indexing is unconfirmed.
+- Backup: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+
+## 2026-11-15 — Valve boxes and hydrant descriptions published; storefront visual check remains open
+
+- All 7 products in Sanity category `shahti` have expanded BG/RU/EN descriptions; Production read-back confirmed 7/7 published and zero remaining drafts.
+- Visual QA remains open for P33/P33DK, round VBA02672/VBA02673 and rectangular VBA02674/VBA02675 pages in BG/RU/EN, including mobile layout and internal-link navigation. Google recrawl/indexing is unconfirmed.
+- Backup: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+
+## 2026-11-15 — Drip-tube product descriptions published; visual QA and one specification correction remain open
+
+- All four products in `category-drip-tubes` have expanded BG/RU/EN descriptions; Production read-back confirmed all four published.
+- Visual QA remains open in BG/RU/EN on desktop/mobile, including internal-link click-through. Google recrawl/indexing is unconfirmed.
+- **Catalog data follow-up:** XFD1600-100's existing compatibility specification says generic 16 mm fittings, while Rain Bird's official XF blank-tubing documentation says it is not compatible with generic 16 mm fittings and specifies XF insert, Easy Fit compression and compatible 17 mm fittings. The description warns about this; the specification row was deliberately not changed and needs a separate review.
+- Backup: `docs/backups/sanity/2026-11-15-drip-tube-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-drip-tube-product-descriptions.md`.
+
+## 2026-11-15 — Drip-fitting product descriptions published; storefront QA remains open
+
+- All six products in `category-drip-fittings` have expanded BG/RU/EN descriptions; Production read-back confirmed 6/6 published and no remaining drafts.
+- Visual QA remains open in BG/RU/EN on desktop/mobile, including internal-link navigation. Google recrawl/indexing is unconfirmed.
+- Backup: `docs/backups/sanity/2026-11-15-drip-fitting-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-drip-fitting-product-descriptions.md`.
+
 ## 2026-11-15 — Resolved process finding: prevent shared-document PR conflicts
 
 - **Root cause identified:** PRs #283–#288 were created from the same base commit `e7ba53839775599c7a9625d8eef4b21a520efebd`. After #283 changed the top sections of `CHANGELOG.md` and `docs/AI/OPEN_QUESTIONS.md`, PRs #284–#288 remained based on the old commit and attempted overlapping top-of-file insertions; those PRs also independently edited `docs/TECHNICAL_PASSPORT.md`.
 - **Classification:** Git integration/documentation conflict. This does not indicate a conflict in published Sanity product data.
 - **Preventive rule added:** new branches must start from latest `main`; parallel tasks must not independently edit shared documentation; shared updates should be consolidated or branches synchronized sequentially; PR changed-file overlap and mergeability must be checked before opening and immediately before merge; refresh `main` after every merge.
 - Rules are now recorded in `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md` on this branch. They become authoritative for all project work after this documentation PR is merged.
-- **Current remediation status:** the older content PRs #284–#288 have not been rebased or merged as part of this process-rule change. Their diffs must be reviewed and synchronized separately before merging; preserve every unique audit and backup and all shared-document entries.
+- **Remediation status:** the content changes from PRs #284–#288 are being consolidated in integration PR #290, based on the current main. All unique audits and backup blobs are carried over unchanged; shared-document entries are integrated once. The original PRs will be closed as superseded only after the consolidated PR is verified and merged.
 
 ## 2026-11-15 — Sprinkler product descriptions published; storefront visual check remains open
 
