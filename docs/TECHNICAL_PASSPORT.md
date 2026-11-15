@@ -1,3 +1,12 @@
+## 2026-11-15 — TypeScript coverage and CI gates added (PR #299)
+
+- `main` merge commit: `e2329572f8af211a109434a8d9807610e59b7926`.
+- Root `npm run typecheck` now checks the Vite/React application and Cloudflare Pages Functions. Sanity Studio has its own `studio/tsconfig.json` and `npm run typecheck`.
+- `.github/workflows/blog-studio.yml` runs both type checks for PRs to `main` and pushes to `main`, alongside existing lint, 167-test suite, Vite build, migration checks/dry-run and Studio build.
+- Exact PR-head CI succeeded: Blog and Studio #1315, Sanity Studio #170, D1 validation #1644. Cloudflare Pages Production deployment `a9588c4c-cc85-46fa-b3c8-4d8f7e3e2e36` succeeded for this exact merge SHA and aliases `florial-bg.com` / `www.florial-bg.com`.
+- No dependency upgrades or lockfile changes. TypeScript strict mode remains explicitly non-strict to preserve existing compiler behavior; full strict migration and React runtime/types major alignment are separate follow-ups.
+- Detailed record: `docs/audits/2026-11-15-typescript-ci-validation.md`.
+
 ## 2026-11-15 — Rain Bird nozzle product descriptions published
 
 - Sanity Production project `bxvcy0qs`, dataset `production`: refreshed 26 products in root category `nozzles` and child categories `spray-nozzles` / `rotator-nozzles`.
