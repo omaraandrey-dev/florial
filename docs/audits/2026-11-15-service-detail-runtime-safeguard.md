@@ -13,12 +13,13 @@ Investigate the owner-reported failure where opening any individual service page
 - Browser Rendering against the first Preview caught the service component's actual render exception: `direction is not defined`.
 - Root cause confirmed in `src/pages/ServicePage.tsx`: `direction` was declared inside the SEO `useEffect`, but also referenced by the breadcrumb JSX outside that effect. TypeScript/Vite build did not type-check this scope error, so the normal build passed while the browser component crashed.
 - The unguarded `crypto.randomUUID()` was a separate compatibility hazard and has also been hardened; it was not the exception observed in the Preview.
+- A second route-level defect affected the four new `/services/category/{slug}` specialist pages: the Pages Middleware only resolved two-segment Sanity document routes and sent these three-segment SPA routes to its 404 handler.
 
 ## Changes in this hotfix
 
 - Generate the lead idempotency key using `crypto.randomUUID` when supported, otherwise use `crypto.getRandomValues`, with a final non-cryptographic fallback so the page itself does not fail to mount.
 - Wrap the individual service page in a localized React error boundary. Unexpected render failures now show a recovery screen with navigation to the homepage rather than an empty page; the exception is logged to the browser console.
-- Add regression checks for both safeguards.
+- Add regression checks for the render-scope fix, error boundary, idempotency key compatibility and specialist route fallback.
 
 ## Safety
 
@@ -30,6 +31,8 @@ Investigate the owner-reported failure where opening any individual service page
 ## Verification status
 
 - Root-cause attribution: confirmed by the Preview browser's exact exception `direction is not defined`.
-- Latest automated checks and Preview deployment: pending CI on the final PR head.
-- Direct owner-device QA: still required after Production release; the owner's browser is not accessible from this environment.
+- Preview deployment for final implementation head `4dc95435a57ce562e3028cefa8a93f327b3d5bd4`: success.
+- Browser Rendering smoke tests on that Preview returned HTTP 200 with page content and no error fallback for individual services `avtomatichno-napoyavane` (BG/RU/EN), `landshaften-dizain`, `zasazhdane-na-rasteniya`, `rulonna-treva`; all four specialist direction routes also returned HTTP 200 with their expected localized H1/content.
+- CI on final head: D1 migration validation success; Blog and Studio validation website lint, utility tests, website build and migration dry-run passed; Studio build was still running at the time of this audit update.
+- Direct owner-device QA: still recommended after Production release; the owner's browser is not accessible from this environment.
 - Shared documentation updates are deferred to the next synchronized integration pass to avoid conflicts with the existing documentation PR batch.
