@@ -436,8 +436,18 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
       alternates: baseUrl ? alternates : undefined,
     })
 
+    const directionByCategory: Record<string, { slug: string; title: Record<string, string> }> = {
+      landscaping: { slug: 'landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' } },
+      irrigation: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+      maintenance: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+      delivery: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+      planting: { slug: 'gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' } },
+      lawn: { slug: 'trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' } },
+    }
+    const direction = directionByCategory[service.serviceCategory || '']
     if (baseUrl) {
       const serviceUrl = new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString()
+      const directionUrl = direction ? new URL(localizedHref(`/services/category/${direction.slug}`, language), window.location.origin).toString() : undefined
       setStructuredData('service', {
         '@context': 'https://schema.org',
         '@type': 'Service',
@@ -463,7 +473,8 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
           { '@type': 'ListItem', position: 2, name: language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги', item: new URL(localizedHref('/services', language), window.location.origin).toString() },
-          { '@type': 'ListItem', position: 3, name: localizedName, item: new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
+          ...(direction && directionUrl ? [{ '@type': 'ListItem', position: 3, name: direction.title[language] || direction.title.bg, item: directionUrl }] : []),
+          { '@type': 'ListItem', position: direction && directionUrl ? 4 : 3, name: localizedName, item: new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString() },
         ],
       })
     }
@@ -494,6 +505,12 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
           <a href={localizedHref('/', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}</a>
           <span aria-hidden="true">/</span>
           <a href={localizedHref('/services', language)} className="hover:text-emerald-700 no-underline">{language === 'ru' ? 'Все услуги' : language === 'en' ? 'All services' : 'Всички услуги'}</a>
+          {direction && (
+            <>
+              <span aria-hidden="true">/</span>
+              <a href={localizedHref(`/services/category/${direction.slug}`, language)} className="hover:text-emerald-700 no-underline">{direction.title[language] || direction.title.bg}</a>
+            </>
+          )}
           <span aria-hidden="true">/</span>
           <span aria-current="page" className="font-medium text-slate-700">{localize(service, 'name')}</span>
         </nav>
