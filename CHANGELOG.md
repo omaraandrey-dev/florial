@@ -6,7 +6,7 @@
 - Added all four routes with BG/RU/EN alternates to the XML sitemap.
 - Sanity Production read-only check (project `bxvcy0qs`, dataset `production`, published perspective) returned 22 active services. Existing category values support the four directions; irrigation includes `irrigation`, `maintenance` and `delivery`, while gardener uses `planting`.
 - No Sanity documents, schema, assets, existing service content, Header, main menu, Footer, D1, Manager, Resend or Cloudflare settings were changed.
-- Implementation branch: `feat/service-specialist-landing-pages`. Automated checks, PR CI, Production deployment, live route/visual QA and Google indexing remain pending. Detailed audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
+- Implementation branch: `feat/service-specialist-landing-pages`. PR CI run #1232: website lint, utility tests and Vite build passed; Pages Functions syntax and read-only migration checks passed. D1 validation run #1564 succeeded. Sanity Studio build was still running at the last check. Production deployment, live route/visual QA and Google indexing remain pending. Landing-page copy currently lives in source code, not Sanity Studio; a Studio-managed content model would require separate approval. Detailed audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
 
 ## 2026-11-15 — Rain Bird nozzle product descriptions expanded and published
 
