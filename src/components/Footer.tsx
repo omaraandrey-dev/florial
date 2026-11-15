@@ -1,4 +1,3 @@
-import React from 'react'
 import { useI18n } from '../lib/i18n'
 import { localizedHref } from '../lib/navigation'
 import { trackEvent } from '../services/trackingService'
