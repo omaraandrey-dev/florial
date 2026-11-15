@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react'
+import * as Sentry from '@sentry/react'
 import { sanityClient, sanityLiveClient, plantsClient, publicPlantsClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
@@ -130,6 +131,7 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
   }
 
   componentDidCatch(error: Error) {
+    Sentry.captureException(error)
     console.error('Service page failed to render:', error)
   }
 
