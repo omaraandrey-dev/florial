@@ -3,7 +3,7 @@
 - Published `seoContent` for `plants-flowers` (`tsvetya-i-rozi`) in BG/RU/EN, 27 Portable Text blocks per locale, emphasizing own greenhouse growing and ongoing planting/new-batch assortment renewal.
 - Exact pre-write backup: `docs/backups/sanity/2026-11-15-plants-flowers-before-seo-content.json`.
 - Published Sanity read-back confirmed content and preserved H1/SEO metadata. Schema validator status valid but incomplete because custom callbacks were not run.
-- Pending: verify rendered live page in a browser and monitor Google recrawl/indexing. No code or Production deployment change.
+- Bulgarian Production rendering is confirmed via Cloudflare Browser Rendering, including the greenhouse section. RU/EN checks were rate-limited (HTTP 429) and remain pending. Google recrawl/indexing is not confirmed. No code or Production deployment change.
 ## 2026-11-15 — Irrigation services restored as two separate published pages
 
 - Completed in Sanity Production: original `avtomatichno-napoyavane` service restored from backup and new design service published at `proektirane-sistemi-avtomatichno-napoyavane-nesebar`.
