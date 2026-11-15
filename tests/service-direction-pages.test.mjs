@@ -27,7 +27,7 @@ test('service direction routes load the directory and do not fall through to ser
 
 test('service details include their specialist page in visual and JSON-LD breadcrumbs', async () => {
   const detail = await read('../src/pages/ServicePage.tsx')
-  assert.match(detail, /directionByCategory/)
+  assert.match(detail, /SERVICE_DIRECTION_BY_CATEGORY/)
   assert.match(detail, /services\/category\//)
   assert.match(detail, /position: direction && directionUrl \? 4 : 3/)
   assert.match(detail, /direction\.title\[language\]/)
