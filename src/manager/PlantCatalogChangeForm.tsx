@@ -4,11 +4,11 @@ import type { PlantCategory } from './plantCategories'
 
 type Variant = { _key: string; name?: string; priceEUR?: number; saleHeightCm?: number; containerVolumeL?: number }
 type Plant = { _id: string; _rev: string; name: string; scientificName?: string; sku?: string; categoryId?: string; saleVariants?: Variant[] }
-type CategoryNode = PlantCategory & { parent?: { _id: string; name: string; parent?: { _id: string; name: string } | null } | null }
+
 type Props = { accessToken: string; canAddVariant: boolean; canEditPrice: boolean; initialMode: 'variant' | 'price'; categories: PlantCategory[]; onSubmitted: () => void; onBack: () => void }
 const field = 'mt-1 w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 const label = 'block text-sm font-semibold text-stone-700'
-const categoryId = (item: PlantCategory) => item._id
+
 function collectCategoryIds(id: string, children: Map<string, PlantCategory[]>): string[] {
   return [id, ...(children.get(id) || []).flatMap((item) => collectCategoryIds(item._id, children))]
 }
