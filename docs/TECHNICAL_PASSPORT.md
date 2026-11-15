@@ -1,3 +1,12 @@
+## 2026-11-15 — Rain Bird nozzle product descriptions published
+
+- Sanity Production project `bxvcy0qs`, dataset `production`: refreshed all 26 products in root category `nozzles` (`ad3914b4-5ab0-49e3-868a-52621c4654a7`) and child categories `spray-nozzles` (`6534adc5-78f7-4276-bbdd-2843ef30420e`) and `rotator-nozzles` (`6690848d-a4a5-4386-b9ae-5f63604914b1`).
+- Localized description fields updated: Bulgarian `description`, Russian `translations.ru.formattedDescription`, English `translations.en.formattedDescription`. Total: 78 descriptions. Each has five H2 sections, four strong spans and two internal links.
+- Product families: VAN 7, HE-VAN 4, R-VAN 9, fixed-pattern strip nozzles 6. Existing product specifications and all other catalog fields were preserved.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`. Detailed evidence: `docs/audits/2026-11-15-nozzle-product-descriptions.md`.
+- Sanity validation: 26/26 valid; incomplete status only reflects custom validation callbacks not executed by the validation tool. Revision-guarded publication and Production read-back confirmed 26/26 published and zero remaining drafts.
+- No code, schema, SEO metadata, category relationships, sitemap/RSS, analytics, Cloudflare, D1, Resend or Pages deployment changes. Visual storefront QA and Google recrawl remain unconfirmed.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
