@@ -54,6 +54,6 @@ Implemented four dedicated, localized service-direction landing pages and insert
 - GitHub source review: completed on the feature branch.
 - Sanity Production service classification: read-only query completed; 22 records returned.
 - PR CI on code commit `a8356c6766d0df2fa9d34349263e16dd1d245d16`: website lint passed; website utility tests passed (including the new specialist-page tests); Vite build passed; Pages Functions syntax and read-only D1 migration checks passed. D1 workflow run `43722398178` completed successfully.
-- Blog and Studio validation run `43722398074`: website lint/tests/build and migration dry-run steps passed; Sanity Studio dependency install completed; Studio build was still running at the last check.
+- Blog and Studio validation run `43722398074` completed successfully: website lint/tests/build, migration dry-run and Sanity Studio build all passed.
 - Production deployment, live route smoke tests, metadata/canonical/hreflang verification, mobile visual QA and Google indexing remain unconfirmed.
 - **Content ownership note:** the new localized editorial copy currently lives in the source-controlled React component, not Sanity Studio. No new Sanity document type or schema was added. If the owner wants to edit these landing-page articles in Studio, that requires a separate approved additive schema/content-model change.
