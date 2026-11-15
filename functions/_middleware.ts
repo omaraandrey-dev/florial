@@ -587,7 +587,7 @@ function localizedRouteUrl(path: string, language: string): string {
   return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name, plantProducts?: SeoPlantProduct[]): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
   // Category hero imagery is rendered responsively by the client app.
   // Do not emit a raw fallback <img> for categories: it is downloaded before
   // the responsive desktop-only category hero CSS can hide it on mobile.
