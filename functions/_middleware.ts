@@ -613,7 +613,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language as 'bg' | 'ru' | 'en', SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -642,7 +642,7 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
   }
 }
 
-function makeServiceJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
+function makeServiceJsonLd(doc: Pick<SeoDocument, 'serviceCategory'>, name: string, description: string, url: string): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -1125,7 +1125,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const brand = language === 'bg' ? 'Флориал' : 'Florial'
       const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
       const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
-      const noIndex = seo?.noIndex === true || categorySeo?.noIndex === true
+      const noIndex = seo?.noIndex === true
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, language)
