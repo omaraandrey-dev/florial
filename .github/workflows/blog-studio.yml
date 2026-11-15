@@ -44,6 +44,9 @@ jobs:
       - name: Install Studio dependencies
         working-directory: studio
         run: npm ci
+      - name: Type-check Studio
+        working-directory: studio
+        run: npm run typecheck
       - name: Build Studio
         working-directory: studio
         run: npm run build
