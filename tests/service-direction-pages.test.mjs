@@ -46,3 +46,36 @@ test('specialist pages are included in the multilingual sitemap', async () => {
     assert.ok(sitemap.includes(`services/category/${slug}`), `sitemap missing ${slug}`)
   }
 })
+
+test('service direction Sanity GROQ projections are structurally balanced for every locale', async () => {
+  const app = await read('../src/App.tsx')
+  const match = app.match(/const serviceDirectionQuery = `([\\s\\S]*?)`/)
+  assert.ok(match, 'missing serviceDirectionQuery template literal')
+  const query = match[1]
+
+  assert.equal((query.match(/sections\\[\\]\\{/g) || []).length, 3, 'expected one sections projection per locale')
+  assert.equal((query.match(/markDefs\\[\\]\\{/g) || []).length, 3, 'expected one Portable Text markDefs projection per locale')
+
+  const stack = []
+  const closing = { '}': '{', ']': '[', ')': '(' }
+  let quote = null
+  let escaped = false
+  for (const char of query) {
+    if (quote) {
+      if (escaped) escaped = false
+      else if (char === '\\\\') escaped = true
+      else if (char === quote) quote = null
+      continue
+    }
+    if (char === '"' || char === "'") {
+      quote = char
+      continue
+    }
+    if (char === '{' || char === '[' || char === '(') stack.push(char)
+    else if (char === '}' || char === ']' || char === ')') {
+      assert.equal(stack.pop(), closing[char], `unbalanced GROQ delimiter before ${char}`)
+    }
+  }
+  assert.equal(quote, null, 'unterminated string in serviceDirectionQuery')
+  assert.deepEqual(stack, [], 'serviceDirectionQuery contains unclosed GROQ delimiters')
+})
