@@ -1,3 +1,11 @@
+## 2026-11-15 — Service specialist landing pages: Sanity content model prepared
+
+- PR #292 now adds an additive `serviceDirection` schema type to `studio/schemaTypes/index.ts` in the existing `florial-admin` workspace. It models four direction keys, related service categories, optional hero media, and localized BG/RU/EN H1, metadata, intro, Portable Text sections, FAQs and UI labels.
+- Existing Sanity document types and published records are not modified. No new Sanity Production documents have been created yet.
+- The type is present only in the feature branch until PR #292 is merged; the canonical Studio deployment has not run. The frontend currently renders the editorial content from source code and is not yet wired to query `serviceDirection` documents.
+- CI for commit `0533f085b01367dc00cfcc1c3e6d3ce193b71fbc` passed website lint/tests/build, Pages Functions syntax, read-only D1 validation and Sanity Studio build. PR: `https://github.com/omaraandrey-dev/florial/pull/292`.
+- Pending: merge/release approval, Studio schema deployment, create and publish four new documents, wire frontend to Sanity, and verify BG/RU/EN routes, breadcrumbs, sitemap and mobile rendering.
+
 ## 2026-11-15 — Four localized service specialist landing pages added
 
 - Added four dedicated pages for landscape architecture, irrigation systems, gardening/planting and lawns, with unique BG/RU/EN copy, localized metadata, practical article sections, FAQs, service cards and BreadcrumbList/CollectionPage structured data.
