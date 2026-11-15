@@ -1,3 +1,9 @@
+## 2026-11-15 — Flower subcategory SEO publication and catalog follow-ups
+
+- Published BG/RU/EN SEO footer content (27 blocks / 9 H2 per locale) for all four Sanity child categories of `plants-flowers`: `plants-perennials`, `plants-seasonal-flowers`, `plants-groundcovers`, `plants-ornamental-grasses`.
+- Live BG rendering verified for all four; RU seasonal and EN perennial rendering also verified. Google indexing/recrawl remains unconfirmed.
+- Catalog review needed before any correction: `plants-groundcovers` currently has zero linked products; `plants-ornamental-grasses` currently references `tree-laurel` (`Laurus nobilis`, `productType: tree`), which appears inconsistent with the category label. No product or relationship data changed.
+- Pre-write backup and detailed evidence: `docs/backups/sanity/2026-11-15-flower-subcategories-before-seo-content.json`, `docs/audits/2026-11-15-flower-subcategories-seo.md`.
 ## 2026-11-15 — Irrigation services restored as two separate published pages
 
 - Completed in Sanity Production: original `avtomatichno-napoyavane` service restored from backup and new design service published at `proektirane-sistemi-avtomatichno-napoyavane-nesebar`.
