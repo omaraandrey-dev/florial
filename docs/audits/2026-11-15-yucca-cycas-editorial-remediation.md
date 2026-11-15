@@ -10,9 +10,9 @@ Published the explicitly approved editorial corrections for three existing plant
 
 | Product | Sanity ID | URL | Published revision |
 |---|---|---|---|
-| Yucca rostrata | `palm-yucca-rostrata` | `/product/yucca-rostrata` | `mCiJ6j1PmqLVq15csfbAQv` |
+| Yucca rostrata | `palm-yucca-rostrata` | `/product/yucca-rostrata` | `VWXvaWDagJu6vWTEQoOrap` |
 | Cycas A | `ac0fa4a7-54fd-4149-b0af-aa9759867ec5` | `/product/tsyaka-tsikas` | `mCiJ6j1PmqLVq15csfbAQv` |
-| Cycas B | `palm-cycas` | `/product/cycas-revoluta` | `mCiJ6j1PmqLVq15csfbAQv` |
+| Cycas B | `palm-cycas` | `/product/cycas-revoluta` | `VWXvaWDagJu6vWTEQoOrap` |
 
 ## Changes published
 
