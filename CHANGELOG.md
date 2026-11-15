@@ -1,3 +1,13 @@
+## 2026-11-15 — Automatic irrigation design service published and verified (PR #272)
+
+- Updated the existing Sanity service document `04c7ab3b-1888-41cb-9917-6b9014cd1ac3`, slug `avtomatichno-napoyavane`; no duplicate service was created.
+- Published BG/RU/EN service content and localized SEO. The live Sanity Production document has revision `rOW11EP0h6V5YhExSZoYWu`, `isActive: true`, and `noIndex: false` in all three locales.
+- Hero illustration plus five inline illustrations are stored in Sanity Production. Each has BG/RU/EN ALT text. Inline markers map to intro/design, pipe routing, equipment, automation and estimate sections. The extra user-supplied desk/specification image was not required; the selected images cover the five illustrated sections.
+- Added cross-links to sprinkler, controller and drip-irrigation categories; Rain Bird 5004PC30 rotor sprinkler; Rain Bird ESP-RC2I8-230 Wi-Fi controller; related installation, drip-irrigation and repair services; and the installation stages, cost and Rain Bird blog posts. The five related Sanity documents were confirmed published/active.
+- PR #272 merged as commit `24e03b9cdb7b15dfac829e01b4973b104f7cd937`. GitHub Actions run `43679847008` completed successfully. Cloudflare Pages Production deployment `98119333-135d-4db9-9a0c-7a4dfc8dada3` built and deployed successfully for the same commit on 2026-11-15.
+- Cloudflare Browser Rendering confirmed live BG metadata, canonical and hreflang in the rendered HTML; EN returned HTTP 200 with the expected localized title, description, canonical, H1 and H2 sequence. RU rendering returned the expected title, description, canonical, H1 and localized H2 sequence, although the browser JSON extractor returned an incomplete structured response (422); the underlying Sanity document is published and contains the full RU text.
+- A direct live visual review on a human-sized browser/device was not completed in this run. Google indexing/recrawl is not confirmed.
+- Scope: existing `ServicePage.tsx` image marker mapping and service content. No schema, navigation, Header, menu, Footer, D1, Manager, secrets or Cloudflare settings were changed.
 ## 2026-11-14 — Palm category GSC page totals and source-level SEO rendering check
 
 - A page-only GSC report for `/category/palmi-yuki` returned 5 impressions / 0 clicks over the last-28-day preset: BG base URL 1 impression (avg position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). The query-level report returned no visible query strings for this category; do not report zero total impressions.
