@@ -1,0 +1,2377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Full get_document snapshots from Sanity project bxvcy0qs / production, captured before any write. -->
+<snapshot documentId="65b12add-bc1d-42fd-a3ec-8180a1ee8cb9">
+Found document "65b12add-bc1d-42fd-a3ec-8180a1ee8cb9": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>65b12add-bc1d-42fd-a3ec-8180a1ee8cb9</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTesB</_rev>
+  <_system>
+    <base>
+      <id>65b12add-bc1d-42fd-a3ec-8180a1ee8cb9</id>
+      <rev>rOW11EP0h6V5YhExSWQUQQ</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:14:06Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird P33 е пластмасов хидрант за подземно изграждане в поливна система. Осигурява достъп до вода за свързване на маркуч или обслужване на градината, без да е необходимо постоянно видим кран над терена. Каталожните параметри посочват връзка 3/4″ с външна резба, дебит до 5,0 m³/h и налягане до 6,2 bar. Монтира се в подходяща шахта и трябва да бъде свързан към тръбопровод с подходящ диаметър.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryp33photo20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-7e0b11b5edc538fb1a3de84f4de73b35ebc7c7c2-500x500-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird P33 — пластмасов хидрант 3/4″</alt>
+    <altEn>Rain Bird P33 — 3/4″ plastic quick-coupling valve</altEn>
+    <altRu>Rain Bird P33 — пластиковый гидрант 3/4″</altRu>
+    <asset>
+      <_ref>image-8beb9638d2637b14a6db753c3dc7ade6bbe95c90-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird P33 — пластмасов хидрант 3/4″</name>
+  <priceEUR>33.19</priceEUR>
+  <relatedContent>
+    <_key>I3YKJCwIjHh6NxfePXX6Fi</_key>
+    <_ref>9f8a5130-49e8-4d34-9f76-c6124503fb5d</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>TuqhzucigY4bXnFIkW1id5</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>TuqhzucigY4bXnFIkW1ihE</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>TuqhzucigY4bXnFIkW1ilN</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>TuqhzucigY4bXnFIkW1ipW</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>TuqhzucigY4bXnFIkW1itf</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird P33 — пластмасов хидрант 3/4″</h1>
+    <metaDescription>Rain Bird P33 — пластмасов хидрант 3/4″ за автоматично поливане. Оборудване за поливни системи в района на Равда.</metaDescription>
+    <metaTitle>Rain Bird P33 — пластмасов хидрант 3/4″ | Равда</metaTitle>
+  </seo>
+  <shortDescription>Подземен пластмасов хидрант 3/4″ за удобно свързване на градински маркуч.</shortDescription>
+  <sku>LP3300</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-p33-hidrant</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>P33</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>P33 Quick Coupling Valves</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Пластмасов хидрант за бързо свързване</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>p33, quick coupling valve, hydrant</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на връзката</name>
+    <value>¾″</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Водочерпене от подземната напоителна мрежа чрез ключ Rain Bird P-33DK</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Монтаж</name>
+    <value>Вграден в напоителната система</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Пластмаса</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Максимално работно налягане</name>
+    <value>6,2 bar</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>13,8 cm</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Входна резба</name>
+    <value>3/4″ външна резба</value>
+  </specifications>
+  <specifications>
+    <_key>spec12</_key>
+    <_type>productSpec</_type>
+    <name>Клетка на клапана</name>
+    <value>Delrin™</value>
+  </specifications>
+  <specifications>
+    <_key>spec13</_key>
+    <_type>productSpec</_type>
+    <name>Пружина</name>
+    <value>Неръждаема стомана</value>
+  </specifications>
+  <specifications>
+    <_key>spec14</_key>
+    <_type>productSpec</_type>
+    <name>Уплътнение</name>
+    <value>O-пръстен; капакът се фиксира върху корпуса за защита от замърсяване</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird P33 is a plastic hydrant designed for installation in an underground irrigation system. It provides access to water for a hose connection or garden maintenance without leaving a permanently exposed tap above ground. Catalogue specifications list a 3/4″ male outlet, flow up to 5.0 m³/h and pressure up to 6.2 bar. Install in a suitable valve box and connect to appropriately sized pipework.</description>
+      <name>Rain Bird P33 — 3/4″ plastic quick-coupling valve</name>
+      <seo>
+        <h1>Rain Bird P33 — 3/4″ plastic quick-coupling valve</h1>
+        <metaDescription>For sale: Rain Bird P33 underground ¾″ plastic quick-coupling valve for connecting a garden hose to the water supply. Florial, Ravda.</metaDescription>
+        <metaTitle>Rain Bird P33 ¾″ quick-coupling valve | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Underground 3/4″ plastic hydrant for convenient garden hose connection.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>P33</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>P33 Quick Coupling Valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Plastic quick-coupling hydrant</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>p33, quick coupling valve, hydrant</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Water access from the underground irrigation network using a Rain Bird P-33DK key</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Installation</name>
+        <value>Installed in the irrigation system</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Plastic</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Maximum working pressure</name>
+        <value>6.2 bar</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>13.8 cm</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Inlet thread</name>
+        <value>3/4″ male thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Valve cage</name>
+        <value>Delrin™</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Spring</name>
+        <value>Stainless steel</value>
+      </specifications>
+      <specifications>
+        <_key>spec14</_key>
+        <_type>productSpec</_type>
+        <name>Seal</name>
+        <value>O-ring; cap locks onto the body to help keep out debris</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird P33 — пластиковый гидрант для установки в подземной системе полива. Обеспечивает доступ к воде для подключения шланга или обслуживания сада без постоянно выступающего над землёй крана. По каталогу: выходная наружная резьба 3/4″, расход до 5,0 м³/ч, давление до 6,2 бар. Устанавливается в подходящую шахту и подключается к трубопроводу соответствующего диаметра.</description>
+      <name>Rain Bird P33 — пластиковый гидрант 3/4″</name>
+      <seo>
+        <h1>Rain Bird P33 — пластиковый гидрант 3/4″</h1>
+        <metaDescription>Продажа подземного пластикового гидранта Rain Bird P33 ¾″ для подключения садового шланга к водопроводу. Флориал, Равда.</metaDescription>
+        <metaTitle>Rain Bird P33 ¾″ — подземный гидрант | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Подземный пластиковый гидрант 3/4″ для подключения садового шланга.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>P33</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>P33 Quick Coupling Valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Пластиковый гидрант быстрого подключения</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>p33, quick coupling valve, hydrant</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Размер соединения</name>
+        <value>¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Забор воды из подземной системы полива с помощью ключа Rain Bird P-33DK</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Монтаж</name>
+        <value>Встраивается в систему полива</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Пластик</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Максимальное рабочее давление</name>
+        <value>6,2 бар</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>13,8 см</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Входная резьба</name>
+        <value>Наружная резьба 3/4″</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Клапанная клетка</name>
+        <value>Delrin™</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Пружина</name>
+        <value>Нержавеющая сталь</value>
+      </specifications>
+      <specifications>
+        <_key>spec14</_key>
+        <_type>productSpec</_type>
+        <name>Уплотнение</name>
+        <value>O-ring; крышка фиксируется на корпусе для защиты от загрязнений</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.5</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="f9508163-0841-4928-af40-275cef2da2a6">
+Found document "f9508163-0841-4928-af40-275cef2da2a6": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>f9508163-0841-4928-af40-275cef2da2a6</_id>
+  <_rev>rOW11EP0h6V5YhExSWWPB8</_rev>
+  <_system>
+    <base>
+      <id>f9508163-0841-4928-af40-275cef2da2a6</id>
+      <rev>1qyPYQSEDVHtpwb6uBSfQl</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:23:29Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird P33DK е специализиран ключ за отваряне и затваряне на съвместим хидрант P33. Използва се за достъп до водата при поливане с маркуч и за обслужване на градински площи. Ключът е предназначен за работа със съответния модел хидрант; проверете съвместимостта преди монтаж или подмяна.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryp33dk20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-5c94df65d2daa380d482458baddd019a47249dcb-800x800-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird P33DK — ключ за хидрант P33</alt>
+    <altEn>Rain Bird P33DK — key for P33 hydrant</altEn>
+    <altRu>Rain Bird P33DK — ключ для гидранта P33</altRu>
+    <asset>
+      <_ref>image-2c59c04070d3c3da8e521e9e5bcf53b67b27a209-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird P33DK — ключ за хидрант P33</name>
+  <priceEUR>6.87</priceEUR>
+  <relatedContent>
+    <_key>I3YKJCwIjHh6NxfePXXNKo</_key>
+    <_ref>f308f26a-b12c-4975-93f5-6089144ceab6</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfa8</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQffB</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfkE</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfpH</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfuK</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird P33DK — ключ за хидрант P33</h1>
+    <metaDescription>Продажба на ключ Rain Bird P33DK за задействане на подземен хидрант P33 с изход ¾″. Флориал, Слънчев бряг.</metaDescription>
+    <metaTitle>Rain Bird P33DK — ключ за хидрант P33 | Слънчев бряг</metaTitle>
+  </seo>
+  <shortDescription>Ключ за задействане на хидрант P33 с изход 3/4″.</shortDescription>
+  <sku>LP3310</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-p33dk-klyuch</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>P33DK</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>P33 Quick Coupling Valves</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Ключ за хидрант P33</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>p33dk, hydrant key, quick coupling</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Хидрант Rain Bird P33</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Отваряне на клапана на хидранта и свързване на маркуч</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Тип аксесоар</name>
+    <value>Ключ за бързосъединителен хидрант</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>18,0 cm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Входна резба</name>
+    <value>3/4″ вътрешна резба</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Изходна резба</name>
+    <value>3/4″ външна резба</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Механизъм</name>
+    <value>Завъртане и заключване</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird P33DK is a dedicated key for opening and closing a compatible P33 hydrant. It is used to access water for hose watering and garden maintenance. The key is designed for the matching hydrant model; check compatibility before installation or replacement.</description>
+      <name>Rain Bird P33DK — key for P33 hydrant</name>
+      <seo>
+        <h1>Rain Bird P33DK — key for P33 hydrant</h1>
+        <metaDescription>For sale: Rain Bird P33DK operating key for the P33 underground quick-coupling valve with a ¾″ outlet. Florial, Sunny Beach.</metaDescription>
+        <metaTitle>Rain Bird P33DK — key for P33 hydrant | Sunny Beach | Florial</metaTitle>
+      </seo>
+      <shortDescription>Operating key for the P33 hydrant with a 3/4″ outlet.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>P33DK</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>P33 Quick Coupling Valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Key for P33 hydrant</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>p33dk, hydrant key, quick coupling</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird P33 hydrant</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Opens the hydrant valve and connects a hose</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Accessory type</name>
+        <value>Quick-coupling hydrant key</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>18.0 cm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Inlet thread</name>
+        <value>3/4″ female thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Outlet thread</name>
+        <value>3/4″ male thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Mechanism</name>
+        <value>Turn and lock</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird P33DK — специальный ключ для открытия и закрытия совместимого гидранта P33. Используется для доступа к воде при поливе шлангом и обслуживании сада. Ключ предназначен для соответствующей модели гидранта; перед установкой или заменой проверьте совместимость.</description>
+      <name>Rain Bird P33DK — ключ для гидранта P33</name>
+      <seo>
+        <h1>Rain Bird P33DK — ключ для гидранта P33</h1>
+        <metaDescription>Продажа ключа Rain Bird P33DK для открытия подземного гидранта P33 с выходом ¾″. Флориал, Солнечный берег.</metaDescription>
+        <metaTitle>Rain Bird P33DK — ключ для гидранта P33 | Солнечный берег | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Ключ для открытия гидранта P33 с выходом 3/4″.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>P33DK</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>P33 Quick Coupling Valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Ключ для гидранта P33</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>p33dk, hydrant key, quick coupling</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Гидрант Rain Bird P33</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Открытие клапана гидранта и подключение шланга</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Тип аксессуара</name>
+        <value>Ключ для гидранта быстрого подключения</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>18,0 см</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Входная резьба</name>
+        <value>Внутренняя резьба 3/4″</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Выходная резьба</name>
+        <value>Наружная резьба 3/4″</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Механизм</name>
+        <value>Поворот и фиксация</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.5</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="e45dc0a0-615d-4fe6-b6e7-085436aa7cb0">
+Found document "e45dc0a0-615d-4fe6-b6e7-085436aa7cb0": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>e45dc0a0-615d-4fe6-b6e7-085436aa7cb0</_id>
+  <_rev>Wxh00JcLN6cQgy9skup7a9</_rev>
+  <_system>
+    <base>
+      <id>e45dc0a0-615d-4fe6-b6e7-085436aa7cb0</id>
+      <rev>rOW11EP0h6V5YhExSWR8QE</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:22:36Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird VBA02672 е кръгла клапанна шахта, която осигурява достъп до електромагнитен клапан за проверка и обслужване. Капакът се поставя на нивото на терена и предпазва оборудването от замърсяване, като позволява достъп при необходимост. Според данните от DROP шахтата е предназначена за един клапан; размерите са приблизително 20 cm диаметър и 24 cm височина. Проверете реалните размери на клапана и фитингите преди монтаж.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryvba02672extra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-a99bbafe17a3eb3b344020195ae4717626045e32-700x700-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird VBA02672 — кръгла клапанна шахта</alt>
+    <altEn>Rain Bird VBA02672 — round valve box</altEn>
+    <altRu>Rain Bird VBA02672 — круглая клапанная шахта</altRu>
+    <asset>
+      <_ref>image-681d656fdf1131516a9ff691e580656f48b12fc5-1080x1142-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird VBA02672 — кръгла клапанна шахта</name>
+  <priceEUR>10.8</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGf3DU</_key>
+    <_ref>f308f26a-b12c-4975-93f5-6089144ceab6</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>O6U6zfEuSc38DllEobfcol</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>O6U6zfEuSc38DllEobfcqZ</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>O6U6zfEuSc38DllEobfcsN</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>O6U6zfEuSc38DllEobfcuB</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>O6U6zfEuSc38DllEobfcvz</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird VBA02672 — кръгла клапанна шахта</h1>
+    <metaDescription>Продажба на кръгла шахта Rain Bird VBA02672 за достъп и обслужване на един електромагнитен клапан. Флориал, Свети Влас.</metaDescription>
+    <metaTitle>Rain Bird VBA02672 — кръгла клапанна шахта | Свети Влас</metaTitle>
+  </seo>
+  <shortDescription>Кръгла шахта за достъп и обслужване на един електромагнитен клапан.</shortDescription>
+  <sku>VBA02672</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-vba02672</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>VBA02672</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>VBA</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Кръгла клапанна шахта с байонетен капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>vba02672, round valve box</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Черно полипропиленово тяло и зелен капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър на капака</name>
+    <value>160 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на основата</name>
+    <value>200 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>236.5 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Ширина на отвора за тръба</name>
+    <value>67 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Височина на отвора за тръба</name>
+    <value>64 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Капак</name>
+    <value>Включен; байонетен капак</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird VBA02672 is a round valve box providing access to a solenoid valve for inspection and servicing. The lid sits near ground level and helps protect the equipment from debris while allowing access when required. DROP product information describes it for one valve, with approximate dimensions of 20 cm diameter and 24 cm height. Check the actual valve and fitting dimensions before installation.</description>
+      <name>Rain Bird VBA02672 — round valve box</name>
+      <seo>
+        <h1>Rain Bird VBA02672 — round valve box</h1>
+        <metaDescription>For sale: Rain Bird VBA02672 round valve box for access to and servicing of one solenoid valve. Florial, Sveti Vlas.</metaDescription>
+        <metaTitle>Rain Bird VBA02672 — round valve box | Sveti Vlas | Florial</metaTitle>
+      </seo>
+      <shortDescription>Round access box for inspection and servicing of one solenoid valve.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>VBA02672</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Round valve box with bayonet lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>vba02672, round valve box</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Black polypropylene body and green lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Outer lid diameter</name>
+        <value>160 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Base diameter</name>
+        <value>200 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>236.5 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening width</name>
+        <value>67 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening height</name>
+        <value>64 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Lid</name>
+        <value>Included; bayonet-style lid</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird VBA02672 — круглая клапанная шахта, обеспечивающая доступ к электромагнитному клапану для проверки и обслуживания. Крышка располагается около уровня земли и защищает оборудование от загрязнений, сохраняя доступ при необходимости. В описании DROP указано размещение одного клапана; примерные размеры — диаметр 20 см и высота 24 см. Перед монтажом проверьте размеры клапана и фитингов.</description>
+      <name>Rain Bird VBA02672 — круглая клапанная шахта</name>
+      <seo>
+        <h1>Rain Bird VBA02672 — круглая клапанная шахта</h1>
+        <metaDescription>Продажа круглой клапанной шахты Rain Bird VBA02672 для доступа и обслуживания одного электромагнитного клапана. Флориал, Святой Влас.</metaDescription>
+        <metaTitle>Rain Bird VBA02672 — круглая клапанная шахта | Святой Влас | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Круглая шахта для доступа и обслуживания одного электромагнитного клапана.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>VBA02672</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Круглая клапанная шахта с байонетной крышкой</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>vba02672, round valve box</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Чёрный полипропиленовый корпус и зелёная крышка</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр крышки</name>
+        <value>160 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр основания</name>
+        <value>200 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>236,5 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Ширина отверстия для трубы</name>
+        <value>67 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Высота отверстия для трубы</name>
+        <value>64 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Крышка</name>
+        <value>В комплекте; байонетная крышка</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.68</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="b8501351-cc10-45af-a0bb-e5f3dceadf66">
+Found document "b8501351-cc10-45af-a0bb-e5f3dceadf66": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>b8501351-cc10-45af-a0bb-e5f3dceadf66</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTwCZ</_rev>
+  <_system>
+    <base>
+      <id>b8501351-cc10-45af-a0bb-e5f3dceadf66</id>
+      <rev>Wxh00JcLN6cQgy9skumXOh</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:19:14Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird VBA02673 е кръгла клапанна шахта за разполагане и обслужване на до три електромагнитни клапана. Осигурява подземно и подредено разположение на оборудването, като оставя достъп през капака за проверки и ремонт. Данните от DROP посочват приблизителни размери 33 cm диаметър и 26 cm височина. Преди монтаж проверете дали клапаните, фитингите и кабелните връзки се побират в шахтата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryvba0267320261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-73ce1f475601ef04d2da03c0dda04983cc93e3b2-1600x1600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird VBA02673 — кръгла клапанна шахта за до 3 клапана</alt>
+    <altEn>Rain Bird VBA02673 — round valve box for up to 3 valves</altEn>
+    <altRu>Rain Bird VBA02673 — круглая клапанная шахта до 3 клапанов</altRu>
+    <asset>
+      <_ref>image-046c8346398fb1a2dfa0004999d2de6ad8861f41-1195x896-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird VBA02673 — кръгла клапанна шахта за до 3 клапана</name>
+  <priceEUR>22.92</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGeuMt</_key>
+    <_ref>f308f26a-b12c-4975-93f5-6089144ceab6</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOL2</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOOH</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfORW</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOUl</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9QlfOY0</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird VBA02673 — кръгла клапанна шахта за до 3 клапана</h1>
+    <metaDescription>Продажба на кръгла шахта Rain Bird VBA02673 за достъп и защита на до три електромагнитни клапана. Флориал, Поморие.</metaDescription>
+    <metaTitle>Rain Bird VBA02673 — кръгла клапанна шахта за до 3 | Поморие</metaTitle>
+  </seo>
+  <shortDescription>Кръгла шахта за достъп до до три електромагнитни клапана.</shortDescription>
+  <sku>VBA02673</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-vba02673</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>VBA02673</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>VBA</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Кръгла клапанна шахта за до 3 клапана</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>vba02673, round valve box, 3 valves</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Черно полипропиленово тяло и зелен капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Външен диаметър на капака</name>
+    <value>242 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на основата</name>
+    <value>335 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>255 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Ширина на отвора за тръба</name>
+    <value>52 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Височина на отвора за тръба</name>
+    <value>89 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Капак</name>
+    <value>Включен; щракващ се капак</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird VBA02673 is a round valve box for housing and servicing up to three solenoid valves. It keeps equipment neatly underground while providing access through the lid for inspection and repairs. DROP product information lists approximate dimensions of 33 cm diameter and 26 cm height. Before installation, check that the valves, fittings and wiring fit inside the box.</description>
+      <name>Rain Bird VBA02673 — round valve box for up to 3 valves</name>
+      <seo>
+        <h1>Rain Bird VBA02673 — round valve box for up to 3 valves</h1>
+        <metaDescription>For sale: Rain Bird VBA02673 round valve box providing access to and protection for up to three solenoid valves. Florial, Pomorie.</metaDescription>
+        <metaTitle>Rain Bird VBA02673 — round valve box for up to 3… | Pomorie | Florial</metaTitle>
+      </seo>
+      <shortDescription>Round access box for up to three solenoid valves.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>VBA02673</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Round valve box for up to 3 valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>vba02673, round valve box, 3 valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Black polypropylene body and green lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Outer lid diameter</name>
+        <value>242 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Base diameter</name>
+        <value>335 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>255 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening width</name>
+        <value>52 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening height</name>
+        <value>89 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Lid</name>
+        <value>Included; snap-fit lid</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird VBA02673 — круглая клапанная шахта для размещения и обслуживания до трёх электромагнитных клапанов. Она позволяет аккуратно разместить оборудование под землёй и обеспечивает доступ через крышку для осмотра и ремонта. В описании DROP указаны примерные размеры: диаметр 33 см, высота 26 см. Перед монтажом убедитесь, что клапаны, фитинги и кабельные соединения помещаются внутри.</description>
+      <name>Rain Bird VBA02673 — круглая клапанная шахта до 3 клапанов</name>
+      <seo>
+        <h1>Rain Bird VBA02673 — круглая клапанная шахта до 3 клапанов</h1>
+        <metaDescription>Продажа круглой клапанной шахты Rain Bird VBA02673 для размещения и обслуживания до трёх электромагнитных клапанов. Флориал, Поморие.</metaDescription>
+        <metaTitle>Rain Bird VBA02673 — круглая клапанная шахта до 3… | Поморие | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Круглая шахта для размещения до трёх электромагнитных клапанов.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>VBA02673</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Круглая клапанная шахта до 3 клапанов</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>vba02673, round valve box, 3 valves</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Чёрный полипропиленовый корпус и зелёная крышка</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Наружный диаметр крышки</name>
+        <value>242 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр основания</name>
+        <value>335 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>255 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Ширина отверстия для трубы</name>
+        <value>52 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Высота отверстия для трубы</name>
+        <value>89 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Крышка</name>
+        <value>В комплекте; защёлкивающаяся крышка</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>2</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="67423247-b334-4b53-99a7-6cc0cfbb3259">
+Found document "67423247-b334-4b53-99a7-6cc0cfbb3259": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>67423247-b334-4b53-99a7-6cc0cfbb3259</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTesB</_rev>
+  <_system>
+    <base>
+      <id>67423247-b334-4b53-99a7-6cc0cfbb3259</id>
+      <rev>rOW11EP0h6V5YhExSWQUQQ</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:14:06Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird VBA02674 е правоъгълна клапанна шахта за монтаж на електромагнитни клапани и компоненти на поливната система. Корпусът има фабрични отвори за тръби и оребрен капак, предназначен за използване на открито. Размери по каталога: приблизително 50,5 × 37 × 30,5 cm. Осигурява удобен достъп за проверка и поддръжка; преди монтаж планирайте разположението на клапаните и тръбните връзки.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryvba02674extra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-1651d9e10a5125769dc3afbc10c530a338883656-400x400-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird VBA02674 — правоъгълна клапанна шахта L</alt>
+    <altEn>Rain Bird VBA02674 — rectangular valve box, size L</altEn>
+    <altRu>Rain Bird VBA02674 — прямоугольная клапанная шахта, размер L</altRu>
+    <asset>
+      <_ref>image-759ffd504ff7ed7d45b3a45dbb5f81a7f5f9b2a7-300x300-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird VBA02674 — правоъгълна клапанна шахта L</name>
+  <priceEUR>52.35</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcjzz</_key>
+    <_ref>f308f26a-b12c-4975-93f5-6089144ceab6</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>CZu3yB77eF35c25LqtWErl</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>CZu3yB77eF35c25LqtWEsN</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>CZu3yB77eF35c25LqtWEsz</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>CZu3yB77eF35c25LqtWEtb</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>CZu3yB77eF35c25LqtWEuD</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird VBA02674 — правоъгълна клапанна шахта L</h1>
+    <metaDescription>Rain Bird VBA02674 — правоъгълна клапанна шахта L за автоматично поливане. Оборудване за поливни системи в района на Ахелой.</metaDescription>
+    <metaTitle>Rain Bird VBA02674 — правоъгълна клапанна шахта L | Ахелой</metaTitle>
+  </seo>
+  <shortDescription>Правоъгълна шахта с капак и фабрични отвори за тръби.</shortDescription>
+  <sku>VBA02674</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-vba02674</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>VBA02674</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>VBA</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Правоъгълна клапанна шахта размер L</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>vba02674, rectangular valve box, size l</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Черно полипропиленово тяло и зелен капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Размер на капака (Д × Ш)</name>
+    <value>386 × 267 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Размер на основата (Д × Ш)</name>
+    <value>505 × 370 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>305 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Ширина на отвора за тръба</name>
+    <value>70 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Височина на отвора за тръба</name>
+    <value>105 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Капак</name>
+    <value>Включен, заключване с болт</value>
+  </specifications>
+  <specifications>
+    <_key>spec12</_key>
+    <_type>productSpec</_type>
+    <name>Удължение</name>
+    <value>Удължение VBA02676 се предлага отделно</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird VBA02674 is a rectangular valve box for solenoid valves and irrigation-system components. The body has pre-formed pipe entry points and a ribbed lid designed for outdoor use. Catalogue dimensions are approximately 50.5 × 37 × 30.5 cm. It provides convenient access for inspection and maintenance; plan the valve and pipe layout before installation.</description>
+      <name>Rain Bird VBA02674 — rectangular valve box, size L</name>
+      <seo>
+        <h1>Rain Bird VBA02674 — rectangular valve box, size L</h1>
+        <metaDescription>For sale: Rain Bird VBA02674 size L rectangular valve box with a lid and pre-formed pipe entry points. Florial, Aheloy.</metaDescription>
+        <metaTitle>Rain Bird VBA02674 L valve box | Aheloy | Florial</metaTitle>
+      </seo>
+      <shortDescription>Rectangular valve box with lid and pre-formed pipe entry points.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>VBA02674</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Rectangular valve box, size L</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>vba02674, rectangular valve box, size l</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Black polypropylene body and green lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Lid dimensions (L × W)</name>
+        <value>386 × 267 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Base dimensions (L × W)</name>
+        <value>505 × 370 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>305 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening width</name>
+        <value>70 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening height</name>
+        <value>105 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Lid</name>
+        <value>Included; bolt-locking lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Extension</name>
+        <value>VBA02676 extension sold separately</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird VBA02674 — прямоугольная клапанная шахта для электромагнитных клапанов и компонентов системы полива. Корпус имеет заводские отверстия для труб и ребристую крышку для наружной установки. Размеры по каталогу — примерно 50,5 × 37 × 30,5 см. Шахта обеспечивает удобный доступ для осмотра и обслуживания; перед монтажом спланируйте расположение клапанов и труб.</description>
+      <name>Rain Bird VBA02674 — прямоугольная клапанная шахта, размер L</name>
+      <seo>
+        <h1>Rain Bird VBA02674 — прямоугольная клапанная шахта, размер L</h1>
+        <metaDescription>Продажа прямоугольного клапанного бокса Rain Bird VBA02674 размера L с крышкой и заводскими отверстиями для труб. Флориал, Ахелой.</metaDescription>
+        <metaTitle>Rain Bird VBA02674 — клапанный бокс L | Ахелой | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Прямоугольная шахта с крышкой и заводскими отверстиями для труб.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>VBA02674</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Прямоугольная клапанная шахта размера L</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>vba02674, rectangular valve box, size l</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Чёрный полипропиленовый корпус и зелёная крышка</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Размер крышки (Д × Ш)</name>
+        <value>386 × 267 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Размер основания (Д × Ш)</name>
+        <value>505 × 370 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>305 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Ширина отверстия для трубы</name>
+        <value>70 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Высота отверстия для трубы</name>
+        <value>105 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Крышка</name>
+        <value>В комплекте, крепление болтом</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Удлинение</name>
+        <value>Удлинитель VBA02676 продаётся отдельно</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>4.37</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="938d6008-52d5-46b0-b965-91ae2c372354">
+Found document "938d6008-52d5-46b0-b965-91ae2c372354": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>938d6008-52d5-46b0-b965-91ae2c372354</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBU7mv</_rev>
+  <_system>
+    <base>
+      <id>938d6008-52d5-46b0-b965-91ae2c372354</id>
+      <rev>Wxh00JcLN6cQgy9skuofiK</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:25:21Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird VBA02675 е голяма правоъгълна клапанна шахта за монтаж и обслужване на електромагнитни клапани и допълнителни компоненти на поливната система. Изработена е от полипропилен и има зелена заключваща се капачка T-COVER и предварително оформени отвори за въвеждане на тръби. Каталожни размери: около 63 × 48 × 30,5 cm. Подходяща е за професионални поливни инсталации, при които е необходим повече работен обем в шахтата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryvba02675xl20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-642ce1731a2c75d878b10b7b11a15ee6b36779ce-1280x1280-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird VBA02675 — правоъгълна клапанна шахта XL</alt>
+    <altEn>Rain Bird VBA02675 — large rectangular valve box, XL</altEn>
+    <altRu>Rain Bird VBA02675 — большая прямоугольная клапанная шахта XL</altRu>
+    <asset>
+      <_ref>image-fbd8a23f393381f9afc2eb522227fa47b60e4eae-310x250-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird VBA02675 — правоъгълна клапанна шахта XL</name>
+  <priceEUR>83.62</priceEUR>
+  <relatedContent>
+    <_key>I3YKJCwIjHh6NxfePXX9Y6</_key>
+    <_ref>f308f26a-b12c-4975-93f5-6089144ceab6</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePm0aP</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePm0bu</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePm0dP</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePm0eu</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePm0gP</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird VBA02675 — правоъгълна клапанна шахта XL</h1>
+    <metaDescription>Rain Bird VBA02675 — правоъгълна клапанна шахта XL за автоматично поливане. Оборудване за поливни системи в района на Несебър.</metaDescription>
+    <metaTitle>Rain Bird VBA02675 — правоъгълна клапанна шахта XL | Несебър</metaTitle>
+  </seo>
+  <shortDescription>Голяма правоъгълна шахта с оребрен капак и фабрични отвори за тръби.</shortDescription>
+  <sku>VBA02675</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-vba02675</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>VBA02675</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>VBA</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Правоъгълна клапанна шахта размер XL</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>vba02675, rectangular valve box, size xl</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Черно полипропиленово тяло и зелен капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Размер на капака (Д × Ш)</name>
+    <value>545 × 380 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Размер на основата (Д × Ш)</name>
+    <value>630 × 480 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>305 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Ширина на отвора за тръба</name>
+    <value>80 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Височина на отвора за тръба</name>
+    <value>105 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Капак</name>
+    <value>Включен, заключване с болт</value>
+  </specifications>
+  <specifications>
+    <_key>spec12</_key>
+    <_type>productSpec</_type>
+    <name>Удължение</name>
+    <value>Удължение VBA07777 се предлага отделно</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird VBA02675 is a large rectangular valve box for installing and servicing solenoid valves and other irrigation components. It is made of polypropylene and includes a green locking T-COVER lid and pre-formed pipe entry points. Catalogue dimensions are approximately 63 × 48 × 30.5 cm. Suitable for professional irrigation installations requiring more working space inside the box.</description>
+      <name>Rain Bird VBA02675 — large rectangular valve box, XL</name>
+      <seo>
+        <h1>Rain Bird VBA02675 — large rectangular valve box, XL</h1>
+        <metaDescription>For sale: Rain Bird VBA02675 XL rectangular valve box with a ribbed lid and pre-formed pipe entry points. Florial, Nessebar.</metaDescription>
+        <metaTitle>Rain Bird VBA02675 XL rectangular valve box | Nessebar | Florial</metaTitle>
+      </seo>
+      <shortDescription>Large rectangular box with ribbed lid and pre-formed pipe entries.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>VBA02675</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Rectangular valve box, size XL</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>vba02675, rectangular valve box, size xl</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Black polypropylene body and green lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Lid dimensions (L × W)</name>
+        <value>545 × 380 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Base dimensions (L × W)</name>
+        <value>630 × 480 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>305 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening width</name>
+        <value>80 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Pipe opening height</name>
+        <value>105 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Lid</name>
+        <value>Included; bolt-locking lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Extension</name>
+        <value>VBA07777 extension sold separately</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird VBA02675 — большая прямоугольная клапанная шахта для установки и обслуживания электромагнитных клапанов и других компонентов системы полива. Изготовлена из полипропилена, оснащена зелёной запирающейся крышкой T-COVER и заводскими отверстиями для ввода труб. Размеры по каталогу — примерно 63 × 48 × 30,5 см. Подходит для профессиональных систем, где требуется больше рабочего пространства внутри шахты.</description>
+      <name>Rain Bird VBA02675 — большая прямоугольная клапанная шахта XL</name>
+      <seo>
+        <h1>Rain Bird VBA02675 — большая прямоугольная клапанная шахта XL</h1>
+        <metaDescription>Продажа большой прямоугольной клапанной шахты Rain Bird VBA02675 XL с ребристой крышкой и заводскими отверстиями для труб. Флориал, Несебр.</metaDescription>
+        <metaTitle>Rain Bird VBA02675 XL — клапанный бокс | Несебр | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Большая прямоугольная шахта с ребристой крышкой и заводскими отверстиями для труб.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>VBA02675</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Прямоугольная клапанная шахта размера XL</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>vba02675, rectangular valve box, size xl</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Чёрный полипропиленовый корпус и зелёная крышка</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Размер крышки (Д × Ш)</name>
+        <value>545 × 380 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Размер основания (Д × Ш)</name>
+        <value>630 × 480 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>305 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Ширина отверстия для трубы</name>
+        <value>80 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Высота отверстия для трубы</name>
+        <value>105 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Крышка</name>
+        <value>В комплекте, крепление болтом</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Удлинение</name>
+        <value>Удлинитель VBA07777 продаётся отдельно</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>5.74</weightKg>
+</document>
+</snapshot>
+<snapshot documentId="2ba7fcbb-76cf-40ab-a516-6863d865f720">
+Found document "2ba7fcbb-76cf-40ab-a516-6863d865f720": 
+<document>
+  <_createdAt>2026-10-23T13:05:43Z</_createdAt>
+  <_id>2ba7fcbb-76cf-40ab-a516-6863d865f720</_id>
+  <_rev>Wxh00JcLN6cQgy9skuo62d</_rev>
+  <_system>
+    <base>
+      <id>2ba7fcbb-76cf-40ab-a516-6863d865f720</id>
+      <rev>1qyPYQSEDVHtpwb6uBS89X</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:09:00Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6d09232c-4c54-4ba2-b463-1cb61d7345b8</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird VBA17186 е кръгла шахта с вграден кран 3/4″, която осигурява дискретна точка за достъп до вода в тревни площи и градини. Капакът позволява достъп до крана, а корпусът се монтира в почвата така, че да остане близо до нивото на терена. Каталожни размери: диаметър около 21 cm и височина 12 cm; връзка за крана 3/4″. Работното налягане и тръбното свързване трябва да се съобразят с проекта.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryvba17186extra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-7b907819d5a80c54cfaddb711636bd90be5f32ca-591x640-webp</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″</alt>
+    <altEn>Rain Bird VBA17186 — round valve box with 3/4″ tap</altEn>
+    <altRu>Rain Bird VBA17186 — круглая шахта со встроенным краном 3/4″</altRu>
+    <asset>
+      <_ref>image-2e20191836ae544c5bfb78442cebadc06dc3f97a-1195x896-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <name>Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″</name>
+  <priceEUR>49.2</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcd6l</_key>
+    <_ref>9f8a5130-49e8-4d34-9f76-c6124503fb5d</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>Nzvrr3daZn4RQD0z2BAkYG</_key>
+    <_ref>08e19ebf-5048-4987-8c9a-fd7361784ac5</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>Nzvrr3daZn4RQD0z2BAkbl</_key>
+    <_ref>780cf027-033f-4431-8176-b2f482614ccd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>Nzvrr3daZn4RQD0z2BAkfG</_key>
+    <_ref>a5c07339-5036-44b6-bc85-0b65cb08228a</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>Nzvrr3daZn4RQD0z2BAkil</_key>
+    <_ref>a473f223-3fac-44bb-bbad-bf640609c951</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>Nzvrr3daZn4RQD0z2BAkmG</_key>
+    <_ref>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″</h1>
+    <metaDescription>Продажба на кръгла шахта Rain Bird VBA17186 с вграден кран ¾″ за достъп до вода в градината. Флориал, Равда.</metaDescription>
+    <metaTitle>Rain Bird VBA17186 — кръгъл хидрант с вграден клапан ¾″ | Равда</metaTitle>
+  </seo>
+  <shortDescription>Кръгла шахта с вграден кран 3/4″ за достъп до вода в градината.</shortDescription>
+  <sku>VBA17186</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-vba17186</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>VBA17186</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>VBA</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Кръгъл градински хидрант с вграден клапан</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>vba17186, hydrant, round valve box</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на клапана</name>
+    <value>¾″</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Полипропиленова шахта и капак</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на капака</name>
+    <value>210 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на основата</name>
+    <value>180 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Височина</name>
+    <value>120 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Приложение</name>
+    <value>Достъп до вода от подземната напоителна мрежа чрез съвместим ключ/съединител за хидрант</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird VBA17186 is a round box with an integrated 3/4″ tap, providing a discreet water access point in lawns and gardens. The lid gives access to the tap, while the body is installed in the ground near the finished surface level. Catalogue dimensions: approximately 21 cm diameter and 12 cm height; tap connection 3/4″. Operating pressure and pipework must suit the system design.</description>
+      <name>Rain Bird VBA17186 — round valve box with 3/4″ tap</name>
+      <seo>
+        <h1>Rain Bird VBA17186 — round valve box with 3/4″ tap</h1>
+        <metaDescription>For sale: Rain Bird VBA17186 round valve box with an integrated ¾″ tap for garden water access. Florial, Ravda.</metaDescription>
+        <metaTitle>Rain Bird VBA17186 — round valve box with 3/4″ tap | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Round box with an integrated 3/4″ tap for garden water access.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>VBA17186</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Round garden hydrant with integrated valve</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>vba17186, hydrant, round valve box</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Valve size</name>
+        <value>¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Polypropylene valve box body and lid</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Lid diameter</name>
+        <value>210 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Base diameter</name>
+        <value>180 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Height</name>
+        <value>120 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Access to the underground irrigation water supply using a compatible hydrant key/connector</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird VBA17186 — круглая шахта со встроенным краном 3/4″, обеспечивающая скрытую точку доступа к воде на газоне или в саду. Крышка открывает доступ к крану, а корпус устанавливается в грунт почти вровень с поверхностью. Размеры по каталогу: диаметр около 21 см, высота 12 см; подключение крана 3/4″. Рабочее давление и трубное соединение должны соответствовать проекту.</description>
+      <name>Rain Bird VBA17186 — круглая шахта со встроенным краном 3/4″</name>
+      <seo>
+        <h1>Rain Bird VBA17186 — круглая шахта со встроенным краном 3/4″</h1>
+        <metaDescription>Продажа круглого бокса Rain Bird VBA17186 со встроенным краном ¾″ для доступа к воде в саду. Флориал, Равда.</metaDescription>
+        <metaTitle>Rain Bird VBA17186 — круглая шахта со встроенным… | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Круглая шахта со встроенным краном 3/4″ для доступа к воде в саду.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>VBA17186</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>VBA</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Круглый садовый гидрант со встроенным клапаном</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>vba17186, hydrant, round valve box</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Размер клапана</name>
+        <value>¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Полипропиленовый корпус шахты и крышка</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр крышки</name>
+        <value>210 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр основания</name>
+        <value>180 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Высота</name>
+        <value>120 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Доступ к воде из подземной системы полива через совместимый ключ/соединитель для гидранта</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.85</weightKg>
+</document>
+</snapshot>
