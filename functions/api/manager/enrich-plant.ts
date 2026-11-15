@@ -4,7 +4,7 @@ type Env = ManagerEnv
 
 type IntakeImage = { path: string; url?: string; assetId?: string; name: string; size: number; type: string }
 type SubmissionRow = {
-  id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string
+  id: string; catalog: string; operation: string; status: string; created_by: string; updated_at: string; title?: string
   payload: Record<string, unknown>
 }
 type ScientificCandidate = { scientificName: string; confidence: string; reason: string }
