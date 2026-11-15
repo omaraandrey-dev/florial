@@ -34,6 +34,20 @@ The next implementation stage must:
 4. add the selected products to the existing Florial cart using the existing cart contract;
 5. validate the result against representative real-world site cases before enabling purchase recommendations.
 
+
+## Manufacturer performance references for the next engineering stage
+
+Use the current metric performance tables, not just the simplified range strings in product descriptions:
+
+- [Rain Bird 3500 Series Rotor Technical Specification](https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf) — pressure/nozzle/radius/flow/precipitation tables.
+- [Rain Bird 5000 Series Rotor Performance Charts](https://www.rainbird.com/sites/default/files/media/documents/2020-09/5000-series-rotor-nozzle-performance-chart.pdf) — nozzle-specific operating data.
+- [Rain Bird R-VAN Nozzle Performance Charts](https://www.rainbird.com/sites/default/files/media/documents/2020-09/r-van-nozzles-performance-charts.pdf) — arc-specific pressure, radius, flow and precipitation data.
+- [Rain Bird HE-VAN Series Performance Charts](https://www.rainbird.com/sites/default/files/media/documents/2018-02/chart_HE-VAN.pdf) — pressure, arc, radius, flow and precipitation data.
+- [Rain Bird 1800 Series Spray Sprinklers](https://www.rainbird.com/products/1800-series-spray-sprinkler-he-van-nozzles) — 1800 bodies accept separate spray nozzles; the nozzle is not included with many body SKUs.
+- [Rain Bird 5000 Series product specifications](https://www.rainbird.com/products/5000-series) — published radius, pressure and flow operating ranges.
+
+These are manufacturer references for the calculation dataset. Before implementation, verify that each selected Sanity SKU corresponds to the exact model/version in the performance table, and record the tested operating point (pressure, radius, flow, arc and precipitation). Do not combine incompatible precipitation families in one zone without a documented design reason.
+
 ## Scope and safety
 
 - No Sanity document or schema writes.
