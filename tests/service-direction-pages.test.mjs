@@ -1,0 +1,48 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+
+const read = (path) => readFile(new URL(path, import.meta.url), 'utf8')
+
+test('four specialist pages are localized and have distinct SEO content', async () => {
+  const page = await read('../src/pages/ServiceDirectionPage.tsx')
+  for (const slug of ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti']) {
+    assert.ok(page.includes(`slug: '${slug}'`), `missing direction slug ${slug}`)
+  }
+  for (const locale of ['bg:', 'ru:', 'en:']) assert.ok(page.includes(locale))
+  assert.match(page, /metaTitle:/)
+  assert.match(page, /metaDescription:/)
+  assert.match(page, /faqHeading:/)
+  assert.match(page, /<h1/)
+  assert.match(page, /<h2/)
+})
+
+test('service direction routes load the directory and do not fall through to service detail lookup', async () => {
+  const app = await read('../src/App.tsx')
+  assert.match(app, /path.startsWith\('\/services\/category\/'\)/)
+  assert.match(app, /!path.startsWith\('\/services\/category\/'\)/)
+  assert.match(app, /normalizedRoutePath.startsWith\('\/services\/category\/'\)/)
+  assert.match(app, /<ServiceDirectionPage directionSlug=\{serviceDirectionSlug\}/)
+})
+
+test('service details include their specialist page in visual and JSON-LD breadcrumbs', async () => {
+  const detail = await read('../src/pages/ServicePage.tsx')
+  assert.match(detail, /directionByCategory/)
+  assert.match(detail, /services\/category\//)
+  assert.match(detail, /position: direction && directionUrl \? 4 : 3/)
+  assert.match(detail, /direction\.title\[language\]/)
+})
+
+test('service directory links to all four dedicated specialist pages', async () => {
+  const list = await read('../src/pages/ServicesListPage.tsx')
+  for (const slug of ['polivni-sistemi', 'gardinar', 'trevni-ploshti', 'landshaften-arhitekt']) {
+    assert.ok(list.includes(slug), `directory link missing ${slug}`)
+  }
+})
+
+test('specialist pages are included in the multilingual sitemap', async () => {
+  const sitemap = await read('../functions/sitemap.xml.ts')
+  for (const slug of ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti']) {
+    assert.ok(sitemap.includes(`services/category/${slug}`), `sitemap missing ${slug}`)
+  }
+})
