@@ -217,17 +217,6 @@ export default function App() {
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
 
-  // Load the existing irrigation specialist portrait for the persistent assistant launcher.
-  useEffect(() => {
-    let cancelled = false
-    sanityClient.fetch(
-      `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{\n        "imageUrl": image.asset->url,\n        "imageAlt": image.alt,\n        "imageAltEn": image.altEn,\n        "imageAltRu": image.altRu\n      }`,
-      { slug: 'florial-irrigation-specialist' }
-    ).then((photo) => {
-      if (!cancelled && photo?.imageUrl) setIrrigationAssistantPhoto(photo)
-    }).catch((error) => console.error('Irrigation assistant: не удалось загрузить фото специалиста:', error))
-    return () => { cancelled = true }
-  }, [])
 
   // Persist the customer's cart between visits on this browser/device.
   useEffect(() => {
@@ -1252,6 +1241,47 @@ export default function App() {
     )
   )
 
+  const isIrrigationEquipmentCategory = Boolean(
+    activeCategorySlug && currentCategory && !currentCategory.isPlantCategory
+  )
+  const isIrrigationEquipmentProduct = Boolean(
+    activeProductSlug && currentProduct && !isPlantProductType(currentProduct.productType)
+  )
+  const isIrrigationService = Boolean(
+    normalizedRoutePath === '/services/dostavka-poliv' ||
+    (activeServiceSlug && currentService &&
+      ['irrigation', 'maintenance', 'delivery'].includes(currentService.serviceCategory || ''))
+  )
+  const isIrrigationServicesDirection = serviceDirectionSlug === 'polivni-sistemi'
+  const showIrrigationAssistantLauncher = !isIrrigationAssistantRoute && (
+    isIrrigationEquipmentCategory ||
+    isIrrigationEquipmentProduct ||
+    isIrrigationService ||
+    isIrrigationServicesDirection
+  )
+
+  // Fetch the specialist portrait only on the irrigation catalogue and irrigation-service journeys.
+  useEffect(() => {
+    let cancelled = false
+    if (!showIrrigationAssistantLauncher) {
+      setIrrigationAssistantPhoto(null)
+      return () => { cancelled = true }
+    }
+
+    sanityClient.fetch(
+      `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu
+      }`,
+      { slug: 'florial-irrigation-specialist' }
+    ).then((photo) => {
+      if (!cancelled) setIrrigationAssistantPhoto(photo?.imageUrl ? photo : null)
+    }).catch((error) => console.error('Irrigation assistant: не удалось загрузить фото специалиста:', error))
+    return () => { cancelled = true }
+  }, [showIrrigationAssistantLauncher])
+
   const filteredProducts = useMemo(() => {
     if (!currentCategory) return products
 
@@ -1547,7 +1577,7 @@ export default function App() {
       </React.Suspense>
 
       <Footer />
-      {!isIrrigationAssistantRoute && (
+      {showIrrigationAssistantLauncher && (
         <IrrigationAssistantLauncher
           imageUrl={irrigationAssistantPhoto?.imageUrl}
           imageAlt={language === 'ru' ? irrigationAssistantPhoto?.imageAltRu || 'Инженер систем полива' : language === 'en' ? irrigationAssistantPhoto?.imageAltEn || 'Irrigation systems engineer' : irrigationAssistantPhoto?.imageAlt || 'Инженер по поливни системи'}
