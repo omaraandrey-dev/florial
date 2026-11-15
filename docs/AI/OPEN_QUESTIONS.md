@@ -1,3 +1,11 @@
+## 2026-11-15 — Irrigation assistant next-stage decisions
+
+- **Specified:** first engineering module is automatic lawn irrigation; detailed scope and acceptance criteria are in `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
+- **Specified:** Gemini is not the hydraulic solver. It may normalize customer answers, identify missing inputs, interpret drawings as unconfirmed drafts and explain verified results. The Florial deterministic engine owns geometry/coverage/hydraulic calculations and exact SKU compatibility.
+- **In progress in PR #303:** restrict the floating portrait launcher to irrigation equipment catalogue pages, the `polivni-sistemi` service direction and individual irrigation-related service pages. Production release and route-by-route browser QA are not yet confirmed.
+- **Required before calculator implementation:** exact Rain Bird SKU/performance-table audit; measured dynamic flow and pressure; scaled geometry and exclusions; engineer-reviewed baseline cases; paid Gemini API privacy/cost review before customer data is sent.
+- **Not implemented:** hydraulic engine, Gemini endpoint, Cloudflare secret, product selector, cart integration or project PDF.
+
 ## 2026-11-15 — TypeScript and CI coverage completed (PR #299 merged)
 
 - **Resolved:** root TypeScript check covers `src/` and Cloudflare Pages Functions; Sanity Studio has its own TypeScript check; both are part of CI for PRs to `main` and pushes to `main`.
