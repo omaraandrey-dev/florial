@@ -1,3 +1,12 @@
+## 2026-11-15 — Large Washingtonia product SEO correction published
+
+- In Sanity project `bxvcy0qs`, dataset `plants`, document `a2f17ef5-bafd-4e41-ae5a-97126b640ad2` (slug `ventlieva-palyma-vashintoniya`), corrected the Bulgarian product name from `Вашинтония` to `Вашингтония`.
+- Published BG/RU/EN H1, Meta Title and Meta Description for the distinct 5 m / 300 L large-specimen offer. Corrected the BG main-image ALT. All 9 SEO title/description values are within project limits (titles <=70, descriptions <=160 characters).
+- Changes were revision-guarded, saved to a draft, read back, and published; a subsequent published-document read confirmed the new values.
+- Field-scoped before-snapshot: `docs/backups/washingtonia-large-seo-before-2026-11-15.json` (commit `b6cdc0b8ca91df356b13f5c2e4afbb623bd80653`). No full dataset export was made.
+- Preserved price EUR 3,000, sale variant 475–525 cm / 300 L, quantity 1, in-stock status, slug, category references and image assets. The long BG product description still contains the old misspelling and was intentionally not changed in this approved scope.
+- No code, schema, Cloudflare settings or deployment changed. Direct live-page/browser verification was unavailable in this pass; storefront rendering and Google recrawl remain unconfirmed.
+
 ## 2026-11-14 — Palm category GSC page totals and source-level SEO rendering check
 
 - A page-only GSC report for `/category/palmi-yuki` returned 5 impressions / 0 clicks over the last-28-day preset: BG base URL 1 impression (avg position 60), EN `?lang=en` 2 impressions (position 3), RU `?lang=ru` 2 impressions (position 7.5). The query-level report returned no visible query strings for this category; do not report zero total impressions.
