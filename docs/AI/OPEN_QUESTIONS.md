@@ -1,3 +1,10 @@
+## 2026-11-15 — TypeScript and CI coverage completed (PR #299 merged)
+
+- **Resolved:** root TypeScript check covers `src/` and Cloudflare Pages Functions; Sanity Studio has its own TypeScript check; both are part of CI for PRs to `main` and pushes to `main`.
+- **Verified:** PR #299 merged as `e2329572f8af211a109434a8d9807610e59b7926`; exact-head CI passed (Blog/Studio #1315, Sanity Studio #170, D1 #1644; 167 tests passed); Cloudflare Pages Production deployment `a9588c4c-cc85-46fa-b3c8-4d8f7e3e2e36` succeeded for the same SHA.
+- **Separate follow-ups, not blockers:** plan an incremental `strict: true` TypeScript migration; review React 18 runtime versus React 19 type package alignment. GitHub branch-protection required-check settings were not changed or verified.
+- Audit: `docs/audits/2026-11-15-typescript-ci-validation.md`.
+
 ## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
 
 - All 26 published products in Sanity category `nozzles` and its two child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 26/26 published and zero remaining drafts.
