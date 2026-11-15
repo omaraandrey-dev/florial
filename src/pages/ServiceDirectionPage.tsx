@@ -380,6 +380,7 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
     ? directionDocument.serviceCategories
     : (direction?.categories || [])
   const heroImageUrl = directionDocument?.imageUrl || photo?.imageUrl
+  const categoryKey = categories.join('|')
   const heroImageAlt = (locale === 'ru' ? directionDocument?.imageAltRu : locale === 'en' ? directionDocument?.imageAltEn : directionDocument?.imageAlt) || (locale === 'ru' ? photo?.imageAltRu : locale === 'en' ? photo?.imageAltEn : photo?.imageAlt) || direction?.title[locale] || ''
   const entries = useMemo(() => {
     if (!direction) return []
@@ -388,7 +389,7 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
         ? categories.includes('delivery')
         : categories.includes(entry.service.serviceCategory || '')
     )
-  }, [services, direction, directionDocument, categories.join('|')])
+  }, [services, direction, directionDocument, categoryKey])
 
   useEffect(() => {
     if (!direction || !copy) return
