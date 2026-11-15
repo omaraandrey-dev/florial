@@ -45,6 +45,7 @@
 - Added mandatory branch-base, shared-document ownership, parallel-work, PR preflight, sequential merge and post-merge revalidation rules to `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
 - Future parallel content tasks should keep unique audit/backup artifacts on their task branches and consolidate shared-document updates in one integration pass/PR, or synchronize each branch against the latest `main` before its PR/merge.
 - Remediation completed in integration PR #290: the five original content PRs were consolidated from the latest main, with all ten unique audit/backup artifacts preserved and shared documentation entries integrated once. The original PRs are superseded by that consolidated PR.
+- After PR #290 merged, original PRs #284–#288 were closed as superseded with explanatory comments; all five audit files and five original Sanity backup blobs remain in `main`.
 - This remains a documentation-only integration. No Sanity, application code, Cloudflare configuration, D1, Resend or Production deployment was changed.
 
 ## 2026-11-15 — Rain Bird sprinkler product descriptions expanded and published
