@@ -105,6 +105,6 @@ test('service detail render errors are caught and shown as a recoverable page st
   const app = await read('../src/App.tsx')
   assert.match(app, /class ServicePageErrorBoundary extends React\.Component/)
   assert.match(app, /componentDidCatch\(error: Error\)/)
-  assert.match(app, /<ServicePageErrorBoundary key=\\{activeServiceSlug\\} language=\\{language\\}/)
+  assert.match(app, /<ServicePageErrorBoundary key=\{activeServiceSlug\} language=\{language\}/)
   assert.match(app, /role="alert"/)
 })
