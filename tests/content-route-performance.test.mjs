@@ -108,3 +108,15 @@ test('service detail render errors are caught and shown as a recoverable page st
   assert.match(app, /<ServicePageErrorBoundary key=\{activeServiceSlug\} language=\{language\}/)
   assert.match(app, /role="alert"/)
 })
+
+
+test('service breadcrumb direction is defined in component scope before the SEO effect and render', async () => {
+  const detail = await read('../src/pages/ServicePage.tsx')
+  const componentStart = detail.indexOf('export function ServicePage')
+  const directionDeclaration = detail.indexOf("const direction = SERVICE_DIRECTION_BY_CATEGORY[service.serviceCategory || '']", componentStart)
+  const effectStart = detail.indexOf('useEffect(() => {', componentStart)
+  assert.ok(componentStart >= 0 && directionDeclaration > componentStart && directionDeclaration < effectStart)
+  assert.match(detail, /const SERVICE_DIRECTION_BY_CATEGORY:/)
+  assert.match(detail, /\{direction && \(/)
+  assert.doesNotMatch(detail.slice(effectStart, detail.indexOf('const sourceBlocks', effectStart)), /const direction =/)
+})
