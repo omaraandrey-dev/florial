@@ -24,7 +24,9 @@
 | История | CHANGELOG.md |
 
 ## Архитектура
-GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase исключён. Исторические SQL/документы сохранены в [archive/supabase](../archive/supabase/README.md), выполнять их нельзя.
+GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase исключён из действующего runtime. Исторические SQL/документы сохранены в [archive/supabase](../archive/supabase/README.md), выполнять их нельзя.
+
+**Решение владельца от 15.11.2026:** безопасный аудит legacy `SUPABASE_*` / `VITE_SUPABASE_*` Cloudflare Pages variables завершён. Существующие entries Preview/Production намеренно оставить на всякий случай; не удалять и не менять. Runtime к Supabase не обращается. Вопрос закрыт, повторная очистка/проверка не требуется без нового прямого решения владельца.
 
 ## Исторические инструкции
 Корневой AI_INSTRUCTIONS, START HERE, Technical Passport и Changelog — актуальные документы. Файлы `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_*_rev*.md` — исторические снимки, не конкурирующие источники. Последний снимок перед новой системой: [rev74](../%D0%98%D0%9D%D0%A1%D0%A2%D0%A0%D0%A3%D0%9A%D0%A6%D0%98%D0%AF%282%29_FLORIAL_%D0%90%D0%9A%D0%A2%D0%A3%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF_11-11-2026_rev74.md).
