@@ -35,7 +35,7 @@
 - **Classification:** Git integration/documentation conflict. This does not indicate a conflict in published Sanity product data.
 - **Preventive rule added:** new branches must start from latest `main`; parallel tasks must not independently edit shared documentation; shared updates should be consolidated or branches synchronized sequentially; PR changed-file overlap and mergeability must be checked before opening and immediately before merge; refresh `main` after every merge.
 - Rules are recorded in `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md` and were merged into `main` by PR #289.
-- **Remediation status:** the content changes from PRs #284–#288 are being consolidated in integration PR #290, based on the current main. All unique audits and backup blobs are carried over unchanged; shared-document entries are integrated once. The original PRs will be closed as superseded only after the consolidated PR is verified and merged.
+- **Remediation completed:** PR #290 was merged into `main` as commit `2298c421daef6e830a94b333723ace2751c15db0`. The five original PRs (#284–#288) were then closed as superseded. All five unique audits and all five original Sanity backup files are present in `main`; shared-document entries were integrated once. The original PR branches were not merged, so their duplicate/conflicting edits cannot be reintroduced.
 
 ## 2026-11-15 — Sprinkler product descriptions published; storefront visual check remains open
 
