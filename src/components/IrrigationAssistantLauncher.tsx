@@ -1,4 +1,5 @@
 import type { MouseEvent } from 'react'
+import { getSanityImageProps } from '../lib/sanityImage'
 
 interface IrrigationAssistantLauncherProps {
   imageUrl?: string
@@ -31,7 +32,7 @@ export function IrrigationAssistantLauncher({ imageUrl, imageAlt, language, onOp
         className="group relative flex h-[68px] w-[68px] shrink-0 items-center justify-center overflow-hidden rounded-full border-[3px] border-white bg-emerald-700 shadow-[0_4px_20px_rgba(15,60,40,0.28)] outline-none transition duration-200 hover:scale-105 hover:shadow-[0_6px_24px_rgba(15,60,40,0.38)] focus-visible:ring-4 focus-visible:ring-emerald-300"
       >
         {imageUrl ? (
-          <img src={imageUrl} alt={imageAlt} loading="lazy" decoding="async" className="h-full w-full rounded-full object-cover" />
+          <img {...getSanityImageProps(imageUrl, '68px', 144, 75)} alt={imageAlt} loading="lazy" decoding="async" className="h-full w-full rounded-full object-cover" />
         ) : (
           <span aria-hidden="true" className="text-3xl">💧</span>
         )}
