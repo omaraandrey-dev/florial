@@ -12,7 +12,7 @@ const label = 'block text-sm font-semibold text-stone-700'
 function collectCategoryIds(id: string, children: Map<string, PlantCategory[]>): string[] {
   return [id, ...(children.get(id) || []).flatMap((item) => collectCategoryIds(item._id, children))]
 }
-export default function PlantCatalogChangeForm({ accessToken, initialMode, categories, onSubmitted, onBack }: Props {
+export default function PlantCatalogChangeForm({ accessToken, initialMode, categories, onSubmitted, onBack }: Props) {
   const [plants, setPlants] = useState<Plant[]>([])
   const [plantId, setPlantId] = useState('')
   const [search, setSearch] = useState('')
