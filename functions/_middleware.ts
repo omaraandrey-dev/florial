@@ -642,7 +642,7 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
   }
 }
 
-function makeServiceJsonLd(doc: Pick<SeoDocument, 'serviceCategory'>, name: string, description: string, url: string): Record<string, unknown> {
+function makeServiceJsonLd(doc: Pick<SeoDocument, 'serviceCategory' | 'imageUrl'>, name: string, description: string, url: string): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
