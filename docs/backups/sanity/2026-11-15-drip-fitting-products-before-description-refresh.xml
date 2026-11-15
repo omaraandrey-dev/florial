@@ -1,0 +1,1634 @@
+<!-- Florial Sanity pre-write snapshot | project bxvcy0qs | dataset production | 2026-11-15 | category category-drip-fittings -->
+<!-- document 3f96175c-2e23-49d4-9697-97df5cf68cd0 -->
+Found document "3f96175c-2e23-49d4-9697-97df5cf68cd0": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>3f96175c-2e23-49d4-9697-97df5cf68cd0</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTVWD</_rev>
+  <_system>
+    <base>
+      <id>3f96175c-2e23-49d4-9697-97df5cf68cd0</id>
+      <rev>Wxh00JcLN6cQgy9skum3Tr</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:10:14Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFF COUP е права съединителна муфа за капкова тръба с диаметър около 17 mm. Използва се за свързване или ремонт на участък от капковата линия. Оребрената конструкция осигурява стабилно задържане на тръбата, а устойчивата пластмаса е подходяща за работа на открито. Проверете съвместимостта с точния външен диаметър на тръбата преди монтаж.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxffcoup20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-0f1092c88100f9469315d53c6644bfa2e62a05c8-1200x1200-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFF COUP — права муфа за капкова тръба 17 mm</alt>
+    <altEn>Rain Bird XFF COUP — straight coupling for 17 mm dripline</altEn>
+    <altRu>Rain Bird XFF COUP — прямая муфта для капельной трубки 17 мм</altRu>
+    <asset>
+      <_ref>image-1d2e970151a7e996a30b01da48f3a4c1d4a92c28-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-40dcd7eee6ed7930e4156d818237a2bd2356ea00-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFF COUP — права муфа за капкова тръба 17 mm</name>
+  <priceEUR>0.59</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSiun2M</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePlzRu</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePlzTP</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePlzUu</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePlzWP</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>5JDx1XGfynIjxqhuePlzXu</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFF COUP — права муфа за капкова тръба 17 mm</h1>
+    <metaDescription>Продажба на права съединителна муфа Rain Bird XFF COUP за капкова тръба 17 mm, устойчива на UV лъчение. Флориал, Ахелой.</metaDescription>
+    <metaTitle>Rain Bird XFF COUP 17 mm муфа | Ахелой | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Съединителна муфа за капкова тръба 17 mm, устойчива на UV.</shortDescription>
+  <sku>X36370</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xff-coup</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFF-COUP</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XF Dripline Insert Fittings</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Права муфа за капкова тръба</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xff-coup, dripline fitting, coupling</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на тръбата</name>
+    <value>17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Тип връзка</name>
+    <value>Щуцер × щуцер, 17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>Работен диапазон 1,0–3,5 bar; при 4,1 bar (60 psi) са необходими фиксиращи скоби</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Rain Bird XF, XFD и XFS капкови тръби</value>
+  </specifications>
+  <specifications>
+    <_key>more1</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Устойчив полимер</value>
+  </specifications>
+  <specifications>
+    <_key>more2</_key>
+    <_type>productSpec</_type>
+    <name>Монтаж</name>
+    <value>Натискащо щуцерно свързване; при високо налягане се препоръчва фиксираща скоба</value>
+  </specifications>
+  <specifications>
+    <_key>more3</_key>
+    <_type>productSpec</_type>
+    <name>Употреба</name>
+    <value>Свързване на два участъка капкова тръба с еднакъв диаметър</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFF COUP is a straight coupling for dripline with an approximate 17 mm diameter. It is used to join or repair a section of drip tubing. Its barbed design helps hold the tubing securely, and the durable plastic is suitable for outdoor use. Check compatibility with the exact outside diameter of the tubing before installation.</description>
+      <name>Rain Bird XFF COUP — straight coupling for 17 mm dripline</name>
+      <seo>
+        <h1>Rain Bird XFF COUP — straight coupling for 17 mm dripline</h1>
+        <metaDescription>For sale: Rain Bird XFF COUP straight coupling for 17 mm dripline, with UV-resistant material. Florial, Aheloy.</metaDescription>
+        <metaTitle>Rain Bird XFF COUP 17 mm coupling | Aheloy | Florial</metaTitle>
+      </seo>
+      <shortDescription>Straight coupling for approximately 17 mm dripline, UV-resistant.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFF-COUP</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Straight coupling for dripline</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xff-coup, dripline fitting, coupling</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Tubing diameter</name>
+        <value>17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Connection type</name>
+        <value>Barb × barb, 17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>Operating range 1.0–3.5 bar; retaining clamps are required at 4.1 bar (60 psi)</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird XF, XFD and XFS dripline</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Durable polymer</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Installation</name>
+        <value>Push-on barb connection; retaining clamp recommended at high pressure</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Connects two sections of dripline with the same diameter</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFF COUP — прямая муфта для капельной трубки диаметром около 17 мм. Используется для соединения или ремонта участка капельной линии. Штуцерная конструкция обеспечивает надёжную фиксацию трубки, а прочный пластик подходит для наружного применения. Перед монтажом проверьте соответствие фактическому наружному диаметру трубки.</description>
+      <name>Rain Bird XFF COUP — прямая муфта для капельной трубки 17 мм</name>
+      <seo>
+        <h1>Rain Bird XFF COUP — прямая муфта для капельной трубки 17 мм</h1>
+        <metaDescription>Продажа прямой соединительной муфты Rain Bird XFF COUP для капельной трубки 17 мм, устойчивой к ультрафиолету. Флориал, Ахелой.</metaDescription>
+        <metaTitle>Rain Bird XFF COUP 17 мм муфта | Ахелой | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Прямая соединительная муфта для капельной трубки около 17 мм, устойчивая к УФ.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFF-COUP</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Прямая муфта для капельной трубки</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xff-coup, фитинг капельной трубки, муфта</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр трубки</name>
+        <value>17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Тип соединения</name>
+        <value>Штуцер × штуцер, 17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>Рабочий диапазон 1,0–3,5 бар; при 4,1 бар (60 psi) нужны фиксирующие зажимы</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Капельные трубки Rain Bird XF, XFD и XFS</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Прочный полимер</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Монтаж</name>
+        <value>Соединение нажимным штуцером; при высоком давлении рекомендуется фиксирующий зажим</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Соединение двух участков капельной трубки одинакового диаметра</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0071</weightKg>
+</document>
+
+<!-- document fcfe9234-992e-4c2a-ae5f-500d14afbf16 -->
+Found document "fcfe9234-992e-4c2a-ae5f-500d14afbf16": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>fcfe9234-992e-4c2a-ae5f-500d14afbf16</_id>
+  <_rev>rOW11EP0h6V5YhExSWWPB8</_rev>
+  <_system>
+    <base>
+      <id>fcfe9234-992e-4c2a-ae5f-500d14afbf16</id>
+      <rev>Wxh00JcLN6cQgy9skumZ1V</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:23:29Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFF ELBOW е ъглов фитинг за промяна на посоката на капкова тръба с диаметър около 17 mm. Подходящ е за монтаж около лехи, дървета и други зони, където линията трябва да завие без прегъване на тръбата. Оребрените накрайници осигуряват механично задържане, а устойчивият материал е предназначен за външни условия. Проверете диаметъра на тръбата преди монтаж.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxffelbowextra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-46cb89ba0cb05cf92b5b5a9d9be107bc75759173-1200x1200-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFF ELBOW — коляно за капкова тръба 17 mm</alt>
+    <altEn>Rain Bird XFF ELBOW — elbow for 17 mm dripline</altEn>
+    <altRu>Rain Bird XFF ELBOW — угловой фитинг для капельной трубки 17 мм</altRu>
+    <asset>
+      <_ref>image-4e4c9d5737deed94adfff737ffdf92945ff6179a-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-40dcd7eee6ed7930e4156d818237a2bd2356ea00-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFF ELBOW — коляно за капкова тръба 17 mm</name>
+  <priceEUR>0.85</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSiuE7q</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfAt</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfFw</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfKz</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfQ2</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>4HiY6K2MVEkLyvfYcmQfV5</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFF ELBOW — коляно за капкова тръба 17 mm</h1>
+    <metaDescription>Продажба на ъглов фитинг Rain Bird XFF ELBOW за промяна на посоката на капкова тръба 17 mm. Флориал, Несебър.</metaDescription>
+    <metaTitle>Rain Bird XFF ELBOW — коляно за капкова тръба 17 mm | Несебър</metaTitle>
+  </seo>
+  <shortDescription>Ъглов фитинг за промяна на посоката на капкова тръба 17 mm.</shortDescription>
+  <sku>X36372</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xff-elbow</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFF-ELBOW</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XF Dripline Insert Fittings</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Коляно за капкова тръба</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xff-elbow, dripline fitting, elbow</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на тръбата</name>
+    <value>17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Тип връзка</name>
+    <value>Щуцер × щуцер, 17 mm, ъгъл 90°</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>Работен диапазон 1,0–3,5 bar; при 4,1 bar (60 psi) са необходими фиксиращи скоби</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Rain Bird XF, XFD и XFS капкови тръби</value>
+  </specifications>
+  <specifications>
+    <_key>more1</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Устойчив полимер</value>
+  </specifications>
+  <specifications>
+    <_key>more2</_key>
+    <_type>productSpec</_type>
+    <name>Монтаж</name>
+    <value>Натискащо щуцерно свързване; при високо налягане се препоръчва фиксираща скоба</value>
+  </specifications>
+  <specifications>
+    <_key>more3</_key>
+    <_type>productSpec</_type>
+    <name>Употреба</name>
+    <value>Промяна на посоката на капковата линия на 90°</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFF ELBOW is an elbow fitting for changing the direction of dripline with an approximate 17 mm diameter. It is useful around beds, trees and other areas where the line needs to turn without kinking the tubing. Barbed ends provide mechanical retention, and the durable material is intended for outdoor conditions. Check the tubing diameter before installation.</description>
+      <name>Rain Bird XFF ELBOW — elbow for 17 mm dripline</name>
+      <seo>
+        <h1>Rain Bird XFF ELBOW — elbow for 17 mm dripline</h1>
+        <metaDescription>For sale: Rain Bird XFF ELBOW fitting for changing the direction of 17 mm dripline. Florial, Nessebar.</metaDescription>
+        <metaTitle>Rain Bird XFF ELBOW — elbow for 17 mm dripline | Nessebar | Florial</metaTitle>
+      </seo>
+      <shortDescription>Elbow fitting for changing the direction of approximately 17 mm dripline.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFF-ELBOW</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Elbow for dripline</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xff-elbow, dripline fitting, elbow</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Tubing diameter</name>
+        <value>17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Connection type</name>
+        <value>Barb × barb, 17 mm, 90° angle</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>Operating range 1.0–3.5 bar; retaining clamps are required at 4.1 bar (60 psi)</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird XF, XFD and XFS dripline</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Durable polymer</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Installation</name>
+        <value>Push-on barb connection; retaining clamp recommended at high pressure</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Changes dripline direction by 90°</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFF ELBOW — угловой фитинг для изменения направления капельной трубки диаметром около 17 мм. Подходит для прокладки вокруг клумб, деревьев и других зон, где линию нужно повернуть без перегиба трубки. Штуцерные концы обеспечивают фиксацию, а прочный материал предназначен для наружных условий. Перед монтажом проверьте диаметр трубки.</description>
+      <name>Rain Bird XFF ELBOW — угловой фитинг для капельной трубки 17 мм</name>
+      <seo>
+        <h1>Rain Bird XFF ELBOW — угловой фитинг для капельной трубки 17 мм</h1>
+        <metaDescription>Продажа углового фитинга Rain Bird XFF ELBOW для изменения направления капельной трубки 17 мм. Флориал, Несебр.</metaDescription>
+        <metaTitle>Rain Bird XFF ELBOW — угловой фитинг для капельной… | Несебр | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Угловой фитинг для изменения направления капельной трубки около 17 мм.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFF-ELBOW</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Колено для капельной трубки</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xff-elbow, фитинг капельной трубки, колено</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр трубки</name>
+        <value>17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Тип соединения</name>
+        <value>Штуцер × штуцер, 17 мм, угол 90°</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>Рабочий диапазон 1,0–3,5 бар; при 4,1 бар (60 psi) необходимы фиксирующие зажимы</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Капельные трубки Rain Bird XF, XFD и XFS</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Прочный полимер</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Монтаж</name>
+        <value>Соединение нажимным штуцером; при высоком давлении рекомендуется фиксирующий зажим</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Изменение направления капельной линии на 90°</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0095</weightKg>
+</document>
+
+<!-- document 0693b9f5-bf1b-4479-a218-8e8d7ff409ae -->
+Found document "0693b9f5-bf1b-4479-a218-8e8d7ff409ae": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>0693b9f5-bf1b-4479-a218-8e8d7ff409ae</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTIJD</_rev>
+  <_system>
+    <base>
+      <id>0693b9f5-bf1b-4479-a218-8e8d7ff409ae</id>
+      <rev>Wxh00JcLN6cQgy9skum31d</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:07:14Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFF TEE е тройник за разклоняване на капкова тръба с диаметър около 17 mm. Позволява да се създадат разклонения към отделни редове или групи растения без използване на допълнителни резбови адаптери. Оребрените накрайници задържат тръбата стабилно, а материалът е устойчив на UV лъчение и удар. Използвайте с тръба и фитинги от съвместим размер.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxffteeextra20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-e688a1733fa50b2ba144752d74d5a85375b9eb1b-800x800-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFF TEE — тройник за капкова тръба 17 mm</alt>
+    <altEn>Rain Bird XFF TEE — tee fitting for 17 mm dripline</altEn>
+    <altRu>Rain Bird XFF TEE — тройник для капельной трубки 17 мм</altRu>
+    <asset>
+      <_ref>image-2df4e7a3b1324f1bfe7306d5b59a3525512111bd-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-40dcd7eee6ed7930e4156d818237a2bd2356ea00-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFF TEE — тройник за капкова тръба 17 mm</name>
+  <priceEUR>1.07</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSitlAH</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>1rDJrklJr15Sj7TW0TamHD</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>1rDJrklJr15Sj7TW0TamME</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>1rDJrklJr15Sj7TW0TamRF</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>1rDJrklJr15Sj7TW0TamWG</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>1rDJrklJr15Sj7TW0TambH</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFF TEE — тройник за капкова тръба 17 mm</h1>
+    <metaDescription>Rain Bird XFF TEE — тройник за капкова тръба 17 mm за автоматично поливане. Оборудване за поливни системи в района на Равда.</metaDescription>
+    <metaTitle>Rain Bird XFF TEE — тройник за капкова тръба 17 mm | Равда</metaTitle>
+  </seo>
+  <shortDescription>Штуцерен тройник за разклоняване на капкова тръба 17 mm.</shortDescription>
+  <sku>X36373</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xff-tee</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFF-TEE</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XF Dripline Insert Fittings</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Тройник за капкова тръба</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xff-tee, dripline fitting, tee</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на тръбата</name>
+    <value>17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Тип връзка</name>
+    <value>Щуцер × щуцер × щуцер, 17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>Работен диапазон 1,0–3,5 bar; при 4,1 bar (60 psi) са необходими фиксиращи скоби</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Rain Bird XF, XFD и XFS капкови тръби</value>
+  </specifications>
+  <specifications>
+    <_key>more1</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Устойчив полимер</value>
+  </specifications>
+  <specifications>
+    <_key>more2</_key>
+    <_type>productSpec</_type>
+    <name>Монтаж</name>
+    <value>Натискащо щуцерно свързване; при високо налягане се препоръчва фиксираща скоба</value>
+  </specifications>
+  <specifications>
+    <_key>more3</_key>
+    <_type>productSpec</_type>
+    <name>Употреба</name>
+    <value>Разклоняване на капковата линия на три посоки</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFF TEE is a tee fitting for branching dripline with an approximate 17 mm diameter. It allows lines to branch to separate rows or plant groups without additional threaded adapters. Barbed ends hold the tubing securely, and the material resists UV exposure and impact. Use with tubing and fittings of compatible size.</description>
+      <name>Rain Bird XFF TEE — tee fitting for 17 mm dripline</name>
+      <seo>
+        <h1>Rain Bird XFF TEE — tee fitting for 17 mm dripline</h1>
+        <metaDescription>For sale: Rain Bird XFF TEE, a barbed tee fitting for branching 17 mm dripline into three directions. Florial, Ravda.</metaDescription>
+        <metaTitle>Rain Bird XFF TEE — tee fitting for 17 mm dripline | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Barbed tee for branching approximately 17 mm dripline.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFF-TEE</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Tee fitting for dripline</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xff-tee, dripline fitting, tee</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Tubing diameter</name>
+        <value>17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Connection type</name>
+        <value>Barb × barb × barb, 17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>Operating range 1.0–3.5 bar; retaining clamps are required at 4.1 bar (60 psi)</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird XF, XFD and XFS dripline</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Durable polymer</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Installation</name>
+        <value>Push-on barb connections; retaining clamp recommended at high pressure</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Branches a dripline into three directions</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFF TEE — тройник для разветвления капельной трубки диаметром около 17 мм. Позволяет создавать ответвления к отдельным рядам или группам растений без дополнительных резьбовых переходников. Штуцерные концы надёжно удерживают трубку, а материал устойчив к ультрафиолету и ударам. Используйте с трубкой и фитингами подходящего размера.</description>
+      <name>Rain Bird XFF TEE — тройник для капельной трубки 17 мм</name>
+      <seo>
+        <h1>Rain Bird XFF TEE — тройник для капельной трубки 17 мм</h1>
+        <metaDescription>Продажа тройника Rain Bird XFF TEE для капельной трубки 17 мм. Штуцерные соединения позволяют разделить линию на три направления. Флориал, Равда.</metaDescription>
+        <metaTitle>Rain Bird XFF TEE 17 мм | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Штуцерный тройник для разветвления капельной трубки около 17 мм.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFF-TEE</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Тройник для капельной трубки</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xff-tee, фитинг капельной трубки, тройник</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр трубки</name>
+        <value>17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Тип соединения</name>
+        <value>Штуцер × штуцер × штуцер, 17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>Рабочий диапазон 1,0–3,5 бар; при 4,1 бар (60 psi) необходимы фиксирующие зажимы</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Капельные трубки Rain Bird XF, XFD и XFS</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Прочный полимер</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Монтаж</name>
+        <value>Соединение нажимными штуцерами; при высоком давлении рекомендуется фиксирующий зажим</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Разветвление капельной линии на три направления</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0142</weightKg>
+</document>
+
+<!-- document 73b45db4-4fc3-455f-86ff-35bd8a0e330a -->
+Found document "73b45db4-4fc3-455f-86ff-35bd8a0e330a": 
+<document>
+  <_createdAt>2026-10-23T13:06:14Z</_createdAt>
+  <_id>73b45db4-4fc3-455f-86ff-35bd8a0e330a</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBU7mv</_rev>
+  <_system>
+    <base>
+      <id>73b45db4-4fc3-455f-86ff-35bd8a0e330a</id>
+      <rev>1qyPYQSEDVHtpwb6uBTesB</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:25:21Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>e577ef6b-d164-488f-b2f0-29ff7e8e7e9b</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>s0</_key>
+      <_type>span</_type>
+      <text>Rain Bird XFF-MA-075 е преходник за свързване на капкова тръба с диаметър около 17 mm към компонент с вътрешна резба 3/4″. Штуцерният край задържа капковата тръба, а резбовият край позволява свързване към съвместим колектор или фитинг. Изработен е от устойчива пластмаса за работа на открито. Преди монтаж проверете резбата и диаметъра на тръбата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>galleryxffma07520261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-ad9443efdb10bea1e6ad14b93b211e54c8e66a44-986x986-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird XFF-MA-075 — преходник за капкова тръба 17 mm към 3/4″</alt>
+    <altEn>Rain Bird XFF-MA-075 — 17 mm dripline adapter to 3/4″</altEn>
+    <altRu>Rain Bird XFF-MA-075 — переходник с капельной трубки 17 мм на 3/4″</altRu>
+    <asset>
+      <_ref>image-c165c6f59ffba4ca45dda1a40d4d6956d4b7a65a-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-40dcd7eee6ed7930e4156d818237a2bd2356ea00-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird XFF-MA-075 — преходник за капкова тръба 17 mm към 3/4″</name>
+  <priceEUR>0.98</priceEUR>
+  <relatedContent>
+    <_key>I3YKJCwIjHh6NxfePXX6KM</_key>
+    <_ref>bbdb6864-f4b5-4969-ae31-62fc2043a25c</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>0A9rzpL6huWtVPP5f98h9Z</_key>
+    <_ref>d453b980-ec2c-4e2b-a2fe-8b977640aa68</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>0A9rzpL6huWtVPP5f98hC7</_key>
+    <_ref>e5af2cc5-ba27-4040-8c52-23c67ca00edd</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>0A9rzpL6huWtVPP5f98hEf</_key>
+    <_ref>6804de6d-74c8-48d3-89c9-9e035cba44ca</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>0A9rzpL6huWtVPP5f98hHD</_key>
+    <_ref>bd5f3c9a-51fb-45f1-9fb8-4023d33f017e</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>0A9rzpL6huWtVPP5f98hJl</_key>
+    <_ref>c9f6aeed-90e0-4fb7-85be-bb24c646f70b</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird XFF-MA-075 — преходник за капкова тръба 17 mm към 3/4″</h1>
+    <metaDescription>Продажба на преходник Rain Bird XFF-MA-075 с оребрен накрайник 17 mm и външна резба ¾″ за капкова тръба. Флориал, Слънчев бряг.</metaDescription>
+    <metaTitle>Rain Bird XFF-MA-075 17 mm към ¾″ | Florial</metaTitle>
+  </seo>
+  <shortDescription>Преходник с оребрен накрайник 17 mm и външна резба 3/4″.</shortDescription>
+  <sku>X36375</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-xff-ma-075</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>XFF-MA-075</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>XF Dripline Insert Fittings</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Преходник за капкова тръба към резбова връзка</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>xff-ma-075, dripline fitting, male adapter</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Диаметър на тръбата</name>
+    <value>17 mm</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Резба</name>
+    <value>¾″ външна резба MPT</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Тип връзка</name>
+    <value>Щуцер 17 mm × външна резба ¾″ MPT</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>Работен диапазон 1,0–3,5 bar; при 4,1 bar (60 psi) са необходими фиксиращи скоби</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Rain Bird XF, XFD и XFS капкови тръби</value>
+  </specifications>
+  <specifications>
+    <_key>more1</_key>
+    <_type>productSpec</_type>
+    <name>Материал</name>
+    <value>Устойчив полимер</value>
+  </specifications>
+  <specifications>
+    <_key>more2</_key>
+    <_type>productSpec</_type>
+    <name>Монтаж</name>
+    <value>Натискащо щуцерно свързване към капкова тръба</value>
+  </specifications>
+  <specifications>
+    <_key>more3</_key>
+    <_type>productSpec</_type>
+    <name>Употреба</name>
+    <value>Преход от капкова тръба 17 mm към резбова връзка ¾″</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird XFF-MA-075 connects dripline of approximately 17 mm diameter to a component with a 3/4″ female thread. The barbed end holds the dripline, while the threaded end connects to a compatible manifold or fitting. Made from durable plastic for outdoor use. Check the thread and tubing diameter before installation.</description>
+      <name>Rain Bird XFF-MA-075 — 17 mm dripline adapter to 3/4″</name>
+      <seo>
+        <h1>Rain Bird XFF-MA-075 — 17 mm dripline adapter to 3/4″</h1>
+        <metaDescription>For sale: Rain Bird XFF-MA-075 adapter with a 17 mm barbed end and ¾″ male thread for dripline connections. Florial, Sunny Beach.</metaDescription>
+        <metaTitle>Rain Bird XFF-MA-075 17 mm to ¾″ adapter | Sunny Beach | Florial</metaTitle>
+      </seo>
+      <shortDescription>Adapter with a 17 mm barbed end and 3/4″ male thread.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>XFF-MA-075</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Dripline-to-thread adapter</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>xff-ma-075, dripline fitting, male adapter</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Tubing diameter</name>
+        <value>17 mm</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Thread</name>
+        <value>¾″ male MPT thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Connection type</name>
+        <value>17 mm barb × ¾″ male MPT thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>Operating range 1.0–3.5 bar; retaining clamps are required at 4.1 bar (60 psi)</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird XF, XFD and XFS dripline</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Material</name>
+        <value>Durable polymer</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Installation</name>
+        <value>Push-on barb connection to dripline</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Application</name>
+        <value>Adapts 17 mm dripline to a ¾″ threaded connection</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird XFF-MA-075 соединяет капельную трубку диаметром около 17 мм с компонентом с внутренней резьбой 3/4″. Штуцерный конец фиксирует трубку, а резьбовой подключается к совместимому коллектору или фитингу. Изготовлен из прочного пластика для наружного применения. Перед монтажом проверьте резьбу и диаметр трубки.</description>
+      <name>Rain Bird XFF-MA-075 — переходник с капельной трубки 17 мм на 3/4″</name>
+      <seo>
+        <h1>Rain Bird XFF-MA-075 — переходник с капельной трубки 17 мм на 3/4″</h1>
+        <metaDescription>Продажа переходника Rain Bird XFF-MA-075 со штуцером 17 мм и наружной резьбой ¾″ для капельной трубки. Флориал, Солнечный берег.</metaDescription>
+        <metaTitle>Rain Bird XFF-MA-075 17 мм → ¾″ | Солнечный берег | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Переходник со штуцером 17 мм и наружной резьбой 3/4″.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>XFF-MA-075</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>XF Dripline Insert Fittings</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Переходник капельной трубки на резьбовое соединение</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>xff-ma-075, фитинг капельной трубки, переходник с наружной резьбой</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Диаметр трубки</name>
+        <value>17 мм</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Резьба</name>
+        <value>Наружная резьба MPT ¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Тип соединения</name>
+        <value>Штуцер 17 мм × наружная резьба MPT ¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>Рабочий диапазон 1,0–3,5 бар; при 4,1 бар (60 psi) необходимы фиксирующие зажимы</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Капельные трубки Rain Bird XF, XFD и XFS</value>
+      </specifications>
+      <specifications>
+        <_key>more1</_key>
+        <_type>productSpec</_type>
+        <name>Материал</name>
+        <value>Прочный полимер</value>
+      </specifications>
+      <specifications>
+        <_key>more2</_key>
+        <_type>productSpec</_type>
+        <name>Монтаж</name>
+        <value>Соединение капельной трубки нажимным штуцером</value>
+      </specifications>
+      <specifications>
+        <_key>more3</_key>
+        <_type>productSpec</_type>
+        <name>Назначение</name>
+        <value>Переход от капельной трубки 17 мм к резьбовому соединению ¾″</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0111</weightKg>
+</document>
+
+<!-- document 0fd0565a-e2d8-4aeb-bc68-92e3b26020a5 -->
+Found document "0fd0565a-e2d8-4aeb-bc68-92e3b26020a5": 
+<document>
+  <_createdAt>2026-10-30T11:30:31Z</_createdAt>
+  <_id>0fd0565a-e2d8-4aeb-bc68-92e3b26020a5</_id>
+  <_rev>1qyPYQSEDVHtpwb6uBTIJD</_rev>
+  <_system>
+    <base>
+      <id>0fd0565a-e2d8-4aeb-bc68-92e3b26020a5</id>
+      <rev>Wxh00JcLN6cQgy9skum31d</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:07:14Z</_updatedAt>
+  <categories>
+    <_key>root</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>pipes</_key>
+    <_ref>7b11a55e-19a1-4fe5-8a94-2df53864aaf0</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>leaf</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>desc</_key>
+    <_type>block</_type>
+    <children>
+      <_key>txt</_key>
+      <_type>span</_type>
+      <text>Крепежно колче за фиксиране на капков маркуч 16 mm. Продуктов номер: 3112/1620. Опаковка: 100 бр..</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <isActive>true</isActive>
+  <name>Опорно колче за капков маркуч 16 mm</name>
+  <priceEUR>0.19</priceEUR>
+  <relatedContent>
+    <_key>I3YKJCwIjHh6NxfePXWs5m</_key>
+    <_ref>blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <seo>
+    <h1>Опорно колче за капков маркуч 16 mm</h1>
+    <metaDescription>Продажба на опорно колче за фиксиране на капков маркуч 16 mm. Подходящо за закрепване на капковата линия към терена. Флориал, Кошарица.</metaDescription>
+    <metaTitle>Колче за капков маркуч 16 mm | Кошарица | Флориал</metaTitle>
+    <noIndex>false</noIndex>
+  </seo>
+  <shortDescription>Опорно колче за капков маркуч 16 mm. Цена с ДДС.</shortDescription>
+  <sku>3112/1620</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>fitting-3112-1620</current>
+  </slug>
+  <specifications>
+    <_key>bg0</_key>
+    <_type>productSpec</_type>
+    <name>Продуктов номер</name>
+    <value>3112/1620</value>
+  </specifications>
+  <specifications>
+    <_key>bg1</_key>
+    <_type>productSpec</_type>
+    <name>Опаковка</name>
+    <value>100</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Support stake за капков маркуч 16 mm. Крепежно колче за фиксиране на капков маркуч 16 mm. Продуктов номер: 3112/1620. Опаковка: 100 бр..</description>
+      <name>Support stake за капков маркуч 16 mm</name>
+      <seo>
+        <h1>Support stake for 16 mm dripline</h1>
+        <metaDescription>For sale: support stake for securing 16 mm dripline in place along the irrigation line. Florial, Kosharitsa.</metaDescription>
+        <metaTitle>Support stake for 16 mm dripline | Kosharitsa | Florial</metaTitle>
+      </seo>
+      <shortDescription>Support stake за капков маркуч 16 mm. VAT included.</shortDescription>
+      <specifications>
+        <_key>en0</_key>
+        <_type>productSpec</_type>
+        <name>Product number</name>
+        <value>3112/1620</value>
+      </specifications>
+      <specifications>
+        <_key>en1</_key>
+        <_type>productSpec</_type>
+        <name>Pack size</name>
+        <value>100</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Опорный колышек за капков маркуч 16 mm. Крепежно колче за фиксиране на капков маркуч 16 mm. Продуктов номер: 3112/1620. Опаковка: 100 бр..</description>
+      <name>Опорный колышек за капков маркуч 16 mm</name>
+      <seo>
+        <h1>Опорный колышек для капельной трубки 16 мм</h1>
+        <metaDescription>Продажа опорного колышка для фиксации капельной трубки 16 мм на грунте вдоль линии полива. Флориал, Кошарица.</metaDescription>
+        <metaTitle>Колышек для капельной трубки 16 мм | Кошарица | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Опорный колышек за капков маркуч 16 mm. Цена с ДДС.</shortDescription>
+      <specifications>
+        <_key>ru0</_key>
+        <_type>productSpec</_type>
+        <name>Артикул</name>
+        <value>3112/1620</value>
+      </specifications>
+      <specifications>
+        <_key>ru1</_key>
+        <_type>productSpec</_type>
+        <name>Упаковка</name>
+        <value>100</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.02</weightKg>
+</document>
+
+<!-- document 582265a9-944e-4928-aee2-577cbe34e774 -->
+Found document "582265a9-944e-4928-aee2-577cbe34e774": 
+<document>
+  <_createdAt>2026-10-30T11:30:31Z</_createdAt>
+  <_id>582265a9-944e-4928-aee2-577cbe34e774</_id>
+  <_rev>Wxh00JcLN6cQgy9skuoMGg</_rev>
+  <_system>
+    <base>
+      <id>582265a9-944e-4928-aee2-577cbe34e774</id>
+      <rev>rOW11EP0h6V5YhExSWQTWe</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-14T06:12:54Z</_updatedAt>
+  <categories>
+    <_key>root</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>pipes</_key>
+    <_ref>7b11a55e-19a1-4fe5-8a94-2df53864aaf0</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>leaf</_key>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-drip-fittings</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>desc</_key>
+    <_type>block</_type>
+    <children>
+      <_key>txt</_key>
+      <_type>span</_type>
+      <text>Кафяво опорно колче с дължина 145 mm за фиксиране на капков маркуч 16–20 mm. Продуктов номер: 3112/16202. Опаковка: 100 бр..</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <isActive>true</isActive>
+  <name>Опорно колче за капков маркуч 16–20 mm, 145 mm, кафяво</name>
+  <priceEUR>0.19</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcgOf</_key>
+    <_ref>7ead4133-8f63-4381-bafe-493499fff5b8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <seo>
+    <h1>Опорно колче за капков маркуч 16–20 mm, 145 mm, кафяво</h1>
+    <metaDescription>Продажба на кафяво опорно колче с дължина 145 mm за фиксиране на капков маркуч 16–20 mm. Флориал, Поморие.</metaDescription>
+    <metaTitle>Колче за капков маркуч 16–20 mm | Поморие | Флориал</metaTitle>
+    <noIndex>false</noIndex>
+  </seo>
+  <shortDescription>Опорно колче за капков маркуч 16–20 mm, 145 mm, кафяво. Цена с ДДС.</shortDescription>
+  <sku>3112/16202</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>fitting-3112-16202</current>
+  </slug>
+  <specifications>
+    <_key>bg0</_key>
+    <_type>productSpec</_type>
+    <name>Продуктов номер</name>
+    <value>3112/16202</value>
+  </specifications>
+  <specifications>
+    <_key>bg1</_key>
+    <_type>productSpec</_type>
+    <name>Опаковка</name>
+    <value>100</value>
+  </specifications>
+  <stockStatus>inStock</stockStatus>
+  <translations>
+    <en>
+      <description>Support stake за капков маркуч 16–20 mm, 145 mm, кафяво. Кафяво опорно колче с дължина 145 mm за фиксиране на капков маркуч 16–20 mm. Продуктов номер: 3112/16202. Опаковка: 100 бр..</description>
+      <name>Support stake за капков маркуч 16–20 mm, 145 mm, кафяво</name>
+      <seo>
+        <h1>Support stake for 16–20 mm dripline, 145 mm, brown</h1>
+        <metaDescription>For sale: brown 145 mm support stake for securing 16–20 mm dripline in place. Florial, Pomorie.</metaDescription>
+        <metaTitle>Support stake 145 mm for 16–20 mm dripline | Pomorie | Florial</metaTitle>
+      </seo>
+      <shortDescription>Support stake за капков маркуч 16–20 mm, 145 mm, кафяво. VAT included.</shortDescription>
+      <specifications>
+        <_key>en0</_key>
+        <_type>productSpec</_type>
+        <name>Product number</name>
+        <value>3112/16202</value>
+      </specifications>
+      <specifications>
+        <_key>en1</_key>
+        <_type>productSpec</_type>
+        <name>Pack size</name>
+        <value>100</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Опорный колышек за капков маркуч 16–20 mm, 145 mm, кафяво. Кафяво опорно колче с дължина 145 mm за фиксиране на капков маркуч 16–20 mm. Продуктов номер: 3112/16202. Опаковка: 100 бр..</description>
+      <name>Опорный колышек за капков маркуч 16–20 mm, 145 mm, кафяво</name>
+      <seo>
+        <h1>Опорный колышек для капельной трубки 16–20 мм, 145 мм, коричневый</h1>
+        <metaDescription>Продажа коричневого опорного колышка длиной 145 мм для фиксации капельной трубки 16–20 мм. Флориал, Поморие.</metaDescription>
+        <metaTitle>Колышек 145 мм для трубки 16–20 мм | Поморие | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Опорный колышек за капков маркуч 16–20 mm, 145 mm, кафяво. Цена с ДДС.</shortDescription>
+      <specifications>
+        <_key>ru0</_key>
+        <_type>productSpec</_type>
+        <name>Артикул</name>
+        <value>3112/16202</value>
+      </specifications>
+      <specifications>
+        <_key>ru1</_key>
+        <_type>productSpec</_type>
+        <name>Упаковка</name>
+        <value>100</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.03</weightKg>
+</document>
