@@ -126,7 +126,7 @@ export default function App() {
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
-  const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
+  const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
