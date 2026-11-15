@@ -349,7 +349,7 @@ function renderPortableText(
   })
 }
 
-export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
+export function ServicePage({ service }: ServicePageProps) {
   const { t, language, localize } = useI18n()
   const [leadSubmissionStatus, setLeadSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [leadSubmissionMessage, setLeadSubmissionMessage] = useState('')
