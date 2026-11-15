@@ -82,3 +82,9 @@ test('service direction Sanity GROQ projections are structurally balanced for ev
   assert.equal(quote, null, 'unterminated string in serviceDirectionQuery')
   assert.deepEqual(stack, [], 'serviceDirectionQuery contains unclosed GROQ delimiters')
 })
+
+
+test('service specialist landing routes reach the Pages SPA fallback instead of middleware 404', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  assert.ok(middleware.includes("if (/^\\/services\\/category\\/[^/]+$/.test(path)) return context.next()"))
+})
