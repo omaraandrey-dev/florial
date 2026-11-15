@@ -223,6 +223,13 @@ export function ServicesListPage({ services, rolePhotos, loading = false }: Serv
             )
           })}
         </div>
+        <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm font-semibold">
+          {SERVICE_DIRECTIONS.map((direction) => (
+            <a key={direction.id} href={localizedHref(`/services/category/${direction.id === 'irrigation' ? 'polivni-sistemi' : direction.id === 'planting' ? 'gardinar' : direction.id === 'lawn' ? 'trevni-ploshti' : 'landshaften-arhitekt'}`, language)} className="text-emerald-800 underline underline-offset-4 hover:text-emerald-950">
+              {language === 'ru' ? 'Все услуги: ' : language === 'en' ? 'Explore: ' : 'Разгледайте: '}{direction.title[language]}
+            </a>
+          ))}
+        </div>
         <p className="mt-3 text-center text-xs text-slate-500" aria-live="polite">{loading ? (language === 'ru' ? 'Загрузка услуг…' : language === 'en' ? 'Loading services…' : 'Зареждане на услугите…') : copy.showing(filteredEntries.length)}</p>
       </section>
 
