@@ -11,6 +11,19 @@ interface ServicePageProps {
   onNavigateHome: () => void
 }
 
+function createLeadIdempotencyKey(): string {
+  const cryptoApi = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined
+  if (cryptoApi && typeof cryptoApi.randomUUID === 'function') {
+    return cryptoApi.randomUUID()
+  }
+  if (cryptoApi && typeof cryptoApi.getRandomValues === 'function') {
+    const bytes = new Uint8Array(16)
+    cryptoApi.getRandomValues(bytes)
+    return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
+  }
+  return `florial-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+}
+
 const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
@@ -332,7 +345,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const [leadSubmissionStatus, setLeadSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [leadSubmissionMessage, setLeadSubmissionMessage] = useState('')
   const [leadSubmissionNumber, setLeadSubmissionNumber] = useState('')
-  const [leadIdempotencyKey] = useState(() => crypto.randomUUID())
+  const [leadIdempotencyKey] = useState(() => createLeadIdempotencyKey())
   const localizedName = String(localize(service, 'name') || service.name)
   const translatedHero = language === 'bg' ? service.hero : service.translations?.[language]?.hero
   const hero = translatedHero || service.hero || {}
