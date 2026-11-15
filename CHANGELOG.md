@@ -1,3 +1,11 @@
+## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 in progress)
+
+- Added a documented launcher visibility rule: show the floating specialist portrait only on resolved irrigation-equipment catalogue categories/products, the `polivni-sistemi` service-direction page, and individual irrigation/maintenance/delivery service pages. Hide it on plants, homepage, blog, general services, landscaping/planting/lawn services, cart, search and the assistant page itself.
+- The launcher now requests the dedicated published Sanity photo document `15f0ab7e-b6c9-40aa-ae12-67dd84dbff53`, slug `florial-irrigation-specialist`; the original service photo was not changed.
+- Added `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`: customer geometry/water inputs, deterministic hydraulic-engine boundary, Rain Bird SKU verification, Gemini's limited role, Cloudflare security, acceptance cases and staged delivery.
+- Live Sanity Production read-back confirms the new photo document and CDN asset. PR #303 Preview deployment for code SHA `610c696c313c55a1f844b3b626c26b315e572a23` succeeded; GitHub validation job passed, while the separate Studio validation job was still in progress at this checkpoint.
+- No Gemini API calls/secrets, Sanity schema changes, D1 changes, order writes, Header/menu/Footer changes or Production release were performed in this stage. Exact launcher route matrix still requires browser QA before merge.
+
 ## 2026-11-15 — TypeScript and CI checks merged and deployed (PR #299)
 
 - PR #299 `ci: add TypeScript checks for app and Pages Functions` was squash-merged into `main` as commit `e2329572f8af211a109434a8d9807610e59b7926`.
