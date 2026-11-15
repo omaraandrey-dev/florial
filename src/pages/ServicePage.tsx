@@ -11,6 +11,28 @@ interface ServicePageProps {
   onNavigateHome: () => void
 }
 
+const SERVICE_DIRECTION_BY_CATEGORY: Record<string, { slug: string; title: Record<string, string> }> = {
+  landscaping: { slug: 'landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' } },
+  irrigation: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+  maintenance: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+  delivery: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
+  planting: { slug: 'gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' } },
+  lawn: { slug: 'trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' } },
+}
+
+function createLeadIdempotencyKey(): string {
+  const cryptoApi = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined
+  if (cryptoApi && typeof cryptoApi.randomUUID === 'function') {
+    return cryptoApi.randomUUID()
+  }
+  if (cryptoApi && typeof cryptoApi.getRandomValues === 'function') {
+    const bytes = new Uint8Array(16)
+    cryptoApi.getRandomValues(bytes)
+    return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
+  }
+  return `florial-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+}
+
 const sectionForHeading = (value: string, language: string) => {
   const normalized = value.trim().toLocaleLowerCase()
   const headings: Record<string, Record<string, string[]>> = {
@@ -332,7 +354,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const [leadSubmissionStatus, setLeadSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [leadSubmissionMessage, setLeadSubmissionMessage] = useState('')
   const [leadSubmissionNumber, setLeadSubmissionNumber] = useState('')
-  const [leadIdempotencyKey] = useState(() => crypto.randomUUID())
+  const [leadIdempotencyKey] = useState(() => createLeadIdempotencyKey())
   const localizedName = String(localize(service, 'name') || service.name)
   const translatedHero = language === 'bg' ? service.hero : service.translations?.[language]?.hero
   const hero = translatedHero || service.hero || {}
@@ -362,6 +384,7 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
   const leadFormTitle = translatedLeadForm?.title || (language === 'bg' ? leadForm.title : undefined) || (language === 'ru' ? 'Заявка на услугу' : language === 'en' ? 'Service enquiry' : 'Запитване за услуга')
   const leadFormSubmitLabel = translatedLeadForm?.submitLabel || (language === 'bg' ? leadForm.submitLabel : undefined) || (language === 'ru' ? 'Отправить заявку' : language === 'en' ? 'Send enquiry' : 'Изпрати запитване')
   const leadFormReady = Boolean(leadFormFields.length > 0 && service.slug?.current)
+  const direction = SERVICE_DIRECTION_BY_CATEGORY[service.serviceCategory || '']
 
   const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -436,15 +459,6 @@ export function ServicePage({ service, onNavigateHome }: ServicePageProps) {
       alternates: baseUrl ? alternates : undefined,
     })
 
-    const directionByCategory: Record<string, { slug: string; title: Record<string, string> }> = {
-      landscaping: { slug: 'landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' } },
-      irrigation: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
-      maintenance: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
-      delivery: { slug: 'polivni-sistemi', title: { bg: 'Инженер по поливни системи', ru: 'Инженер систем полива', en: 'Irrigation systems engineer' } },
-      planting: { slug: 'gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' } },
-      lawn: { slug: 'trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' } },
-    }
-    const direction = directionByCategory[service.serviceCategory || '']
     if (baseUrl) {
       const serviceUrl = new URL(localizedHref(`/services/${encodeURIComponent(serviceSlug)}`, language), window.location.origin).toString()
       const directionUrl = direction ? new URL(localizedHref(`/services/category/${direction.slug}`, language), window.location.origin).toString() : undefined

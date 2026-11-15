@@ -27,7 +27,7 @@ test('service direction routes load the directory and do not fall through to ser
 
 test('service details include their specialist page in visual and JSON-LD breadcrumbs', async () => {
   const detail = await read('../src/pages/ServicePage.tsx')
-  assert.match(detail, /directionByCategory/)
+  assert.match(detail, /SERVICE_DIRECTION_BY_CATEGORY/)
   assert.match(detail, /services\/category\//)
   assert.match(detail, /position: direction && directionUrl \? 4 : 3/)
   assert.match(detail, /direction\.title\[language\]/)
@@ -81,4 +81,10 @@ test('service direction Sanity GROQ projections are structurally balanced for ev
   }
   assert.equal(quote, null, 'unterminated string in serviceDirectionQuery')
   assert.deepEqual(stack, [], 'serviceDirectionQuery contains unclosed GROQ delimiters')
+})
+
+
+test('service specialist landing routes reach the Pages SPA fallback instead of middleware 404', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  assert.ok(middleware.includes("if (/^\\/services\\/category\\/[^/]+$/.test(path)) return context.next()"))
 })

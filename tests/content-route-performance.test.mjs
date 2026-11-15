@@ -91,3 +91,32 @@ test('currentService is initialized before the SEO effect reads it during the fi
   assert.ok(declaration >= 0 && declaration < seoEffect)
   assert.ok(dependencyReference > seoEffect)
 })
+
+
+test('service page creates lead idempotency keys without requiring crypto.randomUUID', async () => {
+  const detail = await read('../src/pages/ServicePage.tsx')
+  assert.match(detail, /typeof cryptoApi\.randomUUID === 'function'/)
+  assert.match(detail, /cryptoApi\.getRandomValues/)
+  assert.match(detail, /Math\.random\(\)/)
+  assert.match(detail, /useState\(\(\) => createLeadIdempotencyKey\(\)\)/)
+})
+
+test('service detail render errors are caught and shown as a recoverable page state', async () => {
+  const app = await read('../src/App.tsx')
+  assert.match(app, /class ServicePageErrorBoundary extends React\.Component/)
+  assert.match(app, /componentDidCatch\(error: Error\)/)
+  assert.match(app, /<ServicePageErrorBoundary key=\{activeServiceSlug\} language=\{language\}/)
+  assert.match(app, /role="alert"/)
+})
+
+
+test('service breadcrumb direction is defined in component scope before the SEO effect and render', async () => {
+  const detail = await read('../src/pages/ServicePage.tsx')
+  const componentStart = detail.indexOf('export function ServicePage')
+  const directionDeclaration = detail.indexOf("const direction = SERVICE_DIRECTION_BY_CATEGORY[service.serviceCategory || '']", componentStart)
+  const effectStart = detail.indexOf('useEffect(() => {', componentStart)
+  assert.ok(componentStart >= 0 && directionDeclaration > componentStart && directionDeclaration < effectStart)
+  assert.match(detail, /const SERVICE_DIRECTION_BY_CATEGORY:/)
+  assert.match(detail, /\{direction && \(/)
+  assert.doesNotMatch(detail.slice(effectStart, detail.indexOf('const sourceBlocks', effectStart)), /const direction =/)
+})

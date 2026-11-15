@@ -1057,6 +1057,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     }))
   }
 
+  // Specialist landing pages are client-rendered routes with three path segments.
+  // Let the Pages SPA fallback serve index.html; the two-segment Sanity resolver below must not 404 them.
+  if (/^\/services\/category\/[^/]+$/.test(path)) return context.next()
+
   const parts = path.split('/').filter(Boolean)
   const route = parts[0]
   const rawSlug = parts[1]
