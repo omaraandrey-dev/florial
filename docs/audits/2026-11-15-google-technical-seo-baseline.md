@@ -69,9 +69,9 @@ All three returned HTTP 200 and `index, follow`.
 
 | Locale | Title | Meta description length | H1 |
 |---|---|---:|---|
-| BG | Палми и юки | Несебър | Градински център Флориал | 144 | Палми и юки за градини, дворове и тераси |
-| RU | Пальмы и юкки | Несебър | Садовый центр Флориал | 142 | Пальмы и юкки для сада и террасы |
-| EN | Palms and Yuccas | Nessebar | Florial Garden Center | 152 | Palms and Yuccas for Gardens and Terraces |
+| BG | Палми и юки \| Несебър \| Градински център Флориал | 144 | Палми и юки за градини, дворове и тераси |
+| RU | Пальмы и юкки \| Несебър \| Садовый центр Флориал | 142 | Пальмы и юкки для сада и террасы |
+| EN | Palms and Yuccas \| Nessebar \| Florial Garden Center | 152 | Palms and Yuccas for Gardens and Terraces |
 
 All three descriptions are within the project's 160-character target. The shortened descriptions are already present in live page metadata; **no further Sanity update is needed for this item**.
 
@@ -91,8 +91,9 @@ The connected property returned a page report with 313 URL rows:
 - 58 clicks
 - 946 impressions / 50 clicks on apex-domain URL rows
 - 57 impressions / 8 clicks on www URL rows (23 URL rows)
+- 1 impression / 0 clicks on the `http://florial-bg.com/` URL row (the HTTP-to-HTTPS status code was not exposed by the read-only fetch)
 
-The latest www URL impression in the retrieved daily sample was 2026-11-13. This is consistent with Google still reporting some historical www URLs even though sampled live www requests currently redirect with HTTP 301. It is not, by itself, proof of a canonical defect.
+The latest www URL impression in the retrieved daily sample was 2026-11-13. The separate HTTP URL row was a single impression; its redirect status remains unconfirmed. This is consistent with Google still reporting some historical www URLs even though sampled live www requests currently redirect with HTTP 301. It is not, by itself, proof of a canonical defect.
 
 ### Palm category
 
