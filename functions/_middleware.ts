@@ -751,6 +751,20 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
     return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
   }
+  if (path === '/irrigation-assistant') {
+    const response = await transformHtmlResponse(
+      await context.next(),
+      (html) => setMetaTag(html, 'name', 'robots', 'noindex, nofollow'),
+    )
+    const headers = new Headers(response.headers)
+    headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive')
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    })
+  }
+
   const language: 'bg' | 'ru' | 'en' = languageParam === 'ru' ? 'ru' : languageParam === 'en' ? 'en' : 'bg'
 
   if (
