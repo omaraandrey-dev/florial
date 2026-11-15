@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
