@@ -1,21 +1,3 @@
-## 2026-11-15 — Service specialist pages: additive Sanity schema prepared
-
-- Extended PR #292 with a new `serviceDirection` document type in the existing `studio/schemaTypes/index.ts` and existing `florial-admin` workspace. No second Studio or MCP-managed schema was created.
-- The type supports the four specialist directions, service-category mapping, localized BG/RU/EN H1, metadata, intro, article sections, FAQs, labels, and an optional hero image.
-- The change is additive. No existing Sanity documents, assets, service content, references, or published data were modified. Four new Production documents have not yet been created; the frontend still needs to be connected to the new documents.
-- First CI pass exposed a syntax error in the new schema definition; it was corrected in commit `0533f085b01367dc00cfcc1c3e6d3ce193b71fbc`. On that exact SHA, website lint, tests, build, Pages Functions syntax, read-only D1 validation and Sanity Studio build passed (runs `43726056390`, `43726056393`, `43726056441`).
-- PR #292 remains open and unmerged. Sanity schema Production deployment, creation/publication of the four direction documents, frontend Sanity integration, Production route smoke tests and Google indexing remain pending.
-
-## 2026-11-15 — Four localized service specialist landing pages added
-
-- Added four dedicated pages for landscape architecture, irrigation systems, gardening/planting and lawns, with unique BG/RU/EN copy, localized metadata, practical article sections, FAQs, service cards and BreadcrumbList/CollectionPage structured data.
-- Added category-level routes under `/services/category/`; linked them from the existing services directory while preserving its interactive filters.
-- Service-detail visual breadcrumbs and BreadcrumbList JSON-LD now show the mapped specialist page between `/services` and the individual service.
-- Added all four routes with BG/RU/EN alternates to the XML sitemap.
-- Sanity Production read-only check (project `bxvcy0qs`, dataset `production`, published perspective) returned 22 active services. Existing category values support the four directions; irrigation includes `irrigation`, `maintenance` and `delivery`, while gardener uses `planting`.
-- No Sanity documents, schema, assets, existing service content, Header, main menu, Footer, D1, Manager, Resend or Cloudflare settings were changed.
-- Implementation branch: `feat/service-specialist-landing-pages`. PR CI run #1232: website lint, utility tests and Vite build passed; Pages Functions syntax and read-only migration checks passed. D1 validation run #1564 succeeded. Sanity Studio build also passed in Blog and Studio validation run #1232. Production deployment, live route/visual QA and Google indexing remain pending. Landing-page copy currently lives in source code, not Sanity Studio; a Studio-managed content model would require separate approval. Detailed audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
-
 ## 2026-11-15 — Rain Bird nozzle product descriptions expanded and published
 
 - Reviewed all 26 published products in Sanity category `nozzles` and its two child categories: 17 spray nozzles and 9 rotary nozzles.
