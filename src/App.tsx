@@ -116,6 +116,45 @@ function CategoryLoadingState({ label }: { label: string }) {
   )
 }
 
+interface ServicePageErrorBoundaryProps {
+  children: React.ReactNode
+  language: string
+  onNavigateHome: () => void
+}
+
+class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryProps, { hasError: boolean }> {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error: Error) {
+    console.error('Service page failed to render:', error)
+  }
+
+  render() {
+    if (!this.state.hasError) return this.props.children
+    const { language, onNavigateHome } = this.props
+    const title = language === 'ru' ? 'Не удалось открыть услугу' : language === 'en' ? 'We could not open this service' : 'Услугата не може да бъде отворена'
+    const message = language === 'ru'
+      ? 'Произошла ошибка при отображении страницы. Вернитесь к списку услуг и попробуйте ещё раз.'
+      : language === 'en'
+        ? 'An error occurred while displaying this page. Return to the services list and try again.'
+        : 'Възникна грешка при показването на страницата. Върнете се към списъка с услуги и опитайте отново.'
+    const button = language === 'ru' ? 'Ко всем услугам' : language === 'en' ? 'All services' : 'Всички услуги'
+    return (
+      <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center" role="alert">
+        <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+        <p className="mt-3 max-w-xl text-slate-600">{message}</p>
+        <button type="button" onClick={onNavigateHome} className="mt-6 rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white hover:bg-emerald-800">
+          {button}
+        </button>
+      </main>
+    )
+  }
+}
+
 export default function App() {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
@@ -1410,10 +1449,12 @@ export default function App() {
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
       ) : activeServiceSlug && currentService ? (
-        <ServicePage
-          service={currentServiceDetails || currentService}
-          onNavigateHome={navigateToHome}
-        />
+        <ServicePageErrorBoundary language={language} onNavigateHome={navigateToHome}>
+          <ServicePage
+            service={currentServiceDetails || currentService}
+            onNavigateHome={navigateToHome}
+          />
+        </ServicePageErrorBoundary>
       ) : activeCategorySlug && (
         loadingProducts ||
         loadingCategories ||
