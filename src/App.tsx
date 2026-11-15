@@ -24,6 +24,7 @@ import type {
 
 // Keep the homepage in the initial bundle; load other page modules only when their route is active.
 const ServicePage = React.lazy(() => import('./pages/ServicePage').then(({ ServicePage }) => ({ default: ServicePage })))
+const ServiceDirectionPage = React.lazy(() => import('./pages/ServiceDirectionPage').then(({ ServiceDirectionPage }) => ({ default: ServiceDirectionPage })))
 const CategoryPage = React.lazy(() => import('./pages/CategoryPage').then(({ CategoryPage }) => ({ default: CategoryPage })))
 const ProductPage = React.lazy(() => import('./pages/ProductPage').then(({ ProductPage }) => ({ default: ProductPage })))
 const ContactsPage = React.lazy(() => import('./pages/ContactsPage').then(({ ContactsPage }) => ({ default: ContactsPage })))
@@ -60,7 +61,7 @@ function getRouteState(
   const searchParams = new URLSearchParams(search)
 
   return {
-    activeServiceSlug: path.startsWith('/services/') ? path.replace('/services/', '') : null,
+    activeServiceSlug: path.startsWith('/services/') && !path.startsWith('/services/category/') ? path.replace('/services/', '') : null,
     activeCategorySlug: path.startsWith('/category/') ? path.replace('/category/', '') : null,
     activeProductSlug: path.startsWith('/product/') || path.startsWith('/products/')
       ? decodeURIComponent(path.replace(/^\/(product|products)\//, ''))
@@ -163,7 +164,9 @@ export default function App() {
   const [routeRevision, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
-  const isServicesListRoute = normalizedRoutePath === '/services'
+  const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
+  const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
+  const isValidServiceDirectionRoute = ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(serviceDirectionSlug || '')
   const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
@@ -247,7 +250,7 @@ export default function App() {
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/about' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
+      path !== '/contacts' && path !== '/about' && path !== '/services' && !(path.startsWith('/services/category/') && ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(decodeURIComponent(path.slice('/services/category/'.length)))) && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -1142,6 +1145,7 @@ export default function App() {
       normalizedRoutePath !== '/contacts' &&
       normalizedRoutePath !== '/about' &&
       normalizedRoutePath !== '/services' &&
+      !(normalizedRoutePath.startsWith('/services/category/') && isValidServiceDirectionRoute) &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
       normalizedRoutePath !== '/blog' &&
@@ -1151,7 +1155,8 @@ export default function App() {
       !normalizedRoutePath.startsWith('/services/') &&
       !normalizedRoutePath.startsWith('/category/')
     ) ||
-    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServiceDetails && !currentService) ||
+    (normalizedRoutePath.startsWith('/services/category/') && !isValidServiceDirectionRoute) ||
+    (normalizedRoutePath.startsWith('/services/') && !normalizedRoutePath.startsWith('/services/category/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServiceDetails && !currentService) ||
     (normalizedRoutePath.startsWith('/category/') && !loadingCategories && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
@@ -1370,6 +1375,8 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
+      ) : serviceDirectionSlug && isValidServiceDirectionRoute ? (
+        <ServiceDirectionPage directionSlug={serviceDirectionSlug} services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
       ) : activeServiceSlug && loadingServiceDetails && !currentService ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
