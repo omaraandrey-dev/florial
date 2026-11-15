@@ -1,3 +1,13 @@
+## 2026-11-15 — Yucca and Cycas catalogue/SEO audit (read-only)
+
+- Read Sanity Production products `palm-yucca-rostrata`, `ac0fa4a7-54fd-4149-b0af-aa9759867ec5` (`tsyaka-tsikas`) and `palm-cycas` (`cycas-revoluta`), plus categories `plants-palms` and `plants-exotic`.
+- Confirmed Yucca rostrata is `productType: shrub`, primary `plants-exotic`, secondary `plants-palms`; retain the combined “Palms and Yuccas” commercial category without classifying Yucca as a true palm.
+- Confirmed two active Cycas revoluta records with different sale/availability data: 57–63 cm / 20 L / EUR 300 / stock 5 in `tsyaka-tsikas`; 100 cm / EUR 300 / on request in `cycas-revoluta`. Do not merge or redirect until owner confirms whether these are distinct offers.
+- GSC last-28-day sample: Yucca `юка рострата` 12 impressions / 1 click (position 9.25) on apex plus 3 impressions on www; `yucca rostrata` 8 impressions / 0 clicks (position 4.75). Cycas `cycas` / `cycas revoluta` / `цикас` total 4 impressions / 0 clicks on `cycas-revoluta`; no rows for `tsyaka-tsikas` in this period.
+- Identified empty Yucca main-image ALT and two gallery ALT sets, missing BG translation name/SEO fields, and a typo in its description opening. Cycas A has a malformed localized BG Meta Title and a translation H1 calling it a palm; Cycas descriptions contain inconsistent palm terminology. Cycas B has no BG translation object but has root BG SEO.
+- Code inspection of `src/pages/ProductPage.tsx` confirms BG uses root `product.seo`, RU/EN use localized `translations[language].seo`, and sale-variant prices/status are used for plant product types including `other`.
+- Full findings and proposed owner-gated actions: `docs/audits/2026-11-15-yucca-cycas-seo-audit.md`. No Sanity writes, image changes, category/reference changes, pricing/stock changes or code changes were made.
+
 ## 2026-11-15 — Correction: restored automatic irrigation service and separated design service
 
 - Owner reported that the original automatic-irrigation service had been overwritten during PR #272. The original published Sanity document was not deleted, but its content had been replaced. This was an incorrect editorial decision; the original page is now restored from the pre-change snapshot.
