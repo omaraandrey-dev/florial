@@ -8,7 +8,7 @@
     "6534adc5-78f7-4276-bbdd-2843ef30420e",
     "6690848d-a4a5-4386-b9ae-5f63604914b1"
   ],
-  "documentCount": 24,
+  "documentCount": 26,
   "documents": [
     {
       "_createdAt": "2026-10-18T08:20:04Z",
@@ -9962,6 +9962,780 @@
       },
       "vatIncluded": true,
       "weightKg": 0.0073
+    },
+    {
+      "_createdAt": "2026-10-23T13:04:28Z",
+      "_id": "f6a7da86-77fd-4b8d-b761-1d86569a12ae",
+      "_rev": "wShFcTvKnRduO9ho4IN47b",
+      "_system": {
+        "base": {
+          "id": "f6a7da86-77fd-4b8d-b761-1d86569a12ae",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:30Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "s0",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird 15-LCS е MPR дюза за поливане на ляв ъгъл на правоъгълна зона. Тя е подходяща за ъгли и тесни краища на тревни площи, където е важно струята да остане в границите на поливаната зона. Приблизителното покритие е 0,8 × 4,6 m. Монтира се на съвместими корпуси Rain Bird 1800/RD1800 и се ориентира така, че лявата страна на модела да съвпада с ръба на площта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15lcs",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+        "altEn": "Rain Bird 15-LCS — left-corner nozzle",
+        "altRu": "Rain Bird 15-LCS — форсунка для левого угла",
+        "asset": {
+          "_ref": "image-9125195be7e5b64a4a083600c37f6baad01bb862-515x515-jpg",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-dcaf317c844a9bcb20c0ef18395b0231503f6b2f-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+      "priceEUR": 4,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "d7140XR4dajqis0f8eplAZ",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "d7140XR4dajqis0f8eplBD",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "d7140XR4dajqis0f8eplBr",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "d7140XR4dajqis0f8eplCV",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "d7140XR4dajqis0f8eplD9",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+        "metaDescription": "Продажба на Rain Bird 15-LCS — дюза за ляв ъгъл. MPR дюза за ляв ъгъл с приблизително покритие 0,8 × 4,6 m. Флориал, Равда.",
+        "metaTitle": "15-LCS дюза | Равда | Флориал"
+      },
+      "shortDescription": "MPR дюза за лява крайна зона с покритие около 0,8 × 4,6 m.",
+      "sku": "A47033A",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-lcs"
+      },
+      "specifications": [
+        {
+          "_key": "spec1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "15-LCS"
+        },
+        {
+          "_key": "spec2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "15 Strip Series"
+        },
+        {
+          "_key": "spec3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Дюза за ляв ъгъл"
+        },
+        {
+          "_key": "spec4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "15-lcs, strip nozzle, left corner"
+        },
+        {
+          "_key": "spec5",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "1.0–2.1 bar"
+        },
+        {
+          "_key": "spec6",
+          "_type": "productSpec",
+          "name": "Размер на поливане при 2.1 bar",
+          "value": "1.2 × 4.6 m"
+        },
+        {
+          "_key": "spec7",
+          "_type": "productSpec",
+          "name": "Дебит при 2.1 bar",
+          "value": "1.9 l/min"
+        },
+        {
+          "_key": "spec8",
+          "_type": "productSpec",
+          "name": "Тип покритие",
+          "value": "Лява ъглова ивица"
+        },
+        {
+          "_key": "audit10p",
+          "_type": "productSpec",
+          "name": "Оптимално налягане",
+          "value": "2,1 bar"
+        },
+        {
+          "_key": "audit10f",
+          "_type": "productSpec",
+          "name": "Филтър",
+          "value": "Бял филтър за серия 1800, включен"
+        },
+        {
+          "_key": "spacingNoteLCS",
+          "_type": "productSpec",
+          "name": "Условия за таблицата на дебита",
+          "value": "Посочените размери и дебит са при 2,1 bar и безветрени условия; намаляване на радиуса с над 25% не се препоръчва"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird 15-LCS is an MPR nozzle for watering the left corner of a rectangular area. It is suitable for lawn corners and narrow end sections where the spray must stay within the irrigated boundary. Approximate coverage is 0.8 × 4.6 m. Fits compatible Rain Bird 1800/RD1800 bodies and should be aligned so the left-side pattern matches the area edge.",
+          "name": "Rain Bird 15-LCS — left-corner nozzle",
+          "seo": {
+            "h1": "Rain Bird 15-LCS — left-corner nozzle",
+            "metaDescription": "For sale: Rain Bird 15-LCS — left-corner nozzle. MPR nozzle for a left corner, with approximate coverage of 0.8 × 4.6 m. Florial, Ravda.",
+            "metaTitle": "15-LCS nozzle | Ravda | Florial"
+          },
+          "shortDescription": "MPR nozzle for a left corner, with approximate coverage of 0.8 × 4.6 m.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "15-LCS"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "15 Strip Series"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Left corner-strip nozzle"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "15-LCS, strip nozzle, left corner"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "1.0–2.1 bar"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Coverage at 2.1 bar",
+              "value": "1.2 × 4.6 m"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Flow rate at 2.1 bar",
+              "value": "1.9 L/min"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Coverage pattern",
+              "value": "Left corner strip"
+            },
+            {
+              "_key": "audit10p",
+              "_type": "productSpec",
+              "name": "Optimum pressure",
+              "value": "2.1 bar"
+            },
+            {
+              "_key": "audit10f",
+              "_type": "productSpec",
+              "name": "Filter",
+              "value": "White filter for the 1800 series included"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Flow table conditions",
+              "value": "Coverage dimensions and flow are specified at 2.1 bar in windless conditions; radius reduction greater than 25% is not recommended"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird 15-LCS — форсунка MPR для полива левого угла прямоугольной зоны. Подходит для углов газона и узких крайних участков, где важно не выходить струёй за границы полива. Примерное покрытие — 0,8 × 4,6 м. Устанавливается на совместимые корпуса Rain Bird 1800/RD1800; форсунку ориентируют так, чтобы левая сторона рисунка совпадала с границей участка.",
+          "name": "Rain Bird 15-LCS — форсунка для левого угла",
+          "seo": {
+            "h1": "Rain Bird 15-LCS — форсунка для левого угла",
+            "metaDescription": "Продажа: Rain Bird 15-LCS — форсунка для левого угла. Форсунка MPR для левого угла с примерной зоной полива 0,8 × 4,6 м. Флориал, Равда.",
+            "metaTitle": "15-LCS форсунка | Равда | Флориал"
+          },
+          "shortDescription": "Форсунка MPR для левого угла с примерным покрытием 0,8 × 4,6 м.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "15-LCS"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "15 Strip"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "Форсунка для левой угловой полосы"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "15-LCS, угловая форсунка, левая полоса"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "1,0–2,1 бар"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Размер полива при 2,1 бар",
+              "value": "1,2 × 4,6 м"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Расход при 2,1 бар",
+              "value": "1,9 л/мин"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Тип покрытия",
+              "value": "Левая угловая полоса"
+            },
+            {
+              "_key": "audit10p",
+              "_type": "productSpec",
+              "name": "Оптимальное давление",
+              "value": "2,1 бар"
+            },
+            {
+              "_key": "audit10f",
+              "_type": "productSpec",
+              "name": "Фильтр",
+              "value": "Белый фильтр для серии 1800 входит в комплект"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Условия таблицы расхода",
+              "value": "Размеры и расход указаны при 2,1 бар и в безветренных условиях; уменьшать радиус более чем на 25% не рекомендуется"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0073
+    },
+    {
+      "_createdAt": "2026-10-18T08:20:04Z",
+      "_id": "fce79548-830a-4bcd-9ff5-8e9a85f39ab5",
+      "_rev": "wShFcTvKnRduO9ho4IN47b",
+      "_system": {
+        "base": {
+          "id": "fce79548-830a-4bcd-9ff5-8e9a85f39ab5",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:30Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "k1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k1-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird R-VAN-LCS е ротаторна дюза за ефективно поливане на тесни и дълги участъци, например тревни площи покрай алеи, цветни лехи и тесни зелени ивици. Въртящите се струи осигуряват равномерно поливане и намаляват разхода на вода и оттичането."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "k2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k2-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Основни характеристики"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "k3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k3-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Фиксирана лява ъглова ивица: приблизително 1,5 × 4,6 м. Съвместима с разпръсквачи Rain Bird и адаптери за храсти. Радиусът може да се намалява, но формата на ивицата е фиксирана. Работно налягане: 2,1–3,8 bar; препоръчително: 3,1 bar."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "k4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k4-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Предимства"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "k5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k5-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Равномерно поливане на тесни участъци. Съвместимост с други ротаторни дюзи от серия R-VAN. Лесен монтаж и настройка без инструменти. Ръчно почистване от замърсявания и запушвания. Работно налягане: 2,1–3,8 bar; оптимално: 3,1 bar."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "k6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "k6-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Подходяща за икономично поливане на тесни зелени ивици с прецизно разпределение на водата и минимални загуби."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "rvanlcs20261026",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-c750c56485eb889fd0ebc619dda7909a82eec972-1000x1000-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "rvan-overview-lcs-20261027",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird R-VAN-LCS — ротаторна дюза за ляв ъгъл",
+        "altEn": "Rain Bird R-VAN-LCS — left-side strip nozzle",
+        "altRu": "Rain Bird R-VAN-LCS — форсунка для узкой полосы слева",
+        "asset": {
+          "_ref": "image-4ed26b3653bb14d0c0767ffc972cf492512407d6-1086x1448-png",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-4d6eb332c58481f28619c0b1345809ad184d558b-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird R-VAN-LCS — дюза за ляв ъгъл",
+      "priceEUR": 11.16,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "O6U6zfEuSc38DllEobfcxn",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfczb",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfd1P",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfd3D",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfd51",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird R-VAN-LCS — ротаторна дюза за лява ивица",
+        "metaDescription": "Продажба на Rain Bird R-VAN-LCS — ротаторна дюза за лява ивица. Ротаторна дюза за напояване на тесни ивици от лявата страна. Флориал, Свети Влас.",
+        "metaTitle": "R-VAN-LCS ротаторна дюза | Свети Влас | Флориал"
+      },
+      "shortDescription": "Ротаторна дюза Rain Bird R-VAN-LCS за тесни ивици от лявата страна.",
+      "sku": "A84667",
+      "slug": {
+        "_type": "slug",
+        "current": "a84667"
+      },
+      "sortOrder": 11,
+      "specifications": [
+        {
+          "_key": "s1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "R-VAN-LCS"
+        },
+        {
+          "_key": "s2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "R-VAN"
+        },
+        {
+          "_key": "s3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Дюза за лява ъглова ивица"
+        },
+        {
+          "_key": "s4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "r-van-lcs, rotator nozzle, irrigation"
+        },
+        {
+          "_key": "s5",
+          "_type": "productSpec",
+          "name": "Размер на покритие",
+          "value": "1,5 × 4,6 m"
+        },
+        {
+          "_key": "s6",
+          "_type": "productSpec",
+          "name": "Сектор/форма на поливане",
+          "value": "Лява ъглова ивица"
+        },
+        {
+          "_key": "s7",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "2,1–3,8 bar"
+        },
+        {
+          "_key": "s8",
+          "_type": "productSpec",
+          "name": "Препоръчително работно налягане",
+          "value": "3,1 bar"
+        },
+        {
+          "_key": "s9",
+          "_type": "productSpec",
+          "name": "Регулиране",
+          "value": "Размерът на покритието се настройва при работеща система"
+        },
+        {
+          "_key": "s10",
+          "_type": "productSpec",
+          "name": "Особености",
+          "value": "Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 0,68–1,06 l/min според налягането"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird R-VAN-LCS is a rotary nozzle designed to deliver controlled, water-efficient irrigation for landscaped areas. Multiple rotating streams apply water more slowly than many conventional spray nozzles, helping the soil absorb it and reducing runoff when the system is correctly designed. The stated coverage is 1.5 × 4.6 m; the watering pattern is left corner; recommended operating pressure is 2.1–3.8 bar.\n\nR-VAN nozzles are useful for matching irrigation coverage to the shape of the planting area, including standard arcs and narrow strips. Select the pattern to suit the location and maintain compatible pressure and flow. Use with compatible Rain Bird 1800/RD1800 spray bodies or other approved bodies as specified by the manufacturer.\n\nActual radius and uniformity depend on pressure, spacing, soil and wind conditions.",
+          "name": "Rain Bird R-VAN-LCS — left-side strip nozzle",
+          "seo": {
+            "h1": "Rain Bird R-VAN-LCS — left-side rotary strip nozzle",
+            "keywords": [],
+            "metaDescription": "For sale: Rain Bird R-VAN-LCS — left-side rotary strip nozzle. Rotary nozzle designed to irrigate narrow strips along the left side. Florial, Sveti Vlas.",
+            "metaTitle": "R-VAN-LCS rotary nozzle | Sveti Vlas | Florial"
+          },
+          "shortDescription": "Rain Bird R-VAN-LCS rotary nozzle for watering narrow strips along the left side.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "R-VAN-LCS"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Corner-strip nozzle"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "r-van-lcs, rotary nozzle, irrigation"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Coverage dimensions",
+              "value": "1.5 × 4.6 m"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Spray arc/pattern",
+              "value": "Left corner strip"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "2.1–3.8 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Recommended operating pressure",
+              "value": "3.1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Adjustment",
+              "value": "Coverage dimensions can be adjusted while the system is running"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Features",
+              "value": "Large water droplets, high uniformity and matched precipitation rate; flow 0.68–1.06 L/min depending on pressure"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird R-VAN-LCS — ротаторная форсунка для управляемого и экономичного полива ландшафтных зон. Несколько вращающихся струй подают воду медленнее, чем многие обычные веерные форсунки, что помогает почве впитывать влагу и снижает сток при правильно спроектированной системе. Указанный радиус — 1.5 × 4.6 m; форма полива — left corner; рекомендуемое рабочее давление — 2.1–3.8 bar.\n\nФорсунки R-VAN позволяют подобрать полив под конфигурацию посадок, включая стандартные сектора и узкие полосы. Выбирайте рисунок полива по расположению зоны и соблюдайте требования к давлению и расходу. Используются с совместимыми корпусами Rain Bird 1800/RD1800 или другими корпусами, разрешёнными производителем.\n\nФактический радиус и равномерность зависят от давления, расстояния между дождевателями, типа почвы и ветра.",
+          "name": "Rain Bird R-VAN-LCS — форсунка для узкой полосы слева",
+          "seo": {
+            "h1": "Rain Bird R-VAN-LCS — ротаторная форсунка для левой полосы",
+            "keywords": [],
+            "metaDescription": "Продажа: Rain Bird R-VAN-LCS — ротаторная форсунка для левой полосы. Ротаторная форсунка для полива узких полос с левой стороны. Флориал, Свети Влас.",
+            "metaTitle": "R-VAN-LCS ротаторная форсунка | Свети Влас | Флориал"
+          },
+          "shortDescription": "Ротаторная форсунка Rain Bird R-VAN-LCS для полива узких полос слева.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Модел",
+              "value": "R-VAN-LCS"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Тип изделие",
+              "value": "Дюза для угловой полосы"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Тагове",
+              "value": "r-van-lcs, ротаторна дюза, полив"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Размер на покритието",
+              "value": "1,5 × 4,6 м"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Сектор/форма на поливане",
+              "value": "Лява ъглова ивица"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Работно налягане",
+              "value": "2,1–3,8 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Препоръчително работно налягане",
+              "value": "3,1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Регулиране",
+              "value": "Размерът на покритието се настройва при работеща система"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Особености",
+              "value": "Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 0,68–1,06 l/min според налягането"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0186
     }
   ]
 }
