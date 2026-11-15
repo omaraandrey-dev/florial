@@ -1,3 +1,15 @@
+## 2026-11-15 — Rain Bird valve product descriptions expanded and published
+
+- Reviewed all 17 published products linked to the Sanity category `klapani` and its 24 V / 9 V child categories in project `bxvcy0qs`, dataset `production`.
+- Expanded BG `description` Portable Text and added localized RU/EN `formattedDescription` for all 17 products (51 locale-specific description fields). Each locale has five H2 sections, bold emphasis, practical installation/maintenance bullets and two verified internal links.
+- Product families covered: DV/DVF, HV/HVF, PGA, PEB and LFV. Content is model-specific and explains operating principle, flow control, hydraulic ranges, connection/thread variants, 24 VAC vs 9 V latching coils, installation, filtration and service.
+- Preserved important compatibility and selection notes: 100-HV-9V is not compatible with ESP-BAT-BT; LFV filter placement follows LFV-specific guidance; PRS-D is optional/separate; MM indicates male threads at both ends.
+- Full pre-write snapshots of all 17 published product documents were committed before Sanity writes: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`.
+- Sanity validation returned 17/17 valid. The validator marked checks incomplete only because custom validation callbacks were not executed. All 17 drafts were published with revision guards. Production read-back confirmed 17/17 published, 0 remaining drafts, five H2 headings and two internal links in each locale.
+- Only `description`, `translations.ru.formattedDescription` and `translations.en.formattedDescription` were changed. Product names, slugs, SKUs, prices, stock, category links, images, specifications, SEO and related-content references were preserved.
+- Existing `RichText` renderer supports H2/H3, bold marks and safe localized internal links. No application code, schema, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live visual/browser verification of the storefront pages, mobile layout and link click-through was not completed; Google recrawl/indexing is not confirmed. Detailed audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+
 ## 2026-11-15 — Rain Bird controller product descriptions expanded and published
 
 - Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
