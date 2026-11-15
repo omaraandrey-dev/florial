@@ -1,3 +1,41 @@
+## 2026-11-15 — Rain Bird nozzle product descriptions published
+
+- Sanity Production project `bxvcy0qs`, dataset `production`: refreshed 26 products in root category `nozzles` and child categories `spray-nozzles` / `rotator-nozzles`.
+- Updated BG `description`, RU `translations.ru.formattedDescription`, EN `translations.en.formattedDescription`: 78 localized descriptions, five H2 sections, four strong spans and two internal links each.
+- Families: VAN 7, HE-VAN 4, R-VAN 9 and fixed-pattern strip nozzles 6. Existing specifications and all other catalog fields were preserved.
+- Backup: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`; audit: `docs/audits/2026-11-15-nozzle-product-descriptions.md`. Production read-back: 26/26 published, zero drafts; validator's custom callbacks were not executed.
+- No code/schema, SEO metadata, category relationships, sitemap/RSS, analytics, Cloudflare, D1, Resend or Pages deployment changes. Visual QA and Google recrawl remain unconfirmed.
+
+## 2026-11-15 — Valve product descriptions expanded in Sanity Production
+
+- Published expanded BG/RU/EN descriptions for all 17 products in `klapani` and its 24 V / 9 V child categories: 51 localized fields, five H2 sections, bold emphasis, practical bullets and internal links.
+- Model-specific distinctions include DV/DVF, HV/HVF, PGA, PEB and LFV; 24 VAC vs 9 V latching solenoids; 100-HV-9V / ESP-BAT-BT incompatibility; LFV-specific filter guidance; optional PRS-D and connection variants.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+- Production read-back: 17/17 published, zero drafts. Schema validation reported 17 valid; custom callbacks were not executed. No product fields outside the three description fields changed. Live storefront QA and Google recrawl remain unconfirmed.
+
+## 2026-11-15 — Valve boxes and hydrant accessory descriptions published in Sanity Production
+
+- Published expanded BG/RU/EN descriptions for all 7 products in category `shahti`: P33, P33DK, VBA02672, VBA02673, VBA02674, VBA02675 and VBA17186.
+- Each locale has four H2 sections, bold emphasis, three practical bullets and internal links. Preserved the distinction between quick-coupling hydrant/key, valve boxes/extensions and integrated VBA17186 hydrant; did not invent unknown maximum pressure or guarantee box capacity.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+- Production read-back: 7/7 published, zero drafts. No product fields outside the three description fields changed. Live visual QA and Google recrawl remain unconfirmed.
+
+## 2026-11-15 — Rain Bird drip-tube product descriptions expanded and published
+
+- Reviewed all four products in `category-drip-tubes`: XFD-2333-100 (X44202), XFS-2333-100 (X48201), XFD1600-100 (X45009) and PCD-2333-100 (X44402).
+- Published BG/RU/EN descriptions (12 localized fields), each with 5–6 H2 sections, bold emphasis, three practical bullets and two internal links. Content distinguishes surface XFD, subsurface XFS with Copper Shield™, blank XFD1600-100 without built-in emitters and pressure-compensating PCD.
+- Rain Bird XF blank-tubing documentation says XFD1600-100 is not compatible with generic 16 mm fittings; compatible choices include XF insert fittings, Easy Fit compression fittings and compatible 17 mm insert fittings.
+- Backup: `docs/backups/sanity/2026-11-15-drip-tube-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-drip-tube-product-descriptions.md`. Production read-back: 4/4 published. Product commercial data, references, SEO and specifications were not changed.
+- Existing XFD1600-100 compatibility specification still says generic 16 mm fittings and requires separate correction. Live visual QA and Google recrawl remain unconfirmed.
+
+## 2026-11-15 — Drip-fitting product descriptions expanded and published
+
+- Published BG/RU/EN descriptions for all six products in `category-drip-fittings` (18 localized fields): XFF COUP, XFF ELBOW, XFF TEE, XFF-MA-075 and support stakes 3112/1620 and 3112/16202.
+- Each locale has five H2 sections, bold emphasis, three practical bullets and two verified internal links. Manufacturer-specific descriptions distinguish straight coupling, 90° elbow, tee and 17 mm barb × 3/4″ MPT adapter; XF/XFD/XFS compatibility, 1.0–3.5 bar operating range and retaining clamps at 4.1 bar (60 psi) are covered.
+- Support stakes are described only from confirmed data: 3112/1620 for 16 mm hose, pack of 100 (length not stated); 3112/16202 brown, 145 mm, for 16–20 mm hose, pack of 100.
+- Backup: `docs/backups/sanity/2026-11-15-drip-fitting-products-before-description-refresh.xml`; audit: `docs/audits/2026-11-15-drip-fitting-product-descriptions.md`. Production read-back: 6/6 published, zero drafts. Validator custom callbacks were not run and it resolved a legacy deployed schema.
+- No product fields outside the three description fields changed. Live visual QA and Google recrawl remain unconfirmed.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.

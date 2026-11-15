@@ -1,10 +1,51 @@
+## 2026-11-15 — Rain Bird nozzle product descriptions expanded and published
+
+- Reviewed all 26 published products in Sanity category `nozzles` and its two child categories: 17 spray nozzles and 9 rotary nozzles.
+- Updated BG `description` and RU/EN `formattedDescription` for all 26 products (78 localized descriptions). Each has five H2 sections, four bold emphasis spans and two internal links.
+- Covered VAN (7), HE-VAN (4), R-VAN (9) and fixed-pattern strip nozzles (6). Model-specific arc, pattern, coverage, pressure, spacing, flow and filtration details were preserved.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`. Sanity validation and Production read-back: 26/26 valid and published; zero remaining drafts. Custom validation callbacks were not run by the validator.
+- No product commercial fields, specifications, category links, SEO, code, schema, Cloudflare, D1, Resend or deployment changes. Live visual QA and Google recrawl remain unconfirmed. Audit: `docs/audits/2026-11-15-nozzle-product-descriptions.md`.
+
+## 2026-11-15 — Rain Bird valve product descriptions expanded and published
+
+- Reviewed all 17 published products in Sanity category `klapani` and its 24 V / 9 V child categories.
+- Updated BG `description` and RU/EN `formattedDescription` (51 localized descriptions), each with five H2 sections, bold emphasis, practical installation/maintenance bullets and two internal links.
+- Covered DV/DVF, HV/HVF, PGA, PEB and LFV. Retained model-specific distinctions including 24 VAC vs 9 V latching coils, 100-HV-9V incompatibility with ESP-BAT-BT, LFV-specific filtration guidance, optional PRS-D and thread variants.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`. Production read-back: 17/17 published, zero remaining drafts; schema validation reported 17 valid, while custom callbacks were not executed.
+- Only the three description fields were changed. Names, slugs, SKUs, prices, stock, categories, media, specifications, SEO and related references were preserved. Live visual QA and Google recrawl remain unconfirmed. Audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+
+## 2026-11-15 — Rain Bird valve boxes and hydrant accessory descriptions expanded and published
+
+- Reviewed all 7 products in Sanity category `shahti`: P33, P33DK, VBA02672, VBA02673, VBA02674, VBA02675 and VBA17186.
+- Updated BG/RU/EN descriptions (21 localized fields), each with an introduction, four H2 sections, bold emphasis, three practical bullets and two internal links.
+- Preserved distinctions between P33 quick-coupling hydrant/key, round and rectangular valve boxes/extensions, and the integrated VBA17186 hydrant. No unsupported pressure or guaranteed-fit claims were introduced.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`. Production read-back: 7/7 published, zero remaining drafts; four H2 headings and two actual internal-link spans per locale.
+- Only description fields changed; product identity, commercial data, category links, media, specifications, SEO and references were preserved. Live visual QA and Google recrawl remain unconfirmed. Audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+
+## 2026-11-15 — Rain Bird drip-tube product descriptions expanded and published
+
+- Reviewed all four published products in `category-drip-tubes`: XFD-2333-100, XFS-2333-100, XFD1600-100 and PCD-2333-100.
+- Updated BG/RU/EN descriptions (12 localized fields), each with 5–6 H2 sections, bold emphasis, three practical bullets and two internal links.
+- Content distinguishes surface XFD, subsurface XFS with Copper Shield™, blank XFD1600-100 tubing without built-in emitters and pressure-compensating PCD. Rain Bird XF documentation confirms XFD1600-100 must not be matched by generic 16 mm fittings; compatible options include XF insert, Easy Fit compression and compatible 17 mm insert fittings.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-drip-tube-products-before-description-refresh.xml`. Production read-back: 4/4 published; all locales have 5–6 H2 sections, three bullets and two internal links.
+- Product names, slugs, SKUs, prices, stock, categories, media, references, SEO and specifications were preserved. Existing XFD1600-100 compatibility specification still says generic 16 mm fittings and requires separate correction. Live visual QA and Google recrawl remain unconfirmed. Audit: `docs/audits/2026-11-15-drip-tube-product-descriptions.md`.
+
+## 2026-11-15 — Rain Bird drip-fitting product descriptions expanded and published
+
+- Reviewed all six published products in `category-drip-fittings`: XFF COUP, XFF ELBOW, XFF TEE, XFF-MA-075 and support stakes 3112/1620 and 3112/16202.
+- Updated BG/RU/EN descriptions (18 localized fields), each with five H2 sections, bold emphasis, three practical bullets and two verified internal links.
+- Manufacturer-specific content distinguishes straight coupling, 90° elbow, tee and 17 mm barb × 3/4″ MPT adapter. XF/XFD/XFS compatibility, 1.0–3.5 bar operating range and retaining-clamp requirement at 4.1 bar (60 psi) are described. Support stakes are described only from confirmed product data; missing dimensions were not invented.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-15-drip-fitting-products-before-description-refresh.xml`. Production read-back: 6/6 published, zero remaining drafts; each locale has five H2 headings, three bullets and two internal links. Validator reported 6/6 valid, but custom callbacks were not run and it resolved a legacy deployed schema.
+- Product commercial data, categories, references, SEO, specifications and media were preserved. Live visual QA and Google recrawl remain unconfirmed. Audit: `docs/audits/2026-11-15-drip-fitting-product-descriptions.md`.
+
 ## 2026-11-15 — Git workflow hardened to prevent shared-document PR conflicts
 
 - Root cause confirmed for documentation PR batch #283–#288: all branches were created from the same base commit `e7ba53839775599c7a9625d8eef4b21a520efebd`. PR #283 merged first and changed the opening sections of `CHANGELOG.md` and `docs/AI/OPEN_QUESTIONS.md`. The remaining branches were not synchronized with the new `main` and independently inserted entries into the same shared files; PR #284–#288 also touched the opening section of `docs/TECHNICAL_PASSPORT.md`. This caused predictable content conflicts.
 - This was a Git branch/documentation integration process failure, not a Sanity catalog/data conflict. No product content was lost as a result of the Git merge conflict itself.
 - Added mandatory branch-base, shared-document ownership, parallel-work, PR preflight, sequential merge and post-merge revalidation rules to `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
 - Future parallel content tasks should keep unique audit/backup artifacts on their task branches and consolidate shared-document updates in one integration pass/PR, or synchronize each branch against the latest `main` before its PR/merge.
-- This is a documentation/process-only change. No Sanity, application code, Cloudflare configuration, D1, Resend or Production deployment was changed.
+- Remediation completed in integration PR #290: the five original content PRs were consolidated from the latest main, with all ten unique audit/backup artifacts preserved and shared documentation entries integrated once. The original PRs are superseded by that consolidated PR.
+- This remains a documentation-only integration. No Sanity, application code, Cloudflare configuration, D1, Resend or Production deployment was changed.
 
 ## 2026-11-15 — Rain Bird sprinkler product descriptions expanded and published
 
