@@ -1,3 +1,11 @@
+## 2026-11-15 — Yucca/Cycas editorial work completed; follow-ups remain
+
+- Three approved Sanity Production product updates are complete: `/product/yucca-rostrata`, `/product/tsyaka-tsikas`, and `/product/cycas-revoluta`.
+- Final Sanity read-back confirms localized editorial/SEO fields and ALT text; edited titles/descriptions meet the project length targets. Commercial fields, variants, slugs, categories and image assets were preserved.
+- **Still pending:** live storefront rendering checks in BG/RU/EN and Search Console URL Inspection for Google's selected canonical/indexing state. Sanity publication does not prove Google recrawl.
+- **Owner decision remains open:** are the two Cycas product records genuinely separate offers (57–63 cm / 20 L / stock 5 vs. 100 cm / on request)? Keep both URLs and records unchanged until separately decided. No merge, deletion, canonical or redirect change was made.
+- Report: `docs/audits/2026-11-15-yucca-cycas-editorial-remediation.md`; rollback snapshot: `docs/backups/sanity/yucca-cycas-editorial-before-2026-11-15.md`.
+
 ## 2026-11-15 — Irrigation services restored as two separate published pages
 
 - Completed in Sanity Production: original `avtomatichno-napoyavane` service restored from backup and new design service published at `proektirane-sistemi-avtomatichno-napoyavane-nesebar`.
