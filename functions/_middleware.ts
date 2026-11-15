@@ -613,7 +613,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language as 'bg' | 'ru' | 'en', SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -751,7 +751,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
     return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
   }
-  const language = languageParam === 'ru' || languageParam === 'en' ? languageParam : 'bg'
+  const language: 'bg' | 'ru' | 'en' = languageParam === 'ru' ? 'ru' : languageParam === 'en' ? 'en' : 'bg'
 
   if (
     path.startsWith('/api/') ||
