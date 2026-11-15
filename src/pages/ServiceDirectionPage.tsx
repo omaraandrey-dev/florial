@@ -5,6 +5,7 @@ import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { getSanityImageProps } from '../lib/sanityImage'
+import { toPlainText } from '../lib/richTextUtils.mjs'
 
 type DirectionId = 'landscaping' | 'irrigation' | 'planting' | 'lawn'
 type LocaleCopy = {
@@ -340,6 +341,7 @@ interface ServiceDirectionPageProps {
   services: ServiceItem[]
   rolePhotos: ServiceRolePhoto[]
   loading?: boolean
+  directionDocument?: any
 }
 
 export function getServiceDirectionBySlug(slug: string) {
@@ -350,20 +352,43 @@ export function getServiceDirectionForCategory(category?: string) {
   return DIRECTIONS.find((direction) => direction.categories.includes(category || ''))
 }
 
-export function ServiceDirectionPage({ directionSlug, services, rolePhotos, loading = false }: ServiceDirectionPageProps) {
+export function ServiceDirectionPage({ directionSlug, services, rolePhotos, loading = false, directionDocument }: ServiceDirectionPageProps) {
   const { language, localize } = useI18n()
   const direction = getServiceDirectionBySlug(directionSlug)
   const locale = (language === 'ru' || language === 'en' ? language : 'bg') as 'bg' | 'ru' | 'en'
-  const copy = direction?.copy[locale]
+  const storedCopy = directionDocument?.translations?.[locale]
+  const copy: LocaleCopy | undefined = direction && storedCopy ? {
+    title: storedCopy.title || direction.copy[locale].title,
+    metaTitle: storedCopy.metaTitle || direction.copy[locale].metaTitle,
+    metaDescription: storedCopy.metaDescription || direction.copy[locale].metaDescription,
+    intro: storedCopy.intro || direction.copy[locale].intro,
+    sections: Array.isArray(storedCopy.sections) && storedCopy.sections.length
+      ? storedCopy.sections.map((section: any) => ({
+          heading: section.heading || '',
+          paragraphs: toPlainText(section.body).split(/\\n+/).map((value: string) => value.trim()).filter(Boolean),
+        }))
+      : direction.copy[locale].sections,
+    faqHeading: storedCopy.faqHeading || direction.copy[locale].faqHeading,
+    faqs: Array.isArray(storedCopy.faqs) && storedCopy.faqs.length ? storedCopy.faqs : direction.copy[locale].faqs,
+    serviceHeading: storedCopy.serviceHeading || direction.copy[locale].serviceHeading,
+    emptyServices: storedCopy.emptyServices || direction.copy[locale].emptyServices,
+    allServices: storedCopy.allServices || direction.copy[locale].allServices,
+    learnMore: storedCopy.learnMore || direction.copy[locale].learnMore,
+  } : direction?.copy[locale]
   const photo = direction ? rolePhotos.find((item) => item.slug === direction.photoSlug) : undefined
+  const categories: string[] = Array.isArray(directionDocument?.serviceCategories) && directionDocument.serviceCategories.length
+    ? directionDocument.serviceCategories
+    : (direction?.categories || [])
+  const heroImageUrl = directionDocument?.imageUrl || photo?.imageUrl
+  const heroImageAlt = directionDocument?.imageAlt?.[locale] || (locale === 'ru' ? photo?.imageAltRu : locale === 'en' ? photo?.imageAltEn : photo?.imageAlt) || direction?.title[locale] || ''
   const entries = useMemo(() => {
     if (!direction) return []
     return getOrderedServiceEntries(services).filter((entry) =>
       entry.kind === 'delivery'
-        ? direction.categories.includes('delivery')
-        : direction.categories.includes(entry.service.serviceCategory || '')
+        ? categories.includes('delivery')
+        : categories.includes(entry.service.serviceCategory || '')
     )
-  }, [services, direction])
+  }, [services, direction, directionDocument, categories.join('|')])
 
   useEffect(() => {
     if (!direction || !copy) return
@@ -431,7 +456,7 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
       </nav>
 
       <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
-        {photo?.imageUrl && <img {...getSanityImageProps(photo.imageUrl, '(min-width: 768px) 896px, 100vw', 1200)} alt={locale === 'ru' ? photo.imageAltRu || direction.title[locale] : locale === 'en' ? photo.imageAltEn || direction.title[locale] : photo.imageAlt || direction.title[locale]} loading="eager" fetchPriority="high" decoding="async" className="mb-7 max-h-[420px] w-full rounded-2xl object-cover" />}
+        {heroImageUrl && <img {...getSanityImageProps(heroImageUrl, '(min-width: 768px) 896px, 100vw', 1200)} alt={heroImageAlt} loading="eager" fetchPriority="high" decoding="async" className="mb-7 max-h-[420px] w-full rounded-2xl object-cover" />}
         <p className="mb-3 text-sm font-bold uppercase tracking-widest text-emerald-800">Florial · {direction.title[locale]}</p>
         <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">{copy.title}</h1>
         <p className="text-lg leading-8 text-slate-600">{copy.intro}</p>
