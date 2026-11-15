@@ -2,8 +2,10 @@
  * Build responsive, format-negotiated URLs for Florial's Sanity image assets.
  * Non-Sanity and non-image URLs are returned unchanged.
  */
-export function getSanityImageProps(imageUrl: string, sizes: string, preferredWidth = 640, quality = 75) {
-  const fallback = { src: imageUrl }
+type SanityImageProps = { src: string; srcSet?: string; sizes?: string; width?: number; height?: number }
+
+export function getSanityImageProps(imageUrl: string, sizes: string, preferredWidth = 640, quality = 75): SanityImageProps {
+  const fallback: SanityImageProps = { src: imageUrl }
 
   try {
     const source = new URL(imageUrl)
