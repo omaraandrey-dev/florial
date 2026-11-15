@@ -1,0 +1,42 @@
+{
+  "_id": "a2f17ef5-bafd-4e41-ae5a-97126b640ad2",
+  "dataset": "plants",
+  "projectId": "bxvcy0qs",
+  "capturedAt": "2026-11-15",
+  "publishedRevision": "oFgU2xnFzJTvQ0oNTyJEm5",
+  "scope": "Only fields approved for correction; no full dataset export.",
+  "before": {
+    "name": "Вашинтония",
+    "mainImage.alt": "Купи Вашинтония в Несебър — едроразмерна палма с ветрилообразни листа в контейнер",
+    "seo": {
+      "h1": "Вашинтония - едроразмерна палма",
+      "metaTitle": "Продажба на Вашинтония в Несебър | Екзотични палми",
+      "metaDescription": "Продажба на едроразмерна Вашингтония в Несебър. Декоративна палма с ветрилообразни листа за просторни градини и дворове."
+    },
+    "translations.bg.name": "Вашинтония",
+    "translations.bg.seo": {
+      "h1": "Вашинтония - едроразмерна палма",
+      "metaTitle": "Продажба на Вашинтония в Несебър | Екзотични палми",
+      "metaDescription": "Продажба на едроразмерна палма Вашинтония в Несебър. Поръчайте екзотично вечнозелено растение за вашата градина или двор с доставка в региона."
+    }
+  },
+  "protectedUnchanged": {
+    "priceEUR": 3000,
+    "saleVariants": [
+      {
+        "name": "Размер 475–525 см C300",
+        "saleHeightCm": 500,
+        "containerVolumeL": 300,
+        "priceEUR": 3000,
+        "stockQuantity": 1,
+        "stockStatus": "inStock"
+      }
+    ],
+    "slug": "ventlieva-palyma-vashintoniya",
+    "categories": [
+      "plants-palms",
+      "plants-solitaires"
+    ],
+    "mainImageAsset": "image-83e416d76a831b76c71659476c11fbb3fc535140-3072x4096-jpg"
+  }
+}
