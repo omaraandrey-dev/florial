@@ -1,3 +1,11 @@
+## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
+
+- All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.
+- Production read-back confirmed 24/24 published and no remaining drafts. Prices, stock, SKUs, slugs, category references, images, product specifications, related content and SEO were preserved.
+- Pre-change snapshot: `docs/backups/sanity-controllers-before-description-refresh-2026-11-15.json`; detailed audit: `docs/audits/2026-11-15-irrigation-controller-product-descriptions.md`.
+- **Still to verify:** visually inspect at least one representative ESP-TM2, ESP-RC2, ESP-BAT-BT and ESP-9V product page in the live storefront (BG/RU/EN), including internal link navigation and mobile layout. The public page fetch did not complete in this run.
+- Google recrawl/indexing and any resulting search changes are not confirmed. No code/schema or Pages deployment was required for this content-only update.
+
 ## 2026-11-15 — Flower subcategory SEO publication and catalog follow-ups
 
 - Published BG/RU/EN SEO footer content (27 blocks / 9 H2 per locale) for all four Sanity child categories of `plants-flowers`: `plants-perennials`, `plants-seasonal-flowers`, `plants-groundcovers`, `plants-ornamental-grasses`.
