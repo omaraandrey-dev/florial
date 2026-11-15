@@ -1,3 +1,11 @@
+## 2026-11-15 — Valve boxes and hydrant descriptions published; storefront visual check remains open
+
+- All 7 products in Sanity category `shahti` have expanded BG/RU/EN descriptions: P33, P33DK, VBA02672, VBA02673, VBA02674, VBA02675 and VBA17186.
+- Production read-back confirmed 7/7 published and 0 remaining drafts; four H2 headings and two actual internal links per locale. Commercial data, category links, images, specifications, SEO and related references were preserved.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`; detailed audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+- **Still to verify:** visually inspect representative P33/P33DK, round VBA02672/VBA02673 and rectangular VBA02674/VBA02675 pages in the live storefront (BG/RU/EN), including internal-link navigation and mobile layout.
+- Google recrawl/indexing and search impact are not confirmed. No code/schema or Pages deployment was required for this content-only update.
+
 ## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
 
 - All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.
