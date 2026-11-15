@@ -1,3 +1,11 @@
+## 2026-11-15 — Flower subcategory SEO content published
+
+- Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
+- Each has 27 BG/RU/EN Portable Text blocks (9 H2 + 18 paragraphs). Seasonal flowers explicitly highlights Florial's own greenhouses and continuous new planting batches; other category copy is tailored to its subject.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-15-flower-subcategories-before-seo-content.json`. Published read-back confirms the content; existing H1/meta fields/descriptions unchanged.
+- Live rendering verified: all four BG routes, seasonal-flower RU, and perennial EN. Google indexing/recrawl remains unconfirmed.
+- Catalog follow-ups (no changes made): ground-cover category has no linked products; ornamental-grasses category references `tree-laurel` (`Laurus nobilis`, productType `tree`), which appears mismatched.
+- No code/schema/product relationship/Production deployment change. Detailed audit: `docs/audits/2026-11-15-flower-subcategories-seo.md`.
 ## 2026-11-15 — Correction: restored automatic irrigation service and separated design service
 
 - Owner reported that the original automatic-irrigation service had been overwritten during PR #272. The original published Sanity document was not deleted, but its content had been replaced. This was an incorrect editorial decision; the original page is now restored from the pre-change snapshot.
