@@ -122,11 +122,11 @@ interface ServicePageErrorBoundaryProps {
   onNavigateHome: () => void
 }
 
-class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryProps, { hasError: boolean; errorMessage: string }> {
-  state = { hasError: false, errorMessage: '' }
+class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryProps, { hasError: boolean }> {
+  state = { hasError: false }
 
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, errorMessage: error.message }
+  static getDerivedStateFromError() {
+    return { hasError: true }
   }
 
   componentDidCatch(error: Error) {
@@ -144,7 +144,7 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
         : 'Възникна грешка при показването на страницата. Върнете се към списъка с услуги и опитайте отново.'
     const button = language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'
     return (
-      <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center" role="alert" aria-label={this.state.errorMessage}>
+      <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center" role="alert">
         <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
         <p className="mt-3 max-w-xl text-slate-600">{message}</p>
         <button type="button" onClick={onNavigateHome} className="mt-6 rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white hover:bg-emerald-800">
