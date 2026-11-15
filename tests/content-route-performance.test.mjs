@@ -91,3 +91,20 @@ test('currentService is initialized before the SEO effect reads it during the fi
   assert.ok(declaration >= 0 && declaration < seoEffect)
   assert.ok(dependencyReference > seoEffect)
 })
+
+
+test('service page creates lead idempotency keys without requiring crypto.randomUUID', async () => {
+  const detail = await read('../src/pages/ServicePage.tsx')
+  assert.match(detail, /typeof cryptoApi\.randomUUID === 'function'/)
+  assert.match(detail, /cryptoApi\.getRandomValues/)
+  assert.match(detail, /Math\.random\(\)/)
+  assert.match(detail, /useState\(\(\) => createLeadIdempotencyKey\(\)\)/)
+})
+
+test('service detail render errors are caught and shown as a recoverable page state', async () => {
+  const app = await read('../src/App.tsx')
+  assert.match(app, /class ServicePageErrorBoundary extends React\.Component/)
+  assert.match(app, /componentDidCatch\(error: Error\)/)
+  assert.match(app, /<ServicePageErrorBoundary language=\{language\}/)
+  assert.match(app, /role="alert"/)
+})
