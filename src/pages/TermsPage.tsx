@@ -40,7 +40,7 @@ function renderDocument(markdown: string) {
 
 export function TermsPage() {
   const { language } = useI18n()
-  const title = language === 'ru' ? 'Общие условия использования и покупки' : language === 'en' ? 'Terms of Use and Purchase' : 'Общи условия за ползване и покупка'
+
   const back = language === 'ru' ? 'Назад к магазину' : language === 'en' ? 'Back to shop' : 'Обратно към магазина'
   const notice = language === 'ru'
     ? 'Исходный документ представлен на болгарском языке. Перевод будет добавлен после отдельной редакционной проверки.'
