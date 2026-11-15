@@ -13,6 +13,7 @@ import { getProductImageText } from './lib/productImageSeo'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
+import { IrrigationAssistantLauncher } from './components/IrrigationAssistantLauncher'
 
 import type {
   CategoryItem,
@@ -35,6 +36,7 @@ const BlogPage = React.lazy(() => import('./pages/BlogPage').then(({ BlogPage })
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage').then(({ BlogPostPage }) => ({ default: BlogPostPage })))
 const AboutPage = React.lazy(() => import('./pages/AboutPage').then(({ AboutPage }) => ({ default: AboutPage })))
 const IrrigationSupportPage = React.lazy(() => import('./pages/IrrigationSupportPage').then(({ IrrigationSupportPage }) => ({ default: IrrigationSupportPage })))
+const IrrigationAssistantPage = React.lazy(() => import('./pages/IrrigationAssistantPage').then(({ IrrigationAssistantPage }) => ({ default: IrrigationAssistantPage })))
 
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
@@ -184,6 +186,7 @@ export default function App() {
   })
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
+  const [irrigationAssistantPhoto, setIrrigationAssistantPhoto] = useState<{ imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string } | null>(null)
 
   const [loadingProducts, setLoadingProducts] = useState(() => {
     const route = getRouteState()
@@ -206,12 +209,25 @@ export default function App() {
   const [routeRevision, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isIrrigationAssistantRoute = window.location.pathname.replace(/\/+$/, '') === '/irrigation-assistant'
   const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
   const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
   const isValidServiceDirectionRoute = ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(serviceDirectionSlug || '')
   const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
+
+  // Load the existing irrigation specialist portrait for the persistent assistant launcher.
+  useEffect(() => {
+    let cancelled = false
+    sanityClient.fetch(
+      `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{\n        "imageUrl": image.asset->url, image.alt, image.altEn, image.altRu\n      }`,
+      { slug: 'inzhener-polivni-sistemi' }
+    ).then((photo) => {
+      if (!cancelled && photo?.imageUrl) setIrrigationAssistantPhoto(photo)
+    }).catch((error) => console.error('Irrigation assistant: не удалось загрузить фото специалиста:', error))
+    return () => { cancelled = true }
+  }, [])
 
   // Persist the customer's cart between visits on this browser/device.
   useEffect(() => {
@@ -291,7 +307,7 @@ export default function App() {
       (path.startsWith('/services/') && !path.startsWith('/services/category/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
-    const isUnknownRoute = path !== '/' && path !== '/index.html' &&
+    const isUnknownRoute = path !== '/' && path !== '/index.html' && path !== '/irrigation-assistant' &&
       path !== '/contacts' && path !== '/about' && path !== '/services' && !(path.startsWith('/services/category/') && ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(decodeURIComponent(path.slice('/services/category/'.length)))) && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
@@ -328,6 +344,7 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       const route = getRouteState()
+      setRouteRevision((revision) => revision + 1)
       setActiveSearchQuery(route.activeSearchQuery)
       setIsCartOpen(route.isCartOpen)
       setIsContactsOpen(route.isContactsOpen)
@@ -1323,7 +1340,9 @@ export default function App() {
             </main>
           )
       }>
-        {normalizedRoutePath === '/about' ? (
+        {isIrrigationAssistantRoute ? (
+          <IrrigationAssistantPage onNavigateHome={navigateToHome} />
+      ) : normalizedRoutePath === '/about' ? (
         <AboutPage services={headerServices} categories={categories} />
       ) : isCartOpen ? (
         <CartPage
@@ -1528,6 +1547,14 @@ export default function App() {
       </React.Suspense>
 
       <Footer />
+      {!isIrrigationAssistantRoute && (
+        <IrrigationAssistantLauncher
+          imageUrl={irrigationAssistantPhoto?.imageUrl}
+          imageAlt={language === 'ru' ? irrigationAssistantPhoto?.imageAltRu || 'Инженер систем полива' : language === 'en' ? irrigationAssistantPhoto?.imageAltEn || 'Irrigation systems engineer' : irrigationAssistantPhoto?.imageAlt || 'Инженер по поливни системи'}
+          language={language}
+          onOpen={() => navigateToInternalPath('/irrigation-assistant')}
+        />
+      )}
     </div>
   )
 }
