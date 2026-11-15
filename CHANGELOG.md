@@ -1,3 +1,16 @@
+## 2026-11-15 — Rain Bird nozzle product descriptions expanded and published
+
+- Reviewed all 26 published products linked to Sanity category `nozzles` and its two child categories in project `bxvcy0qs`, dataset `production`: 17 spray-nozzle products and 9 rotary-nozzle products.
+- Reworked Bulgarian `description` Portable Text and localized `translations.ru.formattedDescription` / `translations.en.formattedDescription` for all 26 products (78 locale-specific descriptions). Each description has five H2 sections, four bold emphasis spans and two verified internal links.
+- Product families covered: VAN (7), HE-VAN (4), R-VAN (9, including LCS/RCS/SST strip patterns) and fixed-pattern strip nozzles (6: 15-CST, 15-EST, 15-LCS, 15-RCS, 15-SST and 9-SST).
+- Copy distinguishes adjustable versus fixed arcs, full-circle models, left/right corner and side-strip patterns, model-specific coverage dimensions, operating pressure, recommended spacing, flow and filter details. Model-specific data was taken from the existing Sanity product records and checked against Rain Bird product-family documentation. Existing specification fields were not changed.
+- Full pre-write snapshots of all 26 published product documents were committed before writing: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`.
+- Existing drafts were present before this update. Core catalog fields (name, SKU, slug, price, stock, categories, images/galleries, SEO, specifications and related-content references) were compared between draft and published versions before writing; no differences were found outside the description/translation content being refreshed.
+- Sanity validation returned 26/26 valid. The validator marked checks incomplete only because custom validation callbacks (including custom slug uniqueness callbacks) are not executed by this tool; built-in checks passed. All 26 drafts were published with revision guards. Production read-back confirmed 26/26 published, zero remaining drafts, five H2 sections, four strong spans and two internal links in every locale.
+- Internal links point to the relevant published child category (`/category/spray-nozzles` or `/category/rotator-nozzles`) and the existing published sprinkler installation/repair article. Both target slugs were verified in Sanity.
+- No application code, schema, category relationships, SEO metadata, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live visual/browser verification of representative product pages and mobile layout was not completed; Google recrawl/indexing is not confirmed. Detailed audit: `docs/audits/2026-11-15-nozzle-product-descriptions.md`.
+
 ## 2026-11-15 — Rain Bird controller product descriptions expanded and published
 
 - Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
