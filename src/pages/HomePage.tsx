@@ -24,7 +24,6 @@ export function HomePage({
   categories,
   plantCategories,
   heroImageUrl,
-  siteSettings,
   onNavigateService,
   onNavigateCategory,
 }: HomePageProps) {
