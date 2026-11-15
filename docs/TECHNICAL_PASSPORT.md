@@ -1,3 +1,13 @@
+## 2026-11-15 — Four localized service specialist landing pages added
+
+- Added four dedicated pages for landscape architecture, irrigation systems, gardening/planting and lawns, with unique BG/RU/EN copy, localized metadata, practical article sections, FAQs, service cards and BreadcrumbList/CollectionPage structured data.
+- Added category-level routes under `/services/category/`; linked them from the existing services directory while preserving its interactive filters.
+- Service-detail visual breadcrumbs and BreadcrumbList JSON-LD now show the mapped specialist page between `/services` and the individual service.
+- Added all four routes with BG/RU/EN alternates to the XML sitemap.
+- Sanity Production read-only check (project `bxvcy0qs`, dataset `production`, published perspective) returned 22 active services. Existing category values support the four directions; irrigation includes `irrigation`, `maintenance` and `delivery`, while gardener uses `planting`.
+- No Sanity documents, schema, assets, existing service content, Header, main menu, Footer, D1, Manager, Resend or Cloudflare settings were changed.
+- Implementation branch: `feat/service-specialist-landing-pages`. Automated checks, PR CI, Production deployment, live route/visual QA and Google indexing remain pending. Detailed audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
+
 ## 2026-11-15 — Rain Bird nozzle product descriptions published
 
 - Sanity Production project `bxvcy0qs`, dataset `production`: refreshed 26 products in root category `nozzles` and child categories `spray-nozzles` / `rotator-nozzles`.
