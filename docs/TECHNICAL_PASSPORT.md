@@ -1,3 +1,14 @@
+## 2026-11-15 — Yucca and Cycas editorial corrections published
+
+- Published approved editorial updates to three existing plant documents in Sanity Production: Yucca rostrata (`palm-yucca-rostrata`), Cycas A (`ac0fa4a7-54fd-4149-b0af-aa9759867ec5`) and Cycas B (`palm-cycas`).
+- Yucca BG name/description and localized BG translation were aligned; BG/RU/EN main-image and gallery ALT values are complete.
+- Cycas A naming, localized short descriptions, H1/meta and descriptions were corrected to identify a cycad/sagovnik, not a true palm. Added the toxicity warning in BG/RU/EN and removed the inaccurate palm-fertilizer reference. Missing gallery ALT values were completed.
+- Cycas B RU/EN names, short descriptions and SEO were corrected to cycad/sagovnik terminology. Existing BG/RU/EN descriptions and toxicity warning were preserved.
+- All edited Meta Titles are within 70 characters and Meta Descriptions within 160 characters.
+- Pre-write field snapshot: `docs/backups/sanity/yucca-cycas-editorial-before-2026-11-15.md`; detailed report: `docs/audits/2026-11-15-yucca-cycas-editorial-remediation.md`.
+- Revision-guarded patches and publications succeeded. Sanity schema validation reported 3 valid documents, with custom validation callbacks not run; final published read-back confirmed the edited content and unchanged protected commercial data, variants, slugs, categories and image asset references.
+- No full dataset export, code/schema change, Cloudflare configuration or deployment was performed. Live storefront rendering, Google-selected canonical and indexing/recrawl remain unverified. The two Cycas URLs remain separate; no merge, deletion or redirect was made.
+
 ## 2026-11-15 — Correction: restored automatic irrigation service and separated design service
 
 - Owner reported that the original automatic-irrigation service had been overwritten during PR #272. The original published Sanity document was not deleted, but its content had been replaced. This was an incorrect editorial decision; the original page is now restored from the pre-change snapshot.
