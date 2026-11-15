@@ -2,7 +2,7 @@
 
 ## Scope
 
-Implemented four dedicated, localized service-direction landing pages and inserted the specialist level into service-detail breadcrumbs. Existing Sanity service documents and schema were not changed.
+Implemented four dedicated, localized service-direction landing pages and inserted the specialist level into service-detail breadcrumbs. Added an additive `serviceDirection` type to the existing `florial-admin` Studio source. Four new Sanity Production documents have not yet been created.
 
 ## Source and live data checks
 
@@ -16,7 +16,7 @@ Implemented four dedicated, localized service-direction landing pages and insert
   - `lawn`: rolled turf and lawn replacement.
   - `delivery`: irrigation equipment delivery and engineer consultation.
 - Existing four specialist directions remain authoritative. Irrigation page groups `irrigation`, `maintenance`, and `delivery`; gardener maps to `planting`.
-- No Sanity documents, schema, assets, published content, or relationships were written.
+- No Sanity documents, assets, existing published content, or relationships were written. The schema source change is additive and does not modify existing document types.
 
 ## Implemented
 
@@ -52,8 +52,10 @@ Implemented four dedicated, localized service-direction landing pages and insert
 ## Verification status
 
 - GitHub source review: completed on the feature branch.
+- Additive schema source: `studio/schemaTypes/index.ts`, commit `e0bfb939` followed by syntax correction `0533f085`.
+- CI for `0533f085`: website lint, utility tests, website build, Pages Functions syntax, read-only D1 migration validation and Sanity Studio build all passed. Runs: `43726056390`, `43726056393`, `43726056441`.
 - Sanity Production service classification: read-only query completed; 22 records returned.
 - PR CI on code commit `a8356c6766d0df2fa9d34349263e16dd1d245d16`: website lint passed; website utility tests passed (including the new specialist-page tests); Vite build passed; Pages Functions syntax and read-only D1 migration checks passed. D1 workflow run `43722398178` completed successfully.
 - Blog and Studio validation run `43722398074` completed successfully: website lint/tests/build, migration dry-run and Sanity Studio build all passed.
 - Production deployment, live route smoke tests, metadata/canonical/hreflang verification, mobile visual QA and Google indexing remain unconfirmed.
-- **Content ownership note:** the new localized editorial copy currently lives in the source-controlled React component, not Sanity Studio. No new Sanity document type or schema was added. If the owner wants to edit these landing-page articles in Studio, that requires a separate approved additive schema/content-model change.
+- **Content ownership note:** localized editorial copy currently lives in the source-controlled React component, not Sanity Studio. The new `serviceDirection` schema type is now present in the PR source but is not yet deployed. The frontend is not yet wired to read these documents. After merge/deployment, four documents must be created and the frontend data integration completed before this is considered Studio-managed.
