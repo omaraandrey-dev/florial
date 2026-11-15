@@ -59,3 +59,9 @@ Implemented four dedicated, localized service-direction landing pages and insert
 - Blog and Studio validation run `43722398074` completed successfully: website lint/tests/build, migration dry-run and Sanity Studio build all passed.
 - Production deployment, live route smoke tests, metadata/canonical/hreflang verification, mobile visual QA and Google indexing remain unconfirmed.
 - **Content ownership note:** localized editorial copy currently lives in the source-controlled React component, not Sanity Studio. The new `serviceDirection` schema type is now present in the PR source but is not yet deployed. The frontend is not yet wired to read these documents. After merge/deployment, four documents must be created and the frontend data integration completed before this is considered Studio-managed.
+
+## Shared documentation integration
+
+- The audit remains a unique, task-specific record in this PR.
+- Shared files `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally not changed here. Several older open documentation PRs still modify those same shared files from stale base commits.
+- Integrate this audit into the shared documents only after those documentation branches are reconciled with the then-current `main`; this avoids dropping or duplicating their records.
