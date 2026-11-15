@@ -1,3 +1,12 @@
+## 2026-11-15 — Valve product descriptions expanded in Sanity Production
+
+- Published expanded BG/RU/EN descriptions for all 17 products in the `klapani` valve category and its 24 V / 9 V child categories.
+- Description fields: BG `description`; RU/EN `translations.*.formattedDescription`. Each locale has five H2 sections, bold emphasis, practical bullet points and internal links to controllers and valve installation/repair service.
+- Model-specific notes distinguish DV/DVF, HV/HVF, PGA, PEB and LFV, including 24 VAC vs 9 V latching solenoids, flow-control differences, filter guidance, connection types and the 100-HV-9V / ESP-BAT-BT incompatibility.
+- Full pre-write document snapshot: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`; detailed audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+- Production read-back: 17/17 published, 0 drafts. Schema validator: 17 valid; custom callbacks were not executed. Live storefront visual check and Google recrawl remain unconfirmed.
+- Content-only change: no code, schema, analytics, sitemap/RSS, Cloudflare, D1, Resend or deployment changes.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
