@@ -1,3 +1,16 @@
+## 2026-11-15 — Rain Bird drip-tube product descriptions expanded and published
+
+- Reviewed all four published products in Sanity category `category-drip-tubes` (`kapkovo-napoyavane-trabi`), project `bxvcy0qs`, dataset `production`: XFD-2333-100 (SKU X44202), XFS-2333-100 (SKU X48201), XFD1600-100 (SKU X45009) and PCD-2333-100 (SKU X44402).
+- Rewrote Bulgarian `description` and added Russian/English `translations.ru.formattedDescription` / `translations.en.formattedDescription` for all four products. Each locale has 5–6 H2 sections, selective bold emphasis, three practical bullet points and two verified internal links (drip fittings category and automatic-irrigation service).
+- Content distinguishes surface XFD dripline, subsurface XFS with Copper Shield™, blank XFD1600-100 tubing without built-in emitters, and PCD pressure-compensating dripline. Technical data was checked against the published Sanity specifications and official Rain Bird product pages/technical sheets.
+- Specific fitting guidance: XFD1600-100 is not to be matched by the generic “16 mm” label alone. Rain Bird's XF blank-tubing documentation specifies XF insert fittings, Easy Fit compression fittings and compatible 17 mm insert fittings, and explicitly says it is not compatible with generic 16 mm fittings.
+- Full pre-write snapshots of all four published documents were committed before Sanity writes: `docs/backups/sanity/2026-11-15-drip-tube-products-before-description-refresh.xml` (backup commit `c5dd176ba24ff0237af027bfc95118ffd727b449`).
+- Sanity validation returned 4/4 valid; the beta validator reports incomplete only because custom validation callbacks were not run. All four drafts were published with revision guards. Production read-back confirmed 4/4 published, all locales have 5–6 H2 sections, three bullets and two internal links.
+- Names, slugs, SKUs, prices, stock, category references, images/galleries, related-content/product references, SEO and product specifications were not changed. Only the three requested description fields per product were updated.
+- Existing `RichText` renderer supports H2/H3, strong marks, bullet lists and safe internal links. No application code, schema, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live storefront visual/browser verification and Google recrawl/indexing remain unconfirmed. Detailed audit: `docs/audits/2026-11-15-drip-tube-product-descriptions.md`.
+- Follow-up data-quality note: existing XFD1600-100 specification row “Compatibility” says fittings for 16 mm tubing, while Rain Bird's official XF blank-tubing page says it is not compatible with generic 16 mm fittings. Product specifications were deliberately left unchanged; review and correct that row separately.
+
 ## 2026-11-15 — Rain Bird controller product descriptions expanded and published
 
 - Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
