@@ -1050,8 +1050,62 @@ const blogPost = defineType({
   ],
   preview: {select: {title: 'translations.bg.title', subtitle: 'publishedAt', media: 'cover'}},
 })
+
+const serviceDirection = defineType({
+  name: 'serviceDirection',
+  title: 'Направления на услугите',
+  type: 'document',
+  fields: [
+    defineField({name: 'name', title: 'Име на направлението (BG)', type: 'string', validation: Rule => Rule.required()}),
+    defineField({name: 'slug', title: 'URL адрес (slug)', type: 'slug', options: {source: 'name', maxLength: 96}, validation: Rule => Rule.required()}),
+    defineField({name: 'directionKey', title: 'Технически ключ', type: 'string', options: {list: [
+      {title: 'Ландшафтен архитект', value: 'landscaping'},
+      {title: 'Поливни системи', value: 'irrigation'},
+      {title: 'Градинар / засаждане', value: 'planting'},
+      {title: 'Тревни площи', value: 'lawn'},
+    ]}, validation: Rule => Rule.required()}),
+    defineField({name: 'serviceCategories', title: 'Категории на услугите, които да се показват', type: 'array', of: [{type: 'string', options: {list: [
+      {title: 'Ландшафтен дизайн', value: 'landscaping'},
+      {title: 'Засаждане', value: 'planting'},
+      {title: 'Поливни системи', value: 'irrigation'},
+      {title: 'Тревни площи', value: 'lawn'},
+      {title: 'Поддръжка', value: 'maintenance'},
+      {title: 'Доставка', value: 'delivery'},
+    ]}}], validation: Rule => Rule.required().min(1).unique()}),
+    defineField({name: 'sortOrder', title: 'Ред на показване', type: 'number'}),
+    defineField({name: 'isActive', title: 'Публикувано направление', type: 'boolean', initialValue: true}),
+    defineField({name: 'image', title: 'Основна снимка', type: 'image', options: {hotspot: true}, fields: serviceImageFields()}),
+    defineField({name: 'translations', title: 'Съдържание по езици', type: 'object', fields: ['bg', 'ru', 'en'].map((language) => defineField({
+      name: language,
+      title: language === 'bg' ? 'Български' : language === 'ru' ? 'Русский' : 'English',
+      type: 'object',
+      fields: [
+        defineField({name: 'title', title: 'H1 / заглавие', type: 'string', validation: Rule => Rule.required()}),
+        defineField({name: 'metaTitle', title: 'Meta title', type: 'string'}),
+        defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3}),
+        defineField({name: 'intro', title: 'Въведение', type: 'text', rows: 6}),
+        defineField({name: 'sections', title: 'Основни раздели', type: 'array', of: [{type: 'object', fields: [
+          defineField({name: 'heading', title: 'Заглавие на раздела', type: 'string', validation: Rule => Rule.required()}),
+          defineField({name: 'body', title: 'Текст на раздела', type: 'richDescription'}),
+        ]}]}),
+        defineField({name: 'faqHeading', title: 'Заглавие на FAQ', type: 'string'}),
+        defineField({name: 'faqs', title: 'Често задавани въпроси', type: 'array', of: [{type: 'object', fields: [
+          defineField({name: 'question', title: 'Въпрос', type: 'string', validation: Rule => Rule.required()}),
+          defineField({name: 'answer', title: 'Отговор', type: 'text', rows: 4, validation: Rule => Rule.required()}),
+        ]}]}),
+        defineField({name: 'serviceHeading', title: 'Заглавие на списъка с услуги', type: 'string'}),
+        defineField({name: 'emptyServices', title: 'Текст при липса на услуги', type: 'text', rows: 3}),
+        defineField({name: 'allServices', title: 'Връзка към всички услуги', type: 'string'}),
+        defineField({name: 'learnMore', title: 'Текст за подробности', type: 'string'}),
+      ],
+    }))),
+    defineField({name: 'seo', title: 'SEO (общи настройки)', type: 'seoFields'}),
+  ],
+  preview: {select: {title: 'name', subtitle: 'directionKey', media: 'image'}},
+})
+
 export const irrigationSchemaTypes = [
   seoFields, productSeoFields, categorySeoFields, richDescription, productSpec, kitComponent, serviceContentBlock, brand, irrigationCategory,
-  irrigationProduct, service, deliveryZone, youtubeEmbed, blogPost, page, photo, siteSettings,
+  irrigationProduct, service, serviceDirection, deliveryZone, youtubeEmbed, blogPost, page, photo, siteSettings,
 ]
 export const plantSchemaTypes = [seoFields, productSeoFields, categorySeoFields, richDescription, plantCare, plantSaleVariant, plantCategory, plantProduct]
