@@ -1,3 +1,14 @@
+## 2026-11-15 — Missing category SEO articles completed across both catalogues
+
+- Full published-category audit covered 17 plant categories in Sanity `plants` and 54 irrigation/equipment categories in `production`.
+- Eight categories previously had no BG/RU/EN `seoContent`: broadleaf trees, citrus, exotic plants, flowering shrubs, indoor plants, trees and ornamental shrubs, plastic 90° female-thread tee, and solenoid valves.
+- All eight now have 27 Portable Text blocks per locale (9 H2 + 18 paragraphs). Published Sanity read-back confirmed every locale for every document.
+- Final repeat query returned zero categories with missing localized SEO content in both datasets. Existing text in all other categories was retained.
+- Backups: `docs/backups/sanity/2026-11-15-all-categories-before-seo-content.json` and `docs/backups/sanity/2026-11-15-solenoid-valves-category-before-seo-content.json`.
+- The solenoid-valve category has pre-existing `seoTitle` and `seoDescription` root fields not present in the resolved deployed schema; they were not modified. Validation reports this legacy mismatch, but the content publication succeeded.
+- Live browser rendering and Google indexing remain unconfirmed because Firecrawl was out of credits; source-level category rendering path was checked in GitHub main.
+- No application/schema/catalog relationship or Production infrastructure changes. Audit: `docs/audits/2026-11-15-missing-category-seo-articles.md`.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
