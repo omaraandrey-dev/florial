@@ -806,8 +806,8 @@ export default function App() {
         "imageAltRu": image.altRu,
         translations {
           bg { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
-          ru { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
-          en { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore }
+          ru { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
+          en { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore }
         },
         seo { metaTitle, metaDescription, noIndex }
       }
