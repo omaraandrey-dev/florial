@@ -79,3 +79,38 @@ Implemented four dedicated, localized service-direction landing pages and insert
 - Cloudflare Pages Preview deployment succeeded for `4d34c9a`: `https://444bc83b.florial.pages.dev`. A direct browser/visual smoke test could not be completed in this pass.
 - The additive Studio schema is still not deployed to Production; no new direction documents have been created or published. Existing service records remain untouched.
 - Shared changelog/passport/open-questions records are intentionally deferred to a synchronized integration pass because older open PRs overlap those files.
+
+## Production completion — 2026-11-15
+
+### Code and Studio deployment
+- PR #292 was merged into `main` as `ec618820851352174d358946171dc11a54477df3`.
+- Canonical Sanity Studio deployment workflow `43727514085` completed successfully. The existing `florial-admin` workspace schema was checked live; the additive `serviceDirection` type is present in schema `_.schemas.florial-admin`.
+- Sanity Studio validation workflow `43727514100` completed successfully.
+- Cloudflare Pages Production check for the merge commit completed successfully. The Cloudflare check output reports a successful deployment; a direct route-level browser check was not available in this pass.
+
+### Sanity Production content
+- Before writes, a raw-perspective GROQ inventory returned zero existing `serviceDirection` documents. Snapshot: `docs/backups/sanity/2026-11-15-service-directions-before-create.json`.
+- Four new documents were created as drafts, inspected in all three locales, and published. No existing `service` documents were modified.
+- Published documents:
+  - `058dbdb5-a5d4-4809-afdb-c02b16d098e2` — `landshaften-arhitekt`, `landscaping`, 4 sections and 3 FAQs per locale.
+  - `64544c7b-8de3-4b8b-ac63-570c05a0eefe` — `polivni-sistemi`, `irrigation`, 5 sections and 3 FAQs per locale; groups `irrigation`, `maintenance` and `delivery`.
+  - `9ce5952b-ed0b-4d08-8428-744095c23649` — `gardinar`, `planting`, 5 sections and 3 FAQs per locale.
+  - `db084a73-e1a5-4be4-a707-233a48cce5f3` — `trevni-ploshti`, `lawn`, 4 sections and 3 FAQs per locale.
+- Published read-back returned exactly four active documents, with BG/RU/EN titles, meta titles, meta descriptions, FAQ arrays and section arrays populated. All four have `seo.noIndex=false`.
+- Existing active service counts used for card grouping remain: landscaping 2, irrigation 7, maintenance 3, delivery 1, planting 7, lawn 2 (22 total).
+
+### Verification boundaries
+- Verified from source and CI: route wiring, sitemap additions, breadcrumb changes, website lint/tests/build, D1 validation and both Studio builds.
+- Verified in live Sanity Production: schema deployment, four published documents and their localized content read-back.
+- Verified by Cloudflare deployment check: Production Pages deployment succeeded.
+- Not verified: direct HTTP/browser rendering of each Production route, live sitemap response, Google Search Console indexing or ranking. These remain separate post-deployment checks.
+- Shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` were not modified in this release branch because multiple older open PRs still overlap those files. Record this audit in the next synchronized shared-documentation integration.
+
+## Runtime GROQ correction — 2026-11-15
+
+- After the four documents were published, a live execution of the exact frontend GROQ string exposed an unclosed nested object in the RU and EN translation projections. This runtime-only issue was not detected by TypeScript, lint or Vite build; until fixed, the page would have used the static fallback.
+- Fixed in PR #294, merged as `637ebf12b6d0cd6840625778fc48e6b884fbfccb`.
+- The exact query extracted from `main/src/App.tsx` was then executed against Sanity Production, paginated one document at a time to remain under the Sanity 64 KiB response limit. All four slugs returned successfully: `landshaften-arhitekt`, `polivni-sistemi`, `gardinar`, `trevni-ploshti`.
+- Website lint, tests and build, Studio build, and D1 validation passed on the hotfix PR head. Cloudflare Pages Production deployment check for merge commit `637ebf1` completed successfully.
+- The live Sanity data query and published-document read-back are verified. Direct browser rendering and mobile visual QA remain unverified because the available page-fetching surfaces could not access the site.
+
