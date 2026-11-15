@@ -53,6 +53,30 @@ No prices, sale variants, stock, categories, slug, image assets/references, or a
 - translations.ru.seo: {"h1":"Саговая пальма (Cycas revoluta)","metaTitle":"Саговая пальма | Равда | Садовый центр Флориал","metaDescription":"Продажа: Саговая пальма (Cycas revoluta) — экзотическое растение с жёсткими перистыми листьями; условия зимовки зависят от места. Садовый центр Флориал в Равда и окрестностях."}
 - Existing BG/EN/RU descriptions explicitly warn that all parts are toxic if ingested, especially seeds; this information must remain intact.
 
+## Additional root BG SEO fields included in the write scope
+
+Yucca root `seo` before write:
+```json
+{
+  "description": "Юка рострата (Yucca rostrata) – архитектурно растение с тесни листа за слънчеви композиции. Наличност и размер – при запитване във Florial.",
+  "h1": "Юка рострата (Yucca rostrata)",
+  "metaDescription": "Продажба на Юка рострата (Yucca rostrata) — архитектурно растение с тесни листа за слънчеви декоративни композиции. Градински център Флориал в Кошарица и района.",
+  "metaTitle": "Юка рострата | Кошарица | Градински център Флориал",
+  "title": "Юка рострата (Yucca rostrata) | Florial"
+}
+```
+
+Cycas B root `seo` before write:
+```json
+{
+  "description": "Цикас (Cycas revoluta) – екзотично растение с твърди перести листа. Наличност и размер – при запитване във Florial, градински център в България.",
+  "h1": "Цикас (Cycas revoluta)",
+  "metaDescription": "Продажба на Цикас (Cycas revoluta) — екзотично растение с твърди перести листа; условията за зимуване зависят от мястото. Градински център Флориал в Равда и района.",
+  "metaTitle": "Цикас | Равда | Градински център Флориал",
+  "title": "Цикас (Cycas revoluta) | Florial"
+}
+```
+
 ## Protected commercial and identity fields — read-only
 The following values were checked before write and are excluded from every patch:
 - all saleVariants arrays and all variant keys/names/heights/container sizes/prices/stock
