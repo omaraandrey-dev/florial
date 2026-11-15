@@ -166,6 +166,10 @@ export async function onRequestGet(): Promise<Response> {
     addUrl(urls, 'terms')
     addLocalizedUrls(urls, 'services')
     addLocalizedUrls(urls, 'services/dostavka-poliv')
+    addLocalizedUrls(urls, 'services/category/landshaften-arhitekt')
+    addLocalizedUrls(urls, 'services/category/polivni-sistemi')
+    addLocalizedUrls(urls, 'services/category/gardinar')
+    addLocalizedUrls(urls, 'services/category/trevni-ploshti')
     addLocalizedUrls(urls, 'blog')
 
     for (const document of blogPosts) {

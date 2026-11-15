@@ -24,6 +24,7 @@ import type {
 
 // Keep the homepage in the initial bundle; load other page modules only when their route is active.
 const ServicePage = React.lazy(() => import('./pages/ServicePage').then(({ ServicePage }) => ({ default: ServicePage })))
+const ServiceDirectionPage = React.lazy(() => import('./pages/ServiceDirectionPage').then(({ ServiceDirectionPage }) => ({ default: ServiceDirectionPage })))
 const CategoryPage = React.lazy(() => import('./pages/CategoryPage').then(({ CategoryPage }) => ({ default: CategoryPage })))
 const ProductPage = React.lazy(() => import('./pages/ProductPage').then(({ ProductPage }) => ({ default: ProductPage })))
 const ContactsPage = React.lazy(() => import('./pages/ContactsPage').then(({ ContactsPage }) => ({ default: ContactsPage })))
@@ -60,7 +61,7 @@ function getRouteState(
   const searchParams = new URLSearchParams(search)
 
   return {
-    activeServiceSlug: path.startsWith('/services/') ? path.replace('/services/', '') : null,
+    activeServiceSlug: path.startsWith('/services/') && !path.startsWith('/services/category/') ? path.replace('/services/', '') : null,
     activeCategorySlug: path.startsWith('/category/') ? path.replace('/category/', '') : null,
     activeProductSlug: path.startsWith('/product/') || path.startsWith('/products/')
       ? decodeURIComponent(path.replace(/^\/(product|products)\//, ''))
@@ -125,13 +126,14 @@ export default function App() {
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
-  const [loadingServices, setLoadingServices] = useState(() => (window.location.pathname.replace(/\/+$/, '') || '/') === '/services')
+  const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
+  const [serviceDirectionDocuments, setServiceDirectionDocuments] = useState<any[]>([])
   const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
   const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
@@ -163,7 +165,9 @@ export default function App() {
   const [routeRevision, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
-  const isServicesListRoute = normalizedRoutePath === '/services'
+  const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
+  const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
+  const isValidServiceDirectionRoute = ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(serviceDirectionSlug || '')
   const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
@@ -243,11 +247,11 @@ export default function App() {
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = (
       ((path.startsWith('/product/') || path.startsWith('/products/')) && !loadingProducts && Boolean(activeProductSlug) && !currentProduct) ||
-      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/services/') && !path.startsWith('/services/category/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
-      path !== '/contacts' && path !== '/about' && path !== '/services' && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
+      path !== '/contacts' && path !== '/about' && path !== '/services' && !(path.startsWith('/services/category/') && ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(decodeURIComponent(path.slice('/services/category/'.length)))) && path !== '/cart' && path !== '/search' && path !== '/blog' && !path.startsWith('/blog/') &&
       !path.startsWith('/product/') && !path.startsWith('/products/') &&
       !path.startsWith('/services/') && !path.startsWith('/category/')
 
@@ -789,6 +793,26 @@ export default function App() {
       }
     `
 
+    const serviceDirectionQuery = `
+      *[_type == "serviceDirection" && isActive != false] | order(sortOrder asc, name asc) {
+        _id,
+        name,
+        "slug": { "current": coalesce(slug.current, slug) },
+        directionKey,
+        serviceCategories,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu,
+        translations {
+          bg { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
+          ru { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore },
+          en { title, metaTitle, metaDescription, intro, sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}, faqHeading, faqs[]{_key, question, answer}, serviceHeading, emptyServices, allServices, learnMore }
+        },
+        seo { metaTitle, metaDescription, noIndex }
+      }
+    `
+
     const serviceRolePhotosQuery = `
       *[
         _type == "photo" &&
@@ -814,7 +838,8 @@ export default function App() {
     Promise.allSettled([
       sanityClient.fetch(serviceQuery),
       sanityClient.fetch(serviceRolePhotosQuery),
-    ]).then(([servicesResult, photosResult]) => {
+      sanityClient.fetch(serviceDirectionQuery),
+    ]).then(([servicesResult, photosResult, directionsResult]) => {
       if (cancelled) return
       if (servicesResult.status === 'fulfilled') {
         setServices(Array.isArray(servicesResult.value) ? servicesResult.value : [])
@@ -827,6 +852,12 @@ export default function App() {
       } else {
         console.error('Sanity: не удалось загрузить фотографии направлений услуг:', photosResult.reason)
         setServiceRolePhotos([])
+      }
+      if (directionsResult.status === 'fulfilled') {
+        setServiceDirectionDocuments(Array.isArray(directionsResult.value) ? directionsResult.value : [])
+      } else {
+        console.error('Sanity: не удалось загрузить направления услуг:', directionsResult.reason)
+        setServiceDirectionDocuments([])
       }
       setLoadedServicesLanguage(language)
     }).finally(() => {
@@ -1142,6 +1173,7 @@ export default function App() {
       normalizedRoutePath !== '/contacts' &&
       normalizedRoutePath !== '/about' &&
       normalizedRoutePath !== '/services' &&
+      !(normalizedRoutePath.startsWith('/services/category/') && isValidServiceDirectionRoute) &&
       normalizedRoutePath !== '/cart' &&
       normalizedRoutePath !== '/search' &&
       normalizedRoutePath !== '/blog' &&
@@ -1151,7 +1183,8 @@ export default function App() {
       !normalizedRoutePath.startsWith('/services/') &&
       !normalizedRoutePath.startsWith('/category/')
     ) ||
-    (normalizedRoutePath.startsWith('/services/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServiceDetails && !currentService) ||
+    (normalizedRoutePath.startsWith('/services/category/') && !isValidServiceDirectionRoute) ||
+    (normalizedRoutePath.startsWith('/services/') && !normalizedRoutePath.startsWith('/services/category/') && normalizedRoutePath !== '/services/dostavka-poliv' && !loadingServiceDetails && !currentService) ||
     (normalizedRoutePath.startsWith('/category/') && !loadingCategories && !currentCategory) ||
     (
       (normalizedRoutePath.startsWith('/product/') || normalizedRoutePath.startsWith('/products/')) &&
@@ -1370,6 +1403,8 @@ export default function App() {
         <IrrigationSupportPage />
       ) : normalizedRoutePath === '/services' ? (
         <ServicesListPage services={services} rolePhotos={serviceRolePhotos} loading={loadingServices || loadedServicesLanguage !== language} />
+      ) : serviceDirectionSlug && isValidServiceDirectionRoute ? (
+        <ServiceDirectionPage directionSlug={serviceDirectionSlug} services={services} rolePhotos={serviceRolePhotos} directionDocument={serviceDirectionDocuments.find((item) => item.slug?.current === serviceDirectionSlug)} loading={loadingServices || loadedServicesLanguage !== language} />
       ) : activeServiceSlug && loadingServiceDetails && !currentService ? (
         <div className="flex-grow flex items-center justify-center py-20">
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
