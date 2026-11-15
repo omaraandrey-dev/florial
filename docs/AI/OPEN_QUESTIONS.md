@@ -1,3 +1,10 @@
+## 2026-11-15 — Service specialist landing pages: release verification pending
+
+- Four new localized category routes and service-detail breadcrumb levels are implemented on feature branch `feat/service-specialist-landing-pages`.
+- Read-only Sanity Production query confirmed 22 active service documents and the existing category assignments; no Sanity writes or schema changes were made.
+- Pending: CI (lint/tests/build/Pages Functions), PR review/merge authorization, Production deployment, direct-route HTTP and rendered metadata checks for BG/RU/EN, mobile visual QA, sitemap validation and Google Search Console URL inspection.
+- Audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
+
 ## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
 
 - All 26 published products in Sanity category `nozzles` and its two child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 26/26 published and zero remaining drafts.
