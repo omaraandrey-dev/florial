@@ -3,6 +3,7 @@ name: Blog and Studio validation
 on:
   push:
     branches:
+      - main
       - feature/florial-blog
   pull_request:
     branches:
@@ -25,6 +26,8 @@ jobs:
           node-version: 22
       - name: Install website dependencies
         run: npm ci
+      - name: Type-check application and Pages Functions
+        run: npm run typecheck
       - name: Lint website
         run: npm run lint
       - name: Test website utilities
