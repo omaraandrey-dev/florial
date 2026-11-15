@@ -246,7 +246,7 @@ export default function App() {
     const isPrivateUtilityPage = path === '/cart' || path === '/search'
     const isMissingDynamicRoute = (
       ((path.startsWith('/product/') || path.startsWith('/products/')) && !loadingProducts && Boolean(activeProductSlug) && !currentProduct) ||
-      (path.startsWith('/services/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
+      (path.startsWith('/services/') && !path.startsWith('/services/category/') && path !== '/services/dostavka-poliv' && !loadingServiceDetails && Boolean(activeServiceSlug) && !currentService) ||
       (path.startsWith('/category/') && !loadingCategories && Boolean(activeCategorySlug) && !currentCategory)
     )
     const isUnknownRoute = path !== '/' && path !== '/index.html' &&
