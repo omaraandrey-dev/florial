@@ -1,11 +1,3 @@
-## 2026-11-15 — Service specialist pages: schema PR ready; Sanity content pending
-
-- PR #292 now includes additive `serviceDirection` schema source in the existing `florial-admin` workspace. CI passed for website lint/tests/build, Pages Functions syntax, read-only D1 validation and Studio build on commit `0533f085b01367dc00cfcc1c3e6d3ce193b71fbc`.
-- No Sanity Production schema deployment or document writes have occurred. Existing published service documents remain untouched.
-- Frontend direction copy is still static in React and is not yet read from Sanity. The schema must be deployed before creating four new direction documents; then frontend integration and route verification are required.
-- PR #292 remains open/unmerged. Explicit merge approval is still required before main and the production Studio/Pages workflows can run.
-- Audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
-
 ## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
 
 - All 26 published products in Sanity category `nozzles` and its two child categories have expanded BG/RU/EN descriptions; Production read-back confirmed 26/26 published and zero remaining drafts.
