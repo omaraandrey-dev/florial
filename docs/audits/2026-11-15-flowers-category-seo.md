@@ -26,6 +26,7 @@ The leading section presents Florial's own flower-growing greenhouses. It explai
 ## Not changed
 No category metadata/H1, descriptions, helpBlock, images, slug, category hierarchy, product documents/relationships, Sanity schema, website code, sitemap/RSS, analytics, Cloudflare configuration, D1, Resend or Production deployment.
 
-## Remaining verification
-- Browser-rendered live page verification is pending. Do not claim visual frontend confirmation from the Sanity read-back.
+## Live rendering check
+- Cloudflare Browser Rendering fetched the Bulgarian Production URL successfully. The rendered HTML contained the localized page title, the SEO category section, the greenhouse-own-growing lead heading, and the paragraphs about regular new planting and assortment renewal.
+- Russian and English rendering checks were attempted but Cloudflare Browser Rendering returned HTTP 429 and instructed a 10-second cooldown. Those two locale checks remain unconfirmed; no repeated request was sent during the cooldown.
 - Google recrawl, indexing and rankings are not confirmed.
