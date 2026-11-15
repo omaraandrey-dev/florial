@@ -1,3 +1,12 @@
+## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 in progress)
+
+- Added a documented launcher visibility rule: show the floating specialist portrait only on resolved irrigation-equipment catalogue categories/products, the `polivni-sistemi` service-direction page, and individual irrigation/maintenance/delivery service pages. Hide it on plants, homepage, blog, general services, landscaping/planting/lawn services, cart, search and the assistant page itself.
+- The launcher now requests the dedicated published Sanity photo document `15f0ab7e-b6c9-40aa-ae12-67dd84dbff53`, slug `florial-irrigation-specialist`; the original service photo was not changed.
+- Added `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`: customer geometry/water inputs, deterministic hydraulic-engine boundary, Rain Bird SKU verification, Gemini's limited role, Cloudflare security, acceptance cases and staged delivery.
+- Live Sanity Production read-back confirms the new photo document and CDN asset. Exact-head GitHub Actions for commit `f495698df1c5c38795fbcad0fc009214d6b866fe` passed: Blog/Studio validation run `43752232740` (including app/Pages typecheck, lint, tests, website build, Studio typecheck/build) and D1 validation run `43752232741`. Cloudflare Pages Preview deployment `4507238d-5d82-4efc-902b-e532ae853158` succeeded for the same SHA.
+- Mobile Preview browser QA (390×844) confirmed launcher + dedicated portrait on `/category/vsichko-za-polivane`, `/product/rain-bird-us-418`, `/services/category/polivni-sistemi`, and `/services/avtomatichno-napoyavane`. It confirmed no launcher/photo on `/`, `/category/rastenia`, and `/services/zasazhdane-na-rasteniya`; all checked routes returned HTTP 200.
+- No Gemini API calls/secrets, Sanity schema changes, D1 changes, order writes, Header/menu/Footer changes or Production release were performed. Production release and live route QA remain pending.
+
 ## 2026-11-15 — TypeScript and CI checks merged and deployed (PR #299)
 
 - PR #299 `ci: add TypeScript checks for app and Pages Functions` was squash-merged into `main` as commit `e2329572f8af211a109434a8d9807610e59b7926`.
