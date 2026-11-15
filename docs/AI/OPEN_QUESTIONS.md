@@ -2,7 +2,7 @@
 
 - Four new localized category routes and service-detail breadcrumb levels are implemented on feature branch `feat/service-specialist-landing-pages`.
 - Read-only Sanity Production query confirmed 22 active service documents and the existing category assignments; no Sanity writes or schema changes were made.
-- Pending: CI (lint/tests/build/Pages Functions), PR review/merge authorization, Production deployment, direct-route HTTP and rendered metadata checks for BG/RU/EN, mobile visual QA, sitemap validation and Google Search Console URL inspection.
+- Website lint, utility tests, Vite build, Pages Functions syntax and read-only migration checks passed in PR CI; D1 workflow succeeded. Sanity Studio build was still running at the last check. Pending: final Studio CI result, PR merge authorization, Production deployment, direct-route HTTP and rendered metadata checks for BG/RU/EN, mobile visual QA, sitemap validation and Google Search Console URL inspection. Landing-page editorial copy currently resides in source code rather than Sanity; a Studio-managed content model needs separate approval.
 - Audit: `docs/audits/2026-11-15-service-specialist-landing-pages.md`.
 
 ## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
