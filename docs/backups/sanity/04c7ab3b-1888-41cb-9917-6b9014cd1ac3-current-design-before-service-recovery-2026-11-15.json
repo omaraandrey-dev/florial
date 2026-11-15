@@ -1,0 +1,1265 @@
+{
+  "capturedAt": "2026-11-15",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+  "revision": "rOW11EP0h6V5YhExSZoYWu",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+    "_rev": "rOW11EP0h6V5YhExSZoYWu",
+    "_type": "service",
+    "_updatedAt": "2026-11-15T05:11:34Z",
+    "advantages": [
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJevs",
+        "text": "Решението се съобразява с площта, релефа, растителността и реалните параметри на водоизточника.",
+        "title": "Индивидуално оразмеряване"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJext",
+        "text": "Подбор на разпръсквачи, капково напояване, клапани и контролер според задачата и бюджета.",
+        "title": "Подходящо оборудване"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJezu",
+        "text": "Получавате план, списък на материалите и количествена сметка преди монтаж.",
+        "title": "Ясна спецификация и сметка"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJf1v",
+        "text": "Предвиждаме управление по зони, Wi-Fi и датчици, когато са подходящи за проекта.",
+        "title": "Възможност за автоматизация"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете ни информация за обекта в Несебър и района. Ще уточним необходимите измервания и следващите стъпки.",
+      "title": "Заявете оглед и проект за поливане"
+    },
+    "contentBlocks": [
+      {
+        "_key": "design-plan",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Проект за автоматично поливане на градина върху ситуационен план",
+          "altEn": "Automatic irrigation design plan for a garden",
+          "altRu": "Проект автоматического полива сада на плане участка",
+          "asset": {
+            "_ref": "image-e0f8d911ff301413286e8a0fe976510f0f84676a-510x442-png",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:intro",
+        "translations": {
+          "en": {
+            "imageAlt": "Automatic irrigation design plan for a garden"
+          },
+          "ru": {
+            "imageAlt": "Проект автоматического полива сада на плане участка"
+          }
+        }
+      },
+      {
+        "_key": "pipe-routing",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Трасета на подземните тръбопроводи за автоматично поливане",
+          "altEn": "Underground pipe routes for an automatic irrigation system",
+          "altRu": "Трассы подземных трубопроводов системы автоматического полива",
+          "asset": {
+            "_ref": "image-dd344ea9723af86b1f969fa2e45ce1c5743aae40-1536x1024-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:pipeline",
+        "translations": {
+          "en": {
+            "imageAlt": "Underground pipe routes for an automatic irrigation system"
+          },
+          "ru": {
+            "imageAlt": "Трассы подземных трубопроводов системы автоматического полива"
+          }
+        }
+      },
+      {
+        "_key": "equipment-selection",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Оборудване за автоматично напояване Rain Bird и Hunter",
+          "altEn": "Rain Bird and Hunter automatic irrigation equipment",
+          "altRu": "Оборудование для автоматического полива Rain Bird и Hunter",
+          "asset": {
+            "_ref": "image-bbfe37ad472a23bf3061bb3b27e30518006c0c23-1536x1024-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:equipment",
+        "translations": {
+          "en": {
+            "imageAlt": "Rain Bird and Hunter automatic irrigation equipment"
+          },
+          "ru": {
+            "imageAlt": "Оборудование для автоматического полива Rain Bird и Hunter"
+          }
+        }
+      },
+      {
+        "_key": "irrigation-automation",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Контролер, клапани и Wi-Fi управление на поливна система",
+          "altEn": "Irrigation controller, valves and Wi-Fi control",
+          "altRu": "Контроллер, клапаны и управление системой полива по Wi-Fi",
+          "asset": {
+            "_ref": "image-ae470e3dc91a855e8c052e7530a0fd073f02832a-1536x1024-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "title": "__gallery:automation",
+        "translations": {
+          "en": {
+            "imageAlt": "Irrigation controller, valves and Wi-Fi control"
+          },
+          "ru": {
+            "imageAlt": "Контроллер, клапаны и управление системой полива по Wi-Fi"
+          }
+        }
+      },
+      {
+        "_key": "project-estimate",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Смета, чертеж и спецификация за система за автоматично поливане",
+          "altEn": "Cost estimate, drawing and specification for an automatic irrigation system",
+          "altRu": "Смета, чертёж и спецификация системы автоматического полива",
+          "asset": {
+            "_ref": "image-a37b0a99ce82d568a9321ec19e329c6a73a57d0a-1536x1024-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "title": "__gallery:watering",
+        "translations": {
+          "en": {
+            "imageAlt": "Cost estimate, drawing and specification for an automatic irrigation system"
+          },
+          "ru": {
+            "imageAlt": "Смета, чертёж и спецификация системы автоматического полива"
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "b-intro",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-intros",
+            "_type": "span",
+            "marks": [],
+            "text": "Добре проектираната система за автоматично поливане започва с обследване на терена и оценка на водоизточника. Инженерът на градински център „Флориал“ подготвя индивидуални решения за частни дворове, хотели, ресторанти, жилищни комплекси и обществени зелени площи в Несебър и района на Южното Черноморие."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-h1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-h1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Проектиране на система за автоматично поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Проектът показва как да се осигури равномерно напояване на различните части на градината, какво оборудване е необходимо и как да бъдат организирани отделните поливни зони. Той е основа за спецификация, количествена сметка и последващ монтаж. Решението се съобразява с площта, релефа, растителността, водоизточника, наличните налягане и дебит, както и с изискванията на собственика."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-h2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-h2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво включва проектът за поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-h3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-h3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Зониране на терена"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "b-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Газонът, цветните лехи, живите плетове, дърветата и храстите имат различни потребности от вода. Те се разделят на самостоятелни зони с подходящ режим. За всяка зона се избират типът оросители, разположението и дюзите така, че да се постигне равномерно покритие и да се ограничат сухите участъци и излишното припокриване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-p3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-p3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Зонирането е важно и от хидравлична гледна точка: водоизточникът невинаги може да осигури необходимите дебит и налягане за едновременно напояване на целия терен. Затова зоните се оразмеряват и управляват последователно според възможностите на системата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-pipe-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-pipe-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Трасировка на тръбопроводите"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-pipe-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-pipe-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "На плана се определят трасетата на главните и разпределителните тръбопроводи, местата на клапанните шахти, кабелните линии и връзките към оросителите. Трасетата се съобразяват със съществуващите настилки, дървета, подпорни елементи и други подземни комуникации, за да се намали намесата в готовия ландшафт и рискът от бъдещи повреди."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-pipe-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-pipe-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Дълбочината и начинът на полагане се определят според конкретния терен, вида на тръбите и условията на обекта. Преди изкопни работи трябва да бъдат установени наличните подземни комуникации."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-equip-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-equip-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Подбор на поливочно оборудване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-equip-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-equip-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Оборудването се избира според площта и формата на зоните, параметрите на водоснабдяването, бюджета и удобството за поддръжка. При проектирането се разглеждат решения от производители като Rain Bird и Hunter, както и подходящи компоненти за тръбопроводи, филтрация и капково напояване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-equip-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-equip-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "За тревни площи могат да се използват статични разпръсквачи със спрей дюзи, роторни разпръсквачи или ротаторни дюзи. За цветни лехи, храсти, дървета и живи плетове често е подходящо капково или микрокапково напояване, което подава водата близо до кореновата зона."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-equip-links",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bel1",
+            "_type": "span",
+            "marks": [],
+            "text": "Разгледайте "
+          },
+          {
+            "_key": "bel2",
+            "_type": "span",
+            "marks": [
+              "l-spr"
+            ],
+            "text": "разпръсквачите"
+          },
+          {
+            "_key": "bel3",
+            "_type": "span",
+            "marks": [],
+            "text": ", "
+          },
+          {
+            "_key": "bel4",
+            "_type": "span",
+            "marks": [
+              "l-ctrl"
+            ],
+            "text": "контролерите"
+          },
+          {
+            "_key": "bel5",
+            "_type": "span",
+            "marks": [],
+            "text": " и "
+          },
+          {
+            "_key": "bel6",
+            "_type": "span",
+            "marks": [
+              "l-drip"
+            ],
+            "text": "капковото напояване"
+          },
+          {
+            "_key": "bel7",
+            "_type": "span",
+            "marks": [],
+            "text": " в каталога. Примерни решения са "
+          },
+          {
+            "_key": "bel8",
+            "_type": "span",
+            "marks": [
+              "l-rotor"
+            ],
+            "text": "роторният разпръсквач Rain Bird 5004PC30"
+          },
+          {
+            "_key": "bel9",
+            "_type": "span",
+            "marks": [],
+            "text": " и "
+          },
+          {
+            "_key": "bel10",
+            "_type": "span",
+            "marks": [
+              "l-wifi"
+            ],
+            "text": "контролерът Rain Bird ESP-RC2I8-230 с Wi‑Fi"
+          },
+          {
+            "_key": "bel11",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "l-spr",
+            "_type": "link",
+            "href": "/category/sprinklers"
+          },
+          {
+            "_key": "l-ctrl",
+            "_type": "link",
+            "href": "/category/controllers"
+          },
+          {
+            "_key": "l-drip",
+            "_type": "link",
+            "href": "/category/kapkovo-napoyavane"
+          },
+          {
+            "_key": "l-rotor",
+            "_type": "link",
+            "href": "/product/rain-bird-5004pc30"
+          },
+          {
+            "_key": "l-wifi",
+            "_type": "link",
+            "href": "/product/rain-bird-esp-rc2i8-230"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "b-auto-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-auto-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Автоматизация на поливането"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-auto-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-auto-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Според заданието системата може да бъде с ръчно управление чрез отделни кранове или с автоматично управление чрез електромагнитни клапани и програмируем контролер. Броят на зоните определя необходимия брой управляващи изходи и конфигурацията на клапанния възел."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-auto-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-auto-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "При съвместимо оборудване може да се предвиди управление през Wi‑Fi или приложение за смартфон, както и датчик за дъжд или метеорологични данни за корекция на графика. Възможностите зависят от конкретния контролер, свързаните модули и наличните данни."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Калкулация и проектна документация"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-est-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "След оразмеряването се подготвят количествена спецификация и сметка за реализацията. Документацията може да включва:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li1s",
+            "_type": "span",
+            "marks": [],
+            "text": "План на поливните зони и разположение на оросителите."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Схема на трасетата на тръбопроводите и кабелите."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Списък на разпръсквачите, дюзите, клапаните, контролера и аксесоарите."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Спецификация на тръбите, фитингите, филтрите и капковите линии."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li5s",
+            "_type": "span",
+            "marks": [],
+            "text": "Описание на принципа на работа и автоматизацията."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-li6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-li6s",
+            "_type": "span",
+            "marks": [],
+            "text": "Количествена сметка за оборудването и предвидените монтажни дейности."
+          }
+        ],
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-est-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-est-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Офертата се съгласува със собственика преди започване на монтаж. При промяна на терена, водоизточника или заданието проектът и количествата се преразглеждат."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-steps-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-steps-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Етапи на проектиране"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-step-0",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-0s",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Получаване и преглед на ландшафтен проект или налична скица на имота."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-1s",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Първоначален оглед на терена и уточняване на задачата със собственика."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-2s",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Описване на тревните площи, цветните лехи, дърветата, храстите и останалите зони за напояване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-3s",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Проверка на водоизточника и измерване на наличните налягане и дебит."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-4s",
+            "_type": "span",
+            "marks": [],
+            "text": "5. Преглед на помпата и резервоара, ако обектът използва собствено водоснабдяване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-5s",
+            "_type": "span",
+            "marks": [],
+            "text": "6. Определяне на поливните зони и предварително разполагане на оросителите."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-6s",
+            "_type": "span",
+            "marks": [],
+            "text": "7. Хидравлични изчисления и избор на тръбни диаметри, дюзи и клапани."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-7s",
+            "_type": "span",
+            "marks": [],
+            "text": "8. Избор на контролер, датчици и начин на управление."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-8s",
+            "_type": "span",
+            "marks": [],
+            "text": "9. Изготвяне на план, спецификация и количествено-стойностна сметка."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-step-9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-step-9s",
+            "_type": "span",
+            "marks": [],
+            "text": "10. Представяне и съгласуване на предложението преди монтаж."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-mont-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-mont-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Монтаж и последващо обслужване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-mont-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-mont-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "След одобрение на проекта може да се планира изграждането на системата. Монтажът включва маркиране на трасетата, полагане на тръби и кабели, монтаж на клапани и оросители, настройка на контролера, проверка на работата по зони и инструктаж за експлоатация. Продължителността зависи от площта, достъпа, вида на настилките и сложността на системата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-related-links",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "brl1",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial предлага и "
+          },
+          {
+            "_key": "brl2",
+            "_type": "span",
+            "marks": [
+              "s-install"
+            ],
+            "text": "монтаж на автоматични поливни системи"
+          },
+          {
+            "_key": "brl3",
+            "_type": "span",
+            "marks": [],
+            "text": ", "
+          },
+          {
+            "_key": "brl4",
+            "_type": "span",
+            "marks": [
+              "s-drip"
+            ],
+            "text": "капково напояване"
+          },
+          {
+            "_key": "brl5",
+            "_type": "span",
+            "marks": [],
+            "text": " и "
+          },
+          {
+            "_key": "brl6",
+            "_type": "span",
+            "marks": [
+              "s-repair"
+            ],
+            "text": "ремонт и поддръжка"
+          },
+          {
+            "_key": "brl7",
+            "_type": "span",
+            "marks": [],
+            "text": ". Допълнително прочетете: "
+          },
+          {
+            "_key": "brl8",
+            "_type": "span",
+            "marks": [
+              "b-stages"
+            ],
+            "text": "етапите на монтаж"
+          },
+          {
+            "_key": "brl9",
+            "_type": "span",
+            "marks": [],
+            "text": "; "
+          },
+          {
+            "_key": "brl10",
+            "_type": "span",
+            "marks": [
+              "b-cost"
+            ],
+            "text": "цената на автоматичния полив"
+          },
+          {
+            "_key": "brl11",
+            "_type": "span",
+            "marks": [],
+            "text": " в Бургаска област."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "s-install",
+            "_type": "link",
+            "href": "/services/montaj-avtomatichni-polivni-sistemi-nesebar"
+          },
+          {
+            "_key": "s-drip",
+            "_type": "link",
+            "href": "/services/avtomatizirano-kapkovo-napoyavane"
+          },
+          {
+            "_key": "s-repair",
+            "_type": "link",
+            "href": "/services/remont-i-poddrazhka"
+          },
+          {
+            "_key": "b-stages",
+            "_type": "link",
+            "href": "/blog/etapi-montazh-avtomatichna-polivna-instalatsiya"
+          },
+          {
+            "_key": "b-cost",
+            "_type": "link",
+            "href": "/blog/cena-sistema-avtomatichno-napoyavane-burgas"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "b-local-h",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-local-hs",
+            "_type": "span",
+            "marks": [],
+            "text": "Проектиране на поливни системи от Florial"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "b-local-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-local-p1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Работим по индивидуално задание за частни имоти, хотели, ресторанти и общи зелени площи в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Кошарица, Каблешково и Поморие. Огледът на място в посочения район е безплатен. След запознаване с обекта ще уточним необходимите измервания, възможния тип напояване и обхвата на проектната документация."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "b-local-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "b-local-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "За да подготвим първоначална оценка, изпратете населено място, приблизителна площ, налична скица или ландшафтен проект и информация за водоизточника."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "gallery": [],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Проект за автоматично поливане на озеленен двор с отделни поливни зони",
+        "altEn": "Automatic irrigation design for a landscaped garden with separate watering zones",
+        "altRu": "Проект автоматического полива озеленённого участка с отдельными зонами",
+        "asset": {
+          "_ref": "image-7689375679331d47120f8ba38333b5da41cb6008-1536x1024-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Инженерно проектиране, обследване на терена, зониране, подбор на оборудване и подробна сметка за монтаж.",
+      "title": "Проектиране на системи за автоматично поливане в Несебър"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Проект за автоматично поливане на озеленен двор с отделни поливни зони",
+      "altEn": "Automatic irrigation design for a landscaped garden with separate watering zones",
+      "altRu": "Проект автоматического полива озеленённого участка с отдельными зонами",
+      "asset": {
+        "_ref": "image-7689375679331d47120f8ba38333b5da41cb6008-1536x1024-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true,
+          "type": "tel"
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false,
+          "type": "email"
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false,
+          "type": "textarea"
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "successMessage": "Благодарим! Получихме Вашето запитване. Екипът на Florial ще се свърже с Вас.",
+      "title": "Запитване за проектиране на поливна система"
+    },
+    "name": "Проектиране на системи за автоматично поливане в Несебър",
+    "relatedContent": [
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJfiG",
+        "_ref": "7ead4133-8f63-4381-bafe-493499fff5b8",
+        "_type": "reference"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJfkH",
+        "_ref": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+        "_type": "reference"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJfmI",
+        "_ref": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+        "_type": "reference"
+      },
+      {
+        "_key": "Wxh00JcLN6cQgy9skwJfoJ",
+        "_ref": "blogPost-cena-sistema-avtomatichno-napoyavane-burgas",
+        "_type": "reference"
+      },
+      {
+        "_key": "rOW11EP0h6V5YhExSZoWSC",
+        "_ref": "blogPost-rain-bird-oborudvane",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "проектиране на поливни системи Несебър",
+        "проект автоматично поливане",
+        "проект за поливна система",
+        "инженер поливни системи",
+        "автоматично напояване Несебър"
+      ],
+      "metaDescription": "Проектиране на автоматичен полив за дворове, хотели и градини в Несебър и района. Оглед, зониране, оборудване и подробна оферта.",
+      "metaTitle": "Проектиране на поливни системи в Несебър | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Индивидуално проектиране на автоматични поливни системи за дворове, хотели и зелени площи в Несебър и Южното Черноморие. Оглед, зониране, изчисления и смета.",
+    "slug": {
+      "_type": "slug",
+      "current": "avtomatichno-napoyavane"
+    },
+    "sortOrder": 22,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/avtomaticheskij-poliv",
+    "steps": [],
+    "translations": {
+      "en": {
+        "advantages": [
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfS8",
+            "text": "The design reflects the site area, layout, planting and actual water-supply parameters.",
+            "title": "Site-specific calculations"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfU9",
+            "text": "Sprinklers, drip irrigation, valves and controllers are selected for the project and budget.",
+            "title": "Suitable equipment"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfWA",
+            "text": "You receive a plan, materials list and cost estimate before installation.",
+            "title": "Clear specification and estimate"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfYB",
+            "text": "Zone control, Wi-Fi and sensors are considered where they suit the project.",
+            "title": "Automation options"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Tell us about your property in Nessebar or nearby. We will confirm the required measurements and next steps.",
+          "title": "Request a site survey and irrigation design"
+        },
+        "description": "A reliable automatic irrigation system starts with a site assessment and an evaluation of the available water supply. Florial's irrigation engineer prepares individual designs for private homes, hotels, restaurants, residential complexes and public green spaces in Nessebar and the Southern Black Sea region.\n\n## Designing an automatic irrigation system\n\nThe design shows how to water different parts of the garden evenly, which equipment is required and how to divide the site into independent irrigation zones. It provides the basis for the equipment specification, cost estimate and installation. The design takes into account the site area and layout, planting, water source, available pressure and flow, and the client's requirements.\n\n## What an irrigation design includes\n\n### Site zoning\n\nLawns, flower beds, hedges, trees and shrubs have different watering needs. They are divided into separate zones with suitable schedules. Each zone receives an appropriate sprinkler type, layout and nozzle selection to achieve even coverage and reduce dry spots and unnecessary overlap.\n\nZoning is also important hydraulically: the water source may not be able to supply the entire site at the required pressure and flow at the same time. The zones are therefore calculated and operated in sequence.\n\n## Irrigation pipe routing\n\nThe plan identifies the routes of main and distribution pipes, valve-box locations, control-cable runs and sprinkler connections. Routes are coordinated with existing paving, trees, retaining structures and other underground utilities to minimise disruption to the landscape and reduce the risk of future damage.\n\nThe installation depth and method are selected for the specific site, pipe type and ground conditions. Existing underground utilities must be identified before excavation.\n\n## Selecting irrigation equipment\n\nEquipment is selected according to the area and shape of each zone, water-supply parameters, budget and ease of maintenance. The design may specify solutions from manufacturers such as Rain Bird and Hunter, together with suitable pipework, filtration and drip-irrigation components.\n\nLawns may use static spray sprinklers, rotors or rotary nozzles. Flower beds, shrubs, trees and hedges often benefit from drip or micro-irrigation, which delivers water close to the root zone.\n\nExplore our [sprinklers](/category/sprinklers), [irrigation controllers](/category/controllers) and [drip irrigation equipment](/category/kapkovo-napoyavane). Examples include the [Rain Bird 5004PC30 rotor sprinkler](/product/rain-bird-5004pc30) and the [Rain Bird ESP-RC2I8-230 controller with built-in Wi‑Fi](/product/rain-bird-esp-rc2i8-230).\n\n## Irrigation automation\n\nDepending on the project, the system can be operated manually with individual valves or automatically using solenoid valves and a programmable controller. The number of zones determines the required controller outputs and valve-manifold configuration.\n\nWhere compatible equipment is selected, the design can include Wi‑Fi or app-based control, as well as a rain sensor or weather data for schedule adjustments. Available functions depend on the controller model, connected modules and data availability.\n\n## Cost estimate and project documentation\n\nOnce the calculations are complete, we prepare an equipment specification and an implementation estimate. The documentation may include:\n\n- an irrigation-zone plan and sprinkler layout;\n- pipe and control-cable routing;\n- a list of sprinklers, nozzles, valves, controller and accessories;\n- pipe, fitting, filter and dripline specifications;\n- a description of the system operation and automation;\n- quantities and estimated costs for equipment and planned installation work.\n\nThe proposal is agreed with the client before installation begins. If the site, water source or project requirements change, the design and quantities are reviewed.\n\n## Design process\n\n1. Receive and review the landscape plan or available site drawing.\n2. Visit the property and clarify the project requirements.\n3. Inspect lawns, flower beds, trees, shrubs and other irrigation areas.\n4. Check the water source and measure available pressure and flow.\n5. Assess the pump and storage tank where an independent water supply is used.\n6. Define irrigation zones and make a preliminary sprinkler layout.\n7. Complete hydraulic calculations and select pipe diameters, nozzles and valves.\n8. Select the controller, sensors and control method.\n9. Prepare the plan, equipment specification and cost estimate.\n10. Present the proposal and agree it with the client before installation.\n\n## Installation and ongoing maintenance\n\nOnce the design and estimate are approved, installation can be planned. The work may include setting out the routes, laying pipes and cables, installing valves and sprinklers, configuring the controller, testing each zone and explaining system operation. The schedule depends on the site area, access, surface materials and system complexity.\n\nFlorial also provides [automatic irrigation system installation](/services/montaj-avtomatichni-polivni-sistemi-nesebar), [drip irrigation](/services/avtomatizirano-kapkovo-napoyavane) and [irrigation repair and maintenance](/services/remont-i-poddrazhka). Read about the [stages of installing an irrigation system](/blog/etapi-montazh-avtomatichna-polivna-instalatsiya) and the [cost of automatic irrigation](/blog/cena-sistema-avtomatichno-napoyavane-burgas) in Burgas Region.\n\n## Irrigation system design by Florial\n\nWe prepare individual solutions for private properties, hotels, restaurants and shared green spaces in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Kosharitsa, Kableshkovo and Pomorie. Site visits within this service area are free of charge. After the visit, we confirm the required measurements, suitable irrigation method and scope of project documentation.\n\nFor an initial assessment, send us the town, approximate site area, any available site or landscape plan, and details of the water source.",
+        "hero": {
+          "subtitle": "Engineering design, site assessment, irrigation zoning, equipment selection and a detailed installation estimate.",
+          "title": "Automatic Irrigation System Design in Nessebar"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f5",
+              "label": "Project details",
+              "name": "details",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you. Your enquiry has been received. The Florial team will contact you.",
+          "title": "Irrigation design enquiry"
+        },
+        "name": "Automatic Irrigation System Design in Nessebar",
+        "seo": {
+          "keywords": [
+            "irrigation system design Nessebar",
+            "automatic irrigation design Bulgaria",
+            "garden irrigation plan",
+            "irrigation engineer Nessebar"
+          ],
+          "metaDescription": "Custom irrigation system design for homes, hotels and gardens in Nessebar and nearby towns. Site survey, zoning, equipment and cost estimate.",
+          "metaTitle": "Irrigation System Design in Nessebar | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Custom irrigation design for homes, hotels and green spaces in Nessebar and nearby towns — site survey, zoning, calculations and estimate.",
+        "steps": []
+      },
+      "ru": {
+        "advantages": [
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfK4",
+            "text": "Решение учитывает площадь, рельеф, растения и реальные параметры источника воды.",
+            "title": "Индивидуальный расчёт"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfM5",
+            "text": "Подбор дождевателей, капельного полива, клапанов и контроллера под задачу и бюджет.",
+            "title": "Подходящее оборудование"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfO6",
+            "text": "Вы получаете план, перечень материалов и расчёт до начала монтажа.",
+            "title": "Понятная спецификация и смета"
+          },
+          {
+            "_key": "Wxh00JcLN6cQgy9skwJfQ7",
+            "text": "Предусматриваем управление по зонам, Wi-Fi и датчики, когда они подходят проекту.",
+            "title": "Возможность автоматизации"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Расскажите нам об объекте в Несебре или рядом. Мы уточним необходимые измерения и дальнейшие шаги.",
+          "title": "Закажите осмотр участка и проект полива"
+        },
+        "description": "Профессиональный проект автоматического полива начинается с обследования участка и оценки параметров водоснабжения. Инженер садового центра Florial готовит индивидуальные решения для частных домов, отелей, ресторанов, жилых комплексов и общественных зелёных территорий в Несебре и на Южном Черноморье.\n\n## Проектирование системы автоматического полива\n\nПроект определяет, как равномерно орошать разные части сада, какое оборудование потребуется и как разделить территорию на независимые зоны. Он служит основой для спецификации, сметы и последующего монтажа. Учитываются площадь и рельеф участка, растения, источник воды, доступные давление и расход, а также требования заказчика.\n\n## Что включает проект системы полива\n\n### Зонирование участка\n\nГазон, цветники, живые изгороди, деревья и кустарники имеют разные потребности в воде. Их разделяют на отдельные зоны с подходящим режимом. Для каждой зоны выбираются тип дождевателей, расположение и форсунки, чтобы обеспечить равномерное покрытие и уменьшить сухие участки и лишнее перекрытие струй.\n\nЗонирование важно и с гидравлической точки зрения: источник воды не всегда способен одновременно обеспечить весь участок нужными давлением и расходом. Поэтому зоны рассчитываются и работают последовательно.\n\n## Трассировка трубопроводов\n\nНа плане определяются маршруты магистральных и распределительных труб, места клапанных боксов, кабельные линии и подключения к дождевателям. Трассы согласуются с существующими дорожками, деревьями, подпорными элементами и другими подземными коммуникациями, чтобы уменьшить вмешательство в благоустройство и риск будущих повреждений.\n\nГлубина и способ прокладки выбираются с учётом конкретного участка, типа труб и условий монтажа. До земляных работ необходимо установить расположение существующих подземных коммуникаций.\n\n## Подбор оборудования для полива\n\nОборудование подбирается по площади и форме зон, параметрам водоснабжения, бюджету и удобству обслуживания. В проектах рассматриваются решения Rain Bird и Hunter, а также подходящие компоненты трубопроводов, фильтрации и капельного полива.\n\nДля газонов применяются статические дождеватели со spray-форсунками, роторные дождеватели или ротаторные форсунки. Для цветников, кустарников, деревьев и живых изгородей часто подходит капельное или микрокапельное орошение.\n\nПосмотрите [дождеватели](/category/sprinklers), [контроллеры полива](/category/controllers) и [оборудование для капельного полива](/category/kapkovo-napoyavane). Примеры: [роторный дождеватель Rain Bird 5004PC30](/product/rain-bird-5004pc30) и [контроллер Rain Bird ESP-RC2I8-230 со встроенным Wi‑Fi](/product/rain-bird-esp-rc2i8-230).\n\n## Автоматизация полива\n\nСистема может управляться вручную отдельными кранами или автоматически — электромагнитными клапанами и программируемым контроллером. Количество зон определяет необходимое число управляющих выходов и конфигурацию клапанного узла.\n\nПри совместимом оборудовании можно предусмотреть управление по Wi‑Fi или через приложение, а также датчик дождя или использование метеоданных для корректировки расписания. Возможности зависят от модели контроллера, подключённых модулей и доступности данных.\n\n## Смета и проектная документация\n\nПосле расчётов готовятся спецификация и смета реализации. Документация может включать:\n\n- план поливных зон и расположение дождевателей;\n- схему трасс трубопроводов и кабелей;\n- перечень дождевателей, форсунок, клапанов, контроллера и аксессуаров;\n- спецификацию труб, фитингов, фильтров и капельных линий;\n- описание принципа работы и автоматизации;\n- расчёт оборудования и предусмотренных монтажных работ.\n\nПредложение согласовывается с заказчиком до начала монтажа. Если меняются участок, источник воды или техническое задание, проект и расчёты пересматриваются.\n\n## Этапы проектирования\n\n1. Получение и изучение ландшафтного проекта или имеющегося плана участка.\n2. Первичный выезд и уточнение задачи с заказчиком.\n3. Осмотр газонов, цветников, деревьев, кустарников и других зон полива.\n4. Проверка источника воды, измерение давления и расхода.\n5. Оценка насоса и резервуара при автономном водоснабжении.\n6. Определение зон и предварительное размещение дождевателей.\n7. Гидравлические расчёты, подбор диаметров труб, форсунок и клапанов.\n8. Выбор контроллера, датчиков и способа управления.\n9. Подготовка плана, спецификации и сметы.\n10. Представление и согласование решения до монтажа.\n\n## Монтаж и дальнейшее обслуживание\n\nПосле утверждения проекта можно планировать строительство системы. Монтаж включает разметку трасс, прокладку труб и кабелей, установку клапанов и дождевателей, настройку контроллера, проверку каждой зоны и инструктаж по эксплуатации. Сроки зависят от площади, доступа, типа покрытий и сложности системы.\n\nFlorial выполняет [монтаж автоматических систем полива](/services/montaj-avtomatichni-polivni-sistemi-nesebar), [капельное орошение](/services/avtomatizirano-kapkovo-napoyavane), а также [ремонт и обслуживание](/services/remont-i-poddrazhka). Читайте о [этапах монтажа](/blog/etapi-montazh-avtomatichna-polivna-instalatsiya) и [стоимости автоматического полива](/blog/cena-sistema-avtomatichno-napoyavane-burgas) в Бургасской области.\n\n## Проектирование систем полива от Florial\n\nМы разрабатываем индивидуальные решения для частных участков, отелей, ресторанов и общих зелёных территорий в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Кошарице, Каблешково и Поморие. Выезд на объект в указанном районе бесплатный. После осмотра мы уточним необходимые измерения, подходящий тип полива и состав проектной документации.\n\nДля предварительной оценки сообщите населённый пункт, примерную площадь, приложите план участка или ландшафтный проект и укажите источник воды.",
+        "hero": {
+          "subtitle": "Инженерное проектирование, обследование участка, зонирование, подбор оборудования и подробная смета монтажа.",
+          "title": "Проектирование систем автоматического полива в Несебре"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f5",
+              "label": "Описание проекта",
+              "name": "details",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Мы получили ваш запрос. Команда Florial свяжется с вами.",
+          "title": "Запрос на проектирование системы полива"
+        },
+        "name": "Проектирование систем автоматического полива в Несебре",
+        "seo": {
+          "keywords": [
+            "проектирование автополива Несебр",
+            "проект системы полива",
+            "инженер по автополиву",
+            "автоматический полив Несебр"
+          ],
+          "metaDescription": "Проектируем системы автополива для домов, отелей и садов в Несебре и районе. Осмотр, расчёты, подбор оборудования и смета.",
+          "metaTitle": "Проектирование автополива в Несебре | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Индивидуальный проект автополива для домов, отелей и зелёных территорий в Несебре и районе: осмотр, зонирование, расчёты и смета.",
+        "steps": []
+      }
+    }
+  }
+}

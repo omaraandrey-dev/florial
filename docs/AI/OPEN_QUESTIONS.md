@@ -1,3 +1,10 @@
+## 2026-11-15 — Irrigation services restored as two separate published pages
+
+- Completed in Sanity Production: original `avtomatichno-napoyavane` service restored from backup and new design service published at `proektirane-sistemi-avtomatichno-napoyavane-nesebar`.
+- Both service documents are active and indexable in BG/RU/EN; IDs: `04c7ab3b-1888-41cb-9917-6b9014cd1ac3` and `ddb0b366-4198-4049-b947-680df47f8c6b`.
+- Both Production URLs were verified with Cloudflare Browser Rendering: HTTP 200, expected BG title/H1/canonical on the restored old page and new design page. The first old-page render was stale immediately after publication; a fresh render after cache expiry confirmed the restored content.
+- No application code, schema, navigation or Cloudflare settings changed. No production deployment was triggered.
+- Owner's permanent rule: existing service, blog and portfolio documents must not be edited, replaced, unpublished or deleted without first showing the exact change plan and receiving separate explicit approval.
 ## 2026-11-15 — Irrigation design service: completion and remaining checks
 
 - The existing service `avtomatichno-napoyavane` is published in Sanity Production in BG/RU/EN, with `noIndex=false` in each locale. Five inline illustrations and one hero image have localized ALT values and are assigned to the relevant article sections.
