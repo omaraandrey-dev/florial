@@ -1,3 +1,15 @@
+## 2026-11-15 — Rain Bird valve boxes and hydrant accessory descriptions expanded and published
+
+- Reviewed all 7 products linked to Sanity category `shahti` (display name `Шахти`) in project `bxvcy0qs`, dataset `production`.
+- Expanded Bulgarian `description` Portable Text and added localized RU/EN `formattedDescription` for all 7 products (21 locale-specific description fields). Each locale has an introduction, four H2 sections, bold emphasis, three practical bullets and two verified internal links.
+- Products: P33, P33DK, VBA02672, VBA02673, VBA02674, VBA02675 and VBA17186. Preserved the distinction between actual valve boxes, the P33 quick-coupling hydrant/key and the VBA17186 integrated hydrant.
+- Technical features and dimensions were cross-checked against official Rain Bird VBA and P-33 product pages and the international catalogue. The current product record does not state the VBA17186 maximum operating pressure; no value was invented. VBA02673 title's “up to 3 valves” wording was not turned into a guaranteed fit claim.
+- Full pre-write Sanity snapshots of all 7 published documents were committed before writing: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`.
+- Sanity validation returned 7/7 valid; custom validation callbacks were not executed by the validator. All 7 drafts were published with revision guards. Production read-back confirmed 7/7 published, 0 remaining drafts, four H2 headings and two actual internal-link spans per locale.
+- Only `description`, `translations.ru.formattedDescription` and `translations.en.formattedDescription` were changed. Names, slugs, SKUs, prices, stock, categories, images, specifications, SEO and related-content references were preserved.
+- Existing ProductPage reads localized formatted descriptions and the rich-text helper supports safe relative links. No code, schema, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live storefront visual/browser verification remains open; Google recrawl/indexing is not confirmed. Detailed audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+
 ## 2026-11-15 — Rain Bird controller product descriptions expanded and published
 
 - Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
