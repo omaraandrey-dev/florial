@@ -222,7 +222,7 @@ export default function App() {
     let cancelled = false
     sanityClient.fetch(
       `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{\n        "imageUrl": image.asset->url,\n        "imageAlt": image.alt,\n        "imageAltEn": image.altEn,\n        "imageAltRu": image.altRu\n      }`,
-      { slug: 'inzhener-polivni-sistemi' }
+      { slug: 'florial-irrigation-specialist' }
     ).then((photo) => {
       if (!cancelled && photo?.imageUrl) setIrrigationAssistantPhoto(photo)
     }).catch((error) => console.error('Irrigation assistant: не удалось загрузить фото специалиста:', error))
