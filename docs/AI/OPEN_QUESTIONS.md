@@ -1,3 +1,11 @@
+## 2026-11-15 — Drip-fitting product descriptions published; storefront QA remains open
+
+- Six products in Sanity category `category-drip-fittings` now have expanded BG/RU/EN descriptions: XFF COUP, XFF ELBOW, XFF TEE, XFF-MA-075, support stakes 3112/1620 and 3112/16202.
+- Production read-back confirms 6/6 published, no remaining drafts; each locale has five H2 headings, three bullets and two internal links. Names, slugs, SKUs, prices, stock, category and related references, SEO, specifications and media were preserved.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-15-drip-fitting-products-before-description-refresh.xml`; detailed audit: `docs/audits/2026-11-15-drip-fitting-product-descriptions.md`.
+- Sanity validation: 6/6 valid, but incomplete because custom callbacks were not run and the validator resolved a legacy deployed schema.
+- Live visual/browser QA in BG/RU/EN on desktop/mobile and Google recrawl/indexing remain unconfirmed. No code/schema or Pages deployment was required.
+
 ## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
 
 - All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.
