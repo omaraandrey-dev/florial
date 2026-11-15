@@ -8,7 +8,7 @@
     "6534adc5-78f7-4276-bbdd-2843ef30420e",
     "6690848d-a4a5-4386-b9ae-5f63604914b1"
   ],
-  "documentCount": 18,
+  "documentCount": 21,
   "documents": [
     {
       "_createdAt": "2026-10-18T08:20:04Z",
@@ -7411,6 +7411,1201 @@
       },
       "vatIncluded": true,
       "weightKg": 0.0075
+    },
+    {
+      "_createdAt": "2026-10-18T08:20:04Z",
+      "_id": "a6e7016e-7bba-4078-b76c-6afef30661d6",
+      "_rev": "wShFcTvKnRduO9ho4IN47b",
+      "_system": {
+        "base": {
+          "id": "a6e7016e-7bba-4078-b76c-6afef30661d6",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:30Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "p181",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p181-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird VAN-18 е универсална регулируема дюза за статични разпръсквачи, предназначена за прецизно и равномерно поливане на малки площи. Регулируемият сектор я прави подходяща за тревни площи, цветни лехи, цветни градини и храсти."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "p182",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p182-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Основни характеристики"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "p183",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p183-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Регулируем сектор: 0–360°. Радиус на поливане: 4,3–5,5 м. Цветова маркировка: бежов. Съвместима с разпръсквачи Rain Bird 1804, 1806, 1812 и други модели с резба 1/2″. Осигурява равномерно разпределение на водата по цялата поливна площ и лесна настройка без инструменти."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "p184",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p184-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Предимства"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "p185",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p185-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Гъвкаво регулиране на сектора за точно покритие. Надеждна дюза с добра устойчивост на запушване. Изработена от здрави материали, устойчиви на UV лъчи и химични въздействия. Лесен монтаж и поддръжка. Равномерното разпределение на водата помага за намаляване на загубите и прекомерния разход."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "p186",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "p186-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird VAN-18 е подходяща за автоматизирани системи, при които е необходимо индивидуално настройване на поливната зона. Използвайте със съвместими разпръсквачи Rain Bird и адаптери за храсти. Радиусът трябва да се регулира само докато водата тече."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "g2",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-737d4ade6ef743ba43e8c279e3653ca4f0881b80-817x817-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird VAN-18 — регулируема дюза",
+        "altEn": "Rain Bird VAN-18 — adjustable spray nozzle",
+        "altRu": "Rain Bird VAN-18 — регулируемая веерная форсунка",
+        "asset": {
+          "_ref": "image-262298743094f6dee498ef25cbd1347eaac14306-600x600-jpg",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-a3e4bfcf977119c4f903423805e1906880e712f4-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird VAN-18 — регулируема веерна дюза",
+      "priceEUR": 3.17,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "LrIIQPDvB9w72eq238b9Sf",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "LrIIQPDvB9w72eq238b9XM",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "LrIIQPDvB9w72eq238b9c3",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "LrIIQPDvB9w72eq238b9gk",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "LrIIQPDvB9w72eq238b9lR",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird VAN-18 — регулируема веерна дюза",
+        "metaDescription": "Продажба на Rain Bird VAN-18 — регулируема веерна дюза. Регулируема дюза със сектор 0–360° и радиус 4,3–5,5 m. Флориал, Слънчев бряг.",
+        "metaTitle": "VAN-18 веерна дюза | Слънчев бряг | Флориал"
+      },
+      "shortDescription": "Регулируема дюза Rain Bird VAN-18 със сектор 0–360° и радиус 4,3–5,5 м.",
+      "sku": "P10018",
+      "slug": {
+        "_type": "slug",
+        "current": "p10018"
+      },
+      "sortOrder": 38,
+      "specifications": [
+        {
+          "_key": "s1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "VAN-18"
+        },
+        {
+          "_key": "s2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "VAN"
+        },
+        {
+          "_key": "s3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Регулируема веерна дюза"
+        },
+        {
+          "_key": "s4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "van-18, spray nozzle, adjustable arc"
+        },
+        {
+          "_key": "s5",
+          "_type": "productSpec",
+          "name": "Радиус на поливане",
+          "value": "4,0–5,5 m"
+        },
+        {
+          "_key": "s6",
+          "_type": "productSpec",
+          "name": "Сектор на поливане",
+          "value": "0°–360°"
+        },
+        {
+          "_key": "s7",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "1,0–2,1 bar"
+        },
+        {
+          "_key": "s8",
+          "_type": "productSpec",
+          "name": "Оптимално налягане",
+          "value": "2,1 bar"
+        },
+        {
+          "_key": "s9",
+          "_type": "productSpec",
+          "name": "Регулиране",
+          "value": "Секторът се регулира ръчно от 0° до 360°; радиусът се коригира чрез винта за регулиране"
+        },
+        {
+          "_key": "s10",
+          "_type": "productSpec",
+          "name": "Филтър",
+          "value": "Син филтър против замърсяване, включен"
+        },
+        {
+          "_key": "s11",
+          "_type": "productSpec",
+          "name": "Съвместимост",
+          "value": "Разпръсквачи Rain Bird 1800 и съвместими адаптери"
+        },
+        {
+          "_key": "pressureSpacing",
+          "_type": "productSpec",
+          "name": "Препоръчително разстояние между дюзите",
+          "value": "1,8–4,6 m според модела и налягането"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird VAN-18 is an adjustable spray nozzle for precise watering of lawns, borders and flower beds. The nozzle produces a fan-shaped spray and allows the installer to set the watering arc to suit the shape of the area. The stated radius is 4.3–5.5 m, the available arc is 0–360°, and the recommended operating pressure is 1.0–2.1 bar.\n\nThe VAN range is suitable for smaller zones and close-range watering. HE-VAN models are designed for improved application efficiency when used at the correct pressure and with a suitable layout. The radius can be fine-tuned using the adjustment screw. Always select a nozzle that matches the sprinkler body, required coverage and flow available to the zone.\n\nCompatible with suitable Rain Bird 1800/RD1800 series spray bodies. Actual radius can vary with pressure, nozzle setting and site conditions.",
+          "name": "Rain Bird VAN-18 — adjustable spray nozzle",
+          "seo": {
+            "h1": "Rain Bird VAN-18 — adjustable spray nozzle",
+            "keywords": [],
+            "metaDescription": "For sale: Rain Bird VAN-18 — adjustable spray nozzle. Adjustable nozzle with a 0–360° arc and 4.3–5.5 m radius. Florial, Sunny Beach.",
+            "metaTitle": "VAN-18 nozzle | Sunny Beach | Florial"
+          },
+          "shortDescription": "Adjustable Rain Bird VAN-18 nozzle with a 0–360° arc and a 4.3–5.5 m radius.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "VAN-18"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Adjustable spray nozzle"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "van-18, spray nozzle, adjustable arc"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Irrigation radius",
+              "value": "4.0–5.5 m"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Irrigation arc",
+              "value": "0°–360°"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "1.0–2.1 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Optimum pressure",
+              "value": "2.1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Adjustment",
+              "value": "Arc is manually adjustable from 0° to 360°; radius is adjusted with the adjustment screw"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Filter",
+              "value": "Blue debris filter included"
+            },
+            {
+              "_key": "s11",
+              "_type": "productSpec",
+              "name": "Compatibility",
+              "value": "Rain Bird 1800-series sprinkler bodies and compatible adapters"
+            },
+            {
+              "_key": "pressureSpacing",
+              "_type": "productSpec",
+              "name": "Recommended nozzle spacing",
+              "value": "1.8–4.6 m depending on model and pressure"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird VAN-18 — регулируемая веерная форсунка для точного полива газонов, бордюров и цветников. Форсунка формирует веерную струю, а монтажник может настроить сектор в соответствии с формой участка. Указанный радиус составляет 4.3–5.5 m, доступный сектор — 0–360°, рекомендуемое рабочее давление — 1.0–2.1 bar.\n\nФорсунки серии VAN подходят для небольших зон и полива на короткие расстояния. Модели HE-VAN рассчитаны на более эффективное распределение воды при правильном давлении и корректной схеме размещения. Радиус можно точно отрегулировать винтом. Выбирайте форсунку с учётом корпуса дождевателя, требуемого покрытия и расхода воды в зоне.\n\nСовместима с подходящими корпусами Rain Bird серий 1800/RD1800. Фактический радиус зависит от давления, настройки форсунки и условий на участке.",
+          "name": "Rain Bird VAN-18 — регулируемая веерная форсунка",
+          "seo": {
+            "h1": "Rain Bird VAN-18 — регулируемая веерная форсунка",
+            "keywords": [],
+            "metaDescription": "Продажа: Rain Bird VAN-18 — регулируемая веерная форсунка. Регулируемая форсунка с сектором 0–360° и радиусом 4,3–5,5 м. Флориал, Солнечный берег.",
+            "metaTitle": "VAN-18 форсунка | Солнечный берег | Флориал"
+          },
+          "shortDescription": "Регулируемая форсунка Rain Bird VAN-18 с сектором 0–360° и радиусом 4,3–5,5 м.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "VAN-18"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "Регулируемая веерная форсунка"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "van-18, веерная форсунка, регулируемый сектор"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Радиус полива",
+              "value": "4,0–5,5 м"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Сектор полива",
+              "value": "0°–360°"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "1,0–2,1 бар"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Оптимальное давление",
+              "value": "2,1 бар"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Регулировка",
+              "value": "Сектор регулируется вручную от 0° до 360°; радиус корректируется регулировочным винтом"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Фильтр",
+              "value": "Синий фильтр от загрязнений входит в комплект"
+            },
+            {
+              "_key": "s11",
+              "_type": "productSpec",
+              "name": "Совместимость",
+              "value": "Дождеватели Rain Bird серии 1800 и совместимые адаптеры"
+            },
+            {
+              "_key": "pressureSpacing",
+              "_type": "productSpec",
+              "name": "Рекомендуемое расстояние между форсунками",
+              "value": "1,8–4,6 м в зависимости от модели и давления"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0073
+    },
+    {
+      "_createdAt": "2026-10-23T13:04:28Z",
+      "_id": "c8902118-2d87-4f8d-aa3e-bbcafdc5593a",
+      "_rev": "wShFcTvKnRduO9ho4IN47b",
+      "_system": {
+        "base": {
+          "id": "c8902118-2d87-4f8d-aa3e-bbcafdc5593a",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:30Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "s0",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird 15-RCS е MPR дюза за поливане на десен ъгъл на правоъгълна зона. Предназначена е за тесни тревни участъци и ъгли до настилки, където трябва да се ограничи разпръскването извън площта. Приблизителното покритие е 0,8 × 4,6 m. Монтира се на съвместими корпуси Rain Bird 1800/RD1800; правилното позициониране осигурява по-точно покритие."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15rcs",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird 15-RCS — дюза за десен ъгъл",
+        "altEn": "Rain Bird 15-RCS — right-corner nozzle",
+        "altRu": "Rain Bird 15-RCS — форсунка для правого угла",
+        "asset": {
+          "_ref": "image-a6863fb3817dc445f5cc37098f8060ed741c6096-609x440-jpg",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-dcaf317c844a9bcb20c0ef18395b0231503f6b2f-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird 15-RCS — дюза за десен ъгъл",
+      "priceEUR": 4,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "O6U6zfEuSc38DllEobfbul",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfbwZ",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfbyN",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfc0B",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfc1z",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird 15-RCS — дюза за десен ъгъл",
+        "metaDescription": "Продажба на Rain Bird 15-RCS — дюза за десен ъгъл. MPR дюза за десен ъгъл на правоъгълна зона с покритие около 0,8 × 4,6 m. Флориал, Равда.",
+        "metaTitle": "15-RCS дюза | Равда | Флориал"
+      },
+      "shortDescription": "MPR дюза за десен ъгъл на правоъгълна зона, около 0,8 × 4,6 m.",
+      "sku": "A47034A",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-rcs"
+      },
+      "specifications": [
+        {
+          "_key": "spec1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "15-RCS"
+        },
+        {
+          "_key": "spec2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "15 Strip Series"
+        },
+        {
+          "_key": "spec3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Дюза за десен ъгъл"
+        },
+        {
+          "_key": "spec4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "15-rcs, strip nozzle, right corner"
+        },
+        {
+          "_key": "spec5",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "1.0–2.1 bar"
+        },
+        {
+          "_key": "spec6",
+          "_type": "productSpec",
+          "name": "Размер на поливане при 2.1 bar",
+          "value": "1.2 × 4.6 m"
+        },
+        {
+          "_key": "spec7",
+          "_type": "productSpec",
+          "name": "Дебит при 2.1 bar",
+          "value": "1.9 l/min"
+        },
+        {
+          "_key": "spec8",
+          "_type": "productSpec",
+          "name": "Тип покритие",
+          "value": "Дясна ъглова ивица"
+        },
+        {
+          "_key": "audit10p",
+          "_type": "productSpec",
+          "name": "Оптимално налягане",
+          "value": "2,1 bar"
+        },
+        {
+          "_key": "audit10f",
+          "_type": "productSpec",
+          "name": "Филтър",
+          "value": "Бял филтър за серия 1800, включен"
+        },
+        {
+          "_key": "spacingNoteRCS",
+          "_type": "productSpec",
+          "name": "Условия за таблицата на дебита",
+          "value": "Посочените размери и дебит са при 2,1 bar и безветрени условия; намаляване на радиуса с над 25% не се препоръчва"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird 15-RCS is an MPR nozzle for watering the right corner of a rectangular area. It is intended for narrow lawn sections and corners beside paving where overspray must be limited. Approximate coverage is 0.8 × 4.6 m. Fits compatible Rain Bird 1800/RD1800 bodies; correct positioning provides more accurate coverage.",
+          "name": "Rain Bird 15-RCS — right-corner nozzle",
+          "seo": {
+            "h1": "Rain Bird 15-RCS — right-corner nozzle",
+            "metaDescription": "For sale: Rain Bird 15-RCS — right-corner nozzle. MPR nozzle for a right corner, with approximate coverage of 0.8 × 4.6 m. Florial, Ravda.",
+            "metaTitle": "15-RCS nozzle | Ravda | Florial"
+          },
+          "shortDescription": "MPR nozzle for a right corner, with approximate coverage of 0.8 × 4.6 m.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "15-RCS"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "15 Strip Series"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Right corner-strip nozzle"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "15-RCS, strip nozzle, right corner"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "1.0–2.1 bar"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Coverage at 2.1 bar",
+              "value": "1.2 × 4.6 m"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Flow rate at 2.1 bar",
+              "value": "1.9 L/min"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Coverage pattern",
+              "value": "Right corner strip"
+            },
+            {
+              "_key": "audit10p",
+              "_type": "productSpec",
+              "name": "Optimum pressure",
+              "value": "2.1 bar"
+            },
+            {
+              "_key": "audit10f",
+              "_type": "productSpec",
+              "name": "Filter",
+              "value": "White filter for the 1800 series included"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Flow table conditions",
+              "value": "Coverage dimensions and flow are specified at 2.1 bar in windless conditions; radius reduction greater than 25% is not recommended"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird 15-RCS — форсунка MPR для полива правого угла прямоугольной зоны. Предназначена для узких участков газона и углов рядом с дорожками, где важно ограничить распыление за пределы площади. Примерное покрытие — 0,8 × 4,6 м. Устанавливается на совместимые корпуса Rain Bird 1800/RD1800; правильное положение обеспечивает более точный полив.",
+          "name": "Rain Bird 15-RCS — форсунка для правого угла",
+          "seo": {
+            "h1": "Rain Bird 15-RCS — форсунка для правого угла",
+            "metaDescription": "Продажа: Rain Bird 15-RCS — форсунка для правого угла. Форсунка MPR для правого угла прямоугольной зоны с покрытием около 0,8 × 4,6 м. Флориал, Равда.",
+            "metaTitle": "15-RCS форсунка | Равда | Флориал"
+          },
+          "shortDescription": "Форсунка MPR для правого угла с примерным покрытием 0,8 × 4,6 м.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "15-RCS"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "15 Strip"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "Форсунка для правой угловой полосы"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "15-RCS, угловая форсунка, правая полоса"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "1,0–2,1 бар"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Размер полива при 2,1 бар",
+              "value": "1,2 × 4,6 м"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Расход при 2,1 бар",
+              "value": "1,9 л/мин"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Тип покрытия",
+              "value": "Правая угловая полоса"
+            },
+            {
+              "_key": "audit10p",
+              "_type": "productSpec",
+              "name": "Оптимальное давление",
+              "value": "2,1 бар"
+            },
+            {
+              "_key": "audit10f",
+              "_type": "productSpec",
+              "name": "Фильтр",
+              "value": "Белый фильтр для серии 1800 входит в комплект"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Условия таблицы расхода",
+              "value": "Размеры и расход указаны при 2,1 бар и в безветренных условиях; уменьшать радиус более чем на 25% не рекомендуется"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0073
+    },
+    {
+      "_createdAt": "2026-10-23T13:04:28Z",
+      "_id": "ccbd32bb-7f3f-4109-8928-4518f21e7ec4",
+      "_rev": "wShFcTvKnRduO9ho4IN47b",
+      "_system": {
+        "base": {
+          "id": "ccbd32bb-7f3f-4109-8928-4518f21e7ec4",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:30Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "b0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "s0",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird 15-EST е MPR дюза за поливане на крайна правоъгълна ивица. Формата на струите е предназначена за тесни зони в края на тревна площ, така че водата да се насочва към площта за напояване, а не към настилката. Приблизителното покритие е 1,2 × 4,6 m. Монтира се на съвместими корпуси Rain Bird 1800/RD1800 и трябва да бъде ориентирана според позицията на ивицата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "gallerymprcompare15est",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+        "altEn": "Rain Bird 15-EST — end-strip nozzle",
+        "altRu": "Rain Bird 15-EST — форсунка для конечной полосы",
+        "asset": {
+          "_ref": "image-a073202413ccedd72e1a2fb09104effe83ce350a-660x660-jpg",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-dcaf317c844a9bcb20c0ef18395b0231503f6b2f-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+      "priceEUR": 4,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "Nzvrr3daZn4RQD0z2BAsVl",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "Nzvrr3daZn4RQD0z2BAsZG",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "Nzvrr3daZn4RQD0z2BAscl",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "Nzvrr3daZn4RQD0z2BAsgG",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "Nzvrr3daZn4RQD0z2BAsjl",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+        "metaDescription": "Продажба на Rain Bird 15-EST — дюза за край на правоъгълна ивица. MPR дюза за край на правоъгълна ивица с покритие около 1,2 × 4,6 m. Флориал, Свети Влас.",
+        "metaTitle": "15-EST дюза | Свети Влас | Флориал"
+      },
+      "shortDescription": "MPR дюза за край на правоъгълна ивица с покритие около 1,2 × 4,6 m.",
+      "sku": "A47006",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-est"
+      },
+      "specifications": [
+        {
+          "_key": "spec1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "15-EST"
+        },
+        {
+          "_key": "spec2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "15 Strip Series"
+        },
+        {
+          "_key": "spec3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Дюза за край на правоъгълна ивица"
+        },
+        {
+          "_key": "spec4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "15-est, strip nozzle, end strip"
+        },
+        {
+          "_key": "spec5",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "1.0–2.1 bar"
+        },
+        {
+          "_key": "spec6",
+          "_type": "productSpec",
+          "name": "Размер на поливане при 2.1 bar",
+          "value": "1.2 × 4.6 m"
+        },
+        {
+          "_key": "spec7",
+          "_type": "productSpec",
+          "name": "Дебит при 2.1 bar",
+          "value": "2.3 l/min"
+        },
+        {
+          "_key": "spec8",
+          "_type": "productSpec",
+          "name": "Ъгъл на струята",
+          "value": "30°"
+        },
+        {
+          "_key": "spec9",
+          "_type": "productSpec",
+          "name": "Тип покритие",
+          "value": "Крайна правоъгълна ивица"
+        },
+        {
+          "_key": "audit11p",
+          "_type": "productSpec",
+          "name": "Оптимално налягане",
+          "value": "2,1 bar"
+        },
+        {
+          "_key": "audit11f",
+          "_type": "productSpec",
+          "name": "Филтър",
+          "value": "Бял филтър за серия 1800, включен"
+        },
+        {
+          "_key": "trajectory30",
+          "_type": "productSpec",
+          "name": "Ъгъл на траекторията",
+          "value": "30°"
+        },
+        {
+          "_key": "spacingNote",
+          "_type": "productSpec",
+          "name": "Условия за таблицата на дебита",
+          "value": "Посочените размери и дебит са при 2,1 bar и безветрени условия; намаляване на радиуса с над 25% не се препоръчва"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird 15-EST is an MPR nozzle for watering an end rectangular strip. Its spray pattern is designed for narrow lawn edges, directing water onto the irrigated area rather than paving. Approximate coverage is 1.2 × 4.6 m. Fits compatible Rain Bird 1800/RD1800 bodies and must be oriented to match the strip position.",
+          "name": "Rain Bird 15-EST — end-strip nozzle",
+          "seo": {
+            "h1": "Rain Bird 15-EST — end-strip nozzle",
+            "metaDescription": "For sale: Rain Bird 15-EST — end-strip nozzle. MPR nozzle for an end strip, with approximate coverage of 1.2 × 4.6 m. Florial, Sveti Vlas.",
+            "metaTitle": "15-EST nozzle | Sveti Vlas | Florial"
+          },
+          "shortDescription": "MPR nozzle for an end strip, with approximate coverage of 1.2 × 4.6 m.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "15-EST"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "15 Strip Series"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Крайняя прямоугольная полоса"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Tags"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "1.0–2.1 bar"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Coverage at 2.1 bar",
+              "value": "2,3 л/мин"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Flow rate at 2.1 bar",
+              "value": "15-EST, форсунка для полосы, концевая полоса"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Spray angle",
+              "value": "30°"
+            },
+            {
+              "_key": "spec9",
+              "_type": "productSpec",
+              "name": "Coverage pattern",
+              "value": "1,2 × 4,6 м"
+            },
+            {
+              "_key": "audit11p",
+              "_type": "productSpec",
+              "name": "Optimum pressure",
+              "value": "2.1 bar"
+            },
+            {
+              "_key": "audit11f",
+              "_type": "productSpec",
+              "name": "Filter",
+              "value": "White filter for the 1800 series included"
+            },
+            {
+              "_key": "trajectory30",
+              "_type": "productSpec",
+              "name": "Trajectory angle",
+              "value": "30°"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Flow table conditions",
+              "value": "Coverage dimensions and flow are specified at 2.1 bar in windless conditions; radius reduction greater than 25% is not recommended"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird 15-EST — форсунка MPR для полива конечной прямоугольной полосы. Форма струй рассчитана на узкие участки у края газона и направляет воду на зону полива, а не на дорожку. Примерное покрытие — 1,2 × 4,6 м. Устанавливается на совместимые корпуса Rain Bird 1800/RD1800; ориентацию выбирают по расположению полосы.",
+          "name": "Rain Bird 15-EST — форсунка для конечной полосы",
+          "seo": {
+            "h1": "Rain Bird 15-EST — форсунка для конечной полосы",
+            "metaDescription": "Продажа: Rain Bird 15-EST — форсунка для конечной полосы. Форсунка MPR для конечной прямоугольной полосы с покрытием около 1,2 × 4,6 м. Флориал, Свети Влас.",
+            "metaTitle": "15-EST форсунка | Свети Влас | Флориал"
+          },
+          "shortDescription": "Форсунка MPR для конечной прямоугольной полосы около 1,2 × 4,6 м.",
+          "specifications": [
+            {
+              "_key": "spec1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "15-EST"
+            },
+            {
+              "_key": "spec2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "15 Strip"
+            },
+            {
+              "_key": "spec3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "End-strip nozzle"
+            },
+            {
+              "_key": "spec4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "15-EST, strip nozzle, end strip"
+            },
+            {
+              "_key": "spec5",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "1,0–2,1 бар"
+            },
+            {
+              "_key": "spec6",
+              "_type": "productSpec",
+              "name": "Размер полива при 2,1 бар",
+              "value": "1.2 × 4.6 m"
+            },
+            {
+              "_key": "spec7",
+              "_type": "productSpec",
+              "name": "Расход при 2,1 бар",
+              "value": "2.3 L/min"
+            },
+            {
+              "_key": "spec8",
+              "_type": "productSpec",
+              "name": "Угол струи",
+              "value": "30°"
+            },
+            {
+              "_key": "spec9",
+              "_type": "productSpec",
+              "name": "Тип покрытия",
+              "value": "End rectangular strip"
+            },
+            {
+              "_key": "audit11p",
+              "_type": "productSpec",
+              "name": "Оптимальное давление",
+              "value": "2,1 бар"
+            },
+            {
+              "_key": "audit11f",
+              "_type": "productSpec",
+              "name": "Фильтр",
+              "value": "Белый фильтр для серии 1800 входит в комплект"
+            },
+            {
+              "_key": "trajectory30",
+              "_type": "productSpec",
+              "name": "Угол траектории",
+              "value": "30°"
+            },
+            {
+              "_key": "spacingNote",
+              "_type": "productSpec",
+              "name": "Условия таблицы расхода",
+              "value": "Размеры и расход указаны при 2,1 бар и в безветренных условиях; уменьшать радиус более чем на 25% не рекомендуется"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0065
     }
   ]
 }
