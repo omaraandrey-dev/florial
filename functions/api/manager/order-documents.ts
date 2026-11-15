@@ -23,7 +23,9 @@ export const onRequestGet=async({request,env}:{request:Request;env:RuntimeEnv})=
   const items=JSON.parse(r.items||'[]') as Item[]
   const pdf=await makePdf(r,env,items)
   await db.batch([ev(db,r,auth.user,'pdf_downloaded','PDF документът е генериран и изтеглен.',{item_count:items.length,total_cents:r.total_cents})])
-  return new Response(pdf,{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="Florial-'+r.order_number+'.pdf"','Cache-Control':'no-store'}})
+  const pdfBody = new Uint8Array(pdf.byteLength)
+  pdfBody.set(pdf)
+  return new Response(pdfBody.buffer,{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="Florial-'+r.order_number+'.pdf"','Cache-Control':'no-store'}})
  }catch{return json({error:'Не успяхме да генерираме PDF документа.'},502)}
 }
 
