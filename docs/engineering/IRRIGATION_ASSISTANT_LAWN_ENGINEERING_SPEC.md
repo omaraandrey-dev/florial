@@ -69,7 +69,7 @@ No result may be marked design_ready if a mandatory validation fails or a requir
 The read-only Production inventory checkpoint recorded:
 - irrigation root category vsichko-za-polivane, Sanity ID 7f6eaa30-8085-4fae-be3c-1209a0c50fc6;
 - sprinkler category sprinklers, ID de7ecefe-0a25-41ed-8146-ce475efb2378, 20 active published products;
-- nozzle category nozzles, ID ad3914e2-a0a5-41ed-8146-ce475efb2378, 26 active published products;
+- nozzle category nozzles, ID ad3914b4-5ab0-49e3-868a-52621c4654a7, 26 active published products;
 - all 46 inspected sprinkler/nozzle records had a published price but stockStatus onRequest;
 - product records had productType null; equipment membership is determined through category references, not productType.
 
