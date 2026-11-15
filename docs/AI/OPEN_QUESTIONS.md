@@ -1,3 +1,14 @@
+## 2026-11-15 — Catalogue-wide missing category SEO articles completed
+
+- Read-only audit covered all 17 published plant categories in Sanity dataset `plants` and all 54 irrigation/equipment categories in dataset `production`.
+- Found and published eight missing BG/RU/EN footer articles: six plant categories (`plants-broadleaf`, `plants-citrus`, `plants-exotic`, `plants-flowering-shrubs`, `plants-indoor`, `plants-trees-shrubs`) and two equipment categories (plastic 90° female-thread tee; solenoid valves).
+- Each article contains 27 Portable Text blocks per locale (9 H2 + 18 paragraphs). Final published-data queries confirmed zero missing BG/RU/EN `seoContent` categories across both datasets.
+- Existing articles, category metadata, descriptions, help blocks, slugs, images and product/category references were preserved. No product data or relationships were changed.
+- Backups and detailed audit: `docs/backups/sanity/2026-11-15-all-categories-before-seo-content.json`, `docs/backups/sanity/2026-11-15-solenoid-valves-category-before-seo-content.json`, `docs/audits/2026-11-15-missing-category-seo-articles.md`.
+- Validation limitation: the solenoid-valve category contains legacy root fields `seoTitle` and `seoDescription` that are not in the currently resolved schema. They predate this work and were preserved; publish succeeded. Other new documents validated as valid, with custom callbacks incomplete.
+- Live browser rendering and Google recrawl/indexing remain unconfirmed because Firecrawl credits were unavailable. Source renderer path was verified in GitHub main.
+- Follow-up: review empty direct-product categories (`plants-indoor`, plastic tee and solenoid valves) separately before changing catalogue relationships.
+
 ## 2026-11-15 — Flower subcategory SEO publication and catalog follow-ups
 
 - Published BG/RU/EN SEO footer content (27 blocks / 9 H2 per locale) for all four Sanity child categories of `plants-flowers`: `plants-perennials`, `plants-seasonal-flowers`, `plants-groundcovers`, `plants-ornamental-grasses`.
