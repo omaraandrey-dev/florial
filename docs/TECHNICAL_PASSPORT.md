@@ -1,3 +1,11 @@
+## 2026-11-15 — Legacy Supabase-named Cloudflare variables intentionally retained (owner decision)
+
+- The owner confirms the safe read-only audit is complete; see the 2026-11-11 inventory/source-scan record below.
+- Keep the existing `SUPABASE_*` / `VITE_SUPABASE_*` entries in Cloudflare Pages Preview/Production as a contingency. They are deliberately retained. Do not delete, rename, rotate or modify them unless the owner explicitly reopens the decision.
+- Do not read or document variable/secret values. Only names and scopes were previously inspected.
+- Supabase is excluded from Florial's active architecture and runtime; no application code or workflow makes Supabase calls. The retained entries are inert configuration remnants, not an active integration.
+- **Owner status: CLOSED.** No further audit, cleanup or removal is pending. No Cloudflare settings or secrets were changed as part of this decision.
+
 ## 2026-11-15 — Automatic irrigation design service published and verified (PR #272)
 
 - Updated the existing Sanity service document `04c7ab3b-1888-41cb-9917-6b9014cd1ac3`, slug `avtomatichno-napoyavane`; no duplicate service was created.
