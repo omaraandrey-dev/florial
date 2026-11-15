@@ -12,6 +12,17 @@ Branch: `feat/irrigation-assistant-foundation`
 - Added the first localized BG/RU/EN wizard for lawn irrigation: plot shape, dimensions or area, water source, optional measured flow and pressure, and site notes.
 - The final step displays the collected site information.
 
+
+## Read-only Sanity catalogue inventory (Production, published perspective)
+
+- Irrigation root category `vsichko-za-polivane`: ID `7f6eaa30-8085-4fae-be3c-1209a0c50fc6`.
+- Sprinkler category `sprinklers`: ID `de7ecefe-0a25-41ed-8146-ce475efb2378`, 20 active published products.
+- Nozzle category `nozzles`: ID `ad3914b4-5ab0-49e3-868a-52621c4654a7`, 26 active published products (17 spray-pattern / strip products and 9 R-VAN products).
+- All 46 sprinkler/nozzle products have a published `priceEUR`; all 46 currently report `stockStatus: onRequest`. The helper must display the live Sanity price and must not promise immediate stock availability.
+- The inspected irrigation product records have `productType: null`; product retrieval must use actual category references rather than filtering by `productType == "equipment"`.
+- Published specifications contain useful technical attributes, but are not uniform: rotor models include radius, sector, operating pressure and flow ranges; 1800-series sprinkler bodies require a separately selected nozzle; many nozzle records do not expose complete flow tables. The selection engine must not infer missing flow values or assume every body includes a nozzle.
+- This is a read-only catalogue inspection. No Sanity documents or schema were changed.
+
 ## Engineering and commercial boundary
 
 This checkpoint is an intake interface, **not an automatic hydraulic design or a finished product configurator**. It deliberately does not calculate sprinkler quantities, zones, pipe diameters, product compatibility, prices or a bill of materials. Those require verified technical data for each product family and an explicit hydraulic selection model. The UI states this limitation instead of presenting guessed quantities as engineering advice.
