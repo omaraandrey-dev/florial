@@ -142,7 +142,7 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
       : language === 'en'
         ? 'An error occurred while displaying this page. Return to the services list and try again.'
         : 'Възникна грешка при показването на страницата. Върнете се към списъка с услуги и опитайте отново.'
-    const button = language === 'ru' ? 'Ко всем услугам' : language === 'en' ? 'All services' : 'Всички услуги'
+    const button = language === 'ru' ? 'На главную' : language === 'en' ? 'Back to homepage' : 'Към началната страница'
     return (
       <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-center px-4 py-20 text-center" role="alert">
         <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
@@ -1449,7 +1449,7 @@ export default function App() {
           <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
         </div>
       ) : activeServiceSlug && currentService ? (
-        <ServicePageErrorBoundary language={language} onNavigateHome={navigateToHome}>
+        <ServicePageErrorBoundary key={activeServiceSlug} language={language} onNavigateHome={navigateToHome}>
           <ServicePage
             service={currentServiceDetails || currentService}
             onNavigateHome={navigateToHome}
