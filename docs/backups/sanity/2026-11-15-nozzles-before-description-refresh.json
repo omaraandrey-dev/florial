@@ -8,7 +8,7 @@
     "6534adc5-78f7-4276-bbdd-2843ef30420e",
     "6690848d-a4a5-4386-b9ae-5f63604914b1"
   ],
-  "documentCount": 9,
+  "documentCount": 12,
   "documents": [
     {
       "_createdAt": "2026-10-18T08:20:04Z",
@@ -3642,6 +3642,1289 @@
       },
       "vatIncluded": true,
       "weightKg": 0.008
+    },
+    {
+      "_createdAt": "2026-10-18T08:20:04Z",
+      "_id": "4f4a7e6b-7df5-4ee4-94f1-346b68fc75a9",
+      "_rev": "Cq0WfbdWfPjjye8LFn2kEV",
+      "_system": {
+        "base": {
+          "id": "4f4a7e6b-7df5-4ee4-94f1-346b68fc75a9",
+          "rev": "3ZWSWJ5PmrYEk5hKE3uwWE"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:26Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "m1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m1-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird R-VAN-SST е ротаторна дюза за ефективно поливане на тесни и дълги участъци, например тревни площи покрай алеи, цветни лехи и тесни зелени ивици. Въртящите се струи осигуряват равномерно поливане и намаляват разхода на вода и оттичането."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "m2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m2-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Основни характеристики"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "m3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m3-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Фиксирана странична ивица: приблизително 1,5 × 9,1 м. Съвместима с разпръсквачи Rain Bird и адаптери за храсти. Радиусът може да се намалява, но формата на ивицата е фиксирана. Работно налягане: 2,1–3,8 bar; препоръчително: 3,1 bar."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "m4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m4-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Предимства"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "m5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m5-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Равномерно поливане на тесни участъци. Съвместимост с други ротаторни дюзи от серия R-VAN. Лесен монтаж и настройка без инструменти. Ръчно почистване от замърсявания и запушвания. Работно налягане: 2,1–3,8 bar; оптимално: 3,1 bar."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "m6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "m6-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Подходяща за икономично поливане на тесни зелени ивици с прецизно разпределение на водата и минимални загуби."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "rvanSST20261026",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-cece0f427e785eeb35fefae638f06e222d0ea82d-1200x1200-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "rvan-overview-sst-20261027",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird R-VAN-SST — ротаторна дюза за странична ивица",
+        "altEn": "Rain Bird R-VAN-SST — side-strip rotary nozzle",
+        "altRu": "Rain Bird R-VAN-SST — ротаторная форсунка для боковой полосы",
+        "asset": {
+          "_ref": "image-ff66e6c390ff91d9e197d6bd82a2430625b711ec-1086x1448-png",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-4d6eb332c58481f28619c0b1345809ad184d558b-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird R-VAN-SST — ротаторна дюза за странична ивица",
+      "priceEUR": 11.16,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "O6U6zfEuSc38DllEobfa1L",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfa39",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfa4x",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfa6l",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "O6U6zfEuSc38DllEobfa8Z",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird R-VAN-SST — ротаторна дюза за странична ивица",
+        "metaDescription": "Продажба на Rain Bird R-VAN-SST — ротаторна дюза за странична ивица. Ротаторна дюза за поливане на тясна странична ивица. Флориал, Равда.",
+        "metaTitle": "Rain Bird R-VAN-SST | Равда | Флориал"
+      },
+      "shortDescription": "Ротаторна дюза Rain Bird R-VAN-SST за поливане на тясна ивица.",
+      "sku": "A84669",
+      "slug": {
+        "_type": "slug",
+        "current": "a84669"
+      },
+      "sortOrder": 13,
+      "specifications": [
+        {
+          "_key": "s1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "R-VAN-SST"
+        },
+        {
+          "_key": "s2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "R-VAN"
+        },
+        {
+          "_key": "s3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Ротаторна дюза за странична ивица"
+        },
+        {
+          "_key": "s4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "r-van-sst, rotator nozzle, irrigation"
+        },
+        {
+          "_key": "s5",
+          "_type": "productSpec",
+          "name": "Размер на покритие",
+          "value": "1,5 × 9,1 m"
+        },
+        {
+          "_key": "s6",
+          "_type": "productSpec",
+          "name": "Сектор/форма на поливане",
+          "value": "Странична ивица"
+        },
+        {
+          "_key": "s7",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "2,1–3,8 bar"
+        },
+        {
+          "_key": "s8",
+          "_type": "productSpec",
+          "name": "Препоръчително работно налягане",
+          "value": "3,1 bar"
+        },
+        {
+          "_key": "s9",
+          "_type": "productSpec",
+          "name": "Регулиране",
+          "value": "Размерът на покритието се настройва при работеща система"
+        },
+        {
+          "_key": "s10",
+          "_type": "productSpec",
+          "name": "Особености",
+          "value": "Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 1,36–2,12 l/min според налягането"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird R-VAN-SST is a rotary nozzle designed to deliver controlled, water-efficient irrigation for landscaped areas. Multiple rotating streams apply water more slowly than many conventional spray nozzles, helping the soil absorb it and reducing runoff when the system is correctly designed. The stated coverage is 1.5 × 9.1 m; the watering pattern is strip; recommended operating pressure is 2.1–3.8 bar.\n\nR-VAN nozzles are useful for matching irrigation coverage to the shape of the planting area, including standard arcs and narrow strips. Select the pattern to suit the location and maintain compatible pressure and flow. Use with compatible Rain Bird 1800/RD1800 spray bodies or other approved bodies as specified by the manufacturer.\n\nActual radius and uniformity depend on pressure, spacing, soil and wind conditions.",
+          "name": "Rain Bird R-VAN-SST — side-strip rotary nozzle",
+          "seo": {
+            "h1": "Rain Bird R-VAN-SST — side-strip rotary nozzle",
+            "keywords": [],
+            "metaDescription": "For sale: Rain Bird R-VAN-SST — side-strip rotary nozzle. Rotary nozzle for irrigating a narrow side strip. Florial, Ravda.",
+            "metaTitle": "Rain Bird R-VAN-SST | Ravda | Florial"
+          },
+          "shortDescription": "Rain Bird R-VAN-SST rotary nozzle for irrigating a narrow side strip.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "R-VAN-SST"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Rotary side-strip nozzle"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "r-van-sst, rotary nozzle, irrigation"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Coverage dimensions",
+              "value": "1.5 × 9.1 m"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Spray arc/pattern",
+              "value": "Side strip"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "2.1–3.8 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Recommended operating pressure",
+              "value": "3.1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Adjustment",
+              "value": "Coverage dimensions can be adjusted while the system is running"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Features",
+              "value": "Large water droplets, high uniformity and matched precipitation rate; flow 1.36–2.12 L/min depending on pressure"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird R-VAN-SST — ротаторная форсунка для управляемого и экономичного полива ландшафтных зон. Несколько вращающихся струй подают воду медленнее, чем многие обычные веерные форсунки, что помогает почве впитывать влагу и снижает сток при правильно спроектированной системе. Указанный радиус — 1.5 × 9.1 m; форма полива — strip; рекомендуемое рабочее давление — 2.1–3.8 bar.\n\nФорсунки R-VAN позволяют подобрать полив под конфигурацию посадок, включая стандартные сектора и узкие полосы. Выбирайте рисунок полива по расположению зоны и соблюдайте требования к давлению и расходу. Используются с совместимыми корпусами Rain Bird 1800/RD1800 или другими корпусами, разрешёнными производителем.\n\nФактический радиус и равномерность зависят от давления, расстояния между дождевателями, типа почвы и ветра.",
+          "name": "Rain Bird R-VAN-SST — ротаторная форсунка для боковой полосы",
+          "seo": {
+            "h1": "Rain Bird R-VAN-SST — ротаторная форсунка для боковой полосы",
+            "keywords": [],
+            "metaDescription": "Продажа: Rain Bird R-VAN-SST — ротаторная форсунка для боковой полосы. Ротаторная форсунка для полива узкой боковой полосы. Флориал, Равда.",
+            "metaTitle": "Rain Bird R-VAN-SST | Равда | Флориал"
+          },
+          "shortDescription": "Ротаторная форсунка Rain Bird R-VAN-SST для полива узкой боковой полосы.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Модел",
+              "value": "R-VAN-SST"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Тип изделие",
+              "value": "Ротаторна дюза за странична ивица"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Тагове",
+              "value": "r-van-sst, ротаторна дюза, полив"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Размер на покритието",
+              "value": "1,5 × 9,1 м"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Сектор/форма на поливане",
+              "value": "Странична ивица"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Работно налягане",
+              "value": "2,1–3,8 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Препоръчително работно налягане",
+              "value": "3,1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Регулиране",
+              "value": "Размерът на покритието се настройва при работеща система"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Особености",
+              "value": "Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 1,36–2,12 l/min според налягането"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0213
+    },
+    {
+      "_createdAt": "2026-10-18T08:20:04Z",
+      "_id": "63289ec9-c0dd-4f13-ae4d-1f7f00a442c6",
+      "_rev": "Cq0WfbdWfPjjye8LFn2kEV",
+      "_system": {
+        "base": {
+          "id": "63289ec9-c0dd-4f13-ae4d-1f7f00a442c6",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:26Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "ag1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ag1-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Дюзата Rain Bird HE-VAN-15 е високоефективна регулируема дюза с подобрена равномерност на поливането. Разработена е за статични разпръсквачи Rain Bird от сериите 1800 и UNI-Spray и осигурява оптимално напояване на тревни площи, цветни лехи и озеленени зони."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "ag2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ag2-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Основни характеристики"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "ag3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ag3-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Регулируем сектор на поливане: 0–360°. Радиус на поливане: 3,7–4,6 м. Цвят: черен. Rain Bird посочва средна равномерност на разпределение DULQ около 70% — над 40% подобрение спрямо типичните регулируеми веерни дюзи. По-доброто разпределение помага за ограничаване на загубите от изпарение и оттичане. Съвместима е със статични разпръсквачи Rain Bird с вътрешна резба; секторът се настройва без инструменти."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "ag4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ag4-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird HE-VAN-15 е подходяща за автоматизирани поливни системи, при които са важни точността, равномерното разпределение на водата и намаляването на разходите за напояване. В описанието на продукта е посочено, че е сред най-добрите дюзи в класа Spray."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "ag5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ag5-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Съвместима е с разпръсквачи Rain Bird от сериите 1800 и UNI-Spray, както и с адаптери Rain Bird за монтаж над храсти. Радиусът се регулира при работеща система."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "g2",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-7f88ca95116f9da9346f7c28f4270cb30ead34d8-600x600-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "g3",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-721dc0966d79c1e1819d5b1fa003d77464b45d42-896x872-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "hevan15-main-view",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-992fca56a682e0685bfe989c7a71948449881071-1086x1448-png",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird HE-VAN-15 — високоефективна регулируема ветрилна дюза",
+        "altEn": "Rain Bird HE-VAN-15 — adjustable spray nozzle",
+        "altRu": "Rain Bird HE-VAN-15 — регулируемая веерная форсунка",
+        "asset": {
+          "_ref": "image-cd4ce780375591626d09342e8aefa2be274e624b-1086x1448-png",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-0eb8e6a3ce9a8a520ec1425b1ba663b3597ed9f5-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird HE-VAN-15 — регулируема веерна дюза",
+      "priceEUR": 3.17,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "CZu3yB77eF35c25LqtWEup",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "CZu3yB77eF35c25LqtWEvR",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "CZu3yB77eF35c25LqtWEw3",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "CZu3yB77eF35c25LqtWEwf",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "CZu3yB77eF35c25LqtWExH",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird HE-VAN-15 — регулируема веерна дюза",
+        "metaDescription": "Продажба на Rain Bird HE-VAN-15 — регулируема веерна дюза. Високоефективна регулируема дюза със сектор 0–360° и радиус 3,7–4,6 m. Флориал, Ахелой.",
+        "metaTitle": "HE-VAN-15 веерна дюза | Ахелой | Флориал"
+      },
+      "shortDescription": "Високоефективна регулируема дюза Rain Bird HE-VAN-15 със сектор 0–360° и радиус 3,7–4,6 м.",
+      "sku": "HE1501",
+      "slug": {
+        "_type": "slug",
+        "current": "he1501"
+      },
+      "sortOrder": 31,
+      "specifications": [
+        {
+          "_key": "s1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "HE-VAN-15"
+        },
+        {
+          "_key": "s2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "HE-VAN"
+        },
+        {
+          "_key": "s3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Високоефективна регулируема веерна дюза"
+        },
+        {
+          "_key": "s4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "he-van-15, spray nozzle, adjustable arc"
+        },
+        {
+          "_key": "s5",
+          "_type": "productSpec",
+          "name": "Радиус на поливане",
+          "value": "3,7–4,6 m"
+        },
+        {
+          "_key": "s6",
+          "_type": "productSpec",
+          "name": "Сектор на поливане",
+          "value": "0°–360°"
+        },
+        {
+          "_key": "s7",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "1,0–2,1 bar"
+        },
+        {
+          "_key": "s8",
+          "_type": "productSpec",
+          "name": "Оптимално налягане",
+          "value": "2,1 bar"
+        },
+        {
+          "_key": "s9",
+          "_type": "productSpec",
+          "name": "Регулиране",
+          "value": "Ръчно регулиране на сектора; радиусът се коригира чрез винта от неръждаема стомана"
+        },
+        {
+          "_key": "s10",
+          "_type": "productSpec",
+          "name": "Филтър",
+          "value": "Филтърна мрежа против замърсяване, включена в комплекта"
+        },
+        {
+          "_key": "s11",
+          "_type": "productSpec",
+          "name": "Съвместимост",
+          "value": "Разпръсквачи Rain Bird от сериите 1800, UNI-Spray и адаптери Rain Bird за монтаж над храсти"
+        },
+        {
+          "_key": "s12",
+          "_type": "productSpec",
+          "name": "Ефективност",
+          "value": "Средна равномерност DULQ около 70%; над 40% подобрение спрямо типичните регулируеми веерни дюзи"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird HE-VAN-15 is an adjustable spray nozzle for precise watering of lawns, borders and flower beds. The nozzle produces a fan-shaped spray and allows the installer to set the watering arc to suit the shape of the area. The stated radius is 3.4–4.6 m, the available arc is 0–360°, and the recommended operating pressure is 1.0–2.1 bar.\n\nThe VAN range is suitable for smaller zones and close-range watering. HE-VAN models are designed for improved application efficiency when used at the correct pressure and with a suitable layout. The radius can be fine-tuned using the adjustment screw. Always select a nozzle that matches the sprinkler body, required coverage and flow available to the zone.\n\nCompatible with suitable Rain Bird 1800/RD1800 series spray bodies. Actual radius can vary with pressure, nozzle setting and site conditions.",
+          "name": "Rain Bird HE-VAN-15 — adjustable spray nozzle",
+          "seo": {
+            "h1": "Rain Bird HE-VAN-15 — adjustable spray nozzle",
+            "keywords": [],
+            "metaDescription": "For sale: Rain Bird HE-VAN-15 — adjustable spray nozzle. High-efficiency adjustable nozzle with a 0–360° arc and 3.7–4.6 m radius. Florial, Aheloy.",
+            "metaTitle": "HE-VAN-15 nozzle | Aheloy | Florial"
+          },
+          "shortDescription": "High-efficiency adjustable Rain Bird HE-VAN-15 nozzle with a 0–360° arc and a 3.7–4.6 m radius.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "HE-VAN-15"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "HE-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "High-efficiency adjustable spray nozzle"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "he-van-15, spray nozzle, adjustable arc"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Irrigation radius",
+              "value": "3.7–4.6 m"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Irrigation arc",
+              "value": "0°–360°"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "1.0–2.1 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Optimum pressure",
+              "value": "2.1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Adjustment",
+              "value": "Arc adjusts manually; radius is adjusted with the stainless-steel screw"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Filter",
+              "value": "Debris filter screen included"
+            },
+            {
+              "_key": "s11",
+              "_type": "productSpec",
+              "name": "Compatibility",
+              "value": "Rain Bird 1800 and UNI-Spray sprinkler bodies; compatible shrub adapters"
+            },
+            {
+              "_key": "s12",
+              "_type": "productSpec",
+              "name": "Efficiency",
+              "value": "Average distribution uniformity (DULQ) is about 70%; more than 40% better than typical adjustable spray nozzles."
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird HE-VAN-15 — регулируемая веерная форсунка для точного полива газонов, бордюров и цветников. Форсунка формирует веерную струю, а монтажник может настроить сектор в соответствии с формой участка. Указанный радиус составляет 3.4–4.6 m, доступный сектор — 0–360°, рекомендуемое рабочее давление — 1.0–2.1 bar.\n\nФорсунки серии VAN подходят для небольших зон и полива на короткие расстояния. Модели HE-VAN рассчитаны на более эффективное распределение воды при правильном давлении и корректной схеме размещения. Радиус можно точно отрегулировать винтом. Выбирайте форсунку с учётом корпуса дождевателя, требуемого покрытия и расхода воды в зоне.\n\nСовместима с подходящими корпусами Rain Bird серий 1800/RD1800. Фактический радиус зависит от давления, настройки форсунки и условий на участке.",
+          "name": "Rain Bird HE-VAN-15 — регулируемая веерная форсунка",
+          "seo": {
+            "h1": "Rain Bird HE-VAN-15 — регулируемая веерная форсунка",
+            "keywords": [],
+            "metaDescription": "Продажа: Rain Bird HE-VAN-15 — регулируемая веерная форсунка. Высокоэффективная регулируемая форсунка с сектором 0–360° и радиусом 3,7–4,6 м. Флориал, Ахелой.",
+            "metaTitle": "HE-VAN-15 форсунка | Ахелой | Флориал"
+          },
+          "shortDescription": "Высокоэффективная регулируемая форсунка Rain Bird HE-VAN-15 с сектором 0–360° и радиусом 3,7–4,6 м.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "HE-VAN-15"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "HE-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "Высокоэффективная регулируемая веерная форсунка"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "he-van-15, веерная форсунка, регулируемый сектор"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Радиус полива",
+              "value": "3,7–4,6 м"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Сектор полива",
+              "value": "0°–360°"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "1,0–2,1 бар"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Оптимальное давление",
+              "value": "2,1 бар"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Регулировка",
+              "value": "Сектор регулируется вручную; радиус корректируется винтом из нержавеющей стали"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Фильтр",
+              "value": "Фильтрующая сетка от загрязнений входит в комплект"
+            },
+            {
+              "_key": "s11",
+              "_type": "productSpec",
+              "name": "Совместимость",
+              "value": "Дождеватели Rain Bird серий 1800 и UNI-Spray; совместимые адаптеры для установки над кустарниками"
+            },
+            {
+              "_key": "s12",
+              "_type": "productSpec",
+              "name": "Эффективность",
+              "value": "Средняя равномерность распределения DULQ около 70%; более чем на 40% выше, чем у типичных регулируемых веерных форсунок."
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0073
+    },
+    {
+      "_createdAt": "2026-10-18T08:20:04Z",
+      "_id": "678c8039-dda2-4873-a7cb-98083c4ef971",
+      "_rev": "Cq0WfbdWfPjjye8LFn2kEV",
+      "_system": {
+        "base": {
+          "id": "678c8039-dda2-4873-a7cb-98083c4ef971",
+          "rev": "iDEMx5YC3o85c6iUZmZhH0"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-12T06:50:26Z",
+      "brand": {
+        "_ref": "fa64727c-01eb-418a-83ec-f345581a65ef",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6690848d-a4a5-4386-b9ae-5f63604914b1",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "f1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f1-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Дюзата Rain Bird R-VAN-18 е модерно решение за ефективно и икономично поливане. Технологията с въртящи се струи осигурява равномерно разпределение на водата и намалява загубите от оттичане и изпарение."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "f2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f2-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Основни характеристики"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "f3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f3-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Регулируем сектор на поливане: 45–270°. Радиус: 4,0–5,5 м. Съвместима с разпръсквачи Rain Bird и адаптери за храсти. Едрите водни капки повишават устойчивостта на вятър и подпомагат равномерното разпределение на водата."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "f4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f4-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Предимства"
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "f5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f5-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Удобна настройка на сектора и радиуса без инструменти. Ръчно почистване от замърсявания и запушвания. Намалява вероятността от образуване на локви и ерозия на почвата. Работно налягане: 2,1–3,8 bar; оптимално налягане: 3,1 bar."
+            }
+          ],
+          "style": "normal"
+        },
+        {
+          "_key": "f6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "f6-s",
+              "_type": "span",
+              "marks": [],
+              "text": "Rain Bird R-VAN-18 е отличен избор за тревни площи, цветни лехи и други зони, които изискват качествено и равномерно поливане."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "g2",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-71ee21a535a1d1e6a11e79a46071bf8096f71b6c-600x600-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "rvan-overview-18-20261027",
+          "_type": "image",
+          "asset": {
+            "_ref": "image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "252b9866543d",
+          "_type": "image"
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "mainImage": {
+        "_type": "image",
+        "alt": "Rain Bird R-VAN-18 — ротаторна дюза",
+        "altEn": "Rain Bird R-VAN-18 — rotary nozzle",
+        "altRu": "Rain Bird R-VAN-18 — ротаторная форсунка",
+        "asset": {
+          "_ref": "image-7d43c58f456ed50c3aa001c93ad9a90adfa3ee07-1448x1086-png",
+          "_type": "reference"
+        }
+      },
+      "manualPDF": {
+        "_type": "file",
+        "asset": {
+          "_ref": "file-4d6eb332c58481f28619c0b1345809ad184d558b-pdf",
+          "_type": "reference"
+        }
+      },
+      "name": "Rain Bird R-VAN-18 — ротаторна дюза",
+      "priceEUR": 11.16,
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "relatedProducts": [
+        {
+          "_key": "qhkuxrIhW7XbiJ2Hfd24Xb",
+          "_ref": "97436060-98f6-430e-ba36-3fa11b085b24",
+          "_type": "reference"
+        },
+        {
+          "_key": "qhkuxrIhW7XbiJ2Hfd24cc",
+          "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+          "_type": "reference"
+        },
+        {
+          "_key": "qhkuxrIhW7XbiJ2Hfd24hd",
+          "_ref": "dac0f67b-0638-48e8-884c-10ea19cffe4d",
+          "_type": "reference"
+        },
+        {
+          "_key": "qhkuxrIhW7XbiJ2Hfd24me",
+          "_ref": "556bb59c-ec52-4884-b811-5687d2310343",
+          "_type": "reference"
+        },
+        {
+          "_key": "qhkuxrIhW7XbiJ2Hfd24rf",
+          "_ref": "4854cd78-5a9c-4b44-bcd3-1399162d572c",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Rain Bird R-VAN-18 — ротаторна дюза",
+        "metaDescription": "Продажба на Rain Bird R-VAN-18 — ротаторна дюза. Ротаторна дюза с регулируем сектор 40–270° и радиус 4,2–5,5 m. Флориал, Равда.",
+        "metaTitle": "R-VAN-18 ротаторна дюза | Равда | Флориал"
+      },
+      "shortDescription": "Ротаторна дюза Rain Bird R-VAN-18 с регулируем сектор 40–270° и радиус 4,2–5,5 м.",
+      "sku": "A84660",
+      "slug": {
+        "_type": "slug",
+        "current": "a84660"
+      },
+      "sortOrder": 6,
+      "specifications": [
+        {
+          "_key": "s1",
+          "_type": "productSpec",
+          "name": "Модел",
+          "value": "R-VAN-18"
+        },
+        {
+          "_key": "s2",
+          "_type": "productSpec",
+          "name": "Серия",
+          "value": "R-VAN"
+        },
+        {
+          "_key": "s3",
+          "_type": "productSpec",
+          "name": "Тип продукт",
+          "value": "Ротаторна дюза"
+        },
+        {
+          "_key": "s4",
+          "_type": "productSpec",
+          "name": "Тагове",
+          "value": "r-van-18, rotator nozzle, irrigation"
+        },
+        {
+          "_key": "s5",
+          "_type": "productSpec",
+          "name": "Препоръчително разстояние между разпръсквачите",
+          "value": "4,0–5,5 m"
+        },
+        {
+          "_key": "s6",
+          "_type": "productSpec",
+          "name": "Сектор/форма на поливане",
+          "value": "45°–270° регулируем сектор"
+        },
+        {
+          "_key": "s7",
+          "_type": "productSpec",
+          "name": "Работно налягане",
+          "value": "2,1–3,8 bar"
+        },
+        {
+          "_key": "s8",
+          "_type": "productSpec",
+          "name": "Препоръчително работно налягане",
+          "value": "3,1 bar"
+        },
+        {
+          "_key": "s9",
+          "_type": "productSpec",
+          "name": "Регулиране",
+          "value": "Радиусът и секторът се регулират при работеща система"
+        },
+        {
+          "_key": "s10",
+          "_type": "productSpec",
+          "name": "Особености",
+          "value": "Едри водни капки, висока равномерност и съгласувана норма на валеж"
+        }
+      ],
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "description": "Rain Bird R-VAN-18 is a rotary nozzle designed to deliver controlled, water-efficient irrigation for landscaped areas. Multiple rotating streams apply water more slowly than many conventional spray nozzles, helping the soil absorb it and reducing runoff when the system is correctly designed. The stated coverage is 4.0–5.5 m; the watering pattern is 45–270°; recommended operating pressure is 2.1–3.8 bar.\n\nR-VAN nozzles are useful for matching irrigation coverage to the shape of the planting area, including standard arcs and narrow strips. Select the pattern to suit the location and maintain compatible pressure and flow. Use with compatible Rain Bird 1800/RD1800 spray bodies or other approved bodies as specified by the manufacturer.\n\nActual radius and uniformity depend on pressure, spacing, soil and wind conditions.",
+          "name": "Rain Bird R-VAN-18 — rotary nozzle",
+          "seo": {
+            "h1": "Rain Bird R-VAN-18 — rotary nozzle",
+            "keywords": [],
+            "metaDescription": "For sale: Rain Bird R-VAN-18 — rotary nozzle. Rotary nozzle with adjustable 40–270° arc and 4.2–5.5 m radius. Florial, Ravda.",
+            "metaTitle": "R-VAN-18 rotary nozzle | Ravda | Florial"
+          },
+          "shortDescription": "Rain Bird R-VAN-18 rotary nozzle with an adjustable 40–270° arc and a 4.2–5.5 m radius.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Model",
+              "value": "R-VAN-18"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Series",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Product type",
+              "value": "Rotary nozzle"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Tags",
+              "value": "R-VAN-18, rotary nozzle, irrigation"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Recommended sprinkler spacing",
+              "value": "4.0–5.5 m"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Spray arc/pattern",
+              "value": "Adjustable 45°–270° arc"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Operating pressure",
+              "value": "2.1–3.8 bar"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Recommended operating pressure",
+              "value": "3.1 bar"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Adjustment",
+              "value": "Radius and arc can be adjusted while the system is running"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Features",
+              "value": "Large water droplets, high uniformity and matched precipitation rate"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Rain Bird R-VAN-18 — ротаторная форсунка для управляемого и экономичного полива ландшафтных зон. Несколько вращающихся струй подают воду медленнее, чем многие обычные веерные форсунки, что помогает почве впитывать влагу и снижает сток при правильно спроектированной системе. Указанный радиус — 4.0–5.5 m; форма полива — 45–270°; рекомендуемое рабочее давление — 2.1–3.8 bar.\n\nФорсунки R-VAN позволяют подобрать полив под конфигурацию посадок, включая стандартные сектора и узкие полосы. Выбирайте рисунок полива по расположению зоны и соблюдайте требования к давлению и расходу. Используются с совместимыми корпусами Rain Bird 1800/RD1800 или другими корпусами, разрешёнными производителем.\n\nФактический радиус и равномерность зависят от давления, расстояния между дождевателями, типа почвы и ветра.",
+          "name": "Rain Bird R-VAN-18 — ротаторная форсунка",
+          "seo": {
+            "h1": "Rain Bird R-VAN-18 — ротаторная форсунка",
+            "keywords": [],
+            "metaDescription": "Продажа: Rain Bird R-VAN-18 — ротаторная форсунка. Ротаторная форсунка с регулируемым сектором 40–270° и радиусом 4,2–5,5 м. Флориал, Равда.",
+            "metaTitle": "R-VAN-18 ротаторная форсунка | Равда | Флориал"
+          },
+          "shortDescription": "Ротаторная форсунка Rain Bird R-VAN-18 с регулируемым сектором 40–270° и радиусом 4,2–5,5 м.",
+          "specifications": [
+            {
+              "_key": "s1",
+              "_type": "productSpec",
+              "name": "Модель",
+              "value": "R-VAN-18"
+            },
+            {
+              "_key": "s2",
+              "_type": "productSpec",
+              "name": "Серия",
+              "value": "R-VAN"
+            },
+            {
+              "_key": "s3",
+              "_type": "productSpec",
+              "name": "Тип изделия",
+              "value": "Ротаторная форсунка"
+            },
+            {
+              "_key": "s4",
+              "_type": "productSpec",
+              "name": "Теги",
+              "value": "r-van-18, ротаторная форсунка, полив"
+            },
+            {
+              "_key": "s5",
+              "_type": "productSpec",
+              "name": "Рекомендуемое расстояние между дождевателями",
+              "value": "4,0–5,5 м"
+            },
+            {
+              "_key": "s6",
+              "_type": "productSpec",
+              "name": "Сектор/форма полива",
+              "value": "Регулируемый сектор 45°–270°"
+            },
+            {
+              "_key": "s7",
+              "_type": "productSpec",
+              "name": "Рабочее давление",
+              "value": "2,1–3,8 бар"
+            },
+            {
+              "_key": "s8",
+              "_type": "productSpec",
+              "name": "Рекомендуемое рабочее давление",
+              "value": "3,1 бар"
+            },
+            {
+              "_key": "s9",
+              "_type": "productSpec",
+              "name": "Регулировка",
+              "value": "Радиус и сектор регулируются при работающей системе"
+            },
+            {
+              "_key": "s10",
+              "_type": "productSpec",
+              "name": "Особенности",
+              "value": "Крупные капли, высокая равномерность и согласованная интенсивность полива"
+            }
+          ]
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 0.0204
     }
   ]
 }
