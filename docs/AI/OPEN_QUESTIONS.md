@@ -1,3 +1,12 @@
+## 2026-11-15 — Yucca and Cycas SEO audit: owner decisions pending
+
+- Read-only audit recorded in `docs/audits/2026-11-15-yucca-cycas-seo-audit.md`.
+- Yucca rostrata is correctly typed as `shrub`; it is listed secondarily in “Palmi i yuki” but primarily in “Екзотични растения”. GSC last-28-day sample: apex 20 impressions / 1 click across Bulgarian and Latin queries, plus 3 www impressions; Google-selected canonical is not confirmed.
+- Two published Cycas revoluta pages exist: `/product/tsyaka-tsikas` (57–63 cm, 20 L, EUR 300, stock 5) and `/product/cycas-revoluta` (100 cm, EUR 300, on request). Only the latter had GSC rows (4 impressions / 0 clicks) in this sample. **Owner decision required:** are these two distinct offers or a duplicate species listing? Do not merge, redirect, change slug or alter stock without approval.
+- Proposed Sanity corrections, pending separate approval: Yucca BG translation name and missing main/gallery ALT; Cycas A BG name and malformed translation H1/Meta Title/palm wording; align Cycas BG descriptions/SEO without changing commercial fields. Cycas B's BG translation object is absent; its root BG SEO is populated.
+- ProductPage source uses root SEO for BG and localized SEO for RU/EN; sale-variant pricing/status applies to `productType: other` as well. Verify storefront display before touching root/variant price fields.
+- Pending live checks: rendered product pages and localized canonicals/ALT/price selectors; Google URL Inspection for apex/www and both Cycas URLs.
+
 ## 2026-11-15 — Irrigation services restored as two separate published pages
 
 - Completed in Sanity Production: original `avtomatichno-napoyavane` service restored from backup and new design service published at `proektirane-sistemi-avtomatichno-napoyavane-nesebar`.
