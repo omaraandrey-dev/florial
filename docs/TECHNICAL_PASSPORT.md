@@ -1,3 +1,11 @@
+## 2026-11-15 — Irrigation assistant engineering direction (PR #303 in progress)
+
+- New engineering specification: `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
+- The first module is automatic lawn irrigation based on confirmed geometry and measured dynamic water data. A deterministic, versioned Florial calculation engine is the engineering source of truth; Gemini is limited to intake normalization, missing-data questions, drawing interpretation requiring customer confirmation, and explanation of already validated results.
+- Product recommendations must map to exact Rain Bird models/SKUs and manufacturer performance points. Existing inventory checkpoint: 20 sprinkler products and 26 nozzle products; inspected records had prices but `onRequest` stock status and incomplete/uniformity gaps in technical specifications.
+- The floating assistant entry point is restricted to irrigation equipment categories/products, the `polivni-sistemi` direction page and irrigation-related individual services. Other site sections must not display it.
+- This is a specification and launcher-scope change only. No hydraulic calculator, Gemini API integration or automatic product selection is implemented yet.
+
 ## 2026-11-15 — TypeScript coverage and CI gates added (PR #299)
 
 - `main` merge commit: `e2329572f8af211a109434a8d9807610e59b7926`.
