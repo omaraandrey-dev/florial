@@ -1,3 +1,16 @@
+## 2026-11-15 — Drip-fitting product descriptions expanded and published
+
+- Reviewed all six published products in Sanity category `category-drip-fittings` (slug `kapkovo-napoyavane-fitingi`), project `bxvcy0qs`, dataset `production`.
+- Updated only Bulgarian root `description`, Russian `translations.ru.formattedDescription` and English `translations.en.formattedDescription` for six products (18 localized fields): Rain Bird XFF COUP, XFF ELBOW, XFF TEE, XFF-MA-075 and support stakes 3112/1620 and 3112/16202.
+- Each locale now contains five H2 sections, selective bold emphasis, three practical bullet points and two verified internal links to the Rain Bird drip-tube category and active automatic-irrigation service.
+- Rain Bird model descriptions distinguish straight coupling, 90° elbow, three-way tee and 17 mm barb × 3/4″ MPT male adapter. Manufacturer data confirms 17 mm XF insert fitting compatibility with XF/XFD/XFS dripline and an operating range of 1.0–3.5 bar; at 4.1 bar (60 psi) retaining clamps are required.
+- The two support stakes are described separately and only from published product data: 3112/1620 for 16 mm hose, pack of 100 (length not stated); 3112/16202 is brown, 145 mm, for 16–20 mm hose, pack of 100. No missing dimensions or fixing intervals were invented.
+- Full pre-write snapshots of all six published documents were committed before writing: `docs/backups/sanity/2026-11-15-drip-fitting-products-before-description-refresh.xml` (backup commit `0fbe8cde88ec8e2991ebc66629ef621998b8a35a`).
+- Sanity schema validation returned 6/6 valid. Validation was incomplete only because custom callbacks (including custom slug uniqueness callbacks) were not run; it also resolved the legacy deployed schema. All six drafts were published with revision guards. Production read-back confirmed 6/6 published, 0 remaining drafts, and 5 H2 headings, 3 bullet blocks and 2 internal links in each locale.
+- Post-publication read-back confirmed names, slugs, SKUs, prices, old prices, stock status, category references, related-content/product references, SEO and specifications remained unchanged. Only the three description fields per product were changed.
+- Frontend inspection at main `e7ba53839775599c7a9625d8eef4b21a520efebd`: `ProductPage.tsx` selects localized `formattedDescription`; `RichText.tsx` renders H2, strong, lists and safe localized internal links. No application code, schema, navigation, analytics, sitemap/RSS, Cloudflare, D1, Resend or Pages deployment changed.
+- Live visual/browser QA and Google recrawl/indexing remain unconfirmed. Detailed audit: `docs/audits/2026-11-15-drip-fitting-product-descriptions.md`.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
