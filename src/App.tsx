@@ -1245,11 +1245,13 @@ export default function App() {
     activeCategorySlug && currentCategory && !currentCategory.isPlantCategory
   )
   const isIrrigationEquipmentProduct = Boolean(
-    activeProductSlug && currentProduct && !isPlantProductType(currentProduct.productType)
+    activeProductSlug && currentProduct &&
+    (currentProduct.slug?.current === activeProductSlug || currentProduct._id === activeProductSlug) &&
+    !isPlantProductType(currentProduct.productType)
   )
   const isIrrigationService = Boolean(
     normalizedRoutePath === '/services/dostavka-poliv' ||
-    (activeServiceSlug && currentService &&
+    (activeServiceSlug && currentService && currentService.slug?.current === activeServiceSlug &&
       ['irrigation', 'maintenance', 'delivery'].includes(currentService.serviceCategory || ''))
   )
   const isIrrigationServicesDirection = serviceDirectionSlug === 'polivni-sistemi'
