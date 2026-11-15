@@ -1,3 +1,11 @@
+## 2026-11-15 — Flowers category SEO content published (BG/RU/EN)
+
+- Sanity Production: category `plants-flowers`, slug `tsvetya-i-rozi`, URL `/category/tsvetya-i-rozi`. Before the change, `seoContent` was empty in all three locales.
+- Published localized Portable Text footer content: 27 blocks per language (9 H2 sections plus 18 paragraphs). The leading topic is Florial's own flower-growing greenhouses: plants are prepared and planted in new batches on an ongoing basis, so the assortment is continually refreshed during the season. Copy also covers seasonal flowers/perennials, roses, gardens/balconies/terraces, selection, planting, watering and the Bulgarian Black Sea coast.
+- Pre-write snapshot committed before the Sanity write: `docs/backups/sanity/2026-11-15-plants-flowers-before-seo-content.json`.
+- Schema validation: status `valid`, but `complete=false`; custom validation callbacks were not run. Draft read-back confirmed 27 blocks in BG/RU/EN and existing localized SEO metadata, H1, description and helpBlock were preserved. Revision-guarded publish succeeded; published read-back confirmed the new content and unchanged H1/SEO metadata.
+- Eight products currently reference this category (including seasonal and perennial flowers and garden rose). Product data and category relationships were not changed.
+- No application code, Sanity schema, Cloudflare settings, sitemap/RSS, analytics, D1, Resend or Production deployment changed. Live rendered-page/browser verification and Google recrawl/indexing are not confirmed.
 ## 2026-11-15 — Correction: restored automatic irrigation service and separated design service
 
 - Owner reported that the original automatic-irrigation service had been overwritten during PR #272. The original published Sanity document was not deleted, but its content had been replaced. This was an incorrect editorial decision; the original page is now restored from the pre-change snapshot.
