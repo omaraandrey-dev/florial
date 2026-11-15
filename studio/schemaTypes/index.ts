@@ -1098,7 +1098,7 @@ const serviceDirection = defineType({
         defineField({name: 'allServices', title: 'Връзка към всички услуги', type: 'string'}),
         defineField({name: 'learnMore', title: 'Текст за подробности', type: 'string'}),
       ],
-    }))),
+    }))}),
     defineField({name: 'seo', title: 'SEO (общи настройки)', type: 'seoFields'}),
   ],
   preview: {select: {title: 'name', subtitle: 'directionKey', media: 'image'}},
