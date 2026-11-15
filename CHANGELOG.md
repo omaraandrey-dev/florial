@@ -1,3 +1,12 @@
+## 2026-11-15 — Four flower subcategory SEO articles published in Sanity
+
+- Added localized footer `seoContent` to all four child categories of `plants-flowers`: `plants-perennials` (`mnogogodishni-tsvetya`), `plants-seasonal-flowers` (`sezonni-tsvetya`), `plants-groundcovers` (`pochvopokrivni`) and `plants-ornamental-grasses` (`dekorativni-trevi`).
+- Each category now has 27 Portable Text blocks per locale (9 H2 headings + 18 paragraphs) in BG/RU/EN. Seasonal flowers emphasises Florial's own greenhouses, continuous preparation and planting of new batches, and ongoing assortment refresh. The other pages use tailored copy and avoid claiming every plant is grown in-house or permanently available.
+- Full pre-write published snapshots were committed before Sanity writes: `docs/backups/sanity/2026-11-15-flower-subcategories-before-seo-content.json`.
+- Schema validation status is valid but incomplete because custom validation callbacks were not run. Revision-guarded publication and Production read-back confirmed 27 blocks and 9 H2 headings in all locales for all four categories. Existing H1, metaTitle, metaDescription and descriptions were preserved.
+- Cloudflare Browser Rendering confirmed BG rendering for all four routes, RU for seasonal flowers, and EN for perennials. Google recrawl/indexing is not confirmed.
+- Catalog follow-ups, not changed: ground-cover category currently has zero linked products; ornamental-grasses category currently references one laurel tree (`tree-laurel`, `productType: tree`). Owner review needed before catalog edits.
+- No code, schema, product data, relationships, sitemap/RSS, analytics, Cloudflare settings, D1, Resend or Production deployment changed. Detailed audit: `docs/audits/2026-11-15-flower-subcategories-seo.md`.
 ## 2026-11-15 — Correction: restored automatic irrigation service and separated design service
 
 - Owner reported that the original automatic-irrigation service had been overwritten during PR #272. The original published Sanity document was not deleted, but its content had been replaced. This was an incorrect editorial decision; the original page is now restored from the pre-change snapshot.
