@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
