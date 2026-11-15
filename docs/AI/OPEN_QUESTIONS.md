@@ -1,3 +1,9 @@
+## 2026-11-15 — Irrigation design service: completion and remaining checks
+
+- The existing service `avtomatichno-napoyavane` is published in Sanity Production in BG/RU/EN, with `noIndex=false` in each locale. Five inline illustrations and one hero image have localized ALT values and are assigned to the relevant article sections.
+- PR #272 is merged and Cloudflare Pages Production deployment for commit `24e03b9cdb7b15dfac829e01b4973b104f7cd937` succeeded. Live BG metadata/canonical/hreflang and EN HTTP 200/title/description/canonical/H1/H2 were confirmed through Cloudflare Browser Rendering. RU page text/metadata/headings were returned by the renderer, but its structured JSON extraction ended with HTTP 422; Sanity content is confirmed published.
+- Remaining verification: inspect the rendered page visually on desktop/mobile; confirm Google indexing/recrawl later in Search Console. These are not blockers to publication.
+- Separate infrastructure observation, not changed as part of this task: the live Cloudflare Pages project configuration still exposes legacy `SUPABASE_*` / `VITE_SUPABASE_*` environment-variable names in preview/production. Current runtime usage and whether any are inert are **NOT KNOWN — needs a separate source/config audit**. Do not delete or modify these variables until code/workflow references are checked and the owner approves.
 ## 2026-11-14 — Palm category page-level GSC metrics and rendering follow-up
 
 - Page-only GSC last-28-day report returned 5 impressions / 0 clicks for `/category/palmi-yuki`: BG base URL 1 impression (position 60), EN `?lang=en` 2 (position 3), RU `?lang=ru` 2 (position 7.5). The query-level report exposed no query text; this is not zero total impressions.
