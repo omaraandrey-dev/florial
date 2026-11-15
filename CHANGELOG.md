@@ -1,4 +1,4 @@
-## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 in progress)
+## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 merged and deployed)
 
 - Added a documented launcher visibility rule: show the floating specialist portrait only on resolved irrigation-equipment catalogue categories/products, the `polivni-sistemi` service-direction page, and individual irrigation/maintenance/delivery service pages. Hide it on plants, homepage, blog, general services, landscaping/planting/lawn services, cart, search and the assistant page itself.
 - The launcher now requests the dedicated published Sanity photo document `15f0ab7e-b6c9-40aa-ae12-67dd84dbff53`, slug `florial-irrigation-specialist`; the original service photo was not changed.
