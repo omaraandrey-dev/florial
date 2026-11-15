@@ -1125,7 +1125,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const brand = language === 'bg' ? 'Флориал' : 'Florial'
       const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
       const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
-      const noIndex = seo?.noIndex === true
+      const noIndex = seo?.noIndex === true || categorySeo?.noIndex === true
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
       const canonicalUrl = localizedRouteUrl(pagePath, language)
