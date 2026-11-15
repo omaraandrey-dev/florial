@@ -365,7 +365,7 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
     sections: Array.isArray(storedCopy.sections) && storedCopy.sections.length
       ? storedCopy.sections.map((section: any) => ({
           heading: section.heading || '',
-          paragraphs: toPlainText(section.body).split(/\\n+/).map((value: string) => value.trim()).filter(Boolean),
+          paragraphs: toPlainText(section.body).split(/\n+/).map((value: string) => value.trim()).filter(Boolean),
         }))
       : direction.copy[locale].sections,
     faqHeading: storedCopy.faqHeading || direction.copy[locale].faqHeading,
