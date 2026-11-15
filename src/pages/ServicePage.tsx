@@ -16,42 +16,42 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
-      
+
       trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата', 'оглед и подготовка на терена'],
       pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'трасировка на тръбопроводите'],
-      
+
       watering: ['поливане и грижи след засаждането', 'първоначално поливане и последващи грижи', 'калкулация и проектна документация'],
-      
+
       equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове', 'професионално засаждане на палмата', 'подбор на поливочно оборудване'],
-      
+
       automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви', 'автоматизация на поливането'],
-      
+
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
-      
+
       trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы', 'осмотр и подготовка участка'],
       pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'трассировка трубопроводов'],
-      
+
       watering: ['полив и уход после посадки', 'первый полив и уход после посадки', 'смета и проектная документация'],
-      
+
       equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей', 'технология посадки пальм', 'подбор оборудования для полива'],
-      
+
       automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав', 'автоматизация полива'],
-      
+
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
-      
+
       trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil', 'site assessment and preparation'],
       pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'irrigation pipe routing'],
-      
+
       watering: ['watering and aftercare', 'initial watering and aftercare', 'cost estimate and project documentation'],
-      
+
       equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges', 'the palm planting process', 'selecting irrigation equipment'],
-      
+
       automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses', 'irrigation automation'],
-      
+
     },
   }
   const languageHeadings = headings[language] || headings.bg
@@ -122,8 +122,6 @@ function renderServiceGallery(images: ServiceGalleryImage[], language: string) {
     </section>
   )
 }
-
-
 
 function getLeadFieldLabel(field: any, language: string): string {
   const localizedLabels: Record<string, Record<string, string>> = {
