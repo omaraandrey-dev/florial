@@ -63,7 +63,7 @@ function renderImageGallery(images: ServiceContentBlock[], group: string, langua
   const singleImage = images.length === 1
   return (
     <section
-      aria-label={language === 'ru' ? 'Фотографии этапов проекта системы полива' : language === 'en' ? 'Irrigation design process photos' : 'Снимки от етапите на проектиране на поливна система'}
+      aria-label={language === 'ru' ? 'Иллюстрации к разделам услуги' : language === 'en' ? 'Service section illustrations' : 'Илюстрации към разделите на услугата'}
       className={singleImage ? 'my-8 flex justify-center' : group === 'intro' ? 'my-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' : 'my-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3'}
     >
       {images.map((image, index) => {
