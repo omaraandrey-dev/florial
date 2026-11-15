@@ -1,3 +1,11 @@
+## 2026-11-15 — Valve product descriptions published; storefront visual check remains open
+
+- All 17 published products in Sanity valve category `klapani` and its 24 V / 9 V child categories now have expanded BG/RU/EN descriptions with five H2 sections, bold emphasis, practical lists and internal links.
+- Production read-back confirmed 17/17 published, 0 remaining drafts; five H2 headings and two internal links per locale. Product commercial data, SEO, images, specifications and references were preserved.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-15-valve-products-before-description-refresh.xml`; detailed audit: `docs/audits/2026-11-15-valve-product-descriptions.md`.
+- **Still to verify:** visually inspect representative DV/DVF, HV/HVF, PGA, PEB and LFV product pages in the live storefront (BG/RU/EN), including internal-link navigation and mobile layout.
+- Google recrawl/indexing and search impact are not confirmed. No code/schema or Pages deployment was required for this content-only update.
+
 ## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
 
 - All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.
