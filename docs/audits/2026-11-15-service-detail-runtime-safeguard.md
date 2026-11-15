@@ -17,7 +17,7 @@ Investigate the owner-reported failure where opening any individual service page
 ## Changes in this hotfix
 
 - Generate the lead idempotency key using `crypto.randomUUID` when supported, otherwise use `crypto.getRandomValues`, with a final non-cryptographic fallback so the page itself does not fail to mount.
-- Wrap the individual service page in a localized React error boundary. Unexpected render failures now show a recovery screen with navigation back to the services list rather than an empty page; the exception is logged to the browser console.
+- Wrap the individual service page in a localized React error boundary. Unexpected render failures now show a recovery screen with navigation to the homepage rather than an empty page; the exception is logged to the browser console.
 - Add regression checks for both safeguards.
 
 ## Safety
