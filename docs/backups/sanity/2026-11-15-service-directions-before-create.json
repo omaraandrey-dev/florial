@@ -1,0 +1,10 @@
+{
+  "snapshotDate": "2026-11-15",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "raw",
+  "query": "*[_type == \"serviceDirection\"]{_id, _type, name, \"slug\": coalesce(slug.current, slug)}",
+  "existingDocumentCount": 0,
+  "documents": [],
+  "note": "Pre-create snapshot. Read-only Sanity query returned zero existing serviceDirection documents in raw perspective; there are no prior direction documents to overwrite."
+}
