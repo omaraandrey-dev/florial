@@ -1,3 +1,11 @@
+## 2026-11-15 — Git workflow hardened to prevent shared-document PR conflicts
+
+- Root cause confirmed for documentation PR batch #283–#288: all branches were created from the same base commit `e7ba53839775599c7a9625d8eef4b21a520efebd`. PR #283 merged first and changed the opening sections of `CHANGELOG.md` and `docs/AI/OPEN_QUESTIONS.md`. The remaining branches were not synchronized with the new `main` and independently inserted entries into the same shared files; PR #284–#288 also touched the opening section of `docs/TECHNICAL_PASSPORT.md`. This caused predictable content conflicts.
+- This was a Git branch/documentation integration process failure, not a Sanity catalog/data conflict. No product content was lost as a result of the Git merge conflict itself.
+- Added mandatory branch-base, shared-document ownership, parallel-work, PR preflight, sequential merge and post-merge revalidation rules to `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
+- Future parallel content tasks should keep unique audit/backup artifacts on their task branches and consolidate shared-document updates in one integration pass/PR, or synchronize each branch against the latest `main` before its PR/merge.
+- This is a documentation/process-only change. No Sanity, application code, Cloudflare configuration, D1, Resend or Production deployment was changed.
+
 ## 2026-11-15 — Rain Bird sprinkler product descriptions expanded and published
 
 - Reviewed all 20 published products linked to the Sanity category `sprinklers` and its two child categories in project `bxvcy0qs`, dataset `production`: 8 rotor sprinklers and 12 static spray bodies.

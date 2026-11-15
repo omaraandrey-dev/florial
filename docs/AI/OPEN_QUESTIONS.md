@@ -1,3 +1,11 @@
+## 2026-11-15 — Resolved process finding: prevent shared-document PR conflicts
+
+- **Root cause identified:** PRs #283–#288 were created from the same base commit `e7ba53839775599c7a9625d8eef4b21a520efebd`. After #283 changed the top sections of `CHANGELOG.md` and `docs/AI/OPEN_QUESTIONS.md`, PRs #284–#288 remained based on the old commit and attempted overlapping top-of-file insertions; those PRs also independently edited `docs/TECHNICAL_PASSPORT.md`.
+- **Classification:** Git integration/documentation conflict. This does not indicate a conflict in published Sanity product data.
+- **Preventive rule added:** new branches must start from latest `main`; parallel tasks must not independently edit shared documentation; shared updates should be consolidated or branches synchronized sequentially; PR changed-file overlap and mergeability must be checked before opening and immediately before merge; refresh `main` after every merge.
+- Rules are now recorded in `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md` on this branch. They become authoritative for all project work after this documentation PR is merged.
+- **Current remediation status:** the older content PRs #284–#288 have not been rebased or merged as part of this process-rule change. Their diffs must be reviewed and synchronized separately before merging; preserve every unique audit and backup and all shared-document entries.
+
 ## 2026-11-15 — Sprinkler product descriptions published; storefront visual check remains open
 
 - All 20 published products in Sanity category `sprinklers` and its two child categories now have expanded BG/RU/EN formatted descriptions.
