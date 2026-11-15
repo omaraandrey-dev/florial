@@ -32,7 +32,6 @@ export function Header({
   plantCategories,
   cart,
   siteSettings,
-  onNavigateHome,
   onNavigateService,
   onNavigateCategory,
   onNavigateContacts,
