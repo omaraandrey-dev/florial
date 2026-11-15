@@ -184,6 +184,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       send({ type: 'progress', stage, message, elapsedMs: Date.now() - startedAt, requestId, mode })
     }
     let providerHttpStatus: number | undefined
+    let providerRetryAttempts = 0
     let providerContentType = ''
     let providerFinishReason = ''
     let providerPromptBlockReason = ''
@@ -229,7 +230,6 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
       progress('google_connect', 'Свързваме се с Google Gemini 3.5 Flash-Lite. Изчакваме първия фрагмент отговора.')
 
       let apiResponse: Response
-      let providerRetryAttempts = 0
       const maxProviderRetries = 2
       try {
         while (true) {

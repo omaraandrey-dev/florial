@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {useClient} from 'sanity'
+import {useClient, type PreviewProps} from 'sanity'
 
 interface PreviewProduct {
   name?: string
   imageUrl?: string
 }
 
-interface KitComponentPreviewProps {
+interface KitComponentPreviewProps extends PreviewProps {
   productRef?: string
   quantity?: number
   unit?: string

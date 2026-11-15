@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { ServiceItem, ServiceRolePhoto } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'

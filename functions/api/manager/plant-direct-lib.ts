@@ -191,7 +191,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
 export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,
-  role: string,
+  _role: string,
   existing?: PlantDocument,
   isCreate = false,
 ): Promise<{ set: Record<string, unknown>; changedFields: string[] }> => {

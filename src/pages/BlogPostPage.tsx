@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
 import {applyPageSeo, setStructuredData} from '../lib/seo'
 import {localizedHref} from '../lib/navigation'

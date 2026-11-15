@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -228,7 +228,7 @@ export function CategoryPage({
   }, [isIrrigationCatalog, subCategories, language])
 
   const plantFilterOptions = useMemo(() => ({
-    types: [...new Set(products.map((product) => product.productType).filter((value): value is string => Boolean(value)))].sort(),
+    types: [...new Set(products.map((product) => product.productType).filter((value): value is NonNullable<typeof value> => Boolean(value)))].sort(),
     winterTemps: [...new Set(products.map((product) => product.plantCare?.minWinterTempC).filter((value): value is number => typeof value === 'number'))].sort((a, b) => a - b),
   }), [products])
 

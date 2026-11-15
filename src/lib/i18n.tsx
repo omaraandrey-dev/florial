@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useMemo, useState, useEffect, type ReactNode } from 'react'
 import bgLocale from './i18n/bg'
 import type { LocaleMessages } from './i18n/types'
 

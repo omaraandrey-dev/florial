@@ -857,7 +857,7 @@ const plantProduct = defineType({
       description: 'Ботаническа или търговска група на растението. Стойността plant се запазва за съществуващите продукти.',
       type: 'string',
       options: {list: plantProductTypes},
-      validation: Rule => Rule.valid(plantProductTypes.map(item => item.value)),
+      validation: Rule => Rule.custom(value => value == null || plantProductTypes.some(item => item.value === value) || 'Изберете валиден тип растение.'),
     }),
     defineField({name: 'scientificName', title: 'Ботаническо име', type: 'string'}),
     defineField({name: 'category', title: 'Основна категория', type: 'reference', to: [{type: 'category'}]}),

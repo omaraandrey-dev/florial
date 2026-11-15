@@ -288,7 +288,7 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
   const managerUrl = new URL('/manager', requestUrl).toString()
   const fieldRows = Object.entries(fields).map(([key, value]) =>
     '<tr><td style="padding:7px;border-bottom:1px solid #e5e7eb;font-weight:600">' + escapeHtml(key) +
-    '</td><td style="padding:7px;border-bottom:1px solid #e5e7eb">' + escapeHtml(value) + '</td></tr>',
+    '</td><td style="padding:7px;border-bottom:1px solid #e5e7eb">' + escapeHtml(String(value ?? '')) + '</td></tr>',
   ).join('')
   const ownerHtml = '<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c"><h2>Нова заявка за услуга — Florial</h2>' +
     '<p><strong>Номер:</strong> ' + escapeHtml(leadNumber) + '<br><strong>Услуга:</strong> ' + escapeHtml(serviceName) +

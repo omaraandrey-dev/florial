@@ -1,4 +1,3 @@
-import React from 'react'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { formatKitQuantity, getKitComponentDisplayRows, hasKitComponents, isKitComponentLinkable } from '../lib/richTextUtils.mjs'
 

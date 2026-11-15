@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useI18n } from '../lib/i18n'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { applyPageSeo } from '../lib/seo'
@@ -24,7 +24,6 @@ export function HomePage({
   categories,
   plantCategories,
   heroImageUrl,
-  siteSettings,
   onNavigateService,
   onNavigateCategory,
 }: HomePageProps) {

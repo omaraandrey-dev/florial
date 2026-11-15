@@ -122,7 +122,7 @@ export const parseBody = async (request: Request): Promise<Record<string, unknow
 }
 
 export const nowIso = () => new Date().toISOString()
-export const newId = () => crypto.randomUUID()
+export const newId = (): string => crypto.randomUUID()
 const bytesToHex = (bytes: Uint8Array) => Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
 const hexToBytes = (value: string) => new Uint8Array((value.match(/.{2}/g) || []).map((part) => Number.parseInt(part, 16)))
 export const randomHex = (length = 32) => {

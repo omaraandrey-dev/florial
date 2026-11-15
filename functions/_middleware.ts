@@ -587,7 +587,7 @@ function localizedRouteUrl(path: string, language: string): string {
   return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: string, h1 = name, plantProducts?: SeoPlantProduct[]): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
   // Category hero imagery is rendered responsively by the client app.
   // Do not emit a raw fallback <img> for categories: it is downloaded before
   // the responsive desktop-only category hero CSS can hide it on mobile.
@@ -642,7 +642,7 @@ function makeProductJsonLd(doc: SeoDocument, name: string, description: string, 
   }
 }
 
-function makeServiceJsonLd(doc: SeoDocument, name: string, description: string, url: string): Record<string, unknown> {
+function makeServiceJsonLd(doc: Pick<SeoDocument, 'serviceCategory' | 'imageUrl'>, name: string, description: string, url: string): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -751,7 +751,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
     return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
   }
-  const language = languageParam === 'ru' || languageParam === 'en' ? languageParam : 'bg'
+  const language: 'bg' | 'ru' | 'en' = languageParam === 'ru' ? 'ru' : languageParam === 'en' ? 'en' : 'bg'
 
   if (
     path.startsWith('/api/') ||
