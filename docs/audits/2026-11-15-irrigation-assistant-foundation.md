@@ -8,7 +8,7 @@ Branch: `feat/irrigation-assistant-foundation`
 
 - Added a persistent, compact, circular floating launcher on the left side of storefront pages, with a responsive hint and keyboard focus styling.
 - The launcher retrieves the existing published Sanity photo document `309c6f57-7fd9-406a-ba32-3778a65ee3dd`, slug `inzhener-polivni-sistemi`, rather than copying or changing the service photo.
-- Added the separate route `/irrigation-assistant`; the assistant page is marked `noindex`.
+- Added the separate route `/irrigation-assistant`; server middleware sets `noindex, nofollow` in the initial HTML and `X-Robots-Tag: noindex, nofollow, noarchive` before the client app runs. The page also maintains the client-side noindex metadata.
 - Added the first localized BG/RU/EN wizard for lawn irrigation: plot shape, dimensions or area, water source, optional measured flow and pressure, and site notes.
 - The final step displays the collected site information.
 
@@ -54,10 +54,11 @@ These are manufacturer references for the calculation dataset. Before implementa
 - No D1, order, checkout, Resend, Cloudflare setting, binding, secret or DNS changes.
 - No Header, navigation menu or Footer component changes.
 - The application shell is extended only to mount the launcher and resolve the dedicated assistant route.
+- The Pages middleware adds a route-scoped noindex response for `/irrigation-assistant`; no other route behavior is changed.
 - Photo source is queried read-only from Sanity Production.
 
 ## Verification status
 
-- Source-level review: pending final PR review.
-- TypeScript, lint, tests and Vite build: pending exact-head GitHub Actions.
+- Initial implementation CI passed on source commit `05bfecd02f290dc79fbe52a4513660d30a0a8f45`.
+- Server-side noindex hardening is in commit `850574b7814a7d6678539b7d57e46d90837229b9`; exact-head CI is required again before merge.
 - Production deployment and live visual QA: not performed in this branch.
