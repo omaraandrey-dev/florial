@@ -384,12 +384,13 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
   const heroImageAlt = (locale === 'ru' ? directionDocument?.imageAltRu : locale === 'en' ? directionDocument?.imageAltEn : directionDocument?.imageAlt) || (locale === 'ru' ? photo?.imageAltRu : locale === 'en' ? photo?.imageAltEn : photo?.imageAlt) || direction?.title[locale] || ''
   const entries = useMemo(() => {
     if (!direction) return []
+    const categorySet = new Set(categoryKey.split('|'))
     return getOrderedServiceEntries(services).filter((entry) =>
       entry.kind === 'delivery'
-        ? categories.includes('delivery')
-        : categories.includes(entry.service.serviceCategory || '')
+        ? categorySet.has('delivery')
+        : categorySet.has(entry.service.serviceCategory || '')
     )
-  }, [services, direction, directionDocument, categoryKey])
+  }, [services, direction, categoryKey])
 
   useEffect(() => {
     if (!direction || !copy) return
