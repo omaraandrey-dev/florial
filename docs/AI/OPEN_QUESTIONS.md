@@ -2,7 +2,7 @@
 
 - **Specified:** first engineering module is automatic lawn irrigation; detailed scope and acceptance criteria are in `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
 - **Specified:** Gemini is not the hydraulic solver. It may normalize customer answers, identify missing inputs, interpret drawings as unconfirmed drafts and explain verified results. The Florial deterministic engine owns geometry/coverage/hydraulic calculations and exact SKU compatibility.
-- **Preview verified in PR #303:** launcher appears on irrigation equipment category/product, `/services/category/polivni-sistemi` and individual irrigation service pages; absent on homepage, plant category and planting service. Exact-head CI and Cloudflare Preview passed. Production release is not yet confirmed.
+- **Released in PR #303:** merged as `69ac9e5d2a5762f0bba97b8225fbb79ba85a3dd7`; exact-head CI passed and Production deployment `28954ce2-d134-4a56-9eb7-dad7576ea116` succeeded. Preview QA verified eligible/ineligible route behavior; Production QA confirmed the irrigation catalogue root and `polivni-sistemi` direction. Remaining live Production negative-route checks should be closed during follow-up.
 - **Required before calculator implementation:** exact Rain Bird SKU/performance-table audit; measured dynamic flow and pressure; scaled geometry and exclusions; engineer-reviewed baseline cases; paid Gemini API privacy/cost review before customer data is sent.
 - **Not implemented:** hydraulic engine, Gemini endpoint, Cloudflare secret, product selector, cart integration or project PDF.
 
