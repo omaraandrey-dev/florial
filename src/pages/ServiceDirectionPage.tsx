@@ -380,7 +380,7 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
     ? directionDocument.serviceCategories
     : (direction?.categories || [])
   const heroImageUrl = directionDocument?.imageUrl || photo?.imageUrl
-  const heroImageAlt = directionDocument?.imageAlt?.[locale] || (locale === 'ru' ? photo?.imageAltRu : locale === 'en' ? photo?.imageAltEn : photo?.imageAlt) || direction?.title[locale] || ''
+  const heroImageAlt = (locale === 'ru' ? directionDocument?.imageAltRu : locale === 'en' ? directionDocument?.imageAltEn : directionDocument?.imageAlt) || (locale === 'ru' ? photo?.imageAltRu : locale === 'en' ? photo?.imageAltEn : photo?.imageAlt) || direction?.title[locale] || ''
   const entries = useMemo(() => {
     if (!direction) return []
     return getOrderedServiceEntries(services).filter((entry) =>
