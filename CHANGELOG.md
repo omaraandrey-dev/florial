@@ -1,3 +1,15 @@
+## 2026-11-15 — Rain Bird controller product descriptions expanded and published
+
+- Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
+- Reworked the Bulgarian `description` Portable Text and added localized `translations.ru.formattedDescription` / `translations.en.formattedDescription` for all 24 products (72 locale-specific description fields). Each description now has 4–5 H2 sections, selective bold emphasis and one verified internal link. H3 was not needed because the product sections are not nested.
+- Product families covered: ESP-TM2 (8), ESP-RC2 (4), ESP-BAT-BT (4), ESP-9V and ESP-9V-DVF-KIT (5), LNK2 Wi-Fi module (1), 1ZEHTMR hose-end timer (1), and RSD-BEx rain sensor (1).
+- Content explains model-specific station count, indoor/outdoor mounting, power source, programming, connectivity, valve/sensor compatibility, use cases and installation considerations. Numeric claims were checked against Sanity product specifications and Rain Bird manufacturer documentation.
+- Full pre-change snapshots of all 24 published product documents were committed before writing: `docs/backups/sanity-controllers-before-description-refresh-2026-11-15.json`.
+- Sanity validation returned 24/24 valid. The validator marked checks incomplete only because custom validation callbacks (including custom slug uniqueness callbacks) are not executed by this tool; built-in checks passed. All 24 drafts were published with revision guards. Production read-back confirmed 24/24 published, 0 remaining drafts, 4–5 H2 headings per description and one internal link in each locale.
+- Compared the backup with post-publication Production data: names, slugs, SKUs, prices, old prices, stock, product types, categories, images/galleries, related-content references, SEO and specifications are unchanged. Only the requested description fields were updated.
+- Frontend inspection confirms the existing `RichText` renderer supports H2/H3, strong marks and safe internal links. No application code, schema, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live visual/browser verification of the storefront page was not completed in this run; Google recrawl/indexing is also not confirmed. Detailed audit: `docs/audits/2026-11-15-irrigation-controller-product-descriptions.md`.
+
 ## 2026-11-15 — Four flower subcategory SEO articles published in Sanity
 
 - Added localized footer `seoContent` to all four child categories of `plants-flowers`: `plants-perennials` (`mnogogodishni-tsvetya`), `plants-seasonal-flowers` (`sezonni-tsvetya`), `plants-groundcovers` (`pochvopokrivni`) and `plants-ornamental-grasses` (`dekorativni-trevi`).
