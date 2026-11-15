@@ -1,3 +1,13 @@
+## 2026-11-15 — TypeScript and CI checks merged and deployed (PR #299)
+
+- PR #299 `ci: add TypeScript checks for app and Pages Functions` was squash-merged into `main` as commit `e2329572f8af211a109434a8d9807610e59b7926`.
+- Added root `npm run typecheck` covering the Vite/React app and Cloudflare Pages Functions, plus `studio/tsconfig.json` and `studio` `npm run typecheck` for Sanity Studio.
+- Extended the existing Blog and Studio GitHub Actions workflow to run both TypeScript checks on PRs targeting `main` and pushes to `main`; existing lint, tests, builds and migration validation remain enabled.
+- Exact PR-head validation passed: Blog and Studio run #1315 (and #1314), Sanity Studio run #170, D1 validation run #1644; 167 Node tests passed. Cloudflare Pages Preview for the PR head succeeded.
+- Cloudflare Pages Production deployment `a9588c4c-cc85-46fa-b3c8-4d8f7e3e2e36` deployed the exact merge commit `e2329572f8af211a109434a8d9807610e59b7926` to `florial-bg.com` and `www.florial-bg.com`; all deployment stages succeeded.
+- No dependency versions/lockfiles, Sanity content/schema, D1 schema/data, Cloudflare bindings/secrets or DNS were changed. Root and Studio checks retain non-strict TypeScript behavior; a deliberate `strict: true` migration and React 18 runtime / React 19 type alignment remain separate follow-ups.
+- Audit: `docs/audits/2026-11-15-typescript-ci-validation.md`.
+
 ## 2026-11-15 — Rain Bird nozzle product descriptions expanded and published
 
 - Reviewed all 26 published products in Sanity category `nozzles` and its two child categories: 17 spray nozzles and 9 rotary nozzles.
