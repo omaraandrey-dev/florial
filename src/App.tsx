@@ -221,7 +221,7 @@ export default function App() {
   useEffect(() => {
     let cancelled = false
     sanityClient.fetch(
-      `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{\n        "imageUrl": image.asset->url, image.alt, image.altEn, image.altRu\n      }`,
+      `*[_type == "photo" && coalesce(slug.current, slug) == $slug && isActive != false][0]{\n        "imageUrl": image.asset->url,\n        "imageAlt": image.alt,\n        "imageAltEn": image.altEn,\n        "imageAltRu": image.altRu\n      }`,
       { slug: 'inzhener-polivni-sistemi' }
     ).then((photo) => {
       if (!cancelled && photo?.imageUrl) setIrrigationAssistantPhoto(photo)
