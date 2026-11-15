@@ -112,7 +112,7 @@ export function buildPlantCatalogOffers(
   getVariantName: (variant: PlantSaleVariant, index: number) => string,
   locale: string,
 ): PlantCatalogOffer[] {
-  const offers = products.flatMap((product) => {
+  const offers: PlantCatalogOffer[] = products.flatMap((product) => {
     const variants = product.saleVariants || []
     if (variants.length === 0) return [{ product }]
 
