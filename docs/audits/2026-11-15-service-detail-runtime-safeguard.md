@@ -31,8 +31,8 @@ Investigate the owner-reported failure where opening any individual service page
 ## Verification status
 
 - Root-cause attribution: confirmed by the Preview browser's exact exception `direction is not defined`.
-- Preview deployment for final implementation head `4dc95435a57ce562e3028cefa8a93f327b3d5bd4`: success.
+- Preview deployment for implementation head `4dc95435a57ce562e3028cefa8a93f327b3d5bd4`: success; documentation-updated final PR head `92a5597ce264754f4b37977ae788cef021645fc5` also has a successful Preview deployment.
 - Browser Rendering smoke tests on that Preview returned HTTP 200 with page content and no error fallback for individual services `avtomatichno-napoyavane` (BG/RU/EN), `landshaften-dizain`, `zasazhdane-na-rasteniya`, `rulonna-treva`; all four specialist direction routes also returned HTTP 200 with their expected localized H1/content.
-- CI on final head: D1 migration validation success; Blog and Studio validation website lint, utility tests, website build and migration dry-run passed; Studio build was still running at the time of this audit update.
+- CI on final PR head `92a5597ce264754f4b37977ae788cef021645fc5`: Blog and Studio validation run `43732030271` — success; 167/167 utility tests passed, website lint/build and Sanity Studio build passed. D1 migration validation run `43732029062` — success.
 - Direct owner-device QA: still recommended after Production release; the owner's browser is not accessible from this environment.
 - Shared documentation updates are deferred to the next synchronized integration pass to avoid conflicts with the existing documentation PR batch.
