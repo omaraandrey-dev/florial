@@ -15,6 +15,7 @@ export type CategorySeoProposal = {
   h1: string
   metaTitle: string
   metaDescription: string
+  noIndex?: boolean
 }
 
 type LocalizedTerms = {
@@ -301,5 +302,6 @@ export function resolveCategorySeo(
     metaDescription: typeof seo?.metaDescription === 'string' && seo.metaDescription.trim()
       ? seo.metaDescription.trim()
       : generatedFallback.metaDescription,
+    noIndex: seo?.noIndex === true,
   }
 }
