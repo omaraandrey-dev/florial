@@ -1,3 +1,12 @@
+## 2026-11-15 — Sprinkler product descriptions published; storefront visual check remains open
+
+- All 20 published products in Sanity category `sprinklers` and its two child categories now have expanded BG/RU/EN formatted descriptions.
+- Each locale has five H2 sections, bold emphasis and two internal links. Production read-back confirmed 20/20 published and no remaining drafts.
+- Prices, stock, SKUs, slugs, category references, images, product specifications, related-content references and SEO were preserved.
+- Pre-change snapshot: `docs/backups/sanity-sprinklers-before-description-refresh-2026-11-15.json`; detailed audit: `docs/audits/2026-11-15-irrigation-sprinkler-product-descriptions.md`.
+- **Still to verify:** visually inspect representative 5000/Falcon/8005 rotor pages and 1800/UNI-Spray static pages in BG/RU/EN, including both internal links and mobile layout. The live fetch was blocked by exhausted Firecrawl credits; direct web access to the storefront page also failed.
+- Google recrawl/indexing and search impact are not confirmed. No code/schema or Pages deployment was required for this content-only update.
+
 ## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
 
 - All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.

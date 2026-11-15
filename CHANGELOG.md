@@ -1,3 +1,16 @@
+## 2026-11-15 — Rain Bird sprinkler product descriptions expanded and published
+
+- Reviewed all 20 published products linked to the Sanity category `sprinklers` and its two child categories in project `bxvcy0qs`, dataset `production`: 8 rotor sprinklers and 12 static spray bodies.
+- Reworked Bulgarian `description` Portable Text and added localized `translations.ru.formattedDescription` / `translations.en.formattedDescription` for all 20 products (60 locale-specific description fields).
+- Every locale now has five H2 sections, selective strong emphasis and two verified internal links: the nozzles category and the sprinkler installation/adjustment/repair article. H3 was not needed because the sections are not nested.
+- Product families covered: 5000 Series (2), Falcon 6504 (2), 3500 Series (2), 8005 Series (2), 1800 spray bodies (7), and UNI-Spray (5).
+- Content distinguishes model-specific arc, radius, pressure, flow, pop-up height, nozzle configuration and features such as SAM, Plus Flow Shut-Off, Memory Arc and the 8005SS stainless-steel riser. Numeric claims were checked against the product specifications already stored in Sanity and Rain Bird manufacturer documentation.
+- Full pre-change snapshots of all 20 published product documents were committed before writing: `docs/backups/sanity-sprinklers-before-description-refresh-2026-11-15.json`.
+- Sanity validation returned 20/20 valid. The validator marked checks incomplete only because custom validation callbacks (including custom slug uniqueness callbacks) are not executed by this tool; built-in checks passed. All 20 drafts were published with revision guards. Production read-back confirmed 20/20 published, 0 remaining drafts, five H2 headings, four strong-marked spans and two internal links per locale.
+- Compared the full backup with post-publication Production documents: all fields outside the requested Bulgarian description and RU/EN formattedDescription fields are unchanged, including names, slugs, SKUs, prices, stock, product types, categories, images/galleries, related-content references, SEO and specifications.
+- Existing `RichText` rendering supports H2/H3, strong marks and safe internal links. No application code, schema, navigation, analytics, sitemap/RSS, Cloudflare configuration, D1, Resend or Pages deployment changed.
+- Live visual/browser verification could not be completed: Firecrawl's connected account reported insufficient credits and the direct web fetch could not access the storefront URL. Google recrawl/indexing is also not confirmed. Detailed audit: `docs/audits/2026-11-15-irrigation-sprinkler-product-descriptions.md`.
+
 ## 2026-11-15 — Rain Bird controller product descriptions expanded and published
 
 - Reviewed all 24 published products linked to the Sanity category `controllers` and its four child categories in project `bxvcy0qs`, dataset `production`.
