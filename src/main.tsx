@@ -1,3 +1,5 @@
+import './instrument'
+import * as Sentry from '@sentry/react'
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -17,6 +19,24 @@ const isTermsRoute = window.location.pathname.replace(/\/+$/, '') === '/terms'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Sentry.ErrorBoundary
+      fallback={({ resetError }) => {
+        const locale = new URLSearchParams(window.location.search).get('lang') || navigator.language.slice(0, 2)
+        const copy = locale === 'ru'
+          ? { message: 'Не удалось открыть страницу. Попробуйте ещё раз.', action: 'Повторить' }
+          : locale === 'en'
+            ? { message: 'We could not load this page. Please try again.', action: 'Try again' }
+            : { message: 'Страницата не можа да се зареди. Опитайте отново.', action: 'Опитайте отново' }
+        return (
+          <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-4 text-center text-slate-700" role="alert">
+            <p>{copy.message}</p>
+            <button type="button" onClick={resetError} className="rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white hover:bg-emerald-800">
+              {copy.action}
+            </button>
+          </main>
+        )
+      }}
+    >
     {isManagerRoute ? (
       <Suspense fallback={
         <main
@@ -54,5 +74,6 @@ createRoot(document.getElementById('root')!).render(
               <AnalyticsConsent />
       </LanguageProvider>
     ) : <LanguageProvider><><App /><AnalyticsConsent /></></LanguageProvider>}
+    </Sentry.ErrorBoundary>
   </StrictMode>,
 )
