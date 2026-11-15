@@ -1,3 +1,12 @@
+## 2026-11-15 — Valve boxes and hydrant accessory descriptions published in Sanity Production
+
+- Published expanded BG/RU/EN descriptions for all 7 products in Sanity category `shahti` (display name `Шахти`): P33, P33DK, VBA02672, VBA02673, VBA02674, VBA02675 and VBA17186.
+- Fields: BG `description`; RU/EN `translations.*.formattedDescription`. Each locale has four H2 sections, bold emphasis, three practical bullets and internal links to the valve category and automatic-irrigation service.
+- Preserved product distinctions and manufacturer dimensions: P33/P33DK quick-coupling pair; round VBA02672 bayonet lid and VBA02673 clip-on lid; L/XL rectangular boxes and their separate extensions; VBA17186 integrated 3/4-inch hydrant. Did not invent the VBA17186 maximum pressure or guarantee VBA02673's stated capacity independently of actual component layout.
+- Full pre-write snapshots: `docs/backups/sanity/2026-11-15-valve-box-products-before-description-refresh.xml`; detailed audit: `docs/audits/2026-11-15-valve-box-product-descriptions.md`.
+- Production read-back: 7/7 published, 0 drafts; four H2 and two link spans per locale. Validator reports valid, with custom validation callbacks not executed.
+- No code, schema, category relationships, SEO, images, commercial fields, Cloudflare, D1, Resend or Pages deployment changes. Live visual check and Google recrawl remain unconfirmed.
+
 ## 2026-11-15 — Flower subcategory SEO content published
 
 - Published localized `seoContent` for the four Sanity child categories of `plants-flowers`: perennials, seasonal flowers, ground covers and ornamental grasses.
