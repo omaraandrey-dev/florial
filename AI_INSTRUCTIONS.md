@@ -17,7 +17,9 @@ ChatGPT Project instructions задают правила поведения Chat
 Если GitHub недоступен или документы нельзя прочитать — сообщить и остановить рискованные изменения. Не подменять проверку памятью, старыми чатами или копиями.
 
 ## Действующая архитектура
-GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. **Supabase полностью исключён.** Не добавлять Supabase SDK, Auth, Storage, PostgreSQL, RLS, Data API или migrations в действующий runtime/workflows. Материалы `docs/archive/supabase/` — только исторические; не выполнять их и не восстанавливать по ним инфраструктуру.
+GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. **Supabase полностью исключён из действующей архитектуры и runtime.** Не добавлять Supabase SDK, Auth, Storage, PostgreSQL, RLS, Data API или migrations в действующий runtime/workflows. Материалы `docs/archive/supabase/` — только исторические; не выполнять их и не восстанавливать по ним инфраструктуру.
+
+**Legacy Cloudflare variables — решение владельца от 15.11.2026:** существующие `SUPABASE_*` / `VITE_SUPABASE_*` entries в Cloudflare Pages Preview/Production намеренно сохранены «на всякий случай». Безопасный аудит завершён, вопрос закрыт. Не удалять, не переименовывать, не ротировать и не менять эти entries; не читать/выводить их значения. Их наличие не означает использование Supabase: Florial runtime не обращается к Supabase. Не открывать вопрос заново без прямого решения владельца.
 
 ## Безопасность
 - Не выдумывать файлы, функции, ID, настройки, данные и результаты проверок.
