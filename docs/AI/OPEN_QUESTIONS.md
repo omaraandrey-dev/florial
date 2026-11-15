@@ -1,3 +1,11 @@
+## 2026-11-15 — Nozzle product descriptions published; storefront visual check remains open
+
+- All 26 published products linked to Sanity category `nozzles` and its two child categories now have expanded BG/RU/EN descriptions. Production read-back confirmed 26/26 published and zero remaining drafts.
+- Every locale has five H2 sections, four bold spans and two internal links. The links to `spray-nozzles`, `rotator-nozzles` and the existing sprinkler installation/repair article were verified against published Sanity slugs.
+- Prices, stock, SKUs, slugs, category references, images, product specifications, related content and SEO were preserved. Pre-write snapshot: `docs/backups/sanity/2026-11-15-nozzles-before-description-refresh.json`; detailed audit: `docs/audits/2026-11-15-nozzle-product-descriptions.md`.
+- **Still to verify:** visually inspect representative VAN, HE-VAN, R-VAN and strip-nozzle product pages in BG/RU/EN, including internal-link navigation and mobile layout. Live storefront rendering was not confirmed in this run.
+- Google recrawl/indexing and resulting search changes are not confirmed. No code/schema change or Pages deployment was required for this content-only update.
+
 ## 2026-11-15 — Controller product descriptions published; storefront visual check remains open
 
 - All 24 published products in Sanity category `controllers` and its four child categories now have expanded BG/RU/EN descriptions with H2 structure, bold emphasis and internal links.
