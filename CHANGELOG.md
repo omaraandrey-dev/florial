@@ -1,3 +1,14 @@
+## 2026-11-15 — Completed missing SEO articles across all catalogue categories
+
+- Audited all 71 published categories across Sanity datasets `plants` (17) and `production` (54). Eight categories lacked localized footer `seoContent`: six plant categories and two irrigation/equipment categories.
+- Published BG/RU/EN articles for `plants-broadleaf`, `plants-citrus`, `plants-exotic`, `plants-flowering-shrubs`, `plants-indoor`, `plants-trees-shrubs`, equipment fitting `90ab6b0d-7b56-4cf2-946e-129c60ab204f`, and solenoid valves `25a5e3e5-b937-4beb-882c-b6708337c81d`.
+- Each category has 27 Portable Text blocks per locale (9 H2 + 18 paragraphs). Published read-back confirmed all three locale arrays for all eight documents.
+- Full pre-write snapshots: `docs/backups/sanity/2026-11-15-all-categories-before-seo-content.json` (six plant + one equipment fitting category) and `docs/backups/sanity/2026-11-15-solenoid-valves-category-before-seo-content.json`.
+- Repeated published-data audit: zero categories missing BG/RU/EN `seoContent` in either dataset. Existing SEO content in the other 63 categories was preserved.
+- Validation: seven new documents reported valid/incomplete because custom callbacks were not run. Solenoid-valve validation flagged pre-existing root fields `seoTitle` and `seoDescription` as unknown in the currently resolved category schema; these legacy fields were preserved unchanged and publication succeeded.
+- Source-level renderer check: `CategoryPage.tsx` selects localized category content and renders it with `RichText`. Live browser rendering was not verified because Firecrawl credits were exhausted before requests ran. Google recrawl/indexing is not confirmed.
+- No H1/meta, descriptions, help blocks, slugs, images, product data/relationships, schema, code, sitemap/RSS, analytics, Cloudflare, D1, Resend or Production deployment changed. Detailed audit: `docs/audits/2026-11-15-missing-category-seo-articles.md`.
+
 ## 2026-11-15 — Four flower subcategory SEO articles published in Sanity
 
 - Added localized footer `seoContent` to all four child categories of `plants-flowers`: `plants-perennials` (`mnogogodishni-tsvetya`), `plants-seasonal-flowers` (`sezonni-tsvetya`), `plants-groundcovers` (`pochvopokrivni`) and `plants-ornamental-grasses` (`dekorativni-trevi`).
