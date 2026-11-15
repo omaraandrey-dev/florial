@@ -1,3 +1,10 @@
+## 2026-11-15 — Large Washingtonia live-content follow-up
+
+- Sanity Production correction is published: BG name and BG/RU/EN H1, Meta Title and Meta Description now target the 5 m / 300 L large specimen; BG main-image ALT is corrected. Field-scoped before-snapshot: `docs/backups/washingtonia-large-seo-before-2026-11-15.json`.
+- Commercial values and category/image references were preserved and confirmed in the published read-back: EUR 3,000; sale variant 475–525 cm / 300 L; stock quantity 1; `inStock`.
+- **Still pending:** verify the rendered product page in a real browser/Cloudflare Browser Rendering and confirm Google-selected canonical/recrawl through Search Console URL Inspection. The direct public page could not be fetched in this pass.
+- The Bulgarian long description still contains the former misspelling; it was outside the approved SEO/name scope and remains unchanged pending separate approval.
+
 ## 2026-11-14 — Palm category page-level GSC metrics and rendering follow-up
 
 - Page-only GSC last-28-day report returned 5 impressions / 0 clicks for `/category/palmi-yuki`: BG base URL 1 impression (position 60), EN `?lang=en` 2 (position 3), RU `?lang=ru` 2 (position 7.5). The query-level report exposed no query text; this is not zero total impressions.
