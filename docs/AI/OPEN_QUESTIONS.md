@@ -563,3 +563,12 @@
 - Exact current PR head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`; runtime/test code was last changed at `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
 - Stage 8 remains open: candidate search must incorporate no-spray/unapproved regions into placement and direction scoring, not only post-selection checks.
 - Exact polygon containment/adversarial geometry, continuous spray proof, engineer-reviewed reference layouts, hydraulics, DU/SC, wind, installation clearances and full product compatibility remain open. No customer-facing design-ready status.
+
+## 2026-11-16 — Stage 7 merged; next engineering gates remain open
+
+- PR #349 is merged into main at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`; stage-7 code, tests and audit are present.
+- Stage 8: incorporate no-spray and unapproved site areas into candidate position/direction generation and scoring, rather than relying only on post-selection warnings.
+- Stage 9: harden concave/multiple-region/narrow-boundary geometry and adversarial containment; sampled checks are not a continuous proof.
+- Stage 10: integrate confirmed site context and provenance into conversational intake with explicit customer confirmation.
+- Stage 11–13 remain open: hydraulics, dynamic pressure, flow, pipe losses, elevation, zones, precipitation, DU/SC, wind, installation clearance, engineer-approved reference layouts/field validation, Sanity compatibility/BOM, server-side cart revalidation and Gemini second-pass review.
+- No design-ready/customer-facing recommendation status until the applicable engineering and commercial gates are implemented and validated. Engineering workstream is paused after this merge.
