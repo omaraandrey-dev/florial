@@ -45,13 +45,13 @@ These are a single Lighthouse lab run, not CrUX/field data and not a three-run m
 - Inspect the remaining CLS sources in browser Performance trace, especially the header search form and any font/layout changes.
 - Investigate the 13.9 KiB render-blocking CSS separately. Do not defer the main stylesheet without a measured critical-CSS strategy, as that can introduce FOUC and another layout shift.
 - Obtain three matched mobile and desktop Lighthouse runs and compare medians. Field/CrUX data remains unavailable in the supplied report.
-- No Production release, Sanity write, content/schema change, Cloudflare settings/secrets change, D1 or Resend change was made.
+- PR #353 was merged into `main` at `74642455efe284730cdf442efc1b82182e10eda8`; Cloudflare Pages Production deployment `4060e639-d643-496d-ae3f-65706cd85000` succeeded on that exact commit. No Sanity write, content/schema change, Cloudflare settings/secrets change, D1 or Resend change was made.
 
 ## Verification checkpoint
 
 - PR: [#353](https://github.com/omaraandrey-dev/florial/pull/353), final head `c5bce3257c5c3b847f3908abef53f212245ff428`.
 - GitHub Actions on that exact head: Blog and Studio validation run `43915057217` — success; D1 validation run `43915057276` — success. The Blog/Studio workflow completed type-check, lint, website tests, website build, Studio type-check and Studio build.
 - Cloudflare Pages Preview deployment `a62f6149-fb73-4535-9b1a-b3a4acf5806b` — build and deploy success on that exact head; URL: `https://a62f6149.florial.pages.dev`.
-- Read-only Browser Use attempt against BG/RU/EN Preview URLs was blocked by browser-environment `ERR_SOCKS_CONNECTION_FAILED`. This is not evidence of a deployment defect. Visual rendering, initial HTML, image transfer/currentSrc, mobile overflow, console and Footer timing are **not confirmed**.
-- No Lighthouse after-measurement has been obtained. Baseline remains the single owner-supplied run only; do not claim score improvement.
+- Initial Preview browser attempt against BG/RU/EN was blocked by browser-environment `ERR_SOCKS_CONNECTION_FAILED`. A subsequent read-only Production browser check completed successfully at desktop 1440×900 and mobile 390×844: service title, breadcrumbs, hero image and Footer rendered; mobile layout reflowed with no horizontal overflow; hero measured approximately 358×269; no console errors/warnings, uncaught errors or unhandled rejections were observed. No forms were submitted. The privacy dialog and help widget remained visible and were not interacted with. This verifies visible rendering and basic responsive layout only; it does not measure layout-shift during load or inspect transfer bytes/currentSrc/initial HTML.
+- No Lighthouse after-measurement has been obtained. Baseline remains the single owner-supplied run only; do not claim score improvement. Three matched mobile and desktop Lighthouse runs and a Performance trace remain outstanding.
 - The common `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally not edited in this branch because multiple unrelated open PRs currently touch shared documentation. Consolidate the release record in one documentation integration pass after those PRs are reconciled.
