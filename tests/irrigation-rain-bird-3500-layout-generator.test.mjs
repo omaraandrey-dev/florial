@@ -91,3 +91,44 @@ test('reports the sampled search separately from hydraulic and uniformity status
   assert.equal(result.hydraulicFeasibility, 'not_evaluated')
   assert.equal(result.precipitationUniformity, 'not_evaluated')
 })
+
+test('supports bounded finer candidate-grid and direction resolutions for convergence studies', () => {
+  const standard = generateRainBird3500RotorLayout({
+    geometry: rectangle(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sampleStepM: 0.5,
+  })
+  const finer = generateRainBird3500RotorLayout({
+    geometry: rectangle(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sampleStepM: 0.5,
+    candidatePositionStepFactor: 0.25,
+    candidateDirectionStepDeg: 15,
+  })
+  assert.equal(standard.candidateStats.candidatePositionStepFactor, 0.5)
+  assert.equal(standard.candidateStats.candidateDirectionStepDeg, 45)
+  assert.equal(finer.candidateStats.candidatePositionStepFactor, 0.25)
+  assert.equal(finer.candidateStats.candidateDirectionStepDeg, 15)
+  assert.equal(finer.candidateStats.candidatePositionStepM, 2.525)
+  assert.ok(finer.candidateStats.testedCandidates > 0)
+  assert.ok(finer.sprinklers.every((rotor) => rotor.arcDeg === 180))
+})
+
+test('rejects search resolutions outside the bounded deterministic presets', () => {
+  const badPositionStep = generateRainBird3500RotorLayout({
+    geometry: rectangle(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    candidatePositionStepFactor: 0.1,
+  })
+  const badDirectionStep = generateRainBird3500RotorLayout({
+    geometry: rectangle(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    candidateDirectionStepDeg: 10,
+  })
+  assert.equal(badPositionStep.status, 'invalid_operating_input')
+  assert.equal(badDirectionStep.status, 'invalid_operating_input')
+})
