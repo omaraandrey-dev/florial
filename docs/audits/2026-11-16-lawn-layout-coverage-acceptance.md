@@ -28,4 +28,4 @@ Exact-head CI results must be recorded after the PR checks complete. No Sanity, 
 - Exact PR head: `bcb1d5399612e33069dbc1c11f37fa21eaf37c26`.
 - Blog and Studio validation run `43821654485` — success, including application/Pages TypeScript, lint, utility tests, website build, migration checks, Studio TypeScript and Studio build.
 - D1 migration validation run `43821654670` — success.
-- Cloudflare Pages Production deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` was triggered for exact merge commit `df1592ba5519d75487cff030ae8b165a11d5ec35`; build stage succeeded, deploy stage was still active at the time of this audit update. This PR changes tests and audit documentation only; no runtime application code was changed.
+- Cloudflare Pages Production deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` was triggered for exact merge commit `df1592ba5519d75487cff030ae8b165a11d5ec35`; an initial check saw deploy active, and a subsequent read-only recheck confirmed all stages succeeded and aliases `florial-bg.com` / `www.florial-bg.com` were assigned. This PR changes tests and audit documentation only; no runtime application code was changed.
