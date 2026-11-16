@@ -50,6 +50,8 @@ test('generates candidates for mirrored and 90-degree rotated L-shapes', () => {
     assert.ok(result.candidateStats.testedCandidates > 0, transformName)
     assert.ok(result.searchCoverage.sampledTargets > 0, transformName)
     assert.ok(result.sprinklers.length > 0, transformName)
+    assert.equal(result.headToHead?.passed, true, transformName)
+    assert.ok(result.headToHead.checks.every((check) => check.passed), transformName)
     assert.ok(result.sprinklers.every((rotor) => rotor.arcDeg === 180), transformName)
     assert.notEqual(result.status, 'geometry_not_supported', transformName)
     assert.notEqual(result.status, 'geometry_not_accepted', transformName)
