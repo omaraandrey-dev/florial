@@ -3,7 +3,7 @@
 **Date:** 2026-11-16  
 **Base main:** `77ee6047879db9112ea0eee7c542aa1e795ebcc9`  
 **Branch:** `feat/irrigation-intake-layout-engine-v1`  
-**Status:** implementation candidate; CI and engineering review pending
+**Status:** implementation candidate; exact-head CI passed; provisional model-selection rule still requires engineering review
 
 ## Delivered in this increment
 
@@ -17,6 +17,8 @@
 - For geometry outside this narrow envelope, the bridge returns an explicit unsupported result instead of silently forcing a nozzle or model. Larger-radius rotor support remains a separate 3500/5000 engine milestone.
 - The assistant summary now renders the candidate model, manufacturer operating scenario, head count, tabulated flow, sampled coverage, uncovered sample count, head-to-head result, sprinkler coordinates and a simple position diagram in BG/RU/EN.
 - Added declaration types and tests for the bridge.
+- Added exact boundary regression coverage for the provisional short-side rule: 4.0 m and 4.6 m select R-VAN14; 4.6001 m and 5.5 m select R-VAN18; 3.999 m and 5.5001 m are explicitly escalated.
+- The new tests also require sampled coverage and the solver's head-to-head check to pass at all four supported boundary scenarios.
 
 ## Engineering and safety boundaries
 
@@ -30,7 +32,9 @@
 
 ## Verification plan
 
-- Run the complete Node test suite, TypeScript build/typecheck, lint and website build on the exact PR head.
+- Exact PR head `0b0cef654acf16c5819d32e43dfe8f099788d1fa`: Blog and Studio validation run `43840039751` succeeded, including TypeScript checks, lint, website tests, website build, Studio type-check and Studio build.
+- Exact PR head D1 validation run `43840039853` succeeded, including migration syntax validation and read-only dry-run. No migration was applied.
+- The new boundary cases passed in the website test step. This is code/CI verification, not field validation or engineering approval.
 - Confirm that an unconfirmed geometry cannot reach the solver.
 - Confirm that source dynamic pressure changes do not change the manufacturer nozzle operating scenario.
 - Review the provisional short-side/model envelope with the irrigation engineer before enabling wider geometry classes.
