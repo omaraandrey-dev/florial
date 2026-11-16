@@ -156,8 +156,9 @@ test('covers narrow and medium residential rectangle widths deterministically', 
     const first = generateLawnSprinklerLayout(input)
     const second = generateLawnSprinklerLayout(input)
 
-    assert.notEqual(first.status, 'geometry_not_accepted', `width ${width}m`)
-    assert.notEqual(first.status, 'geometry_not_supported', `width ${width}m`)
+    assert.equal(first.status, 'coverage_complete_sampled', `sampled coverage at width ${width}m`)
+    assert.equal(first.coverage.uncoveredPoints, 0, `uncovered samples at width ${width}m`)
+    assert.equal(first.coverage.coveragePercent, 100, `coverage percentage at width ${width}m`)
     assert.deepEqual(first.sprinklers, second.sprinklers, `determinism at width ${width}m`)
     assert.ok(first.coverage.sampledPoints > 0, `samples at width ${width}m`)
     assert.equal(first.headToHead.passed, true, `head-to-head at width ${width}m`)
@@ -181,9 +182,35 @@ test('handles mirrored and rotated L-shaped outlines with reflex-corner diagnost
       sampleStepM: 0.25,
     })
     assert.equal(result.geometry.shape, 'l-shape')
+    assert.equal(result.status, 'coverage_complete_sampled')
+    assert.equal(result.coverage.uncoveredPoints, 0)
+    assert.equal(result.coverage.coveragePercent, 100)
     assert.ok(result.coverage.sampledPoints > 0)
     assert.equal(result.headToHead.passed, true)
     assert.ok(result.sprinklers.some((entry) => entry.arcDeg === 270))
     assert.equal(result.hydraulicFeasibility, 'not_evaluated')
+  }
+})
+
+
+test('sampled coverage remains complete at a finer spatial resolution', () => {
+  const cases = [
+    { name: 'rectangle', geometry: rectangle },
+    { name: 'L-shape', geometry: lShape },
+  ]
+
+  for (const { name, geometry } of cases) {
+    for (const sampleStepM of [0.25, 0.125]) {
+      const result = generateLawnSprinklerLayout({
+        geometry,
+        family: 'R-VAN',
+        model: 'R-VAN18',
+        pressureBar: 3.1,
+        sampleStepM,
+      })
+      assert.equal(result.status, 'coverage_complete_sampled', `${name} at ${sampleStepM}m`)
+      assert.equal(result.coverage.uncoveredPoints, 0, `uncovered samples: ${name} at ${sampleStepM}m`)
+      assert.equal(result.headToHead.passed, true, `head-to-head: ${name} at ${sampleStepM}m`)
+    }
   }
 })
