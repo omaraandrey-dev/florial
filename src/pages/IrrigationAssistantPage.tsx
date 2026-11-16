@@ -4,8 +4,12 @@ import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
+import { buildIrrigationIntakeSnapshot } from '../lib/irrigation/irrigationIntake.mjs'
 
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
+type PressureType = 'static' | 'dynamic' | 'unknown'
+type PressureMeasurementPoint = 'source' | 'irrigation_point' | 'unknown'
+type FlowMeasurementMethod = 'flow_meter' | 'timed_volume' | 'unknown'
 
 interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
@@ -24,6 +28,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const [waterSource, setWaterSource] = useState<WaterSource>('unknown')
   const [flowRate, setFlowRate] = useState('')
   const [pressure, setPressure] = useState('')
+  const [pressureType, setPressureType] = useState<PressureType>('unknown')
+  const [pressureMeasurementPoint, setPressureMeasurementPoint] = useState<PressureMeasurementPoint>('unknown')
+  const [flowMeasurementMethod, setFlowMeasurementMethod] = useState<FlowMeasurementMethod>('unknown')
+  const [pressureConditions, setPressureConditions] = useState('')
   const [notes, setNotes] = useState('')
   const [showSummary, setShowSummary] = useState(false)
 
@@ -48,12 +56,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       next: 'Далее', prev: 'Назад', waterTitle: 'Источник воды',
       mains: 'Водопровод', well: 'Скважина / колодец', tank: 'Резервуар / ёмкость', unknown: 'Пока не знаю',
       flow: 'Измеренный расход, л/мин', pressure: 'Сообщённое давление, бар',
-      optional: 'Если знаете значения — укажите. Если нет, оставьте поля пустыми. Тип и условия измерения давления уточняются отдельно.',
+      pressureTypeLabel: 'Как измеряли давление?', pressureStatic: 'Статическое (без расхода воды)', pressureDynamic: 'Динамическое (вода расходуется)', pressureUnknown: 'Не знаю', pressurePointLabel: 'Где измеряли давление?', pressureAtSource: 'На источнике воды', pressureAtIrrigationPoint: 'В точке подключения дождевателя / зоны', pressurePointUnknown: 'Не знаю', flowMethodLabel: 'Как измеряли расход?', flowMeter: 'Расходомером', flowTimedVolume: 'Объём за измеренное время', flowMethodUnknown: 'Не знаю', pressureConditionsLabel: 'Условия измерения (необязательно)', pressureConditionsPlaceholder: 'Например: открыт один кран, одновременно работают другие потребители…',
+      optional: 'Если знаете значения — укажите. Если нет, оставьте поля пустыми. Важно различать статическое давление и давление при реальном расходе воды.',
       detailsTitle: 'Дополнительные сведения', notes: 'Например: дорожки, деревья, уклоны или места, которые нельзя поливать. На этом этапе они не вычитаются из площади автоматически.',
-      finish: 'Сформировать исходные данные', summaryTitle: 'Исходные данные участка',
+      finish: 'Сформировать исходные данные', guidedPrompts: ['Сначала уточним форму и реальные размеры газона. Вы сможете проверить схему перед продолжением.', 'Теперь уточним источник воды и измерения. Если давление измерено без расхода, отметьте его как статическое.', 'Добавьте препятствия и важные условия участка. После этого мы сформируем структурированную карточку исходных данных.'], summaryTitle: 'Исходные данные участка',
       summaryArea: 'Чистая площадь', summaryShape: 'Форма', summaryWater: 'Источник воды',
-      summaryFlow: 'Расход', summaryPressure: 'Давление (со слов клиента)', summaryNotes: 'Примечания',
-      ready: 'Данные собраны', disclaimer: 'Это исходные данные для предварительного подбора, а не готовый гидравлический проект. Геометрия подтверждена только по введённым вами размерам. Препятствия и исключаемые зоны пока не нанесены. Точное количество дождевателей, зоны, диаметры труб и совместимое оборудование определяются после проверки измерений, покрытия и характеристик конкретных моделей. Приблизительные значения не подменяют инженерный расчёт.',
+      summaryFlow: 'Расход', summaryPressure: 'Давление (со слов клиента)', summaryPressureType: 'Тип давления', summaryPressurePoint: 'Точка измерения давления', summaryFlowMethod: 'Метод измерения расхода', summaryNotes: 'Примечания',
+      ready: 'Данные собраны', pressureStaticValue: 'Статическое', pressureDynamicValue: 'Динамическое', pressureUnknownValue: 'Не указано', pressureSourceValue: 'На источнике', pressurePointValue: 'В точке полива', pressurePointUnknownValue: 'Не указано', flowMeterValue: 'Расходомер', flowTimedValue: 'Объём / время', flowUnknownValue: 'Не указано', disclaimer: 'Это исходные данные для предварительного подбора, а не готовый гидравлический проект. Геометрия подтверждена только по введённым вами размерам. Препятствия и исключаемые зоны пока не нанесены. Точное количество дождевателей, зоны, диаметры труб и совместимое оборудование определяются после проверки измерений, покрытия и характеристик конкретных моделей. Приблизительные значения не подменяют инженерный расчёт.',
       restart: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', flowUnit: 'л/мин', shapeRectangle: 'Прямоугольник', shapeL: 'Г-образный контур',
     }
     if (language === 'en') return {
@@ -76,12 +85,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       next: 'Continue', prev: 'Back', waterTitle: 'Water source',
       mains: 'Mains water', well: 'Borehole / well', tank: 'Storage tank', unknown: 'Not sure yet',
       flow: 'Measured flow rate, L/min', pressure: 'Reported pressure, bar',
-      optional: 'Enter these if known; otherwise leave blank. Pressure type and measurement conditions will be clarified separately.',
+      pressureTypeLabel: 'How was pressure measured?', pressureStatic: 'Static (no water flowing)', pressureDynamic: 'Dynamic (water flowing)', pressureUnknown: 'Not sure', pressurePointLabel: 'Where was pressure measured?', pressureAtSource: 'At the water source', pressureAtIrrigationPoint: 'At the sprinkler / zone connection point', pressurePointUnknown: 'Not sure', flowMethodLabel: 'How was flow measured?', flowMeter: 'With a flow meter', flowTimedVolume: 'Timed volume measurement', flowMethodUnknown: 'Not sure', pressureConditionsLabel: 'Measurement conditions (optional)', pressureConditionsPlaceholder: 'For example: one tap open, other consumers running at the same time…',
+      optional: 'Enter these if known; otherwise leave blank. Static pressure must be distinguished from pressure measured while water is flowing.',
       detailsTitle: 'Additional details', notes: 'For example: paths, trees, slopes or areas that must not be watered. These are not automatically deducted from the area at this stage.',
-      finish: 'Prepare site details', summaryTitle: 'Site information',
+      finish: 'Prepare site details', guidedPrompts: ['First, let’s define the lawn shape and measured dimensions. You can confirm the outline before continuing.', 'Next, we’ll record the water source and measurements. If pressure was measured with no water flowing, mark it as static.', 'Add obstacles and important site conditions. We’ll then prepare a structured site-intake record.'], summaryTitle: 'Site information',
       summaryArea: 'Net area', summaryShape: 'Shape', summaryWater: 'Water source',
-      summaryFlow: 'Flow rate', summaryPressure: 'Pressure (customer-reported)', summaryNotes: 'Notes',
-      ready: 'Information collected', disclaimer: 'This is an intake snapshot, not a completed hydraulic design. Geometry is confirmed only against the dimensions you entered. Obstacles and exclusion zones have not yet been mapped. Exact sprinkler quantities, zones, pipe diameters and compatible equipment depend on verified measurements, coverage checks and the specifications of selected models. Guessed values will not replace engineering calculations.',
+      summaryFlow: 'Flow rate', summaryPressure: 'Pressure (customer-reported)', summaryPressureType: 'Pressure type', summaryPressurePoint: 'Measurement point', summaryFlowMethod: 'Flow measurement method', summaryNotes: 'Notes',
+      ready: 'Information collected', pressureStaticValue: 'Static', pressureDynamicValue: 'Dynamic', pressureUnknownValue: 'Not specified', pressureSourceValue: 'At source', pressurePointValue: 'At irrigation point', pressurePointUnknownValue: 'Not specified', flowMeterValue: 'Flow meter', flowTimedValue: 'Volume / time', flowUnknownValue: 'Not specified', disclaimer: 'This is an intake snapshot, not a completed hydraulic design. Geometry is confirmed only against the dimensions you entered. Obstacles and exclusion zones have not yet been mapped. Exact sprinkler quantities, zones, pipe diameters and compatible equipment depend on verified measurements, coverage checks and the specifications of selected models. Guessed values will not replace engineering calculations.',
       restart: 'Edit answers', home: 'Return to the shop', unit: 'm²', flowUnit: 'L/min', shapeRectangle: 'Rectangle', shapeL: 'L-shaped outline',
     }
     return {
@@ -104,12 +114,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       next: 'Напред', prev: 'Назад', waterTitle: 'Водоизточник',
       mains: 'Водопровод', well: 'Сондаж / кладенец', tank: 'Резервоар / съд', unknown: 'Все още не знам',
       flow: 'Измерен дебит, л/мин', pressure: 'Посочено налягане, bar',
-      optional: 'Попълнете, ако знаете стойностите. В противен случай оставете полетата празни. Видът и условията на измерване на налягането ще бъдат уточнени отделно.',
+      pressureTypeLabel: 'Как е измерено налягането?', pressureStatic: 'Статично (без консумация на вода)', pressureDynamic: 'Динамично (при течаща вода)', pressureUnknown: 'Не знам', pressurePointLabel: 'Къде е измерено налягането?', pressureAtSource: 'При водоизточника', pressureAtIrrigationPoint: 'При връзката към разпръсквача / зоната', pressurePointUnknown: 'Не знам', flowMethodLabel: 'Как е измерен дебитът?', flowMeter: 'С дебитомер', flowTimedVolume: 'Измерен обем за определено време', flowMethodUnknown: 'Не знам', pressureConditionsLabel: 'Условия на измерването (по желание)', pressureConditionsPlaceholder: 'Например: отворен е един кран, едновременно работят други консуматори…',
+      optional: 'Попълнете, ако знаете стойностите. Важно е да разграничим статичното налягане от налягането при реален дебит на водата.',
       detailsTitle: 'Допълнителна информация', notes: 'Например: алеи, дървета, наклони или места, които не трябва да се напояват. На този етап те не се изваждат автоматично от площта.',
-      finish: 'Подготви данните за терена', summaryTitle: 'Данни за терена',
+      finish: 'Подготви данните за терена', guidedPrompts: ['Първо ще уточним формата и реалните размери на тревната площ. Ще можете да потвърдите схемата преди да продължим.', 'След това ще запишем водоизточника и измерванията. Ако налягането е измерено без консумация на вода, посочете „статично“.', 'Добавете препятствията и важните условия на терена. След това ще подготвим структурирани изходни данни.'], summaryTitle: 'Данни за терена',
       summaryArea: 'Чиста площ', summaryShape: 'Форма', summaryWater: 'Водоизточник',
-      summaryFlow: 'Дебит', summaryPressure: 'Налягане (по данни на клиента)', summaryNotes: 'Бележки',
-      ready: 'Данните са събрани', disclaimer: 'Това са изходни данни за предварителен подбор, а не завършен хидравличен проект. Геометрията е потвърдена само според въведените от вас размери. Препятствията и зоните без поливане все още не са нанесени. Точният брой разпръсквачи, зони, диаметри на тръбите и съвместимо оборудване се определят след проверка на измерванията, покритието и характеристиките на конкретните модели. Предположенията не заместват инженерното изчисление.',
+      summaryFlow: 'Дебит', summaryPressure: 'Налягане (по данни на клиента)', summaryPressureType: 'Вид налягане', summaryPressurePoint: 'Място на измерване', summaryFlowMethod: 'Метод за измерване на дебита', summaryNotes: 'Бележки',
+      ready: 'Данните са събрани', pressureStaticValue: 'Статично', pressureDynamicValue: 'Динамично', pressureUnknownValue: 'Не е посочено', pressureSourceValue: 'При източника', pressurePointValue: 'При поливната точка', pressurePointUnknownValue: 'Не е посочено', flowMeterValue: 'Дебитомер', flowTimedValue: 'Обем / време', flowUnknownValue: 'Не е посочено', disclaimer: 'Това са изходни данни за предварителен подбор, а не завършен хидравличен проект. Геометрията е потвърдена само според въведените от вас размери. Препятствията и зоните без поливане все още не са нанесени. Точният брой разпръсквачи, зони, диаметри на тръбите и съвместимо оборудване се определят след проверка на измерванията, покритието и характеристиките на конкретните модели. Предположенията не заместват инженерното изчисление.',
       restart: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', flowUnit: 'л/мин', shapeRectangle: 'Правоъгълен контур', shapeL: 'Г-образен контур',
     }
   }, [language])
@@ -185,6 +196,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
             <div className="mb-6 flex items-center justify-between text-sm font-semibold text-slate-600">
               <span>{copy.step} {step} {copy.of}</span><span>{Math.round(step / 3 * 100)}%</span>
             </div>
+            <div className="mb-5 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950" role="status" aria-live="polite">{copy.guidedPrompts[step - 1]}</div>
             <div className="mb-8 h-2 overflow-hidden rounded-full bg-slate-100">
               <div className="h-full rounded-full bg-emerald-600 transition-all" style={{ width: (step / 3 * 100) + '%' }} />
             </div>
@@ -264,6 +276,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-sm font-semibold text-slate-700">{copy.flow}<input type="number" min="0" step="0.1" value={flowRate} onChange={(event) => setFlowRate(event.target.value)} className={inputClass} /></label>
                   <label className="block text-sm font-semibold text-slate-700">{copy.pressure}<input type="number" min="0" step="0.1" value={pressure} onChange={(event) => setPressure(event.target.value)} className={inputClass} /></label>
+                  <label className="block text-sm font-semibold text-slate-700">{copy.flowMethodLabel}<select value={flowMeasurementMethod} onChange={(event) => setFlowMeasurementMethod(event.target.value as FlowMeasurementMethod)} className={inputClass}><option value="unknown">{copy.flowMethodUnknown}</option><option value="flow_meter">{copy.flowMeter}</option><option value="timed_volume">{copy.flowTimedVolume}</option></select></label>
+                  <label className="block text-sm font-semibold text-slate-700">{copy.pressureTypeLabel}<select value={pressureType} onChange={(event) => setPressureType(event.target.value as PressureType)} className={inputClass}><option value="unknown">{copy.pressureUnknown}</option><option value="static">{copy.pressureStatic}</option><option value="dynamic">{copy.pressureDynamic}</option></select></label>
+                  <label className="block text-sm font-semibold text-slate-700">{copy.pressurePointLabel}<select value={pressureMeasurementPoint} onChange={(event) => setPressureMeasurementPoint(event.target.value as PressureMeasurementPoint)} className={inputClass}><option value="unknown">{copy.pressurePointUnknown}</option><option value="source">{copy.pressureAtSource}</option><option value="irrigation_point">{copy.pressureAtIrrigationPoint}</option></select></label>
+                  <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.pressureConditionsLabel}<input type="text" maxLength={500} value={pressureConditions} onChange={(event) => setPressureConditions(event.target.value)} placeholder={copy.pressureConditionsPlaceholder} className={inputClass} /></label>
                 </div>
               </div>
             ) : (
@@ -286,12 +302,16 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
           <div>
             <p className="mb-2 text-sm font-bold uppercase tracking-wide text-emerald-700">{copy.ready}</p>
             <h2 className="mb-6 text-2xl font-bold text-slate-900">{copy.summaryTitle}</h2>
+            {(() => { const intake = buildIrrigationIntakeSnapshot({ geometryValidation, shape, lengthM: Number(length), widthM: Number(width), cutoutWidthM: Number(cutoutWidth), cutoutDepthM: Number(cutoutDepth), cutoutCorner, waterSource, flowLpm: flowRate === '' ? null : Number(flowRate), flowMeasurementMethod, pressureBar: pressure === '' ? null : Number(pressure), pressureType, pressureMeasurementPoint, pressureConditions, notes }); return <div className="mb-5 rounded-xl border border-slate-200 bg-slate-50 p-4"><p className="text-sm font-bold text-slate-900">{language === 'ru' ? 'Статус исходных данных' : language === 'en' ? 'Intake status' : 'Статус на входните данни'}</p><p className="mt-1 text-sm text-slate-700">{language === 'ru' ? 'Только сбор данных — инженерный и гидравлический расчёт ещё не выполнялся.' : language === 'en' ? 'Intake only — no engineering or hydraulic calculation has been performed.' : 'Само събиране на данни — все още не е извършено инженерно или хидравлично изчисление.'}</p>{intake.warnings.length > 0 && <p className="mt-2 text-xs leading-5 text-amber-800">{language === 'ru' ? 'Требуют уточнения: ' : language === 'en' ? 'Needs clarification: ' : 'Изискват уточнение: '}{intake.warnings.map((warning) => warning.replaceAll('_', ' ')).join('; ')}</p>}</div> })()}
             <dl className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryArea}</dt><dd className="mt-1 text-lg font-bold text-slate-900">{numberFormat(calculatedArea)} {copy.unit}</dd></div>
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryShape}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryWater}</dt><dd className="mt-1 font-bold text-slate-900">{waterLabel}</dd></div>
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryFlow}</dt><dd className="mt-1 font-bold text-slate-900">{flowRate ? flowRate + ' ' + copy.flowUnit : '—'}</dd></div>
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryPressure}</dt><dd className="mt-1 font-bold text-slate-900">{pressure ? pressure + ' bar' : '—'}</dd></div>
+              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryPressureType}</dt><dd className="mt-1 font-bold text-slate-900">{pressureType === 'static' ? copy.pressureStaticValue : pressureType === 'dynamic' ? copy.pressureDynamicValue : copy.pressureUnknownValue}</dd></div>
+              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryPressurePoint}</dt><dd className="mt-1 font-bold text-slate-900">{pressureMeasurementPoint === 'source' ? copy.pressureSourceValue : pressureMeasurementPoint === 'irrigation_point' ? copy.pressurePointValue : copy.pressurePointUnknownValue}</dd></div>
+              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryFlowMethod}</dt><dd className="mt-1 font-bold text-slate-900">{flowMeasurementMethod === 'flow_meter' ? copy.flowMeterValue : flowMeasurementMethod === 'timed_volume' ? copy.flowTimedValue : copy.flowUnknownValue}</dd></div>
               <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{numberFormat(calculatedPerimeter)} m</dd></div>
               {notes && <div className="rounded-xl bg-slate-50 p-4 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.summaryNotes}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes}</dd></div>}
             </dl>
