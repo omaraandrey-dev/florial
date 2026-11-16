@@ -197,3 +197,12 @@ An irrigation engineer must review rules and baseline cases before automatic cus
 ## 11. Explicit non-goals for this stage
 
 No AI-only irrigation design; no compatibility inferred from descriptions; no Gemini-generated prices/stock; no automatic Sanity publishing/editing; no D1 schema changes or production order writes; no Gemini key/Cloudflare secret/binding changes; no Header/menu/Footer changes; no recommendations for SKUs with incomplete manufacturer data.
+
+
+### Rain Bird 3500 isolated evaluator — stage 1 (2026-11-16)
+
+- Added as a separate module in PR #339, not as a new family branch inside the R-VAN/HE-VAN spray layout solver.
+- The evaluator consumes explicitly supplied rotor positions and directions and exact D42378 pressure/nozzle values. It accepts 180° only because the published precipitation basis is half-circle operation; all other arcs fail closed.
+- It computes sampled coverage, mutual directional head-to-head and sampled sector overspray as separate diagnostics. Sampled results are not continuous coverage proofs.
+- Hydraulic feasibility, precipitation uniformity/DU/SC, body/package compatibility and catalogue availability remain unevaluated. It does not generate candidate positions or activate the customer journey.
+- Next gate: validate a rotor-specific position-generation strategy against engineer-reviewed rectangle and L-shape baselines, including boundary overspray and spacing, before connecting any layout to customer-facing output.
