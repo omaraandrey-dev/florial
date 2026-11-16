@@ -136,7 +136,7 @@ Use `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md` as the gove
 - [ ] Add full keyboard/accessibility and expanded error-state audit.
 - [ ] Connect the validated snapshot to the deterministic layout engine (next engineering increment).
 
-**Implementation checkpoint:** `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. The current increment is a deterministic guided UI, not a Gemini-connected chat. It does not persist/send intake, invoke the layout solver, select products or mutate the cart. Exact-head CI and Preview QA passed; see the audit for run/deployment IDs and the D1 analytics-notice caveat.
+**Implementation checkpoint:** `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. The current increment is a deterministic guided UI, not a Gemini-connected chat. It does not persist/send intake, invoke the layout solver, select products or mutate the cart. PR #329 is merged; Production deployment succeeded. Preview full-flow QA passed; Production visual smoke remains inconclusive due browser network errors. See the audit for exact evidence and the D1 analytics-notice caveat.
 
 **Exit:** approved UI integrated into existing Florial without Emergent runtime dependency and validated in Preview.
 
