@@ -458,7 +458,7 @@ function setPageHead(
       '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
       '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
     ]
-    html = html.replace(/<\\/head>/i, resourceHints.join('\\n') + '\\n</head>')
+    html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
     if (/\blang=["'][^"']*["']/i.test(tag)) return tag.replace(/\blang=["'][^"']*["']/i, 'lang="' + options.language + '"')
@@ -602,8 +602,8 @@ function renderResponsiveProductImage(imageUrl: string, alt: string): string {
 
   try {
     const source = new URL(imageUrl)
-    const imageDimensions = source.pathname.match(/-(\\d+)x(\\d+)\\.[a-z0-9]+$/i)
-    if (source.protocol === 'https:' && source.hostname === 'cdn.sanity.io' &&
+    const imageDimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
+      /^\/images\/[^/]+\/[^/]+\//.test(source.pathname) && imageDimensions) {
       /^\\/images\\/[^/]+\\/[^/]+\\//.test(source.pathname) && imageDimensions) {
       const sourceWidth = Number(imageDimensions[1])
       const sourceHeight = Number(imageDimensions[2])
