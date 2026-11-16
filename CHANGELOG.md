@@ -3351,3 +3351,11 @@ Backups:
 - PR #340 exact-head CI passed: Blog/Studio run `43847530293`; D1 validation run `43847530296`. Post-merge `main` CI for SHA `9da44168e6c7d877ac914a8dc7dde13fd2129b95` was still running at the time of this documentation update.
 - Candidate generation is heuristic, not a global optimizer. It is not customer-facing and is not a certified design. Geometry exclusions, non-180° arcs, interpolation, radius reduction, hydraulics, DU/SC, package compatibility and catalogue/cart integration remain out of scope.
 - No 5000 MPR engine or recommendation was added. No Sanity, D1 schema/data, Cloudflare settings/secrets, Resend or manual Production changes were made. Production deployment status is not asserted by this record.
+
+
+## 2026-11-16 — Rain Bird 3500 synthetic geometry invariance tests
+
+- PR #342 merged as `78784ff2685851bd3287b4cf7829d342d2c747fe`.
+- Added automated regression cases for mirrored and 90°/180°/270° rotated orthogonal L-shapes, and finer target sampling at 0.5 m, 0.25 m and 0.125 m. Tests assert exact D42378 operating point preservation, 180°-only generated sectors, unique IDs/physical coordinates and explicit non-hydraulic status.
+- Exact-head CI passed: Blog/Studio run `43848342270`; D1 validation run `43848342194`.
+- These are synthetic software invariance tests, not engineer-approved reference layouts, field measurements or proof of uniformity/hydraulic feasibility. No runtime algorithm change, customer-facing integration, Sanity/D1 write, Cloudflare settings/secrets, Resend or manual Production change was made.
