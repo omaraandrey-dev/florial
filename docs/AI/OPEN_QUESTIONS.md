@@ -538,3 +538,12 @@
 - **Next quantitative study:** run all allowed search presets against the same synthetic geometries and exact D42378 points; record selected rotor count/coordinates, candidate counts, uncovered samples, head-to-head, overspray and execution cost. Do not choose a new default from coverage percentage alone.
 - **Reference layouts still required:** owner/engineer-provided manual designs with exact coordinates, nozzle, nozzle pressure, arc and acceptance criteria. Synthetic cases are not field validation.
 - Keep the 180°-only evidence gate, no interpolation and no radius reduction. Hydraulics, DU/SC, package compatibility, exclusions and customer-facing integration remain open. No 5000 MPR engine.
+
+
+## 2026-11-16 — Rain Bird 3500 search-resolution study
+
+- PR #344 merged (`a125b851ca8205bd001850c09614af11306e8fe2`); exact-head CI passed: Blog/Studio `43849172350`, D1 validation `43849172390`.
+- Generator now accepts bounded internal candidate-position factors 0.25/0.5/1.0 × exact throw radius and direction increments 15°/30°/45°. Defaults remain 0.5 and 45°; target sampling remains separate.
+- **Next:** run a repeatable benchmark matrix on the synthetic rectangle, L-shape, mirrored and rotated L-shape cases. Record selected rotor count and coordinates, candidate count, sampled coverage, H2H, overspray and runtime for each setting.
+- **Important:** no result may be called converged or best until selected positions/count are compared and stability is quantified. Synthetic geometry tests are not field or engineer-approved reference designs.
+- After benchmark, compare with owner/engineer-supplied manual reference layouts. Hydraulic model, precipitation uniformity/DU/SC, exclusions, manufacturer arc evidence, package compatibility and customer-facing gates remain open. No 5000 MPR engine.
