@@ -57,7 +57,7 @@ This is one Lighthouse lab run, not CrUX/field data or a three-run median.
 - BG, RU and EN product content rendered correctly. Product name/H1, €600 price, stock state, 240 cm / 2.4 m / 50 L variant, gallery, related content and Footer were present. No purchase, cart, form or contact actions were triggered.
 - At 390×844, `document.documentElement.scrollWidth` was 375 px and no element overflowed the viewport. Desktop 1440×900 also showed no horizontal overflow.
 - No console errors or uncaught runtime errors were observed.
-- Main hero DOM: responsive `srcset` (160w–1600w), `sizes="(min-width: 1024px) 50vw, 100vw"`, intrinsic 2000×2000 dimensions, `loading="eager"`, `fetchpriority="high"`. The selected `currentSrc`/asset was a Sanity CDN 1200w source in the tested viewport. The document head contains the three intended Sanity preconnects.
+- Main hero DOM: responsive `srcset` (160w–1600w), `sizes="(min-width: 1024px) 50vw, 100vw"`, intrinsic 2000×2000 dimensions, `loading="eager"`, `fetchpriority="high"`. At 390 px viewport, `currentSrc` selected the Sanity CDN 960w candidate (actual decoded image 389×389 px). The document head contains the three intended Sanity preconnects.
 - Resource timing showed targeted product lookup queries by slug in `production` and `plants`, followed by the matching product detail query and related-content queries. No full, unfiltered product catalogue query was present on the product route. Header/category/site-settings queries remain and are not part of the removed product-catalogue lookup path.
 
 ### Three PageSpeed Insights runs per form factor
