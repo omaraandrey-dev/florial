@@ -3543,3 +3543,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Stage 7 adds `irrigationSiteContext.mjs` and declarations, plus optional site-context support in the Rain Bird 3500 evaluator and candidate generator. It classifies sampled spray as target lawn, permitted adjacent, no-spray, unapproved on-site or outside-site; no-spray takes precedence over permission.
 - PR #349 current exact head before documentation synchronization: `efd03a2d7b850e37e19599e28e8d509c266636e0`. Blog/Studio validation `43860117598` and D1 validation `43856450266` passed. Runtime/test code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03` had exact-head CI success; later head changes were documentation-only.
 - This is sampled preliminary validation only. Site-zone containment uses 0.25 m boundary sampling; candidate search does not yet optimize around forbidden zones. Hydraulics, predicted DU/SC, wind drift, installation clearances and full body/nozzle/package compatibility remain unevaluated. No customer-facing wiring or Production deployment.
+
+## 2026-11-16 — Stage 7 whole-site site-context implementation merged
+
+- PR #349 merged into main at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`; GitHub state verified as `merged=true`.
+- Added `irrigationSiteContext.mjs` / declaration and integrated optional confirmed site context into Rain Bird 3500 evaluation and candidate generation. Added tests and audit `docs/audits/2026-11-16-irrigation-site-context-overspray-stage-7.md`.
+- The evaluator distinguishes target lawn, permitted adjacent spray, no-spray, unapproved on-site and outside-site samples. No-spray policy takes precedence over permissions.
+- Exact CI evidence: code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03` passed Blog/Studio `43855876224` and D1 `43855891392`; later docs-only head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio `43860117598` and D1 `43856450266`.
+- Limitations remain: sampled 0.25 m containment, no candidate-search avoidance of forbidden zones, no continuous geometric proof, no hydraulics/DU/SC/wind/installability/full package validation. No customer-facing integration or Production deployment.
