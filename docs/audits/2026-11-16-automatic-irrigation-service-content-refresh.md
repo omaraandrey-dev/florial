@@ -49,9 +49,16 @@ The backup and the draft read-back contain the exact asset references. No image 
 
 Updated `src/pages/ServicePage.tsx` so the RU/EN inline Markdown renderer recognises the explicit safe `<u>…</u>` notation and renders it as a React `<u>` element. Raw HTML is not injected. Existing bold and link handling is preserved. BG underline continues to use the existing Portable Text `underline` mark renderer.
 
+## Preview build verification
+
+- Cloudflare Pages Preview deployment `419db0ca-5da9-4299-a0ab-58d9fb71cea0` succeeded for exact branch commit `1f485b9e27dd04b88ff4ddeede243f0ea0666394`.
+- Build command: `npm run build`; build and deploy stages both reported `success`.
+- Preview URL: https://content-automatic-irrigation.florial.pages.dev
+- GitHub Actions PR workflow runs and commit status checks were not returned by the GitHub connector for this commit. The Cloudflare Pages build is the verified build result; lint/test scripts were not separately executed.
+
 ## Verification still required
 
-- Run the exact-branch GitHub CI (website build, lint, tests and other applicable checks).
+- Review the preview rendering in BG/RU/EN, desktop and mobile.
 - Review the PR diff and preview rendering in BG/RU/EN, desktop and mobile.
 - Publish the Sanity draft only after the frontend formatting change is integrated; then read back the published document and verify all image references, SEO fields, CTA and lead form.
 - Confirm the production page renders correctly. Google recrawl/indexing is not implied by publication.
