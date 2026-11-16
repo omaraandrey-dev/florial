@@ -603,8 +603,8 @@ function renderResponsiveProductImage(imageUrl: string, alt: string): string {
   try {
     const source = new URL(imageUrl)
     const imageDimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
+    if (source.protocol === 'https:' && source.hostname === 'cdn.sanity.io' &&
       /^\/images\/[^/]+\/[^/]+\//.test(source.pathname) && imageDimensions) {
-      /^\\/images\\/[^/]+\\/[^/]+\\//.test(source.pathname) && imageDimensions) {
       const sourceWidth = Number(imageDimensions[1])
       const sourceHeight = Number(imageDimensions[2])
       const buildUrl = (width: number) => {
