@@ -1,3 +1,13 @@
+## 2026-11-16 — Service-page CLS/image optimization merged and deployed (PR #353)
+
+- PR #353: https://github.com/omaraandrey-dev/florial/pull/353 — merged into `main`; merge commit `74642455efe284730cdf442efc1b82182e10eda8`.
+- Cloudflare Pages Production deployment `4060e639-d643-496d-ae3f-65706cd85000` completed successfully on that exact `main` commit; deployment URL: https://4060e639.florial.pages.dev; aliases: https://florial-bg.com and https://www.florial-bg.com.
+- Exact final PR head `c0f90b2bd6ce4b5d204f8da14aa191f3cd69d758`: Blog/Studio validation runs `43915674186`, `43915669617`, `43915934924` — success; D1 validation run `43915669468` — success. Type-check, lint, website tests/build and Studio type-check/build passed in the validation workflow.
+- Runtime changes: service loading skeleton reserves viewport height during lazy-route and Sanity-detail loading; middleware no longer emits a duplicate raw service hero image in initial HTML. Product fallback image and service Open Graph/structured image metadata remain. Regression test added. Audit: `docs/audits/2026-11-16-performance-service-cls-and-image-fallback.md`.
+- Preview build/deploy succeeded on final PR head at `e7235fd7-cc03-48e0-9e27-e9d6916df640`. Browser visual QA previously failed due browser-network `ERR_SOCKS_CONNECTION_FAILED`; a new read-only Production browser check was started after deployment but had not returned a terminal result at this documentation checkpoint.
+- Owner-supplied mobile Lighthouse baseline remains Performance 60, LCP 4.5 s, CLS 0.693 (single lab run). No post-change Lighthouse runs or verified performance gain are available. Mobile/desktop rendering, image transfer/currentSrc, console and CLS trace remain **not confirmed**.
+- No Sanity, D1, Resend or Cloudflare settings/secrets writes were performed. Header, menu, Footer component and global shell were not changed.
+
 ## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
