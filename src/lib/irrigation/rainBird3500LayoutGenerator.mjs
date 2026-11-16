@@ -2,7 +2,7 @@ import { validateLawnGeometry } from './lawnGeometry.mjs'
 import { findRainBird3500PerformancePoint } from './irrigationPerformanceData.mjs'
 import { evaluateRainBird3500RotorLayout } from './rainBird3500RotorEngine.mjs'
 
-const ENGINE_VERSION = '3500-candidate-generator-0.1.0'
+const ENGINE_VERSION = '3500-candidate-generator-0.2.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_TARGETS = 30000
@@ -256,11 +256,12 @@ function failure(status, code, path) {
  * Generates a preliminary candidate arrangement using only 180-degree
  * half-circle performance rows from Rain Bird D42378.
  *
- * Candidate positions are sampled on a radius/2 grid plus boundary samples.
- * Eight fixed sector directions are tested at each position; greedy set cover
- * selects a compact sampled-coverage candidate. This is a heuristic, not an
- * optimized or certified irrigation design. Overspray and head-to-head are
- * checked by the independent evaluator after selection.
+ * Candidate positions use a bounded fraction of the exact throw radius plus
+ * boundary samples. Configurable bearing increments generate sector candidates.
+ * Selection starts from a mutually reachable head-to-head pair, then adds only
+ * candidates connected to an already selected rotor. The result remains a
+ * heuristic, not an optimized or certified design; overspray is still checked
+ * after selection and is not optimized by this strategy.
  */
 export function generateRainBird3500RotorLayout({
   geometry,
