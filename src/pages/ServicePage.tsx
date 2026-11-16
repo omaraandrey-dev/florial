@@ -222,8 +222,13 @@ function getInternalRichTextPath(href: string) {
 }
 
 function renderInlineMarkdown(value: string, language: string) {
-  const tokens = value.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g)
+  // Support a deliberately small, safe inline-markup subset for localized service copy.
+  // Underline is rendered as a React element; raw HTML is never injected into the page.
+  const tokens = value.split(/(<u>[^<]+<\/u>|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g)
   return tokens.map((part, index) => {
+    if (part.startsWith('<u>') && part.endsWith('</u>')) {
+      return <u key={index}>{part.slice(3, -4)}</u>
+    }
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index}>{part.slice(2, -2)}</strong>
     }

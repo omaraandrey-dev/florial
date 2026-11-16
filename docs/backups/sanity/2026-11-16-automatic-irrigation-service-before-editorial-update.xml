@@ -1,0 +1,561 @@
+<!-- Exact read-only Sanity get_document response snapshot. Project bxvcy0qs, dataset production, document 04c7ab3b-1888-41cb-9917-6b9014cd1ac3. Retrieved 2026-11-16 before any write. -->
+Found document "04c7ab3b-1888-41cb-9917-6b9014cd1ac3": 
+<document>
+  <_createdAt>2026-10-18T09:05:28Z</_createdAt>
+  <_id>04c7ab3b-1888-41cb-9917-6b9014cd1ac3</_id>
+  <_rev>1qyPYQSEDVHtpwb6uCOdbD</_rev>
+  <_system>
+    <base>
+      <id>04c7ab3b-1888-41cb-9917-6b9014cd1ac3</id>
+      <rev>rOW11EP0h6V5YhExSZoYWu</rev>
+    </base>
+  </_system>
+  <_type>service</_type>
+  <_updatedAt>2026-11-15T05:31:37Z</_updatedAt>
+  <advantages>
+    <_key>adv0</_key>
+    <text>Съобразяваме системата с особеностите на терена и нуждите на растенията.</text>
+    <title>Индивидуален проект</title>
+  </advantages>
+  <advantages>
+    <_key>adv1</_key>
+    <text>Подбираме качествени компоненти и автоматика за дългосрочна работа.</text>
+    <title>Надеждно оборудване</title>
+  </advantages>
+  <advantages>
+    <_key>adv2</_key>
+    <text>Зонирането и правилната настройка намаляват излишното поливане.</text>
+    <title>По-ефективен разход на вода</title>
+  </advantages>
+  <advantages>
+    <_key>adv3</_key>
+    <text>Предлагаме пускане, настройка, сезонна профилактика и ремонт.</text>
+    <title>Обслужване след монтажа</title>
+  </advantages>
+  <callToAction>
+    <buttonLabel>Изпрати запитване</buttonLabel>
+    <text>Поискайте оглед и индивидуална оферта за автоматично напояване.</text>
+    <title>Заявете оферта</title>
+  </callToAction>
+  <contentBlocks>
+    <_key>block1</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Проектиране на системата</alt>
+      <asset>
+        <_ref>image-51685d5e44a1dac123ca8b50f5b6c1d22036d053-1402x1122-png</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>left</imagePosition>
+    <text>Проектиране на системи за поливане
+Всеки зелен комплекс се състои от различни типове растения, които изискват различен режим, периодичност и интензивност на напояване. В процеса на проектиране разделяме терена на независими поливни зони: тревни площи, цветни лехи, живи плетове, както и капково напояване за храсти и дървета. За всяка зона се избират оптималните разпръсквачи и дюзи, които осигуряват равномерно и 100% покритие на площта без „сухи петна“.
+Професионалният проект е гаранция, че всеки ъгъл от Вашата градина ще получи точно толкова вода, колкото му е необходима.
+Етапи на разработване на проекта:
+Зониране и изчисление на поливането
+Определяме видовете растителност, водоизточника, налягането и дебита на водата. Формираме поливните зони, избираме най-подходящите типове разпръсквачи и изчисляваме точната консумация на вода за всеки сектор.
+Трасиране и план на магистралите
+Проектираме оптималната схема за полагане на тръбопроводите. Дълбочината на полагане на тръбите в почвата е 30–40 см, така че да засегне минимално съществуващите елементи от ландшафта, настилките и останалите комуникации. В готовия проект е точно указано трасето на всички линии.
+Избор на професионално оборудване
+При избора на оборудване вземаме предвид бюджета, особеностите на терена и изискванията за лесна поддръжка. За изграждането на надеждни системи използваме само висококачествена продукция от световните лидери в индустрията — Rain Bird и Hunter (САЩ). Между другото, именно с оборудване на Rain Bird е изградено автоматичното напояване в Disneyland в Орландо.
+Автоматизация и Smart-управление
+Избираме електромагнитните клапани и контролера (пулта за управление) спрямо необходимия брой зони. От 2018 г. активно внедряваме системи с Wi-Fi управление от телефон: автоматиката анализира данните от местните метеорологични станции, благодарение на което поливането се коригира или отменя по време на дъжд, спестявайки вода и средства.
+След приключване на етапа на проектиране получавате пълен комплект документи: схема на зонирането, трасиране на тръбите, спецификация на оборудването и точна сметка за реализация.</text>
+    <translations>
+      <en>
+        <imageAlt>System design</imageAlt>
+        <text>Irrigation system design
+Every landscaped area contains different types of plants, each requiring its own watering schedule, frequency and intensity. During design, we divide the site into independent irrigation zones: lawns, flower beds, hedges, and drip irrigation for shrubs and trees. For each zone, we select suitable sprinklers and nozzles to provide even, full coverage without dry spots.
+A professional design helps ensure that every part of your garden receives exactly the water it needs.
+Design stages:
+Zoning and irrigation calculations
+We assess the vegetation, water source, pressure and flow rate. We define the irrigation zones, select suitable sprinkler types and calculate water consumption for each sector.
+Mainline routing and layout
+We design an efficient pipe layout. Pipes are laid 30–40 cm deep to minimise impact on existing landscape features, paving and other utilities. The finished plan shows the route of every line.
+Professional equipment selection
+We consider the budget, site conditions and ease of maintenance. For reliable systems, we use quality equipment from industry leaders Rain Bird and Hunter (USA). Rain Bird equipment is also used in the automatic irrigation system at Disneyland in Orlando.
+Automation and smart control
+We select solenoid valves and a controller according to the number of zones. Since 2018, we have actively installed Wi-Fi systems controlled by phone. They can use local weather-station data to adjust or pause watering during rain, saving water and money.
+After the design stage, you receive a complete set of documents: zoning plan, pipe routing, equipment specification and a detailed implementation estimate.</text>
+      </en>
+      <ru>
+        <imageAlt>Проектирование системы</imageAlt>
+        <text>Проектирование систем полива
+На каждом озеленённом участке растут разные растения, которым нужны собственные режимы, периодичность и интенсивность полива. При проектировании мы делим территорию на независимые зоны: газоны, цветники, живые изгороди, а также капельный полив кустарников и деревьев. Для каждой зоны подбираем подходящие дождеватели и форсунки, обеспечивающие равномерное полное покрытие без сухих участков.
+Профессиональный проект помогает обеспечить каждый уголок сада именно тем количеством воды, которое ему необходимо.
+Этапы проектирования:
+Зонирование и расчёт полива
+Определяем типы растений, источник воды, давление и расход. Формируем зоны полива, выбираем подходящие дождеватели и рассчитываем расход воды для каждого сектора.
+Трассировка магистралей
+Разрабатываем оптимальную схему трубопроводов. Трубы прокладываются на глубине 30–40 см, чтобы минимально затронуть существующие элементы ландшафта, покрытия и коммуникации. В проекте точно указаны трассы всех линий.
+Подбор профессионального оборудования
+Учитываем бюджет, особенности участка и удобство обслуживания. Для надёжных систем используем качественное оборудование лидеров отрасли Rain Bird и Hunter (США). Оборудование Rain Bird также применяется в системе автоматического полива Disneyland в Орландо.
+Автоматизация и интеллектуальное управление
+Подбираем электромагнитные клапаны и контроллер по числу зон. С 2018 года активно внедряем системы с управлением по Wi-Fi через телефон. Они могут учитывать данные местных метеостанций и корректировать или приостанавливать полив во время дождя, экономя воду и средства.
+По завершении проектирования вы получаете полный комплект документов: план зонирования, трассировку труб, спецификацию оборудования и точную смету реализации.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <contentBlocks>
+    <_key>block2</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Монтаж на оборудването</alt>
+      <asset>
+        <_ref>image-0e5b455d7940fda1d8342bda38404feaaccad9f7-1402x1122-png</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>right</imagePosition>
+    <text>Монтаж на оборудването
+Качественият монтаж е гаранция за дълготрайна и безотказна работа на цялата система. Ние извършваме всички работи с максимална прецизност, като запазваме естетиката на ландшафта и правим основните комуникации напълно скрити и невидими.
+Основни етапи на монтажните работи:
+Разчертаване и изкопни работи
+Към изкопаването на каналите за тръбите пристъпваме веднага след почистването на терена от строителни отпадъци и грубата нивелация на почвата. Нашите специалисти извършват точно трасиране и разчертаване на терена стриктно по проведения проект. Ако на обекта вече има съществуващ тревен килим, ние внимателно премахваме горния чим и го връщаме на мястото му след полагането на тръбите, запазвайки безупречния вид на Вашата градина.
+Полагане на тръбопроводи и кабели
+Полагането на тръбите и контролните кабели се извършва съгласно одобрената схема. Придържаме се към високи стандарти за прецизност и практичност: използваме надеждни фитинги, спазваме технологията на свързване и тестваме херметичността на трасето под налягане преди зариването на изкопите.
+Монтаж на поливното оборудване
+Монтираме оборудването в съответствие с типа на поливаната зона:
+Роторни разпръсквачи — за равномерно напояване на средни и големи открити тревни площи.
+Статични дефлекторни разпръсквачи (Rain Bird Spray) — с фиксиран или регулируем ъгъл за малки тревни площи, цветни лехи и алпинеуми.
+Ландшафтен капков маркуч (вкл. с компенсация на налягането) — за кореново напояване на дървета, храсти и живи плетове.
+Монтаж на автоматиката и Smart-управлението
+Инсталираме електромагнитните клапани в защитни подземни шахти и свързваме контролера за управление. В зависимост от задачите системата може да бъде оборудвана както с автономен програматор, така и със съвременен контролер с Wi-Fi управление, позволяващ пълен контрол върху поливането от Вашия телефон от всяка точка на света.
+Филтрация и помпено оборудване
+За защита на дюзите от запушване задължително монтираме дискови или мрежести филтриращи системи (Irritec). При необходимост от допълнително налягане изграждаме и настройваме автоматична помпена станция и резервоари за вода.
+В процеса на монтаж използваме само доказани компоненти от световните лидери в индустрията: Rain Bird, Hunter, Irritec. За годините ни опит сме подбрали най-устойчивите и надеждни позиции от тези производители, перфектно пригодени за климата и условията в нашия регион.</text>
+    <translations>
+      <en>
+        <imageAlt>Equipment installation</imageAlt>
+        <text>Equipment installation
+Quality installation is essential for long-lasting, reliable operation. We work precisely, preserve the landscape’s appearance and keep the main utilities hidden.
+Main installation stages:
+Marking out and excavation
+We begin trenching after construction waste has been cleared and the ground roughly levelled. Our specialists mark the site according to the approved design. Where a lawn already exists, we carefully lift the turf and replace it after laying the pipes to preserve the garden’s appearance.
+Pipes and cables
+Pipes and control cables are installed according to the approved plan. We use reliable fittings, follow correct connection methods and pressure-test the lines for leaks before backfilling.
+Irrigation equipment
+We install equipment suited to each zone:
+Rotary sprinklers for even watering of medium and large open lawns.
+Static deflector sprinklers (Rain Bird Spray), with fixed or adjustable arcs, for small lawns, flower beds and rock gardens.
+Landscape dripline, including pressure-compensating types, for root watering of trees, shrubs and hedges.
+Automation and smart control
+We install solenoid valves in protected underground valve boxes and connect the controller. Depending on the project, the system can use a standalone timer or a modern Wi-Fi controller that lets you manage watering from your phone anywhere in the world.
+Filtration and pumping
+To prevent nozzle blockages, we install disc or mesh filters (Irritec). Where extra pressure is needed, we build and configure an automatic pump station and water tanks.
+We use proven components from industry leaders Rain Bird, Hunter and Irritec, selecting durable products suited to our region’s climate and conditions.</text>
+      </en>
+      <ru>
+        <imageAlt>Монтаж оборудования</imageAlt>
+        <text>Монтаж оборудования
+Качественный монтаж обеспечивает долгую и надёжную работу всей системы. Мы выполняем работы тщательно, сохраняем эстетику ландшафта и скрываем основные коммуникации.
+Основные этапы монтажа:
+Разметка и земляные работы
+К рытью траншей приступаем после уборки строительного мусора и предварительного выравнивания грунта. Специалисты точно размечают участок по проекту. Если газон уже уложен, аккуратно снимаем верхний слой дёрна и возвращаем его на место после прокладки труб, сохраняя внешний вид сада.
+Прокладка труб и кабелей
+Трубы и управляющие кабели прокладываем по утверждённой схеме. Используем надёжные фитинги, соблюдаем технологию соединения и проверяем герметичность под давлением до засыпки траншей.
+Монтаж оборудования полива
+Подбираем оборудование по типу зоны:
+Роторные дождеватели — для равномерного полива средних и больших открытых газонов.
+Статические веерные дождеватели Rain Bird Spray с фиксированным или регулируемым сектором — для небольших газонов, цветников и альпинариев.
+Капельная трубка для ландшафтного полива, в том числе с компенсацией давления, — для корневого полива деревьев, кустарников и живых изгородей.
+Автоматика и интеллектуальное управление
+Устанавливаем электромагнитные клапаны в защищённых подземных боксах и подключаем контроллер. В зависимости от задачи используем автономный таймер или современный Wi-Fi-контроллер, позволяющий управлять поливом с телефона из любой точки мира.
+Фильтрация и насосное оборудование
+Для защиты форсунок от засорения устанавливаем дисковые или сетчатые фильтры Irritec. Если требуется дополнительное давление, монтируем и настраиваем автоматическую насосную станцию и резервуары для воды.
+При монтаже используем проверенные компоненты Rain Bird, Hunter и Irritec. За годы работы мы отобрали долговечное и надёжное оборудование, подходящее для климата и условий нашего региона.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <contentBlocks>
+    <_key>block3</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Настройка и проверка</alt>
+      <asset>
+        <_ref>image-3c73351d4def26ad0fff419b1cb41e744756d295-1402x1122-png</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>left</imagePosition>
+    <text>След монтажа настройваме зоните, проверяваме покритието и програмираме графика според нуждите на тревата и растенията.</text>
+    <translations>
+      <en>
+        <imageAlt>Setup and testing</imageAlt>
+        <text>After installation, we set up the zones, check coverage and programme a schedule for the lawn and plants.</text>
+      </en>
+      <ru>
+        <imageAlt>Настройка и проверка</imageAlt>
+        <text>После монтажа настраиваем зоны, проверяем покрытие и программируем график с учётом потребностей газона и растений.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <description>
+    <_key>heading</_key>
+    <_type>block</_type>
+    <children>
+      <_key>headings</_key>
+      <_type>span</_type>
+      <text>Автоматично напояване, съобразено с вашата градина</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>intro</_key>
+    <_type>block</_type>
+    <children>
+      <_key>intros</_key>
+      <_type>span</_type>
+      <text>Изграждаме автоматични поливни системи според площта, релефа, почвата, водоизточника и растителността. Подбираме разпръсквачи, електромагнитни клапани, тръби и контролери Rain Bird, така че всяка зона да получава необходимото количество вода. Работим в Несебър, Слънчев бряг, Равда, Ахелой, Свети Влас, Поморие и Бургас.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advhead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advheads</_key>
+      <_type>span</_type>
+      <text>Предимства</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>advtext0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext0s</_key>
+      <_type>span</_type>
+      <text>Индивидуален проект: Съобразяваме системата с особеностите на терена и нуждите на растенията.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext1s</_key>
+      <_type>span</_type>
+      <text>Надеждно оборудване: Подбираме качествени компоненти и автоматика за дългосрочна работа.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext2s</_key>
+      <_type>span</_type>
+      <text>По-ефективен разход на вода: Зонирането и правилната настройка намаляват излишното поливане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext3s</_key>
+      <_type>span</_type>
+      <text>Обслужване след монтажа: Предлагаме пускане, настройка, сезонна профилактика и ремонт.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>stepshead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>stepsheads</_key>
+      <_type>span</_type>
+      <text>Етапи на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>steptext0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext0s</_key>
+      <_type>span</_type>
+      <text>1. Оглед и измерване: Уточняваме площите, водоизточника, денивелацията и желанията ви.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext1s</_key>
+      <_type>span</_type>
+      <text>2. Проект и оферта: Подготвяме схема, подбираме оборудването и изчисляваме необходимите материали.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext2s</_key>
+      <_type>span</_type>
+      <text>3. Монтаж: Полагаме тръбите, монтираме разпръсквачите, клапаните и контролера.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext3s</_key>
+      <_type>span</_type>
+      <text>4. Тест и настройка: Проверяваме зоните, регулираме разпръсквачите и показваме управлението.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>ctahead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>ctaheads</_key>
+      <_type>span</_type>
+      <text>Свържете се с Florial</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>ctatext</_key>
+    <_type>block</_type>
+    <children>
+      <_key>ctatexts</_key>
+      <_type>span</_type>
+      <text>Поискайте оглед и индивидуална оферта за автоматично напояване.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>img0</_key>
+    <_type>image</_type>
+    <alt>Автоматично поливане в Несебър</alt>
+    <asset>
+      <_ref>image-7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img1</_key>
+    <_type>image</_type>
+    <alt>Проектиране на поливна система</alt>
+    <asset>
+      <_ref>image-51685d5e44a1dac123ca8b50f5b6c1d22036d053-1402x1122-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img2</_key>
+    <_type>image</_type>
+    <alt>Изкопни работи за тръбите</alt>
+    <asset>
+      <_ref>image-0e5b455d7940fda1d8342bda38404feaaccad9f7-1402x1122-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img3</_key>
+    <_type>image</_type>
+    <alt>Монтаж на автоматично поливане</alt>
+    <asset>
+      <_ref>image-3c73351d4def26ad0fff419b1cb41e744756d295-1402x1122-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img4</_key>
+    <_type>image</_type>
+    <alt>Поддръжка на поливна система</alt>
+    <asset>
+      <_ref>image-993756b394f14155f4581c79f7ca210e45020482-1536x1024-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <hero>
+    <image>
+      <_type>image</_type>
+      <alt>Автоматично поливане в Несебър</alt>
+      <asset>
+        <_ref>image-7c7fb845580857c0f0c70ce2520f86bcb17b083e-780x585-jpg</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <subtitle>Проектиране и монтаж на автоматични поливни системи за частни градини, хотели и търговски обекти по Южното Черноморие.</subtitle>
+    <title>Автоматично напояване, съобразено с вашата градина</title>
+  </hero>
+  <image>
+    <_type>image</_type>
+    <alt>Автоматично поливане в Несебър</alt>
+    <asset>
+      <_ref>image-c62eafa825b23c3cca40b1f20b1c0b4cf93c8803-1200x896-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </image>
+  <isActive>true</isActive>
+  <leadForm>
+    <fields>
+      <_key>f1</_key>
+      <label>Име</label>
+      <name>name</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f2</_key>
+      <label>Телефон</label>
+      <name>phone</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f3</_key>
+      <label>Имейл</label>
+      <name>email</name>
+      <required>false</required>
+    </fields>
+    <fields>
+      <_key>f4</_key>
+      <label>Населено място</label>
+      <name>location</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f5</_key>
+      <label>Описание на проекта</label>
+      <name>details</name>
+      <required>false</required>
+    </fields>
+    <submitLabel>Изпрати запитване</submitLabel>
+    <title>Запитване за услуга</title>
+  </leadForm>
+  <name>Автоматично напояване</name>
+  <seo>
+    <metaDescription>Проектиране и монтаж на автоматични поливни системи за дворове, хотели и обекти в Несебър, Равда, Слънчев бряг и Свети Влас.</metaDescription>
+    <metaTitle>Автоматично напояване в Несебър и Равда | Florial</metaTitle>
+    <noIndex>false</noIndex>
+  </seo>
+  <serviceCategory>irrigation</serviceCategory>
+  <serviceLayout>standard</serviceLayout>
+  <shortDescription>Проектиране и монтаж на автоматични поливни системи за частни градини, хотели и търговски обекти по Южното Черноморие.</shortDescription>
+  <slug>
+    <_type>slug</_type>
+    <current>avtomatichno-napoyavane</current>
+  </slug>
+  <sortOrder>22</sortOrder>
+  <sourcePageUrl>https://www.drop.od.ua/bg/avtomaticheskij-poliv</sourcePageUrl>
+  <steps>
+    <_key>step0</_key>
+    <text>Уточняваме площите, водоизточника, денивелацията и желанията ви.</text>
+    <title>Оглед и измерване</title>
+  </steps>
+  <steps>
+    <_key>step1</_key>
+    <text>Подготвяме схема, подбираме оборудването и изчисляваме необходимите материали.</text>
+    <title>Проект и оферта</title>
+  </steps>
+  <steps>
+    <_key>step2</_key>
+    <text>Полагаме тръбите, монтираме разпръсквачите, клапаните и контролера.</text>
+    <title>Монтаж</title>
+  </steps>
+  <steps>
+    <_key>step3</_key>
+    <text>Проверяваме зоните, регулираме разпръсквачите и показваме управлението.</text>
+    <title>Тест и настройка</title>
+  </steps>
+  <translations>
+    <en>
+      <callToAction>
+        <buttonLabel>Send an enquiry</buttonLabel>
+        <text>Request a site visit and a tailored quote for automatic irrigation.</text>
+        <title>Request a quote</title>
+      </callToAction>
+      <description>Automatic irrigation tailored to your garden
+
+We design and install automatic irrigation systems based on the area, terrain, soil, water source and planting. We select sprinklers, solenoid valves, pipes and Rain Bird controllers so every zone receives the right amount of water. We work in Nessebar, Sunny Beach, Ravda, Aheloy, Sveti Vlas, Pomorie and Burgas.
+
+Benefits
+
+Individual design: We tailor the system to the site and the plants’ needs.
+
+Reliable equipment: We select quality components and automation for long-term performance.
+
+More efficient water use: Zoning and accurate settings reduce unnecessary watering.
+
+After-installation service: We offer start-up, adjustments, seasonal maintenance and repairs.
+
+How we work
+
+1. Site survey and measurements: We confirm the areas, water source, slopes and your requirements.
+
+2. Design and quotation: We prepare a layout, select equipment and calculate materials.
+
+3. Installation: We lay pipes and install sprinklers, valves and the controller.
+
+4. Testing and setup: We check each zone, adjust sprinklers and show you how to use the system.
+
+Contact Florial
+
+Request a site visit and a tailored quote for automatic irrigation.</description>
+      <hero>
+        <subtitle>Design and installation of automatic irrigation systems for private gardens, hotels and commercial properties along Bulgaria’s southern Black Sea coast.</subtitle>
+        <title>Automatic irrigation tailored to your garden</title>
+      </hero>
+      <name>Automatic irrigation</name>
+      <seo>
+        <metaDescription>Design and installation of automatic irrigation for gardens, hotels and commercial properties in Nessebar, Ravda, Sunny Beach and Sveti Vlas.</metaDescription>
+        <metaTitle>Automatic Irrigation in Nessebar & Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Design and installation of automatic irrigation systems for private gardens, hotels and commercial properties along Bulgaria’s southern Black Sea coast.</shortDescription>
+    </en>
+    <ru>
+      <callToAction>
+        <buttonLabel>Отправить заявку</buttonLabel>
+        <text>Закажите осмотр участка и индивидуальное предложение по автоматическому поливу.</text>
+        <title>Запросить предложение</title>
+      </callToAction>
+      <description>Автоматический полив с учётом особенностей вашего сада
+
+Проектируем и устанавливаем автоматические системы полива с учётом площади, рельефа, почвы, источника воды и растений. Подбираем дождеватели, электромагнитные клапаны, трубы и контроллеры Rain Bird, чтобы каждая зона получала необходимое количество воды. Работаем в Несебре, Солнечном Береге, Равде, Ахелое, Святом Власе, Поморие и Бургасе.
+
+Преимущества
+
+Индивидуальный проект: адаптируем систему к особенностям участка и потребностям растений.
+
+Надёжное оборудование: подбираем качественные компоненты и автоматику для длительной работы.
+
+Экономия воды: зонирование и точная настройка сокращают избыточный полив.
+
+Обслуживание после монтажа: выполняем запуск, настройку, сезонную профилактику и ремонт.
+
+Этапы работы
+
+1. Осмотр и замеры: уточняем площади, источник воды, уклоны и ваши пожелания.
+
+2. Проект и смета: готовим схему, подбираем оборудование и рассчитываем материалы.
+
+3. Монтаж: прокладываем трубы, устанавливаем дождеватели, клапаны и контроллер.
+
+4. Проверка и настройка: тестируем зоны, регулируем дождеватели и показываем управление системой.
+
+Свяжитесь с Florial
+
+Закажите осмотр участка и индивидуальное предложение по автоматическому поливу.</description>
+      <hero>
+        <subtitle>Проектирование и монтаж автоматических систем полива для частных садов, отелей и коммерческих объектов на Южном Черноморье.</subtitle>
+        <title>Автоматический полив с учётом особенностей вашего сада</title>
+      </hero>
+      <name>Автоматический полив</name>
+      <seo>
+        <metaDescription>Проектирование и монтаж автоматического полива для садов, отелей и коммерческих объектов в Несебре, Равде, Солнечном Береге и Святом Власе.</metaDescription>
+        <metaTitle>Автоматический полив в Несебре и Равде | Florial</metaTitle>
+      </seo>
+      <shortDescription>Проектирование и монтаж автоматических систем полива для частных садов, отелей и коммерческих объектов на Южном Черноморье.</shortDescription>
+    </ru>
+  </translations>
+</document>
