@@ -3520,3 +3520,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - `generateRainBird3500RotorLayout` now accepts bounded numerical search settings: `candidatePositionStepFactor` ∈ {0.25, 0.5, 1.0} × manufacturer throw radius and `candidateDirectionStepDeg` ∈ {15, 30, 45}. Defaults remain 0.5 and 45°. `sampleStepM` independently controls target sampling.
 - These settings exist for controlled sensitivity/convergence studies only; they are not manufacturer design rules. Unsupported values are rejected; resource caps remain fail-closed.
 - 180°-only exact D42378 lookup, preliminary heuristic status and non-hydraulic/non-uniformity state remain unchanged. Post-merge main CI for this SHA was running at documentation time.
+
+
+### Rain Bird 3500 — bounded search resolution stage 4 (2026-11-16)
+
+- PR #344 merged as `a125b851ca8205bd001850c09614af11306e8fe2`; `main` observed at `c025a4d83a4c2a9f2e8d43ee08e79f7351a7ecfa`.
+- Internal controls: `candidatePositionStepFactor` accepts 0.25, 0.5 or 1.0 × exact D42378 throw radius; default 0.5. `candidateDirectionStepDeg` accepts 15, 30 or 45 degrees; default 45. Target sample step remains independent. Unsupported values are rejected.
+- Exact-head CI passed: Blog/Studio `43849172350`, D1 validation `43849172390`.
+- These settings enable sensitivity experiments only. They do not encode Rain Bird spacing guidance and do not change default output. The algorithm remains heuristic and not globally optimal; all previous limitations (180° only, no hydraulics, DU/SC, exclusions, package verification or customer integration) remain.

@@ -225,3 +225,8 @@ PR #342 adds synthetic regression tests for mirrored and right-angle-rotated L-s
 ### Rain Bird 3500 search sensitivity controls — stage 4 (2026-11-16)
 
 The candidate generator now exposes bounded search presets for controlled sensitivity studies: candidate-position spacing factors 0.25/0.5/1.0 × exact D42378 throw radius and direction increments 15°/30°/45°. Defaults remain 0.5 and 45°; target sampling is independent. These are numerical search settings, not Rain Bird design rules. Unsupported values fail closed. The 180°-only, exact-point and preliminary-only gates remain unchanged. Benchmark all presets against identical geometries before changing defaults.
+
+
+### Rain Bird 3500 search-resolution controls — stage 4 (2026-11-16)
+
+PR #344 exposes bounded numerical search settings for controlled sensitivity studies: candidate position step factor 0.25/0.5/1.0 × exact D42378 throw radius (default 0.5), direction increment 15°/30°/45° (default 45°), and independent target sampling. Unsupported settings are rejected. These increments are algorithm discretization controls, not manufacturer spacing rules. Defaults are unchanged. Next validation must compare rotor count/coordinates, coverage, directional H2H, overspray, candidate count and runtime across a repeatable benchmark matrix; no convergence claim is justified yet.
