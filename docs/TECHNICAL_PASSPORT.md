@@ -3485,3 +3485,12 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 3. Проверить все восемь 301, сохранение `lang`/UTM query parameters, новые URL, canonical/hreflang, OG image и sitemap.
 4. После успешной проверки отключить публикацию восьми старых blogPost документов, сохранив документы и ссылки.
 5. Выполнить ручной осмотр новых услуг в Studio на BG/RU/EN.
+
+
+### Rain Bird 3500 — isolated evaluator stage 1 (2026-11-16)
+
+- The existing code-owned D42378 dataset contains 36 exact operating points (six nozzle sizes × six pressure points). Source basis: zero-wind test conditions; precipitation values explicitly based on half-circle operation.
+- New PR #339 adds a separate evaluator module `src/lib/irrigation/rainBird3500RotorEngine.mjs`; it is intentionally not wired into the R-VAN/HE-VAN placement solver or customer UI.
+- Supported in this increment: exact pressure/nozzle lookup; 180° arc only; sampled geometry coverage; directional head-to-head; sampled overspray diagnostics.
+- Explicitly unsupported: all non-180° arcs, interpolation, radius reduction, automatic position generation, hydraulic feasibility, precipitation uniformity/DU/SC, verified 3504 package/nozzle-tree contents and automatic Sanity SKU selection.
+- Results are preliminary sampled evaluations only. No output is a certified irrigation design. PR #339 exact-head CI is pending at documentation time.
