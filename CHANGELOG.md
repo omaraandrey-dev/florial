@@ -1,3 +1,13 @@
+## 2026-11-16 — Irrigation assistant bridge, 3500 audit and owner-approved engine scope (PRs #330–#333)
+
+- PR #330 merged as `cd9b1cd4f1b2a27db7be672a43b783eb5f6ac893`: corrected the conversational-intake Production deployment/audit record.
+- PR #331 merged as `e60e5d357f01e2cbdc582f0b44090357330a206e`: connected the confirmed intake snapshot to the deterministic lawn layout solver through a guarded bridge. The bridge currently supports the provisional R-VAN14/R-VAN18 scenario only; the 4.0–5.5 m short-side selection is an engineering heuristic, not an approved universal rule. Exact-head Blog/Studio CI `43840510707` and D1 validation `43840510683` passed.
+- PR #332 merged as `524c117b0512271bad2350b67490ff6e10c9c592`: documented why Rain Bird 3500 cannot yet be safely enabled in the multi-arc solver. Its existing 36 manufacturer points remain exact nozzle/pressure data; published precipitation rates are based on half-circle operation, and the official installation manual does not provide arc-specific performance tables or conversion rules. Exact-head Blog/Studio CI `43840350060` and D1 validation `43840149624` passed.
+- PR #333 merged as `94d5c17d30197de50a1dcbc83f469cd0ed15f9a2`: added a standalone 60-row Rain Bird 5000 MPR manufacturer-data reference with exact lookup and tests. **Owner scope decision:** do not build or connect an MPR solver/engine. This dataset is not part of the supported sprinkler-selection engine and must not appear in customer recommendations or catalogue mapping.
+- Owner-approved engineering scope: develop and validate the Florial lawn engine around Rain Bird **R-VAN, HE-VAN and 3500 rotors**. R-VAN/HE-VAN remain the current solver families. 3500 is the next rotor-engine target and must receive a safe family-specific calculation path; do not route it through HE-VAN lookup or reuse half-circle precipitation values for other arcs without verified method.
+- Integrated main SHA: `94d5c17d30197de50a1dcbc83f469cd0ed15f9a2`. PR-head CI passed for all four PRs. Main-commit Blog/Studio and D1 validation were still running at the time this record was prepared; see the exact main SHA workflow runs before claiming final integrated validation.
+- No Sanity, D1 schema/data, Resend, Gemini, Cloudflare settings/secrets or deliberate Production configuration changes were made by these PRs. Merge-triggered Pages deployment status must be verified separately.
+
 ## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
