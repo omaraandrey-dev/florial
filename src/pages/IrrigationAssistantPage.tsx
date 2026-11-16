@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
-import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput'
-import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry'
+import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
+import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
 
