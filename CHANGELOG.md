@@ -3368,3 +3368,13 @@ Backups:
 - Unsupported search values fail closed; existing candidate/sample caps remain active. These are numerical search discretization controls, not manufacturer performance/spacing rules.
 - Exact-head CI passed: Blog/Studio run `43849172350`; D1 validation run `43849172390`. Post-merge main CI for `a125b851ca8205bd001850c09614af11306e8fe2` was running when this entry was prepared.
 - No change to the 180°-only manufacturer evidence gate, exact pressure/nozzle lookup, R-VAN/HE-VAN solver or customer flow. No 5000 MPR engine; no Sanity/D1 data, Cloudflare settings/secrets, Resend or manual Production changes.
+
+
+## 2026-11-16 — Irrigation engineer assistant paused; resume handoff recorded
+
+- Owner paused the irrigation-engineering assistant / Rain Bird 3500 work to focus on other Florial website areas. This is a pause, not cancellation.
+- Added the authoritative resume handoff: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md`, linked from `docs/AI/START_HERE.md`.
+- At checkpoint, PR #347 (stage 5) and PR #348 (stage 6) were in main; observed main SHA `ac705db95e87e2cd51fe74e70d15128d2833b5f7`.
+- PR #349 (stage 7 site context / whole-site overspray) was fetched as `open`, `merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`; previous merge attempt timed out / returned 405. It is intentionally left untouched. Do not retry merge, close, retarget or modify it until the owner explicitly resumes this task.
+- No runtime code, Sanity data/schema, D1 data/schema, Cloudflare configuration/secrets, Resend or Production deployment was changed by this pause handoff.
+- On resumption, fetch current main and reread the mandatory docs, then verify PR #349 and reconcile all stage documentation before continuing stage 8. The handoff contains the exact sequence and roadmap.
