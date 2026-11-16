@@ -1,3 +1,14 @@
+
+
+## 2026-11-16 — Lawn layout engine release and engineering gates
+
+- **Released:** PR #317 merged as `95c32aa4570499b61252f92fc8755e25ee314856`; exact PR-head Blog/Studio and D1 validation runs `43819093067` and `43819094228` passed. Cloudflare Pages Production deployment `3b39ef74-3fc8-46a3-8cd0-e4cf36d6fbdb` deployed that exact SHA successfully.
+- **Implemented:** exact R-VAN/HE-VAN performance lookup data and preliminary deterministic sampled placement for one confirmed rectangle or orthogonal L-shape. R-VAN is prioritized per owner preference; HE-VAN remains conditional. See `docs/audits/2026-11-16-lawn-engineering-stage-gate.md`.
+- **Not a finished design:** hydraulic feasibility, dynamic pressure, pipe losses, zones, precipitation uniformity, overspray, wind and exact body/nozzle compatibility are not evaluated. Browser visual QA and engineer field validation are not confirmed.
+- **3500 gate:** Rain Bird D42378 supports adjustable 40°–360° arcs but states precipitation table values are based on half-circle operation. Do not infer arc-specific precipitation or scale values by angle. Confirm radius/flow applicability, exact nozzle-tree/package mapping and boundary overspray before integrating the rotor in the solver.
+- **Uniformity gate:** manufacturer DU/SC claims are not per-layout results. A layout-specific estimate requires exact radial distribution profiles or engineer-reviewed catch-can measurements; do not calculate DU from binary coverage or average precipitation alone.
+- **Next:** engineer-review reference layouts; resolve 3500 data gate; define precipitation-uniformity validation; then start hydraulic zoning/pipe-loss work using measured dynamic pressure/flow and actual network details.
+
 ## 2026-11-16 — Irrigation introduction video follow-up
 
 - **Released:** PR #305 merged as `5ff280711c0b8926e420a2594428941085fc2824`; the approved 60.33-second Bulgarian Florial video is embedded only on `/services/category/polivni-sistemi`. Exact-SHA CI and Cloudflare Pages Production deployment succeeded. Details: `docs/audits/2026-11-16-irrigation-introduction-video.md`.
