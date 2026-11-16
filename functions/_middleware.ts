@@ -659,7 +659,10 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
         : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
     extra = price + sku + '<p>' + stockLabel + '</p>'
   }
-  return '<main style="max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif">' +
+  const mainStyle = type === 'product'
+    ? 'max-width:1100px;min-height:100svh;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
+    : 'max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
+  return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
     extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
