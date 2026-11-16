@@ -143,8 +143,8 @@ function siteContext({ noSprayRegions = [] } = {}) {
     schemaVersion: 1,
     coordinateSystem: 'local_cartesian_m',
     status: 'confirmed',
-    siteBoundary: square(0, 0, 20, 12),
-    permittedSprayRegions: [{ id: 'adjacent-bed', polygon: square(12, 0, 20, 12) }],
+    siteBoundary: square(0, -8, 20, 16),
+    permittedSprayRegions: [{ id: 'adjacent-bed', polygon: square(12, -8, 20, 16) }],
     noSprayRegions,
   }
 }
