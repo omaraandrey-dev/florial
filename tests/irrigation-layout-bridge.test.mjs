@@ -49,7 +49,7 @@ test('unconfirmed geometry is never passed to the layout solver', () => {
 
 test('geometry outside the current R-VAN v1 envelope is not forced into a nozzle layout', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor({ width: 6 }))
-  assert.equal(result.status, 'outside_rvan_v1_scope')
+  assert.equal(result.status, 'requires_rotor_engine')
   assert.equal(result.reason, 'requires_large_rotor_engine_or_engineer_review')
   assert.equal(result.layout, undefined)
 })
