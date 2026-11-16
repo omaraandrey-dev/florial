@@ -274,15 +274,15 @@ export function evaluateHeadToHeadSpacing(selected) {
       const maximumSpacing = Math.min(sprinkler.radiusM, other.radiusM)
       const mutuallyReaches = separation <= maximumSpacing + EPSILON &&
         sectorContains(
-          other.position,
           sprinkler.position,
+          other.position,
           other.directionDeg ?? 0,
           other.arcDeg,
           other.radiusM,
         ) &&
         sectorContains(
-          sprinkler.position,
           other.position,
+          sprinkler.position,
           sprinkler.directionDeg ?? 0,
           sprinkler.arcDeg,
           sprinkler.radiusM,
