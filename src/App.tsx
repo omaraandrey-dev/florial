@@ -249,7 +249,7 @@ export default function App() {
   const [loadedCatalogueTypes, setLoadedCatalogueTypes] = useState<string[]>([])
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
-  const [loadingProductDetails, setLoadingProductDetails] = useState(false)
+  const [loadingProductDetails, setLoadingProductDetails] = useState(() => Boolean(getRouteState().activeProductSlug))
 
   // Resolve the requested URL before the first render so direct links never flash the homepage.
   const [initialRoute] = useState(() => getRouteState())
