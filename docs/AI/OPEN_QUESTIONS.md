@@ -1,3 +1,11 @@
+## 2026-11-16 — Automatic irrigation article layout update: release checks pending
+
+- The approved BG/RU/EN draft and route-specific frontend renderer changes are prepared on branch `content/automatic-irrigation-article-layout-2026-11-16`.
+- The Sanity draft is based on published revision `kG84M8L0NjpttWhMhqGtNr`; the full pre-write snapshot is stored at `docs/backups/sanity/2026-11-16-automatic-irrigation-service-before-article-layout-update.json`.
+- Sanity validation reports valid but incomplete because custom validation callbacks did not run. Do not treat this as a full schema/business validation.
+- Still required before calling the task complete: exact-head CI/build, PR Preview review, integrate frontend code, publish the matching Sanity draft, verify Production deployment and perform BG/RU/EN desktop/mobile browser QA.
+- Do not alter the separate cost article `/blog/cena-sistema-avtomatichno-napoyavane-burgas` as part of this service-page task. Full audit: `docs/audits/2026-11-16-automatic-irrigation-article-layout.md`.
+
 ## 2026-11-16 — Intake v1 Preview verification
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
