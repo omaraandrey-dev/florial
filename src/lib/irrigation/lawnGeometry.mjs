@@ -138,7 +138,7 @@ function normalizeRing(ring, path, errors) {
 
   const compact = removeCollinearVertices(vertices)
   if (compact.length < 3) {
-    errors.push(issue(ERROR.TOO_FEW_VERTICES, path + '.vertices'))
+    errors.push(issue(ERROR.ZERO_AREA_RING, path))
     return null
   }
 
