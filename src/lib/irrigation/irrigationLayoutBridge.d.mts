@@ -29,6 +29,7 @@ export interface PreliminaryLawnLayoutResult {
     model: string
     pressureBar: number
     pressureBasis: string
+    modelSelectionBasis: string
     sourceUrl: string
     actualNozzlePressureVerified: false
     customerSourceMeasurementsUsedAsNozzlePressure: false
