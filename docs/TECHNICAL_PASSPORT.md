@@ -4,7 +4,7 @@
 
 - PR #319 merged as `df1592ba5519d75487cff030ae8b165a11d5ec35`; exact PR head `bcb1d5399612e33069dbc1c11f37fa21eaf37c26` passed Blog/Studio run `43821654485` and D1 run `43821654670`.
 - Scenario tests now require complete sampled coverage (100%, zero uncovered samples) for 12m × 4/5/6/8m rectangles and mirrored/rotated/reversed L-shapes. The baseline rectangle and L-shape also pass at finer 0.125m sample spacing.
-- Test/audit-only change; no runtime behavior changed. Production Pages deployment for merge SHA `df1592ba5519d75487cff030ae8b165a11d5ec35` was still in deploy stage at audit time; verify exact deployment completion separately.
+- Test/audit-only change; no runtime behavior changed. Production Pages deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` completed successfully for merge SHA `df1592ba5519d75487cff030ae8b165a11d5ec35`; aliases `florial-bg.com` and `www.florial-bg.com` were assigned.
 - Full test acceptance boundary: `docs/audits/2026-11-16-lawn-layout-coverage-acceptance.md`.
 
 
