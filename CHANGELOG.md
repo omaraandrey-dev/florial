@@ -3382,3 +3382,8 @@ Backups:
 
 - PR #349 initial head failed one new test fixture because the synthetic permitted region did not contain the complete tested half-circle sector; D1 validation passed and the other website tests passed. The engine correctly identified samples beyond the site boundary as forbidden.
 - The fixture was corrected on head `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress. D1 rerun was not yet confirmed. PR #349 remains open and unmerged.
+
+## 2026-11-16 — Site-context stage 7 exact-head CI passed
+
+- Corrected PR #349 head `b64f6f18cdac31c0fa29064dfd2b20719a688b03` passed Blog/Studio validation run `43855876224` and D1 validation run `43855891392`. Website tests, type-checks, lint, website build, Studio type-check/build and D1 validation succeeded.
+- PR #349 remains open and unmerged; no Production deployment or live-service write was performed.
