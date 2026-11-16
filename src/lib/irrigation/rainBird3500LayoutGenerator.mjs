@@ -1,8 +1,9 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { validateIrrigationSiteContext } from './irrigationSiteContext.mjs'
 import { findRainBird3500PerformancePoint } from './irrigationPerformanceData.mjs'
 import { evaluateRainBird3500RotorLayout } from './rainBird3500RotorEngine.mjs'
 
-const ENGINE_VERSION = '3500-candidate-generator-0.2.0'
+const ENGINE_VERSION = '3500-candidate-generator-0.3.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_TARGETS = 30000
@@ -270,6 +271,7 @@ export function generateRainBird3500RotorLayout({
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
   candidatePositionStepFactor = 0.5,
   candidateDirectionStepDeg = DEFAULT_DIRECTION_STEP_DEG,
+  siteContext,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || validation.status !== 'accepted') {
@@ -285,6 +287,10 @@ export function generateRainBird3500RotorLayout({
       !ALLOWED_POSITION_STEP_FACTORS.includes(candidatePositionStepFactor) ||
       !ALLOWED_DIRECTION_STEPS.includes(candidateDirectionStepDeg)) {
     return failure('invalid_operating_input', 'exact_nozzle_pressure_nozzle_and_positive_sample_step_required', 'operatingPoint')
+  }
+  if (siteContext !== undefined) {
+    const siteValidation = validateIrrigationSiteContext(siteContext)
+    if (!siteValidation.valid) return failure('site_context_not_accepted', 'confirmed_valid_site_context_required', 'siteContext')
   }
   const point = findRainBird3500PerformancePoint(nozzlePressureBar, nozzle)
   if (!point) {
@@ -314,6 +320,7 @@ export function generateRainBird3500RotorLayout({
     nozzle,
     sprinklers: layout,
     sampleStepM,
+    siteContext,
   })
   const uncovered = selection.uncovered.size
   const warnings = [
