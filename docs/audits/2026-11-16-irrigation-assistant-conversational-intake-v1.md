@@ -3,7 +3,7 @@
 **Date:** 2026-11-16  
 **Base main:** `1be8fc11ff33ca0e18ec38895c8714669eceedf7`  
 **Branch:** `feat/irrigation-assistant-conversational-intake-v1`  
-**Status:** implementation candidate; awaiting exact-head CI and Preview browser QA
+**Status:** Preview QA and exact-head CI passed; PR #329 awaits owner review
 
 ## Delivered in this increment
 
@@ -38,11 +38,16 @@
 - `docs/TECHNICAL_PASSPORT.md`
 - `docs/AI/OPEN_QUESTIONS.md`
 
-## Validation still required
+## Verification evidence
 
-- Exact-head CI: TypeScript, lint, all tests, website build and D1 validation.
-- Preview browser QA in BG/RU/EN on mobile and desktop: transcript, geometry validation, decimal comma input, all pressure types, measurement point, flow method, back navigation, summary, no horizontal overflow and no console errors.
-- Verify that the assistant remains noindex and launcher remains hidden on the assistant route.
+- Exact tested runtime commit: `662936768b311050699ebfb9c77c6857759aeedf`.
+- Blog/Studio validation run `43834815047`: success. Application/Pages TypeScript, oxlint, all Node tests, website build, migration syntax/dry-run, Studio TypeScript and Studio build all passed.
+- D1 validation run `43834815101`: success (lint, website build, Pages Functions syntax and migration validation).
+- Cloudflare Pages Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115`, URL `https://28c55ebd.florial.pages.dev/irrigation-assistant`, deployed the exact tested runtime commit; build and deploy stages succeeded.
+- Read-only browser QA passed rectangle `12 × 8 m` → `96 m²` and `40 m` perimeter, geometry confirmation, source selection, dynamic/static pressure, dynamic measurement confirmation, all test-point options, flow measurement methods, notes and summary.
+- Russian and English variants loaded at `?lang=ru` and `?lang=en`; mobile viewport `390 × 844` had no horizontal overflow. No console errors, warnings, runtime errors or unhandled rejections were observed.
+- No lead, message, cart, Production, Sanity write or intentional project-data D1 write was performed.
+- Privacy caveat: the existing consent notice says baseline page-use events are recorded in D1 regardless of optional PostHog consent. The QA did not submit project/lead data; the existing analytics event path was not modified or re-audited here.
 - No Production deployment is included or authorized by this increment.
 
 ## Next implementation gates
