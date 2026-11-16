@@ -152,6 +152,7 @@ test('plant product LCP image is eager, prioritized and responsive in initial HT
   assert.match(page, /useState<string>\(\(\) => product\.imageUrl \|\| ''\)/)
   assert.match(page, /loading="eager" fetchPriority="high" decoding="async"/)
   assert.match(middleware, /function renderResponsiveProductImage/)
+  assert.match(middleware, /type === 'product'[\s\S]*?min-height:100svh/)
   assert.match(middleware, /srcset=/)
   assert.match(middleware, /fetchpriority="high"/)
   assert.match(middleware, /width="' \+ sourceWidth \+ '" height="' \+ sourceHeight/)
