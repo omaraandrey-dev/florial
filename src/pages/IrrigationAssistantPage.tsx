@@ -4,8 +4,12 @@ import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
+import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
 
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
+type PressureType = 'static' | 'dynamic' | 'unknown'
+type PressureTestPoint = 'source' | 'tap' | 'lawn_entry' | 'unknown'
+type FlowMeasurementMethod = 'bucket' | 'flow_meter' | 'other_verified' | 'unknown'
 
 interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
@@ -22,104 +26,153 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const [cutoutCorner, setCutoutCorner] = useState<LawnCutoutCorner>('top-right')
   const [geometryConfirmed, setGeometryConfirmed] = useState(false)
   const [waterSource, setWaterSource] = useState<WaterSource>('unknown')
+  const [pressureType, setPressureType] = useState<PressureType>('unknown')
+  const [pressureBar, setPressureBar] = useState('')
+  const [pressureMeasuredWhileFlowing, setPressureMeasuredWhileFlowing] = useState(false)
+  const [pressureTestPoint, setPressureTestPoint] = useState<PressureTestPoint>('unknown')
   const [flowRate, setFlowRate] = useState('')
-  const [pressure, setPressure] = useState('')
+  const [flowMeasurementMethod, setFlowMeasurementMethod] = useState<FlowMeasurementMethod>('unknown')
   const [notes, setNotes] = useState('')
   const [showSummary, setShowSummary] = useState(false)
 
   const copy = useMemo(() => {
     if (language === 'ru') return {
       title: 'Помощник подбора полива Florial',
-      intro: 'Начнём с автоматического полива газона. Сначала зададим фактическую геометрию участка, затем уточним источник воды.',
-      back: 'На главную', breadcrumbCatalog: 'Всё оборудование для полива', breadcrumbService: 'Инженер по системам полива', module: 'Модуль 1 · Газон', step: 'Шаг', of: 'из 3',
-      areaTitle: 'Задайте контур газона', shape: 'Форма участка',
-      rectangle: 'Прямоугольник', lShape: 'Г-образный участок',
-      length: 'Общая длина, м', width: 'Общая ширина, м',
-      cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
-      cutoutCorner: 'В каком углу находится вырез?',
-      cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
-      geometryHint: 'Укажите размеры по фактическим измерениям. Для Г-образной формы задайте габариты всего участка и размеры прямоугольной части, которой нет.',
-      geometryDimensionsInvalid: 'Проверьте размеры: все значения должны быть больше нуля, а вырез должен быть меньше общей длины и ширины.',
-      geometryPreview: 'Схема участка', calculatedArea: 'Рассчитанная площадь', perimeter: 'Периметр контура',
-      confirmGeometry: 'Подтверждаю, что размеры сняты на месте и схема соответствует фактическому газону.',
-      geometryNotConfirmed: 'Подтвердите геометрию, чтобы перейти дальше. Площадь рассчитана по введённым размерам.',
-      geometryAccepted: 'Геометрия подтверждена. Расчёт площади выполнен проверяющим модулем Florial.',
-      geometryInvalid: 'Не удалось проверить контур. Измените размеры или обратитесь к специалисту.',
-      next: 'Далее', prev: 'Назад', waterTitle: 'Источник воды',
-      mains: 'Водопровод', well: 'Скважина / колодец', tank: 'Резервуар / ёмкость', unknown: 'Пока не знаю',
-      flow: 'Измеренный расход, л/мин', pressure: 'Сообщённое давление, бар',
-      optional: 'Если знаете значения — укажите. Если нет, оставьте поля пустыми. Тип и условия измерения давления уточняются отдельно.',
-      detailsTitle: 'Дополнительные сведения', notes: 'Например: дорожки, деревья, уклоны или места, которые нельзя поливать. На этом этапе они не вычитаются из площади автоматически.',
-      finish: 'Сформировать исходные данные', summaryTitle: 'Исходные данные участка',
-      summaryArea: 'Чистая площадь', summaryShape: 'Форма', summaryWater: 'Источник воды',
-      summaryFlow: 'Расход', summaryPressure: 'Давление (со слов клиента)', summaryNotes: 'Примечания',
-      ready: 'Данные собраны', disclaimer: 'Это исходные данные для предварительного подбора, а не готовый гидравлический проект. Геометрия подтверждена только по введённым вами размерам. Препятствия и исключаемые зоны пока не нанесены. Точное количество дождевателей, зоны, диаметры труб и совместимое оборудование определяются после проверки измерений, покрытия и характеристик конкретных моделей. Приблизительные значения не подменяют инженерный расчёт.',
-      restart: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', flowUnit: 'л/мин', shapeRectangle: 'Прямоугольник', shapeL: 'Г-образный контур',
+      intro: 'Расскажите о своём участке. Я последовательно соберу исходные данные и покажу, чего не хватает для инженерной проверки.',
+      module: 'Проектирование автоматического полива · Газон',
+      step: 'Этап', of: 'из 4', welcome: 'Здравствуйте! Помогу подготовить исходные данные для системы полива газона. Начнём с формы и размеров участка.',
+      prompts: ['Какую форму имеет газон и каковы его фактические размеры?', 'Откуда поступает вода для полива?', 'Какие измерения давления и расхода воды у вас есть?', 'Есть ли препятствия или ограничения на участке?'],
+      geometryTitle: 'Сначала определим контур газона', shape: 'Форма участка', rectangle: 'Прямоугольник', lShape: 'Г-образный участок',
+      length: 'Общая длина, м', width: 'Общая ширина, м', cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
+      cutoutCorner: 'В каком углу находится вырез?', cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
+      geometryHint: 'Укажите размеры по фактическим измерениям. Для Г-образной формы задайте общие габариты и размеры отсутствующей прямоугольной части.',
+      geometryPreview: 'Схема по вашим размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
+      confirmGeometry: 'Подтверждаю, что размеры измерены на месте и схема соответствует фактическому газону.',
+      geometryInvalid: 'Проверьте размеры. Все значения должны быть больше нуля, а вырез — меньше общей длины и ширины.',
+      geometryNotConfirmed: 'Подтвердите контур, чтобы продолжить.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
+      waterTitle: 'Выберите источник воды', mains: 'Водопровод', well: 'Скважина / колодец', tank: 'Резервуар / ёмкость', unknown: 'Пока не знаю',
+      pressureTitle: 'Давление воды', pressureUnknown: 'Не измерял(а) / не знаю', static: 'Статическое — без открытого расхода', dynamic: 'Динамическое — при текущей воде',
+      pressureValue: 'Измеренное давление, бар', pressureMeasured: 'Подтверждаю: давление измерено во время протока воды.',
+      testPoint: 'Где измеряли давление?', source: 'На выходе источника / насоса', tap: 'На ближайшем кране', lawnEntry: 'В точке входа воды на участок',
+      flowTitle: 'Расход воды', flowValue: 'Измеренный расход, л/мин', flowMethod: 'Как измеряли расход?', bucket: 'Ёмкость и секундомер', flowMeter: 'Расходомер', otherVerified: 'Другой измерительный прибор', methodUnknown: 'Не измерял(а) / не знаю',
+      measurementHint: 'Статическое давление не показывает, какое давление останется при работе дождевателей. Для гидравлической проверки нужны динамическое давление, расход и сведения о трубопроводе.',
+      notesTitle: 'Особенности участка', notesPlaceholder: 'Например: дорожки, терраса, деревья, клумбы, бассейн, уклон или зоны, которые нельзя поливать.',
+      notesHint: 'Пока это текстовое описание. Препятствия ещё не нанесены на геометрическую схему и не вычитаются из площади.',
+      next: 'Продолжить', back: 'Назад', finish: 'Проверить собранные данные', summaryTitle: 'Карточка исходных данных',
+      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход', notesLabel: 'Ограничения и примечания',
+      ready: 'Исходные данные собраны', geometryReady: 'Геометрия подтверждена для предварительной раскладки', geometryMissing: 'Геометрию нужно уточнить или подтвердить',
+      dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
+      flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
+      hydraulicNotReady: 'Гидравлическая проверка пока не выполнена',
+      missingTitle: 'Что ещё потребуется для инженерной проверки',
+      missing: {
+        confirmed_supported_geometry: 'Подтверждённая поддерживаемая геометрия',
+        water_source: 'Определить источник воды',
+        dynamic_pressure_and_test_point: 'Динамическое давление и точка его измерения',
+        measured_flow_and_method: 'Измеренный расход и метод измерения',
+        pipe_network: 'Данные о трубах, диаметрах, длинах и соединениях',
+        elevation_profile_or_verified_zero: 'Перепад высот или подтверждение его отсутствия',
+        network_restrictions: 'Фильтры, счётчики, клапаны и другие ограничения',
+      },
+      disclaimer: 'Это структурированная анкета проекта, а не готовый расчёт системы полива. Сейчас проверена только геометрия по вашим размерам. Расположение дождевателей, гидравлика, зоны и совместимость оборудования ещё не рассчитаны. Предварительная геометрическая раскладка не доказывает гидравлическую работоспособность.',
+      edit: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', noValue: 'Не указано',
+      conversation: 'Диалог с помощником', projectPanel: 'Данные проекта', progress: 'Заполнение проекта',
+      assistant: 'Помощник Florial', you: 'Вы', notSent: 'Ответ остаётся в этом окне браузера. На сервер он пока не отправляется.',
     }
     if (language === 'en') return {
       title: 'Florial Irrigation Assistant',
-      intro: 'Let’s start with automatic lawn irrigation. First, define the measured site geometry, then tell us about the water source.',
-      back: 'Home', breadcrumbCatalog: 'All irrigation equipment', breadcrumbService: 'Irrigation systems specialist', module: 'Module 1 · Lawn', step: 'Step', of: 'of 3',
-      areaTitle: 'Define the lawn outline', shape: 'Plot shape',
-      rectangle: 'Rectangle', lShape: 'L-shaped lawn',
-      length: 'Overall length, m', width: 'Overall width, m',
-      cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
-      cutoutCorner: 'Which corner contains the cut-out?',
-      cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
-      geometryHint: 'Enter dimensions from actual measurements. For an L-shape, enter the overall dimensions and the dimensions of the missing rectangular corner.',
-      geometryDimensionsInvalid: 'Check the dimensions: all values must be greater than zero, and the cut-out must be smaller than the overall length and width.',
-      geometryPreview: 'Site outline', calculatedArea: 'Calculated area', perimeter: 'Outline perimeter',
-      confirmGeometry: 'I confirm that these dimensions were measured on site and the outline matches the actual lawn.',
-      geometryNotConfirmed: 'Confirm the geometry to continue. The area is calculated from the dimensions entered.',
-      geometryAccepted: 'Geometry confirmed. Area was calculated by the Florial validation module.',
-      geometryInvalid: 'The outline could not be validated. Adjust the dimensions or contact a specialist.',
-      next: 'Continue', prev: 'Back', waterTitle: 'Water source',
-      mains: 'Mains water', well: 'Borehole / well', tank: 'Storage tank', unknown: 'Not sure yet',
-      flow: 'Measured flow rate, L/min', pressure: 'Reported pressure, bar',
-      optional: 'Enter these if known; otherwise leave blank. Pressure type and measurement conditions will be clarified separately.',
-      detailsTitle: 'Additional details', notes: 'For example: paths, trees, slopes or areas that must not be watered. These are not automatically deducted from the area at this stage.',
-      finish: 'Prepare site details', summaryTitle: 'Site information',
-      summaryArea: 'Net area', summaryShape: 'Shape', summaryWater: 'Water source',
-      summaryFlow: 'Flow rate', summaryPressure: 'Pressure (customer-reported)', summaryNotes: 'Notes',
-      ready: 'Information collected', disclaimer: 'This is an intake snapshot, not a completed hydraulic design. Geometry is confirmed only against the dimensions you entered. Obstacles and exclusion zones have not yet been mapped. Exact sprinkler quantities, zones, pipe diameters and compatible equipment depend on verified measurements, coverage checks and the specifications of selected models. Guessed values will not replace engineering calculations.',
-      restart: 'Edit answers', home: 'Return to the shop', unit: 'm²', flowUnit: 'L/min', shapeRectangle: 'Rectangle', shapeL: 'L-shaped outline',
+      intro: 'Tell us about your site. I will collect the project inputs step by step and show what is still needed for engineering review.',
+      module: 'Automatic irrigation design · Lawn',
+      step: 'Stage', of: 'of 4', welcome: 'Hello! I will help prepare the information for your lawn irrigation project. Let’s start with the lawn shape and measured dimensions.',
+      prompts: ['What is the lawn shape and its measured size?', 'Where will the irrigation water come from?', 'What pressure and flow measurements do you have?', 'Are there obstacles or site restrictions?'],
+      geometryTitle: 'First, define the lawn outline', shape: 'Lawn shape', rectangle: 'Rectangle', lShape: 'L-shaped lawn',
+      length: 'Overall length, m', width: 'Overall width, m', cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
+      cutoutCorner: 'Which corner contains the cut-out?', cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
+      geometryHint: 'Use actual site measurements. For an L-shape, enter the overall dimensions and the missing rectangular corner.',
+      geometryPreview: 'Outline from your measurements', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
+      confirmGeometry: 'I confirm these dimensions were measured on site and the outline matches the actual lawn.',
+      geometryInvalid: 'Check the dimensions. All values must be greater than zero and the cut-out must be smaller than the overall length and width.',
+      geometryNotConfirmed: 'Confirm the outline to continue.', geometryAccepted: 'You confirmed the outline. This confirms the input dimensions, not an engineering design.',
+      waterTitle: 'Choose the water source', mains: 'Mains water', well: 'Borehole / well', tank: 'Storage tank', unknown: 'Not sure yet',
+      pressureTitle: 'Water pressure', pressureUnknown: 'Not measured / not sure', static: 'Static — no water flowing', dynamic: 'Dynamic — measured while water flows',
+      pressureValue: 'Measured pressure, bar', pressureMeasured: 'I confirm the pressure was measured while water was flowing.',
+      testPoint: 'Where was pressure measured?', source: 'At source / pump outlet', tap: 'At a nearby tap', lawnEntry: 'At the water entry point to the lawn',
+      flowTitle: 'Water flow', flowValue: 'Measured flow rate, L/min', flowMethod: 'How was the flow measured?', bucket: 'Container and stopwatch', flowMeter: 'Flow meter', otherVerified: 'Other measuring device', methodUnknown: 'Not measured / not sure',
+      measurementHint: 'Static pressure does not show the pressure available while sprinklers operate. Hydraulic review needs dynamic pressure, measured flow and pipe-network information.',
+      notesTitle: 'Site details and restrictions', notesPlaceholder: 'For example: paths, patio, trees, planting beds, pool, slope or areas that must not be watered.',
+      notesHint: 'This is a text note only. Obstacles are not yet drawn on the geometry and are not deducted from the lawn area.',
+      next: 'Continue', back: 'Back', finish: 'Review collected information', summaryTitle: 'Project intake record',
+      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow', notesLabel: 'Restrictions and notes',
+      ready: 'Project inputs collected', geometryReady: 'Geometry confirmed for preliminary layout', geometryMissing: 'Geometry needs clarification or confirmation',
+      dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
+      flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
+      hydraulicNotReady: 'Hydraulic feasibility has not been evaluated',
+      missingTitle: 'Still needed for engineering review',
+      missing: {
+        confirmed_supported_geometry: 'Confirmed supported geometry',
+        water_source: 'Identify the water source',
+        dynamic_pressure_and_test_point: 'Dynamic pressure and its test point',
+        measured_flow_and_method: 'Measured flow and measurement method',
+        pipe_network: 'Pipe material, internal diameters, lengths and fittings',
+        elevation_profile_or_verified_zero: 'Elevation difference or verified zero difference',
+        network_restrictions: 'Filters, meters, valves and other restrictions',
+      },
+      disclaimer: 'This is a structured project intake, not a completed irrigation design. Only the geometry based on your dimensions has been validated so far. Sprinkler placement, hydraulics, zones and equipment compatibility have not yet been calculated. A preliminary geometric layout does not prove hydraulic feasibility.',
+      edit: 'Edit answers', home: 'Return to the shop', unit: 'm²', noValue: 'Not provided',
+      conversation: 'Assistant conversation', projectPanel: 'Project details', progress: 'Project intake',
+      assistant: 'Florial assistant', you: 'You', notSent: 'Your answers stay in this browser view and are not sent to a server yet.',
     }
     return {
       title: 'Помощник за напояване Florial',
-      intro: 'Нека започнем с автоматичното напояване на тревна площ. Първо задайте измерената геометрия на терена, след това ще уточним водоизточника.',
-      back: 'Начало', breadcrumbCatalog: 'Всичко за поливане', breadcrumbService: 'Инженер по поливни системи', module: 'Модул 1 · Тревна площ', step: 'Стъпка', of: 'от 3',
-      areaTitle: 'Задайте контура на тревната площ', shape: 'Форма на терена',
-      rectangle: 'Правоъгълна', lShape: 'Г-образна тревна площ',
-      length: 'Обща дължина, м', width: 'Обща ширина, м',
-      cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
-      cutoutCorner: 'В кой ъгъл е изрезът?',
-      cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
-      geometryHint: 'Въведете размери от реално измерване. За Г-образна форма задайте общите размери и размерите на липсващата правоъгълна част.',
-      geometryDimensionsInvalid: 'Проверете размерите: всички стойности трябва да са по-големи от нула, а изрезът трябва да е по-малък от общата дължина и ширина.',
-      geometryPreview: 'Схема на терена', calculatedArea: 'Изчислена площ', perimeter: 'Периметър на контура',
-      confirmGeometry: 'Потвърждавам, че размерите са измерени на място и схемата съответства на реалната тревна площ.',
-      geometryNotConfirmed: 'Потвърдете геометрията, за да продължите. Площта е изчислена по въведените размери.',
-      geometryAccepted: 'Геометрията е потвърдена. Площта е изчислена от проверяващия модул на Florial.',
-      geometryInvalid: 'Контурът не може да бъде проверен. Коригирайте размерите или се свържете със специалист.',
-      next: 'Напред', prev: 'Назад', waterTitle: 'Водоизточник',
-      mains: 'Водопровод', well: 'Сондаж / кладенец', tank: 'Резервоар / съд', unknown: 'Все още не знам',
-      flow: 'Измерен дебит, л/мин', pressure: 'Посочено налягане, bar',
-      optional: 'Попълнете, ако знаете стойностите. В противен случай оставете полетата празни. Видът и условията на измерване на налягането ще бъдат уточнени отделно.',
-      detailsTitle: 'Допълнителна информация', notes: 'Например: алеи, дървета, наклони или места, които не трябва да се напояват. На този етап те не се изваждат автоматично от площта.',
-      finish: 'Подготви данните за терена', summaryTitle: 'Данни за терена',
-      summaryArea: 'Чиста площ', summaryShape: 'Форма', summaryWater: 'Водоизточник',
-      summaryFlow: 'Дебит', summaryPressure: 'Налягане (по данни на клиента)', summaryNotes: 'Бележки',
-      ready: 'Данните са събрани', disclaimer: 'Това са изходни данни за предварителен подбор, а не завършен хидравличен проект. Геометрията е потвърдена само според въведените от вас размери. Препятствията и зоните без поливане все още не са нанесени. Точният брой разпръсквачи, зони, диаметри на тръбите и съвместимо оборудване се определят след проверка на измерванията, покритието и характеристиките на конкретните модели. Предположенията не заместват инженерното изчисление.',
-      restart: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', flowUnit: 'л/мин', shapeRectangle: 'Правоъгълен контур', shapeL: 'Г-образен контур',
+      intro: 'Разкажете за терена. Ще събера последователно данните за проекта и ще покажа какво още е необходимо за инженерна проверка.',
+      module: 'Проектиране на автоматично напояване · Тревна площ',
+      step: 'Етап', of: 'от 4', welcome: 'Здравейте! Ще помогна да подготвим данните за напояване на тревната площ. Нека започнем с формата и измерените размери.',
+      prompts: ['Каква е формата на тревната площ и какви са измерените размери?', 'Откъде ще идва водата за напояване?', 'Какви измервания на налягането и дебита имате?', 'Има ли препятствия или ограничения в терена?'],
+      geometryTitle: 'Първо задайте контура на тревната площ', shape: 'Форма на терена', rectangle: 'Правоъгълна', lShape: 'Г-образна тревна площ',
+      length: 'Обща дължина, м', width: 'Обща ширина, м', cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
+      cutoutCorner: 'В кой ъгъл е изрезът?', cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
+      geometryHint: 'Въведете реално измерените размери. За Г-образна форма задайте общите габарити и размерите на липсващата правоъгълна част.',
+      geometryPreview: 'Контур според въведените размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
+      confirmGeometry: 'Потвърждавам, че размерите са измерени на място и контурът съответства на реалната тревна площ.',
+      geometryInvalid: 'Проверете размерите. Всички стойности трябва да са положителни, а изрезът — по-малък от общата дължина и ширина.',
+      geometryNotConfirmed: 'Потвърдете контура, за да продължите.', geometryAccepted: 'Вие потвърдихте контура. Това е потвърждение на входните размери, а не инженерно одобрение.',
+      waterTitle: 'Изберете водоизточник', mains: 'Водопровод', well: 'Сондаж / кладенец', tank: 'Резервоар / съд', unknown: 'Все още не знам',
+      pressureTitle: 'Налягане на водата', pressureUnknown: 'Не е измерено / не знам', static: 'Статично — без протичане на вода', dynamic: 'Динамично — измерено при протичане на вода',
+      pressureValue: 'Измерено налягане, bar', pressureMeasured: 'Потвърждавам, че налягането е измерено при протичане на вода.',
+      testPoint: 'Къде е измерено налягането?', source: 'На изхода на водоизточника / помпата', tap: 'На близък кран', lawnEntry: 'На входа на водата към терена',
+      flowTitle: 'Дебит на водата', flowValue: 'Измерен дебит, л/мин', flowMethod: 'Как измерихте дебита?', bucket: 'Съд и хронометър', flowMeter: 'Дебитомер', otherVerified: 'Друг измервателен уред', methodUnknown: 'Не е измерен / не знам',
+      measurementHint: 'Статичното налягане не показва какво налягане ще има при работещи разпръсквачи. За хидравлична проверка са нужни динамично налягане, измерен дебит и данни за тръбната мрежа.',
+      notesTitle: 'Особености и ограничения на терена', notesPlaceholder: 'Например: алеи, тераса, дървета, цветни лехи, басейн, наклон или зони, които не трябва да се напояват.',
+      notesHint: 'Това засега е текстова бележка. Препятствията още не са нанесени върху геометричната схема и не се изваждат от площта.',
+      next: 'Напред', back: 'Назад', finish: 'Преглед на събраните данни', summaryTitle: 'Карта на входните данни',
+      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит', notesLabel: 'Ограничения и бележки',
+      ready: 'Входните данни са събрани', geometryReady: 'Геометрията е потвърдена за предварителна схема', geometryMissing: 'Геометрията трябва да се уточни или потвърди',
+      dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
+      flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
+      hydraulicNotReady: 'Хидравличната пригодност все още не е изчислена',
+      missingTitle: 'Какво още е необходимо за инженерна проверка',
+      missing: {
+        confirmed_supported_geometry: 'Потвърдена геометрия в поддържан формат',
+        water_source: 'Да се определи водоизточникът',
+        dynamic_pressure_and_test_point: 'Динамично налягане и точка на измерване',
+        measured_flow_and_method: 'Измерен дебит и метод на измерване',
+        pipe_network: 'Материал, вътрешни диаметри, дължини и фитинги на тръбите',
+        elevation_profile_or_verified_zero: 'Разлика във височината или потвърдена липса на такава',
+        network_restrictions: 'Филтри, водомери, клапани и други ограничения',
+      },
+      disclaimer: 'Това е структурирана анкета за проекта, а не завършен проект за напояване. Засега е проверена само геометрията според въведените размери. Разположението на разпръсквачите, хидравликата, зоните и съвместимостта на оборудването все още не са изчислени. Предварителната геометрична схема не доказва хидравлична работоспособност.',
+      edit: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', noValue: 'Не е посочено',
+      conversation: 'Разговор с помощника', projectPanel: 'Данни за проекта', progress: 'Попълване на проекта',
+      assistant: 'Помощник Florial', you: 'Вие', notSent: 'Отговорите остават в този прозорец на браузъра и засега не се изпращат към сървър.',
     }
   }, [language])
 
   const boundaryVertices = useMemo(() => buildLawnBoundary({
     shape,
-    length: Number(length),
-    width: Number(width),
-    cutoutWidth: Number(cutoutWidth),
-    cutoutDepth: Number(cutoutDepth),
+    length: Number(length.replace(',', '.')),
+    width: Number(width.replace(',', '.')),
+    cutoutWidth: Number(cutoutWidth.replace(',', '.')),
+    cutoutDepth: Number(cutoutDepth.replace(',', '.')),
     cutoutCorner,
   }), [shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner])
 
@@ -133,22 +186,62 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     })
   }, [boundaryVertices, geometryConfirmed])
 
+  const intakeInput = {
+    language,
+    shape,
+    length,
+    width,
+    cutoutWidth,
+    cutoutDepth,
+    cutoutCorner,
+    geometryValidation,
+    waterSource,
+    pressureType,
+    pressureBar,
+    pressureMeasuredWhileFlowing,
+    pressureTestPoint,
+    flowRate,
+    flowMeasurementMethod,
+    notes,
+  }
+  const readiness = useMemo(() => evaluateIrrigationIntake(intakeInput), [
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation,
+    waterSource, pressureType, pressureBar, pressureMeasuredWhileFlowing, pressureTestPoint,
+    flowRate, flowMeasurementMethod, notes,
+  ])
+  const snapshot = useMemo(() => buildIrrigationIntakeSnapshot(intakeInput), [
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation,
+    waterSource, pressureType, pressureBar, pressureMeasuredWhileFlowing, pressureTestPoint,
+    flowRate, flowMeasurementMethod, notes,
+  ])
+
   const calculatedArea = geometryValidation?.computedAreaM2 ?? 0
   const calculatedPerimeter = geometryValidation?.computedPerimeterM ?? 0
-  const geometryAccepted = geometryValidation?.status === 'accepted'
+  const geometryAccepted = readiness.geometryReady
   const shapeLabel = shape === 'rectangle' ? copy.rectangle : copy.lShape
   const waterLabel = waterSource === 'mains' ? copy.mains : waterSource === 'well' ? copy.well : waterSource === 'tank' ? copy.tank : copy.unknown
+  const pressureLabel = pressureType === 'dynamic' ? copy.dynamic : pressureType === 'static' ? copy.static : copy.pressureUnknown
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
-  const svgPoints = boundaryVertices?.map((point) => numberFormatForSvg(point.x) + ',' + numberFormatForSvg(point.y)).join(' ')
-
-  function numberFormatForSvg(value: number) {
-    return String(Math.round(value * 1000) / 1000)
-  }
+  const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
+  const progress = showSummary ? 100 : Math.round((step - 1) / 4 * 100)
 
   function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
     setGeometryConfirmed(false)
+  }
+
+  function answerSummary(stage: number) {
+    if (stage === 1) return geometryAccepted
+      ? shapeLabel + ' · ' + length + ' × ' + width + ' м · ' + numberFormat(calculatedArea) + ' ' + copy.unit
+      : copy.geometryMissing
+    if (stage === 2) return waterLabel
+    if (stage === 3) {
+      const pressure = pressureBar ? pressureBar + ' bar · ' + pressureLabel : copy.pressureUnknown
+      const flow = flowRate ? flowRate + ' ' + copy.flowValue.split(',')[1]?.trim() : copy.noValue
+      return pressure + ' · ' + flow
+    }
+    return notes.trim() || copy.noValue
   }
 
   useEffect(() => {
@@ -158,151 +251,191 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const selectClass = 'w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-left text-sm text-slate-800 transition hover:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200'
   const activeClass = 'border-emerald-700 bg-emerald-50 text-emerald-900 ring-1 ring-emerald-700'
   const inputClass = 'mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 font-normal text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100'
+  const steps = [copy.prompts[0], copy.prompts[1], copy.prompts[2], copy.prompts[3]]
 
   return (
-    <main className="mx-auto min-h-[70vh] w-full max-w-4xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto min-h-[70vh] w-full max-w-6xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <li><a href={localizedHref('/', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">{language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}</a></li>
           <li aria-hidden="true">/</li>
-          <li><a href={localizedHref('/category/vsichko-za-polivane', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">{copy.breadcrumbCatalog}</a></li>
+          <li><a href={localizedHref('/category/vsichko-za-polivane', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">{language === 'ru' ? 'Всё оборудование для полива' : language === 'en' ? 'All irrigation equipment' : 'Всичко за поливане'}</a></li>
           <li aria-hidden="true">/</li>
-          <li><a href={localizedHref('/services/category/polivni-sistemi', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">{copy.breadcrumbService}</a></li>
+          <li><a href={localizedHref('/services/category/polivni-sistemi', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">{language === 'ru' ? 'Инженер по системам полива' : language === 'en' ? 'Irrigation systems specialist' : 'Инженер по поливни системи'}</a></li>
           <li aria-hidden="true">/</li>
           <li aria-current="page" className="font-semibold text-slate-700">{copy.title}</li>
         </ol>
       </nav>
 
-      <header className="mb-8 rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-800 to-green-700 px-6 py-8 text-white shadow-lg sm:px-9 sm:py-10">
+      <header className="mb-7 rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-800 to-green-700 px-6 py-8 text-white shadow-lg sm:px-9 sm:py-10">
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">{copy.module}</p>
         <h1 className="max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">{copy.title}</h1>
         <p className="mt-4 max-w-2xl text-sm leading-7 text-emerald-50 sm:text-base">{copy.intro}</p>
       </header>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
-        {!showSummary ? (
-          <>
-            <div className="mb-6 flex items-center justify-between text-sm font-semibold text-slate-600">
-              <span>{copy.step} {step} {copy.of}</span><span>{Math.round(step / 3 * 100)}%</span>
-            </div>
-            <div className="mb-8 h-2 overflow-hidden rounded-full bg-slate-100">
-              <div className="h-full rounded-full bg-emerald-600 transition-all" style={{ width: (step / 3 * 100) + '%' }} />
-            </div>
+      <div className="mb-5 flex items-center justify-between gap-4 text-sm font-semibold text-slate-600">
+        <span>{copy.progress}</span><span>{copy.step} {showSummary ? 4 : step} {copy.of}</span>
+      </div>
+      <div className="mb-7 h-2 overflow-hidden rounded-full bg-slate-100">
+        <div className="h-full rounded-full bg-emerald-600 transition-all" style={{ width: progress + '%' }} />
+      </div>
 
-            {step === 1 ? (
-              <div>
-                <h2 className="mb-5 text-xl font-bold text-slate-900">{copy.areaTitle}</h2>
-                <p className="mb-3 text-sm font-semibold text-slate-700">{copy.shape}</p>
-                <div className="mb-6 grid gap-3 sm:grid-cols-2">
-                  <button type="button" onClick={() => { setShape('rectangle'); setGeometryConfirmed(false) }} aria-pressed={shape === 'rectangle'} className={selectClass + (shape === 'rectangle' ? ' ' + activeClass : '')}>{copy.rectangle}</button>
-                  <button type="button" onClick={() => { setShape('l-shape'); setGeometryConfirmed(false) }} aria-pressed={shape === 'l-shape'} className={selectClass + (shape === 'l-shape' ? ' ' + activeClass : '')}>{copy.lShape}</button>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
+        <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6" aria-label={copy.conversation}>
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-lg" aria-hidden="true">F</div>
+            <div><p className="font-bold text-slate-900">{copy.assistant}</p><p className="text-xs text-slate-500">{copy.conversation}</p></div>
+          </div>
+
+          <div className="space-y-4" aria-live="polite">
+            <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{copy.welcome}</div>
+            {Array.from({ length: showSummary ? 4 : step - 1 }, (_, index) => index + 1).map((stage) => (
+              <div key={stage} className="space-y-2">
+                <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[stage - 1]}</div>
+                <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-sm bg-slate-100 px-4 py-3 text-sm leading-6 text-slate-800">
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">{copy.you}</p>
+                  {answerSummary(stage)}
                 </div>
+              </div>
+            ))}
+            {!showSummary && <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[step - 1]}</div>}
+          </div>
 
-                <p className="mb-5 text-sm leading-6 text-slate-600">{copy.geometryHint}</p>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="block text-sm font-semibold text-slate-700">{copy.length}<input type="number" min="0" step="0.1" inputMode="decimal" value={length} onChange={(event) => updateGeometry(setLength, event.target.value)} className={inputClass} /></label>
-                  <label className="block text-sm font-semibold text-slate-700">{copy.width}<input type="number" min="0" step="0.1" inputMode="decimal" value={width} onChange={(event) => updateGeometry(setWidth, event.target.value)} className={inputClass} /></label>
-                </div>
-
-                {shape === 'l-shape' && (
-                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                    <label className="block text-sm font-semibold text-slate-700">{copy.cutoutWidth}<input type="number" min="0" step="0.1" inputMode="decimal" value={cutoutWidth} onChange={(event) => updateGeometry(setCutoutWidth, event.target.value)} className={inputClass} /></label>
-                    <label className="block text-sm font-semibold text-slate-700">{copy.cutoutDepth}<input type="number" min="0" step="0.1" inputMode="decimal" value={cutoutDepth} onChange={(event) => updateGeometry(setCutoutDepth, event.target.value)} className={inputClass} /></label>
-                    <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.cutoutCorner}
-                      <select value={cutoutCorner} onChange={(event) => { setCutoutCorner(event.target.value as LawnCutoutCorner); setGeometryConfirmed(false) }} className={inputClass}>
-                        <option value="top-left">{copy.cornerTopLeft}</option>
-                        <option value="top-right">{copy.cornerTopRight}</option>
-                        <option value="bottom-left">{copy.cornerBottomLeft}</option>
-                        <option value="bottom-right">{copy.cornerBottomRight}</option>
-                      </select>
-                    </label>
+          {!showSummary ? (
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+              {step === 1 ? (
+                <div>
+                  <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.geometryTitle}</h2>
+                  <p className="mb-3 text-sm font-semibold text-slate-700">{copy.shape}</p>
+                  <div className="mb-5 grid gap-3 sm:grid-cols-2">
+                    <button type="button" onClick={() => { setShape('rectangle'); setGeometryConfirmed(false) }} aria-pressed={shape === 'rectangle'} className={selectClass + (shape === 'rectangle' ? ' ' + activeClass : '')}>{copy.rectangle}</button>
+                    <button type="button" onClick={() => { setShape('l-shape'); setGeometryConfirmed(false) }} aria-pressed={shape === 'l-shape'} className={selectClass + (shape === 'l-shape' ? ' ' + activeClass : '')}>{copy.lShape}</button>
                   </div>
-                )}
-
-                {boundaryVertices && geometryValidation?.valid && (
-                  <div className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4 sm:p-5">
+                  <p className="mb-4 text-sm leading-6 text-slate-600">{copy.geometryHint}</p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="block text-sm font-semibold text-slate-700">{copy.length}<input type="text" inputMode="decimal" value={length} onChange={(event) => updateGeometry(setLength, event.target.value)} className={inputClass} /></label>
+                    <label className="block text-sm font-semibold text-slate-700">{copy.width}<input type="text" inputMode="decimal" value={width} onChange={(event) => updateGeometry(setWidth, event.target.value)} className={inputClass} /></label>
+                  </div>
+                  {shape === 'l-shape' && <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <label className="block text-sm font-semibold text-slate-700">{copy.cutoutWidth}<input type="text" inputMode="decimal" value={cutoutWidth} onChange={(event) => updateGeometry(setCutoutWidth, event.target.value)} className={inputClass} /></label>
+                    <label className="block text-sm font-semibold text-slate-700">{copy.cutoutDepth}<input type="text" inputMode="decimal" value={cutoutDepth} onChange={(event) => updateGeometry(setCutoutDepth, event.target.value)} className={inputClass} /></label>
+                    <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.cutoutCorner}<select value={cutoutCorner} onChange={(event) => { setCutoutCorner(event.target.value as LawnCutoutCorner); setGeometryConfirmed(false) }} className={inputClass}>
+                      <option value="top-left">{copy.cornerTopLeft}</option><option value="top-right">{copy.cornerTopRight}</option><option value="bottom-left">{copy.cornerBottomLeft}</option><option value="bottom-right">{copy.cornerBottomRight}</option>
+                    </select></label>
+                  </div>}
+                  {boundaryVertices && geometryValidation?.valid && <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4">
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
-                      <svg viewBox={'-0.5 -0.5 ' + (Number(length) + 1) + ' ' + (Number(width) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
+                      <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
                         <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-xl bg-white p-3">
-                        <p className="text-xs font-semibold text-slate-500">{copy.calculatedArea}</p>
-                        <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedArea)} {copy.unit}</p>
-                      </div>
-                      <div className="rounded-xl bg-white p-3">
-                        <p className="text-xs font-semibold text-slate-500">{copy.perimeter}</p>
-                        <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedPerimeter)} m</p>
-                      </div>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-xl bg-white p-3"><p className="text-xs font-semibold text-slate-500">{copy.calculatedArea}</p><p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedArea)} {copy.unit}</p></div>
+                      <div className="rounded-xl bg-white p-3"><p className="text-xs font-semibold text-slate-500">{copy.perimeter}</p><p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedPerimeter)} m</p></div>
                     </div>
                     <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-emerald-200 bg-white p-4 text-sm leading-6 text-slate-800">
-                      <input type="checkbox" checked={geometryConfirmed} onChange={(event) => setGeometryConfirmed(event.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-emerald-700" />
-                      <span>{copy.confirmGeometry}</span>
+                      <input type="checkbox" checked={geometryConfirmed} onChange={(event) => setGeometryConfirmed(event.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-emerald-700" /><span>{copy.confirmGeometry}</span>
                     </label>
                     <p role="status" className="mt-3 text-sm leading-6 text-emerald-900">{geometryAccepted ? copy.geometryAccepted : copy.geometryNotConfirmed}</p>
+                  </div>}
+                  {!boundaryVertices && (length !== '' || width !== '' || (shape === 'l-shape' && (cutoutWidth !== '' || cutoutDepth !== ''))) && <p role="alert" className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.geometryInvalid}</p>}
+                  {boundaryVertices && geometryValidation && !geometryValidation.valid && <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm leading-6 text-rose-900">{copy.geometryInvalid}</p>}
+                </div>
+              ) : step === 2 ? (
+                <div>
+                  <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.waterTitle}</h2>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {([['mains', copy.mains], ['well', copy.well], ['tank', copy.tank], ['unknown', copy.unknown]] as Array<[WaterSource, string]>).map(([value, label]) => <button key={value} type="button" onClick={() => setWaterSource(value)} aria-pressed={waterSource === value} className={selectClass + (waterSource === value ? ' ' + activeClass : '')}>{label}</button>)}
                   </div>
-                )}
-
-                {!boundaryVertices && (length !== '' || width !== '' || (shape === 'l-shape' && (cutoutWidth !== '' || cutoutDepth !== ''))) && (
-                  <p role="alert" className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.geometryDimensionsInvalid}</p>
-                )}
-                {boundaryVertices && geometryValidation && !geometryValidation.valid && (
-                  <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm leading-6 text-rose-900">{copy.geometryInvalid}</p>
-                )}
-              </div>
-            ) : step === 2 ? (
-              <div>
-                <h2 className="mb-5 text-xl font-bold text-slate-900">{copy.waterTitle}</h2>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {([['mains', copy.mains], ['well', copy.well], ['tank', copy.tank], ['unknown', copy.unknown]] as Array<[WaterSource, string]>).map(([value, label]) => (
-                    <button key={value} type="button" onClick={() => setWaterSource(value)} aria-pressed={waterSource === value} className={selectClass + (waterSource === value ? ' ' + activeClass : '')}>{label}</button>
-                  ))}
                 </div>
-                <p className="mb-5 mt-6 text-sm text-slate-500">{copy.optional}</p>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="block text-sm font-semibold text-slate-700">{copy.flow}<input type="number" min="0" step="0.1" value={flowRate} onChange={(event) => setFlowRate(event.target.value)} className={inputClass} /></label>
-                  <label className="block text-sm font-semibold text-slate-700">{copy.pressure}<input type="number" min="0" step="0.1" value={pressure} onChange={(event) => setPressure(event.target.value)} className={inputClass} /></label>
+              ) : step === 3 ? (
+                <div>
+                  <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.pressureTitle}</h2>
+                  <div className="grid gap-3">
+                    {([['dynamic', copy.dynamic], ['static', copy.static], ['unknown', copy.pressureUnknown]] as Array<[PressureType, string]>).map(([value, label]) => <button key={value} type="button" onClick={() => { setPressureType(value); if (value !== 'dynamic') setPressureMeasuredWhileFlowing(false) }} aria-pressed={pressureType === value} className={selectClass + (pressureType === value ? ' ' + activeClass : '')}>{label}</button>)}
+                  </div>
+                  <label className="mt-4 block text-sm font-semibold text-slate-700">{copy.pressureValue}<input type="text" inputMode="decimal" value={pressureBar} onChange={(event) => setPressureBar(event.target.value)} className={inputClass} /></label>
+                  {pressureType === 'dynamic' && <>
+                    <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3 text-sm leading-6 text-slate-700">
+                      <input type="checkbox" checked={pressureMeasuredWhileFlowing} onChange={(event) => setPressureMeasuredWhileFlowing(event.target.checked)} className="mt-1 h-4 w-4 accent-emerald-700" /><span>{copy.pressureMeasured}</span>
+                    </label>
+                    <label className="mt-4 block text-sm font-semibold text-slate-700">{copy.testPoint}<select value={pressureTestPoint} onChange={(event) => setPressureTestPoint(event.target.value as PressureTestPoint)} className={inputClass}>
+                      <option value="unknown">{copy.noValue}</option><option value="source">{copy.source}</option><option value="tap">{copy.tap}</option><option value="lawn_entry">{copy.lawnEntry}</option>
+                    </select></label>
+                  </>}
+                  <h3 className="mb-3 mt-7 text-lg font-bold text-slate-900">{copy.flowTitle}</h3>
+                  <label className="block text-sm font-semibold text-slate-700">{copy.flowValue}<input type="text" inputMode="decimal" value={flowRate} onChange={(event) => setFlowRate(event.target.value)} className={inputClass} /></label>
+                  <label className="mt-4 block text-sm font-semibold text-slate-700">{copy.flowMethod}<select value={flowMeasurementMethod} onChange={(event) => setFlowMeasurementMethod(event.target.value as FlowMeasurementMethod)} className={inputClass}>
+                    <option value="unknown">{copy.methodUnknown}</option><option value="bucket">{copy.bucket}</option><option value="flow_meter">{copy.flowMeter}</option><option value="other_verified">{copy.otherVerified}</option>
+                  </select></label>
+                  <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.measurementHint}</p>
                 </div>
-              </div>
-            ) : (
-              <div>
-                <h2 className="mb-5 text-xl font-bold text-slate-900">{copy.detailsTitle}</h2>
-                <textarea rows={5} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={copy.notes} className="w-full rounded-xl border border-slate-300 px-3 py-3 text-sm leading-6" />
-              </div>
-            )}
-
-            <div className="mt-8 flex flex-wrap justify-between gap-3">
-              <button type="button" disabled={step === 1} onClick={() => setStep((current) => Math.max(1, current - 1))} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 disabled:opacity-40">{copy.prev}</button>
-              {step < 3 ? (
-                <button type="button" disabled={step === 1 && !geometryAccepted} onClick={() => setStep((current) => Math.min(3, current + 1))} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-40">{copy.next}</button>
               ) : (
-                <button type="button" onClick={() => setShowSummary(true)} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.finish}</button>
+                <div>
+                  <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.notesTitle}</h2>
+                  <textarea rows={5} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={copy.notesPlaceholder} className="w-full rounded-xl border border-slate-300 px-3 py-3 text-sm leading-6 text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                  <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.notesHint}</p>
+                </div>
               )}
+
+              <div className="mt-6 flex flex-wrap justify-between gap-3">
+                <button type="button" disabled={step === 1} onClick={() => setStep((current) => Math.max(1, current - 1))} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 disabled:opacity-40">{copy.back}</button>
+                {step < 4 ? <button type="button" disabled={step === 1 && !geometryAccepted} onClick={() => setStep((current) => Math.min(4, current + 1))} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-40">{copy.next}</button> : <button type="button" onClick={() => setShowSummary(true)} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.finish}</button>}
+              </div>
             </div>
-          </>
-        ) : (
-          <div>
-            <p className="mb-2 text-sm font-bold uppercase tracking-wide text-emerald-700">{copy.ready}</p>
-            <h2 className="mb-6 text-2xl font-bold text-slate-900">{copy.summaryTitle}</h2>
-            <dl className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryArea}</dt><dd className="mt-1 text-lg font-bold text-slate-900">{numberFormat(calculatedArea)} {copy.unit}</dd></div>
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryShape}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryWater}</dt><dd className="mt-1 font-bold text-slate-900">{waterLabel}</dd></div>
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryFlow}</dt><dd className="mt-1 font-bold text-slate-900">{flowRate ? flowRate + ' ' + copy.flowUnit : '—'}</dd></div>
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.summaryPressure}</dt><dd className="mt-1 font-bold text-slate-900">{pressure ? pressure + ' bar' : '—'}</dd></div>
-              <div className="rounded-xl bg-slate-50 p-4"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{numberFormat(calculatedPerimeter)} m</dd></div>
-              {notes && <div className="rounded-xl bg-slate-50 p-4 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.summaryNotes}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes}</dd></div>}
-            </dl>
-            <p className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{copy.disclaimer}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button type="button" onClick={() => { setShowSummary(false); setStep(1) }} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.restart}</button>
-              <button type="button" onClick={onNavigateHome} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.home}</button>
+          ) : (
+            <div className="mt-5 space-y-5">
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+                <p className="text-sm font-bold uppercase tracking-wide text-emerald-800">{copy.ready}</p>
+                <h2 className="mt-2 text-xl font-bold text-slate-900">{copy.summaryTitle}</h2>
+                <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.sourceLabel}</dt><dd className="mt-1 font-bold text-slate-900">{waterLabel}</dd></div>
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.pressureLabel}</dt><dd className="mt-1 font-bold text-slate-900">{pressureBar ? pressureBar + ' bar · ' + pressureLabel : copy.noValue}</dd></div>
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.flowLabel}</dt><dd className="mt-1 font-bold text-slate-900">{flowRate ? flowRate + ' L/min' : copy.noValue}</dd></div>
+                  <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedPerimeter) + ' m' : copy.noValue}</dd></div>
+                  {notes.trim() && <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.notesLabel}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes.trim()}</dd></div>}
+                </dl>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 p-4">
+                <h3 className="font-bold text-slate-900">{copy.missingTitle}</h3>
+                <div className="mt-3 space-y-2 text-sm">
+                  <p className={readiness.geometryReady ? 'text-emerald-800' : 'text-amber-800'}>{readiness.geometryReady ? '✓ ' : '• '}{readiness.geometryReady ? copy.geometryReady : copy.geometryMissing}</p>
+                  <p className={readiness.dynamicPressureReady ? 'text-emerald-800' : 'text-amber-800'}>{readiness.dynamicPressureReady ? '✓ ' : '• '}{readiness.dynamicPressureReady ? copy.dynamicReady : copy.dynamicMissing}</p>
+                  <p className={readiness.flowReady ? 'text-emerald-800' : 'text-amber-800'}>{readiness.flowReady ? '✓ ' : '• '}{readiness.flowReady ? copy.flowReady : copy.flowMissing}</p>
+                </div>
+                <h4 className="mb-2 mt-4 text-sm font-semibold text-slate-700">{copy.missingTitle}</h4>
+                <ul className="list-disc space-y-1 pl-5 text-sm text-slate-600">
+                  {readiness.missing.map((item) => <li key={item}>{copy.missing[item as keyof typeof copy.missing]}</li>)}
+                </ul>
+              </div>
+
+              <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{copy.hydraulicNotReady}. {copy.disclaimer}</p>
+              <div className="flex flex-wrap gap-3">
+                <button type="button" onClick={() => { setShowSummary(false); setStep(1) }} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
+                <button type="button" onClick={onNavigateHome} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.home}</button>
+              </div>
+              <p className="text-xs text-slate-500">{copy.notSent} <span className="sr-only">Snapshot version {snapshot.schemaVersion}</span></p>
             </div>
-          </div>
-        )}
-      </section>
+          )}
+        </section>
+
+        <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <h2 className="mb-4 text-base font-bold text-slate-900">{copy.projectPanel}</h2>
+          <dl className="space-y-3 text-sm">
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-semibold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{shapeLabel}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.sourceLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{waterLabel}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.pressureLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{pressureBar ? pressureBar + ' bar · ' + pressureLabel : copy.noValue}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.flowLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{flowRate ? flowRate + ' L/min' : copy.noValue}</dd></div>
+          </dl>
+          <div className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">{copy.hydraulicNotReady}</div>
+          <p className="mt-4 text-xs leading-5 text-slate-500">{copy.notSent}</p>
+        </aside>
+      </div>
     </main>
   )
 }
