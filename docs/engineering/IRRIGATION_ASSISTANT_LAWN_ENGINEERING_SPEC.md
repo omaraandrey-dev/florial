@@ -1,7 +1,7 @@
 # Engineering specification — lawn irrigation assistant (Rain Bird first)
 
-Status: approved direction / engineering design, not yet an implemented calculator  
-Date: 2026-11-15  
+Status: approved engineering direction; first manufacturer dataset implemented; calculator not yet implemented  
+Date: 2026-11-16  
 Project: Florial Bulgaria  
 Scope: first calculation module — automatic lawn irrigation
 
@@ -80,16 +80,42 @@ Before a SKU can be offered automatically, curate: Sanity product ID/SKU/publish
 Do not modify published Sanity product data or schema in this specification stage. Prepare a versioned code-owned dataset first, or propose a separate Sanity schema change with backup and approval.
 
 ### Manufacturer references already collected
-- Rain Bird 3500 Series Rotor Technical Specification: https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf
+- Rain Bird 3500 Series Rotor Technical Specification, D42378 (2023): https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf
 - Rain Bird 5000 Series Rotor Performance Charts: https://www.rainbird.com/sites/default/files/media/documents/2020-09/5000-series-rotor-nozzle-performance-chart.pdf
-- Rain Bird R-VAN Nozzle Performance Charts: https://www.rainbird.com/sites/default/files/media/documents/2020-09/r-van-nozzles-performance-charts.pdf
+- Rain Bird R-VAN metric technical specification (2025-10): https://www.rainbird.com/sites/default/files/media/documents/2025-10/026549_rb_rvantechspecsheet_metric_f.pdf
+- Rain Bird R-VAN updated performance chart (2025-10): https://www.rainbird.com/sites/default/files/media/documents/2025-10/026579_rb_rvanperformancechartupdate_basef.pdf
 - Rain Bird HE-VAN Series Performance Charts: https://www.rainbird.com/sites/default/files/media/documents/2018-02/chart_HE-VAN.pdf
-- Rain Bird 1800 Series Spray Sprinklers: https://www.rainbird.com/products/1800-series-spray-sprinkler-he-van-nozzles
+- Rain Bird VAN Series metric performance charts: https://www.rainbird.com/sites/default/files/media/documents/2020-09/van-series-spray-nozzles-performance-charts.pdf
+- Rain Bird 2023 International Turf Catalog (15 Series and 9-SST strip performance): https://www.rainbird.com/sites/default/files/media/documents/2022-11/d42140_2023_intl_turf_catalog_v3_eng.pdf
+- Rain Bird 1800 Series Spray Sprinkler Bodies: https://www.rainbird.com/products/1800-series-spray-sprinkler-bodies
 - Rain Bird 5000 Series product specifications: https://www.rainbird.com/products/5000-series
 
 Only families with complete verified data and exact catalogue mapping may enter the automatic selector.
 
-## 6. Gemini role and request contracts
+### 5.1 Implemented data foundation — Rain Bird 3500
+
+PR #310 adds the first code-owned manufacturer dataset:
+- File: `src/lib/irrigation/irrigationPerformanceData.mjs`; TypeScript declaration: `src/lib/irrigation/irrigationPerformanceData.d.mts`.
+- Manufacturer source: Rain Bird 3500 Series Technical Specifications, document D42378 (2023), section “3500 Series Nozzle Performance Metric”.
+- 36 exact operating points: six tested pressures (1.7, 2.0, 2.5, 3.0, 3.5 and 3.8 bar) × six nozzle sizes (0.75, 1.0, 1.5, 2.0, 3.0 and 4.0). Each point preserves radius, m³/h, L/min and square/triangular precipitation.
+- Exact Florial mappings: 3504-PC / SKU Y34001 / Sanity ID `de179416-ef68-48c5-aa70-56a4c528885f`; 3504-PC-SAM / SKU Y34500 / Sanity ID `d1a1a13d-31dc-4635-a666-21283e58abbd`.
+- Source assumptions retained: ASAE S398.1, zero-wind testing, precipitation based on half-circle operation, spacing basis at 50% throw diameter.
+- `findRainBird3500PerformancePoint` returns a row only for an exact supported pressure/nozzle pair; unsupported, non-finite or non-exact inputs return `null`. No interpolation, extrapolation or nearest-point substitution.
+- Six Node tests cover source metadata, 36-row completeness, nozzle coverage per pressure, exact lookup, rejection of unsupported inputs, positive finite values and Florial SKU mapping.
+- This dataset is not yet consumed by the customer-facing page and is not a sprinkler-placement or hydraulic calculation engine.
+
+### 5.2 Catalogue and family audit — 2026-11-16
+
+The live read-only Sanity audit confirms 20 sprinkler/body products and 26 nozzle products. All 46 have a published `priceEUR`, all 46 are `onRequest`, and all 46 have `productType: null`; filter by category references. Exact document IDs, SKUs, model mapping, official manufacturer sources, pressure/compatibility safeguards and unresolved product configurations are recorded in `docs/audits/2026-11-16-irrigation-assistant-rainbird-data-audit.md`.
+
+Important family restrictions:
+- 3500: nozzle tree and six discrete nozzle/pressure operating points are now available; verify which nozzle is actually selected in a design.
+- 5000: use only after exact model + installed nozzle configuration is confirmed; do not infer the 5004+FC nozzle from broad product ranges.
+- HE-VAN/VAN/strip: manufacturer tables exist; resolve integrated UNI-Spray assemblies versus body + standalone nozzle to avoid duplicate BOM items.
+- R-VAN: manufacturer recommends 3.1 bar; no current Florial 1800 PRS-45 body is confirmed. Do not recommend without a verified pressure/regulation path and body compatibility.
+- 8005/Falcon 6504 remain outside the first residential-lawn candidate set pending complete verified data.
+
+### Manufacturer references already collected
 
 Gemini is the conversation/interpretation layer, not the hydraulic solver.
 
