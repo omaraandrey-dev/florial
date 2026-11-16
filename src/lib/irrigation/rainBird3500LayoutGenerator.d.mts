@@ -1,4 +1,5 @@
 import type { LawnGeometryInput } from './lawnGeometry.mjs'
+import type { IrrigationSiteContextInput } from './irrigationSiteContext.mjs'
 import type { RainBird3500RotorEvaluationResult } from './rainBird3500RotorEngine.mjs'
 
 export interface RainBird3500LayoutGeneratorInput {
@@ -12,6 +13,7 @@ export interface RainBird3500LayoutGeneratorInput {
   readonly candidatePositionStepFactor?: 0.25 | 0.5 | 1
   /** Candidate bearing increment in degrees: 15, 30 or 45. */
   readonly candidateDirectionStepDeg?: 15 | 30 | 45
+  readonly siteContext?: IrrigationSiteContextInput
 }
 
 export interface RainBird3500GeneratedLayoutResult extends RainBird3500RotorEvaluationResult {
