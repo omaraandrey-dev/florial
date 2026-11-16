@@ -452,6 +452,14 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
+  if (options.pageType === 'product') {
+    const resourceHints = [
+      '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+      '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
+      '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+    ]
+    html = html.replace(/<\\/head>/i, resourceHints.join('\\n') + '\\n</head>')
+  }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
     if (/\blang=["'][^"']*["']/i.test(tag)) return tag.replace(/\blang=["'][^"']*["']/i, 'lang="' + options.language + '"')
     return tag.replace(/>$/, ' lang="' + options.language + '">')
@@ -587,13 +595,53 @@ function localizedRouteUrl(path: string, language: string): string {
   return SITE_URL + path + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
 }
 
+function renderResponsiveProductImage(imageUrl: string, alt: string): string {
+  let src = imageUrl
+  let srcSet = ''
+  let dimensions = ''
+
+  try {
+    const source = new URL(imageUrl)
+    const imageDimensions = source.pathname.match(/-(\\d+)x(\\d+)\\.[a-z0-9]+$/i)
+    if (source.protocol === 'https:' && source.hostname === 'cdn.sanity.io' &&
+      /^\\/images\\/[^/]+\\/[^/]+\\//.test(source.pathname) && imageDimensions) {
+      const sourceWidth = Number(imageDimensions[1])
+      const sourceHeight = Number(imageDimensions[2])
+      const buildUrl = (width: number) => {
+        const image = new URL(source)
+        image.searchParams.set('w', String(Math.min(width, sourceWidth)))
+        image.searchParams.set('fit', 'max')
+        image.searchParams.set('auto', 'format')
+        image.searchParams.set('q', '75')
+        return image.toString()
+      }
+      const candidates = [160, 240, 320, 480, 640, 800, 960, 1200, 1600]
+        .map((width) => Math.min(width, sourceWidth))
+        .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
+        .sort((a, b) => a - b)
+      src = buildUrl(1200)
+      srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
+      dimensions = ' width="' + sourceWidth + '" height="' + sourceHeight + '"'
+    }
+  } catch {
+    // Keep a valid original image URL if it is not a standard Sanity CDN asset.
+  }
+
+  const responsive = srcSet
+    ? ' srcset="' + escapeHtml(srcSet) + '" sizes="(min-width: 1024px) 50vw, 100vw"'
+    : ''
+  return '<img src="' + escapeHtml(src) + '"' + responsive + dimensions +
+    ' alt="' + escapeHtml(alt) + '" loading="eager" fetchpriority="high" decoding="async"' +
+    ' style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
+}
+
 function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
   // Category and service hero imagery is rendered responsively by the client app.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
   // Keep the product fallback image for product-page no-JS content.
   const image = type === 'product' && doc.imageUrl
-    ? '<img src="' + escapeHtml(doc.imageUrl) + '" alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
+    ? renderResponsiveProductImage(doc.imageUrl, name)
     : ''
   let extra = ''
   if (type === 'product') {
