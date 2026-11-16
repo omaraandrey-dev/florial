@@ -146,7 +146,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     return String(Math.round(value * 1000) / 1000)
   }
 
-  function updateGeometry(setter: (value: string) => void, value: string) {
+  function updateGeometry<T extends string>(setter: (value: T) => void, value: T) {
     setter(value)
     setGeometryConfirmed(false)
   }
