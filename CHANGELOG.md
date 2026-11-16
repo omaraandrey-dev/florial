@@ -3377,3 +3377,8 @@ Backups:
 - Unsupported search values fail closed; existing candidate/sample caps remain active. These are numerical search discretization controls, not manufacturer performance/spacing rules.
 - Exact-head CI passed: Blog/Studio run `43849172350`; D1 validation run `43849172390`. Post-merge main CI for `a125b851ca8205bd001850c09614af11306e8fe2` was running when this entry was prepared.
 - No change to the 180°-only manufacturer evidence gate, exact pressure/nozzle lookup, R-VAN/HE-VAN solver or customer flow. No 5000 MPR engine; no Sanity/D1 data, Cloudflare settings/secrets, Resend or manual Production changes.
+
+## 2026-11-16 — Site-context stage 7 CI correction
+
+- PR #349 initial head failed one new test fixture because the synthetic permitted region did not contain the complete tested half-circle sector; D1 validation passed and the other website tests passed. The engine correctly identified samples beyond the site boundary as forbidden.
+- The fixture was corrected on head `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress. D1 rerun was not yet confirmed. PR #349 remains open and unmerged.
