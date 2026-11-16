@@ -1,5 +1,13 @@
 
 
+## 2026-11-16 — Irrigation assistant Production browser smoke test
+
+- Read-only Browser Use inspection visited the homepage, automatic-irrigation service page and assistant in BG/RU/EN. The service page's floating assistant control opened `/irrigation-assistant`; all three locales loaded, the first geometry step rendered, and no browser runtime errors/log entries were observed.
+- The initial step exposes rectangle/L-shape choices and length/width fields; Continue remains disabled while fields are blank. Later steps, geometry confirmation, water inputs and submission were not tested. No data was entered or submitted.
+- This confirms only the initial public UI smoke test, not solver integration or irrigation design. Detailed route/evidence/limits: `docs/audits/2026-11-16-irrigation-assistant-production-browser-smoke.md`.
+
+
+
 ## 2026-11-16 — Catch-can DUlq measurement utility merged (PR #321)
 
 - PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`. Added a deterministic lower-quarter distribution uniformity (DUlq) calculator for measured catch-can volumes/depths, type declarations, tests and an engineering audit.
