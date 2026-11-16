@@ -1,7 +1,7 @@
 ## 2026-11-16 — Emergent capture and AI irrigation consultant design
 
 - **Captured:** PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`. The repository now contains the Emergent prototype review, migration roadmap and partial `Chat.tsx` / `chat.py` source snapshots.
-- **Specified:** PR #324 adds the Florial AI irrigation consultant v1 specification, lawn-engine domain model and proposed layout/hydraulic algorithms. These are design proposals, not implementation approval or proof of hydraulic feasibility.
+- **Specified in main:** PR #324 merged as `859937c09e4a86dbf8f8e131e6803daaa239c1f3`, adding the Florial AI irrigation consultant v1 specification, lawn-engine domain model and proposed layout/hydraulic algorithms. These remain design proposals, not implementation approval or proof of hydraulic feasibility.
 - **Still open — Emergent source:** complete export/commit, package manifests and lockfiles, dependency licenses, all remaining frontend/backend files, LLM provider/model configuration, prompt/tool flow, retrieval implementation, persistence and deployment assumptions.
 - **Still open — Florial decisions:** engineer review of algorithm limits, source-pressure models, pipe-loss method/coefficient sources, coverage resolution/tolerance, compatibility rules and approved reference scenarios.
 - **Not implemented by these documentation changes:** Gemini endpoint/secret, conversation persistence, RAG, customer-facing chat integration, hydraulic solver, catalogue selection, cart handoff or project PDF. No Sanity/D1/Cloudflare/Production changes.
