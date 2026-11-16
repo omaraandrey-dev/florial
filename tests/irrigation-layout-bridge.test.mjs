@@ -88,6 +88,7 @@ test('geometry outside the current R-VAN v1 envelope is not forced into a nozzle
   const result = buildPreliminaryLawnLayout(snapshotFor({ width: 6 }))
   assert.equal(result.status, 'requires_rotor_engine')
   assert.equal(result.reason, 'requires_large_rotor_engine_or_engineer_review')
+  assert.equal(result.plannedNextFamily, 'Rain Bird 3500')
   assert.equal(result.layout, undefined)
 })
 
@@ -128,5 +129,6 @@ test('rejects values immediately outside the provisional R-VAN envelope', () => 
 
   const above = buildPreliminaryLawnLayout(snapshotFor({ width: 5.5001 }))
   assert.equal(above.status, 'requires_rotor_engine')
+  assert.equal(above.plannedNextFamily, 'Rain Bird 3500')
   assert.equal(above.layout, undefined)
 })
