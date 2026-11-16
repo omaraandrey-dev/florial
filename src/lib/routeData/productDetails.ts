@@ -12,7 +12,7 @@ const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(pro
 
 export async function fetchProductDetailsBySlug(slug: string, isCancelled: () => boolean = () => false): Promise<Product | null> {
   const productBySlugQuery = `
-    *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+    *[_type == "product" && (coalesce(slug.current, slug) == $slug || _id == $slug) && isActive != false][0] {
       _id,
       "productType": "equipment"
     }
