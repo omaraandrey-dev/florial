@@ -385,6 +385,39 @@ Sanity remains the catalogue source. Resolve published product/category relation
 
 When `stockStatus=onRequest`, present it as request/confirmation required, not in-stock. If a selected item has no verified price or compatible configuration, mark it for specialist review rather than fabricating a quote.
 
+### 9.4 Two-pass AI workflow and final proposal review
+
+The engineering and catalogue pipeline must finish before the final AI review is requested.
+
+**Pass 1 — conversation and intake**
+- The assistant guides the customer through the project, asks for missing facts and records provenance/confidence.
+- AI may interpret natural-language answers and propose structured field values, but uncertain values remain unconfirmed until the customer verifies them.
+- Once mandatory intake is complete, freeze a versioned input snapshot for calculation.
+
+**Pass 2 — deterministic engineering and catalogue selection**
+1. Run the versioned Florial geometry/layout/coverage/hydraulic modules for the supported case.
+2. Reject or mark for specialist review any unsupported geometry, missing mandatory measurements, failed constraints or unresolved engineering assumptions.
+3. Resolve only eligible engineering component IDs to exact compatible Sanity product IDs/SKUs. Verify the full body/nozzle/regulator assembly; do not infer compatibility from product-title similarity.
+4. Fetch current published prices and availability server-side. Preserve honest onRequest wording.
+5. Freeze a proposal snapshot containing input snapshot ID, engine/ruleset versions, calculation results, warnings, component compatibility evidence, exact product IDs/SKUs, quantities, price timestamp and catalogue revision.
+
+**Pass 3 — final Gemini review of the completed proposal**
+- Only after deterministic calculation and catalogue mapping are complete, send Gemini a minimized review packet containing the frozen engineering result, provenance, assumptions/warnings and exact candidate component references. Do not send customer name, phone, email, order data or unrelated personal information.
+- Gemini is a second-pass consistency and completeness reviewer: identify contradictions between inputs, calculation output and proposed equipment; identify missing explanations or warnings; check that the user-facing summary accurately reflects the deterministic result; and prepare a clear explanation in the selected language.
+- Gemini must not calculate or alter geometry, pressure, flow, pipe losses, nozzle operating points, head count, coordinates, quantities, compatibility, product IDs, price or availability. It must not add/remove/replace products or mutate the cart.
+- The review response uses a strict schema, references supplied result fields, and returns pass, review_required or blocked with machine-readable findings. A model response is advisory, not engineering certification.
+- If Gemini finds a material issue, the proposal is not silently edited by the model. Ask the customer for a missing/contradictory fact, send the case to a Florial specialist, or—after a validated input/ruleset change—run the deterministic pipeline again and create a new immutable proposal snapshot. Repeat final review against that new snapshot.
+- If Gemini is unavailable or returns malformed/unsupported output, preserve the deterministic proposal with an explicit AI review unavailable state; do not invent a successful review.
+
+**Customer-facing review and cart handoff**
+- After the proposal is frozen, show a clear review state (for example, “Проверяваме готовото предложение с AI”). Show real elapsed time or a measured typical duration only when backed by telemetry; never display a fabricated countdown.
+- On completion, show engineering status separately from AI review status. Suggested labels: “Инженерно изчисление: предварително / изисква специалист” and “AI проверка: завършена / има забележки / недостъпна”. Never label an AI-reviewed proposal as engineer-certified.
+- Present the equipment list, quantities, current prices/availability, assumptions and warnings, followed by an explicit “Добави в количката” action.
+- Cart action is a user-initiated deterministic Florial operation. The server revalidates exact published product IDs, compatibility eligibility, current price and availability, then passes only validated product IDs and quantities to the existing cart mechanism. It must not trust client/model-supplied prices or model-generated product lists. If price/catalogue state changed, show the change and ask for confirmation before adding.
+- Never add products automatically after Gemini responds. The customer must see the proposal and click the cart action.
+
+This ordering is intentional: Gemini reviews the completed Florial calculation and product proposal; it is not used to generate the engineering result or select commercial items.
+
 ## 10. Target application architecture
 
 ### 10.1 Frontend
