@@ -301,6 +301,9 @@ export function evaluateHeadToHeadSpacing(selected) {
       requiredMaximumM: nearestLimit,
       headToHeadNeighborId: headToHeadNeighbor?.id ?? null,
       headToHeadSeparationM: Number.isFinite(headToHeadDistanceM) ? headToHeadDistanceM : null,
+      headToHeadRequiredMaximumM: headToHeadNeighbor
+        ? Math.min(sprinkler.radiusM, headToHeadNeighbor.radiusM)
+        : null,
       passed: headToHeadNeighbor !== null,
     })
   }))
