@@ -1,7 +1,7 @@
 ## 2026-11-16 — Emergent irrigation assistant capture and consultant specification
 
 - PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`; source snapshots and review evidence are stored under `docs/prototypes/emergent-irrigation-assistant/`. Captured `Chat.tsx` and `chat.py` are partial archive files, not production components.
-- PR #324 integrates three v1 design documents: `FLORIAL_AI_IRRIGATION_CONSULTANT_SPEC_V1.md`, `IRRIGATION_LAWN_ENGINE_CORE_DESIGN_V1.md`, and `IRRIGATION_LAWN_LAYOUT_AND_HYDRAULIC_ALGORITHMS_V1.md`. They remain draft/proposed engineering documents requiring owner/engineer decisions before implementation.
+- PR #324 merged as `859937c09e4a86dbf8f8e131e6803daaa239c1f3`; exact-head Blog/Studio run `43827356936` and D1 validation run `43827356950` succeeded. It adds `FLORIAL_AI_IRRIGATION_CONSULTANT_SPEC_V1.md`, `IRRIGATION_LAWN_ENGINE_CORE_DESIGN_V1.md`, and `IRRIGATION_LAWN_LAYOUT_AND_HYDRAULIC_ALGORITHMS_V1.md`. They remain draft/proposed engineering documents requiring owner/engineer decisions before implementation.
 - Architecture boundary remains existing React/TypeScript + Cloudflare Pages/Functions + D1 + Sanity + Resend. Emergent FastAPI/MongoDB/SDK runtime is not to be imported wholesale; Gemini is not the deterministic solver.
 - No runtime, Sanity, D1, Cloudflare configuration/secrets, Resend or Production changes are part of this documentation integration.
 
