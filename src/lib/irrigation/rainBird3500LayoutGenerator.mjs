@@ -288,9 +288,10 @@ export function generateRainBird3500RotorLayout({
       !ALLOWED_DIRECTION_STEPS.includes(candidateDirectionStepDeg)) {
     return failure('invalid_operating_input', 'exact_nozzle_pressure_nozzle_and_positive_sample_step_required', 'operatingPoint')
   }
+  let validatedSiteContext = null
   if (siteContext !== undefined) {
-    const siteValidation = validateIrrigationSiteContext(siteContext)
-    if (!siteValidation.valid) return failure('site_context_not_accepted', 'confirmed_valid_site_context_required', 'siteContext')
+    validatedSiteContext = validateIrrigationSiteContext(siteContext)
+    if (!validatedSiteContext.valid) return failure('site_context_not_accepted', 'confirmed_valid_site_context_required', 'siteContext')
   }
   const point = findRainBird3500PerformancePoint(nozzlePressureBar, nozzle)
   if (!point) {
@@ -298,6 +299,9 @@ export function generateRainBird3500RotorLayout({
   }
 
   const vertices = validation.normalizedGeometry.regions[0].boundary.vertices.slice(0, -1)
+  if (validatedSiteContext && vertices.some((vertex) => pointInRing(vertex, validatedSiteContext.siteBoundary) < 0)) {
+    return failure('site_context_not_accepted', 'lawn_boundary_must_be_inside_site_boundary', 'geometry')
+  }
   const targets = buildTargets(vertices, sampleStepM)
   if (!targets) return failure('sampling_limit_exceeded', 'coverage_sampling_limit_exceeded', 'sampleStepM')
   const positions = buildCandidatePositions(vertices, point.radiusM, candidatePositionStepFactor, candidateDirectionStepDeg)
