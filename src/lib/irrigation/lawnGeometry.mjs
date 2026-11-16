@@ -59,7 +59,7 @@ function segmentsIntersect(a, b, c, d) {
   const o3 = orientation(c, d, a)
   const o4 = orientation(c, d, b)
 
-  if (o1 !== o2 && o3 !== o4) return true
+  if (o1 * o2 < 0 && o3 * o4 < 0) return true
   if (o1 === 0 && pointOnSegment(c, a, b)) return true
   if (o2 === 0 && pointOnSegment(d, a, b)) return true
   if (o3 === 0 && pointOnSegment(a, c, d)) return true
@@ -137,8 +137,8 @@ function normalizeRing(ring, path, errors) {
   }
 
   const compact = removeCollinearVertices(vertices)
-  if (compact.length < 3 || Math.abs(signedArea(compact)) <= EPSILON) {
-    errors.push(issue(ERROR.ZERO_AREA_RING, path))
+  if (compact.length < 3) {
+    errors.push(issue(ERROR.TOO_FEW_VERTICES, path + '.vertices'))
     return null
   }
 
@@ -154,6 +154,11 @@ function normalizeRing(ring, path, errors) {
         return null
       }
     }
+  }
+
+  if (Math.abs(signedArea(compact)) <= EPSILON) {
+    errors.push(issue(ERROR.ZERO_AREA_RING, path))
+    return null
   }
 
   const closed = compact.concat([{ ...compact[0] }])
@@ -334,11 +339,7 @@ export function validateLawnGeometry(input, options = {}) {
 
       const exclusions = validateExclusions({ ...region, boundary }, path, ids, errors)
       const excludedAreaM2 = exclusions.reduce((sum, exclusion) => sum + exclusion.polygon.areaM2, 0)
-      if (excludedAreaM2 >= boundary.areaM2 - EPSILON) {
-        errors.push(issue('exclusions_remove_entire_region', path + '.exclusions'))
-      }
-
-      const summary = Object.freeze({
+          const summary = Object.freeze({
         id: region.id,
         shape,
         grossAreaM2: boundary.areaM2,
