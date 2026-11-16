@@ -10,15 +10,15 @@ This is the authoritative resume instruction for a future ChatGPT/Claude/Gemini 
 
 - Repository: `omaraandrey-dev/florial`
 - Branch: `main`
-- Main HEAD observed on 2026-11-16: `ac705db95e87e2cd51fe74e70d15128d2833b5f7`
-- This is a historical checkpoint only. On resumption, fetch the live current main; do not assume it is unchanged.
+- Main HEAD after PR #349 merge verified on 2026-11-16: `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`.
+- This is a verified merge checkpoint; on any future resumption, fetch the live current main rather than assuming it is unchanged.
 - Current repository instructions and core docs were reachable/read during this handoff: `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `docs/AI/WORK_PROTOCOL.md`, `docs/AI/MASTER_SPEC.md`, `docs/TECHNICAL_PASSPORT.md`, `CHANGELOG.md`, `docs/AI/OPEN_QUESTIONS.md`, and `docs/prototypes/emergent-irrigation-assistant/README.md`.
 - GitHub connector connection was verified by successful reads and commit search.
 
 ## Owner's explicit pause decision
 
 1. Do not continue the irrigation assistant or Rain Bird 3500 engineering stages now.
-2. Do not merge, close, retarget, rebase, push to, or otherwise modify PR #349 while paused.
+2. PR #349 has been successfully merged into `main` at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`. Do not begin stage 8 or other engineering work while this workstream remains paused.
 3. Do not attempt to “fix” the earlier GitHub merge timeout or 405 response now.
 4. Do not resume this task just because another Florial task/chat is active.
 5. The owner will work on other areas of the shared Florial website in separate chats.
@@ -31,16 +31,17 @@ This is the authoritative resume instruction for a future ChatGPT/Claude/Gemini 
 - PR #348 — Rain Bird 3500 mutual Head-to-Head-aware selection / stage 6. Main HEAD at pause: `ac705db95e87e2cd51fe74e70d15128d2833b5f7`.
 - These are merged main history. Reconfirm against current main on resumption.
 
-### PR #349 — deliberately left untouched
+### PR #349 — merged and verified
 - URL: https://github.com/omaraandrey-dev/florial/pull/349
 - Title: `feat(irrigation): add confirmed site context and whole-site overspray checks`
 - Branch: `feat/irrigation-site-context-overspray-v1`
-- Last verified head SHA: `efd03a2d7b850e37e19599e28e8d509c266636e0`
-- Last verified base/main SHA: `ac705db95e87e2cd51fe74e70d15128d2833b5f7`
-- Last fetched state: `open`, `merged=false`, `mergeable=true`; reported merge_commit_sha `a6d764547423ff6ab3998b9dee6d59ff6a923e1a` must NOT be treated as proof of merge while GitHub says `merged=false`.
-- Earlier merge attempt timed out; GitHub subsequently returned HTTP 405 “Merge already in progress”. A later PR fetch still reported open/unmerged.
-- **Pause instruction overrides the previous merge permission:** do not retry merge until the owner explicitly resumes this irrigation task. On resumption, re-fetch PR and main, verify exact current head, checks, diff and mergeability. Only then decide whether the prior merge authorization still applies; if anything materially changed, ask the owner.
-- The code/audit/docs added on the #349 branch are not part of main unless independently verified there. Do not claim stage 7 is merged or documented in main.
+- Final PR head: `c7eeff0b8214d2f1571ceaf0f55964975bf714a3`
+- Merge commit on main: `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`
+- GitHub state: `closed`, `merged=true`, merged at `2026-11-16T11:57:32Z`.
+- Final branch sync commit `c7eeff0b8214d2f1571ceaf0f55964975bf714a3` has parents PR head `f7296527caf40b00dfb277bbba5e31bc579e550b` and main `5183d38231a0de608de31689f60a7f6355b050ec`; compare confirmed the PR branch was ahead of main and no longer behind before merge.
+- Exact code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03`: Blog/Studio run `43855876224` and D1 run `43855891392` succeeded. Later PR head `efd03a2d7b850e37e19599e28e8d509c266636e0`: Blog/Studio run `43860117598` and D1 run `43856450266` succeeded. Changes after the code commit were documentation-only and merge synchronization.
+- Post-merge reads confirmed stage-7 code, tests and audit are present on main. No Production deployment or live-service writes were performed.
+- **Do not infer design readiness:** candidate search still does not optimize around forbidden zones; containment is sampled at 0.25 m; spray checks are not a continuous proof; hydraulics, DU/SC, wind drift, installation clearances and full product compatibility remain unevaluated.
 
 ### Older PR #334
 - Historical docs-only PR, not part of the current #347–#349 sequence. It was previously observed stale/non-mergeable. It was not modified or merged. Reassess only if directly relevant after resumption; do not merge automatically.
@@ -100,7 +101,7 @@ AI collects, normalizes, clarifies and explains. Deterministic versioned Florial
 
 Do not start automatically. First reconcile the roadmap with the then-current main and audit files.
 
-1. **Stage 7 integration checkpoint:** inspect #349 state and merge status; if owner-authorized and safe, integrate only after exact-head CI/diff/mergeability checks. Confirm stage 7 audit, passport, changelog and open questions are in main.
+1. **Stage 7 integration checkpoint — complete:** PR #349 is merged and its code/audit are present in main. On resumption, verify current main and review the merged stage-7 limitations before beginning stage 8.
 2. **Stage 8 — overspray-aware candidate optimization:** make no-spray and permitted regions part of position/direction candidate scoring/search, not merely post-selection warnings. Validate against explicit test cases.
 3. **Stage 9 — complex site geometry:** concave boundaries, narrow strips, multiple regions, pools, paths, buildings and neighboring property; harden containment and sampling, including adversarial cases and exact boundary behavior.
 4. **Stage 10 — conversational project context:** guided collection of geometry/site facts, provenance, missing data, assumptions and explicit confirmation before calculation.
@@ -115,9 +116,9 @@ When the owner asks to return:
 1. Fetch the live latest `main` SHA from GitHub. This recorded SHA is only a pause checkpoint.
 2. Read `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `docs/AI/WORK_PROTOCOL.md`, `docs/AI/MASTER_SPEC.md`, this handoff, `docs/TECHNICAL_PASSPORT.md`, latest `CHANGELOG.md`, and `docs/AI/OPEN_QUESTIONS.md`.
 3. Inspect the current prototype roadmap and relevant audit files, then inspect the actual source/tests/workflows/configuration for the next stage.
-4. Fetch PR #349 and verify current state, head/base SHAs, diff, checks, mergeability and whether its changes already landed through another route. Do not infer merge from `merge_commit_sha`; require `merged=true` and verify the merge commit/files in main.
+4. Verify PR #349 remains merged and confirm its merge commit and stage-7 files are present in current main.
 5. Reconcile #347/#348/#349 and all related documentation against current main. Resolve any duplicate or stale status notes without deleting unrelated owner/project history.
-6. Present a short factual resume checkpoint: what is merged, what is open, what was verified, what remains, and the proposed next step.
+6. Present a factual resume checkpoint: stage 7 is merged; summarize its verified scope and limitations, then propose stage 8.
 7. Only then continue the next approved engineering stage. No Production, Sanity, D1, Cloudflare settings/secrets or Resend changes without the required separate owner approval.
 
 ## Out of scope while paused
