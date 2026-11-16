@@ -18,7 +18,7 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     }
   `
   const plantBySlugQuery = `
-    *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+    *[_type == "product" && (coalesce(slug.current, slug) == $slug || _id == $slug) && isActive != false][0] {
       _id,
       productType
     }
