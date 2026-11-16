@@ -588,10 +588,11 @@ function localizedRouteUrl(path: string, language: string): string {
 }
 
 function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
-  // Category hero imagery is rendered responsively by the client app.
-  // Do not emit a raw fallback <img> for categories: it is downloaded before
-  // the responsive desktop-only category hero CSS can hide it on mobile.
-  const image = type !== 'category' && doc.imageUrl
+  // Category and service hero imagery is rendered responsively by the client app.
+  // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
+  // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
+  // Keep the product fallback image for product-page no-JS content.
+  const image = type === 'product' && doc.imageUrl
     ? '<img src="' + escapeHtml(doc.imageUrl) + '" alt="' + escapeHtml(name) + '" style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
     : ''
   let extra = ''
