@@ -34,7 +34,7 @@ test('flags catch-can sets below the recommended 24 samples without hiding the c
   const result = calculateLowerQuarterDistributionUniformity([1, 2, 3, 4, 5, 6, 7, 8])
   assert.equal(result.status, 'calculated')
   if (result.status !== 'calculated') return
-  assert.equal(result.duLqPercent, 40)
+  assert.ok(Math.abs(result.duLqPercent - (100 / 3)) < 1e-9)
   assert.ok(result.warnings.some((warning) => warning.code === 'fewer_than_24_catch_cans_reliability_not_established'))
 })
 
