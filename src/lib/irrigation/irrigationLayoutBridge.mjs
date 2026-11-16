@@ -66,11 +66,15 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   } else if (shortSideM > RVAN14_MAX_SHORT_SIDE_M && shortSideM <= RVAN18_MAX_SHORT_SIDE_M) {
     model = 'R-VAN18'
   } else {
-    return result('outside_rvan_v1_scope', {
+    if (shortSideM < MIN_RVAN_SHORT_SIDE_M) {
+      return result('short_side_below_rvan_v1_scope', {
+        shortSideM,
+        reason: 'short_side_below_current_verified_layout_envelope',
+      })
+    }
+    return result('requires_rotor_engine', {
       shortSideM,
-      reason: shortSideM < MIN_RVAN_SHORT_SIDE_M
-        ? 'short_side_below_current_verified_layout_envelope'
-        : 'requires_large_rotor_engine_or_engineer_review',
+      reason: 'requires_large_rotor_engine_or_engineer_review',
       supportedNextFamilies: Object.freeze(['Rain Bird 3500', 'Rain Bird 5000']),
     })
   }
