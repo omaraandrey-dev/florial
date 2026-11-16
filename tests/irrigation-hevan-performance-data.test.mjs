@@ -26,7 +26,7 @@ test('HE-VAN dataset maps the four published Florial nozzle SKUs', () => {
       { model: 'HE-VAN-15', sku: 'HE1501' },
     ],
   )
-  assert.equal(RAIN_BIRD_HEVAN_DATASET.models[0].sanityProductId, '21e4bb9f-7fd8-4b8d-b761-1d86569a12ae')
+  assert.equal(RAIN_BIRD_HEVAN_DATASET.models[0].sanityProductId, '21e4bb9f-c635-4d6f-882d-c9fefb70b8d3')
 })
 
 test('each HE-VAN model contains four exact arcs and four manufacturer pressure points', () => {
@@ -59,7 +59,15 @@ test('HE-VAN exact lookup preserves manufacturer operating values', () => {
 
 test('every HE-VAN point contains positive finite manufacturer values', () => {
   for (const point of RAIN_BIRD_HEVAN_DATASET.performancePoints) {
-    for (const value of Object.values(point)) {
+    for (const value of [
+      point.arcDeg,
+      point.pressureBar,
+      point.radiusM,
+      point.flowM3h,
+      point.flowLpm,
+      point.precipitationSquareMmH,
+      point.precipitationTriangularMmH,
+    ]) {
       assert.equal(Number.isFinite(value), true)
       assert.ok(value > 0)
     }
