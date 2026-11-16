@@ -75,6 +75,33 @@ function getRouteState(
   }
 }
 
+function ServiceLoadingState({ label }: { label: string }) {
+  return (
+    <main
+      className="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-grow flex-col px-4 py-6 sm:px-6 lg:px-8"
+      aria-busy="true"
+    >
+      <p className="sr-only" role="status" aria-live="polite">{label}</p>
+      <div aria-hidden="true" className="mb-5 h-4 w-64 animate-pulse rounded bg-slate-200" />
+      <header aria-hidden="true" className="mx-auto mb-8 w-full max-w-4xl space-y-4 pb-6 text-center">
+        <div className="mx-auto h-6 w-36 animate-pulse rounded-full bg-emerald-50" />
+        <div className="mx-auto h-10 w-4/5 max-w-2xl animate-pulse rounded-lg bg-slate-200" />
+        <div className="mx-auto h-4 w-full max-w-3xl animate-pulse rounded bg-slate-100" />
+        <div className="mx-auto h-4 w-5/6 max-w-2xl animate-pulse rounded bg-slate-100" />
+      </header>
+      <div aria-hidden="true" className="mb-8 aspect-[4/3] max-h-[560px] w-full animate-pulse rounded-2xl bg-slate-100" />
+      <div aria-hidden="true" className="mx-auto w-full max-w-4xl space-y-5 py-4">
+        <div className="h-7 w-3/4 animate-pulse rounded bg-slate-200" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-11/12 animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
+      </div>
+    </main>
+  )
+}
+
 function CategoryLoadingState({ label }: { label: string }) {
   return (
     <main
@@ -1362,7 +1389,9 @@ export default function App() {
       <React.Suspense fallback={
         activeCategorySlug
           ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
-          : (
+          : activeServiceSlug
+            ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
+            : (
             <main
               className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
               role="status"
@@ -1498,9 +1527,7 @@ export default function App() {
       ) : serviceDirectionSlug && isValidServiceDirectionRoute ? (
         <ServiceDirectionPage directionSlug={serviceDirectionSlug} services={services} rolePhotos={serviceRolePhotos} directionDocument={serviceDirectionDocuments.find((item) => item.slug?.current === serviceDirectionSlug)} loading={loadingServices || loadedServicesLanguage !== language} />
       ) : activeServiceSlug && loadingServiceDetails && !currentService ? (
-        <div className="flex-grow flex items-center justify-center py-20">
-          <p className="text-slate-500 font-medium">{t("Зареждане на страницата...")}</p>
-        </div>
+        <ServiceLoadingState label={t('Зареждане на услугата...')} />
       ) : activeServiceSlug && currentService ? (
         <ServicePageErrorBoundary key={activeServiceSlug} language={language} onNavigateHome={navigateToHome}>
           <ServicePage
