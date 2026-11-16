@@ -5,6 +5,7 @@
 - PR #305 merged as `5ff280711c0b8926e420a2594428941085fc2824`. Exact-SHA Blog/Studio validation run `43785923727` and D1 validation run `43785923863` completed successfully. Cloudflare Preview deployment `04fc4a5c-5f04-4f2c-ab72-9727c5152bde` and Production deployment `8631bee8-93f6-432c-9e99-83dcaf989ef3` succeeded for the relevant exact commits; Production aliases include `florial-bg.com` and `www.florial-bg.com`.
 - Regression test added for irrigation-only visibility and player configuration. No Sanity, D1 data/schema, orders, Resend, Cloudflare settings/secrets/DNS, Header, menu or Footer changes.
 - Browser visual/playback QA was not completed. The HeyGen MP4 URL includes an `avatar_tmp` path; long-term retention is not confirmed. Follow-up and evidence: `docs/audits/2026-11-16-irrigation-introduction-video.md`.
+- Documentation synchronization PR #306 merged as `392807b9312632c586bff98e609518d111be4dae`, recording this release in the technical passport, open questions and release audit.
 
 ## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 merged and deployed)
 
