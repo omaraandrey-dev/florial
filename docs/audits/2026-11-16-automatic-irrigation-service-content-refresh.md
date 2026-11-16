@@ -23,7 +23,8 @@ The Florial page has been rewritten for the Bulgarian market and the actual Flor
 - Follow-up revision-guarded patch added explicit underline markup for RU/EN Markdown and underline + bold Portable Text marks for BG.
 - Current draft revision at validation: `y2TDpG5qG8p5QpVOSw8DTq`.
 - Schema validation: 1 document reported `valid`; result is incomplete because custom validation callbacks (including custom slug uniqueness callbacks) are not executed by the validator. Built-in checks, including built-in slug uniqueness, ran.
-- The content remains a draft pending final code integration and publication verification.
+- The revision-guarded draft was published after PR #350 merged. Published read-back revision: `kG84M8L0NjpttWhMhq10il` (`_updatedAt`: `2026-11-16T14:34:49Z`).
+- Published document read-back confirmed the new content and localized ALT fields; the document ID and slug remain unchanged.
 
 ## Content changes
 
