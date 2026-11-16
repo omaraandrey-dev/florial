@@ -41,6 +41,43 @@ test('confirmed 5m lawn geometry is connected to the deterministic R-VAN18 layou
   assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
 })
 
+test('confirmed orthogonal L-shape reaches the existing layout solver', () => {
+  const vertices = buildLawnBoundary({
+    shape: 'l-shape',
+    length: 12,
+    width: 5,
+    cutoutWidth: 4,
+    cutoutDepth: 2,
+    cutoutCorner: 'top-right',
+  })
+  const geometryValidation = validateLawnGeometry({
+    schemaVersion: 1,
+    coordinateSystem: 'local_cartesian_m',
+    status: 'confirmed',
+    regions: [{ id: 'lawn-l', boundary: { vertices }, exclusions: [] }],
+  })
+  const snapshot = buildIrrigationIntakeSnapshot({
+    language: 'bg',
+    shape: 'l-shape',
+    length: '12',
+    width: '5',
+    cutoutWidth: '4',
+    cutoutDepth: '2',
+    geometryValidation,
+    waterSource: 'well',
+  })
+  const result = buildPreliminaryLawnLayout(snapshot)
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.layout?.geometry?.shape, 'l-shape')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18')
+})
+
+test('narrow geometry below the verified R-VAN envelope is escalated, not forced', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 3.5 }))
+  assert.equal(result.status, 'short_side_below_rvan_v1_scope')
+  assert.equal(result.layout, undefined)
+})
+
 test('unconfirmed geometry is never passed to the layout solver', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor({ confirmed: false }))
   assert.equal(result.status, 'needs_confirmed_geometry')
