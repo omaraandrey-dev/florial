@@ -9,12 +9,14 @@ export const IRRIGATION_INTAKE_SCHEMA_VERSION = 1
 const isFinitePositive = (value) => Number.isFinite(value) && value > 0
 const optionalPositive = (value) => value === null || value === undefined || value === '' ? null :
   (typeof value === 'number' && isFinitePositive(value) ? value : null)
+const optionalNonNegative = (value) => value === null || value === undefined || value === '' ? null :
+  (typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : null)
 
 export function buildIrrigationIntakeSnapshot(input) {
   const geometryValidation = input?.geometryValidation
   const geometryAccepted = Boolean(geometryValidation?.valid && geometryValidation?.status === 'accepted')
-  const flowLpm = optionalPositive(input?.flowLpm)
-  const pressureBar = optionalPositive(input?.pressureBar)
+  const flowLpm = optionalNonNegative(input?.flowLpm)
+  const pressureBar = optionalNonNegative(input?.pressureBar)
   const pressureType = ['static', 'dynamic', 'unknown'].includes(input?.pressureType)
     ? input.pressureType
     : 'unknown'

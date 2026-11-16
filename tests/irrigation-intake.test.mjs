@@ -65,3 +65,18 @@ test('rejects invalid measurements and keeps geometry unconfirmed', () => {
   assert.ok(snapshot.warnings.includes('flow_measurement_missing'))
   assert.ok(snapshot.warnings.includes('pressure_measurement_missing'))
 })
+
+test('preserves a measured zero flow or pressure instead of treating it as missing', () => {
+  const snapshot = buildIrrigationIntakeSnapshot({
+    geometryValidation: acceptedGeometry,
+    flowLpm: 0,
+    pressureBar: 0,
+    pressureType: 'dynamic',
+    pressureMeasurementPoint: 'irrigation_point',
+    flowMeasurementMethod: 'flow_meter',
+  })
+  assert.equal(snapshot.water.flowLpm, 0)
+  assert.equal(snapshot.water.pressureBar, 0)
+  assert.equal(snapshot.water.flowProvenance, 'customer_reported')
+  assert.equal(snapshot.water.pressureProvenance, 'customer_reported')
+})
