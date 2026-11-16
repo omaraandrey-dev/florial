@@ -1,3 +1,13 @@
+## 2026-11-16 — Approved final AI review and explicit cart handoff
+
+- Owner-approved sequence: conversation/intake → deterministic Florial engineering calculation → exact Sanity catalogue mapping and live price/availability → Gemini second-pass review of the frozen proposal → visible result → customer clicks to add items to cart.
+- Gemini reviews consistency/completeness and explains the result; it cannot calculate/alter engineering values or select/change products, quantities, prices, availability or cart contents. It is not engineer certification.
+- A material AI finding requires clarification/escalation or validated input changes followed by a new deterministic run and review. Model outage/malformed output is shown honestly.
+- Review UI may show actual elapsed time or a telemetry-backed typical duration, never a fabricated countdown. Engineering status and AI review status are separate.
+- Cart addition is explicit and user-initiated; current catalogue IDs, compatibility, price and availability must be revalidated server-side before using the existing cart mechanism.
+- Governing details: FLORIAL_AI_IRRIGATION_CONSULTANT_SPEC_V1.md §9.4 and prototype roadmap.
+- Documentation only; no runtime or live service changed.
+
 ## 2026-11-16 — Emergent audit and current irrigation-assistant status
 
 - Audit record: `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md`; roadmap: `docs/prototypes/emergent-irrigation-assistant/README.md`.
