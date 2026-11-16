@@ -1,3 +1,13 @@
+## 2026-11-16 — Irrigation assistant navigation and first performance data
+
+- **Completed in main:** PR #308 adds localized working breadcrumbs on `/irrigation-assistant` to the homepage, irrigation equipment catalogue and irrigation systems service direction. Current assistant page is shown as a non-link. Exact merge SHA: `56ce170dc100f900d55c0cfb85bdfc402fb3345e`.
+- **Completed read-only audit:** PR #309 checked 20 sprinkler/body and 26 nozzle products in Sanity Production. All 46 have published EUR prices, all 46 are `onRequest`, and all 46 have no `productType`; category references are the correct equipment filter. Audit: `docs/audits/2026-11-16-irrigation-assistant-rainbird-data-audit.md`.
+- **Implemented data foundation:** PR #310 adds 36 exact metric performance points for Rain Bird 3500, source D42378 (2023), mapped to Florial 3504-PC / 3504-PC-SAM. Unsupported pressure/nozzle combinations return no result; no interpolation/extrapolation. Exact merge SHA: `a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219`.
+- **Verified by exact-head CI:** #308 Blog/Studio + D1 runs `43789182046` / `43789182043`; #309 `43789391620` / `43789391605`; #310 `43789456998` / `43789457001`; all succeeded.
+- **Production:** deployment for final main SHA `a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219` was queued at this checkpoint; confirm exact Pages deployment success and live breadcrumb clicks before marking the UI release fully verified.
+- **Still open:** geometry editor and confirmed polygon input; dynamic flow measurement method and dynamic-vs-static pressure fields; verified manufacturer datasets for 5000, HE-VAN, VAN, R-VAN and strip families; exact body/nozzle compatibility; sprinkler placement/coverage solver; hydraulic zone/pipe-loss solver; engineer-reviewed reference cases; live catalogue selection and cart handoff. Gemini remains outside the hydraulic solver and no Gemini API/secret was added.
+- No Sanity write/schema change, D1 write/schema change, order, email, Cloudflare configuration/secret/DNS change, Header/menu/Footer change.
+
 ## 2026-11-16 — Irrigation introduction video follow-up
 
 - **Released:** PR #305 merged as `5ff280711c0b8926e420a2594428941085fc2824`; the approved 60.33-second Bulgarian Florial video is embedded only on `/services/category/polivni-sistemi`. Exact-SHA CI and Cloudflare Pages Production deployment succeeded. Details: `docs/audits/2026-11-16-irrigation-introduction-video.md`.
