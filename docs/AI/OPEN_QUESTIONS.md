@@ -563,3 +563,8 @@
 
 - PR #349 initial head failed one new test fixture (the test expected permitted spray outside the site boundary); D1 validation passed. The engine's outside-site classification was correct.
 - Fixture corrected at `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` in progress, D1 rerun not confirmed. PR remains open/unmerged pending exact-head CI.
+
+## 2026-11-16 — Stage 7 exact-head CI passed; merge still pending
+
+- PR #349 corrected head `b64f6f18cdac31c0fa29064dfd2b20719a688b03`: Blog/Studio run `43855876224` and D1 validation run `43855891392` passed.
+- PR #349 remains open/unmerged. Owner authorization to merge this follow-on PR has not been given. No Production deployment.
