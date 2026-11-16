@@ -1,11 +1,3 @@
-## 2026-11-16 — Automatic irrigation article layout and contextual catalogue links (in progress)
-
-- Owner-approved editorial update for service `avtomatichno-napoyavane` (`04c7ab3b-1888-41cb-9917-6b9014cd1ac3`): retain the hero and first informational gallery image, place the four process photos beside matching H2/H3 article sections, and remove three duplicate image/text cards without deleting media assets.
-- Preserved BG Portable Text and RU/EN Markdown article wording; long multi-sentence paragraphs were separated at sentence boundaries. Visible text comparison passed for all three locales.
-- Added localized internal links to published categories: controllers (23 active products), sprinklers (20), and drip irrigation (22). Verified category routes: `/category/controllers`, `/category/sprinklers`, `/category/kapkovo-napoyavane`.
-- Sanity pre-write snapshot: `docs/backups/sanity/2026-11-16-automatic-irrigation-service-before-article-layout-update.json`; revision-guarded draft patch succeeded from published revision `kG84M8L0NjpttWhMhqGtNr`. Draft validation reported valid but incomplete (custom callbacks not run). Publication is pending matching frontend integration.
-- Frontend work is on branch `content/automatic-irrigation-article-layout-2026-11-16`; exact-head CI, Preview QA, Sanity publication, Production deployment and final browser QA remain pending. Audit: `docs/audits/2026-11-16-automatic-irrigation-article-layout.md`.
-
 ## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
