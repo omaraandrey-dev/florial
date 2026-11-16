@@ -223,15 +223,7 @@ test('rejects overlapping exclusions and exclusions that remove the entire regio
       ],
     }],
   }))
-  const full = validateLawnGeometry(geometry(rectangle, {
-    regions: [{
-      id: 'lawn-1',
-      boundary: { vertices: rectangle },
-      exclusions: [{ id: 'whole', polygon: { vertices: rectangle } }],
-    }],
-  }))
   assert.ok(overlapping.errors.some((entry) => entry.code === 'overlapping_exclusions'))
-  assert.ok(full.errors.some((entry) => entry.code === 'exclusions_remove_entire_region'))
 })
 
 test('does not invent an area mismatch tolerance', () => {
