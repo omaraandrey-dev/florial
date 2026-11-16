@@ -39,6 +39,6 @@ export interface PreliminaryLawnLayoutResult {
   readonly warnings?: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
 export function buildPreliminaryLawnLayout(
-  snapshot: IrrigationLayoutBridgeSnapshot,
+  snapshot: Readonly<Record<string, any>>,
   options?: { sampleStepM?: number },
 ): PreliminaryLawnLayoutResult
