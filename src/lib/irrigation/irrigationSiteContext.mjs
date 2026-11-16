@@ -45,7 +45,9 @@ function edgesRemainInside(vertices, container) {
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
-    for (const ratio of [0, 0.25, 0.5, 0.75]) {
+    const divisions = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.25))
+    for (let part = 0; part <= divisions; part += 1) {
+      const ratio = part / divisions
       const point = { x: a.x + (b.x - a.x) * ratio, y: a.y + (b.y - a.y) * ratio }
       if (!isInsideOrOn(point, container)) return false
     }
