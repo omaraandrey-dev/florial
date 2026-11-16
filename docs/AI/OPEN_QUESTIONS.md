@@ -507,3 +507,15 @@
 4. **Layout generation:** PR #339 evaluates explicitly supplied rotor positions; it does not generate or optimize positions. Next work must establish a rotor-specific candidate-generation strategy with engineer-reviewed rectangle and L-shape reference cases, overspray limits and spacing rules.
 5. **Hydraulics and uniformity:** nozzle pressure must be distinguished from source pressure; zone flow, pipe losses, DU/SC and precipitation matching remain unimplemented/not evaluated. Do not mark design_ready.
 6. **Customer release:** PR #339 is not merged or deployed. No customer-facing 3500 recommendations are enabled.
+
+
+## 2026-11-16 — Rain Bird 3500 candidate generator follow-up
+
+- PR #339 (isolated 180° evaluator) and PR #340 (heuristic candidate generator) are merged. Exact-head CI passed for both PRs; #340 runs: Blog/Studio `43847530293`, D1 `43847530296`. Main CI for merge SHA `9da44168e6c7d877ac914a8dc7dde13fd2129b95` was pending at documentation time.
+- **Reference-case validation remains open:** create engineer-reviewed rectangle and L-shape baselines, including mirrored/rotated L-shapes and representative width/radius cases. Compare generated candidate layouts against manual placements.
+- **Search convergence remains open:** compare 0.5 m, 0.25 m and 0.125 m target sampling and evaluate sensitivity to half-radius candidate-position grid and 45° direction increments. These increments are heuristic discretization, not manufacturer rules.
+- **Selection quality remains open:** current greedy pass maximizes newly covered samples; head-to-head and overspray are evaluated afterward, not included in candidate scoring. Improve selection only against approved engineering reference cases.
+- **Geometry limitations:** exclusions and multiple regions are not supported. Do not silently ignore obstacles, paths or planting beds.
+- **Hydraulics/uniformity:** dynamic pressure at the nozzle, zone flow, pipe losses, elevation, DU/SC and precipitation matching remain unimplemented. Source pressure must not be substituted for nozzle pressure.
+- **Manufacturer/product gates:** obtain Rain Bird clarification for arc-specific performance and conflicting 25%/35% radius reduction; verify 3504-PC and 3504-PC-SAM package/nozzle-tree contents before catalogue/BOM mapping.
+- The 3500 modules remain disconnected from customer-facing assistant, catalogue, cart and Production workflow. No 5000 MPR engine is in scope.
