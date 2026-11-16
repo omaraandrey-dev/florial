@@ -35,6 +35,8 @@ test('generates deterministic candidates using exact D42378 180-degree data only
   assert.equal(first.operatingPoint.radiusM, 10.1)
   assert.ok(first.sprinklers.length > 0)
   assert.ok(first.sprinklers.every((rotor) => rotor.arcDeg === 180))
+  const positions = first.sprinklers.map((rotor) => rotor.position.x.toFixed(5) + ':' + rotor.position.y.toFixed(5))
+  assert.equal(new Set(positions).size, positions.length)
   assert.deepEqual(first.sprinklers, second.sprinklers)
   assert.equal(first.hydraulicFeasibility, 'not_evaluated')
   assert.equal(first.precipitationUniformity, 'not_evaluated')
