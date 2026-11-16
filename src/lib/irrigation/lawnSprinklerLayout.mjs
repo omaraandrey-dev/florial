@@ -294,7 +294,7 @@ export function generateLawnSprinklerLayout({
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
 }) {
   const validation = validateLawnGeometry(geometry)
-  if (!validation.valid || validation.status !== 'accepted') {
+  if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
       status: 'geometry_not_accepted',
