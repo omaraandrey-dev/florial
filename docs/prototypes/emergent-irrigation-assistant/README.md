@@ -205,3 +205,8 @@ PR #339 adds an isolated Rain Bird 3500 evaluation module for explicit rotor pos
 ### 2026-11-16 — Rain Bird 3500 candidate generator integrated
 
 PR #339 and PR #340 are merged. Florial now has an isolated 3500 exact-point evaluator and a separate heuristic candidate generator restricted to 180° half-circle operation. Candidate positions are sampled at half the manufacturer throw radius plus boundary points; eight 45° directions are searched with deterministic greedy set-cover. The evaluator separately reports sampled coverage, directional head-to-head and sampled overspray. No hydraulic feasibility, DU/SC, package compatibility, customer-facing recommendation or cart handoff is implemented. Do not mark the 3500 engine complete.
+
+
+### 2026-11-16 — 3500 synthetic L-shape validation
+
+PR #342 adds mirrored/rotated L-shape and finer target-sampling regression tests. Exact D42378 lookup and 180°-only sectors remain enforced. This is software invariance testing, not engineer approval or field validation. The 3500 generator remains a preliminary internal tool and must not be exposed as a purchasable or certified design.

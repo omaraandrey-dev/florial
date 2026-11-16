@@ -3504,3 +3504,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Exact-head CI passed for PR #340: Blog/Studio `43847530293`; D1 `43847530296`. Post-merge `main` CI for `9da44168e6c7d877ac914a8dc7dde13fd2129b95` was pending when this record was written.
 - Interpretation: heuristic candidate layout only; 45° direction increment and half-radius position grid are algorithm search discretization, not Rain Bird spacing rules. A sampled pass is not a continuous coverage proof or design certification.
 - Not implemented: exclusion polygons, arc-specific performance beyond 180°, pressure interpolation, disputed radius reduction, hydraulics/zone sizing, precipitation uniformity/DU/SC, body/nozzle package compatibility, live catalogue/BOM, customer assistant integration or cart handoff. No 5000 MPR engine.
+
+
+### Rain Bird 3500 — synthetic geometry test stage 3 (2026-11-16)
+
+- PR #342 merged as `78784ff2685851bd3287b4cf7829d342d2c747fe`; exact-head CI passed: Blog/Studio `43848342270`, D1 `43848342194`.
+- Added `tests/irrigation-rain-bird-3500-reference-invariance.test.mjs`: synthetic orthogonal L-shape tests for horizontal/vertical mirrors and 90°/180°/270° rotations, plus target-sampling steps 0.5/0.25/0.125 m.
+- Tests preserve exact D42378 2.5 bar / nozzle 4 operating point, 180° sectors, unique IDs/positions and `not_evaluated` hydraulic/uniformity states.
+- These tests validate software invariants only. They are not field trials or engineer-approved reference layouts. Layout quality, manual baseline comparison, convergence of rotor positions/count, overspray and hydraulic/precipitation performance remain open.
