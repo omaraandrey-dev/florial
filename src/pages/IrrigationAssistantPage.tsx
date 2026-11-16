@@ -5,6 +5,7 @@ import { localizedHref } from '../lib/navigation'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
+import { buildPreliminaryRvanLayoutPreview, type RvanAdjustableModel } from '../lib/irrigation/lawnLayoutPreview.mjs'
 
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
 type PressureType = 'static' | 'dynamic' | 'unknown'
@@ -34,6 +35,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const [flowMeasurementMethod, setFlowMeasurementMethod] = useState<FlowMeasurementMethod>('unknown')
   const [notes, setNotes] = useState('')
   const [showSummary, setShowSummary] = useState(false)
+  const [showLayoutPreview, setShowLayoutPreview] = useState(false)
+  const [layoutModel, setLayoutModel] = useState<RvanAdjustableModel>('R-VAN18')
 
   const copy = useMemo(() => {
     if (language === 'ru') return {
@@ -64,6 +67,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
       flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
       hydraulicNotReady: 'Гидравлическая проверка пока не выполнена',
+      layoutTitle: 'Предварительная геометрическая раскладка R-VAN', layoutIntro: 'Эскиз использует точную паспортную рабочую точку Rain Bird 3,1 bar на насадке. Это целевое значение производителя, а не измеренное давление на вашем участке.', layoutModelLabel: 'Модель насадки для эскиза', layoutRun: 'Построить предварительную раскладку', layoutHide: 'Скрыть раскладку', layoutHeadCount: 'Количество дождевателей', layoutCoverage: 'Покрытые точки расчётной сетки', layoutTotalFlow: 'Теоретический расход всех голов при одновременной работе', layoutHeadSpacingPass: 'Геометрическая проверка расстояний между головами пройдена.', layoutHeadSpacingFail: 'Геометрическая проверка расстояний между головами не пройдена.', layoutAvailable: 'Расчётная сетка покрыта выбранной геометрической моделью.', layoutIncomplete: 'Часть точек расчётной сетки не покрыта. Нужна проверка специалиста.', layoutBlocked: 'Сначала подтвердите поддерживаемую геометрию участка.', layoutDisclaimer: 'Это только предварительная геометрическая раскладка. Не рассчитаны потери в трубах, гидравлические зоны, давление на каждой насадке, равномерность осадков, совместимость корпуса и насадки и перелив за границы. Суммарный расход предполагает одновременную работу всех голов и не является расходом одной зоны. Результат нельзя использовать как монтажный проект или готовый список покупок.',
       missingTitle: 'Что ещё потребуется для инженерной проверки',
       missing: {
         confirmed_supported_geometry: 'Подтверждённая поддерживаемая геометрия',
@@ -107,6 +111,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
       flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
       hydraulicNotReady: 'Hydraulic feasibility has not been evaluated',
+      layoutTitle: 'Preliminary R-VAN geometric layout', layoutIntro: 'The preview uses Rain Bird’s exact published R-VAN operating point of 3.1 bar at the nozzle. This is a manufacturer design target, not a pressure measurement from your site.', layoutModelLabel: 'Nozzle model for this preview', layoutRun: 'Generate preliminary layout', layoutHide: 'Hide layout', layoutHeadCount: 'Sprinkler count', layoutCoverage: 'Covered points in the sample grid', layoutTotalFlow: 'Theoretical total flow with all heads operating simultaneously', layoutHeadSpacingPass: 'The geometric head-spacing check passed.', layoutHeadSpacingFail: 'The geometric head-spacing check did not pass.', layoutAvailable: 'The selected geometric model covers the sampled grid.', layoutIncomplete: 'Some sample-grid points remain uncovered. Specialist review is required.', layoutBlocked: 'Confirm a supported site geometry first.', layoutDisclaimer: 'This is a preliminary geometric layout only. Pipe losses, hydraulic zones, pressure at each nozzle, precipitation uniformity, body/nozzle compatibility and overspray are not evaluated. Total flow assumes all heads operate simultaneously; it is not a zone-flow calculation. Do not use this output as an installation design or a ready-to-buy equipment list.',
       missingTitle: 'Still needed for engineering review',
       missing: {
         confirmed_supported_geometry: 'Confirmed supported geometry',
@@ -150,6 +155,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
       flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
       hydraulicNotReady: 'Хидравличната пригодност все още не е изчислена',
+      layoutTitle: 'Предварителна геометрична схема R-VAN', layoutIntro: 'Схемата използва точната публикувана работна точка на Rain Bird R-VAN — 3,1 bar при дюзата. Това е проектна стойност на производителя, а не измерено налягане на вашия терен.', layoutModelLabel: 'Модел дюза за схемата', layoutRun: 'Изготви предварителна схема', layoutHide: 'Скрий схемата', layoutHeadCount: 'Брой разпръсквачи', layoutCoverage: 'Покрити точки от изчислителната мрежа', layoutTotalFlow: 'Теоретичен общ дебит при едновременна работа на всички глави', layoutHeadSpacingPass: 'Геометричната проверка на разстоянията между главите е премината.', layoutHeadSpacingFail: 'Геометричната проверка на разстоянията между главите не е премината.', layoutAvailable: 'Избраната геометрична схема покрива изчислителната мрежа.', layoutIncomplete: 'Част от точките в изчислителната мрежа остават непокрити. Необходима е проверка от специалист.', layoutBlocked: 'Първо потвърдете геометрията на терена в поддържан формат.', layoutDisclaimer: 'Това е само предварителна геометрична схема. Не са изчислени загубите в тръбите, хидравличните зони, налягането при всяка дюза, равномерността на валежа, съвместимостта на корпуса и дюзата и поливането извън границите. Общият дебит приема едновременна работа на всички глави и не е дебит на една зона. Резултатът не е монтажен проект или готов списък за покупка.',
       missingTitle: 'Какво още е необходимо за инженерна проверка',
       missing: {
         confirmed_supported_geometry: 'Потвърдена геометрия в поддържан формат',
@@ -214,6 +220,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     waterSource, pressureType, pressureBar, pressureMeasuredWhileFlowing, pressureTestPoint,
     flowRate, flowMeasurementMethod, notes,
   ])
+
+  const layoutPreview = useMemo(() => showLayoutPreview
+    ? buildPreliminaryRvanLayoutPreview({ intakeSnapshot: snapshot, model: layoutModel, sampleStepM: 0.25 })
+    : null, [showLayoutPreview, snapshot, layoutModel])
 
   const calculatedArea = geometryValidation?.computedAreaM2 ?? 0
   const calculatedPerimeter = geometryValidation?.computedPerimeterM ?? 0
@@ -399,6 +409,33 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   {notes.trim() && <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.notesLabel}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes.trim()}</dd></div>}
                 </dl>
               </div>
+
+              <section className="rounded-2xl border border-emerald-200 bg-white p-4" aria-labelledby="rvan-layout-title">
+                <h3 id="rvan-layout-title" className="text-lg font-bold text-slate-900">{copy.layoutTitle}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{copy.layoutIntro}</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                  <label className="block text-sm font-semibold text-slate-700">{copy.layoutModelLabel}<select value={layoutModel} onChange={(event) => setLayoutModel(event.target.value as RvanAdjustableModel)} className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-3 font-normal text-slate-900"><option value="R-VAN14">R-VAN14</option><option value="R-VAN18">R-VAN18</option><option value="R-VAN24">R-VAN24</option></select></label>
+                  <button type="button" disabled={!geometryAccepted} onClick={() => setShowLayoutPreview((current) => !current)} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-40">{showLayoutPreview ? copy.layoutHide : copy.layoutRun}</button>
+                </div>
+                {!geometryAccepted && <p className="mt-3 text-sm text-amber-800">{copy.layoutBlocked}</p>}
+                {layoutPreview?.layout && <div className="mt-5 space-y-4">
+                  <p role="status" className={layoutPreview.status === 'preview_available' ? 'rounded-xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-900' : 'rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-900'}>{layoutPreview.status === 'preview_available' ? copy.layoutAvailable : copy.layoutIncomplete}</p>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.layoutTitle} className="max-h-72 w-full" preserveAspectRatio="xMidYMid meet">
+                      <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                      {layoutPreview.layout.sprinklers.map((head, index) => <g key={head.id}><circle cx={head.position.x} cy={head.position.y} r="0.18" fill="#047857" stroke="#ffffff" strokeWidth="0.06" /><text x={head.position.x + 0.22} y={head.position.y - 0.22} fontSize="0.42" fill="#064e3b">{index + 1}</text></g>)}
+                    </svg>
+                    <p className="mt-2 text-xs text-slate-500">{copy.layoutModelLabel}: {layoutModel} · {layoutPreview.designBasis?.pressureBar} bar</p>
+                  </div>
+                  <dl className="grid gap-3 sm:grid-cols-3">
+                    <div className="rounded-xl bg-slate-50 p-3"><dt className="text-xs font-semibold text-slate-500">{copy.layoutHeadCount}</dt><dd className="mt-1 text-lg font-bold tabular-nums text-slate-900">{layoutPreview.layout.sprinklers.length}</dd></div>
+                    <div className="rounded-xl bg-slate-50 p-3"><dt className="text-xs font-semibold text-slate-500">{copy.layoutCoverage}</dt><dd className="mt-1 text-lg font-bold tabular-nums text-slate-900">{layoutPreview.layout.coverage?.coveredPoints ?? 0} / {layoutPreview.layout.coverage?.sampledPoints ?? 0} ({numberFormat(layoutPreview.layout.coverage?.coveragePercent ?? 0)}%)</dd></div>
+                    <div className="rounded-xl bg-slate-50 p-3"><dt className="text-xs font-semibold text-slate-500">{copy.layoutTotalFlow}</dt><dd className="mt-1 text-lg font-bold tabular-nums text-slate-900">{numberFormat(layoutPreview.layout.totalFlowLpm ?? 0)} L/min</dd></div>
+                  </dl>
+                  <p className={layoutPreview.layout.headToHead?.passed ? 'text-sm text-emerald-800' : 'text-sm text-amber-800'}>{layoutPreview.layout.headToHead?.passed ? copy.layoutHeadSpacingPass : copy.layoutHeadSpacingFail}</p>
+                  <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.layoutDisclaimer}</p>
+                </div>}
+              </section>
 
               <div className="rounded-2xl border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900">{copy.missingTitle}</h3>
