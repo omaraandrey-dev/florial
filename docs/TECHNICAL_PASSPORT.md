@@ -1,5 +1,14 @@
 
 
+## 2026-11-16 — Irrigation assistant Production browser smoke test
+
+- Read-only browser QA confirmed the public homepage, automatic-irrigation service and assistant initial view in BG/RU/EN load successfully. The service page's floating assistant control opens `/irrigation-assistant`; the first geometry step shows rectangle/L-shape options and metric length/width inputs; Continue is disabled while blank.
+- No browser runtime exception or log entry was observed. No form data, consent choice or other write was submitted.
+- Later assistant steps, geometry confirmation, water input, summary and submission remain untested. This does not validate the calculation engine or an irrigation design.
+- Detailed audit: `docs/audits/2026-11-16-irrigation-assistant-production-browser-smoke.md`.
+
+
+
 ## 2026-11-16 — Measured catch-can DUlq calculation (PR #321)
 
 - PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`; exact PR head `bc32ab7b8cc71a86fd8a007537cb41c752a8892f` passed Blog/Studio run `43822321587` and D1 run `43822321498`.

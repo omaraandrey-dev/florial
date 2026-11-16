@@ -175,6 +175,13 @@ An irrigation engineer must review rules and baseline cases before automatic cus
 - This does not estimate a future layout's uniformity, does not calculate SC or net precipitation rate, and does not replace a field audit. The solver's `precipitationUniformity` remains `not_evaluated`.
 - A future field validation needs an engineer-reviewed catch-can grid and recorded sprinkler/nozzle model, arc, nozzle pressure, run time, wind conditions, sample spacing and readings. Non-uniform represented areas need a weighted calculation before DUlq can be trusted.
 
+
+
+### Initial Production browser smoke — 2026-11-16
+
+- Read-only Production browser QA confirmed the initial assistant geometry step loads in BG/RU/EN from the public automatic-irrigation service page. No runtime errors were observed. Only the initial state was inspected; no geometry or other data was submitted.
+- Later steps and responsive viewport QA remain open. This does not authorize customer-facing solver output; the placement engine is not yet called by the page.
+
 ## 10. Delivery stages
 
 1. Complete launcher visibility rules and portrait source.

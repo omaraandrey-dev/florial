@@ -1,5 +1,14 @@
 
 
+## 2026-11-16 — Irrigation assistant initial Production browser QA
+
+- **Verified:** read-only browser inspection loaded the public home, automatic-irrigation service and assistant initial step in BG/RU/EN. Floating assistant launcher opens the dedicated route; no browser runtime errors/log entries were observed.
+- **Not verified:** geometry submission/confirmation, later steps, water-source/flow/pressure entry, summary, responsive viewport comparisons and form submission. No data was entered.
+- **Still not integrated:** the customer-facing assistant page does not call the deterministic placement engine. Do not expose layout recommendations before engineer-reviewed reference layouts and hydraulic/compatibility gates.
+- Audit: `docs/audits/2026-11-16-irrigation-assistant-production-browser-smoke.md`.
+
+
+
 ## 2026-11-16 — Catch-can DUlq utility and field validation
 
 - **Implemented:** PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`. Exact-head Blog/Studio run `43822321587` and D1 run `43822321498` passed.
