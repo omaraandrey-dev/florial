@@ -8,7 +8,7 @@ export interface IrrigationIntakeInput {
   cutoutWidth?: string | number
   cutoutDepth?: string | number
   cutoutCorner?: string
-  geometryValidation?: Record<string, any> | null
+  geometryValidation?: { valid?: boolean; status?: string; supported?: boolean; computedAreaM2?: number; computedPerimeterM?: number; normalizedGeometry?: unknown } | null
   waterSource?: 'mains' | 'well' | 'tank' | 'unknown'
   pressureType?: IrrigationPressureType
   pressureBar?: string | number
