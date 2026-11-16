@@ -1,3 +1,12 @@
+## 2026-11-16 — PR #353 service CLS and duplicate image fix merged/deployed
+
+- PR #353 merged as `74642455efe284730cdf442efc1b82182e10eda8`; Cloudflare Pages Production deployment `4060e639-d643-496d-ae3f-65706cd85000` succeeded on that exact SHA.
+- The service route now reserves viewport height while its lazy module/Sanity detail loads. Middleware no longer injects a duplicate un-sized service image into initial HTML; responsive React hero and OG/structured metadata remain.
+- Exact PR head `c0f90b2bd6ce4b5d204f8da14aa191f3cd69d758`: Blog/Studio and D1 CI passed; Preview deployment `e7235fd7-cc03-48e0-9e27-e9d6916df640` succeeded.
+- **Still required:** browser visual/network QA for BG/RU/EN and 390px mobile/desktop; inspect hero currentSrc/bytes, footer timing and remaining CLS; obtain three matched mobile and desktop Lighthouse runs. The prior browser attempt was blocked by `ERR_SOCKS_CONNECTION_FAILED`; a new read-only Production browser run is pending. No after-change metrics or improvement claim.
+- Baseline supplied by owner: mobile Performance 60, FCP 1.7 s, LCP 4.5 s, TBT 10 ms, CLS 0.693; one lab run only. Keep remaining CSS render-blocking audit separate until measurements support a safe change.
+- Audit: `docs/audits/2026-11-16-performance-service-cls-and-image-fallback.md`.
+
 ## 2026-11-13 — PR #251 merged and deployed; owner QA pending
 
 - PR #251: https://github.com/omaraandrey-dev/florial/pull/251 — squash-merged.
