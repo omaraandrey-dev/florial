@@ -107,6 +107,37 @@ The audit identifies family-specific constraints:
 
 The complete current SKU mapping and unresolved items remain in the Rain Bird audit. This specification does not certify product compatibility or authorize Sanity writes.
 
+### 4.3 Emergent prototype audit — lessons retained
+
+The owner supplied the files available from the free Emergent environment. The reviewed material covered Pydantic chat/site/document/lead models; FastAPI chat, document and lead routers; MongoDB persistence/index setup and seed data; Gemini streaming/prompt construction; keyword retrieval; and the React chat page, routing, API/SSE client, message composer, history, parameter panel, knowledge/lead UI and styling.
+
+Observed implementation characteristics:
+- The prototype backend is FastAPI + MongoDB and uses an Emergent-specific Gemini integration. These are not Florial runtime dependencies and are not to be ported as a backend.
+- The frontend demonstrates useful progressive intake, streaming chat, sample conversations, a parameter side panel and specialist escalation. Reuse interaction concepts only after adapting them to Florial localization, accessibility and current React conventions.
+- The prototype's manually mirrored frontend/backend types can drift. Florial should validate shared contracts at runtime and keep inferred TypeScript types aligned to the schemas.
+- The reviewed keyword retrieval is not semantic retrieval and uses simplistic token stemming. More importantly, it selects active knowledge documents without excluding `is_sample`; prototype seed examples can therefore enter retrieval. Production retrieval must exclude sample/demo, unverified, obsolete and blocked material by default.
+- The reviewed prototype document and lead routes showed no adequate authentication/ownership boundary. Conversation, document and lead access must be secured server-side; UI-only restrictions are insufficient.
+- The prototype CORS default was wildcard with credentials enabled. Florial must use an explicit origin allowlist.
+- The prototype's LLM metadata is extracted from generated text using regex/JSON parsing and merges model-supplied site fields. Florial must use structured contracts, strict runtime validation, domain bounds and explicit user confirmation for uncertain extracted values.
+- The prototype's SSE client/parser has limited framing, buffering, cancellation and reconnect behavior. Any Florial streaming contract must explicitly define event framing, cancellation, disconnect handling, finalization, errors and retry semantics.
+- The prototype's lead form and confirmation do not prove that a specialist was notified. Florial must distinguish request persistence, notification acceptance and human follow-up.
+- The seed knowledge includes illustrative agronomic/hydraulic statements. These are examples, not approved engineering reference data or golden test results.
+
+The source material supplied in chat is broader than the two source snapshots currently proposed in PR #312. The complete Emergent export, package manifests/lockfile, dependency licenses, deployment configuration and any missing source files remain unverified. Do not claim a full-project source audit or dependency/license clearance.
+
+### 4.4 Reuse / replace decision
+
+| Prototype element | v1 decision |
+|---|---|
+| Conversational UX, progressive questions, sample walkthrough concept | Adapt selectively |
+| Chat bubbles, composer, history and parameter summary | Rebuild/adapt using Florial components and localization |
+| FastAPI, MongoDB, Emergent SDK and persistence | Replace with existing Cloudflare Pages Functions / D1 patterns where approved |
+| Gemini-specific prompt and streaming integration | Replace with provider-neutral adapter and strict function contracts |
+| Prototype keyword RAG and sample seed documents | Do not port; curate verified Florial sources and retrieval filters |
+| Public knowledge editor and lead listing | Do not port; use existing Manager roles and permissions |
+| Model-derived hydraulic recommendations | Replace with deterministic engineering engine |
+| Demo numerical answers | Do not use as engineering baselines |
+
 ## 5. User journey
 
 ### Step 1 — Start and identify the task
