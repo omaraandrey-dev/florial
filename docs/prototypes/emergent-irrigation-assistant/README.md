@@ -210,3 +210,8 @@ PR #339 and PR #340 are merged. Florial now has an isolated 3500 exact-point eva
 ### 2026-11-16 — 3500 synthetic L-shape validation
 
 PR #342 adds mirrored/rotated L-shape and finer target-sampling regression tests. Exact D42378 lookup and 180°-only sectors remain enforced. This is software invariance testing, not engineer approval or field validation. The 3500 generator remains a preliminary internal tool and must not be exposed as a purchasable or certified design.
+
+
+### 2026-11-16 — 3500 search sensitivity presets
+
+PR #344 adds bounded internal search settings for candidate-position spacing (0.25/0.5/1.0 × exact throw radius) and direction increment (15°/30°/45°). These are sensitivity-study controls, not manufacturer design rules. The default remains 0.5 × radius and 45°. The engine remains preliminary, 180°-only and not connected to customer-facing recommendations.
