@@ -9,8 +9,8 @@ export interface RainBird3500RotorInput {
 
 export interface RainBird3500RotorEvaluationInput {
   readonly geometry: LawnGeometryInput
-  /** Exact D42378 pressure point in bar; no interpolation. */
-  readonly pressureBar: number
+  /** Exact D42378 pressure at the nozzle in bar; source pressure is not accepted. */
+  readonly nozzlePressureBar: number
   /** Exact D42378 nozzle-tree size: 0.75, 1, 1.5, 2, 3 or 4. */
   readonly nozzle: number
   readonly sprinklers: ReadonlyArray<RainBird3500RotorInput>
@@ -23,7 +23,7 @@ export interface RainBird3500RotorEvaluationResult {
   readonly status: string
   readonly coverageScope?: 'sampled_geometry_only'
   readonly operatingPoint?: Readonly<{
-    pressureBar: number
+    nozzlePressureBar: number
     nozzle: number
     arcDeg: 180
     radiusM: number
@@ -46,7 +46,7 @@ export interface RainBird3500RotorEvaluationResult {
     arcDeg: 180
     directionDeg: number
     nozzle: number
-    pressureBar: number
+    nozzlePressureBar: number
     radiusM: number
     flowLpm: number
     precipitationSquareMmH: number
