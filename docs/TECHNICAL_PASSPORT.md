@@ -3528,3 +3528,12 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Internal controls: `candidatePositionStepFactor` accepts 0.25, 0.5 or 1.0 × exact D42378 throw radius; default 0.5. `candidateDirectionStepDeg` accepts 15, 30 or 45 degrees; default 45. Target sample step remains independent. Unsupported values are rejected.
 - Exact-head CI passed: Blog/Studio `43849172350`, D1 validation `43849172390`.
 - These settings enable sensitivity experiments only. They do not encode Rain Bird spacing guidance and do not change default output. The algorithm remains heuristic and not globally optimal; all previous limitations (180° only, no hydraulics, DU/SC, exclusions, package verification or customer integration) remain.
+
+
+## 2026-11-16 — Irrigation engineer assistant pause checkpoint
+
+- Owner decision: pause this engineering work while other Florial website areas are developed in separate chats. The irrigation task is not cancelled; do not resume without an explicit owner request.
+- Resume handoff: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md` (authoritative details, current PR states, decisions, limitations, roadmap and resume checklist).
+- At the pause checkpoint, main SHA was `ac705db95e87e2cd51fe74e70d15128d2833b5f7`; stages 5/6 (#347/#348) were merged. PR #349 stage 7 was still open/unmerged (`merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`) and must remain untouched until explicit resumption. The reported `merge_commit_sha` is not proof of merge.
+- Do not claim site-context/whole-site overspray stage 7 is in main. Do not continue to stage 8 while paused.
+- This checkpoint changed documentation only; no runtime or live service was modified.
