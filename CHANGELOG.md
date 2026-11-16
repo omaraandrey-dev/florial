@@ -1,3 +1,11 @@
+## 2026-11-16 — Florial irrigation introduction video published (PR #305)
+
+- Owner-approved HeyGen video `Florial — Intelligent Irrigation`, video ID `b83867d35fde41fd9de9d92f477e857b`, duration 60.33 seconds, Bulgarian narration and captions, landscape 16:9, was added to the `polivni-sistemi` service-direction page only.
+- Native responsive HTML5 player uses controls, inline mobile playback and metadata preload; no autoplay. BG/RU/EN headings and accessibility labels are localized; RU/EN state that the video is in Bulgarian.
+- PR #305 merged as `5ff280711c0b8926e420a2594428941085fc2824`. Exact-SHA Blog/Studio validation run `43785923727` and D1 validation run `43785923863` completed successfully. Cloudflare Preview deployment `04fc4a5c-5f04-4f2c-ab72-9727c5152bde` and Production deployment `8631bee8-93f6-432c-9e99-83dcaf989ef3` succeeded for the relevant exact commits; Production aliases include `florial-bg.com` and `www.florial-bg.com`.
+- Regression test added for irrigation-only visibility and player configuration. No Sanity, D1 data/schema, orders, Resend, Cloudflare settings/secrets/DNS, Header, menu or Footer changes.
+- Browser visual/playback QA was not completed. The HeyGen MP4 URL includes an `avatar_tmp` path; long-term retention is not confirmed. Follow-up and evidence: `docs/audits/2026-11-16-irrigation-introduction-video.md`.
+
 ## 2026-11-15 — Irrigation assistant scope and Rain Bird lawn-engineering specification (PR #303 merged and deployed)
 
 - Added a documented launcher visibility rule: show the floating specialist portrait only on resolved irrigation-equipment catalogue categories/products, the `polivni-sistemi` service-direction page, and individual irrigation/maintenance/delivery service pages. Hide it on plants, homepage, blog, general services, landscaping/planting/lawn services, cart, search and the assistant page itself.

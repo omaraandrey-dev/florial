@@ -1,3 +1,9 @@
+## 2026-11-16 — Irrigation introduction video follow-up
+
+- **Released:** PR #305 merged as `5ff280711c0b8926e420a2594428941085fc2824`; the approved 60.33-second Bulgarian Florial video is embedded only on `/services/category/polivni-sistemi`. Exact-SHA CI and Cloudflare Pages Production deployment succeeded. Details: `docs/audits/2026-11-16-irrigation-introduction-video.md`.
+- **Not yet verified:** real playback and visual layout on mobile and desktop browsers. A Firecrawl browser check could not run because the connected account had insufficient credits; no pass is claimed.
+- **Hosting risk:** current captioned MP4 URL is served from HeyGen `resource2.heygen.ai` and contains an `avatar_tmp` path. Long-term availability/retention is **НЕ ИЗВЕСТНО — нужно уточнить** with HeyGen. If the URL is temporary, prepare a durable Florial-controlled hosting proposal (e.g. Cloudflare storage), but do not upload media or change production storage/bindings without explicit owner approval.
+
 ## 2026-11-15 — Irrigation assistant next-stage decisions
 
 - **Specified:** first engineering module is automatic lawn irrigation; detailed scope and acceptance criteria are in `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
