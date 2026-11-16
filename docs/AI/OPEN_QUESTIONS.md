@@ -1,11 +1,3 @@
-## 2026-11-16 — Plant product detail performance candidate awaiting verification
-
-- Owner-supplied mobile Lighthouse report for `/product/washingtonia`: Performance 59, LCP 5.0 s, CLS 0.693, FCP 0.9 s, TBT 10 ms. One lab run, no CrUX field data.
-- The report attributes CLS 0.693 to the Footer and identifies the main product image as LCP without high fetch priority. Its critical chain includes full catalogue and detailed Sanity requests.
-- Candidate changes on `perf/plant-product-lcp-cls-2026-11-16`: direct product slug lookup without downloading both full catalogues, product loading skeleton, prioritized responsive hero/fallback image with intrinsic dimensions, Sanity preconnect hints.
-- **Open gates:** CI/typecheck/lint/tests/build, Preview deployment, browser QA in BG/RU/EN and mobile/desktop, initial HTML/currentSrc/network transfer inspection, Footer CLS trace, and three matched Lighthouse runs. Do not claim improvement until measured.
-- Audit: `docs/audits/2026-11-16-performance-plant-product-page.md`.
-
 ## 2026-11-16 — Service-page performance release: browser and Lighthouse verification outstanding
 
 - PR #353 is merged and Production deployment succeeded on exact main SHA `74642455efe284730cdf442efc1b82182e10eda8`; deployment `4060e639-d643-496d-ae3f-65706cd85000`.
