@@ -8,6 +8,10 @@ export interface RainBird3500LayoutGeneratorInput {
   /** Exact D42378 nozzle-tree size: 0.75, 1, 1.5, 2, 3 or 4. */
   readonly nozzle: number
   readonly sampleStepM?: number
+  /** Candidate grid step as a fraction of exact D42378 throw radius: 0.25, 0.5 or 1. */
+  readonly candidatePositionStepFactor?: 0.25 | 0.5 | 1
+  /** Candidate bearing increment in degrees: 15, 30 or 45. */
+  readonly candidateDirectionStepDeg?: 15 | 30 | 45
 }
 
 export interface RainBird3500GeneratedLayoutResult extends RainBird3500RotorEvaluationResult {
@@ -16,8 +20,9 @@ export interface RainBird3500GeneratedLayoutResult extends RainBird3500RotorEval
     testedPositions: number
     testedCandidates: number
     selectedRotors: number
-    candidateDirectionStepDeg: 45
+    candidateDirectionStepDeg: 15 | 30 | 45
     candidatePositionStepM: number
+    candidatePositionStepFactor: 0.25 | 0.5 | 1
   }>
   readonly searchCoverage?: Readonly<{
     sampledTargets: number
