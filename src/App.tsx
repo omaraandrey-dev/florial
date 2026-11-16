@@ -102,6 +102,33 @@ function ServiceLoadingState({ label }: { label: string }) {
   )
 }
 
+function ProductLoadingState({ label }: { label: string }) {
+  return (
+    <main
+      className="mx-auto flex min-h-[100svh] w-full max-w-7xl flex-grow flex-col px-4 py-8 sm:px-6 lg:px-8"
+      aria-busy="true"
+    >
+      <p className="sr-only" role="status" aria-live="polite">{label}</p>
+      <div aria-hidden="true" className="mb-6 h-4 w-48 animate-pulse rounded bg-slate-200" />
+      <div aria-hidden="true" className="grid grid-cols-1 gap-8 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:grid-cols-2 md:p-8">
+        <div className="aspect-square max-h-[420px] animate-pulse rounded-xl bg-slate-100" />
+        <div className="space-y-5 py-2">
+          <div className="h-8 w-4/5 animate-pulse rounded bg-slate-200" />
+          <div className="h-4 w-2/5 animate-pulse rounded bg-slate-100" />
+          <div className="h-24 w-full animate-pulse rounded-xl bg-slate-100" />
+          <div className="h-10 w-2/3 animate-pulse rounded-lg bg-slate-100" />
+          <div className="h-12 w-40 animate-pulse rounded-xl bg-slate-200" />
+        </div>
+      </div>
+      <div aria-hidden="true" className="mt-10 max-w-4xl space-y-4">
+        <div className="h-7 w-2/3 animate-pulse rounded bg-slate-200" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-11/12 animate-pulse rounded bg-slate-100" />
+      </div>
+    </main>
+  )
+}
+
 function CategoryLoadingState({ label }: { label: string }) {
   return (
     <main
@@ -217,12 +244,12 @@ export default function App() {
 
   const [loadingProducts, setLoadingProducts] = useState(() => {
     const route = getRouteState()
-    return Boolean(route.activeCategorySlug || route.activeProductSlug)
+    return Boolean(route.activeCategorySlug)
   })
   const [loadedCatalogueTypes, setLoadedCatalogueTypes] = useState<string[]>([])
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null)
   const [initialSaleVariantKey, setInitialSaleVariantKey] = useState<string | null>(null)
-  const [loadingProductDetails, setLoadingProductDetails] = useState(false)
+  const [loadingProductDetails, setLoadingProductDetails] = useState(() => Boolean(getRouteState().activeProductSlug))
 
   // Resolve the requested URL before the first render so direct links never flash the homepage.
   const [initialRoute] = useState(() => getRouteState())
@@ -240,7 +267,7 @@ export default function App() {
   const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
   const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
   const isValidServiceDirectionRoute = ['landshaften-arhitekt', 'polivni-sistemi', 'gardinar', 'trevni-ploshti'].includes(serviceDirectionSlug || '')
-  const needsCatalogue = Boolean(activeCategorySlug || activeProductSlug)
+  const needsCatalogue = Boolean(activeCategorySlug)
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
 
@@ -379,7 +406,9 @@ export default function App() {
     }
   }, [])
 
-  // Load full product data and related records only after a product route is opened.
+  // Resolve a product route by its exact slug instead of downloading both full catalogues first.
+  // The detailed loader checks the equipment and plants datasets directly, then fetches only
+  // the matching product and its required related records.
   useEffect(() => {
     let cancelled = false
 
@@ -389,39 +418,24 @@ export default function App() {
       return () => { cancelled = true }
     }
 
-    if (loadingProducts) {
-      setLoadingProductDetails(true)
-      return () => { cancelled = true }
-    }
-
-    const foundProduct = products.find(
-      (product) => product.slug?.current === activeProductSlug || product._id === activeProductSlug
-    )
-
-    if (!foundProduct) {
-      setCurrentProduct(null)
-      setLoadingProductDetails(false)
-      console.warn('Товар не найден. Slug из URL:', activeProductSlug)
-      return () => { cancelled = true }
-    }
-
+    setCurrentProduct(null)
     setLoadingProductDetails(true)
     import('./lib/routeData/productDetails')
-      .then(({ fetchProductDetails }) => fetchProductDetails(foundProduct, () => cancelled))
+      .then(({ fetchProductDetailsBySlug }) => fetchProductDetailsBySlug(activeProductSlug, () => cancelled))
       .then((details) => {
         if (!cancelled) setCurrentProduct(details)
       })
       .catch((error) => {
         if (cancelled) return
-        console.error('Sanity: не удалось загрузить полные данные товара:', error)
-        setCurrentProduct(foundProduct)
+        console.error('Sanity: не удалось загрузить товар по адресу:', error)
+        setCurrentProduct(null)
       })
       .finally(() => {
         if (!cancelled) setLoadingProductDetails(false)
       })
 
     return () => { cancelled = true }
-  }, [activeProductSlug, products, loadingProducts])
+  }, [activeProductSlug])
 
   const localizedUrl = (path: string) => language === 'bg' ? path : `${path}${path.includes('?') ? '&' : '?'}lang=${language}`
 
@@ -614,11 +628,9 @@ export default function App() {
           category.slug?.current === activeCategorySlug || category._id === activeCategorySlug
         )
       : null
-    const requestedCatalogueTypes = activeProductSlug
-      ? ['equipment', 'plants']
-      : routeCategory
-        ? [routeCategory.isPlantCategory ? 'plants' : 'equipment']
-        : []
+    const requestedCatalogueTypes = routeCategory
+      ? [routeCategory.isPlantCategory ? 'plants' : 'equipment']
+      : []
     const catalogueTypesToLoad = requestedCatalogueTypes.filter(
       (type) => !loadedCatalogueTypes.includes(type)
     )
@@ -750,7 +762,7 @@ export default function App() {
     })
 
     return () => { cancelled = true }
-  }, [needsCatalogue, activeCategorySlug, activeProductSlug, categories, loadingCategories, loadedCatalogueTypes])
+  }, [needsCatalogue, activeCategorySlug, categories, loadingCategories, loadedCatalogueTypes])
 
   // Page data is loaded independently from the Header. Product, category and service
   // readiness are tracked separately so unrelated routes do not wait for the catalogue.
@@ -1391,7 +1403,9 @@ export default function App() {
           ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
           : activeServiceSlug
             ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
-            : (
+            : activeProductSlug
+              ? <ProductLoadingState label={t('Зареждане на продукта...')} />
+              : (
             <main
               className="mx-auto flex w-full max-w-7xl flex-grow items-center justify-center px-4 py-20 text-center text-slate-500"
               role="status"
@@ -1557,11 +1571,7 @@ export default function App() {
         />
       ) : activeProductSlug ? (
         loadingProducts || loadingProductDetails ? (
-          <div className="flex-grow flex items-center justify-center py-20">
-            <p className="text-slate-500 font-medium">
-              {t("Зареждане на продукта...")}
-            </p>
-          </div>
+          <ProductLoadingState label={t("Зареждане на продукта...")} />
         ) : currentProduct ? (
           <ProductPage
             product={currentProduct}
