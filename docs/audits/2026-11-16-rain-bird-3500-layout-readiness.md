@@ -45,6 +45,17 @@ The manufacturer technical page states that the 3500 supports 40°–360° part-
 
 These statements do not themselves provide a complete set of independently published operating points for each arc. Do not infer that flow, radius or precipitation remain identical across 90°, 180°, 270° and 360° arcs.
 
+
+
+### 2.1 Official installation manual cross-check
+
+The current official Rain Bird 3500 installation manual (D42377, 10/23) was also reviewed:
+- It repeats that the performance chart's precipitation rates are based on half-circle operation.
+- Its installation instructions confirm that the arc is adjustable from 40° to 360°.
+- The manual does not publish an arc-specific table or a conversion rule for radius, flow and precipitation at other selected arcs.
+
+This independently confirms the implementation blocker: the fact that the rotor can be mechanically adjusted to an arc does not authorize the solver to reuse the half-circle performance row unchanged for 90°, 270° or full-circle heads.
+
 ### 3. Relevant 6–8 m radius rows
 
 The current dataset contains exact rows in the practical radius band:
@@ -104,6 +115,7 @@ This audit does not claim that 3500 is less or more water-efficient than R-VAN/H
 ## References
 
 - Rain Bird 3500 Series Nozzles Performance Charts: https://www.rainbird.com/media/4157
+- Rain Bird 3500 Series Rotor Installation Manual (D42377): https://www.rainbird.com/media/4228
 - Rain Bird 3500 Series Technical Specifications (D42378): https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf
 - Rain Bird 3500 Series product/technical page: https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers
 - Florial source files listed above and `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
