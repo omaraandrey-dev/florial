@@ -15,7 +15,7 @@ export interface RainBird3500LayoutGeneratorInput {
 }
 
 export interface RainBird3500GeneratedLayoutResult extends RainBird3500RotorEvaluationResult {
-  readonly candidateStrategy?: '180-degree-sector-grid-greedy-v1'
+  readonly candidateStrategy?: '180-degree-sector-grid-h2h-greedy-v2'
   readonly candidateStats?: Readonly<{
     testedPositions: number
     testedCandidates: number
