@@ -35,6 +35,7 @@ test('generates a deterministic sampled-coverage layout for a rectangle using R-
   assert.ok(first.sprinklers.length > 0)
   assert.deepEqual(first.sprinklers, second.sprinklers)
   assert.equal(first.coverage.uncoveredPoints, 0)
+  assert.equal(first.headToHead.passed, true)
   assert.equal(first.hydraulicFeasibility, 'not_evaluated')
   assert.equal(first.precipitationUniformity, 'not_evaluated')
   assert.equal(first.bodyCompatibility, 'not_evaluated')
@@ -53,6 +54,7 @@ test('generates a sampled-coverage layout for an orthogonal L-shaped lawn', () =
   assert.equal(result.status, 'coverage_complete_sampled')
   assert.equal(result.geometry.shape, 'l-shape')
   assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
 })
 
 test('supports the HE-VAN alternative using its own exact operating points', () => {
