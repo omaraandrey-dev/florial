@@ -529,3 +529,12 @@
 - **Convergence:** quantify changes in selected rotor count/positions, coverage, head-to-head and overspray at finer sampling and different candidate-grid/bearing increments.
 - **Selection:** current greedy set-cover selects for new sampled coverage; H2H and overspray are only checked after selection. Improve the search objective against approved reference layouts before using it for real projects.
 - Hydraulics, DU/SC, exclusions, other arcs, radius-reduction clarification, package compatibility and customer-facing integration remain release gates. No 5000 MPR engine.
+
+
+## 2026-11-16 — Rain Bird 3500 search sensitivity
+
+- PR #344 merged as `a125b851ca8205bd001850c09614af11306e8fe2`; exact-head CI passed: Blog/Studio `43849172350`, D1 `43849172390`.
+- Controlled search presets are now available: candidate-position step factor 0.25/0.5/1.0 × exact manufacturer throw radius and direction increments 15°/30°/45°. Target sample spacing remains a separate input.
+- **Next quantitative study:** run all allowed search presets against the same synthetic geometries and exact D42378 points; record selected rotor count/coordinates, candidate counts, uncovered samples, head-to-head, overspray and execution cost. Do not choose a new default from coverage percentage alone.
+- **Reference layouts still required:** owner/engineer-provided manual designs with exact coordinates, nozzle, nozzle pressure, arc and acceptance criteria. Synthetic cases are not field validation.
+- Keep the 180°-only evidence gate, no interpolation and no radius reduction. Hydraulics, DU/SC, package compatibility, exclusions and customer-facing integration remain open. No 5000 MPR engine.
