@@ -40,3 +40,11 @@ A sample outside the target lawn is therefore not automatically a violation: it 
 6. Continue with pipe-network hydraulics, elevation, source curve / measured operating-point method and zone constraints as separate validated modules.
 
 No manual Production deployment or live-service write was performed by this stage.
+
+
+## CI follow-up
+
+- Initial PR head `722748808f370d1dc59ff129ed09a1c862e8b84e`: D1 validation run `43855290730` passed; Blog/Studio run `43855290610` failed one new permitted-adjacent-spray fixture assertion. All other website tests passed (277/278); type-check and lint had passed.
+- Root cause was the test fixture: the half-circle sector extended beyond the synthetic property's north/south edges, while the fixture expected every non-lawn sample to be permitted. The engine correctly counted those samples as outside-site forbidden spray.
+- Corrected fixture now places the entire sampled sector inside the property and the explicit permitted adjacent region. Updated PR head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress at the time of this note. D1 rerun result is not yet confirmed.
+- PR #349 remains open and is not merged. Do not treat the first failed CI as a pass or infer that the corrected head is validated until both exact-head workflows complete successfully.
