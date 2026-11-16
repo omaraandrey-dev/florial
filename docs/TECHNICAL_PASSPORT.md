@@ -1,13 +1,3 @@
-## 2026-11-16 — Rain Bird 3500 stage 5/6 and site-context stage 7
-
-- PR #347 merged as `c6ff671438f2939e93114776c24022fb1f9abd86`; exact PR head `9fa0804db7d1e9bc6f48319d79fee0160b0a6bd3` passed Blog/Studio CI runs `43851239803` and `43852067280`, and D1 run `43851226583`.
-- PR #348 merged as `ac705db95e87e2cd51fe74e70d15128d2833b5f7`; exact PR head `e2e287f02d9083dea9870546cb6d1cb3a59f6f9c` passed Blog/Studio CI runs `43852481407` and `43852658323`, and D1 run `43852481396`.
-- Stage 5 proved that all 36 tested resolution/geometry combinations had 100% sampled coverage but failed directional H2H and detected sampled overspray. Stage 6 adds mutual-H2H-aware seed selection and connected additions; overspray remains unresolved at selection time.
-- Stage 7 branch `feat/irrigation-site-context-overspray-v1` adds `irrigationSiteContext.mjs` and integrates optional confirmed site context into the 3500 evaluator/generator. It distinguishes target lawn, permitted adjacent area, no-spray area, unapproved on-site area and outside-site samples.
-- Stage 7 is not merged and CI is not yet confirmed. Containment is currently sampled at 0.25 m; exact polygon containment hardening remains open. Candidate search does not yet optimize around no-spray regions.
-- All results remain sampled preliminary geometry. Hydraulics, DU/SC prediction, wind drift, installability and full body/nozzle/package compatibility remain unevaluated. No 5000 MPR engine or customer-facing solver integration.
-- No Sanity/D1 writes, Cloudflare settings/secrets, Resend or manual Production changes.
-
 ## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
 
 - PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
@@ -3539,12 +3529,17 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Exact-head CI passed: Blog/Studio `43849172350`, D1 validation `43849172390`.
 - These settings enable sensitivity experiments only. They do not encode Rain Bird spacing guidance and do not change default output. The algorithm remains heuristic and not globally optimal; all previous limitations (180° only, no hydraulics, DU/SC, exclusions, package verification or customer integration) remain.
 
-## 2026-11-16 — Site-context stage 7 CI correction
 
-- PR #349 initial head `722748808f370d1dc59ff129ed09a1c862e8b84e`: Blog/Studio run `43855290610` failed one permitted-adjacent fixture assertion; D1 run `43855290730` passed. Root cause was the fixture boundary not containing the full half-circle test sector; engine behavior correctly classified off-property samples as forbidden.
-- Corrected fixture head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress; D1 rerun not confirmed. PR #349 remains open; no merge or Production deployment.
+## 2026-11-16 — Irrigation engineer assistant pause checkpoint
 
-## 2026-11-16 — Site-context stage 7 exact-head CI passed
+- Owner decision: pause this engineering work while other Florial website areas are developed in separate chats. The irrigation task is not cancelled; do not resume without an explicit owner request.
+- Resume handoff: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md` (authoritative details, current PR states, decisions, limitations, roadmap and resume checklist).
+- At the pause checkpoint, main SHA was `ac705db95e87e2cd51fe74e70d15128d2833b5f7`; stages 5/6 (#347/#348) were merged. PR #349 stage 7 was still open/unmerged (`merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`) and must remain untouched until explicit resumption. The reported `merge_commit_sha` is not proof of merge.
+- Do not claim site-context/whole-site overspray stage 7 is in main. Do not continue to stage 8 while paused.
+- This checkpoint changed documentation only; no runtime or live service was modified.
 
-- PR #349 head `b64f6f18cdac31c0fa29064dfd2b20719a688b03`: Blog/Studio run `43855876224` success (application/Pages Functions type-check, lint, website tests/build, migration syntax/dry-run, Studio type-check/build); D1 run `43855891392` success.
-- The corrected synthetic permitted-adjacent spray fixture now passes. PR #349 remains open/unmerged pending owner decision; no Production deployment or live-service writes.
+## 2026-11-16 — Rain Bird 3500 stage 7 integration checkpoint
+
+- Stage 7 adds `irrigationSiteContext.mjs` and declarations, plus optional site-context support in the Rain Bird 3500 evaluator and candidate generator. It classifies sampled spray as target lawn, permitted adjacent, no-spray, unapproved on-site or outside-site; no-spray takes precedence over permission.
+- PR #349 current exact head before documentation synchronization: `efd03a2d7b850e37e19599e28e8d509c266636e0`. Blog/Studio validation `43860117598` and D1 validation `43856450266` passed. Runtime/test code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03` had exact-head CI success; later head changes were documentation-only.
+- This is sampled preliminary validation only. Site-zone containment uses 0.25 m boundary sampling; candidate search does not yet optimize around forbidden zones. Hydraulics, predicted DU/SC, wind drift, installation clearances and full body/nozzle/package compatibility remain unevaluated. No customer-facing wiring or Production deployment.
