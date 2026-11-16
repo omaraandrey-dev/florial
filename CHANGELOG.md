@@ -1,12 +1,3 @@
-## 2026-11-16 — Rain Bird 3500 stage 5/6 merged; whole-site spray context stage 7 in progress
-
-- PR #347 merged as `c6ff671438f2939e93114776c24022fb1f9abd86`: added the reproducible stage-5 benchmark matrix. It demonstrated 100% sampled coverage while every tested layout failed mutual directional H2H and showed sampled overspray; this is explicitly a failure finding, not design acceptance.
-- PR #348 merged as `ac705db95e87e2cd51fe74e70d15128d2833b5f7`: candidate selection now requires a mutually reachable H2H seed pair and only adds candidates connected to the selected set. If no pair exists, it returns no layout. Overspray is still post-selection and not optimized.
-- Stage 7 implementation candidate on branch `feat/irrigation-site-context-overspray-v1`: adds a confirmed site boundary, explicit permitted adjacent spray regions and no-spray regions; the 3500 evaluator distinguishes permitted adjacent spray from forbidden spray, including off-property, pool/no-spray and unapproved on-site samples.
-- The generator forwards site context to the evaluator but does not yet optimize candidates around forbidden zones. Without site context, the previous conservative lawn-boundary check remains and the output warns that whole-site context is missing.
-- Audit: `docs/audits/2026-11-16-irrigation-site-context-overspray-stage-7.md`. Exact-head CI and engineering review are pending; no merge, customer-facing wiring or Production deployment is claimed.
-- No Sanity/D1 data/schema, Cloudflare settings/secrets, Resend or Production writes were performed.
-
 ## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
@@ -3378,12 +3369,19 @@ Backups:
 - Exact-head CI passed: Blog/Studio run `43849172350`; D1 validation run `43849172390`. Post-merge main CI for `a125b851ca8205bd001850c09614af11306e8fe2` was running when this entry was prepared.
 - No change to the 180°-only manufacturer evidence gate, exact pressure/nozzle lookup, R-VAN/HE-VAN solver or customer flow. No 5000 MPR engine; no Sanity/D1 data, Cloudflare settings/secrets, Resend or manual Production changes.
 
-## 2026-11-16 — Site-context stage 7 CI correction
 
-- PR #349 initial head failed one new test fixture because the synthetic permitted region did not contain the complete tested half-circle sector; D1 validation passed and the other website tests passed. The engine correctly identified samples beyond the site boundary as forbidden.
-- The fixture was corrected on head `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress. D1 rerun was not yet confirmed. PR #349 remains open and unmerged.
+## 2026-11-16 — Irrigation engineer assistant paused; resume handoff recorded
 
-## 2026-11-16 — Site-context stage 7 exact-head CI passed
+- Owner paused the irrigation-engineering assistant / Rain Bird 3500 work to focus on other Florial website areas. This is a pause, not cancellation.
+- Added the authoritative resume handoff: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md`, linked from `docs/AI/START_HERE.md`.
+- At checkpoint, PR #347 (stage 5) and PR #348 (stage 6) were in main; observed main SHA `ac705db95e87e2cd51fe74e70d15128d2833b5f7`.
+- PR #349 (stage 7 site context / whole-site overspray) was fetched as `open`, `merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`; previous merge attempt timed out / returned 405. It is intentionally left untouched. Do not retry merge, close, retarget or modify it until the owner explicitly resumes this task.
+- No runtime code, Sanity data/schema, D1 data/schema, Cloudflare configuration/secrets, Resend or Production deployment was changed by this pause handoff.
+- On resumption, fetch current main and reread the mandatory docs, then verify PR #349 and reconcile all stage documentation before continuing stage 8. The handoff contains the exact sequence and roadmap.
 
-- Corrected PR #349 head `b64f6f18cdac31c0fa29064dfd2b20719a688b03` passed Blog/Studio validation run `43855876224` and D1 validation run `43855891392`. Website tests, type-checks, lint, website build, Studio type-check/build and D1 validation succeeded.
-- PR #349 remains open and unmerged; no Production deployment or live-service write was performed.
+## 2026-11-16 — Rain Bird 3500 site-context stage 7 integration sync
+
+- PR #349 exact current head before documentation synchronization: `efd03a2d7b850e37e19599e28e8d509c266636e0`.
+- Runtime/test changes were unchanged after the verified code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03`; the current head also passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`.
+- The PR branch was behind the current `main` by five documentation-only commits. The three shared history documents were synchronized from current `main` before integrating stage 7, preserving the current pause handoff and all unrelated website documentation.
+- Site-context stage 7 remains preliminary: sampled overspray policy checks only; candidate search does not yet optimize around forbidden zones; 0.25 m sampled containment is not an exact/continuous proof. No Production or live-service writes.
