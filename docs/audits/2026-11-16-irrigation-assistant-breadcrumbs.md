@@ -28,5 +28,5 @@ All three destinations use the existing `localizedHref` helper so RU/EN retain t
 ## Verification status
 
 - Source inspection confirms the four breadcrumb items and localized destination paths.
-- Automated CI, browser click-through on BG/RU/EN and mobile/desktop layout are pending PR validation and live browser QA.
+- Exact-head CI passed for PR #308 (Blog/Studio run 43789182046; D1 run 43789182043). Cloudflare Pages Production deployment b3134a66-bce1-4c1e-8d77-fde2231260de succeeded for final main SHA a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219. Mobile browser-rendered HTML confirmed the Bulgarian breadcrumb nav appears and page-level robots meta remains noindex,nofollow. RU/EN breadcrumb rendering, direct link click-through and desktop visual QA remain pending.
 - This change does not implement the hydraulic calculation engine or product selection.
