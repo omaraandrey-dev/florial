@@ -1,3 +1,12 @@
+## 2026-11-16 — Service-page performance change Production checkpoint (PR #353)
+
+- PR #353 merged to `main` at `74642455efe284730cdf442efc1b82182e10eda8`.
+- Production Pages deployment `4060e639-d643-496d-ae3f-65706cd85000` succeeded on the exact merge SHA; aliases `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Runtime files: `src/App.tsx` adds a viewport-height service loading skeleton; `functions/_middleware.ts` stops inserting a duplicate raw service image in initial HTML; `tests/content-route-performance.test.mjs` adds regression coverage. Existing service hero rendering and image metadata remain.
+- Exact final PR head `c0f90b2bd6ce4b5d204f8da14aa191f3cd69d758`: Blog/Studio runs `43915674186`, `43915669617`, `43915934924` success; D1 run `43915669468` success. Preview deployment `e7235fd7-cc03-48e0-9e27-e9d6916df640` succeeded.
+- Browser QA is inconclusive: earlier Preview browser attempt was blocked by `ERR_SOCKS_CONNECTION_FAILED`; a new read-only Production browser check is pending terminal result. No after-change Lighthouse measurements exist. Do not claim CLS/LCP/score improvement until measured on matched runs.
+- No Sanity/D1/Resend writes or Cloudflare settings/secrets changes. Audit: `docs/audits/2026-11-16-performance-service-cls-and-image-fallback.md`.
+
 ## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
 
 - PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
