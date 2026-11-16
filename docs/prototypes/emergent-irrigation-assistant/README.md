@@ -1,3 +1,15 @@
+## Owner-approved customer journey refinement — 2026-11-16
+
+The final Gemini review happens **after** deterministic engineering and exact catalogue selection:
+1. Conversational intake collects and confirms site facts.
+2. Florial's deterministic engine calculates the supported preliminary layout/hydraulic result.
+3. Florial maps eligible engineering components to exact compatible Sanity products and retrieves live prices/availability.
+4. The completed, frozen proposal is sent to Gemini for a second-pass consistency/completeness review and localized explanation. Gemini cannot alter engineering values, product selection, quantities, prices, availability or cart state.
+5. The UI shows a genuine review-in-progress state, then presents engineering status and AI-review status separately, with findings/warnings.
+6. Only after the customer explicitly clicks “Добави в количката” does Florial revalidate current catalogue/price/availability and add validated product IDs and quantities through the existing cart flow. Gemini never mutates the cart.
+
+If review fails/is unavailable, do not fabricate a pass. A material issue requires clarification, specialist escalation, or validated input changes followed by a fresh deterministic run and final review. An AI review is not an engineer's certification. Do not show a made-up countdown; any duration estimate must come from measured telemetry.
+
 # Emergent irrigation assistant — capture and Florial integration roadmap
 
 **Status:** prototype review / source capture in progress; not production code  

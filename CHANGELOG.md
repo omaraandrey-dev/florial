@@ -1,3 +1,11 @@
+## 2026-11-16 — Owner decision: Gemini final review after engineering and catalogue selection
+
+- The owner approved a staged customer journey: conversational intake → deterministic Florial engineering calculation → exact compatible catalogue selection and live commercial data → final Gemini review of the frozen completed proposal → user-visible result → explicit customer click to add validated items to the existing cart.
+- Gemini is a second-pass consistency/completeness reviewer and explanation layer, not the calculation engine or product selector. It cannot change engineering values, components, quantities, product IDs, prices, availability or cart state. Any material correction requires validated input changes and a fresh deterministic run.
+- UI must show real review status and distinguish preliminary engineering status from AI review status. Do not claim engineer certification or display a fabricated countdown. If Gemini is unavailable, show that state honestly.
+- Cart handoff is user-initiated and must revalidate current Sanity product IDs, compatibility, price and availability server-side before using the existing cart mechanism. No automatic cart mutation.
+- Specification and roadmap updated in a documentation-only PR; no runtime, D1, Sanity, Cloudflare secret/settings, Resend or Production changes.
+
 ## 2026-11-16 — Emergent source audit and Florial integration direction (PR #326)
 
 - PR #326 merged as `0bdbc5e3acbcc65c1a372b7b77706bd766edd0cf`. Added `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md` and updated the Emergent prototype roadmap.
