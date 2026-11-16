@@ -1,3 +1,11 @@
+## 2026-11-16 — Conversational intake v1 verified in Preview
+
+- Existing assistant route now uses guided BG/RU/EN conversation-style intake, preserving geometry validation and adding pressure/flow measurement semantics. In-memory intake readiness remains conservative; hydraulic feasibility is not evaluated.
+- Exact runtime SHA: `662936768b311050699ebfb9c77c6857759aeedf`; Blog/Studio run `43834815047` success; D1 run `43834815101` success.
+- Exact Preview deployment: `28c55ebd-71d4-49eb-952e-2d2cffd50115`. Browser QA passed BG/RU/EN and 390 × 844 mobile, with no horizontal overflow or console/runtime errors. Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
+- Existing privacy notice says baseline usage events go to D1 irrespective of optional PostHog consent; no project or lead data was submitted. No Production, Sanity, D1 schema or intentional project-data write occurred.
+- Keyboard/accessibility review and next solver integration remain open.
+
 ## 2026-11-16 — Irrigation assistant conversational intake v1 (pending CI/Preview)
 
 - Existing route `src/pages/IrrigationAssistantPage.tsx` is being adapted from a static three-step wizard to a guided conversation-style intake with localized BG/RU/EN prompts, prior-answer transcript, progress and project facts panel.
