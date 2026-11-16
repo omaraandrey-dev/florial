@@ -66,7 +66,7 @@ test('every HE-VAN point contains positive finite manufacturer values', () => {
   }
 })
 
-test('R-VAN and HE-VAN remain separate performance families for fair comparison', () => {
+test('R-VAN and HE-VAN retain separate, family-specific manufacturer operating points', () => {
   const rvan = findRainBirdRvanPerformancePoint('R-VAN18', 3.1, 180)
   const hevan = findRainBirdHevanPerformancePoint('HE-VAN-12', 1.72, 180)
   assert.equal(rvan.flowLpm, 3.82)
