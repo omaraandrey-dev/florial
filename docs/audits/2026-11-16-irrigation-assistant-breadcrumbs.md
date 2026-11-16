@@ -28,5 +28,5 @@ All three destinations use the existing `localizedHref` helper so RU/EN retain t
 ## Verification status
 
 - Source inspection confirms the four breadcrumb items and localized destination paths.
-- Automated CI, browser click-through on BG/RU/EN and mobile/desktop layout are pending PR validation and live browser QA.
+- PR #308 exact-head CI passed (Blog/Studio run `43789182046`; D1 run `43789182043`). Cloudflare Pages Production deployment `b3134a66-bce1-4c1e-8d77-fde2231260de` succeeded for exact main SHA `a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219`. Later PR #323 read-only Production smoke confirmed the assistant route loaded in BG/RU/EN and the first geometry step rendered. Full breadcrumb click-through in all locales and responsive visual QA remain unconfirmed.
 - This change does not implement the hydraulic calculation engine or product selection.
