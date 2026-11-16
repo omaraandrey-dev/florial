@@ -1,3 +1,12 @@
+## 2026-11-16 — Final Gemini review sequence and cart handoff approved
+
+- Owner decision: Gemini performs a final second-pass review only after Florial's deterministic engineering result and exact catalogue proposal have been prepared. It checks consistency/completeness and produces an explanation; it cannot change calculation outputs, select/replace products, alter quantities/prices/availability or mutate cart state.
+- UI should show a real review-in-progress state, then separate engineering status from AI review status. Do not show a fabricated countdown or imply engineer certification.
+- Explicit user action is required to add the proposal to cart. The server must revalidate current published Sanity product IDs, compatibility, price and availability before passing validated IDs/quantities to the existing cart.
+- Material AI findings require clarification/escalation or a new deterministic calculation after validated input changes. Gemini outage/malformed output must be represented honestly.
+- Detailed contract: FLORIAL_AI_IRRIGATION_CONSULTANT_SPEC_V1.md §9.4.
+- Still open: exact cart integration contract and current price/availability revalidation path; final review schema and approved Gemini model/privacy tier; actual latency baseline for any duration estimate; engineer-approved calculation and catalogue compatibility rules.
+
 ## 2026-11-16 — Emergent audit and next implementation gates
 
 - **Source archive:** additional Emergent files were supplied/reviewed in the earlier conversation (FastAPI chat/documents/leads routes, Gemini LLM module, keyword retrieval, seed data, Pydantic models, React app shell/styles), but only `Chat.tsx` and `models/chat.py` are stored in GitHub. Complete export, manifests/lockfiles, licenses and tests are not preserved. Audit: `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md`.
