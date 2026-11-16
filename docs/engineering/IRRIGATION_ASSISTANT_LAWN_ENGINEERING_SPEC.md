@@ -178,7 +178,7 @@ An irrigation engineer must review rules and baseline cases before automatic cus
 ## 10. Delivery stages
 
 1. Complete launcher visibility rules and portrait source.
-2. Audit exact sprinkler/nozzle SKUs and manufacturer tables; publish versioned verified dataset.
+2. Audit exact sprinkler/nozzle SKUs and manufacturer tables; publish versioned verified datasets. Read-only catalogue audit is complete and the first 3500 dataset is implemented; 5000, HE-VAN, VAN, R-VAN and strip data/compatibility remain pending.
 3. Design and implement geometry editor and intake schema.
 4. Implement/test deterministic geometry and coverage engine.
 5. Implement hydraulic zones and pipe-loss solver.
