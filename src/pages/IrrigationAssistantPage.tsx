@@ -224,7 +224,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
-  const progress = showSummary ? 100 : Math.round((step - 1) / 4 * 100)
+  const progress = showSummary ? 100 : Math.round(step / 4 * 100)
 
   function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
