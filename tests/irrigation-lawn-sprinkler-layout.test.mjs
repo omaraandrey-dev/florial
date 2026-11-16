@@ -132,3 +132,58 @@ test('rejects invalid family/model and malformed sampling input', () => {
     geometry: rectangle, family: 'R-VAN', model: 'R-VAN18', pressureBar: 3.1, sampleStepM: 0,
   }).status, 'invalid_operating_input')
 })
+
+
+test('covers narrow and medium residential rectangle widths deterministically', () => {
+  const cases = [4, 5, 6, 8].map((width) => ({
+    width,
+    geometry: confirmedGeometry([
+      { x: 0, y: 0 },
+      { x: 12, y: 0 },
+      { x: 12, y: width },
+      { x: 0, y: width },
+    ]),
+  }))
+
+  for (const { width, geometry } of cases) {
+    const input = {
+      geometry,
+      family: 'R-VAN',
+      model: 'R-VAN18',
+      pressureBar: 3.1,
+      sampleStepM: 0.25,
+    }
+    const first = generateLawnSprinklerLayout(input)
+    const second = generateLawnSprinklerLayout(input)
+
+    assert.notEqual(first.status, 'geometry_not_accepted', `width ${width}m`)
+    assert.notEqual(first.status, 'geometry_not_supported', `width ${width}m`)
+    assert.deepEqual(first.sprinklers, second.sprinklers, `determinism at width ${width}m`)
+    assert.ok(first.coverage.sampledPoints > 0, `samples at width ${width}m`)
+    assert.equal(first.headToHead.passed, true, `head-to-head at width ${width}m`)
+    assert.equal(first.hydraulicFeasibility, 'not_evaluated')
+  }
+})
+
+test('handles mirrored and rotated L-shaped outlines with reflex-corner diagnostics', () => {
+  const variants = [
+    lShape.regions[0].boundary.vertices,
+    lShape.regions[0].boundary.vertices.map(({ x, y }) => ({ x: y, y: x })),
+    lShape.regions[0].boundary.vertices.slice().reverse(),
+  ]
+
+  for (const vertices of variants) {
+    const result = generateLawnSprinklerLayout({
+      geometry: confirmedGeometry(vertices),
+      family: 'R-VAN',
+      model: 'R-VAN18',
+      pressureBar: 3.1,
+      sampleStepM: 0.25,
+    })
+    assert.equal(result.geometry.shape, 'l-shape')
+    assert.ok(result.coverage.sampledPoints > 0)
+    assert.equal(result.headToHead.passed, true)
+    assert.ok(result.sprinklers.some((entry) => entry.arcDeg === 270))
+    assert.equal(result.hydraulicFeasibility, 'not_evaluated')
+  }
+})
