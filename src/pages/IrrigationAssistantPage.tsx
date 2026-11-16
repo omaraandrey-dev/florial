@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
+import { localizedHref } from '../lib/navigation'
 
 type LawnShape = 'rectangle' | 'l-shape' | 'irregular'
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
@@ -26,7 +27,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     if (language === 'ru') return {
       title: 'Помощник подбора полива Florial',
       intro: 'Начнём с автоматического полива газона. Ответьте на несколько вопросов об участке и источнике воды — это поможет подготовить технически корректный подбор.',
-      back: 'На главную', module: 'Модуль 1 · Газон', step: 'Шаг', of: 'из 3',
+      back: 'На главную', breadcrumbCatalog: 'Всё оборудование для полива', breadcrumbService: 'Инженер по системам полива', module: 'Модуль 1 · Газон', step: 'Шаг', of: 'из 3',
       areaTitle: 'Расскажите о газоне', shape: 'Форма участка',
       rectangle: 'Прямоугольный', lShape: 'Г-образный', irregular: 'Сложная форма',
       length: 'Длина, м', width: 'Ширина, м', areaLabel: 'Площадь газона, м²',
@@ -44,7 +45,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     if (language === 'en') return {
       title: 'Florial Irrigation Assistant',
       intro: 'Let’s start with automatic lawn irrigation. Answer a few questions about the site and water supply to prepare a technically sound equipment selection.',
-      back: 'Home', module: 'Module 1 · Lawn', step: 'Step', of: 'of 3',
+      back: 'Home', breadcrumbCatalog: 'All irrigation equipment', breadcrumbService: 'Irrigation systems specialist', module: 'Module 1 · Lawn', step: 'Step', of: 'of 3',
       areaTitle: 'Tell us about your lawn', shape: 'Plot shape',
       rectangle: 'Rectangle', lShape: 'L-shaped', irregular: 'Irregular',
       length: 'Length, m', width: 'Width, m', areaLabel: 'Lawn area, m²',
@@ -62,7 +63,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     return {
       title: 'Помощник за напояване Florial',
       intro: 'Нека започнем с автоматичното напояване на тревна площ. Отговорете на няколко въпроса за терена и водоизточника, за да подготвим технически коректен подбор.',
-      back: 'Начало', module: 'Модул 1 · Тревна площ', step: 'Стъпка', of: 'от 3',
+      back: 'Начало', breadcrumbCatalog: 'Всичко за поливане', breadcrumbService: 'Инженер по поливни системи', module: 'Модул 1 · Тревна площ', step: 'Стъпка', of: 'от 3',
       areaTitle: 'Разкажете ни за тревната площ', shape: 'Форма на терена',
       rectangle: 'Правоъгълна', lShape: 'Г-образна', irregular: 'Неправилна форма',
       length: 'Дължина, м', width: 'Ширина, м', areaLabel: 'Площ на тревната площ, м²',
@@ -94,9 +95,29 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
 
   return (
     <main className="mx-auto min-h-[70vh] w-full max-w-4xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
-      <button type="button" onClick={onNavigateHome} className="mb-6 text-sm font-semibold text-emerald-800 hover:text-emerald-950">
-        ← {copy.back}
-      </button>
+      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-500">
+        <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <li>
+            <a href={localizedHref('/', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">
+              {language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало'}
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <a href={localizedHref('/category/vsichko-za-polivane', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">
+              {copy.breadcrumbCatalog}
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <a href={localizedHref('/services/category/polivni-sistemi', language)} className="font-medium text-emerald-800 underline-offset-4 hover:text-emerald-950 hover:underline">
+              {copy.breadcrumbService}
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="font-semibold text-slate-700">{copy.title}</li>
+        </ol>
+      </nav>
       <header className="mb-8 rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-800 to-green-700 px-6 py-8 text-white shadow-lg sm:px-9 sm:py-10">
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">{copy.module}</p>
         <h1 className="max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">{copy.title}</h1>
