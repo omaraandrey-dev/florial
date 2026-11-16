@@ -242,7 +242,7 @@ function renderInlineMarkdown(value: string, language: string) {
       return <u key={index}>{part.slice(3, -4)}</u>
     }
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>
+      return <strong key={index}>{renderInlineMarkdown(part.slice(2, -2), language)}</strong>
     }
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
     if (linkMatch) {
