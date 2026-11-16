@@ -279,6 +279,37 @@ function headToHeadChecks(selected) {
   })
 }
 
+function enforceHeadToHeadSpacing(selectedInput, candidates) {
+  const selected = selectedInput.slice()
+  let changed = true
+  while (changed && selected.length < MAX_SELECTED_SPRINKLERS) {
+    changed = false
+    const checks = headToHeadChecks(selected)
+    for (const check of checks) {
+      if (check.passed) continue
+      const sprinkler = selected.find((entry) => entry.id === check.sprinklerId)
+      if (!sprinkler) continue
+      const neighbour = candidates
+        .filter((candidate) => !selected.some((entry) => entry.id === candidate.id))
+        .map((candidate) => ({
+          candidate,
+          separation: distance(sprinkler.position, candidate.position),
+        }))
+        .filter(({ candidate, separation }) =>
+          separation <= Math.min(sprinkler.radiusM, candidate.radiusM) + EPSILON)
+        .sort((a, b) =>
+          a.separation - b.separation ||
+          a.candidate.flowLpm - b.candidate.flowLpm ||
+          a.candidate.id.localeCompare(b.candidate.id))[0]
+      if (neighbour) {
+        selected.push(neighbour.candidate)
+        changed = true
+      }
+    }
+  }
+  return selected
+}
+
 /**
  * Generates a preliminary one-region lawn layout using exact Rain Bird
  * operating points and a deterministic greedy set-cover search.
@@ -378,8 +409,9 @@ export function generateLawnSprinklerLayout({
     })
   }
   const evaluated = evaluateCandidates(candidates, targets)
-  const { selected, uncovered } = selectGreedy(evaluated, targets.length)
-  const sprinklers = selected.map(({ covered, ...candidate }) => Object.freeze(candidate))
+  const { selected: coverageSelection, uncovered } = selectGreedy(evaluated, targets.length)
+  const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
+  const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = headToHeadChecks(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
   const warnings = [
