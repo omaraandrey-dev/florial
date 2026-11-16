@@ -1,3 +1,14 @@
+## 2026-11-16 — Irrigation assistant bridge and sprinkler-engine scope
+
+- Integrated PRs #330–#333 into main; resulting SHA: `94d5c17d30197de50a1dcbc83f469cd0ed15f9a2`.
+- Conversational intake is now connected to the deterministic lawn layout engine through `src/lib/irrigation/irrigationLayoutBridge.mjs`. Current bridge path is limited to a preliminary R-VAN14/R-VAN18 operating scenario and requires confirmed supported geometry. Its 4.0–5.5 m short-side selection is provisional and requires engineering review.
+- Existing core solver continues to support R-VAN and HE-VAN separately. Sampled geometry coverage and head-to-head checks do not establish hydraulic feasibility, precipitation uniformity, overspray, pipe losses, zoning or complete body/nozzle compatibility.
+- Rain Bird 3500 has 36 exact nozzle/pressure manufacturer points in the existing dataset, but it is **not integrated into the placement solver**. Manufacturer chart precipitation is based on half-circle operation; official installation manual confirms adjustable 40°–360° arc but provides no arc-specific performance table/conversion. A separate rotor-specific engine path and validation are required.
+- Rain Bird 5000 MPR data was added as a separate 60-row reference module by PR #333 only. Owner explicitly decided not to develop or integrate an MPR engine. The MPR dataset is out of supported solver/customer recommendation scope.
+- Owner-approved supported family roadmap: **R-VAN → HE-VAN → Rain Bird 3500 rotor engine**. Future sprinkler families require a separate decision and evidence review.
+- PR-head CI: #330 Blog/Studio `43836512505`, D1 `43836512413`; #331 Blog/Studio `43840510707`, D1 `43840510683`; #332 Blog/Studio `43840350060`, D1 `43840149624`; #333 Blog/Studio `43840583873`, D1 `43840583871`. Main SHA CI is recorded in CHANGELOG once completed.
+- No live Sanity, D1 schema/data, Resend, Gemini, Cloudflare settings/secrets or manual Production configuration changes were performed.
+
 ## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
 
 - PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
