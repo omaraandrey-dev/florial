@@ -51,6 +51,9 @@ export interface LawnSprinklerLayoutResult {
       nearestSprinklerId: string | null
       separationM: number | null
       requiredMaximumM: number | null
+      headToHeadNeighborId: string | null
+      headToHeadSeparationM: number | null
+      headToHeadRequiredMaximumM: number | null
       passed: boolean
     }>>
   }>
@@ -62,6 +65,21 @@ export interface LawnSprinklerLayoutResult {
   readonly overspray?: 'not_evaluated'
   readonly errors?: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
+
+export interface HeadToHeadSpacingCheck {
+  readonly sprinklerId: string
+  readonly nearestSprinklerId: string | null
+  readonly separationM: number | null
+  readonly requiredMaximumM: number | null
+  readonly headToHeadNeighborId: string | null
+  readonly headToHeadSeparationM: number | null
+  readonly headToHeadRequiredMaximumM: number | null
+  readonly passed: boolean
+}
+
+export function evaluateHeadToHeadSpacing(
+  sprinklers: readonly LawnSprinklerCandidate[],
+): readonly HeadToHeadSpacingCheck[]
 
 export function generateLawnSprinklerLayout(
   input: LawnSprinklerLayoutInput,
