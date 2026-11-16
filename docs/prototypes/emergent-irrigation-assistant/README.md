@@ -166,3 +166,12 @@ Use `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md` as the gove
 - Emergent database and persistence implementation: **НЕ ИЗВЕСТНО — нужно изучить backend**.
 - Dependency licenses and export rights: **НЕ ИЗВЕСТНО — нужно проверить**.
 - No source code from this prototype has been integrated into Florial production.
+
+
+## 2026-11-16 — expanded source and public-preview audit
+
+The source archive contains only the two files listed above. Additional Emergent source files were supplied and reviewed incrementally in the earlier owner conversation (FastAPI chat/documents/leads routes, LLM and keyword-retrieval modules, seed data, related Pydantic models, and frontend app shell/styles), but those files were not committed to this repository. Their architecture and limitations are summarized in [the source audit](../../audits/2026-11-16-emergent-irrigation-assistant-source-audit.md); the exact full project export, manifests/lockfiles, licenses and tests remain unpreserved.
+
+The public preview was inspected read-only on 2026-11-16. It showed five suggested questions and five empty site fields; the knowledge page showed 0/0 documents and 0 requests. Two harmless chat prompts returned an assistant error. The preview identified itself as static and the Resume Preview link redirected to Emergent login. This does not prove that the backend is absent; it means the current public preview does not demonstrate a working end-to-end assistant. See the audit for evidence and limitations.
+
+The Florial target remains a native rebuild: adapt the progressive conversation UX, replace Emergent/FastAPI/MongoDB and its keyword retrieval, and keep Gemini subordinate to the deterministic Florial engineering engine.
