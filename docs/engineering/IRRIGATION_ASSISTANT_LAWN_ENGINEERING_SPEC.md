@@ -206,3 +206,12 @@ No AI-only irrigation design; no compatibility inferred from descriptions; no Ge
 - It computes sampled coverage, mutual directional head-to-head and sampled sector overspray as separate diagnostics. Sampled results are not continuous coverage proofs.
 - Hydraulic feasibility, precipitation uniformity/DU/SC, body/package compatibility and catalogue availability remain unevaluated. It does not generate candidate positions or activate the customer journey.
 - Next gate: validate a rotor-specific position-generation strategy against engineer-reviewed rectangle and L-shape baselines, including boundary overspray and spacing, before connecting any layout to customer-facing output.
+
+
+### Rain Bird 3500 candidate generation — stage 2 (2026-11-16)
+
+PR #340 adds `src/lib/irrigation/rainBird3500LayoutGenerator.mjs`, separate from the R-VAN/HE-VAN spray solver. It accepts one confirmed rectangle or L-shape without exclusions, exact D42378 nozzle size and exact pressure measured/verified at the nozzle. It generates only 180° candidates.
+
+Search: half-throw-radius position grid plus boundary samples; eight fixed direction bearings at 45° increments; deterministic greedy sampled set-cover; duplicate coordinates prevented. The selected candidate is evaluated by the separate 3500 evaluator for sampled coverage, mutual directional head-to-head and sampled overspray.
+
+The generator is heuristic, not globally optimal. Search increments are discretization choices, not manufacturer design rules. Sampled coverage is not continuous proof. Hydraulics, precipitation uniformity, DU/SC, package compatibility, exclusions, other arcs, radius reduction and catalogue mapping remain outside this increment. No customer-facing output is enabled.

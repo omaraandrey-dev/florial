@@ -3494,3 +3494,13 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Supported in this increment: exact pressure/nozzle lookup; 180° arc only; sampled geometry coverage; directional head-to-head; sampled overspray diagnostics.
 - Explicitly unsupported: all non-180° arcs, interpolation, radius reduction, automatic position generation, hydraulic feasibility, precipitation uniformity/DU/SC, verified 3504 package/nozzle-tree contents and automatic Sanity SKU selection.
 - Results are preliminary sampled evaluations only. No output is a certified irrigation design. PR #339 exact-head CI is pending at documentation time.
+
+
+### Rain Bird 3500 — candidate generator stage 2 (2026-11-16)
+
+- PR #339 evaluator is merged in `adc5fa447cbc2ca4577654b88a2cc055a29ec48a`; PR #340 candidate generator is merged in `9da44168e6c7d877ac914a8dc7dde13fd2129b95`.
+- Generator: `src/lib/irrigation/rainBird3500LayoutGenerator.mjs`. It is a separate module and does not modify the R-VAN/HE-VAN solver. It accepts one confirmed rectangle or L-shape without exclusions, an exact D42378 nozzle-tree size and exact nozzle pressure point.
+- Search method: candidate-position spacing = half the selected manufacturer throw radius, plus boundary samples; eight directions at 45° increments; deterministic greedy set-cover over sampled geometry. Duplicate physical coordinates are excluded. Selected positions are passed through `evaluateRainBird3500RotorLayout` for sampled coverage, mutual directional head-to-head and sampled overspray.
+- Exact-head CI passed for PR #340: Blog/Studio `43847530293`; D1 `43847530296`. Post-merge `main` CI for `9da44168e6c7d877ac914a8dc7dde13fd2129b95` was pending when this record was written.
+- Interpretation: heuristic candidate layout only; 45° direction increment and half-radius position grid are algorithm search discretization, not Rain Bird spacing rules. A sampled pass is not a continuous coverage proof or design certification.
+- Not implemented: exclusion polygons, arc-specific performance beyond 180°, pressure interpolation, disputed radius reduction, hydraulics/zone sizing, precipitation uniformity/DU/SC, body/nozzle package compatibility, live catalogue/BOM, customer assistant integration or cart handoff. No 5000 MPR engine.

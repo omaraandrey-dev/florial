@@ -200,3 +200,8 @@ The Florial target remains a native rebuild: adapt the progressive conversation 
 ## 2026-11-16 — 3500 evaluator checkpoint
 
 PR #339 adds an isolated Rain Bird 3500 evaluation module for explicit rotor positions. It uses exact D42378 pressure/nozzle points and only 180° half-circle arcs. It reports sampled coverage, directional head-to-head and sampled overspray separately; hydraulics, DU/SC, body/package compatibility and automatic position generation remain incomplete. The module is not connected to customer-facing output. No 5000 MPR engine is in scope.
+
+
+### 2026-11-16 — Rain Bird 3500 candidate generator integrated
+
+PR #339 and PR #340 are merged. Florial now has an isolated 3500 exact-point evaluator and a separate heuristic candidate generator restricted to 180° half-circle operation. Candidate positions are sampled at half the manufacturer throw radius plus boundary points; eight 45° directions are searched with deterministic greedy set-cover. The evaluator separately reports sampled coverage, directional head-to-head and sampled overspray. No hydraulic feasibility, DU/SC, package compatibility, customer-facing recommendation or cart handoff is implemented. Do not mark the 3500 engine complete.
