@@ -547,3 +547,12 @@
 - **Next:** run a repeatable benchmark matrix on the synthetic rectangle, L-shape, mirrored and rotated L-shape cases. Record selected rotor count and coordinates, candidate count, sampled coverage, H2H, overspray and runtime for each setting.
 - **Important:** no result may be called converged or best until selected positions/count are compared and stability is quantified. Synthetic geometry tests are not field or engineer-approved reference designs.
 - After benchmark, compare with owner/engineer-supplied manual reference layouts. Hydraulic model, precipitation uniformity/DU/SC, exclusions, manufacturer arc evidence, package compatibility and customer-facing gates remain open. No 5000 MPR engine.
+
+
+## 2026-11-16 — Irrigation engineer assistant paused by owner
+
+- **Status:** intentionally paused, not cancelled. Owner is switching to other Florial website tasks in separate chats.
+- **Do not touch PR #349** (do not merge, close, retarget, rebase or push) until the owner explicitly asks to resume this engineering work. Previous merge attempt timed out / returned 405; last verified PR state was open and `merged=false`.
+- PR #347/#348 stage 5/6 were in main at checkpoint SHA `ac705db95e87e2cd51fe74e70d15128d2833b5f7`. PR #349 stage 7 remains pending integration; last verified head `efd03a2d7b850e37e19599e28e8d509c266636e0`.
+- Authoritative continuation instructions and roadmap: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md`.
+- On resumption: reread current repository instructions/docs, verify current main and PR #349 state, reconcile audit/passport/changelog/open questions, then continue stage 8 only after stage 7 is correctly integrated and documented.
