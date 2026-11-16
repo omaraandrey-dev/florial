@@ -145,16 +145,81 @@ function buildCandidates(positions, targets, radiusM, flowLpm, directionStepDeg)
   return candidates
 }
 
-function selectGreedy(candidates, targetCount) {
+function areMutualHeadToHeadNeighbors(a, b, radiusM) {
+  const separation = distance(a.position, b.position)
+  return separation > EPSILON && separation <= radiusM + EPSILON &&
+    sectorContains(b.position, a.position, a.directionDeg, radiusM) &&
+    sectorContains(a.position, b.position, b.directionDeg, radiusM)
+}
+
+function combinedCoverageCount(a, b) {
+  let aIndex = 0
+  let bIndex = 0
+  let intersection = 0
+  while (aIndex < a.covered.length && bIndex < b.covered.length) {
+    if (a.covered[aIndex] === b.covered[bIndex]) {
+      intersection += 1
+      aIndex += 1
+      bIndex += 1
+    } else if (a.covered[aIndex] < b.covered[bIndex]) {
+      aIndex += 1
+    } else {
+      bIndex += 1
+    }
+  }
+  return a.covered.length + b.covered.length - intersection
+}
+
+function selectGreedy(candidates, targetCount, radiusM) {
+  // Seed with a mutually reachable pair so no returned rotor is isolated.
+  const ranked = candidates.slice().sort((a, b) =>
+    b.covered.length - a.covered.length || a.id.localeCompare(b.id))
+  const maximumCoverage = ranked[0]?.covered.length ?? 0
+  let bestPair = null
+  let bestUnion = -1
+  let bestMinimumCoverage = -1
+  let bestCombinedCoverage = -1
+
+  for (let aIndex = 0; aIndex < ranked.length; aIndex += 1) {
+    const a = ranked[aIndex]
+    if (a.covered.length + maximumCoverage < bestUnion) break
+    for (let bIndex = aIndex + 1; bIndex < ranked.length; bIndex += 1) {
+      const b = ranked[bIndex]
+      if (a.covered.length + b.covered.length < bestUnion) break
+      if (!areMutualHeadToHeadNeighbors(a, b, radiusM)) continue
+      const unionCoverage = combinedCoverageCount(a, b)
+      const minimumCoverage = Math.min(a.covered.length, b.covered.length)
+      const combinedCoverage = a.covered.length + b.covered.length
+      if (unionCoverage > bestUnion ||
+          (unionCoverage === bestUnion && minimumCoverage > bestMinimumCoverage) ||
+          (unionCoverage === bestUnion && minimumCoverage === bestMinimumCoverage &&
+            combinedCoverage > bestCombinedCoverage)) {
+        bestPair = [a, b]
+        bestUnion = unionCoverage
+        bestMinimumCoverage = minimumCoverage
+        bestCombinedCoverage = combinedCoverage
+      }
+    }
+  }
+
+  if (!bestPair) return null
+
+  const selected = [...bestPair]
   const uncovered = new Set(Array.from({ length: targetCount }, (_, index) => index))
-  const available = candidates.slice()
-  const selected = []
+  for (const chosen of selected) {
+    for (const targetIndex of chosen.covered) uncovered.delete(targetIndex)
+  }
+  const available = candidates.filter((candidate) =>
+    selected.every((chosen) => distance(candidate.position, chosen.position) > EPSILON))
+
   while (uncovered.size && selected.length < MAX_ROTORS) {
     let bestIndex = -1
     let bestGain = 0
     for (let index = 0; index < available.length; index += 1) {
+      const candidate = available[index]
+      if (!selected.some((chosen) => areMutualHeadToHeadNeighbors(candidate, chosen, radiusM))) continue
       let gain = 0
-      for (const targetIndex of available[index].covered) {
+      for (const targetIndex of candidate.covered) {
         if (uncovered.has(targetIndex)) gain += 1
       }
       if (gain > bestGain) {
@@ -165,7 +230,6 @@ function selectGreedy(candidates, targetCount) {
     if (bestIndex < 0) break
     const [chosen] = available.splice(bestIndex, 1)
     selected.push(chosen)
-    // A physical rotor cannot be installed twice at the same coordinate.
     for (let index = available.length - 1; index >= 0; index -= 1) {
       if (distance(available[index].position, chosen.position) <= EPSILON) {
         available.splice(index, 1)
@@ -181,7 +245,7 @@ function failure(status, code, path) {
     engineVersion: ENGINE_VERSION,
     family: '3500',
     status,
-    candidateStrategy: '180-degree-sector-grid-greedy-v1',
+    candidateStrategy: '180-degree-sector-grid-h2h-greedy-v2',
     sprinklers: Object.freeze([]),
     errors: Object.freeze([{ code, path }]),
     warnings: Object.freeze([]),
@@ -235,8 +299,8 @@ export function generateRainBird3500RotorLayout({
   if (!candidates) return failure('candidate_limit_exceeded', 'candidate_count_limit_exceeded', 'geometry')
   if (!candidates.length) return failure('no_candidates', 'no_usable_180_degree_candidates', 'geometry')
 
-  const selection = selectGreedy(candidates, targets.length)
-  if (!selection.selected.length) return failure('no_layout_found', 'no_candidate_covers_sampled_geometry', 'geometry')
+  const selection = selectGreedy(candidates, targets.length, point.radiusM)
+  if (!selection?.selected.length) return failure('no_head_to_head_layout', 'no_mutually_connected_180_degree_candidate_pair', 'headToHead')
   const layout = selection.selected.map((candidate) => ({
     id: candidate.id,
     position: candidate.position,
@@ -253,6 +317,7 @@ export function generateRainBird3500RotorLayout({
   const uncovered = selection.uncovered.size
   const warnings = [
     Object.freeze({ code: 'heuristic_grid_search_not_global_optimum', path: 'candidateStrategy' }),
+    Object.freeze({ code: 'selection_requires_mutual_head_to_head_neighbor', path: 'headToHead' }),
     Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_proof', path: 'coverage' }),
     Object.freeze({ code: 'hydraulics_and_precipitation_uniformity_not_evaluated', path: 'hydraulics/precipitation' }),
     Object.freeze({ code: 'candidate_direction_resolution_' + candidateDirectionStepDeg + '_degrees', path: 'candidateStrategy' }),
@@ -261,7 +326,7 @@ export function generateRainBird3500RotorLayout({
   return Object.freeze({
     ...evaluation,
     engineVersion: ENGINE_VERSION,
-    candidateStrategy: '180-degree-sector-grid-greedy-v1',
+    candidateStrategy: '180-degree-sector-grid-h2h-greedy-v2',
     candidateStats: Object.freeze({
       testedPositions: positions.length,
       testedCandidates: candidates.length,
