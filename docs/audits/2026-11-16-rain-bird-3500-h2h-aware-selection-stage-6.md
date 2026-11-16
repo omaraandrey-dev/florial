@@ -1,7 +1,7 @@
 # Rain Bird 3500 — mutual head-to-head-aware candidate selection, stage 6
 
 Date: 2026-11-16
-Status: implementation candidate; exact-head CI and benchmark verification pending.
+Status: implementation candidate; exact-head CI passed. Stage-6 benchmark comparison against stage 5 remains pending.
 
 ## Problem found in stage 5
 
@@ -31,3 +31,11 @@ The coverage-only greedy selector returned 100% sampled coverage while every ben
 4. Manual engineer-reviewed reference layouts are still required before treating the generator as a design tool.
 
 No Sanity/D1 writes, Cloudflare settings/secrets, Resend, customer-facing wiring or Production changes are included.
+
+
+## Exact-head verification
+
+- Head commit: `ad76137b5eea977421d7c9d045a12e94281f8a3b`.
+- Blog/Studio validation: `43851987279` passed, including typecheck, lint, website tests/build and Studio typecheck/build.
+- D1 migration validation: `43851987175` passed.
+- Automated rectangle and mirrored/rotated L-shape tests assert that every generated rotor has a mutual head-to-head neighbour.
