@@ -160,3 +160,28 @@ test('plant product LCP image is eager, prioritized and responsive in initial HT
   assert.match(middleware, /href="https:\/\/bxvcy0qs\.api\.sanity\.io" crossorigin/)
   assert.match(middleware, /href="https:\/\/bxvcy0qs\.apicdn\.sanity\.io" crossorigin/)
 })
+
+test('product detail routes resolve by slug without downloading full product catalogues', async () => {
+  const app = await read('../src/App.tsx')
+  const loader = await read('../src/lib/routeData/productDetails.ts')
+  assert.match(app, /fetchProductDetailsBySlug\(activeProductSlug/)
+  assert.match(app, /\}, \[activeProductSlug\]\)/)
+  assert.match(app, /const requestedCatalogueTypes = routeCategory[\s\S]*?\? \[routeCategory\.isPlantCategory \? 'plants' : 'equipment'\][\s\S]*?: \[\]/)
+  assert.match(loader, /export async function fetchProductDetailsBySlug/)
+  assert.match(loader, /sanityLiveClient\.fetch\(productBySlugQuery/)
+  assert.match(loader, /plantsClient\.fetch\(plantProductQuery/)
+  assert.match(loader, /return fetchProductDetails\(foundProduct as Product, isCancelled\)/)
+})
+
+test('product detail loading reserves page space and prioritizes the main image', async () => {
+  const app = await read('../src/App.tsx')
+  const product = await read('../src/pages/ProductPage.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(app, /function ProductLoadingState/)
+  assert.match(app, /activeProductSlug\s*\?\s*<ProductLoadingState/)
+  assert.match(product, /loading="eager" fetchPriority="high"/)
+  assert.match(middleware, /function renderResponsiveProductImage/)
+  assert.match(middleware, /loading="eager" fetchpriority="high"/)
+  assert.match(middleware, /sizes="\(min-width: 1024px\) 50vw, 100vw"/)
+  assert.match(middleware, /options\.pageType === 'product'[\s\S]*?rel="preconnect" href="https:\/\/cdn\.sanity\.io"/)
+})
