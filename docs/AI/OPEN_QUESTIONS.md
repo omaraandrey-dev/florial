@@ -1,3 +1,11 @@
+## 2026-11-16 — Conversational intake v1 validation and next gates
+
+- New guided conversation-style intake implementation is under PR review; see `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
+- Intake distinguishes static from dynamic pressure, requires a customer assertion that dynamic pressure was measured while flowing and a known test point, and requires a declared flow measurement method.
+- Hydraulic feasibility must remain `not_evaluated` until pipe network, elevation, restrictions, source behavior and approved hydraulic method are implemented. Current increment does not invoke the layout solver or Gemini and does not persist/transmit data.
+- Pending: exact-head CI and BG/RU/EN mobile/desktop Preview QA; keyboard/accessibility review; next deterministic solver connection; exclusion/overspray support; engineering-approved manufacturer/body compatibility; server-side Sanity and cart contract; Gemini model/privacy/rate-limit/cost and secret configuration.
+- No Production release or live-service changes in this increment.
+
 ## 2026-11-16 — Final Gemini review sequence and cart handoff approved
 
 - Owner decision: Gemini performs a final second-pass review only after Florial's deterministic engineering result and exact catalogue proposal have been prepared. It checks consistency/completeness and produces an explanation; it cannot change calculation outputs, select/replace products, alter quantities/prices/availability or mutate cart state.
