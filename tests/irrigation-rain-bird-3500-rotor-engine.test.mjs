@@ -24,7 +24,7 @@ const twoRotors = [
 test('evaluates only exact D42378 180-degree operating points', () => {
   const result = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: twoRotors,
     sampleStepM: 0.5,
@@ -44,7 +44,7 @@ test('rejects every arc other than 180 degrees instead of reusing half-circle da
   for (const arcDeg of [40, 90, 179, 181, 270, 360]) {
     const result = evaluateRainBird3500RotorLayout({
       geometry: geometry(),
-      pressureBar: 2.5,
+      nozzlePressureBar: 2.5,
       nozzle: 1.5,
       sprinklers: [{ ...twoRotors[0], arcDeg }],
     })
@@ -56,7 +56,7 @@ test('rejects every arc other than 180 degrees instead of reusing half-circle da
 test('rejects non-tabulated pressure/nozzle combinations without interpolation', () => {
   const result = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.2,
+    nozzlePressureBar: 2.2,
     nozzle: 1.5,
     sprinklers: twoRotors,
   })
@@ -66,7 +66,7 @@ test('rejects non-tabulated pressure/nozzle combinations without interpolation',
 test('requires confirmed geometry and rejects exclusions or unsupported regions', () => {
   const draft = evaluateRainBird3500RotorLayout({
     geometry: geometry('draft'),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: twoRotors,
   })
@@ -82,7 +82,7 @@ test('requires confirmed geometry and rejects exclusions or unsupported regions'
   }]
   const result = evaluateRainBird3500RotorLayout({
     geometry: excluded,
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: twoRotors,
   })
@@ -92,7 +92,7 @@ test('requires confirmed geometry and rejects exclusions or unsupported regions'
 test('checks directional head-to-head independently from sampled coverage', () => {
   const result = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: [
       { id: 'a', position: { x: 3, y: 4 }, directionDeg: 0, arcDeg: 180 },
@@ -109,7 +109,7 @@ test('checks directional head-to-head independently from sampled coverage', () =
 test('rejects duplicate IDs, missing directions and rotor positions outside the lawn', () => {
   const duplicate = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: [twoRotors[0], { ...twoRotors[1], id: 'rotor-a' }],
   })
@@ -117,7 +117,7 @@ test('rejects duplicate IDs, missing directions and rotor positions outside the 
 
   const missingDirection = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: [{ id: 'x', position: { x: 2, y: 2 }, arcDeg: 180 }],
   })
@@ -125,7 +125,7 @@ test('rejects duplicate IDs, missing directions and rotor positions outside the 
 
   const outside = evaluateRainBird3500RotorLayout({
     geometry: geometry(),
-    pressureBar: 2.5,
+    nozzlePressureBar: 2.5,
     nozzle: 1.5,
     sprinklers: [{ id: 'x', position: { x: 30, y: 30 }, directionDeg: 0, arcDeg: 180 }],
   })
