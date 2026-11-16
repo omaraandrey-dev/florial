@@ -1,3 +1,19 @@
+## 2026-11-16 — Intake v1 Preview verification
+
+- PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
+- Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115` and read-only browser QA passed in BG/RU/EN and mobile 390 × 844. No console/runtime errors or horizontal overflow.
+- QA verified geometry confirmation and the new pressure/flow controls. Hydraulic feasibility remains not evaluated; no solver, Gemini, catalogue, cart or persistence is connected.
+- Privacy caveat: baseline page-use events are described as recorded in D1 regardless of optional PostHog consent. Project/lead data was not submitted.
+- Remaining: keyboard/accessibility review, deterministic solver integration, verified product compatibility, Gemini server contract and cart revalidation. No Production release.
+
+## 2026-11-16 — Conversational intake v1 validation and next gates
+
+- Guided conversation-style intake implementation is under PR #329 review; exact runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA; see `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
+- Intake distinguishes static from dynamic pressure, requires a customer assertion that dynamic pressure was measured while flowing and a known test point, and requires a declared flow measurement method.
+- Hydraulic feasibility must remain `not_evaluated` until pipe network, elevation, restrictions, source behavior and approved hydraulic method are implemented. Current increment does not invoke the layout solver or Gemini and does not persist/transmit data.
+- Remaining: full keyboard/accessibility review; next deterministic solver connection; exclusion/overspray support; engineering-approved manufacturer/body compatibility; server-side Sanity and cart contract; Gemini model/privacy/rate-limit/cost and secret configuration.
+- No Production release or live-service changes in this increment.
+
 ## 2026-11-16 — Final Gemini review sequence and cart handoff approved
 
 - Owner decision: Gemini performs a final second-pass review only after Florial's deterministic engineering result and exact catalogue proposal have been prepared. It checks consistency/completeness and produces an explanation; it cannot change calculation outputs, select/replace products, alter quantities/prices/availability or mutate cart state.

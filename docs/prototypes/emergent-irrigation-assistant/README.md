@@ -124,13 +124,21 @@ Use `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md` as the gove
 **Exit:** reviewed architecture and evidence-based migration plan.
 
 ### Phase 2 — Florial UI adaptation
-- [ ] Compare with existing `/irrigation-assistant` and launcher.
-- [ ] Select reusable visual components and interaction patterns.
-- [ ] Adapt BG/RU/EN localization, responsive behavior, keyboard/accessibility and error states.
-- [ ] Keep Florial Header/menu/Footer and global architecture unchanged.
-- [ ] Implement only in a separate branch and Preview.
+- [x] Compare with existing `/irrigation-assistant` and launcher.
+- [x] Select reusable visual components and progressive conversation interaction patterns from Emergent.
+- [x] Implement the first guided conversation-style intake in the existing Florial route, localized BG/RU/EN.
+- [x] Preserve the geometry validator, customer confirmation and noindex route behavior.
+- [x] Add a versioned in-memory intake snapshot and explicit readiness gates for dynamic pressure and measured flow.
+- [x] Keep Florial Header/menu/Footer and global architecture unchanged.
+- [x] Implement in a separate feature branch.
+- [x] Exact-head CI passed (Blog/Studio run `43834815047`; D1 run `43834815101`) for runtime commit `662936768b311050699ebfb9c77c6857759aeedf`.
+- [x] Preview browser QA passed in BG/RU/EN, including rectangle geometry and mobile `390 × 844`; no console/runtime errors or horizontal overflow. Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115`.
+- [ ] Add full keyboard/accessibility and expanded error-state audit.
+- [ ] Connect the validated snapshot to the deterministic layout engine (next engineering increment).
 
-**Exit:** approved UI integrated into existing Florial without Emergent runtime dependency.
+**Implementation checkpoint:** `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. The current increment is a deterministic guided UI, not a Gemini-connected chat. It does not persist/send intake, invoke the layout solver, select products or mutate the cart. Exact-head CI and Preview QA passed; see the audit for run/deployment IDs and the D1 analytics-notice caveat.
+
+**Exit:** approved UI integrated into existing Florial without Emergent runtime dependency and validated in Preview.
 
 ### Phase 3 — Cloudflare conversation backend
 - [ ] Define request/response and streaming contracts.
