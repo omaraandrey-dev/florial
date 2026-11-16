@@ -4,7 +4,10 @@
 - Cloudflare Pages Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115` succeeded for the exact runtime commit.
 - Read-only browser QA passed rectangle 12 × 8 m (96 m² / 40 m), geometry confirmation, source selection, static/dynamic pressure, dynamic measurement condition/test point, flow measurement methods, notes and summary; RU/EN loaded; 390 × 844 mobile had no horizontal overflow; no console/runtime errors.
 - Existing privacy notice states baseline page-use events are recorded in D1 regardless of optional PostHog consent. No project/lead data was submitted and no deliberate D1/Sanity/Production write was performed.
-- Full keyboard/accessibility review remains open. No Production release.
+- Full keyboard/accessibility review remains open.
+- PR #329 merged at 2026-11-16T08:59:04Z as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`. Cloudflare Pages Production deployment `38e83739-a57f-4e10-8d13-d2e40c60c0cc` completed successfully for that exact SHA and is associated with `https://florial-bg.com` / `https://www.florial-bg.com`.
+- Read-only Production browser smoke could not verify rendering: the browser environment returned `ERR_QUIC_PROTOCOL_ERROR` followed by `ERR_SOCKS_CONNECTION_FAILED`. The same attempt did read the response metadata and confirmed `noindex, nofollow, noarchive`. Treat Production visual/function smoke as **inconclusive**, not a site outage. Preview full flow QA remains passed.
+
 
 ## 2026-11-16 — Irrigation assistant conversational intake v1 (implementation candidate)
 
@@ -13,7 +16,7 @@
 - Added a versioned in-memory intake contract/readiness evaluator and tests. Static pressure alone cannot satisfy the dynamic-pressure gate; flow requires a declared measurement method.
 - Hydraulic readiness is deliberately always `not_evaluated`; pipe network, elevation and restrictions remain outstanding. No layout solver, Gemini, Sanity catalogue, cart, lead endpoint, D1 persistence or Resend is connected in this increment.
 - Data remains in browser memory only; no customer identity/contact details are collected or transmitted. Header, menu, Footer, route and launcher scope are unchanged.
-- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. Runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA; Production is unchanged.
+- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. Runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA. PR #329 was subsequently merged and Production deployment completed; see the verification record above.
 
 ## 2026-11-16 — Owner decision: Gemini final review after engineering and catalogue selection
 
