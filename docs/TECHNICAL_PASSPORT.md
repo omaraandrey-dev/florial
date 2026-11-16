@@ -1,3 +1,13 @@
+## 2026-11-16 — Rain Bird 3500 stage 5/6 and site-context stage 7
+
+- PR #347 merged as `c6ff671438f2939e93114776c24022fb1f9abd86`; exact PR head `9fa0804db7d1e9bc6f48319d79fee0160b0a6bd3` passed Blog/Studio CI runs `43851239803` and `43852067280`, and D1 run `43851226583`.
+- PR #348 merged as `ac705db95e87e2cd51fe74e70d15128d2833b5f7`; exact PR head `e2e287f02d9083dea9870546cb6d1cb3a59f6f9c` passed Blog/Studio CI runs `43852481407` and `43852658323`, and D1 run `43852481396`.
+- Stage 5 proved that all 36 tested resolution/geometry combinations had 100% sampled coverage but failed directional H2H and detected sampled overspray. Stage 6 adds mutual-H2H-aware seed selection and connected additions; overspray remains unresolved at selection time.
+- Stage 7 branch `feat/irrigation-site-context-overspray-v1` adds `irrigationSiteContext.mjs` and integrates optional confirmed site context into the 3500 evaluator/generator. It distinguishes target lawn, permitted adjacent area, no-spray area, unapproved on-site area and outside-site samples.
+- Stage 7 is not merged and CI is not yet confirmed. Containment is currently sampled at 0.25 m; exact polygon containment hardening remains open. Candidate search does not yet optimize around no-spray regions.
+- All results remain sampled preliminary geometry. Hydraulics, DU/SC prediction, wind drift, installability and full body/nozzle/package compatibility remain unevaluated. No 5000 MPR engine or customer-facing solver integration.
+- No Sanity/D1 writes, Cloudflare settings/secrets, Resend or manual Production changes.
+
 ## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
 
 - PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
