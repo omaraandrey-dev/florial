@@ -1,3 +1,11 @@
+## 2026-11-16 — Intake v1 Preview verification
+
+- PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
+- Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115` and read-only browser QA passed in BG/RU/EN and mobile 390 × 844. No console/runtime errors or horizontal overflow.
+- QA verified geometry confirmation and the new pressure/flow controls. Hydraulic feasibility remains not evaluated; no solver, Gemini, catalogue, cart or persistence is connected.
+- Privacy caveat: baseline page-use events are described as recorded in D1 regardless of optional PostHog consent. Project/lead data was not submitted.
+- Remaining: keyboard/accessibility review, deterministic solver integration, verified product compatibility, Gemini server contract and cart revalidation. No Production release.
+
 ## 2026-11-16 — Conversational intake v1 validation and next gates
 
 - New guided conversation-style intake implementation is under PR review; see `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
