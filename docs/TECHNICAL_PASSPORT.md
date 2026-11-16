@@ -1,11 +1,12 @@
-## 2026-11-15 — Irrigation assistant engineering direction (PR #303 in progress)
+## 2026-11-15 — Irrigation assistant engineering direction (PR #303 merged and deployed)
 
 - New engineering specification: `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
 - The first module is automatic lawn irrigation based on confirmed geometry and measured dynamic water data. A deterministic, versioned Florial calculation engine is the engineering source of truth; Gemini is limited to intake normalization, missing-data questions, drawing interpretation requiring customer confirmation, and explanation of already validated results.
 - Product recommendations must map to exact Rain Bird models/SKUs and manufacturer performance points. Existing inventory checkpoint: 20 sprinkler products and 26 nozzle products; inspected records had prices but `onRequest` stock status and incomplete/uniformity gaps in technical specifications.
 - The floating assistant entry point is restricted to irrigation equipment categories/products, the `polivni-sistemi` direction page and irrigation-related individual services. Other site sections must not display it.
 - Preview implementation on commit `f495698df1c5c38795fbcad0fc009214d6b866fe` passed app/Pages typecheck, lint, tests, website build, Studio typecheck/build and D1 validation. Cloudflare Pages Preview deployment `4507238d-5d82-4efc-902b-e532ae853158` succeeded. Mobile browser QA verified the launcher on irrigation category/product, irrigation direction and individual irrigation service pages, and verified it absent on homepage, plants category and planting service.
-- This is a specification and launcher-scope change only. No hydraulic calculator, Gemini API integration or automatic product selection is implemented yet. Production release remains pending.
+- PR #303 merged as `69ac9e5d2a5762f0bba97b8225fbb79ba85a3dd7`; Production deployment `28954ce2-d134-4a56-9eb7-dad7576ea116` succeeded for the exact SHA. Production browser QA confirmed launcher/photo on irrigation catalogue root and the `polivni-sistemi` direction page, and confirmed no launcher/photo on homepage and plants category.
+- This is a specification and launcher-scope change only. No hydraulic calculator, Gemini API integration or automatic product selection is implemented yet.
 
 ## 2026-11-15 — TypeScript coverage and CI gates added (PR #299)
 

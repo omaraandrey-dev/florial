@@ -1,5 +1,14 @@
 # Irrigation assistant — first implementation checkpoint
 
+## 2026-11-15 — Follow-up PR #303: portrait source, launcher scope and engineering specification
+
+- Dedicated specialist image uploaded and published in Sanity Production: photo document `15f0ab7e-b6c9-40aa-ae12-67dd84dbff53`, slug `florial-irrigation-specialist`; asset URL `https://cdn.sanity.io/images/bxvcy0qs/production/0714e789d0e162df5bc2e3200ff7951ac77abdbc-252x247.png`. Original service portrait document was not modified.
+- Launcher visibility restricted to equipment catalogue category/product routes, the `polivni-sistemi` service direction and individual irrigation/maintenance/delivery services. It is hidden on homepage, plants, general services, landscaping/planting/lawn, blog, contacts, about, cart, search and the assistant route.
+- PR #303 merged as `69ac9e5d2a5762f0bba97b8225fbb79ba85a3dd7`; exact-head CI runs `43752491160` and `43752481075` passed. Production deployment `28954ce2-d134-4a56-9eb7-dad7576ea116` succeeded for the same SHA.
+- Production browser QA confirmed the portrait on irrigation catalogue root and `polivni-sistemi` direction, and verified absence on homepage and plant category. Preview browser QA additionally verified equipment product and individual irrigation service inclusion, and launcher absence on planting service.
+- Engineering specification: `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`. No hydraulic solver, Gemini API endpoint/secret, Sanity schema changes, D1 changes or cart integration were implemented in this follow-up.
+
+
 Date: 2026-11-15  
 Base commit: `18d9b8a3b7b242e0e2b3ba787ad85771bf9bb653`  
 Branch: `feat/irrigation-assistant-foundation`
