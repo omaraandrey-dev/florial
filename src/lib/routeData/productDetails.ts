@@ -10,6 +10,39 @@ const PLANT_PRODUCT_TYPES = new Set([
 
 const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(productType || '')
 
+export async function fetchProductDetailsBySlug(slug: string, isCancelled: () => boolean = () => false): Promise<Product | null> {
+  const productBySlugQuery = `
+    *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+      _id,
+      "productType": "equipment"
+    }
+  `
+  const plantBySlugQuery = `
+    *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+      _id,
+      productType
+    }
+  `
+
+  const [equipmentResult, plantResult] = await Promise.allSettled([
+    sanityLiveClient.fetch(productBySlugQuery, { slug }),
+    plantsClient.fetch(plantBySlugQuery, { slug }),
+  ])
+  if (isCancelled()) return null
+
+  const equipmentProduct = equipmentResult.status === 'fulfilled' ? equipmentResult.value : null
+  const plantProduct = plantResult.status === 'fulfilled' ? plantResult.value : null
+  const foundProduct = equipmentProduct || plantProduct
+
+  if (!foundProduct) {
+    const failure = [equipmentResult, plantResult].find((result) => result.status === 'rejected')
+    if (failure?.status === 'rejected') throw failure.reason
+    return null
+  }
+
+  return fetchProductDetails(foundProduct as Product, isCancelled)
+}
+
 export async function fetchProductDetails(foundProduct: Product, isCancelled: () => boolean = () => false): Promise<Product | null> {
   const equipmentDetailQuery = `
         *[_type == "product" && _id == $id][0] {
