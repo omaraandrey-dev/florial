@@ -3359,3 +3359,12 @@ Backups:
 - Added automated regression cases for mirrored and 90°/180°/270° rotated orthogonal L-shapes, and finer target sampling at 0.5 m, 0.25 m and 0.125 m. Tests assert exact D42378 operating point preservation, 180°-only generated sectors, unique IDs/physical coordinates and explicit non-hydraulic status.
 - Exact-head CI passed: Blog/Studio run `43848342270`; D1 validation run `43848342194`.
 - These are synthetic software invariance tests, not engineer-approved reference layouts, field measurements or proof of uniformity/hydraulic feasibility. No runtime algorithm change, customer-facing integration, Sanity/D1 write, Cloudflare settings/secrets, Resend or manual Production change was made.
+
+
+## 2026-11-16 — Rain Bird 3500 bounded search-resolution controls
+
+- PR #344 merged as `a125b851ca8205bd001850c09614af11306e8fe2`.
+- Candidate search can now be run with bounded deterministic presets: position spacing factor 0.25, 0.5 or 1.0 × exact D42378 throw radius (default 0.5); direction increments 15°, 30° or 45° (default 45°). Target sample spacing remains independently controlled by `sampleStepM`.
+- Unsupported search values fail closed; existing candidate/sample caps remain active. These are numerical search discretization controls, not manufacturer performance/spacing rules.
+- Exact-head CI passed: Blog/Studio run `43849172350`; D1 validation run `43849172390`. Post-merge main CI for `a125b851ca8205bd001850c09614af11306e8fe2` was running when this entry was prepared.
+- No change to the 180°-only manufacturer evidence gate, exact pressure/nozzle lookup, R-VAN/HE-VAN solver or customer flow. No 5000 MPR engine; no Sanity/D1 data, Cloudflare settings/secrets, Resend or manual Production changes.
