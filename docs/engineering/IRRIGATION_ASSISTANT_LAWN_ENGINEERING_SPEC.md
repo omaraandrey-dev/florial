@@ -160,6 +160,13 @@ An irrigation engineer must review rules and baseline cases before automatic cus
 - Stage 5 (hydraulic zones and pipe losses): not started. Begin only after the design inputs and validated sprinkler layouts can supply measured dynamic flow/pressure, actual pipe dimensions/material/lengths, valves/filters/regulators/fittings, elevation and zone constraints.
 - Before extending automatic selection, obtain engineer-reviewed reference layouts and establish a defensible precipitation-uniformity method. Do not infer layout DU/SC from average precipitation values alone.
 
+
+
+### Acceptance hardening — 2026-11-16
+
+- PR #319 strengthens scenario tests to require 100% sampled coverage and zero uncovered points for 12m rectangles at 4/5/6/8m widths and for mirrored/rotated/reversed L-shapes. The baseline rectangle and L-shape are also checked at 0.125m sampling resolution.
+- These tests do not prove continuous coverage or uniformity. The engine remains a code library: the current `IrrigationAssistantPage.tsx` collects and validates geometry but does not call the layout solver. Customer-facing layout recommendations remain gated on engineer-reviewed reference layouts, exact manufacturer compatibility, overspray and hydraulic validation.
+
 ## 10. Delivery stages
 
 1. Complete launcher visibility rules and portrait source.
