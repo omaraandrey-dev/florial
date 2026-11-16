@@ -77,6 +77,20 @@ These are code-owned catalogue mappings. This review did not perform a live Sani
 7. Candidate generation, sector geometry, head-to-head checks, overspray, precipitation distribution and hydraulic zoning must be rotor-specific and independently tested.
 8. Keep any unvalidated result internal/preliminary and require irrigation-engineer review before customer-facing equipment recommendations or catalogue/cart mapping.
 
+## Safe first-engine scope candidate (not yet implemented)
+
+A constrained 3500 engine can be evaluated without inventing arc conversions if every generated rotor is explicitly configured at **180°**:
+
+- Use only the exact 180°/half-circle manufacturer chart basis for precipitation.
+- Use exact nozzle/pressure rows only; no interpolation or nearest-point substitution.
+- Do not generate 90°, 270° or 360° candidates in this first engine.
+- Do not apply an assumed 25% or 35% radius-reduction factor.
+- Keep rotor placement and candidate selection in a separate 3500 module; do not route through the spray-nozzle solver.
+- Keep geometric coverage, directional head-to-head, overspray, hydraulic feasibility and precipitation uniformity as separate validation gates.
+- A 180°-only candidate may still overspray at lawn corners or irregular boundaries. Until an explicit geometric overspray check and engineer-reviewed reference layouts pass, the result must remain preliminary and must not become an automatic purchasable equipment specification.
+
+This is a conservative implementation path based on the documented half-circle chart, not a claim that 180° is the best design for every lawn.
+
 ## Open manufacturer questions
 
 - Are radius and flow in the 3500 chart intended to remain unchanged at all adjustable arcs for a fixed nozzle and pressure?
