@@ -1,3 +1,14 @@
+## 2026-11-16 — Owner decision: sprinkler engine scope and next 3500 gate
+
+- Supported development target is limited to Rain Bird **R-VAN, HE-VAN and 3500 rotors**. The current deterministic solver supports R-VAN/HE-VAN; the intake bridge currently calls a preliminary R-VAN scenario only.
+- Rain Bird 3500 is the next implementation target. Existing manufacturer dataset has 36 exact nozzle/pressure points and exact catalogue references, but the published precipitation chart is based on half-circle operation. The installation manual confirms adjustable arcs from 40° to 360° but does not provide arc-specific performance tables or a validated conversion rule.
+- **Open engineering decision:** establish a manufacturer-backed or explicitly engineer-approved method for 3500 flow/radius/precipitation by selected arc, then build a separate 3500 candidate generator/placement path. Do not simply add 3500 to the current family union or route it through HE-VAN performance lookup.
+- Required acceptance before exposing 3500 layouts: exact nozzle/SKU/body compatibility; supported arc handling; rectangle and mirrored/rotated/reversed L-shape regression scenarios; coverage and head-to-head; boundary overspray; precipitation/DU assessment; engineer review.
+- The R-VAN14/R-VAN18 short-side heuristic in the intake bridge (4.0–5.5 m) remains provisional; validate it against actual operating points, geometric scenarios and measured dynamic nozzle pressure before treating it as a recommendation rule.
+- PR #333 added standalone 5000 MPR manufacturer data only. Owner decision: no MPR solver/engine or customer-facing MPR recommendations. The isolated data module is not part of the supported engine scope.
+- Integrated main SHA: `94d5c17d30197de50a1dcbc83f469cd0ed15f9a2`. PR-head CI passed; integrated main CI was pending at the time of this entry.
+- No Sanity product writes or live service configuration changes were made.
+
 ## 2026-11-16 — Intake v1 Preview verification
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
