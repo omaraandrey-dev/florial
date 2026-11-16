@@ -67,4 +67,5 @@ Document ID, slug, active status, service category/layout, hero image, all five 
 - **Verified in GitHub:** branch created from the exact main SHA above; backup file committed; frontend change committed.
 - **Verified in draft:** revision-guarded patch succeeded; read-back found the new headings and no duplicate contentBlocks.
 - **Schema validation:** `valid`, but incomplete because custom callbacks did not run.
+- **Shared logs deferred:** `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally unchanged in this branch because multiple existing open PRs edit those shared files. Integrate the release record in one later documentation pass after that PR batch is reconciled.
 - **Not yet confirmed:** exact-head CI/build, PR Preview browser QA, publication of the Sanity draft, Production deployment and post-deployment BG/RU/EN visual/mobile QA.
