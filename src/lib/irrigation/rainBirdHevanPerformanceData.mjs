@@ -15,15 +15,6 @@ function pointsFor(model, arcDeg, radiusM, flowM3h, flowLpm, square, triangular)
   }))
 }
 
-function familyPoints(model, radiusM, flowM3h, flowLpm, square, triangular) {
-  return [
-    ...pointsFor(model, 360, radiusM, flowM3h, flowLpm, square, triangular),
-    ...pointsFor(model, 270, radiusM, flowM3h.map((v) => v * 0.75), flowLpm.map((v) => v * 0.75), square, triangular),
-    ...pointsFor(model, 180, radiusM, flowM3h.map((v) => v * 0.5), flowLpm.map((v) => v * 0.5), square, triangular),
-    ...pointsFor(model, 90, radiusM, flowM3h.map((v) => v * 0.25), flowLpm.map((v) => v * 0.25), square, triangular),
-  ]
-}
-
 /*
  * Arc flow values below are transcribed from the manufacturer tables, not
  * calculated from the full-circle flow. The explicit arrays avoid derived
@@ -52,7 +43,7 @@ const performancePoints = Object.freeze([
 ])
 
 const models = Object.freeze([
-  { model: 'HE-VAN-8', sku: 'HE0801', sanityProductId: '21e4bb32-7fd8-4b8d-b761-1d86569a12ae', trajectoryDeg: 24 },
+  { model: 'HE-VAN-8', sku: 'HE0801', sanityProductId: '21e4bb9f-c635-4d6f-882d-c9fefb70b8d3', trajectoryDeg: 24 },
   { model: 'HE-VAN-10', sku: 'HE1001', sanityProductId: 'e25925d0-b54f-45fa-844e-ad4fde8e6440', trajectoryDeg: 27 },
   { model: 'HE-VAN-12', sku: 'HE1201', sanityProductId: 'de88e310-c33d-4111-9ad6-c638b49a2ed8', trajectoryDeg: 23 },
   { model: 'HE-VAN-15', sku: 'HE1501', sanityProductId: '63289ec9-c0dd-4f13-ae4d-1f7f00a442c6', trajectoryDeg: 25 },
