@@ -1,3 +1,11 @@
+## 2026-11-16 — Plant product detail performance candidate
+
+- Owner baseline for `/product/washingtonia`: mobile Performance 59, FCP 0.9 s, LCP 5.0 s, TBT 10 ms, CLS 0.693, Speed Index 1.7 s (single Lighthouse 13.6.0 run; no CrUX field data).
+- Dominant reported layout shift is the Footer (0.693); main product image is the LCP element and lacks high fetch priority. The critical chain includes both full product catalogues and repeated Sanity requests.
+- Candidate branch `perf/plant-product-lcp-cls-2026-11-16` replaces catalogue-first product lookup with targeted slug lookup, reserves product loading height, prioritizes the hero image, makes middleware fallback responsive with dimensions, and adds Sanity preconnect hints.
+- Regression tests and audit added. **CI/build/Preview/browser/network/Lighthouse after-measurements remain pending; no improvement is claimed.**
+- Audit: `docs/audits/2026-11-16-performance-plant-product-page.md`.
+
 ## 2026-11-16 — PR #353 service CLS and duplicate image fix merged/deployed
 
 - PR #353 merged as `74642455efe284730cdf442efc1b82182e10eda8`; Cloudflare Pages Production deployment `4060e639-d643-496d-ae3f-65706cd85000` succeeded on that exact SHA.
