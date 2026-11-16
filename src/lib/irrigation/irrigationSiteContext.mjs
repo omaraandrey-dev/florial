@@ -122,11 +122,9 @@ export function classifyIrrigationSprayPoint({ point, siteContext, lawnBoundary 
   if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y) ||
       !siteContext?.valid || !Array.isArray(siteContext.siteBoundary) ||
       !Array.isArray(lawnBoundary)) return 'unknown'
+  if (siteContext.noSprayRegions.some((region) => pointInRing(point, region.vertices) >= 0)) return 'no_spray'
   if (pointInRing(point, lawnBoundary) >= 0) return 'target_lawn'
   if (pointInRing(point, siteContext.siteBoundary) < 0) return 'outside_site'
-  if (siteContext.noSprayRegions.some((region) => pointInRing(point, region.vertices) >= 0)) {
-    return 'no_spray'
-  }
   if (siteContext.permittedSprayRegions.some((region) => pointInRing(point, region.vertices) >= 0)) {
     return 'permitted_adjacent'
   }
