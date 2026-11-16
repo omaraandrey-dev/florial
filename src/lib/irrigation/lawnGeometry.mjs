@@ -145,22 +145,6 @@ function normalizeRing(ring, path, errors) {
   }
 
   const count = compact.length
-  for (let index = 0; index < count; index += 1) {
-    const previous = compact[(index - 1 + count) % count]
-    const current = compact[index]
-    const next = compact[(index + 1) % count]
-    const incomingX = previous.x - current.x
-    const incomingY = previous.y - current.y
-    const outgoingX = next.x - current.x
-    const outgoingY = next.y - current.y
-    const reversesAlongSameLine = Math.abs(cross(previous, current, next)) <= EPSILON &&
-      incomingX * outgoingX + incomingY * outgoingY > EPSILON
-    if (reversesAlongSameLine) {
-      errors.push(issue(ERROR.SELF_INTERSECTION, path))
-      return null
-    }
-  }
-
   for (let first = 0; first < count; first += 1) {
     const firstNext = (first + 1) % count
     for (let second = first + 1; second < count; second += 1) {
@@ -177,6 +161,22 @@ function normalizeRing(ring, path, errors) {
   if (Math.abs(signedArea(compact)) <= EPSILON) {
     errors.push(issue(ERROR.ZERO_AREA_RING, path))
     return null
+  }
+
+  for (let index = 0; index < count; index += 1) {
+    const previous = compact[(index - 1 + count) % count]
+    const current = compact[index]
+    const next = compact[(index + 1) % count]
+    const incomingX = previous.x - current.x
+    const incomingY = previous.y - current.y
+    const outgoingX = next.x - current.x
+    const outgoingY = next.y - current.y
+    const reversesAlongSameLine = Math.abs(cross(previous, current, next)) <= EPSILON &&
+      incomingX * outgoingX + incomingY * outgoingY > EPSILON
+    if (reversesAlongSameLine) {
+      errors.push(issue(ERROR.SELF_INTERSECTION, path))
+      return null
+    }
   }
 
   const areaM2 = Math.abs(signedArea(compact))
