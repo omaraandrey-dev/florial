@@ -163,6 +163,12 @@ function selectGreedy(candidates, targetCount) {
     if (bestIndex < 0) break
     const [chosen] = available.splice(bestIndex, 1)
     selected.push(chosen)
+    // A physical rotor cannot be installed twice at the same coordinate.
+    for (let index = available.length - 1; index >= 0; index -= 1) {
+      if (distance(available[index].position, chosen.position) <= EPSILON) {
+        available.splice(index, 1)
+      }
+    }
     for (const targetIndex of chosen.covered) uncovered.delete(targetIndex)
   }
   return { selected, uncovered }
