@@ -8,11 +8,11 @@
 
 ## 2026-11-16 — Conversational intake v1 validation and next gates
 
-- Guided conversation-style intake implementation is under PR #329 review; exact runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA; see `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
+- Guided conversation-style intake implementation is merged in PR #329; exact runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA; see `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`.
 - Intake distinguishes static from dynamic pressure, requires a customer assertion that dynamic pressure was measured while flowing and a known test point, and requires a declared flow measurement method.
 - Hydraulic feasibility must remain `not_evaluated` until pipe network, elevation, restrictions, source behavior and approved hydraulic method are implemented. Current increment does not invoke the layout solver or Gemini and does not persist/transmit data.
 - Remaining: full keyboard/accessibility review; next deterministic solver connection; exclusion/overspray support; engineering-approved manufacturer/body compatibility; server-side Sanity and cart contract; Gemini model/privacy/rate-limit/cost and secret configuration.
-- No Production release or live-service changes in this increment.
+- PR #329 was subsequently merged and Cloudflare Pages Production deployment succeeded for main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9` (deployment `38e83739-a57f-4e10-8d13-d2e40c60c0cc`). Production browser visual smoke is inconclusive due browser-environment QUIC/SOCKS errors; response metadata confirmed noindex. Preview full-flow QA passed.
 
 ## 2026-11-16 — Final Gemini review sequence and cart handoff approved
 

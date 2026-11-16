@@ -3,7 +3,7 @@
 **Date:** 2026-11-16  
 **Base main:** `1be8fc11ff33ca0e18ec38895c8714669eceedf7`  
 **Branch:** `feat/irrigation-assistant-conversational-intake-v1`  
-**Status:** Preview QA and exact-head CI passed; PR #329 awaits owner review
+**Status:** PR #329 merged; Production deployment succeeded; Preview full QA passed; Production visual smoke inconclusive
 
 ## Delivered in this increment
 
@@ -48,7 +48,12 @@
 - Russian and English variants loaded at `?lang=ru` and `?lang=en`; mobile viewport `390 × 844` had no horizontal overflow. No console errors, warnings, runtime errors or unhandled rejections were observed.
 - No lead, message, cart, Production, Sanity write or intentional project-data D1 write was performed.
 - Privacy caveat: the existing consent notice says baseline page-use events are recorded in D1 regardless of optional PostHog consent. The QA did not submit project/lead data; the existing analytics event path was not modified or re-audited here.
-- No Production deployment is included or authorized by this increment.
+## Production release checkpoint
+
+- PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
+- Cloudflare Pages Production deployment `38e83739-a57f-4e10-8d13-d2e40c60c0cc` succeeded for that exact main SHA; aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Read-only Production browser smoke could not verify page rendering because the browser environment returned `ERR_QUIC_PROTOCOL_ERROR` and `ERR_SOCKS_CONNECTION_FAILED`. Response metadata did confirm `noindex, nofollow, noarchive`. This is an inconclusive browser/network check, not evidence that the website is down.
+- Preview full-flow QA remains the successful functional browser test. No customer data, lead, cart, Sanity write, intentional project-data D1 write or Resend email was submitted.
 
 ## Next implementation gates
 
