@@ -20,7 +20,7 @@ Extend the deterministic single-lawn solver regression coverage beyond one recta
 
 - The tests assert accepted geometry, deterministic output, sample generation and head-to-head diagnostics. They do not prove continuous geometric coverage.
 - Hydraulic feasibility, source dynamic pressure, pipe sizing/losses, precipitation uniformity, overspray, wind and body/nozzle compatibility remain unevaluated.
-- The Rain Bird 3500 dataset on main is based on the manufacturer D42378 half-circle operating table. It must not be used to infer 90/270/360-degree operating points without manufacturer-supported evidence or an explicitly reviewed engineering rule. The current layout solver branch does not select 3500.
+- Rain Bird D42378 confirms that the 3500 can be adjusted from 40° to 360° (including reversing full-circle operation), but explicitly states that the published precipitation rates are based on half-circle operation. The current 36-row dataset stores those half-circle precipitation values. Do not treat them as arc-specific measured precipitation for 90°/270°/360° layouts, or scale them by angle without a reviewed engineering rule. Radius and flow use also needs a documented arc-independence decision before being wired into the layout solver. The current layout solver branch does not select 3500.
 - R-VAN remains the user's preferred family for suitable narrow residential lawns; the test matrix does not establish universal superiority or a water-saving percentage.
 
 ## Validation
