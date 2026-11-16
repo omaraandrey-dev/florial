@@ -5,6 +5,7 @@ import { localizedHref } from '../lib/navigation'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
+import { buildPreliminaryLawnLayout } from '../lib/irrigation/irrigationLayoutBridge.mjs'
 
 type WaterSource = 'mains' | 'well' | 'tank' | 'unknown'
 type PressureType = 'static' | 'dynamic' | 'unknown'
@@ -74,7 +75,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Перепад высот или подтверждение его отсутствия',
         network_restrictions: 'Фильтры, счётчики, клапаны и другие ограничения',
       },
-      disclaimer: 'Это структурированная анкета проекта, а не готовый расчёт системы полива. Сейчас проверена только геометрия по вашим размерам. Расположение дождевателей, гидравлика, зоны и совместимость оборудования ещё не рассчитаны. Предварительная геометрическая раскладка не доказывает гидравлическую работоспособность.',
+      disclaimer: 'Это предварительный геометрический сценарий на основе подтверждённого контура и точной таблицы производителя. Он не является гидравлическим расчётом или готовым проектом. Потери в трубах, зоны, давление на соплах, совместимость корпуса и форсунки и отсутствие перелива за границы участка пока не проверены.',
       edit: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', noValue: 'Не указано',
       conversation: 'Диалог с помощником', projectPanel: 'Данные проекта', progress: 'Заполнение проекта',
       assistant: 'Помощник Florial', you: 'Вы', notSent: 'Ответ остаётся в этом окне браузера. На сервер он пока не отправляется.',
@@ -117,7 +118,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Elevation difference or verified zero difference',
         network_restrictions: 'Filters, meters, valves and other restrictions',
       },
-      disclaimer: 'This is a structured project intake, not a completed irrigation design. Only the geometry based on your dimensions has been validated so far. Sprinkler placement, hydraulics, zones and equipment compatibility have not yet been calculated. A preliminary geometric layout does not prove hydraulic feasibility.',
+      disclaimer: 'This is a preliminary geometric scenario based on the confirmed boundary and an exact manufacturer table point. It is not a hydraulic calculation or a completed design. Pipe losses, zones, nozzle pressure, body/nozzle compatibility and overspray beyond the lawn boundary have not been verified.',
       edit: 'Edit answers', home: 'Return to the shop', unit: 'm²', noValue: 'Not provided',
       conversation: 'Assistant conversation', projectPanel: 'Project details', progress: 'Project intake',
       assistant: 'Florial assistant', you: 'You', notSent: 'Your answers stay in this browser view and are not sent to a server yet.',
@@ -160,7 +161,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Разлика във височината или потвърдена липса на такава',
         network_restrictions: 'Филтри, водомери, клапани и други ограничения',
       },
-      disclaimer: 'Това е структурирана анкета за проекта, а не завършен проект за напояване. Засега е проверена само геометрията според въведените размери. Разположението на разпръсквачите, хидравликата, зоните и съвместимостта на оборудването все още не са изчислени. Предварителната геометрична схема не доказва хидравлична работоспособност.',
+      disclaimer: 'Това е предварителен геометричен сценарий според потвърдения контур и точна точка от таблицата на производителя. Това не е хидравлично изчисление или завършен проект. Загубите в тръбите, зоните, налягането при дюзите, съвместимостта на корпуса и дюзата и разпръскването извън тревната площ все още не са проверени.',
       edit: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', noValue: 'Не е посочено',
       conversation: 'Разговор с помощника', projectPanel: 'Данни за проекта', progress: 'Попълване на проекта',
       assistant: 'Помощник Florial', you: 'Вие', notSent: 'Отговорите остават в този прозорец на браузъра и засега не се изпращат към сървър.',
@@ -215,6 +216,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     flowRate, flowMeasurementMethod, notes,
   ])
 
+  const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
   const calculatedArea = geometryValidation?.computedAreaM2 ?? 0
   const calculatedPerimeter = geometryValidation?.computedPerimeterM ?? 0
   const geometryAccepted = readiness.geometryReady
@@ -223,6 +225,42 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const pressureLabel = pressureType === 'dynamic' ? copy.dynamic : pressureType === 'static' ? copy.static : copy.pressureUnknown
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
+  const layoutLabels = language === 'ru' ? {
+    title: 'Предварительная геометрическая раскладка', candidate: 'Кандидат по таблице производителя',
+    heads: 'Количество дождевателей', totalFlow: 'Суммарный расход по таблице, л/мин',
+    coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
+    positions: 'Координаты дождевателей, м', scenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN из таблицы Rain Bird. Это не измеренное давление на дождевателях. Измерения источника воды не подменяют давление на соплах.',
+    limits: 'Выбор R-VAN14/R-VAN18 по короткой стороне — предварительная эвристика, требующая инженерной проверки. Гидравлика, потери в трубах, зонирование, совместимость корпуса и форсунки, препятствия и перелив за границы участка не проверены. Это не готовая спецификация оборудования.',
+    generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
+    incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
+    unsupported: 'Геометрия выходит за текущую область R-VAN v1. Не подменяем расчёт неподтверждённой моделью; для более крупных радиусов нужен отдельный модуль роторов Rain Bird 3500/5000.',
+    narrow: 'Участок уже минимального диапазона, проверенного для текущей раскладки R-VAN. Не уменьшаем радиус по неподтверждённому правилу; нужна отдельная проверка малых форсунок или специалиста.',
+    notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
+    headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
+  } : language === 'en' ? {
+    title: 'Preliminary geometric sprinkler layout', candidate: 'Manufacturer-table candidate',
+    heads: 'Sprinkler count', totalFlow: 'Total tabulated flow, L/min',
+    coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
+    positions: 'Sprinkler coordinates, m', scenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point from its table. It is not measured pressure at the sprinklers. Source measurements are not substituted for nozzle pressure.',
+    limits: 'The R-VAN14/R-VAN18 choice based on the shorter side is a provisional heuristic requiring engineering review. Hydraulics, pipe losses, zoning, body/nozzle compatibility, obstacles and overspray beyond the lawn boundary have not been evaluated. This is not a purchasable equipment specification.',
+    generated: 'The engine generated a preliminary layout with all sampled points covered.',
+    incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
+    unsupported: 'The geometry is outside the current R-VAN v1 scope. No unverified model is substituted; larger throw radii need a separate Rain Bird 3500/5000 rotor module.',
+    narrow: 'The lawn is narrower than the range verified for the current R-VAN layout. We do not reduce throw radius using an unverified rule; a small-nozzle module or specialist review is required.',
+    notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
+    headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
+  } : {
+    title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Кандидат според таблицата на производителя',
+    heads: 'Брой разпръсквачи', totalFlow: 'Общ дебит по таблица, л/мин',
+    coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
+    positions: 'Координати на разпръсквачите, м', scenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според таблицата на Rain Bird. Това не е измерено налягане при разпръсквачите. Измерванията при водоизточника не се приемат за налягане при дюзите.',
+    limits: 'Изборът между R-VAN14/R-VAN18 според по-късата страна е предварителна евристика и изисква инженерна проверка. Хидравликата, загубите в тръбите, зоните, съвместимостта на корпуса и дюзата, препятствията и разпръскването извън тревната площ не са проверени. Това не е готова спецификация за покупка.',
+    generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
+    incomplete: 'Двигателят създаде вариант, но има непокрити контролни точки. Необходима е инженерна проверка.',
+    unsupported: 'Геометрията е извън текущия обхват на R-VAN v1. Не заместваме изчислението с непроверен модел; за по-големи радиуси е необходим отделен модул за ротори Rain Bird 3500/5000.',
+    notReady: 'За изчисление е необходим контур, потвърден от клиента.', engineError: 'Текущият инженерен двигател не поддържа тази геометрия или конфигурация.',
+    headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки',
+  }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
   const progress = showSummary ? 100 : Math.round(step / 4 * 100)
 
@@ -413,6 +451,53 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                 </ul>
               </div>
 
+              {layoutResult && (
+                <section className="rounded-2xl border border-sky-200 bg-sky-50/60 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h3 className="text-base font-bold text-slate-900">{layoutLabels.title}</h3>
+                    <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-sky-900">Preliminary</span>
+                  </div>
+                  {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
+                    <>
+                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.model} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? layoutLabels.generated : layoutLabels.incomplete}</p>
+                      <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.totalFlow}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{numberFormat(layoutResult.layout?.totalFlowLpm ?? 0)}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0)}%</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
+                      </dl>
+                      {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
+                        <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
+                          <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
+                            <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
+                              <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number } }) => (
+                                <circle key={sprinkler.id} cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
+                              ))}
+                            </g>
+                          </svg>
+                        </div>
+                      )}
+                      <div className="mt-3 rounded-xl bg-white p-3 text-sm">
+                        <p className="font-semibold text-slate-800">{layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
+                        <p className="mt-2 text-xs leading-5 text-slate-600">{layoutLabels.scenarioNote}</p>
+                      </div>
+                      <details className="mt-3 rounded-xl bg-white p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
+                        <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
+                          ))}
+                        </ol>
+                      </details>
+                    </>
+                  ) : (
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_rvan_v1_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                  )}
+                  <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
+                </section>
+              )}
               <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{copy.hydraulicNotReady}. {copy.disclaimer}</p>
               <div className="flex flex-wrap gap-3">
                 <button type="button" onClick={() => { setShowSummary(false); setStep(1) }} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
