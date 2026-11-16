@@ -15,6 +15,8 @@ const ERROR = Object.freeze({
   ZERO_AREA_RING: 'zero_area_ring',
   SELF_INTERSECTION: 'self_intersection',
   INVALID_EXCLUSION: 'invalid_exclusion',
+  INVALID_EXCLUSION_LIST: 'invalid_exclusion_list',
+  INVALID_GEOMETRY_MEASUREMENT: 'invalid_geometry_measurement',
   EXCLUSION_OUTSIDE_REGION: 'exclusion_outside_region',
   OVERLAPPING_EXCLUSIONS: 'overlapping_exclusions',
   OVERLAPPING_REGIONS: 'overlapping_regions',
@@ -143,6 +145,22 @@ function normalizeRing(ring, path, errors) {
   }
 
   const count = compact.length
+  for (let index = 0; index < count; index += 1) {
+    const previous = compact[(index - 1 + count) % count]
+    const current = compact[index]
+    const next = compact[(index + 1) % count]
+    const incomingX = previous.x - current.x
+    const incomingY = previous.y - current.y
+    const outgoingX = next.x - current.x
+    const outgoingY = next.y - current.y
+    const reversesAlongSameLine = Math.abs(cross(previous, current, next)) <= EPSILON &&
+      incomingX * outgoingX + incomingY * outgoingY > EPSILON
+    if (reversesAlongSameLine) {
+      errors.push(issue(ERROR.SELF_INTERSECTION, path))
+      return null
+    }
+  }
+
   for (let first = 0; first < count; first += 1) {
     const firstNext = (first + 1) % count
     for (let second = first + 1; second < count; second += 1) {
@@ -161,14 +179,21 @@ function normalizeRing(ring, path, errors) {
     return null
   }
 
+  const areaM2 = Math.abs(signedArea(compact))
+  const perimeterM = compact.reduce((total, point, index) => {
+    const next = compact[(index + 1) % compact.length]
+    return total + Math.hypot(next.x - point.x, next.y - point.y)
+  }, 0)
+  if (!Number.isFinite(areaM2) || !Number.isFinite(perimeterM)) {
+    errors.push(issue(ERROR.INVALID_GEOMETRY_MEASUREMENT, path))
+    return null
+  }
+
   const closed = compact.concat([{ ...compact[0] }])
   return Object.freeze({
     vertices: Object.freeze(closed.map((point) => Object.freeze(point))),
-    areaM2: Math.abs(signedArea(compact)),
-    perimeterM: compact.reduce((total, point, index) => {
-      const next = compact[(index + 1) % compact.length]
-      return total + Math.hypot(next.x - point.x, next.y - point.y)
-    }, 0),
+    areaM2,
+    perimeterM,
     openVertices: compact,
   })
 }
@@ -223,7 +248,11 @@ function classifySupportedShape(ring) {
 }
 
 function validateExclusions(region, regionPath, ids, errors) {
-  const exclusions = Array.isArray(region.exclusions) ? region.exclusions : []
+  if (region.exclusions !== undefined && !Array.isArray(region.exclusions)) {
+    errors.push(issue(ERROR.INVALID_EXCLUSION_LIST, regionPath + '.exclusions'))
+    return []
+  }
+  const exclusions = region.exclusions ?? []
   const normalized = []
 
   exclusions.forEach((exclusion, index) => {
