@@ -1,3 +1,10 @@
+## 2026-11-16 — Emergent irrigation assistant capture and Florial v1 engineering specification
+
+- PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`; preserved the Emergent prototype review, phased migration roadmap and the two supplied source snapshots (`Chat.tsx`, `chat.py`) under `docs/prototypes/emergent-irrigation-assistant/`.
+- The three Florial AI irrigation consultant v1 design documents are being integrated through PR #324 on a fresh branch based on the post-#312 main. They define the product/AI boundary, domain contracts, deterministic lawn-engine design and proposed hydraulic algorithms. They are design proposals, not implementation approval.
+- No Emergent runtime, dependencies, Gemini credentials, D1 schema/data, Sanity data/schema, Cloudflare settings/secrets, Resend or Production deployment were changed.
+- Remaining source-audit gaps: complete Emergent export, dependency manifests/licenses, exact backend/LLM/retrieval/persistence source and configuration shape. See `docs/prototypes/emergent-irrigation-assistant/README.md`.
+
 
 
 ## 2026-11-16 — Irrigation assistant Production browser smoke test
