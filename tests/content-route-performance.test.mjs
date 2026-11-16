@@ -120,3 +120,14 @@ test('service breadcrumb direction is defined in component scope before the SEO 
   assert.match(detail, /\{direction && \(/)
   assert.doesNotMatch(detail.slice(effectStart, detail.indexOf('const sourceBlocks', effectStart)), /const direction =/)
 })
+
+test('service route reserves viewport space and avoids a duplicate raw hero image in middleware HTML', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(app, /function ServiceLoadingState[\\s\\S]*min-h-\\[100svh\\]/)
+  assert.match(app, /activeServiceSlug[\\s\\S]{0,100}<ServiceLoadingState/)
+  assert.match(app, /activeServiceSlug && loadingServiceDetails && !currentService \\? \\([\\s\\S]*?<ServiceLoadingState/)
+  assert.match(middleware, /const image = type === 'product' && doc\\.imageUrl/)
+  assert.match(middleware, /image: doc\\?\\.imageUrl/)
+  assert.doesNotMatch(middleware, /const image = type !== 'category'/)
+})
