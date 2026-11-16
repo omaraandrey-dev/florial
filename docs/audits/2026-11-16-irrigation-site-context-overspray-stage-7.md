@@ -48,3 +48,12 @@ No manual Production deployment or live-service write was performed by this stag
 - Root cause was the test fixture: the half-circle sector extended beyond the synthetic property's north/south edges, while the fixture expected every non-lawn sample to be permitted. The engine correctly counted those samples as outside-site forbidden spray.
 - Corrected fixture now places the entire sampled sector inside the property and the explicit permitted adjacent region. Updated PR head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress at the time of this note. D1 rerun result is not yet confirmed.
 - PR #349 remains open and is not merged. Do not treat the first failed CI as a pass or infer that the corrected head is validated until both exact-head workflows complete successfully.
+
+
+## Final exact-head CI verification
+
+- Current PR #349 head: `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
+- Blog/Studio validation run `43855876224`: success. Type-check application/Pages Functions, lint, website utility tests, website build, migration syntax/dry-run, Studio type-check and Studio build all passed.
+- D1 migration validation run `43855891392`: success.
+- The corrected permitted-adjacent fixture now passes; the earlier failure was a test-fixture boundary issue, not an engine failure.
+- PR #349 remains open and unmerged. No owner authorization to merge this follow-on PR has been given. No Production deployment or live-service write was performed.
