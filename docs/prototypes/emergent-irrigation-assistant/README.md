@@ -215,3 +215,8 @@ PR #342 adds mirrored/rotated L-shape and finer target-sampling regression tests
 ### 2026-11-16 — 3500 search sensitivity presets
 
 PR #344 adds bounded internal search settings for candidate-position spacing (0.25/0.5/1.0 × exact throw radius) and direction increment (15°/30°/45°). These are sensitivity-study controls, not manufacturer design rules. The default remains 0.5 × radius and 45°. The engine remains preliminary, 180°-only and not connected to customer-facing recommendations.
+
+
+### 2026-11-16 — bounded 3500 search controls
+
+PR #344 adds internal, bounded search-resolution options (position factor 0.25/0.5/1.0 and bearing increment 15°/30°/45°) while preserving defaults 0.5 and 45°. They support controlled sensitivity studies only; they are not manufacturer rules and do not certify the generated layout. The 3500 path remains a preliminary internal heuristic, 180° only, with hydraulic/uniformity and customer-facing gates outstanding.
