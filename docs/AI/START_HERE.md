@@ -37,4 +37,4 @@ Manager: [FLORIAL_MANAGER_ARCHITECTURE](../FLORIAL_MANAGER_ARCHITECTURE.md); che
 
 ## Paused work handoff — irrigation engineer assistant
 
-The irrigation-engineering assistant / Rain Bird 3500 work is intentionally paused while the owner works on other Florial website areas. Do not resume or modify PR #349 until explicitly asked. For the exact pause state, decisions, PR status, technical limits, roadmap and mandatory resume procedure, read [PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md](PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md).
+The irrigation-engineering assistant / Rain Bird 3500 work is intentionally paused after stage 7. PR #349 is merged into main at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`. Do not begin stage 8 until the owner explicitly resumes this engineering work. For the exact pause state, decisions, verified merge, technical limits and roadmap, read [PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md](PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md).
