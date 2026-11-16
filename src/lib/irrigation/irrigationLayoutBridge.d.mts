@@ -21,7 +21,7 @@ export interface PreliminaryLawnLayoutResult {
   readonly overspray: 'not_evaluated'
   readonly reason?: string
   readonly shortSideM?: number
-  readonly supportedNextFamilies?: ReadonlyArray<string>
+  readonly plannedNextFamily?: 'Rain Bird 3500'
   readonly engine?: Readonly<{ name: string; version: string; algorithm: string | null }>
   readonly operatingScenario?: Readonly<{
     manufacturer: string

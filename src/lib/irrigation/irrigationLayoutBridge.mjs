@@ -75,7 +75,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     return result('requires_rotor_engine', {
       shortSideM,
       reason: 'requires_large_rotor_engine_or_engineer_review',
-      supportedNextFamilies: Object.freeze(['Rain Bird 3500', 'Rain Bird 5000']),
+      plannedNextFamily: 'Rain Bird 3500',
     })
   }
 
