@@ -1,3 +1,20 @@
+## 2026-11-16 — Emergent source audit and Florial integration direction (PR #326)
+
+- PR #326 merged as `0bdbc5e3acbcc65c1a372b7b77706bd766edd0cf`. Added `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md` and updated the Emergent prototype roadmap.
+- The audit distinguishes two source files preserved in GitHub from additional backend/frontend files reviewed in the earlier owner conversation but not archived. A complete reproducible Emergent export, dependency manifests/lockfiles, license inventory and tests remain unpreserved.
+- Public Emergent preview inspection found a static-preview notice, 0/5 site fields, 0/0 knowledge documents, 0 requests and assistant errors on two harmless prompts. This does not prove the underlying backend is absent; “Resume Preview” redirected to Emergent login.
+- Florial main already has geometry validation, exact R-VAN/HE-VAN manufacturer datasets, a deterministic sampled layout solver and measured DUlq utility. The customer page still does not invoke the layout solver, call AI, persist a project, show a purchasable BOM or add items to cart.
+- Exact-head validation for PR #326: Blog/Studio run `43831658469` success; D1 validation run `43831658324` success. Documentation-only; no Production deployment or live-service changes.
+- PR #311 was closed as superseded after its branch diverged (10 commits ahead / 17 behind). Its historical #308–#310 facts are preserved below; no runtime code was discarded.
+
+## 2026-11-16 — Irrigation assistant navigation and manufacturer data milestones (PRs #308–#310)
+
+- PR #308 merged as `56ce170dc100f900d55c0cfb85bdfc402fb3345e`: localized semantic breadcrumbs on the assistant route to Home, irrigation catalogue and irrigation systems service direction.
+- PR #309 merged as `40c0e06e077a389f3b2f15bd6d4d89792a41ae69`: read-only Sanity Production inventory of 20 sprinkler/body and 26 nozzle products. All 46 had published EUR prices, `stockStatus: onRequest` and no `productType`; category references are the correct equipment filter.
+- PR #310 merged as `a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219`: 36 exact Rain Bird 3500 metric manufacturer operating points and exact SKU mappings; no interpolation or extrapolation.
+- Exact-head CI passed for #308 (Blog/Studio `43789182046`, D1 `43789182043`), #309 (`43789391620`, `43789391605`) and #310 (`43789456998`, `43789457001`). Cloudflare Pages Production deployment `b3134a66-bce1-4c1e-8d77-fde2231260de` succeeded for exact commit `a9dc18be8a0d0c2266bd77170c0f8dd6b1ce8219`.
+- Later work added geometry intake, R-VAN/HE-VAN datasets and the sampled layout solver; see the 2026-11-16 irrigation audits and engineering v1 specifications.
+- No Sanity writes/schema changes, D1 writes/schema changes, secrets, Resend, DNS, Header, menu or Footer changes.
 ## 2026-11-16 — Emergent irrigation assistant capture and Florial v1 engineering specification
 
 - PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`; preserved the Emergent prototype review, phased migration roadmap and the two supplied source snapshots (`Chat.tsx`, `chat.py`) under `docs/prototypes/emergent-irrigation-assistant/`.

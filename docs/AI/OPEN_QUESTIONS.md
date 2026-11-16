@@ -1,3 +1,14 @@
+## 2026-11-16 — Emergent audit and next implementation gates
+
+- **Source archive:** additional Emergent files were supplied/reviewed in the earlier conversation (FastAPI chat/documents/leads routes, Gemini LLM module, keyword retrieval, seed data, Pydantic models, React app shell/styles), but only `Chat.tsx` and `models/chat.py` are stored in GitHub. Complete export, manifests/lockfiles, licenses and tests are not preserved. Audit: `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md`.
+- **Public preview:** static preview; 0/5 site parameters, knowledge 0/0, 0 requests; two harmless chat prompts returned an assistant error. Backend absence is not proven.
+- **Current Florial gap:** assistant UI is still a three-step local intake/summary; it does not call the existing deterministic layout solver, AI, persistence, live catalogue selection or cart.
+- **Next product milestone:** native guided flow with provenance-aware inputs, explicit static/dynamic pressure and measurement conditions, supported geometry confirmation, exact manufacturer-point selection, sampled layout preview and honest non-hydraulic status. Do not claim hydraulic feasibility from source flow alone.
+- **Before automatic purchasable BOM:** verify complete body/nozzle/regulator compatibility, source pressure-flow model, pipe internal diameters and losses, zoning constraints, precipitation matching and overspray rules; resolve live Sanity price/stock.
+- **AI/persistence gates:** define structured output validation, approved-source retrieval, authentication/ownership, consent, retention/deletion, rate limits and cost controls. Gemini must not invent manufacturer data or override the deterministic solver. D1 schema/secret/Production changes require separate approval.
+- **Specialist handoff:** distinguish request persistence, Resend acceptance and human follow-up; this assistant workflow is not implemented.
+- PR #326 documentation audit merged as `0bdbc5e3acbcc65c1a372b7b77706bd766edd0cf`; exact-head CI passed (Blog/Studio `43831658469`, D1 `43831658324`).
+
 ## 2026-11-16 — Emergent capture and AI irrigation consultant design
 
 - **Captured:** PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`. The repository now contains the Emergent prototype review, migration roadmap and partial `Chat.tsx` / `chat.py` source snapshots.

@@ -1,3 +1,13 @@
+## 2026-11-16 — Emergent audit and current irrigation-assistant status
+
+- Audit record: `docs/audits/2026-11-16-emergent-irrigation-assistant-source-audit.md`; roadmap: `docs/prototypes/emergent-irrigation-assistant/README.md`.
+- Emergent source supplied in prior chat included the React chat shell, FastAPI conversation/document/lead routes, Pydantic models, Gemini integration, keyword retrieval, seed data and frontend app shell/styles. Only `Chat.tsx` and `models/chat.py` are preserved in GitHub; the complete reproducible export, package manifests/lockfiles, dependency licenses and tests are not archived.
+- Public preview currently shows a static preview, empty knowledge base (0/0 documents, 0 requests), no populated site parameters and errors for two harmless chat prompts. Backend health/source is not confirmed by the public preview.
+- Florial assistant page `src/pages/IrrigationAssistantPage.tsx` remains a localized three-step intake and local summary. Code inspection confirms it does not call `generateLawnSprinklerLayout`, invoke an AI endpoint, persist a project, resolve a BOM or add products to the cart.
+- Existing code foundation: `lawnGeometry.mjs`, `lawnSprinklerLayout.mjs`, exact R-VAN/HE-VAN datasets, Rain Bird 3500 performance data and `distributionUniformity.mjs`. Layout is sampled geometric coverage only; hydraulics, zoning, pipe losses, overspray, precipitation uniformity and complete body/nozzle compatibility are not established.
+- PR #326 merged as `0bdbc5e3acbcc65c1a372b7b77706bd766edd0cf`; exact-head Blog/Studio run `43831658469` and D1 run `43831658324` passed. No Production deployment or live-service writes were performed.
+- Target: adapt Emergent's progressive conversational UX, rebuild frontend/backend natively in Florial, keep Gemini as a clarification/explanation layer, and keep deterministic Florial code as the engineering authority. See audit for KEEP/ADAPT/REPLACE and stage gates.
+
 ## 2026-11-16 — Emergent irrigation assistant capture and consultant specification
 
 - PR #312 merged as `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`; source snapshots and review evidence are stored under `docs/prototypes/emergent-irrigation-assistant/`. Captured `Chat.tsx` and `chat.py` are partial archive files, not production components.

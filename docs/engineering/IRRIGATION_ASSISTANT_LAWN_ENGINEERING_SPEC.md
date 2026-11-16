@@ -1,6 +1,6 @@
 # Engineering specification — lawn irrigation assistant (Rain Bird first)
 
-Status: approved direction / engineering design, not yet an implemented calculator  
+Status: approved engineering direction; geometry intake, manufacturer datasets and preliminary sampled layout engine implemented; full hydraulic calculator and purchasable equipment selector not yet implemented  
 Date: 2026-11-15  
 Project: Florial Bulgaria  
 Scope: first calculation module — automatic lawn irrigation
