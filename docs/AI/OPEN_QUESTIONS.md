@@ -2,8 +2,8 @@
 
 - PR #353 is merged and Production deployment succeeded on exact main SHA `74642455efe284730cdf442efc1b82182e10eda8`; deployment `4060e639-d643-496d-ae3f-65706cd85000`.
 - The loading-space reservation and duplicate raw service-image fallback changes are live by deployment evidence, but their actual CLS/transfer impact is not measured.
-- Outstanding: complete read-only Production browser smoke (BG/RU/EN, mobile/desktop, hero/footer/console); verify initial HTML/image requests and currentSrc; capture three matched Lighthouse mobile and desktop runs and compare medians against the supplied single-run baseline. Do not claim improvement before this.
-- Earlier Preview browser attempt failed at the browser environment network layer (`ERR_SOCKS_CONNECTION_FAILED`), not a confirmed site error. A new Production read-only browser run was pending at this record.
+- Outstanding: verify initial HTML/image requests and currentSrc; capture three matched Lighthouse mobile and desktop runs and compare medians against the supplied single-run baseline. Do not claim improvement before this.
+- Earlier Preview browser attempt failed at the browser environment network layer (`ERR_SOCKS_CONNECTION_FAILED`), not a confirmed site error. A subsequent read-only Production browser smoke passed at 1440×900 and 390×844: hero and Footer rendered, mobile had no horizontal overflow, and no console/runtime errors were observed. The privacy dialog/help widget remained visible and untouched. Browser smoke does not measure CLS timing, transfer bytes or currentSrc.
 - Details: `docs/audits/2026-11-16-performance-service-cls-and-image-fallback.md`.
 
 ## 2026-11-16 — Intake v1 Preview verification
