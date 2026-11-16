@@ -1,4 +1,5 @@
 import type { LawnGeometryInput } from './lawnGeometry.mjs'
+import type { IrrigationSiteContextInput } from './irrigationSiteContext.mjs'
 
 export interface RainBird3500RotorInput {
   readonly id: string
@@ -15,6 +16,7 @@ export interface RainBird3500RotorEvaluationInput {
   readonly nozzle: number
   readonly sprinklers: ReadonlyArray<RainBird3500RotorInput>
   readonly sampleStepM?: number
+  readonly siteContext?: IrrigationSiteContextInput
 }
 
 export interface RainBird3500RotorEvaluationResult {
@@ -22,6 +24,7 @@ export interface RainBird3500RotorEvaluationResult {
   readonly family: '3500'
   readonly status: string
   readonly coverageScope?: 'sampled_geometry_only'
+  readonly siteContext?: Readonly<{ status: 'confirmed' | 'not_provided'; oversprayPolicy: 'whole_site_context' | 'conservative_lawn_boundary' }>
   readonly operatingPoint?: Readonly<{
     nozzlePressureBar: number
     nozzle: number
@@ -65,11 +68,18 @@ export interface RainBird3500RotorEvaluationResult {
   }>
   readonly overspray?: Readonly<{
     status: string
+    scope?: 'site_boundary_and_spray_policy' | 'lawn_boundary_only'
     checks: ReadonlyArray<Readonly<{
       sprinklerId: string
       sampledSectorPoints: number
       sampledOutsidePoints: number
       sampledOutsidePercent: number
+      sampledForbiddenPoints: number
+      sampledForbiddenPercent: number
+      sampledPermittedAdjacentPoints: number
+      sampledNoSprayPoints: number
+      sampledOutsideSitePoints: number
+      sampledUnapprovedOnSitePoints: number
     }>>
   }>
   readonly totalFlowLpm?: number

@@ -131,3 +131,97 @@ test('rejects duplicate IDs, missing directions and rotor positions outside the 
   })
   assert.equal(outside.status, 'invalid_layout')
 })
+
+function siteContext({ noSprayRegions = [] } = {}) {
+  const square = (x1, y1, x2, y2) => ({
+    vertices: [
+      { x: x1, y: y1 }, { x: x2, y: y1 }, { x: x2, y: y2 },
+      { x: x1, y: y2 }, { x: x1, y: y1 },
+    ],
+  })
+  return {
+    schemaVersion: 1,
+    coordinateSystem: 'local_cartesian_m',
+    status: 'confirmed',
+    siteBoundary: square(0, -8, 20, 16),
+    permittedSprayRegions: [{ id: 'adjacent-bed', polygon: square(0, -8, 20, 16) }],
+    noSprayRegions,
+  }
+}
+
+test('whole-site context distinguishes permitted adjacent spray from prohibited overflow', () => {
+  const allowed = evaluateRainBird3500RotorLayout({
+    geometry: geometry(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sprinklers: [{ id: 'east-head', position: { x: 3, y: 4 }, directionDeg: 0, arcDeg: 180 }],
+    sampleStepM: 0.5,
+    siteContext: siteContext(),
+  })
+  assert.equal(allowed.siteContext.status, 'confirmed')
+  assert.equal(allowed.overspray.scope, 'site_boundary_and_spray_policy')
+  assert.ok(allowed.overspray.checks[0].sampledOutsidePoints > 0)
+  assert.equal(allowed.overspray.checks[0].sampledForbiddenPoints, 0)
+  assert.ok(allowed.overspray.checks[0].sampledPermittedAdjacentPoints > 0)
+  assert.equal(allowed.overspray.status, 'no_forbidden_spray_in_sampled_sector')
+})
+
+test('whole-site context flags spray entering a no-spray pool even inside the property', () => {
+  const pool = { id: 'pool', kind: 'pool', polygon: {
+    vertices: [
+      { x: 12, y: 2 }, { x: 16, y: 2 }, { x: 16, y: 7 },
+      { x: 12, y: 7 }, { x: 12, y: 2 },
+    ],
+  } }
+  const result = evaluateRainBird3500RotorLayout({
+    geometry: geometry(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sprinklers: [{ id: 'east-head', position: { x: 3, y: 4 }, directionDeg: 0, arcDeg: 180 }],
+    sampleStepM: 0.5,
+    siteContext: siteContext({ noSprayRegions: [pool] }),
+  })
+  assert.ok(result.overspray.checks[0].sampledNoSprayPoints > 0)
+  assert.ok(result.overspray.checks[0].sampledForbiddenPoints > 0)
+  assert.equal(result.overspray.status, 'sampled_forbidden_spray_detected')
+})
+
+test('rejects unconfirmed or lawn-external site contexts before evaluation', () => {
+  const draft = siteContext()
+  draft.status = 'draft'
+  const unconfirmed = evaluateRainBird3500RotorLayout({
+    geometry: geometry(), nozzlePressureBar: 2.5, nozzle: 4,
+    sprinklers: twoRotors, siteContext: draft,
+  })
+  assert.equal(unconfirmed.status, 'site_context_not_accepted')
+  const outside = siteContext()
+  outside.siteBoundary = { vertices: [
+    { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 },
+  ] }
+  const notContained = evaluateRainBird3500RotorLayout({
+    geometry: geometry(), nozzlePressureBar: 2.5, nozzle: 4,
+    sprinklers: twoRotors, siteContext: outside,
+  })
+  assert.equal(notContained.status, 'site_context_not_accepted')
+})
+
+test('whole-site context separately counts spray beyond the property boundary', () => {
+  const context = siteContext()
+  context.siteBoundary = {
+    vertices: [
+      { x: 0, y: 0 }, { x: 12, y: 0 }, { x: 12, y: 8 },
+      { x: 0, y: 8 }, { x: 0, y: 0 },
+    ],
+  }
+  context.permittedSprayRegions = []
+  const result = evaluateRainBird3500RotorLayout({
+    geometry: geometry(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sprinklers: [{ id: 'east-head', position: { x: 3, y: 4 }, directionDeg: 0, arcDeg: 180 }],
+    sampleStepM: 0.5,
+    siteContext: context,
+  })
+  assert.ok(result.overspray.checks[0].sampledOutsideSitePoints > 0)
+  assert.ok(result.overspray.checks[0].sampledForbiddenPoints > 0)
+})

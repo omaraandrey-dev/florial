@@ -1,8 +1,9 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { validateIrrigationSiteContext } from './irrigationSiteContext.mjs'
 import { findRainBird3500PerformancePoint } from './irrigationPerformanceData.mjs'
 import { evaluateRainBird3500RotorLayout } from './rainBird3500RotorEngine.mjs'
 
-const ENGINE_VERSION = '3500-candidate-generator-0.2.0'
+const ENGINE_VERSION = '3500-candidate-generator-0.3.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_TARGETS = 30000
@@ -270,6 +271,7 @@ export function generateRainBird3500RotorLayout({
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
   candidatePositionStepFactor = 0.5,
   candidateDirectionStepDeg = DEFAULT_DIRECTION_STEP_DEG,
+  siteContext,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || validation.status !== 'accepted') {
@@ -286,12 +288,20 @@ export function generateRainBird3500RotorLayout({
       !ALLOWED_DIRECTION_STEPS.includes(candidateDirectionStepDeg)) {
     return failure('invalid_operating_input', 'exact_nozzle_pressure_nozzle_and_positive_sample_step_required', 'operatingPoint')
   }
+  let validatedSiteContext = null
+  if (siteContext !== undefined) {
+    validatedSiteContext = validateIrrigationSiteContext(siteContext)
+    if (!validatedSiteContext.valid) return failure('site_context_not_accepted', 'confirmed_valid_site_context_required', 'siteContext')
+  }
   const point = findRainBird3500PerformancePoint(nozzlePressureBar, nozzle)
   if (!point) {
     return failure('operating_point_not_found', 'exact_d42378_pressure_and_nozzle_pair_required', 'operatingPoint')
   }
 
   const vertices = validation.normalizedGeometry.regions[0].boundary.vertices.slice(0, -1)
+  if (validatedSiteContext && vertices.some((vertex) => pointInRing(vertex, validatedSiteContext.siteBoundary) < 0)) {
+    return failure('site_context_not_accepted', 'lawn_boundary_must_be_inside_site_boundary', 'geometry')
+  }
   const targets = buildTargets(vertices, sampleStepM)
   if (!targets) return failure('sampling_limit_exceeded', 'coverage_sampling_limit_exceeded', 'sampleStepM')
   const positions = buildCandidatePositions(vertices, point.radiusM, candidatePositionStepFactor, candidateDirectionStepDeg)
@@ -314,6 +324,7 @@ export function generateRainBird3500RotorLayout({
     nozzle,
     sprinklers: layout,
     sampleStepM,
+    siteContext,
   })
   const uncovered = selection.uncovered.size
   const warnings = [

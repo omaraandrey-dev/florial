@@ -3378,3 +3378,10 @@ Backups:
 - PR #349 (stage 7 site context / whole-site overspray) was fetched as `open`, `merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`; previous merge attempt timed out / returned 405. It is intentionally left untouched. Do not retry merge, close, retarget or modify it until the owner explicitly resumes this task.
 - No runtime code, Sanity data/schema, D1 data/schema, Cloudflare configuration/secrets, Resend or Production deployment was changed by this pause handoff.
 - On resumption, fetch current main and reread the mandatory docs, then verify PR #349 and reconcile all stage documentation before continuing stage 8. The handoff contains the exact sequence and roadmap.
+
+## 2026-11-16 — Rain Bird 3500 site-context stage 7 integration sync
+
+- PR #349 exact current head before documentation synchronization: `efd03a2d7b850e37e19599e28e8d509c266636e0`.
+- Runtime/test changes were unchanged after the verified code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03`; the current head also passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`.
+- The PR branch was behind the current `main` by five documentation-only commits. The three shared history documents were synchronized from current `main` before integrating stage 7, preserving the current pause handoff and all unrelated website documentation.
+- Site-context stage 7 remains preliminary: sampled overspray policy checks only; candidate search does not yet optimize around forbidden zones; 0.25 m sampled containment is not an exact/continuous proof. No Production or live-service writes.

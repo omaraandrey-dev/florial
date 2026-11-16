@@ -3537,3 +3537,9 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - At the pause checkpoint, main SHA was `ac705db95e87e2cd51fe74e70d15128d2833b5f7`; stages 5/6 (#347/#348) were merged. PR #349 stage 7 was still open/unmerged (`merged=false`, head `efd03a2d7b850e37e19599e28e8d509c266636e0`) and must remain untouched until explicit resumption. The reported `merge_commit_sha` is not proof of merge.
 - Do not claim site-context/whole-site overspray stage 7 is in main. Do not continue to stage 8 while paused.
 - This checkpoint changed documentation only; no runtime or live service was modified.
+
+## 2026-11-16 — Rain Bird 3500 stage 7 integration checkpoint
+
+- Stage 7 adds `irrigationSiteContext.mjs` and declarations, plus optional site-context support in the Rain Bird 3500 evaluator and candidate generator. It classifies sampled spray as target lawn, permitted adjacent, no-spray, unapproved on-site or outside-site; no-spray takes precedence over permission.
+- PR #349 current exact head before documentation synchronization: `efd03a2d7b850e37e19599e28e8d509c266636e0`. Blog/Studio validation `43860117598` and D1 validation `43856450266` passed. Runtime/test code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03` had exact-head CI success; later head changes were documentation-only.
+- This is sampled preliminary validation only. Site-zone containment uses 0.25 m boundary sampling; candidate search does not yet optimize around forbidden zones. Hydraulics, predicted DU/SC, wind drift, installation clearances and full body/nozzle/package compatibility remain unevaluated. No customer-facing wiring or Production deployment.

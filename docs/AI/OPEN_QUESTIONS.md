@@ -556,3 +556,10 @@
 - PR #347/#348 stage 5/6 were in main at checkpoint SHA `ac705db95e87e2cd51fe74e70d15128d2833b5f7`. PR #349 stage 7 remains pending integration; last verified head `efd03a2d7b850e37e19599e28e8d509c266636e0`.
 - Authoritative continuation instructions and roadmap: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md`.
 - On resumption: reread current repository instructions/docs, verify current main and PR #349 state, reconcile audit/passport/changelog/open questions, then continue stage 8 only after stage 7 is correctly integrated and documented.
+
+## 2026-11-16 — Stage 7 integration checkpoint
+
+- PR #349 introduces confirmed whole-site context and sampled spray classification for permitted adjacent regions, no-spray regions, unapproved on-site areas and outside-site areas.
+- Exact current PR head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`; runtime/test code was last changed at `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
+- Stage 8 remains open: candidate search must incorporate no-spray/unapproved regions into placement and direction scoring, not only post-selection checks.
+- Exact polygon containment/adversarial geometry, continuous spray proof, engineer-reviewed reference layouts, hydraulics, DU/SC, wind, installation clearances and full product compatibility remain open. No customer-facing design-ready status.

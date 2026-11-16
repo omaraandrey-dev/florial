@@ -1,10 +1,11 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { classifyIrrigationSprayPoint, validateIrrigationSiteContext } from './irrigationSiteContext.mjs'
 import {
   findRainBird3500PerformancePoint,
   RAIN_BIRD_3500_DATASET,
 } from './irrigationPerformanceData.mjs'
 
-const ENGINE_VERSION = '3500-evaluation-0.1.0'
+const ENGINE_VERSION = '3500-evaluation-0.2.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.25
 const MAX_SAMPLE_POINTS = 30000
@@ -83,7 +84,7 @@ function sampleGeometry(vertices, stepM) {
   return points
 }
 
-function countOverspray(vertices, sprinkler, radiusM, stepM) {
+function countOverspray(vertices, sprinkler, radiusM, stepM, siteContext) {
   const extent = radiusM
   const minX = sprinkler.position.x - extent
   const maxX = sprinkler.position.x + extent
@@ -93,17 +94,34 @@ function countOverspray(vertices, sprinkler, radiusM, stepM) {
   const rows = Math.ceil((maxY - minY) / stepM)
   let sectorSamples = 0
   let outsideSamples = 0
+  let forbiddenSamples = 0
+  let permittedAdjacentSamples = 0
+  let noSpraySamples = 0
+  let outsideSiteSamples = 0
+  let unapprovedOnSiteSamples = 0
   for (let row = 0; row <= rows; row += 1) {
     const y = minY + row * stepM
     for (let column = 0; column <= columns; column += 1) {
       const point = { x: minX + column * stepM, y }
       if (sectorContains(point, sprinkler, radiusM)) {
         sectorSamples += 1
-        if (pointInRing(point, vertices) < 0) outsideSamples += 1
+        if (pointInRing(point, vertices) < 0) {
+          outsideSamples += 1
+          if (siteContext) {
+            const classification = classifyIrrigationSprayPoint({ point, siteContext, lawnBoundary: vertices })
+            if (classification === 'permitted_adjacent') permittedAdjacentSamples += 1
+            else if (classification === 'no_spray') { noSpraySamples += 1; forbiddenSamples += 1 }
+            else if (classification === 'outside_site') { outsideSiteSamples += 1; forbiddenSamples += 1 }
+            else if (classification === 'unapproved_on_site' || classification === 'unknown') {
+              unapprovedOnSiteSamples += 1
+              forbiddenSamples += 1
+            }
+          } else forbiddenSamples += 1
+        }
       }
     }
   }
-  return { sectorSamples, outsideSamples }
+  return { sectorSamples, outsideSamples, forbiddenSamples, permittedAdjacentSamples, noSpraySamples, outsideSiteSamples, unapprovedOnSiteSamples }
 }
 
 function invalidResult(status, code, path) {
@@ -130,6 +148,7 @@ export function evaluateRainBird3500RotorLayout({
   nozzle,
   sprinklers,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
+  siteContext,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || validation.status !== 'accepted') {
@@ -165,6 +184,14 @@ export function evaluateRainBird3500RotorLayout({
   }
 
   const vertices = validation.normalizedGeometry.regions[0].boundary.vertices.slice(0, -1)
+  let validatedSiteContext = null
+  if (siteContext !== undefined) {
+    validatedSiteContext = validateIrrigationSiteContext(siteContext)
+    if (!validatedSiteContext.valid) return invalidResult('site_context_not_accepted', 'confirmed_valid_site_context_required', 'siteContext')
+    if (vertices.some((vertex) => pointInRing(vertex, validatedSiteContext.siteBoundary) < 0)) {
+      return invalidResult('site_context_not_accepted', 'lawn_boundary_must_be_inside_site_boundary', 'geometry')
+    }
+  }
   const targets = sampleGeometry(vertices, sampleStepM)
   if (!targets) return invalidResult('sampling_limit_exceeded', 'coverage_sampling_limit_exceeded', 'sampleStepM')
 
@@ -191,14 +218,18 @@ export function evaluateRainBird3500RotorLayout({
   const uncovered = targets.filter((target) =>
     !normalized.some((sprinkler) => sectorContains(target, sprinkler, point.radiusM)))
   const overspray = normalized.map((sprinkler) => {
-    const counts = countOverspray(vertices, sprinkler, point.radiusM, sampleStepM)
+    const counts = countOverspray(vertices, sprinkler, point.radiusM, sampleStepM, validatedSiteContext)
     return Object.freeze({
       sprinklerId: sprinkler.id,
       sampledSectorPoints: counts.sectorSamples,
       sampledOutsidePoints: counts.outsideSamples,
-      sampledOutsidePercent: counts.sectorSamples
-        ? counts.outsideSamples / counts.sectorSamples * 100
-        : 0,
+      sampledOutsidePercent: counts.sectorSamples ? counts.outsideSamples / counts.sectorSamples * 100 : 0,
+      sampledForbiddenPoints: counts.forbiddenSamples,
+      sampledForbiddenPercent: counts.sectorSamples ? counts.forbiddenSamples / counts.sectorSamples * 100 : 0,
+      sampledPermittedAdjacentPoints: counts.permittedAdjacentSamples,
+      sampledNoSprayPoints: counts.noSpraySamples,
+      sampledOutsideSitePoints: counts.outsideSiteSamples,
+      sampledUnapprovedOnSitePoints: counts.unapprovedOnSiteSamples,
     })
   })
 
@@ -223,7 +254,7 @@ export function evaluateRainBird3500RotorLayout({
 
   const coverageComplete = uncovered.length === 0
   const headToHeadPassed = headToHead.every((entry) => entry.passed)
-  const oversprayDetected = overspray.some((entry) => entry.sampledOutsidePoints > 0)
+  const oversprayDetected = overspray.some((entry) => entry.sampledForbiddenPoints > 0)
   const warnings = [
     Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_proof', path: 'coverage' }),
     Object.freeze({ code: 'manufacturer_precipitation_is_half_circle_reference_only', path: 'precipitation' }),
@@ -232,7 +263,8 @@ export function evaluateRainBird3500RotorLayout({
     Object.freeze({ code: 'body_nozzle_package_compatibility_not_verified', path: 'compatibility' }),
     Object.freeze({ code: 'radius_adjustment_not_applied_due_to_source_conflict', path: 'radiusM' }),
   ]
-  if (oversprayDetected) warnings.push(Object.freeze({ code: 'sampled_overspray_detected', path: 'boundary' }))
+  if (oversprayDetected) warnings.push(Object.freeze({ code: validatedSiteContext ? 'sampled_forbidden_spray_detected' : 'sampled_overspray_detected_without_site_context', path: 'siteContext/boundary' }))
+  if (!validatedSiteContext) warnings.push(Object.freeze({ code: 'whole_site_spray_context_missing', path: 'siteContext' }))
   if (!headToHeadPassed) warnings.push(Object.freeze({ code: 'directional_head_to_head_failed', path: 'headToHead' }))
 
   return Object.freeze({
@@ -242,6 +274,7 @@ export function evaluateRainBird3500RotorLayout({
       ? 'coverage_complete_sampled'
       : 'preliminary_review_required',
     coverageScope: 'sampled_geometry_only',
+    siteContext: Object.freeze({ status: validatedSiteContext ? 'confirmed' : 'not_provided', oversprayPolicy: validatedSiteContext ? 'whole_site_context' : 'conservative_lawn_boundary' }),
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
       shape: validation.regions[0].shape,
@@ -268,7 +301,8 @@ export function evaluateRainBird3500RotorLayout({
     sprinklers: Object.freeze(normalized),
     headToHead: Object.freeze({ passed: headToHeadPassed, checks: Object.freeze(headToHead) }),
     overspray: Object.freeze({
-      status: oversprayDetected ? 'sampled_overspray_detected' : 'no_overspray_in_sampled_sector',
+      status: oversprayDetected ? (validatedSiteContext ? 'sampled_forbidden_spray_detected' : 'sampled_overspray_detected') : validatedSiteContext ? 'no_forbidden_spray_in_sampled_sector' : 'no_overspray_in_sampled_sector',
+      scope: validatedSiteContext ? 'site_boundary_and_spray_policy' : 'lawn_boundary_only',
       checks: Object.freeze(overspray),
     }),
     totalFlowLpm: normalized.reduce((sum, entry) => sum + entry.flowLpm, 0),
