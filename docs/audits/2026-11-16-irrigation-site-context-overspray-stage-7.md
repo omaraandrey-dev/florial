@@ -1,7 +1,7 @@
 # Irrigation site context and overspray validation — stage 7
 
 Date: 2026-11-16  
-Status: implementation candidate; CI and engineering review pending.
+Status: merged into main as preliminary stage-7 implementation; engineering validation gates remain open.
 
 ## Scope
 
@@ -32,7 +32,7 @@ A sample outside the target lawn is therefore not automatically a violation: it 
 
 ## Next engineering gates
 
-1. Run exact-head Blog/Studio and D1 CI; inspect failures and fix before merge.
+1. Exact-head Blog/Studio and D1 CI passed before merge; PR #349 is merged. Future changes must run CI against their own exact head.
 2. Add adversarial concave-site / zone-boundary tests and strengthen containment beyond sampled checks.
 3. Make candidate generation reject/avoid no-spray and unapproved site areas during selection, not only after selection.
 4. Add whole-site context capture to the assistant conversation, including provenance and explicit customer confirmation.
@@ -47,13 +47,22 @@ No manual Production deployment or live-service write was performed by this stag
 - Initial PR head `722748808f370d1dc59ff129ed09a1c862e8b84e`: D1 validation run `43855290730` passed; Blog/Studio run `43855290610` failed one new permitted-adjacent-spray fixture assertion. All other website tests passed (277/278); type-check and lint had passed.
 - Root cause was the test fixture: the half-circle sector extended beyond the synthetic property's north/south edges, while the fixture expected every non-lawn sample to be permitted. The engine correctly counted those samples as outside-site forbidden spray.
 - Corrected fixture now places the entire sampled sector inside the property and the explicit permitted adjacent region. Updated PR head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress at the time of this note. D1 rerun result is not yet confirmed.
-- PR #349 remains open and is not merged. Do not treat the first failed CI as a pass or infer that the corrected head is validated until both exact-head workflows complete successfully.
+- The initial fixture failure was corrected; do not treat that first failed run as a pass. Final exact-head validation is recorded below.
 
 
 ## Final exact-head CI verification
 
-- Current PR #349 head: `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
+- Exact runtime/test code commit: `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
 - Blog/Studio validation run `43855876224`: success. Type-check application/Pages Functions, lint, website utility tests, website build, migration syntax/dry-run, Studio type-check and Studio build all passed.
 - D1 migration validation run `43855891392`: success.
 - The corrected permitted-adjacent fixture now passes; the earlier failure was a test-fixture boundary issue, not an engine failure.
-- PR #349 remains open and unmerged. No owner authorization to merge this follow-on PR has been given. No Production deployment or live-service write was performed.
+- PR #349 merged successfully at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`; GitHub reports `merged=true` and closed.
+- Later documentation-only PR head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio run `43860117598` and D1 run `43856450266`.
+- Post-merge reads confirmed the site-context module, evaluator/generator changes, tests and this audit are present in `main`. No Production deployment or live-service write was performed.
+
+## Merge verification
+
+- Final PR head after synchronizing with current main: `c7eeff0b8214d2f1571ceaf0f55964975bf714a3`.
+- GitHub merge commit: `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`; PR state `closed`, `merged=true`, merged at `2026-11-16T11:57:32Z`.
+- Current main contains this audit and all stage-7 runtime, declaration and regression-test files.
+- The merge did not deploy Production and did not modify Sanity, D1 data/schema, Cloudflare settings/secrets or Resend.
