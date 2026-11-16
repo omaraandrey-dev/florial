@@ -1,3 +1,14 @@
+## 2026-11-16 — Whole-site irrigation context and overflow gates
+
+- PR #347/#348 are merged; see `docs/audits/2026-11-16-rain-bird-3500-search-sensitivity-stage-5.md` and `docs/audits/2026-11-16-rain-bird-3500-h2h-aware-selection-stage-6.md`. Stage 5 exposed H2H/overspray failures; stage 6 constrains mutual H2H but does not solve overspray.
+- Stage 7 candidate: `docs/audits/2026-11-16-irrigation-site-context-overspray-stage-7.md`.
+- **Still open:** approve the business semantics for permitted adjacent spray areas (e.g. another planted/irrigated zone) versus areas that must remain dry. The engine currently requires explicit polygons and treats all unapproved non-lawn site areas as forbidden.
+- **Still open:** replace/augment 0.25 m sampled zone containment with exact robust segment/polygon containment and adversarial tests for concave boundaries, touching edges, narrow exclusions and overlapping policy zones.
+- **Still open:** integrate site-context capture and provenance into the conversational intake; customer confirmation must be explicit. A drawn/AI-inferred site boundary is not confirmed automatically.
+- **Still open:** make candidate generation constrain direction and placement against no-spray/unapproved zones during search. Current stage 7 only validates selected layout after generation; it does not optimize around forbidden areas.
+- **Still open:** engineer-reviewed reference layouts and field validation; continuous coverage/overspray proof; hydraulics, wind drift, DU/SC and exact body/nozzle/package compatibility.
+- No customer-facing recommendations or design-valid status until these gates are closed.
+
 ## 2026-11-16 — Intake v1 Preview verification
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
