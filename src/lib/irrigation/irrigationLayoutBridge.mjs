@@ -103,6 +103,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       model,
       pressureBar,
       pressureBasis: 'manufacturer_recommended_operating_pressure',
+      modelSelectionBasis: 'provisional_short_side_candidate_rule',
       sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
@@ -116,6 +117,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     warnings: Object.freeze([
       ...layout.warnings,
       Object.freeze({ code: 'manufacturer_operating_point_is_a_scenario_not_site_measurement', path: 'operatingScenario.pressureBar' }),
+      Object.freeze({ code: 'short_side_model_selection_is_provisional_and_requires_engineer_review', path: 'operatingScenario.model' }),
       Object.freeze({ code: 'customer_source_pressure_and_flow_not_used_as_nozzle_operating_point', path: 'intake.water' }),
       Object.freeze({ code: 'hydraulic_network_and_zone_feasibility_not_evaluated', path: 'hydraulics' }),
       Object.freeze({ code: 'obstacles_and_exclusions_not_mapped', path: 'geometry.exclusions' }),
