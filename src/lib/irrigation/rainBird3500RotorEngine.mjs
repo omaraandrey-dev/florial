@@ -119,13 +119,14 @@ function invalidResult(status, code, path) {
 
 /**
  * Evaluates a user/engine-supplied 3500 rotor layout against exact D42378
- * operating points. This first-stage evaluator deliberately supports only
+ * operating points. Pressure is explicitly the measured/verified pressure at the nozzle,
+ * not static or dynamic pressure measured at the source. This first-stage evaluator deliberately supports only
  * 180-degree arcs because D42378 precipitation is explicitly half-circle data.
  * It does not generate rotor positions or certify a design.
  */
 export function evaluateRainBird3500RotorLayout({
   geometry,
-  pressureBar,
+  nozzlePressureBar,
   nozzle,
   sprinklers,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
@@ -140,7 +141,7 @@ export function evaluateRainBird3500RotorLayout({
     return invalidResult('geometry_not_supported', 'single_rectangle_or_l_shape_without_exclusions_required', 'geometry')
   }
   if (!Number.isFinite(sampleStepM) || sampleStepM <= 0 ||
-      !Number.isFinite(pressureBar) || !Number.isFinite(nozzle)) {
+      !Number.isFinite(nozzlePressureBar) || !Number.isFinite(nozzle)) {
     return invalidResult('invalid_operating_input', 'finite_pressure_nozzle_and_positive_sample_step_required', 'operatingPoint')
   }
   if (!Array.isArray(sprinklers) || sprinklers.length === 0) {
@@ -158,7 +159,7 @@ export function evaluateRainBird3500RotorLayout({
   if (new Set(sprinklers.map((entry) => entry.id)).size !== sprinklers.length) {
     return invalidResult('invalid_layout', 'sprinkler_ids_must_be_unique', 'sprinklers.id')
   }
-  const point = findRainBird3500PerformancePoint(pressureBar, nozzle)
+  const point = findRainBird3500PerformancePoint(nozzlePressureBar, nozzle)
   if (!point) {
     return invalidResult('operating_point_not_found', 'exact_d42378_pressure_and_nozzle_pair_required', 'pressureBar/nozzle')
   }
@@ -173,7 +174,7 @@ export function evaluateRainBird3500RotorLayout({
     arcDeg: 180,
     directionDeg: normalizeDegrees(entry.directionDeg),
     nozzle,
-    pressureBar,
+    nozzlePressureBar,
     radiusM: point.radiusM,
     flowLpm: point.flowLpm,
     precipitationSquareMmH: point.precipitationSquareMmH,
@@ -247,7 +248,7 @@ export function evaluateRainBird3500RotorLayout({
       areaM2: validation.regions[0].netAreaM2,
     }),
     operatingPoint: Object.freeze({
-      pressureBar,
+      nozzlePressureBar,
       nozzle,
       arcDeg: 180,
       radiusM: point.radiusM,
