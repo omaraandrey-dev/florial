@@ -13,7 +13,7 @@
 - Added a versioned in-memory intake contract/readiness evaluator and tests. Static pressure alone cannot satisfy the dynamic-pressure gate; flow requires a declared measurement method.
 - Hydraulic readiness is deliberately always `not_evaluated`; pipe network, elevation and restrictions remain outstanding. No layout solver, Gemini, Sanity catalogue, cart, lead endpoint, D1 persistence or Resend is connected in this increment.
 - Data remains in browser memory only; no customer identity/contact details are collected or transmitted. Header, menu, Footer, route and launcher scope are unchanged.
-- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. CI and Preview QA are pending for this branch; Production is unchanged.
+- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. Runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed CI and Preview QA; Production is unchanged.
 
 ## 2026-11-16 — Owner decision: Gemini final review after engineering and catalogue selection
 
