@@ -1,3 +1,23 @@
+## Owner-approved sprinkler engine scope — 2026-11-16
+
+The deterministic Florial lawn-engine development scope is limited to three Rain Bird families:
+
+1. **R-VAN** — existing exact manufacturer performance dataset and current solver support. The conversational bridge currently invokes a preliminary R-VAN14/R-VAN18 scenario only.
+2. **HE-VAN** — existing exact manufacturer performance dataset and current solver support. Keep it as a separate family and compare only at compatible, evidence-backed operating points.
+3. **3500 rotor** — existing 36-point nozzle/pressure dataset is available, but the rotor is not yet integrated into the placement solver. It requires a family-specific calculation/placement path and verified handling of sector arcs. The published precipitation table is based on half-circle operation; do not reuse it unchanged for other arcs or route 3500 through HE-VAN lookup.
+
+**5000 MPR is out of engine scope.** PR #333 added a standalone reference dataset only. Do not create an MPR placement engine, expose MPR customer recommendations, map the data to Sanity products or connect it to the assistant. Any future addition of another sprinkler family requires a separate owner decision and manufacturer-data/compatibility audit.
+
+### Next engineering sequence
+
+- [ ] Review the current R-VAN/HE-VAN solver against the owner-approved reference scenarios; validate the bridge's provisional R-VAN14/R-VAN18 selection boundaries.
+- [ ] Define the 3500 rotor-specific performance and arc model from verified manufacturer evidence; explicitly document any engineer-approved derivation if the manufacturer does not publish arc-specific data.
+- [ ] Build a separate 3500 candidate generator/placement path rather than changing the existing R-VAN/HE-VAN lookup semantics.
+- [ ] Add regression coverage for rectangles and mirrored/rotated/reversed L-shapes, including sampled coverage, head-to-head and boundary overspray.
+- [ ] Verify exact 3500 nozzle, rotor body and Florial catalogue SKU compatibility before generating any purchasable proposal.
+- [ ] Add precipitation/DU and hydraulic-zone gates before claiming a design is hydraulically feasible or ready for purchase.
+- [ ] Complete accessibility/error-state QA for the conversational intake and continue the approved deterministic → catalogue → Gemini final-review → explicit cart-handoff sequence.
+
 ## Owner-approved customer journey refinement — 2026-11-16
 
 The final Gemini review happens **after** deterministic engineering and exact catalogue selection:
