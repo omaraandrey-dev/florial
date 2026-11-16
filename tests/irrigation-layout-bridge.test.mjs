@@ -98,3 +98,35 @@ test('source dynamic pressure is not silently treated as nozzle operating pressu
   assert.equal(first.operatingScenario?.pressureBar, 3.1)
   assert.equal(first.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
 })
+
+test('validates the provisional R-VAN model-selection boundaries and solves both supported bands', () => {
+  const cases = [
+    { width: 4.0, expectedModel: 'R-VAN14' },
+    { width: 4.6, expectedModel: 'R-VAN14' },
+    { width: 4.6001, expectedModel: 'R-VAN18' },
+    { width: 5.5, expectedModel: 'R-VAN18' },
+  ]
+
+  for (const { width, expectedModel } of cases) {
+    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
+    assert.equal(result.status, 'layout_generated', `layout at short side ${width}m`)
+    assert.equal(result.geometry.shortSideM, width)
+    assert.equal(result.operatingScenario.model, expectedModel)
+    assert.equal(result.layout.family, 'R-VAN')
+    assert.equal(result.layout.model, expectedModel)
+    assert.equal(result.layout.pressureBar, 3.1)
+    assert.equal(result.layout.coverage.uncoveredPoints, 0)
+    assert.equal(result.layout.headToHead.passed, true)
+    assert.equal(result.hydraulicFeasibility, 'not_evaluated')
+  }
+})
+
+test('rejects values immediately outside the provisional R-VAN envelope', () => {
+  const below = buildPreliminaryLawnLayout(snapshotFor({ width: 3.999 }))
+  assert.equal(below.status, 'short_side_below_rvan_v1_scope')
+  assert.equal(below.layout, undefined)
+
+  const above = buildPreliminaryLawnLayout(snapshotFor({ width: 5.5001 }))
+  assert.equal(above.status, 'requires_rotor_engine')
+  assert.equal(above.layout, undefined)
+})
