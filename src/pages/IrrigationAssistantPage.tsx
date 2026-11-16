@@ -499,7 +499,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_rvan_v1_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_supported_spray_nozzle_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                   )}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
