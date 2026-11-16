@@ -55,6 +55,13 @@ function runCase(shape, vertices, settings) {
     testedPositions: result.candidateStats?.testedPositions ?? null,
     testedCandidates: result.candidateStats?.testedCandidates ?? null,
     selectedRotors: result.candidateStats?.selectedRotors ?? null,
+    selectedRotorLayout: result.sprinklers?.map((rotor) => ({
+      id: rotor.id,
+      x: Number(rotor.position.x.toFixed(4)),
+      y: Number(rotor.position.y.toFixed(4)),
+      directionDeg: rotor.directionDeg,
+      arcDeg: rotor.arcDeg,
+    })) ?? [],
     sampledTargets: result.searchCoverage?.sampledTargets ?? null,
     sampledCoveragePercent: Number((result.searchCoverage?.searchCoveragePercent ?? 0).toFixed(4)),
     uncoveredTargets: result.searchCoverage?.uncoveredTargets ?? null,
