@@ -53,6 +53,7 @@ export interface LawnSprinklerLayoutResult {
       requiredMaximumM: number | null
       headToHeadNeighborId: string | null
       headToHeadSeparationM: number | null
+      headToHeadRequiredMaximumM: number | null
       passed: boolean
     }>>
   }>
@@ -72,6 +73,7 @@ export interface HeadToHeadSpacingCheck {
   readonly requiredMaximumM: number | null
   readonly headToHeadNeighborId: string | null
   readonly headToHeadSeparationM: number | null
+  readonly headToHeadRequiredMaximumM: number | null
   readonly passed: boolean
 }
 
