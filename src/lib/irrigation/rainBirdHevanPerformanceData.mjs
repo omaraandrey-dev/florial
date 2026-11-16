@@ -43,10 +43,10 @@ const performancePoints = Object.freeze([
 ])
 
 const models = Object.freeze([
-  { model: 'HE-VAN-8', sku: 'HE0801', sanityProductId: '21e4bb9f-c635-4d6f-882d-c9fefb70b8d3', trajectoryDeg: 24 },
-  { model: 'HE-VAN-10', sku: 'HE1001', sanityProductId: 'e25925d0-b54f-45fa-844e-ad4fde8e6440', trajectoryDeg: 27 },
-  { model: 'HE-VAN-12', sku: 'HE1201', sanityProductId: 'de88e310-c33d-4111-9ad6-c638b49a2ed8', trajectoryDeg: 23 },
-  { model: 'HE-VAN-15', sku: 'HE1501', sanityProductId: '63289ec9-c0dd-4f13-ae4d-1f7f00a442c6', trajectoryDeg: 25 },
+  { model: 'HE-VAN-8', sku: 'HE0801', sanityProductId: '21e4bb9f-c635-4d6f-882d-c9fefb70b8d3', trajectoryDeg: 24, spacingRangeM: Object.freeze([1.8, 2.4]) },
+  { model: 'HE-VAN-10', sku: 'HE1001', sanityProductId: 'e25925d0-b54f-45fa-844e-ad4fde8e6440', trajectoryDeg: 27, spacingRangeM: Object.freeze([2.4, 3.0]) },
+  { model: 'HE-VAN-12', sku: 'HE1201', sanityProductId: 'de88e310-c33d-4111-9ad6-c638b49a2ed8', trajectoryDeg: 23, spacingRangeM: Object.freeze([3.0, 3.7]) },
+  { model: 'HE-VAN-15', sku: 'HE1501', sanityProductId: '63289ec9-c0dd-4f13-ae4d-1f7f00a442c6', trajectoryDeg: 25, spacingRangeM: Object.freeze([3.7, 4.6]) },
 ].map((entry) => Object.freeze(entry)))
 
 export const RAIN_BIRD_HEVAN_DATASET = Object.freeze({
@@ -58,6 +58,9 @@ export const RAIN_BIRD_HEVAN_DATASET = Object.freeze({
     url: SOURCE_URL,
     testConditions: 'Zero wind',
     spacingBasis: '50% of throw diameter',
+    optimumPressureBar: 2.1,
+    recommendedOperatingPressureBar: 2.07,
+    recommendedOperatingPressureBasis: 'manufacturer_optimum_2_1_bar_exact_table_point_2_07',
     note: 'For arcs below maximum, the radius reduction screw may need adjustment to achieve the tabulated radius and flow.',
   }),
   units: Object.freeze({
