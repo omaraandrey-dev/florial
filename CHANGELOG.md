@@ -1,3 +1,12 @@
+## 2026-11-16 — Rain Bird 3500 stage 5/6 merged; whole-site spray context stage 7 in progress
+
+- PR #347 merged as `c6ff671438f2939e93114776c24022fb1f9abd86`: added the reproducible stage-5 benchmark matrix. It demonstrated 100% sampled coverage while every tested layout failed mutual directional H2H and showed sampled overspray; this is explicitly a failure finding, not design acceptance.
+- PR #348 merged as `ac705db95e87e2cd51fe74e70d15128d2833b5f7`: candidate selection now requires a mutually reachable H2H seed pair and only adds candidates connected to the selected set. If no pair exists, it returns no layout. Overspray is still post-selection and not optimized.
+- Stage 7 implementation candidate on branch `feat/irrigation-site-context-overspray-v1`: adds a confirmed site boundary, explicit permitted adjacent spray regions and no-spray regions; the 3500 evaluator distinguishes permitted adjacent spray from forbidden spray, including off-property, pool/no-spray and unapproved on-site samples.
+- The generator forwards site context to the evaluator but does not yet optimize candidates around forbidden zones. Without site context, the previous conservative lawn-boundary check remains and the output warns that whole-site context is missing.
+- Audit: `docs/audits/2026-11-16-irrigation-site-context-overspray-stage-7.md`. Exact-head CI and engineering review are pending; no merge, customer-facing wiring or Production deployment is claimed.
+- No Sanity/D1 data/schema, Cloudflare settings/secrets, Resend or Production writes were performed.
+
 ## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
