@@ -38,6 +38,10 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
+      design: ['проектиране и разделяне на поливни зони'],
+      trenches: ['подготовка на трасетата и полагане на тръбите', 'трасировка на тръбопроводите'],
+      equipment: ['монтаж на разпръсквачите и поливното оборудване', 'монтаж на разпръсквачи и капково напояване'],
+      testing: ['проверка, настройка и пускане'],
 
       trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата', 'оглед и подготовка на терена'],
       pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'трасировка на тръбопроводите'],
@@ -51,6 +55,10 @@ const sectionForHeading = (value: string, language: string) => {
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
+      design: ['проектирование и разделение на зоны полива'],
+      trenches: ['подготовка трасс и прокладка труб'],
+      equipment: ['установка дождевателей и поливного оборудования'],
+      testing: ['проверка, настройка и запуск'],
 
       trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы', 'осмотр и подготовка участка'],
       pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'трассировка трубопроводов'],
@@ -64,6 +72,10 @@ const sectionForHeading = (value: string, language: string) => {
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
+      design: ['system design and irrigation zones'],
+      trenches: ['route preparation and pipe installation'],
+      equipment: ['installing sprinklers and irrigation equipment'],
+      testing: ['system testing, adjustment and commissioning'],
 
       trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil', 'site assessment and preparation'],
       pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'irrigation pipe routing'],
@@ -273,7 +285,14 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
       )
     }
     if (first.startsWith('### ')) {
-      return <h3 key={index} className="mb-3 mt-6 text-xl font-bold text-slate-900">{first.slice(4).trim()}</h3>
+      const heading = first.slice(4).trim()
+      const section = sectionForHeading(heading, language)
+      return (
+        <React.Fragment key={index}>
+          <h3 className="mb-3 mt-6 text-xl font-bold text-slate-900">{heading}</h3>
+          {section ? renderImageGallery(imageGroups[section] || [], section, language) : null}
+        </React.Fragment>
+      )
     }
     if (lines.every((line) => line.startsWith('- '))) {
       return (
@@ -346,7 +365,15 @@ function renderPortableText(
         </React.Fragment>
       )
     }
-    if (block.style === 'h3') return <h3 key={key} className="mb-3 mt-6 text-xl font-bold text-slate-900">{children}</h3>
+    if (block.style === 'h3') {
+      const section = sectionForHeading(text, language)
+      return (
+        <React.Fragment key={key}>
+          <h3 className="mb-3 mt-6 text-xl font-bold text-slate-900">{children}</h3>
+          {section ? renderImageGallery(imageGroups[section] || [], section, language) : null}
+        </React.Fragment>
+      )
+    }
     if (block.style === 'h4') return <h4 key={key} className="mb-2 mt-5 text-lg font-semibold text-slate-900">{children}</h4>
     if (block.listItem === 'number') return <ol key={key} className="mb-4 list-decimal pl-6 text-slate-600"><li>{children}</li></ol>
     if (block.listItem === 'bullet') return <ul key={key} className="mb-4 list-disc pl-6 text-slate-600"><li>{children}</li></ul>
@@ -499,11 +526,49 @@ export function ServicePage({ service }: ServicePageProps) {
     }
   }, [service, language, localize, t])
 
-  // Photos imported from DROP are tagged by section in contentBlocks.title.
-  // Render each group inside the matching article section, not at the page end.
+  // Legacy marker blocks and the automatic-irrigation gallery are rendered beside
+  // the article headings they illustrate. Existing media assets remain in Sanity.
   const sourceBlocks = Array.isArray(service.contentBlocks) ? service.contentBlocks : []
-  const imageGroups = sourceBlocks.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
-    const match = typeof block.title === 'string' ? block.title.match(/^__gallery:(intro|trenches|pipeline|equipment|automation|watering)$/) : null
+  const isAutomaticIrrigationService = service.slug?.current === 'avtomatichno-napoyavane'
+  const automaticIrrigationImageGroups: Record<string, string> = {
+    img1: 'design',
+    img2: 'trenches',
+    img3: 'equipment',
+    img4: 'testing',
+  }
+  const firstInformationImage = isAutomaticIrrigationService
+    ? galleryImages.find((image) => image._key === 'img0')
+    : undefined
+  const firstInformationImageBlock: ServiceContentBlock | undefined = firstInformationImage
+    ? {
+        _key: firstInformationImage._key,
+        imageUrl: firstInformationImage.url,
+        imageAlt: firstInformationImage.alt,
+        imageAltRu: firstInformationImage.altRu,
+        imageAltEn: firstInformationImage.altEn,
+        linkUrl: firstInformationImage.linkUrl,
+      }
+    : undefined
+  const articleGalleryBlocks: ServiceContentBlock[] = isAutomaticIrrigationService
+    ? galleryImages.flatMap((image) => {
+        const group = automaticIrrigationImageGroups[image._key || '']
+        if (!group || !image.url) return []
+        return [{
+          _key: image._key,
+          title: `__gallery:${group}`,
+          imageUrl: image.url,
+          imageAlt: image.alt,
+          imageAltRu: image.altRu,
+          imageAltEn: image.altEn,
+          linkUrl: image.linkUrl,
+        }]
+      })
+    : []
+  const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks]
+  const imageGroups = sourceBlocksWithArticleGallery.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
+    const match = typeof block.title === 'string'
+      ? block.title.match(/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing)$/)
+      : null
     if (!match || !block.imageUrl) return groups
     const group = match[1]
     groups[group] = [...(groups[group] || []), block]
@@ -568,7 +633,9 @@ export function ServicePage({ service }: ServicePageProps) {
             </div>
           )}
 
-        {galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
+        {isAutomaticIrrigationService
+          ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
+          : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
         {description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
