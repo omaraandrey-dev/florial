@@ -464,6 +464,27 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
         <p className="text-lg leading-8 text-slate-600">{copy.intro}</p>
       </header>
 
+      {direction.id === 'irrigation' && (
+        <section className="mx-auto mb-12 max-w-4xl" aria-labelledby="irrigation-intro-video-heading">
+          <h2 id="irrigation-intro-video-heading" className="mb-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            {locale === 'ru' ? 'Посмотрите, как работает автоматический полив' : locale === 'en' ? 'See how automatic irrigation works' : 'Вижте как работи автоматичното напояване'}
+          </h2>
+          <p className="mb-4 text-sm text-slate-600">
+            {locale === 'ru' ? 'Видео на болгарском языке.' : locale === 'en' ? 'Video in Bulgarian.' : 'Видео на български език.'}
+          </p>
+          <video
+            className="aspect-video w-full rounded-2xl bg-slate-950 shadow-lg"
+            controls
+            playsInline
+            preload="metadata"
+            aria-label={locale === 'ru' ? 'Видео Florial об автоматическом поливе' : locale === 'en' ? 'Florial video about automatic irrigation' : 'Видео на Florial за автоматичното напояване'}
+          >
+            <source src="https://resource2.heygen.ai/aws_pacific/avatar_tmp/a325ce0213c54e69b093be6054dc6c3e/vc1b997e189a34b6183aa7cf5251491cd/caption_b83867d35fde41fd9de9d92f477e857b.mp4" type="video/mp4" />
+            {locale === 'ru' ? 'Ваш браузер не поддерживает воспроизведение видео.' : locale === 'en' ? 'Your browser does not support video playback.' : 'Вашият браузър не поддържа възпроизвеждане на видео.'}
+          </video>
+        </section>
+      )}
+
       <article className="mx-auto max-w-4xl">
         {copy.sections.map((section) => (
           <section key={section.heading} className="mb-9">
