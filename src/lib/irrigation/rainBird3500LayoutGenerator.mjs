@@ -115,7 +115,7 @@ function buildCandidatePositions(vertices, radiusM, positionStepFactor, directio
     for (let part = 0; part <= divisions; part += 1) {
       const ratio = part / divisions
       add({ x: a.x + (b.x - a.x) * ratio, y: a.y + (b.y - a.y) * ratio })
-      if (positions.length * (360 / DIRECTION_STEP_DEG) > MAX_CANDIDATES) return null
+      if (positions.length * (360 / directionStepDeg) > MAX_CANDIDATES) return null
     }
   }
   return positions
