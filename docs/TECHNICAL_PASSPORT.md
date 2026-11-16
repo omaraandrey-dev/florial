@@ -3512,3 +3512,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Added `tests/irrigation-rain-bird-3500-reference-invariance.test.mjs`: synthetic orthogonal L-shape tests for horizontal/vertical mirrors and 90°/180°/270° rotations, plus target-sampling steps 0.5/0.25/0.125 m.
 - Tests preserve exact D42378 2.5 bar / nozzle 4 operating point, 180° sectors, unique IDs/positions and `not_evaluated` hydraulic/uniformity states.
 - These tests validate software invariants only. They are not field trials or engineer-approved reference layouts. Layout quality, manual baseline comparison, convergence of rotor positions/count, overspray and hydraulic/precipitation performance remain open.
+
+
+### Rain Bird 3500 — bounded search-resolution controls stage 4 (2026-11-16)
+
+- PR #344 merged as `a125b851ca8205bd001850c09614af11306e8fe2`; exact-head CI passed: Blog/Studio `43849172350`, D1 `43849172390`.
+- `generateRainBird3500RotorLayout` now accepts bounded numerical search settings: `candidatePositionStepFactor` ∈ {0.25, 0.5, 1.0} × manufacturer throw radius and `candidateDirectionStepDeg` ∈ {15, 30, 45}. Defaults remain 0.5 and 45°. `sampleStepM` independently controls target sampling.
+- These settings exist for controlled sensitivity/convergence studies only; they are not manufacturer design rules. Unsupported values are rejected; resource caps remain fail-closed.
+- 180°-only exact D42378 lookup, preliminary heuristic status and non-hydraulic/non-uniformity state remain unchanged. Post-merge main CI for this SHA was running at documentation time.
