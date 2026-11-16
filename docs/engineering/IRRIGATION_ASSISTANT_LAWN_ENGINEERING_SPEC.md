@@ -220,3 +220,8 @@ The generator is heuristic, not globally optimal. Search increments are discreti
 ### Rain Bird 3500 synthetic geometry validation — stage 3 (2026-11-16)
 
 PR #342 adds synthetic regression tests for mirrored and right-angle-rotated L-shapes and target-sampling steps 0.5/0.25/0.125 m. Exact D42378 operating point, 180°-only sectors, unique physical positions/IDs and non-hydraulic status are asserted. This validates deterministic software invariants only; it does not establish engineering correctness, field performance, uniformity or hydraulic feasibility. Engineer-reviewed manual reference layouts and quantitative convergence of selected rotor positions/count remain required.
+
+
+### Rain Bird 3500 search sensitivity controls — stage 4 (2026-11-16)
+
+The candidate generator now exposes bounded search presets for controlled sensitivity studies: candidate-position spacing factors 0.25/0.5/1.0 × exact D42378 throw radius and direction increments 15°/30°/45°. Defaults remain 0.5 and 45°; target sampling is independent. These are numerical search settings, not Rain Bird design rules. Unsupported values fail closed. The 180°-only, exact-point and preliminary-only gates remain unchanged. Benchmark all presets against identical geometries before changing defaults.
