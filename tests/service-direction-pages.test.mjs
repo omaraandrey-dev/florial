@@ -17,6 +17,15 @@ test('four specialist pages are localized and have distinct SEO content', async 
   assert.match(page, /<h2/)
 })
 
+test('Florial introduction video is shown only on the irrigation direction page', async () => {
+  const page = await read('../src/pages/ServiceDirectionPage.tsx')
+  assert.match(page, /direction\.id === 'irrigation'/)
+  assert.match(page, /caption_b83867d35fde41fd9de9d92f477e857b\.mp4/)
+  assert.match(page, /preload="metadata"/)
+  assert.match(page, /playsInline/)
+  assert.match(page, /Video in Bulgarian\./)
+})
+
 test('service direction routes load the directory and do not fall through to service detail lookup', async () => {
   const app = await read('../src/App.tsx')
   assert.match(app, /path.startsWith\('\/services\/category\/'\)/)
