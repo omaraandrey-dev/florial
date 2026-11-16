@@ -3543,3 +3543,8 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 
 - PR #349 initial head `722748808f370d1dc59ff129ed09a1c862e8b84e`: Blog/Studio run `43855290610` failed one permitted-adjacent fixture assertion; D1 run `43855290730` passed. Root cause was the fixture boundary not containing the full half-circle test sector; engine behavior correctly classified off-property samples as forbidden.
 - Corrected fixture head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress; D1 rerun not confirmed. PR #349 remains open; no merge or Production deployment.
+
+## 2026-11-16 — Site-context stage 7 exact-head CI passed
+
+- PR #349 head `b64f6f18cdac31c0fa29064dfd2b20719a688b03`: Blog/Studio run `43855876224` success (application/Pages Functions type-check, lint, website tests/build, migration syntax/dry-run, Studio type-check/build); D1 run `43855891392` success.
+- The corrected synthetic permitted-adjacent spray fixture now passes. PR #349 remains open/unmerged pending owner decision; no Production deployment or live-service writes.
