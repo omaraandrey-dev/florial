@@ -149,6 +149,17 @@ Assert coverage/exclusion boundaries, manufacturer operating points, flow/pressu
 
 An irrigation engineer must review rules and baseline cases before automatic customer-facing recommendations. Run a supervised real-site pilot before enabling add-to-cart.
 
+
+
+## Implementation status — 2026-11-16
+
+- Stage 1 (launcher visibility and portrait source): implemented and released in PR #303; exact Production deployment and route QA are recorded above in the Technical Passport/Changelog.
+- Stage 2 (Rain Bird performance data): R-VAN and HE-VAN discrete datasets and SKU references are implemented. Rain Bird 3500 data exists in the repository, but it is not yet eligible for placement-solver use because arc-specific precipitation interpretation, nozzle-tree/package mapping and overspray handling are unresolved.
+- Stage 3 (geometry intake/validator): confirmed metric rectangle and orthogonal L-shape intake and deterministic geometry validation are implemented.
+- Stage 4 (geometry/coverage): first deterministic sampled placement engine is implemented for separate R-VAN and HE-VAN configurations and merged in PR #317. This is not a continuous coverage proof or approved irrigation design; hydraulic feasibility, DU/SC, overspray, wind and body/nozzle compatibility remain unevaluated.
+- Stage 5 (hydraulic zones and pipe losses): not started. Begin only after the design inputs and validated sprinkler layouts can supply measured dynamic flow/pressure, actual pipe dimensions/material/lengths, valves/filters/regulators/fittings, elevation and zone constraints.
+- Before extending automatic selection, obtain engineer-reviewed reference layouts and establish a defensible precipitation-uniformity method. Do not infer layout DU/SC from average precipitation values alone.
+
 ## 10. Delivery stages
 
 1. Complete launcher visibility rules and portrait source.

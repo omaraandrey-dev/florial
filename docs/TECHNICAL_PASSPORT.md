@@ -1,3 +1,15 @@
+
+
+## 2026-11-16 — Deterministic single-lawn placement engine (PR #317)
+
+- PR #317 merged to `main` as `95c32aa4570499b61252f92fc8755e25ee314856`. Exact PR head `3077a720f62b1ff9d1954875ec16f1e9dc702903` passed Blog/Studio validation run `43819093067` and D1 migration validation run `43819094228`.
+- Cloudflare Pages Production deployment `3b39ef74-3fc8-46a3-8cd0-e4cf36d6fbdb` deployed the exact merge SHA successfully; Production aliases include `florial-bg.com` and `www.florial-bg.com`.
+- Added exact discrete Rain Bird R-VAN/HE-VAN performance datasets and deterministic sampled one-lawn placement for a confirmed rectangle or orthogonal L-shape. R-VAN and HE-VAN are evaluated separately; output includes coordinates, arcs, directions, manufacturer radius/flow/precipitation, sampled coverage and head-to-head diagnostics.
+- Scenario coverage includes 12m rectangles at 4/5/6/8m widths and mirrored/rotated/reversed L-shapes. The implementation is preliminary sampled geometry, not a continuous proof or approved design.
+- Hydraulic feasibility, dynamic source pressure, pipe losses, zone sizing, precipitation uniformity, overspray, wind and body/nozzle assembly compatibility remain `not_evaluated`. Rain Bird 3500 is not yet integrated into the placement solver; its performance table's precipitation values are explicitly based on half-circle operation.
+- No Sanity, D1, Resend, Gemini, cart, Cloudflare settings or secrets changed. Browser visual QA and field validation are not confirmed.
+- Detailed gate and next roadmap sequence: `docs/audits/2026-11-16-lawn-engineering-stage-gate.md`.
+
 ## 2026-11-16 — Irrigation direction introduction video (PR #305)
 
 - `src/pages/ServiceDirectionPage.tsx` renders the approved Florial introduction video only when `direction.id === 'irrigation'`, on `/services/category/polivni-sistemi`.

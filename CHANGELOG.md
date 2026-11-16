@@ -1,3 +1,14 @@
+
+
+## 2026-11-16 — Irrigation lawn layout engine merged and deployed (PR #317)
+
+- PR #317 was squash-merged into `main` as `95c32aa4570499b61252f92fc8755e25ee314856`. It adds exact R-VAN (108 rows) and HE-VAN (64 rows) performance lookup data, existing Sanity SKU bindings, owner-approved family prioritization and a deterministic sampled placement engine for one confirmed rectangle or orthogonal L-shape.
+- The solver reports sprinkler positions/arcs/directions, exact performance values, sampled coverage, uncovered points, total flow and head-to-head diagnostics. R-VAN and HE-VAN remain separate configurations. Scenario tests cover 4/5/6/8m rectangle widths, deterministic repeats and mirrored/rotated/reversed L-shapes.
+- Exact PR-head CI passed: Blog and Studio validation run `43819093067`; D1 migration validation run `43819094228`. Cloudflare Pages Production deployment `3b39ef74-3fc8-46a3-8cd0-e4cf36d6fbdb` successfully deployed the exact merge commit to `florial-bg.com` and `www.florial-bg.com`.
+- This is preliminary sampled geometry only. Hydraulic feasibility, dynamic pressure, pipe losses, zone sizing, precipitation uniformity, overspray, wind and body/nozzle compatibility remain unevaluated. No Sanity/D1 data, schema, secrets, Gemini, cart or Cloudflare settings were changed. Browser visual QA and field validation remain unconfirmed.
+- Rain Bird 3500 remains outside the placement solver until its half-circle precipitation table, arc handling, nozzle-tree/package mapping and boundary overspray are resolved. Layout-specific DU/SC must not be inferred from average precipitation data alone.
+- Full release/engineering gate and next steps: `docs/audits/2026-11-16-lawn-engineering-stage-gate.md`.
+
 ## 2026-11-16 — Florial irrigation introduction video published (PR #305)
 
 - Owner-approved HeyGen video `Florial — Intelligent Irrigation`, video ID `b83867d35fde41fd9de9d92f477e857b`, duration 60.33 seconds, Bulgarian narration and captions, landscape 16:9, was added to the `polivni-sistemi` service-direction page only.
