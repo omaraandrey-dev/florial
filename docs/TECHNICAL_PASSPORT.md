@@ -1,3 +1,11 @@
+## 2026-11-16 — Automatic irrigation article layout update (implementation in progress)
+
+- Owner-approved BG/RU/EN editorial/layout update for service `avtomatichno-napoyavane`, Sanity document `04c7ab3b-1888-41cb-9917-6b9014cd1ac3`.
+- Five existing gallery assets are retained: the first informational photo remains under the hero; four process photos are mapped to the design, pipe-route, sprinkler-installation and testing H2/H3 sections. Three duplicate image-and-text content blocks are removed from the Sanity draft; assets are not deleted.
+- Article meaning and visible wording are preserved across BG/RU/EN; only paragraph boundaries, H3 structure and contextual category links are added. Links point to verified active categories for controllers, sprinklers and drip irrigation.
+- Full pre-write Sanity snapshot: `docs/backups/sanity/2026-11-16-automatic-irrigation-service-before-article-layout-update.json`. Revision-guarded draft created from `kG84M8L0NjpttWhMhqGtNr`; validation valid but incomplete because custom callbacks were skipped.
+- Frontend implementation is on `content/automatic-irrigation-article-layout-2026-11-16`. Publication and Production verification are pending PR integration. Detailed evidence: `docs/audits/2026-11-16-automatic-irrigation-article-layout.md`.
+
 ## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
 
 - PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
