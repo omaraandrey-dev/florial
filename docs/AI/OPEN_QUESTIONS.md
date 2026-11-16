@@ -1,5 +1,16 @@
 
 
+## 2026-11-16 — Catch-can DUlq utility and field validation
+
+- **Implemented:** PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`. Exact-head Blog/Studio run `43822321587` and D1 run `43822321498` passed.
+- **Available:** a deterministic utility calculates measured DUlq from catch-can volumes/depths using the lowest-quarter mean divided by the overall mean. It warns below 24 samples and assumes equal-area weighting.
+- **Not implemented:** predicted DUlq for a proposed layout, radial distribution modelling, SC, net precipitation rate, weighted sample areas, measurement UI or customer-facing integration.
+- **Next field-validation input:** collect an engineer-reviewed catch-can grid for a real zone, including sprinkler/nozzle model, arc, measured pressure, run time, wind conditions, can spacing and individual readings. Use the measurement utility only when sample placement represents equal areas; otherwise a weighted method is needed.
+- **Production deployment:** Pages deployment `ac221f58-000d-479c-a9ed-d403b416efd9` was building for exact merge SHA at audit time; recheck before marking deployment complete. No live data/configuration changes.
+- Audit: `docs/audits/2026-11-16-catch-can-distribution-uniformity.md`.
+
+
+
 ## 2026-11-16 — Lawn layout acceptance hardening
 
 - **Merged:** PR #319 as `df1592ba5519d75487cff030ae8b165a11d5ec35`. Exact-head Blog/Studio run `43821654485` and D1 run `43821654670` passed.
