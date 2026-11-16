@@ -43,3 +43,16 @@ The area and perimeter are calculated by the geometry module, not by an LLM or b
 ## Safety / release boundary
 
 No Header, menu, Footer, global layout, routes, Sanity, D1, Cloudflare settings/secrets, Resend, catalog, orders or Production deployment are changed. PR #315 is a draft and depends on PR #314. Shared CHANGELOG, Technical Passport and Open Questions updates are deferred to one synchronized documentation integration after the dependent engineering work is reconciled.
+
+
+## Verification evidence
+
+- Commit tested: \`08885de2007f1d70a5e475112084dbc4aba3d772\`.
+- GitHub Actions Blog and Studio validation run \`43812300760\` (#1380): success. Application/Pages TypeScript, lint, all tests, website build, migration script syntax/dry-run, Studio TypeScript and Studio build all passed.
+- Test summary: 202 tests, 202 passed, 0 failed.
+- GitHub Actions D1 migration validation run \`43812300769\` (#1699): success.
+- Cloudflare Pages Preview deployment \`1f9f5005-511b-4b21-855a-bacd6775f8c9\` deployed the exact commit above; build and deploy stages succeeded. Preview alias: \`https://feat-irrigation-lawn-geometr-dbvj.florial.pages.dev\`.
+- Public browser QA on \`/irrigation-assistant\`: rectangle 12 × 8 m produced 96 m² / 40 m; L-shape 12 × 8 m with 4 × 3 m cut-out produced 84 m² / 40 m. All four cut-out corners produced the same correct metrics and matching SVG orientation.
+- Desktop 1536 × 643 and mobile 390 × 844 rendered without horizontal overflow. No uncaught runtime errors, unhandled promise rejections or console errors were observed.
+- Privacy-settings banner was left untouched and no form was submitted.
+- Production was not deployed or modified.
