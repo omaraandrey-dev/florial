@@ -6,7 +6,7 @@
 - **Available:** a deterministic utility calculates measured DUlq from catch-can volumes/depths using the lowest-quarter mean divided by the overall mean. It warns below 24 samples and assumes equal-area weighting.
 - **Not implemented:** predicted DUlq for a proposed layout, radial distribution modelling, SC, net precipitation rate, weighted sample areas, measurement UI or customer-facing integration.
 - **Next field-validation input:** collect an engineer-reviewed catch-can grid for a real zone, including sprinkler/nozzle model, arc, measured pressure, run time, wind conditions, can spacing and individual readings. Use the measurement utility only when sample placement represents equal areas; otherwise a weighted method is needed.
-- **Production deployment:** Pages deployment `ac221f58-000d-479c-a9ed-d403b416efd9` was building for exact merge SHA at audit time; recheck before marking deployment complete. No live data/configuration changes.
+- **Production deployment:** Pages deployment `ac221f58-000d-479c-a9ed-d403b416efd9` completed successfully for the exact merge SHA; aliases `florial-bg.com` and `www.florial-bg.com` were assigned. No live data/configuration changes.
 - Audit: `docs/audits/2026-11-16-catch-can-distribution-uniformity.md`.
 
 
