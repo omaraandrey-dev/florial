@@ -256,10 +256,13 @@ function selectGreedy(candidates, targetCount) {
   return { selected, uncovered }
 }
 
-function headToHeadChecks(selected) {
-  return selected.map((sprinkler) => {
+export function evaluateHeadToHeadSpacing(selected) {
+  return Object.freeze(selected.map((sprinkler) => {
     let nearest = null
     let nearestDistanceM = Number.POSITIVE_INFINITY
+    let headToHeadNeighbor = null
+    let headToHeadDistanceM = Number.POSITIVE_INFINITY
+
     for (const other of selected) {
       if (other.id === sprinkler.id) continue
       const separation = distance(sprinkler.position, other.position)
@@ -267,16 +270,40 @@ function headToHeadChecks(selected) {
         nearestDistanceM = separation
         nearest = other
       }
+
+      const maximumSpacing = Math.min(sprinkler.radiusM, other.radiusM)
+      const mutuallyReaches = separation <= maximumSpacing + EPSILON &&
+        sectorContains(
+          other.position,
+          sprinkler.position,
+          other.directionDeg ?? 0,
+          other.arcDeg,
+          other.radiusM,
+        ) &&
+        sectorContains(
+          sprinkler.position,
+          other.position,
+          sprinkler.directionDeg ?? 0,
+          sprinkler.arcDeg,
+          sprinkler.radiusM,
+        )
+      if (mutuallyReaches && separation < headToHeadDistanceM) {
+        headToHeadDistanceM = separation
+        headToHeadNeighbor = other
+      }
     }
-    const limit = nearest ? Math.min(sprinkler.radiusM, nearest.radiusM) : null
+
+    const nearestLimit = nearest ? Math.min(sprinkler.radiusM, nearest.radiusM) : null
     return Object.freeze({
       sprinklerId: sprinkler.id,
       nearestSprinklerId: nearest?.id ?? null,
       separationM: Number.isFinite(nearestDistanceM) ? nearestDistanceM : null,
-      requiredMaximumM: limit,
-      passed: limit !== null && nearestDistanceM <= limit + EPSILON,
+      requiredMaximumM: nearestLimit,
+      headToHeadNeighborId: headToHeadNeighbor?.id ?? null,
+      headToHeadSeparationM: Number.isFinite(headToHeadDistanceM) ? headToHeadDistanceM : null,
+      passed: headToHeadNeighbor !== null,
     })
-  })
+  }))
 }
 
 function enforceHeadToHeadSpacing(selectedInput, candidates) {
@@ -284,7 +311,7 @@ function enforceHeadToHeadSpacing(selectedInput, candidates) {
   let changed = true
   while (changed && selected.length < MAX_SELECTED_SPRINKLERS) {
     changed = false
-    const checks = headToHeadChecks(selected)
+    const checks = evaluateHeadToHeadSpacing(selected)
     for (const check of checks) {
       if (check.passed) continue
       const sprinkler = selected.find((entry) => entry.id === check.sprinklerId)
@@ -296,7 +323,21 @@ function enforceHeadToHeadSpacing(selectedInput, candidates) {
           separation: distance(sprinkler.position, candidate.position),
         }))
         .filter(({ candidate, separation }) =>
-          separation <= Math.min(sprinkler.radiusM, candidate.radiusM) + EPSILON)
+          separation <= Math.min(sprinkler.radiusM, candidate.radiusM) + EPSILON &&
+          sectorContains(
+            sprinkler.position,
+            candidate.position,
+            candidate.directionDeg ?? 0,
+            candidate.arcDeg,
+            candidate.radiusM,
+          ) &&
+          sectorContains(
+            candidate.position,
+            sprinkler.position,
+            sprinkler.directionDeg ?? 0,
+            sprinkler.arcDeg,
+            sprinkler.radiusM,
+          ))
         .sort((a, b) =>
           a.separation - b.separation ||
           a.candidate.flowLpm - b.candidate.flowLpm ||
@@ -412,7 +453,7 @@ export function generateLawnSprinklerLayout({
   const { selected: coverageSelection, uncovered } = selectGreedy(evaluated, targets.length)
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
-  const checks = headToHeadChecks(sprinklers)
+  const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
