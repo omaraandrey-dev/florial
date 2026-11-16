@@ -301,7 +301,7 @@ export function evaluateRainBird3500RotorLayout({
     sprinklers: Object.freeze(normalized),
     headToHead: Object.freeze({ passed: headToHeadPassed, checks: Object.freeze(headToHead) }),
     overspray: Object.freeze({
-      status: oversprayDetected ? 'sampled_forbidden_spray_detected' : validatedSiteContext ? 'no_forbidden_spray_in_sampled_sector' : 'outside_lawn_samples_detected_context_missing',
+      status: oversprayDetected ? (validatedSiteContext ? 'sampled_forbidden_spray_detected' : 'sampled_overspray_detected') : validatedSiteContext ? 'no_forbidden_spray_in_sampled_sector' : 'no_overspray_in_sampled_sector',
       scope: validatedSiteContext ? 'site_boundary_and_spray_policy' : 'lawn_boundary_only',
       checks: Object.freeze(overspray),
     }),
