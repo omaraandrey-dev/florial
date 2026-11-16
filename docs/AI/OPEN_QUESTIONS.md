@@ -558,3 +558,8 @@
 - **Next:** run a repeatable benchmark matrix on the synthetic rectangle, L-shape, mirrored and rotated L-shape cases. Record selected rotor count and coordinates, candidate count, sampled coverage, H2H, overspray and runtime for each setting.
 - **Important:** no result may be called converged or best until selected positions/count are compared and stability is quantified. Synthetic geometry tests are not field or engineer-approved reference designs.
 - After benchmark, compare with owner/engineer-supplied manual reference layouts. Hydraulic model, precipitation uniformity/DU/SC, exclusions, manufacturer arc evidence, package compatibility and customer-facing gates remain open. No 5000 MPR engine.
+
+## 2026-11-16 — Stage 7 site-context CI follow-up
+
+- PR #349 initial head failed one new test fixture (the test expected permitted spray outside the site boundary); D1 validation passed. The engine's outside-site classification was correct.
+- Fixture corrected at `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` in progress, D1 rerun not confirmed. PR remains open/unmerged pending exact-head CI.
