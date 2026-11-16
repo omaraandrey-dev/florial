@@ -39,16 +39,14 @@ const sectionForHeading = (value: string, language: string) => {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
       design: ['проектиране и разделяне на поливни зони'],
-      trenches: ['подготовка на трасетата и полагане на тръбите', 'трасировка на тръбопроводите'],
-      equipment: ['монтаж на разпръсквачите и поливното оборудване', 'монтаж на разпръсквачи и капково напояване'],
       testing: ['проверка, настройка и пускане'],
 
-      trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата', 'оглед и подготовка на терена'],
+      trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата', 'оглед и подготовка на терена', 'подготовка на трасетата и полагане на тръбите'],
       pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'трасировка на тръбопроводите'],
 
       watering: ['поливане и грижи след засаждането', 'първоначално поливане и последващи грижи', 'калкулация и проектна документация'],
 
-      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове', 'професионално засаждане на палмата', 'подбор на поливочно оборудване'],
+      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове', 'професионално засаждане на палмата', 'подбор на поливочно оборудване', 'монтаж на разпръсквачите и поливното оборудване'],
 
       automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви', 'автоматизация на поливането'],
 
@@ -56,16 +54,14 @@ const sectionForHeading = (value: string, language: string) => {
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
       design: ['проектирование и разделение на зоны полива'],
-      trenches: ['подготовка трасс и прокладка труб'],
-      equipment: ['установка дождевателей и поливного оборудования'],
       testing: ['проверка, настройка и запуск'],
 
-      trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы', 'осмотр и подготовка участка'],
+      trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы', 'осмотр и подготовка участка', 'подготовка трасс и прокладка труб'],
       pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'трассировка трубопроводов'],
 
       watering: ['полив и уход после посадки', 'первый полив и уход после посадки', 'смета и проектная документация'],
 
-      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей', 'технология посадки пальм', 'подбор оборудования для полива'],
+      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей', 'технология посадки пальм', 'подбор оборудования для полива', 'установка дождевателей и поливного оборудования'],
 
       automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав', 'автоматизация полива'],
 
@@ -73,16 +69,14 @@ const sectionForHeading = (value: string, language: string) => {
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
       design: ['system design and irrigation zones'],
-      trenches: ['route preparation and pipe installation'],
-      equipment: ['installing sprinklers and irrigation equipment'],
       testing: ['system testing, adjustment and commissioning'],
 
-      trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil', 'site assessment and preparation'],
+      trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil', 'site assessment and preparation', 'route preparation and pipe installation'],
       pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'irrigation pipe routing'],
 
       watering: ['watering and aftercare', 'initial watering and aftercare', 'cost estimate and project documentation'],
 
-      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges', 'the palm planting process', 'selecting irrigation equipment'],
+      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges', 'the palm planting process', 'selecting irrigation equipment', 'installing sprinklers and irrigation equipment'],
 
       automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses', 'irrigation automation'],
 
