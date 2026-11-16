@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { generateLawnSprinklerLayout } from '../src/lib/irrigation/lawnSprinklerLayout.mjs'
+import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from '../src/lib/irrigation/lawnSprinklerLayout.mjs'
 
 function confirmedGeometry(vertices, exclusions = []) {
   return {
@@ -213,4 +213,33 @@ test('sampled coverage remains complete at a finer spatial resolution', () => {
       assert.equal(result.headToHead.passed, true, `head-to-head: ${name} at ${sampleStepM}m`)
     }
   }
+})
+
+
+test('head-to-head spacing rejects nearby sprinklers whose sectors face away from each other', () => {
+  const checks = evaluateHeadToHeadSpacing([
+    { id: 'a', position: { x: 0, y: 0 }, arcDeg: 90, directionDeg: 0, radiusM: 5 },
+    { id: 'b', position: { x: 0, y: 3 }, arcDeg: 90, directionDeg: 180, radiusM: 5 },
+  ])
+  assert.equal(checks.length, 2)
+  assert.ok(checks.every((entry) => entry.separationM === 3))
+  assert.ok(checks.every((entry) => entry.passed === false))
+  assert.ok(checks.every((entry) => entry.headToHeadNeighborId === null))
+})
+
+test('head-to-head spacing accepts mutually facing sectors within both throw radii', () => {
+  const checks = evaluateHeadToHeadSpacing([
+    { id: 'a', position: { x: 0, y: 0 }, arcDeg: 90, directionDeg: 90, radiusM: 5 },
+    { id: 'b', position: { x: 0, y: 3 }, arcDeg: 90, directionDeg: 270, radiusM: 5 },
+  ])
+  assert.ok(checks.every((entry) => entry.passed === true))
+  assert.ok(checks.every((entry) => entry.headToHeadSeparationM === 3))
+})
+
+test('head-to-head spacing treats full-circle rotor sectors as omnidirectional', () => {
+  const checks = evaluateHeadToHeadSpacing([
+    { id: 'a', position: { x: 0, y: 0 }, arcDeg: 360, directionDeg: null, radiusM: 5 },
+    { id: 'b', position: { x: 0, y: 3 }, arcDeg: 360, directionDeg: null, radiusM: 5 },
+  ])
+  assert.ok(checks.every((entry) => entry.passed === true))
 })
