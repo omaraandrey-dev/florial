@@ -195,3 +195,8 @@ The source archive contains only the two files listed above. Additional Emergent
 The public preview was inspected read-only on 2026-11-16. It showed five suggested questions and five empty site fields; the knowledge page showed 0/0 documents and 0 requests. Two harmless chat prompts returned an assistant error. The preview identified itself as static and the Resume Preview link redirected to Emergent login. This does not prove that the backend is absent; it means the current public preview does not demonstrate a working end-to-end assistant. See the audit for evidence and limitations.
 
 The Florial target remains a native rebuild: adapt the progressive conversation UX, replace Emergent/FastAPI/MongoDB and its keyword retrieval, and keep Gemini subordinate to the deterministic Florial engineering engine.
+
+
+## 2026-11-16 — 3500 evaluator checkpoint
+
+PR #339 adds an isolated Rain Bird 3500 evaluation module for explicit rotor positions. It uses exact D42378 pressure/nozzle points and only 180° half-circle arcs. It reports sampled coverage, directional head-to-head and sampled overspray separately; hydraulics, DU/SC, body/package compatibility and automatic position generation remain incomplete. The module is not connected to customer-facing output. No 5000 MPR engine is in scope.
