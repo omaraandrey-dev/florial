@@ -8,7 +8,9 @@ const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_TARGETS = 30000
 const MAX_CANDIDATES = 2400
 const MAX_ROTORS = 60
-const DIRECTION_STEP_DEG = 45
+const DEFAULT_DIRECTION_STEP_DEG = 45
+const ALLOWED_DIRECTION_STEPS = Object.freeze([15, 30, 45])
+const ALLOWED_POSITION_STEP_FACTORS = Object.freeze([0.25, 0.5, 1])
 
 function distance(a, b) {
   return Math.hypot(a.x - b.x, a.y - b.y)
@@ -83,14 +85,14 @@ function buildTargets(vertices, stepM) {
   return targets
 }
 
-function buildCandidatePositions(vertices, radiusM) {
+function buildCandidatePositions(vertices, radiusM, positionStepFactor, directionStepDeg) {
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const step = radiusM / 2
+  const step = radiusM * positionStepFactor
   const positions = []
   const seen = new Set()
   const add = (point) => {
@@ -103,7 +105,7 @@ function buildCandidatePositions(vertices, radiusM) {
   for (let y = minY; y <= maxY + EPSILON; y += step) {
     for (let x = minX; x <= maxX + EPSILON; x += step) {
       add({ x: Math.min(x, maxX), y: Math.min(y, maxY) })
-      if (positions.length * (360 / DIRECTION_STEP_DEG) > MAX_CANDIDATES) return null
+      if (positions.length * (360 / directionStepDeg) > MAX_CANDIDATES) return null
     }
   }
   for (let index = 0; index < vertices.length; index += 1) {
@@ -119,10 +121,10 @@ function buildCandidatePositions(vertices, radiusM) {
   return positions
 }
 
-function buildCandidates(positions, targets, radiusM, flowLpm) {
+function buildCandidates(positions, targets, radiusM, flowLpm, directionStepDeg) {
   const candidates = []
   for (const position of positions) {
-    for (let directionDeg = 0; directionDeg < 360; directionDeg += DIRECTION_STEP_DEG) {
+    for (let directionDeg = 0; directionDeg < 360; directionDeg += directionStepDeg) {
       const covered = []
       for (let index = 0; index < targets.length; index += 1) {
         if (sectorContains(targets[index], position, directionDeg, radiusM)) covered.push(index)
@@ -201,6 +203,8 @@ export function generateRainBird3500RotorLayout({
   nozzlePressureBar,
   nozzle,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
+  candidatePositionStepFactor = 0.5,
+  candidateDirectionStepDeg = DEFAULT_DIRECTION_STEP_DEG,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || validation.status !== 'accepted') {
@@ -212,7 +216,9 @@ export function generateRainBird3500RotorLayout({
     return failure('geometry_not_supported', 'single_rectangle_or_l_shape_without_exclusions_required', 'geometry')
   }
   if (!Number.isFinite(nozzlePressureBar) || !Number.isFinite(nozzle) ||
-      !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
+      !Number.isFinite(sampleStepM) || sampleStepM <= 0 ||
+      !ALLOWED_POSITION_STEP_FACTORS.includes(candidatePositionStepFactor) ||
+      !ALLOWED_DIRECTION_STEPS.includes(candidateDirectionStepDeg)) {
     return failure('invalid_operating_input', 'exact_nozzle_pressure_nozzle_and_positive_sample_step_required', 'operatingPoint')
   }
   const point = findRainBird3500PerformancePoint(nozzlePressureBar, nozzle)
@@ -223,9 +229,9 @@ export function generateRainBird3500RotorLayout({
   const vertices = validation.normalizedGeometry.regions[0].boundary.vertices.slice(0, -1)
   const targets = buildTargets(vertices, sampleStepM)
   if (!targets) return failure('sampling_limit_exceeded', 'coverage_sampling_limit_exceeded', 'sampleStepM')
-  const positions = buildCandidatePositions(vertices, point.radiusM)
+  const positions = buildCandidatePositions(vertices, point.radiusM, candidatePositionStepFactor, candidateDirectionStepDeg)
   if (!positions) return failure('candidate_limit_exceeded', 'candidate_position_limit_exceeded', 'geometry')
-  const candidates = buildCandidates(positions, targets, point.radiusM, point.flowLpm)
+  const candidates = buildCandidates(positions, targets, point.radiusM, point.flowLpm, candidateDirectionStepDeg)
   if (!candidates) return failure('candidate_limit_exceeded', 'candidate_count_limit_exceeded', 'geometry')
   if (!candidates.length) return failure('no_candidates', 'no_usable_180_degree_candidates', 'geometry')
 
@@ -249,7 +255,7 @@ export function generateRainBird3500RotorLayout({
     Object.freeze({ code: 'heuristic_grid_search_not_global_optimum', path: 'candidateStrategy' }),
     Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_proof', path: 'coverage' }),
     Object.freeze({ code: 'hydraulics_and_precipitation_uniformity_not_evaluated', path: 'hydraulics/precipitation' }),
-    Object.freeze({ code: 'candidate_direction_resolution_45_degrees', path: 'candidateStrategy' }),
+    Object.freeze({ code: 'candidate_direction_resolution_' + candidateDirectionStepDeg + '_degrees', path: 'candidateStrategy' }),
   ]
   if (uncovered > 0) warnings.push(Object.freeze({ code: 'uncovered_sample_points_remain', path: 'coverage' }))
   return Object.freeze({
@@ -260,8 +266,9 @@ export function generateRainBird3500RotorLayout({
       testedPositions: positions.length,
       testedCandidates: candidates.length,
       selectedRotors: layout.length,
-      candidateDirectionStepDeg: DIRECTION_STEP_DEG,
-      candidatePositionStepM: point.radiusM / 2,
+      candidateDirectionStepDeg,
+      candidatePositionStepM: point.radiusM * candidatePositionStepFactor,
+      candidatePositionStepFactor,
     }),
     searchCoverage: Object.freeze({
       sampledTargets: targets.length,
