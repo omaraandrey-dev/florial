@@ -1,3 +1,12 @@
+## 2026-11-16 — Guided intake implementation status
+
+- Implemented in the current feature branch: localized progressive prompts and a versioned intake snapshot with customer-reported provenance for geometry, flow and pressure.
+- New intake fields: flow measurement method; static/dynamic/unknown pressure; pressure measurement point (source/irrigation point/unknown); optional measurement conditions.
+- Unknown/unverified inputs remain warnings. Snapshot is explicitly `intake_only` / `not_calculated`.
+- Pending validation: exact-head CI, full browser interaction and responsive BG/RU/EN QA.
+- Still not implemented: free-form LLM chat, conversation persistence, backend endpoint, approved knowledge retrieval, deterministic layout/hydraulic connection, catalogue compatibility, Gemini final review and cart handoff.
+- Engineering gate remains open: no automatic design/BOM until hydraulic model, complete body/nozzle compatibility and engineer-reviewed reference scenarios are approved.
+
 ## 2026-11-16 — Final Gemini review sequence and cart handoff approved
 
 - Owner decision: Gemini performs a final second-pass review only after Florial's deterministic engineering result and exact catalogue proposal have been prepared. It checks consistency/completeness and produces an explanation; it cannot change calculation outputs, select/replace products, alter quantities/prices/availability or mutate cart state.

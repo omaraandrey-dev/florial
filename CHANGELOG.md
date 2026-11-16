@@ -1,3 +1,10 @@
+## 2026-11-16 — Irrigation assistant: guided intake and measurement provenance (implementation PR pending)
+
+- Extended the existing localized `/irrigation-assistant` guided flow with explicit prompts and measurement provenance in BG/RU/EN.
+- Customers can distinguish flow-meter vs timed-volume flow measurements, static vs dynamic pressure, and pressure measured at the source vs the irrigation point. Unknown values remain unknown and produce clarification warnings.
+- Added a versioned intake snapshot module and unit tests. Snapshot status is explicitly `intake_only` / `not_calculated`; no hydraulic calculation, layout recommendation, product selection, AI request or cart mutation is performed.
+- Exact-head CI and browser checks are pending. No Production deployment, D1/Sanity writes, Cloudflare settings/secrets, Resend or customer data changes.
+
 ## 2026-11-16 — Owner decision: Gemini final review after engineering and catalogue selection
 
 - The owner approved a staged customer journey: conversational intake → deterministic Florial engineering calculation → exact compatible catalogue selection and live commercial data → final Gemini review of the frozen completed proposal → user-visible result → explicit customer click to add validated items to the existing cart.

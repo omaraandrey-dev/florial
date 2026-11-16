@@ -418,6 +418,20 @@ The engineering and catalogue pipeline must finish before the final AI review is
 
 This ordering is intentional: Gemini reviews the completed Florial calculation and product proposal; it is not used to generate the engineering result or select commercial items.
 
+### 9.5 Versioned intake snapshot and measurement provenance
+
+The first customer-facing intake implementation uses a versioned, deterministic snapshot contract. It is an intake record only and must not be treated as a calculated irrigation design.
+
+Required provenance rules:
+- Geometry remains customer-entered and is marked confirmed only when the existing geometry validator returns a valid `accepted` result and the customer has explicitly confirmed the outline.
+- Flow is stored as customer-reported, with the method distinguished as flow-meter or timed-volume measurement. An unknown method remains unknown.
+- Pressure is stored as customer-reported and explicitly classified as static, dynamic or unknown. The measurement point is separately classified as the water source, the irrigation point or unknown.
+- Static pressure, pressure measured only at the source, missing values and unknown methods generate clarification warnings. They must not be silently promoted to dynamic pressure available at the sprinkler.
+- Free-text measurement conditions and site notes are bounded and remain unverified customer statements.
+- The snapshot carries a schema version, explicit `intake_only` workflow status, `not_calculated` engineering status, warnings and limitations. No pressure/flow inference, interpolation or hydraulic feasibility claim is permitted at this stage.
+
+The current guided UI is a scripted progressive intake, not an LLM conversation or persistent project. Backend persistence, LLM normalization, deterministic layout/hydraulic execution, catalogue mapping, Gemini review and cart handoff remain separate gated stages.
+
 ## 10. Target application architecture
 
 ### 10.1 Frontend

@@ -18,6 +18,14 @@ If review fails/is unavailable, do not fabricate a pass. A material issue requir
 **Target repository:** `omaraandrey-dev/florial`  
 **Target production:** `https://florial-bg.com`
 
+## 2026-11-16 — Phase 2 implementation slice: guided intake and measurement provenance
+
+- **Implemented in branch:** the existing `/irrigation-assistant` now presents a localized step-by-step guided prompt in BG/RU/EN and captures how flow and pressure were measured.
+- Pressure intake distinguishes static vs dynamic pressure and measurement location (water source vs irrigation point). Flow intake distinguishes flow-meter readings from timed-volume measurements. Unknown values remain explicitly unknown; customer-entered values are not promoted to verified engineering measurements.
+- Added versioned `irrigationIntake` snapshot contract with provenance, validation warnings and explicit `intake_only / not_calculated` status. Added unit tests for the snapshot contract.
+- This is a first guided-intake slice, not a free-form LLM chat, saved conversation or engineering calculation. It does not call the lawn layout solver, select products, access live catalogue data, invoke Gemini or mutate the cart.
+- Exact-head CI, browser QA and Production deployment are pending PR validation. No D1, Sanity, Cloudflare configuration/secrets or customer data were changed.
+
 ## Purpose
 
 Preserve the useful work from the standalone Emergent prototype so it can be reviewed and selectively adapted into the existing Florial application. The prototype is an experiment and must not replace the Florial store or become a parallel production platform.

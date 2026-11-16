@@ -1,3 +1,10 @@
+## 2026-11-16 — Irrigation assistant guided intake implementation (PR validation pending)
+
+- Existing `/irrigation-assistant` guided flow now records pressure type (static/dynamic/unknown), measurement location (source/irrigation point/unknown), flow measurement method (flow meter/timed volume/unknown), and optional measurement conditions in BG/RU/EN.
+- Added versioned provenance-aware intake snapshot contract with explicit `intake_only` and `not_calculated` states and warnings for missing/unverified measurements.
+- This implementation does not call the lawn layout solver, perform hydraulic calculations, select Sanity products, invoke Gemini, persist conversations or add products to cart.
+- Exact-head CI and browser QA are pending. No Production deployment or live-service writes were performed.
+
 ## 2026-11-16 — Approved final AI review and explicit cart handoff
 
 - Owner-approved sequence: conversation/intake → deterministic Florial engineering calculation → exact Sanity catalogue mapping and live price/availability → Gemini second-pass review of the frozen proposal → visible result → customer clicks to add items to cart.
