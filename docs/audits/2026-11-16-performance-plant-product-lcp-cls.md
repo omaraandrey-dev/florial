@@ -44,7 +44,46 @@ This is one Lighthouse lab run, not CrUX/field data or a three-run median.
 - Make the LCP image discoverable and prioritized in the initial server HTML, and ensure the React image uses matching responsive candidates.
 - Preconnect to the three Sanity origins before the browser makes product/image requests.
 
-No claim is made for an improved score, CLS, LCP or actual byte savings until Preview browser/network QA and matched Lighthouse measurements complete.
+## Preview verification and measured results
+
+### Build and automated checks
+
+- Exact PR head: `97d839ea12c86c295b25043c694fadd6bb34e5ec`.
+- Cloudflare Pages Preview deployment `46ec699f-c08c-46f1-98c5-c994e5f3d02e` completed successfully on that exact SHA. Preview URL: `https://perf-plant-product-lcp-cls-2.florial.pages.dev`.
+- GitHub Actions passed: D1 migration validation run `43923525041` (lint, website build, Pages Functions syntax, migration validations) and Blog/Studio validation run `43923525082` (app/Pages type-check, lint, website tests, website build, Studio type-check/build, read-only migration dry-run).
+
+### Read-only browser QA
+
+- BG, RU and EN product content rendered correctly. Product name/H1, €600 price, stock state, 240 cm / 2.4 m / 50 L variant, gallery, related content and Footer were present. No purchase, cart, form or contact actions were triggered.
+- At 390×844, `document.documentElement.scrollWidth` was 375 px and no element overflowed the viewport. Desktop 1440×900 also showed no horizontal overflow.
+- No console errors or uncaught runtime errors were observed.
+- Main hero DOM: responsive `srcset` (160w–1600w), `sizes="(min-width: 1024px) 50vw, 100vw"`, intrinsic 2000×2000 dimensions, `loading="eager"`, `fetchpriority="high"`. The selected `currentSrc`/asset was a Sanity CDN 1200w source in the tested viewport. The document head contains the three intended Sanity preconnects.
+- Resource timing showed targeted product lookup queries by slug in `production` and `plants`, followed by the matching product detail query and related-content queries. No full, unfiltered product catalogue query was present on the product route. Header/category/site-settings queries remain and are not part of the removed product-catalogue lookup path.
+
+### Three PageSpeed Insights runs per form factor
+
+All six runs used Lighthouse 13.6.0 against the same Preview product URL. Values below are medians of three runs; each PSI report contains both form-factor tabs.
+
+| Metric | Owner baseline (mobile, one run) | Preview mobile median (3 runs) | Preview desktop median (3 runs) |
+|---|---:|---:|---:|
+| Performance | 59 | 99 | 100 |
+| FCP | 0.9 s | 0.9 s | 0.2 s |
+| LCP | 5.0 s | 1.7 s | 0.4 s |
+| TBT | 10 ms | 0 ms | 0 ms |
+| CLS | 0.693 | 0.001 | 0.018 |
+| Speed Index | 1.7 s | 2.7 s | 0.8 s |
+
+Mobile individual runs: `ozjpcqy6re` (LCP 1.8 s, SI 2.3 s), `10fuaugey6` (LCP 1.7 s, SI 2.7 s), `ss17w8zf61` (LCP 1.7 s, SI 2.7 s). Desktop tabs for the same reports: LCP 0.5/0.4/0.4 s, CLS 0.018 in all three.
+
+Compared with the supplied single-run mobile baseline, Preview median LCP is 5.0 → 1.7 s (about 66% lower), CLS 0.693 → 0.001, TBT 10 → 0 ms and Performance 59 → 99. FCP is unchanged at 0.9 s. Speed Index is higher in the Preview runs (2.7 s vs. 1.7 s baseline), so the overall visual completion metric is not uniformly better. These are lab measurements on Preview, not field data and not a same-host Production comparison; rerun after Production release before claiming production performance values.
+
+Preview PageSpeed SEO is 69 because the Preview response intentionally carries `X-Robots-Tag: noindex` and `noindex, nofollow` meta. Preview `robots.txt` allows crawling, but the noindex response header is authoritative. This is Preview-only and does not change Production indexing. Do not remove Preview noindex.
+
+### Remaining work
+
+- PR #354 remains open; no Production deployment or merge has been made.
+- After owner approval and merge, verify the exact Production deployment and repeat the three mobile/desktop Lighthouse runs on `https://florial-bg.com/product/washingtonia`.
+- Remaining Preview opportunities: approximately 18 KiB image delivery, 160 ms render-blocking requests on mobile (50 ms desktop), and about 41 KiB unused JavaScript. Treat these as a separate next optimization pass after Production confirmation.
 
 ## Scope and safety
 
