@@ -261,3 +261,32 @@ test('returns a stable invalid result for non-object input', () => {
   assert.equal(result.status, 'invalid')
   assert.deepEqual(result.errors, [{ code: 'invalid_input', path: '$' }])
 })
+
+
+test('rejects adjacent collinear edges that reverse and overlap', () => {
+  const result = validateLawnGeometry(geometry([
+    { x: 0, y: 0 },
+    { x: 10, y: 0 },
+    { x: 5, y: 0 },
+    { x: 5, y: 5 },
+    { x: 0, y: 5 },
+  ]))
+  assert.ok(result.errors.some((entry) => entry.code === 'self_intersection'))
+})
+
+test('rejects malformed exclusion collections instead of silently ignoring them', () => {
+  const result = validateLawnGeometry(geometry(rectangle, {
+    regions: [{ id: 'lawn-1', boundary: { vertices: rectangle }, exclusions: 'none' }],
+  }))
+  assert.ok(result.errors.some((entry) => entry.code === 'invalid_exclusion_list'))
+})
+
+test('rejects coordinates whose derived measurements overflow numeric range', () => {
+  const result = validateLawnGeometry(geometry([
+    { x: 0, y: 0 },
+    { x: 1e308, y: 0 },
+    { x: 1e308, y: 1e308 },
+    { x: 0, y: 1e308 },
+  ]))
+  assert.ok(result.errors.some((entry) => entry.code === 'invalid_geometry_measurement'))
+})
