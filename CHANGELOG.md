@@ -1,11 +1,3 @@
-## 2026-11-16 — Plant product page performance candidate
-
-- Owner-supplied PageSpeed mobile baseline for `/product/washingtonia`: Performance 59, FCP 0.9 s, LCP 5.0 s, TBT 10 ms, CLS 0.693, Speed Index 1.7 s. Lighthouse 13.6.0 / Moto G Power / low-end 4G; one lab run, no CrUX field data.
-- Code review found product routes downloading both full catalogues before looking up the requested item, a short product loading placeholder, no explicit priority on the React hero image, and a non-responsive no-JS fallback image without intrinsic dimensions. Footer movement is the dominant CLS source in the supplied report.
-- Candidate changes on branch `perf/plant-product-lcp-cls-2026-11-16`: targeted slug lookup in the two Sanity datasets before loading one product's detail; viewport-height product skeleton; eager/high-priority main image; responsive SSR fallback with dimensions; Sanity preconnect hints; regression tests.
-- Audit: `docs/audits/2026-11-16-performance-plant-product-page.md`.
-- **Status:** implementation candidate only; PR/CI/build/Preview/browser QA/Lighthouse verification pending. No speed improvement or release is claimed. Header, menu, Footer, Sanity data, D1, Cloudflare settings and Production configuration are untouched.
-
 ## 2026-11-16 — Service-page CLS/image optimization merged and deployed (PR #353)
 
 - PR #353: https://github.com/omaraandrey-dev/florial/pull/353 — merged into `main`; merge commit `74642455efe284730cdf442efc1b82182e10eda8`.
