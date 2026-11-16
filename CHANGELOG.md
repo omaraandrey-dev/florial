@@ -1,3 +1,12 @@
+## 2026-11-16 — Irrigation assistant conversational intake v1 (implementation candidate)
+
+- Reworked the existing `/irrigation-assistant` page into a guided conversation-style BG/RU/EN intake with a prior-answer transcript, progress, project facts panel and reviewable summary.
+- Preserved customer-confirmed rectangle/L-shape geometry and added explicit static/dynamic/unknown pressure semantics, dynamic-pressure test condition/location and measured-flow method.
+- Added a versioned in-memory intake contract/readiness evaluator and tests. Static pressure alone cannot satisfy the dynamic-pressure gate; flow requires a declared measurement method.
+- Hydraulic readiness is deliberately always `not_evaluated`; pipe network, elevation and restrictions remain outstanding. No layout solver, Gemini, Sanity catalogue, cart, lead endpoint, D1 persistence or Resend is connected in this increment.
+- Data remains in browser memory only; no customer identity/contact details are collected or transmitted. Header, menu, Footer, route and launcher scope are unchanged.
+- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. CI and Preview QA are pending for this branch; Production is unchanged.
+
 ## 2026-11-16 — Owner decision: Gemini final review after engineering and catalogue selection
 
 - The owner approved a staged customer journey: conversational intake → deterministic Florial engineering calculation → exact compatible catalogue selection and live commercial data → final Gemini review of the frozen completed proposal → user-visible result → explicit customer click to add validated items to the existing cart.
