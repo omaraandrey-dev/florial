@@ -34,3 +34,12 @@ A result from fewer than 24 catch cans is still calculated but receives a warnin
 Tests use the NMSU 24-can example (expected DUlq approximately 54%), non-multiple-of-four sample counts, a set below 24 cans, valid zero readings and invalid input cases.
 
 Exact-head CI results are to be added after PR checks complete. No Sanity, D1, Cloudflare settings/secrets, Gemini, cart or Production changes are included.
+
+## Release result
+
+- PR #321 merged into `main` as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`.
+- Exact PR head: `bc32ab7b8cc71a86fd8a007537cb41c752a8892f`.
+- Blog and Studio validation run `43822321587` — success, including application/Pages TypeScript, lint, utility tests, website build, migration checks, Studio TypeScript and Studio build.
+- D1 migration validation run `43822321498` — success.
+- Cloudflare Pages Production deployment `ac221f58-000d-479c-a9ed-d403b416efd9` deployed the exact merge commit successfully; queued, initialize, clone, build and deploy stages all succeeded, and aliases `florial-bg.com` / `www.florial-bg.com` were assigned.
+- The utility is not wired into the customer-facing assistant page. No Sanity, D1, Cloudflare settings/secrets, Gemini, cart or Production data changes were made.

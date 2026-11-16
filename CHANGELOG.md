@@ -1,5 +1,14 @@
 
 
+## 2026-11-16 — Catch-can DUlq measurement utility merged (PR #321)
+
+- PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`. Added a deterministic lower-quarter distribution uniformity (DUlq) calculator for measured catch-can volumes/depths, type declarations, tests and an engineering audit.
+- The utility uses average of the lowest 25% divided by average of all samples; it allows zero readings, rejects invalid/all-zero sets, rounds the lower-quarter count upward for sample counts not divisible by four, and warns below 24 samples. It calculates measured DUlq only; it does not predict design uniformity or calculate SC.
+- Exact-head CI passed: Blog and Studio run `43822321587` and D1 validation run `43822321498`. Cloudflare Pages Production deployment `ac221f58-000d-479c-a9ed-d403b416efd9` deployed the exact merge SHA successfully; all stages completed and aliases `florial-bg.com` / `www.florial-bg.com` were assigned.
+- The utility is not integrated into the customer-facing assistant. No Sanity, D1 data/schema, Cloudflare settings/secrets, Gemini, cart or Production data changes. Audit: `docs/audits/2026-11-16-catch-can-distribution-uniformity.md`.
+
+
+
 ## 2026-11-16 — Lawn layout sampled-coverage acceptance strengthened (PR #319)
 
 - PR #319 merged as `df1592ba5519d75487cff030ae8b165a11d5ec35`. Rectangle scenarios at 4/5/6/8m widths and original/axis-swapped/reversed L-shapes now require 100% sampled coverage, zero uncovered samples and passing head-to-head checks. Baseline rectangle/L-shape are additionally checked at 0.125m sampling resolution.

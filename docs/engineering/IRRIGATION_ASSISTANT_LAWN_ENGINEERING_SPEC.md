@@ -167,6 +167,14 @@ An irrigation engineer must review rules and baseline cases before automatic cus
 - PR #319 strengthens scenario tests to require 100% sampled coverage and zero uncovered points for 12m rectangles at 4/5/6/8m widths and for mirrored/rotated/reversed L-shapes. The baseline rectangle and L-shape are also checked at 0.125m sampling resolution.
 - These tests do not prove continuous coverage or uniformity. The engine remains a code library: the current `IrrigationAssistantPage.tsx` collects and validates geometry but does not call the layout solver. Customer-facing layout recommendations remain gated on engineer-reviewed reference layouts, exact manufacturer compatibility, overspray and hydraulic validation.
 
+
+
+### Field-measured uniformity utility — 2026-11-16
+
+- PR #321 adds a code-owned utility for measured DUlq from catch-can volumes/depths. It uses the lowest-quarter mean divided by the mean of all samples, warns below 24 cans and assumes equal-area weighting.
+- This does not estimate a future layout's uniformity, does not calculate SC or net precipitation rate, and does not replace a field audit. The solver's `precipitationUniformity` remains `not_evaluated`.
+- A future field validation needs an engineer-reviewed catch-can grid and recorded sprinkler/nozzle model, arc, nozzle pressure, run time, wind conditions, sample spacing and readings. Non-uniform represented areas need a weighted calculation before DUlq can be trusted.
+
 ## 10. Delivery stages
 
 1. Complete launcher visibility rules and portrait source.
