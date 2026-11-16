@@ -519,3 +519,13 @@
 - **Hydraulics/uniformity:** dynamic pressure at the nozzle, zone flow, pipe losses, elevation, DU/SC and precipitation matching remain unimplemented. Source pressure must not be substituted for nozzle pressure.
 - **Manufacturer/product gates:** obtain Rain Bird clarification for arc-specific performance and conflicting 25%/35% radius reduction; verify 3504-PC and 3504-PC-SAM package/nozzle-tree contents before catalogue/BOM mapping.
 - The 3500 modules remain disconnected from customer-facing assistant, catalogue, cart and Production workflow. No 5000 MPR engine is in scope.
+
+
+## 2026-11-16 — Rain Bird 3500 synthetic invariance and convergence
+
+- PR #342 merged as `78784ff2685851bd3287b4cf7829d342d2c747fe`; exact-head Blog/Studio CI `43848342270` and D1 CI `43848342194` passed.
+- Synthetic regression tests now exercise mirrored and right-angle-rotated L-shapes and target sampling at 0.5/0.25/0.125 m. They do not yet compare selected rotor count/coordinates across resolutions or compare against a manually engineered baseline.
+- **Still required:** owner/engineer-approved reference layouts with exact positions, nozzle, nozzle pressure, selected arcs and acceptance rationale. Do not fabricate a manual reference layout or treat synthetic tests as field validation.
+- **Convergence:** quantify changes in selected rotor count/positions, coverage, head-to-head and overspray at finer sampling and different candidate-grid/bearing increments.
+- **Selection:** current greedy set-cover selects for new sampled coverage; H2H and overspray are only checked after selection. Improve the search objective against approved reference layouts before using it for real projects.
+- Hydraulics, DU/SC, exclusions, other arcs, radius-reduction clarification, package compatibility and customer-facing integration remain release gates. No 5000 MPR engine.
