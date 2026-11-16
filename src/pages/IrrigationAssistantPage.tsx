@@ -234,6 +234,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущую область R-VAN v1. Не подменяем расчёт неподтверждённой моделью; для более крупных радиусов нужен отдельный модуль роторов Rain Bird 3500/5000.',
+    narrow: 'Участок уже минимального диапазона, проверенного для текущей раскладки R-VAN. Не уменьшаем радиус по неподтверждённому правилу; нужна отдельная проверка малых форсунок или специалиста.',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
@@ -245,6 +246,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current R-VAN v1 scope. No unverified model is substituted; larger throw radii need a separate Rain Bird 3500/5000 rotor module.',
+    narrow: 'The lawn is narrower than the range verified for the current R-VAN layout. We do not reduce throw radius using an unverified rule; a small-nozzle module or specialist review is required.',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
@@ -491,7 +493,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'outside_rvan_v1_scope' ? layoutLabels.unsupported : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_rvan_v1_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                   )}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
