@@ -14,6 +14,9 @@ test('HE-VAN dataset records the Rain Bird metric chart and 64 discrete rows', (
   assert.match(RAIN_BIRD_HEVAN_DATASET.source.title, /HE-VAN/)
   assert.equal(RAIN_BIRD_HEVAN_DATASET.source.testConditions, 'Zero wind')
   assert.equal(RAIN_BIRD_HEVAN_DATASET.performancePoints.length, 64)
+  assert.equal(RAIN_BIRD_HEVAN_DATASET.source.optimumPressureBar, 2.1)
+  assert.equal(RAIN_BIRD_HEVAN_DATASET.source.recommendedOperatingPressureBar, 2.07)
+  assert.deepEqual(RAIN_BIRD_HEVAN_DATASET.models.map(({ spacingRangeM }) => spacingRangeM), [[1.8, 2.4], [2.4, 3.0], [3.0, 3.7], [3.7, 4.6]])
 })
 
 test('HE-VAN dataset maps the four published Florial nozzle SKUs', () => {

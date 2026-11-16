@@ -229,35 +229,41 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     title: 'Предварительная геометрическая раскладка', candidate: 'Кандидат по таблице производителя',
     heads: 'Количество дождевателей', totalFlow: 'Суммарный расход по таблице, л/мин',
     coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
-    positions: 'Координаты дождевателей, м', scenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN из таблицы Rain Bird. Это не измеренное давление на дождевателях. Измерения источника воды не подменяют давление на соплах.',
-    limits: 'Выбор R-VAN14/R-VAN18 по короткой стороне — предварительная эвристика, требующая инженерной проверки. Гидравлика, потери в трубах, зонирование, совместимость корпуса и форсунки, препятствия и перелив за границы участка не проверены. Это не готовая спецификация оборудования.',
+    positions: 'Координаты дождевателей, м',
+    rvanScenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN по таблице Rain Bird. Это сценарий производителя, а не измеренное давление на сопле.',
+    hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
+    limits: 'Выбор семейства и модели по короткой стороне — предварительное правило для кандидата и требует инженерной проверки. Используются отдельные таблицы R-VAN и HE-VAN. Гидравлика, потери в трубах, зонирование, совместимость корпуса и форсунки, препятствия и перелив за границы участка не проверены. Это не готовая спецификация оборудования.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
-    unsupported: 'Геометрия выходит за текущую область R-VAN v1. Не подменяем расчёт неподтверждённой моделью. Следующий этап — отдельный движок Rain Bird 3500; он пока не включён. До его проверки нужна инженерная оценка.',
-    narrow: 'Участок уже минимального диапазона, проверенного для текущей раскладки R-VAN. Не уменьшаем радиус по неподтверждённому правилу; нужна отдельная проверка малых форсунок или специалиста.',
+    unsupported: 'Геометрия выходит за текущую область R-VAN/HE-VAN. Не подменяем расчёт неподтверждённой моделью. Следующий этап — отдельный движок Rain Bird 3500; он пока не включён. До его проверки нужна инженерная оценка.',
+    narrow: 'Короткая сторона меньше минимального диапазона HE-VAN 1,8 м. Не уменьшаем радиус по неподтверждённому правилу; нужна инженерная проверка.',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
     title: 'Preliminary geometric sprinkler layout', candidate: 'Manufacturer-table candidate',
     heads: 'Sprinkler count', totalFlow: 'Total tabulated flow, L/min',
     coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
-    positions: 'Sprinkler coordinates, m', scenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point from its table. It is not measured pressure at the sprinklers. Source measurements are not substituted for nozzle pressure.',
-    limits: 'The R-VAN14/R-VAN18 choice based on the shorter side is a provisional heuristic requiring engineering review. Hydraulics, pipe losses, zoning, body/nozzle compatibility, obstacles and overspray beyond the lawn boundary have not been evaluated. This is not a purchasable equipment specification.',
+    positions: 'Sprinkler coordinates, m',
+    rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. This is a manufacturer scenario, not measured pressure at the nozzle.',
+    hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
+    limits: 'Family and model selection from the shorter side is a provisional candidate rule requiring engineering review. Separate R-VAN and HE-VAN manufacturer tables are used. Hydraulics, pipe losses, zoning, body/nozzle compatibility, obstacles and overspray beyond the lawn boundary have not been evaluated. This is not a purchasable equipment specification.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
-    unsupported: 'The geometry is outside the current R-VAN v1 scope. No unverified model is substituted. The next planned step is a separate Rain Bird 3500 engine; it is not enabled yet. Engineer review is required until that work is validated.',
-    narrow: 'The lawn is narrower than the range verified for the current R-VAN layout. We do not reduce throw radius using an unverified rule; a small-nozzle module or specialist review is required.',
+    unsupported: 'The geometry is outside the current R-VAN/HE-VAN scope. No unverified model is substituted. The next planned step is a separate Rain Bird 3500 engine; it is not enabled yet. Engineer review is required until that work is validated.',
+    narrow: 'The short side is below the HE-VAN manufacturer spacing range of 1.8 m. Do not reduce throw radius using an unverified rule; engineer review is required.',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
     title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Кандидат според таблицата на производителя',
     heads: 'Брой разпръсквачи', totalFlow: 'Общ дебит по таблица, л/мин',
     coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
-    positions: 'Координати на разпръсквачите, м', scenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според таблицата на Rain Bird. Това не е измерено налягане при разпръсквачите. Измерванията при водоизточника не се приемат за налягане при дюзите.',
-    limits: 'Изборът между R-VAN14/R-VAN18 според по-късата страна е предварителна евристика и изисква инженерна проверка. Хидравликата, загубите в тръбите, зоните, съвместимостта на корпуса и дюзата, препятствията и разпръскването извън тревната площ не са проверени. Това не е готова спецификация за покупка.',
+    positions: 'Координати на разпръсквачите, м',
+    rvanScenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според Rain Bird. Това е сценарий по данните на производителя, а не измерено налягане при дюзата.',
+    hevanScenarioNote: 'За HE-VAN е използвана точка 2,07 bar — най-близката точна таблична стойност до оптимума 2,1 bar на Rain Bird. Това е сценарий, а не измерено налягане при дюзата.',
+    limits: 'Изборът на семейство и модел според по-късата страна е предварително правило за кандидат и изисква инженерна проверка. Използват се отделни таблици R-VAN и HE-VAN. Хидравликата, загубите в тръбите, зоните, съвместимостта на корпуса и дюзата, препятствията и разпръскването извън тревната площ не са проверени. Това не е готова спецификация за покупка.',
     generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
     incomplete: 'Двигателят създаде вариант, но има непокрити контролни точки. Необходима е инженерна проверка.',
-    unsupported: 'Геометрията е извън текущия обхват на R-VAN v1. Не заместваме изчислението с непроверен модел. Следващият планиран етап е отделен двигател за Rain Bird 3500; той все още не е активиран. До валидирането му е необходима инженерна проверка.',
+    unsupported: 'Геометрията е извън текущия обхват на R-VAN/HE-VAN. Не заместваме изчислението с непроверен модел. Следващият планиран етап е отделен двигател за Rain Bird 3500; той все още не е активиран. До валидирането му е необходима инженерна проверка.',
     notReady: 'За изчисление е необходим контур, потвърден от клиента.', engineError: 'Текущият инженерен двигател не поддържа тази геометрия или конфигурация.',
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки',
   }
@@ -459,7 +465,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   </div>
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
-                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.model} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
+                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} {layoutResult.operatingScenario?.model} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
                       <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? layoutLabels.generated : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
@@ -481,7 +487,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
                         <p className="font-semibold text-slate-800">{layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
-                        <p className="mt-2 text-xs leading-5 text-slate-600">{layoutLabels.scenarioNote}</p>
+                        <p className="mt-2 text-xs leading-5 text-slate-600">{(layoutResult.operatingScenario?.family === 'HE-VAN' ? layoutLabels.hevanScenarioNote : layoutLabels.rvanScenarioNote)}</p>
                       </div>
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
@@ -493,7 +499,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_rvan_v1_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_supported_spray_nozzle_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                   )}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>

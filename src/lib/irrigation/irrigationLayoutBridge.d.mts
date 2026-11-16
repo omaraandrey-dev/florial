@@ -25,7 +25,7 @@ export interface PreliminaryLawnLayoutResult {
   readonly engine?: Readonly<{ name: string; version: string; algorithm: string | null }>
   readonly operatingScenario?: Readonly<{
     manufacturer: string
-    family: 'R-VAN'
+    family: 'R-VAN' | 'HE-VAN'
     model: string
     pressureBar: number
     pressureBasis: string
