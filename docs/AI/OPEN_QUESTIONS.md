@@ -6,7 +6,7 @@
 - **Strengthened:** rectangle widths 4/5/6/8m and three L-shape orientations now require 100% sampled coverage, zero uncovered samples and head-to-head pass; baseline rectangle/L-shape also tested at 0.125m resolution.
 - **Still preliminary:** sampled coverage is not a continuous proof. Hydraulic feasibility, dynamic pressure, pipe losses, precipitation uniformity, overspray, wind and body/nozzle compatibility remain unevaluated.
 - **UI integration intentionally deferred:** `IrrigationAssistantPage.tsx` currently collects/validates geometry but does not import or call `generateLawnSprinklerLayout`. Do not expose automatic layout recommendations until engineer-reviewed reference cases, manufacturer-data gates and the hydraulic/compatibility safeguards are satisfied.
-- **Production deployment:** Cloudflare Pages deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` for the exact merge SHA had a successful build but deploy was active at the time of this entry. Recheck deployment status; this was a test/audit-only change.
+- **Production deployment:** Cloudflare Pages deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` completed successfully for the exact merge SHA; aliases `florial-bg.com` and `www.florial-bg.com` were assigned. This was a test/audit-only change.
 - Audit: `docs/audits/2026-11-16-lawn-layout-coverage-acceptance.md`.
 
 
