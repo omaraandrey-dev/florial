@@ -3385,3 +3385,11 @@ Backups:
 - Runtime/test changes were unchanged after the verified code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03`; the current head also passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`.
 - The PR branch was behind the current `main` by five documentation-only commits. The three shared history documents were synchronized from current `main` before integrating stage 7, preserving the current pause handoff and all unrelated website documentation.
 - Site-context stage 7 remains preliminary: sampled overspray policy checks only; candidate search does not yet optimize around forbidden zones; 0.25 m sampled containment is not an exact/continuous proof. No Production or live-service writes.
+
+## 2026-11-16 — PR #349 merged: Rain Bird 3500 whole-site context stage 7
+
+- PR #349 successfully merged into `main`; GitHub reports `merged=true`, closed, merge commit `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`.
+- Before merge, PR branch was synchronized with current main's five documentation-only commits; all existing main documentation was preserved and stage-7 records retained.
+- Main now contains confirmed site-context validation/classification, optional evaluator/generator integration, TypeScript declarations, regression tests and the stage-7 audit.
+- Exact code CI passed: Blog/Studio `43855876224`, D1 `43855891392`; later documentation-only PR head Blog/Studio `43860117598`, D1 `43856450266` also passed. No Production deployment or live-service writes.
+- Engineering workstream remains paused after stage 7. Stage 8 overspray-aware candidate optimization and all documented engineering validation gates remain open.
