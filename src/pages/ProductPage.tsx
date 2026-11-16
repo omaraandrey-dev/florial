@@ -70,7 +70,7 @@ export function ProductPage({
   onNavigateInternalPath,
 }: ProductPageProps) {
   const { t, language, localize } = useI18n()
-  const [selectedImage, setSelectedImage] = useState<string>('')
+  const [selectedImage, setSelectedImage] = useState<string>(() => product.imageUrl || '')
   const [failedImageUrls, setFailedImageUrls] = useState<string[]>([])
   const [quantity, setQuantity] = useState<number>(1)
   const [addedNotification, setAddedNotification] = useState<boolean>(false)
@@ -380,7 +380,7 @@ export function ProductPage({
           )}
           <div className="w-full h-80 sm:h-96 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-100 relative">
             {selectedImage && !failedImageUrls.includes(selectedImage) ? (
-              <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} decoding="async" onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
+              <img {...getSanityImageProps(selectedImage, '(min-width: 1024px) 50vw, 100vw', 1200)} alt={getImageText(selectedImage, "alt")} title={getImageText(selectedImage, "title")} loading="eager" fetchPriority="high" decoding="async" onError={() => handleImageError(selectedImage)} className="h-full w-full object-contain p-4" />
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
