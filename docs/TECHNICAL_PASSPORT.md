@@ -1,5 +1,14 @@
 
 
+## 2026-11-16 — Lawn layout sampled-coverage acceptance (PR #319)
+
+- PR #319 merged as `df1592ba5519d75487cff030ae8b165a11d5ec35`; exact PR head `bcb1d5399612e33069dbc1c11f37fa21eaf37c26` passed Blog/Studio run `43821654485` and D1 run `43821654670`.
+- Scenario tests now require complete sampled coverage (100%, zero uncovered samples) for 12m × 4/5/6/8m rectangles and mirrored/rotated/reversed L-shapes. The baseline rectangle and L-shape also pass at finer 0.125m sample spacing.
+- Test/audit-only change; no runtime behavior changed. Production Pages deployment for merge SHA `df1592ba5519d75487cff030ae8b165a11d5ec35` was still in deploy stage at audit time; verify exact deployment completion separately.
+- Full test acceptance boundary: `docs/audits/2026-11-16-lawn-layout-coverage-acceptance.md`.
+
+
+
 ## 2026-11-16 — Deterministic single-lawn placement engine (PR #317)
 
 - PR #317 merged to `main` as `95c32aa4570499b61252f92fc8755e25ee314856`. Exact PR head `3077a720f62b1ff9d1954875ec16f1e9dc702903` passed Blog/Studio validation run `43819093067` and D1 migration validation run `43819094228`.
