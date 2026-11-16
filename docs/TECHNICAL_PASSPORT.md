@@ -1,5 +1,15 @@
 
 
+## 2026-11-16 — Measured catch-can DUlq calculation (PR #321)
+
+- PR #321 merged as `e8ee7bb477b2382ac60562428d8aa7e39b9b0491`; exact PR head `bc32ab7b8cc71a86fd8a007537cb41c752a8892f` passed Blog/Studio run `43822321587` and D1 run `43822321498`.
+- Added `src/lib/irrigation/distributionUniformity.mjs` and declaration file. It calculates measured DUlq from equal-area catch-can samples using the lowest quarter average divided by the overall average. It flags fewer than 24 samples and rejects invalid/all-zero inputs.
+- This is a field-measurement calculation only, not a sprinkler-layout prediction. It does not calculate SC, net precipitation, weighted/non-uniform sample layouts or customer-facing recommendations.
+- Production Pages deployment `ac221f58-000d-479c-a9ed-d403b416efd9` for the exact merge SHA was building at audit time; verify completion separately. No live data/configuration changed.
+- Method and limits: `docs/audits/2026-11-16-catch-can-distribution-uniformity.md`.
+
+
+
 ## 2026-11-16 — Lawn layout sampled-coverage acceptance (PR #319)
 
 - PR #319 merged as `df1592ba5519d75487cff030ae8b165a11d5ec35`; exact PR head `bcb1d5399612e33069dbc1c11f37fa21eaf37c26` passed Blog/Studio run `43821654485` and D1 run `43821654670`.
