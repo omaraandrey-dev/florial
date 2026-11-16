@@ -3538,3 +3538,8 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Internal controls: `candidatePositionStepFactor` accepts 0.25, 0.5 or 1.0 × exact D42378 throw radius; default 0.5. `candidateDirectionStepDeg` accepts 15, 30 or 45 degrees; default 45. Target sample step remains independent. Unsupported values are rejected.
 - Exact-head CI passed: Blog/Studio `43849172350`, D1 validation `43849172390`.
 - These settings enable sensitivity experiments only. They do not encode Rain Bird spacing guidance and do not change default output. The algorithm remains heuristic and not globally optimal; all previous limitations (180° only, no hydraulics, DU/SC, exclusions, package verification or customer integration) remain.
+
+## 2026-11-16 — Site-context stage 7 CI correction
+
+- PR #349 initial head `722748808f370d1dc59ff129ed09a1c862e8b84e`: Blog/Studio run `43855290610` failed one permitted-adjacent fixture assertion; D1 run `43855290730` passed. Root cause was the fixture boundary not containing the full half-circle test sector; engine behavior correctly classified off-property samples as forbidden.
+- Corrected fixture head: `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` was in progress; D1 rerun not confirmed. PR #349 remains open; no merge or Production deployment.
