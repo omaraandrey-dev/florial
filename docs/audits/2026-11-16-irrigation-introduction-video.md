@@ -3,7 +3,7 @@
 Date: 2026-11-16  
 Implementation PR: #305  
 Production merge commit: `5ff280711c0b8926e420a2594428941085fc2824`  
-Documentation integration PR: pending  
+Documentation integration PR: #306, merged as `392807b9312632c586bff98e609518d111be4dae`  
 Base for documentation integration: `25089e19d98656b529b028d9b48053c53d872970`
 
 ## Owner-approved media
