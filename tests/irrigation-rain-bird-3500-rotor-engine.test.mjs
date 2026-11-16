@@ -204,3 +204,24 @@ test('rejects unconfirmed or lawn-external site contexts before evaluation', () 
   })
   assert.equal(notContained.status, 'site_context_not_accepted')
 })
+
+test('whole-site context separately counts spray beyond the property boundary', () => {
+  const context = siteContext()
+  context.siteBoundary = {
+    vertices: [
+      { x: 0, y: 0 }, { x: 12, y: 0 }, { x: 12, y: 8 },
+      { x: 0, y: 8 }, { x: 0, y: 0 },
+    ],
+  }
+  context.permittedSprayRegions = []
+  const result = evaluateRainBird3500RotorLayout({
+    geometry: geometry(),
+    nozzlePressureBar: 2.5,
+    nozzle: 4,
+    sprinklers: [{ id: 'east-head', position: { x: 3, y: 4 }, directionDeg: 0, arcDeg: 180 }],
+    sampleStepM: 0.5,
+    siteContext: context,
+  })
+  assert.ok(result.overspray.checks[0].sampledOutsideSitePoints > 0)
+  assert.ok(result.overspray.checks[0].sampledForbiddenPoints > 0)
+})
