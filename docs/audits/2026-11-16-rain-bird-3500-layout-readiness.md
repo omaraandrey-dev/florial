@@ -119,3 +119,14 @@ This audit does not claim that 3500 is less or more water-efficient than R-VAN/H
 - Rain Bird 3500 Series Technical Specifications (D42378): https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf
 - Rain Bird 3500 Series product/technical page: https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers
 - Florial source files listed above and `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
+
+
+## 2026-11-16 — evaluator stage 1 implementation
+
+PR #339 adds `src/lib/irrigation/rainBird3500RotorEngine.mjs` and a separate declaration/test file. The evaluator:
+- accepts exact D42378 pressure/nozzle combinations only;
+- accepts 180° arcs only and rejects all other arcs;
+- evaluates explicitly supplied positions for sampled coverage, mutual directional head-to-head and sampled overspray;
+- keeps hydraulic feasibility, precipitation uniformity and body/package compatibility as not evaluated.
+
+This is not a placement generator, continuous coverage proof, hydraulic calculator, approved design or customer-facing recommendation. It does not alter the existing R-VAN/HE-VAN solver and does not use the 5000 MPR dataset. PR #339 CI is pending; no Production or live-service changes were made.

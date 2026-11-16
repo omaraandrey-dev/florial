@@ -497,3 +497,13 @@
 **Terms locale correction 13.11.2026:** sitemap correctly contains only BG `/terms`, because RU/EN pages show the Bulgarian draft with an untranslated-content notice. PR now applies server/client noindex to RU/EN variants; BG remains indexable.
 
 **H1/content completeness 13.11.2026:** 193/275 irrigation products lack separate H1 in BG/RU/EN (fallback name is rendered); 143 of those also miss at least one RU/EN metaTitle/metaDescription; one product `irritec-iq20120f0n20b` misses BG metaTitle/metaDescription. All 50 plants and all 71 categories have H1/meta complete in BG/RU/EN. Three services miss `hero.title` in all three locales: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`. No Sanity writes; plan separate content pass after backup and approval.
+
+
+## 2026-11-16 — Rain Bird 3500 evaluator follow-up
+
+1. **Arc-specific performance:** D42378 precipitation is based on half-circle operation. No validated manufacturer conversion for other arcs is confirmed. Keep the evaluator restricted to 180° until Rain Bird supplies written clarification or a separately approved, field-validated method.
+2. **Radius reduction:** D42378 contains conflicting 25% and 35% statements. Do not apply either automatically until Rain Bird clarifies the applicable value and conditions.
+3. **3504 package/nozzle tree:** confirm the exact factory nozzle-tree contents for Florial 3504-PC (Y34001) and 3504-PC-SAM (Y34500) before any BOM or catalogue mapping. Existing Sanity publication/stock has not been rechecked in this engine increment.
+4. **Layout generation:** PR #339 evaluates explicitly supplied rotor positions; it does not generate or optimize positions. Next work must establish a rotor-specific candidate-generation strategy with engineer-reviewed rectangle and L-shape reference cases, overspray limits and spacing rules.
+5. **Hydraulics and uniformity:** nozzle pressure must be distinguished from source pressure; zone flow, pipe losses, DU/SC and precipitation matching remain unimplemented/not evaluated. Do not mark design_ready.
+6. **Customer release:** PR #339 is not merged or deployed. No customer-facing 3500 recommendations are enabled.

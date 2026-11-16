@@ -3332,3 +3332,12 @@ Backups:
 - Выявлено и исправлено: RU/EN версии `/terms` показывали болгарский юридический проект с notice, но оставались indexable, хотя sitemap включал только BG. Server middleware и TermsPage теперь ставят noindex для RU/EN; BG остаётся индексируемой.
 
 - Контентный аудит H1: 193/275 irrigation products не имеют отдельного `seo.h1` в BG/RU/EN (страницы используют name fallback); 143 из этих 193 также не имеют полного RU/EN metaTitle/metaDescription; один товар `irritec-iq20120f0n20b` не имеет BG metaTitle/metaDescription. Все 50 растений и 71 категории имеют H1 и meta-поля на BG/RU/EN. У трёх услуг отсутствует `hero.title` во всех локалях: `avtomatizirano-kapkovo-napoyavane`, `dostavka-poliv`, `montaj-avtomatichni-polivni-sistemi-nesebar`. Требуется отдельная редакционная работа и Sanity backup; данные не менялись.
+
+
+## 2026-11-16 — Rain Bird 3500 isolated evaluator
+
+- PR #336 (HE-VAN conversational bridge), #337 (3500 manufacturer arc/radius evidence audit) and #338 (directional head-to-head validation) were squash-merged sequentially into `main`; final merge commit for this series: `e7dee6cb585638dcf492c3c261ca65480ab08a48`.
+- PR #339 adds the first isolated Rain Bird 3500 evaluation path in `src/lib/irrigation/rainBird3500RotorEngine.mjs` with declarations and regression tests. It uses exact D42378 pressure/nozzle pairs, accepts only 180° arcs, and reports sampled coverage, directional head-to-head and sampled overspray separately.
+- Hydraulics, precipitation uniformity and body/nozzle/package compatibility remain `not_evaluated`. The module does not generate rotor positions, does not activate customer recommendations and does not modify Sanity, D1, Cloudflare settings, Resend or Production.
+- No 5000 MPR engine or customer recommendation was added. The disputed 25%/35% radius-reduction statements are not applied.
+- PR #339 CI is running on exact head `8d22f8ccc22c96b6cd0fec552da6ec6de3534be8`; merge and deployment are not yet confirmed.
