@@ -1,3 +1,11 @@
+## 2026-11-16 — Conversational intake v1 CI and Preview QA passed
+
+- PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf`: Blog/Studio CI `43834815047` success; D1 validation `43834815101` success.
+- Cloudflare Pages Preview deployment `28c55ebd-71d4-49eb-952e-2d2cffd50115` succeeded for the exact runtime commit.
+- Read-only browser QA passed rectangle 12 × 8 m (96 m² / 40 m), geometry confirmation, source selection, static/dynamic pressure, dynamic measurement condition/test point, flow measurement methods, notes and summary; RU/EN loaded; 390 × 844 mobile had no horizontal overflow; no console/runtime errors.
+- Existing privacy notice states baseline page-use events are recorded in D1 regardless of optional PostHog consent. No project/lead data was submitted and no deliberate D1/Sanity/Production write was performed.
+- Full keyboard/accessibility review remains open. No Production release.
+
 ## 2026-11-16 — Irrigation assistant conversational intake v1 (implementation candidate)
 
 - Reworked the existing `/irrigation-assistant` page into a guided conversation-style BG/RU/EN intake with a prior-answer transcript, progress, project facts panel and reviewable summary.
