@@ -1,14 +1,3 @@
-## 2026-11-16 — Whole-site irrigation context and overflow gates
-
-- PR #347/#348 are merged; see `docs/audits/2026-11-16-rain-bird-3500-search-sensitivity-stage-5.md` and `docs/audits/2026-11-16-rain-bird-3500-h2h-aware-selection-stage-6.md`. Stage 5 exposed H2H/overspray failures; stage 6 constrains mutual H2H but does not solve overspray.
-- Stage 7 candidate: `docs/audits/2026-11-16-irrigation-site-context-overspray-stage-7.md`.
-- **Still open:** approve the business semantics for permitted adjacent spray areas (e.g. another planted/irrigated zone) versus areas that must remain dry. The engine currently requires explicit polygons and treats all unapproved non-lawn site areas as forbidden.
-- **Still open:** replace/augment 0.25 m sampled zone containment with exact robust segment/polygon containment and adversarial tests for concave boundaries, touching edges, narrow exclusions and overlapping policy zones.
-- **Still open:** integrate site-context capture and provenance into the conversational intake; customer confirmation must be explicit. A drawn/AI-inferred site boundary is not confirmed automatically.
-- **Still open:** make candidate generation constrain direction and placement against no-spray/unapproved zones during search. Current stage 7 only validates selected layout after generation; it does not optimize around forbidden areas.
-- **Still open:** engineer-reviewed reference layouts and field validation; continuous coverage/overspray proof; hydraulics, wind drift, DU/SC and exact body/nozzle/package compatibility.
-- No customer-facing recommendations or design-valid status until these gates are closed.
-
 ## 2026-11-16 — Intake v1 Preview verification
 
 - PR #329 runtime commit `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047` and D1 validation run `43834815101`.
@@ -559,12 +548,18 @@
 - **Important:** no result may be called converged or best until selected positions/count are compared and stability is quantified. Synthetic geometry tests are not field or engineer-approved reference designs.
 - After benchmark, compare with owner/engineer-supplied manual reference layouts. Hydraulic model, precipitation uniformity/DU/SC, exclusions, manufacturer arc evidence, package compatibility and customer-facing gates remain open. No 5000 MPR engine.
 
-## 2026-11-16 — Stage 7 site-context CI follow-up
 
-- PR #349 initial head failed one new test fixture (the test expected permitted spray outside the site boundary); D1 validation passed. The engine's outside-site classification was correct.
-- Fixture corrected at `2f7d9bab6883d8d6aeea3f1cfb967c4e2951eb7d`; Blog/Studio run `43855505976` in progress, D1 rerun not confirmed. PR remains open/unmerged pending exact-head CI.
+## 2026-11-16 — Irrigation engineer assistant paused by owner
 
-## 2026-11-16 — Stage 7 exact-head CI passed; merge still pending
+- **Status:** intentionally paused, not cancelled. Owner is switching to other Florial website tasks in separate chats.
+- **Do not touch PR #349** (do not merge, close, retarget, rebase or push) until the owner explicitly asks to resume this engineering work. Previous merge attempt timed out / returned 405; last verified PR state was open and `merged=false`.
+- PR #347/#348 stage 5/6 were in main at checkpoint SHA `ac705db95e87e2cd51fe74e70d15128d2833b5f7`. PR #349 stage 7 remains pending integration; last verified head `efd03a2d7b850e37e19599e28e8d509c266636e0`.
+- Authoritative continuation instructions and roadmap: `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md`.
+- On resumption: reread current repository instructions/docs, verify current main and PR #349 state, reconcile audit/passport/changelog/open questions, then continue stage 8 only after stage 7 is correctly integrated and documented.
 
-- PR #349 corrected head `b64f6f18cdac31c0fa29064dfd2b20719a688b03`: Blog/Studio run `43855876224` and D1 validation run `43855891392` passed.
-- PR #349 remains open/unmerged. Owner authorization to merge this follow-on PR has not been given. No Production deployment.
+## 2026-11-16 — Stage 7 integration checkpoint
+
+- PR #349 introduces confirmed whole-site context and sampled spray classification for permitted adjacent regions, no-spray regions, unapproved on-site areas and outside-site areas.
+- Exact current PR head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio validation run `43860117598` and D1 validation run `43856450266`; runtime/test code was last changed at `b64f6f18cdac31c0fa29064dfd2b20719a688b03`.
+- Stage 8 remains open: candidate search must incorporate no-spray/unapproved regions into placement and direction scoring, not only post-selection checks.
+- Exact polygon containment/adversarial geometry, continuous spray proof, engineer-reviewed reference layouts, hydraulics, DU/SC, wind, installation clearances and full product compatibility remain open. No customer-facing design-ready status.
