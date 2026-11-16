@@ -20,6 +20,9 @@ export interface RainBirdHevanDataset {
     testConditions: string
     spacingBasis: string
     note: string
+    optimumPressureBar: number
+    recommendedOperatingPressureBar: number
+    recommendedOperatingPressureBasis: string
   }>
   readonly units: Readonly<{
     pressure: 'bar'
@@ -33,6 +36,7 @@ export interface RainBirdHevanDataset {
     sku: string
     sanityProductId: string
     trajectoryDeg: number
+    spacingRangeM: readonly [number, number]
   }>>
   readonly pressurePointsBar: readonly number[]
   readonly performancePoints: readonly RainBirdHevanPerformancePoint[]
