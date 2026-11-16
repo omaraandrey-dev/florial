@@ -1,3 +1,11 @@
+## 2026-11-16 — Irrigation direction introduction video (PR #305)
+
+- `src/pages/ServiceDirectionPage.tsx` renders the approved Florial introduction video only when `direction.id === 'irrigation'`, on `/services/category/polivni-sistemi`.
+- Player: responsive native HTML5 `<video>`, controls enabled, `playsInline`, `preload="metadata"`, no autoplay. BG/RU/EN heading and accessible label; RU/EN explain the source audio/captions are Bulgarian.
+- Media: HeyGen video ID `b83867d35fde41fd9de9d92f477e857b`, duration 60.33 s, captioned MP4 URL currently points to `resource2.heygen.ai/.../avatar_tmp/...mp4`. The file is not currently stored in Florial-controlled object storage. Provider retention/stability of this URL is unconfirmed; see Open Questions and audit `docs/audits/2026-11-16-irrigation-introduction-video.md`.
+- PR #305 merge SHA: `5ff280711c0b8926e420a2594428941085fc2824`. Exact-head CI runs: Blog/Studio `43785923727` and D1 `43785923863`, both successful. Cloudflare Pages Production deployment `8631bee8-93f6-432c-9e99-83dcaf989ef3` deployed that exact SHA successfully and associated aliases `florial-bg.com` / `www.florial-bg.com`.
+- Visual playback QA on physical mobile/desktop browsers remains unconfirmed. Do not infer playback validation from build/deployment success.
+
 ## 2026-11-15 — Irrigation assistant engineering direction (PR #303 merged and deployed)
 
 - New engineering specification: `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`.
