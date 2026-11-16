@@ -1,3 +1,10 @@
+## 2026-11-16 — Conversational intake v1 Production deployment checkpoint
+
+- PR #329 merged at `2026-11-16T08:59:04Z` as main SHA `77ee6047879db9112ea0eee7c542aa1e795ebcc9`.
+- Cloudflare Pages Production deployment `38e83739-a57f-4e10-8d13-d2e40c60c0cc` succeeded for that exact SHA; domains: `florial-bg.com` and `www.florial-bg.com`.
+- Production browser visual smoke is inconclusive because the browser environment returned `ERR_QUIC_PROTOCOL_ERROR` and `ERR_SOCKS_CONNECTION_FAILED`. Response metadata confirmed `noindex, nofollow, noarchive`; this is not evidence of a site outage. Preview full-flow QA passed.
+- No Sanity writes, D1 schema changes, leads, cart actions, Resend emails or customer project submissions were performed. Full keyboard/accessibility review remains open.
+
 ## 2026-11-16 — Conversational intake v1 verified in Preview
 
 - Existing assistant route now uses guided BG/RU/EN conversation-style intake, preserving geometry validation and adding pressure/flow measurement semantics. In-memory intake readiness remains conservative; hydraulic feasibility is not evaluated.
@@ -12,7 +19,7 @@
 - Intake now distinguishes static/dynamic/unknown pressure, records whether dynamic pressure was measured while flowing and captures its test point. Flow includes a measurement method.
 - `src/lib/irrigation/irrigationIntake.mjs` creates a versioned in-memory snapshot with customer-input provenance and conservative readiness. Hydraulic feasibility remains `not_evaluated`; missing pipe network/elevation/restriction data is explicit.
 - The intake snapshot is not persisted or transmitted. No Gemini endpoint, layout solver, Sanity catalogue, cart, lead, D1 or Resend integration is part of this increment.
-- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. Exact runtime SHA `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047`, D1 run `43834815101` and Preview browser QA; Production is unchanged.
+- Audit: `docs/audits/2026-11-16-irrigation-assistant-conversational-intake-v1.md`. Exact runtime SHA `662936768b311050699ebfb9c77c6857759aeedf` passed Blog/Studio run `43834815047`, D1 run `43834815101` and Preview browser QA. PR #329 was later merged and deployed to Production; see the Production checkpoint at the top of this passport.
 
 ## 2026-11-16 — Approved final AI review and explicit cart handoff
 
