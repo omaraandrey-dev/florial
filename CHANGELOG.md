@@ -4,7 +4,7 @@
 
 - PR #319 merged as `df1592ba5519d75487cff030ae8b165a11d5ec35`. Rectangle scenarios at 4/5/6/8m widths and original/axis-swapped/reversed L-shapes now require 100% sampled coverage, zero uncovered samples and passing head-to-head checks. Baseline rectangle/L-shape are additionally checked at 0.125m sampling resolution.
 - Exact-head CI passed: Blog and Studio validation run `43821654485` (including app/Pages typecheck, lint, utility tests, website build, migration checks, Studio typecheck/build) and D1 validation run `43821654670`.
-- This PR changed tests and audit documentation only; no runtime application code, Sanity, D1 data/schema, secrets, Gemini or cart behavior changed. Cloudflare Pages Production deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` was triggered for the exact merge SHA; build succeeded and deploy was active at audit time. Completion must be verified separately.
+- This PR changed tests and audit documentation only; no runtime application code, Sanity, D1 data/schema, secrets, Gemini or cart behavior changed. Cloudflare Pages Production deployment `d69f3379-bb36-4a1b-ba95-3114b35b5ba3` deployed the exact merge SHA successfully; all stages completed and aliases `florial-bg.com` / `www.florial-bg.com` were assigned.
 - Audit: `docs/audits/2026-11-16-lawn-layout-coverage-acceptance.md`.
 
 
