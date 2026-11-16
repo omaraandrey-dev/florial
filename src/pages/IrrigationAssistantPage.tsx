@@ -146,7 +146,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     return String(Math.round(value * 1000) / 1000)
   }
 
-  function updateGeometry<T extends string>(setter: (value: T) => void, value: T) {
+  function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
     setGeometryConfirmed(false)
   }
@@ -209,7 +209,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                     <label className="block text-sm font-semibold text-slate-700">{copy.cutoutWidth}<input type="number" min="0" step="0.1" inputMode="decimal" value={cutoutWidth} onChange={(event) => updateGeometry(setCutoutWidth, event.target.value)} className={inputClass} /></label>
                     <label className="block text-sm font-semibold text-slate-700">{copy.cutoutDepth}<input type="number" min="0" step="0.1" inputMode="decimal" value={cutoutDepth} onChange={(event) => updateGeometry(setCutoutDepth, event.target.value)} className={inputClass} /></label>
                     <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.cutoutCorner}
-                      <select value={cutoutCorner} onChange={(event) => updateGeometry(setCutoutCorner, event.target.value as LawnCutoutCorner)} className={inputClass}>
+                      <select value={cutoutCorner} onChange={(event) => { setCutoutCorner(event.target.value as LawnCutoutCorner); setGeometryConfirmed(false) }} className={inputClass}>
                         <option value="top-left">{copy.cornerTopLeft}</option>
                         <option value="top-right">{copy.cornerTopRight}</option>
                         <option value="bottom-left">{copy.cornerBottomLeft}</option>
