@@ -85,7 +85,7 @@ The following are present in the repository baseline or documented in the curren
 - `tests/irrigation-performance-data.test.mjs`: validation coverage for the current performance data module.
 - `docs/engineering/IRRIGATION_ASSISTANT_LAWN_ENGINEERING_SPEC.md`: governing first-module engineering direction.
 - `docs/audits/2026-11-16-irrigation-assistant-rainbird-data-audit.md`: read-only manufacturer/catalogue readiness audit.
-- `docs/prototypes/emergent-irrigation-assistant/` is proposed in open PR #312 as an isolated prototype evidence archive; that PR is not merged at this baseline.
+- `docs/prototypes/emergent-irrigation-assistant/` is preserved in `main` as an isolated prototype evidence archive (PR #312, merge commit `7a4e4b03d10b4df9d3123f268c31e4c4b594e2b2`); the captured files remain partial source snapshots, not production code.
 - The irrigation assistant launcher scope was introduced and deployed separately. Its current visibility restrictions must be preserved.
 
 ### 4.1 Rain Bird 3500 dataset facts
