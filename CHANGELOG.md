@@ -3341,3 +3341,13 @@ Backups:
 - Hydraulics, precipitation uniformity and body/nozzle/package compatibility remain `not_evaluated`. The module does not generate rotor positions, does not activate customer recommendations and does not modify Sanity, D1, Cloudflare settings, Resend or Production.
 - No 5000 MPR engine or customer recommendation was added. The disputed 25%/35% radius-reduction statements are not applied.
 - PR #339 CI is running on exact head `8d22f8ccc22c96b6cd0fec552da6ec6de3534be8`; merge and deployment are not yet confirmed.
+
+
+## 2026-11-16 — Rain Bird 3500 evaluator and candidate generator integrated
+
+- PR #339 merged to `main` as `adc5fa447cbc2ca4577654b88a2cc055a29ec48a`: isolated evaluator using exact Rain Bird D42378 pressure/nozzle points, nozzle pressure explicitly distinguished from source pressure, 180° half-circle only, sampled geometry coverage, directional head-to-head and sampled overspray.
+- PR #339 exact-head CI passed: Blog/Studio run `43846600240`; D1 validation run `43846600229`. Post-merge `main` CI passed for SHA `adc5fa447cbc2ca4577654b88a2cc055a29ec48a`: Blog/Studio `43846981309`; D1 `43846981312`.
+- PR #340 merged to `main` as `9da44168e6c7d877ac914a8dc7dde13fd2129b95`: separate deterministic 3500 candidate generator using a radius/2 position grid, boundary samples, eight 45° direction bearings and greedy sampled set-cover. Same-coordinate duplicate rotors are prevented. The selected candidate is checked by the independent evaluator.
+- PR #340 exact-head CI passed: Blog/Studio run `43847530293`; D1 validation run `43847530296`. Post-merge `main` CI for SHA `9da44168e6c7d877ac914a8dc7dde13fd2129b95` was still running at the time of this documentation update.
+- Candidate generation is heuristic, not a global optimizer. It is not customer-facing and is not a certified design. Geometry exclusions, non-180° arcs, interpolation, radius reduction, hydraulics, DU/SC, package compatibility and catalogue/cart integration remain out of scope.
+- No 5000 MPR engine or recommendation was added. No Sanity, D1 schema/data, Cloudflare settings/secrets, Resend or manual Production changes were made. Production deployment status is not asserted by this record.
