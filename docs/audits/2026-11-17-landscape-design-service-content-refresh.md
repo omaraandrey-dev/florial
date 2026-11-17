@@ -13,7 +13,7 @@ The owner explicitly approved the exact field-level plan in the conversation on 
 `docs/backups/sanity/service-landshaften-dizain-2026-11-17.json`
 
 Original published revision: `qvVg1luYRxJZnxaWi0maKI`
-Published revision after update: `0K3ioEX3JkmkckZpKbBLrY`
+Final published revision after localized copy correction and page-layout cleanup: `kG84M8L0NjpttWhMhrCNAn`
 
 A first patch attempt was rejected by deployed-schema validation (unknown fields in localized hero/link annotations/content-block translations); Sanity reported 0 successful edits. The payload was corrected to the deployed schema and the subsequent draft patch succeeded. The draft was read back and validated before publication. No schema changes were made.
 
@@ -22,6 +22,7 @@ A first patch attempt was rejected by deployed-schema validation (unknown fields
 - Rewrote Bulgarian `description` as 69 Portable Text blocks with 17 H2/H3 headings, bullet lists, strong and underline marks, and four safe internal links.
 - Rewrote Russian and English descriptions as full independent localized Markdown strings (8,739 and 9,020 characters respectively), with bold emphasis, underlined phrases and internal links.
 - Updated BG/RU/EN names, short descriptions, hero title/subtitle and SEO title/description.
+- Removed the now-redundant three lower content blocks after incorporating their subject matter into the main article; their images remain in the 13-image gallery. This leaves the related-services/articles cards as the final content section before the enquiry form.
 - Kept `noIndex=false` for all three locales.
 - Added the current project tariff: up to 2 dka €250; up to 4 dka €450; up to 6 dka €600; up to 10 dka €750; each additional decare €50; site visit €50; two additional viewpoint sketches €60. VAT/DDS is not mentioned.
 - Preserved the original slug, active state, lead form (5 fields), existing image references, and the separate newly published blog article.
@@ -63,6 +64,7 @@ Verified in live Sanity Production after publication:
 - `noIndex=false` for BG/RU/EN.
 - Lead form still has five fields.
 - Related references dereference successfully.
+- Firecrawl live scrape with `maxAge=0` successfully retrieved the public BG, RU and EN routes after publication. All three live routes show the updated localized titles, long-form article, 13 gallery images plus related cards, and all agreed price values in locale-appropriate currency formatting. The page text and related links were verified; a visual screenshot/browser interaction review was not completed.
 
 Public website rendering and live browser visual QA are **not confirmed**: direct public URL checks through the available web reader returned “URL is not accessible via this tool”. This is not evidence of a website outage. No application code or Cloudflare deployment was changed in this task.
 
