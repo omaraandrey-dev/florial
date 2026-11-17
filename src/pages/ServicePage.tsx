@@ -599,7 +599,7 @@ export function ServicePage({ service }: ServicePageProps) {
     groups[group] = [...(groups[group] || []), block]
     return groups
   }, {})
-  const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya'
+  const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya' && service.slug?.current !== 'landshaften-dizain'
   // Keep legacy gallery-marker blocks in their article sections; render regular
   // image-and-text blocks as a separate section at the bottom of every service page.
   const additionalContentBlocks = sourceBlocks.filter((block) =>

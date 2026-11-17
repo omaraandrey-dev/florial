@@ -21,4 +21,6 @@ test('landscape design gallery supports inline section markers and does not rend
   assert.match(page, /galleryMarker = first\.match\(/)
   assert.match(page, /galleryMarker = block\.style === 'normal'/)
   assert.match(page, /service\.slug\?\.current === 'landshaften-dizain'\s*\?\s*null/)
+  assert.ok(page.includes("const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya' && service.slug?.current !== 'landshaften-dizain'"), 'landscape design must keep the hero above its inline gallery')
+  assert.ok(page.includes(': heroImageUrl && ('), 'the hero image must remain the fallback when the intro gallery is suppressed')
 })
