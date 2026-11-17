@@ -3,7 +3,8 @@
 - Added a localized portfolio/article card section immediately after the FAQ on `/services/category/landshaften-arhitekt`.
 - The section reads five explicitly selected, already-published Sanity blog posts in a stable order; the new detailed landscape project is first. Card titles, summaries, cover images and links use the active BG/RU/EN locale.
 - Added a short-lived in-memory cache for the exact-slug Sanity list query. No Sanity documents, schemas, service content, FAQ, navigation, Header, Footer or Production settings were changed.
-- Implementation and validation evidence will be recorded after branch checks and merge.
+- PR #357 was squash-merged to `main` as `0cdd04b8644bf7b9698911e4ed035d851c978a76`. Read-back from `main` confirms both runtime files and this entry are present.
+- The GitHub workflow/status lookup returned no runs or status checks for the merge SHA. Local build/typecheck/lint/tests and Preview/browser rendering were not executed in this session; Production deployment and live page rendering are therefore not confirmed.
 
 ## 2026-11-17 — Landscape project article published in Sanity
 
