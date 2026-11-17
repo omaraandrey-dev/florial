@@ -1,3 +1,13 @@
+## 2026-11-17 — Новая услуга «Онлайн ландшафтный проект»
+
+- Создан отдельный активный service-документ Sanity Production: `7b5ea19c-4001-4045-aad2-88e4a4685011`, slug `landshaften-proekt-online`, категория `landscaping`, sortOrder 11.
+- Опубликованы полноценные BG/RU/EN версии, SEO, цены, форма онлайн-запроса и локализованные ALT для восьми галерейных изображений.
+- В середине статьи размещён блок подробного портфолио: генеральный план, дендроплан, ведомость растений, план полива и 3D-визуализация со ссылкой на `/blog/podroben-landshaften-proekt-gradina`.
+- Форма собирает имя, телефон, email, страну, город, площадь участка и описание проекта; существующий API и Manager не менялись.
+- Runtime gallery support: `src/pages/ServicePage.tsx`; regression test: `tests/service-landscape-inline-gallery.test.mjs`; PR #368 merged. Production deployment succeeded.
+- Физическая поставка/монтаж за пределами Болгарии не обещаются в составе онлайн-услуги. Дополнительные проверки формы/Resend и visual/PageSpeed QA остаются отдельными.
+- Полный аудит и snapshots: `docs/audits/2026-11-17-online-landscape-design-service.md`.
+
 ## 2026-11-11 — CI-тест миграции онлайн-отказа добавлен и пройден
 
 - Добавлен `tests/contract-withdrawals-migration.test.py` для проверки `docs/migrations/0014_contract_withdrawals.sql` в SQLite in-memory.
