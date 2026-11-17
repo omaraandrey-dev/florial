@@ -1,3 +1,11 @@
+## 2026-11-17 — Landscape architect portfolio block (PR #357)
+
+- PR #357 was squash-merged into `main` as `0cdd04b8644bf7b9698911e4ed035d851c978a76`.
+- Runtime scope: `src/pages/ServiceDirectionPage.tsx` renders the portfolio only for `/services/category/landshaften-arhitekt`, directly after FAQ; `src/lib/blog.ts` fetches the five fixed published blog slugs in the declared order with a 60-second in-memory cache.
+- Sanity Production was queried read-only: all five article slugs were found with `isPublished == true`; localized BG/RU/EN title, summary and cover metadata are available. The newly published detailed garden project is first.
+- Main read-back confirmed both runtime files contain the merged implementation. No Sanity writes, schema changes, D1/Resend changes, Cloudflare configuration changes or global navigation/Header/Footer changes.
+- GitHub workflow/status lookup returned no workflow runs or status checks for the merge SHA. Local `build`, `typecheck`, `lint`, automated tests and Preview/browser QA were not executed in this session. Production deployment and live rendering are **not confirmed**.
+
 ## 2026-11-16 — Service-page performance change Production checkpoint (PR #353)
 
 - PR #353 merged to `main` at `74642455efe284730cdf442efc1b82182e10eda8`.
