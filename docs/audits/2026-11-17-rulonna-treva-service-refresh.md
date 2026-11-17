@@ -9,7 +9,7 @@
 - Pre-write backup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json`.
 - Backup source revision: `iNPCLSoXm0d2UNhS8TvO0J`.
 
-## Content changes prepared in Sanity draft
+## Published content
 
 - Rewritten Bulgarian Portable Text article and complete Russian/English Markdown translations.
 - H1 uses `hero.title`: «Полагане на рулонен тревен чим». The current service schema has no separate H1 field; no unsupported field was added.
@@ -31,5 +31,13 @@
 - No Sanity schema, API, D1, Resend, Cloudflare settings/secrets, Header, navigation or Footer changes.
 - No price, turnaround, guarantee, certification or supplier claim was added.
 - The requested Humanizer connector was not available among connected tools in this session; wording was edited directly for natural BG/RU/EN rather than claiming an external Humanizer pass.
-- Runtime code PR #376 is merged to `main` at `c5f4446e48d6f2d554684d198a583313e7e744b6`; Cloudflare Pages Production deployment `6f29589f-b65b-4607-a544-2d332692087c` succeeded on that commit. The Sanity content remains a draft until the photo-group refinement PR is merged and the localized production smoke is ready.
-- The original and newly uploaded photo assets were visually inspected using Cloudflare Browser Rendering. ALT text describes only visible, verifiable content in BG/RU/EN.
+- Runtime PR #376 merged at `c5f4446e48d6f2d554684d198a583313e7e744b6`; photo-group correction PR #377 merged at `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`. Production deployment `341ad1f8-6ce4-4c71-8271-8922415ee2ae` completed successfully on the final main commit. Sanity document published revision: `iNPCLSoXm0d2UNhS8U8xz7`.
+- The original and newly uploaded photo assets were visually inspected using Cloudflare Browser Rendering. Two existing content-block images show completed lawns, one shows bare-ground preparation; gallery photos are grouped into delivery and laying/result sections. ALT text describes visible content in BG/RU/EN.
+
+## Production verification
+
+- Cloudflare Browser Rendering confirmed BG/RU/EN routes return HTTP 200 with localized title, meta description, H1, canonical and `robots=index, follow`.
+- Each locale renders 15 image elements; EN check confirmed all 15 have ALT. BG and RU images/ALT are populated in the published Sanity document.
+- Localized lead form fields and submit labels are present; related content and contextual internal links are rendered.
+- No real lead was submitted; API delivery and Resend notification were not exercised in this task. PageSpeed/Lighthouse and formal mobile overflow checks were not run.
+- Existing cross-language hreflang projection limitation remains tracked in `docs/AI/OPEN_QUESTIONS.md`.
