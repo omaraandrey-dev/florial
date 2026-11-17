@@ -38,6 +38,9 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
+      lawn: ['рулонен тревен чим и изграждане на тревни площи'],
+      flowerbeds: ['цветни лехи и растителни композиции'],
+
       design: ['проектиране и разделяне на поливни зони'],
       testing: ['проверка, настройка и пускане'],
 
@@ -53,6 +56,9 @@ const sectionForHeading = (value: string, language: string) => {
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
+      lawn: ['рулонный газон и устройство газонных площадей'],
+      flowerbeds: ['цветники и цветочные композиции'],
+
       design: ['проектирование и разделение на зоны полива'],
       testing: ['проверка, настройка и запуск'],
 
@@ -68,6 +74,9 @@ const sectionForHeading = (value: string, language: string) => {
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
+      lawn: ['roll-out turf and lawn installation'],
+      flowerbeds: ['flower beds and planting compositions'],
+
       design: ['system design and irrigation zones'],
       testing: ['system testing, adjustment and commissioning'],
 
@@ -267,7 +276,7 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
   return chunks.map((chunk, index) => {
     const lines = chunk.split('\n').map((line) => line.trim()).filter(Boolean)
     const first = lines[0]
-    const galleryMarker = first.match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation)\]\]$/)
+    const galleryMarker = first.match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation|lawn|flowerbeds)\]\]$/)
     if (galleryMarker) return renderImageGallery(imageGroups[galleryMarker[1]] || [], galleryMarker[1], language)
     if (first.startsWith('## ')) {
       const heading = first.slice(3).trim()
@@ -562,7 +571,16 @@ export function ServicePage({ service }: ServicePageProps) {
         }]
       })
     : []
-  const landscapeGalleryImageGroups: Record<string, string> = service.slug?.current === 'landshaften-dizain' ? {
+  const landscapeGalleryImageGroups: Record<string, string> = service.slug?.current === 'ozelenyavane' ? {
+    img1: 'intro',
+    img2: 'intro',
+    img3: 'intro',
+    img4: 'intro',
+    fbecf7b03cff: 'lawn',
+    ed96b4f74e1a: 'lawn',
+    '6f4c8223f1c0': 'lawn',
+    bc772eab7d78: 'flowerbeds',
+  } : service.slug?.current === 'landshaften-dizain' ? {
     dropLandscape2019: 'intro',
     dropProject2021: 'intro',
     img1: 'design',
@@ -601,18 +619,18 @@ export function ServicePage({ service }: ServicePageProps) {
   const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks, ...landscapeArticleGalleryBlocks]
   const imageGroups = sourceBlocksWithArticleGallery.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
     const match = typeof block.title === 'string'
-      ? block.title.match(/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing)$/)
+      ? block.title.match(/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing|lawn|flowerbeds)$/)
       : null
     if (!match || !block.imageUrl) return groups
     const group = match[1]
     groups[group] = [...(groups[group] || []), block]
     return groups
   }, {})
-  const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya' && service.slug?.current !== 'landshaften-dizain'
+  const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya' && service.slug?.current !== 'landshaften-dizain' && service.slug?.current !== 'ozelenyavane'
   // Keep legacy gallery-marker blocks in their article sections; render regular
   // image-and-text blocks as a separate section at the bottom of every service page.
-  const additionalContentBlocks = sourceBlocks.filter((block) =>
-    !/^__gallery:(intro|trenches|pipeline|equipment|automation|watering)$/.test(block.title || '') &&
+  const additionalContentBlocks = service.slug?.current === 'ozelenyavane' ? [] : sourceBlocks.filter((block) =>
+    !/^__gallery:(intro|trenches|pipeline|equipment|automation|watering|lawn|flowerbeds)$/.test(block.title || '') &&
     Boolean(block.imageUrl || block.title || block.text),
   )
 
@@ -669,8 +687,10 @@ export function ServicePage({ service }: ServicePageProps) {
 
         {isAutomaticIrrigationService
           ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
-          : (service.slug?.current === 'landshaften-dizain' || service.slug?.current === 'landshaften-proekt-online')
+          : service.slug?.current === 'ozelenyavane'
             ? null
+            : (service.slug?.current === 'landshaften-dizain' || service.slug?.current === 'landshaften-proekt-online')
+              ? null
             : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
         {description && (
