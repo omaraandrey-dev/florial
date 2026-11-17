@@ -1,3 +1,11 @@
+## 2026-11-17 — Landscape design inline gallery rollout complete
+
+- PR #365 and corrective PR #366 are merged; final Production deployment `f02d0bed-5390-493f-ae94-519c382c1dff` succeeded on `d5cdf42f9de85a7ae633fe535470761886ba7ca9`.
+- Sanity service `c7d2c120-6024-4876-b240-ff6585df91e4` published seven gallery markers in BG/RU/EN (12 non-hero photos across seven article sections); published revision `y2TDpG5qG8p5QpVOSxSVtG`.
+- Production BG/RU/EN HTML checks: HTTP 200, hero retained, all 12 gallery assets present once, no raw markers. Desktop screenshots captured for all locales and mobile BG screenshot captured.
+- No PageSpeed/Lighthouse comparison or formal mobile overflow measurement was performed. Do not claim a performance improvement from this content/layout release.
+- Audit and backups: `docs/audits/2026-11-17-landscape-design-inline-gallery.md` and `docs/backups/sanity/service-landshaften-dizain-before-inline-gallery-activation-2026-11-17.json`.
+
 ## 2026-11-16 — Service-page performance release: browser and Lighthouse verification outstanding
 
 - PR #353 is merged and Production deployment succeeded on exact main SHA `74642455efe284730cdf442efc1b82182e10eda8`; deployment `4060e639-d643-496d-ae3f-65706cd85000`.
