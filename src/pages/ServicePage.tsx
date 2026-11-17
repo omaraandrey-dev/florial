@@ -687,8 +687,10 @@ export function ServicePage({ service }: ServicePageProps) {
 
         {isAutomaticIrrigationService
           ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
-          : (service.slug?.current === 'landshaften-dizain' || service.slug?.current === 'landshaften-proekt-online' || service.slug?.current === 'ozelenyavane')
+          : service.slug?.current === 'ozelenyavane'
             ? null
+            : (service.slug?.current === 'landshaften-dizain' || service.slug?.current === 'landshaften-proekt-online')
+              ? null
             : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
         {description && (
