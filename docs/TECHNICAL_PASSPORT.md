@@ -1,3 +1,20 @@
+## 2026-11-17 — Рулонна трева: публикация и inline-галерея (PR #376, #377)
+
+- PR #376 merged в `main`; runtime commit `c5f4446e48d6f2d554684d198a583313e7e744b6`. PR #377 merged; final photo-group correction commit `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`.
+- Cloudflare Pages Production deployment `341ad1f8-6ce4-4c71-8271-8922415ee2ae` завершился со статусом `success` на точном main commit; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Sanity Production service `ea332108-42e7-444f-9632-08111c6fda90`, slug `rulonna-treva`, опубликована на месте; опубликованная ревизия `iNPCLSoXm0d2UNhS8U8xz7`. ID, slug и URL сохранены.
+- H1 через существующее поле `hero.title`: «Полагане на рулонен тревен чим»; отдельного поля H1 в текущей схеме нет. BG Portable Text, RU/EN самостоятельные Markdown-версии. Локализованы hero, short description, metaTitle/metaDescription/keywords; `noIndex=false` для всех языков.
+- Контекстные ссылки ведут на автоматично напояване, категорию «Всичко за поливане», дървета и декоративни храсти, цветя и рози и озеленяване на терени.
+- `relatedContent`: две опубликованные статьи о рулонном газоне и существующая услуга замены старого газона.
+- Inline gallery: 9 не-hero фотографий размещены по этапам. Подготовка — исходный кадр участка; доставка — 3 кадра рулонов/перемещения; укладка и результат — 5 кадров. Верхняя общая галерея и нижние legacy image-text блоки не дублируются. ALT BG/RU/EN заполнен для hero, галереи и content blocks.
+- Lead form BG/RU/EN: `name`, `phone`, `email`, `location`, `details`; локализованы заголовок, подписи, placeholders, submit и success message. Существующий `/api/service-leads` сохранён; API, D1 и Resend не изменялись.
+- Production Browser Rendering: BG/RU/EN — HTTP 200; локальные title, description, H1, canonical и `index, follow` проверяются. Форма, ссылки и relatedContent присутствуют; 15 изображений на странице, все с ALT.
+- Ограничения проверки: реальная заявка не отправлялась; PageSpeed/Lighthouse и формальная mobile overflow проверка не выполнялись. Google recrawl/indexing не подтверждался.
+- SEO follow-up: cross-language hreflang остаётся частичным из-за текущей projection service detail; существующий вопрос уже зарегистрирован в `docs/AI/OPEN_QUESTIONS.md`. Не расширял scope этого изменения.
+- Humanizer connector в подключённых инструментах отсутствовал; BG/RU/EN текст отредактирован вручную, без заявления об отдельном внешнем Humanizer pass.
+- Backup исходного Sanity document до write: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json`. Детали: `docs/audits/2026-11-17-rulonna-treva-service-refresh.md`.
+- Не менялись Sanity schema, Header, navigation, Footer, Manager API, D1, Resend, Cloudflare settings/secrets. Supabase не использовался.
+
 ## 2026-11-17 — Капково напояване за градини: публикация и inline-галерея (PR #374)
 
 - PR #374 объединён в `main`; production commit: `a5f4b2877b4cdc60cef1a712da59c62878c032c3`.
