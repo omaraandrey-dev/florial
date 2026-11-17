@@ -31,5 +31,5 @@
 - No Sanity schema, API, D1, Resend, Cloudflare settings/secrets, Header, navigation or Footer changes.
 - No price, turnaround, guarantee, certification or supplier claim was added.
 - The requested Humanizer connector was not available among connected tools in this session; wording was edited directly for natural BG/RU/EN rather than claiming an external Humanizer pass.
-- Sanity edits are currently a draft only. Publication and Production rollout remain pending until runtime CI and localized page QA are completed.
-- The five newly uploaded process photographs were grouped by their existing asset keys and the owner's description of their role; the image binaries were not independently viewable through the available inspection tools in this session. Their alt text is therefore kept at the level of the stated turf-installation process, not unsupported specific actions.
+- Runtime code PR #376 is merged to `main` at `c5f4446e48d6f2d554684d198a583313e7e744b6`; Cloudflare Pages Production deployment `6f29589f-b65b-4607-a544-2d332692087c` succeeded on that commit. The Sanity content remains a draft until the photo-group refinement PR is merged and the localized production smoke is ready.
+- The original and newly uploaded photo assets were visually inspected using Cloudflare Browser Rendering. ALT text describes only visible, verifiable content in BG/RU/EN.
