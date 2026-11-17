@@ -1,3 +1,14 @@
+## 2026-11-17 — Online landscape design service published (PR #368)
+
+- Created and published a separate online landscape design service in Sanity Production: document `7b5ea19c-4001-4045-aad2-88e4a4685011`, slug `landshaften-proekt-online`, route `/services/landshaften-proekt-online`; existing landscape-design service and portfolio/blog documents were preserved.
+- Added full BG/RU/EN copy, localized SEO and indexability, seven-field enquiry form, eight gallery images with localized ALT, and four related-content references. Five images from the detailed project portfolio appear together in the middle of the article and link to the existing project blog.
+- Owner-confirmed pricing: up to 2 dka €250; 4 dka €450; 6 dka €600; 10 dka €750; each additional dka €50; no site-visit fee for online format.
+- Runtime gallery support in `src/pages/ServicePage.tsx`; regression test in `tests/service-landscape-inline-gallery.test.mjs`.
+- PR #368 squash-merged as `73777db109e5524ca23e5b6ca85ab505ef9488ad`. Exact PR head `27c07a46c2379da9cb5c7598baf87340e0fe3fb8`: Blog/Studio validation `44037137577` and D1 validation `44037137558` passed.
+- Production deployment for merge SHA `6ffc908a-bd92-4d35-9dbe-23b0f12e54a0` succeeded. Following the final Sanity translation update and backup commit, latest deployment `78ce3168-158d-4ed8-9af0-d6fa7234969c` for main SHA `f9661a80e28e71d976893844ec2e0691501507e3` also succeeded.
+- Live BG/RU/EN route fetches returned HTTP 200; localized metadata, indexability, inline portfolio gallery and form labels were verified. The form was not submitted, and no Resend/Manager end-to-end test, visual screenshot QA or PageSpeed/Lighthouse measurement was performed.
+- Backups and full verification: `docs/audits/2026-11-17-online-landscape-design-service.md`, `docs/backups/sanity/service-landshaften-proekt-online-before-publication-2026-11-17.json`, `docs/backups/sanity/service-landshaften-proekt-online-final-2026-11-17.json`.
+
 ## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
 
 - PR #365 merged into `main` as `c5aeca1da14f1984059ba9b8684e0b506548e04f`; its Cloudflare Pages Production deployment completed successfully. Production QA then exposed a shared pre-hero `hasIntroGallery` branch that replaced the hero with the intro group.
