@@ -19,7 +19,7 @@ test('ozelenyavane service distributes its gallery inside the localized article'
   assert.ok(page.includes("lawn: ['roll-out turf and lawn installation', 'laying rolled turf on site']"))
   assert.ok(page.includes("flowerbeds: ['flower beds and planting compositions'"))
   assert.match(page, /gallery:\(intro\|design\|pipeline\|equipment\|trenches\|watering\|automation\|lawn\|flowerbeds\)/)
-  assert.ok(page.includes("service.slug?.current === 'ozelenyavane' ? [] : sourceBlocks.filter("))
+  assert.ok(page.includes("service.slug?.current === 'ozelenyavane' || isDripIrrigationService || isRolledTurfService ? [] : sourceBlocks.filter("))
   assert.ok(page.includes("service.slug?.current === 'ozelenyavane'\n            ? null"))
   assert.ok(page.includes("service.slug?.current !== 'ozelenyavane'"))
 })
