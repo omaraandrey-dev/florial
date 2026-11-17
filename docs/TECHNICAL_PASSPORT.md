@@ -1,3 +1,15 @@
+## 2026-11-17 — Озеленяване на терени: локализованная статья и inline-галерея
+
+- Существующая Sanity Production service `e86d4175-e74e-4200-a4bd-e56a56672e0e`, slug `ozelenyavane`, обновлена на месте; URL и ID сохранены.
+- Публикация включает BG Portable Text, RU/EN Markdown, уникальные metaTitle/metaDescription/keywords и `noIndex=false` для всех трёх языков.
+- Inline-галерея: четыре прежних non-hero фото в intro, три новые фотографии рулонного газона под H2 газона, четвёртая новая фотография цветника под H2 цветочных композиций. ALT локализован для BG/RU/EN; главное фото и его локализованные ALT сохранены.
+- Контекстные ссылки ведут на существующие категории растений/полива, услуги рулонного газона, посадки растений, цветников и автоматического полива, а также на опубликованные статьи о маслинах и пальмах. Внизу подключены четыре связанных материала.
+- Форма заявки сохранена с техническими именами `name`, `phone`, `email`, `location`, `details`; локализованы названия, подписи, submit и success message.
+- Runtime PR #372 merged в main: `12fea68f6c4df068ab628d9cb95982bc3d493f93`. Cloudflare Pages Production deployment `f4c355cd-62b4-4b41-acb0-60674e350f93` завершился успешно на том же commit.
+- Snapshot до Sanity изменений: `docs/backups/sanity/2026-11-17-ozelenyavane-before-editorial-refresh.xml`. Детали: `docs/audits/2026-11-17-ozelenyavane-service-refresh.md`.
+- Отдельного поля image title/titleRu/titleEn в текущей схеме услуги нет; не добавлять неподдерживаемые поля. Используются локализованные ALT. Отдельное изменение схемы не выполнялось.
+- Не менялись Sanity schema, Header, меню, Footer, D1, Manager, API, Resend, Cloudflare settings/secrets.
+
 ## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
 
 - PR #365 merged into `main` as `c5aeca1da14f1984059ba9b8684e0b506548e04f`; its Cloudflare Pages Production deployment completed successfully. Production QA then exposed a shared pre-hero `hasIntroGallery` branch that replaced the hero with the intro group.
