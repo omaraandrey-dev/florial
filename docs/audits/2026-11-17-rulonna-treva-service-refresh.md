@@ -39,5 +39,5 @@
 - Cloudflare Browser Rendering confirmed BG/RU/EN routes return HTTP 200 with localized title, meta description, H1, canonical and `robots=index, follow`.
 - Final Production Browser Rendering BG/RU/EN: HTTP 200; localized title, description, H1, canonical and `robots=index, follow`. Each locale renders 14 image elements, all 14 with ALT; preparation photo appears once, all article photos are inline, and no raw gallery markers remain.
 - Localized lead form fields and submit labels are present; `details` textarea, irrigation/tree/flower links and all three related-content cards are rendered in BG/RU/EN.
-- No real lead was submitted; API delivery and Resend notification were not exercised in this task. PageSpeed/Lighthouse and formal mobile overflow checks were not run.
+- Mobile Browser Rendering screenshot at 390px showed the inline photo grid adapting to two columns with no obvious horizontal overflow. This was a visual smoke only, not a formal overflow measurement. No real lead was submitted; API delivery and Resend notification were not exercised. PageSpeed/Lighthouse were not run.
 - Existing cross-language hreflang projection limitation remains tracked in `docs/AI/OPEN_QUESTIONS.md`.
