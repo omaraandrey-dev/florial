@@ -861,6 +861,88 @@ export default function App() {
 
     setLoadingServices(true)
 
+    // The landscape architect page needs one direction, its own role photo and
+    // only landscaping services. Keep the full directory query for /services
+    // and the existing data path for the other service directions.
+    if (serviceDirectionSlug === 'landshaften-arhitekt') {
+      const landscapeDirectionQuery = `
+        *[_type == "serviceDirection" && isActive != false && coalesce(slug.current, slug) == $directionSlug][0] {
+          _id,
+          name,
+          "slug": { "current": coalesce(slug.current, slug) },
+          directionKey,
+          serviceCategories,
+          "imageUrl": image.asset->url,
+          "imageAlt": image.alt,
+          "imageAltEn": image.altEn,
+          "imageAltRu": image.altRu,
+          translations {
+            ${language} {
+              title,
+              metaTitle,
+              metaDescription,
+              intro,
+              sections[]{_key, heading, body[]{_key, _type, style, listItem, children[]{_key, _type, text, marks}, markDefs[]{_key, _type, href}}},
+              faqHeading,
+              faqs[]{_key, question, answer},
+              serviceHeading,
+              emptyServices,
+              allServices,
+              learnMore
+            }
+          },
+          seo { metaTitle, metaDescription, noIndex },
+          "services": *[_type == "service" && isActive != false && serviceCategory == "landscaping"] | order(sortOrder asc, name asc) {
+            _id,
+            name,
+            translations { ${language} { name, shortDescription } },
+            "slug": { "current": coalesce(slug.current, slug) },
+            shortDescription,
+            "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+            "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+            "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+            "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu),
+            "imageLinkUrl": coalesce(image.linkUrl, mainImage.linkUrl),
+            sortOrder,
+            serviceCategory,
+            serviceLayout
+          },
+          "rolePhoto": *[_type == "photo" && isActive != false && coalesce(slug.current, slug) == $photoSlug][0] {
+            "slug": coalesce(slug.current, slug),
+            title,
+            titleEn,
+            titleRu,
+            "imageUrl": image.asset->url,
+            "imageAlt": image.alt,
+            "imageAltEn": image.altEn,
+            "imageAltRu": image.altRu
+          }
+        }
+      `
+
+      sanityClient.fetch(landscapeDirectionQuery, {
+        directionSlug: serviceDirectionSlug,
+        photoSlug: 'landshaften-arhitekt',
+      }).then((directionData: any) => {
+        if (cancelled) return
+        setServices(Array.isArray(directionData?.services) ? directionData.services : [])
+        setServiceDirectionDocuments(directionData ? [directionData] : [])
+        setServiceRolePhotos(directionData?.rolePhoto ? [directionData.rolePhoto] : [])
+        setLoadedServicesLanguage(language)
+      }).catch((error) => {
+        if (cancelled) return
+        console.error('Sanity: не удалось загрузить направление ландшафтного архитектора:', error)
+        setServices([])
+        setServiceDirectionDocuments([])
+        setServiceRolePhotos([])
+        setLoadedServicesLanguage(language)
+      }).finally(() => {
+        if (!cancelled) setLoadingServices(false)
+      })
+
+      return () => { cancelled = true }
+    }
+
     const serviceQuery = `
       *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
         _id,
