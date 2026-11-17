@@ -1,3 +1,10 @@
+## 2026-11-17 — Online landscape design service published
+
+- No publication blocker remains for `/services/landshaften-proekt-online`; Sanity document `7b5ea19c-4001-4045-aad2-88e4a4685011` is active and live.
+- BG/RU/EN routes return HTTP 200; metadata, robots indexability, localized copy, portfolio link/gallery and country/city/area form labels were checked.
+- Remaining verification, not a publication blocker: submit a controlled test lead and verify D1 → Manager → Resend without using a real customer; capture visual desktop/mobile QA and measure PageSpeed only if performance work is requested.
+- Do not claim form delivery, email delivery, mobile overflow status or performance improvement until those checks are actually run. Audit: `docs/audits/2026-11-17-online-landscape-design-service.md`.
+
 ## 2026-11-17 — Landscape design inline gallery rollout complete
 
 - PR #365 and corrective PR #366 are merged; final Production deployment `f02d0bed-5390-493f-ae94-519c382c1dff` succeeded on `d5cdf42f9de85a7ae633fe535470761886ba7ca9`.
