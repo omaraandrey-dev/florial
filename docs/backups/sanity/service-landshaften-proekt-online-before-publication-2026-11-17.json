@@ -1,0 +1,1272 @@
+{
+  "backupCreatedAt": "2026-11-17T07:14:00+02:00",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "drafts.7b5ea19c-4001-4045-aad2-88e4a4685011",
+  "documentRevision": "kG84M8L0NjpttWhMhrI0TN",
+  "document": {
+    "_createdAt": "2026-11-17T07:11:55Z",
+    "_id": "drafts.7b5ea19c-4001-4045-aad2-88e4a4685011",
+    "_rev": "kG84M8L0NjpttWhMhrI0TN",
+    "_type": "service",
+    "_updatedAt": "2026-11-17T07:13:21Z",
+    "advantages": [
+      {
+        "_key": "i1",
+        "text": "Проектът се съобразява с имота, стила, функциите и бюджета.",
+        "title": "Индивидуален подход"
+      },
+      {
+        "_key": "i2",
+        "text": "Свързваме зонирането, растенията, настилките и поливането.",
+        "title": "Единна проектна концепция"
+      },
+      {
+        "_key": "i3",
+        "text": "Подборът на растения е съобразен с конкретния регион.",
+        "title": "Местен климат"
+      },
+      {
+        "_key": "i4",
+        "text": "Документацията дава основа за работа на местен изпълнител.",
+        "title": "Подготовка за реализация"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете информация за имота и ще обсъдим подходящия състав на онлайн проекта.",
+      "title": "Планирате градина в България или Европа?"
+    },
+    "description": [
+      {
+        "_key": "ol1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols1",
+            "_type": "span",
+            "marks": [],
+            "text": "Онлайн ландшафтно проектиране за имоти в България и Европа"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols2",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial разработва индивидуални ландшафтни проекти дистанционно за частни градини, къщи, вили, ваканционни имоти и бизнес обекти. Не е необходимо да пътувате до Несебър или дизайнерът да присъства лично на терена. Започваме с план, снимки, видео и разговор за вашите идеи, а готовата документация получавате в електронен вид."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols3",
+            "_type": "span",
+            "marks": [],
+            "text": "Онлайн форматът е подходящ, когато живеете в една държава, а имотът ви се намира в друга, когато планирате строителство предварително или искате да възложите проекта на местен изпълнител."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols4",
+            "_type": "span",
+            "marks": [],
+            "text": "[[gallery:design]]"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol5",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols5",
+            "_type": "span",
+            "marks": [],
+            "text": "За кого е подходящ онлайн проектът"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol6",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols6",
+            "_type": "span",
+            "marks": [],
+            "text": "Работим основно с имоти в България и разглеждаме дистанционни проекти за клиенти в Румъния, Гърция, Сърбия, Хърватия, Северна Македония, Словения, Унгария, Словакия, Чехия, Полша, Австрия, Германия и Италия. За други държави и специфични обекти уточняваме възможностите индивидуално."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol7",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols7",
+            "_type": "span",
+            "marks": [],
+            "text": "Услугата е удобна за собственици на къщи и вили, които живеят в чужбина; хора, които строят и искат предварително да планират двора, напояването и осветлението; както и собственици на хотели, апартаменти, ресторанти и други търговски обекти."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol8",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols8",
+            "_type": "span",
+            "marks": [],
+            "text": "Как протича работата онлайн"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol9",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols9",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Консултация и задание"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols10",
+            "_type": "span",
+            "marks": [],
+            "text": "Обсъждаме местоположението и площта на имота, архитектурата на сградата, предпочитания стил, бюджета и начина на използване на градината: места за почивка, басейн, барбекю, детска зона, паркиране, домашни любимци и желаното ниво на поддръжка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols11",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Събиране и проверка на информацията"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols12",
+            "_type": "span",
+            "marks": [],
+            "text": "Изпращате план на парцела, налични архитектурни и геодезически чертежи, снимки и видео. Уточняваме денивелацията, почвата, изложението, съществуващите дървета, водоизточника и техническите ограничения. Онлайн работата не замества геодезическото заснемане или физическите измервания, когато те са необходими."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols13",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Концепция и функционално зониране"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols14",
+            "_type": "span",
+            "marks": [],
+            "text": "Разработваме логиката на пространството и връзките между къщата, входа, алеите, терасата, местата за почивка, зелените площи и техническите зони. Съгласуваме основната концепция преди детайлните чертежи."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols15",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Проектна документация и съгласуване"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols16",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготвяме договорения набор от планове и ведомости, представяме решенията за преглед и обсъждаме необходимите корекции в рамките на първоначалното задание."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols17",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво включва ландшафтният проект"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols18",
+            "_type": "span",
+            "marks": [],
+            "text": "Съставът се определя според задачата и може да включва генерален план, разбивъчен чертеж, дендроплан, растителна ведомост, план за настилки и благоустрояване, схема за автоматично напояване, 3D визуализации и препоръки за поддръжка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols20",
+            "_type": "span",
+            "marks": [],
+            "text": "Подбор на растения и дендроплан"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols21",
+            "_type": "span",
+            "marks": [],
+            "text": "Определяме местата за дървета, храсти, многогодишни цветя и декоративни треви. В растителната ведомост посочваме ботанически наименования, количества и размери според договорения обхват. Изборът се съобразява с климата, почвата, осветеността, зрелите размери и очакваните грижи."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol23",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols23",
+            "_type": "span",
+            "marks": [],
+            "text": "Автоматично напояване и инженерна част"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol24",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ol24a",
+            "_type": "span",
+            "marks": [],
+            "text": "Когато е включено в заданието, разработваме план за автоматично и капково напояване: поливни зони, разположение на разпръсквачите и капковите линии, трасета на тръбите и подбор на оборудване. Florial работи с решения на Rain Bird и Hunter. Повече информация има в услугата "
+          },
+          {
+            "_key": "ol24b",
+            "_type": "span",
+            "marks": [
+              "irrigationLink"
+            ],
+            "text": "проектиране на системи за автоматично поливане"
+          },
+          {
+            "_key": "ol24c",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "irrigationLink",
+            "_type": "link",
+            "href": "/services/proektirane-sistemi-avtomatichno-napoyavane-nesebar"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol26",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols26",
+            "_type": "span",
+            "marks": [],
+            "text": "Визуализации и представяне на проекта"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "ol27",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols27",
+            "_type": "span",
+            "marks": [],
+            "text": "По заявка подготвяме 3D визуализации на избрани зони, за да се видят обемите, материалите и растителните композиции преди реализацията."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol29",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols29",
+            "_type": "span",
+            "marks": [],
+            "text": "Реален пример за подробен проект на Florial"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol30",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols30",
+            "_type": "span",
+            "marks": [],
+            "text": "В средата на статията показваме пример за реален комплект проектна документация. В него са представени генерален план, разбивъчни чертежи, дендроплан с 38 посадъчни позиции, ведомост с 32 вида растения, визуализации и схеми за автоматично напояване."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol31",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols31",
+            "_type": "span",
+            "marks": [
+              "portfolioLink"
+            ],
+            "text": "Разгледайте подробния ландшафтен проект за градина на Florial, за да видите как плановете, растителният подбор и инженерните решения се обединяват в един проект."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "portfolioLink",
+            "_type": "link",
+            "href": "/blog/podroben-landshaften-proekt-gradina"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol32",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols32",
+            "_type": "span",
+            "marks": [],
+            "text": "[[gallery:pipeline]]"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol33",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols33",
+            "_type": "span",
+            "marks": [],
+            "text": "Растения според климата на вашия регион"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol34",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols34",
+            "_type": "span",
+            "marks": [],
+            "text": "Не използваме един и същ растителен асортимент за всички държави. По Българското Черноморие отчитаме летните горещини, засушаването, вятъра и солевия аерозол. В Германия, Чехия и Словакия са особено важни зимните температури и продължителността на студения период. В Италия условията се различават значително между северните и южните райони."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol35",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols35",
+            "_type": "span",
+            "marks": [],
+            "text": "При избора вземаме предвид конкретното местоположение, надморската височина, изложението, почвата, наличието на вода и възможностите за поддръжка. При необходимост уточняваме местни климатични и нормативни особености с клиента и изпълнителя."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol36",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols36",
+            "_type": "span",
+            "marks": [],
+            "text": "От проекта до реализацията"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol37",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols37",
+            "_type": "span",
+            "marks": [],
+            "text": "Документацията се предава в електронен вид и може да се използва като основа за работа на местна строителна или озеленителна бригада. При необходимост Florial може да предоставя дистанционни консултации и да помага при уточняване на проектни решения, растения и материали."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol38",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols38",
+            "_type": "span",
+            "marks": [],
+            "text": "За обекти в България можем отделно да обсъдим доставка на растения, оборудване за напояване и организация на монтаж. Доставка и физическо изпълнение в други държави се договарят самостоятелно и не са автоматична част от онлайн проекта."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol39",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ol39a",
+            "_type": "span",
+            "marks": [],
+            "text": "Свързани услуги: "
+          },
+          {
+            "_key": "ol39b",
+            "_type": "span",
+            "marks": [
+              "designLink"
+            ],
+            "text": "ландшафтен дизайн и проектиране на градини"
+          },
+          {
+            "_key": "ol39c",
+            "_type": "span",
+            "marks": [],
+            "text": ", "
+          },
+          {
+            "_key": "ol39d",
+            "_type": "span",
+            "marks": [
+              "landscapingLink"
+            ],
+            "text": "озеленяване"
+          },
+          {
+            "_key": "ol39e",
+            "_type": "span",
+            "marks": [],
+            "text": ", "
+          },
+          {
+            "_key": "ol39f",
+            "_type": "span",
+            "marks": [
+              "plantingLink"
+            ],
+            "text": "засаждане на растения"
+          },
+          {
+            "_key": "ol39g",
+            "_type": "span",
+            "marks": [],
+            "text": ". Можете да прочетете и "
+          },
+          {
+            "_key": "ol39h",
+            "_type": "span",
+            "marks": [
+              "stagesLink"
+            ],
+            "text": "за етапите на ландшафтното проектиране"
+          },
+          {
+            "_key": "ol39i",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "designLink",
+            "_type": "link",
+            "href": "/services/landshaften-dizain"
+          },
+          {
+            "_key": "landscapingLink",
+            "_type": "link",
+            "href": "/services/ozelenyavane"
+          },
+          {
+            "_key": "plantingLink",
+            "_type": "link",
+            "href": "/services/zasazhdane-na-rasteniya"
+          },
+          {
+            "_key": "stagesLink",
+            "_type": "link",
+            "href": "/blog/etapi-landshaften-proekt-nesebar"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol40",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols40",
+            "_type": "span",
+            "marks": [],
+            "text": "Цена на онлайн ландшафтния проект"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol41",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols41",
+            "_type": "span",
+            "marks": [],
+            "text": "Ориентировъчната цена зависи от площта и договорения състав на документацията. Тарифата на Florial за онлайн проектиране е:"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol42",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols42",
+            "_type": "span",
+            "marks": [],
+            "text": "До 2 дка (2 000 m²) — 250 €."
+          }
+        ],
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "ol43",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols43",
+            "_type": "span",
+            "marks": [],
+            "text": "До 4 дка (4 000 m²) — 450 €."
+          }
+        ],
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "ol44",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols44",
+            "_type": "span",
+            "marks": [],
+            "text": "До 6 дка (6 000 m²) — 600 €."
+          }
+        ],
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "ol45",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols45",
+            "_type": "span",
+            "marks": [],
+            "text": "До 10 дка (10 000 m²) — 750 €."
+          }
+        ],
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "ol46",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols46",
+            "_type": "span",
+            "marks": [],
+            "text": "Всеки следващ декар над 10 дка — допълнително 50 €."
+          }
+        ],
+        "listItem": "bullet",
+        "style": "normal"
+      },
+      {
+        "_key": "ol47",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols47",
+            "_type": "span",
+            "marks": [],
+            "text": "Такса за излизане на обект не се начислява за онлайн формата. Допълнителни визуализации, специализирани чертежи, геодезическо заснемане и други индивидуални задачи се уточняват предварително. След преглед на информацията ще потвърдим конкретния обхват, цена и срок."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol48",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols48",
+            "_type": "span",
+            "marks": [],
+            "text": "Как да поръчате онлайн проект"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "ol49",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols49",
+            "_type": "span",
+            "marks": [],
+            "text": "Изпратете запитване с държавата и населеното място, приблизителната площ на имота и кратко описание на желаната градина. Ако имате планове, снимки или видео, посочете това в съобщението. Ще се свържем с вас, за да уточним необходимите материали и да подготвим предложение."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "ol50",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "ols50",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial — ландшафтно проектиране, дизайн на градини и системи за автоматично напояване. Базирани в Несебър, България; работим дистанционно с клиенти в Европа."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "onlineGardenPhoto",
+        "_type": "image",
+        "alt": "Градина с тревни площи и растителни композиции в ландшафтен проект",
+        "altEn": "Garden with lawn and planting compositions in a landscape design",
+        "altRu": "Сад с газоном и растительными композициями в ландшафтном проекте",
+        "asset": {
+          "_ref": "image-8d12dc5a73770fdbe1f156c32b2b4c8c745c895a-1280x948-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "onlineGardenConcept",
+        "_type": "image",
+        "alt": "Концептуално ландшафтно решение с функционално зониране на градината",
+        "altEn": "Landscape concept showing the functional zoning of a garden",
+        "altRu": "Концепция ландшафтного проекта с функциональным зонированием сада",
+        "asset": {
+          "_ref": "image-2f637a87a19a6af954d894989e07ef95f742e121-3456x4608-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "onlineMasterPlan",
+        "_type": "image",
+        "alt": "Генерален план на градина с басейн, алеи и зони за отдих",
+        "altEn": "Garden master plan with a pool, paths and outdoor living areas",
+        "altRu": "Генеральный план сада с бассейном, дорожками и зонами отдыха",
+        "asset": {
+          "_ref": "image-7e00874ebd624433235fe0a69a883e188f1ea70d-2160x1620-jpg",
+          "_type": "reference"
+        },
+        "linkUrl": "/blog/podroben-landshaften-proekt-gradina"
+      },
+      {
+        "_key": "onlinePlantingPlan",
+        "_type": "image",
+        "alt": "Дендроплан с разположението на дървета, храсти и тревни площи",
+        "altEn": "Planting plan showing tree, shrub and lawn positions",
+        "altRu": "Дендроплан с расположением деревьев, кустарников и газона",
+        "asset": {
+          "_ref": "image-92e70dbfa07e91fe7ec7a5341eb9a5f541407ac5-2160x1620-jpg",
+          "_type": "reference"
+        },
+        "linkUrl": "/blog/podroben-landshaften-proekt-gradina"
+      },
+      {
+        "_key": "onlinePlantSchedule",
+        "_type": "image",
+        "alt": "Ведомост на растенията с количества, размери и период на декоративност",
+        "altEn": "Plant schedule with quantities, sizes and seasonal interest",
+        "altRu": "Ведомость растений с количеством, размерами и периодом декоративности",
+        "asset": {
+          "_ref": "image-7f78c30aeff2940f38d38a1f6069276298f22192-1620x2160-jpg",
+          "_type": "reference"
+        },
+        "linkUrl": "/blog/podroben-landshaften-proekt-gradina"
+      },
+      {
+        "_key": "onlineIrrigationPlan",
+        "_type": "image",
+        "alt": "Схема за автоматично напояване, съгласувана с ландшафтния проект",
+        "altEn": "Automatic irrigation layout coordinated with the landscape design",
+        "altRu": "Схема автоматического полива, согласованная с ландшафтным проектом",
+        "asset": {
+          "_ref": "image-e24bfb43455134f698a24ca035de1a7f4c1cdf3c-1620x2160-jpg",
+          "_type": "reference"
+        },
+        "linkUrl": "/blog/podroben-landshaften-proekt-gradina"
+      },
+      {
+        "_key": "online3DVisualisation",
+        "_type": "image",
+        "alt": "3D визуализация на зони за отдих и растителни композиции в градината",
+        "altEn": "3D visualisation of garden seating areas and planting compositions",
+        "altRu": "3D-визуализация зон отдыха и растительных композиций в саду",
+        "asset": {
+          "_ref": "image-249f7c6cc83242c4c11c4b1c45f1a590b3db60a0-2012x2647-jpg",
+          "_type": "reference"
+        },
+        "linkUrl": "/blog/podroben-landshaften-proekt-gradina"
+      },
+      {
+        "_key": "onlineRealisation",
+        "_type": "image",
+        "alt": "Пример за зелени насаждения и жива ограда в оформена градина",
+        "altEn": "Example of garden planting and a finished green hedge",
+        "altRu": "Пример озеленения и живой изгороди в благоустроенном саду",
+        "asset": {
+          "_ref": "image-cbc1d5bd2e90811abe635201534946d5cce9160a-1600x1200-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Ландшафтен дизайн на градина с тревни площи и растителни композиции",
+        "altEn": "Garden landscape design with lawn and planting compositions",
+        "altRu": "Ландшафтный дизайн сада с газоном и растительными композициями",
+        "asset": {
+          "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Професионално проектиране от Florial — от функционалното зониране и дендроплана до автоматичното напояване, без необходимост от среща на място.",
+      "title": "Онлайн ландшафтен проект за градини в Европа"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Ландшафтен дизайн на градина с тревни площи и растителни композиции",
+      "altEn": "Garden landscape design with lawn and planting compositions",
+      "altRu": "Ландшафтный дизайн сада с газоном и растительными композициями",
+      "asset": {
+        "_ref": "image-4b9197598aea800bf4f165f6205aa1ee48031bb0-1600x1200-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "fName",
+          "label": "Име",
+          "name": "name",
+          "placeholder": "Вашето име",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "fPhone",
+          "label": "Телефон / WhatsApp",
+          "name": "phone",
+          "placeholder": "Телефон за връзка",
+          "required": true,
+          "type": "tel"
+        },
+        {
+          "_key": "fEmail",
+          "label": "Email",
+          "name": "email",
+          "placeholder": "name@example.com",
+          "required": false,
+          "type": "email"
+        },
+        {
+          "_key": "fCountry",
+          "label": "Държава на имота",
+          "name": "country",
+          "placeholder": "Например България, Германия, Чехия",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "fLocation",
+          "label": "Град / населено място",
+          "name": "location",
+          "placeholder": "Къде се намира имотът?",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "fArea",
+          "label": "Площ на имота",
+          "name": "area",
+          "placeholder": "Например 800 m²",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "_key": "fDetails",
+          "label": "Описание на проекта",
+          "name": "details",
+          "placeholder": "Опишете идеите си и наличните планове, снимки или видео.",
+          "required": false,
+          "type": "textarea"
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "successMessage": "Благодарим Ви! Получихме запитването за Вашия проект и ще се свържем с Вас.",
+      "title": "Запитване за онлайн ландшафтен проект"
+    },
+    "name": "Онлайн ландшафтно проектиране за градини в Европа",
+    "relatedContent": [
+      {
+        "_key": "y2TDpG5qG8p5QpVOSxVNyI",
+        "_ref": "52238416-ea46-4ba0-aa25-31c8b46ed6b8",
+        "_type": "reference"
+      },
+      {
+        "_key": "y2TDpG5qG8p5QpVOSxVO06",
+        "_ref": "c7d2c120-6024-4876-b240-ff6585df91e4",
+        "_type": "reference"
+      },
+      {
+        "_key": "y2TDpG5qG8p5QpVOSxVO1u",
+        "_ref": "ddb0b366-4198-4049-b947-680df47f8c6b",
+        "_type": "reference"
+      },
+      {
+        "_key": "y2TDpG5qG8p5QpVOSxVO3i",
+        "_ref": "blogPost-etapi-landshaften-proekt-nesebar",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "онлайн ландшафтно проектиране",
+        "ландшафтен проект онлайн",
+        "проект за градина",
+        "ландшафтен дизайн Европа",
+        "проект за автоматично напояване"
+      ],
+      "metaDescription": "Florial създава онлайн ландшафтни проекти в България и Европа: зониране, дендроплан, растения и автоматично напояване. Изпратете запитване.",
+      "metaTitle": "Онлайн ландшафтен проект за градина | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "landscaping",
+    "serviceLayout": "standard",
+    "shortDescription": "Индивидуални онлайн ландшафтни проекти за имоти в България и Европа: функционално зониране, генерален план, дендроплан, подбор на растения и автоматично напояване.",
+    "slug": {
+      "_type": "slug",
+      "current": "landshaften-proekt-online"
+    },
+    "sortOrder": 11,
+    "sourcePageUrl": "https://www.drop.od.ua/post/landscape-online",
+    "startingPriceEUR": 250,
+    "steps": [
+      {
+        "_key": "i1",
+        "text": "Уточняваме местоположението, площта, стила и бюджета.",
+        "title": "Консултация и задание"
+      },
+      {
+        "_key": "i2",
+        "text": "Получаваме планове, снимки, видео и информация за терена.",
+        "title": "Изходни данни"
+      },
+      {
+        "_key": "i3",
+        "text": "Разработваме и съгласуваме организацията на пространството.",
+        "title": "Концепция и зониране"
+      },
+      {
+        "_key": "i4",
+        "text": "Подготвяме договорения комплект чертежи и ведомости.",
+        "title": "Планове и документация"
+      }
+    ],
+    "translations": {
+      "en": {
+        "advantages": [
+          {
+            "_key": "i1",
+            "text": "The design reflects the property, style, functions and budget.",
+            "title": "Individual approach"
+          },
+          {
+            "_key": "i2",
+            "text": "We combine zoning, planting, paving and irrigation.",
+            "title": "Coordinated concept"
+          },
+          {
+            "_key": "i3",
+            "text": "Plant selection reflects the conditions of the specific region.",
+            "title": "Local climate"
+          },
+          {
+            "_key": "i4",
+            "text": "Documentation provides a basis for a local contractor.",
+            "title": "Ready for implementation"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Send us the property information and we will discuss the right scope for your online project.",
+          "title": "Planning a garden in Bulgaria or Europe?"
+        },
+        "description": "# Online Landscape Design for Gardens Across Europe\n\nFlorial creates individual landscape design projects remotely for private gardens, houses, villas, holiday properties, hotels and commercial spaces. You do not need to travel to Nessebar or arrange an in-person meeting with a designer at your property. We can begin with a site plan, photographs, videos and a detailed discussion of your requirements.\n\nOnline design is useful when you live in a different country from your property, are planning a new build, or want to provide a coordinated project to a local contractor.\n\n## Who is online landscape design for?\n\nBulgaria is Florial's home market. We also consider remote projects in Romania, Greece, Serbia, Croatia, North Macedonia, Slovenia, Hungary, Slovakia, the Czech Republic, Poland, Austria, Germany and Italy. Projects in other countries can be discussed individually.\n\nThe service is suitable for owners of houses and villas living abroad, people planning a garden alongside a new build, and owners of hotels, apartments, restaurants and other commercial properties.\n\n## How does the online process work?\n\n**1. Consultation and brief.** We discuss the property's country and location, site area, building architecture, preferred style, budget and how you plan to use the garden: relaxation, a pool, outdoor dining, children's areas, parking, pets and the level of maintenance you prefer.\n\n**2. Collecting and checking the site information.** You provide the site plan, available architectural and topographical drawings, photographs and videos. We clarify ground levels, soil, sunlight, existing trees, water supply and technical constraints. Remote design does not replace a topographical survey or physical measurements where these are required.\n\n**3. Concept and functional zoning.** We plan how the house, entrance, paths, terrace, relaxation areas, lawns and technical spaces work together. The main concept is agreed before detailed drawings are prepared.\n\n**4. Project documentation and review.** We prepare the agreed set of plans and schedules, present the proposed solutions and discuss revisions within the original project brief.\n\n[[gallery:design]]\n\n## What can the landscape design project include?\n\nDepending on the brief, the project may include a master plan, setting-out drawing, planting plan, plant schedule, paving and landscape construction plan, automatic irrigation layout, 3D visualisations and maintenance recommendations.\n\n### Plant selection and planting plan\n\nWe define planting positions for trees, shrubs, perennial flowers and ornamental grasses. The plant schedule can include botanical names, quantities and sizes according to the agreed scope. Plant selection takes account of local climate, soil, sunlight, mature plant dimensions and expected maintenance.\n\n[[gallery:equipment]]\n\n### Automatic irrigation and technical planning\n\nWhen included in the brief, we prepare an automatic and drip irrigation plan with watering zones, sprinkler and drip-line positions, pipe routes and equipment selection. Florial works with Rain Bird and Hunter solutions. Read more about our [automatic irrigation system design service](/services/proektirane-sistemi-avtomatichno-napoyavane-nesebar).\n\n[[gallery:watering]]\n\n### 3D visualisations\n\nOn request, we prepare 3D visualisations of selected garden areas to help you understand the spaces, materials and planting compositions before implementation.\n\n[[gallery:automation]]\n\n## A detailed Florial landscape project example\n\nAt the centre of this article, we invite you to explore a real set of landscape project documentation. It includes a master plan, setting-out drawings, a planting plan with 38 planting positions, a schedule of 32 plant types, visualisations and automatic irrigation drawings.\n\nExplore the [detailed Florial garden landscape project](/blog/podroben-landshaften-proekt-gradina) to see how the layout, plant selection and technical solutions come together in one coordinated project.\n\n[[gallery:trenches]]\n\n## Plant selection for your local climate\n\nWe do not apply the same plant palette to every country. On the Bulgarian coast, we consider summer heat, dry periods, wind and salt exposure. In Germany, the Czech Republic and Slovakia, winter temperatures and the length of the cold season are particularly important. Conditions in Italy also vary considerably between northern and southern regions.\n\nPlant selection takes account of the exact location, altitude, sunlight, soil, water availability and maintenance requirements. Local climate and regulatory considerations can be clarified with the client and contractor where necessary.\n\n## From design to implementation\n\nThe documentation is delivered electronically and can be used as a basis for work by a local landscaping or construction contractor. If required, Florial can provide remote consultation on design decisions, plants and materials.\n\nFor properties in Bulgaria, plant supply, irrigation equipment and installation arrangements can be discussed separately. Supply and physical installation in other countries are agreed independently and are not automatically included in the online design service.\n\nRelated services: [landscape design and garden planning](/services/landshaften-dizain), [landscaping](/services/ozelenyavane) and [planting services](/services/zasazhdane-na-rasteniya). You may also find our article about the [stages of landscape design](/blog/etapi-landshaften-proekt-nesebar) useful.\n\n## Online landscape design prices\n\nThe indicative price depends on the site area and the agreed scope of documentation:\n\n- Up to 2 decares (2,000 m²) — €250.\n- Up to 4 decares (4,000 m²) — €450.\n- Up to 6 decares (6,000 m²) — €600.\n- Up to 10 decares (10,000 m²) — €750.\n- Each additional decare above 10 — €50.\n\nThere is no site-visit fee for the online format. Additional visualisations, specialist drawings, topographical surveys and individual requirements are quoted separately. After reviewing the site information, we confirm the scope, price and delivery schedule.\n\n## How to order an online landscape project\n\nSend us an enquiry with the country, town, approximate site area and a short description of the garden you have in mind. If you have plans, photographs or videos, mention them in your message. We will contact you to clarify the required information and prepare a proposal.\n\n**Florial — landscape design, garden planning and automatic irrigation systems.** Based in Nessebar, Bulgaria, working remotely with clients across Europe.",
+        "hero": {
+          "subtitle": "Professional Florial garden planning — from functional zoning and planting plans to automatic irrigation, without an on-site meeting.",
+          "title": "Online Landscape Design for Gardens Across Europe"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "fName",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Your name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fPhone",
+              "label": "Phone / WhatsApp",
+              "name": "phone",
+              "placeholder": "Contact phone",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "fEmail",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "name@example.com",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "fCountry",
+              "label": "Property country",
+              "name": "country",
+              "placeholder": "e.g. Bulgaria, Germany, Czech Republic",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fLocation",
+              "label": "City / town",
+              "name": "location",
+              "placeholder": "Where is the property located?",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fArea",
+              "label": "Property area",
+              "name": "area",
+              "placeholder": "e.g. 800 m²",
+              "required": false,
+              "type": "text"
+            },
+            {
+              "_key": "fDetails",
+              "label": "Project details",
+              "name": "details",
+              "placeholder": "Describe your ideas and any plans, photos or videos you have.",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you. We have received your project enquiry and will contact you.",
+          "title": "Online landscape design enquiry"
+        },
+        "name": "Online Landscape Design for Gardens Across Europe",
+        "seo": {
+          "keywords": [
+            "online landscape design",
+            "online garden design",
+            "garden landscape plan",
+            "landscape design Europe",
+            "irrigation design"
+          ],
+          "metaDescription": "Florial creates online garden landscape plans in Bulgaria and Europe, including layouts, planting plans and irrigation design. Send us your enquiry.",
+          "metaTitle": "Online Landscape Design for Gardens | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Individual online garden projects in Bulgaria and Europe: site layout, master plan, planting plan, plant selection and automatic irrigation.",
+        "steps": [
+          {
+            "_key": "i1",
+            "text": "We clarify the location, area, style and budget.",
+            "title": "Consultation and brief"
+          },
+          {
+            "_key": "i2",
+            "text": "We receive plans, photos, video and site details.",
+            "title": "Site information"
+          },
+          {
+            "_key": "i3",
+            "text": "We develop and agree on the spatial layout.",
+            "title": "Concept and zoning"
+          },
+          {
+            "_key": "i4",
+            "text": "We prepare the agreed drawings and schedules.",
+            "title": "Plans and documentation"
+          }
+        ]
+      },
+      "ru": {
+        "advantages": [
+          {
+            "_key": "i1",
+            "text": "Проект учитывает участок, стиль, функции и бюджет.",
+            "title": "Индивидуальный подход"
+          },
+          {
+            "_key": "i2",
+            "text": "Объединяем зонирование, растения, покрытия и полив.",
+            "title": "Единая концепция"
+          },
+          {
+            "_key": "i3",
+            "text": "Подбор растений учитывает условия конкретного региона.",
+            "title": "Местный климат"
+          },
+          {
+            "_key": "i4",
+            "text": "Документация служит основой для местного подрядчика.",
+            "title": "Подготовка к реализации"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте информацию об участке, и мы обсудим подходящий состав онлайн-проекта.",
+          "title": "Планируете сад в Болгарии или Европе?"
+        },
+        "description": "# Ландшафтный проект онлайн для сада в Европе\n\nFlorial разрабатывает индивидуальные ландшафтные проекты дистанционно для частных садов, домов, вилл, загородной недвижимости, отелей и коммерческих объектов. Для начала работы не требуется приезжать в Несебр или приглашать дизайнера на участок. Достаточно плана территории, фотографий, видео и подробного обсуждения ваших пожеланий.\n\nОнлайн-формат подходит, если вы живёте в одной стране, а недвижимость находится в другой, планируете строительство заранее или хотите передать готовую документацию местному подрядчику.\n\n## Для кого подходит онлайн-проектирование\n\nОсновной рынок Florial — Болгария. Также мы рассматриваем дистанционные проекты для объектов в Румынии, Греции, Сербии, Хорватии, Северной Македонии, Словении, Венгрии, Словакии, Чехии, Польше, Австрии, Германии и Италии. Возможность работы с объектами в других странах обсуждается индивидуально.\n\nУслуга подходит владельцам домов и вилл, которые живут за границей; тем, кто строит дом и хочет заранее продумать сад, полив и освещение; владельцам гостиниц, апартаментов, ресторанов и других коммерческих объектов.\n\n## Как проходит работа онлайн\n\n**1. Консультация и техническое задание.** Обсуждаем страну и местоположение участка, площадь, архитектуру здания, стиль, бюджет и сценарии использования сада: отдых, бассейн, барбекю, детская зона, парковка, домашние животные и желаемый уровень ухода.\n\n**2. Сбор и проверка исходных данных.** Вы присылаете план участка, имеющиеся архитектурные и геодезические чертежи, фотографии и видео. Уточняем перепады высот, почву, освещённость, существующие деревья, источник воды и технические ограничения. Онлайн-проектирование не заменяет геодезическую съёмку или физические измерения, если они необходимы.\n\n**3. Концепция и зонирование.** Разрабатываем логику пространства и взаимосвязь дома, входа, дорожек, террасы, зон отдыха, газонов и технических зон. Согласовываем основную концепцию до подготовки подробных чертежей.\n\n**4. Проектная документация и согласование.** Готовим согласованный комплект планов и ведомостей, представляем решения на проверку и обсуждаем корректировки в рамках исходного задания.\n\n[[gallery:design]]\n\n## Что входит в ландшафтный проект\n\nСостав зависит от задачи и может включать генеральный план, разбивочный чертёж, дендроплан, ведомость растений, план покрытий и благоустройства, схему автоматического полива, 3D-визуализации и рекомендации по уходу.\n\n### Подбор растений и дендроплан\n\nОпределяем места посадки деревьев, кустарников, многолетних цветов и декоративных трав. В ведомости указываем ботанические названия, количество и размеры в соответствии с согласованным объёмом работ. Подбор учитывает климат, почву, освещённость, взрослые размеры растений и предполагаемый уход.\n\n[[gallery:equipment]]\n\n### Автоматический полив и инженерная часть\n\nЕсли это включено в задание, разрабатываем план автоматического и капельного полива: зоны полива, расположение дождевателей и капельных линий, трассы трубопроводов и подбор оборудования. Florial работает с решениями Rain Bird и Hunter. Подробнее — в услуге [проектирования систем автоматического полива](/services/proektirane-sistemi-avtomatichno-napoyavane-nesebar).\n\n[[gallery:watering]]\n\n### 3D-визуализация\n\nПо запросу готовим 3D-визуализации отдельных зон, чтобы заранее оценить объёмы, материалы и растительные композиции.\n\n[[gallery:automation]]\n\n## Реальный пример подробного проекта Florial\n\nВ середине статьи предлагаем посмотреть реальный комплект проектной документации. В нём представлены генеральный план, разбивочные чертежи, дендроплан с 38 посадочными позициями, ведомость с 32 видами растений, визуализации и схемы автоматического полива.\n\nПосмотрите [подробный ландшафтный проект сада Florial](/blog/podroben-landshaften-proekt-gradina), чтобы увидеть, как планировка, подбор растений и инженерные решения объединяются в единый проект.\n\n[[gallery:trenches]]\n\n## Растения с учётом климата региона\n\nМы не используем один и тот же ассортимент растений для всех стран. На болгарском побережье учитываем летнюю жару, засуху, ветер и солевой аэрозоль. В Германии, Чехии и Словакии особенно важны зимние температуры и продолжительность холодного периода. В Италии условия заметно различаются между северными и южными регионами.\n\nПри подборе учитываем конкретное местоположение, высоту над уровнем моря, освещённость, почву, наличие воды и возможности ухода. При необходимости отдельно уточняем местные климатические и нормативные особенности с заказчиком и исполнителем.\n\n## От проекта к реализации\n\nДокументация передаётся в электронном виде и может использоваться местной строительной или ландшафтной бригадой как основа для работ. При необходимости Florial может дистанционно консультировать по проектным решениям, растениям и материалам.\n\nДля объектов в Болгарии отдельно можно согласовать поставку растений, оборудования для полива и организацию монтажа. Поставка и физическое выполнение работ в других странах согласуются отдельно и не входят автоматически в онлайн-проект.\n\nСвязанные услуги: [ландшафтный дизайн и проектирование садов](/services/landshaften-dizain), [озеленение](/services/ozelenyavane), [посадка растений](/services/zasazhdane-na-rasteniya). Также рекомендуем материал об [этапах ландшафтного проектирования](/blog/etapi-landshaften-proekt-nesebar).\n\n## Стоимость онлайн-проекта\n\nОриентировочная стоимость зависит от площади участка и согласованного состава документации:\n\n- До 2 декаров (2 000 м²) — 250 €.\n- До 4 декаров (4 000 м²) — 450 €.\n- До 6 декаров (6 000 м²) — 600 €.\n- До 10 декаров (10 000 м²) — 750 €.\n- Каждый следующий декар свыше 10 — дополнительно 50 €.\n\nДля онлайн-формата плата за выезд на объект не взимается. Дополнительные визуализации, специализированные чертежи, геодезическая съёмка и индивидуальные задачи рассчитываются отдельно. После изучения исходных данных подтвердим состав проекта, стоимость и сроки.\n\n## Как заказать онлайн-проект\n\nОтправьте запрос с указанием страны, города, примерной площади участка и кратким описанием желаемого сада. Если у вас есть планы, фотографии или видео, укажите это в сообщении. Мы свяжемся с вами, уточним необходимые материалы и подготовим предложение.\n\n**Florial — ландшафтный дизайн, проектирование садов и системы автоматического полива.** Несебр, Болгария. Работаем дистанционно с заказчиками в Европе.",
+        "hero": {
+          "subtitle": "Профессиональное проектирование Florial — от функционального зонирования и дендроплана до автоматического полива, без встречи на участке.",
+          "title": "Ландшафтный проект онлайн для сада в Европе"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "fName",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Ваше имя",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fPhone",
+              "label": "Телефон / WhatsApp",
+              "name": "phone",
+              "placeholder": "Контактный телефон",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "fEmail",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "name@example.com",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "fCountry",
+              "label": "Страна расположения участка",
+              "name": "country",
+              "placeholder": "Например Болгария, Германия, Чехия",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fLocation",
+              "label": "Город / населённый пункт",
+              "name": "location",
+              "placeholder": "Где находится участок?",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "fArea",
+              "label": "Площадь участка",
+              "name": "area",
+              "placeholder": "Например 800 м²",
+              "required": false,
+              "type": "text"
+            },
+            {
+              "_key": "fDetails",
+              "label": "Описание проекта",
+              "name": "details",
+              "placeholder": "Опишите ваши пожелания и имеющиеся планы, фото или видео.",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Мы получили запрос на проект и свяжемся с вами.",
+          "title": "Запрос на онлайн-проект сада"
+        },
+        "name": "Ландшафтный проект онлайн для сада в Европе",
+        "seo": {
+          "keywords": [
+            "ландшафтный проект онлайн",
+            "онлайн ландшафтный дизайн",
+            "проект сада",
+            "ландшафтное проектирование Европа",
+            "проект автополива"
+          ],
+          "metaDescription": "Florial разрабатывает онлайн-проекты садов в Болгарии и Европе: планировка, дендроплан, растения и автоматический полив. Отправьте запрос.",
+          "metaTitle": "Ландшафтный проект онлайн для сада | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Индивидуальные онлайн-проекты садов в Болгарии и Европе: планировка, генеральный план, дендроплан, подбор растений и автоматический полив.",
+        "steps": [
+          {
+            "_key": "i1",
+            "text": "Уточняем местоположение, площадь, стиль и бюджет.",
+            "title": "Консультация и задание"
+          },
+          {
+            "_key": "i2",
+            "text": "Получаем планы, фото, видео и информацию об участке.",
+            "title": "Исходные данные"
+          },
+          {
+            "_key": "i3",
+            "text": "Разрабатываем и согласовываем организацию пространства.",
+            "title": "Концепция и зонирование"
+          },
+          {
+            "_key": "i4",
+            "text": "Готовим согласованный комплект планов и ведомостей.",
+            "title": "Чертежи и документация"
+          }
+        ]
+      }
+    }
+  }
+}
