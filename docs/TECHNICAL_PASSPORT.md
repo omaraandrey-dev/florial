@@ -1,3 +1,21 @@
+## 2026-11-17 — Капково напояване за градини: публикация и inline-галерея (PR #374)
+
+- PR #374 объединён в `main`; production commit: `a5f4b2877b4cdc60cef1a712da59c62878c032c3`.
+- Cloudflare Pages Production deployment `451901ca-8d36-450e-a134-79561382d154` завершился со статусом `success` на точном main commit; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Preview deployment `4fe6b1d5-bc66-439e-b7f6-3975b273ccbf` успешно собран и опубликован на PR head `070c6a0df0c0d607931a2e0ed1596a18aed11cc4`.
+- Sanity Production service `bbdb6864-f4b5-4969-ae31-62fc2043a25c`, slug `avtomatizirano-kapkovo-napoyavane`, обновлена на месте. Опубликованная ревизия: `CSxh3cFbcDVp859mku2NdQ`; URL и document ID сохранены.
+- BG: 48 Portable Text blocks с H2/H3, списками и внутренними ссылками. RU/EN: самостоятельные локализованные Markdown-версии. Для всех трёх языков заполнены hero, metaTitle/metaDescription/keywords и `noIndex=false`.
+- Внутренние ссылки ведут на существующие категории капкового напояване и Rain Bird тръби, общую категорию поливного оборудования, фильтры/регуляторы, контроллеры, деревья/кустарники, цветы/розы, посадку растений и автоматический полив. Проверены категории production и plants datasets, а также две услуги.
+- `relatedContent`: три опубликованные статьи о монтаже, оборудовании Rain Bird и стоимости поливной системы; две категории оборудования.
+- Inline gallery: 4 существующих garden images и 3 existing product images распределены по соответствующим разделам. Дублирующие gallery assets не рендерятся повторно; нет общей галереи сразу под Hero и нижнего повторного legacy image-text блока. ALT BG/RU/EN заполнен.
+- Lead form BG/RU/EN использует поля `name`, `phone`, `email`, `location`, `details` и существующий `/api/service-leads`. API, D1 и Resend не изменялись.
+- Production Browser Rendering: BG/RU/EN — HTTP 200; корректные локализованные title, meta description, H1/H2, canonical и `index, follow`; 15 изображений на каждой проверенной странице, все с ALT; локализованные формы и блок связанных материалов присутствуют.
+- Ограничения проверки: реальная заявка не отправлялась; PageSpeed/Lighthouse, формальная mobile overflow проверка и Google recrawl/indexing не выполнялись. Cloudflare build/deploy успешен; GitHub workflow/status lookup не вернул CI runs, поэтому отдельный regression test не считается выполненным.
+- SEO follow-up: cross-language hreflang неполный — на BG странице присутствуют BG/x-default, на RU — BG/x-default/RU, на EN — BG/x-default/EN. Причина: service detail query проецирует SEO только активной локали; исправление общей query projection требует отдельного scoped PR.
+- Во время read-only проверки Cloudflare Pages environment metadata обнаружены legacy `VITE_SUPABASE_*` entries. Значения не копировались, не использовались и не изменялись; фактическое использование не подтверждено. Вынесено в отдельный open question.
+- Backup исходного Sanity document до write: `docs/backups/sanity/2026-11-17-kapkovo-napoyavane-before-editorial-refresh.json`. Детали: `docs/audits/2026-11-17-kapkovo-napoyavane-service-refresh.md`.
+- Не менялись Sanity schema, Header, navigation, Footer, Manager API, D1, Resend, Cloudflare settings/secrets. Supabase не использовался.
+
 ## 2026-11-17 — Озеленяване на терени: локализованная статья и inline-галерея
 
 - Существующая Sanity Production service `e86d4175-e74e-4200-a4bd-e56a56672e0e`, slug `ozelenyavane`, обновлена на месте; URL и ID сохранены.
