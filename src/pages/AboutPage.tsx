@@ -201,7 +201,7 @@ export function AboutPage({ categories }: AboutPageProps) {
           <h2 id="about-offerings-heading" className="mb-6 text-center text-2xl font-extrabold text-[#263323] md:text-3xl">
             {language === 'ru' ? 'Что мы предлагаем' : language === 'en' ? 'What we offer' : 'Какво предлагаме'}
           </h2>
-          <div className="grid grid-cols-2 gap-3 md:gap-6">
+          <div className="grid grid-cols-1 gap-4">
             <article className={sectionClass}>
               <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl"><a href={localizedHref('/category/rastenia', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantSalesTitle}</a></h3>
               {renderCatalogImage('rastenia', copy.plantSalesTitle)}
