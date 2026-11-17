@@ -102,6 +102,76 @@ function ServiceLoadingState({ label }: { label: string }) {
   )
 }
 
+function ServiceDirectionLoadingState({ label }: { label: string }) {
+  return (
+    <main
+      className="mx-auto flex min-h-[calc(100svh+36rem)] w-full max-w-7xl flex-grow flex-col px-4 py-8 sm:px-6 lg:px-8"
+      aria-busy="true"
+    >
+      <p className="sr-only" role="status" aria-live="polite">{label}</p>
+      <div aria-hidden="true" className="mb-6 h-4 w-64 animate-pulse rounded bg-slate-200" />
+
+      <header aria-hidden="true" className="mx-auto mb-10 w-full max-w-4xl space-y-4 text-center">
+        <div className="mx-auto aspect-square max-h-[420px] w-full animate-pulse rounded-2xl bg-slate-100" />
+        <div className="mx-auto h-5 w-40 animate-pulse rounded-full bg-emerald-50" />
+        <div className="mx-auto h-10 w-5/6 max-w-3xl animate-pulse rounded-lg bg-slate-200" />
+        <div className="mx-auto h-4 w-full max-w-3xl animate-pulse rounded bg-slate-100" />
+        <div className="mx-auto h-4 w-4/5 max-w-2xl animate-pulse rounded bg-slate-100" />
+      </header>
+
+      <div aria-hidden="true" className="mx-auto mb-12 w-full max-w-4xl space-y-7">
+        {Array.from({ length: 3 }, (_, index) => (
+          <section key={index} className="space-y-4">
+            <div className="h-7 w-3/4 animate-pulse rounded bg-slate-200" />
+            <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+            <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+            <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+          </section>
+        ))}
+      </div>
+
+      <section aria-hidden="true" className="mx-auto mb-12 min-h-[360px] w-full max-w-5xl space-y-5">
+        <div className="h-8 w-2/3 animate-pulse rounded bg-slate-200" />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 2 }, (_, index) => (
+            <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
+              <div className="h-48 animate-pulse bg-slate-100" />
+              <div className="space-y-3 p-5">
+                <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
+                <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section aria-hidden="true" className="mx-auto mb-12 w-full max-w-4xl space-y-4">
+        <div className="h-8 w-2/3 animate-pulse rounded bg-slate-200" />
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="h-14 animate-pulse rounded-xl bg-slate-100" />
+        ))}
+      </section>
+
+      <section aria-hidden="true" className="mx-auto w-full max-w-6xl space-y-5">
+        <div className="h-8 w-3/4 animate-pulse rounded bg-slate-200" />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 5 }, (_, index) => (
+            <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
+              <div className="aspect-[4/3] animate-pulse bg-slate-100" />
+              <div className="space-y-3 p-5">
+                <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
+                <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  )
+}
+
 function ProductLoadingState({ label }: { label: string }) {
   return (
     <main
@@ -1481,10 +1551,12 @@ export default function App() {
       />
 
       <React.Suspense fallback={
-        activeCategorySlug
-          ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
-          : activeServiceSlug
-            ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
+        serviceDirectionSlug && isValidServiceDirectionRoute
+          ? <ServiceDirectionLoadingState label={t('Зареждане на страницата с услуги...')} />
+          : activeCategorySlug
+            ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
+            : activeServiceSlug
+              ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
             : activeProductSlug
               ? <ProductLoadingState label={t('Зареждане на продукта...')} />
               : (
