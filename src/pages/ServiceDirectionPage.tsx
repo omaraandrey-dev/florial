@@ -484,7 +484,13 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
       </nav>
 
       <header className="mx-auto max-w-4xl pb-8 pt-2 text-center md:pb-12">
-        {heroImageUrl && <img {...getSanityImageProps(heroImageUrl, '(min-width: 768px) 896px, 100vw', 1200)} alt={heroImageAlt} loading="eager" fetchPriority="high" decoding="async" className="mb-7 max-h-[420px] w-full rounded-2xl object-cover" />}
+        {heroImageUrl ? (
+          <div className="mb-7 aspect-square max-h-[420px] w-full overflow-hidden rounded-2xl bg-slate-100">
+            <img {...getSanityImageProps(heroImageUrl, '(min-width: 768px) 896px, 100vw', 1200)} alt={heroImageAlt} loading="eager" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
+          </div>
+        ) : showLandscapePortfolio ? (
+          <div aria-hidden="true" className="mb-7 aspect-square max-h-[420px] w-full rounded-2xl bg-slate-100" />
+        ) : null}
         <p className="mb-3 text-sm font-bold uppercase tracking-widest text-emerald-800">Florial · {direction.title[locale]}</p>
         <h1 className="mb-5 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">{copy.title}</h1>
         <p className="text-lg leading-8 text-slate-600">{copy.intro}</p>
@@ -521,9 +527,23 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
         ))}
       </article>
 
-      <section className="mx-auto my-12 max-w-5xl" aria-labelledby="direction-services-heading">
+      <section className="mx-auto my-12 min-h-[360px] max-w-5xl" aria-labelledby="direction-services-heading">
         <h2 id="direction-services-heading" className="mb-5 text-2xl font-bold text-slate-900 md:text-3xl">{copy.serviceHeading}</h2>
-        {loading ? <p className="py-8 text-slate-500">{locale === 'ru' ? 'Загрузка услуг…' : locale === 'en' ? 'Loading services…' : 'Зареждане на услугите…'}</p> : entries.length ? (
+        {loading ? (
+          <div aria-hidden="true" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 2 }, (_, index) => (
+              <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
+                <div className="h-48 animate-pulse bg-slate-100" />
+                <div className="space-y-3 p-5">
+                  <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
+                  <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                  <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+                  <div className="h-4 w-1/3 animate-pulse rounded bg-slate-100" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : entries.length ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {entries.map((entry) => {
               if (entry.kind === 'delivery') return (
@@ -559,13 +579,28 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
       </section>
 
 
-      {showLandscapePortfolio && landscapeArticlesLoaded && landscapeArticles.length > 0 && (
-        <section className="mx-auto my-12 max-w-6xl" aria-labelledby="landscape-portfolio-heading">
+      {showLandscapePortfolio && (
+        <section className="mx-auto my-12 min-h-[28rem] max-w-6xl" aria-labelledby="landscape-portfolio-heading">
           <h2 id="landscape-portfolio-heading" className="mb-6 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
             {locale === 'ru' ? 'Примеры ландшафтного проектирования' : locale === 'en' ? 'Landscape design examples' : 'Примери за ландшафтно проектиране'}
           </h2>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {landscapeArticles.map((post) => {
+          {!landscapeArticlesLoaded ? (
+            <div aria-hidden="true" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 5 }, (_, index) => (
+                <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
+                  <div className="aspect-[4/3] animate-pulse bg-slate-100" />
+                  <div className="space-y-3 p-5">
+                    <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
+                    <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                    <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+                    <div className="h-4 w-1/3 animate-pulse rounded bg-slate-100" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : landscapeArticles.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {landscapeArticles.map((post) => {
               const translation = blogTranslation(post, locale as BlogLanguage)
               const slug = blogSlug(post)
               const imageUrl = post.cover?.asset?.url
@@ -580,7 +615,12 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
                 </a>
               )
             })}
-          </div>
+            </div>
+          ) : (
+            <p className="rounded-xl bg-slate-50 p-5 text-slate-600">
+              {locale === 'ru' ? 'Примеры проектов скоро появятся.' : locale === 'en' ? 'Project examples will be available soon.' : 'Примерите за проекти ще бъдат добавени скоро.'}
+            </p>
+          )}
         </section>
       )}
 
