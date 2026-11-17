@@ -44,8 +44,13 @@ No Header, menu, Footer, global shell, route definitions, Sanity content/schema,
 - Git diff checked: three runtime/test files only; branch was three commits ahead and zero commits behind at the first diff review. Test assertion cleanup was then committed separately.
 - Read-only Sanity Production queries succeeded for the direction, role photo and active services.
 - Local `typecheck`, `lint`, `test` and `build` were not run in this environment because GitHub could not be cloned from the local shell (network DNS unavailable).
-- GitHub CI, Preview deployment, browser layout-shift trace, and matched Lighthouse reruns are pending. No performance improvement is claimed yet.
-- Production deployment is not authorized by this change; merge/release should follow the owner's established approval gate.
+- GitHub Actions on exact final implementation head `fb8d3692fc4bf3ede316f9d1611ac09fc03be8f4`:
+  - Blog and Studio workflow run `44013780067` — **success**. Type-check, lint, all 283 tests (283 passed, 0 failed), website build, migration script syntax checks, read-only migration dry-run, Studio type-check and Studio build all passed.
+  - D1 migration validation run `44013780158` — **success**. Lint, website build, Pages Functions syntax and both isolated additive migration validations passed. No live D1 write was performed.
+- Cloudflare Pages Preview deployment `abe3f063-123c-41ef-bf3b-ca98daf7192f` succeeded for exact head `fb8d3692fc4bf3ede316f9d1611ac09fc03be8f4`: https://abe3f063.florial.pages.dev.
+- Read-only Cloudflare Browser Rendering smoke on Preview at 390×844 returned HTTP 200 and confirmed the localized page title, both Sanity preconnect tags in HTML, the 358×358 hero image, two service links, five portfolio links and rendered Footer. A buffered layout-shift observer installed at DOMContentLoaded reported CLS 0 with no captured entries in this browser session. This is a Preview smoke observation, not a matched Lighthouse measurement and not proof of zero cold-navigation CLS.
+- Matched Lighthouse reruns and a Chrome Performance trace remain pending. No PageSpeed score/LCP/CLS improvement is claimed yet.
+- Production merge/release was not performed. Production deployment is not authorized by this change; merge/release should follow the owner's established approval gate.
 
 ## Acceptance checks still required
 
