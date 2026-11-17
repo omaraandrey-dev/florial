@@ -38,7 +38,7 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
-      lawn: ['рулонен тревен чим и изграждане на тревни площи'],
+      lawn: ['рулонен тревен чим и изграждане на тревни площи', 'полагане на тревния чим на терена'],
       flowerbeds: ['цветни лехи и растителни композиции', 'за кои растения е подходящо капковото напояване?'],
 
       design: ['проектиране и разделяне на поливни зони', 'как планираме системата за вашата градина?'],
@@ -56,7 +56,7 @@ const sectionForHeading = (value: string, language: string) => {
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
-      lawn: ['рулонный газон и устройство газонных площадей'],
+      lawn: ['рулонный газон и устройство газонных площадей', 'укладка рулонного газона на участке'],
       flowerbeds: ['цветники и цветочные композиции', 'для каких растений подходит капельный полив?'],
 
       design: ['проектирование и разделение на зоны полива', 'как мы планируем систему для конкретного сада?'],
@@ -74,7 +74,7 @@ const sectionForHeading = (value: string, language: string) => {
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
-      lawn: ['roll-out turf and lawn installation'],
+      lawn: ['roll-out turf and lawn installation', 'laying rolled turf on site'],
       flowerbeds: ['flower beds and planting compositions', 'which plants can benefit from drip irrigation?'],
 
       design: ['system design and irrigation zones', 'how do we plan a system for your garden?'],
@@ -572,6 +572,7 @@ export function ServicePage({ service }: ServicePageProps) {
       })
     : []
   const isDripIrrigationService = service.slug?.current === 'avtomatizirano-kapkovo-napoyavane'
+  const isRolledTurfService = service.slug?.current === 'rulonna-treva'
   const dripIrrigationImageGroups: Record<string, string> = {
     gallery1: 'design',
     gallery4: 'watering',
@@ -625,6 +626,27 @@ export function ServicePage({ service }: ServicePageProps) {
     online3DVisualisation: 'pipeline',
     onlineRealisation: 'design',
   } : {}
+  const rolledTurfGalleryImageGroups: Record<string, string> = isRolledTurfService ? {
+    img4: 'lawn',
+    f0a2082a4004: 'lawn',
+    '1f1a8f9bcdb0': 'lawn',
+    '8f55ccf79674': 'lawn',
+    '75a8ab838130': 'lawn',
+    a55a84ff65d2: 'lawn',
+  } : {}
+  const rolledTurfArticleGalleryBlocks: ServiceContentBlock[] = galleryImages.flatMap((image) => {
+    const group = rolledTurfGalleryImageGroups[image._key || '']
+    if (!group || !image.url) return []
+    return [{
+      _key: image._key,
+      title: `__gallery:${group}`,
+      imageUrl: image.url,
+      imageAlt: image.alt,
+      imageAltRu: image.altRu,
+      imageAltEn: image.altEn,
+      linkUrl: image.linkUrl,
+    }]
+  })
   const landscapeArticleGalleryBlocks: ServiceContentBlock[] = galleryImages.flatMap((image) => {
     const group = landscapeGalleryImageGroups[image._key || '']
     if (!group || !image.url) return []
@@ -638,7 +660,7 @@ export function ServicePage({ service }: ServicePageProps) {
       linkUrl: image.linkUrl,
     }]
   })
-  const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks, ...dripArticleGalleryBlocks, ...landscapeArticleGalleryBlocks]
+  const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks, ...dripArticleGalleryBlocks, ...rolledTurfArticleGalleryBlocks, ...landscapeArticleGalleryBlocks]
   const imageGroups = sourceBlocksWithArticleGallery.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
     const match = typeof block.title === 'string'
       ? block.title.match(/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing|lawn|flowerbeds)$/)
@@ -651,7 +673,7 @@ export function ServicePage({ service }: ServicePageProps) {
   const hasIntroGallery = Boolean(imageGroups.intro?.length) && service.slug?.current !== 'zasazhdane-na-rasteniya' && service.slug?.current !== 'landshaften-dizain' && service.slug?.current !== 'ozelenyavane'
   // Keep legacy gallery-marker blocks in their article sections; render regular
   // image-and-text blocks as a separate section at the bottom of every service page.
-  const additionalContentBlocks = service.slug?.current === 'ozelenyavane' || isDripIrrigationService ? [] : sourceBlocks.filter((block) =>
+  const additionalContentBlocks = service.slug?.current === 'ozelenyavane' || isDripIrrigationService || isRolledTurfService ? [] : sourceBlocks.filter((block) =>
     !/^__gallery:(intro|trenches|pipeline|equipment|automation|watering|lawn|flowerbeds)$/.test(block.title || '') &&
     Boolean(block.imageUrl || block.title || block.text),
   )
@@ -709,7 +731,7 @@ export function ServicePage({ service }: ServicePageProps) {
 
         {isAutomaticIrrigationService
           ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
-          : isDripIrrigationService
+           : isDripIrrigationService || isRolledTurfService
             ? null
             : service.slug?.current === 'ozelenyavane'
             ? null
