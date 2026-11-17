@@ -38,7 +38,7 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
-      lawn: ['рулонен тревен чим и изграждане на тревни площи', 'полагане на тревния чим на терена'],
+      lawn: ['рулонен тревен чим и изграждане на тревни площи'],
       flowerbeds: ['цветни лехи и растителни композиции', 'за кои растения е подходящо капковото напояване?'],
 
       design: ['проектиране и разделяне на поливни зони', 'как планираме системата за вашата градина?'],
@@ -56,7 +56,7 @@ const sectionForHeading = (value: string, language: string) => {
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
-      lawn: ['рулонный газон и устройство газонных площадей', 'укладка рулонного газона на участке'],
+      lawn: ['рулонный газон и устройство газонных площадей'],
       flowerbeds: ['цветники и цветочные композиции', 'для каких растений подходит капельный полив?'],
 
       design: ['проектирование и разделение на зоны полива', 'как мы планируем систему для конкретного сада?'],
@@ -74,7 +74,7 @@ const sectionForHeading = (value: string, language: string) => {
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
-      lawn: ['roll-out turf and lawn installation', 'laying rolled turf on site'],
+      lawn: ['roll-out turf and lawn installation'],
       flowerbeds: ['flower beds and planting compositions', 'which plants can benefit from drip irrigation?'],
 
       design: ['system design and irrigation zones', 'how do we plan a system for your garden?'],
@@ -361,7 +361,7 @@ function renderPortableText(
     })
     const key = block._key || index
     const text = (block.children || []).map((child: any) => child.text || '').join('')
-    const galleryMarker = block.style === 'normal' ? text.trim().match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation)\]\]$/) : null
+    const galleryMarker = block.style === 'normal' ? text.trim().match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation|lawn)\]\]$/) : null
     if (galleryMarker) return <React.Fragment key={key}>{renderImageGallery(imageGroups[galleryMarker[1]] || [], galleryMarker[1], language)}</React.Fragment>
     if (block.style === 'h2') {
       const section = sectionForHeading(text, language)
