@@ -61,3 +61,12 @@ No changes were made to Header, navigation, Footer, routing, Sanity content/sche
 ## Documentation integration note
 
 The shared `CHANGELOG.md` and `docs/TECHNICAL_PASSPORT.md` updates are intentionally deferred to the next single documentation-integration pass. At the time of this PR, other open PRs (#334, #281 and #274) also modify those shared files. This avoids parallel edits and prevents overwriting or duplicating their records, in accordance with the repository work protocol.
+
+
+## Owner review follow-up — vertical offerings layout (2026-11-17)
+
+- Owner reviewed the About page Preview and requested that the “Какво предлагаме” / “What we offer” / “Что мы предлагаем” cards be stacked vertically rather than shown in two columns.
+- Updated only the offerings grid in `src/pages/AboutPage.tsx` from a two-column grid to a single-column sequence. Plant sales remains first; professional automatic irrigation equipment remains second. Team and garden-centre grids are unchanged.
+- Runtime commit: `a1f7220f9055beef9b4b10cc468b3a86beea6f56`.
+- The exact source now contains `grid grid-cols-1 gap-4` for the offerings section. GitHub workflow lookup for this commit returned no PR-triggered runs; CI status for this follow-up is therefore **not confirmed**. No new Preview deployment or browser verification of this correction is confirmed yet.
+- Production and `main` were not changed. The PR remains open; merge and Production deployment still require the owner's explicit approval.
