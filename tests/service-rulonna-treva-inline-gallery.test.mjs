@@ -17,5 +17,5 @@ test('rolled turf service places its process photos inside the localized article
   assert.ok(page.includes('...rolledTurfArticleGalleryBlocks'))
   assert.match(page, /additionalContentBlocks = .*isRolledTurfService \? \[\]/)
   assert.match(page, /isDripIrrigationService \|\| isRolledTurfService\s*\? null/)
-  assert.match(page, /gallery:\(intro\|design\|pipeline\|equipment\|trenches\|watering\|automation\|lawn\)\)/)
+  assert.ok(page.includes('gallery:(intro|design|pipeline|equipment|trenches|watering|automation|lawn)'))
 })
