@@ -7,7 +7,7 @@
 - Category, active status, service layout, sort order, document ID and hero asset preserved.
 - Source article reviewed: https://www.drop.od.ua/bg/grass.
 - Pre-write backup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json` (source revision `iNPCLSoXm0d2UNhS8TvO0J`).
-- Additional backup before post-publication marker cleanup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-marker-cleanup.json` (source revision `iNPCLSoXm0d2UNhS8U8xz7`).
+- Additional backup before post-publication marker cleanup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-marker-cleanup.json` (source revision `CSxh3cFbcDVp859mkuVG40`).
 
 ## Published content
 
@@ -31,7 +31,7 @@
 - No Sanity schema, API, D1, Resend, Cloudflare settings/secrets, Header, navigation or Footer changes.
 - No price, turnaround, guarantee, certification or supplier claim was added.
 - The requested Humanizer connector was not available among connected tools in this session; wording was edited directly for natural BG/RU/EN rather than claiming an external Humanizer pass.
-- Runtime PR #376 merged at `c5f4446e48d6f2d554684d198a583313e7e744b6`; photo-group correction PR #377 merged at `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`. Production deployment `341ad1f8-6ce4-4c71-8271-8922415ee2ae` completed successfully on the final main commit. Sanity document published revision: `iNPCLSoXm0d2UNhS8U8xz7`.
+- Runtime PR #376 merged at `c5f4446e48d6f2d554684d198a583313e7e744b6`; photo-group correction PR #377 merged at `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`. Production deployment `341ad1f8-6ce4-4c71-8271-8922415ee2ae` completed successfully on the final main commit. Sanity document published revision: `CSxh3cFbcDVp859mkuVG40`.
 - The original and newly uploaded photo assets were visually inspected using Cloudflare Browser Rendering. Two existing content-block images show completed lawns, one shows bare-ground preparation; gallery photos are grouped into delivery and laying/result sections. ALT text describes visible content in BG/RU/EN.
 
 ## Production verification
