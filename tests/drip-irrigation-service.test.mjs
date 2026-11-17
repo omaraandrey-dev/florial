@@ -11,8 +11,8 @@ test('drip irrigation service images are placed inside the matching article sect
   assert.match(page, /gallery5: 'flowerbeds'/)
   assert.match(page, /'49e8b9ec3359': 'design'/)
   assert.match(page, /title: `__gallery:\$\{group\}`/)
-  assert.match(page, /additionalContentBlocks = service\.slug\?\.current === 'ozelenyavane' \|\| isDripIrrigationService \? \[\]/)
-  assert.match(page, /: isDripIrrigationService\s*\? null\s*:/)
+  assert.match(page, /additionalContentBlocks = service\.slug\?\.current === 'ozelenyavane' \|\| isDripIrrigationService \|\| isRolledTurfService \? \[\]/)
+  assert.match(page, /: isDripIrrigationService \|\| isRolledTurfService\s*\? null\s*:/)
 
   for (const heading of [
     'как планираме системата за вашата градина?',
