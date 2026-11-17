@@ -200,9 +200,9 @@ test('landscape architect direction uses one localized Sanity query for its dire
 test('landscape service direction reserves the long page layout while its lazy module loads', async () => {
   const app = await read('../src/App.tsx')
   assert.match(app, /function ServiceDirectionLoadingState/)
-  assert.match(app, /min-h-\\[calc\\(100svh\\+36rem\\)\\]/)
-  assert.match(app, /aspect-square max-h-\\[420px\\]/)
-  assert.match(app, /Array\\.from\\(\\{ length: 5 \\}/)
+  assert.ok(app.includes('min-h-[calc(100svh+36rem)]'))
+  assert.ok(app.includes('aspect-square max-h-[420px]'))
+  assert.ok(app.includes('Array.from({ length: 5 }'))
   const fallbackStart = app.indexOf('<React.Suspense fallback={')
   const fallbackEnd = app.indexOf('}>', fallbackStart)
   const fallback = app.slice(fallbackStart, fallbackEnd)
