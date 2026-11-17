@@ -50,6 +50,9 @@
 ## QA
 
 - Cloudflare Pages Production deploy exact SHA: success.
-- Browser Rendering BG metadata check: HTTP 200; title, description, robots, canonical и JSON-LD Service присутствуют. RU/EN и проверка отрисованных H2/inline image placement/ALT/form — ожидают завершения live QA.
+- Browser Rendering Production BG/RU/EN завершён успешно. Во всех локалях проверены title, meta description, robots index/follow, canonical, hreflang, H1 и локализованные H2.
+- Во всех трёх версиях отрендерено 14 изображений с 14 непустыми ALT. Все четыре новые фотографии присутствуют: три фото рулонного газона — после H2 газона; фото цветника — после H2 цветников. Порядок проверен по DOM в BG и RU; EN содержит обе локализованные секции и все четыре новых asset.
+- Во всех трёх локалях присутствуют поля формы (включая `phone` и `details`) и нижний блок related content. Реальную заявку не отправляли, чтобы не создавать тестовый lead и не инициировать email.
+- В RU при первой проверке цветник не отображался из-за несовпадения H2 с ключом группы; заголовок приведён к ожидаемому значению и повторная Production проверка подтвердила отображение изображения.
 - PageSpeed/Lighthouse и Google Search Console recrawl/indexing не выполнялись и не подтверждены.
 - Schema, Studio deploy, Header, navigation, Footer, D1, Manager, API, Resend и Cloudflare settings/secrets не менялись.
