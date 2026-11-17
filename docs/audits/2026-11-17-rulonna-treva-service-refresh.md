@@ -6,8 +6,8 @@
 - Existing slug/URL preserved: `rulonna-treva` / `/services/rulonna-treva`.
 - Category, active status, service layout, sort order, document ID and hero asset preserved.
 - Source article reviewed: https://www.drop.od.ua/bg/grass.
-- Pre-write backup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json`.
-- Backup source revision: `iNPCLSoXm0d2UNhS8TvO0J`.
+- Pre-write backup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json` (source revision `iNPCLSoXm0d2UNhS8TvO0J`).
+- Additional backup before post-publication marker cleanup: `docs/backups/sanity/2026-11-17-rulonna-treva-before-marker-cleanup.json` (source revision `iNPCLSoXm0d2UNhS8U8xz7`).
 
 ## Published content
 
