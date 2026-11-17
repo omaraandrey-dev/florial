@@ -164,16 +164,16 @@ test('plant product LCP image is eager, prioritized and responsive in initial HT
 
 test('landscape architect route reserves hero, service cards and portfolio space while Sanity data loads', async () => {
   const page = await read('../src/pages/ServiceDirectionPage.tsx')
-  assert.match(page, /aspect-square max-h-\[420px\] w-full/)
-  assert.match(page, /Array\.from\(\{ length: 2 \}/)
-  assert.match(page, /Array\.from\(\{ length: 5 \}/)
-  assert.match(page, /min-h-\[28rem\]/)
-  assert.match(page, /landscapeArticlesLoaded \? \(/)
+  assert.ok(page.includes('aspect-square max-h-[420px] w-full'))
+  assert.ok(page.includes('Array.from({ length: 2 }'))
+  assert.ok(page.includes('Array.from({ length: 5 }'))
+  assert.ok(page.includes('min-h-[28rem]'))
+  assert.ok(page.includes('!landscapeArticlesLoaded ? ('))
 })
 
 test('landscape architect route preconnects to the Sanity query and image origins in initial HTML', async () => {
   const middleware = await read('../functions/_middleware.ts')
-  assert.match(middleware, /path !== '\/services\/category\/landshaften-arhitekt'/)
-  assert.match(middleware, /href="https:\/\/bxvcy0qs\.apicdn\.sanity\.io" crossorigin/)
-  assert.match(middleware, /href="https:\/\/cdn\.sanity\.io" crossorigin/)
+  assert.ok(middleware.includes("path !== '/services/category/landshaften-arhitekt'"))
+  assert.ok(middleware.includes('href="https://bxvcy0qs.apicdn.sanity.io" crossorigin'))
+  assert.ok(middleware.includes('href="https://cdn.sanity.io" crossorigin'))
 })
