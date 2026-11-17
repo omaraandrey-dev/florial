@@ -7,6 +7,7 @@
 - Форма заявки сохранена с техническими именами `name`, `phone`, `email`, `location`, `details`; локализованы названия, подписи, submit и success message.
 - Runtime PR #372 merged в main: `12fea68f6c4df068ab628d9cb95982bc3d493f93`. Cloudflare Pages Production deployment `f4c355cd-62b4-4b41-acb0-60674e350f93` завершился успешно на том же commit.
 - Snapshot до Sanity изменений: `docs/backups/sanity/2026-11-17-ozelenyavane-before-editorial-refresh.xml`. Детали: `docs/audits/2026-11-17-ozelenyavane-service-refresh.md`.
+- Cloudflare Browser Rendering Production BG/RU/EN: HTTP 200/успешный HTML render; title, description, index/follow, canonical, hreflang, H1/H2, 14 изображений с ALT, порядок lawn/flowerbeds, форма и relatedContent проверены. RU H2 для цветников скорректирован и перепроверен.
 - Отдельного поля image title/titleRu/titleEn в текущей схеме услуги нет; не добавлять неподдерживаемые поля. Используются локализованные ALT. Отдельное изменение схемы не выполнялось.
 - Не менялись Sanity schema, Header, меню, Footer, D1, Manager, API, Resend, Cloudflare settings/secrets.
 
