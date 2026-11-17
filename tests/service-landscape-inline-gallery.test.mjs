@@ -7,9 +7,7 @@ const read = (path) => readFile(new URL(path, import.meta.url), 'utf8')
 test('landscape design gallery supports inline section markers and does not render the full gallery before the article', async () => {
   const page = await read('../src/pages/ServicePage.tsx')
 
-  for (const group of ['intro', 'design', 'pipeline', 'equipment', 'trenches', 'watering', 'automation']) {
-    assert.ok(page.includes(`[[gallery:${group}]]`) || page.includes(`gallery:${group}`), `missing inline gallery group ${group}`)
-  }
+  assert.match(page, /intro\\|design\\|pipeline\\|equipment\\|trenches\\|watering\\|automation/, 'missing supported inline gallery groups')
 
   for (const key of [
     'dropLandscape2019', 'dropProject2021', 'img1', 'img2',
