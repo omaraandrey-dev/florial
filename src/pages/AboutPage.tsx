@@ -1,13 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getSanityImageProps } from '../lib/sanityImage'
-import type { CategoryItem, ServiceItem } from '../types'
+import { sanityClient } from '../lib/sanity'
+import type { CategoryItem, ServiceItem, ServiceRolePhoto } from '../types'
 
 const content = {
   bg: {
-    eyebrow: 'FLORIAL · НЕСЕБЪР, БЪЛГАРИЯ',
+    eyebrow: 'FLORIAL · НЕСЕБЪР, РАВДА, СЛЪНЧЕВ БРЯГ, БЪЛГАРИЯ',
     title: 'Градински център Florial в Несебър',
     subtitle: 'Създаваме красиви и хармонични пространства',
     intro: 'Специализираме в ландшафтния дизайн, проектирането, озеленяването и благоустрояването на терени. Нашият екип съчетава практически опит в градинарството, ландшафтния дизайн и автоматичното напояване, за да превръща идеите на клиентите в добре обмислени пространства, съобразени с особеностите на всеки имот.',
@@ -43,7 +44,7 @@ const content = {
     seoDescription: 'Градински център Florial в Несебър: ландшафтно проектиране, озеленяване, засаждане, рулонен тревен чим и проектиране, монтаж и поддръжка на автоматично напояване от 2000 г.'
   },
   ru: {
-    eyebrow: 'FLORIAL · НЕСЕБР, БОЛГАРИЯ',
+    eyebrow: 'FLORIAL · НЕСЕБР, РАВДА, СЛЪНЧЕВ БЕРЕГ, БОЛГАРИЯ',
     title: 'Садовый центр Florial в Несебре',
     subtitle: 'Создаём красивые и гармоничные пространства',
     intro: 'Мы специализируемся на ландшафтном дизайне, проектировании, озеленении и благоустройстве территорий. Наша команда объединяет практический опыт в садоводстве, ландшафтном дизайне и системах автоматического полива, чтобы воплощать идеи клиентов с учётом особенностей каждого участка.',
@@ -79,7 +80,7 @@ const content = {
     seoDescription: 'Садовый центр Florial в Несебре: ландшафтное проектирование, озеленение, посадка растений, рулонный газон, проектирование и монтаж автоматического полива с 2000 года.'
   },
   en: {
-    eyebrow: 'FLORIAL · NESSEBAR, BULGARIA',
+    eyebrow: 'FLORIAL · NESSEBAR, RAVDA, SUNNY BEACH, BULGARIA',
     title: 'Florial Garden Centre in Nessebar',
     subtitle: 'Creating beautiful, balanced outdoor spaces',
     intro: 'We specialise in landscape design, planning, planting and outdoor improvements. Our team brings together practical experience in horticulture, landscape design and automatic irrigation to turn clients’ ideas into thoughtful spaces shaped around the needs of each site.',
@@ -132,6 +133,25 @@ const aboutServiceSlugs = {
 export function AboutPage({ services, categories }: AboutPageProps) {
   const { language } = useI18n()
   const copy = content[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
+
+  const [rolePhotos, setRolePhotos] = useState<ServiceRolePhoto[]>([])
+  const [centerImages, setCenterImages] = useState<Record<string, string>>({ nesebr: '', ravda: '' })
+
+  useEffect(() => {
+    let cancelled = false
+    const query = '*[_type == "photo" && isActive != false && (coalesce(slug.current, slug) in ["landshaften-arhitekt", "inzhener-polivni-sistemi", "gardinar", "specialist-trevni-ploshti", "florial-nesebr", "florial-ravda"] || lower(slug) in ["florial-nesebr", "florial-ravda"] || lower(slug.current) in ["florial-nesebr", "florial-ravda"])] { "slug": coalesce(slug.current, slug), title, titleEn, titleRu, "imageUrl": image.asset->url, "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu }'
+    sanityClient.fetch(query).then((photos: ServiceRolePhoto[]) => {
+      if (cancelled) return
+      const items = Array.isArray(photos) ? photos : []
+      setRolePhotos(items)
+      setCenterImages({
+        nesebr: items.find((item) => item.slug?.toLowerCase() === 'florial-nesebr')?.imageUrl || '',
+        ravda: items.find((item) => item.slug?.toLowerCase() === 'florial-ravda')?.imageUrl || '',
+      })
+    }).catch((error) => console.error('Sanity: не удалось загрузить фотографии команды и садовых центров:', error))
+    return () => { cancelled = true }
+  }, [])
+
   const locations = language === 'ru'
     ? 'Несебр, Равда, Солнечный Берег и Святой Влас'
     : language === 'en'
@@ -206,88 +226,87 @@ export function AboutPage({ services, categories }: AboutPageProps) {
         </div>
       </section>
 
+
       <section className="mx-auto max-w-7xl space-y-7 px-4 py-10 md:space-y-9 md:py-16">
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div>
-              <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">01</p>
-              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.design}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.designTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.design, copy.designTitle)}
-              <p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.designLead}</p>
-            </div>
-            <div>
-              <p className="leading-8 text-slate-600">{copy.design}</p>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                {copy.designItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}
-              </ul>
-            </div>
+        <section aria-labelledby="about-offerings-heading">
+          <h2 id="about-offerings-heading" className="mb-6 text-center text-2xl font-extrabold text-[#263323] md:text-3xl">
+            {language === 'ru' ? 'Что мы предлагаем' : language === 'en' ? 'What we offer' : 'Какво предлагаме'}
+          </h2>
+          <div className="grid grid-cols-2 gap-3 md:gap-6">
+            <article className={sectionClass}>
+              <a href={localizedHref('/category/rastenia', language)} className="block text-inherit no-underline">
+                <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl">{copy.plantSalesTitle}</h3>
+                {renderCatalogImage('rastenia', copy.plantSalesTitle)}
+                <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
+                  {language === 'ru' ? 'Декоративные деревья, кустарники, цветы и растения для сада и террасы.' : language === 'en' ? 'Ornamental trees, shrubs, flowers and plants for gardens and terraces.' : 'Декоративни дървета, храсти, цветя и растения за градината и терасата.'}
+                </p>
+              </a>
+            </article>
+            <article className={sectionClass}>
+              <a href={localizedHref('/category/vsichko-za-polivane', language)} className="block text-inherit no-underline">
+                <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl">{copy.irrigationEquipmentTitle}</h3>
+                {renderCatalogImage('vsichko-za-polivane', copy.irrigationEquipmentTitle)}
+                <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
+                  {language === 'ru' ? 'Профессиональное оборудование и комплектующие для автоматического полива.' : language === 'en' ? 'Professional equipment and components for automatic irrigation systems.' : 'Професионално оборудване и компоненти за системи за автоматично напояване.'}
+                </p>
+              </a>
+            </article>
           </div>
-        </article>
+        </section>
 
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">02</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.planting}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantingTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.planting, copy.plantingTitle)}</div>
-            <div><p className="leading-8 text-slate-600">{copy.planting}</p><p className="mt-4 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.plantingNote}</p></div>
+        <section aria-labelledby="about-team-heading" className={sectionClass}>
+          <h2 id="about-team-heading" className="mb-6 text-center text-2xl font-extrabold text-[#263323] md:text-3xl">
+            {language === 'ru' ? 'Наша команда' : language === 'en' ? 'Our team' : 'Нашият екип'}
+          </h2>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+            {[
+              { slug: 'landshaften-arhitekt', href: '/services/category/landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' }, text: { bg: 'Проектиране и дизайн на градини', ru: 'Проектирование и дизайн садов', en: 'Garden design and planning' } },
+              { slug: 'gardinar', href: '/services/category/gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' }, text: { bg: 'Засаждане и грижа за растенията', ru: 'Посадка и уход за растениями', en: 'Planting and plant care' } },
+              { slug: 'inzhener-polivni-sistemi', href: '/services/category/polivni-sistemi', title: { bg: 'Специалист по поливни системи', ru: 'Специалист по системам полива', en: 'Irrigation specialist' }, text: { bg: 'Проектиране и монтаж на напояване', ru: 'Проектирование и монтаж полива', en: 'Irrigation design and installation' } },
+              { slug: 'specialist-trevni-ploshti', href: '/services/category/trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' }, text: { bg: 'Изграждане и поддръжка на тревни площи', ru: 'Устройство и уход за газонами', en: 'Lawn installation and care' } },
+            ].map((member) => {
+              const photo = rolePhotos.find((item) => item.slug === member.slug)
+              const title = member.title[language]
+              const alt = language === 'ru' ? photo?.imageAltRu : language === 'en' ? photo?.imageAltEn : photo?.imageAlt
+              return (
+                <a key={member.slug} href={localizedHref(member.href, language)} className="group min-w-0 overflow-hidden rounded-2xl border border-[#E2E7D9] bg-[#F8F9F3] text-center no-underline transition hover:-translate-y-1 hover:shadow-md">
+                  <div className="aspect-[4/5] overflow-hidden bg-[#E9EDDB]">
+                    {photo?.imageUrl ? <img {...getSanityImageProps(photo.imageUrl, '(min-width: 768px) 25vw, 50vw', 480, 70)} alt={alt || title} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" /> : <div className="flex h-full items-center justify-center p-3 text-xs text-slate-500">{language === 'ru' ? 'Фото скоро появится' : language === 'en' ? 'Photo coming soon' : 'Снимката скоро ще бъде добавена'}</div>}
+                  </div>
+                  <div className="p-3 md:p-4">
+                    <h3 className="text-sm font-extrabold leading-5 text-[#263323] md:text-base">{title}</h3>
+                    <p className="mt-2 text-xs leading-5 text-slate-600 md:text-sm">{member.text[language]}</p>
+                  </div>
+                </a>
+              )
+            })}
           </div>
-        </article>
+        </section>
 
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">03</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.landscaping}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{language === 'ru' ? 'Озеленение территории' : language === 'en' ? 'Landscaping' : 'Озеленяване на терени'}</a></h2>{renderServiceImage(aboutServiceSlugs.landscaping, language === 'ru' ? 'Озеленение территории' : language === 'en' ? 'Landscaping' : 'Озеленяване на терени')}</div>
-            <div><p className="leading-8 text-slate-600">{language === 'ru' ? 'Комплексное озеленение частных садов, гостиниц и коммерческих территорий: подготовка участка, оформление клумб, посадка деревьев и кустарников, создание живых изгородей и сочетание посадок с газоном и автоматическим поливом.' : language === 'en' ? 'Complete landscaping for private gardens, hotels and commercial properties, including site preparation, flower beds, planting trees and shrubs, creating hedges and combining planting with lawns and automatic irrigation.' : 'Извършваме цялостно озеленяване на частни градини, хотели и търговски обекти — подготовка на терена, оформяне на цветни лехи, засаждане на дървета и храсти, живи плетове и съчетаване на растителността с тревни площи и автоматично напояване.'}</p></div>
+        <section aria-labelledby="about-centres-heading" className={sectionClass}>
+          <h2 id="about-centres-heading" className="mb-6 text-center text-2xl font-extrabold text-[#263323] md:text-3xl">
+            {language === 'ru' ? 'Посетите наш садовый центр' : language === 'en' ? 'Visit our garden centres' : 'Посетете нашите градински центрове'}
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              { key: 'nesebr', name: { bg: 'Градински център Несебър', ru: 'Садовый центр Несебр', en: 'Florial Garden Centre Nessebar' }, address: { bg: 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)', ru: 'ул. «Хан Крум», 8230 Несебр (рядом с магазином Janet)', en: 'ul. Khan Krum, 8230 Nessebar (next to Janet store)' }, map: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9' },
+              { key: 'ravda', name: { bg: 'Градински център Равда', ru: 'Садовый центр Равда', en: 'Florial Garden Centre Ravda' }, address: { bg: 'с. Равда, България', ru: 'с. Равда, Болгария', en: 'Ravda, Bulgaria' }, map: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6' },
+            ].map((centre) => (
+              <article key={centre.key} className="overflow-hidden rounded-2xl border border-[#E2E7D9] bg-[#F8F9F3]">
+                <div className="aspect-[16/9] overflow-hidden bg-[#E9EDDB]">
+                  {centerImages[centre.key] ? <img {...getSanityImageProps(centerImages[centre.key], '(min-width: 768px) 50vw, 100vw', 900, 75)} alt={centre.name[language]} loading="lazy" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">{language === 'ru' ? 'Фото садового центра' : language === 'en' ? 'Garden centre photo' : 'Снимка на градинския център'}</div>}
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-extrabold text-[#263323]">{centre.name[language]}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{centre.address[language]}</p>
+                  <a href={centre.map} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center rounded-xl bg-[#647746] px-4 py-2.5 text-sm font-bold text-white no-underline transition hover:bg-[#53643A]">
+                    {language === 'ru' ? 'Открыть на карте' : language === 'en' ? 'View on Google Maps' : 'Вижте в Google Карти'}
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
-        </article>
-
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">04</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.turf}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.turfTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.turf, copy.turfTitle)}</div>
-            <div><p className="leading-8 text-slate-600">{copy.turf}</p><ul className="mt-5 grid gap-3 sm:grid-cols-3">{copy.turfBenefits.map((item) => <li key={item} className="rounded-xl bg-[#F3F5EC] p-4 text-sm font-semibold leading-6 text-[#53643A]">{item}</li>)}</ul></div>
-          </div>
-        </article>
-
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div><p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">05</p><h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl"><a href={localizedHref(`/services/${aboutServiceSlugs.irrigation}`, language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationTitle}</a></h2>{renderServiceImage(aboutServiceSlugs.irrigation, copy.irrigationTitle)}<p className="mt-4 font-semibold leading-7 text-[#53643A]">{copy.irrigationLead}</p></div>
-            <div><p className="leading-8 text-slate-600">{copy.irrigation}</p><ul className="mt-5 grid gap-3 sm:grid-cols-2">{copy.irrigationItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}</ul></div>
-          </div>
-        </article>
-
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div>
-              <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">06</p>
-              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">
-                <a href={localizedHref('/category/rastenia', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantSalesTitle}</a>
-              </h2>
-              {renderCatalogImage('rastenia', copy.plantSalesTitle)}
-            </div>
-            <div>
-              <p className="leading-8 text-slate-600">{copy.plantSalesIntro}</p>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                {copy.plantSalesItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}
-              </ul>
-              <p className="mt-5 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.plantSalesOutro}</p>
-            </div>
-          </div>
-        </article>
-
-        <article className={sectionClass}>
-          <div className="grid gap-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
-            <div>
-              <p className="text-sm font-extrabold tracking-[0.2em] text-[#879663]">07</p>
-              <h2 className="mt-3 text-2xl font-extrabold text-[#263323] md:text-3xl">
-                <a href={localizedHref('/category/vsichko-za-polivane', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationEquipmentTitle}</a>
-              </h2>
-              {renderCatalogImage('vsichko-za-polivane', copy.irrigationEquipmentTitle)}
-            </div>
-            <div>
-              <p className="leading-8 text-slate-600">{copy.irrigationEquipmentIntro}</p>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                {copy.irrigationEquipmentItems.map((item) => <li key={item} className={itemClass}><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#879663]" />{item}</li>)}
-              </ul>
-              <p className="mt-5 rounded-2xl bg-[#F3F5EC] p-5 leading-7 text-slate-700">{copy.irrigationEquipmentOutro}</p>
-            </div>
-          </div>
-        </article>
+        </section>
 
         <section className={sectionClass}>
           <h2 className="text-2xl font-extrabold text-[#263323] md:text-3xl">{copy.approachTitle}</h2>
