@@ -1,3 +1,9 @@
+## 2026-11-17 — Hreflang service projection и legacy Cloudflare environment variables
+
+- **Hreflang:** Production QA услуги `avtomatizirano-kapkovo-napoyavane` подтвердил неполный набор alternates: BG выдаёт BG + x-default; RU — BG + x-default + RU; EN — BG + x-default + EN. `src/lib/routeData/serviceDetails.ts` запрашивает SEO-поля только активной локали, тогда как `ServicePage.tsx` проверяет наличие SEO для обеих локалей. Нужен отдельный ограниченный PR: добавить SEO projections RU и EN без загрузки полных переводов и проверить все три локали на representative service pages. Текущая статья индексируема; canonical и локальные title/description корректны.
+- **Legacy environment:** read-only Cloudflare Pages metadata для проекта `florial` показал присутствие переменных с префиксом `VITE_SUPABASE_*`, несмотря на действующее архитектурное решение об исключении Supabase. Их значения не копировались, использование кодом не проверялось, удаление не выполнялось. Следующий шаг — read-only поиск всех `VITE_SUPABASE`/Supabase references в `main` и сверка с build/runtime; удаление переменных из Production требует отдельного согласования владельца.
+- Не использовать Supabase и не удалять legacy variables до отдельной проверки и разрешения.
+
 ## 2026-11-17 — Landscape design inline gallery rollout complete
 
 - PR #365 and corrective PR #366 are merged; final Production deployment `f02d0bed-5390-493f-ae94-519c382c1dff` succeeded on `d5cdf42f9de85a7ae633fe535470761886ba7ca9`.
