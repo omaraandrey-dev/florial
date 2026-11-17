@@ -13,14 +13,14 @@ The owner explicitly approved the exact field-level plan in the conversation on 
 `docs/backups/sanity/service-landshaften-dizain-2026-11-17.json`
 
 Original published revision: `qvVg1luYRxJZnxaWi0maKI`
-Published revision after update: `kG84M8L0NjpttWhMhrC8yJ`
+Published revision after update: `0K3ioEX3JkmkckZpKbBLrY`
 
 A first patch attempt was rejected by deployed-schema validation (unknown fields in localized hero/link annotations/content-block translations); Sanity reported 0 successful edits. The payload was corrected to the deployed schema and the subsequent draft patch succeeded. The draft was read back and validated before publication. No schema changes were made.
 
 ## Published content changes
 
 - Rewrote Bulgarian `description` as 69 Portable Text blocks with 17 H2/H3 headings, bullet lists, strong and underline marks, and four safe internal links.
-- Rewrote Russian and English descriptions as full independent localized Markdown strings (8,739 and 9,020 characters respectively).
+- Rewrote Russian and English descriptions as full independent localized Markdown strings (8,739 and 9,020 characters respectively), with bold emphasis, underlined phrases and internal links.
 - Updated BG/RU/EN names, short descriptions, hero title/subtitle and SEO title/description.
 - Kept `noIndex=false` for all three locales.
 - Added the current project tariff: up to 2 dka €250; up to 4 dka €450; up to 6 dka €600; up to 10 dka €750; each additional decare €50; site visit €50; two additional viewpoint sketches €60. VAT/DDS is not mentioned.
