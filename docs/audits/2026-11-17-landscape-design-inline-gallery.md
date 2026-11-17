@@ -38,7 +38,8 @@ The owner explicitly approved the exact scope on 2026-11-17:
 
 - Live Sanity read-back: passed for the 12 localized ALT sets; zero marker strings in currently published BG/RU/EN descriptions.
 - Source review: code paths and image-key mapping inspected on branch.
-- Local build, typecheck, lint and Node test suite: not run in this session.
-- GitHub CI/Preview checks: pending PR creation.
-- Final browser visual review of the new inline layout: pending runtime deployment and marker activation.
+- GitHub Actions Blog and Studio validation run `44031002884` passed on commit `77e1a50304b5950bf5cb6b39838a727198981214`: website typecheck, lint, Node tests, website build, Studio typecheck and Studio build all succeeded.
+- GitHub Actions D1 validation run `44031002892` also passed; this task made no D1 changes.
+- Live Firecrawl reads (`maxAge=0`) retrieved BG, RU and EN production routes with their localized SEO titles. HTML contained the new localized ALT/geography strings and no raw gallery marker tokens.
+- The currently live layout remains the old top-gallery layout until this runtime PR is merged/deployed and the seven markers are then activated. Final browser visual review of the new inline layout is pending that release.
 - No Cloudflare settings, secrets, D1, Resend, Sanity schema, Header, navigation or Footer were changed.
