@@ -43,6 +43,11 @@ A prior owner-supplied run reported Performance 89 and LCP 3.3 s. The current LC
 - Existing targeted Sanity query optimization remains intact.
 - No Production deployment is performed from this branch; it will occur through the normal main deployment after merge.
 
-## Verification status
+## Verification checkpoint
 
-Pending PR CI, Preview deployment and browser loading/CLS inspection. No post-change Lighthouse result is available yet. Do not claim CLS, LCP or Performance improvement until matched measurements are obtained. Ideally compare at least three mobile Lighthouse runs using the same device/network settings and report medians.
+- Runtime PR-head commit `ea81cd0eea3f0d0d2ebe688d17d8e5c484bbc882`: Blog/Studio validation run `44023981699` — success; D1 migration validation run `44023981666` — success.
+- The Blog/Studio workflow completed application/Pages Functions type-check, lint, website tests, website build, migration dry-run, Studio type-check and Studio build.
+- Cloudflare Pages Preview deployment `37387be0-d2e9-425d-8593-fcf77a9bee48` succeeded for the exact runtime PR-head commit; URL: `https://37387be0.florial.pages.dev`; alias: `https://perf-landscape-direction-cls.florial.pages.dev`.
+- Browser visual/CLS inspection was attempted through the connected browser service but could not run because its connected account had insufficient credits. No browser pass is claimed.
+- No post-change Lighthouse result is available. Do not claim CLS, LCP or Performance improvement until matched measurements are obtained. Ideally compare at least three mobile Lighthouse runs using the same device/network settings and report medians.
+- Shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally not edited in this PR because other open documentation PRs overlap those common files. Consolidate the release record in one documentation integration pass after those PRs are reconciled.
