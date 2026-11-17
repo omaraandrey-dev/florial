@@ -20,7 +20,7 @@
 - RU title: `Ландшафтный проект онлайн для сада в Европе`.
 - EN title: `Online Landscape Design for Gardens Across Europe`.
 - All three locales have `noIndex=false`; live HTML metadata reports `robots=index, follow`.
-- Countries named in the copy: Bulgaria, Romania, Greece, Serbia, Croatia, North Macedonia, Slovenia, Hungary, Slovakia, Czech Republic, Poland, Austria, Germany and Italy. Physical delivery/installation outside Bulgaria is explicitly not promised as part of the online service.
+- Countries named in the copy: Bulgaria, Romania, Greece, Serbia, Croatia, North Macedonia, Slovenia, Hungary, Slovakia, Czech Republic, Poland, Ukraine, Austria, Germany and Italy. Physical delivery/installation outside Bulgaria is explicitly not promised as part of the online service.
 - Owner-approved tariff: up to 2 dka €250; up to 4 dka €450; up to 6 dka €600; up to 10 dka €750; each additional dka above 10 €50. No site-visit fee for the online format. Additional visualisations, specialist drawings, surveys and individual requirements are quoted separately.
 
 ## Gallery and portfolio
@@ -53,7 +53,7 @@ Seven localized fields: name (required), phone (required), email (optional), pro
 
 ## Backups
 - Pre-publication draft snapshot: `docs/backups/sanity/service-landshaften-proekt-online-before-publication-2026-11-17.json` (draft revision `kG84M8L0NjpttWhMhrI0TN`).
-- Final published snapshot: `docs/backups/sanity/service-landshaften-proekt-online-final-2026-11-17.json` (published revision `kG84M8L0NjpttWhMhrIfOA`).
+- Final published snapshot before Ukraine market update: `docs/backups/sanity/service-landshaften-proekt-online-final-2026-11-17.json` (revision `kG84M8L0NjpttWhMhrIfOA`). Latest published snapshot: `docs/backups/sanity/service-landshaften-proekt-online-final-ukraine-2026-11-17.json` (revision `0K3ioEX3JkmkckZpKbIA0H`).
 
 ## Scope exclusions
 No existing published service/blog/portfolio document was modified. No Sanity schema, D1, Resend, Cloudflare settings/secrets, Header source, menu source, Footer or global route architecture changes.
