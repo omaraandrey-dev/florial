@@ -1,3 +1,12 @@
+## 2026-11-17 — Landscape project article published in Sanity
+
+- Published a new standalone `blogPost` in Sanity Production: document ID `52238416-ea46-4ba0-aa25-31c8b46ed6b8`, slug `podroben-landshaften-proekt-gradina`.
+- Bulgarian primary content with Russian and English translations; publication flag `isPublished=true`, `publishedAt=2026-11-17T03:17:29.448Z`.
+- Original project archive represented by one cover image and 16 ordered in-article images (17 image assets total); all three language versions contain the same 16 in-article image placements.
+- Internal links in BG/RU/EN point to the existing landscape-design service and three existing landscape-design articles. Existing documents were not modified.
+- Source files: user-provided `translated.zip` and `Florial_photo_titles.xlsx`. Sanity dataset: `production`, project `bxvcy0qs`.
+- Content is published in Sanity. Public website route/rendering has not yet been independently verified; GitHub change is documentation-only and does not change application code or Cloudflare deployment.
+
 ## 2026-11-16 — Service-page CLS/image optimization merged and deployed (PR #353)
 
 - PR #353: https://github.com/omaraandrey-dev/florial/pull/353 — merged into `main`; merge commit `74642455efe284730cdf442efc1b82182e10eda8`.
