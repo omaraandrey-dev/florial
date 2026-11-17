@@ -1,0 +1,1174 @@
+{
+  "backupCreatedAt": "2026-11-17T14:41:02.985Z",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "ea332108-42e7-444f-9632-08111c6fda90",
+  "sourceRevision": "iNPCLSoXm0d2UNhS8U8xz7",
+  "sourceUpdatedAt": "2026-11-17T14:37:13Z",
+  "document": {
+    "_createdAt": "2026-10-18T09:05:28Z",
+    "_id": "ea332108-42e7-444f-9632-08111c6fda90",
+    "_rev": "iNPCLSoXm0d2UNhS8U8xz7",
+    "_system": {
+      "base": {
+        "id": "ea332108-42e7-444f-9632-08111c6fda90",
+        "rev": "iNPCLSoXm0d2UNhS8TvO0J"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-17T14:37:13Z",
+    "advantages": [
+      {
+        "_key": "adv0",
+        "text": "Получавате завършено тревно покритие веднага след полагането.",
+        "title": "Готова тревна площ за кратко време"
+      },
+      {
+        "_key": "adv1",
+        "text": "Съобразяваме основата, нивата и отводняването с особеностите на участъка.",
+        "title": "Подготовка според терена"
+      },
+      {
+        "_key": "adv2",
+        "text": "Напасваме рулата, оформяме краищата и проверяваме контакта с почвата.",
+        "title": "Прецизно подреждане"
+      },
+      {
+        "_key": "adv3",
+        "text": "Обясняваме как да поливате и кога да преминете към обичайна поддръжка.",
+        "title": "Насоки за първоначална грижа"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете площта и местоположението на обекта, за да уточним подготовката, доставката и полагането.",
+      "title": "Заявете оферта за рулонен тревен чим"
+    },
+    "contentBlocks": [
+      {
+        "_key": "block1",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Завършена тревна площ с декоративни растения и градинска алея в Несебър",
+          "asset": {
+            "_ref": "image-9c7ab113e1f93ea7dbc3a063fcd79f6bf968b41b-640x474-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "",
+        "title": "__gallery:lawn",
+        "translations": {
+          "en": {
+            "imageAlt": "Finished lawn with ornamental plants and a garden path in Nessebar",
+            "text": ""
+          },
+          "ru": {
+            "imageAlt": "Готовый газон с декоративными растениями и садовой дорожкой в Несебре",
+            "text": ""
+          }
+        }
+      },
+      {
+        "_key": "block2",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Завършена тревна площ с каменна пътека и ограда",
+          "asset": {
+            "_ref": "image-c635e473f5232b89604dc83c15822fb620f299b8-640x474-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "text": "",
+        "title": "__gallery:lawn",
+        "translations": {
+          "en": {
+            "imageAlt": "Finished lawn with a stone path and fence",
+            "text": ""
+          },
+          "ru": {
+            "imageAlt": "Готовый газон с каменной дорожкой и ограждением",
+            "text": ""
+          }
+        }
+      },
+      {
+        "_key": "block3",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "alt": "Подготовка на терена преди полагане на рулонен тревен чим",
+          "asset": {
+            "_ref": "image-a611a662a1351880db4064312c71f3d35d6da1e7-2368x4208-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "",
+        "title": "__gallery:trenches",
+        "translations": {
+          "en": {
+            "imageAlt": "Site preparation before rolled turf installation",
+            "text": ""
+          },
+          "ru": {
+            "imageAlt": "Подготовка участка перед укладкой рулонного газона",
+            "text": ""
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "bg-intro",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-intros",
+            "_type": "span",
+            "marks": [],
+            "text": "Рулонният тревен чим е практично решение, когато искате да изградите завършена тревна площ за кратко време. Вместо да чакате семената да поникнат и тревата да се сгъсти, получавате готово тревно покритие, което се полага върху предварително подготвена почва. Florial предлага подготовка на терена, доставка и професионално полагане на тревен чим в Несебър и по Южното Черноморие."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-what",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-whats",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво представлява рулонният тревен чим?"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-what-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-what-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Тревният чим се отглежда предварително, след което се изрязва на рула за транспортиране и полагане. На обекта отделните парчета се подреждат плътно едно до друго върху подготвена основа. Така се оформя равномерна зелена площ още в деня на монтажа. След това тревата трябва да се полива правилно и да се вкорени в почвата на терена."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-prep",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-preps",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготовка на терена и почвата"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-prep-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-prep-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Дълготрайният резултат започва под самия чим. Преди доставката оглеждаме терена, уточняваме нивата спрямо алеите и бордюрите и преценяваме състоянието на съществуващата почва. Обхватът на подготовката зависи от това дали участъкът е нов, има стара тревна настилка, строителни остатъци или неравности."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-prep-list",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-prep-lists",
+            "_type": "span",
+            "marks": [],
+            "text": "Подготовката може да включва почистване на терена, премахване на стара трева и корени, обработка на почвата, добавяне на подходящ плодороден почвен слой, корекция на нивата и финално подравняване. При необходимост се преценява и подобряването на отводняването. Не всеки участък изисква еднакъв набор от дейности — те се определят след оглед."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-prep-photo",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-prep-photos",
+            "_type": "span",
+            "marks": [],
+            "text": "[[gallery:trenches]]"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-base",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-bases",
+            "_type": "span",
+            "marks": [],
+            "text": "Равна и стабилна основа"
+          }
+        ],
+        "style": "h3"
+      },
+      {
+        "_key": "bg-base-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-base-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Почвата трябва да бъде равномерно оформена и достатъчно уплътнена, без дълбоки вдлъбнатини и изпъкнали участъци. Важно е нивото на готовия чим да се съобрази с настилките, пътеките и бордюрите, за да се получи плавен преход и да не се задържа излишна вода."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-irrigation",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-irrigations",
+            "_type": "span",
+            "marks": [],
+            "text": "Поливната система се планира преди полагането"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-irrigation-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-irrigation-pa",
+            "_type": "span",
+            "marks": [],
+            "text": "Новата тревна площ се нуждае от равномерно напояване още от първия ден. Ако е предвидена автоматизация, тръбите, кабелите и разпръсквачите трябва да се монтират и проверят преди финалното подравняване на почвата. Разгледайте нашата услуга за "
+          },
+          {
+            "_key": "bg-irrigation-pb",
+            "_type": "span",
+            "marks": [
+              "bg-irrigation-plink"
+            ],
+            "text": "проектиране и монтаж на автоматично поливане"
+          },
+          {
+            "_key": "bg-irrigation-pc",
+            "_type": "span",
+            "marks": [],
+            "text": " или изберете необходимите компоненти в категорията "
+          },
+          {
+            "_key": "bg-irrigation-pd",
+            "_type": "span",
+            "marks": [
+              "bg-irrigation-category-link"
+            ],
+            "text": "Всичко за поливане"
+          },
+          {
+            "_key": "bg-irrigation-pe",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg-irrigation-plink",
+            "_type": "link",
+            "href": "/services/avtomatichno-napoyavane"
+          },
+          {
+            "_key": "bg-irrigation-category-link",
+            "_type": "link",
+            "href": "/category/vsichko-za-polivane"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-delivery",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-deliverys",
+            "_type": "span",
+            "marks": [],
+            "text": "Доставка и полагане на рулонния тревен чим"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-delivery-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-delivery-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Рулонният чим е жив материал и след изрязването му времето за транспорт и полагане има значение. Затова доставката се съгласува с подготовката на терена, така че тревата да не остава ненужно дълго навита и да може да бъде положена възможно най-скоро след пристигането."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-delivery-photo",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-delivery-photos",
+            "_type": "span",
+            "marks": [],
+            "text": "[[gallery:pipeline]]"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-install",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-installs",
+            "_type": "span",
+            "marks": [],
+            "text": "Полагане на тревния чим на терена"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-install-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-install-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Рулата се развиват последователно и се подреждат в прави редове, като напречните фуги се разминават — подобно на тухлена зидария. Краищата се напасват плътно, без застъпване и големи празнини. При необходимост парчетата се изрязват по формата на алеите, бордюрите и цветните лехи."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-install-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-install-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "След подреждането повърхността се проверява и се валира с градински валяк, за да има добър контакт между кореновия слой и подготвената почва и да се намалят въздушните кухини."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-water",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-waters",
+            "_type": "span",
+            "marks": [],
+            "text": "Първоначално поливане и грижа за новия тревен чим"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-water-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-water-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Веднага след полагането тревната площ трябва да се напои обилно, така че влагата да достигне през чима и в почвата под него. През първите дни проверявайте редовно влажността — горният слой не бива да изсъхва, но и не трябва да се допуска продължително задържане на вода."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-water-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-water-p2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Честотата и продължителността на поливането зависят от температурата, вятъра, слънцегреенето, почвата и реалната влажност на терена. След като тревата започне да се вкоренява, режимът постепенно се променя към по-рядко и по-дълбоко поливане. При наличие на автоматична система настройките се съобразяват с тези етапи."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-water-photo",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-water-photos",
+            "_type": "span",
+            "marks": [],
+            "text": "[[gallery:watering]]"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-maint",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-maints",
+            "_type": "span",
+            "marks": [],
+            "text": "Грижа след полагането"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-maint-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-maint-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Докато чимът се прихваща, ограничете интензивното натоварване на площта. Първото косене се прави, когато тревата е достатъчно укрепнала и достигне подходяща височина. След това се преминава към обичайни грижи — косене, подхранване и наблюдение за плевели или неравномерно развитие. Конкретните препоръки зависят от сезона и състоянието на тревата."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-benefits",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-benefitss",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-benefit1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-benefit1s",
+            "_type": "span",
+            "marks": [],
+            "text": "Готов вид на тревната площ веднага след монтажа — не е необходимо да чакате поникване на семената."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-benefit2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-benefit2s",
+            "_type": "span",
+            "marks": [],
+            "text": "Равномерно покритие с плътно подредени рула и прецизно оформени краища."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-benefit3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-benefit3s",
+            "_type": "span",
+            "marks": [],
+            "text": "Възможност подготовката на почвата и автоматичното напояване да бъдат съгласувани с полагането."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-benefit4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-benefit4s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подходящо решение за дворове, градини, пространства около къщи и ваканционни имоти, след преценка на условията на място."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-steps",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-stepss",
+            "_type": "span",
+            "marks": [],
+            "text": "Етапи на работа"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-step1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-step1s",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Оглед и измерване — уточняваме площта, достъпа за доставка и състоянието на терена."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-step2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-step2s",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Подготовка — почистваме и оформяме основата според нуждите на участъка."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-step3",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-step3s",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Доставка и полагане — съгласуваме доставката и подреждаме тревния чим."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-step4",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-step4s",
+            "_type": "span",
+            "marks": [],
+            "text": "4. Първо поливане — проверяваме овлажняването и даваме насоки за началната грижа."
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-garden",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-gardens",
+            "_type": "span",
+            "marks": [],
+            "text": "Тревната площ като част от цялостната градина"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-garden-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-garden-pa",
+            "_type": "span",
+            "marks": [],
+            "text": "Зеленият чим често е част от по-голям проект. Около него могат да се оформят лехи, да се засадят декоративни дървета и храсти или да се подберат сезонни и многогодишни цветя. Разгледайте нашите "
+          },
+          {
+            "_key": "bg-garden-pb",
+            "_type": "span",
+            "marks": [
+              "bg-garden-plink"
+            ],
+            "text": "дървета и декоративни храсти"
+          },
+          {
+            "_key": "bg-garden-pc",
+            "_type": "span",
+            "marks": [],
+            "text": " и "
+          },
+          {
+            "_key": "bg-garden-pd",
+            "_type": "span",
+            "marks": [
+              "bg-garden-p2link"
+            ],
+            "text": "цветя и рози"
+          },
+          {
+            "_key": "bg-garden-pe",
+            "_type": "span",
+            "marks": [],
+            "text": ". За цялостно оформление на двора можете да разгледате и услугата "
+          },
+          {
+            "_key": "bg-garden-pf",
+            "_type": "span",
+            "marks": [
+              "bg-garden-p3link"
+            ],
+            "text": "озеленяване на терени"
+          },
+          {
+            "_key": "bg-garden-pg",
+            "_type": "span",
+            "marks": [],
+            "text": "."
+          }
+        ],
+        "markDefs": [
+          {
+            "_key": "bg-garden-plink",
+            "_type": "link",
+            "href": "/category/darveta-i-hrasti"
+          },
+          {
+            "_key": "bg-garden-p2link",
+            "_type": "link",
+            "href": "/category/tsvetya-i-rozi"
+          },
+          {
+            "_key": "bg-garden-p3link",
+            "_type": "link",
+            "href": "/services/ozelenyavane"
+          }
+        ],
+        "style": "normal"
+      },
+      {
+        "_key": "bg-contact",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-contacts",
+            "_type": "span",
+            "marks": [],
+            "text": "Свържете се с Florial"
+          }
+        ],
+        "style": "h2"
+      },
+      {
+        "_key": "bg-contact-p",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bg-contact-ps",
+            "_type": "span",
+            "marks": [],
+            "text": "Изпратете запитване с приблизителната площ, населеното място и кратко описание на терена. Ако разполагате със снимки или размери, добавете ги към запитването. Ще се свържем с Вас, за да уточним необходимите дейности и да подготвим предложение."
+          }
+        ],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "img0",
+        "_type": "image",
+        "alt": "Рулонен тревен чим за професионално полагане в Несебър",
+        "altEn": "Rolled turf for professional installation in Nessebar",
+        "altRu": "Рулонный газон для профессиональной укладки в Несебре",
+        "asset": {
+          "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img1",
+        "_type": "image",
+        "alt": "Завършена тревна площ с декоративни растения и градинска алея в Несебър",
+        "altEn": "Finished lawn with ornamental plants and a garden path in Nessebar",
+        "altRu": "Готовый газон с декоративными растениями и садовой дорожкой в Несебре",
+        "asset": {
+          "_ref": "image-9c7ab113e1f93ea7dbc3a063fcd79f6bf968b41b-640x474-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img2",
+        "_type": "image",
+        "alt": "Завършена тревна площ с каменна пътека и ограда",
+        "altEn": "Finished lawn with a stone path and fence",
+        "altRu": "Готовый газон с каменной дорожкой и ограждением",
+        "asset": {
+          "_ref": "image-c635e473f5232b89604dc83c15822fb620f299b8-640x474-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img3",
+        "_type": "image",
+        "alt": "Подготовка на терена преди полагане на рулонен тревен чим",
+        "altEn": "Site preparation before rolled turf installation",
+        "altRu": "Подготовка участка перед укладкой рулонного газона",
+        "asset": {
+          "_ref": "image-a611a662a1351880db4064312c71f3d35d6da1e7-2368x4208-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "img4",
+        "_type": "image",
+        "alt": "Рулони тревен чим, подготвени за полагане",
+        "altEn": "Rolled turf ready for installation",
+        "altRu": "Рулоны дерна, подготовленные к укладке",
+        "asset": {
+          "_ref": "image-a28e956339d6d347e4e264a8c0cfbdc13ebf5c8c-900x700-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "f0a2082a4004",
+        "_type": "image",
+        "alt": "Пренасяне на рулонен тревен чим с количка на обекта",
+        "altEn": "Moving rolled turf on a wheelbarrow at the site",
+        "altRu": "Перемещение рулонного газона на тележке по объекту",
+        "asset": {
+          "_ref": "image-39b862847e6a44919d9b086df3e4a8acce0ff4b2-900x675-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "1f1a8f9bcdb0",
+        "_type": "image",
+        "alt": "Оформяне на края на новоположен тревен чим",
+        "altEn": "Trimming the edge of newly laid rolled turf",
+        "altRu": "Оформление края свежеуложенного рулонного газона",
+        "asset": {
+          "_ref": "image-3ae1bcb783ffe294c168738dab635e09f9993a13-900x675-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "8f55ccf79674",
+        "_type": "image",
+        "alt": "Подготвени рула тревен чим за доставка до обекта",
+        "altEn": "Rolled turf prepared for delivery to the site",
+        "altRu": "Подготовленные рулоны газона для доставки на объект",
+        "asset": {
+          "_ref": "image-e459a2b0d6c9a659edd1f4d4e76f79e23b3df730-900x969-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "75a8ab838130",
+        "_type": "image",
+        "alt": "Полагане на тревен чим до вече оформената част на двора",
+        "altEn": "Laying rolled turf beside the completed part of the garden",
+        "altRu": "Укладка рулонного газона рядом с уже оформленной частью двора",
+        "asset": {
+          "_ref": "image-06b835ee36227578eef248435c1d79e1f9e8afca-768x576-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "a55a84ff65d2",
+        "_type": "image",
+        "alt": "Готова тревна площ с равномерно положен рулонен чим",
+        "altEn": "Finished lawn with evenly laid rolled turf",
+        "altRu": "Готовый газон с равномерно уложенным рулонным дерном",
+        "asset": {
+          "_ref": "image-a91a728d195ca79bbc167ea96fc4d5cb8a927b3f-960x720-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Рулонен тревен чим за професионално полагане в Несебър",
+        "altEn": "Rolled turf for professional installation in Nessebar",
+        "altRu": "Рулонный газон для профессиональной укладки в Несебре",
+        "asset": {
+          "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Подготвяме терена, доставяме свеж тревен чим и го полагаме с внимание към основата, нивата и първоначалното поливане.",
+      "title": "Полагане на рулонен тревен чим"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Рулонен тревен чим за професионално полагане в Несебър",
+      "altEn": "Rolled turf for professional installation in Nessebar",
+      "altRu": "Рулонный газон для профессиональной укладки в Несебре",
+      "asset": {
+        "_ref": "image-8aacb7e83e69d3570e43e6ec3028331ae062f0da-1420x785-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true,
+          "type": "tel"
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false,
+          "type": "email"
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "f5",
+          "label": "Площ и описание на проекта",
+          "name": "details",
+          "placeholder": "Приблизителна площ в м², състояние на терена и предпочитан срок",
+          "required": false,
+          "type": "textarea"
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "successMessage": "Благодарим Ви! Получихме запитването Ви за тревен чим. Екипът на Florial ще се свърже с Вас.",
+      "title": "Запитване за полагане на тревен чим"
+    },
+    "name": "Полагане на рулонен тревен чим",
+    "relatedContent": [
+      {
+        "_key": "relatedTurf1",
+        "_ref": "blogPost-prodavane-traven-chim",
+        "_type": "reference"
+      },
+      {
+        "_key": "relatedTurf2",
+        "_ref": "blogPost-kupete-travna-plosht",
+        "_type": "reference"
+      },
+      {
+        "_key": "relatedTurf3",
+        "_ref": "fe90ae56-594e-45e4-b37f-54eb2c3bf0ed",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "рулонен тревен чим",
+        "полагане на тревен чим",
+        "рулонна трева Несебър",
+        "изграждане на тревни площи",
+        "тревен чим Южно Черноморие"
+      ],
+      "metaDescription": "Продажба и полагане на рулонен тревен чим в Несебър и по Южното Черноморие. Подготовка на почвата, доставка, монтаж и първоначални грижи.",
+      "metaTitle": "Рулонен тревен чим | Несебър | Градински център Флориал",
+      "noIndex": false
+    },
+    "serviceCategory": "lawn",
+    "serviceLayout": "standard",
+    "shortDescription": "Подготовка на терена, доставка и професионално полагане на рулонен тревен чим в Несебър и по Южното Черноморие.",
+    "slug": {
+      "_type": "slug",
+      "current": "rulonna-treva"
+    },
+    "sortOrder": 23,
+    "sourcePageUrl": "https://www.drop.od.ua/bg/grass",
+    "steps": [
+      {
+        "_key": "step0",
+        "text": "Уточняваме площта, достъпа за доставка и състоянието на почвата.",
+        "title": "Оглед и измерване"
+      },
+      {
+        "_key": "step1",
+        "text": "Почистваме и оформяме основата според нуждите на участъка.",
+        "title": "Подготовка на терена"
+      },
+      {
+        "_key": "step2",
+        "text": "Съгласуваме доставката и подреждаме рулонния тревен чим.",
+        "title": "Доставка и полагане"
+      },
+      {
+        "_key": "step3",
+        "text": "Проверяваме овлажняването и даваме насоки за началната грижа.",
+        "title": "Първоначално поливане"
+      }
+    ],
+    "translations": {
+      "en": {
+        "advantages": [
+          {
+            "_key": "adv0",
+            "text": "You get an established grass surface as soon as installation is complete.",
+            "title": "A finished lawn in less time"
+          },
+          {
+            "_key": "adv1",
+            "text": "We take account of the base, levels and drainage conditions.",
+            "title": "Preparation for the site"
+          },
+          {
+            "_key": "adv2",
+            "text": "We fit the rolls, trim the edges and check contact with the soil.",
+            "title": "Careful installation"
+          },
+          {
+            "_key": "adv3",
+            "text": "We explain first watering and the next steps in lawn care.",
+            "title": "Initial care guidance"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Send an enquiry",
+          "text": "Send us the site area and location so we can discuss preparation, delivery and installation.",
+          "title": "Request a rolled turf quote"
+        },
+        "description": "# Rolled Turf Installation in Nessebar and the Southern Black Sea Coast\n\nRolled turf is a practical way to create a finished lawn much faster than sowing seed. Instead of waiting for germination and gradual coverage, you receive established turf that is laid over prepared soil. Florial can prepare the site, arrange delivery and install rolled turf in Nessebar and along Bulgaria’s southern Black Sea coast.\n\n## What is rolled turf?\n\nRolled turf is living grass with a root layer of soil. It is grown in advance, cut and prepared for transport. On site, the rolls are laid tightly together to form an even lawn. After installation, the turf needs suitable watering and time to root into the underlying soil.\n\n## Preparing the site and soil\n\nThe condition of the base affects how evenly the turf can root and how water drains from the area. Before work begins, we assess the ground levels, soil condition, existing lawn, access and the relationship between the lawn and nearby paths or edging.\n\nDepending on the site, preparation may include:\n- clearing debris and removing old turf, roots and unwanted vegetation;\n- cultivating and improving the existing soil;\n- adding suitable topsoil where required;\n- adjusting levels and shaping the surface;\n- improving drainage where necessary;\n- final grading and firming of the base.\n\nNot every site needs every operation. We confirm the appropriate scope after assessing the area.\n\n[[gallery:trenches]]\n\n### A level and stable base\n\nThe surface should be even, without pronounced hollows or bumps, and firm enough for installation. We plan the finished level in relation to paths, terraces, edging and other paved surfaces.\n\n## Plan automatic irrigation before laying the turf\n\nNewly laid turf needs even watering from the first day. If an automatic system is planned, underground pipes, cables and sprinklers should be installed and checked before the final grading of the soil. Read about our [automatic irrigation design and installation service](/services/avtomatichno-napoyavane) and browse the [irrigation equipment category](/category/vsichko-za-polivane).\n\n## Delivery and installation of rolled turf\n\nRolled turf is a living product, so delivery needs to be coordinated with the readiness of the site. Once delivered, the turf should be laid promptly rather than left rolled up for an extended period.\n\n[[gallery:pipeline]]\n\n## Laying rolled turf on site\n\nThe rolls are laid in straight rows with staggered end joints, similar to brickwork. The edges are fitted closely together without overlaps or large gaps. Turf is trimmed to follow the shape of paths, edging and flower beds.\n\nAfter laying, the surface is checked and rolled with a garden roller to improve contact between the root layer and the prepared soil and to reduce air pockets.\n\n## First watering and care for new turf\n\nWater the lawn thoroughly immediately after installation so that moisture passes through the turf and reaches the soil beneath it. During the first days, check the moisture regularly. The soil should not dry out, while prolonged waterlogging should also be avoided.\n\nWatering frequency depends on temperature, wind, sunlight, soil type and actual moisture. As the turf establishes, the schedule is gradually adjusted towards less frequent, deeper watering. If an automatic system is installed, its settings should be adapted to the rooting stage.\n\n[[gallery:watering]]\n\n## Aftercare\n\nWhile the turf is rooting, avoid heavy foot traffic and moving heavy objects across the lawn. The first mowing should take place once the turf is sufficiently established. Ongoing care includes mowing, feeding when appropriate and monitoring the condition of the lawn.\n\n## Benefits\n\n- An immediate finished appearance without waiting for seed to germinate.\n- An even surface when the base is properly prepared and the rolls are fitted closely.\n- The opportunity to coordinate soil preparation and automatic irrigation installation.\n- A suitable option for gardens, courtyards and outdoor areas around homes and holiday properties, subject to site conditions.\n\n## How it works\n\n1. Site assessment and measurements — we confirm the area, delivery access and soil condition.\n2. Preparation — we clear the site and prepare the base.\n3. Delivery and laying — we coordinate delivery and install the rolled turf.\n4. Initial watering — we check moisture and explain the first-care routine.\n\n## The lawn as part of the overall garden\n\nA new lawn is often one element of a wider garden plan. Decorative trees and shrubs, flower beds and perennial plants can be arranged around it. Explore our categories for [trees and ornamental shrubs](/category/darveta-i-hrasti) and [flowers and roses](/category/tsvetya-i-rozi), as well as our [landscaping service](/services/ozelenyavane).\n\n## Contact Florial\n\nSend an enquiry with the approximate area, town and a short description of the site. If you have photographs or measurements, include them with your message. We will contact you to clarify the work required and prepare a proposal.",
+        "hero": {
+          "subtitle": "We prepare the site, arrange fresh turf delivery and install it with attention to the base, levels and initial watering.",
+          "title": "Rolled Turf Installation"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f5",
+              "label": "Area and project details",
+              "name": "details",
+              "placeholder": "Approximate area in m², site condition and preferred timing",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Send an enquiry",
+          "successMessage": "Thank you. We have received your enquiry. The Florial team will contact you.",
+          "title": "Rolled turf installation enquiry"
+        },
+        "name": "Rolled turf installation",
+        "seo": {
+          "keywords": [
+            "rolled turf",
+            "rolled turf installation",
+            "turf Nessebar",
+            "lawn installation Bulgaria"
+          ],
+          "metaDescription": "Rolled turf sales and installation in Nessebar and Bulgaria’s southern Black Sea coast. Site preparation, delivery, laying and initial care.",
+          "metaTitle": "Rolled Turf Installation | Nessebar | Florial Garden Centre",
+          "noIndex": false
+        },
+        "shortDescription": "Site preparation, delivery and professional installation of rolled turf in Nessebar and along the southern Black Sea coast.",
+        "steps": [
+          {
+            "_key": "step0",
+            "text": "We confirm the area, delivery access and soil condition.",
+            "title": "Site assessment and measurements"
+          },
+          {
+            "_key": "step1",
+            "text": "We clear the area and prepare the base for the site conditions.",
+            "title": "Site preparation"
+          },
+          {
+            "_key": "step2",
+            "text": "We coordinate delivery and install the rolled turf.",
+            "title": "Delivery and laying"
+          },
+          {
+            "_key": "step3",
+            "text": "We check moisture and explain the first-care routine.",
+            "title": "Initial watering"
+          }
+        ]
+      },
+      "ru": {
+        "advantages": [
+          {
+            "_key": "adv0",
+            "text": "Вы получаете завершённое травяное покрытие сразу после укладки.",
+            "title": "Готовый газон в короткие сроки"
+          },
+          {
+            "_key": "adv1",
+            "text": "Учитываем основание, уровни и особенности отвода воды.",
+            "title": "Подготовка с учётом участка"
+          },
+          {
+            "_key": "adv2",
+            "text": "Подгоняем рулоны, оформляем края и проверяем контакт с почвой.",
+            "title": "Аккуратная укладка"
+          },
+          {
+            "_key": "adv3",
+            "text": "Объясняем режим первого полива и дальнейшую заботу о газоне.",
+            "title": "Рекомендации по уходу"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Отправить заявку",
+          "text": "Укажите площадь и местоположение участка, чтобы мы могли уточнить подготовку, доставку и укладку.",
+          "title": "Запросить предложение на рулонный газон"
+        },
+        "description": "# Укладка рулонного газона в Несебре и на Южном Черноморье\n\nРулонный газон позволяет получить готовое травяное покрытие значительно быстрее, чем посев семян. Вместо ожидания всходов вы получаете выращенный заранее дерн, который укладывается на подготовленную почву. Florial выполняет подготовку участка, организует доставку и профессиональную укладку рулонного газона в Несебре и на Южном Черноморье.\n\n## Что такое рулонный газон?\n\nРулонный газон — это живая трава с корневым слоем почвы, которую заранее выращивают, срезают и подготавливают к транспортировке. На объекте отдельные полосы раскладывают вплотную друг к другу, формируя ровное покрытие. После монтажа газону необходимо время и правильный уход, чтобы корни закрепились в грунте участка.\n\n## Подготовка участка и почвы\n\nКачество основания во многом определяет, насколько равномерно будет укореняться газон и как будет отводиться вода. Перед началом работ оцениваем рельеф, состояние почвы, уровень относительно дорожек и бордюров, наличие старой травы и строительных остатков.\n\nВ зависимости от участка подготовка может включать:\n- очистку территории и удаление старого дерна, корней и мусора;\n- обработку и рыхление существующей почвы;\n- добавление плодородного грунта при необходимости;\n- корректировку уровней и формирование поверхности;\n- улучшение дренажа там, где это требуется;\n- финальное выравнивание и уплотнение основания.\n\nНе каждому участку нужны все перечисленные операции. Состав работ определяем после осмотра.\n\n[[gallery:trenches]]\n\n### Ровное и устойчивое основание\n\nПоверхность должна быть ровной, без выраженных ям и бугров, и достаточно плотной для укладки. Высоту основания заранее согласуем с уровнем дорожек, террас, бордюров и других покрытий.\n\n## Автоматический полив до укладки газона\n\nСвежий дерн нуждается в равномерном поливе сразу после монтажа. Если планируется автоматическая система, подземные трубы, кабели и дождеватели устанавливают и проверяют до окончательного выравнивания почвы. Подробнее — наша услуга [проектирования и монтажа автоматического полива](/services/avtomatichno-napoyavane) и категория [оборудования для полива](/category/vsichko-za-polivane).\n\n## Доставка и укладка рулонного газона\n\nРулонный газон — живой материал, поэтому доставку согласуем с готовностью участка. После доставки дерн следует разложить как можно скорее, не оставляя его надолго в свёрнутом виде.\n\n[[gallery:pipeline]]\n\n## Укладка рулонного газона на участке\n\nРулоны раскладывают ровными рядами со смещением поперечных стыков, по принципу кирпичной кладки. Края плотно подгоняют друг к другу, не допуская нахлёстов и крупных зазоров. По форме дорожек, бордюров и цветников газон аккуратно подрезают.\n\nПосле укладки поверхность проверяют и прикатывают садовым катком, чтобы обеспечить хороший контакт корневого слоя с подготовленной почвой и уменьшить воздушные полости.\n\n## Первый полив и уход за новым газоном\n\nСразу после укладки газон обильно поливают, чтобы вода прошла через дерн и увлажнила грунт под ним. В первые дни регулярно проверяйте влажность почвы: она не должна пересыхать, но и постоянное переувлажнение нежелательно.\n\nЧастота полива зависит от температуры, ветра, солнца, типа почвы и фактической влажности. По мере укоренения режим постепенно меняют: поливают реже, но глубже. Если установлена автоматическая система, её настройки корректируют с учётом этапа укоренения.\n\n[[gallery:watering]]\n\n## Уход после укладки\n\nПока дерн укореняется, старайтесь не нагружать газон интенсивной ходьбой и перемещением тяжёлых предметов. Первое кошение проводят после того, как трава достаточно укрепится. В дальнейшем газону нужны регулярное кошение, подкормка и наблюдение за состоянием покрытия.\n\n## Преимущества\n\n- Готовый внешний вид сразу после укладки — не нужно ждать прорастания семян.\n- Ровное покрытие при правильной подготовке основания и плотной стыковке рулонов.\n- Возможность заранее согласовать подготовку почвы и монтаж автоматического полива.\n- Подходит для дворов, садов и территорий вокруг домов и объектов отдыха после оценки условий участка.\n\n## Этапы работы\n\n1. Осмотр и замеры — уточняем площадь, доступ для доставки и состояние почвы.\n2. Подготовка — очищаем участок и формируем основание.\n3. Доставка и укладка — согласуем поставку и раскладываем рулонный газон.\n4. Первый полив — проверяем увлажнение и объясняем уход в начальный период.\n\n## Газон как часть общего оформления сада\n\nРулонный газон часто становится частью комплексного озеленения. Вокруг него можно разместить декоративные деревья и кустарники, оформить цветники и посадить многолетние растения. Посмотрите категории [деревьев и декоративных кустарников](/category/darveta-i-hrasti) и [цветов и роз](/category/tsvetya-i-rozi), а также услугу [озеленения участков](/services/ozelenyavane).\n\n## Свяжитесь с Florial\n\nОтправьте заявку с примерной площадью, населённым пунктом и коротким описанием участка. Если у вас есть фотографии или размеры, приложите их к сообщению. Мы свяжемся с вами, уточним необходимые работы и подготовим предложение.",
+        "hero": {
+          "subtitle": "Подготовим участок, организуем доставку свежего дерна и уложим газон с учётом основания, уровней и первого полива.",
+          "title": "Укладка рулонного газона"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "f5",
+              "label": "Площадь и описание участка",
+              "name": "details",
+              "placeholder": "Примерная площадь в м², состояние участка и желаемые сроки",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Отправить заявку",
+          "successMessage": "Спасибо! Мы получили вашу заявку. Команда Florial свяжется с вами.",
+          "title": "Заявка на укладку рулонного газона"
+        },
+        "name": "Укладка рулонного газона",
+        "seo": {
+          "keywords": [
+            "рулонный газон",
+            "укладка рулонного газона",
+            "газон Несебр",
+            "рулонная трава Болгария"
+          ],
+          "metaDescription": "Продажа и укладка рулонного газона в Несебре и на Южном Черноморье. Подготовка почвы, доставка, монтаж и первоначальный уход.",
+          "metaTitle": "Рулонный газон | Несебр | Садовый центр Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Подготовка участка, доставка и профессиональная укладка рулонного газона в Несебре и на Южном Черноморье.",
+        "steps": [
+          {
+            "_key": "step0",
+            "text": "Уточняем площадь, доступ для доставки и состояние почвы.",
+            "title": "Осмотр и замеры"
+          },
+          {
+            "_key": "step1",
+            "text": "Очищаем территорию и готовим основание с учётом её особенностей.",
+            "title": "Подготовка участка"
+          },
+          {
+            "_key": "step2",
+            "text": "Согласуем доставку и укладываем рулонный газон.",
+            "title": "Доставка и укладка"
+          },
+          {
+            "_key": "step3",
+            "text": "Проверяем увлажнение и объясняем начальный уход.",
+            "title": "Первый полив"
+          }
+        ]
+      }
+    }
+  }
+}
