@@ -20,7 +20,7 @@ test('landscape design gallery supports inline section markers and does not rend
 
   assert.match(page, /galleryMarker = first\.match\(/)
   assert.match(page, /galleryMarker = block\.style === 'normal'/)
-  assert.match(page, /service\.slug\?\.current === 'landshaften-dizain'\s*\?\s*null/)
+  assert.match(page, /service\.slug\?\.current === 'landshaften-dizain' \|\| service\.slug\?\.current === 'landshaften-proekt-online'/, 'both landscape service pages must suppress the pre-article gallery')
   assert.match(page, /onlineGardenPhoto: 'design'/, 'online landscape service must map its own gallery keys into inline groups')
   assert.match(page, /onlineMasterPlan: 'pipeline'/, 'online landscape master plan must appear in the article body')
   assert.match(page, /onlinePlantingPlan: 'pipeline'/, 'online portfolio planting plan must be grouped with the detailed project')
