@@ -12,7 +12,7 @@
 - Ограничения проверки: реальная заявка не отправлялась; PageSpeed/Lighthouse и формальная mobile overflow проверка не выполнялись. Google recrawl/indexing не подтверждался.
 - SEO follow-up: cross-language hreflang остаётся частичным из-за текущей projection service detail; существующий вопрос уже зарегистрирован в `docs/AI/OPEN_QUESTIONS.md`. Не расширял scope этого изменения.
 - Humanizer connector в подключённых инструментах отсутствовал; BG/RU/EN текст отредактирован вручную, без заявления об отдельном внешнем Humanizer pass.
-- Backup исходного Sanity document до write: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json`. Детали: `docs/audits/2026-11-17-rulonna-treva-service-refresh.md`.
+- Backups до Sanity writes: `docs/backups/sanity/2026-11-17-rulonna-treva-before-editorial-refresh.json` и `docs/backups/sanity/2026-11-17-rulonna-treva-before-marker-cleanup.json`. Детали: `docs/audits/2026-11-17-rulonna-treva-service-refresh.md`.
 - Не менялись Sanity schema, Header, navigation, Footer, Manager API, D1, Resend, Cloudflare settings/secrets. Supabase не использовался.
 
 ## 2026-11-17 — Капково напояване за градини: публикация и inline-галерея (PR #374)
