@@ -50,7 +50,8 @@ For the Blog and Studio workflow, application/Pages Functions type-check, websit
 - Cloudflare Pages Preview deployment `3fcb2722-3a09-4ab3-ac98-1ca16bfab6be` completed successfully for the final PR documentation commit `07ebfd47fdef400ca5dcb3667ea620e097b18c82`; preview URL: `https://3fcb2722.florial.pages.dev`.
 - Cloudflare Browser Rendering on the BG preview at 1440×1100 confirmed the existing H1, new offerings section, all four team cards/role links, both garden-centre cards and map links, plus the retained process and service-area/CTA sections. The rendered page contained nine image elements.
 - Mobile Browser Rendering at 390×844 confirmed `scrollWidth=390`, `clientWidth=390` and `bodyScrollWidth=390`; no horizontal overflow was detected. The two-column offering grid, team section and garden-centre section were present in the rendered DOM/accessibility tree.
-- A subsequent RU/EN browser pass was rate-limited by Cloudflare Browser Rendering and was not completed. Those two locales remain unverified in browser rendering; their localized strings are present in the code but are not claimed as visually QA-checked.
+- RU Preview Browser Rendering at 1440×900 confirmed the localized H1, offerings, team, both garden-centre cards, all four role links and nine image elements.
+- EN Preview Browser Rendering was attempted but rate-limited by Cloudflare; EN remains unverified in browser rendering. The localized strings are present in the code but are not claimed as visually QA-checked.
 - Production deployment, live production visual QA and Google recrawl/indexing were not performed.
 
 ## Protected scope
