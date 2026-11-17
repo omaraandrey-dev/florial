@@ -203,22 +203,18 @@ export function AboutPage({ categories }: AboutPageProps) {
           </h2>
           <div className="grid grid-cols-2 gap-3 md:gap-6">
             <article className={sectionClass}>
-              <a href={localizedHref('/category/rastenia', language)} className="block text-inherit no-underline">
-                <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl">{copy.plantSalesTitle}</h3>
-                {renderCatalogImage('rastenia', copy.plantSalesTitle)}
-                <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
-                  {language === 'ru' ? 'Декоративные деревья, кустарники, цветы и растения для сада и террасы.' : language === 'en' ? 'Ornamental trees, shrubs, flowers and plants for gardens and terraces.' : 'Декоративни дървета, храсти, цветя и растения за градината и терасата.'}
-                </p>
-              </a>
+              <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl"><a href={localizedHref('/category/rastenia', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.plantSalesTitle}</a></h3>
+              {renderCatalogImage('rastenia', copy.plantSalesTitle)}
+              <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
+                {language === 'ru' ? 'Декоративные деревья, кустарники, цветы и растения для сада и террасы.' : language === 'en' ? 'Ornamental trees, shrubs, flowers and plants for gardens and terraces.' : 'Декоративни дървета, храсти, цветя и растения за градината и терасата.'}
+              </p>
             </article>
             <article className={sectionClass}>
-              <a href={localizedHref('/category/vsichko-za-polivane', language)} className="block text-inherit no-underline">
-                <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl">{copy.irrigationEquipmentTitle}</h3>
-                {renderCatalogImage('vsichko-za-polivane', copy.irrigationEquipmentTitle)}
-                <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
-                  {language === 'ru' ? 'Профессиональное оборудование и комплектующие для автоматического полива.' : language === 'en' ? 'Professional equipment and components for automatic irrigation systems.' : 'Професионално оборудване и компоненти за системи за автоматично напояване.'}
-                </p>
-              </a>
+              <h3 className="text-lg font-extrabold text-[#263323] md:text-2xl"><a href={localizedHref('/category/vsichko-za-polivane', language)} className="text-inherit no-underline transition hover:text-[#647746]">{copy.irrigationEquipmentTitle}</a></h3>
+              {renderCatalogImage('vsichko-za-polivane', copy.irrigationEquipmentTitle)}
+              <p className="mt-4 text-sm leading-6 text-slate-600 md:text-base">
+                {language === 'ru' ? 'Профессиональное оборудование и комплектующие для автоматического полива.' : language === 'en' ? 'Professional equipment and components for automatic irrigation systems.' : 'Професионално оборудване и компоненти за системи за автоматично напояване.'}
+              </p>
             </article>
           </div>
         </section>
