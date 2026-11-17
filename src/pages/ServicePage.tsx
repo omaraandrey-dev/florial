@@ -627,10 +627,10 @@ export function ServicePage({ service }: ServicePageProps) {
     onlineRealisation: 'design',
   } : {}
   const rolledTurfGalleryImageGroups: Record<string, string> = isRolledTurfService ? {
-    img4: 'lawn',
-    f0a2082a4004: 'lawn',
+    img4: 'pipeline',
+    f0a2082a4004: 'pipeline',
     '1f1a8f9bcdb0': 'lawn',
-    '8f55ccf79674': 'lawn',
+    '8f55ccf79674': 'pipeline',
     '75a8ab838130': 'lawn',
     a55a84ff65d2: 'lawn',
   } : {}
