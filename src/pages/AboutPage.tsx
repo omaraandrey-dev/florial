@@ -250,7 +250,7 @@ export function AboutPage({ categories }: AboutPageProps) {
 
         <section aria-labelledby="about-centres-heading" className={sectionClass}>
           <h2 id="about-centres-heading" className="mb-6 text-center text-2xl font-extrabold text-[#263323] md:text-3xl">
-            {language === 'ru' ? 'Посетите наш садовый центр' : language === 'en' ? 'Visit our garden centres' : 'Посетете нашите градински центрове'}
+            {language === 'ru' ? 'Посетите садовый центр Florial' : language === 'en' ? 'Visit Florial Garden Centre' : 'Посетете градински център Florial'}
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
             {[
