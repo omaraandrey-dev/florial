@@ -17,7 +17,7 @@
 - Internal links to automatic irrigation, irrigation equipment, trees/shrubs, flowers/roses and landscaping.
 - Three related published resources: two relevant turf articles and the existing turf-replacement service.
 - Localized lead form labels, placeholders, submit/success copy; technical field names remain `name`, `phone`, `email`, `location`, `details`. Existing `/api/service-leads` integration is unchanged.
-- Existing gallery assets retained. Three original content-block images are assigned to preparation, delivery and initial watering groups. Six process photos from the existing gallery are assigned to the inline lawn group. Hero image is excluded from the inline gallery.
+- Existing gallery assets retained and visually inspected through Cloudflare Browser Rendering. Two original content-block images show finished lawns and are assigned to `lawn`; the bare-ground/tree image is assigned to `trenches`. Gallery images are split by visible content: rolls/wheelbarrow/stacked rolls to `pipeline`, laying/edge/final lawn to `lawn`. Hero image is excluded from the inline gallery.
 - ALT BG/RU/EN populated for the service hero, gallery images and content-block images.
 
 ## Runtime changes
