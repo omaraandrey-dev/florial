@@ -37,7 +37,7 @@
 ## Production verification
 
 - Cloudflare Browser Rendering confirmed BG/RU/EN routes return HTTP 200 with localized title, meta description, H1, canonical and `robots=index, follow`.
-- Each locale renders 15 image elements; EN check confirmed all 15 have ALT. BG and RU images/ALT are populated in the published Sanity document.
+- Final BG Browser Rendering after marker cleanup: 14 image elements, all 14 with ALT; the preparation photo appears once and no raw gallery markers remain. RU/EN checks are repeated after the same published cleanup before closeout.
 - Localized lead form fields and submit labels are present; related content and contextual internal links are rendered.
 - No real lead was submitted; API delivery and Resend notification were not exercised in this task. PageSpeed/Lighthouse and formal mobile overflow checks were not run.
 - Existing cross-language hreflang projection limitation remains tracked in `docs/AI/OPEN_QUESTIONS.md`.
