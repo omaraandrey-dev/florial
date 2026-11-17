@@ -1,0 +1,508 @@
+Found document "e86d4175-e74e-4200-a4bd-e56a56672e0e": 
+<document>
+  <_createdAt>2026-10-18T09:05:28Z</_createdAt>
+  <_id>e86d4175-e74e-4200-a4bd-e56a56672e0e</_id>
+  <_rev>F22ZJc16DPSeL2Sh2nbM3f</_rev>
+  <_system>
+    <base>
+      <id>e86d4175-e74e-4200-a4bd-e56a56672e0e</id>
+      <rev>QTieHoW03Or475fo7vqjN2</rev>
+    </base>
+  </_system>
+  <_type>service</_type>
+  <_updatedAt>2026-11-17T10:52:18Z</_updatedAt>
+  <advantages>
+    <_key>adv0</_key>
+    <text>Координираме подготовката, засаждането, тревата и напояването.</text>
+    <title>Комплексно изпълнение</title>
+  </advantages>
+  <advantages>
+    <_key>adv1</_key>
+    <text>Избираме растения спрямо светлината, почвата и климата.</text>
+    <title>Подбор според мястото</title>
+  </advantages>
+  <advantages>
+    <_key>adv2</_key>
+    <text>Оформяме композиции, цветни лехи, живи плетове и зелени зони.</text>
+    <title>Завършена визия</title>
+  </advantages>
+  <advantages>
+    <_key>adv3</_key>
+    <text>Можем да предложим препоръки и последваща поддръжка.</text>
+    <title>Грижа след засаждането</title>
+  </advantages>
+  <callToAction>
+    <buttonLabel>Изпрати запитване</buttonLabel>
+    <text>Заявете оглед за озеленяване на вашия имот.</text>
+    <title>Заявете оферта</title>
+  </callToAction>
+  <contentBlocks>
+    <_key>block1</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Подготовка на терена</alt>
+      <asset>
+        <_ref>image-7dfb0a203e09994dbf616b04515e48ccf609a692-1280x960-jpg</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>left</imagePosition>
+    <text>Почистваме и оформяме терена, подготвяме почвата и планираме тревните площи, цветните лехи и местата за засаждане.</text>
+    <translations>
+      <en>
+        <imageAlt>Site preparation</imageAlt>
+        <text>We clear and shape the site, prepare the soil and plan lawns, flower beds and planting areas.</text>
+      </en>
+      <ru>
+        <imageAlt>Подготовка участка</imageAlt>
+        <text>Очищаем и формируем участок, подготавливаем почву и планируем газоны, клумбы и места посадок.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <contentBlocks>
+    <_key>block2</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Засаждане и озеленяване</alt>
+      <asset>
+        <_ref>image-d5f22e736e2f44c37fb2abfe461952e6bff2ffa0-1440x1440-png</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>right</imagePosition>
+    <text>Изпълняваме засаждането и изграждаме растителни композиции за частни дворове, хотели и търговски обекти.</text>
+    <translations>
+      <en>
+        <imageAlt>Planting and landscaping</imageAlt>
+        <text>We plant and create landscape compositions for private gardens, hotels and commercial properties.</text>
+      </en>
+      <ru>
+        <imageAlt>Посадка и озеленение</imageAlt>
+        <text>Выполняем посадки и создаём растительные композиции для частных садов, отелей и коммерческих объектов.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <contentBlocks>
+    <_key>block3</_key>
+    <_type>serviceContentBlock</_type>
+    <image>
+      <_type>image</_type>
+      <alt>Завършена градина</alt>
+      <asset>
+        <_ref>image-4b0348c66ea7675858c70fe07726a8a39c5bd82a-5395x4046-jpg</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <imagePosition>left</imagePosition>
+    <text>Комбинираме тревни площи, декоративни растения и напояване в цялостно решение, което е красиво и удобно за поддръжка.</text>
+    <translations>
+      <en>
+        <imageAlt>Finished garden</imageAlt>
+        <text>We combine lawns, ornamental plants and irrigation into a complete solution that is attractive and easy to maintain.</text>
+      </en>
+      <ru>
+        <imageAlt>Готовый сад</imageAlt>
+        <text>Объединяем газоны, декоративные растения и полив в единое решение, которое красиво выглядит и удобно в уходе.</text>
+      </ru>
+    </translations>
+  </contentBlocks>
+  <description>
+    <_key>heading</_key>
+    <_type>block</_type>
+    <children>
+      <_key>headings</_key>
+      <_type>span</_type>
+      <text>Озеленяване, което превръща терена в завършена градина</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>intro</_key>
+    <_type>block</_type>
+    <children>
+      <_key>intros</_key>
+      <_type>span</_type>
+      <text>Изпълняваме озеленяване на дворове, хотелски площи и общи пространства. Подготвяме терена, оформяме цветни лехи и миксбордери, засаждаме дървета и храсти, създаваме живи плетове и комбинираме растителността с тревни площи и автоматично напояване.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advhead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advheads</_key>
+      <_type>span</_type>
+      <text>Предимства</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>advtext0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext0s</_key>
+      <_type>span</_type>
+      <text>Комплексно изпълнение: Координираме подготовката, засаждането, тревата и напояването.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext1s</_key>
+      <_type>span</_type>
+      <text>Подбор според мястото: Избираме растения спрямо светлината, почвата и климата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext2s</_key>
+      <_type>span</_type>
+      <text>Завършена визия: Оформяме композиции, цветни лехи, живи плетове и зелени зони.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>advtext3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>advtext3s</_key>
+      <_type>span</_type>
+      <text>Грижа след засаждането: Можем да предложим препоръки и последваща поддръжка.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>stepshead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>stepsheads</_key>
+      <_type>span</_type>
+      <text>Етапи на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>steptext0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext0s</_key>
+      <_type>span</_type>
+      <text>1. Оглед и план: Оценяваме терена, съществуващите растения и задачите.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext1s</_key>
+      <_type>span</_type>
+      <text>2. Подготовка: Почистваме, оформяме и подобряваме почвата според проекта.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext2s</_key>
+      <_type>span</_type>
+      <text>3. Засаждане и оформяне: Разполагаме растенията, засаждаме и оформяме композициите.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>steptext3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>steptext3s</_key>
+      <_type>span</_type>
+      <text>4. Поливане и предаване: Поливаме, проверяваме насажденията и даваме инструкции за грижа.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>ctahead</_key>
+    <_type>block</_type>
+    <children>
+      <_key>ctaheads</_key>
+      <_type>span</_type>
+      <text>Свържете се с Florial</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>ctatext</_key>
+    <_type>block</_type>
+    <children>
+      <_key>ctatexts</_key>
+      <_type>span</_type>
+      <text>Заявете оглед за озеленяване на вашия имот.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>img0</_key>
+    <_type>image</_type>
+    <alt>Озеленяване на частен имот</alt>
+    <asset>
+      <_ref>image-7ed4bb710510f296dc720c7b81e485d38fe5ecfb-1600x1200-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img1</_key>
+    <_type>image</_type>
+    <alt>Озеленяване на двор</alt>
+    <asset>
+      <_ref>image-7dfb0a203e09994dbf616b04515e48ccf609a692-1280x960-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img2</_key>
+    <_type>image</_type>
+    <alt>Озеленяване на градина</alt>
+    <asset>
+      <_ref>image-d5f22e736e2f44c37fb2abfe461952e6bff2ffa0-1440x1440-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img3</_key>
+    <_type>image</_type>
+    <alt>Озеленяване на двор с дървета</alt>
+    <asset>
+      <_ref>image-250ecbe5019e609d78a9d05743e034b9d4ddfe6b-1200x900-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>img4</_key>
+    <_type>image</_type>
+    <alt>Озеленяване в Несебър</alt>
+    <asset>
+      <_ref>image-23070f164113bebe7a6f294af0c713abc9441c1c-1200x900-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>fbecf7b03cff</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-64008aa3ad24584fd6890a5769f04e7afb2d381c-5616x2592-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>ed96b4f74e1a</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-f6fa3886f023ec6a7010947bc4c55c6ea7b03d89-2824x2118-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>6f4c8223f1c0</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-7e7846cc4840f63f25efbb4b0b961fd0165101bb-2560x1920-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>bc772eab7d78</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-8eb26f922ff33aa069694a32b8d2f197f81a55c1-5219x3914-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <hero>
+    <image>
+      <_type>image</_type>
+      <alt>Озеленяване на частен имот</alt>
+      <asset>
+        <_ref>image-7ed4bb710510f296dc720c7b81e485d38fe5ecfb-1600x1200-jpg</_ref>
+        <_type>reference</_type>
+      </asset>
+    </image>
+    <subtitle>Комплексно озеленяване на частни дворове, хотели и търговски обекти — от подготовката на терена до засаждането и довършителните работи.</subtitle>
+    <title>Озеленяване, което превръща терена в завършена градина</title>
+  </hero>
+  <image>
+    <_type>image</_type>
+    <alt>Озеленяване на частен имот</alt>
+    <asset>
+      <_ref>image-8be155faeaa97b10ff24d1c0bc2bf629f402786c-1024x1024-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </image>
+  <isActive>true</isActive>
+  <leadForm>
+    <fields>
+      <_key>f1</_key>
+      <label>Име</label>
+      <name>name</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f2</_key>
+      <label>Телефон</label>
+      <name>phone</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f3</_key>
+      <label>Имейл</label>
+      <name>email</name>
+      <required>false</required>
+    </fields>
+    <fields>
+      <_key>f4</_key>
+      <label>Населено място</label>
+      <name>location</name>
+      <required>true</required>
+    </fields>
+    <fields>
+      <_key>f5</_key>
+      <label>Описание на проекта</label>
+      <name>details</name>
+      <required>false</required>
+    </fields>
+    <submitLabel>Изпрати запитване</submitLabel>
+    <title>Запитване за услуга</title>
+  </leadForm>
+  <name>Озеленяване на терени</name>
+  <seo>
+    <metaDescription>Озеленяване на дворове, хотели и търговски обекти — подготовка на терена, засаждане и тревни площи в Несебър, Каблешково и Кошарица.</metaDescription>
+    <metaTitle>Озеленяване в Несебър и Каблешково | Florial</metaTitle>
+    <noIndex>false</noIndex>
+  </seo>
+  <serviceCategory>landscaping</serviceCategory>
+  <serviceLayout>standard</serviceLayout>
+  <shortDescription>Комплексно озеленяване на частни дворове, хотели и търговски обекти — от подготовката на терена до засаждането и довършителните работи.</shortDescription>
+  <slug>
+    <_type>slug</_type>
+    <current>ozelenyavane</current>
+  </slug>
+  <sortOrder>21</sortOrder>
+  <sourcePageUrl>https://www.drop.od.ua/bg/landscapelanding</sourcePageUrl>
+  <steps>
+    <_key>step0</_key>
+    <text>Оценяваме терена, съществуващите растения и задачите.</text>
+    <title>Оглед и план</title>
+  </steps>
+  <steps>
+    <_key>step1</_key>
+    <text>Почистваме, оформяме и подобряваме почвата според проекта.</text>
+    <title>Подготовка</title>
+  </steps>
+  <steps>
+    <_key>step2</_key>
+    <text>Разполагаме растенията, засаждаме и оформяме композициите.</text>
+    <title>Засаждане и оформяне</title>
+  </steps>
+  <steps>
+    <_key>step3</_key>
+    <text>Поливаме, проверяваме насажденията и даваме инструкции за грижа.</text>
+    <title>Поливане и предаване</title>
+  </steps>
+  <translations>
+    <en>
+      <callToAction>
+        <buttonLabel>Send an enquiry</buttonLabel>
+        <text>Request a site visit for landscaping your property.</text>
+        <title>Request a quote</title>
+      </callToAction>
+      <description>Landscaping that turns a plot into a finished garden
+
+We landscape private gardens, hotel grounds and shared spaces. We prepare the site, create flower beds and mixed borders, plant trees and shrubs, build hedges and combine planting with lawns and automatic irrigation.
+
+Benefits
+
+Complete delivery: We coordinate site preparation, planting, turf and irrigation.
+
+Plant selection for the site: We choose plants to suit light, soil and climate.
+
+A finished look: We create compositions, flower beds, hedges and green areas.
+
+Aftercare: We can provide recommendations and ongoing maintenance.
+
+How we work
+
+1. Site survey and plan: We assess the terrain, existing plants and project needs.
+
+2. Preparation: We clear and shape the site and improve the soil according to the plan.
+
+3. Planting and shaping: We position and plant greenery and finish the compositions.
+
+4. Watering and handover: We water the plants, check the work and explain care.
+
+Contact Florial
+
+Request a site visit for landscaping your property.</description>
+      <hero>
+        <subtitle>Complete landscaping for private gardens, hotels and commercial properties — from site preparation to planting and finishing.</subtitle>
+        <title>Landscaping that turns a plot into a finished garden</title>
+      </hero>
+      <name>Landscaping</name>
+      <seo>
+        <metaDescription>Landscaping for gardens, hotels and commercial properties, including site preparation, planting and lawns in Nessebar, Kableshkovo and Kosharitsa.</metaDescription>
+        <metaTitle>Landscaping in Nessebar & Kableshkovo | Florial</metaTitle>
+      </seo>
+      <shortDescription>Complete landscaping for private gardens, hotels and commercial properties — from site preparation to planting and finishing.</shortDescription>
+    </en>
+    <ru>
+      <callToAction>
+        <buttonLabel>Отправить заявку</buttonLabel>
+        <text>Закажите осмотр участка для озеленения.</text>
+        <title>Запросить предложение</title>
+      </callToAction>
+      <description>Озеленение, превращающее участок в готовый сад
+
+Выполняем озеленение частных дворов, гостиничных территорий и общественных пространств. Подготавливаем участок, оформляем клумбы и миксбордеры, высаживаем деревья и кустарники, создаём живые изгороди и объединяем посадки с газоном и автоматическим поливом.
+
+Преимущества
+
+Комплексное выполнение: координируем подготовку участка, посадки, газон и полив.
+
+Подбор растений под условия: учитываем освещение, почву и климат.
+
+Завершённый вид: создаём композиции, клумбы, живые изгороди и зелёные зоны.
+
+Уход после посадки: даём рекомендации и можем предложить дальнейшее обслуживание.
+
+Этапы работы
+
+1. Осмотр и план: оцениваем участок, существующие растения и задачи.
+
+2. Подготовка: очищаем и формируем территорию, улучшаем почву согласно проекту.
+
+3. Посадки и оформление: размещаем растения, высаживаем и завершаем композиции.
+
+4. Полив и сдача: поливаем, проверяем посадки и объясняем дальнейший уход.
+
+Свяжитесь с Florial
+
+Закажите осмотр участка для озеленения.</description>
+      <hero>
+        <subtitle>Комплексное озеленение частных садов, отелей и коммерческих объектов — от подготовки участка до посадок и завершающих работ.</subtitle>
+        <title>Озеленение, превращающее участок в готовый сад</title>
+      </hero>
+      <name>Озеленение участков</name>
+      <seo>
+        <metaDescription>Озеленение дворов, отелей и коммерческих объектов: подготовка участка, посадки и газоны в Несебре, Каблешково и Кошарице.</metaDescription>
+        <metaTitle>Озеленение в Несебре и Каблешково | Florial</metaTitle>
+      </seo>
+      <shortDescription>Комплексное озеленение частных садов, отелей и коммерческих объектов — от подготовки участка до посадок и завершающих работ.</shortDescription>
+    </ru>
+  </translations>
+</document>
