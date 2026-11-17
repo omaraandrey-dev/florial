@@ -22,7 +22,7 @@
 
 ## Runtime changes
 
-- `src/pages/ServicePage.tsx`: map six existing gallery asset keys to the `lawn` inline group for `rulonna-treva`; support `[[gallery:lawn]]` in Portable Text; suppress the top legacy gallery and lower legacy image-text blocks for this service.
+- `src/pages/ServicePage.tsx`: map six existing gallery asset keys to the `pipeline` and `lawn` inline groups for `rulonna-treva`; support localized H2 aliases and Portable Text gallery markers; suppress the top legacy gallery and lower legacy image-text blocks for this service.
 - `tests/service-rulonna-treva-inline-gallery.test.mjs`: regression coverage for asset mapping and placement.
 - `docs/SERVICE_CONTENT_PLAYBOOK.md`: document the service-specific inline-gallery convention.
 
