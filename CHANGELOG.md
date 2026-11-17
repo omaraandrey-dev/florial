@@ -8,7 +8,7 @@
 - Legacy top gallery и нижние дублирующие image-text блоки для этой услуги не отображаются. Фото вставляются в статью через группы `intro`, `lawn`, `flowerbeds`.
 - Backup до Sanity write: `docs/backups/sanity/2026-11-17-ozelenyavane-before-editorial-refresh.xml`.
 - Отдельного image title поля в текущей схеме нет; локализованные ALT заполнены. Schema deployment не требовался.
-- Финальная Browser Rendering проверка BG/RU/EN и проверка визуального размещения/формы — фиксируется в audit после завершения live QA. Google recrawl/indexing не подтверждены.
+- Production Browser Rendering BG/RU/EN завершён: корректные title/description, index/follow, canonical/hreflang, H1/H2; 14 изображений с ALT в каждой локали; три фото рулонного газона и четвёртое фото цветника стоят в соответствующих разделах; форма и relatedContent присутствуют. RU заголовок цветников скорректирован после первого DOM QA и перепроверен. Реальную заявку не отправляли. PageSpeed/Lighthouse и Google recrawl/indexing не выполнялись и не подтверждены.
 
 ## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
 
