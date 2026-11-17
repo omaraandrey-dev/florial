@@ -1,7 +1,7 @@
 # Капково напояване за градини — редакционна переработка
 
 Дата: 2026-11-17  
-Статус: Sanity draft подготовлен; публикация и Production QA ожидают прохождения runtime PR.
+Статус: опубликовано в Sanity Production; runtime PR #374 merged; Cloudflare Production deployment успешен; DOM QA BG/RU/EN завершён.
 
 ## Объект
 
@@ -13,7 +13,7 @@
 - URL: `https://florial-bg.com/services/avtomatizirano-kapkovo-napoyavane`
 - Источник редакционной переработки: `https://www.drop.od.ua/bg/microdropirrigation`
 - Исходная опубликованная ревизия: `CSxh3cFbcDVp859mktrIZM`
-- Новая draft revision: `iNPCLSoXm0d2UNhS8T8OmY`
+- Опубликованная Sanity revision: `CSxh3cFbcDVp859mku2NdQ`
 
 ## Backup
 
@@ -52,11 +52,14 @@ Sanity dataset backup listing перед работой вернул `No backups
 - Сохранены document ID, slug/URL, основное изображение, исходные image assets, serviceCategory, serviceLayout, sortOrder и isActive.
 - Не изменялись Sanity schema, Header, navigation, Footer, Manager API, D1, Resend, Cloudflare settings/secrets.
 - Не создавались новые услуги или статьи блога.
-- Production документ пока не публиковался; публичная страница продолжает использовать опубликованную ревизию до финальной публикации.
+- Публичный документ опубликован; URL и document ID сохранены.
 
 ## Проверки
 
-- Sanity draft read-back: успешно; 48 BG Portable Text blocks, localized RU/EN content, localized SEO and lead forms, all five related references dereference successfully.
-- Sanity backup file: сохранён.
-- Runtime build/CI и Production Browser Rendering: pending.
-- Фактическая отправка заявки, PageSpeed/Lighthouse и Google recrawl/indexing: не выполнялись.
+- Sanity published read-back: успешно; 48 BG Portable Text blocks, локализованные RU/EN тексты, SEO и lead forms; все пять related references разрешаются.
+- PR #374 merged в main: `a5f4b2877b4cdc60cef1a712da59c62878c032c3`. Preview deployment `4fe6b1d5-bc66-439e-b7f6-3975b273ccbf` и Production deployment `451901ca-8d36-450e-a134-79561382d154` завершились успешно.
+- Production Browser Rendering BG/RU/EN: HTTP 200; локализованные title/meta/H1/H2, canonical и index/follow; 15 изображений на странице, все с ALT; формы и related-content section присутствуют.
+- Hreflang cross-language неполный из-за текущей projection в service detail query; зафиксировано в `docs/AI/OPEN_QUESTIONS.md`, в этом изменении не менялось.
+- Cloudflare Pages metadata содержит legacy `VITE_SUPABASE_*` variables; не изменялись, использование не подтверждено, см. open questions.
+- Реальная отправка заявки, PageSpeed/Lighthouse, formal mobile overflow и Google recrawl/indexing не выполнялись. GitHub workflow/status lookup не вернул CI runs; regression test добавлен, но отдельный запуск не подтверждён.
+
