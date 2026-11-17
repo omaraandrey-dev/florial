@@ -267,6 +267,8 @@ function renderMarkdownDescription(content: string, language: string, imageGroup
   return chunks.map((chunk, index) => {
     const lines = chunk.split('\n').map((line) => line.trim()).filter(Boolean)
     const first = lines[0]
+    const galleryMarker = first.match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation)\]\]$/)
+    if (galleryMarker) return renderImageGallery(imageGroups[galleryMarker[1]] || [], galleryMarker[1], language)
     if (first.startsWith('## ')) {
       const heading = first.slice(3).trim()
       const section = sectionForHeading(heading, language)
@@ -350,6 +352,8 @@ function renderPortableText(
     })
     const key = block._key || index
     const text = (block.children || []).map((child: any) => child.text || '').join('')
+    const galleryMarker = block.style === 'normal' ? text.trim().match(/^\[\[gallery:(intro|design|pipeline|equipment|trenches|watering|automation)\]\]$/) : null
+    if (galleryMarker) return <React.Fragment key={key}>{renderImageGallery(imageGroups[galleryMarker[1]] || [], galleryMarker[1], language)}</React.Fragment>
     if (block.style === 'h2') {
       const section = sectionForHeading(text, language)
       return (
@@ -558,7 +562,34 @@ export function ServicePage({ service }: ServicePageProps) {
         }]
       })
     : []
-  const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks]
+  const landscapeGalleryImageGroups: Record<string, string> = service.slug?.current === 'landshaften-dizain' ? {
+    dropLandscape2019: 'intro',
+    dropProject2021: 'intro',
+    img1: 'design',
+    img2: 'design',
+    projectMasterPlan: 'pipeline',
+    projectDendroplan: 'equipment',
+    projectPlantSchedule: 'equipment',
+    dropHedge2020: 'trenches',
+    img3: 'trenches',
+    img4: 'trenches',
+    projectIrrigationPlan: 'watering',
+    projectVisualisations: 'automation',
+  } : {}
+  const landscapeArticleGalleryBlocks: ServiceContentBlock[] = galleryImages.flatMap((image) => {
+    const group = landscapeGalleryImageGroups[image._key || '']
+    if (!group || !image.url) return []
+    return [{
+      _key: image._key,
+      title: `__gallery:${group}`,
+      imageUrl: image.url,
+      imageAlt: image.alt,
+      imageAltRu: image.altRu,
+      imageAltEn: image.altEn,
+      linkUrl: image.linkUrl,
+    }]
+  })
+  const sourceBlocksWithArticleGallery = [...sourceBlocks, ...articleGalleryBlocks, ...landscapeArticleGalleryBlocks]
   const imageGroups = sourceBlocksWithArticleGallery.reduce<Record<string, ServiceContentBlock[]>>((groups, block) => {
     const match = typeof block.title === 'string'
       ? block.title.match(/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing)$/)
@@ -629,7 +660,9 @@ export function ServicePage({ service }: ServicePageProps) {
 
         {isAutomaticIrrigationService
           ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
-          : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
+          : service.slug?.current === 'landshaften-dizain'
+            ? null
+            : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
         {description && (
           <div className="mx-auto max-w-4xl py-4 text-base md:py-6 md:text-lg">
