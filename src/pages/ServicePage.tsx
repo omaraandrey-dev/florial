@@ -38,74 +38,56 @@ const sectionForHeading = (value: string, language: string) => {
   const headings: Record<string, Record<string, string[]>> = {
     bg: {
       intro: ['нашият подход към засаждането на маслини', 'планиране на засаждането и избор на растения', 'проектиране на система за автоматично поливане'],
-      design: ['как планираме системата за вашата градина?'],
-      watering: ['какво представлява капковото и микрокапковото напояване?'],
-      pipeline: ['капкова тръба rain bird xfs dripline'],
-      equipment: ['микроразпръсквачи и точково напояване'],
-      automation: ['автоматично управление на капковото напояване'],
-      flowerbeds: ['за кои растения е подходящо капковото напояване?'],
       lawn: ['рулонен тревен чим и изграждане на тревни площи'],
-      flowerbeds: ['цветни лехи и растителни композиции'],
+      flowerbeds: ['цветни лехи и растителни композиции', 'за кои растения е подходящо капковото напояване?'],
 
-      design: ['проектиране и разделяне на поливни зони'],
+      design: ['проектиране и разделяне на поливни зони', 'как планираме системата за вашата градина?'],
       testing: ['проверка, настройка и пускане'],
 
       trenches: ['какво включва монтажът на автоматична поливна система', 'подготовка на мястото и посадъчната яма', 'подготовка на терена и почвата', 'оглед и подготовка на терена', 'подготовка на трасетата и полагане на тръбите'],
-      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'трасировка на тръбопроводите'],
+      pipeline: ['полагане на тръби и кабели', 'доставка и транспортиране на маслиновото дърво', 'трасировка на тръбопроводите', 'капкова тръба rain bird xfs dripline'],
 
-      watering: ['поливане и грижи след засаждането', 'първоначално поливане и последващи грижи', 'калкулация и проектна документация'],
+      watering: ['поливане и грижи след засаждането', 'първоначално поливане и последващи грижи', 'калкулация и проектна документация', 'какво представлява капковото и микрокапковото напояване?'],
 
-      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове', 'професионално засаждане на палмата', 'подбор на поливочно оборудване', 'монтаж на разпръсквачите и поливното оборудване'],
+      equipment: ['монтаж на разпръсквачи и капково напояване', 'позициониране и засаждане с помощта на техника', 'засаждане на дървета, храсти и живи плетове', 'професионално засаждане на палмата', 'подбор на поливочно оборудване', 'монтаж на разпръсквачите и поливното оборудване', 'микроразпръсквачи и точково напояване'],
 
-      automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви', 'автоматизация на поливането'],
+      automation: ['клапани, филтри и управление', 'първоначални грижи след засаждането', 'засаждане на цветя и декоративни треви', 'автоматизация на поливането', 'автоматично управление на капковото напояване'],
 
     },
     ru: {
       intro: ['наш подход к посадке оливковых деревьев', 'планирование посадки и выбор растений', 'проектирование системы автоматического полива'],
-      design: ['как мы планируем систему для конкретного сада?'],
-      watering: ['что такое капельный и микрокапельный полив?'],
-      pipeline: ['капельная трубка rain bird xfs dripline'],
-      equipment: ['микроразбрызгиватели и точечный полив'],
-      automation: ['автоматическое управление капельным поливом'],
-      flowerbeds: ['для каких растений подходит капельный полив?'],
       lawn: ['рулонный газон и устройство газонных площадей'],
-      flowerbeds: ['цветники и цветочные композиции'],
+      flowerbeds: ['цветники и цветочные композиции', 'для каких растений подходит капельный полив?'],
 
-      design: ['проектирование и разделение на зоны полива'],
+      design: ['проектирование и разделение на зоны полива', 'как мы планируем систему для конкретного сада?'],
       testing: ['проверка, настройка и запуск'],
 
       trenches: ['что включает монтаж системы автоматического полива', 'подготовка участка и посадочной ямы', 'подготовка участка и почвы', 'осмотр и подготовка участка', 'подготовка трасс и прокладка труб'],
-      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'трассировка трубопроводов'],
+      pipeline: ['прокладка труб и кабелей', 'доставка и транспортировка оливкового дерева', 'трассировка трубопроводов', 'капельная трубка rain bird xfs dripline'],
 
-      watering: ['полив и уход после посадки', 'первый полив и уход после посадки', 'смета и проектная документация'],
+      watering: ['полив и уход после посадки', 'первый полив и уход после посадки', 'смета и проектная документация', 'что такое капельный и микрокапельный полив?'],
 
-      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей', 'технология посадки пальм', 'подбор оборудования для полива', 'установка дождевателей и поливного оборудования'],
+      equipment: ['монтаж дождевателей и капельного полива', 'позиционирование и посадка с помощью техники', 'посадка деревьев, кустарников и живых изгородей', 'технология посадки пальм', 'подбор оборудования для полива', 'установка дождевателей и поливного оборудования', 'микроразбрызгиватели и точечный полив'],
 
-      automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав', 'автоматизация полива'],
+      automation: ['клапаны, фильтры и управление', 'первоначальный уход после посадки', 'посадка цветов и декоративных трав', 'автоматизация полива', 'автоматическое управление капельным поливом'],
 
     },
     en: {
       intro: ['our approach to olive tree planting', 'planning the planting and selecting suitable plants', 'designing an automatic irrigation system'],
-      design: ['how do we plan a system for your garden?'],
-      watering: ['what are drip and micro-irrigation systems?'],
-      pipeline: ['rain bird xfs dripline'],
-      equipment: ['micro-sprinklers and point-source watering'],
-      automation: ['automatic control for drip irrigation'],
-      flowerbeds: ['which plants can benefit from drip irrigation?'],
       lawn: ['roll-out turf and lawn installation'],
-      flowerbeds: ['flower beds and planting compositions'],
+      flowerbeds: ['flower beds and planting compositions', 'which plants can benefit from drip irrigation?'],
 
-      design: ['system design and irrigation zones'],
+      design: ['system design and irrigation zones', 'how do we plan a system for your garden?'],
       testing: ['system testing, adjustment and commissioning'],
 
       trenches: ['what is included in an automatic irrigation system installation', 'site and planting pit preparation', 'preparing the site and soil', 'site assessment and preparation', 'route preparation and pipe installation'],
-      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'irrigation pipe routing'],
+      pipeline: ['pipe and cable installation', 'delivery and transportation of the olive tree', 'irrigation pipe routing', 'rain bird xfs dripline'],
 
-      watering: ['watering and aftercare', 'initial watering and aftercare', 'cost estimate and project documentation'],
+      watering: ['watering and aftercare', 'initial watering and aftercare', 'cost estimate and project documentation', 'what are drip and micro-irrigation systems?'],
 
-      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges', 'the palm planting process', 'selecting irrigation equipment', 'installing sprinklers and irrigation equipment'],
+      equipment: ['sprinkler and drip irrigation installation', 'positioning and planting with specialist equipment', 'planting trees, shrubs and hedges', 'the palm planting process', 'selecting irrigation equipment', 'installing sprinklers and irrigation equipment', 'micro-sprinklers and point-source watering'],
 
-      automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses', 'irrigation automation'],
+      automation: ['valves, filters and controls', 'initial care after planting', 'planting flowers and ornamental grasses', 'irrigation automation', 'automatic control for drip irrigation'],
 
     },
   }
