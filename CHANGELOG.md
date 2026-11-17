@@ -1,3 +1,15 @@
+## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
+
+- PR #365 merged into `main` as `c5aeca1da14f1984059ba9b8684e0b506548e04f`; its Cloudflare Pages Production deployment completed successfully. Production QA then exposed a shared pre-hero `hasIntroGallery` branch that replaced the hero with the intro group.
+- Corrective PR #366 excluded `landshaften-dizain` from that pre-hero branch and added a regression guard. It merged as `d5cdf42f9de85a7ae633fe535470761886ba7ca9`; Cloudflare Pages Production deployment `f02d0bed-5390-493f-ae94-519c382c1dff` completed successfully for that exact SHA and is associated with `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Sanity Production service `c7d2c120-6024-4876-b240-ff6585df91e4` now has seven inline gallery markers in each BG/RU/EN description. Published revision: `y2TDpG5qG8p5QpVOSxSVtG`. Twelve non-hero images are placed in seven editorial groups: intro (2), design (2), master plan (1), planting plan (2), landscape features (3), irrigation (1), visualisations (1).
+- Twelve image ALT records were localized across BG/RU/EN (36 ALT strings) with natural service-area context for Nessebar, Ravda, Sunny Beach, Kosharitsa, Kableshkovo, Pomorie, Aheloy, Sveti Vlas and Elenite.
+- Backups: initial pre-ALT snapshot `docs/backups/sanity/service-landshaften-dizain-before-inline-gallery-2026-11-17.json`; current pre-activation snapshot `docs/backups/sanity/service-landshaften-dizain-before-inline-gallery-activation-2026-11-17.json` (source revision `kG84M8L0NjpttWhMhrDNju`).
+- Final read-only Production HTML checks passed in BG/RU/EN: HTTP 200, hero image is retained immediately after the logo, all 12 expected gallery assets appear exactly once in the intended order, and no raw `[[gallery:...]]` markers are exposed. The first inline group follows the introductory text, before the first numbered section. Desktop screenshots were captured for all three locales and a mobile BG screenshot was captured; no formal mobile overflow or PageSpeed measurement was performed.
+- Sanity read-back comparison confirmed that after removing only the seven marker blocks/lines, the BG/RU/EN descriptions exactly match the pre-activation backup. Hero, gallery assets/order/ALT, lead form, related content, SEO, advantages, steps and CTA are unchanged. The price paragraphs therefore remain byte-for-byte unchanged; the separate detailed landscape blog article was not modified.
+- PR #366 exact head `de9af6a1cc0ecfd5a0d42e6aef60e7a15e7ca7fe`: Blog/Studio validation run `44033320526`, D1 validation run `44033320528`, and Cloudflare Pages Preview deployment `132846fa-e691-4089-9307-aea448349c5b` all succeeded. Preview and Production localized HTML checks passed.
+- No Sanity schema, D1, Resend, Cloudflare settings/secrets, Header, navigation or Footer changes. PR #364 remains separate and was not modified by this rollout.
+
 ## 2026-11-17 — Landscape architect page portfolio block
 
 - Added a localized portfolio/article card section immediately after the FAQ on `/services/category/landshaften-arhitekt`.
