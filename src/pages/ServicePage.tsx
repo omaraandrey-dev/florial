@@ -579,11 +579,11 @@ export function ServicePage({ service }: ServicePageProps) {
     onlineGardenPhoto: 'design',
     onlineGardenConcept: 'design',
     onlineMasterPlan: 'pipeline',
-    onlinePlantingPlan: 'equipment',
-    onlinePlantSchedule: 'equipment',
-    onlineIrrigationPlan: 'watering',
-    online3DVisualisation: 'automation',
-    onlineRealisation: 'trenches',
+    onlinePlantingPlan: 'pipeline',
+    onlinePlantSchedule: 'pipeline',
+    onlineIrrigationPlan: 'pipeline',
+    online3DVisualisation: 'pipeline',
+    onlineRealisation: 'design',
   } : {}
   const landscapeArticleGalleryBlocks: ServiceContentBlock[] = galleryImages.flatMap((image) => {
     const group = landscapeGalleryImageGroups[image._key || '']
