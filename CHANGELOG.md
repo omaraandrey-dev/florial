@@ -1,3 +1,15 @@
+## 2026-11-17 — Озеленяване на терени: публикация и inline-галерея (PR #372)
+
+- PR #372 merged в `main`; runtime commit `12fea68f6c4df068ab628d9cb95982bc3d493f93`.
+- Cloudflare Pages Production deployment `f4c355cd-62b4-4b41-acb0-60674e350f93` для точного main commit завершился со статусом `success`.
+- PR CI: TypeScript, lint, тесты сайта, сборка сайта, Sanity Studio type-check/build и D1 migration validation — success. Cloudflare Preview для PR также успешно развернулся.
+- Sanity Production service `e86d4175-e74e-4200-a4bd-e56a56672e0e` (`ozelenyavane`) обновлена на месте. BG/RU/EN описания, SEO, ALT, relatedContent и lead form локализованы. Публичный URL и ID сохранены.
+- Галерея: четыре прежних дополнительных фото в intro; первые три новые фото — рулонный газон; четвёртая новая фотография — цветник. Все девять записей gallery (включая hero duplicate) имеют локализованные ALT BG/RU/EN; duplicate hero asset по-прежнему исключается из inline gallery.
+- Legacy top gallery и нижние дублирующие image-text блоки для этой услуги не отображаются. Фото вставляются в статью через группы `intro`, `lawn`, `flowerbeds`.
+- Backup до Sanity write: `docs/backups/sanity/2026-11-17-ozelenyavane-before-editorial-refresh.xml`.
+- Отдельного image title поля в текущей схеме нет; локализованные ALT заполнены. Schema deployment не требовался.
+- Production Browser Rendering BG/RU/EN завершён: корректные title/description, index/follow, canonical/hreflang, H1/H2; 14 изображений с ALT в каждой локали; три фото рулонного газона и четвёртое фото цветника стоят в соответствующих разделах; форма и relatedContent присутствуют. RU заголовок цветников скорректирован после первого DOM QA и перепроверен. Реальную заявку не отправляли. PageSpeed/Lighthouse и Google recrawl/indexing не выполнялись и не подтверждены.
+
 ## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
 
 - PR #365 merged into `main` as `c5aeca1da14f1984059ba9b8684e0b506548e04f`; its Cloudflare Pages Production deployment completed successfully. Production QA then exposed a shared pre-hero `hasIntroGallery` branch that replaced the hero with the intro group.
