@@ -100,6 +100,36 @@ export function fetchBlogPosts(limit?: number, language: BlogLanguage = 'bg'): P
   return promise
 }
 
+
+const BLOG_SLUG_LIST_CACHE_TTL_MS = 60_000
+const blogSlugListCache = new Map<string, {expiresAt: number; promise: Promise<BlogPostCard[]>; token: object}>()
+
+export function fetchBlogPostsBySlugs(slugs: string[], language: BlogLanguage = 'bg'): Promise<BlogPostCard[]> {
+  const orderedSlugs = Array.from(new Set(slugs.filter(Boolean)))
+  if (!orderedSlugs.length) return Promise.resolve([])
+  const cacheKey = `${language}:${orderedSlugs.join('|')}`
+  const cached = blogSlugListCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return cached.promise
+
+  const cacheToken = {}
+  const promise = sanityClient.fetch<BlogPostCard[]>(
+    `*[_type == "blogPost" && isPublished == true && defined(publishedAt) && slug.current in $slugs]${blogCardProjection(language)}`,
+    {slugs: orderedSlugs}
+  ).then((posts) => {
+    const bySlug = new Map((posts || []).map((post) => [blogSlug(post), post]))
+    return orderedSlugs.flatMap((slug) => {
+      const post = bySlug.get(slug)
+      return post ? [post] : []
+    })
+  }).catch((error) => {
+    if (blogSlugListCache.get(cacheKey)?.token === cacheToken) blogSlugListCache.delete(cacheKey)
+    throw error
+  })
+
+  blogSlugListCache.set(cacheKey, {expiresAt: Date.now() + BLOG_SLUG_LIST_CACHE_TTL_MS, promise, token: cacheToken})
+  return promise
+}
+
 const BLOG_DETAIL_CACHE_TTL_MS = 60_000
 const blogDetailCache = new Map<string, {expiresAt: number; promise: Promise<BlogPost | null>; token: object}>()
 

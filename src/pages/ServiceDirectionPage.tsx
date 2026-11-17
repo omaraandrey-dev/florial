@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ServiceItem, ServiceRolePhoto } from '../types'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
@@ -6,6 +6,8 @@ import { localizedHref } from '../lib/navigation'
 import { getOrderedServiceEntries } from '../lib/servicesOrder'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { toPlainText } from '../lib/richTextUtils.mjs'
+import { blogSlug, blogTranslation, fetchBlogPostsBySlugs } from '../lib/blog'
+import type { BlogLanguage, BlogPostCard } from '../lib/blog'
 
 type DirectionId = 'landscaping' | 'irrigation' | 'planting' | 'lawn'
 type LocaleCopy = {
@@ -356,6 +358,30 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
   const { language, localize } = useI18n()
   const direction = getServiceDirectionBySlug(directionSlug)
   const locale = (language === 'ru' || language === 'en' ? language : 'bg') as 'bg' | 'ru' | 'en'
+  const [landscapeArticles, setLandscapeArticles] = useState<BlogPostCard[]>([])
+  const [landscapeArticlesLoaded, setLandscapeArticlesLoaded] = useState(false)
+  const showLandscapePortfolio = directionSlug === 'landshaften-arhitekt'
+  useEffect(() => {
+    if (!showLandscapePortfolio) return
+    let active = true
+    setLandscapeArticlesLoaded(false)
+    fetchBlogPostsBySlugs([
+      'podroben-landshaften-proekt-gradina',
+      'landshaften-proekt-nesebar',
+      'etapi-landshaften-proekt-nesebar',
+      'landshaften-dizain-proekt-zasazhdenie',
+      'landshaften-proekt-zima-burgas',
+    ], locale as BlogLanguage).then((posts) => {
+      if (active) setLandscapeArticles(posts)
+    }).catch((error) => {
+      console.error('Landscape portfolio articles failed to load:', error)
+      if (active) setLandscapeArticles([])
+    }).finally(() => {
+      if (active) setLandscapeArticlesLoaded(true)
+    })
+    return () => { active = false }
+  }, [showLandscapePortfolio, locale, directionSlug])
+
   const storedCopy = directionDocument?.translations?.[locale]
   const copy: LocaleCopy | undefined = direction && storedCopy ? {
     title: storedCopy.title || direction.copy[locale].title,
@@ -531,6 +557,32 @@ export function ServiceDirectionPage({ directionSlug, services, rolePhotos, load
           </details>)}
         </div>
       </section>
+
+
+      {showLandscapePortfolio && landscapeArticlesLoaded && landscapeArticles.length > 0 && (
+        <section className="mx-auto my-12 max-w-6xl" aria-labelledby="landscape-portfolio-heading">
+          <h2 id="landscape-portfolio-heading" className="mb-6 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            {locale === 'ru' ? 'Примеры ландшафтного проектирования' : locale === 'en' ? 'Landscape design examples' : 'Примери за ландшафтно проектиране'}
+          </h2>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {landscapeArticles.map((post) => {
+              const translation = blogTranslation(post, locale as BlogLanguage)
+              const slug = blogSlug(post)
+              const imageUrl = post.cover?.asset?.url
+              return (
+                <a key={post._id} href={localizedHref('/blog/' + encodeURIComponent(slug), locale)} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white no-underline shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  {imageUrl && <img {...getSanityImageProps(imageUrl, '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', 720)} alt={translation.coverAlt || translation.title || ''} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />}
+                  <span className="flex flex-1 flex-col p-5">
+                    <span className="mb-3 text-lg font-bold leading-snug text-slate-900 group-hover:text-emerald-800">{translation.title}</span>
+                    {translation.shortDescription && <span className="flex-1 text-sm leading-6 text-slate-600">{translation.shortDescription}</span>}
+                    <span className="mt-4 font-semibold text-emerald-800">{locale === 'ru' ? 'Читать статью' : locale === 'en' ? 'Read article' : 'Прочетете статията'} →</span>
+                  </span>
+                </a>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       <div className="mx-auto mb-10 flex max-w-4xl flex-wrap justify-center gap-4 text-sm font-semibold">
         <a href={localizedHref('/services', locale)} className="text-emerald-800 underline underline-offset-4">{copy.allServices}</a>
