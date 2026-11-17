@@ -2,7 +2,7 @@
 
 - PR #376 merged в `main`; runtime commit `c5f4446e48d6f2d554684d198a583313e7e744b6`. PR #377 merged; final photo-group correction commit `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`.
 - Cloudflare Pages Production deployment `341ad1f8-6ce4-4c71-8271-8922415ee2ae` завершился со статусом `success` на точном main commit; aliases `https://florial-bg.com` и `https://www.florial-bg.com`.
-- Sanity Production service `ea332108-42e7-444f-9632-08111c6fda90`, slug `rulonna-treva`, опубликована на месте; опубликованная ревизия `iNPCLSoXm0d2UNhS8U8xz7`. ID, slug и URL сохранены.
+- Sanity Production service `ea332108-42e7-444f-9632-08111c6fda90`, slug `rulonna-treva`, опубликована на месте; опубликованная ревизия `CSxh3cFbcDVp859mkuVG40`. ID, slug и URL сохранены.
 - H1 через существующее поле `hero.title`: «Полагане на рулонен тревен чим»; отдельного поля H1 в текущей схеме нет. BG Portable Text, RU/EN самостоятельные Markdown-версии. Локализованы hero, short description, metaTitle/metaDescription/keywords; `noIndex=false` для всех языков.
 - Контекстные ссылки ведут на автоматично напояване, категорию «Всичко за поливане», дървета и декоративни храсти, цветя и рози и озеленяване на терени.
 - `relatedContent`: две опубликованные статьи о рулонном газоне и существующая услуга замены старого газона.
