@@ -1,0 +1,529 @@
+{
+  "backupType": "sanity-document-before-editorial-refresh",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+  "revision": "CSxh3cFbcDVp859mktrIZM",
+  "updatedAt": "2026-11-17T11:08:11Z",
+  "createdAt": "2026-10-28T18:51:44Z",
+  "document": {
+    "_createdAt": "2026-10-28T18:51:44Z",
+    "_id": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+    "_rev": "CSxh3cFbcDVp859mktrIZM",
+    "_system": {
+      "base": {
+        "id": "bbdb6864-f4b5-4969-ae31-62fc2043a25c",
+        "rev": "9Jlb6k9xfgGTkBekNDWvEm"
+      }
+    },
+    "_type": "service",
+    "_updatedAt": "2026-11-17T11:08:11Z",
+    "contentBlocks": [
+      {
+        "_key": "xfs-dripline",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_ref": "image-0193415997afe4641bbb0c6a35f4f9b33632781f-550x550-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Тръба за повърхностно и подповърхностно капково напояване XFS Dripline (Rain Bird)\nRain Bird XFS Dripline с технология Copper Shield™ е предназначена за подаване на вода към кореновата зона. Технологията Copper Shield™ помага да се предпазят капкообразувателите от проникване на корени. Гъвкавостта на тръбата улеснява проектирането и монтажа.\nВ изходния документ са посочени 33 см между капкообразувателите и приблизителен дебит 2 л/ч на капкообразувател. Тези параметри трябва да се сверят с точния модел преди публикуване.",
+        "translations": {
+          "en": {
+            "text": "Rain Bird XFS Dripline with Copper Shield™ technology is designed to deliver water to the root zone. Copper Shield™ helps protect emitters from root intrusion. The flexible tubing makes system design and installation easier. The source material lists 33 cm emitter spacing and an approximate flow rate of 2 l/h per emitter. Check the exact model datasheet before relying on these specifications.",
+            "title": "Rain Bird XFS Dripline for surface and subsurface irrigation"
+          },
+          "ru": {
+            "text": "Rain Bird XFS Dripline с технологией Copper Shield™ предназначена для подачи воды в корневую зону. Copper Shield™ помогает защищать капельницы от проникновения корней. Гибкая трубка упрощает проектирование системы и монтаж. В исходном материале указаны расстояние 33 см между капельницами и ориентировочный расход 2 л/ч на капельницу. Перед использованием этих характеристик необходимо свериться с паспортом конкретной модели.",
+            "title": "Трубка Rain Bird XFS Dripline для поверхностного и подземного полива"
+          }
+        }
+      },
+      {
+        "_key": "jet-spike",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_ref": "image-ee5ae6f7ad86c413aa941cc0d0e67a96cd144e1f-924x1536-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "right",
+        "text": "Микроразпръсквачи JET SPIKE (Rain Bird)\nМикроразпръсквачите на колче с регулируем дебит са подходящи за поливане на храсти, дървета и цветни лехи. В изходния документ са посочени колче 31 см, удължител 20 см (общо 51 см), тръбичка 4/6 мм с дължина 50 см, налягане 0,5–2,5 bar, дебит 0–130 л/ч и регулируем радиус до 4,2 м. Характеристиките трябва да се сверят с актуалния паспорт на точния модел.",
+        "translations": {
+          "en": {
+            "text": "Stake-mounted micro-sprinklers with adjustable flow are suitable for watering shrubs, trees and flower beds. The source material lists a 31 cm stake, a 20 cm extension (51 cm overall), 4/6 mm tubing 50 cm long, operating pressure of 0.5–2.5 bar, flow of 0–130 l/h and an adjustable radius of up to 4.2 m. Verify these figures against the current datasheet for the exact model.",
+            "title": "Rain Bird JET SPIKE micro-sprinklers"
+          },
+          "ru": {
+            "text": "Микродождеватели на колышке с регулируемым расходом подходят для полива кустарников, деревьев и цветников. В исходном материале указаны колышек 31 см, удлинитель 20 см (общая высота 51 см), трубка 4/6 мм длиной 50 см, рабочее давление 0,5–2,5 бар, расход 0–130 л/ч и регулируемый радиус до 4,2 м. Эти значения необходимо проверить по актуальному паспорту конкретной модели.",
+            "title": "Микродождеватели Rain Bird JET SPIKE"
+          }
+        }
+      },
+      {
+        "_key": "controllers",
+        "_type": "serviceContentBlock",
+        "image": {
+          "_type": "image",
+          "asset": {
+            "_ref": "image-73f23aa5d69a0935f7dda30fa66a00885e54e1e5-1000x1000-jpg",
+            "_type": "reference"
+          }
+        },
+        "imagePosition": "left",
+        "text": "Контролери за автоматично напояване (Rain Bird)\nКонтролерът управлява графика за поливане и позволява всяка зона да се програмира независимо чрез съответния електромагнитен клапан. Според модела се предлагат варианти за 4, 6 или 8 станции, с LCD дисплей и монтаж на закрито или на открито. Моделът се избира според броя зони и условията на обекта.",
+        "translations": {
+          "en": {
+            "text": "The controller manages the watering schedule and allows each zone to be programmed independently through its corresponding solenoid valve. Depending on the model, options are available for 4, 6 or 8 stations, with an LCD display and indoor or outdoor installation. Choose the model according to the number of zones and the conditions at the site.",
+            "title": "Rain Bird automatic irrigation controllers"
+          },
+          "ru": {
+            "text": "Контроллер управляет расписанием полива и позволяет независимо программировать каждую зону через соответствующий электромагнитный клапан. В зависимости от модели доступны варианты на 4, 6 или 8 станций с LCD-дисплеем и установкой внутри или снаружи помещения. Модель выбирают с учётом количества зон и условий на объекте.",
+            "title": "Контроллеры автоматического полива Rain Bird"
+          }
+        }
+      }
+    ],
+    "description": [
+      {
+        "_key": "intro-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s01",
+            "_type": "span",
+            "marks": [],
+            "text": "Капково напояване, съобразено с вашата градина"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "intro-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s02",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial проектира и изгражда автоматизирани системи за капково и микрокапково напояване в Несебър, Равда, Слънчев бряг и околните райони. Решенията са подходящи за дървета, храсти, живи плетове, розариуми, цветни лехи, миксбордери, алпинеуми и други озеленени пространства. Всяка система се проектира индивидуално според особеностите на терена, вида и разположението на растенията, наличния водоизточник и желания режим на поливане."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "intro-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s03",
+            "_type": "span",
+            "marks": [],
+            "text": "След монтажа системата подава необходимото количество вода по зададена програма, така че поливането да се извършва регулярно и без необходимост всеки път да се полива ръчно с маркуч. При проектирането обръщаме внимание както на правилното напояване на растенията, така и на практичното разполагане на тръбите в градината."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "what-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s04",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво представлява микрокапковото напояване?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "what-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s05",
+            "_type": "span",
+            "marks": [],
+            "text": "Микрокапковото напояване е алтернатива на традиционното поливане с маркуч. Вместо водата да се разлива по повърхността, тя се подава дозирано чрез капкообразуватели директно към кореновата зона на растенията. Системата включва специална тръба с разположени по нея капкообразуватели и работи по предварително зададена програма."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "xfs-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s06",
+            "_type": "span",
+            "marks": [],
+            "text": "Тръба за капково напояване Rain Bird XFS Dripline"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "xfs-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s07",
+            "_type": "span",
+            "marks": [],
+            "text": "В системите може да се използва специализираната тръба Rain Bird XFS Dripline за повърхностно и подповърхностно капково напояване. Технологията Copper Shield™ е разработена, за да предпазва капкообразувателите от проникване на корени, което подпомага дълготрайната работа на системата и намалява необходимостта от поддръжка при монтаж под тревни площи, почвопокривни растения или храсти. Гъвкавостта на тръбата улеснява планирането на трасето и монтажа."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "xfs-p2",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s08",
+            "_type": "span",
+            "marks": [],
+            "text": "В предоставения изходен материал са посочени капкообразуватели през 33 см и ориентировъчен дебит около 2 л/ч на капкообразувател. Конкретните параметри се определят според точния модел на тръбата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "benefits-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s09",
+            "_type": "span",
+            "marks": [],
+            "text": "Предимства на микрокапковото напояване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "benefit1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s10",
+            "_type": "span",
+            "marks": [],
+            "text": "• Прецизно подаване на водата — влагата достига директно до корените на растенията.\\n• По-рационално използване на водата — намалява се ненужното разливане и изпарение.\\n• Защита на листата и цветовете — водата не се разпръсква директно върху листната маса.\\n• Автоматизация и удобство — поливането се извършва по предварително зададен график.\\n• Широко приложение — системата е подходяща за живи плетове, розариуми, цветни лехи, миксбордери, рокарии, алпинеуми, оранжерии и други озеленени площи."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "adjust-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s11",
+            "_type": "span",
+            "marks": [],
+            "text": "Индивидуално регулиране според растенията"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "adjust-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s12",
+            "_type": "span",
+            "marks": [],
+            "text": "Различните растения се нуждаят от различно количество вода. Когато е необходимо по-прецизно дозиране, могат да се използват допълнителни капкообразуватели с различен дебит. В оригиналния материал са посочени варианти от 2 до 40 л/ч, които се монтират на избрани места по тръбата. Подборът се съобразява с нуждите на растенията и характеристиките на конкретната система."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "design-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s13",
+            "_type": "span",
+            "marks": [],
+            "text": "Дискретно интегриране в градината"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "design-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s14",
+            "_type": "span",
+            "marks": [],
+            "text": "За да се впише тръбата естествено в цветника или розариума, тя може да бъде покрита с кора или мулч. Друг вариант е върху трасето да се положи геотекстил срещу плевели, а отгоре да се използва декоративен материал, например мраморен чакъл. Когато растенията се разраснат, тръбата често остава скрита от листната маса."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "uses-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s15",
+            "_type": "span",
+            "marks": [],
+            "text": "Къде е подходяща системата?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "uses-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s16",
+            "_type": "span",
+            "marks": [],
+            "text": "Капковото и микрокапковото напояване може да се използва за иглолистни растения и туи, розариуми, живи плетове от чемшир, декоративни храсти, дървета и цветни лехи. Схемата на тръбите и разположението на капкообразувателите се планират според реалното разположение на насажденията."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "care-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s17",
+            "_type": "span",
+            "marks": [],
+            "text": "Поддръжка на системата"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "care-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s18",
+            "_type": "span",
+            "marks": [],
+            "text": "При правилно подбрани компоненти и коректен монтаж системата е проектирана за продължителна употреба и обикновено изисква ограничена текуща поддръжка. Състоянието на тръбите, филтрацията и настройките се проверяват според характеристиките на водоизточника и използваното оборудване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "auto-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s19",
+            "_type": "span",
+            "marks": [],
+            "text": "Автоматично управление и оборудване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "auto-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s20",
+            "_type": "span",
+            "marks": [],
+            "text": "Автоматичното управление позволява поливането да се извършва в подходящо време и по зададен график. При проектирането се подбират компоненти според нуждите на обекта; използваното оборудване може да включва решения от Rain Bird и Hunter. Контролерът и електромагнитните клапани се съобразяват с броя на поливните зони и необходимото управление."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "controller-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s21",
+            "_type": "span",
+            "marks": [],
+            "text": "Според модела контролерите Rain Bird поддържат независимо програмиране на зоните, показват настройките на дисплей и се предлагат за различен брой станции. В изходния материал са описани модели с 4, 6 или 8 станции и варианти за монтаж на закрито или открито; точният избор зависи от модела и условията на обекта."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "cta-head",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s22",
+            "_type": "span",
+            "marks": [],
+            "text": "Проектиране и монтаж от Florial"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "cta-p1",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "s23",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial предлага проектиране, монтаж и настройка на системи за автоматизирано капково напояване в Несебър, Равда, Слънчев бряг и околните райони. Ще съобразим решението с растителността, особеностите на терена и изискванията ви към поливането, за да интегрираме системата в градината по практичен и дискретен начин."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "gallery": [
+      {
+        "_key": "gallery1",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-8234c952dc7936bca7f5578a78ab935111cc1694-3453x2590-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "gallery2",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-8234c952dc7936bca7f5578a78ab935111cc1694-3453x2590-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "gallery3",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-ee5ae6f7ad86c413aa941cc0d0e67a96cd144e1f-924x1536-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "gallery4",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-4c0dc6493484f9a58703742145915ea16ae35910-4309x3232-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "gallery5",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-3ab1c2887955cf45699f5ae9c20532c9696daf53-4344x3258-jpg",
+          "_type": "reference"
+        }
+      },
+      {
+        "_key": "49e8b9ec3359",
+        "_type": "image",
+        "asset": {
+          "_ref": "image-3861a9f1810c0d4b6f6b22eae114b829f26042d1-1200x900-jpg",
+          "_type": "reference"
+        }
+      }
+    ],
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_ref": "image-f2982ecb1c3ff7c5c06f4ea366e4a06e8689dd25-1536x1133-jpg",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "name": "Капково напояване за градини",
+    "seo": {
+      "metaDescription": "Проектиране и монтаж на автоматизирани системи за капково и микрокапково напояване на градини в Несебър, Равда и Слънчев бряг.",
+      "metaTitle": "Капково напояване в Несебър, Равда и Слънчев бряг | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Проектиране и монтаж на автоматизирани системи за капково и микрокапково напояване на дървета, храсти, живи плетове и цветни лехи в Несебър, Равда и Слънчев бряг.",
+    "slug": {
+      "_type": "slug",
+      "current": "avtomatizirano-kapkovo-napoyavane"
+    },
+    "sortOrder": 60,
+    "translations": {
+      "en": {
+        "description": "Drip irrigation tailored to your garden\n\nFlorial designs and installs automatic drip and micro-irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas. Our solutions are suitable for trees, shrubs, hedges, rose gardens, flower beds, mixed borders, rock gardens and other landscaped spaces. Every system is designed around the terrain, the type and layout of the plants, the available water source and the preferred watering schedule.\n\nOnce installed, the system delivers the required amount of water according to a preset programme, so plants are watered regularly without having to use a hose by hand each time. During planning, we focus both on the plants’ watering needs and on routing the pipes practically through the garden.\n\nWhat is micro-irrigation?\n\nMicro-irrigation is an alternative to traditional hose watering. Instead of spreading water over the surface, emitters deliver measured amounts directly to the plants’ root zones. The system uses specialised tubing with built-in emitters and runs according to a preset programme.\n\nRain Bird XFS Dripline\n\nThe system can use Rain Bird XFS Dripline for surface or subsurface drip irrigation. Copper Shield™ technology is designed to help protect emitters from root intrusion, supporting long-term performance and reducing maintenance needs when the line is installed beneath lawns, ground-cover plants or shrubs. The flexible tubing makes route planning and installation easier.\n\nThe supplied source material lists emitters spaced 33 cm apart and an approximate flow rate of 2 l/h per emitter. Actual specifications depend on the exact tubing model.\n\nBenefits of micro-irrigation\n\nPrecise water delivery: moisture reaches the plants’ roots directly.\n\nMore efficient water use: unnecessary runoff and evaporation are reduced.\n\nProtection for leaves and flowers: water is not sprayed directly onto foliage.\n\nAutomation and convenience: watering follows a preset schedule.\n\nVersatile use: suitable for hedges, rose gardens, flower beds, mixed borders, rockeries, rock gardens, greenhouses and other landscaped areas.\n\nAdjusting water delivery to different plants\n\nDifferent plants need different amounts of water. Where more precise dosing is required, additional emitters with different flow rates can be used. The original material lists options from 2 to 40 l/h, installed at selected points along the tubing. The choice should reflect the plants’ needs and the characteristics of the specific system.\n\nDiscreet integration into the garden\n\nTo help the tubing blend into a flower bed or rose garden, it can be covered with bark or mulch. Another option is to lay weed-control geotextile over the route and add a decorative material such as marble gravel. As plants grow, their foliage often hides the tubing.\n\nWhere is the system suitable?\n\nDrip and micro-irrigation can be used for conifers and thuja, rose gardens, boxwood hedges, ornamental shrubs, trees and flower beds. Pipe routes and emitter positions are planned according to the actual planting layout.\n\nSystem maintenance\n\nWith suitable components and correct installation, the system is designed for long-term use and usually requires limited routine maintenance. Pipes, filtration and settings should be checked in line with the water source and the equipment used.\n\nAutomatic control and equipment\n\nAutomatic control allows watering to run at the right time according to a set schedule. Components are selected for the needs of each site and may include solutions from Rain Bird and Hunter. The controller and solenoid valves are matched to the number of irrigation zones and the required level of control.\n\nDepending on the model, Rain Bird controllers support independent zone programming, show settings on a display and are available with different station counts. The source material mentions models with 4, 6 or 8 stations and indoor or outdoor installation options; the exact choice depends on the model and site conditions.\n\nDesign and installation by Florial\n\nFlorial provides design, installation and setup of automatic drip irrigation systems in Nessebar, Ravda, Sunny Beach and nearby areas. We tailor the solution to the planting, terrain and watering requirements, integrating the system into the garden in a practical and discreet way.",
+        "name": "Drip Irrigation for Gardens",
+        "seo": {
+          "keywords": [
+            "automatic drip irrigation",
+            "micro-irrigation",
+            "Rain Bird XFS Dripline",
+            "garden irrigation",
+            "Nessebar",
+            "Ravda",
+            "Sunny Beach"
+          ],
+          "metaDescription": "Design and installation of automatic drip and micro-irrigation systems for gardens in Nessebar, Ravda and Sunny Beach.",
+          "metaTitle": "Drip Irrigation in Nessebar, Ravda & Sunny Beach | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Design and installation of automatic drip and micro-irrigation systems for trees, shrubs, hedges and flower beds in Nessebar, Ravda and Sunny Beach."
+      },
+      "ru": {
+        "description": "Капельный полив с учётом особенностей вашего сада\n\nFlorial проектирует и устанавливает автоматические системы капельного и микрокапельного полива в Несебре, Равде, Солнечном Береге и окрестностях. Такие решения подходят для деревьев, кустарников, живых изгородей, розариев, цветников, смешанных цветочных композиций, рокариев и других озеленённых пространств. Каждая система проектируется с учётом рельефа, видов и расположения растений, доступного источника воды и желаемого режима полива.\n\nПосле монтажа система подаёт необходимое количество воды по заданной программе, обеспечивая регулярный полив без необходимости каждый раз пользоваться шлангом вручную. При проектировании мы учитываем как потребности растений во влаге, так и удобное расположение труб в саду.\n\nЧто такое микрокапельный полив?\n\nМикрокапельный полив — альтернатива традиционному поливу из шланга. Вместо распределения воды по поверхности специальные капельницы дозированно подают её непосредственно в корневую зону растений. Система включает специальную трубку со встроенными капельницами и работает по заранее заданной программе.\n\nТрубка Rain Bird XFS Dripline\n\nВ системе может использоваться Rain Bird XFS Dripline для поверхностного и подземного капельного полива. Технология Copper Shield™ разработана для защиты капельниц от проникновения корней, что способствует длительной работе системы и уменьшает потребность в обслуживании при укладке под газоном, почвопокровными растениями или кустарниками. Гибкость трубки упрощает планирование трассы и монтаж.\n\nВ исходном материале указано расстояние 33 см между капельницами и ориентировочный расход около 2 л/ч на одну капельницу. Фактические характеристики зависят от конкретной модели трубки.\n\nПреимущества микрокапельного полива\n\nТочная подача воды: влага поступает непосредственно к корням растений.\n\nРациональное использование воды: сокращаются ненужный сток и испарение.\n\nЗащита листьев и цветов: вода не распыляется непосредственно на листву.\n\nАвтоматизация и удобство: полив выполняется по заданному расписанию.\n\nШирокое применение: система подходит для живых изгородей, розариев, цветников, смешанных посадок, рокариев, альпинариев, теплиц и других озеленённых участков.\n\nРегулировка подачи воды с учётом растений\n\nРазным растениям требуется разное количество воды. Для более точного дозирования можно использовать дополнительные капельницы с различным расходом. В исходном материале указаны варианты от 2 до 40 л/ч, устанавливаемые в выбранных местах трубки. Подбор зависит от потребностей растений и характеристик конкретной системы.\n\nНезаметная интеграция в сад\n\nЧтобы трубка естественно вписалась в цветник или розарий, её можно закрыть корой или мульчей. Другой вариант — уложить поверх трассы геотекстиль от сорняков и добавить декоративный материал, например мраморную крошку. По мере роста растений трубка часто скрывается под листвой.\n\nГде подходит такая система?\n\nКапельный и микрокапельный полив подходит для хвойных растений и туй, розариев, живых изгородей из самшита, декоративных кустарников, деревьев и цветников. Схема труб и расположение капельниц планируются по фактическому расположению посадок.\n\nОбслуживание системы\n\nПри правильном подборе компонентов и грамотном монтаже система рассчитана на длительную эксплуатацию и обычно требует ограниченного регулярного обслуживания. Состояние труб, фильтрации и настроек следует проверять с учётом источника воды и используемого оборудования.\n\nАвтоматическое управление и оборудование\n\nАвтоматика позволяет выполнять полив в подходящее время по заданному расписанию. Компоненты подбираются под особенности объекта; могут использоваться решения Rain Bird и Hunter. Контроллер и электромагнитные клапаны выбираются с учётом количества зон полива и требуемого управления.\n\nВ зависимости от модели контроллеры Rain Bird поддерживают независимое программирование зон, отображают настройки на дисплее и выпускаются с разным количеством станций. В исходном материале упоминаются модели на 4, 6 или 8 станций и варианты для установки внутри или снаружи помещения; точный выбор зависит от модели и условий объекта.\n\nПроектирование и монтаж от Florial\n\nFlorial выполняет проектирование, монтаж и настройку автоматических систем капельного полива в Несебре, Равде, Солнечном Береге и окрестностях. Мы подберём решение с учётом растений, особенностей участка и требований к поливу, чтобы система практично и незаметно вписалась в сад.",
+        "name": "Капельный полив для сада",
+        "seo": {
+          "keywords": [
+            "автоматический капельный полив",
+            "микрокапельный полив",
+            "Rain Bird XFS Dripline",
+            "полив сада",
+            "Несебр",
+            "Равда",
+            "Солнечный Берег"
+          ],
+          "metaDescription": "Проектирование и монтаж автоматического капельного и микрокапельного полива для садов в Несебре, Равде и Солнечном Береге.",
+          "metaTitle": "Капельный полив в Несебре, Равде и Солнечном Береге | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Проектирование и монтаж автоматических систем капельного и микрокапельного полива деревьев, кустарников, живых изгородей и цветников в Несебре, Равде и Солнечном Береге."
+      }
+    }
+  }
+}
