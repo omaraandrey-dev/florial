@@ -1,3 +1,10 @@
+## 2026-11-17 — Landscape architect page portfolio block
+
+- Added a localized portfolio/article card section immediately after the FAQ on `/services/category/landshaften-arhitekt`.
+- The section reads five explicitly selected, already-published Sanity blog posts in a stable order; the new detailed landscape project is first. Card titles, summaries, cover images and links use the active BG/RU/EN locale.
+- Added a short-lived in-memory cache for the exact-slug Sanity list query. No Sanity documents, schemas, service content, FAQ, navigation, Header, Footer or Production settings were changed.
+- Implementation and validation evidence will be recorded after branch checks and merge.
+
 ## 2026-11-17 — Landscape project article published in Sanity
 
 - Published a new standalone `blogPost` in Sanity Production: document ID `52238416-ea46-4ba0-aa25-31c8b46ed6b8`, slug `podroben-landshaften-proekt-gradina`.
