@@ -416,3 +416,16 @@ Frontend выводит связанные материалы после осн�
 - BG Portable Text links use a `link` mark definition with a valid relative `href`; RU/EN Markdown descriptions may use `[label](/category/<slug>)`. The service-page renderer must preserve these links and apply the current locale through `localizedHref`. This behavior is implemented in `src/pages/ServicePage.tsx` (commit `e3c794dd406410413d4ca6da29a719e8a713207a`).
 - Before adding inline links to a service, inspect both the Sanity data and the current renderer. Do not assume that generic Portable Text renderers and the service-specific renderer support the same annotations.
 - For localized Markdown links, prefer path-only hrefs; the renderer removes an existing `lang` query parameter and applies the active language consistently. This avoids duplicate or conflicting locale parameters.
+
+
+## Услуга «Капково напояване за градини» — inline gallery
+
+Для услуги `avtomatizirano-kapkovo-napoyavane` используется тот же механизм маркеров `__gallery:<group>`, что и для других обновлённых страниц услуг. Изображения не выводятся общей галереей сразу под Hero и не повторяются в legacy image-text секции внизу.
+
+- Gallery assets: `gallery1` и `49e8b9ec3359` → `design`; `gallery4` → `watering`; `gallery5` → `flowerbeds`. Дублирующие `gallery2` (тот же asset, что gallery1) и `gallery3` (тот же asset, что JET SPIKE contentBlock) не рендерятся повторно.
+- Existing contentBlocks: `xfs-dripline` → `pipeline`; `jet-spike` → `equipment`; `controllers` → `automation`. В этих блоках сохраняются исходные image assets и локализованные ALT; `title` используется как gallery marker.
+- Заголовки, которые связывают группы с местом вывода, должны совпадать после trim/lowercase в `sectionForHeading` во всех локалях:
+  - BG: «Какво представлява капковото и микрокапковото напояване?», «Как планираме системата за вашата градина?», «Капкова тръба Rain Bird XFS Dripline», «Микроразпръсквачи и точково напояване», «Автоматично управление на капковото напояване», «За кои растения е подходящо капковото напояване?».
+  - RU: «Что такое капельный и микрокапельный полив?», «Как мы планируем систему для конкретного сада?», «Капельная трубка Rain Bird XFS Dripline», «Микроразбрызгиватели и точечный полив», «Автоматическое управление капельным поливом», «Для каких растений подходит капельный полив?».
+  - EN: “What are drip and micro-irrigation systems?”, “How do we plan a system for your garden?”, “Rain Bird XFS Dripline”, “Micro-sprinklers and point-source watering”, “Automatic control for drip irrigation”, “Which plants can benefit from drip irrigation?”.
+- При изменении заголовков нужно синхронно обновлять соответствующие ключи в `sectionForHeading` и regression test `tests/drip-irrigation-service.test.mjs`.
