@@ -1,3 +1,13 @@
+## 2026-11-17 — Online landscape design service Production release (PR #368)
+
+- New Sanity Production service: ID `7b5ea19c-4001-4045-aad2-88e4a4685011`, slug `landshaften-proekt-online`, active, category `landscaping`, sortOrder 11, starting price €250.
+- Public route: `/services/landshaften-proekt-online`. Separate BG/RU/EN copy, hero/H1, SEO, CTA and lead form; `noIndex=false` in all locales.
+- Gallery: 8 reused assets, each with BG/RU/EN ALT. Frontend maps the new service's gallery keys into inline article groups; five portfolio images (master plan, planting plan, plant schedule, irrigation plan and 3D visualisation) appear after the central portfolio text/link.
+- Form fields: name, phone, email, country, location, area and details. Extra fields are stored by the existing service-leads flow in `fields_json`; Manager detail UI displays them. No API/D1/Manager/Resend implementation was changed.
+- Pricing confirmed by owner: 2 dka €250; 4 dka €450; 6 dka €600; 10 dka €750; additional dka €50; no site-visit fee for online format.
+- PR #368 merged as `73777db109e5524ca23e5b6ca85ab505ef9488ad`; exact-head CI: Blog/Studio `44037137577` success, D1 `44037137558` success. Production deployment for merge SHA `6ffc908a-bd92-4d35-9dbe-23b0f12e54a0` succeeded. Latest deployment after the final content/backup commit: `78ce3168-158d-4ed8-9af0-d6fa7234969c`, main SHA `f9661a80e28e71d976893844ec2e0691501507e3`, success.
+- Live BG/RU/EN HTTP 200 and localized metadata/gallery/form labels verified. No real lead submission, Resend/Manager end-to-end, visual screenshot review, mobile overflow test or PageSpeed/Lighthouse comparison was performed.
+- Audit and backups: `docs/audits/2026-11-17-online-landscape-design-service.md` and the two service-specific JSON snapshots under `docs/backups/sanity/`.
 ## 2026-11-17 — Landscape design inline gallery Production rollout (PR #365 and #366)
 
 - PR #365 merged into `main` as `c5aeca1da14f1984059ba9b8684e0b506548e04f`; its Cloudflare Pages Production deployment completed successfully. Production QA then exposed a shared pre-hero `hasIntroGallery` branch that replaced the hero with the intro group.
