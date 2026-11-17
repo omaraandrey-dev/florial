@@ -177,3 +177,22 @@ test('landscape architect route preconnects to the Sanity query and image origin
   assert.ok(middleware.includes('href="https://bxvcy0qs.apicdn.sanity.io" crossorigin'))
   assert.ok(middleware.includes('href="https://cdn.sanity.io" crossorigin'))
 })
+
+
+test('landscape architect direction uses one localized Sanity query for its direction, photo and category services', async () => {
+  const app = await read('../src/App.tsx')
+  const routeStart = app.indexOf("if (serviceDirectionSlug === 'landshaften-arhitekt')")
+  const routeEnd = app.indexOf('const serviceQuery =', routeStart)
+  assert.ok(routeStart >= 0 && routeEnd > routeStart)
+  const routeLoader = app.slice(routeStart, routeEnd)
+  assert.match(routeLoader, /sanityClient\.fetch\(landscapeDirectionQuery/)
+  assert.match(routeLoader, /directionSlug: serviceDirectionSlug/)
+  assert.match(routeLoader, /photoSlug: 'landshaften-arhitekt'/)
+  assert.match(routeLoader, /translations \{\s*\$\{language\}/)
+  assert.match(routeLoader, /serviceCategory == "landscaping"/)
+  assert.match(routeLoader, /"rolePhoto": \*\[_type == "photo"/)
+  assert.doesNotMatch(routeLoader, /Promise\.allSettled|serviceRolePhotosQuery|serviceDirectionQuery/)
+  assert.match(routeLoader, /setServices\(Array\.isArray\(directionData\?\.services\)/)
+  assert.match(routeLoader, /setServiceDirectionDocuments\(directionData \? \[directionData\] : \[\]\)/)
+  assert.match(routeLoader, /setServiceRolePhotos\(directionData\?\.rolePhoto \? \[directionData\.rolePhoto\] : \[\]\)/)
+})
