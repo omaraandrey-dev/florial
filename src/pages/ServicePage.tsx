@@ -575,6 +575,15 @@ export function ServicePage({ service }: ServicePageProps) {
     img4: 'trenches',
     projectIrrigationPlan: 'watering',
     projectVisualisations: 'automation',
+  } : service.slug?.current === 'landshaften-proekt-online' ? {
+    onlineGardenPhoto: 'design',
+    onlineGardenConcept: 'design',
+    onlineMasterPlan: 'pipeline',
+    onlinePlantingPlan: 'equipment',
+    onlinePlantSchedule: 'equipment',
+    onlineIrrigationPlan: 'watering',
+    online3DVisualisation: 'automation',
+    onlineRealisation: 'trenches',
   } : {}
   const landscapeArticleGalleryBlocks: ServiceContentBlock[] = galleryImages.flatMap((image) => {
     const group = landscapeGalleryImageGroups[image._key || '']
@@ -660,7 +669,7 @@ export function ServicePage({ service }: ServicePageProps) {
 
         {isAutomaticIrrigationService
           ? firstInformationImageBlock && renderImageGallery([firstInformationImageBlock], 'intro', language)
-          : service.slug?.current === 'landshaften-dizain'
+          : (service.slug?.current === 'landshaften-dizain' || service.slug?.current === 'landshaften-proekt-online')
             ? null
             : galleryImages.length > 0 && renderServiceGallery(galleryImages, language)}
 
