@@ -1125,7 +1125,21 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
   // Specialist landing pages are client-rendered routes with three path segments.
   // Let the Pages SPA fallback serve index.html; the two-segment Sanity resolver below must not 404 them.
-  if (/^\/services\/category\/[^/]+$/.test(path)) return context.next()
+  if (/^\/services\/category\/[^/]+$/.test(path)) {
+    const response = await context.next()
+    if (path !== '/services/category/landshaften-arhitekt') return response
+
+    return transformHtmlResponse(response, (html) => {
+      const resourceHints = [
+        '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+        '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+      ]
+      const missingHints = resourceHints.filter((hint) => !html.includes(hint))
+      return missingHints.length
+        ? html.replace(/<\/head>/i, missingHints.join('\n') + '\n</head>')
+        : html
+    }, response.headers.get('Cache-Control') || undefined)
+  }
 
   const parts = path.split('/').filter(Boolean)
   const route = parts[0]

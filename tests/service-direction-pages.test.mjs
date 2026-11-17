@@ -95,5 +95,8 @@ test('service direction Sanity GROQ projections are structurally balanced for ev
 
 test('service specialist landing routes reach the Pages SPA fallback instead of middleware 404', async () => {
   const middleware = await read('../functions/_middleware.ts')
-  assert.ok(middleware.includes("if (/^\\/services\\/category\\/[^/]+$/.test(path)) return context.next()"))
+  assert.ok(middleware.includes("if (/^\\/services\\/category\\/[^/]+$/.test(path)) {"))
+  assert.ok(middleware.includes('const response = await context.next()'))
+  assert.ok(middleware.includes("if (path !== '/services/category/landshaften-arhitekt') return response"))
+  assert.ok(middleware.includes('return transformHtmlResponse(response, (html) =>'))
 })
