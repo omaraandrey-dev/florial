@@ -122,15 +122,7 @@ interface AboutPageProps {
   categories: CategoryItem[]
 }
 
-const aboutServiceSlugs = {
-  design: 'landshaften-dizain',
-  planting: 'zasazhdane-na-rasteniya',
-  landscaping: 'ozelenyavane',
-  turf: 'rulonna-treva',
-  irrigation: 'avtomatichno-napoyavane',
-} as const
-
-export function AboutPage({ services, categories }: AboutPageProps) {
+export function AboutPage({ categories }: AboutPageProps) {
   const { language } = useI18n()
   const copy = content[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
 
@@ -157,28 +149,6 @@ export function AboutPage({ services, categories }: AboutPageProps) {
     : language === 'en'
       ? 'Nessebar, Ravda, Sunny Beach and Sveti Vlas'
       : 'Несебър, Равда, Слънчев бряг и Свети Влас'
-
-  const renderServiceImage = (slug: string, serviceName: string) => {
-    const service = services.find((item) => item.slug?.current === slug)
-    if (!service?.imageUrl) return null
-    const imageTitle = `${serviceName} — ${locations} | Florial`
-
-    return (
-      <a
-        href={localizedHref(`/services/${encodeURIComponent(slug)}`, language)}
-        aria-label={serviceName}
-        className="mt-5 block overflow-hidden rounded-2xl no-underline shadow-sm transition hover:shadow-md"
-      >
-        <img
-          {...getSanityImageProps(service.imageUrl, '(min-width: 768px) 50vw, 100vw')}
-          alt={imageTitle}
-          title={imageTitle}
-          loading="lazy"
-          className="h-52 w-full object-cover sm:h-64"
-        />
-      </a>
-    )
-  }
 
   const renderCatalogImage = (slug: string, title: string) => {
     const category = categories.find((item) => item.slug?.current === slug)
@@ -213,7 +183,6 @@ export function AboutPage({ services, categories }: AboutPageProps) {
   }, [language, copy.seoTitle, copy.seoDescription])
 
   const sectionClass = 'rounded-3xl border border-[#E2E7D9] bg-white p-6 shadow-sm md:p-9'
-  const itemClass = 'flex items-start gap-3 text-sm leading-6 text-slate-700 md:text-base'
 
   return (
     <main className="flex-grow bg-[#F8F9F3]">
