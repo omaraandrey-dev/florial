@@ -118,7 +118,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
   return <div className="space-y-5">
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h1 className="text-2xl font-semibold">Заявки за услуги</h1><p className="mt-1 text-sm text-stone-600">Клиентски запитвания за монтаж, поливане, озеленяване и поддръжка.</p></div>
-      <button type="button" onClick={() => void loadLeads()} disabled={loading} className="rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold disabled:opacity-50">{loading ? 'Обновяване…' : 'Обнови списъка'}</button>
+      <button type="button" onClick={() => void loadLeads()} disabled={loading} className="min-h-11 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 disabled:opacity-50">{loading ? 'Обновяване…' : 'Обнови списъка'}</button>
     </div>
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       <div className="rounded-2xl border border-stone-200 bg-white p-4"><div className="text-sm text-stone-500">В показания списък</div><div className="mt-1 text-2xl font-semibold tabular-nums">{leads.length}</div></div>
@@ -140,12 +140,12 @@ export default function ServiceLeadsManager({ canManage }: Props) {
     </div>
     {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
     {notice && <div role="status" className="rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.95fr)]">
-      <section className="space-y-3">
+    <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.95fr)]">
+      <section className="space-y-3 xl:max-h-[calc(100vh-12rem)] xl:overflow-y-auto xl:pr-1">
         <h2 className="font-semibold">Получени заявки</h2>
         {loading && <p className="text-sm text-stone-500">Зареждане…</p>}
         {!loading && leads.length === 0 && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-sm text-stone-500">Няма заявки, отговарящи на избраните филтри.</div>}
-        {leads.map((lead) => <button key={lead.id} type="button" onClick={() => setSelectedId(lead.id)} className={'w-full rounded-2xl border bg-white p-4 text-left shadow-sm transition ' + (selectedId === lead.id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200 hover:border-lime-600')}>
+        {leads.map((lead) => <button key={lead.id} type="button" onClick={() => setSelectedId(lead.id)} aria-pressed={selectedId === lead.id} className={'w-full rounded-2xl border bg-white p-4 text-left shadow-sm transition hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 ' + (selectedId === lead.id ? 'border-lime-700 ring-1 ring-lime-700' : 'border-stone-200 hover:border-lime-600')}>
           <div className="flex flex-wrap items-start justify-between gap-2"><span className="font-semibold">{lead.lead_number}</span><span className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-semibold">{statusLabel(lead.status)}</span></div>
           <div className="mt-2 font-semibold">{lead.customer_name}</div>
           <div className="mt-1 text-sm text-stone-600">{lead.service_name} · {lead.location}</div>
@@ -153,7 +153,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
           {lead.assigned_name && <div className="mt-2 text-xs text-lime-800">Отговорник: {lead.assigned_name}</div>}
         </button>)}
       </section>
-      <section className="min-w-0 space-y-4">
+      <section className="min-w-0 space-y-4 xl:sticky xl:top-4">
         <h2 className="font-semibold">Детайли за заявката</h2>
         {!selected && <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-8 text-center text-sm text-stone-500">Изберете заявка от списъка.</div>}
         {selected && <>
