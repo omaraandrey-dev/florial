@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { hasPermission, normalizeStaffPermissions } from '../functions/api/manager/_lib.ts'
+import { getPlantVariantPermissionChanges } from '../functions/api/manager/plant-direct-lib.ts'
 
 const identity = (role, permissionsObject = {}) => ({
   role,
@@ -73,4 +74,23 @@ test('seller catalog access is derived from the normalized D1 permission JSON', 
   for (const permission of sellerCatalogPermissions) {
     assert.equal(hasPermission(seller, permission), true, permission)
   }
+})
+
+test('manager direct editor distinguishes variant, price and stock changes', () => {
+  const before = [{ _key: 'variant-0001', priceEUR: 10, oldPriceEUR: null, stockStatus: 'inStock', stockQuantity: 2 }]
+  assert.deepEqual(getPlantVariantPermissionChanges(before, before), {
+    added: false, priceChanged: false, stockChanged: false,
+  })
+  assert.deepEqual(getPlantVariantPermissionChanges(before, [{ ...before[0], priceEUR: 12 }]), {
+    added: false, priceChanged: true, stockChanged: false,
+  })
+  assert.deepEqual(getPlantVariantPermissionChanges(before, [{ ...before[0], stockQuantity: 4 }]), {
+    added: false, priceChanged: false, stockChanged: true,
+  })
+  assert.deepEqual(getPlantVariantPermissionChanges(before, [
+    ...before,
+    { _key: 'variant-0002', priceEUR: 15, stockStatus: 'inStock', stockQuantity: 1 },
+  ]), {
+    added: true, priceChanged: true, stockChanged: true,
+  })
 })
