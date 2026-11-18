@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { hasPermission } from '../functions/api/manager/_lib.ts'
+import { hasPermission, normalizeStaffPermissions } from '../functions/api/manager/_lib.ts'
 
 const identity = (role, permissionsObject = {}) => ({
   role,
@@ -58,5 +58,19 @@ test('owner retains full catalog permissions', () => {
   const owner = identity('owner')
   for (const permission of sellerCatalogPermissions) {
     assert.equal(hasPermission(owner, permission), true, permission)
+  }
+})
+
+test('seller catalog access is derived from the normalized D1 permission JSON', () => {
+  const storedPermissions = normalizeStaffPermissions(JSON.stringify({
+    canCreatePlant: true,
+    canEditPlantCard: false,
+    canAddPlantVariant: false,
+    canEditPlantPrice: false,
+    canEditPlantStock: false,
+  }))
+  const seller = identity('seller', storedPermissions)
+  for (const permission of sellerCatalogPermissions) {
+    assert.equal(hasPermission(seller, permission), true, permission)
   }
 })
