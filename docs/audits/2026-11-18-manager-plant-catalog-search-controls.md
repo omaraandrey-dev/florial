@@ -22,5 +22,6 @@
 
 - Source diff checked against the exact base SHA: one file changed, 6 additions and 5 deletions.
 - The current API implementation already supports SKU matching for all roles; no server change was required.
-- GitHub Actions validation and Pages deployment status are pending PR creation and exact-head CI.
+- PR #383 is open. No workflow run or commit status was returned for the exact PR head at the time of this audit; CI is therefore **not verified**.
+- Pages deployment and browser visual QA are not confirmed; no Production deployment was initiated.
 - Visual browser QA is not claimed; Pages Preview availability is not assumed.
