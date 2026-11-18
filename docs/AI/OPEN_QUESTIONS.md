@@ -7,7 +7,7 @@
 ## 1. GitHub и управление релизом
 
 - **Защита main:** GitHub branch listing возвращает для `main` `protected=false`; repository rulesets endpoint вернул пустой список. Текущая интеграция не имеет доступа к чтению branch-protection details и не предоставляет изменение защиты. Владелец должен настроить protection/ruleset: запрет прямого push и force-push, обязательный PR, требование успешных checks `Blog and Studio validation` и `Florial D1 migration validation`, запрет удаления main. Не менять настройки без доступа владельца.
-- **Старые ветки:** в GitHub найдено 416 refs, включая `main` (415 других веток); открытых PR — 0. Эти refs не являются источником текущего состояния. Продолжать работу только от актуального `main`. Старые ветки сохранены как исторические ссылки; массовое удаление небезопасно без сравнения каждой ветки с main. Удаление веток недоступно через текущий GitHub connector; см. [BRANCH_HYGIENE.md](../operations/BRANCH_HYGIENE.md).
+- **Старые ветки:** в GitHub найдено 417 refs, включая `main` (416 других веток, включая эту cleanup-ветку); открытых PR — 0. Эти refs не являются источником текущего состояния. Продолжать работу только от актуального `main`. Старые ветки сохранены как исторические ссылки; массовое удаление небезопасно без сравнения каждой ветки с main. Удаление веток недоступно через текущий GitHub connector; см. [BRANCH_HYGIENE.md](../operations/BRANCH_HYGIENE.md).
 
 ## 2. Cloudflare Pages — legacy Supabase variables
 
