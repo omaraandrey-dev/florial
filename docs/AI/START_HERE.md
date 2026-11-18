@@ -38,7 +38,7 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase 
 - [Branch hygiene](../operations/BRANCH_HYGIENE.md) — правила использования main и старых веток.
 
 ## Профильные документы
-Manager: [FLORIAL_MANAGER_ARCHITECTURE](../FLORIAL_MANAGER_ARCHITECTURE.md); checkout: [CHECKOUT_SETUP](../../CHECKOUT_SETUP.md); content: [SERVICE_CONTENT_PLAYBOOK](../SERVICE_CONTENT_PLAYBOOK.md); performance: [ROADMAP_PERFORMANCE_OPTIMIZATION](../ROADMAP_PERFORMANCE_OPTIMIZATION.md); D1 migrations: [docs/migrations](../migrations/0013_manager_product_audit.sql).
+Manager: [FLORIAL_MANAGER_ARCHITECTURE](../FLORIAL_MANAGER_ARCHITECTURE.md); checkout: [CHECKOUT_SETUP](../../CHECKOUT_SETUP.md); content: [SERVICE_CONTENT_PLAYBOOK](../SERVICE_CONTENT_PLAYBOOK.md); performance: [ROADMAP_PERFORMANCE_OPTIMIZATION](../ROADMAP_PERFORMANCE_OPTIMIZATION.md); Google Shopping / SEO visibility: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md) — обязательный план для всех последующих чатов по этой задаче; D1 migrations: [docs/migrations](../migrations/0013_manager_product_audit.sql).
 
 При конфликте определить, относится ли факт к коду, бизнес-требованию или живому сервису. Для бизнес-требований использовать утверждённое решение владельца; для кода — main; для live состояния — соответствующий сервис. Расхождение записывать в OPEN_QUESTIONS.md.
 
