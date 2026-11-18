@@ -1,4 +1,5 @@
 import { useI18n } from '../lib/i18n'
+import './Footer.css'
 import { localizedHref } from '../lib/navigation'
 import { trackEvent } from '../services/trackingService'
 
@@ -174,13 +175,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-      <style>{`
-        @media (min-width: 768px) {
-          .footer-disclosure > summary { pointer-events: none; }
-          .footer-disclosure > summary > span { display: none; }
-          .footer-disclosure:not([open]) > .footer-disclosure-content { display: block; }
-        }
-      `}</style>
     </footer>
   )
 }
