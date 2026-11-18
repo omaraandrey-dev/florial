@@ -1,3 +1,15 @@
+## 2026-11-18 — Обзор оборудования Rain Bird: обновление статьи BG/RU/EN
+
+- По явному подтверждению владельца обновлён существующий Sanity Production документ `blogPost-rain-bird-oborudvane`; slug и URL `/blog/rain-bird-oborudvane` сохранены. Published revision: `4wsk3P4LWpbmPrrSds5FQJ`.
+- Полная резервная копия исходного документа создана до записи: `docs/backups/sanity/2026-11-18-rain-bird-before-editorial-refresh.xml`.
+- Все три локали переведены на единый Portable Text формат; BG/RU/EN body: 14,002 / 13,215 / 13,061 знаков против исходных 8,163 / 4,521 / 4,223. В каждой версии 81 блок, шесть inline-изображений, 20 контекстных ссылок, H2/H3, FAQ и связанные статьи.
+- Добавлены проверенные описания Rain Bird 1800 Spray, R-VAN, 3500 rotors, клапанов, ESP-TM2/LNK2 и XF/XFS dripline. Технические ориентиры сверены с документацией производителя Rain Bird.
+- Вставлены три опубликованных комплекта: ручной Super Economy (242.32 EUR), автоматический Economy (478.32 EUR), автоматический Standard (631.42 EUR), цены с ДДС; ссылки и состав сверены с Sanity.
+- Импортированы изображения из исходной DROP/Wix статьи; три статических фото (клапан, контролер, капкова линия) размещены inline, для Spray/R-VAN/3500 использованы существующие изображения каталога. Три исходных GIF (около 19.4 MB суммарно) не встроены из соображений производительности и оставлены без удаления.
+- Контекстные ссылки на категории полива и растений, три комплекта, активную услугу с формой заявки и три связанные статьи проверены. Сохранён тег `Автоматично напояване`; related query возвращает статьи о цене, монтаже и мъглуване.
+- Sanity validation: `valid`, но `complete=false` — beta validator не выполняет custom validation callbacks. Production Firecrawl BG/RU/EN: HTTP 200, локализованные title/description, `index, follow`, 10 изображений, 14 заголовков и 20 ссылок на каждой версии. Страница услуги с формой также отвечает HTTP 200; реальная заявка не отправлялась.
+- Код, схема Sanity, Cloudflare Pages, D1, Resend, Header/menu/Footer и настройки Production не изменялись; отдельный Pages deploy/build/CI не требовался. Детали и ограничения: `docs/audits/2026-11-18-rain-bird-article-refresh.md`.
+
 ## 2026-11-18 — Homepage code cleanup (follow-up to PR #385)
 
 - Removed the unused homepage `siteSettings` Sanity request/state/prop; the Header's independent `headerSiteSettings` request is unchanged.
