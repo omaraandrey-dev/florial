@@ -1,0 +1,43 @@
+# Manager plant catalog permissions and search UX — 2026-11-18
+
+## Scope
+
+This increment extends PR #383. It combines the catalog search/filter UX with an explicit, simplified Seller permission rule.
+
+## Owner decision
+
+A Seller who has `canCreatePlant=true` receives the complete direct plant-catalog write capability:
+- create a plant;
+- edit an existing plant card;
+- add plant variants;
+- change prices;
+- change stock status and quantity.
+
+For Seller, `canCreatePlant` is the single switch. The legacy granular plant-catalog flags do not grant partial catalog-write access when `canCreatePlant=false`. No permission is implied for orders, staff management, submission review/approval, publication administration, category SEO or service leads.
+
+Manager permissions remain separate: direct creation requires `canCreatePlant`; direct card editing requires `canEditPlantCard`; the dedicated add-variant endpoint requires `canAddPlantVariant`. Owner retains the existing bypass.
+
+## Implementation
+
+- `functions/api/manager/_lib.ts`: central `hasPermission` helper derives the four Seller catalog permissions from `canCreatePlant`.
+- `functions/api/manager/plants.ts`: POST create now checks `canCreatePlant`; GET remains authenticated read access.
+- `functions/api/manager/plants/[id].ts`: PATCH now checks `canEditPlantCard`; Seller with `canCreatePlant` satisfies it through the shared permission helper.
+- `functions/api/manager/plants/[id]/add-variant.ts`: add-variant now checks `canAddPlantVariant`.
+- `functions/api/manager/upload-image.ts`: upload requires catalog create or edit permission.
+- `src/manager/PlantCatalogManager.tsx`: receives the staff permission profile; create controls appear only with create permission; existing cards open for editing only with the applicable edit permission. Users without write access retain read-only catalog browsing.
+- `src/manager/ManagerApp.tsx`: Seller permission UI presents one catalog-access switch and removes separate Seller variant/price/stock actions; the catalog editor is the direct workspace for those operations.
+- `tests/manager-plant-catalog-permissions.test.mjs`: covers Seller implication, Seller denial without the switch, independent Manager flags and Owner bypass.
+
+The existing all-role botanical AI availability is unchanged; AI output does not bypass the protected create/update endpoints.
+
+## Safety boundaries
+
+- No D1 schema or profile records changed.
+- No Sanity documents/assets were written by this work.
+- No Cloudflare Production settings/secrets, Resend, public storefront, Header, menu or Footer changed.
+- No Production deployment or live authenticated role test is claimed.
+- The existing Manager permission model and non-catalog permissions were not intentionally expanded.
+
+## Validation status
+
+Implementation is on the open PR #383 branch. Exact-head GitHub Actions, typecheck/build, and browser role-matrix QA are pending. Do not merge or claim Production availability until CI and the required review are complete.
