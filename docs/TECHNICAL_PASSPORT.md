@@ -1,6 +1,6 @@
 ## 2026-11-18 — Winter landscape design blog article
 
-- Sanity Production document `blogPost-landshaften-proekt-zima-burgas` was refreshed after explicit owner approval. Slug `landshaften-proekt-zima-burgas`, URL, BG title, cover asset and publication date preserved. Final published revision: `LtPyN36JxI5SIUpVnhLU9S`.
+- Sanity Production document `blogPost-landshaften-proekt-zima-burgas` was refreshed after explicit owner approval. Slug `landshaften-proekt-zima-burgas`, URL, BG title, cover asset and publication date preserved. Final published revision: `QNgifPbO9FtDWOAbTv7vHo`.
 - Pre-write snapshot: `docs/backups/sanity/2026-11-18-landshaften-proekt-zima-burgas-before-editorial-refresh.json` (backup commit `23b7c8cf02fc18138fa3927dfefc3a78b8168f7c`).
 - BG/RU/EN now contain 69 Portable Text blocks each (11,739 / 10,914 / 11,142 characters). Content focuses on winter planning, site analysis, zoning, plant selection, irrigation coordination, lawn/paving and the landscape-project enquiry.
 - Eight inline images per locale: existing Florial project assets reused; four plant-category images copied from the plants dataset into production; two further DROP project images uploaded to production. Localized ALT and captions are populated for BG/RU/EN. Cover remains unchanged.
