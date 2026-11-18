@@ -16,9 +16,9 @@ The owner approved moving the four process photographs from the top gallery into
 
 - Full published-document snapshot saved before the write: `docs/backups/sanity/2026-11-16-automatic-irrigation-service-before-article-layout-update.json`.
 - Snapshot was read back from Sanity Production at published revision `kG84M8L0NjpttWhMhqGtNr` and verified in this branch before the write.
-- A revision-guarded patch created draft `drafts.04c7ab3b-1888-41cb-9917-6b9014cd1ac3` from that exact published revision.
-- Draft validation reported `valid`, `complete=false`; custom validation callbacks were not executed. This is not a complete validation.
-- Draft read-back confirmed the new localized headings and the removal of the three duplicate `contentBlocks`. Publishing is pending integration of the matching frontend renderer change.
+- A revision-guarded patch created draft `drafts.04c7ab3b-1888-41cb-9917-6b9014cd1ac3` from that exact published revision. After the frontend merge and successful Production deployment, the draft was published using revision guard `0K3ioEX3JkmkckZpKaIUAQ`.
+- Published read-back confirmed revision `0K3ioEX3JkmkckZpKaJ4Du` (`2026-11-16T16:54:58Z`), all five gallery assets and localized ALT values, new BG/RU/EN H3 headings, the three localized internal category links, and removal of the duplicate `contentBlocks`.
+- Published-document validation reported `valid`, `complete=false`; custom validation callbacks were not executed. This is not a complete validation.
 - No gallery asset was deleted or replaced. All five gallery asset references and the hero image reference are preserved.
 
 ## Photo placement
@@ -63,9 +63,10 @@ Document ID, slug, active status, service category/layout, hero image, all five 
 
 ## Verification status
 
-- **Verified in live Sanity:** published source revision and all five gallery asset references; target categories and active product counts.
-- **Verified in GitHub:** branch created from the exact main SHA above; backup file committed; frontend change committed.
-- **Verified in draft:** revision-guarded patch succeeded; read-back found the new headings and no duplicate contentBlocks.
+- **Verified in GitHub:** PR #351 merged as `74aa6a7dd896be9e5ad0ce2df18dbe449675ec05`; backup and audit are in `main`.
+- **Exact-head CI:** Blog/Studio validation run `43911790453` succeeded, including application and Pages Functions type-check, lint, website tests, Vite build, Studio type-check and Studio build. D1 validation run `43911790474` succeeded.
+- **Cloudflare Production:** deployment `289a567b-a03a-42e8-821c-82cf1ff34937` completed successfully for the exact merge commit; Preview deployment `18b1a4e2-38ac-4fb1-b78e-5fd048e8d876` also succeeded.
+- **Preview browser QA before Sanity publication:** BG/RU/EN returned HTTP 200; hero and first informational image loaded; 1 H1, 13 H2, 8 H3; no 390px horizontal overflow and no captured console/runtime errors. This pass used the old published Sanity content, so it did not verify the four new image placements or the new inline links.
+- **Production browser QA after publication:** run `1584fe3e-0f3f-44a3-9bf0-275e22e65b1e` was started but did not return a terminal report during this operation. Final visual confirmation of the four image positions and internal links remains inconclusive; do not claim that browser QA passed.
 - **Schema validation:** `valid`, but incomplete because custom callbacks did not run.
-- **Shared logs deferred:** `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally unchanged in this branch because multiple existing open PRs edit those shared files. Integrate the release record in one later documentation pass after that PR batch is reconciled.
-- **Not yet confirmed:** exact-head CI/build, PR Preview browser QA, publication of the Sanity draft, Production deployment and post-deployment BG/RU/EN visual/mobile QA.
+- **Shared logs deferred:** `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` remain unchanged in this release follow-up because multiple existing open PRs edit those shared files. Consolidate after that PR batch is reconciled.
