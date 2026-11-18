@@ -250,16 +250,7 @@ export function CategoryPage({
       : language === 'en'
         ? variant.nameEn || variant.name
         : variant.name
-    const details = [
-      translatedName?.trim(),
-      typeof variant.saleHeightCm === 'number' && variant.saleHeightCm > 0
-        ? (language === 'ru' ? 'Высота ' : language === 'en' ? 'Height ' : 'Височина ') + variant.saleHeightCm + ' см'
-        : '',
-      typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0
-        ? (language === 'ru' ? 'контейнер ' : language === 'en' ? 'container ' : 'контейнер ') + variant.containerVolumeL + ' L'
-        : '',
-    ].filter(Boolean)
-    return details.join(' · ') || (language === 'ru' ? 'Вариант ' : language === 'en' ? 'Option ' : 'Вариант ') + (index + 1)
+    return translatedName?.trim() || (language === 'ru' ? 'Вариант ' : language === 'en' ? 'Option ' : 'Вариант ') + (index + 1)
   }, [language])
 
   const plantFilterLabel = (kind: string, value: string) => {
@@ -508,6 +499,41 @@ export function CategoryPage({
         )}
       </div>
 
+      {category.isPlantCategory && (
+        <section
+          className="mb-7 rounded-2xl border border-[#E5E8DC] bg-[#F8F9F4] px-3 py-3 sm:px-4"
+          aria-label={language === 'ru' ? 'Преимущества Florial' : language === 'en' ? 'Why choose Florial' : 'Предимства на Florial'}
+        >
+          <div className="grid grid-cols-2 gap-x-3 gap-y-3 sm:grid-cols-4 sm:gap-4">
+            {[
+              {
+                icon: '✿',
+                label: language === 'ru' ? 'Садовый центр Florial' : language === 'en' ? 'Florial Garden Centre' : 'Градински център Florial',
+              },
+              {
+                icon: '✓',
+                label: language === 'ru' ? 'Помощь с выбором' : language === 'en' ? 'Help choosing plants' : 'Помощ при избора',
+              },
+              {
+                icon: '↗',
+                label: language === 'ru' ? 'Доставка растений' : language === 'en' ? 'Plant delivery' : 'Доставка на растения',
+              },
+              {
+                icon: '♧',
+                label: language === 'ru' ? 'Профессиональная посадка' : language === 'en' ? 'Professional planting' : 'Професионално засаждане',
+              },
+            ].map((item) => (
+              <div key={item.label} className="flex min-w-0 items-center gap-2">
+                <span aria-hidden="true" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-base font-semibold text-[#71864F] shadow-sm">
+                  {item.icon}
+                </span>
+                <span className="text-xs font-semibold leading-snug text-slate-700 sm:text-sm">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Категории каталога сгруппированы; ссылки открывают отдельные SEO-страницы. */}
       {(isIrrigationCatalog ? catalogGroups : subCategories).length > 0 ? (
         <section
@@ -642,6 +668,8 @@ export function CategoryPage({
               ? `${minimumWinterTemperature < 0 ? '−' : minimumWinterTemperature > 0 ? '+' : ''}${Math.abs(minimumWinterTemperature)} °C`
               : ''
             const cardImageUrl = category.isPlantCategory ? getPlantCatalogCardImageUrl(product, variant) : product.imageUrl
+            const shortDescription = toPlainText(localize(product, 'shortDescription') || product.shortDescription || '')
+              || (category.isPlantCategory ? '' : t('Висококачествен продукт за поливни системи.'))
             return (
             <a
               key={item.key}
@@ -688,9 +716,11 @@ export function CategoryPage({
                 <h3 className="mt-1 mb-1.5 line-clamp-2 break-words text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-emerald-700 sm:text-base">
                   {displayName}
                 </h3>
-                <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
-                  {toPlainText(localize(product, 'shortDescription') || product.shortDescription || '') || t('Висококачествен продукт за поливни системи.')}
-                </p>
+                {shortDescription && (
+                  <p className="mb-2 line-clamp-2 text-[11px] text-slate-500 sm:mb-3 sm:text-xs">
+                    {shortDescription}
+                  </p>
+                )}
               </div>
 
               <div className="border-t border-slate-100 pt-2">
@@ -703,6 +733,20 @@ export function CategoryPage({
                         {cardPrice.oldValue !== undefined && <span className="text-[10px] text-slate-400 line-through sm:text-xs">{cardPrice.oldValue.toFixed(2)} €</span>}
                         <span className="text-sm font-bold text-emerald-800 sm:text-lg">{cardPrice.label}</span>
                       </div>
+                      {variant && (typeof variant.saleHeightCm === 'number' && variant.saleHeightCm > 0 || typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0) && (
+                        <div className="mt-2 flex flex-wrap gap-1.5" aria-label={language === 'ru' ? 'Размер растения' : language === 'en' ? 'Plant size' : 'Размер на растението'}>
+                          {typeof variant.saleHeightCm === 'number' && variant.saleHeightCm > 0 && (
+                            <span className="rounded-md bg-[#F3F5EC] px-2 py-1 text-[10px] font-medium text-slate-700 sm:text-xs">
+                              {language === 'ru' ? 'Высота ' : language === 'en' ? 'Height ' : 'Височина '}{variant.saleHeightCm} см
+                            </span>
+                          )}
+                          {typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0 && (
+                            <span className="rounded-md bg-[#F3F5EC] px-2 py-1 text-[10px] font-medium text-slate-700 sm:text-xs">
+                              {language === 'ru' ? 'Контейнер ' : language === 'en' ? 'Pot ' : 'Контейнер '}{variant.containerVolumeL} {language === 'en' ? 'L' : 'л'}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{variant ? (language === 'ru' ? 'Посмотреть размер: ' : language === 'en' ? 'View size: ' : 'Виж размер: ') + variantLabel : t('Виж детайли')}</span>
                       <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:text-[10px]" title={String(categoryName)}>{categoryName}</p>
                     </>
