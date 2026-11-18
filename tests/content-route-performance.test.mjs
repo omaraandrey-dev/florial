@@ -42,7 +42,8 @@ test('blog index and homepage request only the active locale card fields', async
   assert.match(blog, /function blogCardProjection\(language: BlogLanguage\)/)
   assert.match(blog, /coalesce\(translations\.\$\{language\}\.title, translations\.bg\.title\)/)
   assert.match(index, /fetchBlogPosts\(undefined, language\)/)
-  assert.match(home, /fetchBlogPosts\(3, language\)/)
+  assert.match(home, /fetchBlogPosts\(10, language\)/)
+  assert.match(home, /fetchBlogPostsBySlugs\(pinnedSlugs, language\)/)
 })
 
 test('header recent blog cards follow the active locale', async () => {
