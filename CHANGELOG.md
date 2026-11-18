@@ -1,3 +1,13 @@
+## 2026-11-18 — Post-PR #407 Production Product Schema audit
+
+- Verified current GitHub main HEAD 02a19a0978591f61b08ed28fa3b34479e99d1e01 (PR #408 documentation-only merge); Production runtime source remains PR #407 commit 458dd9d8e8edb78973a4660f3796f43d4d1c22d2, Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09.
+- Live Cloudflare Browser Rendering fetched initial Production HTML for Rain Bird 100-PGA-9V and Citrus japonica/Kumquat. Both returned HTTP 200; Product, BreadcrumbList and Organization JSON-LD nodes were present and JSON-parsed. Homepage HTML contains Organization plus two GardenStore location nodes (Nessebar/Ravda).
+- Confirmed hydrated client Product JSON-LD omits the known equipment brand even though server initial HTML includes it and route data supplies product.brand. Recommended follow-up: add brand to client Product node and regression test. No runtime code was changed.
+- Search Console URL Inspection returns PASS for both product pages, but Google's stored last crawls are 5 Nov and 9 Nov, before the 18 Nov deployment. Do not treat those results/warnings as validation of the new release. Sitemap: 1,327 URLs, zero errors/warnings, last downloaded 16 Nov.
+- Sanity read-only counts: irrigation 275 active products, 267 brand refs, 263 root SKUs, 0 EAN values; plants 50 active products / 70 sale variants, 0 variant SKUs. ProductGroup and GTIN enhancements remain data-dependent.
+- Full post-deployment Schema.org Validator and Google Rich Results Test remain pending (Cloudflare Browser Rendering HTTP 429; Google interactive tool requires authenticated owner browser). Manual JSON-LD parsing succeeded but is not a full validator result. No Sanity, Cloudflare settings/secrets, D1, Resend, Google settings or Production data changed.
+- Detailed findings and next steps: docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md and docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md.
+
 ## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
 
 - PR #407 (Product Offer JSON-LD remediation, Google Shopping roadmap and stage-1 audit) merged into `main`; merge commit / exact `main` HEAD at verification: `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`.

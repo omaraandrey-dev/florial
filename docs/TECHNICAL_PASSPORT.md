@@ -1,3 +1,12 @@
+## 2026-11-18 — Post-PR #407 Production Product Schema audit
+
+- Current GitHub main HEAD at audit: 02a19a0978591f61b08ed28fa3b34479e99d1e01 (PR #408 documentation-only merge). Production runtime remains PR #407 merge 458dd9d8e8edb78973a4660f3796f43d4d1c22d2, Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09.
+- Live initial HTML for Rain Bird 100-PGA-9V and Citrus japonica/Kumquat returned HTTP 200 with Product, BreadcrumbList and Organization JSON-LD. Homepage initial HTML contains Organization and two GardenStore location nodes (Nessebar/Ravda). Manual JSON parsing succeeded.
+- Hydrated client Product JSON-LD for Rain Bird drops brand although server initial HTML includes it and route data supplies product.brand. This is a confirmed server/client Product-node parity defect; the shared builder currently covers Offer only. Add brand serialization and a regression test in the next approved code PR. No runtime change was made in this audit.
+- GSC URL Inspection PASS results for Rain Bird and Kumquat are based on last crawls 2026-11-05 and 2026-11-09, before PR #407 deployment. Sitemap: 1,327 URLs, 0 errors/warnings, last downloaded 2026-11-16.
+- Sanity read-only counts: irrigation dataset has 275 active products, 267 with brand, 263 with internal SKU, 0 with EAN; plants dataset has 50 active products, 70 variants, 0 variant SKUs. ProductGroup/GTIN remain deferred until genuine identifiers and crawlable variant URLs exist.
+- Post-deployment Schema.org Validator and authenticated Google Rich Results Test remain unconfirmed. Cloudflare Browser Rendering rate-limited the validator (HTTP 429); the Google test needs the owner's authenticated browser. Manual JSON-LD parsing is not a validator result. See the active audit and roadmap.
+
 ## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
 
 - PR #407 (Product Offer JSON-LD remediation, Google Shopping roadmap and stage-1 audit) merged into `main`; merge commit / exact `main` HEAD at verification: `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`.

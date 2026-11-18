@@ -48,9 +48,9 @@
 - [x] 1.2 Проверить генерацию Product JSON-LD в серверном middleware, клиентском ProductPage, общем helper и тестах.
 - [x] 1.3 Проверить подключение Google Search Console и получить актуальные агрегированные показатели.
 - [x] 1.4 Проверить доступность Google Merchant Center connector через Windsor.ai и уточнить статус аккаунта у владельца.
-- [x] 1.5 Проверить по исходникам, как формируется initial HTML/SSR Product JSON-LD и как клиентская разметка синхронизируется с ним. Получение отдельной копии сырого HTML не является обязательным предварительным условием для анализа и исправления генератора; runtime HTML остаётся отдельным live QA доказательством.
+- [x] 1.5 Проверить SSR и client Product JSON-LD; live Production initial HTML Rain Bird/Kumquat получен 18.11.2026. JS-enabled Rain Bird render подтверждает одну Product node, но выявляет потерю brand после hydration; см. post-deploy audit.
 - [ ] 1.6 После исправления Product Schema и доступного Preview/Production deployment выполнить Google Rich Results Test / Schema Markup Validator для репрезентативных страниц.
-- [ ] 1.7 Сверить актуальный sitemap report и выполнить доступные URL Inspection проверки в Google Search Console.
+- [x] 1.7 Сверить актуальный sitemap report и выполнить доступные URL Inspection проверки в Google Search Console (18.11.2026; сохранённые Google crawl dates для двух Product URL предшествуют PR #407 deployment).
 - [ ] 1.8 Завершить audit report, зафиксировать результаты валидаторов, ограничения и подтверждённые решения.
 
 **Критерий завершения:** есть кодовый аудит, единый контракт Product Schema, тесты и CI, проверка Google Rich Results после публикации доступной версии, актуальные Search Console показатели, статус Merchant Center (аккаунт не создан — подтверждено владельцем), список подтверждённых дефектов и ограничений. Сырой HTML не считается обязательным входным артефактом для кодового аудита, но фактический runtime/Google fetch не объявляется проверенным без соответствующего live результата.
@@ -61,7 +61,7 @@
 
 Владелец поручил сначала повторно оценить и при необходимости исправить Product Schema, а Rich Results Test запускать после исправлений. Это осознанное изменение последовательности относительно первоначального плана.
 
-Подтверждённые решения и реализация в рабочей ветке:
+Подтверждённые решения и реализация в Production после PR #407:
 - Общая логика Offer вынесена в `src/lib/productJsonLd.mjs`; Cloudflare middleware и клиентский ProductPage используют один и тот же builder.
 - Для обычного оборудования сохраняется один `Offer` по корневой цене.
 - Для растения описывается только первый вариант — тот, который показывается как начальный вариант в initial HTML. Если у него нет корректной положительной цены, Offer не создаётся; цена другого варианта не подставляется вместо него.
@@ -69,12 +69,12 @@
 - `AggregateOffer` не используется для набора вариантов одного товара: Google прямо не рекомендует такую модель для product variants. Merchant listings требуют `Offer`; корректная расширенная модель вариантов — `ProductGroup` с отдельными вариантами.
 - `ProductGroup` пока не реализуется: read-only проверка опубликованного Sanity dataset `plants` показала 50 документов растений с `saleVariants` и 0 документов с непустым SKU хотя бы у одного варианта. В просмотренных данных SKU варианта пустой; кроме того, текущий маршрут не предоставляет отдельный crawlable URL для каждого варианта. Уникальные SKU/GTIN и отдельные URL нельзя выдумывать.
 - Добавлены тесты для цены начального варианта, отсутствия ложного fallback на другой вариант, availability и запрета `PreOrder` для `onRequest`.
-- CI и Cloudflare Preview для текущего PR head запущены; результат ожидается и не считается успешным до фактического завершения.
+- PR #407 merged and deployed: Blog/Studio validation run 44358163151 and D1 validation run 44358126198 succeeded on PR head f30af1e; follow-up Blog/Studio run 44358126185 succeeded. Production Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09 succeeded for merge commit 458dd9d. No CI run was returned for the merge commit itself.
 
 Следующие задачи:
-- Завершить GitHub CI и Cloudflare Preview для точного head SHA.
-- Проверить diff и при необходимости скорректировать реализацию по результатам CI.
-- После доступной публикации выполнить Google Rich Results Test / Schema Markup Validator для оборудования и растений.
+- Исправить подтверждённое расхождение Product node: hydrated ProductPage JSON-LD теряет brand, хотя SSR initial HTML и route-data query содержат бренд. Добавить regression test.
+- После утверждения кода проверить точный diff, тесты и exact-SHA CI; затем выполнить Production deploy по согласованному release workflow.
+- После новой публикации выполнить Google Rich Results Test / Schema Markup Validator для оборудования и растений.
 - Проверить предупреждения/ошибки Google и отдельно зафиксировать будущую готовность ProductGroup.
 
 Критерий завершения: серверная и клиентская разметка используют общий Offer builder; цены и наличие соответствуют начальному предложению страницы; тесты и CI проходят; Google валидатор проверяет доступную опубликованную версию; отсутствующие GTIN/SKU/условия доставки и возврата не выдумываются.
@@ -234,3 +234,31 @@
 - Stages 1 and 2 of the roadmap remain open pending authenticated Google Rich Results evidence and the remaining Search Console URL Inspection checks. Merchant Center account was confirmed by the owner as not yet registered; Merchant Center setup remains a later roadmap stage.
 - No Sanity schema/documents, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed. The only Production change was the automatic Pages deployment from the explicitly approved PR merge.
 
+
+### 2026-11-18 — Post-PR #407 Production audit update
+
+**Latest repository/runtime baseline:** current GitHub main is 02a19a0978591f61b08ed28fa3b34479e99d1e01 (PR #408 documentation-only merge). Production runtime remains PR #407 merge 458dd9d8e8edb78973a4660f3796f43d4d1c22d2, deployed successfully as Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09 at 18:08:28Z. No open PRs were returned before this documentation update.
+
+Stage 1 substage 1.7 is now complete for the available read-only evidence: the current sitemap report lists 1,327 web URLs, 0 errors, 0 warnings, and last download 2026-11-16; URL Inspection was run for the two representative product URLs and additional homepage/category/Yucca URLs. The two product inspections are PASS and canonical-correct, but Google's last crawl dates (Rain Bird 2026-11-05; Kumquat 2026-11-09) are pre-deployment. This does not verify the PR #407 version in Google's stored index.
+
+Production HTML was fetched live with Cloudflare Browser Rendering:
+- Rain Bird and Kumquat initial HTML both return HTTP 200 and contain one Product, one BreadcrumbList and one Organization JSON-LD node. The JSON-LD parsed successfully.
+- The homepage contains one Organization and two GardenStore local-business nodes (Nessebar and Ravda). Both stores have name/address; Nessebar has weekday 09:00–17:00 hours. Do not invent Ravda hours or geo coordinates.
+- A JavaScript-enabled Rain Bird render also has one Product/BreadcrumbList/Organization, but the hydrated Product node loses brand although the initial server HTML includes it. The client route data already has product.brand; ProductPage's client JSON-LD does not serialize the field. This is a confirmed Stage 2 follow-up defect. The Offer builder is shared; the full Product node is not yet shared.
+
+Published Sanity readiness:
+- Irrigation production: 275 active products, 267 with brand, 263 with internal SKU, 0 with EAN. The schema has an EAN field, but the storefront projection and Product JSON-LD do not currently emit it.
+- Plants dataset plants: 50 active products, 70 sale variants, 0 variant SKUs. Root product SKU exists on 30/50 products. ProductGroup remains deferred because no variant SKU is populated and there are no crawlable per-variant URLs.
+
+Interpretation of stored Google warnings:
+- Product snippets: missing review/aggregateRating is non-critical when offers is present; do not fabricate reviews. Google explicitly documents this warning behavior.
+- Merchant listings: GTIN/brand, shippingDetails and return policy warnings are from pre-deployment crawls. Rain Bird server HTML now has its known brand. No EAN/GTIN data exists in active irrigation products. Shipping/return policies should only be added after the real policies are confirmed; Google recommends global Organization-level policies rather than per-Offer duplication.
+- onRequest continues to have no availability value. This is intentional; do not convert it to PreOrder without a verified pre-order business rule.
+
+**Still open:**
+- 1.6: full post-deployment Schema.org Validator and authenticated Google Rich Results Test. Cloudflare Browser Rendering was rate-limited (HTTP 429) while opening the validator; the Google interactive tool requires the owner's authenticated browser. Manual JSON-LD parsing is not a substitute for either validator.
+- 1.8 / Stage 1 overall: close only after validator evidence is recorded.
+- Stage 2: restore server/client Product-node parity for known brand and add a regression test; rerun exact-SHA CI. No code changes were made in this audit.
+- ProductGroup, EAN/GTIN, shipping/return policy and LocalBusiness enrichment remain data-dependent and must not be populated with invented values.
+
+See the updated [stage-1 audit](../audits/2026-11-18-google-shopping-seo-stage-1-audit.md). Google Rich Results owner-run links remain in that audit and the Technical Passport.

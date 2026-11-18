@@ -8,21 +8,24 @@
 
 ## 1. Итог
 
-Этап 1 начат. Кодовая инвентаризация и чтение Search Console выполнены. Полное закрытие этапа пока невозможно: свежий первоначальный HTML Production и Google Rich Results validation не получены из-за недоступности браузерного источника в этой сессии.
+Этап 1 остаётся в работе. Кодовая инвентаризация, Search Console baseline и live Production HTML для двух представительных Product URL проверены. Обе страницы отдают HTTP 200 и содержат Product, BreadcrumbList и Organization JSON-LD; homepage содержит Organization и две GardenStore сущности. JSON-LD из начального HTML успешно разобран как JSON.
 
-Подтверждено:
-- Product JSON-LD уже реализован на сервере и на клиенте.
-- Для растений сервер использует цены `saleVariants`, а не устаревшую корневую `priceEUR`.
-- Search Console property `sc-domain:florial-bg.com` подключён к Windsor.ai.
-- Последний sitemap report: 1,327 submitted URLs, 0 errors, 0 warnings, last downloaded 2026-11-16.
-- Google Merchant Center connector существует в Windsor.ai, но подключённого аккаунта не возвращено.
+**Подтверждено:**
+- PR #407 Product Offer remediation опубликован в Production (runtime commit 458dd9d; Pages deployment 3deb2a5d).
+- Rain Bird и Kumquat Product JSON-LD присутствуют в live initial HTML.
+- Search Console URL Inspection для этих двух URL возвращает PASS, canonical совпадает, но последние Google crawl dates (5 и 9 ноября) предшествуют PR #407 deployment.
+- Sitemap: 1,327 submitted URLs, 0 errors, 0 warnings; last downloaded 2026-11-16.
+- Определено конкретное расхождение: после client hydration Product JSON-LD для Rain Bird теряет brand, присутствующий в server initial HTML.
 
-Не подтверждено:
-- Наличие или отсутствие отдельного Google Merchant Center аккаунта Florial.
-- Текущее содержимое первоначального Production HTML для представительных страниц.
-- Результаты Rich Results Test / Schema Markup Validator.
-- Google-selected canonical и URL Inspection для приоритетных страниц.
+**Остаётся не подтверждено:**
+- Полный post-deployment Schema.org Validator report.
+- Google Rich Results Test на Production в авторизованной сессии владельца.
+- Новый Google crawl после PR #407 deployment.
+- Точные GTIN/EAN и variant SKU: опубликованные Sanity данные их не содержат; не выдумывать.
+- Общие shipping/return policy values для структурированной разметки: требуется подтверждение актуальных бизнес-правил.
 
+Merchant Center аккаунт Florial подтверждён владельцем как ещё не зарегистрированный; создание аккаунта относится к более позднему этапу дорожной карты.
+ 
 ## 2. Проверенная версия проекта и scope
 
 - Репозиторий: `omaraandrey-dev/florial`.
@@ -32,6 +35,9 @@
 - Архитектура остаётся GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. В рамках аудита ничего в live сервисах не изменялось.
 
 ## 3. Product structured data — проверено по коду
+
+> Историческая оговорка: подразделы 3.1–3.4 ниже фиксируют baseline до merge PR #407. Исправления Offer из PR #407 опубликованы в Production. Текущее post-deployment состояние и выявленное новое расхождение server/client Product node описаны в разделе «Post-PR #407 Production verification» в конце файла.
+
 
 ### 3.1 Серверный HTML / middleware
 
@@ -361,3 +367,54 @@ The two BreadcrumbList objects similarly use canonical Production and Preview ho
 - Stages 1 and 2 of the roadmap remain open pending authenticated Google Rich Results evidence and the remaining Search Console URL Inspection checks. Merchant Center account was confirmed by the owner as not yet registered; Merchant Center setup remains a later roadmap stage.
 - No Sanity schema/documents, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed. The only Production change was the automatic Pages deployment from the explicitly approved PR merge.
 
+
+## 2026-11-18 — Post-PR #407 Production verification (live HTML, Sanity and Search Console)
+
+Verification baseline:
+- Current GitHub main HEAD: 02a19a0978591f61b08ed28fa3b34479e99d1e01 (documentation-only PR #408 merge). Runtime Production source remains PR #407 merge 458dd9d8e8edb78973a4660f3796f43d4d1c22d2; Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09 succeeded at 2026-11-18T18:08:28Z.
+- No open PRs were returned at the audit check. No runtime, Sanity, Cloudflare configuration/secrets, D1, Resend or Google settings/data were changed during this audit.
+
+### Live Production HTML and JSON-LD
+
+Cloudflare Browser Rendering fetched the initial HTML directly from Production. Both representative product pages returned HTTP 200 and valid page titles/H1:
+- Equipment: [Rain Bird 100-PGA-9V](https://florial-bg.com/product/rain-bird-100-pga-9v).
+- Plant: [Citrus japonica — Kumquat](https://florial-bg.com/product/citrus-japonica-kumquat).
+
+The initial HTML for each page contains one Product, one BreadcrumbList and one Organization JSON-LD object. The JSON-LD script bodies parsed successfully as JSON. Rain Bird server HTML contains name, description, url, image, sku, brand (Rain Bird) and an Offer with EUR price, URL and NewCondition. Kumquat server HTML contains name, description, url, image, sku and an EUR Offer; no plant brand is invented.
+
+A JavaScript-enabled Production render of Rain Bird also returned HTTP 200 and exactly one Product, one BreadcrumbList and one Organization node. However, the hydrated client Product node omits brand, while the server's initial HTML includes it. The live route-data query already provides product.brand; src/pages/ProductPage.tsx does not serialize it into client Product JSON-LD. This is a confirmed server/client Product-node parity defect. The shared helper currently unifies Offer generation only, not the full Product node. No code fix was made in this audit; a narrow client-side brand parity patch plus a regression test is the recommended next code change.
+
+The first Browser Rendering attempt briefly returned the not-found fallback; a subsequent initial-HTML fetch and a later JavaScript-enabled fetch both returned the correct Rain Bird product page. Treat the first response as a transient tool/render anomaly, not a confirmed page outage.
+
+### Organization and local business entities
+
+The live homepage initial HTML contains:
+- one Organization node with canonical Florial URL, logo and Bulgaria areaServed;
+- two GardenStore nodes: Nessebar and Ravda, each with a name, canonical contact-page URL, telephone and PostalAddress; Nessebar also has weekday opening hours (09:00–17:00).
+
+This is aligned with Google's guidance to use the most specific LocalBusiness subtype possible. The Ravda node has no opening-hours data, and neither location currently provides geo coordinates or a location image in the inspected markup. These are enrichment opportunities only; do not invent hours or coordinates. Google requires LocalBusiness name and address; geo and other details are recommendations.
+
+### Search Console and sitemap evidence
+
+Property: sc-domain:florial-bg.com.
+- Rain Bird URL Inspection: PASS, Submitted and indexed, indexing allowed, successful fetch, Google canonical equals the non-www URL. Last Google crawl: 2026-11-05T18:08:18Z.
+- Kumquat URL Inspection: PASS, Submitted and indexed, indexing allowed, successful fetch, Google canonical equals the non-www URL. Last Google crawl: 2026-11-09T20:50:33Z.
+- Both stored inspections predate the 18 November PR #407 Production deployment. Their Rich Results PASS and warnings therefore describe Google's previously crawled version, not the new deployed Product Offer markup. Wait for a new Google crawl before treating Search Console as post-release acceptance.
+- Current sitemap report: https://florial-bg.com/sitemap.xml, 1,327 submitted web URLs, 0 errors, 0 warnings, not pending; last downloaded 2026-11-16T14:11:08Z.
+
+Stored Google warnings on the old crawl: Product snippets missing review and aggregateRating; Merchant listings missing global identifier (GTIN/brand), hasMerchantReturnPolicy and shippingDetails. Google's Product snippet documentation explicitly says offers alone satisfies the required Product property, although the test may show a non-critical warning without reviews/ratings. Do not create fictitious reviews. Merchant-listing shipping and return policies are recommended; Google recommends global business policies under Organization rather than duplicating per-product policies. Only add them after actual policy rules are verified. Rain Bird's new server HTML already includes its known brand, so the old missing-brand warning is stale for that URL.
+
+### Sanity catalog readiness
+
+Read-only published Sanity checks (bxvcy0qs):
+- Irrigation dataset production: 275 active products; 267 have a brand reference; 263 have an internal SKU; 0 have a non-empty EAN value. The Sanity product schema has an ean field, but the storefront route projection currently does not select it and the Product builder does not emit GTIN. This is a future readiness gap only; there is no current EAN data to expose.
+- Plant dataset plants: 50 active products; 30 have a root SKU; 70 sale variants in total; 0 variants have a non-empty SKU. The plantSaleVariant schema supports a variant SKU, but none is populated. The plants product schema has no EAN field. ProductGroup remains deferred until real per-variant identifiers and crawlable per-variant URLs exist.
+
+### Validation limits and next action
+
+- Post-deployment Schema.org Validator was not completed: Cloudflare Browser Rendering returned HTTP 429 rate-limit responses when opening the validator. Manual live JSON-LD extraction and JSON parsing succeeded, but this is not equivalent to a full Schema.org Validator report.
+- Google Rich Results Test on Production remains unconfirmed because the interactive Google test requires an authenticated owner browser (previous remote run displayed a login/reCAPTCHA prompt). Do not claim the Google test passed or failed.
+- Owner-run Production links remain:
+  - [Rain Bird Rich Results Test](https://search.google.com/test/rich-results?url=https%3A%2F%2Fflorial-bg.com%2Fproduct%2Frain-bird-100-pga-9v)
+  - [Kumquat Rich Results Test](https://search.google.com/test/rich-results?url=https%3A%2F%2Fflorial-bg.com%2Fproduct%2Fcitrus-japonica-kumquat)
+- Recommended next code task: restore known brand in hydrated client Product JSON-LD and add a regression test; then rerun exact-SHA CI and Production verification with owner approval. Defer EAN/GTIN, shipping/returns and LocalBusiness enrichment until the necessary real data/policies are available.

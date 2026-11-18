@@ -22,15 +22,13 @@
 
 ## Latest verified main / CI / Production
 
-- Latest verified application/Production source commit: `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`. PR #405 (Manager PostHog analytics) and PR #403 (15 Bulgarian plant category editorial updates plus audit/backups) are both merged. Documentation-only status updates do not change this runtime baseline; no open PRs after integration.
-- PR #405 runtime implementation was merged at `a7da7916d2fc728432f116f395cc16038b0258ce`; the subsequent PR #403 merge is documentation/backups only and leaves that runtime unchanged.
-- GitHub Actions on exact current main SHA `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`:
-  - Blog and Studio validation run `44321010828` — success.
-  - D1 migration validation run `44321010791` — success.
-  - Cloudflare Pages check run `134859953008` — success.
-- Cloudflare Pages Production deployment: `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`, URL `https://3edf0d48.florial.pages.dev`, exact source commit `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; queued, initialize, clone, build and deploy stages all succeeded. Production aliases remain `florial-bg.com` and `www.florial-bg.com`.
-- PostHog Manager feature was introduced by PR #405 and deployed in Production. The owner personally confirmed on 18.11.2026 that the Manager analytics page loads and displays PostHog data correctly; functional acceptance is complete. Cloudflare metadata confirms server secret `POSTHOG_API_KEY` as `secret_text`; its value was not read. Keep this credential server-side.
-- Deployment success proves build/publication for this commit. Manager PostHog functional acceptance was separately confirmed by the owner in Production on 18.11.2026. Other unrelated visual/browser QA items remain tracked separately.
+- Latest GitHub main HEAD at 18.11.2026: 02a19a0978591f61b08ed28fa3b34479e99d1e01 (PR #408, documentation-only). Latest verified application/Production source commit: 458dd9d8e8edb78973a4660f3796f43d4d1c22d2 (PR #407 Product Offer remediation).
+- Cloudflare Pages Production deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09 succeeded at 2026-11-18T18:08:28Z for exact runtime source commit 458dd9d8e8edb78973a4660f3796f43d4d1c22d2; aliases remain https://florial-bg.com and https://www.florial-bg.com.
+- PR #407 head checks: Blog and Studio validation 44358163151 — success; D1 migration validation 44358126198 — success; follow-up Blog and Studio run 44358126185 — success. No workflow run was returned for the merge commit itself; do not label PR-head checks as merge-commit CI.
+- PR #408 is documentation-only and does not change the Production runtime. Open PR count was 0 at the 18.11.2026 audit check (before the current documentation follow-up).
+- PostHog Manager feature was introduced by PR #405 and deployed in Production. The owner personally confirmed on 18.11.2026 that the Manager analytics page loads and displays PostHog data correctly; functional acceptance is complete. Cloudflare metadata confirms server secret POSTHOG_API_KEY as secret_text; its value was not read. Keep this credential server-side.
+- Deployment success proves build/publication for the exact runtime source commit. Manager PostHog functional acceptance was separately confirmed by the owner. Other unrelated visual/browser QA items remain tracked separately.
+
 ## Git branches and release governance
 
 - GitHub returned 417 branch refs including `main`; 416 refs are non-main historical branches (including this cleanup branch). No open PRs.
@@ -47,18 +45,13 @@
 
 ## Active Google Shopping / SEO visibility workstream
 
-- Roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Any follow-up chat or implementation must read this roadmap first, update it with evidence, and continue from the first unfinished stage.
-- Stage 1 is in progress; source audit and Search Console baseline are recorded in [stage-1 audit](../audits/2026-11-18-google-shopping-seo-stage-1-audit.md). Fresh Production Product HTML, Rich Results validation and URL Inspection remain pending. Windsor.ai Google Merchant Center connector has no connected account; standalone account status is unknown.
-
-## Google Shopping / Product Schema workstream
-
-- Active roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Continue from its earliest unfinished item and update it after each material step.
-- PR #407 was merged into `main` at `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`; the Product Offer remediation is deployed to Production in Pages deployment `3deb2a5d-cd16-4201-821e-7b6d6c7bba09` from that exact SHA.
-- Product Offer builder is shared between middleware and ProductPage. Plants use only the default first variant Offer; onRequest is not PreOrder. AggregateOffer is not used for a set of variants.
-- ProductGroup is deferred because the published plants dataset has no non-empty variant SKU and the current route does not provide crawlable per-variant URLs.
-- Product Offer implementation and tests passed full Blog/Studio validation run 44355759803 and D1 validation run 44355682858 (source code commit 8fd6704). Cloudflare Preview for functional code plus the updated roadmap succeeded at https://811f1545.florial.pages.dev (Preview commit df414aa). Later PR commits are documentation-only; latest checked PR head 7305780 had CI and Preview in progress.
-- Google Rich Results Test and URL Inspection remain pending. The interactive Google test app and Preview pages were inaccessible through the available web reader; prefilled owner-run Rich Results links are in the roadmap/audit. Windsor.ai Search Console fields do not expose URL Inspection.
-- ProductGroup remains deferred: no plant variant SKU is populated in published Sanity, and there are no crawlable per-variant URLs.
+- Roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Any follow-up must read this roadmap first, update it with evidence, and continue from the first unfinished stage.
+- PR #407 Product Offer remediation is deployed to Production from runtime commit 458dd9d8e8edb78973a4660f3796f43d4d1c22d2 (Pages deployment 3deb2a5d-cd16-4201-821e-7b6d6c7bba09). Current GitHub main is 02a19a0978591f61b08ed28fa3b34479e99d1e01 after documentation-only PR #408.
+- Live initial HTML for Rain Bird 100-PGA-9V and Kumquat was fetched: both return HTTP 200 with Product, BreadcrumbList and Organization JSON-LD; homepage includes Organization and two GardenStore nodes. Manual JSON parsing succeeded.
+- Confirmed remaining defect: after client hydration, Rain Bird Product JSON-LD omits brand, although server initial HTML includes it and route data already supplies product.brand. A small client Product-node parity patch and regression test are the next recommended code task; no code change has yet been made.
+- GSC URL Inspection is PASS for Rain Bird and Kumquat, but stored crawls are 2026-11-05 and 2026-11-09, before PR #407 deployment. Sitemap: 1,327 URLs, 0 errors/warnings, last downloaded 2026-11-16. Post-release Google crawl remains pending.
+- Published Sanity counts: irrigation production 275 active products, 267 with brand, 263 with SKU, 0 with EAN; plants 50 active products, 70 sale variants, 0 variant SKUs. ProductGroup/GTIN remain deferred until real identifiers and crawlable variant URLs exist.
+- Full post-deployment Schema.org Validator and authenticated Google Rich Results Test remain pending (Cloudflare Browser Rendering HTTP 429; Google test requires the owner's authenticated browser). Manual JSON-LD parsing is not a validator result. Merchant Center remains unregistered per owner confirmation.
 
 ## Current work boundaries / pending verification
 
