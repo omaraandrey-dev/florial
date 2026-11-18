@@ -188,6 +188,31 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
   })
 }
 
+export const getPlantVariantPermissionChanges = (before: unknown, after: unknown) => {
+  const previous = Array.isArray(before) ? before.filter(isObject) : []
+  const next = Array.isArray(after) ? after.filter(isObject) : []
+  const previousByKey = new Map(previous.map((item) => [cleanText(item._key, 80), item]))
+  let added = false
+  let priceChanged = false
+  let stockChanged = false
+  const sameNumber = (left: unknown, right: unknown) =>
+    (typeof left === 'number' && Number.isFinite(left) ? left : null) ===
+    (typeof right === 'number' && Number.isFinite(right) ? right : null)
+  for (const item of next) {
+    const key = cleanText(item._key, 80)
+    const old = previousByKey.get(key)
+    if (!old) {
+      added = true
+      priceChanged = true
+      stockChanged = true
+      continue
+    }
+    if (!sameNumber(item.priceEUR, old.priceEUR) || !sameNumber(item.oldPriceEUR, old.oldPriceEUR)) priceChanged = true
+    if (cleanText(item.stockStatus, 30) !== cleanText(old.stockStatus, 30) || !sameNumber(item.stockQuantity, old.stockQuantity)) stockChanged = true
+  }
+  return { added, priceChanged, stockChanged }
+}
+
 export const buildPlantSet = async (
   env: ManagerEnv,
   input: unknown,

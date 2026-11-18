@@ -1,8 +1,7 @@
 import { d1RestFetch } from './_rest'
-import type { ManagerEnv } from './_lib'
+import { hasPermission, normalizeStaffPermissions, type ManagerEnv, type StaffPermissions, type StaffRole } from './_lib'
 type Env=ManagerEnv
-type Perms={canCreatePlant:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canEditPlantStock?:boolean;canApprovePlantSubmission?:boolean;canPublishPlant?:boolean}
-type Profile={role:string;is_active:boolean;permissions:Perms}
+type Profile={role:StaffRole;is_active:boolean;permissions:string|StaffPermissions}
 type Variant={_key:string;name?:string;sku?:string;saleHeightCm?:number;containerVolumeL?:number;priceEUR?:number|null;stockStatus?:string;stockQuantity?:number|null}
 type Plant={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;categoryId?:string;stockQuantity?:number|null;stockStatus?:string;saleVariants?:Variant[]}
 const project='bxvcy0qs',dataset='plants'
@@ -34,6 +33,7 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  if(!pr.ok)return json({error:'Unable to verify staff permissions.'},503)
  const profiles=await pr.json() as Profile[],profile=profiles[0]
  if(!profile||!profile.is_active)return json({error:'Active staff access required.'},403)
+ const permissionUser={role:profile.role,permissionsObject:normalizeStaffPermissions(profile.permissions)}
  const query=async<T>(q:string):Promise<T>=>{
   setStage('sanity_catalog_query')
   const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/query/'+dataset+'?query='+encodeURIComponent(q),{headers:{Authorization:'Bearer '+SANITY_API_TOKEN}})
@@ -54,15 +54,15 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  const mutate=async(variants:Variant[],id:string,rev:string)=>{const r=await fetch('https://'+project+'.api.sanity.io/v2025-02-19/data/mutate/'+dataset+'?returnIds=true',{method:'POST',headers:{Authorization:'Bearer '+SANITY_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{patch:{id,ifRevisionID:rev,set:{saleVariants:variants}}}]})});if(!r.ok)throw new Error('Sanity не прие промяната. Възможно е документът вече да е променен; обновете заявката.')}
  if(request.method==='GET'){
   setStage('sanity_catalog_query');
-  if(profile.role!=='owner'&&!profile.permissions?.canAddPlantVariant&&!profile.permissions?.canEditPlantPrice&&!profile.permissions?.canEditPlantStock)return json({error:'Нямате право да променяте съществуващи растения.'},403)
+  if(!hasPermission(permissionUser,'canAddPlantVariant')&&!hasPermission(permissionUser,'canEditPlantPrice')&&!hasPermission(permissionUser,'canEditPlantStock'))return json({error:'Нямате право да променяте съществуващи растения.'},403)
   try{return json({plants:await query<Plant[]>('*[_type=="product" && isActive!=false && !(_id in path("drafts.**"))]|order(name asc){_id,_rev,name,scientificName,sku,"categoryId": category->_id,stockQuantity,stockStatus,saleVariants}')})}catch(e){return json({error:'Не успяхме да заредим каталога с растения от Sanity.',requestId,stage:'sanity_catalog_query'},502)}
  }
  let body:Record<string,unknown>|null=null;try{body=obj(await request.json())}catch{}
  if(!body||typeof body.action!=='string')return json({error:'Invalid request body.'},400)
  if(body.action==='approve'||body.action==='publish'){
   const action=body.action
-  if(action==='approve'&&profile.role!=='owner'&&(profile.role!=='manager'||!profile.permissions?.canApprovePlantSubmission))return json({error:'Нямате право да одобрявате промени в каталога.'},403)
-  if(action==='publish'&&profile.role!=='owner'&&(profile.role!=='manager'||!profile.permissions?.canPublishPlant))return json({error:'Нямате право да публикувате промени в каталога.'},403)
+  if(action==='approve'&&!hasPermission(permissionUser,'canApprovePlantSubmission'))return json({error:'Нямате право да одобрявате промени в каталога.'},403)
+  if(action==='publish'&&!hasPermission(permissionUser,'canPublishPlant'))return json({error:'Нямате право да публикувате промени в каталога.'},403)
   const id=str(body.submissionId,64);if(!uuid.test(id))return json({error:'Invalid submission ID.'},400)
   const sr=await fetch(base+'/internal-d1/data/catalog_submissions?id=eq.'+encodeURIComponent(id)+'&select=id,operation,status,target_document_id,target_revision,payload',{headers:admin})
   if(!sr.ok)return json({error:'Unable to load the change request.'},502)
@@ -132,7 +132,7 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
  if(profile.role!=='owner'&&profile.role!=='seller'&&profile.role!=='manager')return json({error:'Staff access required.'},403)
  const action=body.action
  if(action==='updateStock'){
-  if(profile.role!=='owner'&&profile.permissions?.canEditPlantStock!==true)return json({error:'Нямате право да променяте количеството на растенията.'},403)
+  if(!hasPermission(permissionUser,'canEditPlantStock'))return json({error:'Нямате право да променяте количеството на растенията.'},403)
   const targetId=str(body.targetDocumentId,128),expectedRevision=str(body.targetRevision,128)
   const rawQuantity=body.stockQuantity
   const quantity=typeof rawQuantity==='number'?rawQuantity:typeof rawQuantity==='string'&&rawQuantity.trim()!==''?Number(rawQuantity):NaN
@@ -192,8 +192,8 @@ const handleRequest=async({request,env,requestId,setStage}:{request:Request;env:
   }
  }
  if(action!=='submitVariant'&&action!=='submitPrice')return json({error:'Unknown action.'},400)
- if(profile.role!=='owner'&&action==='submitVariant'&&!profile.permissions?.canAddPlantVariant)return json({error:'Нямате право да добавяте размери и варианти.'},403)
- if(profile.role!=='owner'&&action==='submitPrice'&&!profile.permissions?.canEditPlantPrice)return json({error:'Нямате право да променяте цени.'},403)
+ if(action==='submitVariant'&&!hasPermission(permissionUser,'canAddPlantVariant'))return json({error:'Нямате право да добавяте размери и варианти.'},403)
+ if(action==='submitPrice'&&!hasPermission(permissionUser,'canEditPlantPrice'))return json({error:'Нямате право да променяте цени.'},403)
  const targetId=str(body.targetDocumentId,128),rev=str(body.targetRevision,128)
  if(!targetId||!rev)return json({error:'Изберете растение от каталога.'},400)
  try{

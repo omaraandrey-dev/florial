@@ -1,5 +1,5 @@
-import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../_lib'
-import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit, type PlantDocument } from '../plant-direct-lib'
+import { checkSameOrigin, hasPermission, json, newId, requireUser, type ManagerEnv } from '../_lib'
+import { auditSnapshot, buildPlantSet, cleanText, errorJson, getPlantVariantPermissionChanges, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit, type PlantDocument } from '../plant-direct-lib'
 import { validatePlantUpdateRequest } from '../plant-update-request-lib.mjs'
 
 const jsonString = (value: string) => JSON.stringify(value)
@@ -26,7 +26,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   if (!checkSameOrigin(request)) return json({ error: 'Origin not allowed.' }, 403)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
-  if (!requirePlantRole(auth.user)) return json({ error: 'Insufficient permissions.' }, 403)
+  if (!hasPermission(auth.user, 'canEditPlantCard')) return json({ error: 'Нямате право да редактирате продуктовата карта.' }, 403)
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)
   const body = await parseJsonBody(request)
@@ -71,6 +71,18 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
     const current = await sanityQuery<PlantDocument | null>(env, '*[_type=="product" && _id==' + jsonString(id) + '][0]')
     if (!current) return json({ error: 'Растението не е намерено.' }, 404)
     const normalized = await buildPlantSet(env, body.product, auth.user.role, current, false)
+    if (auth.user.role === 'manager' && normalized.set.saleVariants) {
+      const variantChanges = getPlantVariantPermissionChanges(current.saleVariants, normalized.set.saleVariants)
+      if (variantChanges.added && (!hasPermission(auth.user, 'canAddPlantVariant') || !hasPermission(auth.user, 'canEditPlantPrice') || !hasPermission(auth.user, 'canEditPlantStock'))) {
+        return json({ error: 'За директно добавяне на вариант са необходими права за варианти, цени и наличности.' }, 403)
+      }
+      if (variantChanges.priceChanged && !hasPermission(auth.user, 'canEditPlantPrice')) {
+        return json({ error: 'Нямате право да променяте цените на вариантите.' }, 403)
+      }
+      if (variantChanges.stockChanged && !hasPermission(auth.user, 'canEditPlantStock')) {
+        return json({ error: 'Нямате право да променяте наличностите на вариантите.' }, 403)
+      }
+    }
     changedFields = normalized.changedFields
     if (!changedFields.length) return errorJson('Няма промени за запазване.', 400)
     productName = cleanText(normalized.set.name || current.name, 160)

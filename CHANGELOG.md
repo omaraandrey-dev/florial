@@ -1,3 +1,15 @@
+## 2026-11-18 — Manager: единое право Seller на каталог растений (PR #383)
+
+- Зафиксировано решение владельца: одно право `canCreatePlant` у Seller означает полный прямой доступ к каталогу растений — создание, редактирование карточек, добавление вариантов, изменение цен и остатков. Старые granular-флаги Seller не дают частичного доступа без `canCreatePlant`.
+- `hasPermission` централизованно выводит права Seller на редактирование карточки, варианты, цены и остатки из `canCreatePlant`. Owner сохраняет полный доступ; Manager сохраняет отдельные `canCreatePlant`, `canEditPlantCard`, `canAddPlantVariant`, `canEditPlantPrice`, `canEditPlantStock`. Прямой редактор Manager блокирует изменение цены/остатка без соответствующего флага; добавление варианта в нём требует права на вариант, цену и остаток.
+- Серверные проверки добавлены для прямого создания растения, обновления карточки, добавления варианта и загрузки фото. Старый `/api/manager/plant-catalog` также переведён на общий permission helper для variant/price/stock submission, approve/publish и stock update действий. Список каталога остаётся доступен авторизованным ролям в режиме чтения; кнопки создания/редактирования показываются по правам.
+- В интерфейсе управления сотрудниками Seller получает одну понятную настройку доступа к каталогу; отдельные действия по вариантам, ценам и остаткам из Seller workspace убраны. Все три роли сохраняют существующий доступ к botanical AI endpoint-ам; AI не обходит серверную проверку записи.
+- Добавлен тест ролевой матрицы Seller/Manager/Owner и audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`.
+- В этой ветке также сохраняются UX улучшения поиска каталога из PR #383.
+- **Проверки:** runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` прошёл exact-head CI: Blog/Studio run `44210343032` (typecheck, lint, tests, website build, Studio typecheck/build) и D1 run `44210343225` (lint, build, Pages Functions syntax, migration validations) — success. Browser role-matrix QA и authenticated live tests ещё не выполнены. Production deployment не выполнялся и не подтверждён. PR #383 открыт, merge не выполнялся.
+- Не изменялись D1 schema/records, Sanity documents/assets, Cloudflare Production settings/secrets, Resend, публичные Header/menu/Footer и checkout.
+
+
 ## 2026-11-17 — Рулонна трева: публикация и inline-галерея (PR #376, #377)
 
 - PR #376 merged в `main`; runtime commit `c5f4446e48d6f2d554684d198a583313e7e744b6`. PR #377 merged; final photo-group correction commit `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`.

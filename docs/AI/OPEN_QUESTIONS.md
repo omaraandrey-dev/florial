@@ -1,3 +1,11 @@
+## 2026-11-18 — Seller catalog permission decision (PR #383; validation pending)
+
+- **Decision resolved:** Seller's `canCreatePlant` is the single switch for direct plant creation, card editing, variant addition, price changes and stock changes. No separate Seller toggles are required.
+- Manager retains separate create, card-edit and variant-add permissions; Owner retains full access.
+- Implementation and tests are in open PR #383. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` passed Blog/Studio run `44210343032` and D1 run `44210343225`; browser role-matrix verification remains pending. Do not claim Production availability before merge and deployment.
+- No D1 schema/profile or Sanity catalog write was performed.
+
+
 ## 2026-11-17 — Hreflang service projection и legacy Cloudflare environment variables
 
 - **Hreflang:** Production QA услуги `avtomatizirano-kapkovo-napoyavane` подтвердил неполный набор alternates: BG выдаёт BG + x-default; RU — BG + x-default + RU; EN — BG + x-default + EN. `src/lib/routeData/serviceDetails.ts` запрашивает SEO-поля только активной локали, тогда как `ServicePage.tsx` проверяет наличие SEO для обеих локалей. Нужен отдельный ограниченный PR: добавить SEO projections RU и EN без загрузки полных переводов и проверить все три локали на representative service pages. Текущая статья индексируема; canonical и локальные title/description корректны.

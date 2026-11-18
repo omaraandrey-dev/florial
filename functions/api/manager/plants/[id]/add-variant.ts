@@ -1,7 +1,7 @@
-import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../../_lib'
+import { checkSameOrigin, hasPermission, json, newId, requireUser, type ManagerEnv } from '../../_lib'
 import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest, verifyPlantSaleVariant } from '../../plant-duplicate-lib.mjs'
 import {
-  auditSnapshot, cleanText, errorJson, parseJsonBody, requirePlantRole,
+  auditSnapshot, cleanText, errorJson, parseJsonBody,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
 } from '../../plant-direct-lib'
 
@@ -14,7 +14,7 @@ export const onRequestPost = async ({ request, env, params }: { request: Request
   if (!checkSameOrigin(request)) return json({ error: 'Origin not allowed.' }, 403)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
-  if (!requirePlantRole(auth.user)) return json({ error: 'Insufficient permissions.' }, 403)
+  if (!hasPermission(auth.user, 'canAddPlantVariant')) return json({ error: 'Нямате право да добавяте варианти на растения.' }, 403)
 
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)

@@ -14,7 +14,7 @@ type PlantForm={
 }
 type Category={_id:string;name:string;slug?:string;parentId?:string;parentName?:string}
 type ListItem={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;slug?:string;categoryId?:string;categoryName?:string;categoryParent?:string;thumbnail?:string;priceFromEUR:number|null;listStockStatus:string;variantCount:number;isActive?:boolean}
-type Props={role:Role}
+type Props={role:Role;permissions:{canCreatePlant:boolean;canEditPlantCard:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canEditPlantStock:boolean}}
 type RichTextOriginal={description:any;careGuide:any;translations:Record<string,any>}
 const stockLabels:Record<string,string>={inStock:'В наличност',onRequest:'По заявка',outOfStock:'Няма наличност',mixed:'Различна наличност'}
 const productTypes=[['plant','Растение'],['tree','Дърво'],['shrub','Храст'],['flower','Цвете'],['perennial','Многогодишно растение'],['indoor','Стайно растение'],['citrus','Цитрус'],['palm','Палма'],['conifer','Иглолистно растение'],['fruit','Плодово растение'],['succulent','Сукулент'],['climber','Катерливо растение'],['ornamentalGrass','Декоративна трева'],['groundcover','Почвопокривно растение'],['bulb','Луковично растение'],['herb','Билка'],['aquatic','Водно растение'],['other','Друг вид растение']]
@@ -41,7 +41,12 @@ const btn='rounded-xl px-4 py-3 text-sm font-semibold'
 const responseJson=async(response:Response)=>await response.json().catch(()=>({}))
 const money=(value:number|null)=>value==null?'Цена не указана':new Intl.NumberFormat('bg-BG',{style:'currency',currency:'EUR'}).format(value)
 
-export default function PlantCatalogManager({role}:Props){
+export default function PlantCatalogManager({role,permissions}:Props){
+ const canCreate=role==='owner'||permissions.canCreatePlant
+ const canEdit=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantCard)
+ const canEditVariantPrice=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantPrice)
+ const canEditVariantStock=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantStock)
+ const canAddVariant=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canAddPlantVariant&&permissions.canEditPlantPrice&&permissions.canEditPlantStock)
  const [items,setItems]=useState<ListItem[]>([])
  const [categories,setCategories]=useState<Category[]>([])
  const [query,setQuery]=useState('')
@@ -329,24 +334,25 @@ export default function PlantCatalogManager({role}:Props){
  return <div className="mx-auto max-w-5xl px-3 py-4 sm:px-5 sm:py-6">
   {!editorOpen&&!historyOpen&&<>
    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-    <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Единое управление товарами · {items.length} в списке</p></div>
+    <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Управление на растенията · Показани: {items.length}</p></div>
     <div className="flex items-center gap-2">
      {role==='owner'&&<button className={btn+' min-h-11 border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
-     <button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>
+     {canCreate&&<button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>}
     </div>
    </div>
    <div className="sticky top-0 z-10 -mx-3 mb-3 space-y-2 border-y border-stone-200 bg-[#f5f6ef] px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
-    <input className={inputClass} value={query} onChange={event=>setQuery(event.target.value)} placeholder={role==='owner'?'Търсене по име, латинско име или артикул…':'Търсене по име или латинско име…'} aria-label="Търсене на растение"/>
-    <div className="grid grid-cols-2 gap-2">
-     <select className={inputClass} value={categoryId} onChange={event=>setCategoryId(event.target.value)}><option value="">Всички категории</option>{categoryOptions.map(item=><option key={item._id} value={item._id}>{item.label}</option>)}</select>
-     <select className={inputClass} value={sort} onChange={event=>setSort(event.target.value as 'name'|'category')}><option value="category">Сортиране: категория</option><option value="name">Сортиране: име</option></select>
+    <input className={inputClass} value={query} onChange={event=>setQuery(event.target.value)} placeholder="Търсене по име, латинско име или артикул…" aria-label="Търсене по име, латинско име или артикул"/>
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+     <select className={inputClass} value={categoryId} onChange={event=>setCategoryId(event.target.value)} aria-label="Филтър по категория"><option value="">Всички категории</option>{categoryOptions.map(item=><option key={item._id} value={item._id}>{item.label}</option>)}</select>
+     <select className={inputClass} value={sort} onChange={event=>setSort(event.target.value as 'name'|'category')} aria-label="Подреждане на растенията"><option value="category">Сортиране: категория</option><option value="name">Сортиране: име</option></select>
+     <button type="button" className={btn+' min-h-11 border border-stone-300 bg-white disabled:cursor-not-allowed disabled:opacity-50'} onClick={()=>{setQuery('');setCategoryId('');setSort('category')}} disabled={!query.trim()&&!categoryId&&sort==='category'}>Изчисти филтрите</button>
     </div>
    </div>
    {error&&<div role="alert" className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
    {notice&&<div className="mb-3 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
    {loading?<div className="py-12 text-center text-stone-500">Зареждане на растенията…</div>:items.length===0?<div className="rounded-2xl border border-stone-200 bg-white p-8 text-center text-stone-500">Няма намерени растения.</div>:
     <div className="divide-y divide-stone-200 overflow-hidden rounded-2xl border border-stone-200 bg-white">
-     {items.map(item=><button key={item._id} onClick={()=>void openExisting(item._id)} className="flex w-full items-center gap-3 p-3 text-left transition hover:bg-lime-50 sm:gap-4 sm:p-4">
+     {items.map(item=><button key={item._id} type="button" disabled={!canEdit} onClick={()=>canEdit&&void openExisting(item._id)} className={'flex w-full items-center gap-3 p-3 text-left transition sm:gap-4 sm:p-4 '+(canEdit?'hover:bg-lime-50':'cursor-default')}>
       <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-stone-100">{item.thumbnail?<img src={item.thumbnail} alt="" className="h-full w-full object-cover"/>:<div className="flex h-full items-center justify-center text-xs text-stone-400">Без снимка</div>}</div>
       <div className="min-w-0 flex-1">
        <div className="line-clamp-2 font-semibold text-stone-900">{item.name}</div>
@@ -357,10 +363,10 @@ export default function PlantCatalogManager({role}:Props){
       <span className="text-xl text-stone-400">›</span>
      </button>)}
     </div>}
-   <div className="h-20 sm:hidden"/>
-   <div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
+   {canCreate&&<div className="h-20 sm:hidden"/>}
+   {canCreate&&<div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
     <button onClick={openNew} className="min-h-12 w-full rounded-xl bg-lime-800 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-lime-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2">＋ Добави растение</button>
-   </div>
+   </div>}
   </>}
   {editorOpen&&<>
    <div className="mb-4 flex items-center justify-between gap-3"><button className={btn+' border border-stone-300 bg-white'} onClick={()=>setEditorOpen(false)}>← Назад</button><h2 className="text-xl font-bold">{editingId?'Редактиране на растение':'Ново растение'}</h2><span className="w-16"/></div>
@@ -439,16 +445,16 @@ export default function PlantCatalogManager({role}:Props){
        <label><span className={labelClass}>Контейнер (л)</span><input type="number" min="0.1" step="0.1" className={inputClass} value={variant.containerVolumeL} onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={inputClass} value={variant.priceEUR} onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
-       <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.priceEUR} onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Наличност</span><select className={inputClass} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
+       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} disabled={!canEditVariantStock} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
-     <button type="button" disabled={form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
+     <button type="button" disabled={!canAddVariant||form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
     </details>
     <details open id="plant-editor-content" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">{role==='owner'?'Описание и преводи':'Описание'}</summary>{aiProof&&<span className="text-xs font-semibold text-lime-800">Google попълването е изпълнено</span>}</div>
