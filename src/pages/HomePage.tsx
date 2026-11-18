@@ -112,11 +112,7 @@ export function HomePage({
     .slice(0, 4)
   const visibleFeaturedPlants = featuredPlants
     .filter((product) => getPlantStockStatus(product) !== 'outOfStock')
-    .filter((product) => {
-      const variants = product.saleVariants || []
-      const variantPrices = variants.filter((variant) => variant.stockStatus !== 'outOfStock').map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
-      return variants.length > 0 ? variantPrices.length > 0 : Number.isFinite(product.priceEUR) && product.priceEUR > 0
-    })
+    .filter((product) => getPlantPrice(product) !== null)
     .slice(0, 4)
 
   const getServiceSummary = (service: ServiceItem) => {
