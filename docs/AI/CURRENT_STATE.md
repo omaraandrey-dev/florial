@@ -56,7 +56,9 @@
 - PR #407 contains the roadmap, audit and Product Offer remediation. It remains open/unmerged; do not assume Production has changed.
 - Product Offer builder is shared between middleware and ProductPage. Plants use only the default first variant Offer; onRequest is not PreOrder. AggregateOffer is not used for a set of variants.
 - ProductGroup is deferred because the published plants dataset has no non-empty variant SKU and the current route does not provide crawlable per-variant URLs.
-- CI/Preview and Google Rich Results validation must be checked for the exact current PR head before acceptance.
+- Product Offer implementation and tests passed full Blog/Studio validation run 44355682859 and D1 validation run 44355682858 on commit 92da3ec; Cloudflare Preview succeeded at https://9ba37c43.florial.pages.dev. Current branch head 8fd6704 adds only a comment after that tested commit.
+- Google Rich Results Test and URL Inspection remain pending. The interactive Google test app and Preview pages were inaccessible through the available web reader; prefilled owner-run Rich Results links are in the roadmap/audit. Windsor.ai Search Console fields do not expose URL Inspection.
+- ProductGroup remains deferred: no plant variant SKU is populated in published Sanity, and there are no crawlable per-variant URLs.
 
 ## Current work boundaries / pending verification
 
