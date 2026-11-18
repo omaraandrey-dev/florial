@@ -206,3 +206,14 @@
   - Equipment: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Frain-bird-100-pga-9v`
   - Plant: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat`
 - Google Rich Results Test and URL Inspection remain pending; no external test result is claimed. PR #407 remains open/unmerged; no Production deployment.
+
+
+### 2026-11-18 — Schema Markup Validator run and Google Rich Results access result
+
+- Used Cloudflare Browser Rendering (read-only) to open the official Schema.org Validator for the deployed Preview URLs. The validator itself fetched and parsed the rendered page HTML; this is a live remote-page parse, not a hand-built HTML sample.
+- Equipment Preview `https://811f1545.florial.pages.dev/product/rain-bird-100-pga-9v`: Schema.org Validator reported 5 detected items, 0 errors, 0 warnings: Organization (1), BreadcrumbList (2), Product (2).
+- Plant Preview `https://811f1545.florial.pages.dev/product/citrus-japonica-kumquat`: Schema.org Validator reported 5 detected items, 0 errors, 0 warnings: Organization (1), BreadcrumbList (2), Product (2).
+- Investigation of the equipment Preview's fetched HTML showed the two Product objects have different URLs: the server-generated object uses canonical Production URL `https://florial-bg.com/product/rain-bird-100-pga-9v`, while the client-rendered object uses Preview URL `https://811f1545.florial.pages.dev/product/rain-bird-100-pga-9v`. BreadcrumbList is duplicated for the same reason (server canonical and client Preview paths). This is a Preview-host/canonical mismatch and must not be mistaken for the expected Production graph.
+- Baseline check on current Production equipment URL `https://florial-bg.com/product/rain-bird-100-pga-9v`: Schema.org Validator reported 3 detected items, 0 errors, 0 warnings: Organization (1), BreadcrumbList (1), Product (1). This Production baseline is the currently deployed version, not the corrected PR Preview.
+- Tried official Google Rich Results Test on the corrected Preview URL using a remote browser. Google rendered the tool but showed an alert dialog: “Something went wrong — Log in and try again”, with reCAPTCHA present. No Google Rich Results result was produced. This is an authentication/access limitation; do not claim Google test passed or failed.
+- Follow-up required: obtain an authenticated Google Rich Results Test session or run the supplied links in the owner's browser. After PR merge and Production deployment (only with explicit owner approval), rerun Google Rich Results Test against the actual Production URLs, avoiding Preview canonical mismatch. Stage 1 and stage 2 remain open until Google-specific validation and remaining Search Console checks are recorded.
