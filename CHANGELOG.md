@@ -1,3 +1,10 @@
+## 2026-11-18 — Bulgarian editorial review of 15 plant categories
+- Reviewed and published BG copy updates for 15 remaining plant categories in Sanity Production, dataset `plants`: clearer online-shop and garden-centre purchase CTAs, more natural Bulgarian phrasing, and correction of the indoor-plants H1.
+- Preserved IDs, slugs, product references/counts, images, product data, help-block service links and RU/EN content. The two categories with zero linked products (groundcovers and indoor plants) use enquiry/availability wording rather than implying current listed stock.
+- Revision-guarded patch and publication succeeded for 15/15 documents. Published read-back confirmed the updated copy; product counts and slugs remained unchanged. Sanity validation reported 15 valid, but incomplete because custom callbacks were not executed.
+- Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
+- Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
+
 ## 2026-11-18 — Finalized owner branch and dormant-variable policy (PR #401)
 - PR #401 squash-merged into `main`; merge commit `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
 - Current main HEAD after this documentation-only merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`. The last verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no runtime files changed in PR #401.
