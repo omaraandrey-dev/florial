@@ -1,0 +1,1235 @@
+<!-- Florial Sanity Production pre-edit backup
+Project: bxvcy0qs
+Dataset: production
+Document: blogPost-rain-bird-oborudvane
+Revision: qvVg1luYRxJZnxaWi1OfUN
+Captured: 2026-11-18
+Source: complete read-only Sanity get_document response, preserved verbatim.
+-->
+Found document "blogPost-rain-bird-oborudvane": 
+<document>
+  <_createdAt>2026-10-24T09:15:46Z</_createdAt>
+  <_id>blogPost-rain-bird-oborudvane</_id>
+  <_rev>qvVg1luYRxJZnxaWi1OfUN</_rev>
+  <_system>
+    <base>
+      <id>blogPost-rain-bird-oborudvane</id>
+      <rev>wShFcTvKnRduO9ho4JbXhm</rev>
+    </base>
+  </_system>
+  <_type>blogPost</_type>
+  <_updatedAt>2026-11-12T13:47:27Z</_updatedAt>
+  <cover>
+    <_type>image</_type>
+    <alt>Оборудване Rain Bird за автоматично поливане</alt>
+    <asset>
+      <_ref>image-746aa6edc07c76ef1605a7dd28d00117337c0eb8-750x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </cover>
+  <isPublished>true</isPublished>
+  <publishedAt>2024-08-22T12:58:55.802Z</publishedAt>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-oborudvane</current>
+  </slug>
+  <sourceUrl>https://bg.drop.od.ua/post/rain-bird-оборудване-за-автоматични-системи-за-поливане-на-тревни-площи</sourceUrl>
+  <tags>Автоматично напояване</tags>
+  <title>Преглед на оборудване Rain Bird за автоматично поливане</title>
+  <translations>
+    <bg>
+      <body>
+        <_key>b11r</_key>
+        <_type>image</_type>
+        <alt>Лого на Rain Bird</alt>
+        <asset>
+          <_ref>image-f738c349b3c39c015eb4f9042c8f518526036ef8-220x120-gif</_ref>
+          <_type>reference</_type>
+        </asset>
+      </body>
+      <body>
+        <_key>b11t</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b11s</_key>
+          <_type>span</_type>
+          <text>Rain Bird Несебър</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b11v</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b11u</_key>
+          <_type>span</_type>
+          <text>Радваме се, че можем да Ви предложим монтаж на автоматични поливни системи в Несебър на базата на оборудване Rain Bird.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b11x</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b11w</_key>
+          <_type>span</_type>
+          <text>Rain Bird Corporation, частна американска компания, е основана през 1933 г. по време на селскостопанския бум в Калифорния. Това е водещ световен производител и доставчик на продукти и услуги за напояване. От създаването си Rain Bird произвежда и предлага най-широката гама продукти за напояване в индустрията за ферми, голф игрища, спортни арени, търговски имоти и домове в повече от 130 страни по света.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b122</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b11y</_key>
+          <_type>span</_type>
+          <text>Въз основа на нашия опит в </text>
+        </children>
+        <children>
+          <_key>b120</_key>
+          <_type>span</_type>
+          <marks>b11z</marks>
+          <text>инсталирането на системи за автоматично напояване</text>
+        </children>
+        <children>
+          <_key>b121</_key>
+          <_type>span</_type>
+          <text> в района на Несебър, Rain Bird е най-доброто оборудване за системи за автоматично напояване на тревни площи и растения.</text>
+        </children>
+        <markDefs>
+          <_key>b11z</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b124</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b123</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b124</marks>
+          <text>Онлайн магазин за поилно ​​оборудване Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b124</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/vsichko-za-polivane</href>
+        </markDefs>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>b126</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b125</_key>
+          <_type>span</_type>
+          <text>Продажба на компоненти за автоматично напояване на Rain Bird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b128</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b127</_key>
+          <_type>span</_type>
+          <text>Разполагаме с подготвен склад от материали за създаване и ремонт на автоматични поливни системи. Поради това по принцип няма забавяне при избора на необходимото ремонтно оборудване за автоматично поливане. Подбрали сме най-често използваните компоненти и оборудване за автоматични поливни системи и се стараем да поддържаме достатъчно количество.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12a</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b129</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b12a</marks>
+          <text>Разпръсквачи като Rain Bird SPRAY.</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b12a</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/static-sprinklers</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b12c</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12b</_key>
+          <_type>span</_type>
+          <text>Rain Bird spray</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12e</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12d</_key>
+          <_type>span</_type>
+          <text>Предназначен за поливане на малки площи от 1 м до средни до 8 м в диаметър. Избрахме го за използване в нашите системи за автоматично напояване поради неговата надеждност, издръжливи материали и гъвкавост. Разпръсквачът с пръскаща дюза е с първокласни качества, които осигуряват надеждна работа и дълъг експлоатационен живот. Превъзходните компоненти и функции правят Rain Bird предпочитаната пръскаща глава за широк спектър от приложения, особено в малки площи.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12g</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12f</_key>
+          <_type>span</_type>
+          <text>Предимства и предимства на разпръсквача тип Rain Bird SPRAY:</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12i</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12h</_key>
+          <_type>span</_type>
+          <text>Подсилената пружина от неръждаема стомана осигурява гладко прибиране всеки път. Патентован уплътнен гумен пръстен предотвратява изтичането на вода и осигурява дълъг експлоатационен живот. Коничното прибиращо се гърло помага за премахване на остатъците по време на прибиране. Бял мрежест филтър със среден размер предпазва дюзата от запушване и позволява прецизно регулиране на радиуса. Прост регулиращ винт от неръждаема стомана намалява или увеличава разстоянието на пръскане от 1 до 7 метра. Функцията за регулиране на посоката улеснява ръчното насочване на пръскащата глава. Не са необходими инструменти за смяна на инжектори.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12k</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12j</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b12k</marks>
+          <text>Ротационни дюзи Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b12k</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotator-nozzles</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b12m</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12l</_key>
+          <_type>span</_type>
+          <text>ротатор Rain Bird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12o</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12n</_key>
+          <_type>span</_type>
+          <text>Регулируемите въртящи се глави Rain Bird R-VAN осигуряват водна ефективност и гъвкавост на дизайна. Регулируемите ротационни дюзи на R-VAN разполагат с технология за въртящ се поток, която осигурява равномерно подаване на вода с ниски нива на утаяване, значително намалявайки оттичането и ерозията.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12q</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12p</_key>
+          <_type>span</_type>
+          <text>Чрез преоборудване на стандартните пръскащи дюзи с регулируеми ротационни дюзи R-VAN Rain Bird можете да намалите консумацията с до 60% и да увеличите ефективността на водата с до 30%. Моделът на пръскане на дюзата и разстоянието се регулират лесно на ръка без използването на инструменти.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12s</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12r</_key>
+          <_type>span</_type>
+          <text>Плътни, устойчиви на вятър струи осигуряват ефективна работа в тежки реални условия. Големите водни капки на R-VAN издържат на вятъра, така че водата остава в целевата зона за поливане. Изключителната функция за ръчно промиване предпазва дюзите от мръсотия и отломки дори при екстремни условия.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12u</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12t</_key>
+          <_type>span</_type>
+          <text>Несебър е отлично място за използване на тези дюзи, тъй като не навсякъде имаме добро водно налягане.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12w</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12v</_key>
+          <_type>span</_type>
+          <text>През последните години като цяло смятаме, че дюзите R-VAN Rain Bird са най-доброто оборудване за автоматични системи за поливане на тревни площи в Слънчев бряг.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b12y</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12x</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b12y</marks>
+          <text>Роторни разпръсквачи Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b12y</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotorni-razprskvachi</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b130</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b12z</_key>
+          <_type>span</_type>
+          <text>ротор Rain Bird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b132</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b131</_key>
+          <_type>span</_type>
+          <text>Роторите Rain Bird са идеални за средни до големи тревни площи и разпределят водата равномерно от 5 до 12 метра (радиус). Отлична равномерност на разпределението на водата. Роторите са проектирани да осигуряват равномерен модел на пръскане, осигурявайки равномерна зелена морава. По-големите водни капки, произведени от технологията Rain Curtain, предотвратяват вятъра, така че точното количество вода се доставя на правилното място, спестявайки ви вода и пари. Нежното поливане близо до пръскачката елиминира сухите петна около ротора, предотвратява измиването на семената и позволява на тревното растение да расте здраво. Те идват с набор от дюзи, с тяхна помощ можете да настроите равномерно поливане в цялата площ. Има различни модели ротори, които се различават по дължина, дебелина, обем на изливаната вода и обхват на напояване. Ще се радваме да изберем модела, от който се нуждаете.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b134</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b133</_key>
+          <_type>span</_type>
+          <text>Нашият градински център Флориал е реализирал много проекти с тези поилки в района на Слънчев бряг.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b136</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b135</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b136</marks>
+          <text>Електромагнитни клапани Rain Bird за управление на автоматични напоителни системи</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b136</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/electromagnetic-valves</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b138</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b137</_key>
+          <_type>span</_type>
+          <text>Електроклапан Rainbird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13a</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b139</_key>
+          <_type>span</_type>
+          <text>Rain Bird произвежда само клапани с най-високо качество. Всички вентили работят с всеки стандартен таймер за спринклер. Снабден с диафрагма Buna-N със самопочистващ се воден филтър (200 микрона) и затворена пружина. Работа в системи с нисък дебит и налягане. оборудван с винтове с глава Phillips от неръждаема стомана (3,2 см). Възможно е да се инсталира управляващ соленоид за използване с батерийно захранвани контролери Rain Bird.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13c</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13b</_key>
+          <_type>span</_type>
+          <text>Като се има предвид, че България не винаги е известна с качеството на водата си, тези електромагнитни вентили са идеални за нашия регион. Те работят там, където клапаните на други производители се провалят.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13e</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13d</_key>
+          <_type>span</_type>
+          <text>С помощта на електромагнитни клапани Rain Bird можете да монтирате висококачествено автоматично поливане на тревата и растенията.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13g</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13f</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b13g</marks>
+          <text>Компютри Rain Bird за системи за автоматично поливане на тревни площи и растения.</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b13g</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/controllers</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b13i</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13h</_key>
+          <_type>span</_type>
+          <text>Florial Garden Center, в партньорство с производителя на оборудване за поливане Rain Bird, предлага пълна гама автоматични таймери за разпръскване и контролери за поливане (автоматично поливане), за да отговори на всякакви нужди, от най-малката система за поливане до големи и сложни търговски обекти. Ние предлагаме както лесни за програмиране зонови компютри, така и най-новите саморегулиращи се интелигентни компютри за напояване, които постоянно се настройват в зависимост от времето. Налични модели за вътрешна и външна употреба.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13k</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13j</_key>
+          <_type>span</_type>
+          <text>Компютър за напояване Rain Bird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13m</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13l</_key>
+          <_type>span</_type>
+          <text>Предлагаме основно контролер от серия ESP-RZX с Wi-Fi поддръжка. Предназначен за малки парцели до 10 декара. Контролерите имат ограничен брой станции: 4, 6, 8 за вътрешен монтаж и външни модели за монтаж във всички помещения.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13o</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13n</_key>
+          <_type>span</_type>
+          <text>Характеристики на контролера:</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13q</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13p</_key>
+          <_type>span</_type>
+          <text>Съвместим с LNK Wi-Fi модул от Rain Bird; Голям LCD дисплей с удобен интерфейс; Възможност за монтиране на сензор за дъжд; Програмирането на зоните ви позволява да създавате независими графици за поливане за всяка зона; 6 независими времена на задействане за всяка зона; 4 опции за избор на дни за поливане за всяка зона: зададени дни от седмицата, НЕЧЕТНИ календарни дни, ЧЕТНИ календарни дни, циклично поливане (на всеки 1-14 дни); Ръчно поливане за ВСИЧКИ зони или ОТДЕЛНА зона</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13s</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13r</_key>
+          <_type>span</_type>
+          <marks>florial-bg-b13s</marks>
+          <text>Микрокапкова тръба Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-bg-b13s</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/kapkovo-napoyavane</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>b13u</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13t</_key>
+          <_type>span</_type>
+          <text>Микрокапкова тръба Rain Bird</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13w</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13v</_key>
+          <_type>span</_type>
+          <text>XF Dripline - 1.6 l/h, разстояние между капкомери 40 см, 100 метра в намотка. Уникалният материал предлага значително по-голяма гъвкавост, позволявайки по-тесни завои с по-малко колена за по-лесен монтаж. Инсталира се на компресионни фитинги Rain Bird Easy Fit или фитинги XF Dripline или фитинги 17 мм. Конструкцията на капкообразувателя с компенсация на налягането осигурява равномерен поток по цялата дължина на тръбата, осигурявайки по-висока равномерност за подобрена надеждност в диапазона на налягането от 2 до 5 атмосфери. Двуслойната (кафяво върху черно) тръба осигурява ненадмината химическа устойчивост. Защита срещу растеж на водорасли и UV радиация.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b13y</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13x</_key>
+          <_type>span</_type>
+          <text>Нашият склад за автополивна техника в Несебър е готов за сезон 2020г.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b140</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b13z</_key>
+          <_type>span</_type>
+          <text>Нашият регион е Несебър. Монтираме автоматични поливни системи и продаваме поилна техника Rain Bird в Несебър от Свети Влас до Поморие.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b142</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b141</_key>
+          <_type>span</_type>
+          <text>Студио за ландшафтен дизайн Florial винаги е готово да ви помогне при избора на поливна техника.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b145</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b144</_key>
+          <_type>span</_type>
+          <marks>b143</marks>
+          <text>Цена на система за автоматично поливане в Бургаска област</text>
+        </children>
+        <markDefs>
+          <_key>b143</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/blog/cena-sistema-avtomatichno-napoyavane-burgas</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b148</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b147</_key>
+          <_type>span</_type>
+          <marks>b146</marks>
+          <text>Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър</text>
+        </children>
+        <markDefs>
+          <_key>b146</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b14b</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b14a</_key>
+          <_type>span</_type>
+          <marks>b149</marks>
+          <text>Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр</text>
+        </children>
+        <markDefs>
+          <_key>b149</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>cta-blogPost</_key>
+        <_type>block</_type>
+        <children>
+          <_key>cta-t-bg-9</_key>
+          <_type>span</_type>
+          <text>Следваща стъпка: разгледайте </text>
+        </children>
+        <children>
+          <_key>cta-s-bg-9</_key>
+          <_type>span</_type>
+          <marks>cta-a-bg-9</marks>
+          <text>оборудването Rain Bird</text>
+        </children>
+        <children>
+          <_key>cta-m-bg-9</_key>
+          <_type>span</_type>
+          <text> или </text>
+        </children>
+        <children>
+          <_key>cta-e-bg-9</_key>
+          <_type>span</_type>
+          <marks>cta-b-bg-9</marks>
+          <text>монтажа на поливни системи</text>
+        </children>
+        <markDefs>
+          <_key>cta-a-bg-9</_key>
+          <_type>link</_type>
+          <href>/category/vsichko-za-polivane</href>
+        </markDefs>
+        <markDefs>
+          <_key>cta-b-bg-9</_key>
+          <_type>link</_type>
+          <href>/services/montaj-avtomatichni-polivni-sistemi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <coverAlt>Оборудване Rain Bird за автоматично поливане</coverAlt>
+      <seoDescription>Разгледайте основни решения Rain Bird за автоматично напояване — контролери, капкови тръби и функции за управление на поливните зони в градината.</seoDescription>
+      <seoTitle>Оборудване Rain Bird за автоматично напояване | Florial</seoTitle>
+      <shortDescription>Преглед на оборудването Rain Bird за автоматично напояване: контролери, капкови тръби и функции за управление на отделните поливни зони.</shortDescription>
+      <title>Преглед на оборудване Rain Bird за автоматично поливане</title>
+    </bg>
+    <en>
+      <body>
+        <_key>re1</_key>
+        <_type>image</_type>
+        <alt>Rain Bird irrigation equipment in Nessebar</alt>
+        <asset>
+          <_ref>image-f738c349b3c39c015eb4f9042c8f518526036ef8-220x120-gif</_ref>
+          <_type>reference</_type>
+        </asset>
+      </body>
+      <body>
+        <_key>re2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re2s</_key>
+          <_type>span</_type>
+          <text>Florial installs automatic irrigation systems in Nessebar using Rain Bird equipment.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re3s</_key>
+          <_type>span</_type>
+          <text>Rain Bird is a privately held American company founded in California in 1933 and is one of the world’s leading irrigation equipment manufacturers. Its products are used on farms, golf courses, sports facilities, commercial landscapes and home gardens in more than 130 countries.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re4s</_key>
+          <_type>span</_type>
+          <text>Based on our experience installing irrigation systems around Nessebar, Rain Bird offers a broad range of dependable components for watering lawns and plants.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re5s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re5</marks>
+          <text>Rain Bird irrigation equipment</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re5</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/vsichko-za-polivane?lang=en</href>
+        </markDefs>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>re6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re6s</_key>
+          <_type>span</_type>
+          <text>We keep popular components in stock for installation and repairs, helping reduce delays when replacement parts are needed.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re7</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re7s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re7</marks>
+          <text>Rain Bird spray sprinklers</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re7</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/static-sprinklers?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re8</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re8s</_key>
+          <_type>span</_type>
+          <text>Spray sprinklers suit small to medium areas, with watering radii of roughly 1–8 m. They are valued for reliability, durable materials and flexibility. A reinforced stainless-steel spring supports smooth retraction, while a seal helps prevent leaks. The pop-up design helps clear debris as the head retracts. A filter protects the nozzle from clogging, and an adjustment screw can change the spray radius from around 1 to 7 m. Spray direction can be adjusted manually, and nozzle replacement does not require special tools.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re9</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re9s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re9</marks>
+          <text>Rain Bird R-VAN rotary nozzles</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re9</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotator-nozzles?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re10</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re10s</_key>
+          <_type>span</_type>
+          <text>Adjustable R-VAN rotary nozzles use rotating streams to distribute water evenly at a low precipitation rate, helping reduce runoff and erosion. Replacing standard spray nozzles with R-VAN may reduce water use by up to 60% and improve water-use efficiency by up to 30%; actual results depend on system design and settings.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re11</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re11s</_key>
+          <_type>span</_type>
+          <text>Dense streams and larger droplets resist wind better and help keep water in the intended area. A manual flush feature helps clear debris. These features can be useful where water pressure is inconsistent, including around Nessebar and Sunny Beach.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re12</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re12s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re12</marks>
+          <text>Rain Bird rotor sprinklers</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re12</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotorni-razprskvachi?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re13</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re13s</_key>
+          <_type>span</_type>
+          <text>Rotors are suitable for medium and large lawns, with a typical watering radius of around 5–12 m depending on the model and nozzle. Rain Curtain technology creates larger, wind-resistant droplets and supports even distribution. Gentle watering near the head helps reduce dry spots and soil disturbance. Models vary in height, flow rate and range, so selection should reflect the site and water supply.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re14</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re14s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re14</marks>
+          <text>Rain Bird solenoid valves</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re14</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/electromagnetic-valves?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re15</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re15s</_key>
+          <_type>span</_type>
+          <text>Solenoid valves control water flow in an automatic irrigation system and work with standard irrigation controllers. Depending on the model, features may include a Buna-N diaphragm, self-cleaning filter, enclosed spring and stainless-steel fasteners. Some models support low-flow and low-pressure operation, and certain configurations allow use with battery-powered controllers.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re16</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re16s</_key>
+          <_type>span</_type>
+          <text>Valve selection should take account of water quality, operating pressure and system flow. Choosing a suitable valve helps ensure reliable irrigation.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re17</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re17s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re17</marks>
+          <text>Rain Bird controllers</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re17</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/controllers?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re18</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re18s</_key>
+          <_type>span</_type>
+          <text>Florial offers controllers for small private gardens and more complex sites, from simple zone controllers to intelligent models that adjust watering according to weather conditions. Indoor and outdoor versions are available.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re19</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re19s</_key>
+          <_type>span</_type>
+          <text>The original article highlights the ESP-RZX series with Wi‑Fi connectivity through the LNK module. Depending on the version, controllers have 4, 6 or 8 stations. Features include a large LCD, rain-sensor compatibility, independent schedules for each zone, multiple start times, watering days selected by weekday, odd/even dates or a 1–14-day cycle, and manual operation of all zones or a single zone. Compatibility and availability should be checked for the specific model.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re20</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re20s</_key>
+          <_type>span</_type>
+          <marks>florial-en-re20</marks>
+          <text>Rain Bird XF dripline</text>
+        </children>
+        <markDefs>
+          <_key>florial-en-re20</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/kapkovo-napoyavane?lang=en</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>re21</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re21s</_key>
+          <_type>span</_type>
+          <text>The article describes XF Dripline with 1.6 L/h emitters spaced 40 cm apart and supplied in 100 m rolls. Its flexible material allows tighter bends with fewer elbows. Compatible connections include Rain Bird Easy Fit, XF Dripline or 17 mm fittings. Pressure-compensating emitters help maintain an even flow at approximately 2–5 bar. The dual-layer tube resists chemicals, UV exposure and algae growth.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>re22</_key>
+        <_type>block</_type>
+        <children>
+          <_key>re22s</_key>
+          <_type>span</_type>
+          <text>Florial installs automatic irrigation systems and helps customers choose Rain Bird equipment from Sveti Vlas to Pomorie. The right components depend on the size and shape of the site, water pressure and available flow.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>cta-blogPost</_key>
+        <_type>block</_type>
+        <children>
+          <_key>cta-t-en-9</_key>
+          <_type>span</_type>
+          <text>Next step: explore </text>
+        </children>
+        <children>
+          <_key>cta-s-en-9</_key>
+          <_type>span</_type>
+          <marks>cta-a-en-9</marks>
+          <text>Rain Bird equipment</text>
+        </children>
+        <children>
+          <_key>cta-m-en-9</_key>
+          <_type>span</_type>
+          <text> or </text>
+        </children>
+        <children>
+          <_key>cta-e-en-9</_key>
+          <_type>span</_type>
+          <marks>cta-b-en-9</marks>
+          <text>irrigation system installation</text>
+        </children>
+        <markDefs>
+          <_key>cta-a-en-9</_key>
+          <_type>link</_type>
+          <href>/category/vsichko-za-polivane</href>
+        </markDefs>
+        <markDefs>
+          <_key>cta-b-en-9</_key>
+          <_type>link</_type>
+          <href>/services/montaj-avtomatichni-polivni-sistemi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <coverAlt>Overview of Rain Bird Automatic Irrigation Equipment</coverAlt>
+      <seoDescription>Explore Rain Bird automatic irrigation equipment, including controllers, dripline and features for managing separate watering zones around the garden.</seoDescription>
+      <seoTitle>Rain Bird Equipment for Automatic Irrigation | Florial</seoTitle>
+      <shortDescription>An overview of Rain Bird irrigation equipment, including controllers, dripline and features that help manage separate watering zones in a garden.</shortDescription>
+      <title>Overview of Rain Bird Automatic Irrigation Equipment</title>
+    </en>
+    <ru>
+      <body>
+        <_key>rr1</_key>
+        <_type>image</_type>
+        <alt>Оборудование Rain Bird в Несебре</alt>
+        <asset>
+          <_ref>image-f738c349b3c39c015eb4f9042c8f518526036ef8-220x120-gif</_ref>
+          <_type>reference</_type>
+        </asset>
+      </body>
+      <body>
+        <_key>rr2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr2s</_key>
+          <_type>span</_type>
+          <text>Florial предлагает монтаж автоматических систем полива в Несебре с использованием оборудования Rain Bird.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr3s</_key>
+          <_type>span</_type>
+          <text>Rain Bird — частная американская компания, основанная в 1933 году в Калифорнии. Это один из ведущих мировых производителей оборудования и решений для орошения. Продукция компании используется на фермах, полях для гольфа, спортивных объектах, коммерческих территориях и в частных садах более чем в 130 странах.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr4s</_key>
+          <_type>span</_type>
+          <text>По нашему опыту установки автоматического полива в районе Несебра, оборудование Rain Bird подходит для полива газонов и растений благодаря широкому выбору компонентов и надёжным решениям.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr5s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr5</marks>
+          <text>Интернет-магазин оборудования Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr5</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/vsichko-za-polivane?lang=ru</href>
+        </markDefs>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>rr6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr6s</_key>
+          <_type>span</_type>
+          <text>Мы поддерживаем запас популярных компонентов для монтажа и ремонта систем полива, чтобы сократить ожидание нужных деталей.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr7</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr7s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr7</marks>
+          <text>Спрей-разбрызгиватели Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr7</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/static-sprinklers?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr8</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr8s</_key>
+          <_type>span</_type>
+          <text>Спрей-разбрызгиватели подходят для небольших и средних площадей с радиусом полива примерно от 1 до 8 м. Их выбирают за надёжность, прочные материалы и гибкость применения. Усиленная пружина из нержавеющей стали помогает головке плавно втягиваться; уплотнение уменьшает утечки; выдвижная конструкция помогает очищаться от загрязнений. Фильтр защищает форсунку от засорения, а регулировочный винт позволяет изменять радиус примерно от 1 до 7 м. Направление распыла регулируется вручную, смена форсунок не требует специальных инструментов.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr9</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr9s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr9</marks>
+          <text>Ротаторные форсунки Rain Bird R-VAN</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr9</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotator-nozzles?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr10</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr10s</_key>
+          <_type>span</_type>
+          <text>Регулируемые ротаторные форсунки R-VAN используют вращающиеся струи для равномерного полива с низкой интенсивностью подачи, помогая уменьшать сток и эрозию. При замене стандартных форсунок на R-VAN расход воды может снизиться до 60%, а эффективность использования воды — повыситься до 30%; фактический результат зависит от проекта и настроек.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr11</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr11s</_key>
+          <_type>span</_type>
+          <text>Плотные струи и крупные капли лучше противостоят ветру и помогают удерживать воду в нужной зоне. Функция ручной промывки помогает удалять загрязнения. Это может быть особенно полезно в местах, где давление воды нестабильно, в том числе в районе Несебра и Солнечного Берега.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr12</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr12s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr12</marks>
+          <text>Роторные дождеватели Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr12</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/rotorni-razprskvachi?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr13</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr13s</_key>
+          <_type>span</_type>
+          <text>Роторы подходят для средних и больших газонов и обычно обеспечивают радиус полива примерно 5–12 м в зависимости от модели и форсунки. Технология Rain Curtain формирует крупные капли, устойчивые к ветру, и помогает равномерно распределять воду. Мягкий полив возле головки уменьшает сухие зоны и риск размывания семян. Разные модели отличаются высотой, расходом и радиусом; подходящую модель выбирают по параметрам участка и водоснабжения.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr14</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr14s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr14</marks>
+          <text>Электромагнитные клапаны Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr14</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/electromagnetic-valves?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr15</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr15s</_key>
+          <_type>span</_type>
+          <text>Электромагнитные клапаны управляют подачей воды в автоматической системе и совместимы со стандартными контроллерами полива. В зависимости от модели они оснащаются мембраной Buna-N, самоочищающимся фильтром, закрытой пружиной и крепежом из нержавеющей стали; доступны решения для низкого расхода и давления. Некоторые модели позволяют подключить соленоид для контроллеров, работающих от батареек.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr16</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr16s</_key>
+          <_type>span</_type>
+          <text>При подборе клапана важно учитывать качество воды, рабочее давление и расход системы. Правильно выбранный клапан помогает обеспечить надёжную работу полива.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr17</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr17s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr17</marks>
+          <text>Контроллеры Rain Bird</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr17</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/controllers?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr18</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr18s</_key>
+          <_type>span</_type>
+          <text>Florial предлагает контроллеры для небольших частных садов и более сложных объектов: от простых зональных устройств до интеллектуальных моделей с погодной корректировкой. Доступны варианты для установки внутри и снаружи помещений.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr19</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr19s</_key>
+          <_type>span</_type>
+          <text>В статье отдельно упоминается серия ESP-RZX с поддержкой Wi‑Fi через модуль LNK. Модели имеют 4, 6 или 8 станций в зависимости от исполнения. Возможности включают большой LCD-дисплей, подключение датчика дождя, независимые программы для каждой зоны, несколько времён запуска, выбор дней полива по дням недели, чётным/нечётным датам или циклу 1–14 дней, а также ручной запуск всех зон или одной зоны. Совместимость и наличие следует уточнять по конкретной модели.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr20</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr20s</_key>
+          <_type>span</_type>
+          <marks>florial-ru-rr20</marks>
+          <text>Капельная трубка Rain Bird XF</text>
+        </children>
+        <markDefs>
+          <_key>florial-ru-rr20</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>https://florial-bg.com/category/kapkovo-napoyavane?lang=ru</href>
+        </markDefs>
+        <style>h4</style>
+      </body>
+      <body>
+        <_key>rr21</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr21s</_key>
+          <_type>span</_type>
+          <text>В статье описана капельная линия XF Dripline с расходом эмиттера 1,6 л/ч, шагом капельниц 40 см и длиной бухты 100 м. Гибкий материал облегчает укладку с меньшим количеством колен. Подключение возможно через совместимые фитинги Rain Bird Easy Fit, XF Dripline или 17 мм. Компенсация давления помогает поддерживать равномерный расход в диапазоне примерно 2–5 бар; двухслойная трубка устойчива к химическому воздействию, ультрафиолету и росту водорослей.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>rr22</_key>
+        <_type>block</_type>
+        <children>
+          <_key>rr22s</_key>
+          <_type>span</_type>
+          <text>Florial устанавливает автоматические системы полива и помогает подобрать оборудование Rain Bird в регионе от Святого Власа до Поморие. Выбор компонентов зависит от площади, формы участка, давления и доступного расхода воды.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>cta-blogPost</_key>
+        <_type>block</_type>
+        <children>
+          <_key>cta-t-ru-9</_key>
+          <_type>span</_type>
+          <text>Следующий шаг: посмотрите </text>
+        </children>
+        <children>
+          <_key>cta-s-ru-9</_key>
+          <_type>span</_type>
+          <marks>cta-a-ru-9</marks>
+          <text>оборудование Rain Bird</text>
+        </children>
+        <children>
+          <_key>cta-m-ru-9</_key>
+          <_type>span</_type>
+          <text> или </text>
+        </children>
+        <children>
+          <_key>cta-e-ru-9</_key>
+          <_type>span</_type>
+          <marks>cta-b-ru-9</marks>
+          <text>монтаж систем полива</text>
+        </children>
+        <markDefs>
+          <_key>cta-a-ru-9</_key>
+          <_type>link</_type>
+          <href>/category/vsichko-za-polivane</href>
+        </markDefs>
+        <markDefs>
+          <_key>cta-b-ru-9</_key>
+          <_type>link</_type>
+          <href>/services/montaj-avtomatichni-polivni-sistemi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <coverAlt>Обзор оборудования Rain Bird для автоматического полива</coverAlt>
+      <seoDescription>Познакомьтесь с решениями Rain Bird для автоматического полива: контроллерами, капельными трубками и функциями управления зонами сада.</seoDescription>
+      <seoTitle>Оборудование Rain Bird для автоматического полива | Florial</seoTitle>
+      <shortDescription>Обзор оборудования Rain Bird для автоматического полива: контроллеры, капельные трубки и функции управления отдельными зонами орошения.</shortDescription>
+      <title>Обзор оборудования Rain Bird для автоматического полива</title>
+    </ru>
+  </translations>
+</document>
