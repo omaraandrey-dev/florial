@@ -99,8 +99,8 @@ export function Footer() {
               <a href={localizedHref('/contacts', language)} className={linkClass}>
                 {language === 'en' ? 'Contacts and consultation' : language === 'ru' ? 'Контакты и консультация' : 'Контакти и консултация'}
               </a>
-              <a href={localizedHref('/about', language)} className={linkClass}>
-                {language === 'en' ? 'Garden centre' : language === 'ru' ? 'Садовый центр' : 'Градински център'}
+              <a href={localizedHref('/', language)} className={linkClass}>
+                {language === 'en' ? 'Online shop' : language === 'ru' ? 'Интернет-магазин' : 'Онлайн магазин'}
               </a>
             </div>
           </details>
