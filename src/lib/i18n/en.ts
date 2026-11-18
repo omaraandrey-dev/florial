@@ -57,7 +57,7 @@ const locale = {
     'Цена от': 'From',
     'Проверете наличността': 'Check availability',
     'Цената е с включен ДДС.': 'Price includes VAT.',
-    'Виж растението': 'View plant'
+    'Виж растението': 'View plant',
     'Професионални решения за градината': 'Professional garden solutions',
     'Растения за вашата градина': 'Plants for your garden',
     'Палми, маслини, цитруси, декоративни дървета и цветя — избор за частни градини, хотели и професионално озеленяване.': 'Palms, olive trees, citrus, ornamental trees and flowers for private gardens, hotels and professional landscaping.',
