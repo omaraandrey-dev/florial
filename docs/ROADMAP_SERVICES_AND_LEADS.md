@@ -1,3 +1,10 @@
+## 2026-11-08 — Delivery stage 3: Production release and mobile table correction
+- PR #120 release: merge commit `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`; Cloudflare Pages Production deployment `ec045258-1133-49c6-b087-bc49107cd916` succeeded.
+- Live BG/RU/EN smoke: HTTP 200, localized metadata/headings, 30 delivery rows per locale, Pomorie 15 EUR, Kosharitsa 10 EUR, delivery sitemap URLs and hreflang.
+- Optional Sanity tariff-change acceptance test was not performed; Production prices were not changed for testing.
+- PR #122 mobile delivery-table correction was subsequently merged and deployed; Production deployment `c7e06a19-d2f0-42b7-abb9-a5f11c84dc5a`. Detailed mobile-layout/release records are referenced by PR #123.
+- Detailed reconciliation: `docs/audits/2026-11-18-open-pr-reconciliation.md`.
+
 ## 2026-11-17 — Новая услуга «Онлайн ландшафтный проект»
 
 - Создан отдельный активный service-документ Sanity Production: `7b5ea19c-4001-4045-aad2-88e4a4685011`, slug `landshaften-proekt-online`, категория `landscaping`, sortOrder 11.
