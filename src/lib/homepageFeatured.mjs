@@ -20,7 +20,7 @@ export function getPlantPrice(product) {
 }
 
 /**
- * @template T
+ * @template {{ slug?: { current?: string } }} T
  * @param {T[] | null | undefined} products
  * @returns {T[]}
  */
