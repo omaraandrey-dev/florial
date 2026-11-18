@@ -27,3 +27,15 @@ No Sanity documents or assets were written. No schema deployment was performed.
 - `src/lib/i18n/en.ts`
 - `tests/homepage-conversion.test.mjs`
 - This audit file.
+
+ 
+## Owner feedback follow-up — 2026-11-18
+
+- Hero shopping CTAs now include the published category images: plants root category `plants-root` (slug `rastenia`) and ready-made irrigation kits category `gotovi-komplekti-za-polivane`. The secondary About link is visually stronger, larger and keyboard-focus visible.
+- The trust strip remains unchanged. The mobile services header now keeps the small activity label and the All services link on one row, with the main heading below.
+- Added a compact equipment recommendation section after irrigation categories. It reads up to four active products from the existing published ready-made kits category, ordered by ascending price, with product image, localized name, published price, VAT label only when `vatIncluded == true`, and stock status. The live Sanity read-only query returned 12 products in that category. No `isFeatured` field or new Sanity data was added.
+- Blog homepage ordering now pins the existing published landscape-project article first and the existing automatic-irrigation pricing article second; the third card is the newest published article excluding those two. No blog documents or fields are changed.
+- Live Sanity read-only references: plants root category `plants-root`, slug `rastenia`, image asset URL `https://cdn.sanity.io/images/bxvcy0qs/plants/611be152eca54582ad91030b2d86b2c180369796-1200x896.jpg`; irrigation kit category ID `6709cd41-18c6-4c5f-bc27-90d55d685dec`, slug `gotovi-komplekti-za-polivane`, image asset URL `https://cdn.sanity.io/images/bxvcy0qs/production/e747c2b0726c96c773ed663b795edd6bbe86663f-1000x918.png`.
+- Pinned blog slugs: `podroben-landshaften-proekt-gradina` and `cena-sistema-avtomatichno-napoyavane-burgas`. The third card remains dynamic.
+- No Sanity documents, assets or schema were written. No Header, primary navigation, Footer, routing architecture, D1, Resend, Cloudflare configuration, secrets or Production deployment changes.
+- Automated test/build/CI and visual Preview verification for this follow-up are pending.
