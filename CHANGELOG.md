@@ -1,3 +1,11 @@
+## 2026-11-18 — Product Offer remediation CI and Preview verification
+
+- The shared Product Offer implementation and corrected schema tests passed Blog and Studio validation run 44355682859 on commit 92da3ecdb8d06b51de72ae87a5ed495030bc439d: TypeScript typecheck, lint, website tests, website build, migration checks/dry-run, Studio typecheck and Studio build all succeeded. D1 migration validation run 44355682858 also succeeded.
+- Current branch head 8fd67042f41746b09f66f014734790131ff54e76 adds only a clarifying source comment after the verified code/test commit.
+- Cloudflare Pages Preview for 92da3ec deployed successfully at https://9ba37c43.florial.pages.dev. No Production deployment was performed.
+- Google Rich Results Test and URL Inspection remain pending: the interactive Google test app / Preview pages could not be accessed through the available web reader, and Windsor.ai Search Console connector does not expose URL Inspection fields. Prefilled test links are recorded in the roadmap and audit.
+- PR #407 remains open and unmerged. No Production, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings changed.
+
 ## 2026-11-18 — Google Product Schema remediation (PR #407, validation pending)
 
 - Owner-directed sequence: re-review and correct Product JSON-LD before running Google Rich Results Test; raw HTML file retrieval is not a prerequisite for reviewing the source generator, but no claim is made that the live Production response has been fetched.
