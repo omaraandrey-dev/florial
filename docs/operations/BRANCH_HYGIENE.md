@@ -6,7 +6,7 @@ Default branch: `main`
 
 ## Verified inventory
 
-- GitHub branch listing returned **416 refs total**, including `main`; therefore **415 non-main refs** existed at this snapshot.
+- GitHub branch listing returned **417 refs total**, including `main`; therefore **416 non-main refs** (including this cleanup branch) existed at this snapshot.
 - Open Pull Requests: **0**.
 - The repository default branch is `main`.
 - GitHub branch metadata reports `main` as `protected=false`; the repository rulesets query returned an empty list. The branch-protection details endpoint was not accessible to the connected integration. Treat `main` as not protected until the owner verifies and configures it.
@@ -14,7 +14,7 @@ Default branch: `main`
 
 ## What the branch list means
 
-The 415 non-main refs are historical working branches, checkpoints, content/audit branches and earlier feature experiments. They are **not** current project baselines and must not be used as the starting point for new work.
+The 416 non-main refs are historical working branches, checkpoints, content/audit branches and earlier feature experiments. They are **not** current project baselines and must not be used as the starting point for new work.
 
 A branch name alone does not prove its contents are merged. Some refs may contain unique commits, recovery checkpoints or paused engineering work. They have not been deleted or force-updated in this cleanup. The current GitHub connector exposes no branch-delete operation, and a bulk deletion without a branch-by-branch comparison would be unsafe.
 
