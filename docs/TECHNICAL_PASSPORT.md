@@ -5,6 +5,20 @@
 - Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
 - Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
 
+## 2026-11-18 — Manager on-demand PostHog integration (pending credential and release)
+- Added a separate authenticated Manager endpoint and UI block for on-demand PostHog summaries; D1 analytics remains unchanged. The feature covers the five live-confirmed events, daily page views, top paths, languages and approximate countries, with five-minute isolate cache.
+- Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`, preferred, or `POSTHOG_API_KEY`, supported alias).
+- Read-only Cloudflare Pages Production metadata confirms a server-side secret named `POSTHOG_API_KEY` (`secret_text`) in addition to public `VITE_POSTHOG_PROJECT_KEY`; its value was not read. The endpoint supports this alias. Credential validity and `query:read` scope await live API verification. No Cloudflare setting or secret was changed by this check.
+- Feature implementation is pending merge/deployment and live PostHog Query API verification. See `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+- CI passed on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b`: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`. A subsequent documentation-only changelog commit records these results.
+
+## 2026-11-18 — PostHog live ingestion and dashboard verification
+- Live PostHog EU project `349453` verified: five Florial event names observed; the private dashboard `1114600` now has six tiles (page views, categories/products, cart actions, languages, top pages, country map).
+- Verified 576 page-view events for 14–18 Nov (BG 323, RU 247, EN 6; GeoIP BG 570, BE 5, UA 1). Counts are events, not unique people; 18 Nov partial; GeoIP approximate.
+- `florial_phone_click`, `florial_chat_click` and `florial_checkout_start` exist in the code path but were not observed in live event schema. Treat them as unconfirmed until live evidence exists.
+- Dashboard refresh and all six insight queries succeeded. No website code, Cloudflare configuration/secrets, D1, Sanity, Resend or Production deployment was changed.
+- Detailed evidence and privacy limitations: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+
 ## 2026-11-18 — Final main HEAD after owner-policy documentation
 - Documentation-only PR #401 merged successfully; merge commit / current main HEAD at this snapshot: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
 - Latest verified application/CI/Cloudflare Pages Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d` with successful exact-SHA CI runs `44301545917` and `44301545919`, and successful Production deployment `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f`. PR #401 changed documentation only; no runtime code changed.

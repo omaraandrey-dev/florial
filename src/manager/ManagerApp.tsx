@@ -63,6 +63,16 @@ type AnalyticsReport = {
   by_language: Array<{ lang: string; event_count: number }>
   top_pages: Array<{ page_path: string; page_views: number }>
 }
+type PostHogAnalyticsReport = {
+  period_days: number
+  totals: { page_views: number; category_views: number; product_views: number; cart_views: number; add_to_cart: number; total_events: number }
+  daily: Array<{ event_day: string; page_views: number }>
+  top_pages: Array<{ page_path: string; page_views: number }>
+  by_language: Array<{ language: string; event_count: number }>
+  by_country: Array<{ country_code: string; event_count: number }>
+  updated_at: string
+  cached?: boolean
+}
 const statusLabels: Record<string, string> = {
   draft: 'Чернова', submitted: 'Изпратена за проверка', in_review: 'В процес на проверка',
   changes_requested: 'Нужни са корекции', approved: 'Одобрена', publishing: 'Публикува се',
@@ -128,6 +138,9 @@ export default function ManagerApp() {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
+  const [postHogData, setPostHogData] = useState<PostHogAnalyticsReport | null>(null)
+  const [postHogLoading, setPostHogLoading] = useState(false)
+  const [postHogError, setPostHogError] = useState('')
   const [categorySeoLoading, setCategorySeoLoading] = useState(false)
   const [categorySeoProgress, setCategorySeoProgress] = useState('')
   const [categorySeoNotice, setCategorySeoNotice] = useState('')
@@ -295,6 +308,21 @@ export default function ManagerApp() {
       setAnalyticsError(err instanceof Error ? err.message : 'Не успяхме да заредим аналитиката.')
     } finally {
       setAnalyticsLoading(false)
+    }
+  }, [session, profile, analyticsDays])
+
+  const loadPostHogAnalytics = useCallback(async () => {
+    if (!session || !profile || (profile.role !== 'owner' && (profile.role !== 'manager' || !profile.permissions.canViewAnalytics))) return
+    setPostHogLoading(true)
+    setPostHogError('')
+    try {
+      const { data, error: rpcError } = await managerApi.rpc('manager_posthog_analytics', { p_days: analyticsDays })
+      if (rpcError) throw new Error(rpcError.message)
+      setPostHogData(data as PostHogAnalyticsReport)
+    } catch (err) {
+      setPostHogError(err instanceof Error ? err.message : 'Не успяхме да заредим PostHog аналитиката.')
+    } finally {
+      setPostHogLoading(false)
     }
   }, [session, profile, analyticsDays])
 
@@ -950,6 +978,54 @@ export default function ManagerApp() {
           </div>
           <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">Отчетът показва броя на записаните събития, а не уникални посетители. Не се събират IP адреси, user-agent, referrer, идентификатори на посетители или съдържание на формуляри.</p>
         </>}
+        <section className="mt-6 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold">Допълнителна аналитика · PostHog</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-5 text-stone-600">Поведение на посетителите, интерес към каталога, количка, популярни страници, езици и държави. Зарежда се само при заявка.</p>
+            </div>
+            <button type="button" onClick={() => void loadPostHogAnalytics()} disabled={postHogLoading} className="rounded-xl bg-stone-800 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50">{postHogLoading ? 'Зареждане…' : postHogData ? 'Обнови PostHog' : 'Зареди PostHog аналитика'}</button>
+          </div>
+          {postHogError && <div role="alert" className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">{postHogError}</div>}
+          {postHogLoading && !postHogData && <p className="mt-4 text-sm text-stone-500">Зареждане на обобщените данни от PostHog…</p>}
+          {postHogData && <>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-500">
+              <span>Период: последни {postHogData.period_days} дни · {postHogData.cached ? 'Кеширани данни' : 'Нови данни'}</span>
+              <span>Обновено: {new Date(postHogData.updated_at).toLocaleString('bg-BG', { timeZone: 'Europe/Sofia' })}</span>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-5">
+              {[
+                { label: 'Прегледи на страници', value: postHogData.totals.page_views },
+                { label: 'Прегледи на категории', value: postHogData.totals.category_views },
+                { label: 'Прегледи на продукти', value: postHogData.totals.product_views },
+                { label: 'Отваряния на количката', value: postHogData.totals.cart_views },
+                { label: 'Добавяния в количката', value: postHogData.totals.add_to_cart },
+              ].map((item) => <article key={item.label} className="rounded-xl border border-stone-200 bg-stone-50 p-3"><div className="text-xs text-stone-500">{item.label}</div><div className="mt-2 text-2xl font-semibold tabular-nums">{item.value.toLocaleString('bg-BG')}</div></article>)}
+            </div>
+            <div className="mt-5 grid gap-5 lg:grid-cols-2">
+              <div className="rounded-xl border border-stone-200 p-4">
+                <h3 className="font-semibold">Най-посещавани страници · PostHog</h3>
+                <div className="mt-3 space-y-2">{postHogData.top_pages.length ? postHogData.top_pages.map((item) => <div key={item.page_path} className="flex items-center justify-between gap-3 border-b border-stone-100 py-2 text-sm"><span className="min-w-0 break-all">{item.page_path}</span><strong className="shrink-0 tabular-nums">{item.page_views.toLocaleString('bg-BG')}</strong></div>) : <p className="text-sm text-stone-500">Няма данни за избрания период.</p>}</div>
+              </div>
+              <div className="rounded-xl border border-stone-200 p-4">
+                <h3 className="font-semibold">Езици и география</h3>
+                <div className="mt-3 grid grid-cols-2 gap-4">
+                  <div><h4 className="text-xs font-semibold uppercase text-stone-500">Език</h4><div className="mt-2 space-y-2">{postHogData.by_language.map((item) => <div key={item.language} className="flex justify-between gap-2 text-sm"><span>{item.language.toUpperCase()}</span><strong className="tabular-nums">{item.event_count.toLocaleString('bg-BG')}</strong></div>)}</div></div>
+                  <div><h4 className="text-xs font-semibold uppercase text-stone-500">Държава</h4><div className="mt-2 space-y-2">{postHogData.by_country.map((item) => <div key={item.country_code} className="flex justify-between gap-2 text-sm"><span>{item.country_code}</span><strong className="tabular-nums">{item.event_count.toLocaleString('bg-BG')}</strong></div>)}</div></div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 rounded-xl border border-stone-200 p-4">
+              <h3 className="font-semibold">Динамика на прегледите по дни</h3>
+              {postHogData.daily.length === 0 ? <p className="mt-3 text-sm text-stone-500">Няма данни за избрания период.</p> : <div className="mt-4 flex h-36 items-end gap-1 overflow-x-auto pb-6">{postHogData.daily.map((day) => { const max = Math.max(1, ...postHogData.daily.map((item) => item.page_views)); const height = Math.max(day.page_views > 0 ? 3 : 0, Math.round(day.page_views / max * 100)); return <div key={day.event_day} className="flex h-full min-w-5 flex-1 flex-col items-center justify-end gap-1" title={day.event_day + ': ' + day.page_views}><div className="flex w-full flex-1 items-end"><div className="w-full rounded-t bg-sky-700" style={{ height: height + '%' }} /></div><span className="whitespace-nowrap text-[9px] text-stone-500">{day.event_day.slice(5)}</span></div> })}</div>}
+            </div>
+            <p className="mt-4 text-xs leading-5 text-stone-500">PostHog отчита само събития от посетители, приели допълнителната аналитика. Броят на събитията не е брой уникални посетители. Географията е приблизителна и се определя по IP адрес.</p>
+          </>}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-stone-100 pt-3">
+            <span className="text-xs text-stone-500">Подробни анализи и инструменти</span>
+            <a href="https://eu.posthog.com/project/349453/dashboard/1114600" target="_blank" rel="noreferrer" className="text-sm font-semibold text-lime-800 underline underline-offset-2">Отвори PostHog</a>
+          </div>
+        </section>
       </section>
       <section className={activeTab === 'staff' && (profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) ? 'mx-auto max-w-6xl px-4 py-6' : 'hidden'}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">

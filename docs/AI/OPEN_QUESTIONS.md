@@ -18,6 +18,8 @@
 
 ## 3. Текущие QA и технические вопросы
 
+- **Manager PostHog on-demand analytics:** implementation is in PR #405. Cloudflare Production metadata confirms secret `POSTHOG_API_KEY` (`secret_text`) is present; value not read. Endpoint supports it as an alias for preferred `POSTHOG_PERSONAL_API_KEY`. Confirm credential validity and `query:read` scope by live authenticated query after merge/deployment; metadata presence alone is not proof of a valid key.
+- **PostHog telemetry coverage:** live ingestion is active and five Florial events are confirmed in project `349453`. The code paths for `florial_phone_click`, `florial_chat_click` and `florial_checkout_start` were not present in the live event schema on 18.11.2026. Investigate delivery/trigger coverage before treating these as available analytics. Dashboard and evidence: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
 - **Hreflang услуг:** ранее Production QA выявил неполные alternates для `avtomatizirano-kapkovo-napoyavane`. Проверить текущие BG/RU/EN HTML, исправить только SEO projection при подтверждении дефекта и повторно проверить все локали.
 - **Растения и статьи:** Sanity Published read-back подтверждён, но live rendered HTML/browser QA остаётся неподтверждённым для категории `/category/rastenia` и статьи об оливе BG/RU/EN; для зимней статьи BG проверен, RU/EN остаются pending. Google recrawl/indexing не подтверждены. См. соответствующие audits в `docs/audits/`.
 - **Hosted Sanity Studio:** проверить фактический hosted Studio deployment после последних schema updates, если работа затронет Studio; успешный Studio build в CI сам по себе не доказывает hosted deployment.

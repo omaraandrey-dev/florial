@@ -5,6 +5,19 @@
 - Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
 - Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
 
+## 2026-11-18 — Manager on-demand PostHog analytics implementation (live API verification pending)
+- Added a separate Manager PostHog analytics route and UI block, triggered only by an explicit owner/authorized manager click; the existing D1 report remains unchanged.
+- The server-side summary is designed for the five live-confirmed events and includes daily page views, top pages, language and approximate country breakdowns. Existing `canViewAnalytics` permission is reused; no D1 migration is required. Five-minute isolate cache reduces repeat calls.
+- Added helper tests for event allowlist, response normalization and summary sanitization. The Manager GET request was corrected to omit a request body. CI on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b` passed: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`; follow-up changes are being revalidated on the current PR head.
+- Read-only Cloudflare Pages inspection found only public `VITE_POSTHOG_PROJECT_KEY`; the required server-only `POSTHOG_PERSONAL_API_KEY` is absent. No secret values were read and no Cloudflare secret, D1, Sanity, Resend or Production deployment was changed. The feature remains unavailable until owner-approved key setup and live verification.
+
+## 2026-11-18 — PostHog live analytics verified and dashboard extended
+- Verified live EU PostHog project `349453`: Florial ingestion is active; five observed events are `florial_page_view`, `florial_category_view`, `florial_product_view`, `florial_cart_view` and `florial_add_to_cart`.
+- Updated the existing private dashboard `1114600` in place; added language distribution, top pages and GeoIP country map to the existing page/category/product/cart charts. All six insight tiles were refreshed and returned data.
+- 14–18 Nov observed page views: 576 events; language breakdown BG 323 / RU 247 / EN 6; GeoIP country counts BG 570 / BE 5 / UA 1. These are event counts, not unique visitors; 18 Nov was partial and GeoIP is approximate.
+- Current tracking code also contains phone/chat/checkout event paths, but those three event names were not present in the live event schema during this verification. Do not treat them as confirmed telemetry.
+- Updated dashboard explanatory text and `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md` to remove the obsolete claim that ingestion was inactive. No source code, Cloudflare settings/secrets, D1, Sanity, Resend or Production configuration changed.
+
 ## 2026-11-18 — Finalized owner branch and dormant-variable policy (PR #401)
 - PR #401 squash-merged into `main`; merge commit `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
 - Current main HEAD after this documentation-only merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`. The last verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no runtime files changed in PR #401.

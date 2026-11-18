@@ -1,7 +1,18 @@
 # Florial — first-party D1 statistics and optional PostHog analytics
 
-Status: PR #264 merged to `main` and deployed to Production. PostHog ingestion remains inactive until the public project key is configured.
-Date: 14.11.2026
+## Manager on-demand analytics integration — implementation in progress (18.11.2026)
+
+- A separate protected endpoint `GET /api/manager/analytics-posthog?days=1|7|30|90` and Manager UI block are being added. The block loads only after an explicit click; it does not replace or merge the D1 baseline report.
+- The endpoint queries only the five event names confirmed in the live event schema on 18.11.2026 and returns event totals, daily page views, top pages, language breakdown and approximate GeoIP countries. It does not claim unique visitor counts or conversion rates.
+- Server authentication uses the existing Manager session and `canViewAnalytics` permission. The PostHog credential is server-only: `POSTHOG_PERSONAL_API_KEY` (preferred) or `POSTHOG_API_KEY` (supported alias), with read/query permission. It must never be exposed to browser code.
+- Live Cloudflare Pages project inspection (18.11.2026) found `VITE_POSTHOG_PROJECT_KEY` as a plain-text build variable, which is the public event-ingestion key. No `POSTHOG_PERSONAL_API_KEY` secret was configured at the first inspection; the latest read-only metadata check found a server secret named `POSTHOG_API_KEY` (`secret_text`). Its value was not read. The endpoint accepts either name.
+- The key name is now available through the supported `POSTHOG_API_KEY` alias. Its actual validity and `query:read` permission remain unverified until a live authenticated query. Preview does not have the required production bindings and is not an acceptance environment.
+- API responses are cached in the Worker isolate for five minutes to avoid repeat query bursts. Data is fetched only on demand.
+- This implementation is not yet live-verified against the PostHog Query API and is not yet deployed to Production.
+
+
+Status: D1 baseline tracking and optional PostHog analytics are implemented. Live PostHog ingestion from Florial was confirmed on 14.11.2026 and re-verified on 18.11.2026. The dashboard is active and contains six insight charts.
+Last live verification: 18.11.2026. Historical implementation release: 14.11.2026
 PR #264 merge commit: `047e03172f2571b6542adb4a0ed8d4b855df6b24`.
 Production deployment: `1fd6a8da-1bdd-4222-93b4-79adc23841f3` (`https://1fd6a8da.florial.pages.dev`), successful on the exact merge commit.
 PostHog project: EU project ID `349453`.
@@ -26,9 +37,10 @@ Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 
 - PostHog transmission remains disabled unless the visitor's stored choice is exactly `accepted`.
 - A rejection does not stop the first-party D1 baseline events; it prevents the optional PostHog requests.
-- Events sent to PostHog: `florial_page_view`, `florial_phone_click`, `florial_chat_click`, `florial_product_view`, `florial_category_view`, `florial_cart_view`, `florial_add_to_cart`, `florial_checkout_start`.
-- PostHog uses a random in-memory identifier, not a persistent cookie or browser-storage identifier. It groups events only within the current tab until reload.
-- Event properties are limited to language, page path, product type and quantity where applicable. No SKU, product name, order number, order contents, customer name, phone, email, address, form text or order values are sent.
+- **Observed in the live PostHog event schema (18.11.2026):** `florial_page_view`, `florial_category_view`, `florial_product_view`, `florial_cart_view`, `florial_add_to_cart`.
+- **Present in the current tracking code but not observed in the live event schema during this check:** `florial_phone_click`, `florial_chat_click`, `florial_checkout_start`. Do not describe these as live/working events until they appear in the schema or a fresh event query.
+- PostHog uses a random in-memory identifier, not a persistent cookie or browser-storage identifier. It groups events only within the current tab until reload; reload creates a new identifier. Event counts therefore are not reliable unique-visitor counts or cross-session journeys.
+- Client-supplied properties include language, page path, consent version, library label and, where applicable, product type and quantity. PostHog also adds approximate GeoIP and virtual-traffic classification properties. No SKU, product name, order number, order contents, customer name, phone, email, address, form text or order values are sent.
 - No PostHog SDK, session replay, heatmaps, broad autocapture or advertising tracking is implemented.
 
 ## Consent interface
@@ -44,9 +56,9 @@ Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 
 - Project ID: `349453`; EU API host: `https://eu.i.posthog.com`.
 - Project public ingestion key is available from PostHog project settings. It must be used only as the public `VITE_POSTHOG_PROJECT_KEY` build variable; never use a personal API key or secret token in frontend code.
-- At last inspection, PostHog reported IP anonymization enabled and session recordings disabled. No PostHog events had been ingested from Florial.
-- `VITE_POSTHOG_PROJECT_KEY` was not present in the Cloudflare Pages Production environment at the last verified configuration read. The Cloudflare API read showed secret values masked; do not rewrite the full env-var map because that could overwrite existing secrets.
-- Configure the public key through the Cloudflare dashboard UI or a safe additive mechanism that preserves all existing Production variables and secrets. Do not change Preview unless separately requested.
+- Live ingestion is confirmed: the five Florial events above have real records in EU project `349453`. This proves the published site is transmitting events; this audit did not read or expose any Cloudflare variable value.
+- Session recordings remain disabled. The current tracking implementation does not initialize the PostHog SDK and does not enable autocapture, heatmaps or recordings.
+- Never use a personal API key or secret token in frontend code. Do not rewrite the full Cloudflare environment-variable map or inspect secret values as part of analytics maintenance.
 
 ## Privacy and retention follow-ups
 
@@ -56,17 +68,25 @@ Dashboard: https://eu.posthog.com/project/349453/dashboard/1114600
 - Review PostHog's DPA, retention, subprocessors and international access/transfer safeguards; obtain Bulgarian legal review of the privacy notice and consent wording, including applicable ePrivacy requirements.
 - These technical changes do not constitute legal advice or a conclusion that consent is never required for any analytics processing.
 
-## Verification plan
+## Live verification evidence — 18.11.2026
 
-1. Reject optional PostHog analytics in a clean browser profile.
-2. Confirm `/api/track` still receives and stores the four baseline event types in D1.
-3. Confirm no request is sent to `eu.i.posthog.com` after rejection.
-4. Accept PostHog analytics and confirm a request reaches the EU ingestion endpoint.
-5. Verify the event schema in PostHog, then add dashboard charts using only observed event names.
-6. Confirm the Footer privacy-settings link reopens the panel in BG/RU/EN.
+- PostHog live event schema confirms the five observed Florial events listed above.
+- Existing dashboard was extended in place; it remains private (`is_shared: false`): https://eu.posthog.com/project/349453/dashboard/1114600.
+- Six dashboard tiles are present: page views; categories/products; cart actions; language distribution; top pages; country map.
+- All six insight tiles were refreshed and returned results with no query warnings.
+- Rolling dashboard window: last 7 days (11–18 November UTC); Florial ingestion began on 14 November. 18 November is a partial day.
+- Page-view totals for the observed 14–18 November period: 576. Language breakdown: BG 323, RU 247, EN 6. GeoIP country breakdown: BG 570, BE 5, UA 1. These are event counts, not unique people.
+- Top observed paths: `/services` 43; `/services/landshaften-dizain` 36; `/` 34; `/services/avtomatichno-napoyavane` 29; `/category/rastenia` 24; `/services/avtomatizirano-kapkovo-napoyavane` 23; `/services/category/polivni-sistemi` 22; `/services/category/landshaften-arhitekt` 21; `/about` 15; `/blog` 15. Other paths: 314 views.
+- GeoIP is approximate IP-based location, not a precise visitor address.
+
+## Remaining verification / privacy work
+
+- Repeat a clean-browser consent test when practical: after rejection, confirm no optional PostHog request; after acceptance, confirm EU ingestion. The code path is consent-gated, but this specific browser test was not run in this documentation/dashboard pass.
+- Confirm D1 `/api/track` storage and the Footer privacy-settings link in BG/RU/EN through browser/live smoke if they are changed; this pass did not modify them.
+- The tracking/consent implementation is not a full CMP and does not control third-party embeds such as YouTube.
 
 ## Previous production releases
 
 - PR #262 consent panel: merge commit `19ace984706900b51560cefb244ea56db76de79a`; deployment `69918c8b-a8df-4906-a2fd-66ce9046148b`.
 - PR #263 Footer settings link: merge commit `7de2f80c8aba37f814b00a09e568ea6a0f689830`; deployment `486393c0-8bf2-4566-8977-dfa85ae21b9d`.
-- The D1/PostHog separation and revised consent/privacy text described here are active on Production. PostHog ingestion itself remains inactive because `VITE_POSTHOG_PROJECT_KEY` is not configured.
+- The D1/PostHog separation and revised consent/privacy text are active on Production. Live PostHog ingestion is confirmed as of 18.11.2026.
