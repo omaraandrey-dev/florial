@@ -7,8 +7,9 @@ import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getPlantDisplayName, getPlantStockStatus } from '../lib/plantCatalogUtils'
+import { getPlantPrice } from '../lib/homepageFeatured.mjs'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import type { ServiceItem, CategoryItem, SiteSettings, Product } from '../types'
+import type { ServiceItem, CategoryItem, Product } from '../types'
 
 interface HomePageProps {
   services: ServiceItem[]
@@ -17,7 +18,6 @@ interface HomePageProps {
   heroImageUrl: string | null
   featuredPlants: Product[]
   featuredEquipment: Product[]
-  siteSettings: SiteSettings | null
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateProduct: (slug: string) => void
@@ -112,11 +112,7 @@ export function HomePage({
     .slice(0, 4)
   const visibleFeaturedPlants = featuredPlants
     .filter((product) => getPlantStockStatus(product) !== 'outOfStock')
-    .filter((product) => {
-      const variants = product.saleVariants || []
-      const variantPrices = variants.filter((variant) => variant.stockStatus !== 'outOfStock').map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
-      return variants.length > 0 ? variantPrices.length > 0 : Number.isFinite(product.priceEUR) && product.priceEUR > 0
-    })
+    .filter((product) => getPlantPrice(product) !== null)
     .slice(0, 4)
 
   const getServiceSummary = (service: ServiceItem) => {
@@ -134,7 +130,7 @@ export function HomePage({
   }
 
   return (
-    <div>
+    <main>
       <section className="relative isolate overflow-hidden bg-[#F7F8F1] text-slate-800 py-12 md:py-16 px-4">
         <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
           <img
@@ -327,11 +323,9 @@ export function HomePage({
             </div>
             <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
               {visibleFeaturedPlants.map((product) => {
-                const variants = product.saleVariants || []
-                const variantPrices = variants.filter((variant) => variant.stockStatus !== 'outOfStock').map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
-                const hasVariants = variants.length > 0
-                const price = hasVariants ? Math.min(...variantPrices) : product.priceEUR
-                const pricePrefix = hasVariants && new Set(variantPrices).size > 1 ? t('Цена от') + ' ' : ''
+                const plantPrice = getPlantPrice(product)!
+                const price = plantPrice.price
+                const pricePrefix = plantPrice.from ? t('Цена от') + ' ' : ''
                 const name = getPlantDisplayName(product, localize(product, 'name'), language)
                 const stockStatus = getPlantStockStatus(product)
                 const availability = stockStatus === 'inStock' ? t('В наличност') : stockStatus === 'onRequest' ? t('По заявка') : t('Проверете наличността')
@@ -357,7 +351,7 @@ export function HomePage({
         </section>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 pt-10 pb-5 flex-grow w-full bg-[#EEF1E4]">
+      <section className="max-w-7xl mx-auto px-4 pt-10 pb-5 flex-grow w-full bg-[#EEF1E4]">
         <div className="relative mb-4 flex flex-col items-center gap-3 md:block">
           <h3 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{language === 'ru' ? 'Продажа оборудования для полива' : language === 'en' ? 'Irrigation Equipment Sales' : 'Продажба на поливно оборудване'}</h3>
         </div>
@@ -451,8 +445,8 @@ export function HomePage({
             </div>
           </section>
         )}
-      </main>
+      </section>
       <BlogSection />
-    </div>
+    </main>
   )
 }

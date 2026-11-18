@@ -10,6 +10,7 @@ import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
+import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
@@ -310,7 +311,6 @@ export default function App() {
     const route = getRouteState()
     return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
   })
-  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
   const [irrigationAssistantPhoto, setIrrigationAssistantPhoto] = useState<{ imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string } | null>(null)
 
@@ -886,15 +886,6 @@ export default function App() {
         }
       `
 
-      const settingsQuery = `
-        *[_type == "siteSettings"][0] {
-          siteName,
-          heroTitle,
-          heroSubtitle,
-          translations
-        }
-      `
-
       const categoryPromise = Promise.allSettled([
         sanityClient.fetch(categoryQuery),
         publicPlantsClient.fetch(plantCategoryQuery),
@@ -907,14 +898,7 @@ export default function App() {
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }).finally(() => { if (!cancelled) setLoadingCategories(false) })
 
-      const settingsPromise = sanityClient.fetch(settingsQuery)
-        .then((data) => { if (!cancelled) setSiteSettings(data || null) })
-        .catch((error) => console.error('Sanity: не удалось загрузить настройки сайта:', error))
-
-      await Promise.allSettled([
-        categoryPromise,
-        settingsPromise,
-      ])
+      await categoryPromise
     }
 
     fetchData().catch((err) => console.error('Ошибка загрузки данных Florial:', err))
@@ -981,10 +965,7 @@ export default function App() {
     sanityClient.fetch(featuredEquipmentQuery)
       .then((data: Product[]) => {
         if (cancelled) return
-        const products = Array.isArray(data) ? data : []
-        const regularPicks = products.filter((product) => product.slug?.current !== 'komplekt-polivane-5x5' && product.slug?.current !== 'komplekt-avtomatizatsiya-6-zoni').slice(0, 3)
-        const sixZoneKit = products.find((product) => product.slug?.current === 'komplekt-avtomatizatsiya-6-zoni')
-        setHomeFeaturedEquipment(sixZoneKit ? [...regularPicks, sixZoneKit] : regularPicks)
+        setHomeFeaturedEquipment(selectFeaturedEquipment(data))
       })
       .catch((error) => {
         if (cancelled) return
@@ -1837,7 +1818,6 @@ export default function App() {
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
           featuredEquipment={homeFeaturedEquipment}
-          siteSettings={siteSettings}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
           onNavigateProduct={navigateToProduct}

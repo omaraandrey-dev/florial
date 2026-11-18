@@ -1,3 +1,12 @@
+## 2026-11-18 — Homepage code cleanup (follow-up to PR #385)
+
+- Removed the unused homepage-only `siteSettings` request/state/prop; Header's separate `headerSiteSettings` loader is retained.
+- One semantic `<main>` now contains all homepage sections, including the blog; the irrigation catalogue is a nested `<section>`.
+- `BlogSection` distinguishes loading, empty, ready and failed requests and localizes its error state in BG/RU/EN.
+- Featured irrigation kit selection and plant starting-price calculation are shared pure helpers with direct Node tests. No dependencies added.
+- Exact PR head `f867101bb1785720b7bda39560463f036e2fcabd`: Blog/Studio run `44239849985`, D1 run `44239849955`, and Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70` — all success. Browser screenshot unavailable because the connected browser service had exhausted its credits.
+- Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`.
+
 ## 2026-11-18 — Homepage trust/conversion and selected irrigation equipment (PR #385)
 
 - Homepage implementation: category-image hero links for plants and irrigation; CTA width reduced 20% (80%/max 208 px mobile, 208 px desktop); About link is plain underlined text. Trust strip unchanged.
