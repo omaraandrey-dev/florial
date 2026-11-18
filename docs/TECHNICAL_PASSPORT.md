@@ -1,3 +1,9 @@
+## 2026-11-18 — Final main HEAD after owner-policy documentation
+- Documentation-only PR #401 merged successfully; merge commit / current main HEAD at this snapshot: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
+- Latest verified application/CI/Cloudflare Pages Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d` with successful exact-SHA CI runs `44301545917` and `44301545919`, and successful Production deployment `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f`. PR #401 changed documentation only; no runtime code changed.
+- PR #401 records owner decisions: `main` is the sole authoritative branch; non-main refs are historical/auxiliary and require no routine review or cleanup. Cloudflare `SUPABASE_*` / `VITE_SUPABASE_*` variables are intentionally retained dormant reserves, not active dependencies; do not remove, alter, read or re-audit them absent a future explicit activation decision.
+- Open PR count after merge: 0.
+
 ## 2026-11-18 — Owner decisions: main authority and dormant Cloudflare variables
 - Owner confirmed `main` is the only main and authoritative Florial branch. All non-main refs are historical/auxiliary; no further branch-by-branch inspection, comparison, recovery or cleanup is required in ordinary work. Do not use them as a base. New work starts from the live HEAD of `main`. Production deploys from `main`.
 - Owner confirmed legacy Cloudflare Pages variable names `SUPABASE_*` / `VITE_SUPABASE_*` are not used by Florial and are intentionally retained as dormant reserves for possible future needs. They are not part of active architecture. Do not remove, change, read or re-audit them solely because they exist. Revisit only if the owner explicitly starts a future Supabase activation decision.
