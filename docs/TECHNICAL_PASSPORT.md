@@ -1,3 +1,9 @@
+## 2026-11-18 — Owner decisions: main authority and dormant Cloudflare variables
+- Owner confirmed `main` is the only main and authoritative Florial branch. All non-main refs are historical/auxiliary; no further branch-by-branch inspection, comparison, recovery or cleanup is required in ordinary work. Do not use them as a base. New work starts from the live HEAD of `main`. Production deploys from `main`.
+- Owner confirmed legacy Cloudflare Pages variable names `SUPABASE_*` / `VITE_SUPABASE_*` are not used by Florial and are intentionally retained as dormant reserves for possible future needs. They are not part of active architecture. Do not remove, change, read or re-audit them solely because they exist. Revisit only if the owner explicitly starts a future Supabase activation decision.
+- No Cloudflare settings, secrets, bindings, code, Sanity, D1 or Production data were changed by this policy clarification.
+- Authoritative policy is also recorded in `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `docs/AI/WORK_PROTOCOL.md`, `docs/AI/CURRENT_STATE.md`, `docs/AI/OPEN_QUESTIONS.md` and `docs/operations/BRANCH_HYGIENE.md`.
+
 ## 2026-11-18 — Current repository and release baseline
 - Verified live main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no open PRs.
 - Exact-SHA CI: Blog and Studio run `44301545917` success; D1 migration validation run `44301545919` success.
