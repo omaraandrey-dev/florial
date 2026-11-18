@@ -1,3 +1,14 @@
+## 2026-11-18 — Winter landscape design blog article
+
+- Sanity Production document `blogPost-landshaften-proekt-zima-burgas` was refreshed after explicit owner approval. Slug `landshaften-proekt-zima-burgas`, URL, BG title, cover asset and publication date preserved. Final published revision: `LtPyN36JxI5SIUpVnhLU9S`.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-18-landshaften-proekt-zima-burgas-before-editorial-refresh.json` (backup commit `23b7c8cf02fc18138fa3927dfefc3a78b8168f7c`).
+- BG/RU/EN now contain 69 Portable Text blocks each (11,739 / 10,914 / 11,142 characters). Content focuses on winter planning, site analysis, zoning, plant selection, irrigation coordination, lawn/paving and the landscape-project enquiry.
+- Eight inline images per locale: existing Florial project assets reused; four plant-category images copied from the plants dataset into production; two further DROP project images uploaded to production. Localized ALT and captions are populated for BG/RU/EN. Cover remains unchanged.
+- Internal links target verified plant and irrigation categories, active landscape design and automatic irrigation services, rolled turf and relevant landscape articles. The article's existing related-card renderer remains in use; tags are `Озеленяване` and `Ландшафтно проектиране`.
+- The landscape service remains active and its existing enquiry form is the conversion destination. No form submission was made. No application code, schema, Cloudflare, D1, Resend or global navigation changes.
+- Sanity validator reports `valid`, `complete=false` because custom validation callbacks are not run by the beta validator. Live BG page fetch succeeded; RU/EN rendered-page checks remain pending due Firecrawl credit exhaustion. Published RU/EN Sanity fields were verified directly.
+- Full audit: `docs/audits/2026-11-18-landshaften-proekt-zima-burgas-article-refresh.md`.
+
 ## 2026-11-18 — Blog article: rolled turf in Sunny Beach
 
 - Sanity Production document `blogPost-kupete-travna-plosht` refreshed with owner approval; slug `kupete-travna-plosht` and public URL unchanged. Published revision: `4wsk3P4LWpbmPrrSdsLAZ6`.
