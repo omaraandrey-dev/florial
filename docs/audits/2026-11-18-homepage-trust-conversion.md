@@ -7,7 +7,7 @@ Homepage-only storefront UX changes. Header, primary navigation, Footer, global 
 - Two direct hero CTAs route plant shoppers to `/category/rastenia` and irrigation shoppers to `/category/vsichko-za-polivane`; the About link remains secondary.
 - A compact trust strip presents the existing 25+ years claim, product range, Nessebar-area service and design/installation offering.
 - Service cards show localized Sanity `shortDescription` values, with concise localized category fallbacks when a description is absent.
-- A responsive four-card featured-plants section reads only active, published plant documents explicitly marked `isFeatured == true` from the plants dataset. It uses real product images, localized names, variant-aware minimum prices and existing variant-derived stock status. Out-of-stock products are not displayed.
+- A responsive four-card featured-plants section reads only active, published plant documents explicitly marked `isFeatured == true` from the plants dataset. It uses real product images, localized names, the minimum price among non-out-of-stock variants, a VAT label only when the product record confirms VAT inclusion, and existing variant-derived stock status. Out-of-stock products are not displayed.
 
 ## Live Sanity read-only finding
 On 2026-11-18, the published plants dataset query returned zero documents with `isFeatured == true`. The section therefore intentionally remains hidden until products are marked as featured in the existing plant catalogue. A read-only sample query confirmed that root product prices can differ from sale-variant prices; the homepage card prioritizes the lowest valid sale-variant price and never substitutes the root price when variants exist.

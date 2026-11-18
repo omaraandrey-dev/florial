@@ -106,7 +106,7 @@ export function HomePage({
     .filter((product) => getPlantStockStatus(product) !== 'outOfStock')
     .filter((product) => {
       const variants = product.saleVariants || []
-      const variantPrices = variants.map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+      const variantPrices = variants.filter((variant) => variant.stockStatus !== 'outOfStock').map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
       return variants.length > 0 ? variantPrices.length > 0 : Number.isFinite(product.priceEUR) && product.priceEUR > 0
     })
     .slice(0, 4)
@@ -317,7 +317,7 @@ export function HomePage({
             <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
               {visibleFeaturedPlants.map((product) => {
                 const variants = product.saleVariants || []
-                const variantPrices = variants.map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+                const variantPrices = variants.filter((variant) => variant.stockStatus !== 'outOfStock').map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
                 const hasVariants = variants.length > 0
                 const price = hasVariants ? Math.min(...variantPrices) : product.priceEUR
                 const pricePrefix = hasVariants && new Set(variantPrices).size > 1 ? t('Цена от') + ' ' : ''
@@ -334,7 +334,7 @@ export function HomePage({
                       <h4 className="line-clamp-2 min-h-10 text-sm font-bold leading-snug text-slate-900 sm:text-base">{name}</h4>
                       {product.scientificName && <p className="mt-1 line-clamp-1 text-xs italic text-slate-500">{product.scientificName}</p>}
                       <p className="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">{pricePrefix}{price.toFixed(2)} €</p>
-                      <p className="mt-1 text-xs text-slate-500">{t('Цената е с включен ДДС.')}</p>
+                      {product.vatIncluded === true && <p className="mt-1 text-xs text-slate-500">{t('Цената е с включен ДДС.')}</p>}
                       <p className={`mt-2 text-xs font-semibold ${stockStatus === 'inStock' ? 'text-emerald-700' : 'text-amber-700'}`}>{availability}</p>
                       <span className="mt-3 inline-flex text-sm font-bold text-[#647746]">{t('Виж растението')} →</span>
                     </div>

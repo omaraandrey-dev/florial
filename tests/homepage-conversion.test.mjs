@@ -31,6 +31,8 @@ test('homepage featured plants are explicit published plant recommendations with
   assert.match(app, /publicPlantsClient\.fetch\(featuredPlantsQuery\)/)
   assert.match(home, /getPlantStockStatus\(product\)/)
   assert.match(home, /variantPrices/)
+  assert.match(home, /variant.stockStatus !== 'outOfStock'/)
+  assert.match(home, /product.vatIncluded === true/)
   assert.match(home, /onNavigateProduct\(productSlug\)/)
 })
 test('homepage conversion content is localized in every supported language', async () => {
