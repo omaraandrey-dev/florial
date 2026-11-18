@@ -673,24 +673,44 @@ export default function ManagerApp() {
   return (
     <main className="min-h-screen bg-[#f5f6ef] text-stone-800">
       <header className="border-b border-stone-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-          <div><div className="text-xs font-bold tracking-[.22em] text-lime-800">FLORIAL / INTERNAL</div><div className="text-xl font-semibold">Управление на растения</div></div>
-          <div className="text-right text-sm"><div className="font-semibold">{profile.display_name || session.user.email}</div><div className="text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div></div>
-          <button onClick={signOut} className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold">Изход</button>
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-lime-800 text-sm font-bold tracking-tight text-white" aria-hidden="true">F</div>
+            <div className="min-w-0">
+              <div className="text-[10px] font-bold tracking-[.2em] text-lime-800">FLORIAL / INTERNAL</div>
+              <div className="truncate text-lg font-semibold leading-tight text-stone-900 sm:text-xl">Florial Manager</div>
+              <div className="hidden text-xs text-stone-500 sm:block">Работно пространство на градинския център</div>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <div className="hidden min-w-0 text-right text-sm sm:block">
+              <div className="max-w-48 truncate font-semibold text-stone-800">{profile.display_name || session.user.email}</div>
+              <div className="text-xs text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div>
+            </div>
+            <button type="button" onClick={signOut} className="min-h-11 rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm font-semibold text-stone-700 transition hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2">Изход</button>
+          </div>
         </div>
       </header>
-      <nav className="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 pt-4" aria-label="Раздели на Manager">
-        <button onClick={() => setActiveTab('plantCatalog')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'plantCatalog' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Каталог на растенията</button>
-        {profile.role === 'owner' && <button onClick={() => setActiveTab('submissions')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Архив заявок</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button onClick={() => setActiveTab('serviceLeads')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Заявки за услуги</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button onClick={() => { setActiveTab('orders') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'orders' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Поръчки</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) && <button onClick={() => setActiveTab('withdrawals')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'withdrawals' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Откази от договори</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'staff' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Служители</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Аналитика</button>}
-        {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'categories' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>Категории</button>}
-        {profile.role === 'owner' && <button onClick={() => setActiveTab('productsSeo')} className={'rounded-xl px-4 py-2 text-sm font-semibold ' + (activeTab === 'productsSeo' ? 'bg-lime-800 text-white' : 'border border-stone-300 bg-white text-stone-700')}>SEO на продуктите</button>}
-      </nav>
-      <section className={activeTab === 'plantCatalog' ? 'mx-auto w-full max-w-5xl' : 'hidden'}><PlantCatalogManager role={profile.role} /></section>
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-start lg:gap-6 lg:px-8 lg:py-6">
+        <nav className="flex w-full shrink-0 gap-2 overflow-x-auto rounded-2xl border border-stone-200 bg-white p-2 shadow-sm lg:sticky lg:top-4 lg:w-64 lg:flex-col lg:overflow-visible lg:p-3" aria-label="Раздели на Manager">
+          <div className="flex shrink-0 gap-2 lg:flex-col">
+            <div className="hidden px-3 pb-1 pt-2 text-[10px] font-bold tracking-[.16em] text-stone-400 lg:block">ОСНОВНА РАБОТА</div>
+            <button type="button" aria-current={activeTab === 'plantCatalog' ? 'page' : undefined} onClick={() => setActiveTab('plantCatalog')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'plantCatalog' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Каталог растения</button>
+            {profile.role === 'owner' && <button type="button" aria-current={activeTab === 'submissions' ? 'page' : undefined} onClick={() => setActiveTab('submissions')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Заявки на растения</button>}
+            {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button type="button" aria-current={activeTab === 'serviceLeads' ? 'page' : undefined} onClick={() => setActiveTab('serviceLeads')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Заявки за услуги</button>}
+            {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button type="button" aria-current={activeTab === 'orders' ? 'page' : undefined} onClick={() => setActiveTab('orders')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'orders' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Поръчки</button>}
+            {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) && <button type="button" aria-current={activeTab === 'withdrawals' ? 'page' : undefined} onClick={() => setActiveTab('withdrawals')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'withdrawals' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Откази от договори</button>}
+          </div>
+          <div className="flex shrink-0 gap-2 lg:flex-col">
+            <div className="hidden px-3 pb-1 pt-3 text-[10px] font-bold tracking-[.16em] text-stone-400 lg:block">УПРАВЛЕНИЕ</div>
+            {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageStaff) && <button type="button" aria-current={activeTab === 'staff' ? 'page' : undefined} onClick={() => { setActiveTab('staff'); setStaffNotice(''); setStaffError(''); void loadStaff() }} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'staff' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Служители</button>}
+            {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canViewAnalytics) && <button type="button" aria-current={activeTab === 'analytics' ? 'page' : undefined} onClick={() => { setActiveTab('analytics'); setAnalyticsError('') }} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'analytics' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Аналитика</button>}
+            {(profile.role === 'owner' || profile.role === 'manager' && profile.permissions.canManageCategorySeo) && <button type="button" aria-current={activeTab === 'categories' ? 'page' : undefined} onClick={() => { setActiveTab('categories'); setCategorySeoError(''); setCategorySeoNotice(''); setCategorySeoProgress('') }} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'categories' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Категории</button>}
+            {profile.role === 'owner' && <button type="button" aria-current={activeTab === 'productsSeo' ? 'page' : undefined} onClick={() => setActiveTab('productsSeo')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'productsSeo' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>SEO на продуктите</button>}
+          </div>
+        </nav>
+        <div className="min-w-0 flex-1">
+          <section className={activeTab === 'plantCatalog' ? 'w-full' : 'hidden'}><PlantCatalogManager role={profile.role} /></section>
       <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
         <section className="space-y-5">
           {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -1002,6 +1022,8 @@ export default function ManagerApp() {
         </div>
         <p className="mt-5 rounded-xl border border-stone-200 bg-white p-4 text-xs leading-5 text-stone-500">При изключване на достъпа профилът се запазва, за да остане историята на заявките. Паролите не се съхраняват в каталожните таблици. В интерфейса няма функция за самостоятелна смяна или възстановяване на парола.</p>
       </section>
+        </div>
+      </div>
     </main>
   )
 }
