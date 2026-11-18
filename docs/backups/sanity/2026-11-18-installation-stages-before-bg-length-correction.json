@@ -1,0 +1,2619 @@
+{
+  "backupCreatedAt": "2026-11-18T00:00:00Z",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "documentId": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+  "originalRevision": "4wsk3P4LWpbmPrrSds0zpZ",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:45Z",
+    "_id": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+    "_rev": "4wsk3P4LWpbmPrrSds0zpZ",
+    "_system": {
+      "base": {
+        "id": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+        "rev": "wShFcTvKnRduO9ho4JbXhm"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-11-18T06:18:52Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Монтаж на автоматична поливна система в градина в Несебър",
+      "altEn": "Automatic irrigation system installation in a garden in Nessebar",
+      "altRu": "Монтаж автоматической системы полива в саду в Несебре",
+      "asset": {
+        "_ref": "image-e5d829b87bd8d0235338f21a0186c2f977bbab1b-563x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2024-08-22T13:35:50.217Z",
+    "slug": {
+      "_type": "slug",
+      "current": "etapi-montazh-avtomatichna-polivna-instalatsiya"
+    },
+    "sourceUrl": "https://www.drop.od.ua/bg/post/етапи-на-монтаж-на-автоматични-поливки-в-несебър-и-района",
+    "tags": [
+      "Автоматично напояване"
+    ],
+    "title": "Етапи на монтаж на автоматична поливна инсталация в Несебър",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bg001",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg002",
+                "_type": "span",
+                "marks": [],
+                "text": "Оглед на терена и оценка на нуждите"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg004",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg003",
+                "_type": "span",
+                "marks": [],
+                "text": "Работата започва с оглед на имота и уточняване как ще се използва градината. От значение са площта и формата на тревните пространства, наклоните, настилките, сградите, съществуващите комуникации и разположението на дърветата, храстите и цветните лехи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg012",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg005",
+                "_type": "span",
+                "marks": [],
+                "text": "Растенията не се поливат по един и същ начин. Тревните площи, живите плетове, дърветата и сезонните цветя имат различни потребности и често изискват отделни поливни зони. При планирането се съобразяваме и с бъдещото развитие на насажденията. Вижте и категориите ни за "
+              },
+              {
+                "_key": "bg007",
+                "_type": "span",
+                "marks": [
+                  "bg006"
+                ],
+                "text": "дървета и декоративни храсти"
+              },
+              {
+                "_key": "bg008",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "bg010",
+                "_type": "span",
+                "marks": [
+                  "bg009"
+                ],
+                "text": "цветя и рози"
+              },
+              {
+                "_key": "bg011",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg006",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/darveta-i-hrasti"
+              },
+              {
+                "_key": "bg009",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/tsvetya-i-rozi"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg013",
+            "_type": "image",
+            "alt": "Разчертаване на градината и местата за монтаж на поливната система в Несебър",
+            "altEn": "Garden layout marking and positions for an automatic irrigation system near Nessebar",
+            "altRu": "Разметка участка и мест установки элементов автоматического полива в Несебре",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Разчертаването следва проекта и реалното разположение на растенията и настилките."
+          },
+          {
+            "_key": "bg014",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg015",
+                "_type": "span",
+                "marks": [],
+                "text": "Проверка на водоизточника: дебит и динамично налягане"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg017",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg016",
+                "_type": "span",
+                "marks": [],
+                "text": "Преди избора на разпръсквачи, клапани и тръби трябва да се установи с какъв воден ресурс разполага обектът. Проверява се дали водата идва от водопровод, кладенец, резервоар или помпена система."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg018",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg019",
+                "_type": "span",
+                "marks": [],
+                "text": "Измерва се дебитът при реално протичане на вода, а не само номиналният капацитет на източника."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg020",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg021",
+                "_type": "span",
+                "marks": [],
+                "text": "Проверява се динамичното налягане в условия, близки до бъдещата работа на системата."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg022",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg023",
+                "_type": "span",
+                "marks": [],
+                "text": "Отчитат се ограниченията на водомера, захранващата тръба, филтрите, помпата и останалите елементи."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg025",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg024",
+                "_type": "span",
+                "marks": [],
+                "text": "Тези данни са основа за правилното зониране. Ако наличният дебит или налягане не са достатъчни, проектът трябва да предвиди подходящо решение, а не да компенсира проблема с произволен избор на дюзи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg026",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg027",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектиране и избор на оборудване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg038",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg028",
+                "_type": "span",
+                "marks": [],
+                "text": "На база огледа и измерванията се определят броят на зоните, трасетата, диаметърът на тръбите, разположението на клапаните и начинът на управление. Разпръсквачите се подбират според геометрията на площта и работните параметри. Разгледайте "
+              },
+              {
+                "_key": "bg030",
+                "_type": "span",
+                "marks": [
+                  "bg029"
+                ],
+                "text": "оборудването за поливане"
+              },
+              {
+                "_key": "bg031",
+                "_type": "span",
+                "marks": [],
+                "text": ", "
+              },
+              {
+                "_key": "bg033",
+                "_type": "span",
+                "marks": [
+                  "bg032"
+                ],
+                "text": "разпръсквачите"
+              },
+              {
+                "_key": "bg034",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "bg036",
+                "_type": "span",
+                "marks": [
+                  "bg035"
+                ],
+                "text": "контролерите"
+              },
+              {
+                "_key": "bg037",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg029",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/vsichko-za-polivane"
+              },
+              {
+                "_key": "bg032",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/sprinklers"
+              },
+              {
+                "_key": "bg035",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/controllers"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg043",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg039",
+                "_type": "span",
+                "marks": [],
+                "text": "При избора се съобразяват и техническите характеристики на конкретните модели. Полезно е да се запознаете с "
+              },
+              {
+                "_key": "bg041",
+                "_type": "span",
+                "marks": [
+                  "bg040"
+                ],
+                "text": "оборудването Rain Bird за автоматично поливане"
+              },
+              {
+                "_key": "bg042",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg040",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rain-bird-oborudvane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg044",
+            "_type": "image",
+            "alt": "Доставка на оборудване за автоматично напояване в градина край Несебър",
+            "altEn": "Delivery of automatic irrigation equipment to a garden near Nessebar",
+            "altRu": "Доставка оборудования для автоматического полива в сад рядом с Несебром",
+            "asset": {
+              "_ref": "image-2a5051b732d5b19e26627b06dae35fdac6d5d0a2-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Преди монтажа се проверяват моделите и количествата на необходимите компоненти."
+          },
+          {
+            "_key": "bg045",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg046",
+                "_type": "span",
+                "marks": [],
+                "text": "Разчертаване на зоните и подготовка на трасетата"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg048",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg047",
+                "_type": "span",
+                "marks": [],
+                "text": "Преди изкопните работи местата на разпръсквачите, клапанните шахти, тръбите и кабелите се отбелязват на терена. Така проектът се сверява с реалните условия и се избягват конфликтите с настилки, бордюри, корени и други подземни комуникации."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg050",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg049",
+                "_type": "span",
+                "marks": [],
+                "text": "Траншеите се изпълняват по проекта. Дълбочината и начинът на полагане не са универсални стойности — те зависят от вида на тръбата и кабела, настилките, натоварването, почвата и условията на конкретния обект."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg051",
+            "_type": "image",
+            "alt": "Подготовка на компоненти за монтаж на поливна система в Несебър",
+            "altEn": "Preparing components for an automatic irrigation installation",
+            "altRu": "Подготовка комплектующих для монтажа системы автоматического полива",
+            "asset": {
+              "_ref": "image-57a153738a5cdeca7e46fac307f1c147433b2945-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Клапани, фитинги и останалите елементи се подготвят според схемата на системата."
+          },
+          {
+            "_key": "bg052",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg053",
+                "_type": "span",
+                "marks": [],
+                "text": "Полагане на тръби, кабели и монтаж на клапани"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg055",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg054",
+                "_type": "span",
+                "marks": [],
+                "text": "Тръбната мрежа доставя водата до отделните поливни зони. Тръбите се полагат по предвидените трасета, връзките се изпълняват с подходящи фитинги, а пресичанията и преходите се планират така, че системата да може да бъде обслужвана."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg057",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg056",
+                "_type": "span",
+                "marks": [],
+                "text": "Електромагнитните клапани управляват подаването на вода към зоните. Обикновено се разполагат в защитни шахти на места с удобен достъп. При необходимост в системата се включват филтри, редуктори на налягане, възвратни клапани и други защитни елементи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg058",
+            "_type": "image",
+            "alt": "Сглобяване на оборудване за автоматично напояване в градина",
+            "altEn": "Assembly of equipment for an automatic garden irrigation system",
+            "altRu": "Сборка оборудования для автоматической системы полива в саду",
+            "asset": {
+              "_ref": "image-99fdd7e27dedb3f2d72d33fab5252fb2db4098f3-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Компонентите се сглобяват и свързват по предназначение, с осигурен достъп за обслужване."
+          },
+          {
+            "_key": "bg059",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg060",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на разпръсквачи и изграждане на капково напояване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg062",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg061",
+                "_type": "span",
+                "marks": [],
+                "text": "Разпръсквачите се монтират на проектните места и се настройват спрямо формата на тревната площ. Важно е поливните струи да осигуряват равномерно покритие, без да мокрят излишно фасади, алеи и съседни имоти. Различните типове тела и дюзи не са взаимозаменяеми — изборът им зависи от зоната и наличния воден ресурс."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg067",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg063",
+                "_type": "span",
+                "marks": [],
+                "text": "За цветни лехи, живи плетове, дървета и храсти често е по-подходящо "
+              },
+              {
+                "_key": "bg065",
+                "_type": "span",
+                "marks": [
+                  "bg064"
+                ],
+                "text": "капково напояване"
+              },
+              {
+                "_key": "bg066",
+                "_type": "span",
+                "marks": [],
+                "text": ". То подава водата близо до кореновата зона и позволява отделен режим за насажденията. Системата се съобразява с вида на растенията и разположението им."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg064",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/kapkovo-napoyavane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg068",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg069",
+                "_type": "span",
+                "marks": [],
+                "text": "Контролер, помпа и водоснабдяване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg071",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg070",
+                "_type": "span",
+                "marks": [],
+                "text": "Контролерът задава програмата за поливане и управлява електромагнитните клапани. Броят на управляваните зони трябва да съответства на проекта. При подходящ модел графикът може да се настройва дистанционно или през приложение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg072",
+            "_type": "image",
+            "alt": "Монтаж на контролер за автоматична поливна система",
+            "altEn": "Installation of an automatic irrigation controller",
+            "altRu": "Установка контроллера автоматической системы полива",
+            "asset": {
+              "_ref": "image-a19fd10cac27f8cf7e24780c21785c10598ef01f-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Контролерът управлява графика на поливане и отделните зони."
+          },
+          {
+            "_key": "bg074",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg073",
+                "_type": "span",
+                "marks": [],
+                "text": "Ако водоизточникът не осигурява необходимите параметри, може да се наложи помпа, резервоар или друго технически обосновано решение. Мястото за резервоара, електрозахранването и защитата на оборудването се планират предварително. Необходимостта от помпена станция се определя след измерванията, а не по предположение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg075",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg076",
+                "_type": "span",
+                "marks": [],
+                "text": "Пускане, изпитване и настройка"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg078",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg077",
+                "_type": "span",
+                "marks": [],
+                "text": "След приключване на монтажа системата се промива и проверява. Всяка зона се стартира отделно, оглеждат се връзките, клапаните и разпръсквачите, коригират се посоката и обхватът на струите и се проверява работата на контролера."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg079",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg080",
+                "_type": "span",
+                "marks": [],
+                "text": "Проверяват се течове, налягане и работа на клапаните."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg081",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg082",
+                "_type": "span",
+                "marks": [],
+                "text": "Настройва се покритието на разпръсквачите и се проверява равномерността на поливане."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg083",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg084",
+                "_type": "span",
+                "marks": [],
+                "text": "Задава се начален график, който впоследствие може да се коригира според сезона, времето и състоянието на растенията."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg085",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg086",
+                "_type": "span",
+                "marks": [],
+                "text": "Готови комплекти за поливане на тревна площ"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg088",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg087",
+                "_type": "span",
+                "marks": [],
+                "text": "За някои типични градини могат да бъдат подходящи готови комплекти. Те се различават по начина на управление и състава на оборудването. Преди покупка трябва да се сравнят схемата на участъка, водният дебит и работното налягане с изискванията на конкретния комплект."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg092",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg090",
+                "_type": "span",
+                "marks": [
+                  "bg089"
+                ],
+                "text": "Супер икономичен комплект — 242,32 EUR"
+              },
+              {
+                "_key": "bg091",
+                "_type": "span",
+                "marks": [],
+                "text": ": три тревни зони с ръчни кранове вместо автоматичен контролер, ротори 3504-PC, тела US-400, дюзи VAN-12 и монтажни фитинги."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg089",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/super-ikonomichen-komplekt-polivane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg096",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg094",
+                "_type": "span",
+                "marks": [
+                  "bg093"
+                ],
+                "text": "Икономичен комплект — 478,32 EUR"
+              },
+              {
+                "_key": "bg095",
+                "_type": "span",
+                "marks": [],
+                "text": ": три тревни зони с контролер Rain Bird ESP-TM2-4i, три клапана, ротори 3504-PC, тела US-400 и дюзи VAN-12."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg093",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/ikonomichen-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg100",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg098",
+                "_type": "span",
+                "marks": [
+                  "bg097"
+                ],
+                "text": "Стандартен комплект — 631,42 EUR"
+              },
+              {
+                "_key": "bg099",
+                "_type": "span",
+                "marks": [],
+                "text": ": три тревни зони с Rain Bird ESP-TM2-4i, три клапана, 12 тела 1804 с дюзи R-VAN-18 и шест ротора 3504-PC."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg097",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/standarten-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg102",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg101",
+                "_type": "span",
+                "marks": [],
+                "text": "Посочените суми са публикуваните цени на комплектите с включен ДДС, а не цена за цялостен проект и монтаж. При икономичния и стандартния комплект PE тръбата Ø25 mm и електрическият кабел за клапаните не са включени; възможни са и допълнителни материали според обекта. Винаги проверявайте актуалната комплектация и съвместимостта преди поръчка."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg107",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg103",
+                "_type": "span",
+                "marks": [],
+                "text": "За по-подробно сравнение на решенията вижте статията "
+              },
+              {
+                "_key": "bg105",
+                "_type": "span",
+                "marks": [
+                  "bg104"
+                ],
+                "text": "Колко струва автоматичната поливна система в Несебър и района?"
+              },
+              {
+                "_key": "bg106",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg104",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/cena-sistema-avtomatichno-napoyavane-burgas"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bg108",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg109",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектиране и монтаж на поливна система от Florial"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "bg111",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg110",
+                "_type": "span",
+                "marks": [],
+                "text": "Правилно изградената система започва с точни измервания и проект, а не само с разполагане на разпръсквачи. Florial съдейства при проектиране, подбор на оборудване, монтаж, настройка и последваща профилактика на системи за автоматично напояване в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие и близките населени места."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bg116",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bg112",
+                "_type": "span",
+                "marks": [],
+                "text": "За информация относно оглед и изпълнение разгледайте услугата "
+              },
+              {
+                "_key": "bg114",
+                "_type": "span",
+                "marks": [
+                  "bg113"
+                ],
+                "text": "Автоматично напояване"
+              },
+              {
+                "_key": "bg115",
+                "_type": "span",
+                "marks": [],
+                "text": ", където е налична и формата за запитване."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bg113",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Монтаж на автоматична поливна система в градина в Несебър",
+        "seoDescription": "Разгледайте основните етапи при изграждане на автоматично напояване в Несебър и района: проект, воден дебит, зониране, тръби, разпръсквачи, капково напояване и настройка.",
+        "seoTitle": "Монтаж на автоматична поливна система | Несебър | Флориал",
+        "shortDescription": "Как се планира и изгражда автоматична поливна система — от огледа и измерването на водоизточника до монтажа, настройката и пробното пускане.",
+        "title": "Етапи на монтаж на автоматична поливна система в Несебър"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "en001",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en002",
+                "_type": "span",
+                "marks": [],
+                "text": "Site survey and assessment of irrigation needs"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en004",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en003",
+                "_type": "span",
+                "marks": [],
+                "text": "The process starts with a site survey and a discussion of how the garden will be used. The design takes account of lawn size and shape, slopes, paths, paved areas, buildings, existing utilities and the position of trees, shrubs and flower beds."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en012",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en005",
+                "_type": "span",
+                "marks": [],
+                "text": "Different plants do not have identical watering needs. Lawns, hedges, trees and flower beds often require separate irrigation zones. Future plant growth should also be considered. Explore our categories for "
+              },
+              {
+                "_key": "en007",
+                "_type": "span",
+                "marks": [
+                  "en006"
+                ],
+                "text": "trees and ornamental shrubs"
+              },
+              {
+                "_key": "en008",
+                "_type": "span",
+                "marks": [],
+                "text": " and "
+              },
+              {
+                "_key": "en010",
+                "_type": "span",
+                "marks": [
+                  "en009"
+                ],
+                "text": "flowers and roses"
+              },
+              {
+                "_key": "en011",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en006",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/darveta-i-hrasti"
+              },
+              {
+                "_key": "en009",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/tsvetya-i-rozi"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en013",
+            "_type": "image",
+            "alt": "Garden layout marking and positions for an automatic irrigation system near Nessebar",
+            "altEn": "Garden layout marking and positions for an automatic irrigation system near Nessebar",
+            "altRu": "Разметка участка и мест установки элементов автоматического полива в Несебре",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "The layout is marked according to the design and the actual position of plants and paved areas."
+          },
+          {
+            "_key": "en014",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en015",
+                "_type": "span",
+                "marks": [],
+                "text": "Checking the water source: flow rate and dynamic pressure"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en017",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en016",
+                "_type": "span",
+                "marks": [],
+                "text": "Before selecting sprinklers, valves and pipes, the available water supply must be assessed. The source may be a mains connection, a well, a storage tank or a pumping system."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en018",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en019",
+                "_type": "span",
+                "marks": [],
+                "text": "Flow rate is measured while water is actually running, rather than relying only on the source's nominal capacity."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en020",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en021",
+                "_type": "span",
+                "marks": [],
+                "text": "Dynamic pressure is checked under conditions close to the system's intended operation."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en022",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en023",
+                "_type": "span",
+                "marks": [],
+                "text": "The limits of the water meter, supply pipe, filters, pump and other components are taken into account."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en025",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en024",
+                "_type": "span",
+                "marks": [],
+                "text": "These measurements determine how the system can be divided into zones. If the available flow or pressure is insufficient, the design must include a suitable technical solution rather than an arbitrary nozzle change."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en026",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en027",
+                "_type": "span",
+                "marks": [],
+                "text": "System design and equipment selection"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en038",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en028",
+                "_type": "span",
+                "marks": [],
+                "text": "Based on the survey and measurements, the design defines the number of zones, pipe routes and diameters, valve locations and control method. Sprinklers are selected to suit the shape of each area and the required operating conditions. Browse "
+              },
+              {
+                "_key": "en030",
+                "_type": "span",
+                "marks": [
+                  "en029"
+                ],
+                "text": "irrigation equipment"
+              },
+              {
+                "_key": "en031",
+                "_type": "span",
+                "marks": [],
+                "text": ", "
+              },
+              {
+                "_key": "en033",
+                "_type": "span",
+                "marks": [
+                  "en032"
+                ],
+                "text": "sprinklers"
+              },
+              {
+                "_key": "en034",
+                "_type": "span",
+                "marks": [],
+                "text": " and "
+              },
+              {
+                "_key": "en036",
+                "_type": "span",
+                "marks": [
+                  "en035"
+                ],
+                "text": "controllers"
+              },
+              {
+                "_key": "en037",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en029",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/vsichko-za-polivane"
+              },
+              {
+                "_key": "en032",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/sprinklers"
+              },
+              {
+                "_key": "en035",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/controllers"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en043",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en039",
+                "_type": "span",
+                "marks": [],
+                "text": "The specifications and compatibility of each model also matter. You can read our overview of "
+              },
+              {
+                "_key": "en041",
+                "_type": "span",
+                "marks": [
+                  "en040"
+                ],
+                "text": "Rain Bird automatic irrigation equipment"
+              },
+              {
+                "_key": "en042",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en040",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rain-bird-oborudvane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en044",
+            "_type": "image",
+            "alt": "Delivery of automatic irrigation equipment to a garden near Nessebar",
+            "altEn": "Delivery of automatic irrigation equipment to a garden near Nessebar",
+            "altRu": "Доставка оборудования для автоматического полива в сад рядом с Несебром",
+            "asset": {
+              "_ref": "image-2a5051b732d5b19e26627b06dae35fdac6d5d0a2-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Before installation, the equipment models and quantities are checked against the design."
+          },
+          {
+            "_key": "en045",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en046",
+                "_type": "span",
+                "marks": [],
+                "text": "Marking irrigation zones and preparing pipe routes"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en048",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en047",
+                "_type": "span",
+                "marks": [],
+                "text": "Before excavation, the positions of sprinklers, valve boxes, pipes and cables are marked on the ground. The design is checked against actual site conditions to avoid conflicts with paving, kerbs, roots and other underground utilities."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en050",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en049",
+                "_type": "span",
+                "marks": [],
+                "text": "Trenches are excavated according to the design. There is no single depth suitable for every site: the required installation method depends on the pipe and cable type, surface finish, loading, soil and local conditions."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en051",
+            "_type": "image",
+            "alt": "Preparing components for an automatic irrigation installation",
+            "altEn": "Preparing components for an automatic irrigation installation",
+            "altRu": "Подготовка комплектующих для монтажа системы автоматического полива",
+            "asset": {
+              "_ref": "image-57a153738a5cdeca7e46fac307f1c147433b2945-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Valves, fittings and other components are prepared according to the system layout."
+          },
+          {
+            "_key": "en052",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en053",
+                "_type": "span",
+                "marks": [],
+                "text": "Installing pipes, cables and valves"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en055",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en054",
+                "_type": "span",
+                "marks": [],
+                "text": "The pipe network carries water to the individual irrigation zones. Pipes follow the planned routes, suitable fittings are used, and crossings and transitions are arranged to keep the system accessible for future maintenance."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en057",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en056",
+                "_type": "span",
+                "marks": [],
+                "text": "Solenoid valves control water delivery to each zone. They are normally installed in protective valve boxes at accessible locations. Filters, pressure regulators, check valves and other protective components are included where the water source and system design require them."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en058",
+            "_type": "image",
+            "alt": "Assembly of equipment for an automatic garden irrigation system",
+            "altEn": "Assembly of equipment for an automatic garden irrigation system",
+            "altRu": "Сборка оборудования для автоматической системы полива в саду",
+            "asset": {
+              "_ref": "image-99fdd7e27dedb3f2d72d33fab5252fb2db4098f3-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Components are assembled for their intended purpose while keeping them accessible for maintenance."
+          },
+          {
+            "_key": "en059",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en060",
+                "_type": "span",
+                "marks": [],
+                "text": "Installing sprinklers and building drip irrigation"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en062",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en061",
+                "_type": "span",
+                "marks": [],
+                "text": "Sprinklers are installed at the designed positions and adjusted to suit the lawn shape. Their spray patterns should provide even coverage without unnecessarily watering façades, paths or neighbouring properties. Sprinkler bodies and nozzles must be selected for the zone and available water conditions."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en067",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en063",
+                "_type": "span",
+                "marks": [],
+                "text": "For flower beds, hedges, trees and shrubs, "
+              },
+              {
+                "_key": "en065",
+                "_type": "span",
+                "marks": [
+                  "en064"
+                ],
+                "text": "drip irrigation"
+              },
+              {
+                "_key": "en066",
+                "_type": "span",
+                "marks": [],
+                "text": " is often more suitable. It delivers water closer to the root zone and allows planting areas to have a separate schedule. The layout should reflect the plant types and their positions."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en064",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/kapkovo-napoyavane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en068",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en069",
+                "_type": "span",
+                "marks": [],
+                "text": "Controller, pump and water supply"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en071",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en070",
+                "_type": "span",
+                "marks": [],
+                "text": "The controller sets the watering schedule and operates the solenoid valves. The number of controlled zones must match the design. Depending on the model, schedules may also be adjusted remotely or through an app."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en072",
+            "_type": "image",
+            "alt": "Installation of an automatic irrigation controller",
+            "altEn": "Installation of an automatic irrigation controller",
+            "altRu": "Установка контроллера автоматической системы полива",
+            "asset": {
+              "_ref": "image-a19fd10cac27f8cf7e24780c21785c10598ef01f-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "The controller manages the watering schedule and individual irrigation zones."
+          },
+          {
+            "_key": "en074",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en073",
+                "_type": "span",
+                "marks": [],
+                "text": "If the water source cannot provide the required operating conditions, the design may include a pump, storage tank or another technically appropriate solution. The tank location, power supply and equipment protection should be planned in advance. A pumping station should be specified only after the necessary measurements."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en075",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en076",
+                "_type": "span",
+                "marks": [],
+                "text": "Commissioning, testing and adjustment"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en078",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en077",
+                "_type": "span",
+                "marks": [],
+                "text": "Once installation is complete, the system is flushed and checked. Each zone is started separately; connections, valves and sprinklers are inspected; spray direction and radius are adjusted; and controller operation is tested."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en079",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en080",
+                "_type": "span",
+                "marks": [],
+                "text": "Check for leaks, confirm pressure and verify valve operation."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en081",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en082",
+                "_type": "span",
+                "marks": [],
+                "text": "Adjust sprinkler coverage and assess watering uniformity."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en083",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en084",
+                "_type": "span",
+                "marks": [],
+                "text": "Set an initial schedule that can later be adapted to the season, weather and plant condition."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en085",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en086",
+                "_type": "span",
+                "marks": [],
+                "text": "Ready-made kits for lawn irrigation"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en088",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en087",
+                "_type": "span",
+                "marks": [],
+                "text": "Ready-made kits may suit some typical gardens. They differ in control method and equipment configuration. Before purchasing, compare the garden layout, available flow rate and working pressure with the requirements of the specific kit."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en092",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en090",
+                "_type": "span",
+                "marks": [
+                  "en089"
+                ],
+                "text": "Super Economy Kit — EUR 242.32"
+              },
+              {
+                "_key": "en091",
+                "_type": "span",
+                "marks": [],
+                "text": ": three lawn zones with manual taps instead of an automatic controller, 3504-PC rotors, US-400 bodies, VAN-12 nozzles and installation fittings."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en089",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/super-ikonomichen-komplekt-polivane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en096",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en094",
+                "_type": "span",
+                "marks": [
+                  "en093"
+                ],
+                "text": "Economy Kit — EUR 478.32"
+              },
+              {
+                "_key": "en095",
+                "_type": "span",
+                "marks": [],
+                "text": ": three lawn zones with a Rain Bird ESP-TM2-4i controller, three valves, 3504-PC rotors, US-400 bodies and VAN-12 nozzles."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en093",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/ikonomichen-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en100",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en098",
+                "_type": "span",
+                "marks": [
+                  "en097"
+                ],
+                "text": "Standard Kit — EUR 631.42"
+              },
+              {
+                "_key": "en099",
+                "_type": "span",
+                "marks": [],
+                "text": ": three lawn zones with a Rain Bird ESP-TM2-4i, three valves, twelve 1804 bodies with R-VAN-18 nozzles and six 3504-PC rotors."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en097",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/standarten-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en102",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en101",
+                "_type": "span",
+                "marks": [],
+                "text": "These are the published VAT-inclusive prices of the equipment kits, not a quotation for a complete design and installation. The Economy and Standard kits do not include Ø25 mm PE pipe or the electrical cable for the valves; additional materials may be needed depending on the site. Always check the current kit contents and compatibility before ordering."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en107",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en103",
+                "_type": "span",
+                "marks": [],
+                "text": "For a closer comparison of solutions and budgets, read "
+              },
+              {
+                "_key": "en105",
+                "_type": "span",
+                "marks": [
+                  "en104"
+                ],
+                "text": "How Much Does an Automatic Irrigation System Cost Near Nessebar?"
+              },
+              {
+                "_key": "en106",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en104",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/cena-sistema-avtomatichno-napoyavane-burgas"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "en108",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en109",
+                "_type": "span",
+                "marks": [],
+                "text": "Irrigation design and installation by Florial"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en111",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en110",
+                "_type": "span",
+                "marks": [],
+                "text": "A reliable system starts with measurements and a design, not simply with placing sprinklers. Florial can assist with design, equipment selection, installation, adjustment and seasonal maintenance of automatic irrigation systems in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie and nearby settlements."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en116",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "en112",
+                "_type": "span",
+                "marks": [],
+                "text": "For information about a site visit and installation, see our "
+              },
+              {
+                "_key": "en114",
+                "_type": "span",
+                "marks": [
+                  "en113"
+                ],
+                "text": "Automatic Irrigation"
+              },
+              {
+                "_key": "en115",
+                "_type": "span",
+                "marks": [],
+                "text": " service page, which includes the existing enquiry form."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "en113",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Automatic irrigation system installation in a garden in Nessebar",
+        "seoDescription": "Learn the main stages of automatic irrigation installation near Nessebar: site survey, flow and pressure checks, zoning, pipework, sprinklers, drip irrigation and system testing.",
+        "seoTitle": "Automatic Irrigation Installation | Nessebar | Florial",
+        "shortDescription": "How an automatic irrigation system is planned and installed, from the site survey and water-supply measurements to equipment installation, adjustment and testing.",
+        "title": "Stages of Installing an Automatic Irrigation System in Nessebar"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "ru001",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru002",
+                "_type": "span",
+                "marks": [],
+                "text": "Осмотр участка и оценка потребностей"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru004",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru003",
+                "_type": "span",
+                "marks": [],
+                "text": "Работа начинается с осмотра территории и уточнения назначения сада. Учитываются площадь и форма газона, уклоны, дорожки, площадки, здания, существующие коммуникации и расположение деревьев, кустарников и цветников."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru012",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru005",
+                "_type": "span",
+                "marks": [],
+                "text": "Разные растения требуют разного режима полива. Газон, живая изгородь, деревья и цветочные посадки часто нуждаются в отдельных зонах. При планировании важно учитывать и дальнейший рост насаждений. Посмотрите категории "
+              },
+              {
+                "_key": "ru007",
+                "_type": "span",
+                "marks": [
+                  "ru006"
+                ],
+                "text": "деревьев и декоративных кустарников"
+              },
+              {
+                "_key": "ru008",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "ru010",
+                "_type": "span",
+                "marks": [
+                  "ru009"
+                ],
+                "text": "цветов и роз"
+              },
+              {
+                "_key": "ru011",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru006",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/darveta-i-hrasti"
+              },
+              {
+                "_key": "ru009",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/tsvetya-i-rozi"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru013",
+            "_type": "image",
+            "alt": "Разметка участка и мест установки элементов автоматического полива в Несебре",
+            "altEn": "Garden layout marking and positions for an automatic irrigation system near Nessebar",
+            "altRu": "Разметка участка и мест установки элементов автоматического полива в Несебре",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Разметка выполняется по проекту с учётом растений, дорожек и покрытий."
+          },
+          {
+            "_key": "ru014",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru015",
+                "_type": "span",
+                "marks": [],
+                "text": "Проверка источника воды: расход и динамическое давление"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru017",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru016",
+                "_type": "span",
+                "marks": [],
+                "text": "До выбора дождевателей, клапанов и труб необходимо понять, какие параметры воды доступны на объекте. Проверяют подключение к водопроводу, скважине, накопительной ёмкости или насосной системе."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru018",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru019",
+                "_type": "span",
+                "marks": [],
+                "text": "Расход измеряют при фактическом движении воды, а не только по паспортной производительности источника."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru020",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru021",
+                "_type": "span",
+                "marks": [],
+                "text": "Динамическое давление проверяют в условиях, близких к будущей работе системы."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru022",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru023",
+                "_type": "span",
+                "marks": [],
+                "text": "Учитывают ограничения счётчика, подающей трубы, фильтров, насоса и других элементов."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru025",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru024",
+                "_type": "span",
+                "marks": [],
+                "text": "Эти данные определяют возможность правильного зонирования. Если расхода или давления недостаточно, проект должен предусматривать техническое решение, а не случайную замену форсунок."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru026",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru027",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектирование и подбор оборудования"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru038",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru028",
+                "_type": "span",
+                "marks": [],
+                "text": "По результатам осмотра и измерений определяют количество зон, трассы, диаметры труб, расположение клапанов и способ управления. Дождеватели подбирают с учётом геометрии участка и рабочих параметров. Смотрите "
+              },
+              {
+                "_key": "ru030",
+                "_type": "span",
+                "marks": [
+                  "ru029"
+                ],
+                "text": "оборудование для полива"
+              },
+              {
+                "_key": "ru031",
+                "_type": "span",
+                "marks": [],
+                "text": ", "
+              },
+              {
+                "_key": "ru033",
+                "_type": "span",
+                "marks": [
+                  "ru032"
+                ],
+                "text": "дождеватели"
+              },
+              {
+                "_key": "ru034",
+                "_type": "span",
+                "marks": [],
+                "text": " и "
+              },
+              {
+                "_key": "ru036",
+                "_type": "span",
+                "marks": [
+                  "ru035"
+                ],
+                "text": "контроллеры"
+              },
+              {
+                "_key": "ru037",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru029",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/vsichko-za-polivane"
+              },
+              {
+                "_key": "ru032",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/sprinklers"
+              },
+              {
+                "_key": "ru035",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/controllers"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru043",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru039",
+                "_type": "span",
+                "marks": [],
+                "text": "При подборе учитываются характеристики конкретных моделей и их совместимость. Дополнительно можно прочитать обзор "
+              },
+              {
+                "_key": "ru041",
+                "_type": "span",
+                "marks": [
+                  "ru040"
+                ],
+                "text": "оборудования Rain Bird для автоматического полива"
+              },
+              {
+                "_key": "ru042",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru040",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rain-bird-oborudvane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru044",
+            "_type": "image",
+            "alt": "Доставка оборудования для автоматического полива в сад рядом с Несебром",
+            "altEn": "Delivery of automatic irrigation equipment to a garden near Nessebar",
+            "altRu": "Доставка оборудования для автоматического полива в сад рядом с Несебром",
+            "asset": {
+              "_ref": "image-2a5051b732d5b19e26627b06dae35fdac6d5d0a2-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Перед монтажом проверяют модели и количество необходимых компонентов."
+          },
+          {
+            "_key": "ru045",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru046",
+                "_type": "span",
+                "marks": [],
+                "text": "Разметка зон и подготовка трасс"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru048",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru047",
+                "_type": "span",
+                "marks": [],
+                "text": "Перед земляными работами на участке отмечают места дождевателей, клапанных коробов, труб и кабелей. Проект сверяют с фактической обстановкой, чтобы не пересечься с покрытиями, бордюрами, корнями и другими подземными коммуникациями."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru050",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru049",
+                "_type": "span",
+                "marks": [],
+                "text": "Траншеи выполняют по проекту. Глубина и способ прокладки не являются универсальными: они зависят от типа трубы и кабеля, покрытия, нагрузки, грунта и условий конкретного участка."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru051",
+            "_type": "image",
+            "alt": "Подготовка комплектующих для монтажа системы автоматического полива",
+            "altEn": "Preparing components for an automatic irrigation installation",
+            "altRu": "Подготовка комплектующих для монтажа системы автоматического полива",
+            "asset": {
+              "_ref": "image-57a153738a5cdeca7e46fac307f1c147433b2945-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Клапаны, фитинги и другие элементы подготавливаются в соответствии со схемой."
+          },
+          {
+            "_key": "ru052",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru053",
+                "_type": "span",
+                "marks": [],
+                "text": "Прокладка труб, кабелей и установка клапанов"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru055",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru054",
+                "_type": "span",
+                "marks": [],
+                "text": "Трубопровод доставляет воду к отдельным зонам. Трубы укладывают по предусмотренным трассам, соединения выполняют подходящими фитингами, а переходы и пересечения планируют так, чтобы система оставалась доступной для обслуживания."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru057",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru056",
+                "_type": "span",
+                "marks": [],
+                "text": "Электромагнитные клапаны управляют подачей воды в зоны. Обычно их устанавливают в защитных коробах в местах с удобным доступом. При необходимости предусматриваются фильтры, редукторы давления, обратные клапаны и другие защитные элементы."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru058",
+            "_type": "image",
+            "alt": "Сборка оборудования для автоматической системы полива в саду",
+            "altEn": "Assembly of equipment for an automatic garden irrigation system",
+            "altRu": "Сборка оборудования для автоматической системы полива в саду",
+            "asset": {
+              "_ref": "image-99fdd7e27dedb3f2d72d33fab5252fb2db4098f3-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Оборудование собирается и соединяется по назначению с сохранением доступа для обслуживания."
+          },
+          {
+            "_key": "ru059",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru060",
+                "_type": "span",
+                "marks": [],
+                "text": "Установка дождевателей и устройство капельного полива"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru062",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru061",
+                "_type": "span",
+                "marks": [],
+                "text": "Дождеватели устанавливают в проектных точках и настраивают под форму газона. Струи должны обеспечивать равномерное покрытие, не заливая без необходимости фасады, дорожки и соседние участки. Корпуса и форсунки подбираются под конкретную зону и параметры водоснабжения."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru067",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru063",
+                "_type": "span",
+                "marks": [],
+                "text": "Для цветников, живых изгородей, деревьев и кустарников часто подходит "
+              },
+              {
+                "_key": "ru065",
+                "_type": "span",
+                "marks": [
+                  "ru064"
+                ],
+                "text": "капельный полив"
+              },
+              {
+                "_key": "ru066",
+                "_type": "span",
+                "marks": [],
+                "text": ". Он подаёт воду ближе к корневой зоне и позволяет организовать отдельный режим для посадок. Система подбирается с учётом видов растений и их расположения."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru064",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/kapkovo-napoyavane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru068",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru069",
+                "_type": "span",
+                "marks": [],
+                "text": "Контроллер, насос и водоснабжение"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru071",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru070",
+                "_type": "span",
+                "marks": [],
+                "text": "Контроллер задаёт расписание и управляет электромагнитными клапанами. Количество управляемых зон должно соответствовать проекту. В зависимости от модели график можно корректировать дистанционно или через приложение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru072",
+            "_type": "image",
+            "alt": "Установка контроллера автоматической системы полива",
+            "altEn": "Installation of an automatic irrigation controller",
+            "altRu": "Установка контроллера автоматической системы полива",
+            "asset": {
+              "_ref": "image-a19fd10cac27f8cf7e24780c21785c10598ef01f-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Контроллер управляет расписанием полива и отдельными зонами."
+          },
+          {
+            "_key": "ru074",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru073",
+                "_type": "span",
+                "marks": [],
+                "text": "Если источник воды не обеспечивает требуемые параметры, проект может предусматривать насос, накопительную ёмкость или другое обоснованное решение. Заранее планируют место для ёмкости, электропитание и защиту оборудования. Необходимость насосной станции определяется измерениями, а не предположениями."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru075",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru076",
+                "_type": "span",
+                "marks": [],
+                "text": "Пуск, испытания и настройка"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru078",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru077",
+                "_type": "span",
+                "marks": [],
+                "text": "После завершения монтажа систему промывают и проверяют. Каждую зону запускают отдельно, осматривают соединения, клапаны и дождеватели, корректируют направление и радиус струй и проверяют работу контроллера."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru079",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru080",
+                "_type": "span",
+                "marks": [],
+                "text": "Проверяют герметичность соединений, давление и работу клапанов."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru081",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru082",
+                "_type": "span",
+                "marks": [],
+                "text": "Настраивают покрытие дождевателей и оценивают равномерность полива."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru083",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru084",
+                "_type": "span",
+                "marks": [],
+                "text": "Задают начальное расписание, которое затем корректируют с учётом сезона, погоды и состояния растений."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru085",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru086",
+                "_type": "span",
+                "marks": [],
+                "text": "Готовые комплекты для полива газона"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru088",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru087",
+                "_type": "span",
+                "marks": [],
+                "text": "Для некоторых типовых садов могут подойти готовые комплекты. Они различаются способом управления и составом оборудования. Перед покупкой нужно сопоставить схему участка, расход воды и рабочее давление с требованиями выбранного комплекта."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru092",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru090",
+                "_type": "span",
+                "marks": [
+                  "ru089"
+                ],
+                "text": "Суперэкономичный комплект — 242,32 EUR"
+              },
+              {
+                "_key": "ru091",
+                "_type": "span",
+                "marks": [],
+                "text": ": три газонные зоны с ручными кранами вместо автоматического контроллера, роторами 3504-PC, корпусами US-400, соплами VAN-12 и монтажными фитингами."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru089",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/super-ikonomichen-komplekt-polivane"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru096",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru094",
+                "_type": "span",
+                "marks": [
+                  "ru093"
+                ],
+                "text": "Экономичный комплект — 478,32 EUR"
+              },
+              {
+                "_key": "ru095",
+                "_type": "span",
+                "marks": [],
+                "text": ": три газонные зоны с контроллером Rain Bird ESP-TM2-4i, тремя клапанами, роторами 3504-PC, корпусами US-400 и соплами VAN-12."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru093",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/ikonomichen-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru100",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru098",
+                "_type": "span",
+                "marks": [
+                  "ru097"
+                ],
+                "text": "Стандартный комплект — 631,42 EUR"
+              },
+              {
+                "_key": "ru099",
+                "_type": "span",
+                "marks": [],
+                "text": ": три газонные зоны с Rain Bird ESP-TM2-4i, тремя клапанами, 12 корпусами 1804 с соплами R-VAN-18 и шестью роторами 3504-PC."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru097",
+                "_type": "link",
+                "blank": false,
+                "href": "/product/standarten-komplekt-polivane-gradina"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru102",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru101",
+                "_type": "span",
+                "marks": [],
+                "text": "Указаны опубликованные цены комплектов с включённым НДС, а не стоимость полного проекта и монтажа. В экономичном и стандартном комплектах не входят PE-труба Ø25 мм и электрический кабель для клапанов; в зависимости от объекта могут понадобиться дополнительные материалы. Перед заказом проверяйте актуальную комплектацию и совместимость."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru107",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru103",
+                "_type": "span",
+                "marks": [],
+                "text": "Подробнее о выборе решения и бюджете читайте в статье "
+              },
+              {
+                "_key": "ru105",
+                "_type": "span",
+                "marks": [
+                  "ru104"
+                ],
+                "text": "Сколько стоит система автоматического полива в Несебре и рядом?"
+              },
+              {
+                "_key": "ru106",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru104",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/cena-sistema-avtomatichno-napoyavane-burgas"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ru108",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru109",
+                "_type": "span",
+                "marks": [],
+                "text": "Проектирование и монтаж полива с Florial"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru111",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru110",
+                "_type": "span",
+                "marks": [],
+                "text": "Надёжная система начинается с измерений и проекта, а не только с установки дождевателей. Florial помогает с проектированием, подбором оборудования, монтажом, настройкой и сезонным обслуживанием систем автоматического полива в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие и близлежащих населённых пунктах."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru116",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ru112",
+                "_type": "span",
+                "marks": [],
+                "text": "Информацию об осмотре и выполнении работ смотрите на странице услуги "
+              },
+              {
+                "_key": "ru114",
+                "_type": "span",
+                "marks": [
+                  "ru113"
+                ],
+                "text": "Автоматический полив"
+              },
+              {
+                "_key": "ru115",
+                "_type": "span",
+                "marks": [],
+                "text": ", где размещена действующая форма обращения."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ru113",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Монтаж автоматической системы полива в саду в Несебре",
+        "seoDescription": "Основные этапы монтажа автоматического полива в Несебре и районе: проектирование, расход и давление воды, зоны, трубопроводы, дождеватели, капельный полив и настройка.",
+        "seoTitle": "Монтаж автоматического полива | Несебр | Florial",
+        "shortDescription": "Как планируют и монтируют автоматический полив: от осмотра участка и измерения параметров водоснабжения до установки оборудования, настройки и испытания.",
+        "title": "Этапы монтажа автоматической системы полива в Несебре и районе"
+      }
+    }
+  }
+}

@@ -1,0 +1,1568 @@
+{
+  "backupCreatedAt": "2026-11-18T00:00:00Z",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "documentId": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+  "originalRevision": "wShFcTvKnRduO9ho4JbXhm",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:45Z",
+    "_id": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+    "_rev": "wShFcTvKnRduO9ho4JbXhm",
+    "_system": {
+      "base": {
+        "id": "blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya",
+        "rev": "wShFcTvKnRduO9ho4JC1jI"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-11-12T13:13:54Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Монтаж на автоматична поливна система в Несебър",
+      "asset": {
+        "_ref": "image-e5d829b87bd8d0235338f21a0186c2f977bbab1b-563x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2024-08-22T13:35:50.217Z",
+    "slug": {
+      "_type": "slug",
+      "current": "etapi-montazh-avtomatichna-polivna-instalatsiya"
+    },
+    "sourceUrl": "https://www.drop.od.ua/bg/post/етапи-на-монтаж-на-автоматични-поливки-в-несебър-и-района",
+    "tags": [
+      "Автоматично напояване"
+    ],
+    "title": "Етапи на монтаж на автоматична поливна инсталация в Несебър",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "byz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "byy",
+                "_type": "span",
+                "marks": [],
+                "text": "Преглед на процеса на създаване на съвременни автоматични напоителни системи"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bz1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bz0",
+                "_type": "span",
+                "marks": [],
+                "text": "В съвременната градска среда, където всеки момент е ценен, автоматичните поливни системи стават неизменна част от озеленяването на България. Ефективността и спестяването на ресурси правят Autowatering популярен избор за грижовните собственици на къщи, вили и градини. Нека разгледаме етапите на инсталиране на автоматично напояване, за да разберем по-добре как се създават съвременните напоителни системи в района на Несебър."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bz2",
+            "_type": "image",
+            "alt": "Обособяване на обект за автоматично напояване в Слънчев бряг",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            },
+            "caption": "Обособяване на обект за напояв"
+          },
+          {
+            "_key": "bz3",
+            "_type": "image",
+            "alt": "Монтаж на оборудване за поливна система в Кошарица",
+            "asset": {
+              "_ref": "image-e5d829b87bd8d0235338f21a0186c2f977bbab1b-563x1000-jpg",
+              "_type": "reference"
+            },
+            "caption": "Монтаж на оборудване за поливн"
+          },
+          {
+            "_key": "bz6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bz5",
+                "_type": "span",
+                "marks": [
+                  "bz4"
+                ],
+                "text": "Проектиране на автоматична поливна система в Несебър"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bz4",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/montaj-avtomatichni-polivni-sistemi-nesebar"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "bzb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bz7",
+                "_type": "span",
+                "marks": [],
+                "text": "Първата стъпка в създаването на ефективна напоителна система е разработването на проект за напояване и изготвянето на списък с необходимото оборудване за напояване. Това се прави въз основа на ландшафтен дизайн или дендроплан, или след измервания на място. Нашият ландшафтен дизайнер може да Ви помогне с изработката на ландшафтен проект, с посещение на Несебър и региона или да "
+              },
+              {
+                "_key": "bz9",
+                "_type": "span",
+                "marks": [
+                  "bz8"
+                ],
+                "text": "изработи ландшафтен проект онлайн"
+              },
+              {
+                "_key": "bza",
+                "_type": "span",
+                "marks": [],
+                "text": ". Като се вземат предвид климатичните характеристики на региона и нуждите на конкретен обект, специалистите разработват оптимален системен план, като вземат предвид разпределението на растенията, територията и възможността за използване на входящата вода."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bz8",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/landshaften-dizain"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bzf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzc",
+                "_type": "span",
+                "marks": [],
+                "text": "Избор и покупка (продажба) на оборудване за поливане. Предимно "
+              },
+              {
+                "_key": "bze",
+                "_type": "span",
+                "marks": [
+                  "bzd"
+                ],
+                "text": "Rain Bird"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bzd",
+                "_type": "link",
+                "blank": false,
+                "href": "/category/vsichko-za-polivane"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "bzh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzg",
+                "_type": "span",
+                "marks": [],
+                "text": "Изборът на оборудване е важна стъпка. В Несебър се предпочитат качествени и надеждни марки като Rain Bird и Hunter. Тези производители предоставят най-съвременна технология, за да осигурят дълъг живот на системата.."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bzj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzi",
+                "_type": "span",
+                "marks": [],
+                "text": "Маркиране на зоната за автоматично поливане"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bzl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzk",
+                "_type": "span",
+                "marks": [],
+                "text": "За оптимално разпределение на поливането специалистите внимателно маркират района. Това включва определяне на места за инсталиране на спринклери, кладенци, тръбопроводи, автоматизация и други елементи на системата."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bzn",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzm",
+                "_type": "span",
+                "marks": [],
+                "text": "Изкопаване на траншеи за напоителни комуникации"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bzp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzo",
+                "_type": "span",
+                "marks": [],
+                "text": "Следващата стъпка е изкопаването на траншеи, в които ще бъдат положени тръбите и кабелите. Тази фаза е критична, защото определя ефективността на системата и нейната дълготрайност. Дълбочината на окопите трябва да бъде 30-40 сантиметра."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bzr",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzq",
+                "_type": "span",
+                "marks": [],
+                "text": "Полагане на тръби и кабели е циркулационна система за автоматично поливане. Монтаж на подземен водопровод за напояване."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bzt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzs",
+                "_type": "span",
+                "marks": [],
+                "text": "Тръбите и кабелите създават основната инфраструктура на системата. Правилното полагане на подземния водопровод за напояване осигурява равномерно разпределение на влагата в цялата площ."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bzv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzu",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на електровентили, спирателни кранове, кранове и кладенци."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bzx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzw",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтирани са електровентили и фитинги за регулиране на водните потоци към всяка зона за напояване. Крановете и кладенците осигуряват достъп до системата за поддръжка и настройка."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bzz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bzy",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на разпръсквачи, разпръсквачи, разпръсквачи, разпръсквачи, дюзи за поливане."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b101",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b100",
+                "_type": "span",
+                "marks": [],
+                "text": "Разнообразието от оборудване за поливане ви позволява да създадете оптимални условия за различни растения. От разпръсквачи до напоителни дюзи, всеки елемент е избран въз основа на нуждите на растенията."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b103",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b102",
+                "_type": "span",
+                "marks": [],
+                "text": "Полагане на микрокапкова тръба, създаване на капково напояване за растенията."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b105",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b104",
+                "_type": "span",
+                "marks": [],
+                "text": "Микрокапковата тръба ви позволява да създадете система за капково напояване и точково поливане на растенията, което е особено важно за собствениците, които търсят оптимално използване на водата и минимизиране на нейните загуби."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b107",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b106",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на автоматичен (компютърен) контрол на напояването"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b109",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b108",
+                "_type": "span",
+                "marks": [],
+                "text": "Съвременните системи включват автоматизация, която ви позволява да програмирате графика за напояване и да коригирате параметрите му с помощта на компютър или мобилно приложение."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10a",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтаж на помпено оборудване, Монтаж на помпена станция \\- помпа и контейнери"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b10d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10c",
+                "_type": "span",
+                "marks": [],
+                "text": "Ако обектът няма необходимото водно налягане, може да се наложи инсталирането на помпено оборудване и подходящи резервоари за съхранение на вода. Или има нужда от инсталиране на артезиански кладенец."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10e",
+                "_type": "span",
+                "marks": [],
+                "text": "Избор между капацитет и директна връзка"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10g",
+                "_type": "span",
+                "marks": [],
+                "text": "При създаването на автоматична напоителна система също толкова важен аспект е решението откъде ще се черпи водата: ще инсталираме ли контейнер или ще се свържем към съществуващ водопровод?"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10j",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10i",
+                "_type": "span",
+                "marks": [],
+                "text": "а) Използваме контейнера:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10l",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10k",
+                "_type": "span",
+                "marks": [],
+                "text": "При избора на тази опция е необходимо да се определи мястото за инсталиране на контейнера. Има ли подходящо място за поставяне или трябва да се подготви здрава и равна основа? Поставянето на контейнер е най-доброто решение от гледна точка на ефективност, особено при поливане на големи тревни площи (над 4 декара). Трябва също така да осигурите захранване за помпата и контролера, като се уверите, че оборудването е свързано към 220V мрежа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10m",
+                "_type": "span",
+                "marks": [],
+                "text": "б) Без използване на контейнер:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10o",
+                "_type": "span",
+                "marks": [],
+                "text": "В този случай е необходимо да се определи налягането и производителността на съществуващ водоизточник, било то кладенец или водоснабдителна система. За да направите това, измерванията се извършват с помощта на манометър и скоростта, с която резервоарът се пълни с вода. Тези данни ще ви помогнат да запишете количеството вода и налягането, получено на изхода на водоснабдителната система, като ги преобразувате в литри/минута или m³/час."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10r",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10q",
+                "_type": "span",
+                "marks": [],
+                "text": "Когато се използва кладенец за изтегляне на вода, може да се изисква паспорт на кладенец, посочващ динамичното ниво на водата, модела на помпата и диаметрите на свързаните тръбопроводи за хидравлични изчисления. Тази подробна информация гарантира, че вашата спринклерна система работи оптимално и предотвратява потенциални проблеми в бъдеще.."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Пускане и настройка на система за автоматично поливане "
+              },
+              {
+                "_key": "b10u",
+                "_type": "span",
+                "marks": [
+                  "b10t"
+                ],
+                "text": "а"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b10t",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "b10x",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10w",
+                "_type": "span",
+                "marks": [],
+                "text": "След приключване на всички етапи системата стартира. Специалистите тестват и конфигурират оборудването, гарантирайки неговата надеждна и ефективна работа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b10z",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b10y",
+                "_type": "span",
+                "marks": [],
+                "text": "По този начин инсталирането на автоматична поливна система в Несебър е сложен процес, който изисква професионален подход на всеки етап. Създаването на модерна автоматична система за поливане ви позволява да запазите красотата и здравето на растенията, както и да спестите време и ресурси на собственика на обекта."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b111",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b110",
+                "_type": "span",
+                "marks": [],
+                "text": "Монтажът на представената във видеото автоматична поливна система е извършен с оборудване RAINBIRD за 1 ден до ключ."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b113",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b112",
+                "_type": "span",
+                "marks": [],
+                "text": "Ние ще извършим пълен набор от работи по създаване на автоматична поливна система в Несебър и региона"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b115",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b114",
+                "_type": "span",
+                "marks": [],
+                "text": "Когато говорим за създаване на висококачествена система за автоматично поливане на даден обект, неминуемо възниква въпросът за експертизата и времето, изразходвано за този процес. Отличителна черта на този етап е неговият мащаб, който изисква не само определени умения, но и дълбоки познания в областта на ландшафтния дизайн и инженерството."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b117",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b116",
+                "_type": "span",
+                "marks": [],
+                "text": "Хората, които ценят времето и качеството на работата си, все повече се обръщат към доказани фирми с опитни специалисти. Нашата компания, градински център Флориал, е водещ експерт в проектирането, монтажа и поддръжката на автоматични системи за поливане, с опит повече от 20 години. Нашите услуги са подкрепени с гаранция, покриваща всички етапи на работа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b119",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b118",
+                "_type": "span",
+                "marks": [],
+                "text": "Екипът на Флориал предоставя широка гама от услуги, включително проектиране на автоматични поливни системи, монтаж, ремонт, реконструкция и сезонна поддръжка. С готовност предоставяме безплатни консултации и осигуряваме взаимноизгодно сътрудничество със сродни организации."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b11b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11a",
+                "_type": "span",
+                "marks": [],
+                "text": "Географията на нашата работа обхваща Несебър и региона. Ако обмисляте автоматично поливане за вашия имот, но не знаете откъде да започнете, не се колебайте да се свържете с нас. Нашият опит и професионализъм ще ви позволят да реализирате идеята си за идеална напоителна система."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b11d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11c",
+                "_type": "span",
+                "marks": [],
+                "text": "Ландшафтно студио Флориал е не само технически компетентен екип, но и екип от специалисти, ориентирани към резултата. С гордост изпълняваме проекти в летни вили, селски райони, паркове, площади и стадиони. Нашите системи работят успешно в различни региони. Заедно създаваме пространства, вдъхновяващи красота и функционалност."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b11f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11e",
+                "_type": "span",
+                "marks": [],
+                "text": "Студио за ландшафтен дизайн Florial ще извърши монтаж на системи за автоматично поливане в Несебър с всякаква сложност."
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "b11h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11g",
+                "_type": "span",
+                "marks": [],
+                "text": "За да получите точна оценка на цената за инсталиране на автоматична поливна система, свържете се с нас"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b11k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11j",
+                "_type": "span",
+                "marks": [
+                  "b11i"
+                ],
+                "text": "Цена на система за автоматично поливане в Бургаска област"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b11i",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/cena-sistema-avtomatichno-napoyavane-burgas"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b11n",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11m",
+                "_type": "span",
+                "marks": [
+                  "b11l"
+                ],
+                "text": "Годишна поддръжка на автоматични поливни системи в Слънчев бряг, Несебър"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b11l",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/godishna-poddruzhka-avtomatichni-sistemi"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "b11q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b11p",
+                "_type": "span",
+                "marks": [
+                  "b11o"
+                ],
+                "text": "Годовое обслуживание систем автоматического полива в Солнечном Береге, Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "b11o",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/godishna-poddruzhka-avtomatichni-sistemi"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-bg-8",
+                "_type": "span",
+                "marks": [],
+                "text": "Следваща стъпка: разгледайте "
+              },
+              {
+                "_key": "cta-s-bg-8",
+                "_type": "span",
+                "marks": [
+                  "cta-a-bg-8"
+                ],
+                "text": "монтаж на автоматични поливни системи"
+              },
+              {
+                "_key": "cta-m-bg-8",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-bg-8",
+                "_type": "span",
+                "marks": [
+                  "cta-b-bg-8"
+                ],
+                "text": "услугите за автоматично напояване"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-bg-8",
+                "_type": "link",
+                "href": "/services/montaj-avtomatichni-polivni-sistemi-nesebar"
+              },
+              {
+                "_key": "cta-b-bg-8",
+                "_type": "link",
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Монтаж на автоматична поливна система в Несебър",
+        "seoDescription": "Вижте как протича монтажът на автоматична поливна система — маркиране, полагане на тръби, монтаж на клапани и контролер, настройка и проверка.",
+        "seoTitle": "Монтаж на автоматична поливна система: етапи | Florial",
+        "shortDescription": "Проследете основните етапи на изграждане на автоматична поливна система — от подготовката и изкопите до монтажа на оборудването, настройката и теста.",
+        "title": "Етапи на монтаж на автоматична поливна инсталация в Несебър"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "ae1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae1s",
+                "_type": "span",
+                "marks": [],
+                "text": "How a modern automatic irrigation system is installed"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ae2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Automatic irrigation helps save time and water in modern gardens. The following outlines the main installation stages used for projects around Nessebar."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae3",
+            "_type": "image",
+            "alt": "Preparing a site for automatic irrigation in Sunny Beach",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ae4",
+            "_type": "image",
+            "alt": "Installing irrigation equipment in Kosharitsa",
+            "asset": {
+              "_ref": "image-e5d829b87bd8d0235338f21a0186c2f977bbab1b-563x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ae5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae5s",
+                "_type": "span",
+                "marks": [],
+                "text": "1. System design"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae6s",
+                "_type": "span",
+                "marks": [],
+                "text": "The first step is to prepare an irrigation design and equipment list based on a landscape plan, planting plan or site measurements. The design considers the climate, plant layout, site shape, water source and supply capacity. Florial can help with an on-site survey in the region or remote design."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae7s",
+                "_type": "span",
+                "marks": [],
+                "text": "2. Selecting equipment"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Reliable components are selected, including Rain Bird and Hunter sprinklers, nozzles, pipes, valves, filters and controllers. Selection depends on the site and its hydraulic conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae9s",
+                "_type": "span",
+                "marks": [],
+                "text": "3. Marking out the site"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae10s",
+                "_type": "span",
+                "marks": [],
+                "text": "The locations of sprinklers, valve boxes, pipes, cables and controls are marked on the ground to ensure suitable coverage of each irrigation zone."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae11s",
+                "_type": "span",
+                "marks": [],
+                "text": "4. Trenches and utilities"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Trenches are dug for pipes and cables. The original article mentions a depth of 30–40 cm; the actual depth should follow the design, utility type and site conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae13s",
+                "_type": "span",
+                "marks": [],
+                "text": "5. Installing pipes, cables and valves"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Pipes form the underground water-distribution network, while cables connect the controller to the equipment. Solenoid valves, shut-off fittings and valve boxes are installed to control zones and make maintenance easier."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae15s",
+                "_type": "span",
+                "marks": [],
+                "text": "6. Installing sprinklers and nozzles"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Sprinkler and nozzle types are selected according to the area, layout and plant requirements. Micro-dripline can be added for individual planting areas to deliver water directly to plants and reduce waste."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae17s",
+                "_type": "span",
+                "marks": [],
+                "text": "7. Controls and pumping equipment"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae18s",
+                "_type": "span",
+                "marks": [],
+                "text": "The controller sets the watering schedule, and some models can be adjusted through an app. If the available water pressure or flow is insufficient, the design may include a pump and storage tank or another suitable water source."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Water source: storage tank or direct connection"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae20s",
+                "_type": "span",
+                "marks": [],
+                "text": "For a storage tank, choose a suitable location and a level, stable base, and provide power for the pump and controller. The original article highlights this option for larger lawns exceeding 4 decares."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae21s",
+                "_type": "span",
+                "marks": [],
+                "text": "For a direct connection, measure pressure and flow from the mains or well. A pressure gauge and the rate at which a container fills can be used to estimate output in litres per minute or cubic metres per hour. For a well, dynamic water level, pump model and pipe diameters may be needed for hydraulic calculations."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae22s",
+                "_type": "span",
+                "marks": [],
+                "text": "8. Commissioning and adjustment"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ae23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae23s",
+                "_type": "span",
+                "marks": [],
+                "text": "After installation, the system is started, each zone is tested, the equipment is adjusted and reliable operation is verified. The original article describes one Rain Bird turnkey installation completed in a day; actual timing depends on site size and complexity."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ae24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae24s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial’s complete irrigation service"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ae25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ae25s",
+                "_type": "span",
+                "marks": [],
+                "text": "High-quality installation requires both engineering and landscape expertise. Florial offers design, installation, repair, modernisation and seasonal maintenance of automatic irrigation systems in Nessebar and nearby areas. A complete approach helps keep plants healthy while using water efficiently."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-en-8",
+                "_type": "span",
+                "marks": [],
+                "text": "Next step: explore "
+              },
+              {
+                "_key": "cta-s-en-8",
+                "_type": "span",
+                "marks": [
+                  "cta-a-en-8"
+                ],
+                "text": "automatic irrigation installation"
+              },
+              {
+                "_key": "cta-m-en-8",
+                "_type": "span",
+                "marks": [],
+                "text": " or "
+              },
+              {
+                "_key": "cta-e-en-8",
+                "_type": "span",
+                "marks": [
+                  "cta-b-en-8"
+                ],
+                "text": "automatic irrigation services"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-en-8",
+                "_type": "link",
+                "href": "/services/montaj-avtomatichni-polivni-sistemi-nesebar"
+              },
+              {
+                "_key": "cta-b-en-8",
+                "_type": "link",
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Stages of Installing an Automatic Irrigation System in Nessebar",
+        "seoDescription": "See how an automatic irrigation system is installed, including site marking, pipework, valve and controller fitting, setup and final system checks.",
+        "seoTitle": "Automatic Irrigation Installation: Main Steps | Florial",
+        "shortDescription": "Follow the main stages of an automatic irrigation installation, from site preparation and trenching to equipment fitting, controller setup and system testing.",
+        "title": "Stages of Installing an Automatic Irrigation System in Nessebar"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "ar1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Как устанавливают современные системы автоматического полива"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ar2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar2s",
+                "_type": "span",
+                "marks": [],
+                "text": "В современных садах автоматический полив помогает экономить время и воду. Ниже описаны основные этапы монтажа системы в районе Несебра."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar3",
+            "_type": "image",
+            "alt": "Подготовка участка для автоматического полива в Солнечном Береге",
+            "asset": {
+              "_ref": "image-70320c74cfe1d241060a6049339dd385f1c9e340-1920x3412-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ar4",
+            "_type": "image",
+            "alt": "Монтаж оборудования системы полива в Кошарице",
+            "asset": {
+              "_ref": "image-e5d829b87bd8d0235338f21a0186c2f977bbab1b-563x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "ar5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar5s",
+                "_type": "span",
+                "marks": [],
+                "text": "1. Проектирование системы"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Сначала готовят проект и список оборудования на основе ландшафтного проекта, дендроплана или замеров участка. Учитывают климат, расположение растений, форму территории, источник воды и возможности водоснабжения. Florial может помочь с проектированием на объекте в регионе или дистанционно."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar7s",
+                "_type": "span",
+                "marks": [],
+                "text": "2. Выбор оборудования"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Выбирают надёжные компоненты, в том числе Rain Bird и Hunter: дождеватели, форсунки, трубы, клапаны, фильтры и контроллеры. Подбор зависит от параметров участка и гидравлических условий."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar9s",
+                "_type": "span",
+                "marks": [],
+                "text": "3. Разметка участка"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar10s",
+                "_type": "span",
+                "marks": [],
+                "text": "На местности отмечают места дождевателей, клапанных боксов, трубопроводов, кабелей и автоматики, чтобы обеспечить правильное покрытие всех зон."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar11s",
+                "_type": "span",
+                "marks": [],
+                "text": "4. Траншеи и прокладка коммуникаций"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Затем выкапывают траншеи для труб и кабелей. В исходной статье указана глубина 30–40 см; фактическая глубина определяется проектом, типом коммуникаций и условиями участка."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar13s",
+                "_type": "span",
+                "marks": [],
+                "text": "5. Установка труб, кабелей и клапанов"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Трубы формируют подземную сеть подачи воды, а кабели связывают контроллер с оборудованием. Устанавливают электромагнитные клапаны, запорную арматуру и клапанные боксы для управления зонами и удобного обслуживания."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar15s",
+                "_type": "span",
+                "marks": [],
+                "text": "6. Монтаж дождевателей и форсунок"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Тип дождевателей и форсунок выбирают по площади, форме участка и потребностям растений. Для отдельных посадок дополнительно прокладывают микрокапельную трубку, чтобы подавать воду непосредственно к растениям и уменьшать потери."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar17s",
+                "_type": "span",
+                "marks": [],
+                "text": "7. Автоматика и насосное оборудование"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Контроллер задаёт расписание полива, а некоторые модели позволяют менять настройки через приложение. Если давления или расхода воды недостаточно, проект может предусматривать насос и накопительную ёмкость либо иной подходящий источник."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Источник воды: накопительная ёмкость или прямое подключение"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar20s",
+                "_type": "span",
+                "marks": [],
+                "text": "При использовании ёмкости заранее выбирают место и ровное прочное основание, а также предусматривают электропитание насоса и контроллера. В статье такой вариант отмечен как полезный для больших газонов — более 4 декара."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar21s",
+                "_type": "span",
+                "marks": [],
+                "text": "При прямом подключении необходимо измерить давление и расход воды из водопровода или скважины. Для этого проверяют показания манометра и скорость наполнения ёмкости, переводя результаты в литры в минуту или кубометры в час. Для скважины могут понадобиться данные о динамическом уровне воды, модели насоса и диаметрах труб, чтобы выполнить гидравлический расчёт."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar22s",
+                "_type": "span",
+                "marks": [],
+                "text": "8. Запуск и настройка"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "ar23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar23s",
+                "_type": "span",
+                "marks": [],
+                "text": "После завершения монтажа систему запускают, проверяют все зоны, настраивают оборудование и убеждаются в надёжной работе. В исходной публикации описан пример монтажа системы Rain Bird под ключ за один день; срок зависит от размера и сложности объекта."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "ar24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar24s",
+                "_type": "span",
+                "marks": [],
+                "text": "Комплексные работы Florial"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "ar25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ar25s",
+                "_type": "span",
+                "marks": [],
+                "text": "Качественный монтаж требует опыта в инженерии и ландшафтном дизайне. Florial предлагает проектирование, установку, ремонт, модернизацию и сезонное обслуживание автоматических систем полива в Несебре и соседних районах. Комплексный подход помогает сохранить здоровье растений и рационально использовать воду."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-ru-8",
+                "_type": "span",
+                "marks": [],
+                "text": "Следующий шаг: посмотрите "
+              },
+              {
+                "_key": "cta-s-ru-8",
+                "_type": "span",
+                "marks": [
+                  "cta-a-ru-8"
+                ],
+                "text": "монтаж автоматических систем полива"
+              },
+              {
+                "_key": "cta-m-ru-8",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-ru-8",
+                "_type": "span",
+                "marks": [
+                  "cta-b-ru-8"
+                ],
+                "text": "услуги автоматического полива"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-ru-8",
+                "_type": "link",
+                "href": "/services/montaj-avtomatichni-polivni-sistemi-nesebar"
+              },
+              {
+                "_key": "cta-b-ru-8",
+                "_type": "link",
+                "href": "/services/avtomatichno-napoyavane"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Этапы монтажа автоматической системы полива в Несебре",
+        "seoDescription": "Узнайте, как проходит монтаж автоматического полива: разметка участка, прокладка труб, установка клапанов и контроллера, настройка и проверка системы.",
+        "seoTitle": "Монтаж автоматического полива: основные этапы | Florial",
+        "shortDescription": "Основные этапы монтажа автоматического полива: подготовка участка, траншеи, прокладка труб, установка оборудования, настройка и проверка системы.",
+        "title": "Этапы монтажа автоматической системы полива в Несебре"
+      }
+    }
+  }
+}
