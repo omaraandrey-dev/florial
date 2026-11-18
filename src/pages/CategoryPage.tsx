@@ -36,6 +36,7 @@ export function CategoryPage({
 }: CategoryPageProps) {
   const { t, language, localize } = useI18n()
   const isIrrigationCatalog = category.slug?.current === 'vsichko-za-polivane'
+  const isPlantCatalogRoot = category.isPlantCategory && (category.slug?.current === 'rastenia' || category._id === 'plants-root')
   const categorySeoContent = selectCategorySeoContent(category, language)
   const helpConfiguredUrl = typeof category.helpBlock?.buttonUrl === 'string' ? category.helpBlock.buttonUrl.trim() : ''
   const helpTargetUrl = helpConfiguredUrl.startsWith('/services/') || helpConfiguredUrl.startsWith('/blog/')
@@ -499,7 +500,7 @@ export function CategoryPage({
         )}
       </div>
 
-      {category.isPlantCategory && (
+      {isPlantCatalogRoot && (
         <section
           className="mb-7 rounded-2xl border border-[#E5E8DC] bg-[#F8F9F4] px-3 py-3 sm:px-4"
           aria-label={language === 'ru' ? 'Преимущества Florial' : language === 'en' ? 'Why choose Florial' : 'Предимства на Florial'}
@@ -737,7 +738,7 @@ export function CategoryPage({
                         <div className="mt-2 flex flex-wrap gap-1.5" aria-label={language === 'ru' ? 'Размер растения' : language === 'en' ? 'Plant size' : 'Размер на растението'}>
                           {typeof variant.saleHeightCm === 'number' && variant.saleHeightCm > 0 && (
                             <span className="rounded-md bg-[#F3F5EC] px-2 py-1 text-[10px] font-medium text-slate-700 sm:text-xs">
-                              {language === 'ru' ? 'Высота ' : language === 'en' ? 'Height ' : 'Височина '}{variant.saleHeightCm} см
+                              {language === 'ru' ? 'Высота ' : language === 'en' ? 'Height ' : 'Височина '}{variant.saleHeightCm}{language === 'en' ? ' cm' : ' см'}
                             </span>
                           )}
                           {typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0 && (
@@ -747,7 +748,7 @@ export function CategoryPage({
                           )}
                         </div>
                       )}
-                      <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{variant ? (language === 'ru' ? 'Посмотреть размер: ' : language === 'en' ? 'View size: ' : 'Виж размер: ') + variantLabel : t('Виж детайли')}</span>
+                      <span className="mt-2 block rounded-lg bg-emerald-50 px-2 py-2 text-center text-[11px] font-semibold text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white sm:text-xs">{variant ? (language === 'ru' ? 'Посмотреть вариант: ' : language === 'en' ? 'View option: ' : 'Виж варианта: ') + variantLabel : t('Виж детайли')}</span>
                       <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:text-[10px]" title={String(categoryName)}>{categoryName}</p>
                     </>
                   )
