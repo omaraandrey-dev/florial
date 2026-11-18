@@ -25,7 +25,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   }
 
   const daysRaw = Number(new URL(request.url).searchParams.get('days') || 30)
-  const days: PostHogDays = daysRaw === 7 || daysRaw === 90 ? daysRaw : 30
+  const days: PostHogDays = daysRaw === 1 || daysRaw === 7 || daysRaw === 90 ? daysRaw : 30
   const cacheKey = String(days)
   const cached = cache.get(cacheKey)
   if (cached && cached.expiresAt > Date.now()) return json({ ...cached.data, cached: true })
