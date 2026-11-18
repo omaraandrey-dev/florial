@@ -367,8 +367,8 @@ export default function PlantCatalogManager({role}:Props){
    {error&&<div role="alert" className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
    {notice&&<div className="mb-3 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
    <div className="space-y-4">
-    <section className="rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><h3 className="font-bold">Снимки на растението</h3><div className="flex flex-wrap gap-2">
+    <details open id="plant-editor-photos" className="rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Снимки на растението</summary><div className="flex flex-wrap gap-2">
        <button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>
        <label className={btn+' cursor-pointer bg-lime-50 text-lime-800'}>{imageLoading?'Качване…':'＋ Качи снимки'}<input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={imageLoading} onChange={event=>{void uploadFiles(event.target.files);event.currentTarget.value=''}}/></label>
       </div></div>
@@ -404,9 +404,9 @@ export default function PlantCatalogManager({role}:Props){
       <label><span className={labelClass}>ALT (EN)</span><input className={inputClass} value={image.altEn} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,altEn:event.target.value}:item))}/></label>
       <label><span className={labelClass}>ALT (RU)</span><input className={inputClass} value={image.altRu} onChange={event=>setImages(previous=>previous.map((item,i)=>i===index?{...item,altRu:event.target.value}:item))}/></label>
      </div>)}
-    </section>
-    <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <h3 className="font-bold">Основна информация</h3>
+    </details>
+    <details open id="plant-editor-basic" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+     <summary className="cursor-pointer font-bold marker:text-lime-800">Основна информация</summary>
      <label className="block"><span className={labelClass}>Име на растението *</span><input className={inputClass} value={form.name} onChange={event=>{const name=event.target.value;if(aiIdentityNeedsConfirmation&&name.trim()&&name.trim()!=='Растение за идентификация')setAiIdentityNeedsConfirmation(false);setForm(previous=>({...previous,name,slug:previous.slugAuto?slugify(name):previous.slug}))}}/>{aiIdentityNeedsConfirmation&&<span className="mt-1 block text-sm text-amber-700">ИИ не определи надеждно растението. Заменете временното име с реалното име преди записване.</span>}</label>
      <label className="block"><span className={labelClass}>Ботаническо име</span><input className={inputClass} value={form.scientificName} onChange={event=>setField('scientificName',event.target.value)}/></label>
      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -428,9 +428,9 @@ export default function PlantCatalogManager({role}:Props){
      </div>}
      <label className="flex items-center gap-3 text-sm"><input type="checkbox" checked={form.isFeatured} onChange={event=>setField('isFeatured',event.target.checked)}/>Препоръчано растение</label>
      {editingId&&<label className="flex items-center gap-3 text-sm"><input type="checkbox" checked={form.isActive} onChange={event=>setField('isActive',event.target.checked)}/>Показвай в магазина</label>}
-    </section>
-    <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <div className="flex items-center justify-between gap-2"><h3 className="font-bold">Размери и цени</h3><span className="text-xs text-stone-500">{form.saleVariants.length}/30</span></div>
+    </details>
+    <details open id="plant-editor-pricing" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+     <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Размери и цени</summary><span className="text-xs text-stone-500">{form.saleVariants.length}/30</span></div>
      {form.saleVariants.map((variant,index)=><div key={variant._key} className="space-y-3 rounded-xl border border-stone-200 p-3">
       <div className="flex items-center justify-between"><strong>Размер {index+1}</strong>{form.saleVariants.length>1&&<button type="button" onClick={()=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.filter((_,i)=>i!==index)}))} className="text-sm font-semibold text-red-700">Премахни</button>}</div>
       <label><span className={labelClass}>Наименование / височина *</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
@@ -449,9 +449,9 @@ export default function PlantCatalogManager({role}:Props){
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
      <button type="button" disabled={form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
-    </section>
-    <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <div className="flex items-center justify-between gap-2"><h3 className="font-bold">{role==='owner'?'Описание и преводи':'Описание'}</h3>{aiProof&&<span className="text-xs font-semibold text-lime-800">Google попълването е изпълнено</span>}</div>
+    </details>
+    <details open id="plant-editor-content" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+     <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">{role==='owner'?'Описание и преводи':'Описание'}</summary>{aiProof&&<span className="text-xs font-semibold text-lime-800">Google попълването е изпълнено</span>}</div>
      <label><span className={labelClass}>Кратко описание (BG)</span><textarea rows={3} className={inputClass} value={form.shortDescription} onChange={event=>setField('shortDescription',event.target.value)}/></label>
      <label><span className={labelClass}>Описание (BG)</span><textarea rows={7} className={inputClass} value={form.description} onChange={event=>setField('description',event.target.value)}/></label>
      {role==='owner'&&(['ru','en'] as const).map(language=><details key={language} className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">{language==='ru'?'Русский':'English'}</summary>
@@ -462,15 +462,15 @@ export default function PlantCatalogManager({role}:Props){
       </div>
      </details>)}
      {aiWarnings.length>0&&<ul className="list-disc space-y-1 pl-5 text-xs text-amber-800">{aiWarnings.map((warning,index)=><li key={index}>{warning}</li>)}</ul>}
-    </section>
-    {role==='owner'&&<section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <h3 className="font-bold">SEO</h3>
+    </details>
+    {role==='owner'&&<details open id="plant-editor-seo" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+     <summary className="cursor-pointer font-bold marker:text-lime-800">SEO</summary>
      <label><span className={labelClass}>H1</span><input className={inputClass} value={form.seo.h1} onChange={event=>setField('seo',{...form.seo,h1:event.target.value})}/></label>
      <label><span className={labelClass}>Meta title</span><input maxLength={70} className={inputClass} value={form.seo.metaTitle} onChange={event=>setField('seo',{...form.seo,metaTitle:event.target.value})}/></label>
      <label><span className={labelClass}>Meta description</span><textarea rows={3} maxLength={320} className={inputClass} value={form.seo.metaDescription} onChange={event=>setField('seo',{...form.seo,metaDescription:event.target.value})}/></label>
-    </section>}
-    <section className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
-     <h3 className="font-bold">Ботанически характеристики и грижи</h3>
+    </details>}
+    <details open id="plant-editor-care" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+     <summary className="cursor-pointer font-bold marker:text-lime-800">Ботанически характеристики и грижи</summary>
      <p className="text-xs text-stone-500">ИИ попълва само данни с достатъчна ботаническа опора. Черноморската пригодност остава за ръчна проверка.</p>
      <div className="grid gap-3 sm:grid-cols-2">
       <label><span className={labelClass}>Осветеност</span><select className={inputClass} value={form.plantCare.light||''} onChange={event=>setField('plantCare',{...form.plantCare,light:event.target.value||undefined})}><option value="">Не е определено</option><option value="sun">Пълно слънце</option><option value="partialShade">Полусянка</option><option value="shade">Сянка</option></select></label>
@@ -485,7 +485,7 @@ export default function PlantCatalogManager({role}:Props){
       <label><span className={labelClass}>Сезон на цъфтеж</span><div className="flex flex-wrap gap-3">{[['spring','Пролет'],['summer','Лято'],['autumn','Есен'],['winter','Зима']].map(([value,label])=><label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={(form.plantCare.floweringSeason||[]).includes(value)} onChange={event=>setField('plantCare',{...form.plantCare,floweringSeason:event.target.checked?[...(form.plantCare.floweringSeason||[]),value]:(form.plantCare.floweringSeason||[]).filter((item:string)=>item!==value)})}/>{label}</label>)}</div></label>
      <label><span className={labelClass}>Сезон на засаждане</span><div className="flex flex-wrap gap-3">{[['spring','Пролет'],['summer','Лято'],['autumn','Есен'],['winter','Зима'],['yearRound','През цялата година']].map(([value,label])=><label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={(form.plantCare.plantingSeason||[]).includes(value)} onChange={event=>setField('plantCare',{...form.plantCare,plantingSeason:event.target.checked?[...(form.plantCare.plantingSeason||[]),value]:(form.plantCare.plantingSeason||[]).filter((item:string)=>item!==value)})}/>{label}</label>)}</div></label>
      <label><span className={labelClass}>Практически грижи</span><textarea rows={7} className={inputClass} value={form.careGuide} onChange={event=>setField('careGuide',event.target.value)} placeholder="Засаждане, почва, поливане, подхранване, резитба и зимна защита…"/></label>
-    </section>
+    </details>
     <div className="sticky bottom-0 z-10 -mx-3 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
      <button type="button" disabled={saving||!activeImages||(!editingId&&!aiProof)||!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)} onClick={()=>void save()} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white disabled:opacity-50">{saving?'Запазване…':!editingId&&!aiProof?'Първо проверете с Google':!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)?'Добавете размер на растението':editingId?'Запази промените':'Публикувай растението'}</button>
     </div>
