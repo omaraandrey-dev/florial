@@ -1,3 +1,9 @@
+## 2026-11-18 — Homepage UX follow-up (PR #385)
+
+- Owner-approved homepage corrections are implemented and automated validation passed. Hero CTAs are 20% narrower; About is a plain underlined link; the standard 5 × 5 m kit is excluded and the published six-zone automation kit is explicitly featured.
+- Blog pinning and previous homepage conversion changes remain intact. No outstanding owner decision remains for this task.
+- Merge and Production deployment verification are the final release steps; do not claim Production availability until the deployment for the merged main SHA succeeds.
+
 ## 2026-11-18 — Seller catalog permission decision (PR #383; validation pending)
 
 - **Decision resolved:** Seller's `canCreatePlant` is the single switch for direct plant creation, card editing, variant addition, price changes and stock changes. No separate Seller toggles are required.

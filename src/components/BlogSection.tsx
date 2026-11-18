@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {useI18n} from '../lib/i18n'
-import {blogSlug, blogTranslation, fetchBlogPosts, formatBlogDate, type BlogPostCard} from '../lib/blog'
+import {blogSlug, blogTranslation, fetchBlogPosts, fetchBlogPostsBySlugs, formatBlogDate, type BlogPostCard} from '../lib/blog'
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 
@@ -9,7 +9,15 @@ export function BlogSection() {
   const [posts, setPosts] = useState<BlogPostCard[]>([])
   useEffect(() => {
     let active = true
-    fetchBlogPosts(3, language).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error))
+    const pinnedSlugs = ['podroben-landshaften-proekt-gradina', 'cena-sistema-avtomatichno-napoyavane-burgas']
+    Promise.all([fetchBlogPostsBySlugs(pinnedSlugs, language), fetchBlogPosts(10, language)])
+      .then(([pinned, latest]) => {
+        if (!active) return
+        const pinnedSlugsSet = new Set(pinned.map((post) => blogSlug(post)))
+        const nextLatest = latest.filter((post) => !pinnedSlugsSet.has(blogSlug(post))).slice(0, 1)
+        setPosts([...pinned, ...nextLatest])
+      })
+      .catch((error) => console.error('Florial blog could not load:', error))
     return () => { active = false }
   }, [language])
   return <section className="border-t border-[#E4E8DA] bg-[#F7F8F1] px-4 py-10 md:py-14">
