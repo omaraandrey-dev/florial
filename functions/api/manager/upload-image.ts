@@ -1,5 +1,5 @@
 import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
-import { PLANTS_DATASET, requirePlantRole } from './plant-direct-lib'
+import { PLANTS_DATASET } from './plant-direct-lib'
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024
 const hasSignature = (bytes: Uint8Array, mime: string) => {
