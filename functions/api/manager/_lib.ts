@@ -39,7 +39,7 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
 }
 const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo','canViewServiceLeads','canManageServiceLeads']
 const SELLER_CATALOG_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock']
-export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) => {
+export const hasPermission = (user: Pick<ManagerIdentity, 'role' | 'permissionsObject'>, key: StaffPermissionKey) => {
   if (user.role === 'owner') return true
   if (user.role === 'seller' && SELLER_CATALOG_PERMISSIONS.includes(key)) return user.permissionsObject.canCreatePlant === true
   return (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
