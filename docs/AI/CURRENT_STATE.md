@@ -22,7 +22,8 @@
 
 ## Latest verified main / CI / Production
 
-- Current GitHub `main` HEAD at snapshot: `34a472b813119b72cc45d2009fbe3bd1ce617d4d` (`docs: make passport refer to live main head`).
+- Current GitHub `main` HEAD after the documentation-policy merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d` (documentation-only PR #401).
+- Latest verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; the commits after it in this snapshot are documentation-only and do not change runtime code.
 - Open PRs: **0**.
 - GitHub Actions on this exact SHA:
   - [Blog and Studio validation #44301545917](https://github.com/omaraandrey-dev/florial/actions/runs/44301545917) — success. Includes npm ci, TypeScript, lint, tests, website build, migration dry-run and Sanity Studio typecheck/build.
