@@ -2,7 +2,7 @@
 
 Date: 2026-11-18  
 Repository: `omaraandrey-dev/florial`  
-Verified main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
+Original baseline main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
 
 ## Addendum 2026-11-18 — latest main after PR #405 and PR #403
 
@@ -15,7 +15,7 @@ Verified main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
 
 ## Executive result
 
-**The current main commit is green in GitHub Actions and successfully deployed to Cloudflare Pages Production.** There are no open PRs. The codebase is in a deployable state for this exact commit based on the recorded CI and Pages build/deploy evidence.
+**The original baseline commit was green in GitHub Actions and successfully deployed to Cloudflare Pages Production.** The latest main/CI/Production state is recorded in the addendum above; it supersedes the historical baseline below.
 
 This readiness audit is a baseline for the verified commit. By owner decision dated 2026-11-18, non-main refs are historical/auxiliary and require no further inventory or cleanup. Legacy Supabase-named Cloudflare variables are intentionally retained dormant reserves and require no removal or repeat audit. The optional GitHub branch-protection setting is separate from the fact that main is the sole authoritative branch.
 
