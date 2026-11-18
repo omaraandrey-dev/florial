@@ -23,8 +23,11 @@
 | Email-доставка | Resend и фактический тест |
 | История | CHANGELOG.md |
 
+## Главная ветка и архивные refs
+`main` — единственная главная и авторитетная ветка Florial. Все остальные ветки — исторические/вспомогательные; в обычной работе их не проверять, не возобновлять и не чистить. Новые изменения начинать от актуального HEAD `main`. Production публикуется из `main`.
+
 ## Архитектура
-GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase исключён. Исторические SQL/документы сохранены в [archive/supabase](../archive/supabase/README.md), выполнять их нельзя.
+GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase исключён из действующего проекта. Исторические SQL/документы сохранены в [archive/supabase](../archive/supabase/README.md), выполнять их нельзя. Legacy-переменные `SUPABASE_*` / `VITE_SUPABASE_*`, если сохранены в Cloudflare Pages, являются намеренно оставленными неактивными резервными переменными по подтверждению владельца; не считать их интеграцией, не перепроверять и не удалять.
 
 ## Исторические инструкции
 Корневой AI_INSTRUCTIONS, START HERE, Technical Passport и Changelog — актуальные документы. Файлы `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_*_rev*.md` — исторические снимки, не конкурирующие источники. Последний снимок перед новой системой: [rev74](../%D0%98%D0%9D%D0%A1%D0%A2%D0%A0%D0%A3%D0%9A%D0%A6%D0%98%D0%AF%282%29_FLORIAL_%D0%90%D0%9A%D0%A2%D0%A3%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF_11-11-2026_rev74.md).
