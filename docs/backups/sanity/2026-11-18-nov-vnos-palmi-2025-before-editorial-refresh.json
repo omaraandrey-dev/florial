@@ -1,0 +1,1359 @@
+{
+  "backupCreatedAt": "2026-11-18",
+  "source": "Sanity Production published perspective",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "document": {
+    "_id": "blogPost-nov-vnos-palmi-2025",
+    "_rev": "wShFcTvKnRduO9ho4JbXhm",
+    "_type": "blogPost",
+    "cover": {
+      "_type": "image",
+      "alt": "Палми в градински център Florial, Несебър",
+      "asset": {
+        "_ref": "image-9f891cf45cf4bbbe66c02fba0c866f02504c1cd1-1800x831-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2025-03-31T05:15:06.021Z",
+    "slug": {
+      "_type": "slug",
+      "current": "nov-vnos-palmi-2025"
+    },
+    "tags": [
+      "Растения"
+    ],
+    "title": "Нов внос на палми в градински център Флориал – 2025 година",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bb2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb1",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център Флориал с удоволствие представя новия внос на палми за 2025 година! Доставихме разнообразие от тези екзотични растения, които са идеални за климата на България. Сега можете да закупите красиви и здрави палми за озеленяване на вашия двор, градина или тераса в Несебър и Слънчев бряг."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bb4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb3",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо палмите са идеален избор за вашата градина?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bb6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb5",
+                "_type": "span",
+                "marks": [],
+                "text": "Палмите създават неповторима средиземноморска атмосфера и украсяват всеки двор със своята елегантна зеленина. Някои видове се адаптират отлично към климата в България и издържат на по-ниски температури. Например, китайската конопена палма (Trachycarpus fortunei) може да издържа студове до -14°C, а канарската финикова палма (Phoenix canariensis) расте чудесно в южните райони."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bb8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb7",
+                "_type": "span",
+                "marks": [],
+                "text": "Видове палми, налични за продажба"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bba",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb9",
+                "_type": "span",
+                "marks": [],
+                "text": "В новия ни внос ще откриете както студоустойчиви, така и декоративни палми:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbb",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Trachycarpus fortunei"
+              },
+              {
+                "_key": "bbc",
+                "_type": "span",
+                "marks": [],
+                "text": " – издържа студове до -14°C, идеална за засаждане на открито."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbe",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Phoenix canariensis"
+              },
+              {
+                "_key": "bbf",
+                "_type": "span",
+                "marks": [],
+                "text": " – придава екзотичен вид, издържа до -9°C."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Washingtonia filifera"
+              },
+              {
+                "_key": "bbi",
+                "_type": "span",
+                "marks": [],
+                "text": " – студоустойчива до -10°C, препоръчва се за региони с мека зима."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbk",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Musa basjoo (бананова палма)"
+              },
+              {
+                "_key": "bbl",
+                "_type": "span",
+                "marks": [],
+                "text": " – издържа до -10°C при подходяща зимна защита."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbn",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Areca catechu (кокосова палма)"
+              },
+              {
+                "_key": "bbo",
+                "_type": "span",
+                "marks": [],
+                "text": " – за топли райони и отглеждане на закрито."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbs",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbq",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Howea forsteriana (Кентия)"
+              },
+              {
+                "_key": "bbr",
+                "_type": "span",
+                "marks": [],
+                "text": " – идеална за интериори и зимни градини."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bbt",
+            "_type": "image",
+            "alt": "Палми за продажба в Несебър",
+            "asset": {
+              "_ref": "image-77d5afca1a832924d5d02c8fc5c832cbe34bb489-1280x591-jpg",
+              "_type": "reference"
+            },
+            "caption": "Палми за продажба в Несебър"
+          },
+          {
+            "_key": "bbv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbu",
+                "_type": "span",
+                "marks": [],
+                "text": "Как да изберете подходящата палма за вашето пространство?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bbx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bbw",
+                "_type": "span",
+                "marks": [],
+                "text": "При избора на палма е важно да се вземат предвид:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bc0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bby",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Студоустойчивостта"
+              },
+              {
+                "_key": "bbz",
+                "_type": "span",
+                "marks": [],
+                "text": " – ако планирате засаждане на открито, изберете устойчиви на студ видове."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bc3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bc1",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Изискванията за осветление"
+              },
+              {
+                "_key": "bc2",
+                "_type": "span",
+                "marks": [],
+                "text": " – някои палми предпочитат пряка слънчева светлина, докато други растат по-добре на полусянка."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bc6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bc4",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Размер и поддръжка"
+              },
+              {
+                "_key": "bc5",
+                "_type": "span",
+                "marks": [],
+                "text": " – някои видове изискват редовна резитба и зимна защита."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bc8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bc7",
+                "_type": "span",
+                "marks": [],
+                "text": "Доставка и засаждане на палми"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bca",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bc9",
+                "_type": "span",
+                "marks": [],
+                "text": "Предлагаме удобна доставка на палми в Несебър, Слънчев бряг и други населени места в региона. При необходимост нашите специалисти ще ви помогнат със засаждането и ще ви дадат съвети за правилна грижа."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bcc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcb",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо да изберете палма от градински център Флориал?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bcf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcd",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Гарантирано качество"
+              },
+              {
+                "_key": "bce",
+                "_type": "span",
+                "marks": [],
+                "text": " – нашите растения са здрави и адаптирани към климата в България."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bci",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcg",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Богато разнообразие"
+              },
+              {
+                "_key": "bch",
+                "_type": "span",
+                "marks": [],
+                "text": " – предлагаме както студоустойчиви, така и декоративни видове."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bcl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcj",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Консултации от експерти"
+              },
+              {
+                "_key": "bck",
+                "_type": "span",
+                "marks": [],
+                "text": " – ще ви помогнем да изберете палма, подходяща за вашето пространство."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bco",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcm",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Удобна доставка"
+              },
+              {
+                "_key": "bcn",
+                "_type": "span",
+                "marks": [],
+                "text": " – ще ви доставим растенията до дома или градината ви."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bcr",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcp",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Конкурентни цени"
+              },
+              {
+                "_key": "bcq",
+                "_type": "span",
+                "marks": [],
+                "text": " – предлагаме достъпни цени за всички видове палми."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bct",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcs",
+                "_type": "span",
+                "marks": [],
+                "text": "Посетете градински център Флориал и изберете своята идеална палма още днес!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bcw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcv",
+                "_type": "span",
+                "marks": [
+                  "bcu"
+                ],
+                "text": "Продажа розы сорта Симпатия"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bcu",
+                "_type": "link",
+                "blank": false,
+                "href": "/blog/rozi-sympathy"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bcz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bcy",
+                "_type": "span",
+                "marks": [
+                  "bcx"
+                ],
+                "text": "Topiary Pruning of Plants Nessebar"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bcx",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/topiarna-rezitba-rasteniya"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bd2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bd1",
+                "_type": "span",
+                "marks": [
+                  "bd0"
+                ],
+                "text": "Топиарная стрижка растений Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bd0",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/topiarna-rezitba-rasteniya"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-bg-3",
+                "_type": "span",
+                "marks": [],
+                "text": "Следваща стъпка: разгледайте "
+              },
+              {
+                "_key": "cta-s-bg-3",
+                "_type": "span",
+                "marks": [
+                  "cta-a-bg-3"
+                ],
+                "text": "категорията с палми и юки"
+              },
+              {
+                "_key": "cta-m-bg-3",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-bg-3",
+                "_type": "span",
+                "marks": [
+                  "cta-b-bg-3"
+                ],
+                "text": "професионалното засаждане на растения"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-bg-3",
+                "_type": "link",
+                "href": "/category/palmi-yuki"
+              },
+              {
+                "_key": "cta-b-bg-3",
+                "_type": "link",
+                "href": "/services/zasazhdane-na-rasteniya"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Палми в градински център Florial, Несебър",
+        "seoDescription": "Материалът представя вноса на палми през 2025 г. и насоки за избор според мястото, светлината и зимните условия. Актуалната наличност се потвърждава отделно.",
+        "seoTitle": "Палми за градината: избор и грижи | Florial",
+        "shortDescription": "Архивен материал за доставката на палми през 2025 г. и видовете, представени тогава. Проверете актуалната наличност и пригодността на вида преди покупка.",
+        "title": "Нов внос на палми в градински център Флориал – 2025 година"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "pe1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial Garden Centre presents its 2025 shipment of palm trees. We have brought in a range of exotic plants suited to suitable growing conditions in Bulgaria. Palms can add a distinctive touch to gardens, courtyards and terraces in Nessebar and Sunny Beach."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why choose palms for your garden?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pe3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Palms create a Mediterranean atmosphere and bring elegant greenery to outdoor spaces. Some species adapt well to Bulgaria’s climate and tolerate lower temperatures. For example, the windmill palm (Trachycarpus fortunei) can withstand frost of around −14°C, while the Canary Island date palm grows well in southern areas."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Palm varieties"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pe5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Our range includes relatively cold-hardy palms as well as ornamental species for suitable growing conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Trachycarpus fortunei — tolerates frost down to around −14°C and can be planted outdoors in a suitable position."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Phoenix canariensis — adds an exotic look; approximate cold tolerance is down to −9°C."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Washingtonia filifera — may tolerate brief cold spells around −10°C and is best suited to regions with mild winters."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Musa basjoo (Japanese banana) — can tolerate temperatures around −10°C with suitable winter protection."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Areca catechu — a tropical species for warm conditions and indoor cultivation."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Howea forsteriana (kentia palm) — well suited to interiors and conservatories."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe12",
+            "_type": "image",
+            "alt": "Palms for sale in Nessebar",
+            "asset": {
+              "_ref": "image-77d5afca1a832924d5d02c8fc5c832cbe34bb489-1280x591-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "pe13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe13s",
+                "_type": "span",
+                "marks": [],
+                "text": "How do you choose the right palm?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pe14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Consider cold tolerance if planting outdoors; light requirements, since some palms need full sun while others prefer partial shade; the mature size of the plant; ongoing care; and whether winter protection will be necessary."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Palm delivery and planting"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pe16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe16s",
+                "_type": "span",
+                "marks": [],
+                "text": "We arrange palm delivery to Nessebar, Sunny Beach and other nearby locations. If required, our specialists can help with planting and provide care advice."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why choose a palm from Florial?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pe18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Quality: plants are selected for health and suitability for Bulgarian conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Variety: choose from ornamental species and palms with greater cold tolerance."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Expert guidance: we can help match a species to your space and growing conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Convenient delivery: we can deliver plants to your home or garden."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Competitive prices: palms are available across a range of price points."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pe23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pe23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Visit Florial Garden Centre to choose a palm that suits your garden."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-en-3",
+                "_type": "span",
+                "marks": [],
+                "text": "Next step: explore "
+              },
+              {
+                "_key": "cta-s-en-3",
+                "_type": "span",
+                "marks": [
+                  "cta-a-en-3"
+                ],
+                "text": "palms and yuccas category"
+              },
+              {
+                "_key": "cta-m-en-3",
+                "_type": "span",
+                "marks": [],
+                "text": " or "
+              },
+              {
+                "_key": "cta-e-en-3",
+                "_type": "span",
+                "marks": [
+                  "cta-b-en-3"
+                ],
+                "text": "professional planting service"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-en-3",
+                "_type": "link",
+                "href": "/category/palmi-yuki"
+              },
+              {
+                "_key": "cta-b-en-3",
+                "_type": "link",
+                "href": "/services/zasazhdane-na-rasteniya"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "New Palm Tree Shipment at Florial Garden Centre — 2025",
+        "seoDescription": "A look back at Florial’s 2025 palm shipment, with selection tips for location, light and winter conditions. Current availability must be confirmed separately.",
+        "seoTitle": "Palm Trees for Gardens: Selection and Care | Florial",
+        "shortDescription": "An archive of Florial’s 2025 palm shipment, with an overview of the species featured and points to consider when choosing palms for outdoor or indoor spaces.",
+        "title": "New Palm Tree Shipment at Florial Garden Centre — 2025"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "pr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Садовый центр Florial представляет новую поставку пальм 2025 года! Мы привезли разнообразные экзотические растения, подходящие для условий Болгарии. Пальмы можно использовать для озеленения двора, сада или террасы в Несебре и Солнечном Береге."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr2s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему пальмы — удачный выбор для сада?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pr3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Пальмы создают средиземноморскую атмосферу и украшают участок элегантной зеленью. Некоторые виды хорошо адаптируются к болгарскому климату и выдерживают понижение температуры. Например, трахикарпус Форчуна переносит морозы примерно до −14 °C, а канарская финиковая пальма хорошо растёт в южных районах."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Виды пальм"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "В ассортименте есть как относительно холодостойкие, так и декоративные пальмы для подходящих условий выращивания."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Trachycarpus fortunei — переносит морозы примерно до −14 °C и подходит для посадки в открытом грунте при подходящем месте."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Phoenix canariensis — придаёт саду экзотический вид, ориентировочная морозостойкость до −9 °C."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Washingtonia filifera — переносит кратковременное похолодание примерно до −10 °C; рекомендуется для регионов с мягкой зимой."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Musa basjoo (банан японский) — при подходящей зимней защите может выдерживать температуру около −10 °C."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Areca catechu — тропический вид для тёплых условий и выращивания в помещении."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Howea forsteriana (кентия) — подходит для интерьеров и зимних садов."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr12",
+            "_type": "image",
+            "alt": "Пальмы в продаже в Несебре",
+            "asset": {
+              "_ref": "image-77d5afca1a832924d5d02c8fc5c832cbe34bb489-1280x591-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "pr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Как выбрать пальму для своего участка?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "При выборе учитывайте морозостойкость — для открытого грунта выбирайте виды, подходящие для местных зим; освещение — одним пальмам нужно прямое солнце, другим подходит полутень; размер взрослого растения, требования к уходу и необходимость зимней защиты."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Доставка и посадка пальм"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы организуем доставку пальм в Несебр, Солнечный Берег и другие населённые пункты региона. При необходимости специалисты помогут с посадкой и дадут рекомендации по уходу."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему выбирают пальмы из Florial?"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "pr18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Качество: растения отбираются с учётом здоровья и пригодности для условий Болгарии."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Разнообразие: доступны декоративные виды и пальмы с повышенной устойчивостью к холоду."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Помощь специалистов: поможем подобрать вид под конкретное место и условия выращивания."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Удобная доставка: привезём растения к дому или в сад."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Конкурентные цены: предлагаем различные виды пальм в разных ценовых категориях."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "pr23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "pr23s",
+                "_type": "span",
+                "marks": [],
+                "text": "Посетите садовый центр Florial и подберите пальму, подходящую именно вашему саду."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-ru-3",
+                "_type": "span",
+                "marks": [],
+                "text": "Следующий шаг: посмотрите "
+              },
+              {
+                "_key": "cta-s-ru-3",
+                "_type": "span",
+                "marks": [
+                  "cta-a-ru-3"
+                ],
+                "text": "категорию пальм и юкк"
+              },
+              {
+                "_key": "cta-m-ru-3",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-ru-3",
+                "_type": "span",
+                "marks": [
+                  "cta-b-ru-3"
+                ],
+                "text": "профессиональную посадку растений"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-ru-3",
+                "_type": "link",
+                "href": "/category/palmi-yuki"
+              },
+              {
+                "_key": "cta-b-ru-3",
+                "_type": "link",
+                "href": "/services/zasazhdane-na-rasteniya"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Новая поставка пальм в садовом центре Florial — 2025 год",
+        "seoDescription": "В статье рассматривается поставка пальм 2025 года и выбор видов с учётом места, освещения и зимних условий. Актуальное наличие растений уточняется отдельно.",
+        "seoTitle": "Пальмы для сада: выбор и уход | Florial",
+        "shortDescription": "Архивный материал о поставке пальм в 2025 году и представленных тогда видах. Перед покупкой уточняйте наличие и пригодность растения для участка.",
+        "title": "Новая поставка пальм в садовом центре Florial — 2025 год"
+      }
+    }
+  }
+}
