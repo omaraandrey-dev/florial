@@ -21,7 +21,7 @@ type StaffPermissions = {
 }
 type StaffPermissionKey = keyof StaffPermissions
 const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
-  { key: 'canCreatePlant', label: 'Достъп до каталога с растения (създаване, редактиране, варианти, цени и количества)' },
+  { key: 'canCreatePlant', label: 'Създаване на растения' },
   { key: 'canEditPlantCard', label: 'Подготовка и редактиране на продуктови карти' },
   { key: 'canAddPlantVariant', label: 'Добавяне на варианти' },
   { key: 'canEditPlantPrice', label: 'Промяна на цени' },
@@ -984,7 +984,7 @@ export default function ManagerApp() {
                           if (item.key === 'canManageServiceLeads' && checked) next.canViewServiceLeads = true
                           if (item.key === 'canViewServiceLeads' && !checked) next.canManageServiceLeads = false
                           void updateStaff(staff.user_id, { action: 'update', permissions: next }, 'Разрешенията са обновени.')
-                        }} />{item.label}</label>)}</div></fieldset>}
+                        }} />{item.label}</label>)}</div>{staff.role === 'seller' && <p className="mt-2 text-xs text-stone-600">За продавач това право включва създаване и пълно редактиране на растения, варианти, цени и наличности.</p>}</fieldset>}
                       <button type="button" disabled={staffSaving} onClick={() => {
                         const action = staff.is_active ? 'deactivate' : 'activate'
                         if (staff.is_active && !window.confirm('Да изключа ли достъпа на този служител? Историята му ще бъде запазена.')) return
@@ -1012,7 +1012,7 @@ export default function ManagerApp() {
                     if (item.key === 'canManageServiceLeads' && checked) next.canViewServiceLeads = true
                     if (item.key === 'canViewServiceLeads' && !checked) next.canManageServiceLeads = false
                     return next
-                  })} />{item.label}</label>)}</div><p className="mt-2 text-xs font-normal text-stone-500">Могат да бъдат предоставени само права, които имате лично.</p></fieldset>}
+                  })} />{item.label}</label>)}</div>{newStaffRole === 'seller' && <p className="mt-2 text-xs text-stone-600">За продавач това право включва създаване и пълно редактиране на растения, варианти, цени и наличности.</p>}<p className="mt-2 text-xs font-normal text-stone-500">Могат да бъдат предоставени само права, които имате лично.</p></fieldset>}
             <label className={labelClass + ' mt-4'}>Парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={newStaffPassword} onChange={(event) => setNewStaffPassword(event.target.value)} required /><span className="mt-1 block text-xs font-normal text-stone-500">Минимум 12 символа. След запис паролата няма да се показва повторно.</span></label>
             <button disabled={staffSaving} className="mt-5 w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-50">{staffSaving ? 'Запазване…' : 'Създай служител'}</button>
           </form>
