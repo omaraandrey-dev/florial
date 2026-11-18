@@ -6,7 +6,7 @@
 - В интерфейсе управления сотрудниками Seller получает одну понятную настройку доступа к каталогу; отдельные действия по вариантам, ценам и остаткам из Seller workspace убраны. Все три роли сохраняют существующий доступ к botanical AI endpoint-ам; AI не обходит серверную проверку записи.
 - Добавлен тест ролевой матрицы Seller/Manager/Owner и audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`.
 - В этой ветке также сохраняются UX улучшения поиска каталога из PR #383.
-- **Проверки:** exact-head CI, typecheck/build и browser role-matrix QA ожидаются. Production deployment не выполнялся и не подтверждён. PR #383 открыт, merge не выполнялся.
+- **Проверки:** runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` прошёл exact-head CI: Blog/Studio run `44210343032` (typecheck, lint, tests, website build, Studio typecheck/build) и D1 run `44210343225` (lint, build, Pages Functions syntax, migration validations) — success. Browser role-matrix QA и authenticated live tests ещё не выполнены. Production deployment не выполнялся и не подтверждён. PR #383 открыт, merge не выполнялся.
 - Не изменялись D1 schema/records, Sanity documents/assets, Cloudflare Production settings/secrets, Resend, публичные Header/menu/Footer и checkout.
 
 
