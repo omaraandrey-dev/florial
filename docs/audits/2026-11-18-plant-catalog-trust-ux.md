@@ -2,7 +2,7 @@
 
 ## Scope
 
-Implement the owner's approved first-stage UX changes for the all-plants catalogue at `/category/rastenia`.
+Completed the owner's approved first-stage UX changes for the all-plants catalogue at `/category/rastenia`.
 
 Included:
 - A compact four-item trust strip on the plant catalogue root only: Florial garden centre, help choosing plants, plant delivery and professional planting. Labels are localized in BG/RU/EN.
@@ -15,21 +15,29 @@ Explicitly excluded:
 - Offer counts beside filters.
 - Header, navigation, Footer, global shell, routing, SEO and Sanity content/schema changes.
 
-## Implementation
+## Implementation and merge
 
-- `src/pages/CategoryPage.tsx` contains the entire runtime change.
+- Runtime change is limited to `src/pages/CategoryPage.tsx`.
 - Trust strip is guarded by `isPlantCatalogRoot`, using the existing root slug `rastenia` / ID `plants-root`; it does not appear on plant subcategory pages.
 - Plant short descriptions no longer inherit the irrigation fallback. Irrigation behavior is unchanged.
 - Variant name and sale dimensions are separated so height and pot/container volume can be scanned independently.
 - No new dependencies, Sanity writes, Cloudflare configuration changes, D1 changes or Resend changes.
+- Implementation PR: [#394](https://github.com/omaraandrey-dev/florial/pull/394), squash-merged into `main`.
+- Merge commit: `b240e72f5fbe5d7778205b004e478be68a29f87e`.
+- Original implementation head: `287ba1fb346b70cb73b96f34c382c7e80dae47db`.
 
-## Verification status
+## Verification
 
-- Source inspection and diff review completed on branch `feat/plant-catalog-trust-ux`.
-- CI, build, typecheck, lint, browser/mobile visual QA and Preview deployment: pending PR validation.
-- No claim is made that the change has been deployed to Production.
-- The connected browser service had previously exhausted its credits; live screenshots and visual browser verification are not available at this checkpoint.
+- GitHub Actions for the exact implementation head passed:
+  - Blog and Studio validation: run `44290045413` — success, including website and Studio typechecks/builds, website lint and utility tests.
+  - D1 migration validation: run `44290045424` — success.
+- Cloudflare Pages Preview deployment for the implementation head succeeded:
+  - Deployment ID: `322c33ee-d962-41ff-8122-8c26b2178f1e`.
+  - Preview URL: https://322c33ee.florial.pages.dev/category/rastenia
+- Browser/mobile screenshot QA was not completed: the connected browser service had exhausted its credits and direct page inspection was unavailable. The owner reviewed the result and confirmed the page is satisfactory.
+- The merge commit's post-merge CI and Production deployment were not confirmed in this audit. Do not infer Production publication from the successful Preview deployment.
+- No live Sanity, D1, Resend or Cloudflare configuration/data writes were performed.
 
-## Documentation integration
+## Completion
 
-The shared `CHANGELOG.md` and `docs/TECHNICAL_PASSPORT.md` entries are intentionally deferred to the integration pass after PR review, to avoid concurrent edits to shared documentation while other documentation PRs are open. This audit is the task-specific record for the implementation branch.
+The owner confirmed the page is satisfactory and asked to close this task. No further UX changes to this page are planned at this stage.
