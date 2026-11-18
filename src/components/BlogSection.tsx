@@ -7,17 +7,26 @@ import {getSanityImageProps} from '../lib/sanityImage'
 export function BlogSection() {
   const {t, language} = useI18n()
   const [posts, setPosts] = useState<BlogPostCard[]>([])
+  const [status, setStatus] = useState<'loading' | 'error' | 'empty' | 'ready'>('loading')
   useEffect(() => {
     let active = true
+    setPosts([])
+    setStatus('loading')
     const pinnedSlugs = ['podroben-landshaften-proekt-gradina', 'cena-sistema-avtomatichno-napoyavane-burgas']
     Promise.all([fetchBlogPostsBySlugs(pinnedSlugs, language), fetchBlogPosts(10, language)])
       .then(([pinned, latest]) => {
         if (!active) return
         const pinnedSlugsSet = new Set(pinned.map((post) => blogSlug(post)))
         const nextLatest = latest.filter((post) => !pinnedSlugsSet.has(blogSlug(post))).slice(0, 1)
-        setPosts([...pinned, ...nextLatest])
+        const nextPosts = [...pinned, ...nextLatest]
+        setPosts(nextPosts)
+        setStatus(nextPosts.length ? 'ready' : 'empty')
       })
-      .catch((error) => console.error('Florial blog could not load:', error))
+      .catch((error) => {
+        if (!active) return
+        console.error('Florial blog could not load:', error)
+        setStatus('error')
+      })
     return () => { active = false }
   }, [language])
   return <section className="border-t border-[#E4E8DA] bg-[#F7F8F1] px-4 py-10 md:py-14">
@@ -26,7 +35,7 @@ export function BlogSection() {
         <div><h3 className="mt-1 text-2xl font-extrabold text-slate-900 md:text-3xl">{language === 'ru' ? 'Блог и портфолио' : language === 'en' ? 'Blog & Portfolio' : 'Блог и портфолио'}</h3></div>
         <a href={localizedHref('/blog', language)} className="inline-flex w-fit items-center rounded-lg border border-[#B9C79C] bg-white px-4 py-2.5 text-sm font-semibold text-[#53643A] no-underline transition hover:bg-[#F0F3E8]">{t('Всички статии')} →</a>
       </div>
-      {posts.length === 0 ? <p className="text-sm text-slate-500">{t('Няма публикувани статии.')}</p> : <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {status === 'loading' ? <p className="text-sm text-slate-500" role="status">{t('Зареждане на статии…')}</p> : status === 'error' ? <p className="text-sm text-slate-500" role="status">{t('Неуспешно зареждане на статиите.')}</p> : status === 'empty' ? <p className="text-sm text-slate-500">{t('Няма публикувани статии.')}</p> : <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => {
           const content = blogTranslation(post, language)
           const image = post.cover?.asset?.url
