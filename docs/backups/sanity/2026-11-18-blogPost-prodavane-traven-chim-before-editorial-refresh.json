@@ -1,0 +1,1183 @@
+{
+  "backupCreatedAt": "2026-11-18T00:00:00Z",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "blogPost-prodavane-traven-chim",
+  "sourceRevision": "wShFcTvKnRduO9ho4JbXhm",
+  "sourceUpdatedAt": "2026-11-12T13:13:54Z",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:39Z",
+    "_id": "blogPost-prodavane-traven-chim",
+    "_rev": "wShFcTvKnRduO9ho4JbXhm",
+    "_system": {
+      "base": {
+        "id": "blogPost-prodavane-traven-chim",
+        "rev": "wShFcTvKnRduO9ho4JC1jI"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-11-12T13:13:54Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Рулонна тревна площ в Несебър",
+      "asset": {
+        "_ref": "image-6b494f2c51118037da419d4a090488867e47d14d-3072x4096-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2024-11-20T04:58:08.487Z",
+    "slug": {
+      "_type": "slug",
+      "current": "prodavane-traven-chim"
+    },
+    "sourceUrl": "https://www.drop.od.ua/bg/post/продава-тревен-чим-несебър",
+    "tags": [
+      "Тревни площи"
+    ],
+    "title": "Продава тревен чим Несебър",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bpi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpd",
+                "_type": "span",
+                "marks": [],
+                "text": "Нашата трева на рула не е просто зелена настилка, а истински дар от природата. "
+              },
+              {
+                "_key": "bpe",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Ние предлагаме тревен чим"
+              },
+              {
+                "_key": "bpf",
+                "_type": "span",
+                "marks": [],
+                "text": ", отгледана в самия център на България, сред "
+              },
+              {
+                "_key": "bpg",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "екологично"
+              },
+              {
+                "_key": "bph",
+                "_type": "span",
+                "marks": [],
+                "text": " чисти планини, където всяка тревичка е наситена със свежестта на чистия въздух и кристално чистата вода."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bpj",
+            "_type": "image",
+            "alt": "Рулонна тревна площ за двор и градина в Несебър",
+            "asset": {
+              "_ref": "image-967df8f4471326d40f1a3f8062eefde4181fb517-1280x591-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "bpp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpk",
+                "_type": "span",
+                "marks": [],
+                "text": "Полетата, където се отглеждат тревните ни площи, са заобиколени от "
+              },
+              {
+                "_key": "bpl",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "вековни дъбови дървета"
+              },
+              {
+                "_key": "bpm",
+                "_type": "span",
+                "marks": [],
+                "text": ", които създават естествена защита и придават екологична чистота на тревен килим. Тези дъбови горички са не само декорация, но и естествен филтър, който поддържа "
+              },
+              {
+                "_key": "bpn",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "уникален микроклимат"
+              },
+              {
+                "_key": "bpo",
+                "_type": "span",
+                "marks": [],
+                "text": " за растеж на здрава и гъста трева."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bpr",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpq",
+                "_type": "span",
+                "marks": [],
+                "text": "Създайте планински микроклимат у дома"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bpu",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bps",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Закупувайки нашата тревен чим"
+              },
+              {
+                "_key": "bpt",
+                "_type": "span",
+                "marks": [],
+                "text": ", вие внасяте частица планинска свежест в дома си. Тревната площ изпълва вашия район с чист въздух, създава комфортен микроклимат и се превръща в истинска декорация на района."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bpw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpv",
+                "_type": "span",
+                "marks": [],
+                "text": "Екологичният произход на нашата райграс я прави безопасна за деца и домашни любимци. Това е идеално решение за тези, които искат да създадат зелено пространство, което не само да радва окото, но и да се грижи за здравето на всички членове на семейството."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bpy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpx",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо да изберете нашата тревен чим?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bq0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bpz",
+                "_type": "span",
+                "marks": [],
+                "text": "Екологична чистота. Отгледана в естествен баланс, нашата тревен килим не е изложена на вредни вещества."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bq2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq1",
+                "_type": "span",
+                "marks": [],
+                "text": "Планински микроклимат. Вековни дъбови дървета и чист въздух заобикалят тревните площи, което ги прави естествен филтър за вашия двор."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bq4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq3",
+                "_type": "span",
+                "marks": [],
+                "text": "Първокласно качество. Благодарение на уникалните условия на отглеждане, моравата е гъста, наситена на цвят и издръжлива."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bq6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq5",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Създайте свое собствено кътче от планинския рай с навиваща се тревна площ от Градински центр Флориал Несебър! С нас вашият парцел ще стане не просто красив, но и екологично уникален."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bq8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq7",
+                "_type": "span",
+                "marks": [],
+                "text": "Купете рулонна тревна площ Несебър"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bqa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq9",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център Флориал предлага закупуване на рулонна тревна площ с доставка до Несебър, Слънчев бряг, Равда, Каблешково, Поморие, Кашарица."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqb",
+                "_type": "span",
+                "marks": [],
+                "text": "Работим с обеми от 30 м2 до футболно игрище. Достъпни цени, удобни условия за сътрудничество."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqd",
+                "_type": "span",
+                "marks": [],
+                "text": "Озеленяването на местността с тревна площ е ефективен и бърз начин за внасяне на красота. Най-добрият вариант за това е използването на технологията "
+              },
+              {
+                "_key": "bqe",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "ROLL LAWN"
+              },
+              {
+                "_key": "bqf",
+                "_type": "span",
+                "marks": [],
+                "text": ". РайГрас Подходящ за тези собственици, които пестят времето и енергията си"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqh",
+                "_type": "span",
+                "marks": [],
+                "text": "Процесът на създаване на навита тревна площ от Florial Garden Center"
+              }
+            ],
+            "markDefs": [],
+            "style": "h4"
+          },
+          {
+            "_key": "bqk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqj",
+                "_type": "span",
+                "marks": [],
+                "text": "Флориал предоставя възможност за поръчка на полагане на рулонен чим, осигурявайки на клиентите висококачествен резултат. Сътрудничим си с български производител, който има собствени полета, където се отглеждат сертифицирани тревни рогозки. Съответствието с високите стандарти за качество и ежедневната грижа за растенията гарантират отлично оцеляване на тревната площ в рамките на две седмици."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bql",
+                "_type": "span",
+                "marks": [],
+                "text": "Контакт и консултация във Флориал център"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bqo",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqn",
+                "_type": "span",
+                "marks": [],
+                "text": "Свързвайки се с нас, вие ще получите не само професионални съвети, но и индивидуален подход към подобряването на вашата територия. Нашите експерти ще предложат оптимални възможности за озеленяване, като се вземат предвид характеристиките на вашия парцел."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqs",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqp",
+                "_type": "span",
+                "marks": [],
+                "text": "Направете своята градина невероятна с помощта на "
+              },
+              {
+                "_key": "bqq",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Флориал \\- вашият надежден партньор"
+              },
+              {
+                "_key": "bqr",
+                "_type": "span",
+                "marks": [],
+                "text": " в създаването на красиви и добре поддържани градински площи."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bqw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqt",
+                "_type": "span",
+                "marks": [],
+                "text": "🌐 Нашият уебсайт: "
+              },
+              {
+                "_key": "bqv",
+                "_type": "span",
+                "marks": [
+                  "bqu"
+                ],
+                "text": "ФЛОРИАЛ"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bqu",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "br0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bqx",
+                "_type": "span",
+                "marks": [],
+                "text": "📧 Имейл: "
+              },
+              {
+                "_key": "bqz",
+                "_type": "span",
+                "marks": [
+                  "bqy"
+                ],
+                "text": "omaraandrey@gmail.com"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bqy",
+                "_type": "link",
+                "blank": false,
+                "href": "mailto:omaraandrey@gmail.com"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "br3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "br1",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Florial Garden Center"
+              },
+              {
+                "_key": "br2",
+                "_type": "span",
+                "marks": [],
+                "text": " ul. \"Khan Krum\", 8230 Nesebar. Next to the store Janet"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "br5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "br4",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Телефон: +359876777902"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "br8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "br7",
+                "_type": "span",
+                "marks": [
+                  "br6"
+                ],
+                "text": "Садовый Центр Флориал Несебр"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "br6",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "brb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bra",
+                "_type": "span",
+                "marks": [
+                  "br9"
+                ],
+                "text": "Garden Center Florial Nessebar"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "br9",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bre",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "brd",
+                "_type": "span",
+                "marks": [
+                  "brc"
+                ],
+                "text": "Buy lawn Sunny Beach (rolled grass)"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "brc",
+                "_type": "link",
+                "blank": false,
+                "href": "/services/rulonna-treva"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-bg-5",
+                "_type": "span",
+                "marks": [],
+                "text": "Следваща стъпка: разгледайте "
+              },
+              {
+                "_key": "cta-s-bg-5",
+                "_type": "span",
+                "marks": [
+                  "cta-a-bg-5"
+                ],
+                "text": "рулонна трева"
+              },
+              {
+                "_key": "cta-m-bg-5",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-bg-5",
+                "_type": "span",
+                "marks": [
+                  "cta-b-bg-5"
+                ],
+                "text": "подмяна на стара тревна площ"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-bg-5",
+                "_type": "link",
+                "href": "/services/rulonna-treva"
+              },
+              {
+                "_key": "cta-b-bg-5",
+                "_type": "link",
+                "href": "/services/podmyana-stara-travna-plosht"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Рулонна тревна площ в Несебър",
+        "seoDescription": "Научете какво включва полагането на рулонен тревен чим — подготовка на основата, доставка, монтаж и първоначално поливане за добро прихващане.",
+        "seoTitle": "Рулонен тревен чим в Несебър: доставка и полагане | Florial",
+        "shortDescription": "Какво представлява рулонният тревен чим, как се подготвя теренът и какво е важно при доставката, полагането и първоначалното поливане.",
+        "title": "Продава тревен чим Несебър"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "te1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Our rolled turf is more than a green surface — it brings a little piece of nature to your garden. We offer turf grown in central Bulgaria, among clean mountain landscapes, where the grass benefits from fresh air and clear water."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te2",
+            "_type": "image",
+            "alt": "Rolled turf for gardens and yards in Nessebar",
+            "asset": {
+              "_ref": "image-967df8f4471326d40f1a3f8062eefde4181fb517-1280x591-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "te3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te3s",
+                "_type": "span",
+                "marks": [],
+                "text": "The fields where our turf is grown are surrounded by mature oak trees. They provide natural shelter and help maintain a clean growing environment. These oak groves create a distinctive microclimate for dense, healthy grass."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Bring the freshness of the mountains to your home"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "te5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te5s",
+                "_type": "span",
+                "marks": [],
+                "text": "By choosing our rolled turf, you bring a touch of mountain freshness into your garden. It creates a pleasant atmosphere, improves the appearance of your property and becomes a natural feature of the landscape."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Grown in favourable conditions, the turf is suitable for family gardens where children and pets spend time. It is an ideal choice for anyone who wants a green space that looks beautiful and makes the garden more welcoming."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why choose our rolled turf?"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "te8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Environmentally conscious growing. The turf is cultivated in natural conditions with care for the quality of the finished lawn."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te9s",
+                "_type": "span",
+                "marks": [],
+                "text": "A favourable growing environment. Mature oak trees and clean air surround the fields and help create suitable conditions for healthy grass."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te10s",
+                "_type": "span",
+                "marks": [],
+                "text": "High quality. Thanks to the growing conditions, the lawn is dense, richly coloured and resilient."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Create your own green retreat with rolled turf from Florial Garden Centre in Nessebar. We help make your property attractive and well cared for."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Buy rolled turf in Nessebar"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "te13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial Garden Centre offers rolled turf with delivery to Nessebar, Sunny Beach, Ravda, Kableshkovo, Pomorie and Kosharitsa."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te14s",
+                "_type": "span",
+                "marks": [],
+                "text": "We handle projects from 30 m² up to the size of a football pitch, with competitive prices and convenient cooperation terms."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Rolled turf is an effective, fast way to transform a garden. Ready-grown turf is especially useful for property owners who want to save time and effort."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "te16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te16s",
+                "_type": "span",
+                "marks": [],
+                "text": "How rolled turf is grown and installed"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "te17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "te17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial arranges rolled-turf installation and works with a Bulgarian producer who grows certified turf on its own fields. Quality standards and daily plant care help the lawn establish well; the settling-in period is typically around two weeks."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-en-5",
+                "_type": "span",
+                "marks": [],
+                "text": "Next step: explore "
+              },
+              {
+                "_key": "cta-s-en-5",
+                "_type": "span",
+                "marks": [
+                  "cta-a-en-5"
+                ],
+                "text": "rolled turf"
+              },
+              {
+                "_key": "cta-m-en-5",
+                "_type": "span",
+                "marks": [],
+                "text": " or "
+              },
+              {
+                "_key": "cta-e-en-5",
+                "_type": "span",
+                "marks": [
+                  "cta-b-en-5"
+                ],
+                "text": "old lawn replacement"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-en-5",
+                "_type": "link",
+                "href": "/services/rulonna-treva"
+              },
+              {
+                "_key": "cta-b-en-5",
+                "_type": "link",
+                "href": "/services/podmyana-stara-travna-plosht"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Rolled Turf for Sale in Nessebar",
+        "seoDescription": "Find out what rolled turf installation involves, from ground preparation and delivery to laying and the initial watering needed for establishment.",
+        "seoTitle": "Rolled Turf in Nessebar: Delivery and Installation | Florial",
+        "shortDescription": "Learn what turf rolls are, how to prepare the ground and what matters during delivery, installation and the first watering period after laying.",
+        "title": "Rolled Turf for Sale in Nessebar"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "tr1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Наш рулонный газон — это не просто зелёное покрытие, а частичка природы. Мы предлагаем газон, выращенный в центральной части Болгарии, среди экологически чистых гор, где трава получает свежий воздух и чистую воду."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr2",
+            "_type": "image",
+            "alt": "Рулонный газон для двора и сада в Несебре",
+            "asset": {
+              "_ref": "image-967df8f4471326d40f1a3f8062eefde4181fb517-1280x591-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "tr3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Поля, на которых выращивают газон, окружены вековыми дубами. Они создают естественную защиту и помогают поддерживать экологически чистую среду. Дубовые рощи формируют особый микроклимат для роста густой и здоровой травы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Создайте дома атмосферу горной свежести"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "tr5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Выбирая наш рулонный газон, вы привносите в свой двор частичку горной природы. Он помогает создать приятную атмосферу, улучшает внешний вид участка и становится его естественным украшением."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Благодаря выращиванию в благоприятных условиях газон подходит для семейных садов, где играют дети и домашние животные. Это решение для тех, кто хочет получить зелёное пространство, которое радует глаз и делает двор уютнее."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему стоит выбрать наш рулонный газон?"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "tr8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Экологичность. Газон выращивается в естественных условиях без воздействия, которое могло бы ухудшить качество готового покрытия."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Благоприятный микроклимат. Вековые дубы и чистый воздух окружают поля и помогают поддерживать условия для роста травы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Высокое качество. Благодаря подходящим условиям выращивания газон получается густым, насыщенно-зелёным и устойчивым."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Создайте свой зелёный уголок с рулонным газоном от садового центра Florial в Несебре. С нами ваш участок станет красивым и ухоженным."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Купить рулонный газон в Несебре"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "tr13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr13s",
+                "_type": "span",
+                "marks": [],
+                "text": "Садовый центр Florial организует продажу рулонного газона с доставкой в Несебр, Солнечный Берег, Равду, Каблешково, Поморие и Кошарицу."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Работаем с объёмами от 30 м² до площади футбольного поля. Предлагаем доступные цены и удобные условия сотрудничества."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr15s",
+                "_type": "span",
+                "marks": [],
+                "text": "Озеленение участка рулонным газоном — быстрый и эффективный способ преобразить пространство. Технология укладки готового газона подходит тем, кто хочет сэкономить время и силы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "tr16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Как производится и укладывается рулонный газон"
+              }
+            ],
+            "style": "h4"
+          },
+          {
+            "_key": "tr17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "tr17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial предлагает укладку рулонного газона и сотрудничает с болгарским производителем, у которого есть собственные поля сертифицированного газонного покрытия. Соблюдение стандартов качества и ежедневный уход помогают газону хорошо прижиться; обычно на адаптацию требуется около двух недель."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-ru-5",
+                "_type": "span",
+                "marks": [],
+                "text": "Следующий шаг: посмотрите "
+              },
+              {
+                "_key": "cta-s-ru-5",
+                "_type": "span",
+                "marks": [
+                  "cta-a-ru-5"
+                ],
+                "text": "рулонный газон"
+              },
+              {
+                "_key": "cta-m-ru-5",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-ru-5",
+                "_type": "span",
+                "marks": [
+                  "cta-b-ru-5"
+                ],
+                "text": "замену старого газона"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-ru-5",
+                "_type": "link",
+                "href": "/services/rulonna-treva"
+              },
+              {
+                "_key": "cta-b-ru-5",
+                "_type": "link",
+                "href": "/services/podmyana-stara-travna-plosht"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Продажа рулонного газона в Несебре",
+        "seoDescription": "Узнайте, что включает укладка рулонного газона: подготовка основания, доставка, монтаж и первоначальный полив для успешного укоренения.",
+        "seoTitle": "Рулонный газон в Несебре: доставка и укладка | Florial",
+        "shortDescription": "Что представляет собой рулонный газон, как подготовить основание и на что обратить внимание при доставке, укладке и первом поливе.",
+        "title": "Продажа рулонного газона в Несебре"
+      }
+    }
+  }
+}
