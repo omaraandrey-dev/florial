@@ -6,7 +6,7 @@ Original baseline main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
 
 ## Addendum 2026-11-18 — latest main after PR #405 and PR #403
 
-- Current `main` HEAD: `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; open PRs: 0.
+- Latest verified application/Production source commit: `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; PR #405 and PR #403 are merged, with no other open PRs at release verification. Documentation-only follow-up changes do not alter this runtime baseline.
 - PR #405 (on-demand PostHog analytics in Manager) merged at `a7da7916d2fc728432f116f395cc16038b0258ce`. The Manager GET request was corrected to send no body; the server accepts `POSTHOG_PERSONAL_API_KEY` or the existing `POSTHOG_API_KEY` alias. PR #403 (Bulgarian editorial updates for 15 plant categories, audit and five Sanity backups) merged at `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; common documents were synchronized without losing either record.
 - Exact-current-main GitHub Actions: Blog/Studio run `44321010828` — success; D1 validation run `44321010791` — success; Cloudflare Pages check `134859953008` — success.
 - Exact-current-main Cloudflare Pages Production deployment: `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`, source commit `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; all stages succeeded.
