@@ -52,3 +52,11 @@ The branch also reconciles `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/A
 - No runtime code, schema, D1, Resend, Cloudflare configuration/secrets, DNS, global navigation or Production deployment configuration was changed.
 - No tests/build are required for documentation-only changes; GitHub Actions may not start for these files. The mergeability and exact base/head SHAs must be checked before merging.
 - Production deployment status after merge must be checked separately; documentation merges can still trigger Pages deployments.
+
+## Final reconciliation — 2026-11-18
+- PR #399 merged successfully as `7e10472e999e99cebd5dd31e16f11419dd560067`, integrating the historical category, product, irrigation SEO, blog CTA, photo-media, stable-baseline and delivery/performance records listed above.
+- Final consolidated main sequence for this cleanup: #391 `6cd8ebb8a853c37283c8e03093f360ae746407c1`, #397 `7ba4660176d8520db41fc89d9b914e140612b209`, #398 `6ec7f35b87119296bc12c2d36e190dd1660424af`, #399 `7e10472e999e99cebd5dd31e16f11419dd560067`.
+- All 36 PRs that were open at the start of this reconciliation were reviewed. The relevant documentation and backups were integrated; superseded PRs were closed with an explanatory comment. Obsolete code PRs #1 (Supabase checkout), #78 (older catalogue pagination/sorting) and #105 (About sitemap entry already present in main) were closed without merging their stale branches.
+- The remaining old PRs were closed because their unique records were already present in current main or their proposed content was superseded by later implementation/policy. No branches or commits were deleted.
+- Final GitHub check: `main` points to `7e10472e999e99cebd5dd31e16f11419dd560067`; open PR count is **0**.
+- All four merges in this consolidation were documentation-only. No runtime code, Sanity live data/schema, D1, Resend, Cloudflare configuration/secrets, DNS or Production settings were changed. Pages deployment status must still be checked separately.
