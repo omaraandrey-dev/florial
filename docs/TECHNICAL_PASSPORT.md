@@ -3639,5 +3639,5 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - `PlantCatalogManager` получает permissions и показывает Seller создание/редактирование только при `canCreatePlant`; при отсутствии write permission каталог остаётся read-only. Manager может редактировать карточки при `canEditPlantCard`; создание — при `canCreatePlant`.
 - Seller UI в управлении сотрудниками показывает единое право каталога. Не расширяются права на заявки, утверждение/публикацию, сотрудников, заказы, SEO категорий или service leads.
 - Существующая доступность botanical AI для Owner/Manager/Seller сохранена; AI generation сама по себе не даёт права записывать карточку.
-- Реализация и тесты: PR #383, audit `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. CI, typecheck/build и браузерная проверка ролей ожидаются; Production release не подтверждён. D1 schema/data и Sanity documents/assets не менялись.
+- Реализация и тесты: PR #383, audit `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` прошёл Blog/Studio CI run `44210343032` и D1 CI run `44210343225`; website/Studio builds, typechecks, lint, utility tests and migration validations — success. Browser role-matrix QA остаётся открытым; Production release не подтверждён. D1 schema/data и Sanity documents/assets не менялись.
 
