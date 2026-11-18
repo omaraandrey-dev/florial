@@ -20,7 +20,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
   if (!hasPermission(auth.user, 'canViewAnalytics')) return json({ error: 'Нямате право да преглеждате аналитиката.' }, 403)
-  if (!env.POSTHOG_PERSONAL_API_KEY) {
+  const apiKey = env.POSTHOG_PERSONAL_API_KEY || env.POSTHOG_API_KEY
+  if (!apiKey) {
     return json({ error: 'PostHog API ключът за четене не е конфигуриран. Необходим е POSTHOG_PERSONAL_API_KEY в Cloudflare Pages Secrets.' }, 503)
   }
 
@@ -33,7 +34,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   try {
     const queries = buildPostHogQueries(days)
     const keys: QueryKey[] = ['events', 'pages', 'languages', 'countries', 'daily']
-    const results = await Promise.all(keys.map((key) => runQuery(env.POSTHOG_PERSONAL_API_KEY!, queries[key])))
+    const results = await Promise.all(keys.map((key) => runQuery(apiKey, queries[key])))
     const data = buildPostHogAnalytics(days, Object.fromEntries(keys.map((key, index) => [key, results[index]])) as Record<QueryKey, unknown[][]>)
     cache.set(cacheKey, { expiresAt: Date.now() + CACHE_TTL_MS, data })
     return json({ ...data, cached: false })
