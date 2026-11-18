@@ -1,3 +1,33 @@
+## 2026-11-15 — Category SEO rendering and catalogue follow-ups
+- Root flowers category `plants-flowers`: BG live rendering passed; RU/EN live rendering returned HTTP 429 and remains unconfirmed. Google recrawl/indexing not confirmed.
+- Eight missing localized category SEO articles were published across 71 categories; read-back returned zero missing BG/RU/EN `seoContent`. Review direct-product links separately for empty categories and the pre-existing solenoid schema-field mismatch.
+- Yucca/Cycas: three approved product text/SEO corrections published; live storefront rendering and Google URL Inspection remain pending. Keep the two Cycas offers separate until the owner decides whether they are distinct inventory offers.
+
+## 2026-11-13 — Irrigation product SEO repair scope
+- Inventory: 193 irrigation products lack localized H1; 143 have RU/EN meta gaps; one has a BG meta gap. The Manager bulk apply path can overwrite existing values across both catalogues.
+- Do not run bulk apply for this repair. Prepare a targeted missing-fields-only, revision-guarded workflow and re-audit counts before any Sanity write.
+
+## 2026-11-12 — Blog CTA and photo media visual QA
+- Blog CTA release: 14/14 posts updated, 42 localized CTA blocks and 84 links published. Live visual placement and destination-page behavior remain to be checked; legacy Wix-hosted image URLs require a separate media review.
+- Photo library: 7/8 photo documents localized; source images were not visually inspected in the metadata pass. Review image composition in Studio before further ALT/caption changes.
+
+## 2026-11-12 — Recovery baseline backup confirmation
+- Stable code baseline is documented, but D1 SQL export download/storage by owner is not confirmed. Sanity `production` and `plants` datasets had no independent export in that baseline. Do not treat the code branch as a data backup.
+
+## 2026-11-12 — Plant category publication smoke checks
+- `plants-solitaires` BG/RU/EN content is published; live Production page HTTP/visual smoke remains unconfirmed.
+- `plants-olives` BG/RU/EN content is published; live HTTP 200 and read-back were confirmed.
+
+## 2026-11-11 — Historical deployment and protocol corrections
+- PR #207's D1 binding generation failures were investigated read-only; this is a historical incident, not evidence of the current Production deployment status.
+- PR #205's release record documents a protocol deviation: a merge/deploy occurred without separate owner approval. No rollback was made. Any rollback remains a separate owner decision.
+
+## 2026-11-09 — Performance verification limits
+- After the documented rollback/deploy sequence, no matched Lighthouse, CLS or INP measurements were completed. Do not claim performance improvement from that release.
+
+## 2026-11-08 — Delivery acceptance follow-up
+- Delivery stage 3 Production release and mobile table correction are recorded. Optional Sanity tariff-change acceptance test was not performed; do not alter Production tariffs for a test without approval.
+
 ## 2026-11-18 — Olive article: rendered Production QA pending
 - Published Sanity Production document `blogPost-maslina-sredizemnomorie` has been refreshed in BG/RU/EN. Published read-back confirms revision `LtPyN36JxI5SIUpVnhPu66`, 79 Portable Text blocks, eight inline images and 15 internal links per locale.
 - Live rendered HTML/browser QA for BG/RU/EN is not confirmed. No content write or deployment is pending; verify rendering when browser access is available.

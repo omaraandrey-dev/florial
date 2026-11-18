@@ -1,3 +1,10 @@
+## 2026-11-09 — Performance pause / rollback verification checkpoint
+- Runtime rollback PR #163 Production deployment succeeded: `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070`.
+- Documentation-only PR #165 deployment succeeded: `9aeae7aa-e64e-42fe-b43d-8896f942d00a`, commit `4bfd00b436fbca81b239fe12edb98e6823973571`.
+- Browser Rendering confirmed homepage and irrigation category markers; plant category/blog requests were rate-limited HTTP 429.
+- No matched Lighthouse, CLS or INP reruns were completed. Do not claim performance improvement from this checkpoint; retain measurement as a separate future task.
+- Detailed reconciliation: `docs/audits/2026-11-18-open-pr-reconciliation.md`.
+
 ## 2026-11-16 — PR #353 service CLS and duplicate image fix merged/deployed
 
 - PR #353 merged as `74642455efe284730cdf442efc1b82182e10eda8`; Cloudflare Pages Production deployment `4060e639-d643-496d-ae3f-65706cd85000` succeeded on that exact SHA.

@@ -1,3 +1,71 @@
+## 2026-11-16 — Документальная фиксация PR #334: scope sprinkler engine
+- Владелец ограничил целевые семейства дождевателей Rain Bird: R-VAN, HE-VAN и 3500; 5000 MPR оставлен только как изолированный справочный набор, без solver/customer recommendations.
+- Позднейшая реализация PR #339/#340 добавила отдельный 3500 candidate generator с ограничениями, описанными в текущем README прототипа. Исторический PR #334 не вливается напрямую, поскольку его текст «3500 ещё не интегрирован» устарел.
+- Решения и текущие ограничения остаются в `docs/AI/OPEN_QUESTIONS.md` и `docs/prototypes/emergent-irrigation-assistant/README.md`.
+
+## 2026-11-15 — SEO-контент корневой категории цветов
+- Sanity Production `plants-flowers`, slug `tsvetya-i-rozi`: опубликованы BG/RU/EN `seoContent`, по 27 Portable Text блоков и 9 H2 на язык; существующие H1, метаданные, описание, helpBlock, изображения и связи сохранены.
+- BG live rendering проверен; RU/EN Browser Rendering получил HTTP 429, поэтому эти две локали и Google recrawl остаются неподтверждёнными.
+- Pre-write backup: `docs/backups/sanity/2026-11-15-plants-flowers-before-seo-content.json`; audit: `docs/audits/2026-11-15-flowers-category-seo.md`.
+
+## 2026-11-15 — Завершены восемь недостающих SEO-разделов категорий
+- Проверены 71 опубликованная категория: 17 в `plants` и 54 в `production`. Восемь категорий без локализованного footer SEO content получили BG/RU/EN статьи по 27 блоков (9 H2 + 18 абзацев).
+- Повторный опубликованный GROQ read-back показал ноль категорий без BG/RU/EN `seoContent`. Legacy root fields `seoTitle`/`seoDescription` у категории электромагнитных клапанов сохранены без изменений.
+- Live browser rendering и Google indexing не подтверждены.
+- Backups: `docs/backups/sanity/2026-11-15-all-categories-before-seo-content.json`, `docs/backups/sanity/2026-11-15-solenoid-valves-category-before-seo-content.json`; audit: `docs/audits/2026-11-15-missing-category-seo-articles.md`.
+
+## 2026-11-15 — Yucca rostrata и Cycas: аудит и редакционные исправления
+- Read-only SEO/catalogue audit описал поисковые наблюдения, локализацию, ALT, taxonomy и два отдельных предложения Cycas. Решение об объединении Cycas не принималось.
+- По отдельному согласованию обновлены три опубликованных товара: Yucca rostrata и две записи Cycas revoluta. Сохранены отдельные документы, цены, варианты, остатки, slug, категории и assets; предупреждения о токсичности сохранены в трёх языках.
+- Live storefront rendering и Google URL Inspection остаются неподтверждёнными.
+- Audit: `docs/audits/2026-11-15-yucca-cycas-seo-audit.md`, `docs/audits/2026-11-15-yucca-cycas-editorial-remediation.md`; backup: `docs/backups/sanity/yucca-cycas-editorial-before-2026-11-15.md`.
+
+## 2026-11-13 — Инвентаризация SEO поливочных товаров
+- Read-only аудит 275 активных slugged irrigation products в Sanity Production: 193 без отдельного H1 во всех трёх языках; 143 с недостающими RU/EN Meta Title/Description; один товар без BG Meta Title/Description.
+- Обнаружено, что существующий Manager bulk apply перезаписывает и уже заполненные SEO-поля и затрагивает оба каталога. Не применять его для missing-only исправления; требуется целевая revision-guarded запись только отсутствующих полей.
+- Audit: `docs/audits/2026-11-13-irrigation-product-seo-inventory.md`.
+
+## 2026-11-12 — Коммерческие ссылки во всех 14 статьях блога
+- В Sanity Production обновлены 14 опубликованных blogPost: добавлены 42 локализованных CTA-блока BG/RU/EN и 84 ссылки на активные услуги/категории; исправлены 33 существующих href, включая шесть брендовых ссылок Florial на главную.
+- Тексты статей, assets, slug, даты публикации, tags и SEO metadata сохранены. Published read-back подтвердил 14/14 документов и по два CTA links на локаль.
+- Полный pre-write snapshot: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`; audit: `docs/audits/2026-11-12-blog-commercial-links.md`; release record: `docs/releases/2026-11-12-blog-commercial-links.md`.
+- Live rendering и визуальная проверка CTA оставлены отдельным QA; legacy Wix image URLs не менялись.
+
+## 2026-11-12 — Локализация метаданных фототеки Sanity
+- В dataset `production` проверены 8 документов `photo`; 7 опубликованы с BG/RU/EN title и image ALT, BG SEO description, tags и недостающими slug. Готовый logo document не переписывался, все asset references сохранены.
+- Schema содержит только один BG `seoDescription`, не имеет video field; исходные изображения в этом проходе визуально не проверялись.
+- Backup восьми документов: `docs/backups/sanity-photo-media-before-localization-2026-11-12.json`.
+
+## 2026-11-12 — Stable code baseline Florial
+- Зафиксирован code recovery reference `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`, ветка `stable/FLORIAL-STABLE-2026-11-12`, успешный Pages deployment `df1c81a8-4646-4d0e-9871-d389e5523a89` и Actions run `43100886700`.
+- Это baseline кода/деплоя, не полный backup данных. D1 SQL export завершился, но его скачивание и безопасное хранение владельцем не подтверждены. Sanity datasets `production` и `plants` не удалось экспортировать средствами доступного плана.
+- Recovery record: `docs/operations/STABLE_BASELINE_2026-11-12.md`.
+
+## 2026-11-12 — Контент категорий солитеров и маслин
+- Категория `plants-solitaires` опубликована на BG/RU/EN с 34 Portable Text блоками на язык, локализованными SEO-полями и CTA; Production page smoke не подтверждён.
+- Категория `plants-olives` опубликована на BG/RU/EN с 32 Portable Text блоками на язык, обновлённым help CTA и проверенными live GROQ/HTTP 200 для трёх локалей.
+- Эти записи относятся к категориям каталога и не заменяют более позднее обновление blogPost о маслине от 18.11.2026.
+
+## 2026-11-11 — Уточнение статуса PR #207 и D1 binding incident
+- PR #207 был объединён; после успешной CI на точном head Cloudflare Pages Production deploy для commit `5ec210848db4b30568e5f4ae8ee03d02c4efe3a1` дважды не смог опубликовать Pages Function из-за ошибки генерации D1 binding. Read-only проверки подтвердили наличие D1, `SELECT 1` и совпадение UUID в Pages config и активном Worker; на тот момент причина на стороне Cloudflare оставалась неразрешённой.
+- Последний успешный Production deployment, указанный в том расследовании: `e1453092-2a32-4b12-8d0a-0d3c046e83b9` на commit `11bfc43ec0f80692b04c324df405ebf600e033e7`. Это историческая запись; последующие более новые Production deployment checkpoints имеют приоритет.
+- Audit/correction: PR #208.
+
+## 2026-11-11 — Коррекция release record PR #205 и protocol deviation
+- Документация исправлена после фактического merge/deploy PR #205: CI #873, D1 validation #1068, Production deployment `e1453092`, live smoke HTTP 200.
+- Зафиксировано отдельное отклонение от approval protocol: операция с rev68 прошла без отдельного разрешения на merge/deploy. Rollback не выполнялся и не подразумевается; любое восстановление требует отдельного решения владельца.
+- Correction record: PR #206. Не восстанавливать устаревшие Library инструкции из этой ветки.
+
+## 2026-11-09 — Performance pause release verification
+- Runtime rollback PR #163 был развёрнут успешно: `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070`; docs-only PR #165 deployment: `9aeae7aa-e64e-42fe-b43d-8896f942d00a`.
+- Browser Rendering подтвердил homepage и irrigation category; plant category/blog были rate-limited HTTP 429. Новые CLS/Lighthouse/INP измерения не выполнялись.
+- Details: `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md`; audit correction PR #166.
+
+## 2026-11-08 — Delivery stage 3 release records
+- PR #120: Production deployment `ec045258-1133-49c6-b087-bc49107cd916`, commit `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`; live BG/RU/EN smoke HTTP 200, 30 delivery rows per locale, Pomorie 15 EUR, Kosharitsa 10 EUR, sitemap delivery URLs and hreflang. Optional Sanity tariff-change acceptance test не выполнялся.
+- PR #122 mobile delivery-table correction: merge commit and successful CI are recorded in PR #123; Pages Production deployment `c7e06a19-d2f0-42b7-abb9-a5f11c84dc5a`.
+- Documentation follow-ups: PRs #121 and #123.
+ 
 ## 2026-11-18 — Категория растений: редактура BG/RU/EN
 - В Sanity Production обновлён опубликованный корневой документ категории `plants-root` (dataset `plants`); slug `rastenia` и URL `/category/rastenia` сохранены. Финальная revision: `27yhFk6bgn0uNCdCySoa9D`.
 - Краткое описание и все 25 Portable Text блоков на каждом языке переписаны на BG/RU/EN; H1 сохранён, метаописания прямо указывают на продажу растений. 8 H2 на каждую локаль.
