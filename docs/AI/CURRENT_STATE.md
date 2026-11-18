@@ -32,7 +32,7 @@
 
 ## Git branches and release governance
 
-- GitHub returned 416 branch refs including `main`; 415 refs are non-main historical branches. No open PRs.
+- GitHub returned 417 branch refs including `main`; 416 refs are non-main historical branches (including this cleanup branch). No open PRs.
 - Only `main` is authoritative. Do not continue from an old branch without comparing it to the latest main and confirming the exact task.
 - GitHub branch metadata reports `main` as `protected=false`; repository rulesets query returned no rulesets. Required PR/check protection should be enabled by the owner. The connected GitHub integration cannot configure it.
 - Old refs were not deleted: current connector does not expose branch deletion, and deleting unreviewed refs could destroy unmerged work or recovery checkpoints. See [BRANCH_HYGIENE](../operations/BRANCH_HYGIENE.md).
