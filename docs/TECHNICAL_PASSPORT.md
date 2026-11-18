@@ -1,3 +1,10 @@
+## 2026-11-18 — Bulgarian editorial review of 15 plant categories
+- Reviewed and published BG copy updates for 15 remaining plant categories in Sanity Production, dataset `plants`: clearer online-shop and garden-centre purchase CTAs, more natural Bulgarian phrasing, and correction of the indoor-plants H1.
+- Preserved IDs, slugs, product references/counts, images, product data, help-block service links and RU/EN content. The two categories with zero linked products (groundcovers and indoor plants) use enquiry/availability wording rather than implying current listed stock.
+- Revision-guarded patch and publication succeeded for 15/15 documents. Published read-back confirmed the updated copy; product counts and slugs remained unchanged. Sanity validation reported 15 valid, but incomplete because custom callbacks were not executed.
+- Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
+- Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
+
 ## 2026-11-18 — Manager on-demand PostHog integration (pending credential and release)
 - Added a separate authenticated Manager endpoint and UI block for on-demand PostHog summaries; D1 analytics remains unchanged. The feature covers the five live-confirmed events, daily page views, top paths, languages and approximate countries, with five-minute isolate cache.
 - Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`, preferred, or `POSTHOG_API_KEY`, supported alias).
