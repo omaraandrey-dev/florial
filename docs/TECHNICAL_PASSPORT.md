@@ -1,5 +1,5 @@
 ## 2026-11-18 — Repository history and open PR consolidation
-- Main history reconciled through documentation-only PRs #391, #397, #398 and #399. Final consolidation commit: `7e10472e999e99cebd5dd31e16f11419dd560067`.
+- Main history reconciled through documentation-only PRs #391, #397, #398 and #399. PR #399 merge commit: `7e10472e999e99cebd5dd31e16f11419dd560067`; subsequent documentation finalization commits: `e6b518f`, `e3deaeb`, `83727f1`. Current main HEAD: `83727f1d69d205d8c433391679222b27ea0de2b2`.
 - All 36 PRs that were open at the beginning were reviewed; unique audits, pre-write Sanity snapshots and release evidence were integrated where still relevant. Stale/superseded PRs were closed with comments; no source branches or commits were deleted.
 - Final repository state at verification: main at the commit above; zero open PRs.
 - No runtime code, Sanity live data/schema, D1, Resend, Cloudflare configuration/secrets, DNS or Production settings were changed by the consolidation.
