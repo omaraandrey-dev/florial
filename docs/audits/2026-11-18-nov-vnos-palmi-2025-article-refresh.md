@@ -79,8 +79,8 @@ Tags are `Растения` and `Озеленяване` to support the existing
 - Five uploaded image assets exist in Production.
 - BG live page checked with Cloudflare Browser Rendering: new title and meta description, planting-service link, irrigation category link and new category image present; old title absent.
 - RU live page checked at `?lang=ru`: new localized title, planting-service link, irrigation link and new category image present.
-- EN live rendered HTML check is pending because Cloudflare Browser Rendering returned HTTP 429 rate limit. Published EN Sanity fields and Portable Text were verified directly.
-- A direct web page open could not access the production URL; the Cloudflare Browser Rendering check is the live-page evidence for BG and RU.
+- EN live page checked at `?lang=en`: localized title, planting-service link, irrigation category link and new category image are present; old title is absent.
+- BG, RU and EN live rendered HTML checks are complete through Cloudflare Browser Rendering. A direct web page open could not access the Production URL; the Cloudflare Browser Rendering checks are the live-page evidence.
 - No application code, Sanity schema, Cloudflare settings/secrets, D1, Resend, form/API or global navigation were changed. No build or deployment was required for this content-only change.
 
 ## Documentation integration
