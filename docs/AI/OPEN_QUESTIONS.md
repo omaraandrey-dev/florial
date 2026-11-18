@@ -1,3 +1,10 @@
+## 2026-11-18 — Winter landscape article: rendered RU/EN QA pending
+
+- The existing blog post `blogPost-landshaften-proekt-zima-burgas` is published in Sanity Production with 69 Portable Text blocks and 8 inline images per locale. Localized titles, SEO fields, cover ALT, internal links and related-article tags were checked directly in Sanity.
+- Live BG HTML fetch succeeded and confirmed the refreshed content, category/service links, and removal of the obsolete 20% offer and landscape-studio wording.
+- **Pending verification only:** rendered live HTML for `?lang=ru` and `?lang=en`. The connected Firecrawl service exhausted its available credits immediately after the BG fetch; direct web open could not access the Florial URL. Do not claim RU/EN browser verification until a fresh fetch is completed.
+- No content changes or production writes are needed for this verification. The page is already published. Recheck RU/EN live rendering when Firecrawl credits are available.
+
 ## 2026-11-18 — Seller catalog permission decision (PR #383; validation pending)
 
 - **Decision resolved:** Seller's `canCreatePlant` is the single switch for direct plant creation, card editing, variant addition, price changes and stock changes. No separate Seller toggles are required.
