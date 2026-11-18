@@ -1,3 +1,10 @@
+## 2026-11-18 — Open PR queue reconciled; project history consolidated
+- Reviewed all 36 PRs that were open at the start of the cleanup. Unique historical audits, Sanity pre-write snapshots, release records and unresolved verification notes were integrated into main; superseded PRs were closed with explanatory comments. No branches or commits were deleted.
+- Documentation integration merges: #391 `6cd8ebb8a853c37283c8e03093f360ae746407c1`; #397 `7ba4660176d8520db41fc89d9b914e140612b209`; #398 `6ec7f35b87119296bc12c2d36e190dd1660424af`; #399 `7e10472e999e99cebd5dd31e16f11419dd560067`.
+- Current main contains reconciled CHANGELOG, Technical Passport, OPEN_QUESTIONS, performance/delivery roadmaps, unique audit reports and pre-write backups. The final open PR count is zero.
+- Obsolete Supabase checkout PR #1 was not merged; older pagination PR #78 and About sitemap PR #105 were closed because their functionality is already covered by current main.
+- Documentation-only changes; no runtime code, Sanity live data/schema, D1, Resend, Cloudflare configuration/secrets, DNS or Production settings changed. See `docs/audits/2026-11-18-open-pr-reconciliation.md`.
+ 
 ## 2026-11-16 — Документальная фиксация PR #334: scope sprinkler engine
 - Владелец ограничил целевые семейства дождевателей Rain Bird: R-VAN, HE-VAN и 3500; 5000 MPR оставлен только как изолированный справочный набор, без solver/customer recommendations.
 - Позднейшая реализация PR #339/#340 добавила отдельный 3500 candidate generator с ограничениями, описанными в текущем README прототипа. Исторический PR #334 не вливается напрямую, поскольку его текст «3500 ещё не интегрирован» устарел.
