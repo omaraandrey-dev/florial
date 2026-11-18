@@ -41,7 +41,7 @@ const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canR
 const SELLER_CATALOG_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock']
 export const hasPermission = (user: ManagerIdentity, key: StaffPermissionKey) => {
   if (user.role === 'owner') return true
-  if (user.role === 'seller' && user.permissionsObject.canCreatePlant && SELLER_CATALOG_PERMISSIONS.includes(key)) return true
+  if (user.role === 'seller' && SELLER_CATALOG_PERMISSIONS.includes(key)) return user.permissionsObject.canCreatePlant === true
   return (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
 }
 
