@@ -181,3 +181,17 @@
 - В рабочей ветке добавлен единый helper `src/lib/productJsonLd.mjs`, общий для middleware и ProductPage. Растения используют один Offer для первого/default варианта; невалидная/отсутствующая цена первого варианта не заменяется ценой другого размера. onRequest не преобразуется в PreOrder. Оборудование продолжает использовать root price и достоверный stockStatus.
 - Добавлены тесты на эти правила и общий builder. На текущем head `871315e178e7a0654d820cee66c243e00c75f4c3` GitHub CI запущен (Blog and Studio validation in_progress; D1 migration validation pending), Cloudflare Pages Preview сообщил Build in progress. Результаты пока не подтверждены.
 - Production, Sanity documents/schema, Cloudflare settings/secrets, Merchant Center и Search Console settings не менялись. PR #407 остаётся открытым; merge и Production deployment не выполнялись.
+
+
+### 2026-11-18 — Product Schema remediation: CI and Preview verification
+
+- Functional implementation and corrected tests are present in commit `92da3ecdb8d06b51de72ae87a5ed495030bc439d`. The subsequent current branch head `8fd67042f41746b09f66f014734790131ff54e76` adds only an explanatory source comment documenting that the client Offer remains tied to the default variant.
+- GitHub Actions for commit `92da3ec`:
+  - Blog and Studio validation run `44355682859`: success. TypeScript typecheck, lint, all website utility tests, website build, migration syntax, read-only migration dry-run, Studio install, Studio typecheck and Studio build all succeeded.
+  - D1 migration validation run `44355682858`: success.
+- Cloudflare Pages PR Preview for `92da3ec` deployed successfully: `https://9ba37c43.florial.pages.dev`. This Preview contains the Product Offer implementation; it is not Production. Current branch head `8fd6704` differs only by the source comment noted above; its separate CI run was still in progress at the last read.
+- Google Rich Results Test was not completed in this assistant session: the interactive Google testing application and the Preview URLs were not accessible through the available web reader. This is a tool-access limitation, not evidence of a site failure. Prefilled Google test URLs are provided to the owner for a browser run:
+  - Equipment: `https://search.google.com/test/rich-results?url=https%3A%2F%2F9ba37c43.florial.pages.dev%2Fproduct%2Frain-bird-100-pga-9v`
+  - Plant: `https://search.google.com/test/rich-results?url=https%3A%2F%2F9ba37c43.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat`
+- Windsor.ai Search Console connector fields expose Search Analytics, Sitemaps and Search Appearance; no URL Inspection fields are available through this connector. URL Inspection therefore remains pending via Search Console UI/API access.
+- Stage 2 code/tests/build are complete for the reviewed implementation, but stage 2 remains open until Google validation is recorded. Stage 1 remains open pending Rich Results and available URL Inspection evidence. No Production, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings were changed.
