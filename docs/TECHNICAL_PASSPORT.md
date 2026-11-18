@@ -1,3 +1,12 @@
+## 2026-11-18 — Product JSON-LD shared Offer contract (PR #407, validation pending)
+
+- Canonical builder: src/lib/productJsonLd.mjs. functions/_lib/productJsonLd.mjs re-exports it for Cloudflare middleware; src/pages/ProductPage.tsx imports the same builder.
+- Equipment: one Offer from the published root priceEUR and stockStatus.
+- Plants: one Offer for saleVariants[0], the default variant rendered in initial HTML. If its price is missing/invalid, omit offers; never silently substitute a later variant's price.
+- availability: InStock/OutOfStock only for those exact known statuses. onRequest is not mapped to PreOrder.
+- Do not use AggregateOffer to describe plant size variants. ProductGroup is deferred: published plants dataset read showed 50 product documents with saleVariants and 0 documents with any non-empty saleVariants[].sku; current routing does not provide a separate crawlable URL per variant. Do not invent identifiers.
+- Code/tests are in PR #407. CI and Preview results were pending at last check; no Production deployment or live Google validation is confirmed.
+
 ## 2026-11-18 — Google Shopping and SEO visibility roadmap opened
 - The active task plan is `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`. All future work in this workstream must consult that roadmap first, update its stage statuses and evidence, and continue from the earliest unfinished stage.
 - Stage-1 audit: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`. Current code has server and client Product JSON-LD; server-side Offer availability is incomplete relative to client logic for plants and onRequest products. Search Console last-28-day connector report: 336 page rows, 1,171 impressions, 66 clicks. Latest sitemap report: 1,327 submitted, zero errors/warnings, last downloaded 2026-11-16. Google Merchant Center connector is not connected in Windsor.ai; standalone account status is unknown.
