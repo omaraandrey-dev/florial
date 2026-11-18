@@ -743,7 +743,7 @@ export function CategoryPage({
                           )}
                           {typeof variant.containerVolumeL === 'number' && variant.containerVolumeL > 0 && (
                             <span className="rounded-md bg-[#F3F5EC] px-2 py-1 text-[10px] font-medium text-slate-700 sm:text-xs">
-                              {language === 'ru' ? 'Контейнер ' : language === 'en' ? 'Pot ' : 'Контейнер '}{variant.containerVolumeL} {language === 'en' ? 'L' : 'л'}
+                              {language === 'ru' ? 'Контейнер ' : language === 'en' ? 'Pot ' : 'Контейнер '}{variant.containerVolumeL} L
                             </span>
                           )}
                         </div>
