@@ -1,0 +1,3804 @@
+{
+  "createdAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "documents": [
+    {
+      "_createdAt": "2026-10-20T11:45:12Z",
+      "_id": "plants-exotic",
+      "_rev": "oFgU2xnFzJTvQ0oNU6OSU5",
+      "_system": {
+        "base": {
+          "id": "plants-exotic",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T10:12:03Z",
+      "description": "Екзотичните растения придават на градината тропически или субтропичен вид с необичайни листа, силует и цъфтеж. Подходящи са за дворове, просторни тераси и озеленяване на представителни обекти. Тези видове често са по-чувствителни към студ, затова е важно да знаете до какви температури понася растението и дали ще се нуждае от зимна защита или презимуване на закрито. Изберете подходящо място според осветеността, защитата от вятър и размера на възрастното растение. Поливайте според вида – някои обичат влага, други понасят суша – и осигурете дренаж. При съмнения се консултирайте с екипа на Florial.",
+      "externalImageUrl": "https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72tUaRRug63qhWlsCfH00emw-nSCWidjwWfOSpHWFJpl1ruCO8vhU0rCFolUJ-sm7gHNGvkjGLFedRk090Bfk-cHGGX2F9qcSDzYuMSwLnncZ-KPwG3BiCiwjuDvUuV2Hi6xpEErWPZm_K7xUGVT1ILk5za50G_ikY0eOvEMxKJiY-aX_4C6nL-c5K_3uWlfEThxPw-r8Z8xRXWV7q_f1ZXiTq3BNiNrIvNHEFibZ_4=w1280",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Екзотичните видове имат различни изисквания към минималните температури, слънцето, влагата и защитата от вятър. Преди покупка проверете дали конкретното растение може да зимува навън, нуждае ли се от контейнер и какъв дренаж е необходим. За дворове в Несебър, Равда и Бургас изберете място според изложението и крайморския вятър, без да приемате, че всички екзотични растения са еднакво студоустойчиви. Florial помага с избора, подготовката на терена и засаждането.",
+        "title": "Екзотични растения с подбор според климата и мястото",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Exotic species differ in their minimum temperature tolerance and requirements for sunlight, moisture and wind protection. Before buying, check whether the particular plant can overwinter outdoors, whether it is better grown in a container and what drainage it needs. For gardens in Nessebar, Ravda and Burgas, choose a position according to exposure and coastal wind; do not assume all exotic plants have the same cold tolerance. Florial can help with selection, site preparation and planting.",
+            "title": "Exotic plants selected for local climate and site conditions"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Экзотические виды различаются по переносимости минимальных температур и потребности в солнце, влаге и защите от ветра. Перед покупкой уточните, может ли конкретное растение зимовать на улице, лучше ли выращивать его в контейнере и какой дренаж ему необходим. Для садов в Несебре, Равде и Бургасе выбирайте место с учётом освещённости и морского ветра; морозостойкость у разных видов неодинакова. Florial поможет с выбором, подготовкой участка и посадкой.",
+            "title": "Экзотические растения с учётом климата и условий участка"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Екзотични растения за градини и дворове по Южното Черноморие",
+        "altEn": "Exotic plants for gardens on Bulgaria’s southern Black Sea coast",
+        "altRu": "Экзотические растения для садов и участков Южного Черноморья",
+        "asset": {
+          "_ref": "image-b9e6e86c22fa43599747f2157501be9aea5e6536-1932x2580-jpg",
+          "_type": "reference"
+        },
+        "title": "Екзотични растения за градината край Слънчев бряг",
+        "titleEn": "Exotic plants for gardens near Sunny Beach",
+        "titleRu": "Экзотические растения для сада у Солнечного Берега"
+      },
+      "name": "Екзотични растения",
+      "parent": {
+        "_ref": "plants-root",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Екзотични растения за градината и озеленяването",
+        "keywords": [
+          "Екзотични растения",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на екзотични растения за градини, дворове и тераси в Несебър и Равда. Подбор според мястото и зимните условия, доставка и професионално засаждане.",
+        "metaTitle": "Екзотични растения | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Екзотични растения за градината и озеленяването",
+          "metaDescription": "Екзотичните растения придават на градината тропически или субтропичен вид с необичайни листа, силует и цъфтеж.",
+          "metaTitle": "Екзотични растения | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "h1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs1",
+              "_type": "span",
+              "marks": [],
+              "text": "Екзотични растения за градината и терасата"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p1a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1a",
+              "_type": "span",
+              "marks": [],
+              "text": "Екзотичните растения привличат с необичайна форма, листна маса и силует. Те могат да бъдат акцент в двор, просторна тераса или композиция с други декоративни видове."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p1b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1b",
+              "_type": "span",
+              "marks": [],
+              "text": "Под общото название се включват растения с различен произход и изисквания. Затова всяко трябва да се избира според конкретния вид, а не само по външния му вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs2",
+              "_type": "span",
+              "marks": [],
+              "text": "Разнообразие на видовете"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p2a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2a",
+              "_type": "span",
+              "marks": [],
+              "text": "В каталога на Florial се срещат различни екзотични форми, включително цикас, бананово растение и юка рострата. Те се различават по растеж, зимна устойчивост и нужди от грижа."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p2b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2b",
+              "_type": "span",
+              "marks": [],
+              "text": "Проверявайте ботаническото име и описанието на конкретния продукт. Не приемайте, че всички екзотични растения могат да зимуват на открито при еднакви условия."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs3",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор според мястото"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p3a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3a",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка преценете дали растението ще бъде в почвата или в контейнер, колко място има за короната и каква светлина получава през деня."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p3b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3b",
+              "_type": "span",
+              "marks": [],
+              "text": "За открити дворове около Несебър и Свети Влас е важно да се оцени излагането на вятър. Защитените кътчета и терасите могат да създадат по-подходящ микроклимат за чувствителни видове."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs4",
+              "_type": "span",
+              "marks": [],
+              "text": "Светлина и температура"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p4a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4a",
+              "_type": "span",
+              "marks": [],
+              "text": "Нуждите от слънце и топлина са различни при отделните растения. Някои предпочитат ярко осветено място, а други се нуждаят от защита от най-силното обедно слънце."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p4b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4b",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди да изберете място, проверете препоръките за конкретния вид и наблюдавайте сезонните промени. Не пренасяйте автоматично общи правила от едно екзотично растение към друго."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs5",
+              "_type": "span",
+              "marks": [],
+              "text": "Почва и дренаж"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p5a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5a",
+              "_type": "span",
+              "marks": [],
+              "text": "Добре дренираната почва е важна за много екзотични растения, особено когато се отглеждат в контейнери. Продължителното задържане на вода около корените може да причини проблеми."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p5b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5b",
+              "_type": "span",
+              "marks": [],
+              "text": "Използвайте съдове с отвори за оттичане и субстрат, подходящ за растението. При засаждане в градината проверете дали теренът не задържа вода след валеж."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs6",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и подхранване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p6a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6a",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливайте според вида, сезона и скоростта на просъхване на почвата. Растенията с различна листна маса и коренова система могат да имат съвсем различни потребности."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p6b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6b",
+              "_type": "span",
+              "marks": [],
+              "text": "Подхранването се извършва през активния период и с подходящ продукт, като се спазва дозировката. Излишният тор не компенсира неподходящото място или неправилното поливане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs7",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимна защита"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p7a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7a",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимната устойчивост е едно от най-важните различия между екзотичните растения. Някои могат да останат на открито при подходящо място, докато други трябва да се преместят или защитят."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p7b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7b",
+              "_type": "span",
+              "marks": [],
+              "text": "При контейнерно отглеждане планирайте предварително светло и защитено място за студените периоди. За растенията в почвата преценете защитата според вида и локалните условия."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs8",
+              "_type": "span",
+              "marks": [],
+              "text": "Композиции и поддръжка"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p8a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8a",
+              "_type": "span",
+              "marks": [],
+              "text": "Екзотичните растения изглеждат добре като самостоятелни акценти или в композиции с треви, храсти и сезонни цветя. Оставете място за бъдещия размер и не претрупвайте зоната около тях."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p8b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8b",
+              "_type": "span",
+              "marks": [],
+              "text": "Премахвайте повредени листа и следете за вредители и признаци на стрес. Поддръжката трябва да следва естествения цикъл на конкретното растение."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs9",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор с помощта на Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p9a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9a",
+              "_type": "span",
+              "marks": [],
+              "text": "Екипът на Florial може да помогне да сравните наличните екзотични растения и да прецените кое е подходящо за вашата градина, двор или тераса."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p9b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9b",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка проверете продуктовата информация и наличността. За обекти в Несебър, Равда, Слънчев бряг и близките населени места може да обсъдите и професионално засаждане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "ekzotichni-rasteniya"
+      },
+      "sortOrder": 6,
+      "translations": {
+        "en": {
+          "description": "Exotic plants give gardens a tropical or subtropical look through unusual foliage, silhouettes and flowers. They suit yards, spacious terraces and landscaping for prominent properties. Many are more sensitive to cold, so check the minimum temperatures each plant can tolerate and whether it needs winter protection or indoor overwintering. Choose a position based on sunlight, wind shelter and the plant’s mature size. Water according to the species—some prefer moisture while others tolerate drought—and ensure good drainage. If unsure, ask the Florial team for guidance.",
+          "name": "Exotic Plants",
+          "seo": {
+            "h1": "Exotic Plants for Gardens and Landscaping",
+            "keywords": [
+              "Exotic Plants",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of exotic plants for gardens, yards and terraces in Nessebar and Ravda. Choose species to suit the site and winter conditions, with delivery and professional planting.",
+            "metaTitle": "Exotic Plants | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Exotic Plants for Gardens and Landscaping",
+              "metaDescription": "Exotic plants give gardens a tropical or subtropical look through unusual foliage, silhouettes and flowers.",
+              "metaTitle": "Exotic Plants | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Exotic Plants for Gardens and Terraces"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Exotic plants stand out through unusual forms, foliage and silhouettes. They can become a feature in a yard, on a spacious terrace or in a composition with other ornamental plants."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The category includes plants with different origins and requirements. Choose each one according to its specific species rather than appearance alone."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A Range of Different Plants"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial's catalogue includes different exotic forms, such as cycad, banana plant and Yucca rostrata. They differ in growth, winter tolerance and care needs."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the botanical name and description of each product. Do not assume that all exotic plants can overwinter outdoors under the same conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing for the Site"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, decide whether the plant will grow in the ground or in a container, how much room its crown will need and how much light the position receives."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "On exposed plots around Nessebar and Sveti Vlas, consider wind exposure. Sheltered corners and terraces may provide a more suitable microclimate for sensitive species."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Light and Temperature"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Sunlight and warmth requirements vary between plants. Some prefer a bright position, while others need protection from the strongest midday sun."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the recommendations for the exact species before choosing a position, and consider seasonal changes. Do not apply the care rules for one exotic plant to every other type."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Soil and Drainage"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Good drainage is important for many exotic plants, particularly those grown in containers. Prolonged waterlogging around the roots can cause problems."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Use pots with drainage holes and a growing mix suited to the plant. For garden planting, check whether water remains on the site after rainfall."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and Feeding"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water according to the species, season and how quickly the soil dries. Plants with different foliage and root systems can have very different needs."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Feed during active growth with a suitable product and follow its instructions. Extra fertiliser cannot compensate for a poor position or incorrect watering."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Winter Protection"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Cold tolerance is one of the main differences among exotic plants. Some can remain outdoors in a suitable position, while others need to be moved or protected."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For container plants, prepare a bright, sheltered place before cold weather arrives. For plants in the ground, choose protection according to the species and local conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Compositions and Maintenance"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Exotic plants work as standalone features or in combinations with grasses, shrubs and seasonal flowers. Leave enough room for their future size."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Remove damaged leaves and monitor for pests or signs of stress. Maintenance should follow the natural growth cycle of each plant."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing with Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The Florial team can help compare the exotic plants available and assess which may suit your garden, yard or terrace."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check product details and current availability before purchase. Professional planting can also be discussed for projects in Nessebar, Ravda, Sunny Beach and nearby settlements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Экзотические растения придают саду тропический или субтропический облик с необычной листвой, силуэтом и цветением. Подходят для дворов, просторных террас и озеленения представительских объектов. Такие виды часто более чувствительны к холоду, поэтому важно знать, до какой температуры выдерживает растение и понадобится ли ему зимняя защита или зимовка в помещении. Выберите место по освещённости, защите от ветра и размеру взрослого растения. Поливайте по виду — одни любят влагу, другие переносят засуху — и обеспечьте дренаж. При сомнениях проконсультируйтесь с командой Florial.",
+          "name": "Экзотические растения",
+          "seo": {
+            "h1": "Экзотические растения для сада и озеленения",
+            "keywords": [
+              "Экзотические растения",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа экзотических растений для садов, участков и террас в Несебре и Равде. Подбор с учётом места и зимних условий, доставка и профессиональная посадка.",
+            "metaTitle": "Экзотические растения | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Экзотические растения для сада и озеленения",
+              "metaDescription": "Экзотические растения придают саду тропический или субтропический облик с необычной листвой, силуэтом и цветением.",
+              "metaTitle": "Экзотические растения | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Экзотические растения для сада и террасы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Экзотические растения привлекают необычной формой, листвой и силуэтом. Они могут стать акцентом во дворе, на просторной террасе или в композиции с другими декоративными видами."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Под общим названием объединены растения с разным происхождением и требованиями. Поэтому каждое следует выбирать по конкретному виду, а не только по внешнему виду."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Разнообразие видов"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В каталоге Florial встречаются разные экзотические формы, в том числе цикас, банановое растение и юкка рострата. Они различаются темпом роста, зимостойкостью и уходом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Проверяйте ботаническое название и описание конкретного товара. Не следует считать, что все экзотические растения могут зимовать на открытом воздухе в одинаковых условиях."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор с учётом места"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой решите, будет ли растение высажено в грунт или останется в контейнере, сколько места есть для кроны и какое освещение получает участок."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "На открытых участках возле Несебра и Святого Власа важно оценить воздействие ветра. Защищённые уголки и террасы могут создать более подходящий микроклимат для чувствительных видов."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Освещение и температура"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Потребность в солнце и тепле зависит от конкретного растения. Одним видам нужно яркое освещение, другим — защита от самого сильного полуденного солнца."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "До выбора места изучите рекомендации для данного вида и учитывайте сезонные изменения. Не переносите правила ухода за одним экзотическим растением на все остальные."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почва и дренаж"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хороший дренаж важен для многих экзотических растений, особенно при выращивании в контейнерах. Длительный застой воды у корней может вызвать проблемы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Используйте горшки с дренажными отверстиями и субстрат, подходящий конкретному растению. При посадке в саду проверьте, не задерживается ли вода после дождя."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и подкормка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поливайте с учётом вида, сезона и скорости просыхания почвы. Растения с разной листвой и корневой системой могут иметь совершенно разные потребности."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подкормку проводят в период активного роста подходящим удобрением и по инструкции. Избыток питания не исправит неподходящее место или неправильный полив."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимняя защита"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимостойкость — одно из главных различий между экзотическими растениями. Одни могут оставаться на улице в подходящем месте, другие нужно переносить или защищать."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При выращивании в контейнере заранее подготовьте светлое защищённое место на холодный период. Для растений в грунте выбирайте защиту с учётом вида и местных условий."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Композиции и уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Экзотические растения хорошо смотрятся как самостоятельные акценты или в композициях с травами, кустарниками и сезонными цветами. Оставляйте место для будущего роста."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Удаляйте повреждённые листья, следите за вредителями и признаками стресса. Уход должен соответствовать естественному циклу конкретного растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор с Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Команда Florial поможет сравнить доступные экзотические растения и выбрать вариант для сада, двора или террасы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой проверьте сведения о товаре и наличие. Для объектов в Несебре, Равде, Солнечном Береге и соседних населённых пунктах можно обсудить профессиональную посадку."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-flowering-shrubs",
+      "_rev": "oFgU2xnFzJTvQ0oNU6OSU5",
+      "_system": {
+        "base": {
+          "id": "plants-flowering-shrubs",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T10:12:03Z",
+      "description": "Цъфтящите храсти внасят цвят, аромат и сезонна смяна в градината – от пролетния цъфтеж до лятното и есенното оцветяване. Използват се в групови насаждения, покрай оградата, пред иглолистни фонове и като самостоятелни акценти. Подберете видове с различно време на цъфтеж, за да има цвят през по-голямата част от годината. При избора помислете за височината и ширината на възрастното растение, осветеността, почвата и нуждата от резитба. На Черноморското крайбрежие обърнете внимание на устойчивостта на вятър и лятна горещина. Редовното поливане, особено през първата година, е ключово за здрав растеж и обилен цъфтеж.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Съчетавайте храсти с различни срокове на цъфтеж, височина и форма, като оставите достатъчно място за зрелия им размер. Проверете дали видът предпочита пълно слънце или полусянка, каква почва изисква и кога се подрязва, за да не премахнете цветните пъпки. През горещото лято около Равда и Слънчев бряг младите насаждения се нуждаят от равномерна влага и добър дренаж. Florial помага с подбора, композицията и засаждането.",
+        "title": "Цъфтящи декоративни храсти за цвят през сезона",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Combine shrubs with different flowering periods, heights and forms, allowing enough space for their mature size. Check whether each species prefers full sun or partial shade, what soil it needs and when it should be pruned so flower buds are not removed. During hot summers around Ravda and Sunny Beach, young plantings need even moisture and good drainage. Florial can help with selection, planting design and installation.",
+            "title": "Flowering shrubs for colour throughout the season"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Сочетайте кустарники с разными сроками цветения, высотой и формой, оставляя достаточно места для взрослого размера. Уточните, предпочитает ли вид солнце или полутень, какая почва ему подходит и когда проводить обрезку, чтобы не удалить цветочные почки. В жаркое лето в районе Равды и Солнечного Берега молодым посадкам нужны равномерная влажность и хороший дренаж. Florial поможет с подбором, композицией и посадкой.",
+            "title": "Цветущие декоративные кустарники для сезонного цветения"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Цъфтящи декоративни храсти за озеленяване в района на Поморие",
+        "altEn": "Flowering ornamental shrubs for landscaping around Pomorie",
+        "altRu": "Цветущие декоративные кустарники для озеленения в районе Поморие",
+        "asset": {
+          "_ref": "image-92c8afff862d5cbdaf6a54360dec666300a8ca31-2048x2731-jpg",
+          "_type": "reference"
+        },
+        "title": "Цъфтящи храсти за градини в Поморие и Ахелой",
+        "titleEn": "Flowering shrubs for gardens in Pomorie and Aheloy",
+        "titleRu": "Цветущие кустарники для садов в Поморие и Ахелое"
+      },
+      "name": "Цъфтящи декоративни храсти",
+      "parent": {
+        "_ref": "plants-trees-shrubs",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Цъфтящи декоративни храсти за градината и озеленяването",
+        "keywords": [
+          "Цъфтящи декоративни храсти",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на цъфтящи декоративни храсти за цветни градини и дворове в Несебър, Равда и по Южното Черноморие. Доставка и професионално засаждане.",
+        "metaTitle": "Цъфтящи декоративни храсти | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Цъфтящи декоративни храсти за градината и озеленяването",
+          "metaDescription": "Цъфтящите храсти внасят цвят, аромат и сезонна смяна в градината – от пролетния цъфтеж до лятното и есенното оцветяване.",
+          "metaTitle": "Цъфтящи декоративни храсти | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "h1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs1",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящи декоративни храсти за градината"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p1a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1a",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящите храсти добавят цвят, обем и сезонен интерес. Те могат да оформят бордюр, да подчертаят входа, да създадат фон за цветна леха или да бъдат самостоятелен акцент."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p1b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1b",
+              "_type": "span",
+              "marks": [],
+              "text": "Различните видове цъфтят по различно време и имат различни размери и изисквания. Комбинацията от няколко подходящи храста може да осигури последователен цъфтеж през сезона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs2",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор според цъфтежа и размера"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p2a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2a",
+              "_type": "span",
+              "marks": [],
+              "text": "При избора проверете периода на цъфтеж, височината и ширината на възрастното растение. Важно е храстът да има достатъчно пространство и да не закрива пътеки, прозорци или други растения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p2b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2b",
+              "_type": "span",
+              "marks": [],
+              "text": "В продуктовите карти проверявайте ботаническото име и конкретните характеристики. Наличността на сортове и размери може да се променя през сезона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs3",
+              "_type": "span",
+              "marks": [],
+              "text": "Слънце и разположение"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p3a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3a",
+              "_type": "span",
+              "marks": [],
+              "text": "Някои цъфтящи храсти предпочитат пълно слънце, а други се развиват по-добре на полусянка. Съобразете мястото с изискванията на конкретния вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p3b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3b",
+              "_type": "span",
+              "marks": [],
+              "text": "При групово засаждане оставете място за естествената ширина на короната. Прекалено гъстото разположение затруднява проветряването и поддръжката."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs4",
+              "_type": "span",
+              "marks": [],
+              "text": "Почва и подготовка на терена"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p4a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4a",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди засаждане проверете структурата на почвата и оттичането на водата. При тежка и уплътнена почва подобрете условията според нуждите на растението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p4b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4b",
+              "_type": "span",
+              "marks": [],
+              "text": "Премахнете многогодишните плевели и подгответе площта така, че кореновата бала да се разположи свободно. Не засаждайте прекалено дълбоко."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs5",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящи храсти по Черноморието"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p5a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5a",
+              "_type": "span",
+              "marks": [],
+              "text": "В Несебър, Равда и по Южното Черноморие трябва да се отчита летната жега, вятърът и различната влажност на почвата. Изложените места могат да изискват по-внимателен избор и поливане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p5b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5b",
+              "_type": "span",
+              "marks": [],
+              "text": "За крайбрежни дворове избирайте видове според реалната защита от вятър и условията на терена. Не приемайте, че всеки цъфтящ храст понася еднакво солен въздух и засушаване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs6",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждане и първоначални грижи"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p6a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6a",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждайте в подходящ сезон и подгответе яма според размера на кореновата бала. След засаждането полейте добре и при нужда мулчирайте почвата около растението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p6b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6b",
+              "_type": "span",
+              "marks": [],
+              "text": "През първите седмици следете влагата и състоянието на листата. Младите храсти се нуждаят от внимание, докато се установят на новото място."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs7",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и подхранване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p7a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7a",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливайте според вида, сезона и почвата, като осигурявате влага в кореновата зона. Продължителното преовлажняване може да бъде също толкова неблагоприятно, колкото и засушаването."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p7b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7b",
+              "_type": "span",
+              "marks": [],
+              "text": "Подхранвайте умерено и според нуждите на растението. Използвайте подходящ тор и не превишавайте указанията на производителя."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs8",
+              "_type": "span",
+              "marks": [],
+              "text": "Резитба и сезонна поддръжка"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p8a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8a",
+              "_type": "span",
+              "marks": [],
+              "text": "Времето и начинът на резитба зависят от това дали храстът цъфти върху старите или новите клонки. Неправилната резитба може да премахне цветните пъпки за следващия сезон."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p8b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8b",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди подрязване проверете особеностите на конкретния вид. Премахвайте сухи и повредени части и поддържайте формата без излишно силно съкращаване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs9",
+              "_type": "span",
+              "marks": [],
+              "text": "Композиции и помощ от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p9a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9a",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящите храсти се комбинират добре с вечнозелени растения, многогодишни цветя и декоративни треви. Различните срокове на цъфтеж помагат градината да остане интересна по-дълго."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p9b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9b",
+              "_type": "span",
+              "marks": [],
+              "text": "Florial може да помогне при избора и планирането на засаждането за дворове и градини в Несебър, Равда, Поморие и близките населени места. Проверявайте актуалното продуктово предложение."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "tsaftyashti-hrasti"
+      },
+      "sortOrder": 23,
+      "translations": {
+        "en": {
+          "description": "Flowering shrubs bring colour, fragrance and seasonal variety to the garden, from spring blooms to summer and autumn foliage. They work well in group plantings, along fences, in front of conifers or as standalone accents. Choose species with different flowering periods to enjoy colour for much of the year. Consider each plant’s mature height and width, sunlight, soil and pruning needs. Along Bulgaria’s Black Sea coast, look for tolerance to wind and summer heat. Regular watering, especially during the first year, is essential for healthy growth and abundant flowering.",
+          "name": "Flowering Ornamental Shrubs",
+          "seo": {
+            "h1": "Flowering Ornamental Shrubs for Gardens and Landscaping",
+            "keywords": [
+              "Flowering Ornamental Shrubs",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of flowering ornamental shrubs for gardens and yards in Nessebar, Ravda and Bulgaria’s Southern Black Sea coast. Delivery and professional planting.",
+            "metaTitle": "Flowering Ornamental Shrubs | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Flowering Ornamental Shrubs for Gardens and Landscaping",
+              "metaDescription": "Flowering shrubs bring colour, fragrance and seasonal variety to the garden, from spring blooms to summer and autumn foliage.",
+              "metaTitle": "Flowering Ornamental Shrubs | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering Ornamental Shrubs for Gardens"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering shrubs add colour, volume and seasonal interest. They can form a border, frame an entrance, provide a backdrop for a flower bed or stand as individual features."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Different species flower at different times and have different sizes and requirements. Combining suitable shrubs can extend the flowering season."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing by Flowering Period and Size"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consider flowering time, mature height and spread when choosing a shrub. It needs enough room without blocking paths, windows or neighbouring plants."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the botanical name and specific characteristics in each product listing. The range of varieties and sizes may change during the season."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Sunlight and Position"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Some flowering shrubs prefer full sun, while others grow better in partial shade. Match the position to the needs of the particular species."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For group planting, leave room for the natural spread of each crown. Overcrowding can reduce airflow and make maintenance more difficult."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Soil and Site Preparation"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check soil structure and drainage before planting. On heavy or compacted ground, improve conditions according to the needs of the plant."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Remove perennial weeds and prepare a space that accommodates the root ball comfortably. Avoid planting the shrub too deeply."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering Shrubs on the Black Sea Coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda and Bulgaria's Southern Black Sea coast, consider summer heat, wind and differences in soil moisture. Exposed positions may require more careful selection and watering."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For coastal gardens, choose species according to the actual wind shelter and site conditions. Do not assume every flowering shrub tolerates salt air and drought equally."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planting and Initial Care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plant in a suitable season and prepare a hole that fits the root ball. Water thoroughly after planting and mulch around the plant if appropriate."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "During the first weeks, monitor soil moisture and foliage condition. Young shrubs need attention while they establish in their new position."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and Feeding"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water according to the species, season and soil, directing moisture to the root zone. Prolonged waterlogging can be as harmful as drought."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Feed moderately according to the plant's needs. Use a suitable fertiliser and follow the manufacturer's directions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning and Seasonal Maintenance"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning time and method depend on whether a shrub flowers on old or new growth. Incorrect pruning can remove flower buds for the next season."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the requirements of the exact species before pruning. Remove dry or damaged parts and maintain the shape without unnecessary hard cutting."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Compositions and Florial Support"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering shrubs combine well with evergreen plants, perennials and ornamental grasses. Different flowering periods help keep the garden interesting for longer."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial can help with selection and planting plans for gardens in Nessebar, Ravda, Pomorie and nearby settlements. Check the current product range."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Цветущие кустарники вносят в сад цвет, аромат и смену сезонов — от весеннего цветения до летней и осенней окраски. Их используют в групповых посадках, вдоль забора, на фоне хвойных и как самостоятельные акценты. Подбирайте виды с разным временем цветения, чтобы цвет был большую часть года. При выборе подумайте о высоте и ширине взрослого растения, освещённости, почве и необходимости обрезки. На Черноморском побережье обратите внимание на устойчивость к ветру и летней жаре. Регулярный полив, особенно в первый год, — ключ к здоровому росту и обильному цветению.",
+          "name": "Цветущие декоративные кустарники",
+          "seo": {
+            "h1": "Цветущие декоративные кустарники для сада и озеленения",
+            "keywords": [
+              "Цветущие декоративные кустарники",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа цветущих декоративных кустарников для садов и участков в Несебре, Равде и на Южном Черноморье. Доставка и профессиональная посадка.",
+            "metaTitle": "Цветущие декоративные кустарники | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Цветущие декоративные кустарники для сада и озеленения",
+              "metaDescription": "Цветущие кустарники вносят в сад цвет, аромат и смену сезонов — от весеннего цветения до летней и осенней окраски.",
+              "metaTitle": "Цветущие декоративные кустарники | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие декоративные кустарники для сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие кустарники добавляют цвет, объём и сезонный интерес. Они подходят для бордюров, оформления входа, фона цветника или самостоятельного акцента."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Разные виды цветут в разное время и отличаются размерами и требованиями. Сочетание нескольких подходящих кустарников помогает продлить период цветения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор по цветению и размеру"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При выборе учитывайте сроки цветения, высоту и ширину взрослого растения. Кустарнику нужно достаточно места, чтобы он не перекрывал дорожки, окна и соседние растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Проверяйте ботаническое название и характеристики в карточке товара. Наличие сортов и размеров может меняться в течение сезона."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Солнце и размещение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Одни цветущие кустарники предпочитают открытое солнце, другим лучше подходит полутень. Выбирайте место с учётом требований конкретного вида."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При групповой посадке оставляйте пространство для естественной ширины кроны. Слишком плотное размещение затрудняет проветривание и уход."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почва и подготовка участка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "До посадки проверьте структуру почвы и отвод воды. На тяжёлой и уплотнённой земле улучшите условия с учётом потребностей растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Удалите многолетние сорняки и подготовьте место так, чтобы корневой ком свободно разместился в посадочной яме. Не заглубляйте кустарник чрезмерно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие кустарники на Черноморском побережье"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В Несебре, Равде и на Южном Черноморье учитывайте летнюю жару, ветер и особенности влажности почвы. На открытых местах выбор и полив требуют большего внимания."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для прибрежных садов выбирайте виды с учётом реальной защиты от ветра и условий участка. Не считайте, что каждый цветущий кустарник одинаково переносит солёный воздух и засуху."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посадка и первоначальный уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сажайте в подходящий сезон и подготовьте яму по размеру корневого кома. После посадки хорошо полейте и при необходимости замульчируйте почву вокруг растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В первые недели следите за влажностью и состоянием листьев. Молодым кустарникам требуется внимание, пока они не приживутся на новом месте."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и подкормка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поливайте с учётом вида, сезона и почвы, направляя воду в корневую зону. Длительное переувлажнение может быть не менее вредным, чем засуха."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подкармливайте умеренно и по потребностям растения. Используйте подходящее удобрение и соблюдайте инструкцию производителя."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезка и сезонный уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сроки и способ обрезки зависят от того, цветёт ли кустарник на прошлогодних или новых побегах. Неправильная обрезка может удалить цветочные почки следующего сезона."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед обрезкой изучите особенности конкретного вида. Удаляйте сухие и повреждённые части, поддерживая форму без чрезмерного укорачивания."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Композиции и помощь Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие кустарники хорошо сочетаются с вечнозелёными растениями, многолетниками и декоративными травами. Разные сроки цветения помогают дольше сохранять декоративность сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial поможет с подбором и планированием посадок для садов в Несебре, Равде, Поморие и соседних населённых пунктах. Проверяйте актуальный ассортимент."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:45:12Z",
+      "_id": "plants-flowers",
+      "_rev": "oFgU2xnFzJTvQ0oNU67YS1",
+      "_system": {
+        "base": {
+          "id": "plants-flowers",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T09:41:22Z",
+      "description": "Категорията обединява цъфтящите растения за градината и терасата: градински рози, сезонни цветя и други декоративни видове за лехи, бордюри, саксии и сандъчета. Розите са класика в градината и изискват слънчево място, плодородна почва и редовна грижа, докато много цветя дават ярък цвят за кратък период. Комбинирайте различни растения, за да има цъфтеж през сезоните. При избора съобразете осветеността, размера на растението, почвата и времето за засаждане. Цветята и розите са чувствителни към недостиг на вода – капково напояване или автоматична система помагат да се поддържа равномерна влажност без мокрене на листата.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Подбирайте рози и сезонни цветя според слънцегреенето, височината, периода на цъфтеж и нуждите от вода. Розите обикновено предпочитат слънчево и проветриво място; поливайте в кореновата зона и избягвайте продължително мокрене на листата. За градини и хотелски пространства в Слънчев бряг и Несебър капковото напояване улеснява поддържането на цветните композиции през летния сезон. Florial помага с подбора, оформянето и засаждането.",
+        "title": "Цветя и рози за градини, лехи и тераси",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Choose roses and seasonal flowers according to sunlight, mature height, flowering period and water needs. Roses generally prefer a sunny, airy position; water at the root zone and avoid keeping foliage wet for long periods. For gardens and hotel spaces in Sunny Beach and Nessebar, drip irrigation makes it easier to maintain flower displays through the summer. Florial can help select, arrange and plant suitable combinations.",
+            "title": "Flowers and roses for gardens, beds and terraces"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Подбирайте розы и сезонные цветы с учётом освещённости, высоты, сроков цветения и потребности во влаге. Розы обычно предпочитают солнечное проветриваемое место; поливайте корневую зону и не допускайте длительного намокания листьев. Для садов и гостиничных территорий Солнечного Берега и Несебра капельный полив облегчает уход за цветочными композициями летом. Florial поможет подобрать растения, составить композицию и выполнить посадку.",
+            "title": "Цветы и розы для садов, клумб и террас"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Цветя и рози за градини и дворове в района на Несебър",
+        "altEn": "Flowers and roses for gardens in the Nessebar area",
+        "altRu": "Цветы и розы для садов и участков в районе Несебра",
+        "asset": {
+          "_ref": "image-b8ed6a8a7cd77b14b6f8b02c5ce29818ef8435ee-1200x896-jpg",
+          "_type": "reference"
+        },
+        "title": "Цветя и рози за градини в Несебър и Равда",
+        "titleEn": "Flowers and roses for gardens in Nessebar and Ravda",
+        "titleRu": "Цветы и розы для садов в Несебре и Равде"
+      },
+      "name": "Цветя и рози",
+      "parent": {
+        "_ref": "plants-root",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Цветя и рози за градината и озеленяването",
+        "keywords": [
+          "Цветя и рози",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на градински цветя и рози за лехи, бордюри и саксии в Несебър и Равда. Избор на цветове и сортове, доставка и професионално засаждане.",
+        "metaTitle": "Цветя и рози | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Цветя и рози за градината и озеленяването",
+          "metaDescription": "Категорията обединява цъфтящите растения за градината и терасата: градински рози.",
+          "metaTitle": "Цветя и рози | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "flbg01h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg01hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Цветя, отглеждани с грижа в собствените оранжерии на Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg01a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg01as",
+              "_type": "span",
+              "marks": [],
+              "text": "Florial развива собствено производство на цветя в своите оранжерии. Там подготвяме растенията, засаждаме нови партиди и се грижим за тяхното развитие, преди да достигнат до градинския център и клиентите. Така можем да предлагаме не само подбран асортимент, но и цветя, за чието отглеждане полагаме собствени ежедневни грижи."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg01b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg01bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Работата в оранжериите е постоянен процес: редовно засяваме и засаждаме нови растения, подготвяме следващи партиди и обновяваме наличните цветове и видове. Поради това асортиментът се променя през сезона. Ако търсите определено цвете или цвят, попитайте ни какво е налично в момента."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg02h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg02hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Постоянно обновяващ се сезонен асортимент"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg02a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg02as",
+              "_type": "span",
+              "marks": [],
+              "text": "Новите растения не се появяват в асортимента само в началото на сезона. В нашите оранжерии последователно подготвяме и засаждаме нови цветя, така че изборът постепенно да се обновява. Различните партиди достигат подходящ етап за предлагане по различно време."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg02b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg02bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Това означава, че при следващо посещение можете да откриете нови цветове, форми и растения. Снимките и примерите в категорията дават насока за видовете, но конкретният избор и наличност се променят. За актуална информация се свържете с Florial."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg03h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg03hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Цветя за градина, балкон и тераса"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg03a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg03as",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящите растения създават настроение в градински лехи, бордюри, входни пространства, балкони и тераси. Подходящи са както за самостоятелни акценти, така и за цветни композиции в саксии, сандъчета и кашпи."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg03b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg03bs",
+              "_type": "span",
+              "marks": [],
+              "text": "При избора съобразете мястото, изложението, размера на съда и желаната визия. За слънчеви зони търсете растения, които понасят пряко слънце; за полусянка изберете видове с подходящи изисквания към светлината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg04h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg04hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Сезонни цветя и многогодишни растения"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg04a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg04as",
+              "_type": "span",
+              "marks": [],
+              "text": "Сезонните цветя са добър начин бързо да промените визията на градината или терасата. Те внасят ярки цветове за определен период и позволяват композициите да се обновяват през годината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg04b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg04bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Многогодишните цветя изграждат по-трайна основа на лехите и при подходящи условия се развиват през следващите сезони. Комбинирането на сезонни и многогодишни растения помага да съчетаете бърз декоративен ефект с дългосрочна структура."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg05h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg05hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Градински рози и цъфтящи акценти"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg05a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg05as",
+              "_type": "span",
+              "marks": [],
+              "text": "Розите са класически избор за градини, цветни лехи и декоративни композиции. При тях са важни доброто осветление, проветривото място, подходящата почва и редовната грижа. Оставете достатъчно пространство според очаквания размер на растението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg05b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg05bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Други цъфтящи видове могат да допълнят розите с различна височина, форма и период на цъфтеж. Избирайте растенията според съвместимите им условия и комбинирайте цветовете така, че композицията да изглежда хармонично."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg06h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg06hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Как да изберете подходящите цветя"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg06a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg06as",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка определете къде ще засадите цветята: в открита леха, саксия, сандъче или контейнер. Проверете колко часа слънце получава мястото, има ли защита от вятър и колко пространство е налично за растеж."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg06b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg06bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Обърнете внимание на размера на растението, периода на цъфтеж, нуждите от вода и устойчивостта към конкретните условия. При съмнение екипът на Florial може да помогне с избора според мястото и желаната композиция."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg07h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg07hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждане, поливане и грижа за цветята"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg07a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg07as",
+              "_type": "span",
+              "marks": [],
+              "text": "Използвайте подходящ субстрат и съдове с добър дренаж. При засаждане в градината подгответе почвата и спазвайте разстояние, което позволява на растенията да се развиват, без да се конкурират прекомерно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg07b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg07bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливайте според вида, сезона, температурата и влажността на почвата. Саксиите и сандъчетата често изсъхват по-бързо от градинските лехи. Отстранявайте прецъфтелите цветове, когато това е подходящо за конкретното растение, и следете за признаци на стрес."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg08h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg08hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Цветя за условията на българското Черноморие"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg08a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg08as",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър, Равда, Слънчев бряг, Свети Влас и Поморие летните слънце, топлина и вятър могат да влияят силно на цветните композиции. При избора вземете предвид изложението, соления въздух в близост до морето и възможността за редовно поливане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg08b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg08bs",
+              "_type": "span",
+              "marks": [],
+              "text": "За балкони, тераси, дворове и хотелски пространства е полезно да планирате композицията според реалните условия на място. Подходящото съчетание на растения и правилната грижа помагат цветята да запазят добрия си вид през сезона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg09h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg09hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Собствено производство, избор и засаждане от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "flbg09a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg09as",
+              "_type": "span",
+              "marks": [],
+              "text": "Посетете Florial, за да разгледате актуалните цветя и рози. Част от асортимента подготвяме и отглеждаме в собствените си оранжерии, като постоянно засаждаме нови растения и обновяваме избора. Наличностите се променят според сезона и развитието на новите партиди."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "flbg09b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "flbg09bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Освен цветя предлагаме съдействие при избора и професионално засаждане. За цветни лехи, саксии и тераси можем да обсъдим и подходящо решение за напояване, включително капково или автоматично поливане. Свържете се с Florial за актуалния асортимент и консултация."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "tsvetya-i-rozi"
+      },
+      "sortOrder": 5,
+      "translations": {
+        "en": {
+          "description": "This category brings together flowering plants for gardens and terraces, including garden roses, seasonal flowers and other ornamental varieties for beds, borders, pots and planters. Roses are a garden classic and need a sunny position, fertile soil and regular care, while many seasonal flowers provide vivid colour for a shorter period. Combine different plants to extend flowering across the seasons. Consider light, plant size, soil and planting time when choosing. Flowers and roses are sensitive to water shortages; drip irrigation or an automatic system helps maintain even moisture without wetting the leaves.",
+          "name": "Flowers and Roses",
+          "seo": {
+            "h1": "Flowers and Roses for Gardens and Landscaping",
+            "keywords": [
+              "Flowers and Roses",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of garden flowers and roses for beds, borders and containers in Nessebar and Ravda. A choice of varieties and colours, with delivery and professional planting.",
+            "metaTitle": "Flowers and Roses | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Flowers and Roses for Gardens and Landscaping",
+              "metaDescription": "This category brings together flowering plants for gardens and terraces.",
+              "metaTitle": "Flowers and Roses | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "flen01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowers grown with care in Florial’s own greenhouses"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial grows flowers in its own greenhouses. We prepare plants, set new batches and care for them as they develop before they reach our garden centre and customers. This means our offer is not limited to a selected catalogue: it also includes flowers that we actively grow and look after ourselves."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Greenhouse work is ongoing. We regularly sow and plant new batches, prepare the next plants and refresh the range of colours and varieties. As a result, the assortment changes throughout the season. If you are looking for a particular flower or colour, ask us what is currently available."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A flower range that keeps changing"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "New plants are not introduced only at the start of the season. In our greenhouses, we continuously prepare and plant new flowers so that the selection is refreshed over time. Different batches become ready for customers at different stages."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "You may therefore discover new colours, forms and plants on a return visit. Category images and examples help you explore the range, while exact selection and availability change. Contact Florial for current availability."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowers for gardens, balconies and terraces"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering plants bring colour to garden beds, borders, entrances, balconies and terraces. They work both as individual accents and as arrangements in pots, window boxes and planters."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When choosing, consider the location, light exposure, container size and the look you want to create. For sunny areas, select plants suited to direct sun; for partial shade, choose varieties with suitable light requirements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Seasonal flowers and perennials"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Seasonal flowers are an easy way to refresh a garden or terrace. They provide vivid colour for a particular period and allow displays to change through the year."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennials create a longer-lasting foundation for flower beds and, in suitable conditions, return in following seasons. Combining seasonal flowers and perennials brings together immediate colour and lasting garden structure."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Garden roses and flowering accents"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Roses are a classic choice for gardens, flower beds and ornamental displays. They need suitable light, an airy position, appropriate soil and regular care. Allow enough room for the plant’s expected mature size."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Other flowering plants can complement roses with different heights, shapes and flowering periods. Choose varieties with compatible growing requirements and combine colours to create a balanced display."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "How to choose the right flowers"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, decide where the flowers will grow: in an open bed, pot, window box or container. Consider how much sunlight the location receives, whether it is sheltered from wind and how much room the plants will have."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the plant’s size, flowering period, water needs and suitability for local conditions. If you are unsure, the Florial team can help you choose plants for your space and preferred arrangement."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planting, watering and flower care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Use a suitable growing medium and containers with good drainage. For garden beds, prepare the soil and leave enough space for plants to develop without excessive competition."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water according to the plant, season, temperature and soil moisture. Pots and window boxes often dry out faster than garden beds. Remove faded flowers when appropriate for the variety and watch for signs of plant stress."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowers for Bulgaria’s Black Sea coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda, Sunny Beach, Sveti Vlas and Pomorie, summer sun, heat and wind can affect flower displays. When choosing plants, consider exposure, salty air near the coast and the ability to water regularly."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For balconies, terraces, private gardens and hotel grounds, plan the planting around the actual site conditions. A suitable combination of plants and consistent care help flowers remain attractive throughout the season."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Home-grown flowers, advice and planting from Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flen09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Visit Florial to explore the current selection of flowers and roses. We prepare and grow part of our range in our own greenhouses, continually planting new batches and refreshing the selection. Availability changes with the season and the development of new plants."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flen09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flen09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Alongside flowers, we offer help with selection and professional planting. For flower beds, pots and terraces, we can also discuss suitable irrigation, including drip or automatic watering. Contact Florial for current availability and advice."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Категория объединяет цветущие растения для сада и террасы: садовые розы, сезонные цветы и другие декоративные виды для клумб, бордюров, горшков и ящиков. Розы — классика сада: им нужны солнечное место, плодородная почва и регулярный уход, а многие цветы дают яркий цвет на короткий срок. Комбинируйте разные растения, чтобы цветение продолжалось в течение сезонов. При выборе учитывайте освещённость, размер растения, почву и время посадки. Цветы и розы чувствительны к нехватке воды — капельный полив или автоматическая система помогают поддерживать равномерную влажность без намокания листьев.",
+          "name": "Цветы и розы",
+          "seo": {
+            "h1": "Цветы и розы для сада и озеленения",
+            "keywords": [
+              "Цветы и розы",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа садовых цветов и роз для клумб, бордюров и контейнеров в Несебре и Равде. Выбор сортов и оттенков, доставка и профессиональная посадка.",
+            "metaTitle": "Цветы и розы | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Цветы и розы для сада и озеленения",
+              "metaDescription": "Категория объединяет цветущие растения для сада и террасы: садовые розы, сезонные цветы и другие декоративные виды для клумб, бордюров, горшков и ящиков.",
+              "metaTitle": "Цветы и розы | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "flru01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветы, которые Florial выращивает в собственных теплицах"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial развивает собственное выращивание цветов в своих теплицах. Здесь мы подготавливаем растения, высаживаем новые партии и ухаживаем за ними до того, как они поступают в садовый центр и становятся доступны покупателям. Поэтому мы предлагаем не только подобранный ассортимент, но и цветы, выращиванию которых уделяем собственное ежедневное внимание."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Работа в теплицах идёт постоянно: мы регулярно высеваем и высаживаем новые растения, готовим следующие партии и обновляем выбор цветов и видов. Поэтому ассортимент меняется в течение сезона. Если вы ищете определённый цветок или оттенок, уточните у нас, что доступно сейчас."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ассортимент, который постоянно обновляется"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Новые растения появляются не только в начале сезона. В наших теплицах мы последовательно подготавливаем и высаживаем новые цветы, чтобы выбор постепенно обновлялся. Разные партии достигают подходящей стадии для продажи в разное время."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поэтому при следующем посещении вы можете увидеть новые оттенки, формы и растения. Фотографии и примеры в категории помогают сориентироваться, но конкретный выбор и наличие меняются. Актуальную информацию можно получить у Florial."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветы для сада, балкона и террасы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие растения оживляют садовые клумбы, бордюры, входные зоны, балконы и террасы. Они подходят как для отдельных акцентов, так и для композиций в горшках, ящиках и кашпо."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При выборе учитывайте место посадки, освещение, размер контейнера и желаемый вид композиции. Для солнечных участков выбирайте растения, переносящие прямое солнце; для полутени — виды с подходящими требованиями к освещению."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сезонные цветы и многолетники"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сезонные цветы помогают быстро изменить облик сада или террасы. Они дают яркий декоративный эффект на определённый период и позволяют обновлять композиции в течение года."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Многолетние цветы создают более постоянную основу клумб и при подходящих условиях возвращаются в следующие сезоны. Сочетание сезонных и многолетних растений помогает объединить быстрый эффект с долговременной структурой сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Садовые розы и цветущие акценты"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Розы — классический выбор для садов, цветников и декоративных композиций. Для них важны хорошее освещение, проветриваемое место, подходящая почва и регулярный уход. Оставляйте достаточно пространства с учётом будущего размера растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Другие цветущие виды дополняют розы разной высотой, формой и периодом цветения. Выбирайте растения с совместимыми условиями выращивания и сочетайте оттенки так, чтобы композиция выглядела гармонично."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как выбрать подходящие цветы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой определите, где будут расти цветы: в открытом грунте, горшке, балконном ящике или контейнере. Оцените, сколько солнца получает место, защищено ли оно от ветра и достаточно ли пространства для роста."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обратите внимание на размер растения, период цветения, потребность во влаге и устойчивость к местным условиям. Если сомневаетесь, команда Florial поможет подобрать растения с учётом места и желаемой композиции."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посадка, полив и уход за цветами"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Используйте подходящий субстрат и ёмкости с хорошим дренажом. При посадке в саду подготовьте почву и соблюдайте расстояние, чтобы растения могли развиваться и не испытывали излишней конкуренции."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поливайте с учётом вида растения, сезона, температуры и влажности почвы. Горшки и ящики часто высыхают быстрее, чем садовые клумбы. Удаляйте увядшие цветки, если это подходит конкретному виду, и следите за признаками стресса."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветы в условиях болгарского Черноморья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра, Равды, Солнечного Берега, Святого Власа и Поморие летнее солнце, жара и ветер могут заметно влиять на цветочные композиции. При выборе учитывайте освещённость, солёный морской воздух в прибрежных местах и возможность регулярного полива."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для балконов, террас, частных дворов и гостиничных территорий полезно планировать композицию с учётом реальных условий участка. Подходящее сочетание растений и правильный уход помогают цветам сохранять привлекательный вид в течение сезона."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Собственное выращивание, подбор и посадка от Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "flru09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Приходите в Florial, чтобы посмотреть актуальный ассортимент цветов и роз. Часть растений мы подготавливаем и выращиваем в собственных теплицах, постоянно высаживая новые партии и обновляя выбор. Наличие меняется в зависимости от сезона и развития новых растений."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "flru09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "flru09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Помимо продажи цветов мы помогаем с подбором и профессиональной посадкой. Для клумб, горшков и террас можно также подобрать подходящее решение для полива — капельное или автоматическое. Свяжитесь с Florial, чтобы узнать актуальное наличие и получить консультацию."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
