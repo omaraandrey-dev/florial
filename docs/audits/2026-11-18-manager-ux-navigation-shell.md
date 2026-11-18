@@ -3,7 +3,8 @@
 **Date:** 2026-11-18  
 **Branch:** `feature/manager-ux-navigation-shell`  
 **Base:** `main` at `3b7177d88423fccdc562383bba25774d13932223`  
-**Implementation commit:** `af58afc8e0b48acf322c6af710de75c7d9b4e302`
+**Code commits:** `af58afc8e0b48acf322c6af710de75c7d9b4e302`, `291071649e048bfc29aa6bcb4f7b06506b0f062e`  
+**Audit update:** `91852ffaf6ee5f7d634e121648040d4bf8a87188`
 
 ## Scope
 
