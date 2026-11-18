@@ -4,7 +4,8 @@
 - Corrected homepage landmarks to one outer `<main>` containing the hero, service/catalogue sections and blog; the irrigation catalogue wrapper is a `<section>`.
 - Blog cards now distinguish loading, successful empty results, ready content and request errors, with localized BG/RU/EN messages.
 - Extracted and directly tested featured equipment selection and plant variant starting-price logic using Node's built-in test runner; no new dependency.
-- Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`. Exact-head validation and release results are recorded after CI and Production deployment checks.
+- Exact PR head `f867101bb1785720b7bda39560463f036e2fcabd`: Blog/Studio validation run `44239849985` and D1 validation run `44239849955` — success. Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70` for the same commit — success. Browser screenshot was not available because the connected browser service had exhausted its credits.
+- Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`.
 
 ## 2026-11-18 — Главная страница: финальная UX-доработка (PR #385)
 
