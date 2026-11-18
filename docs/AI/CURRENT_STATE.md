@@ -53,7 +53,7 @@
 ## Google Shopping / Product Schema workstream
 
 - Active roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Continue from its earliest unfinished item and update it after each material step.
-- PR #407 contains the roadmap, audit and Product Offer remediation. It remains open/unmerged; do not assume Production has changed.
+- PR #407 was merged into `main` at `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`; the Product Offer remediation is deployed to Production in Pages deployment `3deb2a5d-cd16-4201-821e-7b6d6c7bba09` from that exact SHA.
 - Product Offer builder is shared between middleware and ProductPage. Plants use only the default first variant Offer; onRequest is not PreOrder. AggregateOffer is not used for a set of variants.
 - ProductGroup is deferred because the published plants dataset has no non-empty variant SKU and the current route does not provide crawlable per-variant URLs.
 - Product Offer implementation and tests passed full Blog/Studio validation run 44355759803 and D1 validation run 44355682858 (source code commit 8fd6704). Cloudflare Preview for functional code plus the updated roadmap succeeded at https://811f1545.florial.pages.dev (Preview commit df414aa). Later PR commits are documentation-only; latest checked PR head 7305780 had CI and Preview in progress.
@@ -85,3 +85,20 @@
 - Schema.org Validator: corrected PR Preview equipment and plant each report 5 items, 0 errors, 0 warnings; Product and BreadcrumbList appear twice because the middleware canonical URL is Production while client markup uses the Preview host.
 - Current Production equipment baseline: 3 items, 0 errors, 0 warnings (Organization 1, BreadcrumbList 1, Product 1); this is pre-PR code.
 - Official Google Rich Results Test requires login/reCAPTCHA and returned “Log in and try again”; no Google test outcome confirmed. Owner-authenticated run and later Production retest remain pending. Details in roadmap and audit.
+
+
+## Google Shopping / Product Schema — merge and Production release
+
+## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
+
+- PR #407 (Product Offer JSON-LD remediation, Google Shopping roadmap and stage-1 audit) merged into `main`; merge commit / exact `main` HEAD at verification: `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`.
+- Pre-merge comparison confirmed PR head `f30af1e940d8bccb627a55265c6fa6468651b520` was 42 commits ahead and 0 behind current `main`; the merge used expected head SHA protection.
+- GitHub Actions on exact PR head `f30af1e`: Blog and Studio validation run `44358163151` — success; D1 migration validation run `44358126198` — success. A subsequent Blog and Studio run `44358126185` also succeeded. No workflow runs were returned for the merge commit itself; do not describe those PR-head checks as merge-commit CI.
+- Cloudflare Pages Production deployment `3deb2a5d-cd16-4201-821e-7b6d6c7bba09` succeeded at `2026-11-18T18:08:28Z`; source branch `main`, exact source commit `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`. Production aliases are `https://florial-bg.com` and `https://www.florial-bg.com`.
+- The shared Product Offer implementation is now in Production. Schema.org Validator evidence in the PR applies to the Preview pages; the previous Production validator result is a pre-release baseline. Google Rich Results Test on Production has not yet been run and is not claimed as passed.
+- Owner-run Google Rich Results Test links for Production:
+  - Equipment: https://search.google.com/test/rich-results?url=https%3A%2F%2Fflorial-bg.com%2Fproduct%2Frain-bird-100-pga-9v
+  - Plant: https://search.google.com/test/rich-results?url=https%3A%2F%2Fflorial-bg.com%2Fproduct%2Fcitrus-japonica-kumquat
+- Stages 1 and 2 of the roadmap remain open pending authenticated Google Rich Results evidence and the remaining Search Console URL Inspection checks. Merchant Center account was confirmed by the owner as not yet registered; Merchant Center setup remains a later roadmap stage.
+- No Sanity schema/documents, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed. The only Production change was the automatic Pages deployment from the explicitly approved PR merge.
+
