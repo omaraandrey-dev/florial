@@ -10,6 +10,7 @@ import { handleInternalLinkClick, localizedHref } from './lib/navigation'
 import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
+import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
@@ -964,10 +965,7 @@ export default function App() {
     sanityClient.fetch(featuredEquipmentQuery)
       .then((data: Product[]) => {
         if (cancelled) return
-        const products = Array.isArray(data) ? data : []
-        const regularPicks = products.filter((product) => product.slug?.current !== 'komplekt-polivane-5x5' && product.slug?.current !== 'komplekt-avtomatizatsiya-6-zoni').slice(0, 3)
-        const sixZoneKit = products.find((product) => product.slug?.current === 'komplekt-avtomatizatsiya-6-zoni')
-        setHomeFeaturedEquipment(sixZoneKit ? [...regularPicks, sixZoneKit] : regularPicks)
+        setHomeFeaturedEquipment(selectFeaturedEquipment(data))
       })
       .catch((error) => {
         if (cancelled) return
