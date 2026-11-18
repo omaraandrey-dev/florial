@@ -302,6 +302,7 @@ export function ProductPage({
       alternates,
     })
 
+    // Keep Product JSON-LD aligned with the server's initial/default offer; UI variant selection is not a crawlable variant URL.
     const offer = buildProductOffer({
       ...product,
       _dataset: isPlantProduct(product) ? 'plants' : 'production',
