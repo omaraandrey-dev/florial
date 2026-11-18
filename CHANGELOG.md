@@ -1,3 +1,10 @@
+## 2026-11-18 — PostHog live analytics verified and dashboard extended
+- Verified live EU PostHog project `349453`: Florial ingestion is active; five observed events are `florial_page_view`, `florial_category_view`, `florial_product_view`, `florial_cart_view` and `florial_add_to_cart`.
+- Updated the existing private dashboard `1114600` in place; added language distribution, top pages and GeoIP country map to the existing page/category/product/cart charts. All six insight tiles were refreshed and returned data.
+- 14–18 Nov observed page views: 576 events; language breakdown BG 323 / RU 247 / EN 6; GeoIP country counts BG 570 / BE 5 / UA 1. These are event counts, not unique visitors; 18 Nov was partial and GeoIP is approximate.
+- Current tracking code also contains phone/chat/checkout event paths, but those three event names were not present in the live event schema during this verification. Do not treat them as confirmed telemetry.
+- Updated dashboard explanatory text and `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md` to remove the obsolete claim that ingestion was inactive. No source code, Cloudflare settings/secrets, D1, Sanity, Resend or Production configuration changed.
+
 ## 2026-11-18 — Finalized owner branch and dormant-variable policy (PR #401)
 - PR #401 squash-merged into `main`; merge commit `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
 - Current main HEAD after this documentation-only merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`. The last verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no runtime files changed in PR #401.
