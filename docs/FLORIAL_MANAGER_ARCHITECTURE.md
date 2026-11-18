@@ -2,6 +2,18 @@
 
 ---
 
+## Дополнение 18.11.2026 — PostHog analytics on demand
+
+- Manager analytics keeps the existing first-party D1 report unchanged and adds a separate on-demand PostHog block. It is loaded only after the user clicks the button; the selected Manager period (1/7/30/90 days) is reused.
+- The new server route is `GET /api/manager/analytics-posthog?days=...`; it requires a valid Manager session and `canViewAnalytics`. Owner access continues to be implicit through the existing permission helper.
+- The server queries PostHog EU project `349453` and aggregates only the five live-confirmed Florial events: page views, category views, product views, cart views and add-to-cart. It also returns daily page views, top paths, language distribution and approximate country distribution.
+- Required server-only Cloudflare secret: `POSTHOG_PERSONAL_API_KEY` (preferred) or `POSTHOG_API_KEY` (supported alias), with read/query scope. The public `VITE_POSTHOG_PROJECT_KEY` is only the event-ingestion key and must not be used for API reads or treated as a secret.
+- Cloudflare Pages Production was inspected read-only on 18.11.2026: `VITE_POSTHOG_PROJECT_KEY` exists as plain text; the later owner key setup appeared as secret `POSTHOG_API_KEY`. Secret values were not read. This verification did not read or change any secret value. The server accepts `POSTHOG_PERSONAL_API_KEY` or the `POSTHOG_API_KEY` alias; the actual API credential and `query:read` permission remain pending live query verification.
+- No D1 migration or permission change is required. The existing `canViewAnalytics` permission is reused.
+- Code and tests are in the Manager PostHog analytics PR; Production deployment and live API verification remain pending.
+
+---
+
 ## Дополнение 11.11.2026 — ботанические данные Google AI доступны всем ролям
 
 - Google Gemini остаётся единственным AI-провайдером рабочего сценария подготовки карточек растений.
