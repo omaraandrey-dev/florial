@@ -13,6 +13,7 @@ const locale = {
     'Статията не е намерена.': 'Article not found.',
     'Полезни статии за градината и поливането': 'Garden centre news, our projects and useful articles about plants and irrigation systems.',
     'Зареждане на статии…': 'Loading articles…',
+    'Неуспешно зареждане на статиите.': 'Articles could not be loaded. Please try again later.',
     'Зареждане на статия…': 'Loading article…',
     'Всички растения': 'All plants',
     'Цялото оборудване за поливане': 'All irrigation equipment',
