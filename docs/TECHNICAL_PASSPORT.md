@@ -1,3 +1,12 @@
+## 2026-11-18 — Homepage trust/conversion and selected irrigation equipment (PR #385)
+
+- Homepage implementation: category-image hero links for plants and irrigation; CTA width reduced 20% (80%/max 208 px mobile, 208 px desktop); About link is plain underlined text. Trust strip unchanged.
+- Mobile services header places activity label and All services link on one row, heading below.
+- Homepage selected irrigation products: up to four items from ready-made irrigation kits category. Query retrieves eligible active/pictured/priced/non-out-of-stock products; runtime excludes slug `komplekt-polivane-5x5`, selects three lowest-priced remaining kits, then explicitly appends `komplekt-avtomatizatsiya-6-zoni` (published Sanity ID `080906b4-a5c0-4c6f-a44e-2240a46a08f6`). Published data: 431.92 EUR, VAT included, status `onRequest`; no Sanity writes.
+- Homepage blog order: published landscape project article first, automatic irrigation pricing article second, newest different article third.
+- Code/test branch `feat/homepage-trust-conversion-2026-11-18`, PR #385. Exact head `8540c5ce0d357c5ba45d80d24bdedfabf409c239`; Preview deployment `33f58b6c-cd47-40c4-94f9-e51d2c0797f8` succeeded. Blog/Studio CI run `44236805677` and D1 run `44236805695` succeeded, including tests and Studio build.
+- No Sanity schema/data, Header/menu/Footer, checkout, D1 schema/data, Resend, Cloudflare settings/secrets changed. Production deployment is to be verified after PR merge.
+
 ## 2026-11-17 — Рулонна трева: публикация и inline-галерея (PR #376, #377)
 
 - PR #376 merged в `main`; runtime commit `c5f4446e48d6f2d554684d198a583313e7e744b6`. PR #377 merged; final photo-group correction commit `684effd6dc9819e21bddd1a5ce49f159c0ccfc7a`.
