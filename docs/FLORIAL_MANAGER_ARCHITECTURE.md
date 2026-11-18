@@ -625,5 +625,5 @@ Implementation:
 - The staff UI presents Seller with one plant-catalog permission. No rights to orders, staff, submission review/approval, publication administration, category SEO or service leads are implied.
 - Existing botanical AI availability for Owner, Manager and Seller remains unchanged; AI endpoints do not bypass the direct write checks.
 
-Audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime and tests are proposed in open PR #383. CI/browser role-matrix QA and Production deployment are not yet confirmed. No D1 schema/profile write, Sanity document/asset write or Production configuration change was made.
+Audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` passed Blog/Studio CI run `44210343032` and D1 CI run `44210343225`; browser role-matrix QA and Production deployment remain unconfirmed. No D1 schema/profile write, Sanity document/asset write or Production configuration change was made.
 
