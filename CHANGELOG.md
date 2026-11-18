@@ -1,3 +1,16 @@
+## 2026-11-18 — Статья о рулонном газоне в Слънчев бряг: обновление BG/RU/EN
+
+- По явному подтверждению владельца обновлён опубликованный Sanity Production документ `blogPost-kupete-travna-plosht`; slug и URL `/blog/kupete-travna-plosht` сохранены. Published revision: `4wsk3P4LWpbmPrrSdsLAZ6`.
+- До записи создан полный JSON backup исходного документа: `docs/backups/sanity/2026-11-18-kupete-travna-plosht-before-editorial-refresh.json`, commit `51fbea466e4eedf6af26d0341602d2fcbded6ed8`.
+- Все три локали обновлены до 76 Portable Text blocks каждая: BG/RU/EN — 11,324 / 10,168 / 10,321 знаков. Добавлены разделы о сезонности, подготовке грунта, доставке, укладке, поливе и укоренении, уходе, FAQ и запросе услуги.
+- Сохранены характеристики из исходной опубликованной статьи Florial: рулон 0.4 × 1.25 m (0.5 m²), толщина около 2 cm, масса 15–25 kg; палета 1 × 1.2 m, около 25 m² / 50 рулонов, 750–1,300 kg. Характеристики из DROP не переносились.
+- В статью добавлены три проверенных комплекта с текущими ценами incl. VAT: Super Economy 242.32 EUR, Economy 478.32 EUR, Standard 631.42 EUR. Указаны различия в ручном/автоматическом управлении, примерная конфигурация трёх участков, требование к источнику воды около 3 m³/h при 3.5 bar и исключённые из комплектации материалы.
+- Три статических изображения из предоставленной статьи DROP загружены в Sanity Production и размещены inline вместе с двумя прежними изображениями. Локализованные ALT BG/RU/EN заполнены; cover asset сохранён.
+- Контекстные ссылки ведут на активную услугу с формой заявки, монтаж автоматического полива, категорию поливного оборудования, категории деревьев/кустарников, цветов/роз и все растения, три комплекта и релевантные статьи. Сохранён тег `Тревни площи`; автоматические related-article cards отображаются после статьи.
+- Sanity beta validation: `valid`, `complete=false` из-за недоступных custom validation callbacks. Published query подтверждает 76 блоков и 5 inline images в каждой локали.
+- Production Firecrawl fetch BG/RU/EN: локализованные title/description, 9 изображений и 16 ссылок на каждой версии; размеры рулонов, цены комплектов и целевые категории присутствуют в тексте. Страница услуги с формой доступна по ссылке; реальная заявка не отправлялась.
+- Код, схема Sanity, Cloudflare Pages, D1, Resend, Header/menu/Footer и Production settings не менялись; отдельный build/deployment не требовался. Audit: `docs/audits/2026-11-18-kupete-travna-plosht-article-refresh.md`.
+
 ## 2026-11-18 — Обзор оборудования Rain Bird: обновление статьи BG/RU/EN
 
 - По явному подтверждению владельца обновлён существующий Sanity Production документ `blogPost-rain-bird-oborudvane`; slug и URL `/blog/rain-bird-oborudvane` сохранены. Published revision: `4wsk3P4LWpbmPrrSds5FQJ`.
