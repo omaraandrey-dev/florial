@@ -3,6 +3,7 @@
 - Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`).
 - Live Cloudflare Pages configuration has only public `VITE_POSTHOG_PROJECT_KEY`; no server-side personal API key exists. Existing values were not read. No Cloudflare secret, D1, or Production deployment was changed.
 - Feature is not operational/deployed until owner-approved least-privilege PostHog API key is configured and live API verification passes. See `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+- CI passed on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b`: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`. A subsequent documentation-only changelog commit records these results.
 
 ## 2026-11-18 — PostHog live ingestion and dashboard verification
 - Live PostHog EU project `349453` verified: five Florial event names observed; the private dashboard `1114600` now has six tiles (page views, categories/products, cart actions, languages, top pages, country map).
