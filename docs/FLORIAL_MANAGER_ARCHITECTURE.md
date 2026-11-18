@@ -619,7 +619,7 @@ Owner decision: `canCreatePlant` is the single Seller catalog-access switch. Whe
 
 Implementation:
 - Shared `hasPermission` derives Seller's `canEditPlantCard`, `canAddPlantVariant`, `canEditPlantPrice` and `canEditPlantStock` from `canCreatePlant`.
-- Direct create, card update, add-variant and image-upload endpoints enforce their corresponding permissions server-side.
+- Direct create, card update, add-variant and image-upload endpoints enforce their corresponding permissions server-side. The legacy `/api/manager/plant-catalog` route also uses the same normalized permission helper for variant/price requests, stock updates, approval and publication.
 - Catalog GET remains authenticated read access. The UI hides create controls and disables opening cards for editing when the role lacks the relevant write permission.
 - Manager permissions remain distinct: create uses `canCreatePlant`; direct card edit uses `canEditPlantCard`; dedicated variant addition uses `canAddPlantVariant`. Owner bypass remains unchanged.
 - The staff UI presents Seller with one plant-catalog permission. No rights to orders, staff, submission review/approval, publication administration, category SEO or service leads are implied.
