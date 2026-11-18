@@ -5,6 +5,7 @@
 - `BlogSection` distinguishes loading, empty, ready and failed requests and localizes its error state in BG/RU/EN.
 - Featured irrigation kit selection and plant starting-price calculation are shared pure helpers with direct Node tests. No dependencies added.
 - Exact PR head `f867101bb1785720b7bda39560463f036e2fcabd`: Blog/Studio run `44239849985`, D1 run `44239849955`, and Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70` — all success. Browser screenshot unavailable because the connected browser service had exhausted its credits.
+- PR #386 merged into `main` as `3186a4fad9213a538790d32f405f7a506c324495`. Cloudflare Pages Production deployment `a9f519e6-3606-4e64-af98-d5a363efdc9b` for that exact commit completed successfully; production domain: https://florial-bg.com.
 - Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`.
 
 ## 2026-11-18 — Homepage trust/conversion and selected irrigation equipment (PR #385)
