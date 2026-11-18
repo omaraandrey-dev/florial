@@ -8,21 +8,24 @@
 
 ## 1. Итог
 
-Этап 1 начат. Кодовая инвентаризация и чтение Search Console выполнены. Полное закрытие этапа пока невозможно: свежий первоначальный HTML Production и Google Rich Results validation не получены из-за недоступности браузерного источника в этой сессии.
+Этап 1 остаётся в работе. Кодовая инвентаризация, Search Console baseline и live Production HTML для двух представительных Product URL проверены. Обе страницы отдают HTTP 200 и содержат Product, BreadcrumbList и Organization JSON-LD; homepage содержит Organization и две GardenStore сущности. JSON-LD из начального HTML успешно разобран как JSON.
 
-Подтверждено:
-- Product JSON-LD уже реализован на сервере и на клиенте.
-- Для растений сервер использует цены `saleVariants`, а не устаревшую корневую `priceEUR`.
-- Search Console property `sc-domain:florial-bg.com` подключён к Windsor.ai.
-- Последний sitemap report: 1,327 submitted URLs, 0 errors, 0 warnings, last downloaded 2026-11-16.
-- Google Merchant Center connector существует в Windsor.ai, но подключённого аккаунта не возвращено.
+**Подтверждено:**
+- PR #407 Product Offer remediation опубликован в Production (runtime commit 458dd9d; Pages deployment 3deb2a5d).
+- Rain Bird и Kumquat Product JSON-LD присутствуют в live initial HTML.
+- Search Console URL Inspection для этих двух URL возвращает PASS, canonical совпадает, но последние Google crawl dates (5 и 9 ноября) предшествуют PR #407 deployment.
+- Sitemap: 1,327 submitted URLs, 0 errors, 0 warnings; last downloaded 2026-11-16.
+- Определено конкретное расхождение: после client hydration Product JSON-LD для Rain Bird теряет brand, присутствующий в server initial HTML.
 
-Не подтверждено:
-- Наличие или отсутствие отдельного Google Merchant Center аккаунта Florial.
-- Текущее содержимое первоначального Production HTML для представительных страниц.
-- Результаты Rich Results Test / Schema Markup Validator.
-- Google-selected canonical и URL Inspection для приоритетных страниц.
+**Остаётся не подтверждено:**
+- Полный post-deployment Schema.org Validator report.
+- Google Rich Results Test на Production в авторизованной сессии владельца.
+- Новый Google crawl после PR #407 deployment.
+- Точные GTIN/EAN и variant SKU: опубликованные Sanity данные их не содержат; не выдумывать.
+- Общие shipping/return policy values для структурированной разметки: требуется подтверждение актуальных бизнес-правил.
 
+Merchant Center аккаунт Florial подтверждён владельцем как ещё не зарегистрированный; создание аккаунта относится к более позднему этапу дорожной карты.
+ 
 ## 2. Проверенная версия проекта и scope
 
 - Репозиторий: `omaraandrey-dev/florial`.
@@ -32,6 +35,9 @@
 - Архитектура остаётся GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. В рамках аудита ничего в live сервисах не изменялось.
 
 ## 3. Product structured data — проверено по коду
+
+> Историческая оговорка: подразделы 3.1–3.4 ниже фиксируют baseline до merge PR #407. Исправления Offer из PR #407 опубликованы в Production. Текущее post-deployment состояние и выявленное новое расхождение server/client Product node описаны в разделе «Post-PR #407 Production verification» в конце файла.
+
 
 ### 3.1 Серверный HTML / middleware
 
