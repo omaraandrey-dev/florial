@@ -94,3 +94,13 @@ test('manager direct editor distinguishes variant, price and stock changes', () 
     added: true, priceChanged: true, stockChanged: true,
   })
 })
+
+test('removing an existing variant is not misclassified as a new variant or a price/stock change', () => {
+  const before = [
+    { _key: 'variant-0001', priceEUR: 10, stockStatus: 'inStock', stockQuantity: 2 },
+    { _key: 'variant-0002', priceEUR: 15, stockStatus: 'onRequest', stockQuantity: null },
+  ]
+  assert.deepEqual(getPlantVariantPermissionChanges(before, [before[0]]), {
+    added: false, priceChanged: false, stockChanged: false,
+  })
+})
