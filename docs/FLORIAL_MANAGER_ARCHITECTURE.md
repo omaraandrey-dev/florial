@@ -621,7 +621,7 @@ Implementation:
 - Shared `hasPermission` derives Seller's `canEditPlantCard`, `canAddPlantVariant`, `canEditPlantPrice` and `canEditPlantStock` from `canCreatePlant`.
 - Direct create, card update, add-variant and image-upload endpoints enforce their corresponding permissions server-side. The legacy `/api/manager/plant-catalog` route also uses the same normalized permission helper for variant/price requests, stock updates, approval and publication.
 - Catalog GET remains authenticated read access. The UI hides create controls and disables opening cards for editing when the role lacks the relevant write permission.
-- Manager permissions remain distinct: create uses `canCreatePlant`; direct card edit uses `canEditPlantCard`; dedicated variant addition uses `canAddPlantVariant`. Owner bypass remains unchanged.
+- Manager permissions remain distinct: create uses `canCreatePlant`; direct card edit uses `canEditPlantCard`; changing variant prices requires `canEditPlantPrice`; changing stock requires `canEditPlantStock`; direct variant addition requires `canAddPlantVariant` plus price and stock permissions. The editor disables protected controls and the PATCH endpoint rechecks the changed fields server-side. Owner bypass remains unchanged.
 - The staff UI presents Seller with one plant-catalog permission. No rights to orders, staff, submission review/approval, publication administration, category SEO or service leads are implied.
 - Existing botanical AI availability for Owner, Manager and Seller remains unchanged; AI endpoints do not bypass the direct write checks.
 
