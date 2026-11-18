@@ -1,3 +1,13 @@
+## 2026-11-18 — Olive article: rendered Production QA pending
+- Published Sanity Production document `blogPost-maslina-sredizemnomorie` has been refreshed in BG/RU/EN. Published read-back confirms revision `LtPyN36JxI5SIUpVnhPu66`, 79 Portable Text blocks, eight inline images and 15 internal links per locale.
+- Live rendered HTML/browser QA for BG/RU/EN is not confirmed. No content write or deployment is pending; verify rendering when browser access is available.
+- Audit and pre-write backup: `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md`, `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`.
+
+## 2026-11-18 — Plant category: rendered Production QA pending
+- Published Sanity Production category `plants-root` (dataset `plants`, slug `rastenia`) has updated BG/RU/EN descriptions, H1/metadata and 25 Portable Text blocks per locale; final revision `27yhFk6bgn0uNCdCySoa9D`.
+- Live rendered HTML/browser QA and Google recrawl/indexing are not confirmed. No content write or deployment is pending; verify the three localized routes when browser access is available.
+- Audit and pre-write backup: `docs/audits/2026-11-18-plants-root-editorial-refresh.md`, `docs/backups/sanity/2026-11-18-plants-root-before-editorial-refresh.json`.
+
 ## 2026-11-18 — Winter landscape article: rendered RU/EN QA pending
 
 - The existing blog post `blogPost-landshaften-proekt-zima-burgas` is published in Sanity Production with 69 Portable Text blocks and 8 inline images per locale. Localized titles, SEO fields, cover ALT, internal links and related-article tags were checked directly in Sanity.

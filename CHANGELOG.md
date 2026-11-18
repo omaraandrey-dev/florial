@@ -1,3 +1,28 @@
+## 2026-11-18 — Категория растений: редактура BG/RU/EN
+- В Sanity Production обновлён опубликованный корневой документ категории `plants-root` (dataset `plants`); slug `rastenia` и URL `/category/rastenia` сохранены. Финальная revision: `27yhFk6bgn0uNCdCySoa9D`.
+- Краткое описание и все 25 Portable Text блоков на каждом языке переписаны на BG/RU/EN; H1 сохранён, метаописания прямо указывают на продажу растений. 8 H2 на каждую локаль.
+- В тексте явно обозначена продажа растений в садовом центре Florial, сохранены локальные ориентиры и полезная информация о выборе растений для Черноморья. Визуальный live HTML и повторная индексация Google не подтверждены.
+- До записи создан полный backup: `docs/backups/sanity/2026-11-18-plants-root-before-editorial-refresh.json`; audit: `docs/audits/2026-11-18-plants-root-editorial-refresh.md`.
+- Только текстовые поля Sanity; код, схема, товары, изображения, маршруты, Cloudflare, D1 и Resend не менялись.
+
+## 2026-11-18 — Статья о пальмах: обновление BG/RU/EN
+- Опубликованный Sanity Production документ `blogPost-nov-vnos-palmi-2025` обновлён в трёх локалях; slug/URL `nov-vnos-palmi-2025` сохранены. Финальная revision: `LtPyN36JxI5SIUpVnhe2RC`.
+- 53 Portable Text блока и 6 inline-фотографий на каждую локаль; локализованы title, SEO, ALT и подписи. Пять новых Production assets добавлены в рамках согласованной работы.
+- Live rendered HTML BG/RU/EN проверен Cloudflare Browser Rendering; подтверждены заголовки, метаданные, изображения и ссылки на посадку растений и полив. Backup и audit: `docs/backups/sanity/2026-11-18-nov-vnos-palmi-2025-before-editorial-refresh.json`, `docs/audits/2026-11-18-nov-vnos-palmi-2025-article-refresh.md`.
+- Код, Sanity schema, D1, Cloudflare settings, Resend и глобальная навигация не менялись.
+
+## 2026-11-18 — Статья об оливе: обновление BG/RU/EN
+- Опубликованный Sanity Production документ `blogPost-maslina-sredizemnomorie` обновлён в трёх локалях; slug/URL `maslina-sredizemnomorie` сохранены. Финальная revision: `LtPyN36JxI5SIUpVnhPu66`.
+- 79 Portable Text блоков, 8 inline-изображений и 15 внутренних ссылок на каждую локаль; локализованы title, short description, SEO и cover ALT.
+- Live rendered HTML BG/RU/EN пока не подтверждён. Backup и audit: `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`, `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md`.
+- Код, схема, Cloudflare, D1, Resend, формы/API и глобальная навигация не менялись.
+
+## 2026-11-18 — Статья о рулонном газоне: обновление BG/RU/EN
+- Опубликованный Sanity Production документ `blogPost-prodavane-traven-chim` обновлён в трёх локалях; slug/URL сохранены. Финальная revision после исправления related-article link: `4wsk3P4LWpbmPrrSds85Io`.
+- 66 Portable Text блоков и 6 inline-фотографий на каждую локаль; добавлены актуальные комплекты полива и проверенные внутренние ссылки. Live Browser Rendering BG/RU/EN и мобильная ширина 390 px проверены; горизонтального переполнения не выявлено.
+- Два полных backup снимка и audit сохранены: `docs/backups/sanity/2026-11-18-blogPost-prodavane-traven-chim-before-editorial-refresh.json`, `docs/backups/sanity/2026-11-18-blogPost-prodavane-traven-chim-after-publication-before-related-link-correction.json`, `docs/audits/2026-11-18-rolled-turf-blog-article-refresh.md`.
+- Content-only изменение; код, схема, Cloudflare, D1, Resend и глобальная навигация не менялись.
+
 ## 2026-11-18 — Статья «Зимата в Бургас е чудесно време за ландшафтен дизайн»: обновление BG/RU/EN
 
 - По отдельному подтверждению владельца переработан опубликованный Sanity Production документ `blogPost-landshaften-proekt-zima-burgas`; slug и URL `/blog/landshaften-proekt-zima-burgas`, BG title, cover asset, publishedAt и isPublished сохранены. Финальная published revision: `QNgifPbO9FtDWOAbTv7vHo`.
