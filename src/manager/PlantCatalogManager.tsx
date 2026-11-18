@@ -14,7 +14,7 @@ type PlantForm={
 }
 type Category={_id:string;name:string;slug?:string;parentId?:string;parentName?:string}
 type ListItem={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;slug?:string;categoryId?:string;categoryName?:string;categoryParent?:string;thumbnail?:string;priceFromEUR:number|null;listStockStatus:string;variantCount:number;isActive?:boolean}
-type Props={role:Role}
+type Props={role:Role;permissions:{canCreatePlant:boolean;canEditPlantCard:boolean}}
 type RichTextOriginal={description:any;careGuide:any;translations:Record<string,any>}
 const stockLabels:Record<string,string>={inStock:'В наличност',onRequest:'По заявка',outOfStock:'Няма наличност',mixed:'Различна наличност'}
 const productTypes=[['plant','Растение'],['tree','Дърво'],['shrub','Храст'],['flower','Цвете'],['perennial','Многогодишно растение'],['indoor','Стайно растение'],['citrus','Цитрус'],['palm','Палма'],['conifer','Иглолистно растение'],['fruit','Плодово растение'],['succulent','Сукулент'],['climber','Катерливо растение'],['ornamentalGrass','Декоративна трева'],['groundcover','Почвопокривно растение'],['bulb','Луковично растение'],['herb','Билка'],['aquatic','Водно растение'],['other','Друг вид растение']]
@@ -41,7 +41,9 @@ const btn='rounded-xl px-4 py-3 text-sm font-semibold'
 const responseJson=async(response:Response)=>await response.json().catch(()=>({}))
 const money=(value:number|null)=>value==null?'Цена не указана':new Intl.NumberFormat('bg-BG',{style:'currency',currency:'EUR'}).format(value)
 
-export default function PlantCatalogManager({role}:Props){
+export default function PlantCatalogManager({role,permissions}:Props){
+ const canCreate=role==='owner'||permissions.canCreatePlant
+ const canEdit=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantCard)
  const [items,setItems]=useState<ListItem[]>([])
  const [categories,setCategories]=useState<Category[]>([])
  const [query,setQuery]=useState('')
@@ -332,7 +334,7 @@ export default function PlantCatalogManager({role}:Props){
     <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Управление на растенията · Показани: {items.length}</p></div>
     <div className="flex items-center gap-2">
      {role==='owner'&&<button className={btn+' min-h-11 border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
-     <button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>
+     {canCreate&&<button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>}
     </div>
    </div>
    <div className="sticky top-0 z-10 -mx-3 mb-3 space-y-2 border-y border-stone-200 bg-[#f5f6ef] px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
@@ -347,7 +349,7 @@ export default function PlantCatalogManager({role}:Props){
    {notice&&<div className="mb-3 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
    {loading?<div className="py-12 text-center text-stone-500">Зареждане на растенията…</div>:items.length===0?<div className="rounded-2xl border border-stone-200 bg-white p-8 text-center text-stone-500">Няма намерени растения.</div>:
     <div className="divide-y divide-stone-200 overflow-hidden rounded-2xl border border-stone-200 bg-white">
-     {items.map(item=><button key={item._id} onClick={()=>void openExisting(item._id)} className="flex w-full items-center gap-3 p-3 text-left transition hover:bg-lime-50 sm:gap-4 sm:p-4">
+     {items.map(item=><button key={item._id} type="button" disabled={!canEdit} onClick={()=>canEdit&&void openExisting(item._id)} className={'flex w-full items-center gap-3 p-3 text-left transition sm:gap-4 sm:p-4 '+(canEdit?'hover:bg-lime-50':'cursor-default')}>
       <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-stone-100">{item.thumbnail?<img src={item.thumbnail} alt="" className="h-full w-full object-cover"/>:<div className="flex h-full items-center justify-center text-xs text-stone-400">Без снимка</div>}</div>
       <div className="min-w-0 flex-1">
        <div className="line-clamp-2 font-semibold text-stone-900">{item.name}</div>
@@ -358,10 +360,10 @@ export default function PlantCatalogManager({role}:Props){
       <span className="text-xl text-stone-400">›</span>
      </button>)}
     </div>}
-   <div className="h-20 sm:hidden"/>
-   <div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
+   {canCreate&&<div className="h-20 sm:hidden"/>}
+   {canCreate&&<div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
     <button onClick={openNew} className="min-h-12 w-full rounded-xl bg-lime-800 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-lime-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2">＋ Добави растение</button>
-   </div>
+   </div>}
   </>}
   {editorOpen&&<>
    <div className="mb-4 flex items-center justify-between gap-3"><button className={btn+' border border-stone-300 bg-white'} onClick={()=>setEditorOpen(false)}>← Назад</button><h2 className="text-xl font-bold">{editingId?'Редактиране на растение':'Ново растение'}</h2><span className="w-16"/></div>
