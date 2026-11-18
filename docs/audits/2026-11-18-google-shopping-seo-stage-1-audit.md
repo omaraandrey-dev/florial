@@ -200,3 +200,12 @@ Google Rich Results Test и Schema Markup Validator не запускались.
 - В этом этапе не изменялись runtime source, Sanity data/schema, Cloudflare settings/secrets, D1, Resend, DNS, Google Merchant Center или Google Search Console settings.
 - Использовались read-only GitHub, Windsor.ai Search Console reads и source inspection.
 - Результаты не доказывают, что Google одобрил товарные расширенные результаты или проиндексировал все URL.
+
+
+## Дополнение 2026-11-18 — Preview deployment и попытка чтения HTML
+
+- Cloudflare PR comment подтверждает успешный Preview deployment для commit `3c529439fcd1ffeb90c186831f0aa824e3a42128`: deployment ID `a2375a36-2745-4a0d-adb3-06900da114bc`, Preview URL `https://a2375a36.florial.pages.dev`.
+- Это подтверждение публикации Preview, но не проверка HTML, Product JSON-LD, SSR/client parity или Production.
+- Web reader не смог открыть Preview URL для оборудования, кума-квата и категории пальм/юкк. Прямой сетевой fetch из доступной среды не разрешил домен. Firecrawl live balance: 0 credits, поэтому повторный scrape не выполнялся.
+- Подэтапы 1.5–1.6 остаются открытыми. Для их закрытия требуется доступный read-only HTML источник или ручной просмотр исходного HTML/результатов Rich Results Test владельцем с передачей результатов.
+- Никакие runtime-код и live-сервисы не менялись.
