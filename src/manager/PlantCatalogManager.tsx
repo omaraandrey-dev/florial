@@ -328,9 +328,12 @@ export default function PlantCatalogManager({role}:Props){
 
  return <div className="mx-auto max-w-5xl px-3 py-4 sm:px-5 sm:py-6">
   {!editorOpen&&!historyOpen&&<>
-   <div className="mb-4 flex items-center justify-between gap-3">
+   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
     <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Единое управление товарами · {items.length} в списке</p></div>
-    {role==='owner'&&<button className={btn+' border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
+    <div className="flex items-center gap-2">
+     {role==='owner'&&<button className={btn+' min-h-11 border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
+     <button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>
+    </div>
    </div>
    <div className="sticky top-0 z-10 -mx-3 mb-3 space-y-2 border-y border-stone-200 bg-[#f5f6ef] px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
     <input className={inputClass} value={query} onChange={event=>setQuery(event.target.value)} placeholder={role==='owner'?'Търсене по име, латинско име или артикул…':'Търсене по име или латинско име…'} aria-label="Търсене на растение"/>
@@ -354,9 +357,9 @@ export default function PlantCatalogManager({role}:Props){
       <span className="text-xl text-stone-400">›</span>
      </button>)}
     </div>}
-   <div className="h-20"/>
-   <div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mt-4 sm:border-0 sm:bg-transparent sm:p-0">
-    <button onClick={openNew} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white shadow-lg hover:bg-lime-900">＋ Добави растение</button>
+   <div className="h-20 sm:hidden"/>
+   <div className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:hidden">
+    <button onClick={openNew} className="min-h-12 w-full rounded-xl bg-lime-800 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-lime-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2">＋ Добави растение</button>
    </div>
   </>}
   {editorOpen&&<>
