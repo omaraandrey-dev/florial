@@ -8,7 +8,7 @@ Verified main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
 
 **The current main commit is green in GitHub Actions and successfully deployed to Cloudflare Pages Production.** There are no open PRs. The codebase is in a deployable state for this exact commit based on the recorded CI and Pages build/deploy evidence.
 
-This does not mean every repository-governance and environment-cleanup item is complete. The main branch is not protected, 415 non-main branch refs remain, and legacy Supabase-named variables still exist in Cloudflare Pages. No Production settings were changed.
+This does not mean every repository-governance and environment-cleanup item is complete. The main branch is not protected, 416 non-main branch refs remain, and legacy Supabase-named variables still exist in Cloudflare Pages. No Production settings were changed.
 
 ## 1. GitHub main
 
@@ -51,7 +51,7 @@ A browser-based functional smoke test was not part of this repository-readiness 
 
 - There are no open PRs.
 - All future work must start from the current main SHA.
-- The 415 non-main refs are historical and non-authoritative. They remain in GitHub for now; deleting them requires per-branch comparison and a GitHub action unavailable through the current connector.
+- The 416 non-main refs are historical and non-authoritative. They remain in GitHub for now; deleting them requires per-branch comparison and a GitHub action unavailable through the current connector.
 - Production deploys only from main. Cloudflare Preview currently includes all branches, so a later push to an old branch may create a Preview deployment but cannot change Production.
 
 ## 5. Production configuration caveats — unchanged
