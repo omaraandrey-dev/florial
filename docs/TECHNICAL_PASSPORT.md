@@ -1,3 +1,8 @@
+## 2026-11-18 — Google Shopping and SEO visibility roadmap opened
+- The active task plan is `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`. All future work in this workstream must consult that roadmap first, update its stage statuses and evidence, and continue from the earliest unfinished stage.
+- Stage-1 audit: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`. Current code has server and client Product JSON-LD; server-side Offer availability is incomplete relative to client logic for plants and onRequest products. Search Console last-28-day connector report: 336 page rows, 1,171 impressions, 66 clicks. Latest sitemap report: 1,327 submitted, zero errors/warnings, last downloaded 2026-11-16. Google Merchant Center connector is not connected in Windsor.ai; standalone account status is unknown.
+- Fresh live Product HTML, Rich Results validation and URL Inspection are pending; no production or external settings were changed in stage 1.
+
 ## 2026-11-18 — Manager PostHog analytics owner acceptance completed
 - The Manager PostHog analytics feature from PR #405 is deployed in Cloudflare Pages Production. The latest verified application source is `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`); the PostHog implementation itself entered Production with merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`).
 - On 18.11.2026 the owner personally checked the Manager analytics page and confirmed that PostHog analytics loads and displays correctly. This closes the live functional acceptance item. This is recorded as owner-confirmed browser acceptance; no independent browser session or secret value was captured by the assistant.
