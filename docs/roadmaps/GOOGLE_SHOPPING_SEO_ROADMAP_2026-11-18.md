@@ -41,35 +41,43 @@
 
 ### Этап 1. Инвентаризация и исходный аудит — В РАБОТЕ
 
-**Цель:** установить, что уже реализовано, что Google получает сейчас и какие конкретно пробелы мешают Merchant Listings / Shopping.
+**Цель:** установить, что уже реализовано, какие structured-data возможности поддерживаются текущей моделью каталога и какие подтверждённые пробелы мешают Merchant Listings / Shopping.
 
 Подэтапы:
 - [x] 1.1 Проверить актуальный `main`, открытые PR и обязательную документацию.
-- [x] 1.2 Проверить Product JSON-LD в серверном middleware, клиентском ProductPage, helper и тестах.
+- [x] 1.2 Проверить генерацию Product JSON-LD в серверном middleware, клиентском ProductPage, общем helper и тестах.
 - [x] 1.3 Проверить подключение Google Search Console и получить актуальные агрегированные показатели.
-- [x] 1.4 Проверить доступность Google Merchant Center connector через Windsor.ai.
-- [ ] 1.5 Получить свежий первоначальный HTML Production для представительных страниц оборудования, растения и категории; проверить совпадение SSR и client JSON-LD.
-- [ ] 1.6 Выполнить Google Rich Results Test / Schema Markup Validator для репрезентативных страниц.
-- [ ] 1.7 Сверить фактическую конфигурацию и статус sitemap в Google Search Console UI / доступных отчётах; определить URL Inspection возможности.
-- [ ] 1.8 Завершить audit report, зафиксировать перечень дефектов и закрыть этап.
+- [x] 1.4 Проверить доступность Google Merchant Center connector через Windsor.ai и уточнить статус аккаунта у владельца.
+- [x] 1.5 Проверить по исходникам, как формируется initial HTML/SSR Product JSON-LD и как клиентская разметка синхронизируется с ним. Получение отдельной копии сырого HTML не является обязательным предварительным условием для анализа и исправления генератора; runtime HTML остаётся отдельным live QA доказательством.
+- [ ] 1.6 После исправления Product Schema и доступного Preview/Production deployment выполнить Google Rich Results Test / Schema Markup Validator для репрезентативных страниц.
+- [ ] 1.7 Сверить актуальный sitemap report и выполнить доступные URL Inspection проверки в Google Search Console.
+- [ ] 1.8 Завершить audit report, зафиксировать результаты валидаторов, ограничения и подтверждённые решения.
 
-**Критерий завершения:** есть кодовый аудит, live HTML примеры, проверка внешним валидатором, актуальные Search Console показатели, статус Merchant Center (подключён / не подключён / неизвестен с объяснением), список подтверждённых дефектов и решений владельца.
+**Критерий завершения:** есть кодовый аудит, единый контракт Product Schema, тесты и CI, проверка Google Rich Results после публикации доступной версии, актуальные Search Console показатели, статус Merchant Center (аккаунт не создан — подтверждено владельцем), список подтверждённых дефектов и ограничений. Сырой HTML не считается обязательным входным артефактом для кодового аудита, но фактический runtime/Google fetch не объявляется проверенным без соответствующего live результата.
 
 **Первичный результат 18.11.2026:** см. [аудит этапа 1](../audits/2026-11-18-google-shopping-seo-stage-1-audit.md). Кодовый аудит и чтение Search Console завершены. Свежий Production HTML и Rich Results validation пока не подтверждены: Firecrawl подключение не выполнило запрос из-за исчерпанного лимита, а публичный web reader не смог открыть страницы Florial. Google Merchant Center connector в Windsor.ai доступен, но connected account не обнаружен; существование отдельного аккаунта Google Merchant Center этим не опровергается и не подтверждается.
 
-### Этап 2. Исправление и унификация Product Schema — ОЖИДАЕТ ЭТАП 1
+### Этап 2. Исправление и унификация Product Schema — В РАБОТЕ (приоритет изменён по указанию владельца 18.11.2026)
 
-Задачи:
-- Сформировать единый контракт Offer для server-side и client-side разметки.
-- Согласовать `availability` для inStock / outOfStock / onRequest и вариантов растений; не выдавать onRequest за PreOrder без коммерческого подтверждения.
-- Проверить `Offer` и `AggregateOffer` для вариантов с разными ценами; определить правила отображения варианта/диапазона.
-- Проверить обязательные и рекомендуемые Product-поля: name, image, description, sku, brand, price, priceCurrency, availability, url.
-- Проверить GTIN/MPN по фактическим данным Sanity; отсутствующие идентификаторы не генерировать.
-- Добавлять `shippingDetails` и `hasMerchantReturnPolicy` только после подтверждения владельцем точных условий и их применимости к конкретным типам товаров.
-- Добавить тесты для всех комбинаций dataset / stock / price / saleVariants и проверки SSR/client parity.
-- Прогнать официальные Google валидаторы и исправить реальные предупреждения/ошибки в рамках поддерживаемых типов.
+Владелец поручил сначала повторно оценить и при необходимости исправить Product Schema, а Rich Results Test запускать после исправлений. Это осознанное изменение последовательности относительно первоначального плана.
 
-Критерий завершения: серверная и клиентская разметка согласованы, тесты покрывают важные варианты, live HTML и Google validator подтверждают корректность; необязательные поля не заполнены выдуманными значениями.
+Подтверждённые решения и реализация в рабочей ветке:
+- Общая логика Offer вынесена в `src/lib/productJsonLd.mjs`; Cloudflare middleware и клиентский ProductPage используют один и тот же builder.
+- Для обычного оборудования сохраняется один `Offer` по корневой цене.
+- Для растения описывается только первый вариант — тот, который показывается как начальный вариант в initial HTML. Если у него нет корректной положительной цены, Offer не создаётся; цена другого варианта не подставляется вместо него.
+- Для `inStock` / `outOfStock` передаётся соответствующая availability. Для `onRequest` availability не указывается; автоматически превращать его в `PreOrder` нельзя.
+- `AggregateOffer` не используется для набора вариантов одного товара: Google прямо не рекомендует такую модель для product variants. Merchant listings требуют `Offer`; корректная расширенная модель вариантов — `ProductGroup` с отдельными вариантами.
+- `ProductGroup` пока не реализуется: read-only проверка опубликованного Sanity dataset `plants` показала 50 документов растений с `saleVariants` и 0 документов с непустым SKU хотя бы у одного варианта. В просмотренных данных SKU варианта пустой; кроме того, текущий маршрут не предоставляет отдельный crawlable URL для каждого варианта. Уникальные SKU/GTIN и отдельные URL нельзя выдумывать.
+- Добавлены тесты для цены начального варианта, отсутствия ложного fallback на другой вариант, availability и запрета `PreOrder` для `onRequest`.
+- CI и Cloudflare Preview для текущего PR head запущены; результат ожидается и не считается успешным до фактического завершения.
+
+Следующие задачи:
+- Завершить GitHub CI и Cloudflare Preview для точного head SHA.
+- Проверить diff и при необходимости скорректировать реализацию по результатам CI.
+- После доступной публикации выполнить Google Rich Results Test / Schema Markup Validator для оборудования и растений.
+- Проверить предупреждения/ошибки Google и отдельно зафиксировать будущую готовность ProductGroup.
+
+Критерий завершения: серверная и клиентская разметка используют общий Offer builder; цены и наличие соответствуют начальному предложению страницы; тесты и CI проходят; Google валидатор проверяет доступную опубликованную версию; отсутствующие GTIN/SKU/условия доставки и возврата не выдумываются.
 
 ### Этап 3. Merchant Center — готовность аккаунта и бизнес-правил
 
@@ -162,3 +170,14 @@
 - Попытка открыть три представительные Preview URL (оборудование, растение, категория) через публичный web reader завершилась ошибкой недоступности URL. Прямой сетевой fetch из доступной среды также не смог разрешить домен. Firecrawl account на момент проверки сообщает `remainingCredits: 0`; повторный scrape не запускался.
 - Поэтому подэтапы 1.5 и 1.6 остаются незавершёнными: фактический initial HTML/JSON-LD и Google Rich Results validation не получены. Preview deployment не подменяет эти доказательства.
 - Никакие runtime-файлы, Sanity, Cloudflare settings/secrets, Google accounts/settings или Production не изменялись.
+
+
+### 2026-11-18 — Повторная оценка Product Schema и решение владельца о последовательности
+
+- Владелец поручил не блокировать исправление схемы ожиданием отдельного HTML-файла: сначала проверить и исправить генератор Product JSON-LD, затем запускать Google Rich Results Test.
+- Кодовая проверка подтвердила server/client mismatch: server helper не указывал availability для plant variants и irrigation onRequest; client ProductPage указывал PreOrder для onRequest. Также server использовал AggregateOffer для нескольких plant saleVariants, тогда как client формировал Offer только для выбранного варианта.
+- Сверка с актуальными Google Search Central: AggregateOffer не следует использовать для описания набора product variants; для полноценной разметки вариантов предусмотрен ProductGroup. Для merchant listing Google требует Offer. См. официальные документы: Product snippet, Merchant listing и Product variant structured data.
+- Read-only Sanity Production (`bxvcy0qs`, dataset `plants`, perspective `published`): 50 документов содержат saleVariants; ни у одного документа не найден непустой SKU хотя бы у одного варианта. Поэтому ProductGroup пока нельзя реализовать без выдумывания идентификаторов. Текущая навигация не предоставляет отдельные crawlable URL для каждого варианта.
+- В рабочей ветке добавлен единый helper `src/lib/productJsonLd.mjs`, общий для middleware и ProductPage. Растения используют один Offer для первого/default варианта; невалидная/отсутствующая цена первого варианта не заменяется ценой другого размера. onRequest не преобразуется в PreOrder. Оборудование продолжает использовать root price и достоверный stockStatus.
+- Добавлены тесты на эти правила и общий builder. На текущем head `871315e178e7a0654d820cee66c243e00c75f4c3` GitHub CI запущен (Blog and Studio validation in_progress; D1 migration validation pending), Cloudflare Pages Preview сообщил Build in progress. Результаты пока не подтверждены.
+- Production, Sanity documents/schema, Cloudflare settings/secrets, Merchant Center и Search Console settings не менялись. PR #407 остаётся открытым; merge и Production deployment не выполнялись.
