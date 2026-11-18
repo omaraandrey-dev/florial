@@ -58,7 +58,10 @@ export function buildPostHogAnalytics(
   updatedAt = new Date().toISOString(),
 ): PostHogAnalytics {
   const eventCounts = new Map<string, number>()
-  for (const row of rows.events) eventCounts.set(String(row[0] || ''), count(row[1]))
+  for (const row of rows.events) {
+    const eventName = String(row[0] || '')
+    if ((POSTHOG_EVENTS as readonly string[]).includes(eventName)) eventCounts.set(eventName, count(row[1]))
+  }
   const totals = {
     page_views: eventCounts.get('florial_page_view') || 0,
     category_views: eventCounts.get('florial_category_view') || 0,
