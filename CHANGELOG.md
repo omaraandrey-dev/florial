@@ -1,3 +1,8 @@
+## 2026-11-18 — Finalized owner branch and dormant-variable policy (PR #401)
+- PR #401 squash-merged into `main`; merge commit `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
+- Current main HEAD after this documentation-only merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`. The last verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no runtime files changed in PR #401.
+- Open PR count after merge: 0.
+
 ## 2026-11-18 — Owner decisions: main-only authority and retained dormant variables
 - Documented that `main` is the sole authoritative Florial branch; all other refs are historical/auxiliary and do not require further inventory, comparison or cleanup. New work starts from current `main`; Production deploys from `main`.
 - Recorded the owner's confirmation that Cloudflare Pages legacy `SUPABASE_*` / `VITE_SUPABASE_*` variables are intentionally retained dormant reserves, unused by active Florial. They must not be removed, changed, read or re-audited unless a separate future activation decision is made.
