@@ -24,6 +24,14 @@ Follow-up to the read-only homepage audit and owner approval. Code-only changes;
 - `tests/homepage-conversion.test.mjs`
 - `tests/homepage-featured.test.mjs`
 
+## Exact-head validation
+
+- PR head: `f867101bb1785720b7bda39560463f036e2fcabd`.
+- Blog/Studio workflow run `44239849985`: TypeScript/Pages Functions typecheck, Oxlint, all Node tests (311 total), website build, migration syntax/dry-run, Studio typecheck and Studio build — success.
+- D1 validation run `44239849955`: lint, website build, Pages Functions syntax and migration validations — success.
+- Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70`, branch `fix/homepage-cleanup-2026-11-18`, exact commit above — success. Preview URL: https://b041d7ac.florial.pages.dev.
+- Screenshot/browser rendering could not be captured because the connected browser service had no remaining credits; do not claim visual QA from this run.
+
 ## Safety and verification
 
 - No Sanity documents, schemas, or assets changed.
