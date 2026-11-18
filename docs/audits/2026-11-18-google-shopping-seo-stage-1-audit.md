@@ -209,3 +209,76 @@ Google Rich Results Test и Schema Markup Validator не запускались.
 - Web reader не смог открыть Preview URL для оборудования, кума-квата и категории пальм/юкк. Прямой сетевой fetch из доступной среды не разрешил домен. Firecrawl live balance: 0 credits, поэтому повторный scrape не выполнялся.
 - Подэтапы 1.5–1.6 остаются открытыми. Для их закрытия требуется доступный read-only HTML источник или ручной просмотр исходного HTML/результатов Rich Results Test владельцем с передачей результатов.
 - Никакие runtime-код и live-сервисы не менялись.
+
+
+## 10. Повторная оценка Product Schema — 18.11.2026
+
+### 10.1 Решение владельца о последовательности
+
+Владелец указал сначала повторно проверить и при необходимости исправить Product Schema, а Google Rich Results Test выполнять после исправлений. Получение отдельной копии исходного HTML не является обязательным предварительным условием для анализа кода генератора. При этом анализ исходников не подменяет проверку того, что Google получает от реально опубликованного URL.
+
+### 10.2 Проверка требований Google
+
+Проверены актуальные документы Google Search Central:
+
+- Product snippet: https://developers.google.com/search/docs/appearance/structured-data/product-snippet
+- Merchant listing: https://developers.google.com/search/docs/appearance/structured-data/merchant-listing
+- Product variants: https://developers.google.com/search/docs/appearance/structured-data/product-variants
+
+Важные требования:
+- Google прямо указывает не использовать `AggregateOffer` для описания набора вариантов одного товара.
+- Для merchant listing требуется `Offer`; `AggregateOffer` не является подходящей моделью для merchant listings.
+- Для полноценного описания вариантов Google предусматривает `ProductGroup`, связанные `Product` и отдельные `Offer`.
+- Для variant markup требуются уникальные идентификаторы вариантов и crawlable URL, позволяющие выбрать каждый вариант.
+- Availability — рекомендуемое поле Offer; значения должны соответствовать фактическому статусу. Нельзя автоматически считать `onRequest` предзаказом.
+
+### 10.3 Read-only проверка опубликованного Sanity plants dataset
+
+Источник: Sanity project `bxvcy0qs`, dataset `plants`, perspective `published`; deployed schema type `plantSaleVariant`.
+
+- GROQ count: 50 опубликованных документов `product` содержат `saleVariants`.
+- GROQ count: 0 документов имеют хотя бы один вариант с непустым `saleVariants[].sku`.
+- Поле `sku` предусмотрено в schema `plantSaleVariant`, но не является обязательным.
+- Просмотренная выборка подтверждает наличие variant name, saleHeightCm, containerVolumeL, priceEUR и stockStatus; значения SKU вариантов в выборке пустые.
+- В текущем приложении `initialSaleVariantKey` — внутреннее состояние SPA. Отдельный crawlable URL для каждого варианта в текущем маршруте не подтверждён.
+
+Следствие: ProductGroup для всех plant variants сейчас нельзя реализовать без добавления реальных уникальных идентификаторов и URL. Не использовать Sanity `_key` как выдуманный SKU/GTIN и не генерировать MPN.
+
+### 10.4 Изменения Product JSON-LD в рабочей ветке
+
+Изменения ограничены GitHub source; Production и live Sanity не менялись.
+
+- Добавлен общий helper `src/lib/productJsonLd.mjs`.
+- `functions/_lib/productJsonLd.mjs` экспортирует функции из общего helper; middleware продолжает использовать тот же интерфейс.
+- `src/pages/ProductPage.tsx` импортирует тот же `buildProductOffer`, чтобы сервер и клиент не реализовывали Offer независимо.
+- Equipment: один Offer по опубликованной корневой цене; availability добавляется только для `inStock` и `outOfStock`.
+- Plants: один Offer только для первого/default варианта, который показывается при начальной загрузке. Если у этого варианта нет корректной положительной цены, Offer не формируется; цена следующего варианта не подставляется.
+- Plants: availability отражает статус первого/default варианта только для `inStock` / `outOfStock`; для `onRequest` поле опускается.
+- `PreOrder` для `onRequest` удалён. До отдельного подтверждения коммерческой политики эти состояния не считаются эквивалентными.
+- `AggregateOffer` больше не используется для saleVariants.
+
+### 10.5 Тесты и текущая проверка CI
+
+В `tests/google-seo-schema.test.mjs` обновлены и добавлены проверки:
+- Offer первого/default plant variant;
+- отсутствие fallback на цену другого варианта, если у первого нет цены;
+- запрет AggregateOffer для набора plant variants;
+- корректные InStock / OutOfStock / onRequest;
+- общий builder используется и в ProductPage, и через middleware helper.
+
+Текущий проверяемый кодовый head до последующего документационного коммита: `871315e178e7a0654d820cee66c243e00c75f4c3`.
+На момент записи:
+- GitHub Actions Blog and Studio validation: run `44355221560`, `in_progress`;
+- GitHub Actions D1 migration validation: run `44355221606`, `pending`;
+- Cloudflare Pages PR Preview для commit `871315e`: Build in progress.
+Эти статусы не являются доказательством успешной сборки. После обновления roadmap и audit необходимо повторно получить актуальные head SHA и результаты CI/Preview.
+
+### 10.6 Что остаётся открытым
+
+- Дождаться и проверить CI и Cloudflare Preview для точного актуального head.
+- Выполнить Google Rich Results Test / Schema Markup Validator после доступного deployment; сохранить фактические результаты.
+- Проверить Search Console sitemap и доступные URL Inspection сведения.
+- Этапы 1 и 2 не закрыты.
+- ProductGroup остаётся будущей отдельной задачей после подготовки реальных уникальных SKU/GTIN и crawlable URL для каждого варианта.
+
+Production, Sanity schema/documents, Cloudflare settings/secrets, D1, Resend, Merchant Center и Search Console settings не изменялись. PR #407 открыт, не merged.
