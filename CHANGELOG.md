@@ -1,6 +1,6 @@
 ## 2026-11-18 — Статья «Зимата в Бургас е чудесно време за ландшафтен дизайн»: обновление BG/RU/EN
 
-- По отдельному подтверждению владельца переработан опубликованный Sanity Production документ `blogPost-landshaften-proekt-zima-burgas`; slug и URL `/blog/landshaften-proekt-zima-burgas`, BG title, cover asset, publishedAt и isPublished сохранены. Финальная published revision: `LtPyN36JxI5SIUpVnhLU9S`.
+- По отдельному подтверждению владельца переработан опубликованный Sanity Production документ `blogPost-landshaften-proekt-zima-burgas`; slug и URL `/blog/landshaften-proekt-zima-burgas`, BG title, cover asset, publishedAt и isPublished сохранены. Финальная published revision: `QNgifPbO9FtDWOAbTv7vHo`.
 - До любых Sanity write создан полный snapshot исходного документа: `docs/backups/sanity/2026-11-18-landshaften-proekt-zima-burgas-before-editorial-refresh.json`; backup commit `23b7c8cf02fc18138fa3927dfefc3a78b8168f7c`.
 - BG/RU/EN полностью переписаны отдельными Portable Text версиями: 69 блоков каждая; 11,739 / 10,914 / 11,142 знаков. Добавлены разделы о зимнем планировании, анализе участка, зонировании, выборе деревьев и кустарников, хвойных, цветущих кустарников и цветов, поливе, настилах, газоне, этапах проекта и заявке.
 - Сохранена локальная направленность на Бургас, Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие, Кошарица и Каблешково. Используется коммерческое позиционирование «градински център Флориал»; упоминания ландшафтной студии и неподтверждённая акция 20% удалены.
