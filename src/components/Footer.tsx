@@ -70,21 +70,33 @@ export function Footer() {
                 ? 'Florial Landscape has been operating since 2000. We care for gardens through landscaping, planting, turf installation and automatic irrigation.'
                 : language === 'ru'
                   ? 'Florial Landscape работает с 2000 года. Мы занимаемся благоустройством и озеленением: ландшафтным дизайном, посадками, рулонным газоном и автоматическим поливом.'
-                  : 'Florial Landscape работи от 2000 г. Предлагаме ландшафтен дизайн, засаждане, изграждане на тревни площи с готови чимове и автоматично напояване.'}
+                  : 'Florial Landscape работи от 2000 г. Предлагаме ландшафтно проектиране, озеленяване, засаждане, полагане на тревен чим и изграждане на автоматизирани поливни системи.'}
             </p>
             <a href={localizedHref('/about', language)} className={`${linkClass} mt-2 font-semibold text-emerald-800`}>
               {language === 'en' ? 'About us' : language === 'ru' ? 'О компании' : 'За нас'}
             </a>
-            <a
-              href="https://www.facebook.com/share/19guUXVgFC/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook — Florial"
-              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition hover:text-emerald-800"
-            >
-              <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1877F2] text-sm font-extrabold text-white">f</span>
-              Facebook
-            </a>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a
+                href="https://www.facebook.com/share/19guUXVgFC/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook — Florial"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition hover:text-emerald-800"
+              >
+                <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1877F2] text-sm font-extrabold text-white">f</span>
+                Facebook
+              </a>
+              <a
+                href="https://www.instagram.com/florial_garden?utm_source=qr&avpt=MXVobno2Nnlqa3k4Mw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram — Florial"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition hover:text-emerald-800"
+              >
+                <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-600 via-rose-500 to-amber-400 text-base font-extrabold text-white">◎</span>
+                Instagram
+              </a>
+            </div>
           </section>
 
           <details className={sectionClass}>
@@ -99,8 +111,11 @@ export function Footer() {
               <a href={localizedHref('/contacts', language)} className={linkClass}>
                 {language === 'en' ? 'Contacts and consultation' : language === 'ru' ? 'Контакты и консультация' : 'Контакти и консултация'}
               </a>
-              <a href={localizedHref('/', language)} className={linkClass}>
-                {language === 'en' ? 'Online shop' : language === 'ru' ? 'Интернет-магазин' : 'Онлайн магазин'}
+              <a href={localizedHref('/category/rastenia', language)} className={linkClass}>
+                {language === 'en' ? 'Online plant shop' : language === 'ru' ? 'Интернет-магазин растений' : 'Онлайн магазин за растения'}
+              </a>
+              <a href={localizedHref('/category/vsichko-za-polivane', language)} className={linkClass}>
+                {language === 'en' ? 'Online irrigation equipment shop' : language === 'ru' ? 'Интернет-магазин оборудования для полива' : 'Онлайн магазин за поливно оборудване'}
               </a>
             </div>
           </details>
