@@ -3641,3 +3641,12 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Существующая доступность botanical AI для Owner/Manager/Seller сохранена; AI generation сама по себе не даёт права записывать карточку.
 - Реализация и тесты: PR #383, audit `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` прошёл Blog/Studio CI run `44210343032` и D1 CI run `44210343225`; website/Studio builds, typechecks, lint, utility tests and migration validations — success. Browser role-matrix QA остаётся открытым; Production release не подтверждён. D1 schema/data и Sanity documents/assets не менялись.
 
+
+
+## 2026-11-18 — Responsive Footer redesign (PR pending)
+
+- Footer presentation changed without modifying global site shell or navigation: mobile contact actions remain immediately visible; three information groups use native disclosure elements; tablet layout uses two columns and desktop layout four groups.
+- `src/components/Footer.tsx` retains BG/RU/EN labels, phone/WhatsApp destinations, contact tracking, localized internal links, Facebook and analytics privacy-settings event. `src/components/Footer.css` expands disclosure content on desktop while leaving it collapsible on mobile.
+- The links `/services`, `/contacts`, `/about`, `/privacy-policy`, `/withdrawal` and `/terms` were checked against application routing and existing Footer behavior.
+- No Sanity, D1, Cloudflare configuration/secrets, Resend, Header, navigation, or Production changes. CI/build and visual browser QA are pending; do not infer Production status from this code change.
+- Follow-up verified read-only against published Sanity roots: plants dataset category slug `rastenia` (document `plants-root`) and production equipment category slug `vsichko-za-polivane` (document `7f6eaa30-8085-4fae-be3c-1209a0c50fc6`). `src/App.tsx` resolves `/category/:slug`; footer links preserve language using `localizedHref`. Instagram profile link supplied by owner is added alongside Facebook. BG catalog labels and company copy reviewed for natural Bulgarian wording.

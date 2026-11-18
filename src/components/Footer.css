@@ -1,0 +1,13 @@
+@media (min-width: 768px) {
+  .footer-disclosure > summary {
+    pointer-events: none;
+  }
+
+  .footer-disclosure > summary > span {
+    display: none;
+  }
+
+  .footer-disclosure:not([open]) > .footer-disclosure-content {
+    display: block;
+  }
+}

@@ -3491,3 +3491,14 @@ Backups:
 - Main now contains confirmed site-context validation/classification, optional evaluator/generator integration, TypeScript declarations, regression tests and the stage-7 audit.
 - Exact code CI passed: Blog/Studio `43855876224`, D1 `43855891392`; later documentation-only PR head Blog/Studio `43860117598`, D1 `43856450266` also passed. No Production deployment or live-service writes.
 - Engineering workstream remains paused after stage 7. Stage 8 overspray-aware candidate optimization and all documented engineering validation gates remain open.
+
+
+## 2026-11-18 — Responsive Footer redesign (PR pending)
+
+- Переработан публичный Footer: мобильная версия использует компактный верхний блок CTA (звонок и WhatsApp), затем раскрывающиеся группы; на планшете — две колонки, на desktop — четыре информационные группы.
+- Устранено визуальное повторение крупного контактного CTA и длинного списка ссылок: номера, WhatsApp, адрес и юридические ссылки собраны в соответствующие разделы; география обслуживания и copyright вынесены в нижнюю строку.
+- Сохранены локали BG/RU/EN, существующие телефонные номера и WhatsApp URL, локализованные href, tracking events, Facebook URL и событие открытия настроек аналитики.
+- Ссылки на «Всички услуги», «Контакти» и «За нас» используют проверенные маршруты приложения. Не добавлялись неизвестные slug категорий/услуг.
+- Затронуты `src/components/Footer.tsx` и новый `src/components/Footer.css`. Sanity, D1, Cloudflare settings/secrets, Resend, Header, основное меню и маршрутизация не изменялись.
+- Проверка: код и маршруты сверены с `main` SHA `1716996c487c3dbfa6995b4eaa7a617cb90ad480`; локальная сборка/тесты и CI ещё не подтверждены. Production deployment не выполнялся.
+- Дополнение по замечаниям владельца: добавлена ссылка Instagram `https://www.instagram.com/florial_garden`; вместо общей ссылки на главную добавлены отдельные ссылки на опубликованные корневые категории растений (`/category/rastenia`, Sanity plants) и поливного оборудования (`/category/vsichko-za-polivane`, Sanity production). Подписи локализованы BG/RU/EN; BG: «Онлайн магазин за растения», «Онлайн магазин за поливно оборудване». Описание компании вычитано и уточнено на естественном болгарском языке.
