@@ -969,7 +969,7 @@ export default function App() {
     const featuredEquipmentQuery = `
       *[_type == "product" && isActive != false && references("6709cd41-18c6-4c5f-bc27-90d55d685dec") &&
         stockStatus != "outOfStock" && defined(coalesce(slug.current, slug)) &&
-        defined(mainImage.asset) && defined(priceEUR) && priceEUR > 0] | order(priceEUR asc, name asc)[0...4] {
+        defined(mainImage.asset) && defined(priceEUR) && priceEUR > 0] | order(priceEUR asc, name asc)[0...20] {
           _id, name,
           "slug": { "current": coalesce(slug.current, slug) },
           translations { bg { name }, ru { name }, en { name } },
@@ -979,7 +979,13 @@ export default function App() {
         }
     `
     sanityClient.fetch(featuredEquipmentQuery)
-      .then((data: Product[]) => { if (!cancelled) setHomeFeaturedEquipment(Array.isArray(data) ? data : []) })
+      .then((data: Product[]) => {
+        if (cancelled) return
+        const products = Array.isArray(data) ? data : []
+        const regularPicks = products.filter((product) => product.slug?.current !== 'komplekt-polivane-5x5' && product.slug?.current !== 'komplekt-avtomatizatsiya-6-zoni').slice(0, 3)
+        const sixZoneKit = products.find((product) => product.slug?.current === 'komplekt-avtomatizatsiya-6-zoni')
+        setHomeFeaturedEquipment(sixZoneKit ? [...regularPicks, sixZoneKit] : regularPicks)
+      })
       .catch((error) => {
         if (cancelled) return
         console.error('Homepage: не удалось загрузить выбранное оборудование:', error)
