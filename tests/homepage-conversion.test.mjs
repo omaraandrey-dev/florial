@@ -79,8 +79,8 @@ test('homepage delegates featured plant pricing to the tested pure helper', asyn
 
 test('homepage uses one main landmark for all primary sections', async () => {
   const home = await read('../src/pages/HomePage.tsx')
-  assert.equal((home.match(/<main\\b/g) || []).length, 1)
-  assert.equal((home.match(/<\\/main>/g) || []).length, 1)
+  assert.equal((home.match(/<main\b/g) || []).length, 1)
+  assert.equal((home.match(/<\/main>/g) || []).length, 1)
   assert.match(home, /<BlogSection \/>/)
 })
 
@@ -89,5 +89,6 @@ test('homepage blog distinguishes loading, empty and failed requests', async () 
   assert.match(blog, /status === 'loading'/)
   assert.match(blog, /status === 'error'/)
   assert.match(blog, /status === 'empty'/)
+  assert.match(blog, /status === 'ready'/)
   assert.match(blog, /setStatus\(nextPosts\.length \? 'ready' : 'empty'\)/)
 })
