@@ -32,6 +32,12 @@ Follow-up to the read-only homepage audit and owner approval. Code-only changes;
 - Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70`, branch `fix/homepage-cleanup-2026-11-18`, exact commit above — success. Preview URL: https://b041d7ac.florial.pages.dev.
 - Screenshot/browser rendering could not be captured because the connected browser service had no remaining credits; do not claim visual QA from this run.
 
+## Production release
+
+- PR #386 merged into `main` as `3186a4fad9213a538790d32f405f7a506c324495`.
+- Cloudflare Pages Production deployment `a9f519e6-3606-4e64-af98-d5a363efdc9b` for that exact commit completed successfully.
+- Production URL: https://florial-bg.com.
+
 ## Safety and verification
 
 - No Sanity documents, schemas, or assets changed.
