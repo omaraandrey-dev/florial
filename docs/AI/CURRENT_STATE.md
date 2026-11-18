@@ -22,16 +22,15 @@
 
 ## Latest verified main / CI / Production
 
-- Current GitHub `main` HEAD after the documentation-policy merge: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d` (documentation-only PR #401).
-- Latest verified application/CI/Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; the commits after it in this snapshot are documentation-only and do not change runtime code.
-- Open PRs: **0**.
-- GitHub Actions on this exact SHA:
-  - [Blog and Studio validation #44301545917](https://github.com/omaraandrey-dev/florial/actions/runs/44301545917) — success. Includes npm ci, TypeScript, lint, tests, website build, migration dry-run and Sanity Studio typecheck/build.
-  - [Florial D1 migration validation #44301545919](https://github.com/omaraandrey-dev/florial/actions/runs/44301545919) — success. Includes lint/build, Pages Functions syntax and migration checks.
-- Cloudflare Pages Production deployment: `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f`, exact source commit `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; queued, initialize, clone, build and deploy stages all succeeded. Aliases: `florial-bg.com`, `www.florial-bg.com`.
-- Live Pages project is connected to GitHub repo `omaraandrey-dev/florial`; Production branch `main`; build command `npm run build`; output `dist`; Pages Functions are enabled.
-- Deployment success proves build/publication for this commit; it does not replace browser QA or functional acceptance tests.
-
+- Latest verified application/Production source commit: `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`. PR #405 (Manager PostHog analytics) and PR #403 (15 Bulgarian plant category editorial updates plus audit/backups) are both merged. Documentation-only status updates do not change this runtime baseline; no open PRs after integration.
+- PR #405 runtime implementation was merged at `a7da7916d2fc728432f116f395cc16038b0258ce`; the subsequent PR #403 merge is documentation/backups only and leaves that runtime unchanged.
+- GitHub Actions on exact current main SHA `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`:
+  - Blog and Studio validation run `44321010828` — success.
+  - D1 migration validation run `44321010791` — success.
+  - Cloudflare Pages check run `134859953008` — success.
+- Cloudflare Pages Production deployment: `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`, URL `https://3edf0d48.florial.pages.dev`, exact source commit `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; queued, initialize, clone, build and deploy stages all succeeded. Production aliases remain `florial-bg.com` and `www.florial-bg.com`.
+- PostHog Manager feature was introduced by PR #405 and deployed in Production. The owner personally confirmed on 18.11.2026 that the Manager analytics page loads and displays PostHog data correctly; functional acceptance is complete. Cloudflare metadata confirms server secret `POSTHOG_API_KEY` as `secret_text`; its value was not read. Keep this credential server-side.
+- Deployment success proves build/publication for this commit. Manager PostHog functional acceptance was separately confirmed by the owner in Production on 18.11.2026. Other unrelated visual/browser QA items remain tracked separately.
 ## Git branches and release governance
 
 - GitHub returned 417 branch refs including `main`; 416 refs are non-main historical branches (including this cleanup branch). No open PRs.
@@ -48,6 +47,7 @@
 
 ## Current work boundaries / pending verification
 
+- Manager PostHog on-demand analytics is deployed and owner-accepted. The owner confirmed successful PostHog data display in Manager Production on 18.11.2026.
 - The irrigation engineer assistant is intentionally paused after stage 7; PR #349 is merged. Do not begin stage 8 without the owner's explicit request.
 - Live rendered HTML QA is still pending for the refreshed plant root category and olive article BG/RU/EN; winter landscape article RU/EN rendering also remains pending. Published Sanity read-back is not the same as browser rendering.
 - Service hreflang projection, Manager Gemini smoke, irrigation product SEO inventory refresh, Google Search Console indexing checks and matched performance measurements remain listed in [OPEN_QUESTIONS](OPEN_QUESTIONS.md).

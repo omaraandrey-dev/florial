@@ -1,3 +1,9 @@
+## 2026-11-18 — Manager PostHog analytics owner acceptance completed
+- The Manager PostHog analytics feature from PR #405 is deployed in Cloudflare Pages Production. The latest verified application source is `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`); the PostHog implementation itself entered Production with merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`).
+- On 18.11.2026 the owner personally checked the Manager analytics page and confirmed that PostHog analytics loads and displays correctly. This closes the live functional acceptance item. This is recorded as owner-confirmed browser acceptance; no independent browser session or secret value was captured by the assistant.
+- Cloudflare Production metadata had previously confirmed the server-only secret name `POSTHOG_API_KEY` (`secret_text`); its value was never read or changed. Successful owner-side data display confirms the configured end-to-end integration for the tested session. Keep the credential server-side; never expose it in browser code.
+- PR #406 completes this documentation update. No runtime code, Cloudflare settings/secrets, D1, Sanity or Resend were changed as part of closing the documentation task.
+
 ## 2026-11-18 — Bulgarian editorial review of 15 plant categories
 - Reviewed and published BG copy updates for 15 remaining plant categories in Sanity Production, dataset `plants`: clearer online-shop and garden-centre purchase CTAs, more natural Bulgarian phrasing, and correction of the indoor-plants H1.
 - Preserved IDs, slugs, product references/counts, images, product data, help-block service links and RU/EN content. The two categories with zero linked products (groundcovers and indoor plants) use enquiry/availability wording rather than implying current listed stock.
@@ -5,12 +11,12 @@
 - Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
 - Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
 
-## 2026-11-18 — Manager on-demand PostHog integration (pending credential and release)
+## 2026-11-18 — Manager on-demand PostHog integration (deployed and owner-accepted)
 - Added a separate authenticated Manager endpoint and UI block for on-demand PostHog summaries; D1 analytics remains unchanged. The feature covers the five live-confirmed events, daily page views, top paths, languages and approximate countries, with five-minute isolate cache.
 - Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`, preferred, or `POSTHOG_API_KEY`, supported alias).
-- Read-only Cloudflare Pages Production metadata confirms a server-side secret named `POSTHOG_API_KEY` (`secret_text`) in addition to public `VITE_POSTHOG_PROJECT_KEY`; its value was not read. The endpoint supports this alias. Credential validity and `query:read` scope await live API verification. No Cloudflare setting or secret was changed by this check.
-- Feature implementation is pending merge/deployment and live PostHog Query API verification. See `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
-- CI passed on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b`: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`. A subsequent documentation-only changelog commit records these results.
+- Read-only Cloudflare Pages Production metadata confirms a server-side secret named `POSTHOG_API_KEY` (`secret_text`) in addition to public `VITE_POSTHOG_PROJECT_KEY`; its value was not read. The endpoint supports this alias. The owner confirmed that Manager successfully loads and displays PostHog data in Production on 18.11.2026, completing end-to-end functional acceptance. No Cloudflare setting or secret was changed by this check.
+- PR #405 is merged in `main` at `a7da7916d2fc728432f116f395cc16038b0258ce`; Production deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6` succeeded. PR #403 subsequently merged documentation/backups at latest verified Production source commit `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`, deployed as `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`. The Manager PostHog feature is deployed and owner-accepted: the owner confirmed successful authenticated Manager data display in Production on 18.11.2026. See `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+- Final PR-head CI passed on `721be4649fcdcd4ccfe6d31b05d7e1393046ba60`; merged-main CI passed on `a7da7916d2fc728432f116f395cc16038b0258ce` (runs `44320480655`, `44320480547`) and current main `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (runs `44321010828`, `44321010791`).
 
 ## 2026-11-18 — PostHog live ingestion and dashboard verification
 - Live PostHog EU project `349453` verified: five Florial event names observed; the private dashboard `1114600` now has six tiles (page views, categories/products, cart actions, languages, top pages, country map).
