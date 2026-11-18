@@ -1,7 +1,7 @@
 import { checkSameOrigin, hasPermission, json, newId, requireUser, type ManagerEnv } from '../../_lib'
 import { appendPlantGalleryImage, appendPlantSaleVariant, validatePlantAddVariantRequest, verifyPlantSaleVariant } from '../../plant-duplicate-lib.mjs'
 import {
-  auditSnapshot, cleanText, errorJson, parseJsonBody, requirePlantRole,
+  auditSnapshot, cleanText, errorJson, parseJsonBody,
   safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit,
 } from '../../plant-direct-lib'
 
