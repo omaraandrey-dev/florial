@@ -42,3 +42,12 @@ No Sanity documents or assets were written. No schema deployment was performed.
 - Cloudflare Pages Preview deployment `05cdea4f-4e5e-43e5-9e82-c1cc5ed9ed39` succeeded for the same code/test head. Preview alias: `https://feat-homepage-trust-conversi.florial.pages.dev`.
 - Automated checks passed. Independent screenshot/browser visual QA has not been completed; owner review of the Preview remains the visual acceptance step.
 - Shared CHANGELOG, Technical Passport and OPEN_QUESTIONS updates are deferred to the coordinated documentation integration pass because several other open PRs still modify those shared files.
+
+
+## Owner review correction — 2026-11-18
+
+- Both hero category-image links are reduced by 20%: mobile width is 80% (capped at 208px) and desktop width is 208px. They remain centered in their row/stack.
+- “Повече за нас” is again a plain underlined text link, not a button; keyboard focus indication remains.
+- In the featured irrigation equipment list, the standard 5 × 5 m kit (slug `komplekt-polivane-5x5`, document `3070fd7b-16a6-4659-830c-5ee1618f832f`) is excluded. The six-zone automation kit (slug `komplekt-avtomatizatsiya-6-zoni`, document `080906b4-a5c0-4c6f-a44e-2240a46a08f6`) is explicitly selected as the fourth card after the three lowest-priced other eligible kits. Its published price is 431.92 EUR, VAT included, status `onRequest`, and its published image is used. Both documents belong to the ready-made irrigation kits category. This is read-only verification; no Sanity data was changed.
+- Regression tests now cover the narrower CTAs, plain About link, exclusion of the standard 5 × 5 m kit and explicit inclusion of the six-zone automation kit.
+- Final CI/Preview checks and merge status will be recorded after validation.
