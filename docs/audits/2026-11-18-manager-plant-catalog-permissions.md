@@ -43,4 +43,8 @@ The existing all-role botanical AI availability is unchanged; AI output does not
 
 ## Validation status
 
-Implementation is on the open PR #383 branch. Exact-head GitHub Actions, typecheck/build, and browser role-matrix QA are pending. Do not merge or claim Production availability until CI and the required review are complete.
+Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` passed exact-head GitHub Actions:
+- Blog and Studio validation run `44210343032`: application/Pages Functions typecheck, lint, website utility tests, website build, migration syntax/read-only dry-run, Studio typecheck and Studio build — all success.
+- D1 migration validation run `44210343225`: lint, website build, Pages Functions syntax and additive migration validations — all success.
+- Browser role-matrix QA and authenticated live Seller/Manager sessions remain unverified. PR #383 remains open and unmerged; no Production deployment is claimed.
+Subsequent documentation-only synchronization does not change runtime/test code.
