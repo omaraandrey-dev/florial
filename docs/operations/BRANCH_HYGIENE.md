@@ -1,56 +1,40 @@
-# Florial — Git branch hygiene and source-of-truth policy
+# Florial — main branch authority and historical refs
 
-Snapshot: 2026-11-18  
+Policy updated: 2026-11-18  
 Repository: `omaraandrey-dev/florial`  
-Default branch: `main`
+Main branch: `main`
 
-## Verified inventory
+## Authoritative branch
 
-- GitHub branch listing returned **417 refs total**, including `main`; therefore **416 non-main refs** (including this cleanup branch) existed at this snapshot.
-- Open Pull Requests: **0**.
-- The repository default branch is `main`.
-- GitHub branch metadata reports `main` as `protected=false`; the repository rulesets query returned an empty list. The branch-protection details endpoint was not accessible to the connected integration. Treat `main` as not protected until the owner verifies and configures it.
-- Cloudflare Pages Production is configured to deploy from `main`. Preview deployment setting includes all branches (`*`).
+**`main` is the only main, authoritative and permanent branch of Florial.** GitHub code, project documentation and technical decisions are considered current only when present in the latest `main` HEAD.
 
-## What the branch list means
+Cloudflare Pages Production deploys from `main`. A non-main branch does not become a Production source merely because it exists or receives a push.
 
-The 416 non-main refs are historical working branches, checkpoints, content/audit branches and earlier feature experiments. They are **not** current project baselines and must not be used as the starting point for new work.
+## Other branches
 
-A branch name alone does not prove its contents are merged. Some refs may contain unique commits, recovery checkpoints or paused engineering work. They have not been deleted or force-updated in this cleanup. The current GitHub connector exposes no branch-delete operation, and a bulk deletion without a branch-by-branch comparison would be unsafe.
+All non-main branches are classified as historical or auxiliary refs. The owner has decided that no further branch-by-branch inventory, comparison, recovery exercise or cleanup is required for ordinary project work.
 
-## Explicit source-of-truth rules
+- Do not inspect, compare, resume, merge or delete old branches as routine maintenance.
+- Do not use an old branch as the base for new work.
+- Start each new task from the current live `main` HEAD.
+- Return to a particular historical branch only when the owner explicitly names it and asks to recover or inspect it.
+- Existing historical refs may remain in GitHub indefinitely. Their presence alone is not an open task, a release blocker or evidence of unmerged work.
 
-1. **Only `main` is authoritative.** Always fetch its live HEAD before any new technical work.
-2. Create every new working branch from the exact current `main` SHA.
-3. Do not resume an old `feat/*`, `feature/*`, `fix/*`, `content/*`, `design/*`, `docs/*`, `audit/*`, `perf/*`, `test/*` or other non-main branch just because it exists.
-4. Before reusing an old branch, compare it with current `main`, inspect its unique commits and changed files, check whether its PR was merged/closed, and reconcile any useful work through a fresh branch from main.
-5. Preserve `backup/*`, `checkpoint/*` and `stable/*` refs until their recovery value is individually reviewed. Do not treat a code checkpoint as a Sanity or D1 data backup.
-6. The irrigation engineer assistant is an intentionally paused workstream after stage 7. PR #349 is merged into main at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`; stage 8 must not start without explicit owner approval.
-7. After a PR is merged, its source branch is no longer an active development baseline. Delete it manually in GitHub only after verifying the merge commit and confirming it is not a recovery checkpoint or a separately paused workstream.
+## New work and shared documentation
 
-## Recommended GitHub main protection
+1. Fetch the current `main` HEAD before creating a working branch.
+2. Create the working branch from that exact SHA.
+3. Keep shared documentation changes consolidated: `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/OPEN_QUESTIONS.md`, `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
+4. Before merge, check the exact PR diff, current base/head, mergeability and overlapping changes.
+5. After merge, verify the resulting `main` and update documentation as required.
 
-The owner should configure a branch ruleset for `main`:
+## Repository governance
 
-- Require a pull request before merging; disallow direct pushes.
-- Require successful checks: `Blog and Studio validation` and `Florial D1 migration validation`.
-- Require the branch to be up to date before merge.
-- Block force pushes and deletion of `main`.
-- Require conversation resolution.
-- Prefer squash merges for the repository's documented one-PR/one-change history; disable merge commits/rebase merges if the owner wants one consistent history.
+The GitHub metadata check on 2026-11-18 reported `main.protected=false` and no repository rulesets. This is separate from branch authority: `main` remains the sole source of truth regardless. The owner may configure branch protection in GitHub settings if desired; this is not a reason to inspect or clean historical refs.
 
-The current integration cannot create or update GitHub branch rulesets. This is an owner-side repository setting, not a code change.
+## Status
 
-## Deployment impact
-
-- Old refs do not change Production by themselves. Cloudflare Pages Production is tied to `main`.
-- Because Preview includes all branches, a future push to an old branch may create a Preview deployment. It does not make that branch Production.
-- Do not change the Cloudflare Preview pattern or delete old refs as part of this documentation cleanup.
-
-## Cleanup status
-
-- Open PR queue: clean (0).
-- Source of truth: clear (`main` only).
-- Non-main refs: retained as historical; not individually audited for unique unmerged commits and not deleted.
-- Main protection: owner action still required.
-- Next work: always branch from current `main`; do not use any old branch as a base.
+- Main authority: established.
+- Non-main refs: historical/auxiliary; intentionally retained and ignored in routine work.
+- Branch-by-branch cleanup: not required by owner decision.
+- Production source: `main`.

@@ -1,3 +1,9 @@
+## 2026-11-18 — Owner decisions: main-only authority and retained dormant variables
+- Documented that `main` is the sole authoritative Florial branch; all other refs are historical/auxiliary and do not require further inventory, comparison or cleanup. New work starts from current `main`; Production deploys from `main`.
+- Recorded the owner's confirmation that Cloudflare Pages legacy `SUPABASE_*` / `VITE_SUPABASE_*` variables are intentionally retained dormant reserves, unused by active Florial. They must not be removed, changed, read or re-audited unless a separate future activation decision is made.
+- Updated the active instructions, start guide, work protocol, current-state handoff, open questions, branch policy and release-readiness record to remove contradictory cleanup/audit tasks.
+- Documentation-only policy clarification. No source code, Cloudflare settings/secrets, Sanity, D1, Resend or Production configuration changed.
+
 ## 2026-11-18 — Repository release readiness and documentation cleanup
 - Verified current `main` HEAD `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; open PR count 0.
 - Exact-SHA GitHub Actions passed: Blog and Studio run `44301545917`; D1 validation run `44301545919`.

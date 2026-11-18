@@ -8,7 +8,7 @@ Verified main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`
 
 **The current main commit is green in GitHub Actions and successfully deployed to Cloudflare Pages Production.** There are no open PRs. The codebase is in a deployable state for this exact commit based on the recorded CI and Pages build/deploy evidence.
 
-This does not mean every repository-governance and environment-cleanup item is complete. The main branch is not protected, 416 non-main branch refs remain, and legacy Supabase-named variables still exist in Cloudflare Pages. No Production settings were changed.
+This readiness audit is a baseline for the verified commit. By owner decision dated 2026-11-18, non-main refs are historical/auxiliary and require no further inventory or cleanup. Legacy Supabase-named Cloudflare variables are intentionally retained dormant reserves and require no removal or repeat audit. The optional GitHub branch-protection setting is separate from the fact that main is the sole authoritative branch.
 
 ## 1. GitHub main
 
@@ -51,24 +51,22 @@ A browser-based functional smoke test was not part of this repository-readiness 
 
 - There are no open PRs.
 - All future work must start from the current main SHA.
-- The 416 non-main refs are historical and non-authoritative. They remain in GitHub for now; deleting them requires per-branch comparison and a GitHub action unavailable through the current connector.
+- Non-main refs are historical/auxiliary and intentionally remain in GitHub. Per owner decision, no per-branch comparison or deletion is required; ignore them in ordinary work.
 - Production deploys only from main. Cloudflare Preview currently includes all branches, so a later push to an old branch may create a Preview deployment but cannot change Production.
 
 ## 5. Production configuration caveats — unchanged
 
-- Cloudflare Pages Production and Preview still contain legacy variable names `SUPABASE_*` / `VITE_SUPABASE_*`. The current root `package.json` contains no Supabase SDK dependency. A complete current-main source/workflow/runtime reference audit is still required before declaring every variable unused.
-- No variable names, values, secrets, bindings or settings were changed. Secret values are not included in this report.
-- Do not remove these variables without a complete reference audit and separate explicit owner approval.
+- Owner confirmed on 2026-11-18 that legacy variable names `SUPABASE_*` / `VITE_SUPABASE_*` remaining in Cloudflare Pages Production/Preview are intentionally retained dormant reserves, unused by the active Florial project.
+- Do not remove, change, read or re-audit these values solely because they exist. They are not an active integration. Revisit only under a separate owner-approved future Supabase activation decision.
 - Preview is not a production-equivalent environment; it does not expose the same D1/server-side bindings. Do not use it for Manager/orders acceptance without a separately approved safe setup.
 
 ## 6. Remaining owner / engineering gates
 
 1. Configure GitHub branch protection for main: require PR, both successful checks, up-to-date branch, block force-push/delete.
-2. Decide whether to perform a reviewed manual cleanup of old branches. Do not bulk-delete.
-3. Complete the Supabase variable usage audit; then present a separate removal plan for owner approval.
-4. Recheck live D1 migration ledger/schema before the next migration; resolve the historical 0014/table-count discrepancy.
-5. Complete pending browser QA for refreshed category/articles and other items listed in [OPEN_QUESTIONS.md](../AI/OPEN_QUESTIONS.md).
-6. Keep the irrigation engineer assistant paused after stage 7 until explicitly resumed.
+2. Optional: owner may configure GitHub branch protection for main; this is repository governance, not a prerequisite to treating main as authoritative.
+3. Recheck live D1 migration ledger/schema before the next migration; resolve the historical 0014/table-count discrepancy.
+4. Complete pending browser QA for refreshed category/articles and other items listed in [OPEN_QUESTIONS.md](../AI/OPEN_QUESTIONS.md).
+5. Keep the irrigation engineer assistant paused after stage 7 until explicitly resumed.
 
 ## 7. Scope and non-changes
 
