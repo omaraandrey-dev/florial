@@ -15,7 +15,7 @@ This does not mean every repository-governance and environment-cleanup item is c
 - Default branch: `main`.
 - Exact HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`.
 - Open Pull Requests at verification: **0**.
-- Branch refs: 416 total including main; 415 non-main refs remain.
+- Branch refs: 417 total including main; 416 non-main refs remain (including this cleanup branch).
 - GitHub branch metadata: `main.protected=false`; repository rulesets query: empty.
 - Branch protection details endpoint returned 403 to the connected integration; it could not inspect the full settings. The branch listing flag and empty rulesets are sufficient to treat protection as not configured.
 - Historical branch refs were not deleted because the integration exposes no branch-delete action and unique commits/checkpoints were not individually audited. Full policy: [BRANCH_HYGIENE.md](BRANCH_HYGIENE.md).
