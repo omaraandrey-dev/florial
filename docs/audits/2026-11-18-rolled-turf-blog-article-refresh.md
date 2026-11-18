@@ -56,7 +56,7 @@
 - Проверка DOM на BG подтвердила H1, десять изображений (обложка, шесть inline и три related cards), двенадцать ссылок в статье/навигации.
 - В трёх локалях изображения имеют локализованные ALT; три product links, три category links, related-article links и service CTA присутствуют в DOM.
 - Product/category/service target pages были открыты в live browser; у трёх product pages, трёх category pages, двух blog articles и service page отображаются ожидаемые H1. У service page присутствуют поля заявки `name`, `phone`, `email`, `location`, `details`.
-- Реальная заявка не отправлялась. Google recrawl/indexing не проверялись. Не выполнялись Lighthouse/PageSpeed измерения или formal visual/mobile audit.
+- На мобильной ширине 390 px в BG/RU/EN подтверждены H1 и 10 изображений; `document.documentElement.scrollWidth <= innerWidth` во всех трёх локалях. Полный визуальный, accessibility и screenshot review не выполнялся. Реальная заявка не отправлялась. Google recrawl/indexing не проверялись. Lighthouse/PageSpeed измерения не выполнялись.
 
 ## Границы изменений
 
