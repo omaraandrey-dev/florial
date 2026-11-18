@@ -7,18 +7,18 @@
 - Document ID: `blogPost-etapi-montazh-avtomatichna-polivna-instalatsiya`
 - Slug / route: `etapi-montazh-avtomatichna-polivna-instalatsiya` / `/blog/etapi-montazh-avtomatichna-polivna-instalatsiya`
 - Original published revision: `wShFcTvKnRduO9ho4JbXhm`
-- Final published revision: `4wsk3P4LWpbmPrrSds0zpZ`
+- Final published revision after the Bulgarian length correction: `4wsk3P4LWpbmPrrSds1QnC`
 - Existing ID, slug, public URL, publication date (`2024-08-22T13:35:50.217Z`), published state and cover asset were preserved.
 
 ## Backup
 
-- Complete pre-edit published document snapshot: `docs/backups/sanity/2026-11-18-installation-stages-before-editorial-refresh.json`
+- Complete pre-edit published document snapshot: `docs/backups/sanity/2026-11-18-installation-stages-before-editorial-refresh.json`\n- Complete snapshot of the first refreshed published revision before the Bulgarian length correction: `docs/backups/sanity/2026-11-18-installation-stages-before-bg-length-correction.json`
 - Backup was created and read back from GitHub before any Sanity document write.
 - Backup includes project, dataset, published perspective, document ID, original revision and the complete original Sanity document.
 
 ## Editorial changes
 
-- Rebuilt all three language bodies as Portable Text: 44 blocks each (BG, RU, EN), including real H2 blocks, paragraphs, bullet lists, inline link annotations and image blocks.
+- Rebuilt all three language bodies as Portable Text, including real H2 blocks, paragraphs, bullet lists, inline link annotations and image blocks. Final counts: BG 50 blocks / 1,249 words; RU 44 blocks / 760 words; EN 44 blocks / 934 words. The pre-edit article had 1,142 BG words, 417 RU words and 476 EN words, so every language version is now at least as long as its previous version.
 - BG is the primary editorial version. RU and EN are independently adapted, not literal translations.
 - Content now covers site survey, plant-specific watering needs, measured flow and dynamic pressure, zoning, equipment selection, site marking, trench routing, pipe/cable installation, solenoid valves, sprinklers, drip irrigation, controller/pump/water source, commissioning and adjustment.
 - Trench depth is deliberately not presented as a universal fixed value. It is determined by the project, pipe/cable type, surface, loading, soil and site conditions.
@@ -52,7 +52,7 @@ All five images are embedded inline at relevant article stages, with BG/RU/EN AL
 ## Validation and live verification
 
 - Sanity document validation: status `valid`; result is incomplete because the validation tool does not execute custom validation callbacks. Built-in schema checks ran.
-- Published Sanity read-back confirmed final revision, 44 body blocks and five inline images in each language, localized title/SEO/short description, preserved cover, slug, publication date and published state.
+- Published Sanity read-back confirmed final revision `4wsk3P4LWpbmPrrSds1QnC`, 50 BG / 44 RU / 44 EN body blocks, five inline images in each language, localized title/SEO/short description, preserved cover, slug, publication date and published state. The second write was preceded by a separate full snapshot of the first refreshed revision and the additional BG paragraphs were validated before publishing.
 - Fresh Production HTML retrieval (`maxAge=0`) succeeded for BG, RU and EN:
   - `<html lang>` correctly reports bg/ru/en.
   - Each page renders its localized H1.
