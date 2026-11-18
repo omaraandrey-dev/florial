@@ -1,0 +1,1186 @@
+{
+  "backupType": "sanity-document-before-editorial-refresh",
+  "createdAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "documentId": "plants-root",
+  "sourcePerspective": "published",
+  "sourceRevision": "mCiJ6j1PmqLVq15csfnJ1Z",
+  "document": {
+    "_createdAt": "2026-10-20T11:44:58Z",
+    "_id": "plants-root",
+    "_rev": "mCiJ6j1PmqLVq15csfnJ1Z",
+    "_system": {
+      "base": {
+        "id": "plants-root",
+        "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+      }
+    },
+    "_type": "category",
+    "_updatedAt": "2026-11-15T09:25:24Z",
+    "description": "Каталогът на Florial обединява растения за градината, терасата, двора и професионалното озеленяване: декоративни дървета и храсти, иглолистни видове, цветя и рози, многогодишни и сезонни растения, декоративни треви, маслини, цитруси, палми и екзотични видове. Използвайте подкатегориите, за да стесните избора според вида растение и мястото на засаждане. При подбора съобразете осветеността, почвата, наличното пространство и сезонните условия, както и необходимостта от поливане. За участъци на Черноморското крайбрежие е важно да се отчетат вятърът, горещото лято и зимните температури. Към растенията можете да подберете и система за автоматично поливане.",
+    "helpBlock": {
+      "buttonLabel": "Професионално засаждане и консултация",
+      "buttonUrl": "/services/zasazhdane-na-rasteniya",
+      "text": "В каталога ще откриете дървета, храсти, иглолистни, цветя, рози, маслини, палми, цитруси и други декоративни растения. Започнете избора от условията на мястото: слънце или сянка, почва, свободно пространство, вятър и минимални зимни температури. По Черноморието микроклиматът се различава между откритите крайбрежни терени и защитените дворове, затова видът трябва да е съобразен с конкретния имот. Florial предлага консултация, доставка и професионално засаждане в Несебър, Равда, Слънчев бряг и Бургас.",
+      "title": "Растения за градини, дворове и професионално озеленяване",
+      "translations": {
+        "en": {
+          "buttonLabel": "Professional planting and advice",
+          "text": "The catalogue includes trees, shrubs, conifers, flowers, roses, olive trees, palms, citrus and other ornamental plants. Start with the site conditions: sun or shade, soil, available space, wind exposure and minimum winter temperatures. Along the Black Sea coast, conditions differ between exposed waterfront plots and sheltered courtyards, so each species should suit the individual property. Florial offers advice, delivery and professional planting in Nessebar, Ravda, Sunny Beach and Burgas.",
+          "title": "Plants for gardens, courtyards and professional landscaping"
+        },
+        "ru": {
+          "buttonLabel": "Профессиональная посадка и консультация",
+          "text": "В каталоге представлены деревья, кустарники, хвойные, цветы, розы, оливы, пальмы, цитрусовые и другие декоративные растения. Начните подбор с условий участка: солнце или тень, тип почвы, свободное пространство, ветер и минимальные зимние температуры. На побережье микроклимат отличается на открытых прибрежных площадках и в защищённых дворах, поэтому вид нужно подбирать под конкретный объект. Florial предлагает консультацию, доставку и профессиональную посадку в Несебре, Равде, Солнечном Береге и Бургасе.",
+          "title": "Растения для садов, дворов и профессионального озеленения"
+        }
+      }
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Растения за градини, дворове и озеленяване по Южното Черноморие",
+      "altEn": "Plants for gardens, yards and landscaping on Bulgaria’s southern Black Sea coast",
+      "altRu": "Растения для садов, участков и озеленения Южного Черноморья",
+      "asset": {
+        "_ref": "image-611be152eca54582ad91030b2d86b2c180369796-1200x896-jpg",
+        "_type": "reference"
+      },
+      "title": "Растения за градини в района от Поморие до Свети Влас",
+      "titleEn": "Garden plants in the area from Pomorie to Sveti Vlas",
+      "titleRu": "Растения для садов в районе от Поморие до Свети-Власа"
+    },
+    "name": "Всички растения",
+    "seo": {
+      "h1": "Растения за градината, двора и терасата",
+      "keywords": [
+        "Всички растения",
+        "растения за градината",
+        "декоративни растения",
+        "озеленяване",
+        "градински център Florial"
+      ],
+      "metaDescription": "Продажба на декоративни дървета, храсти, цветя, палми, маслини и други растения в Несебър, Равда и по Южното Черноморие. Доставка и професионално озеленяване.",
+      "metaTitle": "Всички растения | Несебър | Градински център Флориал",
+      "suggested": {
+        "generatedAt": "2026-11-05T09:55:34.389Z",
+        "generatorVersion": "assistant-editorial-v1",
+        "h1": "Растения за градината, двора и терасата",
+        "metaDescription": "Растения за градини, дворове и тераси: декоративни дървета и храсти, цветя, маслини, цитруси, палми и екзотични видове.",
+        "metaTitle": "Растения за градината и озеленяването | Florial",
+        "status": "approved"
+      }
+    },
+    "seoContent": [
+      {
+        "_key": "bg01",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs01",
+            "_type": "span",
+            "marks": [],
+            "text": "Растения за вашата градина – градински център Florial в Несебър"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg02",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs02",
+            "_type": "span",
+            "marks": [],
+            "text": "В градински център Florial ще откриете разнообразие от декоративни растения за дворове, градини, тераси, хотели и професионално озеленяване. Предлагаме палми, маслини, декоративни дървета, храсти, иглолистни и широколистни растения, цветя и много други видове, с които можете да създадете красива и уютна зелена среда."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg03",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs03",
+            "_type": "span",
+            "marks": [],
+            "text": "Нашата цел е да предложим не просто отделни растения, а възможност да изградите цялостна градина, съобразена с вашия вкус, пространство и условията на българското Черноморие."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg04",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs04",
+            "_type": "span",
+            "marks": [],
+            "text": "Палми, маслини и средиземноморски растения"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg05",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs05",
+            "_type": "span",
+            "marks": [],
+            "text": "Палмите и маслиновите дървета са сред най-предпочитаните растения за създаване на средиземноморска атмосфера. Те придават характер на дворове, хотелски комплекси, ресторанти и просторни тераси."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg06",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs06",
+            "_type": "span",
+            "marks": [],
+            "text": "В нашия каталог ще откриете различни видове палми, юки и маслини, включително едроразмерни и оформени екземпляри. При избора е важно да се съобразят размерът на растението, изложението, устойчивостта на студ и необходимостта от зимна защита."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg07",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs07",
+            "_type": "span",
+            "marks": [],
+            "text": "Цветя, отгледани в нашите оранжерии"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg08",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs08",
+            "_type": "span",
+            "marks": [],
+            "text": "Една от особеностите на Florial е, че отглеждаме цветя в собствените си оранжерии. Полагаме грижи за растенията още по време на отглеждането им, преди да достигнат до нашите клиенти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg09",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs09",
+            "_type": "span",
+            "marks": [],
+            "text": "Предлагаме цветя за градински лехи, бордюри, балкони, тераси и декоративни композиции. Асортиментът включва сезонни цветя, многогодишни цъфтящи растения и рози. Можете да комбинирате различни цветове и видове, за да създадете цъфтяща градина през различните сезони."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs10",
+            "_type": "span",
+            "marks": [],
+            "text": "Иглолистни и широколистни дървета"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs11",
+            "_type": "span",
+            "marks": [],
+            "text": "Иглолистните растения са подходящи за вечнозелени огради, живи плетове, декоративни групи и оформяне на градинското пространство. Предлагаме различни видове туи, кипариси и други иглолистни дървета и храсти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs12",
+            "_type": "span",
+            "marks": [],
+            "text": "Широколистните дървета създават естествена сянка, обем и сезонно разнообразие. Те могат да бъдат използвани като самостоятелни акценти, за оформяне на алеи или за цялостно озеленяване на по-големи имоти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs13",
+            "_type": "span",
+            "marks": [],
+            "text": "Декоративни храсти и растения за озеленяване"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs14",
+            "_type": "span",
+            "marks": [],
+            "text": "В асортимента ни ще откриете декоративни и цъфтящи храсти, растения за жив плет, почвопокривни видове, декоративни треви и многогодишни растения. Те позволяват да се оформят красиви градински композиции, цветни групи, зелени огради и естествени преходи между различните зони на двора."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs15",
+            "_type": "span",
+            "marks": [],
+            "text": "Предлагаме също цитрусови и екзотични растения, както и видове за отглеждане в саксии и на тераси."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs16",
+            "_type": "span",
+            "marks": [],
+            "text": "Едроразмерни растения и солитери"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs17",
+            "_type": "span",
+            "marks": [],
+            "text": "За представителни градини и проекти, при които е необходим незабавен визуален ефект, предлагаме солитери и едроразмерни растения. Това са дървета и декоративни екземпляри с характерна форма, които могат да се превърнат в основен акцент на градината още след засаждането."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs18",
+            "_type": "span",
+            "marks": [],
+            "text": "При избора им е важно да се съобразят размерите, достъпът за доставка, мястото за засаждане и необходимите грижи след пресаждането."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg19",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs19",
+            "_type": "span",
+            "marks": [],
+            "text": "Растения, подходящи за българското Черноморие"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs20",
+            "_type": "span",
+            "marks": [],
+            "text": "Климатът по Черноморието има своите особености – силни ветрове, солен морски въздух, горещи летни периоди и зимни застудявания. Затова при избора на растения е важно да се вземат предвид конкретното местоположение, изложението, почвата, дренажът и устойчивостта на съответния вид."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs21",
+            "_type": "span",
+            "marks": [],
+            "text": "В Florial се стремим да помагаме на клиентите да изберат растения, съобразени с условията на техния имот в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие и околните населени места."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg22",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs22",
+            "_type": "span",
+            "marks": [],
+            "text": "От растенията до готовата градина"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "bg23",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs23",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial предлага не само растения, но и допълнителни решения за създаване и поддържане на красиви зелени пространства. Можете да се възползвате от нашите услуги за ландшафтен дизайн, озеленяване, засаждане на растения, проектиране и монтаж на автоматични поливни системи."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg24",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs24",
+            "_type": "span",
+            "marks": [],
+            "text": "Предлагаме и оборудване за напояване, с което да осигурите правилните условия за развитие на растенията и по-лесна поддръжка на градината."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "bg25",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "bgs25",
+            "_type": "span",
+            "marks": [],
+            "text": "Изберете растенията за вашата градина от Florial! Разгледайте категориите и открийте подходящите дървета, храсти, цветя и декоративни растения. Нашият градински център е в района на Несебър, а екипът ни е готов да ви помогне при избора на растения за вашия двор, тераса или проект за озеленяване."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "slug": {
+      "_type": "slug",
+      "current": "rastenia"
+    },
+    "sortOrder": 1,
+    "translations": {
+      "en": {
+        "description": "The Florial catalogue brings together plants for gardens, terraces, yards and professional landscaping: ornamental trees and shrubs, conifers, flowers and roses, perennial and seasonal plants, ornamental grasses, olive trees, citrus plants, palms and exotic species. Use the subcategories to narrow your choice by plant type and planting location. Consider sunlight, soil, available space, seasonal conditions and watering needs. In coastal areas of Bulgaria, take wind, hot summers and winter temperatures into account. You can also choose an automatic irrigation system to suit your plants.",
+        "name": "All Plants",
+        "seo": {
+          "h1": "Plants for Gardens, Yards and Terraces",
+          "keywords": [
+            "All Plants",
+            "garden plants",
+            "ornamental plants",
+            "landscaping plants",
+            "Florial"
+          ],
+          "metaDescription": "Sale of ornamental trees, shrubs, flowers, palms, olive trees and more in Nessebar, Ravda and Bulgaria’s Southern Black Sea coast. Delivery and professional landscaping.",
+          "metaTitle": "All Plants | Nessebar | Florial Garden Center",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Plants for Gardens, Yards and Terraces",
+            "metaDescription": "Plants for gardens, yards and terraces, including ornamental trees, shrubs, flowers, olive trees, citrus, palms and exotic species.",
+            "metaTitle": "Plants for Gardens and Landscaping | Florial",
+            "status": "approved"
+          }
+        },
+        "seoContent": [
+          {
+            "_key": "en01",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens01",
+                "_type": "span",
+                "marks": [],
+                "text": "Plants for Your Garden — Florial Garden Centre in Nessebar"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en02",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens02",
+                "_type": "span",
+                "marks": [],
+                "text": "At Florial Garden Centre, you can discover a wide range of ornamental plants for gardens, yards, terraces, hotels and professional landscaping. Our selection includes palms, olive trees, ornamental trees and shrubs, conifers, broadleaf plants, flowers and many other varieties to help you create an attractive, welcoming green space."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en03",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens03",
+                "_type": "span",
+                "marks": [],
+                "text": "We aim to offer more than individual plants: we help you bring together a complete garden suited to your preferences, available space and the conditions of Bulgaria’s Black Sea coast."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en04",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens04",
+                "_type": "span",
+                "marks": [],
+                "text": "Palms, Olive Trees and Mediterranean Plants"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en05",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens05",
+                "_type": "span",
+                "marks": [],
+                "text": "Palms and olive trees are popular choices for creating a Mediterranean atmosphere. They add character to private gardens, hotel grounds, restaurants and spacious terraces."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en06",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens06",
+                "_type": "span",
+                "marks": [],
+                "text": "Our catalogue includes different types of palms, yuccas and olive trees, including large and shaped specimens. When choosing, consider the plant’s size, sunlight exposure, cold tolerance and whether winter protection will be needed."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en07",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens07",
+                "_type": "span",
+                "marks": [],
+                "text": "Flowers Grown in Our Own Greenhouses"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en08",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens08",
+                "_type": "span",
+                "marks": [],
+                "text": "One of Florial’s distinctive features is that we grow flowers in our own greenhouses. We care for these plants throughout the growing process before they reach our customers."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en09",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens09",
+                "_type": "span",
+                "marks": [],
+                "text": "We offer flowers for garden beds, borders, balconies, terraces and decorative arrangements. Our range includes seasonal flowers, perennial flowering plants and roses. Combining different varieties and colours can bring blooms to your garden in different seasons."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens10",
+                "_type": "span",
+                "marks": [],
+                "text": "Coniferous and Broadleaf Trees"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens11",
+                "_type": "span",
+                "marks": [],
+                "text": "Conifers are suitable for evergreen screening, hedges, ornamental groups and adding structure to a garden. We offer various types of thuja, cypress and other coniferous trees and shrubs."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens12",
+                "_type": "span",
+                "marks": [],
+                "text": "Broadleaf trees provide natural shade, volume and seasonal interest. They can be used as standalone features, to line paths and avenues, or as part of landscaping for larger properties."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens13",
+                "_type": "span",
+                "marks": [],
+                "text": "Ornamental Shrubs and Landscaping Plants"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens14",
+                "_type": "span",
+                "marks": [],
+                "text": "Our selection includes ornamental and flowering shrubs, hedge plants, ground covers, ornamental grasses and perennials. They can be used to create garden compositions, colourful planting groups, green screens and natural transitions between different areas of a property."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens15",
+                "_type": "span",
+                "marks": [],
+                "text": "We also offer citrus and exotic plants, as well as varieties suitable for growing in containers and on terraces."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens16",
+                "_type": "span",
+                "marks": [],
+                "text": "Large Specimen Plants and Feature Trees"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens17",
+                "_type": "span",
+                "marks": [],
+                "text": "For formal gardens and projects that need an immediate visual impact, we offer specimen and large-format plants. These are trees and ornamental specimens with distinctive forms that can become the focal point of a garden."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens18",
+                "_type": "span",
+                "marks": [],
+                "text": "When selecting a large specimen, consider its dimensions, delivery access, planting location and the care it will need after transplanting."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens19",
+                "_type": "span",
+                "marks": [],
+                "text": "Plants for Bulgaria’s Black Sea Coast"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens20",
+                "_type": "span",
+                "marks": [],
+                "text": "The coastal climate has its own challenges: strong winds, salt-laden sea air, hot summers and winter cold spells. Plant selection should therefore take account of the exact location, sunlight, soil, drainage and the hardiness of each species."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens21",
+                "_type": "span",
+                "marks": [],
+                "text": "The Florial team can help you choose plants suited to properties in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie and nearby settlements."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens22",
+                "_type": "span",
+                "marks": [],
+                "text": "From Plants to a Complete Garden"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "en23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens23",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial offers more than plants. We also provide solutions for creating and maintaining attractive outdoor spaces, including landscape design, landscaping, planting, and the design and installation of automatic irrigation systems."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens24",
+                "_type": "span",
+                "marks": [],
+                "text": "We also supply irrigation equipment to help provide suitable growing conditions and make garden maintenance easier."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "en25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ens25",
+                "_type": "span",
+                "marks": [],
+                "text": "Choose plants for your garden at Florial! Explore our categories to find suitable trees, shrubs, flowers and ornamental plants. Our garden centre is in the Nessebar area, and our team is ready to help you choose plants for your yard, terrace or landscaping project."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ]
+      },
+      "ru": {
+        "description": "Каталог Florial объединяет растения для сада, террасы, двора и профессионального озеленения: декоративные деревья и кустарники, хвойные виды, цветы и розы, многолетние и сезонные растения, декоративные травы, оливы, цитрусовые, пальмы и экзотические виды. Используйте подкатегории, чтобы сузить выбор по виду растения и месту посадки. При подборе учитывайте освещённость, почву, свободное пространство и сезонные условия, а также потребность в поливе. Для участков на Черноморском побережье важно учитывать ветер, жаркое лето и зимние температуры. К растениям можно подобрать и систему автоматического полива.",
+        "name": "Все растения",
+        "seo": {
+          "h1": "Растения для сада, участка и террасы",
+          "keywords": [
+            "Все растения",
+            "растения для сада",
+            "декоративные растения",
+            "озеленение",
+            "Florial"
+          ],
+          "metaDescription": "Продажа декоративных деревьев, кустарников, цветов, пальм, олив и других растений в Несебре, Равде и на Южном Черноморье. Доставка и профессиональное озеленение.",
+          "metaTitle": "Все растения | Несебър | Садовый центр Флориал",
+          "suggested": {
+            "generatedAt": "2026-11-05T09:55:34.389Z",
+            "generatorVersion": "assistant-editorial-v1",
+            "h1": "Растения для сада, участка и террасы",
+            "metaDescription": "Растения для сада, участка и террасы: декоративные деревья и кустарники, цветы, оливы, цитрусовые, пальмы и экзотические виды.",
+            "metaTitle": "Растения для сада и озеленения | Florial",
+            "status": "approved"
+          }
+        },
+        "seoContent": [
+          {
+            "_key": "ru01",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus01",
+                "_type": "span",
+                "marks": [],
+                "text": "Растения для вашего сада — садовый центр Florial в Несебре"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru02",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus02",
+                "_type": "span",
+                "marks": [],
+                "text": "В садовом центре Florial вы найдёте разнообразные декоративные растения для дворов, садов, террас, гостиниц и профессионального озеленения. Мы предлагаем пальмы, оливковые деревья, декоративные деревья и кустарники, хвойные и лиственные растения, цветы и многие другие виды, которые помогут создать красивое и уютное зелёное пространство."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru03",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus03",
+                "_type": "span",
+                "marks": [],
+                "text": "Наша задача — предложить не просто отдельные растения, а возможность создать целостный сад с учётом ваших пожеланий, особенностей участка и климата болгарского Черноморья."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru04",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus04",
+                "_type": "span",
+                "marks": [],
+                "text": "Пальмы, оливы и средиземноморские растения"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru05",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus05",
+                "_type": "span",
+                "marks": [],
+                "text": "Пальмы и оливковые деревья — популярный выбор для создания средиземноморской атмосферы. Они придают особый характер частным дворам, гостиничным комплексам, ресторанам и просторным террасам."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru06",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus06",
+                "_type": "span",
+                "marks": [],
+                "text": "В нашем каталоге представлены разные виды пальм, юкк и олив, в том числе крупномерные и сформированные экземпляры. При выборе важно учитывать размер растения, освещённость, устойчивость к холоду и необходимость зимней защиты."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru07",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus07",
+                "_type": "span",
+                "marks": [],
+                "text": "Цветы, выращенные в наших теплицах"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru08",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus08",
+                "_type": "span",
+                "marks": [],
+                "text": "Одна из особенностей Florial — мы выращиваем цветы в собственных теплицах. Мы ухаживаем за растениями на протяжении всего процесса выращивания, прежде чем они поступают к нашим покупателям."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru09",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus09",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы предлагаем цветы для клумб, бордюров, балконов, террас и декоративных композиций. В ассортимент входят сезонные цветы, многолетние цветущие растения и розы. Сочетая разные виды и оттенки, можно создать сад, который будет цвести в разные сезоны."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus10",
+                "_type": "span",
+                "marks": [],
+                "text": "Хвойные и лиственные деревья"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus11",
+                "_type": "span",
+                "marks": [],
+                "text": "Хвойные растения подходят для вечнозелёных ограждений, живых изгородей, декоративных групп и формирования структуры сада. Мы предлагаем различные виды туй, кипарисов и других хвойных деревьев и кустарников."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus12",
+                "_type": "span",
+                "marks": [],
+                "text": "Лиственные деревья создают естественную тень, объём и сезонное разнообразие. Их используют как самостоятельные акценты, для оформления аллей и озеленения больших участков."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru13",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus13",
+                "_type": "span",
+                "marks": [],
+                "text": "Декоративные кустарники и растения для озеленения"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus14",
+                "_type": "span",
+                "marks": [],
+                "text": "В нашем ассортименте есть декоративные и цветущие кустарники, растения для живых изгородей, почвопокровные виды, декоративные травы и многолетники. С их помощью можно создавать садовые композиции, цветочные группы, зелёные ограждения и естественные переходы между зонами участка."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus15",
+                "_type": "span",
+                "marks": [],
+                "text": "Также мы предлагаем цитрусовые и экзотические растения, а также виды для выращивания в контейнерах и на террасах."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus16",
+                "_type": "span",
+                "marks": [],
+                "text": "Крупномерные растения и солитеры"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus17",
+                "_type": "span",
+                "marks": [],
+                "text": "Для парадных садов и проектов, где важен выразительный результат сразу после посадки, мы предлагаем солитеры и крупномерные растения. Это деревья и декоративные экземпляры с характерной формой, которые могут стать главным акцентом сада."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus18",
+                "_type": "span",
+                "marks": [],
+                "text": "При выборе важно учитывать размеры растения, возможность доставки на участок, место посадки и необходимый уход после пересадки."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus19",
+                "_type": "span",
+                "marks": [],
+                "text": "Растения для болгарского Черноморского побережья"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus20",
+                "_type": "span",
+                "marks": [],
+                "text": "У побережья есть свои климатические особенности: сильный ветер, солёный морской воздух, жаркое лето и зимние похолодания. Поэтому при выборе растений важно учитывать конкретное расположение участка, освещённость, почву, дренаж и устойчивость выбранного вида."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus21",
+                "_type": "span",
+                "marks": [],
+                "text": "Команда Florial поможет подобрать растения с учётом условий вашего участка в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие и близлежащих населённых пунктах."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus22",
+                "_type": "span",
+                "marks": [],
+                "text": "От выбора растений до готового сада"
+              }
+            ],
+            "markDefs": [],
+            "style": "h2"
+          },
+          {
+            "_key": "ru23",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus23",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial предлагает не только растения, но и решения для создания и ухода за зелёными пространствами. Вы можете воспользоваться услугами ландшафтного дизайна, озеленения, посадки растений, проектирования и монтажа систем автоматического полива."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru24",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus24",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы также предлагаем оборудование для полива, которое помогает создать подходящие условия для развития растений и облегчает уход за садом."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ru25",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rus25",
+                "_type": "span",
+                "marks": [],
+                "text": "Выбирайте растения для своего сада в Florial! Изучите категории и найдите подходящие деревья, кустарники, цветы и декоративные виды. Наш садовый центр находится в районе Несебра, а наша команда готова помочь с выбором растений для вашего двора, террасы или проекта озеленения."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ]
+      }
+    }
+  }
+}
