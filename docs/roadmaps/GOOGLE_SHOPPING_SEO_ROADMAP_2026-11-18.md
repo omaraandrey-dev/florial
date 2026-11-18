@@ -153,3 +153,5 @@
 - Выявлено по коду: серверный `buildProductOffer` не передаёт `availability` для растений и для irrigation onRequest; клиентский ProductPage передаёт `PreOrder` для onRequest. Это потенциальное SSR/client structured-data расхождение, которое нужно подтвердить свежим Production HTML на этапе 1 и исправить на этапе 2 при необходимости.
 - В текущем Firecrawl подключении запросы не выполнились из-за исчерпанного лимита; web reader также не смог открыть публичные товарные URL. Production HTML и Google Rich Results Test поэтому остаются неподтверждёнными.
 - Никакой runtime-код, Sanity, Cloudflare, Merchant Center или Google настройки не изменялись.
+
+- Документационная дорожная карта и audit включены в PR #407: https://github.com/omaraandrey-dev/florial/pull/407. PR открыт, mergeability после повторного чтения GitHub — true; combined status пока не содержит CI checks. Не считать PR объединённым.
