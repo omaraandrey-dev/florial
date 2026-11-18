@@ -3839,3 +3839,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - The links `/services`, `/contacts`, `/about`, `/privacy-policy`, `/withdrawal` and `/terms` were checked against application routing and existing Footer behavior.
 - No Sanity, D1, Cloudflare configuration/secrets, Resend, Header, navigation, or Production changes. CI/build and visual browser QA are pending; do not infer Production status from this code change.
 - Follow-up verified read-only against published Sanity roots: plants dataset category slug `rastenia` (document `plants-root`) and production equipment category slug `vsichko-za-polivane` (document `7f6eaa30-8085-4fae-be3c-1209a0c50fc6`). `src/App.tsx` resolves `/category/:slug`; footer links preserve language using `localizedHref`. Instagram profile link supplied by owner is added alongside Facebook. BG catalog labels and company copy reviewed for natural Bulgarian wording.
+
+
+## 2026-11-18 — Product structured data validation evidence
+
+- Official Schema.org Validator fetched the PR Preview equipment and plant pages. Each reported 5 items, 0 errors and 0 warnings (Organization 1, BreadcrumbList 2, Product 2).
+- The second Product and BreadcrumbList on Preview use the Preview hostname while middleware output uses the canonical Production hostname. This is a Preview-only host/canonical mismatch; the current Production equipment baseline reports 3 items, 0 errors/warnings (Organization 1, BreadcrumbList 1, Product 1).
+- Official Google Rich Results Test requires login/reCAPTCHA in the available remote browser and returned “Something went wrong — Log in and try again”. No Google Rich Results outcome is confirmed. Rerun authenticated against Production after the corrected code is deployed with owner approval.
+- Detailed evidence: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`; execution plan: `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`.
