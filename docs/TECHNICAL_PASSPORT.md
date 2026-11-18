@@ -1,3 +1,24 @@
+## 2026-11-18 — Plant category editorial refresh
+- Sanity Production `bxvcy0qs/plants`, document `plants-root`, slug `rastenia`, route `/category/rastenia`; final revision `27yhFk6bgn0uNCdCySoa9D`.
+- BG/RU/EN short descriptions and 25 Portable Text blocks per locale updated; H1 retained; localized meta descriptions now explicitly state plant sales. 8 H2 per locale.
+- Full pre-write snapshot: `docs/backups/sanity/2026-11-18-plants-root-before-editorial-refresh.json`; audit: `docs/audits/2026-11-18-plants-root-editorial-refresh.md`.
+- Sanity published read-back passed. Beta validator: valid, incomplete because custom callbacks are not executed. Live HTML and Google recrawl/indexing are not confirmed.
+- No frontend code, schema, products, assets, routes, Cloudflare, D1 or Resend changes.
+
+## 2026-11-18 — Palm article editorial refresh
+- Sanity Production document `blogPost-nov-vnos-palmi-2025`; slug/URL preserved; final revision `LtPyN36JxI5SIUpVnhe2RC`.
+- 53 Portable Text blocks and six inline images per locale; localized BG/RU/EN title, SEO, ALT and captions. Five new Production image assets were added.
+- Published read-back and live Browser Rendering BG/RU/EN confirmed; mobile/screenshot QA scope is described in the audit.
+- Backup: `docs/backups/sanity/2026-11-18-nov-vnos-palmi-2025-before-editorial-refresh.json`; audit: `docs/audits/2026-11-18-nov-vnos-palmi-2025-article-refresh.md`.
+- No code/schema, D1, Cloudflare configuration, Resend or global navigation changes.
+
+## 2026-11-18 — Olive article editorial refresh
+- Sanity Production document `blogPost-maslina-sredizemnomorie`; slug/URL preserved; final revision `LtPyN36JxI5SIUpVnhPu66`.
+- 79 Portable Text blocks, eight inline images and 15 internal links per locale; localized BG/RU/EN title, short description, SEO and cover ALT.
+- Published read-back confirmed the final content. Live rendered HTML BG/RU/EN remains unverified; do not claim browser/HTTP status.
+- Backup: `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`; audit: `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md`.
+- No application code, schema, Cloudflare, D1, Resend, forms/API or navigation changes.
+
 ## 2026-11-18 — Winter landscape design blog article
 
 - Sanity Production document `blogPost-landshaften-proekt-zima-burgas` was refreshed after explicit owner approval. Slug `landshaften-proekt-zima-burgas`, URL, BG title, cover asset and publication date preserved. Final published revision: `QNgifPbO9FtDWOAbTv7vHo`.
