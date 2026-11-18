@@ -5,6 +5,7 @@
 - Blog cards now distinguish loading, successful empty results, ready content and request errors, with localized BG/RU/EN messages.
 - Extracted and directly tested featured equipment selection and plant variant starting-price logic using Node's built-in test runner; no new dependency.
 - Exact PR head `f867101bb1785720b7bda39560463f036e2fcabd`: Blog/Studio validation run `44239849985` and D1 validation run `44239849955` — success. Cloudflare Pages Preview deployment `b041d7ac-d4d1-4e3f-97ab-82f8a56e8a70` for the same commit — success. Browser screenshot was not available because the connected browser service had exhausted its credits.
+- PR #386 merged into `main` as `3186a4fad9213a538790d32f405f7a506c324495`. Cloudflare Pages Production deployment `a9f519e6-3606-4e64-af98-d5a363efdc9b` for that exact commit completed successfully; production domain: https://florial-bg.com.
 - Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`.
 
 ## 2026-11-18 — Главная страница: финальная UX-доработка (PR #385)
