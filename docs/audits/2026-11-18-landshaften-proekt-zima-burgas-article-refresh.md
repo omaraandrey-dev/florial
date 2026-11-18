@@ -6,7 +6,7 @@ Sanity project: `bxvcy0qs`
 Dataset: `production`  
 Document: `blogPost-landshaften-proekt-zima-burgas`  
 Slug / URL: `landshaften-proekt-zima-burgas` / https://florial-bg.com/blog/landshaften-proekt-zima-burgas  
-Published revision after final publish: `LtPyN36JxI5SIUpVnhLU9S`
+Published revision after final publish: `QNgifPbO9FtDWOAbTv7vHo`
 
 ## Scope and approval
 
@@ -69,7 +69,7 @@ The existing blog related-card renderer remains unchanged. With the final tags `
 
 ## Verification
 
-- Sanity Production read after publish: document exists, published, slug unchanged, final revision `LtPyN36JxI5SIUpVnhLU9S`.
+- Sanity Production read after publish: document exists, published, slug unchanged, final revision `QNgifPbO9FtDWOAbTv7vHo`.
 - BG/RU/EN each have 69 Portable Text blocks and 8 inline images.
 - Localized titles, short descriptions, SEO titles/descriptions and cover ALT fields are populated.
 - All plant and irrigation category slugs and the two service slugs were checked against published Sanity documents.
