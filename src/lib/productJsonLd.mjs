@@ -2,13 +2,11 @@ function validPrice(price) {
   return typeof price === 'number' && Number.isFinite(price) && price > 0
 }
 
-function getConsistentAvailability(statuses) {
-  if (!statuses.length) return null
-  const first = statuses[0]
-  if (!['inStock', 'outOfStock'].includes(first)) return null
-  return statuses.every((status) => status === first)
-    ? (first === 'inStock' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock')
-    : null
+function getAvailability(status) {
+  if (status === 'inStock') return 'https://schema.org/InStock'
+  if (status === 'outOfStock') return 'https://schema.org/OutOfStock'
+  // "onRequest" is not equivalent to a confirmed pre-order.
+  return null
 }
 
 export function getServerProductPrice(product) {
@@ -20,43 +18,31 @@ export function getServerProductPrice(product) {
 }
 
 /**
- * Build the canonical Offer payload shared by Cloudflare SSR and ProductPage.
- * "onRequest" is deliberately not mapped to PreOrder: the two states are not
- * interchangeable without an explicit commercial policy.
+ * Build the canonical single Offer shared by Cloudflare SSR and ProductPage.
+ *
+ * Google does not recommend AggregateOffer for a set of product variants.
+ * Until each plant variant has a stable unique identifier and its own
+ * crawlable URL, describe only the default (first) variant shown in initial
+ * HTML. Do not invent SKU/GTIN values or claim all variants as one offer.
  */
 export function buildProductOffer(product, url) {
   if (product?._dataset === 'plants') {
-    const pricedVariants = (product.saleVariants || []).filter((variant) => validPrice(variant?.priceEUR))
-    if (!pricedVariants.length) return null
+    const variant = product.saleVariants?.[0]
+    if (!validPrice(variant?.priceEUR)) return null
 
-    const prices = pricedVariants.map((variant) => variant.priceEUR).sort((a, b) => a - b)
-    const statuses = pricedVariants.map((variant) => variant.stockStatus || product.stockStatus)
-    const availability = getConsistentAvailability(statuses)
-
-    if (pricedVariants.length === 1) {
-      return {
-        '@type': 'Offer',
-        price: prices[0].toFixed(2),
-        priceCurrency: 'EUR',
-        url,
-        itemCondition: 'https://schema.org/NewCondition',
-        ...(availability ? { availability } : {}),
-      }
-    }
-
+    const availability = getAvailability(variant.stockStatus || product.stockStatus)
     return {
-      '@type': 'AggregateOffer',
-      lowPrice: prices[0].toFixed(2),
-      highPrice: prices[prices.length - 1].toFixed(2),
-      offerCount: pricedVariants.length,
+      '@type': 'Offer',
+      price: variant.priceEUR.toFixed(2),
       priceCurrency: 'EUR',
       url,
+      itemCondition: 'https://schema.org/NewCondition',
       ...(availability ? { availability } : {}),
     }
   }
 
   if (!validPrice(product?.priceEUR)) return null
-  const availability = getConsistentAvailability([product.stockStatus])
+  const availability = getAvailability(product.stockStatus)
   return {
     '@type': 'Offer',
     price: product.priceEUR.toFixed(2),
