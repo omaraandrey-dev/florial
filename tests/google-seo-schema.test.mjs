@@ -150,5 +150,5 @@ test('client ProductPage uses the same shared Offer builder as server middleware
   assert.match(product, /import \{ buildProductOffer \} from '..\/lib\/productJsonLd\.mjs'/)
   assert.match(product, /const offer = buildProductOffer\(/)
   assert.doesNotMatch(product, /schema\.org\/PreOrder/)
-  assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '..\/_lib\/productJsonLd\.mjs'/)
+  assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '.\/_lib\/productJsonLd\.mjs'/)
 })
