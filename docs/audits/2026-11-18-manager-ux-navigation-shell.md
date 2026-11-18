@@ -14,6 +14,7 @@ First implementation increment from the approved Manager UX plan. It changes the
 - Gives navigation controls consistent minimum 44px height, visible keyboard focus, active state and `aria-current`.
 - Replaces the plant-specific top-level heading with the product name, Florial Manager, and keeps the signed-in user's role visible on larger screens.
 - Expands the working canvas to a responsive maximum width while preserving the existing module components.
+- Moves the plant-catalog primary action to the page header on desktop while retaining a fixed, thumb-reachable bottom action on mobile; avoids showing both placements at once.
 
 ## Permission and data boundaries
 
@@ -27,7 +28,7 @@ First implementation increment from the approved Manager UX plan. It changes the
 - Source review: completed against the stated base commit and current ManagerApp implementation.
 - Local build/typecheck/lint: **not run**. The execution environment could not resolve `github.com`, so the repository could not be cloned for local validation.
 - GitHub Actions: pending pull-request run.
-- Cloudflare Pages Preview/Production and authenticated browser visual QA: not verified. No claim of deployment or live visual acceptance is made.
+- Cloudflare Pages Preview is not available for feature branches according to the repository's recorded project setting; no preview deployment or authenticated browser visual QA is claimed.
 
 ## Next increments
 
