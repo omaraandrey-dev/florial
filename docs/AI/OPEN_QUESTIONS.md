@@ -2,7 +2,7 @@
 
 - **Decision resolved:** Seller's `canCreatePlant` is the single switch for direct plant creation, card editing, variant addition, price changes and stock changes. No separate Seller toggles are required.
 - Manager retains separate create, card-edit and variant-add permissions; Owner retains full access.
-- Implementation and tests are in open PR #383. Exact-head CI and browser role-matrix verification remain pending; do not claim Production availability before those checks.
+- Implementation and tests are in open PR #383. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` passed Blog/Studio run `44210343032` and D1 run `44210343225`; browser role-matrix verification remains pending. Do not claim Production availability before merge and deployment.
 - No D1 schema/profile or Sanity catalog write was performed.
 
 
