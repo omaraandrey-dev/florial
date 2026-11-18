@@ -1,5 +1,16 @@
 # Florial — first-party D1 statistics and optional PostHog analytics
 
+## Manager on-demand analytics integration — implementation in progress (18.11.2026)
+
+- A separate protected endpoint `GET /api/manager/analytics-posthog?days=1|7|30|90` and Manager UI block are being added. The block loads only after an explicit click; it does not replace or merge the D1 baseline report.
+- The endpoint queries only the five event names confirmed in the live event schema on 18.11.2026 and returns event totals, daily page views, top pages, language breakdown and approximate GeoIP countries. It does not claim unique visitor counts or conversion rates.
+- Server authentication uses the existing Manager session and `canViewAnalytics` permission. The PostHog credential is server-only: `POSTHOG_PERSONAL_API_KEY` with read/query permission. It must never be exposed to browser code.
+- Live Cloudflare Pages project inspection (18.11.2026) found `VITE_POSTHOG_PROJECT_KEY` as a plain-text build variable, which is the public event-ingestion key. No `POSTHOG_PERSONAL_API_KEY` secret is currently configured. Existing key values were not read or exposed; no secret was added or changed.
+- Therefore the UI/server integration remains unavailable until the owner provides/creates a least-privilege PostHog Personal API Key and explicitly approves storing it as the Cloudflare Pages Production secret `POSTHOG_PERSONAL_API_KEY`. Preview does not have the required production bindings and is not an acceptance environment.
+- API responses are cached in the Worker isolate for five minutes to avoid repeat query bursts. Data is fetched only on demand.
+- This implementation is not yet live-verified against the PostHog Query API and is not yet deployed to Production.
+
+
 Status: D1 baseline tracking and optional PostHog analytics are implemented. Live PostHog ingestion from Florial was confirmed on 14.11.2026 and re-verified on 18.11.2026. The dashboard is active and contains six insight charts.
 Last live verification: 18.11.2026. Historical implementation release: 14.11.2026
 PR #264 merge commit: `047e03172f2571b6542adb4a0ed8d4b855df6b24`.
