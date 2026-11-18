@@ -1,3 +1,10 @@
+## 2026-11-18 — PostHog live ingestion and dashboard verification
+- Live PostHog EU project `349453` verified: five Florial event names observed; the private dashboard `1114600` now has six tiles (page views, categories/products, cart actions, languages, top pages, country map).
+- Verified 576 page-view events for 14–18 Nov (BG 323, RU 247, EN 6; GeoIP BG 570, BE 5, UA 1). Counts are events, not unique people; 18 Nov partial; GeoIP approximate.
+- `florial_phone_click`, `florial_chat_click` and `florial_checkout_start` exist in the code path but were not observed in live event schema. Treat them as unconfirmed until live evidence exists.
+- Dashboard refresh and all six insight queries succeeded. No website code, Cloudflare configuration/secrets, D1, Sanity, Resend or Production deployment was changed.
+- Detailed evidence and privacy limitations: `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+
 ## 2026-11-18 — Final main HEAD after owner-policy documentation
 - Documentation-only PR #401 merged successfully; merge commit / current main HEAD at this snapshot: `ef7c3927cc9eee3791b5578a17d8d1e6f6d12f8d`.
 - Latest verified application/CI/Cloudflare Pages Production baseline remains `34a472b813119b72cc45d2009fbe3bd1ce617d4d` with successful exact-SHA CI runs `44301545917` and `44301545919`, and successful Production deployment `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f`. PR #401 changed documentation only; no runtime code changed.
