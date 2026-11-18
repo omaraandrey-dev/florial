@@ -29,8 +29,8 @@
   - D1 migration validation run `44321010791` — success.
   - Cloudflare Pages check run `134859953008` — success.
 - Cloudflare Pages Production deployment: `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`, URL `https://3edf0d48.florial.pages.dev`, exact source commit `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea`; queued, initialize, clone, build and deploy stages all succeeded. Production aliases remain `florial-bg.com` and `www.florial-bg.com`.
-- PostHog Manager feature was introduced by PR #405 and deployed in the preceding Production deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`; the latest deployment includes it. Cloudflare metadata confirms server secret `POSTHOG_API_KEY` as `secret_text`; its value was not read. The endpoint accepts this alias or preferred `POSTHOG_PERSONAL_API_KEY`. Actual key validity/`query:read` scope and authenticated Manager data display remain pending live acceptance.
-- Deployment success proves build/publication for this commit; it does not replace authenticated Manager functional acceptance or visual QA.
+- PostHog Manager feature was introduced by PR #405 and deployed in Production. The owner personally confirmed on 18.11.2026 that the Manager analytics page loads and displays PostHog data correctly; functional acceptance is complete. Cloudflare metadata confirms server secret `POSTHOG_API_KEY` as `secret_text`; its value was not read. Keep this credential server-side.
+- Deployment success proves build/publication for this commit. Manager PostHog functional acceptance was separately confirmed by the owner in Production on 18.11.2026. Other unrelated visual/browser QA items remain tracked separately.
 ## Git branches and release governance
 
 - GitHub returned 417 branch refs including `main`; 416 refs are non-main historical branches (including this cleanup branch). No open PRs.
