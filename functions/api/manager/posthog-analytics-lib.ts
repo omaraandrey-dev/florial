@@ -15,7 +15,7 @@ export const POSTHOG_EVENT_LABELS: Record<(typeof POSTHOG_EVENTS)[number], strin
   florial_add_to_cart: 'Добавяния в количката',
 }
 
-export type PostHogDays = 7 | 30 | 90
+export type PostHogDays = 1 | 7 | 30 | 90
 export type PostHogAnalytics = {
   period_days: PostHogDays
   totals: { page_views: number; category_views: number; product_views: number; cart_views: number; add_to_cart: number; total_events: number }
