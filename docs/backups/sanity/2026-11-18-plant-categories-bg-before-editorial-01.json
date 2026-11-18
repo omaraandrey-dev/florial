@@ -1,0 +1,3750 @@
+{
+  "createdAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "documents": [
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-broadleaf",
+      "_rev": "oFgU2xnFzJTvQ0oNU6MrWv",
+      "_system": {
+        "base": {
+          "id": "plants-broadleaf",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T10:09:06Z",
+      "description": "Широколистните дървета са основа на сенчестите и атмосферни градини. Много видове променят облика си през сезоните – с цъфтеж напролет, прохладна сянка през лятото и есенен цвят на листата, а листопадните пропускат светлината към къщата през зимата. Подходящи са като солитери в двора, за алеи и за озеленяване на по-големи имоти. При избора вземете предвид крайната височина и разстилането на короната, разстоянието до сгради, настилки и инсталации, както и почвата и осветеността. На Черноморското крайбрежие обърнете внимание на устойчивостта на вятър и лятна суша. След засаждането дърветата се нуждаят от редовно поливане, а капковото напояване е удобен начин да го осигурите.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "При избора на широколистно дърво съобразете зрелите височина и ширина на короната, мястото за корените и разстоянието до сгради, настилки и подземни инсталации. Определете дали търсите плътна лятна сянка, пролетен цъфтеж или есенна окраска и проверете устойчивостта на вида към вятър и засушаване. В района на Бургас и Поморие изложението и защитата от крайморски ветрове са важни за правилното прихващане. Florial помага с подбора, планирането на мястото и професионалното засаждане.",
+        "title": "Широколистни дървета за сянка и сезонна красота",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "When choosing a deciduous tree, consider its mature height and crown spread, root space and clearance from buildings, paving and underground services. Decide whether you want summer shade, spring flowers or autumn colour, and check the species’ tolerance of wind and dry periods. Around Burgas and Pomorie, exposure and shelter from coastal winds are important for successful establishment. Florial can help select the tree, plan its position and carry out professional planting.",
+            "title": "Deciduous trees for shade and seasonal interest"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "При выборе лиственного дерева учитывайте взрослую высоту и ширину кроны, пространство для корней и расстояние до зданий, дорожек и подземных коммуникаций. Определите, нужна ли вам летняя тень, весеннее цветение или осенняя окраска, и проверьте устойчивость вида к ветру и засушливым периодам. В районе Бургаса и Помория важны освещённость и защита от морских ветров. Florial поможет подобрать дерево, спланировать место и выполнить профессиональную посадку.",
+            "title": "Лиственные деревья для тени и сезонной декоративности"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Широколистни дървета за озеленяване на градини по Южното Черноморие",
+        "altEn": "Broadleaf trees for gardens and landscaping on Bulgaria’s southern Black Sea coast",
+        "altRu": "Лиственные деревья для озеленения садов Южного Черноморья",
+        "asset": {
+          "_ref": "image-56d826dbaa6631f67e0a9e3e5a16998259c98331-900x900-jpg",
+          "_type": "reference"
+        },
+        "title": "Широколистни дървета за градини край Несебър",
+        "titleEn": "Broadleaf trees for gardens near Nessebar",
+        "titleRu": "Лиственные деревья для садов у Несебра"
+      },
+      "name": "Широколистни дървета",
+      "parent": {
+        "_ref": "plants-trees-shrubs",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Широколистни дървета за градината и озеленяването",
+        "keywords": [
+          "Широколистни дървета",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на широколистни дървета за дворове и градини в Несебър, Равда и по Южното Черноморие. Декоративни видове за сянка и озеленяване, с доставка и професионално засаждане.",
+        "metaTitle": "Широколистни дървета | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Широколистни дървета за градината и озеленяването",
+          "metaDescription": "Широколистните дървета са основа на сенчестите и атмосферни градини.",
+          "metaTitle": "Широколистни дървета | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "h1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs1",
+              "_type": "span",
+              "marks": [],
+              "text": "Широколистни дървета за градината"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p11",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps11",
+              "_type": "span",
+              "marks": [],
+              "text": "Широколистните дървета създават сянка, обем и сезонна промяна в двора. Те могат да бъдат самостоятелен акцент, част от алея или основа на по-голяма композиция."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p12",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps12",
+              "_type": "span",
+              "marks": [],
+              "text": "При избора е важно да се съобразят възрастният размер, формата на короната и мястото, което корените ще заемат. Дървото трябва да има достатъчно пространство, без да пречи на сгради, настилки и инсталации."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs2",
+              "_type": "span",
+              "marks": [],
+              "text": "Видове и декоративни качества"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p21",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps21",
+              "_type": "span",
+              "marks": [],
+              "text": "Различните широколистни видове се отличават с форма на короната, листна маса, цъфтеж и есенна окраска. Някои осигуряват плътна лятна сянка, а други са ценени заради цветовете или интересната си кора."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p22",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps22",
+              "_type": "span",
+              "marks": [],
+              "text": "В каталога може да се срещат дървета с различен размер и характер. Конкретният вид и наличността се проверяват в продуктовата страница, тъй като асортиментът се променя."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs3",
+              "_type": "span",
+              "marks": [],
+              "text": "Слънце, почва и място"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p31",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps31",
+              "_type": "span",
+              "marks": [],
+              "text": "Повечето дървета се развиват най-добре при подходящо съчетание на светлина, почва и пространство. Преди засаждане проверете дренажа, уплътняването на терена и възможността водата да достига до кореновата зона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p32",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps32",
+              "_type": "span",
+              "marks": [],
+              "text": "Не засаждайте близо до подземни комуникации или настилки, без да отчетете бъдещия размер на корените и короната. При ограничено място изберете вид с подходящ зрял размер."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs4",
+              "_type": "span",
+              "marks": [],
+              "text": "Особености на Черноморието"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p41",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps41",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър, Равда и Поморие трябва да се отчита изложението към вятъра, летните горещини и периодите без валежи. Условията на открит терен могат да се различават значително от защитения двор."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p42",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps42",
+              "_type": "span",
+              "marks": [],
+              "text": "Изберете вид според реалния микроклимат на мястото. При крайбрежни участъци осигурете добро прихващане и наблюдавайте почвената влажност през първите сезони."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs5",
+              "_type": "span",
+              "marks": [],
+              "text": "Подготовка и засаждане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p51",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps51",
+              "_type": "span",
+              "marks": [],
+              "text": "Посадъчната яма трябва да позволява свободно разполагане на кореновата бала, без излишно дълбоко засаждане. Почвата се подготвя според структурата и дренажа на терена."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p52",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps52",
+              "_type": "span",
+              "marks": [],
+              "text": "След засаждане уплътнете внимателно почвата около корените и полейте обилно. При по-високи или изложени на вятър дървета може да е необходима временна опора."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs6",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и прихващане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p61",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps61",
+              "_type": "span",
+              "marks": [],
+              "text": "Редовната влага е особено важна през първия период след засаждането и при продължителни горещини. Поливайте в кореновата зона, като съобразявате честотата с почвата, размера на дървото и валежите."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p62",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps62",
+              "_type": "span",
+              "marks": [],
+              "text": "Капковото напояване може да подава вода постепенно и целенасочено. Настройката трябва да се съобрази с конкретния вид и да не поддържа почвата постоянно преовлажнена."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs7",
+              "_type": "span",
+              "marks": [],
+              "text": "Резитба и поддръжка"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p71",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps71",
+              "_type": "span",
+              "marks": [],
+              "text": "Резитбата се определя от вида, възрастта и целта на оформяне. Премахват се повредени или пресичащи се клони, а силното съкращаване без причина може да наруши естествената корона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p72",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps72",
+              "_type": "span",
+              "marks": [],
+              "text": "Наблюдавайте дървото за признаци на стрес, повреди и вредители. Поддържайте свободна зона около стъблото и не допускайте механично нараняване при косене."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs8",
+              "_type": "span",
+              "marks": [],
+              "text": "Композиции и озеленяване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p81",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps81",
+              "_type": "span",
+              "marks": [],
+              "text": "Широколистните дървета се комбинират с иглолистни, цъфтящи храсти и многогодишни растения. Така градината получава различни височини, текстури и цветови акценти през годината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p82",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps82",
+              "_type": "span",
+              "marks": [],
+              "text": "При проектиране оставете достатъчно разстояние между растенията и предвидете как ще изглежда композицията след няколко години. Дървото трябва да се оценява по зрелия си размер, а не само по височината при покупка."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs9",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор с помощта на Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p91",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps91",
+              "_type": "span",
+              "marks": [],
+              "text": "Екипът на Florial може да помогне при ориентирането между широколистни дървета и при избора според мястото, предназначението и условията на градината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p92",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps92",
+              "_type": "span",
+              "marks": [],
+              "text": "За обекти в Несебър, Равда, Слънчев бряг и близките населени места може да се обсъдят подборът и професионалното засаждане. Проверявайте конкретната наличност и параметри в актуалните продуктови предложения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "shirokolistni-darveta"
+      },
+      "sortOrder": 21,
+      "translations": {
+        "en": {
+          "description": "Broadleaf trees are the foundation of shady, atmospheric gardens. Many species change throughout the seasons, with spring blossom, cooling summer shade and colourful autumn foliage; deciduous trees also let more light into the house in winter. They work well as specimen trees in yards, along avenues and on larger properties. Consider the mature height and canopy spread, distance from buildings, paving and utilities, as well as soil and sunlight. Along the Black Sea coast, pay attention to wind resistance and summer drought tolerance. Trees need regular watering after planting, and drip irrigation is a convenient way to provide it.",
+          "name": "Broadleaf Trees",
+          "seo": {
+            "h1": "Broadleaf Trees for Gardens and Landscaping",
+            "keywords": [
+              "Broadleaf Trees",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of broadleaf trees for gardens and yards in Nessebar, Ravda and Bulgaria’s Southern Black Sea coast. Ornamental trees for shade and landscaping, with delivery and professional planting.",
+            "metaTitle": "Broadleaf Trees | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Broadleaf Trees for Gardens and Landscaping",
+              "metaDescription": "Broadleaf trees are the foundation of shady, atmospheric gardens.",
+              "metaTitle": "Broadleaf Trees | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Broadleaf Trees for Gardens"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Broadleaf trees bring shade, volume and seasonal change to a garden. They can stand as a specimen feature, form part of an avenue or provide the framework for a larger landscape design."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When choosing a tree, consider its mature size, crown shape and root space. It needs enough room to grow without interfering with buildings, paving or underground services."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Species and Ornamental Qualities"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Broadleaf species vary in crown shape, foliage, flowering and autumn colour. Some provide dense summer shade, while others are valued for blossom or distinctive bark."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The catalogue may include trees of different sizes and characteristics. Check the individual product page for the exact species and availability, as the range changes."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Sunlight, Soil and Position"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps31",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Successful growth depends on suitable light, soil and space. Before planting, check drainage, soil compaction and whether water can reach the root zone."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p32",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps32",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Avoid planting close to underground utilities or paving without allowing for the mature roots and canopy. On a smaller site, choose a species with an appropriate mature size."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Black Sea Coastal Conditions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p41",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps41",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda and Pomorie, consider wind exposure, summer heat and periods without rainfall. An exposed site can differ greatly from a sheltered courtyard."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p42",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps42",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose a tree for the actual microclimate. On coastal plots, successful establishment and monitoring soil moisture during the first seasons are particularly important."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Preparation and Planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p51",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps51",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The planting hole should accommodate the root ball without setting the tree too deeply. Prepare the soil according to its structure and drainage."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p52",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps52",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "After planting, firm the soil gently around the roots and water thoroughly. Taller trees in exposed, windy positions may need temporary support."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and Establishment"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p61",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps61",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consistent moisture is especially important after planting and during extended hot spells. Water the root zone, taking account of the soil, tree size and rainfall."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p62",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps62",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Drip irrigation can deliver water gradually and directly to the root area. Set the system for the particular species and avoid keeping the soil constantly waterlogged."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning and Maintenance"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p71",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps71",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning depends on the species, age and intended shape. Remove damaged or crossing branches; unnecessary heavy cutting can spoil the natural crown."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p72",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps72",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watch for signs of stress, damage and pests. Keep the area around the trunk clear and avoid mechanical injury during lawn maintenance."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Landscape Compositions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p81",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps81",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Broadleaf trees work well with conifers, flowering shrubs and perennials. This creates different heights, textures and seasonal points of interest."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p82",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps82",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Leave enough space between plants and consider how the composition will look in several years. Assess a tree by its mature size, not only by its height at purchase."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing with Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p91",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps91",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The Florial team can help compare broadleaf trees and select options according to the site, purpose and garden conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p92",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps92",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For projects in Nessebar, Ravda, Sunny Beach and nearby settlements, selection and professional planting can be discussed. Check current availability and specifications in the product listings."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Лиственные деревья — основа тенистых и атмосферных садов. Многие виды меняют облик в течение года: цветение весной, прохладная тень летом и осенняя окраска листвы, а листопадные зимой пропускают свет в дом. Подходят как солитеры во дворе, для аллей и озеленения больших участков. При выборе учитывайте конечную высоту и ширину кроны, расстояние до построек, покрытий и коммуникаций, а также почву и освещённость. На Черноморском побережье обратите внимание на устойчивость к ветру и летней засухе. После посадки деревьям нужен регулярный полив, а капельный полив — удобный способ его обеспечить.",
+          "name": "Лиственные деревья",
+          "seo": {
+            "h1": "Лиственные деревья для сада и озеленения",
+            "keywords": [
+              "Лиственные деревья",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа лиственных деревьев для садов и участков в Несебре, Равде и на Южном Черноморье. Декоративные виды для тени и озеленения, доставка и профессиональная посадка.",
+            "metaTitle": "Лиственные деревья | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Лиственные деревья для сада и озеленения",
+              "metaDescription": "Лиственные деревья — основа тенистых и атмосферных садов.",
+              "metaTitle": "Лиственные деревья | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лиственные деревья для сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лиственные деревья создают тень, объём и сезонные изменения в саду. Они могут стать самостоятельным акцентом, частью аллеи или основой большой композиции."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При выборе учитывайте взрослые размеры, форму кроны и пространство для корней. Дереву должно хватать места, чтобы оно не мешало зданиям, покрытиям и коммуникациям."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Виды и декоративные особенности"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лиственные породы различаются формой кроны, листвой, цветением и осенней окраской. Одни дают плотную летнюю тень, другие ценятся за цветы или выразительную кору."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В каталоге могут быть деревья разного размера и характера. Конкретный вид и наличие проверяйте на странице товара, поскольку ассортимент меняется."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Солнце, почва и место"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps31",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для хорошего развития дереву нужны подходящие освещение, почва и свободное пространство. До посадки проверьте дренаж, уплотнение грунта и возможность полива корневой зоны."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p32",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps32",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Не размещайте дерево рядом с подземными коммуникациями и мощением, не учитывая будущий размер корней и кроны. Для небольшого участка выбирайте вид с подходящими взрослыми размерами."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Условия Черноморского побережья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p41",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps41",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра, Равды и Помория важно учитывать ветер, летнюю жару и периоды без осадков. Открытый участок может заметно отличаться по условиям от защищённого двора."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p42",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps42",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбирайте дерево под реальный микроклимат. На прибрежных участках особенно важны хорошее укоренение и контроль влажности почвы в первые сезоны."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовка и посадка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p51",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps51",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посадочная яма должна позволять свободно разместить корневой ком, не заглубляя растение чрезмерно. Почву готовят с учётом её структуры и дренажа."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p52",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps52",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После посадки аккуратно уплотните грунт вокруг корней и хорошо полейте. Высоким деревьям на открытых ветреных местах может потребоваться временная опора."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и укоренение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p61",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps61",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Регулярная влага особенно важна после посадки и во время продолжительной жары. Поливайте корневую зону, учитывая почву, размер дерева и количество осадков."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p62",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps62",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Капельный полив помогает подавать воду постепенно и непосредственно к корням. Настройка должна учитывать вид растения и не приводить к постоянному переувлажнению."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезка и уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p71",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps71",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезку выбирают с учётом вида, возраста и задачи формирования. Удаляют повреждённые и пересекающиеся ветви; сильное укорачивание без необходимости может испортить естественную крону."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p72",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps72",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Следите за признаками стресса, повреждений и вредителей. Поддерживайте свободную зону вокруг ствола и избегайте механических повреждений при уходе за газоном."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Композиции и озеленение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p81",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps81",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лиственные деревья сочетаются с хвойными, цветущими кустарниками и многолетниками. Это помогает создать разные уровни, фактуры и сезонные акценты."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p82",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps82",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При планировании оставляйте достаточно места между растениями и учитывайте, как композиция будет выглядеть через несколько лет. Оценивайте дерево по взрослым размерам, а не только по высоте при покупке."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор вместе с Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p91",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps91",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Команда Florial поможет сориентироваться в выборе лиственных деревьев с учётом места, назначения и условий сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p92",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps92",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для объектов в Несебре, Равде, Солнечном Береге и соседних населённых пунктах можно обсудить подбор и профессиональную посадку. Актуальное наличие и характеристики проверяйте в карточках товаров."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:45:12Z",
+      "_id": "plants-citrus",
+      "_rev": "oFgU2xnFzJTvQ0oNU6MrWv",
+      "_system": {
+        "base": {
+          "id": "plants-citrus",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T10:09:06Z",
+      "description": "Цитрусовите растения – лимони, мандарини, портокали, лайм и други видове – са красиви през цялата година с лъскавата си зеленина, ароматен цъфтеж и плодове. Тъй като са чувствителни към студ, при нас най-често се отглеждат в саксии или кашони на слънчева, защитена тераса, а за зимата се внасят в светло помещение или зимна градина. Предпочитат много светлина, дренирана почва и редовно поливане без застояла вода. Подхранването през вегетацията е важно за здравето и плододаването. При избора проверете размера на растението и условията, които можете да му осигурите.",
+      "externalImageUrl": "https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72tEGVZE9t46_xVOWy4GuumyZRMIEesD-B70QKhdAWIcEdullGhZ9L6Z6AIIBQBgyfpUrnEPqQmRvUjzozkCaotSHa5PPZWoVlVnr57iaMW0xyK1aoa5UoBaE8gRYnhcNp-el0Dyy2y2EfRobJCvUqwshdUyDbvoEi-U-8M7x0ai9Yzf2yx-pfTVLErWPuEQ1uLLmXuOLe53a5uEhA1Iuhcf-xqVonmb0QfCF7IMC98=w1280",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Лимоните, мандарините и другите цитруси се нуждаят от много светлина, пропусклив субстрат и равномерно поливане без задържане на вода около корените. За чувствителните към студ сортове отглеждането в контейнер позволява растението да се премести на защитено и светло място през зимата. По крайбрежието около Несебър и Равда планирайте защита от силен вятър и възможност за преместване при застудяване. Florial консултира избора, пресаждането и грижите за цитрусови растения.",
+        "title": "Цитруси за слънчеви тераси и защитени места",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Lemons, mandarins and other citrus need plenty of light, a free-draining growing medium and even watering without waterlogging the roots. For cold-sensitive varieties, growing in a container makes it possible to move the plant to a bright, sheltered place in winter. Along the coast around Nessebar and Ravda, plan for protection from strong winds and easy movement during cold spells. Florial can advise on selection, repotting and citrus care.",
+            "title": "Citrus plants for sunny terraces and sheltered spaces"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Лимоны, мандарины и другие цитрусовые нуждаются в хорошем освещении, воздухопроницаемом субстрате и равномерном поливе без застоя воды у корней. Чувствительные к холоду сорта удобнее выращивать в контейнерах, чтобы зимой переносить растение в светлое защищённое место. На побережье возле Несебра и Равды предусмотрите защиту от сильного ветра и возможность перемещения во время похолоданий. Florial поможет с выбором, пересадкой и уходом за цитрусовыми.",
+            "title": "Цитрусовые для солнечных террас и защищённых мест"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Цитрусови растения за градини и тераси в района на Бургас",
+        "altEn": "Citrus plants for gardens and terraces in the Burgas area",
+        "altRu": "Цитрусовые растения для садов и террас в районе Бургаса",
+        "asset": {
+          "_ref": "image-417669ac484810173f470ab26237af62f1e333f2-1200x1200-png",
+          "_type": "reference"
+        },
+        "title": "Цитрусови растения за градината в Бургас и Поморие",
+        "titleEn": "Citrus plants for gardens in Burgas and Pomorie",
+        "titleRu": "Цитрусовые растения для сада в Бургасе и Поморие"
+      },
+      "name": "Цитруси",
+      "parent": {
+        "_ref": "plants-root",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Цитрусови растения за дома, терасата и градината",
+        "keywords": [
+          "Цитруси",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на лимони, мандарини и други цитрусови растения за дома и терасата в Несебър и Равда. Съвети за отглеждане, доставка и професионално засаждане.",
+        "metaTitle": "Цитруси | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Цитрусови растения за дома, терасата и градината",
+          "metaDescription": "Цитрусовите растения – лимони, мандарини, портокали, лайм и други видове – са красиви през цялата година с лъскавата си зеленина, ароматен цъфтеж и.",
+          "metaTitle": "Цитруси | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "h1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs1",
+              "_type": "span",
+              "marks": [],
+              "text": "Цитрусови растения за дома и терасата"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p11",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps11",
+              "_type": "span",
+              "marks": [],
+              "text": "Лимоните, мандарините, портокалите, лаймовете и другите цитруси съчетават декоративна листна маса, ароматен цъфтеж и плодове. Те са подходящи за светли тераси, зимни градини и защитени места."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p12",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps12",
+              "_type": "span",
+              "marks": [],
+              "text": "Повечето цитруси са чувствителни към продължителен студ и силен вятър. Затова изборът трябва да отчита не само вида, но и възможността растението да бъде преместено или защитено през зимата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs2",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор на вид и растение"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p21",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps21",
+              "_type": "span",
+              "marks": [],
+              "text": "Различните цитруси се различават по размер, форма, растеж, плодове и нужди от грижа. В продуктовите предложения могат да се срещнат лимон, мандарина, портокал, лайм, кумкуат и други форми."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p22",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps22",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка проверете конкретния вид, размера на растението и информацията в продуктовата карта. Не приемайте, че всички цитруси имат еднаква студоустойчивост или еднакъв режим на отглеждане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs3",
+              "_type": "span",
+              "marks": [],
+              "text": "Светлина и разположение"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p31",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps31",
+              "_type": "span",
+              "marks": [],
+              "text": "Цитрусите се нуждаят от много светлина, за да поддържат здрав растеж и плододаване. Подходящо е слънчево, защитено място с добра циркулация на въздуха."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p32",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps32",
+              "_type": "span",
+              "marks": [],
+              "text": "На тераси в Несебър и Равда избягвайте силно изложени на вятър позиции. При преместване на растението променяйте условията постепенно, за да ограничите стреса."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs4",
+              "_type": "span",
+              "marks": [],
+              "text": "Саксия, субстрат и дренаж"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p41",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps41",
+              "_type": "span",
+              "marks": [],
+              "text": "Контейнерното отглеждане позволява цитрусите да се преместват при неблагоприятни условия. Саксията трябва да има дренажни отвори и подходящ размер спрямо кореновата система."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p42",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps42",
+              "_type": "span",
+              "marks": [],
+              "text": "Използвайте пропусклив субстрат, който задържа достатъчно влага, но не остава подгизнал. Водата не трябва да се задържа продължително в подложката."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs5",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и влажност"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p51",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps51",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливайте, когато горният слой на субстрата започне да просъхва, като съобразявате сезона, температурата и размера на контейнера. Честото поливане по календар може да доведе до преовлажняване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p52",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps52",
+              "_type": "span",
+              "marks": [],
+              "text": "През горещите месеци растенията обикновено използват повече вода, а при по-ниски температури потреблението намалява. Следете състоянието на почвата, а не само повърхността ѝ."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs6",
+              "_type": "span",
+              "marks": [],
+              "text": "Подхранване и плододаване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p61",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps61",
+              "_type": "span",
+              "marks": [],
+              "text": "По време на активния растеж цитрусите имат нужда от балансирано подхранване, съобразено с предназначените за тях торове и указанията на производителя."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p62",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps62",
+              "_type": "span",
+              "marks": [],
+              "text": "Листопад, пожълтяване или слаб растеж могат да имат различни причини — от поливане и светлина до хранителен режим. Не увеличавайте тора без да установите причината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs7",
+              "_type": "span",
+              "marks": [],
+              "text": "Резитба и пресаждане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p71",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps71",
+              "_type": "span",
+              "marks": [],
+              "text": "Леката резитба помага да се поддържа компактна корона и да се отстраняват сухи или повредени клонки. Силното подрязване не е необходимо за всяко растение."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p72",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps72",
+              "_type": "span",
+              "marks": [],
+              "text": "Пресаждайте при нужда, когато корените запълнят контейнера или субстратът загуби структурата си. Изберете саксия с подходящо увеличение, а не прекалено голям съд."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs8",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимуване по Черноморието"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p81",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps81",
+              "_type": "span",
+              "marks": [],
+              "text": "Дори в по-меките крайбрежни райони отделните цитруси могат да реагират различно на студ. Контейнерните растения се преместват на светло и защитено място при риск от ниски температури."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p82",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps82",
+              "_type": "span",
+              "marks": [],
+              "text": "Избягвайте резки температурни промени и тъмни помещения за продължителен период. През зимата поливането се намалява според температурата и скоростта на просъхване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs9",
+              "_type": "span",
+              "marks": [],
+              "text": "Консултация и избор с Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p91",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps91",
+              "_type": "span",
+              "marks": [],
+              "text": "Florial предлага цитрусови растения за любителско отглеждане и озеленяване на тераси и защитени пространства. Подходящият избор зависи от мястото, грижите и възможността за зимуване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p92",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps92",
+              "_type": "span",
+              "marks": [],
+              "text": "Разгледайте актуалните продуктови карти за конкретни видове и размери. Екипът може да помогне с избора и насоки за пресаждане и последваща грижа."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "tsitrusi"
+      },
+      "sortOrder": 3,
+      "translations": {
+        "en": {
+          "description": "Citrus plants—including lemons, mandarins, oranges, limes and other varieties—look attractive year-round with glossy foliage, fragrant flowers and fruit. Because they are sensitive to cold, they are often grown in pots or tubs on a sunny, sheltered terrace and moved into a bright room or conservatory for winter. They prefer plenty of light, well-drained soil and regular watering without waterlogging. Feeding during the growing season supports plant health and fruiting. When choosing a plant, consider its size and whether you can provide suitable growing conditions.",
+          "name": "Citrus Plants",
+          "seo": {
+            "h1": "Citrus Plants for Homes, Terraces and Gardens",
+            "keywords": [
+              "Citrus Plants",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of lemon, mandarin and other citrus plants for homes and terraces in Nessebar and Ravda. Growing advice, delivery and professional planting.",
+            "metaTitle": "Citrus Plants | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Citrus Plants for Homes, Terraces and Gardens",
+              "metaDescription": "Citrus plants—including lemons, mandarins, oranges, limes and other varieties—look attractive year-round with glossy foliage, fragrant flowers and fruit.",
+              "metaTitle": "Citrus Plants | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Citrus Plants for Homes and Terraces"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Lemons, mandarins, oranges, limes and other citrus combine attractive foliage, fragrant flowers and fruit. They suit bright terraces, conservatories and sheltered spaces."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Most citrus plants are sensitive to prolonged cold and strong winds. Choose with both the species and the option of moving or protecting the plant in winter in mind."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing a Species and Plant"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Citrus varieties differ in size, shape, growth, fruit and care requirements. Product listings may include lemon, mandarin, orange, lime, kumquat and other forms."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, check the exact species, plant size and product information. Citrus varieties do not all have the same cold tolerance or care requirements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Light and Position"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps31",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Citrus plants need plenty of light to support healthy growth and fruiting. A sunny, sheltered position with good air circulation is suitable."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p32",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps32",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "On terraces in Nessebar and Ravda, avoid highly exposed windy positions. When moving a plant, change its conditions gradually to reduce stress."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Container, Growing Mix and Drainage"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p41",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps41",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Container growing makes it possible to move citrus plants when conditions become unfavourable. Choose a pot with drainage holes and a size appropriate to the root system."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p42",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps42",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Use a free-draining growing mix that retains some moisture without becoming waterlogged. Do not allow water to remain in the saucer for long periods."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and Moisture"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p51",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps51",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water when the upper layer of the growing mix begins to dry, taking account of the season, temperature and container size. Watering by a fixed calendar can cause overwatering."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p52",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps52",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plants generally use more water in hot weather and less in cooler conditions. Check the growing mix rather than judging only by the surface."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Feeding and Fruiting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p61",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps61",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "During active growth, citrus plants benefit from balanced feeding formulated for this group, following the product manufacturer's instructions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p62",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps62",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Leaf drop, yellowing or weak growth can have several causes, including watering, light and nutrition. Do not increase fertiliser without identifying the cause."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning and Repotting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p71",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps71",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Light pruning can maintain a compact crown and remove dry or damaged shoots. Heavy pruning is not necessary for every plant."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p72",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps72",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Repot when roots fill the container or the growing mix loses its structure. Choose a pot with a moderate increase in size rather than an oversized container."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Winter Care on the Black Sea Coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p81",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps81",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Even in milder coastal areas, citrus species can respond differently to cold. Move container-grown plants to a bright, sheltered place when low temperatures are expected."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p82",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps82",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Avoid sudden temperature changes and keeping plants in dark rooms for long periods. Reduce winter watering according to temperature and how quickly the mix dries."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing with Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p91",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps91",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial offers citrus plants for home growing and for terraces or sheltered spaces. The right choice depends on the site, care routine and available winter conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p92",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps92",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check current product pages for exact species and sizes. The team can help with selection, repotting and ongoing care guidance."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Цитрусовые — лимоны, мандарины, апельсины, лаймы и другие виды — красивы круглый год благодаря глянцевой листве, ароматному цветению и плодам. Поскольку они чувствительны к холоду, у нас их чаще всего выращивают в горшках или кадках на солнечной защищённой террасе, а на зиму переносят в светлое помещение или зимний сад. Им нужны много света, дренированная почва и регулярный полив без застоя воды. Подкормка в период вегетации важна для здоровья и плодоношения. При выборе проверьте размер растения и условия, которые вы сможете ему обеспечить.",
+          "name": "Цитрусовые",
+          "seo": {
+            "h1": "Цитрусовые растения для дома, террасы и сада",
+            "keywords": [
+              "Цитрусовые",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа лимонов, мандаринов и других цитрусовых для дома и террасы в Несебре и Равде. Рекомендации по уходу, доставка и профессиональная посадка.",
+            "metaTitle": "Цитрусовые | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Цитрусовые растения для дома, террасы и сада",
+              "metaDescription": "Цитрусовые — лимоны, мандарины, апельсины, лаймы и другие виды — красивы круглый год благодаря глянцевой листве, ароматному цветению и плодам.",
+              "metaTitle": "Цитрусовые | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цитрусовые для дома и террасы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лимоны, мандарины, апельсины, лаймы и другие цитрусовые сочетают декоративную листву, ароматное цветение и плоды. Они подходят для светлых террас, зимних садов и защищённых мест."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Большинство цитрусовых чувствительны к продолжительному холоду и сильному ветру. Поэтому важно учитывать не только вид, но и возможность перенести или защитить растение зимой."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор вида и растения"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цитрусовые различаются размерами, формой, ростом, плодами и требованиями к уходу. В ассортименте могут встречаться лимон, мандарин, апельсин, лайм, кумкват и другие формы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой уточните конкретный вид, размер растения и сведения в карточке товара. Не все цитрусовые одинаково переносят холод и требуют одного режима ухода."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Освещение и размещение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p31",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps31",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цитрусовым нужно много света для здорового роста и плодоношения. Подойдёт солнечное, защищённое место с хорошей циркуляцией воздуха."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p32",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps32",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "На террасах в Несебре и Равде избегайте мест с сильным ветром. При переносе растения меняйте условия постепенно, чтобы уменьшить стресс."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Горшок, субстрат и дренаж"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p41",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps41",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выращивание в контейнере позволяет перемещать цитрусовые при неблагоприятной погоде. У горшка должны быть дренажные отверстия, а размер должен соответствовать корневой системе."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p42",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps42",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Используйте рыхлый субстрат, который удерживает необходимую влагу, но не становится заболоченным. Не оставляйте воду надолго в поддоне."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и влажность"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p51",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps51",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Поливайте, когда верхний слой субстрата начинает подсыхать, учитывая сезон, температуру и размер контейнера. Полив строго по календарю может привести к переувлажнению."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p52",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps52",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В жаркие месяцы растения обычно расходуют больше воды, а при прохладе потребность снижается. Ориентируйтесь на состояние грунта, а не только на его поверхность."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подкормка и плодоношение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p61",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps61",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Во время активного роста цитрусовым требуется сбалансированная подкормка, предназначенная для этой группы растений, с соблюдением инструкции производителя."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p62",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps62",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Опадение листьев, пожелтение или слабый рост могут иметь разные причины — от полива и освещения до питания. Не увеличивайте дозу удобрения, пока причина не установлена."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезка и пересадка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p71",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps71",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Лёгкая обрезка помогает поддерживать компактную крону и удалять сухие или повреждённые ветви. Сильная обрезка нужна не каждому растению."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p72",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps72",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Пересаживайте при необходимости, когда корни заполняют контейнер или субстрат теряет структуру. Выбирайте горшок с умеренным увеличением объёма."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимовка на Черноморском побережье"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p81",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps81",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Даже в более мягких прибрежных районах разные цитрусовые по-разному реагируют на холод. Контейнерные растения при риске низких температур переносят в светлое защищённое место."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p82",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps82",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Избегайте резких температурных перепадов и длительного содержания в тёмном помещении. Зимой сокращайте полив с учётом температуры и скорости просыхания грунта."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор с Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p91",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps91",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial предлагает цитрусовые для домашнего выращивания и озеленения террас и защищённых пространств. Подходящий выбор зависит от места, ухода и условий зимовки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p92",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps92",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посмотрите актуальные карточки товаров, чтобы уточнить виды и размеры. Команда поможет с выбором, пересадкой и дальнейшим уходом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-conifers",
+      "_rev": "mCiJ6j1PmqLVq15csWXFGX",
+      "_system": {
+        "base": {
+          "id": "plants-conifers",
+          "rev": "oFgU2xnFzJTvQ0oNTnkAv7"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-14T05:44:08Z",
+      "description": "Повечето иглолистни дървета и храсти запазват зеления си вид през цялата година и са сред най-търсените растения за жив плет, ограждане на имота и вечнозелени акценти. В категорията са туи, кипариси и други иглолистни видове с различна форма – колонни, конусовидни, кълбовидни и пълзящи. Те създават уединение, защита от вятър и фон за цветни композиции. При избора определете желаната височина и ширина, разстоянието при засаждане, осветеността и почвата. Новозасадените растения се нуждаят от редовно поливане, а при живи плетове удобно решение е капковото напояване по цялата линия. Така растенията се вкореняват по-бързо и запазват гъстотата си.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-iglolistni-rasteniya",
+        "text": "Туите, кипарисите и другите иглолистни се различават по зряла височина, ширина, форма и устойчивост към слънце, суша и вятър. За жив плет планирайте разстоянието според бъдещия размер на растенията и равномерно напояване по цялата линия; за единичен акцент оставете място за короната. В крайморските райони около Слънчев бряг и Свети Влас проверете устойчивостта на конкретния вид към вятър и солен въздух. Florial помага с избора, засаждането и капковото напояване.",
+        "title": "Иглолистни дървета и храсти за жив плет и структура",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Thuja, cypress and other conifers vary in mature height, spread, shape and tolerance of sun, drought and wind. For a hedge, plan spacing according to the plants’ future size and provide even irrigation along the full row; a specimen plant needs room for its crown. In coastal areas around Sunny Beach and Sveti Vlas, check each species’ tolerance of wind and salt exposure. Florial can help with selection, planting and drip irrigation.",
+            "title": "Conifers for hedges and garden structure"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Туи, кипарисы и другие хвойные различаются взрослой высотой, шириной, формой и устойчивостью к солнцу, засухе и ветру. Для живой изгороди рассчитывайте расстояние по будущим размерам растений и предусмотрите равномерный полив по всей линии; одиночному экземпляру нужно место для кроны. В прибрежных районах возле Солнечного Берега и Святого Власа учитывайте устойчивость вида к ветру и солёному воздуху. Florial поможет с подбором, посадкой и капельным поливом.",
+            "title": "Хвойные деревья и кустарники для изгородей и структуры сада"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Иглолистни дървета и храсти за озеленяване на дворове край Несебър",
+        "altEn": "Conifer trees and shrubs for garden landscaping near Nessebar",
+        "altRu": "Хвойные деревья и кустарники для озеленения участков у Несебра",
+        "asset": {
+          "_ref": "image-fa8a559e39a9b5a639744e78e2c8228294b3ec80-1200x896-jpg",
+          "_type": "reference"
+        },
+        "title": "Иглолистни растения за дворове в Несебър и Равда",
+        "titleEn": "Conifers for gardens in Nessebar and Ravda",
+        "titleRu": "Хвойные растения для участков в Несебре и Равде"
+      },
+      "name": "Иглолистни дървета и храсти",
+      "parent": {
+        "_ref": "plants-trees-shrubs",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Иглолистни дървета и храсти за градината и озеленяването",
+        "keywords": [
+          "Иглолистни дървета и храсти",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на туи, кипариси и други иглолистни за жив плет и градина в Несебър, Равда и по Южното Черноморие. Доставка и професионално засаждане.",
+        "metaTitle": "Иглолистни дървета и храсти | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Иглолистни дървета и храсти за градината и озеленяването",
+          "metaDescription": "Повечето иглолистни дървета и храсти запазват зеления си вид през цялата година и са сред най-търсените растения за жив плет.",
+          "metaTitle": "Иглолистни дървета и храсти | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "--6wk3g",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-g4khi",
+              "_type": "span",
+              "marks": [],
+              "text": "Иглолистни дървета и храсти: вечнозелени живи плетове, колони и акценти за всяка градина"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "--eqi0r",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-egwnq",
+              "_type": "span",
+              "marks": [],
+              "text": "Иглолистните растения придават на градината структура и цвят през всички сезони. Те създават уединение, намаляват въздействието на вятъра и осигуряват спокоен фон за цветя и декоративни композиции. В категорията ще откриете туи, кипариси, ели и смърчове – от компактни кълбовидни форми до високи колони и оформени екземпляри на щамб."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--djcch",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-e9mo2",
+              "_type": "span",
+              "marks": [],
+              "text": "Какво да изберете според предназначението"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "--57660",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-4ggcu",
+              "_type": "span",
+              "marks": [],
+              "text": "За жив плет и уединение: туи и други подходящи за подрязване видове. Разстоянието се определя според очакваната ширина на конкретния сорт, а не само според размера на младото растение."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--wc77c",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-brse1",
+              "_type": "span",
+              "marks": [],
+              "text": "За вертикален акцент: колонни кипариси и тесни форми на туя. Предвидете достатъчно място за корените и короната при достигане на зряла възраст."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--fzrto",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-vdx9d",
+              "_type": "span",
+              "marks": [],
+              "text": "За ниски бордюри, композиции и контейнери: компактни сортове като Туя Глобоза и Туя Нана, ако размерът и условията им съответстват на мястото."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--om563",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-lqa1p",
+              "_type": "span",
+              "marks": [],
+              "text": "За по-мащабен силует: кавказка и испанска ела или обикновен смърч. Проверявайте крайната височина и ширина – някои видове стават големи дървета."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--wytll",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-yz468",
+              "_type": "span",
+              "marks": [],
+              "text": "За входове и тераси: оформени туи и иглолистни растения на щамб, които създават ясен декоративен акцент."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--0ox5l",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-cq17s",
+              "_type": "span",
+              "marks": [],
+              "text": "Студоустойчивост, слънце и почва"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "-rhs-h7-20-c-h5-15-10-c--7fgci",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-rhs-h7-20-c-h5-15-10-c--hpn21",
+              "_type": "span",
+              "marks": [],
+              "text": "Студоустойчивостта зависи от вида и сорта. В скалата на RHS H7 означава устойчивост на температури под −20 °C, а H5 – приблизително от −15 до −10 °C. Например кавказката ела (Abies nordmanniana) и обикновеният смърч (Picea abies) са посочени с H7, докато средиземноморският кипарис (Cupressus sempervirens) е H5. При някои сортове западна туя също се среща рейтинг H7, но той не бива да се приема за характеристика на всички туи."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "-rhs--gwmlj",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-rhs-span-vmoid",
+              "_type": "span",
+              "marks": [],
+              "text": "Оценките на RHS са ориентир, а не гаранция за конкретна градина в България. Реалната устойчивост зависи и от произхода на растението, възрастта, вятъра, влажността, дренажа и микроклимата. Елата предпочита равномерно влажна, но добре дренирана почва и защитено място. Италианският кипарис обича слънце, понася периоди на засушаване, но е чувствителен към студени, изсушаващи ветрове. Проверявайте характеристиките на конкретния вид и сорт в продуктовата карта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--x094r",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-i4c71",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и подрязване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "--8nie0",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-5q8hl",
+              "_type": "span",
+              "marks": [],
+              "text": "През първите сезони след засаждането поливайте редовно, докато растенията се вкоренят. Не допускайте продължително преовлажняване. При жив плет капковото напояване по цялата линия подава водата равномерно и улеснява грижата за насаждението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--ihqfe",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-ivse8",
+              "_type": "span",
+              "marks": [],
+              "text": "Повечето иглолистни не образуват нов растеж от старата оголена кафява дървесина. Подрязвайте внимателно зелените части и не съкращавайте клоните отвъд зелената зона. Тисът е важно изключение, а при туите способността за възстановяване зависи от вида и сорта – затова не планирайте силна резитба до гола дървесина."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "-seiridium-cardinale--uw2rp",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-seiridium-cardinale-spa-35emp",
+              "_type": "span",
+              "marks": [],
+              "text": "Кипарисите могат да бъдат засегнати от рак по кипариса, причиняван от гъбата Seiridium cardinale. Избирайте здрав посадъчен материал от надежден източник, избягвайте ненужни наранявания и почиствайте инструментите за резитба."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "-florial-hur89",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-florialspan-nt6l2",
+              "_type": "span",
+              "marks": [],
+              "text": "От идеята до засаждането с Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "-florial--ouaaf",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-florial-span-m41k6",
+              "_type": "span",
+              "marks": [],
+              "text": "Изпратете ни дължината и желаната височина на живия плет или снимка на мястото. Ще помогнем да съобразите вида и сорта, зрелите размери, броя растения и разстоянието за засаждане. Florial предлага съдействие при избора, доставката, професионалното засаждане и планирането на поливната система."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--h4gvi",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-tsjuu",
+              "_type": "span",
+              "marks": [],
+              "text": "Работим в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие, Кошарица, Каблешково и околните населени места."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--kcykt",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-cubov",
+              "_type": "span",
+              "marks": [],
+              "text": "Често задавани въпроси"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "--p468p",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-qbd8a",
+              "_type": "span",
+              "marks": [],
+              "text": "Кои иглолистни са подходящи за жив плет?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "--7mb59",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-1u5y8",
+              "_type": "span",
+              "marks": [],
+              "text": "Често се избират туи заради вечнозелената им листна маса и добрата поносимост към оформяне. Подходящият сорт зависи от желаната височина, ширина, скорост на растеж и условията на мястото."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--8xxqc",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-jwhnk",
+              "_type": "span",
+              "marks": [],
+              "text": "Кога е най-подходящо да засадя иглолистни растения?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "--7pji7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-rnsaw",
+              "_type": "span",
+              "marks": [],
+              "text": "Обикновено пролетта и есента са удобни периоди. Контейнерни растения могат да се засаждат и през други по-меки периоди, ако почвата не е замръзнала или преовлажнена и може да се осигури редовно поливане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "--0zon4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-k7lt0",
+              "_type": "span",
+              "marks": [],
+              "text": "Мога ли да подрежа живия плет до голия ствол?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "--n8v61",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "-span-bm7fu",
+              "_type": "span",
+              "marks": [],
+              "text": "Обикновено не. Повечето иглолистни не се възстановяват от стара кафява дървесина. Подрязвайте постепенно в зелената част и се съобразявайте с особеностите на конкретния вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "igol_listni"
+      },
+      "sortOrder": 20,
+      "translations": {
+        "en": {
+          "description": "Most coniferous trees and shrubs stay green throughout the year and are popular for hedges, property screening and evergreen accents. This category includes thuja, cypress and other conifers in different forms: columnar, conical, rounded and spreading. They provide privacy, wind protection and a backdrop for flower arrangements. When choosing, decide on the desired height and width, planting distance, sunlight and soil conditions. Newly planted specimens need regular watering; for hedges, drip irrigation along the entire row is a convenient solution. This helps plants establish faster and maintain dense growth.",
+          "name": "Coniferous Trees and Shrubs",
+          "seo": {
+            "h1": "Coniferous Trees and Shrubs for Gardens and Landscaping",
+            "keywords": [
+              "Coniferous Trees and Shrubs",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of thuja, cypress and other conifers for hedges and gardens in Nessebar, Ravda and the Southern Black Sea coast. Delivery and professional planting.",
+            "metaTitle": "Coniferous Trees and Shrubs | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Coniferous Trees and Shrubs for Gardens and Landscaping",
+              "metaDescription": "Most coniferous trees and shrubs stay green throughout the year and are popular for hedges, property screening and evergreen accents.",
+              "metaTitle": "Coniferous Trees and Shrubs | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "conifer-trees-and-shrubs-n8ale",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "conifer-trees-and-shrubs-e8vtv",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Conifer Trees and Shrubs: Evergreen Hedges, Columns and Garden Accents"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "conifers-give-a-garden-s-29dpv",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "conifers-give-a-garden-s-ui0e8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Conifers give a garden structure and year-round presence. They help create privacy, soften the effect of wind and provide a calm backdrop for flowers and ornamental planting. This category includes thujas, cypresses, firs and spruces — from compact rounded forms to tall columns and topiary specimens trained on standards."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "what-to-choose-for-your--bn4na",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "what-to-choose-for-your--ysqf7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "What to choose for your garden"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "for-hedges-and-screening-styqi",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "for-hedges-and-screening-5m5qs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For hedges and screening: thuja and other plants that respond well to regular trimming. Set spacing according to the mature width of the particular cultivar, not the size of a young plant."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "for-a-vertical-accent-co-vqayk",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "for-a-vertical-accent-co-83owb",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For a vertical accent: columnar cypresses and narrow-growing thuja cultivars. Allow enough room for the mature crown and root system."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "for-low-borders-composit-8ek2g",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "for-low-borders-composit-aw8bj",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For low borders, compositions and containers: compact cultivars such as Thuja Globosa and Thuja Nana, provided their mature size suits the location."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "for-a-larger-silhouette--gn9hs",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "for-a-larger-silhouette--96jee",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For a larger silhouette: Caucasian fir, Spanish fir and Norway spruce. Check mature height and spread, as some species become large trees."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "for-entrances-and-terrac-lj1qc",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "for-entrances-and-terrac-lfk6s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For entrances and terraces: shaped thuja and conifers trained on standards, creating a distinct architectural accent."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "cold-hardiness-sunlight--6q1ec",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cold-hardiness-sunlight--jm5j7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Cold hardiness, sunlight and soil"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "cold-hardiness-varies-by-7bd8e",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cold-hardiness-varies-by-y3ced",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Cold hardiness varies by species and cultivar. In the RHS scale, H7 indicates tolerance of temperatures below −20°C, while H5 corresponds to approximately −15 to −10°C. For example, Caucasian fir (Abies nordmanniana) and Norway spruce (Picea abies) are rated H7, while Mediterranean cypress (Cupressus sempervirens) is rated H5. Some cultivars of western thuja are also listed as H7, but this rating should not be applied to every thuja."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "rhs-ratings-are-a-guide--ga5x6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rhs-ratings-are-a-guide--okytc",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "RHS ratings are a guide, not a guarantee for a particular garden in Bulgaria. Actual performance also depends on plant provenance, age, wind exposure, moisture, drainage and microclimate. Firs prefer consistently moist but well-drained soil and a sheltered position. Italian cypress prefers full sun and tolerates dry conditions, but should be protected from cold, drying winds. Check the details for the exact species and cultivar in each plant listing."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "watering-and-pruning-dpz9i",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "watering-and-pruningspan-kwpft",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and pruning"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "water-regularly-during-t-uqxoh",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "water-regularly-during-t-nnt1k",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water regularly during the first growing seasons after planting, while the plants establish. Avoid prolonged waterlogging. For a hedge, drip irrigation along the full planting row distributes water evenly and makes maintenance easier."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "most-conifers-will-not-p-qzdqv",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "most-conifers-will-not-p-c43fj",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Most conifers will not produce new growth from old, bare brown wood. Trim green growth carefully and avoid cutting branches back beyond the foliage. Yew is an important exception, while the ability of thuja to recover depends on the species and cultivar; do not assume that a hard cut into bare wood will regenerate."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "cypresses-can-be-affecte-hwrgr",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "cypresses-can-be-affecte-q4rdy",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Cypresses can be affected by cypress canker, caused by the fungus Seiridium cardinale. Choose healthy nursery stock from a reliable source, avoid unnecessary wounds and clean pruning tools."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "from-the-first-idea-to-p-ruwtl",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "from-the-first-idea-to-p-8u0k7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "From the first idea to planting with Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "tell-us-the-length-and-d-vqi6d",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tell-us-the-length-and-d-f4plh",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Tell us the length and desired height of your hedge, or send a photo of the planting area. We can help you consider the species and cultivar, mature dimensions, plant quantity and spacing. Florial can assist with selection, delivery, professional planting and irrigation planning."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "we-work-in-nessebar-ravd-6mb0d",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "we-work-in-nessebar-ravd-jrz8n",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "We work in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie, Kosharitsa, Kableshkovo and nearby settlements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "frequently-asked-questio-9lx34",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "frequently-asked-questio-knxpz",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Frequently asked questions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "which-conifers-are-best--ngday",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "which-conifers-are-best--ryvva",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Which conifers are best for a hedge?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "thuja-is-a-common-choice-r0zn8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "thuja-is-a-common-choice-gz21i",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Thuja is a common choice because it stays evergreen and generally responds well to shaping. The right cultivar depends on the required height and width, growth rate and site conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "when-is-the-best-time-to-p7cmm",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "when-is-the-best-time-to-wfbom",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When is the best time to plant conifers?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "spring-and-autumn-are-us-01x43",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "spring-and-autumn-are-us-ljhc3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Spring and autumn are usually convenient planting periods. Container-grown plants can also be planted during milder weather at other times, provided the soil is not frozen or waterlogged and regular watering is available."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "can-i-cut-a-conifer-hedg-116l1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "can-i-cut-a-conifer-hedg-p9720",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Can I cut a conifer hedge back to bare trunks?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "usually-not-most-conifer-6n3ip",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "usually-not-most-conifer-jzo43",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Usually not. Most conifers do not regrow from old brown wood. Trim gradually within the green, foliated growth and follow the requirements of the particular species."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Большинство хвойных деревьев и кустарников сохраняют зелёный вид круглый год и относятся к самым востребованным растениям для живой изгороди, ограждения участка и вечнозелёных акцентов. В категории — туи, кипарисы и другие хвойные виды разной формы: колонновидные, конусовидные, шаровидные и стелющиеся. Они создают уединение, защиту от ветра и фон для цветочных композиций. При выборе определите желаемую высоту и ширину, расстояние при посадке, освещённость и почву. Свежепосаженным растениям нужен регулярный полив, а для живых изгородей удобно капельное орошение по всей линии. Так растения быстрее приживаются и сохраняют густоту.",
+          "name": "Хвойные деревья и кустарники",
+          "seo": {
+            "h1": "Хвойные деревья и кустарники для сада и озеленения",
+            "keywords": [
+              "Хвойные деревья и кустарники",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа туй, кипарисов и других хвойных для живых изгородей и сада в Несебре, Равде и на Южном Черноморье. Доставка и профессиональная посадка.",
+            "metaTitle": "Хвойные деревья и кустарники | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Хвойные деревья и кустарники для сада и озеленения",
+              "metaDescription": "Большинство хвойных деревьев и кустарников сохраняют зелёный вид круглый год и относятся к самым востребованным растениям для живой изгороди.",
+              "metaTitle": "Хвойные деревья и кустарники | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "--jx2za",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-wfhxc",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хвойные деревья и кустарники: вечнозелёные изгороди, колонны и акценты для любого сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "--v6yhe",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-q2gra",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хвойные растения придают саду структуру и сохраняют декоративность в течение всего года. Они помогают создать уединение, смягчают воздействие ветра и служат спокойным фоном для цветов и декоративных композиций. В категории представлены туи, кипарисы, пихты и ели — от компактных шаровидных форм до высоких колонн и растений, сформированных на штамбе."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--op7ut",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-gsy41",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Что выбрать в зависимости от задачи"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "--fao64",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-12pwm",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для живой изгороди и приватности: туи и другие виды, хорошо переносящие формирующую стрижку. Расстояние рассчитывают по ожидаемой ширине взрослого растения конкретного сорта, а не по размеру молодого саженца."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--k72iy",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-ns2sn",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для вертикального акцента: колонновидные кипарисы и узкие формы туи. Заранее учитывайте место, необходимое взрослой кроне и корневой системе."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--2ndbn",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-wunz9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для низких бордюров, композиций и контейнеров: компактные сорта, например Туя Глобоза и Туя Нана, если их размеры подходят для выбранного места."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--2bndh",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-iadqn",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для крупного силуэта: кавказская и испанская пихта, обыкновенная ель. Уточняйте взрослую высоту и ширину: некоторые виды со временем становятся крупными деревьями."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--b08ld",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-rk8ah",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для входной зоны и террасы: сформированные туи и хвойные растения на штамбе, создающие выразительный декоративный акцент."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--zj5zl",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-pj7p3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Морозостойкость, солнце и почва"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "-rhs-h7-20-c-h5-15-10-c--rhdom",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-rhs-h7-20-c-h5-15-10-c--85gd8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимостойкость зависит от вида и сорта. В шкале RHS показатель H7 означает устойчивость к температурам ниже −20 °C, а H5 — примерно от −15 до −10 °C. Например, кавказская пихта (Abies nordmanniana) и ель обыкновенная (Picea abies) имеют рейтинг H7, тогда как средиземноморский кипарис (Cupressus sempervirens) — H5. У отдельных сортов туи западной также встречается H7, но этот показатель нельзя переносить на все туи."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "-rhs--thzy4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-rhs-span-1vgfc",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Оценки RHS — ориентир, а не гарантия для конкретного участка в Болгарии. Реальная устойчивость зависит также от происхождения растения, возраста, ветра, влажности, дренажа и микроклимата. Пихтам подходит равномерно влажная, но хорошо дренированная почва и защищённое место. Итальянский кипарис предпочитает солнце, переносит периоды засухи, но чувствителен к холодным иссушающим ветрам. Проверяйте характеристики конкретного вида и сорта в карточке растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--l7kgo",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-3izoq",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и обрезка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "--r9axh",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-lbfrt",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В первые сезоны после посадки поливайте регулярно, пока растения не укоренятся. Не допускайте длительного переувлажнения почвы. Для живой изгороди капельный полив вдоль всей линии обеспечивает равномерную подачу воды и упрощает уход."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--hb1o8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-1hipu",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Большинство хвойных не дают нового роста из старой оголённой коричневой древесины. Подрезайте зелёные части осторожно и не укорачивайте ветви за пределами облиственной зоны. Тис — важное исключение, а способность туй восстанавливаться зависит от вида и сорта, поэтому сильную обрезку до голой древесины планировать не следует."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "-seiridium-cardinale--2k9d5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-seiridium-cardinale-spa-3zrsm",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Кипарисы могут поражаться раком кипариса, вызываемым грибом Seiridium cardinale. Выбирайте здоровый посадочный материал у надёжного поставщика, избегайте ненужных повреждений и очищайте инструменты после обрезки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "-florial-kft6y",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-florialspan-0exf8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "От идеи до посадки вместе с Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "-florial--dbfov",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-florial-span-cq5h4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сообщите нам длину и желаемую высоту живой изгороди или пришлите фотографию участка. Мы поможем учесть вид и сорт, взрослые размеры, необходимое количество растений и расстояние между ними. Florial предлагает помощь с выбором, доставкой, профессиональной посадкой и планированием системы полива."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--cajm5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-lu1j5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Работаем в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие, Кошарице, Каблешково и близлежащих населённых пунктах."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--lztu8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-tt9jc",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Часто задаваемые вопросы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "--0l0qw",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-vtcpb",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Какие хвойные растения подходят для живой изгороди?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "--1fzsd",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-l6fhq",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Часто выбирают туи благодаря вечнозелёной хвое и хорошей переносимости формирующей стрижки. Подходящий сорт зависит от желаемой высоты и ширины, скорости роста и условий участка."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--fi28q",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-e5r9e",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Когда лучше сажать хвойные растения?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "--rtsuj",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-qa7ec",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обычно удобные периоды — весна и осень. Контейнерные растения можно высаживать и в другие периоды с мягкой погодой, если почва не промёрзла и не переувлажнена, а регулярный полив обеспечен."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "--1v6g1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-v0vab",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Можно ли обрезать изгородь до голого ствола?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "--35b96",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "-span-i64ie",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как правило, нет. Большинство хвойных не восстанавливаются из старой коричневой древесины. Обрезайте постепенно в пределах зелёной части и учитывайте особенности конкретного вида."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
