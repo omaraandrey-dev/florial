@@ -30,8 +30,7 @@ test('homepage featured plants are explicit published plant recommendations with
   assert.match(app, /!\(_id in path\("drafts\.\*\*"\)\)/)
   assert.match(app, /publicPlantsClient\.fetch\(featuredPlantsQuery\)/)
   assert.match(home, /getPlantStockStatus\(product\)/)
-  assert.match(home, /variantPrices/)
-  assert.match(home, /variant.stockStatus !== 'outOfStock'/)
+  assert.match(home, /getPlantPrice\(product\)/)
   assert.match(home, /product.vatIncluded === true/)
   assert.match(home, /onNavigateProduct\(productSlug\)/)
 })
@@ -71,4 +70,10 @@ test('homepage blog pins the landscape project and irrigation price articles bef
   assert.match(blog, /podroben-landshaften-proekt-gradina/)
   assert.match(blog, /cena-sistema-avtomatichno-napoyavane-burgas/)
   assert.match(blog, /latest\.filter\(\(post\) => !pinnedSlugsSet\.has\(blogSlug\(post\)\)\)\.slice\(0, 1\)/)
+})
+
+
+test('homepage delegates featured plant pricing to the tested pure helper', async () => {
+  const home = await read('../src/pages/HomePage.tsx')
+  assert.match(home, /getPlantPrice\(product\)/)
 })
