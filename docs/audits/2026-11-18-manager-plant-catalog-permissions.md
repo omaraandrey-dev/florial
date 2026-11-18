@@ -23,6 +23,7 @@ Manager permissions remain separate: direct creation requires `canCreatePlant`; 
 - `functions/api/manager/plants.ts`: POST create now checks `canCreatePlant`; GET remains authenticated read access.
 - `functions/api/manager/plants/[id].ts`: PATCH now checks `canEditPlantCard`; Seller with `canCreatePlant` satisfies it through the shared permission helper.
 - `functions/api/manager/plants/[id]/add-variant.ts`: add-variant now checks `canAddPlantVariant`.
+- `functions/api/manager/plant-catalog.ts`: the legacy variant/price/stock submission and stock-update route now normalizes the staff permissions and uses the same shared permission helper for read access, approval, publication, stock, variant and price actions.
 - `functions/api/manager/upload-image.ts`: upload requires catalog create or edit permission.
 - `src/manager/PlantCatalogManager.tsx`: receives the staff permission profile; create controls appear only with create permission; existing cards open for editing only with the applicable edit permission. Users without write access retain read-only catalog browsing.
 - `src/manager/ManagerApp.tsx`: Seller permission UI presents one catalog-access switch and removes separate Seller variant/price/stock actions; the catalog editor is the direct workspace for those operations.
