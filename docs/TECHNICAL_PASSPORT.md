@@ -1,3 +1,14 @@
+## 2026-11-18 — Blog article: rolled turf in Sunny Beach
+
+- Sanity Production document `blogPost-kupete-travna-plosht` refreshed with owner approval; slug `kupete-travna-plosht` and public URL unchanged. Published revision: `4wsk3P4LWpbmPrrSdsLAZ6`.
+- BG/RU/EN now contain 76 Portable Text blocks each (11,324 / 10,168 / 10,321 characters). Localized SEO title/description and cover ALT are set for all three languages.
+- Original Florial roll/pallet specifications retained: 0.4 × 1.25 m roll, 0.5 m² coverage, approx. 2 cm thickness, 15–25 kg per roll; 1 × 1.2 m pallet, approx. 25 m² / 50 rolls, 750–1,300 kg.
+- Three irrigation kits and current VAT-inclusive prices integrated: 242.32 / 478.32 / 631.42 EUR. Example lawn layout and water-supply requirements are explicitly scoped to the verified product configurations; exclusions are stated.
+- Three DROP source photos uploaded to Sanity and placed inline with two existing images. Five inline images per locale, localized ALT.
+- Internal links connect the lawn enquiry service, irrigation installation/category, plant categories, three kits and related articles. The blog page's existing tag-based related-card renderer remains in use.
+- Pre-write snapshot: `docs/backups/sanity/2026-11-18-kupete-travna-plosht-before-editorial-refresh.json`; audit: `docs/audits/2026-11-18-kupete-travna-plosht-article-refresh.md`.
+- Production fetch verification: BG/RU/EN localized metadata/content; 9 images and 16 links per locale. Sanity validation is `valid` but incomplete because custom validation callbacks are not run by the beta validator. No code, schema, Cloudflare, D1, Resend or frontend shell changes.
+
 ## 2026-11-18 — Homepage code cleanup (follow-up to PR #385)
 
 - Removed the unused homepage-only `siteSettings` request/state/prop; Header's separate `headerSiteSettings` loader is retained.
