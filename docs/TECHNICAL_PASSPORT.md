@@ -1,3 +1,50 @@
+## 2026-11-16 — Owner-approved sprinkler engine scope and current implementation
+- Development scope: Rain Bird R-VAN, HE-VAN and 3500; 5000 MPR is isolated reference data only, not a solver or customer recommendation family.
+- The later PR #339/#340 implementation added an isolated 3500 candidate generator with half-circle-only constraints. Current prototype README and OPEN_QUESTIONS describe exact capability and remaining engineering gates. Do not reuse the older PR #334 statement that 3500 is not integrated.
+
+## 2026-11-15 — Category SEO content coverage
+- Root flowers category `plants-flowers`: 27 Portable Text blocks per locale; BG live render confirmed, RU/EN pending due HTTP 429.
+- Eight categories across `plants` and `production` that lacked localized footer SEO content received 27 blocks per locale. Repeat published read-back returned zero missing BG/RU/EN `seoContent`; no metadata, products, relationships, schema or code changed.
+- Backups and audits are linked in CHANGELOG.
+
+## 2026-11-15 — Yucca/Cycas product SEO and editorial review
+- Read-only Search Console/Sanity audit identified taxonomy and localized SEO/ALT cleanup opportunities; two Cycas records remain separate pending owner decision.
+- Three approved product documents were updated with localized names/descriptions/SEO/ALT while preserving prices, variants, stock, slug, categories, assets and toxicity warnings. Live storefront rendering/Google URL Inspection pending.
+
+## 2026-11-13 — Irrigation product SEO inventory
+- 275 active irrigation products with slug were inspected in Sanity Production. 193 lacked localized H1; 143 had RU/EN meta gaps; one had BG meta gap.
+- Existing Manager bulk apply overwrites populated values and processes both catalogues; not safe for missing-only work. Use targeted revision-guarded writes only. See `docs/audits/2026-11-13-irrigation-product-seo-inventory.md`.
+
+## 2026-11-12 — Blog commercial CTA release
+- 14 published blogPost documents updated in Sanity Production: 42 localized CTA blocks, 84 new commercial links, 33 existing href corrections. Text, assets, SEO, tags, slugs and publication dates preserved.
+- Full snapshot, audit and release record: `docs/backups/sanity-blog-commercial-links-before-2026-11-12.json`, `docs/audits/2026-11-12-blog-commercial-links.md`, `docs/releases/2026-11-12-blog-commercial-links.md`. Live visual QA remained pending.
+
+## 2026-11-12 — Photo media metadata localization
+- Seven of eight Sanity `photo` records received BG/RU/EN titles and image ALT, BG SEO descriptions, tags and missing search slugs; logo record unchanged. Backup: `docs/backups/sanity-photo-media-before-localization-2026-11-12.json`.
+- Schema has only BG `seoDescription` and no video field. Source-image composition review remains pending.
+
+## 2026-11-12 — Stable code baseline and recovery limits
+- Stable code SHA `d72b9bfdd7036359e1eb2d13f819d24a8bb6c388`; stable branch `stable/FLORIAL-STABLE-2026-11-12`; Pages deployment `df1c81a8-4646-4d0e-9871-d389e5523a89`; Actions `43100886700`.
+- D1 SQL export completed but owner download/storage not confirmed. No Sanity dataset export was created. This reference cannot restore D1 or Sanity content.
+- Full record: `docs/operations/STABLE_BASELINE_2026-11-12.md`.
+
+## 2026-11-12 — Published plant categories: solitaires and olives
+- `plants-solitaires`: 34 BG/RU/EN Portable Text blocks per locale, localized SEO and CTA; live Production page smoke pending.
+- `plants-olives`: 32 blocks per locale, localized SEO/help CTA; live BG/RU/EN HTTP 200 and GROQ read-back confirmed.
+- These are category documents, separate from the 18 Nov olive blog post.
+
+## 2026-11-11 — PR #207 deployment incident and correction history
+- PR #207 merge commit `5ec210848db4b30568e5f4ae8ee03d02c4efe3a1` encountered two Cloudflare Pages Function publication failures caused by D1 binding generation; read-only D1 and binding checks passed. At that historical point the Cloudflare-side cause remained unresolved; later deployment records supersede its Production status.
+- PR #205 release record was corrected after successful CI/D1 validation/Production deployment; a protocol deviation (merge/deploy without separate approval) was recorded. No rollback was executed.
+
+## 2026-11-09 — Performance pause and rollback checkpoint
+- Runtime rollback PR #163 Production deployment succeeded; docs-only PR #165 deployment succeeded. Browser Rendering confirmed homepage and irrigation category, while plants/blog received HTTP 429.
+- No matched Lighthouse/CLS/INP reruns were completed. See `docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md`.
+
+## 2026-11-08 — Delivery stage 3
+- Delivery PR #120 Production release and localized BG/RU/EN smoke checks passed; PR #122 mobile delivery-table correction deployed successfully. Optional Sanity tariff-change acceptance test was not performed.
+- Roadmap and release evidence remain in `docs/ROADMAP_SERVICES_AND_LEADS.md`.
+
 ## 2026-11-18 — Plant category editorial refresh
 - Sanity Production `bxvcy0qs/plants`, document `plants-root`, slug `rastenia`, route `/category/rastenia`; final revision `27yhFk6bgn0uNCdCySoa9D`.
 - BG/RU/EN short descriptions and 25 Portable Text blocks per locale updated; H1 retained; localized meta descriptions now explicitly state plant sales. 8 H2 per locale.
