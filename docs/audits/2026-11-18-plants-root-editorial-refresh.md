@@ -19,7 +19,7 @@ The owner approved the category text refresh and complete RU/EN localization. On
 - Added direct commercial language naturally in the introduction and closing copy; retained plant categories, coastal suitability guidance, local service geography and related landscaping/irrigation services.
 - Clarified the Bulgarian term “солитери” with plain-language wording in the section heading and retained the professional term in the explanatory paragraph.
 - Improved Bulgarian phrasing (including replacing the awkward “обем” usage with “структура”) and produced independent, natural Russian and English versions.
-- Updated H1 and meta descriptions for all three locales. Russian meta title now uses the Russian spelling “Несебр”.
+- Confirmed and retained the existing H1 wording in all three locales; updated the meta descriptions for all three languages. The Russian meta title now uses the Russian spelling “Несебр”.
 - Final meta description lengths: BG 141 characters, RU 132, EN 158.
 
 ## SEO and page intent
