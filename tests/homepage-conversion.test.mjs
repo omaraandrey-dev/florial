@@ -44,3 +44,27 @@ test('homepage conversion content is localized in every supported language', asy
     assert.match(content, /'Цената е с включен ДДС.':/)
   }
 })
+
+ 
+test('homepage hero CTAs use published category photography and keep About visibly clickable', async () => {
+  const home = await read('../src/pages/HomePage.tsx')
+  assert.match(home, /plantRootCategory\?\.imageUrl/)
+  assert.match(home, /readyKitsCategory\?\.imageUrl/)
+  assert.match(home, /focus-visible:outline/)
+  assert.match(home, /hover:bg-\[#F3F5EC\]/)
+})
+test('homepage selected irrigation equipment is limited to four active ready kits', async () => {
+  const app = await read('../src/App.tsx')
+  const home = await read('../src/pages/HomePage.tsx')
+  assert.match(app, /references\("6709cd41-18c6-4c5f-bc27-90d55d685dec"\)/)
+  assert.match(app, /stockStatus != "outOfStock"/)
+  assert.match(app, /priceEUR asc, name asc\)\[0\.\.\.4\]/)
+  assert.match(home, /visibleFeaturedEquipment[\s\S]*?\.slice\(0, 4\)/)
+  assert.match(home, /onNavigateProduct\(productSlug\)/)
+})
+test('homepage blog pins the landscape project and irrigation price articles before the latest third article', async () => {
+  const blog = await read('../src/components/BlogSection.tsx')
+  assert.match(blog, /podroben-landshaften-proekt-gradina/)
+  assert.match(blog, /cena-sistema-avtomatichno-napoyavane-burgas/)
+  assert.match(blog, /latest\.filter\(\(post\) => !pinnedSlugsSet\.has\(blogSlug\(post\)\)\)\.slice\(0, 1\)/)
+})
