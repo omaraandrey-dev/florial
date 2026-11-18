@@ -59,9 +59,7 @@ test('homepage selected irrigation equipment is limited to four active ready kit
   assert.match(app, /references\("6709cd41-18c6-4c5f-bc27-90d55d685dec"\)/)
   assert.match(app, /stockStatus != "outOfStock"/)
   assert.match(app, /priceEUR asc, name asc\)\[0\.\.\.20\]/)
-  assert.match(app, /komplekt-polivane-5x5/)
-  assert.match(app, /komplekt-avtomatizatsiya-6-zoni/)
-  assert.match(app, /products\.find\(\(product\) => product\.slug\?\.current === 'komplekt-avtomatizatsiya-6-zoni'\)/)
+  assert.match(app, /selectFeaturedEquipment\(data\)/)
   assert.match(home, /visibleFeaturedEquipment[\s\S]*?\.slice\(0, 4\)/)
   assert.match(home, /onNavigateProduct\(productSlug\)/)
 })
@@ -76,4 +74,20 @@ test('homepage blog pins the landscape project and irrigation price articles bef
 test('homepage delegates featured plant pricing to the tested pure helper', async () => {
   const home = await read('../src/pages/HomePage.tsx')
   assert.match(home, /getPlantPrice\(product\)/)
+})
+
+
+test('homepage uses one main landmark for all primary sections', async () => {
+  const home = await read('../src/pages/HomePage.tsx')
+  assert.equal((home.match(/<main\\b/g) || []).length, 1)
+  assert.equal((home.match(/<\\/main>/g) || []).length, 1)
+  assert.match(home, /<BlogSection \/>/)
+})
+
+test('homepage blog distinguishes loading, empty and failed requests', async () => {
+  const blog = await read('../src/components/BlogSection.tsx')
+  assert.match(blog, /status === 'loading'/)
+  assert.match(blog, /status === 'error'/)
+  assert.match(blog, /status === 'empty'/)
+  assert.match(blog, /setStatus\(nextPosts\.length \? 'ready' : 'empty'\)/)
 })
