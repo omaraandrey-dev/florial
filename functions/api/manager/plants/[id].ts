@@ -1,4 +1,4 @@
-import { checkSameOrigin, json, newId, requireUser, type ManagerEnv } from '../_lib'
+import { checkSameOrigin, hasPermission, json, newId, requireUser, type ManagerEnv } from '../_lib'
 import { auditSnapshot, buildPlantSet, cleanText, errorJson, parseJsonBody, requirePlantRole, safeFailureCode, sanityMutate, sanityQuery, verifyPlantAiProof, writeAudit, type PlantDocument } from '../plant-direct-lib'
 import { validatePlantUpdateRequest } from '../plant-update-request-lib.mjs'
 
@@ -26,7 +26,7 @@ export const onRequestPatch = async ({ request, env, params }: { request: Reques
   if (!checkSameOrigin(request)) return json({ error: 'Origin not allowed.' }, 403)
   const auth = await requireUser(request, env)
   if (auth.response || !auth.user) return auth.response || json({ error: 'Authentication required.' }, 401)
-  if (!requirePlantRole(auth.user)) return json({ error: 'Insufficient permissions.' }, 403)
+  if (!hasPermission(auth.user, 'canEditPlantCard')) return json({ error: 'Нямате право да редактирате продуктовата карта.' }, 403)
   const id = cleanText(params.id, 128)
   if (!/^[A-Za-z0-9_-]{8,128}$/.test(id) || id.startsWith('drafts.')) return errorJson('Invalid product ID.', 400)
   const body = await parseJsonBody(request)
