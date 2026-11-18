@@ -1,3 +1,9 @@
+## 2026-11-18 — Manager on-demand PostHog integration (pending credential and release)
+- Added a separate authenticated Manager endpoint and UI block for on-demand PostHog summaries; D1 analytics remains unchanged. The feature covers the five live-confirmed events, daily page views, top paths, languages and approximate countries, with five-minute isolate cache.
+- Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`).
+- Live Cloudflare Pages configuration has only public `VITE_POSTHOG_PROJECT_KEY`; no server-side personal API key exists. Existing values were not read. No Cloudflare secret, D1, or Production deployment was changed.
+- Feature is not operational/deployed until owner-approved least-privilege PostHog API key is configured and live API verification passes. See `docs/FLORIAL_ANALYTICS_CONSENT_POSTHOG.md`.
+
 ## 2026-11-18 — PostHog live ingestion and dashboard verification
 - Live PostHog EU project `349453` verified: five Florial event names observed; the private dashboard `1114600` now has six tiles (page views, categories/products, cart actions, languages, top pages, country map).
 - Verified 576 page-view events for 14–18 Nov (BG 323, RU 247, EN 6; GeoIP BG 570, BE 5, UA 1). Counts are events, not unique people; 18 Nov partial; GeoIP approximate.
