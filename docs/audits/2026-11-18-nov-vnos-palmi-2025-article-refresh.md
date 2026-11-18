@@ -70,7 +70,13 @@ Each locale has 17 Portable Text internal-link annotations, read back from publi
 
 The planting service is active and its existing lead form has required name, phone and location fields, plus optional email and project details. No service form, API or submission behavior was changed; no real enquiry was submitted.
 
-Tags are `Растения` and `Озеленяване` to support the existing tag-based related-article component. The article also contains a dedicated “Още полезни статии / Читайте также / Related articles” section with four explicit links.
+Tags are `Растения` and `Озеленяване` to support the existing tag-based related-article component. The actual related-post query was run with the same tag intersection/order as `fetchRelatedBlogPosts`; it returns these three cards:
+
+1. `podroben-landshaften-proekt-gradina` — detailed garden landscape project
+2. `rozi-sympathy` — Sympathy roses
+3. `maslina-sredizemnomorie` — olive tree in the garden
+
+The article also contains a dedicated “Още полезни статии / Читайте также / Related articles” section with four explicit links.
 
 ## Verification
 
