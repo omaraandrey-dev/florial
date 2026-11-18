@@ -102,6 +102,7 @@ export type ManagerEnv = {
   SANITY_DATASET?: string
   SANITY_PLANTS_DATASET?: string
   RESEND_API_KEY?: string
+  POSTHOG_PERSONAL_API_KEY?: string
   EMAIL_FROM?: string
   CATALOG_REVIEW_EMAIL?: string
   ORDER_NOTIFICATION_EMAIL?: string
