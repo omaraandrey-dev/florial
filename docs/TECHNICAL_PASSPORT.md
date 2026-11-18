@@ -1,3 +1,12 @@
+## 2026-11-18 — Product Offer implementation verification
+
+- Shared Offer helper and tests: commit 92da3ecdb8d06b51de72ae87a5ed495030bc439d.
+- Blog and Studio validation run 44355682859 succeeded: typecheck, lint, all website tests, website build, migration checks/dry-run, Studio typecheck and Studio build.
+- D1 migration validation run 44355682858 succeeded.
+- Cloudflare Preview for 92da3ec deployed at https://9ba37c43.florial.pages.dev; Preview only, not Production.
+- Current branch head 8fd67042f41746b09f66f014734790131ff54e76 adds only a clarifying comment in ProductPage after the verified implementation commit.
+- Google Rich Results Test and URL Inspection are still pending; see the active roadmap and stage-1 audit. No Production deployment or live Google settings change.
+
 ## 2026-11-18 — Product JSON-LD shared Offer contract (PR #407, validation pending)
 
 - Canonical builder: src/lib/productJsonLd.mjs. functions/_lib/productJsonLd.mjs re-exports it for Cloudflare middleware; src/pages/ProductPage.tsx imports the same builder.
