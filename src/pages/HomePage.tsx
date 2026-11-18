@@ -5,17 +5,21 @@ import { applyPageSeo } from '../lib/seo'
 import { BlogSection } from '../components/BlogSection'
 import { getCategoryImageText } from '../lib/categoryImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
+import { getProductImageText } from '../lib/productImageSeo'
+import { getPlantDisplayName, getPlantStockStatus } from '../lib/plantCatalogUtils'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
-import type { ServiceItem, CategoryItem, SiteSettings } from '../types'
+import type { ServiceItem, CategoryItem, SiteSettings, Product } from '../types'
 
 interface HomePageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
   plantCategories: CategoryItem[]
   heroImageUrl: string | null
+  featuredPlants: Product[]
   siteSettings: SiteSettings | null
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
+  onNavigateProduct: (slug: string) => void
 }
 
 
@@ -24,8 +28,10 @@ export function HomePage({
   categories,
   plantCategories,
   heroImageUrl,
+  featuredPlants,
   onNavigateService,
   onNavigateCategory,
+  onNavigateProduct,
 }: HomePageProps) {
   const { t, language, localize } = useI18n()
 
@@ -96,6 +102,28 @@ export function HomePage({
     .map((id) => plantCategories.find((category) => category._id === id))
     .filter((category): category is CategoryItem => Boolean(category))
   const visibleEquipmentCategories = sortedCategories.slice(0, 6)
+  const visibleFeaturedPlants = featuredPlants
+    .filter((product) => getPlantStockStatus(product) !== 'outOfStock')
+    .filter((product) => {
+      const variants = product.saleVariants || []
+      const variantPrices = variants.map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+      return variants.length > 0 ? variantPrices.length > 0 : Number.isFinite(product.priceEUR) && product.priceEUR > 0
+    })
+    .slice(0, 4)
+
+  const getServiceSummary = (service: ServiceItem) => {
+    const summary = localize(service, 'shortDescription')
+    if (typeof summary === 'string' && summary.trim()) return summary.trim()
+    const summaries: Record<string, Record<string, string>> = {
+      landscaping: { bg: 'Индивидуални проекти и цялостно оформление на красиви градини.', ru: 'Индивидуальные проекты и комплексное оформление красивых садов.', en: 'Tailored designs and complete planning for beautiful gardens.' },
+      planting: { bg: 'Професионално засаждане на растения и озеленяване на терени.', ru: 'Профессиональная посадка растений и озеленение участков.', en: 'Professional planting and landscaping for outdoor spaces.' },
+      irrigation: { bg: 'Проектиране, монтаж и настройка на автоматизирани системи.', ru: 'Проектирование, монтаж и настройка автоматических систем.', en: 'Design, installation and setup of automatic irrigation systems.' },
+      lawn: { bg: 'Подготовка на терена и полагане на естествен тревен чим.', ru: 'Подготовка участка и укладка натурального рулонного газона.', en: 'Ground preparation and installation of natural turf.' },
+      maintenance: { bg: 'Грижа за растенията и сезонна поддръжка на градината.', ru: 'Уход за растениями и сезонное обслуживание сада.', en: 'Plant care and seasonal garden maintenance.' },
+      delivery: { bg: 'Доставка на оборудване и консултация с инженер.', ru: 'Доставка оборудования и консультация инженера.', en: 'Equipment delivery and consultation with an irrigation engineer.' },
+    }
+    return summaries[service.serviceCategory || '']?.[language] || ''
+  }
 
   return (
     <div>
@@ -130,12 +158,25 @@ export function HomePage({
           <p className="text-[#11150F] max-w-4xl mx-auto text-sm md:text-lg leading-relaxed font-semibold">
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
-          <div className="mt-7 flex justify-center">
-            <a href={localizedHref('/about', language)} className="group inline-flex items-center gap-3 rounded-xl bg-[#647746] px-7 py-4 text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline">
-              <span>{language === 'ru' ? 'Подробнее о нас' : language === 'en' ? 'Learn more about us' : 'Научете повече за нас'}</span>
-              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+          <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#647746] px-7 py-4 text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline sm:w-auto">{t('Разгледайте растенията')} <span aria-hidden="true">→</span></a>
+            <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('vsichko-za-polivane'))} className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#647746] bg-white/90 px-7 py-[14px] text-base font-bold text-[#53643A] transition hover:-translate-y-0.5 hover:bg-[#F3F5EC] no-underline sm:w-auto">{t('Поливно оборудване')} <span aria-hidden="true">→</span></a>
           </div>
+          <a href={localizedHref('/about', language)} className="mt-4 inline-flex text-sm font-semibold text-[#53643A] underline decoration-[#B9C79C] underline-offset-4 hover:text-[#34452D]">{t('Повече за нас')}</a>
+        </div>
+      </section>
+
+      <section aria-label={t('Предимствата на Florial')} className="border-b border-[#E4E8DA] bg-white px-4 py-5 md:py-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
+          {[
+            { mark: '25+', title: t('25+ години опит'), detail: t('Професионализъм и опит') },
+            { mark: '🌿', title: t('Растения и поливно оборудване'), detail: t('За градината на едно място') },
+            { mark: '⌖', title: t('Несебър и региона'), detail: t('Местно обслужване') },
+            { mark: '✓', title: t('Проектиране и монтаж'), detail: t('От идеята до реализацията') },
+          ].map((item) => <div key={item.title} className="flex items-center gap-3">
+            <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#DDE3D0] bg-[#F3F5EC] text-base font-extrabold text-[#647746]">{item.mark}</span>
+            <div className="min-w-0"><p className="text-sm font-bold leading-snug text-[#34452D]">{item.title}</p><p className="mt-0.5 text-xs leading-snug text-slate-500">{item.detail}</p></div>
+          </div>)}
         </div>
       </section>
 
@@ -177,6 +218,8 @@ export function HomePage({
                         </div>
                         <div className="p-3 md:p-4">
                           <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{language === 'ru' ? 'Доставка оборудования и консультация инженера' : language === 'en' ? 'Equipment delivery & engineer consultation' : 'Доставка на оборудване и консултация с инженер'}</h4>
+                          <p className="text-xs leading-relaxed text-slate-600 md:text-sm">{t('Доставка на оборудване и консултация с инженер.')}</p>
+                          <span className="mt-3 inline-flex text-xs font-bold text-[#647746]">{t('Научете повече')} →</span>
                         </div>
                       </div>
                     </a>
@@ -210,6 +253,8 @@ export function HomePage({
                       </div>
                       <div className="p-3 md:p-4">
                         <h4 className="text-sm md:text-xl font-bold mb-1 leading-snug">{localize(srv, 'name')}</h4>
+                        {getServiceSummary(srv) && <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-600 md:text-sm">{getServiceSummary(srv)}</p>}
+                        <span className="mt-3 inline-flex text-xs font-bold text-[#647746]">{t('Научете повече')} →</span>
                       </div>
                     </div>
                   </a>
@@ -261,6 +306,45 @@ export function HomePage({
           </div>
         </div>
       </section>
+
+      {visibleFeaturedPlants.length > 0 && (
+        <section className="border-b border-[#E7EBDD] bg-white px-4 py-10 md:py-12">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div><h3 className="text-2xl font-extrabold text-slate-900 md:text-3xl">{t('Избрани растения')}</h3><p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">{t('Подбрани растения от нашия каталог с актуални цени и наличност.')}</p></div>
+              <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="inline-flex w-fit items-center text-sm font-bold text-[#647746] no-underline hover:text-[#34452D]">{t('Разгледайте всички растения')} →</a>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+              {visibleFeaturedPlants.map((product) => {
+                const variants = product.saleVariants || []
+                const variantPrices = variants.map((variant) => variant.priceEUR).filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0)
+                const hasVariants = variants.length > 0
+                const price = hasVariants ? Math.min(...variantPrices) : product.priceEUR
+                const pricePrefix = hasVariants && new Set(variantPrices).size > 1 ? t('Цена от') + ' ' : ''
+                const name = getPlantDisplayName(product, localize(product, 'name'), language)
+                const stockStatus = getPlantStockStatus(product)
+                const availability = stockStatus === 'inStock' ? t('В наличност') : stockStatus === 'onRequest' ? t('По заявка') : t('Проверете наличността')
+                const productSlug = product.slug?.current || product._id
+                return <article key={product._id} className="overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <a href={localizedHref(`/product/${encodeURIComponent(productSlug)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateProduct(productSlug))} className="block text-left no-underline">
+                    <div className="flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#F7F8F1]">
+                      {product.imageUrl ? <img {...getSanityImageProps(product.imageUrl, '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 50vw')} alt={getProductImageText(name, language, 0, 'alt')} loading="lazy" decoding="async" className="h-full w-full object-contain p-2 transition duration-300 hover:scale-[1.02] sm:p-4" /> : <span className="text-sm text-slate-400">{t('Няма снимка')}</span>}
+                    </div>
+                    <div className="p-3 sm:p-4">
+                      <h4 className="line-clamp-2 min-h-10 text-sm font-bold leading-snug text-slate-900 sm:text-base">{name}</h4>
+                      {product.scientificName && <p className="mt-1 line-clamp-1 text-xs italic text-slate-500">{product.scientificName}</p>}
+                      <p className="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">{pricePrefix}{price.toFixed(2)} €</p>
+                      <p className="mt-1 text-xs text-slate-500">{t('Цената е с включен ДДС.')}</p>
+                      <p className={`mt-2 text-xs font-semibold ${stockStatus === 'inStock' ? 'text-emerald-700' : 'text-amber-700'}`}>{availability}</p>
+                      <span className="mt-3 inline-flex text-sm font-bold text-[#647746]">{t('Виж растението')} →</span>
+                    </div>
+                  </a>
+                </article>
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       <main className="max-w-7xl mx-auto px-4 pt-10 pb-5 flex-grow w-full bg-[#EEF1E4]">
         <div className="relative mb-4 flex flex-col items-center gap-3 md:block">

@@ -291,6 +291,7 @@ export default function App() {
   const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
   const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
+  const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
@@ -576,7 +577,8 @@ export default function App() {
     `
     const headerServiceQuery = `
       *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
-        _id, name, translations { bg { name }, ru { name }, en { name } },
+        _id, name, shortDescription,
+        translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
         "slug": { "current": coalesce(slug.current, slug) },
         sortOrder, serviceCategory, serviceLayout,
         "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
@@ -920,6 +922,39 @@ export default function App() {
       cancelled = true
     }
   }, [])
+
+  // Homepage recommendations are curated explicitly in the plants dataset via isFeatured.
+  // Load only a small published projection on the homepage; never infer popularity from sort order.
+  useEffect(() => {
+    const isHomeRoute = normalizedRoutePath === '/' || normalizedRoutePath === '/index.html'
+    if (!isHomeRoute) {
+      setHomeFeaturedPlants([])
+      return
+    }
+    let cancelled = false
+    const featuredPlantsQuery = `
+      *[_type == "product" && !(_id in path("drafts.**")) &&
+        productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+        isActive != false && isFeatured == true &&
+        defined(coalesce(slug.current, slug)) && defined(mainImage.asset)] | order(sortOrder asc, name asc)[0...8] {
+          _id, name, productType, scientificName,
+          "slug": { "current": coalesce(slug.current, slug) },
+          translations { bg { name }, ru { name }, en { name } },
+          priceEUR, vatIncluded, stockStatus,
+          saleVariants[]{_key, name, nameEn, nameRu, priceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL},
+          "imageUrl": mainImage.asset->url,
+          "imageAlt": mainImage.alt, "imageAltEn": mainImage.altEn, "imageAltRu": mainImage.altRu
+        }
+    `
+    publicPlantsClient.fetch(featuredPlantsQuery)
+      .then((data: Product[]) => { if (!cancelled) setHomeFeaturedPlants(Array.isArray(data) ? data : []) })
+      .catch((error) => {
+        if (cancelled) return
+        console.error('Homepage: не удалось загрузить рекомендованные растения:', error)
+        setHomeFeaturedPlants([])
+      })
+    return () => { cancelled = true }
+  }, [normalizedRoutePath])
 
   // The full service directory is needed only by /services; the Header keeps its compact navigation query.
   useEffect(() => {
@@ -1762,9 +1797,11 @@ export default function App() {
           categories={visibleCategories.filter((category) => !category._id.startsWith('plants-'))}
           plantCategories={homePlantCategories}
           heroImageUrl={homeHeroImageUrl}
+          featuredPlants={homeFeaturedPlants}
           siteSettings={siteSettings}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
+          onNavigateProduct={navigateToProduct}
         />
         )}
       </React.Suspense>
