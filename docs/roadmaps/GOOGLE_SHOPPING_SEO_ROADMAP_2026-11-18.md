@@ -195,3 +195,14 @@
   - Plant: `https://search.google.com/test/rich-results?url=https%3A%2F%2F9ba37c43.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat`
 - Windsor.ai Search Console connector fields expose Search Analytics, Sitemaps and Search Appearance; no URL Inspection fields are available through this connector. URL Inspection therefore remains pending via Search Console UI/API access.
 - Stage 2 code/tests/build are complete for the reviewed implementation, but stage 2 remains open until Google validation is recorded. Stage 1 remains open pending Rich Results and available URL Inspection evidence. No Production, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings were changed.
+
+
+### 2026-11-18 — Latest PR state after documentation consolidation
+
+- Current PR #407 head: `7bd1cc16d97dccdbdf1797c074a12ba18bc06ad5` (documentation-only commits after the verified source/test change `8fd67042f41746b09f66f014734790131ff54e76`).
+- The latest successful Cloudflare Pages Preview is for commit `df414aa`: `https://811f1545.florial.pages.dev`. It includes the Product Offer implementation and the updated roadmap; later commits only update audit/handoff documentation and do not change runtime code.
+- Full Blog and Studio validation run `44355759803` passed for source commit `8fd6704`; D1 migration validation run `44355682858` passed. New CI runs for the later documentation-only head were still in progress at the last read.
+- Use the latest Preview for owner-run Google Rich Results tests:
+  - Equipment: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Frain-bird-100-pga-9v`
+  - Plant: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat`
+- Google Rich Results Test and URL Inspection remain pending; no external test result is claimed. PR #407 remains open/unmerged; no Production deployment.
