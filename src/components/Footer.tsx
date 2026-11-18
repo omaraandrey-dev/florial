@@ -51,7 +51,7 @@ export function Footer() {
                 rel="noreferrer"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-green-700 px-3 py-2.5 text-center text-sm font-bold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
               >
-                <span aria-hidden="true">💬</span>WhatsApp
+                <span aria-hidden="true">💬</span>{whatsappLabel}
               </a>
             </div>
           </div>
