@@ -3628,3 +3628,16 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - The evaluator distinguishes target lawn, permitted adjacent spray, no-spray, unapproved on-site and outside-site samples. No-spray policy takes precedence over permissions.
 - Exact CI evidence: code commit `b64f6f18cdac31c0fa29064dfd2b20719a688b03` passed Blog/Studio `43855876224` and D1 `43855891392`; later docs-only head `efd03a2d7b850e37e19599e28e8d509c266636e0` passed Blog/Studio `43860117598` and D1 `43856450266`.
 - Limitations remain: sampled 0.25 m containment, no candidate-search avoidance of forbidden zones, no continuous geometric proof, no hydraulics/DU/SC/wind/installability/full package validation. No customer-facing integration or Production deployment.
+
+
+## 2026-11-18 — Manager: единое право Seller на каталог растений
+
+- Решение владельца: у Seller одно разрешение `canCreatePlant` включает создание растений, редактирование существующих карточек, добавление вариантов, изменение цен и остатков.
+- В `functions/api/manager/_lib.ts` `hasPermission` для Seller трактует `canCreatePlant` как источник этих четырёх дополнительных catalog permissions. Если `canCreatePlant=false`, старые granular catalog flags Seller не предоставляют отдельный доступ.
+- Owner сохраняет полный доступ. Manager сохраняет отдельные разрешения: создание — `canCreatePlant`, прямое редактирование карточки — `canEditPlantCard`, отдельный add-variant endpoint — `canAddPlantVariant`.
+- Прямые API write checks: POST `/api/manager/plants`, PATCH `/api/manager/plants/:id`, POST `/api/manager/plants/:id/add-variant`; загрузка фото требует `canCreatePlant` или `canEditPlantCard`. GET каталога остаётся доступен авторизованным ролям для чтения.
+- `PlantCatalogManager` получает permissions и показывает Seller создание/редактирование только при `canCreatePlant`; при отсутствии write permission каталог остаётся read-only. Manager может редактировать карточки при `canEditPlantCard`; создание — при `canCreatePlant`.
+- Seller UI в управлении сотрудниками показывает единое право каталога. Не расширяются права на заявки, утверждение/публикацию, сотрудников, заказы, SEO категорий или service leads.
+- Существующая доступность botanical AI для Owner/Manager/Seller сохранена; AI generation сама по себе не даёт права записывать карточку.
+- Реализация и тесты: PR #383, audit `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. CI, typecheck/build и браузерная проверка ролей ожидаются; Production release не подтверждён. D1 schema/data и Sanity documents/assets не менялись.
+
