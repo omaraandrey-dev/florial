@@ -282,3 +282,19 @@ Google Rich Results Test и Schema Markup Validator не запускались.
 - ProductGroup остаётся будущей отдельной задачей после подготовки реальных уникальных SKU/GTIN и crawlable URL для каждого варианта.
 
 Production, Sanity schema/documents, Cloudflare settings/secrets, D1, Resend, Merchant Center и Search Console settings не изменялись. PR #407 открыт, не merged.
+
+
+### 10.7 CI, Preview and external validation status — 18.11.2026
+
+- Functional source/test commit: `92da3ecdb8d06b51de72ae87a5ed495030bc439d`.
+- Current branch head: `8fd67042f41746b09f66f014734790131ff54e76`; its only source change after `92da3ec` is an explanatory comment in ProductPage documenting that SEO Offer remains tied to the default variant.
+- Exact commit `92da3ec` passed GitHub Actions:
+  - Blog and Studio validation run `44355682859`: success, including TypeScript, lint, all website tests, website build, migration syntax/dry-run, Studio typecheck and Studio build.
+  - D1 migration validation run `44355682858`: success.
+- Cloudflare Pages Preview for `92da3ec` succeeded at `https://9ba37c43.florial.pages.dev`. This is Preview, not Production.
+- Google Rich Results Test could not be executed through the available interactive web interface; the public Preview pages were also not readable by the web reader. This is an access limitation, not a failed Google test. Owner browser test links:
+  - Equipment: https://search.google.com/test/rich-results?url=https%3A%2F%2F9ba37c43.florial.pages.dev%2Fproduct%2Frain-bird-100-pga-9v
+  - Plant: https://search.google.com/test/rich-results?url=https%3A%2F%2F9ba37c43.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat
+- Windsor.ai Search Console fields include Search Analytics, Sitemaps and Search Appearance, but no URL Inspection fields. URL Inspection remains pending through Search Console UI/API.
+- The previous failed CI run `44355221560` was caused by an incorrect relative-path assertion in the newly added test; the assertion was corrected in `92da3ec`, and the complete subsequent Blog and Studio workflow passed.
+- Stage 2 code/test/build verification is complete for `92da3ec`; Google validation remains pending. Stage 1 is not closed. No Production, Sanity schema/documents, Cloudflare settings/secrets, D1, Resend or Google settings were changed.
