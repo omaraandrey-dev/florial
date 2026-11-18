@@ -45,6 +45,11 @@
 - D1's latest documented live audit is 2026-11-11; the migration 0014 status and table-count metadata discrepancy require a fresh read-only check before the next D1 migration.
 - The legacy Supabase archive and old Manager setup documents are not current implementation instructions. Follow the current architecture and Manager Technical Passport.
 
+## Active Google Shopping / SEO visibility workstream
+
+- Roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Any follow-up chat or implementation must read this roadmap first, update it with evidence, and continue from the first unfinished stage.
+- Stage 1 is in progress; source audit and Search Console baseline are recorded in [stage-1 audit](../audits/2026-11-18-google-shopping-seo-stage-1-audit.md). Fresh Production Product HTML, Rich Results validation and URL Inspection remain pending. Windsor.ai Google Merchant Center connector has no connected account; standalone account status is unknown.
+
 ## Current work boundaries / pending verification
 
 - Manager PostHog on-demand analytics is deployed and owner-accepted. The owner confirmed successful PostHog data display in Manager Production on 18.11.2026.
