@@ -63,7 +63,7 @@
 
 ## 2026-11-08 — Delivery stage 3 release records
 - PR #120: Production deployment `ec045258-1133-49c6-b087-bc49107cd916`, commit `b7f857b0832c4190e52eec5f49dd1a1c4f673bda`; live BG/RU/EN smoke HTTP 200, 30 delivery rows per locale, Pomorie 15 EUR, Kosharitsa 10 EUR, sitemap delivery URLs and hreflang. Optional Sanity tariff-change acceptance test не выполнялся.
-- PR #122 mobile delivery-table correction: merge commit `50d91be629bd1d31dd861732cdd43fb5ea91b` (see original PR record for exact SHA), successful CI and Pages Production deployment `c7e06a19-d2f0-42b7-abb9-a5f11c84dc5a`.
+- PR #122 mobile delivery-table correction: merge commit and successful CI are recorded in PR #123; Pages Production deployment `c7e06a19-d2f0-42b7-abb9-a5f11c84dc5a`.
 - Documentation follow-ups: PRs #121 and #123.
  
 ## 2026-11-18 — Категория растений: редактура BG/RU/EN
