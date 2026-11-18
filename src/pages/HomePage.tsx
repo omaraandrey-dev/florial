@@ -167,16 +167,16 @@ export function HomePage({
             {t('Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.')}
           </p>
           <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="inline-flex w-full items-center justify-start gap-3 rounded-xl bg-[#647746] px-3 py-3 text-left text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline sm:w-[260px]">
+            <a href={localizedHref('/category/rastenia', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('rastenia'))} className="inline-flex w-4/5 max-w-[208px] items-center justify-start gap-3 rounded-xl bg-[#647746] px-3 py-3 text-left text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline sm:w-[208px]">
               {plantRootCategory?.imageUrl && <img {...getSanityImageProps(plantRootCategory.imageUrl, '48px')} alt="" aria-hidden="true" className="h-12 w-12 shrink-0 rounded-lg object-cover" />}
               <span className="flex-1">{t('Разгледайте растенията')}</span><span aria-hidden="true">→</span>
             </a>
-            <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('vsichko-za-polivane'))} className="inline-flex w-full items-center justify-start gap-3 rounded-xl border-2 border-[#647746] bg-white/95 px-3 py-[10px] text-left text-base font-bold text-[#34452D] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F3F5EC] no-underline sm:w-[260px]">
+            <a href={localizedHref('/category/vsichko-za-polivane', language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory('vsichko-za-polivane'))} className="inline-flex w-4/5 max-w-[208px] items-center justify-start gap-3 rounded-xl border-2 border-[#647746] bg-white/95 px-3 py-[10px] text-left text-base font-bold text-[#34452D] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F3F5EC] no-underline sm:w-[208px]">
               {readyKitsCategory?.imageUrl && <img {...getSanityImageProps(readyKitsCategory.imageUrl, '48px')} alt="" aria-hidden="true" className="h-12 w-12 shrink-0 rounded-lg object-cover" />}
               <span className="flex-1">{t('Поливно оборудване')}</span><span aria-hidden="true">→</span>
             </a>
           </div>
-          <a href={localizedHref('/about', language)} className="mt-4 inline-flex items-center gap-2 rounded-lg border border-[#647746] bg-white px-4 py-2.5 text-base font-bold text-[#34452D] shadow-sm underline decoration-[#B9C79C] underline-offset-4 transition hover:border-[#53643A] hover:bg-[#F3F5EC] hover:text-[#263323] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#53643A]">{t('Повече за нас')} <span aria-hidden="true">→</span></a>
+          <a href={localizedHref('/about', language)} className="mt-4 inline-flex text-sm font-semibold text-[#34452D] underline decoration-[#B9C79C] underline-offset-4 transition hover:text-[#263323] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#53643A]">{t('Повече за нас')}</a>
         </div>
       </section>
 
