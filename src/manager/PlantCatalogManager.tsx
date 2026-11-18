@@ -329,17 +329,18 @@ export default function PlantCatalogManager({role}:Props){
  return <div className="mx-auto max-w-5xl px-3 py-4 sm:px-5 sm:py-6">
   {!editorOpen&&!historyOpen&&<>
    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-    <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Единое управление товарами · {items.length} в списке</p></div>
+    <div><h1 className="text-2xl font-bold text-stone-900">Каталог на растенията</h1><p className="mt-1 text-sm text-stone-500">Управление на растенията · Показани: {items.length}</p></div>
     <div className="flex items-center gap-2">
      {role==='owner'&&<button className={btn+' min-h-11 border border-stone-300 bg-white'} onClick={()=>void openHistory()}>История</button>}
      <button className={btn+' hidden min-h-11 bg-lime-800 text-white shadow-sm hover:bg-lime-900 sm:inline-flex'} onClick={openNew}>＋ Добави растение</button>
     </div>
    </div>
    <div className="sticky top-0 z-10 -mx-3 mb-3 space-y-2 border-y border-stone-200 bg-[#f5f6ef] px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
-    <input className={inputClass} value={query} onChange={event=>setQuery(event.target.value)} placeholder={role==='owner'?'Търсене по име, латинско име или артикул…':'Търсене по име или латинско име…'} aria-label="Търсене на растение"/>
-    <div className="grid grid-cols-2 gap-2">
-     <select className={inputClass} value={categoryId} onChange={event=>setCategoryId(event.target.value)}><option value="">Всички категории</option>{categoryOptions.map(item=><option key={item._id} value={item._id}>{item.label}</option>)}</select>
-     <select className={inputClass} value={sort} onChange={event=>setSort(event.target.value as 'name'|'category')}><option value="category">Сортиране: категория</option><option value="name">Сортиране: име</option></select>
+    <input className={inputClass} value={query} onChange={event=>setQuery(event.target.value)} placeholder="Търсене по име, латинско име или артикул…" aria-label="Търсене по име, латинско име или артикул"/>
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+     <select className={inputClass} value={categoryId} onChange={event=>setCategoryId(event.target.value)} aria-label="Филтър по категория"><option value="">Всички категории</option>{categoryOptions.map(item=><option key={item._id} value={item._id}>{item.label}</option>)}</select>
+     <select className={inputClass} value={sort} onChange={event=>setSort(event.target.value as 'name'|'category')} aria-label="Подреждане на растенията"><option value="category">Сортиране: категория</option><option value="name">Сортиране: име</option></select>
+     <button type="button" className={btn+' min-h-11 border border-stone-300 bg-white disabled:cursor-not-allowed disabled:opacity-50'} onClick={()=>{setQuery('');setCategoryId('');setSort('category')}} disabled={!query.trim()&&!categoryId&&sort==='category'}>Изчисти филтрите</button>
     </div>
    </div>
    {error&&<div role="alert" className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
