@@ -1,0 +1,3803 @@
+{
+  "createdAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "documents": [
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-groundcovers",
+      "_rev": "mCiJ6j1PmqLVq15csfurOH",
+      "_system": {
+        "base": {
+          "id": "plants-groundcovers",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T09:54:33Z",
+      "description": "Почвопокривните растения образуват гъст нисък килим, който покрива почвата, ограничава плевелите и намалява изпарението на влагата. Използват се на наклони, под дървета и храсти, между камъни и в участъци, където тревата расте трудно. Налични са видове за слънчеви и за сенчести места, с цъфтеж или само с декоративна зеленина. При избора определете осветеността, почвата, степента на разрастване и дали растението е вечнозелено. Гъстотата на засаждане определя колко бързо ще се затвори покритието. През първия сезон растенията се нуждаят от редовно поливане, а после много видове се справят с по-малко грижа, особено при капково напояване.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Избирайте почвопокривни видове според слънцето или сянката, скоростта на разрастване, почвата и устойчивостта към засушаване. За равномерно покритие са важни подготовката на терена и правилната гъстота на засаждане, особено по склонове и под дървета. Около Поморие и Ахелой осигурете редовно поливане до пълното вкореняване, дори когато зрелите растения понасят сухи периоди. Florial помага с подбора и оформянето на зеленото покритие.",
+        "title": "Почвопокривни растения за склонове и трудни зони",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Choose groundcover species according to sun or shade, spreading habit, soil and drought tolerance. Even coverage depends on site preparation and suitable planting density, particularly on slopes and beneath trees. Around Pomorie and Aheloy, provide regular irrigation until the plants are established, even when mature specimens tolerate dry periods. Florial can help select suitable plants and create a continuous green cover.",
+            "title": "Groundcover plants for slopes and difficult areas"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Выбирайте почвопокровные виды по освещённости, скорости разрастания, типу почвы и устойчивости к засухе. Для равномерного покрытия важны подготовка участка и подходящая плотность посадки, особенно на склонах и под деревьями. В районе Помория и Ахелоя обеспечьте регулярный полив до укоренения, даже если взрослые растения переносят сухие периоды. Florial поможет подобрать виды и создать сплошное зелёное покрытие.",
+            "title": "Почвопокровные растения для склонов и сложных участков"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Почвопокривни растения за озеленяване на дворове край Свети Влас",
+        "altEn": "Ground cover plants for garden landscaping near Sveti Vlas",
+        "altRu": "Почвопокровные растения для озеленения участков у Святого Власа",
+        "asset": {
+          "_ref": "image-198c7e3eb7cb8aa1cc40ffc57b455a10a90c5bd8-640x599-jpg",
+          "_type": "reference"
+        },
+        "title": "Почвопокривни растения за градини в Свети Влас",
+        "titleEn": "Ground cover plants for gardens in Sveti Vlas",
+        "titleRu": "Почвопокровные растения для садов в Свети-Власе"
+      },
+      "name": "Почвопокривни растения",
+      "parent": {
+        "_ref": "plants-flowers",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Почвопокривни растения за градината и озеленяването",
+        "keywords": [
+          "Почвопокривни растения",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на почвопокривни растения за зелени площи, бордюри и склонове в Несебър, Равда и по Южното Черноморие. Доставка и професионално засаждане.",
+        "metaTitle": "Почвопокривни растения | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Почвопокривни растения за градината и озеленяването",
+          "metaDescription": "Почвопокривните растения образуват гъст нисък килим, който покрива почвата, ограничава плевелите и намалява изпарението на влагата.",
+          "metaTitle": "Почвопокривни растения | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "gcvbg01h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg01hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Почвопокривни растения за красиви и подредени градински площи"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg01a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg01as",
+              "_type": "span",
+              "marks": [],
+              "text": "Почвопокривните растения се използват за оформяне на нисък зелен килим, запълване на свободни пространства и създаване на плавни преходи между цветни лехи, дървета, храсти и настилки. Те могат да бъдат с декоративни листа или с цъфтеж и да внесат завършен вид в градината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg01b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg01bs",
+              "_type": "span",
+              "marks": [],
+              "text": "В Florial развиваме асортимента от декоративни растения и цветя, като в собствените ни оранжерии подготвяме и засаждаме нови партиди растения. Конкретните видове в тази подкатегория и тяхната наличност се променят — попитайте ни за актуалните възможности."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg02h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg02hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Роля на почвопокривните растения в озеленяването"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg02a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg02as",
+              "_type": "span",
+              "marks": [],
+              "text": "Ниските растения могат да обединят отделните елементи на градината, да омекотят ръбовете на алеи и бордюри и да запълнят площи под подходящи дървета и храсти. На склонове правилно подбраните видове могат да помогнат за по-устойчиво озеленяване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg02b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg02bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Изборът трябва да отчита скоростта и начина на разрастване. Някои растения образуват плътен килим, други се разпространяват по-умерено. Предвидете границите на площта, за да не навлизат в съседни насаждения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg03h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg03hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Цъфтящи и декоративнолистни видове"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg03a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg03as",
+              "_type": "span",
+              "marks": [],
+              "text": "Почвопокривните растения не са само зелена маса. Някои видове цъфтят и добавят сезонен цвят, докато други се ценят заради формата, текстурата и окраската на листата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg03b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg03bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Комбинирането на цъфтящи и декоративнолистни растения създава по-богат ефект през различните сезони. Подбирайте ги според съвместимите изисквания към светлина, почва и вода."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg04h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg04hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор според слънцето, сянката и почвата"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg04a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg04as",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди засаждане определете дали мястото е на пълно слънце, полусянка или сянка. Проверете и почвата — не всички почвопокривни растения понасят еднакво сухи, тежки или постоянно влажни условия."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg04b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg04bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Вземете предвид и близостта до корените на големи дървета, наклона и възможността за поливане. За участъци с труден достъп е особено важно да изберете растение, което ще се развива добре при реалните условия."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg05h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg05hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Плътност на засаждане и оформяне на площта"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg05a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg05as",
+              "_type": "span",
+              "marks": [],
+              "text": "Броят растения на квадратен метър зависи от вида, размера на посадъчния материал и желаното време за затваряне на площта. По-гъстото засаждане може да ускори покриването, но увеличава първоначалната инвестиция."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg05b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg05bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Оставете достатъчно място за развитие и планирайте ясни граници към тревни площи, алеи и други насаждения. При нужда използвайте бордюри или редовно подрязване за контрол на разрастването."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg06h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg06hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Подготовка на терена и засаждане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg06a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg06as",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди засаждане почистете площта от плевели, камъни и остатъци, след което разрохкайте почвата. При необходимост подобрете структурата и осигурете отвеждане на излишната вода."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg06b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg06bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Разположете растенията равномерно според препоръчителната гъстота за конкретния вид. След засаждане полейте добре и наблюдавайте почвената влажност, докато растенията се установят."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg07h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg07hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и поддръжка след засаждането"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg07a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg07as",
+              "_type": "span",
+              "marks": [],
+              "text": "През първия период почвопокривните растения се нуждаят от редовен контрол на влагата. След вкореняване нуждите се различават според вида, почвата и времето; не приемайте, че всички почвопокривни растения са устойчиви на засушаване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg07b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg07bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Капковото напояване е практично решение за равномерно подаване на вода по засадената площ. Премахвайте плевелите, докато покритието се сгъсти, и контролирайте разрастването според избрания вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg08h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg08hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Почвопокривни растения за Черноморието"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg08a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg08as",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър, Равда, Слънчев бряг, Свети Влас и Поморие изборът трябва да отчита летните горещини, вятъра, почвата и близостта до морето. Откритите слънчеви склонове имат различни условия от сенчестите вътрешни дворове."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg08b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg08bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Подбирайте растенията за конкретното изложение и осигурете поливане през периода на прихващане и при продължителна суша. При крайбрежни терени вземете предвид и въздействието на соления въздух."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg09h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg09hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Подбор и консултация от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "gcvbg09a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg09as",
+              "_type": "span",
+              "marks": [],
+              "text": "Почвопокривните растения могат да бъдат част от цялостно озеленяване на двор, хотелска площ, склон или декоративна градина. В Florial можем да обсъдим подходящ тип растения според площта, изложението и желания резултат."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "gcvbg09b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "gcvbg09bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Асортиментът се обновява, а наличността на отделните видове се променя. Свържете се с нас за актуална информация, избор на растения, професионално засаждане и подходящо решение за напояване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "pochvopokrivni"
+      },
+      "sortOrder": 26,
+      "translations": {
+        "en": {
+          "description": "Ground cover plants form a dense, low carpet that covers soil, suppresses weeds and reduces moisture evaporation. They are useful on slopes, beneath trees and shrubs, between stones and in places where lawn grass struggles to grow. Choose from species for sunny or shaded areas, with flowers or ornamental foliage. Consider light, soil, spreading habit and whether the plant is evergreen. Planting density affects how quickly the ground cover closes. Regular watering is important during the first season; many species then need less care, especially with drip irrigation.",
+          "name": "Ground Cover Plants",
+          "seo": {
+            "h1": "Ground Cover Plants for Gardens and Landscaping",
+            "keywords": [
+              "Ground Cover Plants",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of ground cover plants for green spaces, borders and slopes in Nessebar, Ravda and the Southern Black Sea coast. Delivery and professional planting.",
+            "metaTitle": "Ground Cover Plants | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Ground Cover Plants for Gardens and Landscaping",
+              "metaDescription": "Ground cover plants form a dense, low carpet that covers soil, suppresses weeds and reduces moisture evaporation.",
+              "metaTitle": "Ground Cover Plants | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "gcven01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground cover plants for a neat and attractive garden"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground cover plants create a low green carpet, fill open spaces and form smooth transitions between flower beds, trees, shrubs and hard surfaces. Some are valued for flowers, others for ornamental foliage, and both can give a planting scheme a finished look."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial continues to develop its range of ornamental plants and flowers. In our own greenhouses, we prepare and plant new batches. The exact varieties in this subcategory and their availability may change, so contact us for current options."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The role of ground cover in landscape planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Low-growing plants can connect different parts of a garden, soften the edges of paths and borders, and fill spaces beneath suitable trees and shrubs. On slopes, carefully selected varieties can contribute to a more stable planting scheme."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consider each plant’s growth rate and spreading habit. Some form a dense carpet, while others spread more slowly. Plan the boundaries so that plants do not move into neighbouring areas."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Flowering and foliage ground covers"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground cover plants are not only green background. Some varieties flower and add seasonal colour, while others are valued for leaf shape, texture and colour."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Combining flowering and foliage plants can create interest across different seasons. Choose varieties with compatible requirements for light, soil and moisture."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing plants for sun, shade and soil"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before planting, establish whether the area receives full sun, partial shade or shade. Check the soil too: ground cover varieties differ in their tolerance of dry, heavy or consistently moist conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consider nearby tree roots, the slope and access to irrigation. For areas that are difficult to reach, choose plants that can thrive under the actual site conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planting density and defining the area"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The number of plants per square metre depends on the variety, plant size and how quickly you want the area to fill in. Closer planting may create coverage sooner, but it increases the initial cost."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Leave room for growth and define clear edges beside lawns, paths and other planting. Where needed, use edging or regular trimming to keep spreading plants within the intended area."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground preparation and planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before planting, remove weeds, stones and plant debris, then loosen the soil. Where necessary, improve the soil structure and provide drainage for excess water."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Position plants evenly according to the recommended spacing for the variety. Water thoroughly after planting and monitor soil moisture while the plants establish."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and maintenance after planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "During establishment, ground cover plants need regular moisture checks. Once rooted, water requirements depend on the variety, soil and weather; do not assume that every ground cover is drought tolerant."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Drip irrigation is a practical way to distribute water evenly across a planted area. Remove weeds until the cover fills in and manage spreading according to the chosen variety."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground cover plants for Bulgaria’s Black Sea coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda, Sunny Beach, Sveti Vlas and Pomorie, consider summer heat, wind, soil and proximity to the sea. Exposed sunny slopes have different conditions from shaded inner courtyards."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose plants for the actual exposure and provide water during establishment and extended dry periods. In coastal locations, also consider the effect of salty air."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plant selection and advice from Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcven09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ground cover plants can be part of a complete landscape scheme for a private garden, hotel grounds, slope or ornamental space. At Florial, we can discuss suitable plant types for the area, exposure and result you want."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcven09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcven09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Our range is refreshed and the availability of individual varieties may change. Contact us for current information, plant selection, professional planting and suitable irrigation options."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Почвопокровные растения образуют густой низкий ковёр, который закрывает почву, сдерживает сорняки и уменьшает испарение влаги. Их используют на склонах, под деревьями и кустарниками, между камнями и на участках, где трава растёт плохо. Есть виды для солнечных и тенистых мест, цветущие или только с декоративной листвой. При выборе определите освещённость, почву, степень разрастания и то, вечнозелёное ли растение. Густота посадки определяет, как быстро сомкнётся покрытие. В первый сезон растениям нужен регулярный полив, а потом многие виды обходятся меньшим уходом, особенно при капельном поливе.",
+          "name": "Почвопокровные растения",
+          "seo": {
+            "h1": "Почвопокровные растения для сада и озеленения",
+            "keywords": [
+              "Почвопокровные растения",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа почвопокровных растений для зелёных зон, бордюров и склонов в Несебре, Равде и на Южном Черноморье. Доставка и профессиональная посадка.",
+            "metaTitle": "Почвопокровные растения | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Почвопокровные растения для сада и озеленения",
+              "metaDescription": "Почвопокровные растения образуют густой низкий ковёр, который закрывает почву, сдерживает сорняки и уменьшает испарение влаги.",
+              "metaTitle": "Почвопокровные растения | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "gcvru01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокровные растения для аккуратного и красивого сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокровные растения помогают создать низкий зелёный ковёр, заполнить свободные участки и оформить плавные переходы между цветниками, деревьями, кустарниками и дорожками. Они могут иметь декоративную листву или цветы и придают посадкам завершённый вид."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial развивает ассортимент декоративных растений и цветов. В собственных теплицах мы подготавливаем и высаживаем новые партии растений. Конкретные виды в этой подкатегории и их наличие меняются — уточняйте актуальные возможности у нас."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Роль почвопокровных растений в озеленении"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Низкие растения объединяют отдельные элементы сада, смягчают края дорожек и бордюров и заполняют места под подходящими деревьями и кустарниками. На склонах правильно подобранные виды могут помочь создать более устойчивое озеленение."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При выборе учитывайте скорость и характер разрастания. Одни растения образуют плотный ковёр, другие распространяются умеренно. Продумайте границы участка, чтобы посадки не выходили на соседние зоны."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Цветущие и декоративнолиственные виды"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокровные растения — это не только зелёный фон. Некоторые виды цветут и добавляют сезонные краски, другие ценятся за форму, фактуру и окраску листьев."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сочетание цветущих и декоративнолиственных растений создаёт более интересный вид в разные сезоны. Выбирайте виды со схожими требованиями к освещению, почве и влаге."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор с учётом солнца, тени и почвы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед посадкой определите, находится ли участок на полном солнце, в полутени или тени. Оцените почву: не все почвопокровные растения одинаково переносят сухой, тяжёлый или постоянно влажный грунт."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Учитывайте близость корней крупных деревьев, уклон и возможность полива. Для труднодоступных мест особенно важно выбрать растение, которое будет хорошо развиваться в реальных условиях."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Плотность посадки и оформление участка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Количество растений на квадратный метр зависит от вида, размера посадочного материала и желаемой скорости смыкания покрытия. Более плотная посадка может ускорить заполнение площади, но увеличивает первоначальные затраты."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Оставляйте место для развития и заранее определяйте границы с газоном, дорожками и другими посадками. При необходимости используйте бордюры или регулярную обрезку, чтобы контролировать распространение."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовка участка и посадка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед посадкой удалите сорняки, камни и остатки растений, затем разрыхлите почву. При необходимости улучшите структуру грунта и обеспечьте отвод лишней воды."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Распределите растения равномерно с учётом рекомендуемой плотности для конкретного вида. После посадки хорошо полейте и контролируйте влажность почвы, пока растения не укоренятся."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и уход после посадки"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В первое время почвопокровным растениям нужен регулярный контроль влажности. После укоренения потребность в воде зависит от вида, почвы и погоды; не все почвопокровные растения устойчивы к засухе."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Капельный полив удобен для равномерной подачи воды по засаженной площади. Удаляйте сорняки, пока покрытие не сомкнулось, и контролируйте разрастание в соответствии с выбранным видом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокровные растения для болгарского Черноморья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра, Равды, Солнечного Берега, Святого Власа и Поморие при выборе учитывайте летнюю жару, ветер, почву и близость моря. Открытые солнечные склоны отличаются от затенённых внутренних дворов."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбирайте растения для конкретного освещения и обеспечивайте полив в период укоренения и продолжительной засухи. На прибрежных участках учитывайте также влияние солёного воздуха."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор растений и консультация Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "gcvru09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почвопокровные растения могут стать частью комплексного озеленения двора, территории отеля, склона или декоративного сада. В Florial можно обсудить подходящие виды с учётом площади, освещения и желаемого результата."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "gcvru09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "gcvru09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ассортимент обновляется, а наличие отдельных видов меняется. Свяжитесь с нами, чтобы узнать актуальную информацию, подобрать растения, заказать профессиональную посадку и подходящее решение для полива."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-hedges",
+      "_rev": "oFgU2xnFzJTvQ0oNU64rs5",
+      "_system": {
+        "base": {
+          "id": "plants-hedges",
+          "rev": "mCiJ6j1PmqLVq15csPIQhR"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T09:31:21Z",
+      "description": "Живият плет е естествена зелена ограда, която осигурява уединение, ограничава шума и праха, разделя градинските зони и защитава от вятър. В категорията са растения за оформяне на плетове – вечнозелени и листопадни, подстригвани и свободно растящи. При избора определете желаната височина, гъстота и бързина на растеж, както и осветеността, почвата и разстоянието между растенията. Плетът изисква редовна резитба, за да остане гъст, а при засаждане до границата на имота спазвайте съответните местни изисквания за разстояние. Особено важно е равномерното поливане по цялата дължина – капковото напояване е удобен и икономичен начин.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "За плътен жив плет изберете растения според желаната височина, ширина, вечнозеленост и нужда от подрязване. Разстоянието се определя от зрелия размер на вида, а не само от височината на младия разсад. Подгответе цялата посадъчна ивица и предвидете капкова линия с равномерно подаване по дължината. В Несебър и Кошарица отчетете изложението и вятъра, преди да изберете вид. Florial помага с планирането и професионалното засаждане.",
+        "title": "Растения за жив плет с правилно разстояние и полив",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Choose hedge plants for the required height, width, evergreen character and pruning needs. Set spacing according to the mature size of the species, not just the height of young nursery plants. Prepare the full planting strip and plan a drip line that distributes water evenly along its length. Around Nessebar and Kosharitsa, consider exposure and wind before choosing a species. Florial can help plan and carry out professional planting.",
+            "title": "Hedge plants with suitable spacing and irrigation"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Выбирайте растения для изгороди по желаемой высоте, ширине, вечнозелёности и требованиям к обрезке. Расстояние между саженцами рассчитывают по взрослому размеру вида, а не только по высоте молодых растений. Подготовьте всю посадочную полосу и предусмотрите капельную линию с равномерной подачей воды. В районе Несебра и Кошарицы учитывайте освещённость и ветер. Florial поможет спланировать и выполнить посадку.",
+            "title": "Растения для живой изгороди с правильным интервалом и поливом"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Растения за жив плет и зелени огради в района на Равда",
+        "altEn": "Plants for hedges and green boundaries around Ravda",
+        "altRu": "Растения для живой изгороди и зелёных ограждений в районе Равды",
+        "asset": {
+          "_ref": "image-36511020e0e0e5e67160f14e5ad25eb2ea6ab1fd-1200x896-jpg",
+          "_type": "reference"
+        },
+        "title": "Растения за жив плет в Равда и Несебър",
+        "titleEn": "Hedge plants in Ravda and Nessebar",
+        "titleRu": "Растения для живой изгороди в Равде и Несебре"
+      },
+      "name": "Растения за жив плет",
+      "parent": {
+        "_ref": "plants-trees-shrubs",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Растения за жив плет за градината и озеленяването",
+        "keywords": [
+          "Растения за жив плет",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на растения за жив плет в Несебър, Равда и по Южното Черноморие. Вечнозелени и листопадни видове за огради и уединение, с доставка и засаждане.",
+        "metaTitle": "Растения за жив плет | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Растения за жив плет за градината и озеленяването",
+          "metaDescription": "Живият плет е естествена зелена ограда, която осигурява уединение, ограничава шума и праха, разделя градинските зони и защитава от вятър.",
+          "metaTitle": "Растения за жив плет | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "bg01",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs01",
+              "_type": "span",
+              "marks": [],
+              "text": "Растения за жив плет – зелена ограда и уединение за вашата градина"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg02",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs02",
+              "_type": "span",
+              "marks": [],
+              "text": "Живият плет е естествен начин да оформите границите на двора, да създадете повече уединение и да разделите градината на отделни зони. За разлика от плътната ограда, растенията внасят зеленина, омекотяват пространството и се вписват естествено в ландшафта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg03",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs03",
+              "_type": "span",
+              "marks": [],
+              "text": "В градински център Florial в района на Несебър ще откриете растения за оформяне на живи огради и зелени екрани. В тази категория са представени вечнозелени и други декоративни видове, подходящи за различни решения – от компактни градински бордюри до по-високи зелени прегради."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg04",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs04",
+              "_type": "span",
+              "marks": [],
+              "text": "Какви растения са подходящи за жив плет"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg05",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs05",
+              "_type": "span",
+              "marks": [],
+              "text": "Изборът зависи от желаната височина, гъстота, форма и поддръжка. Вечнозелените растения запазват листната си маса или иглолистната си зеленина през цялата година и са предпочитани, когато търсите постоянен визуален екран."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg06",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs06",
+              "_type": "span",
+              "marks": [],
+              "text": "В асортимента на Florial има туи (Thuja), кипариси (Cupressus) и лавровишни (Prunus laurocerasus). Предлагат се и декоративно оформени иглолистни растения, които могат да се използват като акценти в композицията. Конкретният избор трябва да бъде съобразен с мястото, размера на растенията и начина, по който искате да изглежда оградата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg07",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs07",
+              "_type": "span",
+              "marks": [],
+              "text": "Как да изберете правилния жив плет"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg08",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs08",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка определете каква функция трябва да изпълнява зелената ограда – да осигурява уединение, да прикрива определена гледка, да ограничава вятъра или да обозначава границата между различни части на двора."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg09",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs09",
+              "_type": "span",
+              "marks": [],
+              "text": "Съобразете се с няколко основни фактора: желаната височина и ширина на зрелите растения, скоростта на растеж, гъстотата на короната, поносимостта към подрязване, слънчевото изложение, почвата и наличното пространство. Проверете и дали избраният вид е подходящ за конкретните условия на вашия имот."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg10",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs10",
+              "_type": "span",
+              "marks": [],
+              "text": "Не избирайте разстоянието между растенията само според размера на младия разсад. То трябва да се определя според очакваната ширина на възрастното растение и желаната плътност на изгражданата ограда."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg11",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs11",
+              "_type": "span",
+              "marks": [],
+              "text": "Планиране на разположението и разстоянията"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg12",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs12",
+              "_type": "span",
+              "marks": [],
+              "text": "За равномерен резултат първо очертайте цялата линия на бъдещия жив плет. Проверете подземните комуникации, достъпа за поддръжка и разстоянието до алеи, сгради и съседни имоти."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg13",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs13",
+              "_type": "span",
+              "marks": [],
+              "text": "При дълги огради е важно растенията да бъдат подредени равномерно и да имат достатъчно място за развитие. Ако целта е плътна зелена стена, разстоянията се определят според вида, размера на короната и начина на оформяне. При засаждане близо до имотна граница спазвайте приложимите местни изисквания."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg14",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs14",
+              "_type": "span",
+              "marks": [],
+              "text": "Подготовка на почвата и засаждане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg15",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs15",
+              "_type": "span",
+              "marks": [],
+              "text": "Подгответе цялата посадъчна ивица, а не само отделни малки ямки. Почвата трябва да позволява оттичане на излишната вода и развитие на корените. Уплътнените участъци е добре да бъдат разрохкани, а размерът на посадъчните места да съответства на кореновата бала на растенията."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg16",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs16",
+              "_type": "span",
+              "marks": [],
+              "text": "Поставете растенията на подходящата дълбочина, запълнете с почва и полейте обилно след засаждането. Не притискайте прекомерно почвата около корените. При дълги редове предварителното маркиране на позициите помага да се постигне права линия и еднакви разстояния."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg17",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs17",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане, подрязване и грижи"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg18",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs18",
+              "_type": "span",
+              "marks": [],
+              "text": "Равномерното поливане по цялата дължина е едно от най-важните условия за равномерен жив плет. През периода на прихващане след засаждането следете влагата в кореновата зона и не допускайте продължително пресъхване или задържане на вода."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg19",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs19",
+              "_type": "span",
+              "marks": [],
+              "text": "Капковото напояване е практично решение за живи огради: капковата линия може да се разположи по дължината на реда и да подава вода близо до корените. При проектирането трябва да се отчетат дължината на трасето, дебитът, налягането и нуждите на избраните растения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg20",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs20",
+              "_type": "span",
+              "marks": [],
+              "text": "Подрязването се извършва според вида и желаната форма. Редовната и правилно планирана резитба помага да се поддържа плътна и подредена корона. Наблюдавайте растенията и за признаци на засушаване, преовлажняване или вредители."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg21",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs21",
+              "_type": "span",
+              "marks": [],
+              "text": "Жив плет в условията на българското Черноморие"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg22",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs22",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър и Южното Черноморие при избора на растения е важно да се отчетат изложението, силата на вятъра, близостта до морето, характеристиките на почвата и възможностите за поливане. Условията могат да се различават дори в рамките на един двор, затова универсален избор за всеки имот няма."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg23",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs23",
+              "_type": "span",
+              "marks": [],
+              "text": "При планирането на жив плет в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие и околните населени места съобразете конкретното място и характеристиките на избрания вид. Така ще изберете растения, които имат по-добри условия за прихващане и развитие."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg24",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs24",
+              "_type": "span",
+              "marks": [],
+              "text": "Растения, засаждане и поливане от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg25",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs25",
+              "_type": "span",
+              "marks": [],
+              "text": "В Florial можете да изберете растения за жив плет и да планирате цялостното озеленяване на вашия двор. Предлагаме съдействие при избора на видове и размери, както и услуга за професионално засаждане на растения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg26",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs26",
+              "_type": "span",
+              "marks": [],
+              "text": "Можем да помогнем и с проектиране и монтаж на система за автоматично капково напояване, така че водата да достига равномерно до растенията по цялата дължина на оградата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg27",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bgs27",
+              "_type": "span",
+              "marks": [],
+              "text": "Разгледайте предложенията в категория „Растения за жив плет“ и изберете подходящото решение за вашия имот. За консултация, засаждане и поливна система се свържете с екипа на градински център Florial в района на Несебър."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "rasteniya-zhiv-plet"
+      },
+      "sortOrder": 22,
+      "translations": {
+        "en": {
+          "description": "A living hedge is a natural green screen that provides privacy, reduces noise and dust, divides garden areas and offers wind protection. This category includes evergreen and deciduous plants for clipped or informal hedges. When choosing, consider the desired height, density and growth rate, as well as sunlight, soil and spacing. Hedges need regular pruning to stay dense; when planting near a property boundary, follow applicable local spacing requirements. Even watering along the entire hedge is especially important, and drip irrigation is a convenient, water-efficient solution.",
+          "name": "Hedge Plants",
+          "seo": {
+            "h1": "Hedge Plants for Gardens and Landscaping",
+            "keywords": [
+              "Hedge Plants",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of hedge plants in Nessebar, Ravda and Bulgaria’s Southern Black Sea coast. Evergreen and deciduous varieties for screening and privacy, with delivery and planting.",
+            "metaTitle": "Hedge Plants | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Hedge Plants for Gardens and Landscaping",
+              "metaDescription": "A living hedge is a natural green screen that provides privacy, reduces noise and dust, divides garden areas and offers wind protection.",
+              "metaTitle": "Hedge Plants | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "en01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens01",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Hedge Plants — Natural Green Screening and Privacy for Your Garden"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens02",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A living hedge is a natural way to define property boundaries, create privacy and divide a garden into functional areas. Unlike a solid fence, plants add greenery, soften the landscape and create a natural transition between outdoor spaces."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens03",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "At Florial Garden Centre in the Nessebar area, you can find plants for green boundaries and living screens. This category includes evergreen and other ornamental varieties for different designs, from compact garden borders to taller green screens."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens04",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Which Plants Are Suitable for a Hedge"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens05",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The right choice depends on the required height, density, shape and maintenance needs. Evergreen plants retain their foliage or needles throughout the year and are often chosen when a consistent visual screen is important."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en06",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens06",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial’s range includes thuja (Thuja), cypress (Cupressus) and cherry laurel (Prunus laurocerasus). We also offer shaped ornamental conifers that can serve as features within a planting design. Choose the exact plant according to the site, mature size and the appearance you want to achieve."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en07",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens07",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "How to Choose the Right Hedge"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en08",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens08",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, decide what the hedge needs to do: provide privacy, screen an unwanted view, offer some wind protection or mark the boundaries between different garden areas."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en09",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens09",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consider the mature height and width, growth rate, crown density, tolerance of pruning, sunlight, soil conditions and available space. Check that the selected species is suitable for the specific conditions of your property."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en10",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens10",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Do not calculate plant spacing solely from the size of young nursery plants. Spacing should reflect the expected mature width and the density you want the finished hedge to have."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planning the Hedge Line and Plant Spacing"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For a consistent result, mark out the entire hedge line before planting. Check underground utilities, access for maintenance and the distance from paths, buildings and neighbouring properties."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en13",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For a long hedge, plants should be positioned evenly and given enough room to develop. If you want a dense green screen, spacing must take account of the species, mature crown size and pruning method. When planting near a property boundary, follow applicable local requirements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en14",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens14",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Soil Preparation and Planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en15",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens15",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Prepare the full planting strip rather than digging only small individual holes. The soil should allow excess water to drain while providing suitable conditions for root development. Loosen compacted areas and size each planting space to fit the plant’s root ball."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en16",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens16",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Set each plant at the appropriate depth, backfill with soil and water thoroughly after planting. Avoid excessive compaction around the roots. For long rows, marking each position in advance helps maintain a straight line and consistent spacing."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en17",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens17",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering, Pruning and Ongoing Care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en18",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens18",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Even watering along the entire hedge is one of the key conditions for uniform growth. During establishment, monitor moisture around the root zone and avoid prolonged drying out or waterlogging."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en19",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens19",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Drip irrigation is a practical option for hedges. A dripline can run along the planting row and deliver water close to the roots. System design should account for the length of the line, flow rate, pressure and the needs of the selected plants."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en20",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens20",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning should be adapted to the species and the desired shape. Regular, well-planned trimming helps maintain a dense and tidy crown. Watch for signs of drought stress, excess moisture or pests."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Hedges in Bulgaria’s Black Sea Coastal Conditions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar and Bulgaria’s Southern Black Sea coast, plant selection should take account of sunlight, wind exposure, proximity to the sea, soil conditions and irrigation options. Conditions can vary even within one garden, so there is no single universal choice for every property."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en23",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens23",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When planning a hedge in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie and nearby settlements, consider the exact planting location and the characteristics of the chosen species. This helps provide better conditions for establishment and healthy growth."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en24",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens24",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plants, Planting and Irrigation from Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en25",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens25",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "At Florial, you can choose plants for a living hedge and plan the wider landscaping of your garden. We can help you select suitable varieties and sizes, and we also offer a professional planting service."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en26",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens26",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "We can also assist with the design and installation of an automatic drip irrigation system, helping distribute water evenly along the full length of the hedge."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en27",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ens27",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Explore the plants in our Hedge Plants category and choose a solution for your property. For advice, planting and irrigation services, contact Florial Garden Centre in the Nessebar area."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Живая изгородь — естественное зелёное ограждение, которое обеспечивает уединение, снижает шум и пыль, разделяет садовые зоны и защищает от ветра. В категории — растения для формирования изгородей: вечнозелёные и листопадные, стриженые и свободно растущие. При выборе определите желаемую высоту, густоту и скорость роста, а также освещённость, почву и расстояние между растениями. Изгородь требует регулярной обрезки, чтобы оставаться густой, а при посадке у границы участка соблюдайте местные требования к расстоянию. Особенно важен равномерный полив по всей длине — капельное орошение удобно и экономично.",
+          "name": "Растения для живой изгороди",
+          "seo": {
+            "h1": "Растения для живой изгороди для сада и озеленения",
+            "keywords": [
+              "Растения для живой изгороди",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа растений для живых изгородей в Несебре, Равде и на Южном Черноморье. Вечнозелёные и листопадные виды для ограждения и уединения, доставка и посадка.",
+            "metaTitle": "Растения для живой изгороди | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Растения для живой изгороди для сада и озеленения",
+              "metaDescription": "Живая изгородь — естественное зелёное ограждение, которое обеспечивает уединение, снижает шум и пыль, разделяет садовые зоны и защищает от ветра.",
+              "metaTitle": "Растения для живой изгороди | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "ru01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus01",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Растения для живой изгороди — зелёное ограждение и уединение для вашего сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus02",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Живая изгородь — естественный способ обозначить границы участка, создать уединённое пространство и разделить сад на функциональные зоны. В отличие от сплошного забора, растения добавляют зелень, смягчают пространство и органично вписываются в ландшафт."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus03",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В садовом центре Florial в районе Несебра вы найдёте растения для создания живых ограждений и зелёных экранов. В категории представлены вечнозелёные и другие декоративные виды для разных решений — от компактных садовых бордюров до более высоких зелёных изгородей."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus04",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Какие растения подходят для живой изгороди"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus05",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор зависит от желаемой высоты, плотности, формы и требований к уходу. Вечнозелёные растения сохраняют листву или хвою круглый год и подходят, когда нужен постоянный визуальный экран."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru06",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus06",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В ассортименте Florial представлены туи (Thuja), кипарисы (Cupressus) и лавровишни (Prunus laurocerasus). Есть также декоративно сформированные хвойные растения, которые могут стать акцентами в композиции. Конкретный выбор следует делать с учётом места посадки, размеров растений и желаемого вида изгороди."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru07",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus07",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как выбрать подходящую живую изгородь"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru08",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus08",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой определите задачу зелёного ограждения: обеспечить приватность, закрыть определённый вид, частично защитить участок от ветра или обозначить границы разных зон сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru09",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus09",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Учитывайте желаемую высоту и ширину взрослых растений, скорость роста, плотность кроны, переносимость стрижки, освещённость, особенности почвы и доступное пространство. Также проверьте, подходит ли выбранный вид для конкретных условий вашего участка."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru10",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus10",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Не рассчитывайте расстояние между саженцами только по размеру молодого растения. Оно должно учитывать ожидаемую ширину взрослой кроны и желаемую плотность будущей изгороди."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru11",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus11",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Планировка линии посадки и расстояний"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru12",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus12",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для ровного результата сначала разметьте всю линию будущей изгороди. Проверьте расположение подземных коммуникаций, доступ для ухода и расстояния до дорожек, зданий и соседних участков."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru13",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus13",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При создании длинной изгороди важно равномерно расположить растения и оставить им достаточно места для развития. Если нужна плотная зелёная стена, расстояние рассчитывают с учётом вида, размера кроны и способа формирования. При посадке рядом с границей участка соблюдайте действующие местные требования."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru14",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus14",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовка почвы и посадка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru15",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus15",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовьте всю посадочную полосу, а не только отдельные небольшие ямы. Почва должна обеспечивать отвод лишней воды и развитие корней. Уплотнённые участки желательно разрыхлить, а размер посадочных мест подобрать под корневой ком растений."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru16",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus16",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Размещайте растения на подходящей глубине, заполните посадочное место почвой и хорошо полейте после посадки. Не уплотняйте землю вокруг корней чрезмерно. При длинных рядах предварительная разметка помогает выдержать прямую линию и одинаковые интервалы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru17",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus17",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив, обрезка и уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru18",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus18",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Равномерный полив по всей длине — одно из главных условий однородной живой изгороди. В период укоренения контролируйте влажность корневой зоны, не допуская длительного пересыхания или застоя воды."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru19",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus19",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Капельный полив — практичное решение для живых изгородей: капельную линию можно проложить вдоль ряда, подавая воду непосредственно к корням. При проектировании учитывают длину линии, расход воды, давление и потребности выбранных растений."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru20",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus20",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезку проводят с учётом вида и желаемой формы. Регулярная и правильно спланированная стрижка помогает поддерживать плотную и аккуратную крону. Следите за признаками засухи, переувлажнения и появления вредителей."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru21",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus21",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Живая изгородь в условиях болгарского Черноморья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru22",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus22",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра и Южного Черноморья при выборе растений важно учитывать освещённость, силу ветра, близость моря, особенности почвы и возможность полива. Условия могут отличаться даже в пределах одного участка, поэтому универсального растения для всех ситуаций нет."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru23",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus23",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При планировании изгороди в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие и близлежащих населённых пунктах учитывайте конкретное место посадки и особенности выбранного вида. Это поможет создать более благоприятные условия для укоренения и дальнейшего роста."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru24",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus24",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Растения, посадка и полив от Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru25",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus25",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В Florial вы можете выбрать растения для живой изгороди и спланировать комплексное озеленение участка. Мы поможем с выбором видов и размеров растений, а также предлагаем услугу профессиональной посадки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru26",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus26",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Также мы можем помочь с проектированием и монтажом автоматической системы капельного полива, чтобы вода равномерно поступала к растениям по всей длине изгороди."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru27",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "rus27",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Изучите предложения в категории «Растения для живой изгороди» и выберите подходящее решение для своего участка. За консультацией, посадкой и системой полива обращайтесь в садовый центр Florial в районе Несебра."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-indoor",
+      "_rev": "oFgU2xnFzJTvQ0oNU6OSU5",
+      "_system": {
+        "base": {
+          "id": "plants-indoor",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T10:12:03Z",
+      "description": "Интериорните растения украсяват дома, офиса и зимната градина, правят средата по-уютна и внасят зелен акцент в помещенията. В категорията са видове за светли стаи, зимни градини и защитени тераси, където температурата не пада под нивото, което растението понася. При избора вземете предвид осветеността – пряка слънчева светлина, ярка разсеяна светлина или полусянка, температурата, влажността на въздуха и размера на помещението. Поливайте умерено и според вида: преливането е по-честа причина за загуба на растение от недостига на вода. Подходящата саксия с дренаж и качествената почвена смес са основа на здравия растеж.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Подбирайте стайни растения според реалната осветеност, температурата и влажността в помещението. Проверете дали конкретният вид понася пряко слънце или предпочита разсеяна светлина, както и колко бързо изсъхва субстратът. Използвайте саксия с дренажни отвори и поливайте според вида и сезона, а не по фиксиран график. Florial помага при избора и озеленяването на домове, офиси и хотели в Бургас, Несебър и района.",
+        "title": "Интериорни растения според светлината и микроклимата",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Choose indoor plants according to the actual light, temperature and humidity of the room. Check whether the species tolerates direct sun or prefers filtered light, and how quickly its growing medium dries. Use a pot with drainage holes and water according to the plant and season rather than a rigid schedule. Florial can help select plants and create green spaces for homes, offices and hotels in Burgas, Nessebar and the surrounding area.",
+            "title": "Indoor plants matched to light and room conditions"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Подбирайте комнатные растения под фактическое освещение, температуру и влажность помещения. Уточните, переносит ли вид прямое солнце или предпочитает рассеянный свет и как быстро просыхает субстрат. Используйте горшок с дренажными отверстиями и поливайте с учётом вида и сезона, а не по жёсткому расписанию. Florial поможет с выбором растений и озеленением домов, офисов и гостиниц в Бургасе, Несебре и окрестностях.",
+            "title": "Комнатные растения с учётом освещения и микроклимата"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Интериорни растения за дома и офиса в Бургаския регион",
+        "altEn": "Indoor plants for homes and offices in the Burgas region",
+        "altRu": "Комнатные растения для дома и офиса в Бургасском регионе",
+        "asset": {
+          "_ref": "image-85343fcbb2e8c5520990ec774d4481d3791c4647-1400x912-jpg",
+          "_type": "reference"
+        },
+        "title": "Интериорни растения за дома в Бургас и Несебър",
+        "titleEn": "Indoor plants for homes in Burgas and Nessebar",
+        "titleRu": "Комнатные растения для дома в Бургасе и Несебре"
+      },
+      "name": "Интериорни растения",
+      "parent": {
+        "_ref": "plants-root",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Интериорни растения за градината и озеленяването",
+        "keywords": [
+          "Интериорни растения",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на стайни и интериорни растения за домове, офиси и търговски пространства в Несебър и Равда. Подбор според светлината, доставка и засаждане.",
+        "metaTitle": "Интериорни растения | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Интериорни растения за градината и озеленяването",
+          "metaDescription": "Интериорните растения украсяват дома, офиса и зимната градина, правят средата по-уютна и внасят зелен акцент в помещенията.",
+          "metaTitle": "Интериорни растения | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "h1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs1",
+              "_type": "span",
+              "marks": [],
+              "text": "Интериорни растения за дома и офиса"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p1a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1a",
+              "_type": "span",
+              "marks": [],
+              "text": "Стайните растения внасят зеленина и естествен акцент в дома, офиса, зимната градина и защитените пространства. Те могат да допълнят интериора както с листна маса, така и с интересна форма или цъфтеж."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p1b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps1b",
+              "_type": "span",
+              "marks": [],
+              "text": "Подходящото растение се избира според условията в помещението. Светлината, температурата, влажността и свободното място са по-важни от моментния декоративен ефект."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs2",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор според осветлението"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p2a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2a",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка определете дали мястото е със силна пряка светлина, ярка разсеяна светлина или полусянка. Различните растения имат различни изисквания и не всички понасят директно слънце зад стъкло."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p2b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps2b",
+              "_type": "span",
+              "marks": [],
+              "text": "Наблюдавайте как се променя осветлението през деня и сезоните. Ако растението се поставя на ново място, адаптирайте го постепенно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs3",
+              "_type": "span",
+              "marks": [],
+              "text": "Температура и микроклимат"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p3a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3a",
+              "_type": "span",
+              "marks": [],
+              "text": "Избягвайте резки температурни промени, студени течения и продължително излагане на отоплителни уреди. Някои растения се чувстват добре в обичайна стайна среда, а други предпочитат по-висока влажност."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p3b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps3b",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимните градини и остъклените тераси могат да имат големи колебания на температурата. Проверете нуждите на конкретния вид и проветрявайте без продължително излагане на студен въздух."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h4",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs4",
+              "_type": "span",
+              "marks": [],
+              "text": "Саксия и дренаж"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p4a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4a",
+              "_type": "span",
+              "marks": [],
+              "text": "Саксията трябва да съответства на размера на кореновата система и да има отвори за оттичане. Прекалено големият съд задържа повече субстрат и може да изсъхва неравномерно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p4b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps4b",
+              "_type": "span",
+              "marks": [],
+              "text": "Използвайте подложка, но не оставяйте вода в нея за дълго. При декоративни кашпи осигурете вътрешен съд с правилен дренаж."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h5",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs5",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане без преовлажняване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p5a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5a",
+              "_type": "span",
+              "marks": [],
+              "text": "Най-честата грешка при стайните растения е поливане без проверка на влажността на субстрата. Честотата зависи от вида, размера на саксията, светлината и температурата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p5b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps5b",
+              "_type": "span",
+              "marks": [],
+              "text": "Проверявайте почвата преди поливане и изливайте излишната вода от подложката. През зимата потреблението често намалява, особено при по-слаба светлина."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h6",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs6",
+              "_type": "span",
+              "marks": [],
+              "text": "Влажност и грижа за листата"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p6a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6a",
+              "_type": "span",
+              "marks": [],
+              "text": "Някои растения предпочитат по-висока влажност на въздуха, докато други се адаптират към стандартни стайни условия. Не използвайте пръскане като универсално решение за всеки вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p6b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps6b",
+              "_type": "span",
+              "marks": [],
+              "text": "Почиствайте праха от листата внимателно и наблюдавайте за петна, вредители или промяна в цвета. Поддържането на чисти листа помага да се следи състоянието на растението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h7",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs7",
+              "_type": "span",
+              "marks": [],
+              "text": "Субстрат и подхранване"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p7a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7a",
+              "_type": "span",
+              "marks": [],
+              "text": "Изберете почвена смес според типа растение и нуждите на корените. Универсалният субстрат не е подходящ за всички видове, особено за растения с различни изисквания към въздухопропускливостта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p7b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps7b",
+              "_type": "span",
+              "marks": [],
+              "text": "Подхранвайте през активния период с продукт, подходящ за съответната група. Спазвайте дозировката и не торете растение, което е силно стресирано или наскоро пресадено."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h8",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs8",
+              "_type": "span",
+              "marks": [],
+              "text": "Пресаждане и сезонна поддръжка"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p8a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8a",
+              "_type": "span",
+              "marks": [],
+              "text": "Пресаждането се прави, когато корените запълнят съда или субстратът загуби структурата си. Не е необходимо всяко растение да се пресажда ежегодно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p8b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps8b",
+              "_type": "span",
+              "marks": [],
+              "text": "Премахвайте сухи листа и повредени части, като използвате чист инструмент. След пресаждане осигурете подходящи условия и не променяйте едновременно всички фактори на отглеждане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "h9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "hs9",
+              "_type": "span",
+              "marks": [],
+              "text": "Подбор на растения с Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "p9a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9a",
+              "_type": "span",
+              "marks": [],
+              "text": "Florial може да помогне при избора на интериорни растения за дома, офиса или защитена тераса. Най-добрият избор е този, който съответства на реалната светлина и режима на грижа."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "p9b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "ps9b",
+              "_type": "span",
+              "marks": [],
+              "text": "Проверявайте актуалния продуктов каталог за налични видове и размери. При нужда обсъдете с екипа условията в помещението преди избора."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "interiorni-rasteniya"
+      },
+      "sortOrder": 28,
+      "translations": {
+        "en": {
+          "description": "Indoor plants decorate homes, offices and conservatories, making spaces feel more welcoming and adding a fresh green accent. This category includes plants for bright rooms, conservatories and sheltered terraces where temperatures stay within the plant’s tolerance. Consider the light level—direct sun, bright indirect light or partial shade—as well as temperature, humidity and room size. Water moderately according to each species; overwatering causes plant loss more often than underwatering. A suitable pot with drainage and a quality growing mix are essential for healthy growth.",
+          "name": "Indoor Plants",
+          "seo": {
+            "h1": "Indoor Plants for Gardens and Landscaping",
+            "keywords": [
+              "Indoor Plants",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of indoor plants for homes, offices and commercial spaces in Nessebar and Ravda. Choose plants to suit the light, with delivery and planting.",
+            "metaTitle": "Indoor Plants | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Indoor Plants for Gardens and Landscaping",
+              "metaDescription": "Indoor plants decorate homes, offices and conservatories, making spaces feel more welcoming and adding a fresh green accent.",
+              "metaTitle": "Indoor Plants | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Indoor Plants for Homes and Offices"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Indoor plants bring greenery and a natural accent to homes, offices, conservatories and sheltered spaces. They can enrich an interior through foliage, shape or flowering."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose a plant according to the conditions in the room. Light, temperature, humidity and available space matter more than a short-term decorative effect."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing for Light Conditions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, determine whether the position receives direct sunlight, bright indirect light or partial shade. Different plants have different needs, and not all tolerate direct sun through glass."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Observe how light changes throughout the day and across seasons. When moving a plant, adapt it to the new position gradually."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Temperature and Microclimate"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Avoid sudden temperature changes, cold draughts and prolonged exposure to heating appliances. Some plants suit normal room conditions, while others prefer higher humidity."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Conservatories and glazed terraces can experience large temperature swings. Check the needs of the exact species and ventilate without prolonged exposure to cold air."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pots and Drainage"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose a pot that suits the root system and has drainage holes. An oversized container holds more growing mix and may dry unevenly."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Use a saucer but do not leave water standing in it for long. For decorative planters, use an inner pot with proper drainage."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering Without Waterlogging"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A common indoor-plant mistake is watering without checking the growing mix. Frequency depends on the species, pot size, light and temperature."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the soil before watering and empty excess water from the saucer. Water demand often decreases in winter, especially when light levels are lower."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Humidity and Leaf Care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Some plants prefer higher air humidity, while others adapt to standard indoor conditions. Misting is not a universal solution for every species."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Carefully remove dust from leaves and watch for spots, pests or colour changes. Clean foliage makes it easier to monitor plant health."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Growing Mix and Feeding"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose a growing mix according to the plant type and root requirements. A general-purpose mix is not suitable for every species, particularly those needing specific aeration."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Feed during active growth with a product suited to the plant group. Follow the dosage and avoid feeding a plant that is severely stressed or newly repotted."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Repotting and Seasonal Care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Repot when roots fill the container or the growing mix loses its structure. Not every plant needs to be repotted every year."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Remove dry leaves and damaged parts with a clean tool. After repotting, provide suitable conditions and avoid changing every aspect of care at once."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing Indoor Plants with Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial can help select indoor plants for a home, office or sheltered terrace. The best choice is one that matches the actual light conditions and available care routine."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Check the current product catalogue for available species and sizes. If needed, discuss the room conditions with the team before choosing."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Комнатные растения украшают дом, офис и зимний сад, делают обстановку уютнее и вносят в помещения зелёный акцент. В категории — виды для светлых комнат, зимних садов и защищённых террас, где температура не опускается ниже допустимой для растения. При выборе учитывайте освещённость — прямое солнце, яркий рассеянный свет или полутень, температуру, влажность воздуха и размер помещения. Поливайте умеренно и по виду растения: перелив чаще губит растение, чем недостаток воды. Подходящий горшок с дренажом и качественный грунт — основа здорового роста.",
+          "name": "Комнатные растения",
+          "seo": {
+            "h1": "Комнатные растения для сада и озеленения",
+            "keywords": [
+              "Комнатные растения",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа комнатных растений для домов, офисов и коммерческих помещений в Несебре и Равде. Подбор с учётом освещения, доставка и посадка.",
+            "metaTitle": "Комнатные растения | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Комнатные растения для сада и озеленения",
+              "metaDescription": "Комнатные растения украшают дом, офис и зимний сад, делают обстановку уютнее и вносят в помещения зелёный акцент.",
+              "metaTitle": "Комнатные растения | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "h1",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs1",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Комнатные растения для дома и офиса"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p1a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Комнатные растения добавляют зелень и природный акцент в доме, офисе, зимнем саду и защищённых пространствах. Они украшают интерьер листвой, формой или цветением."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p1b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps1b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбирайте растение с учётом условий помещения. Освещение, температура, влажность и свободное место важнее кратковременного декоративного эффекта."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h2",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs2",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор с учётом освещения"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p2a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой определите, получает ли место прямое солнце, яркий рассеянный свет или находится в полутени. У разных растений разные требования, и не все переносят прямые лучи за стеклом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p2b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps2b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Наблюдайте, как освещение меняется в течение дня и сезонов. При переносе растения на новое место адаптируйте его постепенно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h3",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs3",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Температура и микроклимат"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p3a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Избегайте резких перепадов температуры, холодных сквозняков и длительного воздействия отопительных приборов. Одни растения подходят для обычной комнаты, другим нужна повышенная влажность."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p3b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps3b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В зимних садах и на застеклённых террасах температура может сильно меняться. Проверьте требования конкретного вида и проветривайте без длительного воздействия холодного воздуха."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h4",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs4",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Горшок и дренаж"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p4a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Горшок должен соответствовать корневой системе и иметь отверстия для отвода воды. Слишком большой объём субстрата может просыхать неравномерно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p4b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps4b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Используйте поддон, но не оставляйте в нём воду надолго. Для декоративного кашпо предусмотрите внутренний горшок с правильным дренажом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h5",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs5",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив без переувлажнения"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p5a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Одна из частых ошибок — поливать комнатные растения, не проверив влажность грунта. Частота зависит от вида, размера горшка, освещения и температуры."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p5b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps5b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Проверяйте почву перед поливом и сливайте лишнюю воду из поддона. Зимой потребность во влаге часто снижается, особенно при недостатке света."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h6",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs6",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Влажность и уход за листьями"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p6a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Некоторым растениям нужна повышенная влажность воздуха, другие хорошо адаптируются к обычным комнатным условиям. Опрыскивание не является универсальным решением для всех видов."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p6b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps6b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Аккуратно удаляйте пыль с листьев и следите за пятнами, вредителями и изменением окраски. Чистые листья помогают лучше оценивать состояние растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h7",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs7",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Субстрат и подкормка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p7a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбирайте грунт с учётом типа растения и требований корней. Универсальный субстрат подходит не всем, особенно видам с особыми требованиями к воздухоёмкости почвы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p7b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps7b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подкармливайте в период активного роста удобрением для соответствующей группы. Соблюдайте дозировку и не удобряйте растение в сильном стрессе или сразу после пересадки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h8",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs8",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Пересадка и сезонный уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p8a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Пересаживайте, когда корни заполняют горшок или грунт теряет структуру. Не каждое растение нужно пересаживать ежегодно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p8b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps8b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Удаляйте сухие листья и повреждённые части чистым инструментом. После пересадки обеспечьте подходящие условия и не меняйте сразу все факторы ухода."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "h9",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "hs9",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор растений с Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "p9a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9a",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial поможет выбрать комнатные растения для дома, офиса или защищённой террасы. Лучше всего подходит растение, соответствующее реальному освещению и возможностям ухода."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "p9b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ps9b",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Проверяйте актуальный каталог на наличие видов и размеров. При необходимости обсудите условия помещения с командой до покупки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
