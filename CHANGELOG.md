@@ -1,4 +1,4 @@
-## 2026-11-18 — Manager on-demand PostHog analytics implementation (pending credential)
+## 2026-11-18 — Manager on-demand PostHog analytics implementation (live API verification pending)
 - Added a separate Manager PostHog analytics route and UI block, triggered only by an explicit owner/authorized manager click; the existing D1 report remains unchanged.
 - The server-side summary is designed for the five live-confirmed events and includes daily page views, top pages, language and approximate country breakdowns. Existing `canViewAnalytics` permission is reused; no D1 migration is required. Five-minute isolate cache reduces repeat calls.
 - Added helper tests for event allowlist, response normalization and summary sanitization. CI on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b` passed: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`. Live Query API verification remains pending the server-side key.
