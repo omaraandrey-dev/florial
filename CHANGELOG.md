@@ -3729,3 +3729,11 @@ Backups:
 - Затронуты `src/components/Footer.tsx` и новый `src/components/Footer.css`. Sanity, D1, Cloudflare settings/secrets, Resend, Header, основное меню и маршрутизация не изменялись.
 - Проверка: код и маршруты сверены с `main` SHA `1716996c487c3dbfa6995b4eaa7a617cb90ad480`; локальная сборка/тесты и CI ещё не подтверждены. Production deployment не выполнялся.
 - Дополнение по замечаниям владельца: добавлена ссылка Instagram `https://www.instagram.com/florial_garden`; вместо общей ссылки на главную добавлены отдельные ссылки на опубликованные корневые категории растений (`/category/rastenia`, Sanity plants) и поливного оборудования (`/category/vsichko-za-polivane`, Sanity production). Подписи локализованы BG/RU/EN; BG: «Онлайн магазин за растения», «Онлайн магазин за поливно оборудване». Описание компании вычитано и уточнено на естественном болгарском языке.
+
+
+## 2026-11-18 — Product Schema live validator evidence
+
+- Schema.org Validator fetched and parsed the corrected PR Preview equipment and plant pages. Both reported 5 items, 0 errors and 0 warnings: Organization 1, BreadcrumbList 2, Product 2.
+- The extra Product/BreadcrumbList objects on Preview are explained by canonical-host mismatch: server markup points to the canonical Production URL, client markup points to the Preview URL. Current Production equipment baseline reports 3 items, 0 errors/warnings: Organization 1, BreadcrumbList 1, Product 1. This Production check is the pre-PR runtime, not the corrected code.
+- Official Google Rich Results Test loaded but required Google login and reCAPTCHA (“Something went wrong — Log in and try again”). No Google result was generated. Google Rich Results validation remains pending; owner-authenticated browser run is needed.
+- Exact evidence and next steps are recorded in the active Google Shopping roadmap and stage-1 audit. No runtime, Production, Sanity, D1 or Google settings changed.
