@@ -1,17 +1,17 @@
 # Florial — first-party D1 statistics and optional PostHog analytics
 
-## Manager on-demand analytics integration — deployed; live acceptance pending (18.11.2026)
+## Manager on-demand analytics integration — deployed and owner-accepted (18.11.2026)
 
 - A separate protected endpoint `GET /api/manager/analytics-posthog?days=1|7|30|90` and Manager UI block are deployed from `main`. The block loads only after an explicit click; it does not replace or merge the D1 baseline report.
 - The endpoint queries only the five event names confirmed in the live event schema on 18.11.2026 and returns event totals, daily page views, top pages, language breakdown and approximate GeoIP countries. It does not claim unique visitor counts or conversion rates.
 - Server authentication uses the existing Manager session and `canViewAnalytics` permission. The PostHog credential is server-only: `POSTHOG_PERSONAL_API_KEY` (preferred) or `POSTHOG_API_KEY` (supported alias), with read/query permission. It must never be exposed to browser code.
 - Live Cloudflare Pages project inspection (18.11.2026) found `VITE_POSTHOG_PROJECT_KEY` as a plain-text build variable, which is the public event-ingestion key. No `POSTHOG_PERSONAL_API_KEY` secret was configured at the first inspection; the latest read-only metadata check found a server secret named `POSTHOG_API_KEY` (`secret_text`). Its value was not read. The endpoint accepts either name.
-- The key name is now available through the supported `POSTHOG_API_KEY` alias. Its actual validity and `query:read` permission remain unverified until a live authenticated query. Preview does not have the required production bindings and is not an acceptance environment.
+- The owner confirmed on 18.11.2026 that the Manager analytics page successfully loads and displays PostHog data in Production. This owner-run end-to-end check closes functional acceptance for the configured server credential. The secret value was not shared or read by the assistant. Preview does not have the required Production bindings and is not an acceptance environment.
 - API responses are cached in the Worker isolate for five minutes to avoid repeat query bursts. Data is fetched only on demand.
-- Production deployment succeeded: PR #405 merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`); current main also includes PR #403 documentation merge `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`). Live authenticated Query API and Manager browser acceptance remain pending.
+- Production deployment succeeded: PR #405 merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`); PR #403 documentation merge `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` was also deployed (`3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`). Owner-run Manager browser acceptance on 18.11.2026 confirmed that PostHog data loads and displays correctly. The implementation is considered operational and accepted.
 
 
-Status: D1 baseline tracking and optional PostHog analytics are implemented. Live PostHog ingestion from Florial was confirmed on 14.11.2026 and re-verified on 18.11.2026. The dashboard is active and contains six insight charts.
+Status: D1 baseline tracking and optional PostHog analytics are implemented and owner-accepted in Manager Production. Live PostHog ingestion from Florial was confirmed on 14.11.2026 and re-verified on 18.11.2026. The dashboard is active and contains six insight charts.
 Last live verification: 18.11.2026. Historical implementation release: 14.11.2026
 PR #264 merge commit: `047e03172f2571b6542adb4a0ed8d4b855df6b24`.
 Production deployment: `1fd6a8da-1bdd-4222-93b4-79adc23841f3` (`https://1fd6a8da.florial.pages.dev`), successful on the exact merge commit.
