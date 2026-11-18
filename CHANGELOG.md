@@ -1,11 +1,20 @@
+## 2026-11-18 — Homepage code cleanup (follow-up to PR #385)
+
+- Removed the unused homepage `siteSettings` Sanity request/state/prop; the Header's independent `headerSiteSettings` request is unchanged.
+- Corrected homepage landmarks to one outer `<main>` containing the hero, service/catalogue sections and blog; the irrigation catalogue wrapper is a `<section>`.
+- Blog cards now distinguish loading, successful empty results, ready content and request errors, with localized BG/RU/EN messages.
+- Extracted and directly tested featured equipment selection and plant variant starting-price logic using Node's built-in test runner; no new dependency.
+- Audit: `docs/audits/2026-11-18-homepage-code-cleanup.md`. Exact-head validation and release results are recorded after CI and Production deployment checks.
+
 ## 2026-11-18 — Главная страница: финальная UX-доработка (PR #385)
 
 - Hero CTA «Разгледайте растенията» и «Поливно оборудване» с фотографиями категорий уменьшены по ширине на 20%: мобильная ширина 80% с ограничением 208 px, desktop — 208 px. Ссылка «Повече за нас» оформлена обычным подчёркнутым текстом, без кнопочного фона/рамки.
 - Полоса доверия оставлена без изменений; ссылка «Всички услуги» в мобильной шапке секции услуг выровнена в строку с «Извършваме дейности».
 - Блок рекомендаций оборудования показывает максимум четыре готовых комплекта. Исключён стандартный комплект 5 × 5 m (slug `komplekt-polivane-5x5`); явно включён комплект автоматизации на 6 зон (slug `komplekt-avtomatizatsiya-6-zoni`, Sanity ID `080906b4-a5c0-4c6f-a44e-2240a46a08f6`, цена 431,92 EUR, ДДС включён, по заявка).
 - На главной закреплены первые две стратегические статьи блога; третья карточка остаётся последней опубликованной статьёй, исключая закреплённые.
-- Проверки точного PR head: Blog/Studio validation run `44236805677` — typecheck App/Pages Functions, lint, `npm test`, website build, миграционный dry-run, Studio typecheck/build — success; D1 validation run `44236805695` — success. Cloudflare Pages Preview deployment `33f58b6c-cd47-40c4-94f9-e51d2c0797f8` для head `8540c5ce0d357c5ba45d80d24bdedfabf409c239` — success.
-- Sanity документы/схема/assets не изменялись. Header, основное меню, Footer, маршрутизация, checkout, D1, Resend, Cloudflare settings/secrets не затрагивались. Production deployment ожидает merge PR #385.
+- Проверки точного PR head: Blog/Studio validation run `44236805677` — success; D1 validation run `44236805695` — success. Cloudflare Pages Preview deployment `33f58b6c-cd47-40c4-94f9-e51d2c0797f8` — success.
+- PR #385 merged в `main` commit `5e31cd914c3e25addeae879b45242bb1ce447b51`; Cloudflare Pages Production deployment `0ee73f51-d1e3-4f1f-9a0c-5ab26ed6767e` — success.
+- Sanity документы/схема/assets не изменялись. Header, основное меню, Footer, маршрутизация, checkout, D1, Resend, Cloudflare settings/secrets не затрагивались.
 
 ## 2026-11-18 — Manager: единое право Seller на каталог растений (PR #383)
 
