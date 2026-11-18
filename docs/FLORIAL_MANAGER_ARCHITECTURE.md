@@ -612,3 +612,18 @@ If a previously approved new-plant card is edited, its status returns to `in_rev
 - Биологические поля остаются выключенными; Owner видит только информационную кнопку/блок.
 - Статус: первая реализация в PR #169, CI/Preview/mobile QA не завершены. Production merge/deploy запрещён до отдельного согласования D1 migration и приёмки.
 
+
+## 2026-11-18 — Simplified Seller plant catalog access
+
+Owner decision: `canCreatePlant` is the single Seller catalog-access switch. When true, Seller may directly create plants, edit existing plant cards, add variants, change prices and update stock. When false, legacy granular Seller flags do not grant partial catalog-write access.
+
+Implementation:
+- Shared `hasPermission` derives Seller's `canEditPlantCard`, `canAddPlantVariant`, `canEditPlantPrice` and `canEditPlantStock` from `canCreatePlant`.
+- Direct create, card update, add-variant and image-upload endpoints enforce their corresponding permissions server-side.
+- Catalog GET remains authenticated read access. The UI hides create controls and disables opening cards for editing when the role lacks the relevant write permission.
+- Manager permissions remain distinct: create uses `canCreatePlant`; direct card edit uses `canEditPlantCard`; dedicated variant addition uses `canAddPlantVariant`. Owner bypass remains unchanged.
+- The staff UI presents Seller with one plant-catalog permission. No rights to orders, staff, submission review/approval, publication administration, category SEO or service leads are implied.
+- Existing botanical AI availability for Owner, Manager and Seller remains unchanged; AI endpoints do not bypass the direct write checks.
+
+Audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime and tests are proposed in open PR #383. CI/browser role-matrix QA and Production deployment are not yet confirmed. No D1 schema/profile write, Sanity document/asset write or Production configuration change was made.
+
