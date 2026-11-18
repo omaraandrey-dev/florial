@@ -292,6 +292,7 @@ export default function App() {
   const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
   const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>([])
+  const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
@@ -952,6 +953,37 @@ export default function App() {
         if (cancelled) return
         console.error('Homepage: не удалось загрузить рекомендованные растения:', error)
         setHomeFeaturedPlants([])
+      })
+    return () => { cancelled = true }
+  }, [normalizedRoutePath])
+
+  // Homepage equipment picks come from the existing ready-made irrigation kits category.
+  // Limit the homepage to four active, priced, pictured and non-out-of-stock products.
+  useEffect(() => {
+    const isHomeRoute = normalizedRoutePath === '/' || normalizedRoutePath === '/index.html'
+    if (!isHomeRoute) {
+      setHomeFeaturedEquipment([])
+      return
+    }
+    let cancelled = false
+    const featuredEquipmentQuery = `
+      *[_type == "product" && isActive != false && references("6709cd41-18c6-4c5f-bc27-90d55d685dec") &&
+        stockStatus != "outOfStock" && defined(coalesce(slug.current, slug)) &&
+        defined(mainImage.asset) && defined(priceEUR) && priceEUR > 0] | order(priceEUR asc, name asc)[0...4] {
+          _id, name,
+          "slug": { "current": coalesce(slug.current, slug) },
+          translations { bg { name }, ru { name }, en { name } },
+          priceEUR, vatIncluded, stockStatus,
+          "imageUrl": mainImage.asset->url,
+          "imageAlt": mainImage.alt, "imageAltEn": mainImage.altEn, "imageAltRu": mainImage.altRu
+        }
+    `
+    sanityClient.fetch(featuredEquipmentQuery)
+      .then((data: Product[]) => { if (!cancelled) setHomeFeaturedEquipment(Array.isArray(data) ? data : []) })
+      .catch((error) => {
+        if (cancelled) return
+        console.error('Homepage: не удалось загрузить выбранное оборудование:', error)
+        setHomeFeaturedEquipment([])
       })
     return () => { cancelled = true }
   }, [normalizedRoutePath])
@@ -1798,6 +1830,7 @@ export default function App() {
           plantCategories={homePlantCategories}
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
+          featuredEquipment={homeFeaturedEquipment}
           siteSettings={siteSettings}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
