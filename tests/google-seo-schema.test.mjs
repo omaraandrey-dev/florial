@@ -102,3 +102,62 @@ test('client-side SEO preserves noIndex and restores page structured data after 
   assert.match(terms, /noIndex: language !== 'bg'/)
   assert.match(middleware, /noIndex: language !== 'bg'/)
 })
+
+
+test('plant Offer exposes availability only when every priced variant has the same known stock status', () => {
+  const inStock = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25, stockStatus: 'inStock' }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal(inStock.availability, 'https://schema.org/InStock')
+
+  const mixed = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [
+      { priceEUR: 25, stockStatus: 'inStock' },
+      { priceEUR: 35, stockStatus: 'outOfStock' },
+    ],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal(mixed['@type'], 'AggregateOffer')
+  assert.equal('availability' in mixed, false)
+})
+
+test('plant AggregateOffer includes availability only when all priced variants agree', () => {
+  const offer = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [
+      { priceEUR: 25, stockStatus: 'inStock' },
+      { priceEUR: 35, stockStatus: 'inStock' },
+    ],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal(offer['@type'], 'AggregateOffer')
+  assert.equal(offer.availability, 'https://schema.org/InStock')
+})
+
+test('onRequest is not converted to PreOrder for equipment or plant variants', () => {
+  const equipment = buildProductOffer({
+    _dataset: 'production',
+    priceEUR: 141.27,
+    stockStatus: 'onRequest',
+  }, 'https://florial-bg.com/product/valve')
+  assert.equal(equipment['@type'], 'Offer')
+  assert.equal('availability' in equipment, false)
+
+  const plant = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25, stockStatus: 'onRequest' }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal('availability' in plant, false)
+  assert.notEqual(plant.availability, 'https://schema.org/PreOrder')
+})
+
+test('client ProductPage uses the same shared Offer builder as server middleware', async () => {
+  const [product, middleware] = await Promise.all([
+    readFile(new URL('../src/pages/ProductPage.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8'),
+  ])
+  assert.match(product, /import \{ buildProductOffer \} from '..\/lib\/productJsonLd\.mjs'/)
+  assert.match(product, /const offer = buildProductOffer\(/)
+  assert.doesNotMatch(product, /schema\.org\/PreOrder/)
+  assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '..\/_lib\/productJsonLd\.mjs'/)
+})
