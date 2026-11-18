@@ -1,0 +1,1278 @@
+{
+  "backupCreatedAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "perspective": "published",
+  "documentId": "blogPost-maslina-sredizemnomorie",
+  "publishedRevision": "qvVg1luYRxJZnxaWi1OfUN",
+  "note": "Full published Sanity document snapshot captured before the approved editorial refresh. Preserve this file as the rollback reference.",
+  "document": {
+    "_createdAt": "2026-10-24T09:15:38Z",
+    "_id": "blogPost-maslina-sredizemnomorie",
+    "_rev": "qvVg1luYRxJZnxaWi1OfUN",
+    "_system": {
+      "base": {
+        "id": "blogPost-maslina-sredizemnomorie",
+        "rev": "CA3Bv1bZnLS0hTpr8XiUEo"
+      }
+    },
+    "_type": "blogPost",
+    "_updatedAt": "2026-11-12T13:47:27Z",
+    "cover": {
+      "_type": "image",
+      "alt": "Маслиново дърво в градински център Несебър",
+      "asset": {
+        "_ref": "image-5bda979a0ddf2d9e4547de76a455c905878b8087-600x1000-jpg",
+        "_type": "reference"
+      }
+    },
+    "gallery": [],
+    "isPublished": true,
+    "publishedAt": "2024-12-11T11:44:07.838Z",
+    "slug": {
+      "_type": "slug",
+      "current": "maslina-sredizemnomorie"
+    },
+    "sourceUrl": "https://www.drop.od.ua/bg/post/маслината-е-вечнозелен-символ-на-средиземноморието-във-вашата-градина",
+    "tags": [
+      "Растения"
+    ],
+    "title": "Маслина — продажба и засаждане в градински център Несебър",
+    "translations": {
+      "bg": {
+        "body": [
+          {
+            "_key": "bna",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bn9",
+                "_type": "span",
+                "marks": [],
+                "text": "Градински център \"Флориал\" гр. Несебър има удоволствието да Ви представи ново пристигане на Маслини от слънчева Испания! Вече разполагаме с богат избор от дървета, налични в различни размери и разновидности, за да сме сигурни, че всеки може да намери идеалното допълнение към своята градина."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnb",
+            "_type": "image",
+            "alt": "Маслиново дърво в Несебър",
+            "asset": {
+              "_ref": "image-5bda979a0ddf2d9e4547de76a455c905878b8087-600x1000-jpg",
+              "_type": "reference"
+            },
+            "caption": "olive"
+          },
+          {
+            "_key": "bnd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnc",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо Olive е идеалният избор?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bng",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bne",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Естетика и издръжливост:"
+              },
+              {
+                "_key": "bnf",
+                "_type": "span",
+                "marks": [],
+                "text": " Маслиновото дърво предлага изискан външен вид през цялата година благодарение на своите малки, лъскави, восъчни листа, които защитават растението дори при високи температури."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Практичност:"
+              },
+              {
+                "_key": "bni",
+                "_type": "span",
+                "marks": [],
+                "text": " Маслините са не само декорация, но и вкусен и здравословен деликатес. От маслините се получава световноизвестният зехтин, богат на витамини и антиоксиданти."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnk",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Устойчивост:"
+              },
+              {
+                "_key": "bnl",
+                "_type": "span",
+                "marks": [],
+                "text": " Маслината се адаптира добре към бедни почви, устойчива е на суша и издържа на студове до -15°C."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bno",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnn",
+                "_type": "span",
+                "marks": [],
+                "text": "Грижа за маслини"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bnq",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnp",
+                "_type": "span",
+                "marks": [],
+                "text": "Маслината не изисква сложни грижи, но за нейното пълно развитие е важно да се спазват няколко правила:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnr",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Светлина:"
+              },
+              {
+                "_key": "bns",
+                "_type": "span",
+                "marks": [],
+                "text": " Дървото обича пълно слънце и не понася сянка, така че изберете открити, слънчеви места за засаждане."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Поливане:"
+              },
+              {
+                "_key": "bnv",
+                "_type": "span",
+                "marks": [],
+                "text": " Поливайте дръвчето умерено. Важно е да се обърне специално внимание на влажността на почвата в началото на вегетационния период и образуването на плодове."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bnz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bnx",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Подрязване:"
+              },
+              {
+                "_key": "bny",
+                "_type": "span",
+                "marks": [],
+                "text": " Редовното подрязване на клоните стимулира растежа на младите леторасти и увеличава добива."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bo2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bo0",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Защита от вятър:"
+              },
+              {
+                "_key": "bo1",
+                "_type": "span",
+                "marks": [],
+                "text": " В условията на нашия регион маслината е чувствителна към студени ветрове. Ето защо е по-добре да засадите дървото на защитени места, например срещу стената на къща или жив плет."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bo3",
+            "_type": "image",
+            "alt": "Маслина - продажба и засаждане в Градински център Несебър",
+            "asset": {
+              "_ref": "image-a1fcccc8b8d64368ab9d932dc980dd48091cec1e-640x1387-jpg",
+              "_type": "reference"
+            },
+            "caption": "Маслина Несебър"
+          },
+          {
+            "_key": "bo5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bo4",
+                "_type": "span",
+                "marks": [],
+                "text": "Начало на плододаване"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bo7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bo6",
+                "_type": "span",
+                "marks": [],
+                "text": "Маслиновото дърво ще започне да ви радва с плодове в рамките на 3-4 години след засаждането. През есента и зимата можете да се насладите на прясно набрани маслини направо от дървото!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bo9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bo8",
+                "_type": "span",
+                "marks": [],
+                "text": "Ново пристигане на маслинови дървета от Испания"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bob",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boa",
+                "_type": "span",
+                "marks": [],
+                "text": "Ние сме горди да предложим на нашите клиенти маслинови дървета, внесени от Испания, страна с богата традиция в отглеждането на маслинови дървета. Нашият асортимент включва голям избор от дървета от различни сортове и размери, които са идеални за отглеждане на брега на Черно море."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bod",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boc",
+                "_type": "span",
+                "marks": [],
+                "text": "Защо си струва да купите Olive от Florial?"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "bof",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boe",
+                "_type": "span",
+                "marks": [],
+                "text": "Всяко дърво в нашия градински център е внимателно подбрано и готово да стане част от вашата градина. Нашите сортове включват тези, адаптирани към местните условия:"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "boh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bog",
+                "_type": "span",
+                "marks": [],
+                "text": "Агрио е зелен див сорт."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "boj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boi",
+                "_type": "span",
+                "marks": [],
+                "text": "Петро е чернокостен сорт."
+              }
+            ],
+            "level": 1,
+            "listItem": "bullet",
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bol",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bok",
+                "_type": "span",
+                "marks": [],
+                "text": "Направете крачката към създаването на свое собствено късче Средиземноморие! Заповядайте в нашия градински център \"Флориал\" в Несебър, за да изберете своята маслина, която да краси вашия парцел и да дава вкусни плодове."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bon",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bom",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Обадете се или елате във Florial, за да вземете своята маслина от Испания точно сега!"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bor",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boo",
+                "_type": "span",
+                "marks": [],
+                "text": "🌐 Нашият уебсайт: "
+              },
+              {
+                "_key": "boq",
+                "_type": "span",
+                "marks": [
+                  "bop"
+                ],
+                "text": "ФЛОРИАЛ"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bop",
+                "_type": "link",
+                "blank": false,
+                "href": "/"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "bov",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bos",
+                "_type": "span",
+                "marks": [],
+                "text": "📧 Имейл: "
+              },
+              {
+                "_key": "bou",
+                "_type": "span",
+                "marks": [
+                  "bot"
+                ],
+                "text": "omaraandrey@gmail.com"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "bot",
+                "_type": "link",
+                "blank": false,
+                "href": "mailto:omaraandrey@gmail.com"
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "boy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bow",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Florial Garden Center"
+              },
+              {
+                "_key": "box",
+                "_type": "span",
+                "marks": [],
+                "text": " ul. \"Khan Krum\", 8230 Nesebar. Next to the store Janet"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bp0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "boz",
+                "_type": "span",
+                "marks": [],
+                "text": "📞 Телефон: +359876777902"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bp4",
+            "_type": "image",
+            "alt": "Рулонен тревен чим, подготвен за полагане",
+            "altEn": "Rolled turf prepared for installation",
+            "altRu": "Рулонный газон, подготовленный к укладке",
+            "asset": {
+              "_ref": "image-fab83fa1629a16e4c55e24e71cf63ca7b97a4a32-600x800-jpg",
+              "_type": "reference"
+            },
+            "caption": "Рулонен тревен чим"
+          },
+          {
+            "_key": "bp8",
+            "_type": "image",
+            "alt": "Кипарис Тотем в градински център",
+            "altEn": "Totem cypress trees at a garden centre",
+            "altRu": "Кипарисы Тотем в садовом центре",
+            "asset": {
+              "_ref": "image-b8578d79532be0b53646b767084e31d39abbff10-1384x3000-jpg",
+              "_type": "reference"
+            },
+            "caption": "Кипарис Тотем"
+          },
+          {
+            "_key": "bpc",
+            "_type": "image",
+            "alt": "Юка рострата в градински център",
+            "altEn": "Yucca rostrata at a garden centre",
+            "altRu": "Юкка рострата в садовом центре",
+            "asset": {
+              "_ref": "image-44077349f1be666c383d730d4b920d5cf9098127-3000x2250-jpg",
+              "_type": "reference"
+            },
+            "caption": "Юка рострата"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-bg-4",
+                "_type": "span",
+                "marks": [],
+                "text": "Следваща стъпка: разгледайте "
+              },
+              {
+                "_key": "cta-s-bg-4",
+                "_type": "span",
+                "marks": [
+                  "cta-a-bg-4"
+                ],
+                "text": "маслините в каталога"
+              },
+              {
+                "_key": "cta-m-bg-4",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-bg-4",
+                "_type": "span",
+                "marks": [
+                  "cta-b-bg-4"
+                ],
+                "text": "професионалното засаждане на маслини"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-bg-4",
+                "_type": "link",
+                "href": "/category/maslini"
+              },
+              {
+                "_key": "cta-b-bg-4",
+                "_type": "link",
+                "href": "/services/profesionalno-zasazhdane-na-maslini"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Маслиново дърво в градински център Несебър",
+        "seoDescription": "Практични насоки за избор и засаждане на маслина край морето: слънчево място, защита от студен вятър, дренирана почва и умерено поливане.",
+        "seoTitle": "Маслина в градината: избор и засаждане | Florial",
+        "shortDescription": "Как да изберете място за маслина край морето: слънце, защита от студен вятър, подходяща почва, поливане и грижи след засаждане.",
+        "title": "Маслина — продажба и засаждане в градински център Несебър"
+      },
+      "en": {
+        "body": [
+          {
+            "_key": "oe1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Florial Garden Centre in Nessebar is pleased to announce a new shipment of olive trees from sunny Spain. We offer trees in different sizes and varieties so you can find the right addition to your garden."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe2",
+            "_type": "image",
+            "alt": "Olive tree in Nessebar",
+            "asset": {
+              "_ref": "image-5bda979a0ddf2d9e4547de76a455c905878b8087-600x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "oe3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why choose an olive tree?"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "oe4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Beauty and resilience. Olive trees have an elegant appearance throughout the year. Their small, glossy, waxy leaves help them cope with high temperatures."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Practical benefits. An olive tree is both an ornamental feature and a source of tasty fruit. Olives are used to produce the well-known olive oil, rich in vitamins and antioxidants."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Hardiness. Olive trees adapt to poor soils, tolerate drought and may withstand temperatures down to around −15°C, depending on the variety and growing conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Caring for olive trees"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "oe8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Olive trees do not require complicated care, but a few basic rules help them thrive."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Light. Choose an open, sunny position; olive trees do not do well in shade."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Watering. Water moderately. Pay particular attention to soil moisture at the beginning of the growing season and while fruit is forming."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Pruning. Regular pruning encourages new shoots and can improve the harvest."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Wind protection. In our region, olive trees can be sensitive to cold winds. Plant them in a sheltered spot, such as beside a house wall or hedge."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe13",
+            "_type": "image",
+            "alt": "Olive tree — sales and planting at the Nessebar garden centre",
+            "asset": {
+              "_ref": "image-a1fcccc8b8d64368ab9d932dc980dd48091cec1e-640x1387-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "oe14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe14s",
+                "_type": "span",
+                "marks": [],
+                "text": "When does fruiting begin?"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "oe15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe15s",
+                "_type": "span",
+                "marks": [],
+                "text": "In suitable conditions, an olive tree may begin bearing fruit 3–4 years after planting. In autumn and winter, you may be able to enjoy freshly picked olives straight from the tree."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe16s",
+                "_type": "span",
+                "marks": [],
+                "text": "New shipment of olive trees from Spain"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "oe17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe17s",
+                "_type": "span",
+                "marks": [],
+                "text": "We offer olive trees imported from Spain, a country with a long tradition of olive cultivation. Our range includes varieties and sizes suitable for growing along Bulgaria’s Black Sea coast."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Why buy an olive tree from Florial?"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "oe19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Every tree at our garden centre is carefully selected. Our range includes varieties suited to local conditions."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Agrio is a green-fruited olive variety."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Petro is a dark-pitted variety."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "oe22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oe22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Create your own Mediterranean corner! Visit Florial Garden Centre in Nessebar to choose an olive tree for your garden and enjoy its fruit in the years to come."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-en-4",
+                "_type": "span",
+                "marks": [],
+                "text": "Next step: explore "
+              },
+              {
+                "_key": "cta-s-en-4",
+                "_type": "span",
+                "marks": [
+                  "cta-a-en-4"
+                ],
+                "text": "olive trees catalogue"
+              },
+              {
+                "_key": "cta-m-en-4",
+                "_type": "span",
+                "marks": [],
+                "text": " or "
+              },
+              {
+                "_key": "cta-e-en-4",
+                "_type": "span",
+                "marks": [
+                  "cta-b-en-4"
+                ],
+                "text": "professional olive tree planting"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-en-4",
+                "_type": "link",
+                "href": "/category/maslini"
+              },
+              {
+                "_key": "cta-b-en-4",
+                "_type": "link",
+                "href": "/services/profesionalno-zasazhdane-na-maslini"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Olive Trees: Sales and Planting in Nessebar",
+        "seoDescription": "Practical guidance for choosing and planting an olive tree on the coast, including sunlight, shelter from cold winds, well-drained soil and moderate watering.",
+        "seoTitle": "Olive Trees: Choosing and Planting in Nessebar | Florial",
+        "shortDescription": "How to choose a place for an olive tree by the coast, considering sunlight, protection from cold winds, soil drainage, watering and care after planting.",
+        "title": "Olive Trees: Sales and Planting in Nessebar"
+      },
+      "ru": {
+        "body": [
+          {
+            "_key": "or1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or1s",
+                "_type": "span",
+                "marks": [],
+                "text": "Садовый центр Florial в Несебре рад представить новую поставку оливковых деревьев из солнечной Испании! У нас есть деревья разных размеров и сортов, чтобы вы могли выбрать идеальное дополнение для своего сада."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or2",
+            "_type": "image",
+            "alt": "Оливковое дерево в Несебре",
+            "asset": {
+              "_ref": "image-5bda979a0ddf2d9e4547de76a455c905878b8087-600x1000-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "or3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or3s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему олива — отличный выбор"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "or4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or4s",
+                "_type": "span",
+                "marks": [],
+                "text": "Эстетика и выносливость. Оливковое дерево выглядит изысканно круглый год. Его небольшие блестящие восковые листья помогают растению переносить высокие температуры."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or5s",
+                "_type": "span",
+                "marks": [],
+                "text": "Практичность. Олива — не только декоративное дерево, но и источник вкусных плодов. Из них производят знаменитое оливковое масло, богатое витаминами и антиоксидантами."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or6s",
+                "_type": "span",
+                "marks": [],
+                "text": "Устойчивость. Олива хорошо приспосабливается к бедным почвам, переносит засуху и выдерживает морозы примерно до −15 °C; фактическая устойчивость зависит от сорта и условий."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or7s",
+                "_type": "span",
+                "marks": [],
+                "text": "Уход за оливковым деревом"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "or8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or8s",
+                "_type": "span",
+                "marks": [],
+                "text": "Олива не требует сложного ухода, но для хорошего развития важно соблюдать несколько правил."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or9s",
+                "_type": "span",
+                "marks": [],
+                "text": "Освещение. Дерево любит открытые солнечные места и плохо переносит затенение."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or10",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or10s",
+                "_type": "span",
+                "marks": [],
+                "text": "Полив. Поливайте умеренно. Особенно следите за влажностью почвы в начале вегетации и во время формирования плодов."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or11",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or11s",
+                "_type": "span",
+                "marks": [],
+                "text": "Обрезка. Регулярная обрезка помогает стимулировать рост молодых побегов и может повысить урожайность."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or12",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or12s",
+                "_type": "span",
+                "marks": [],
+                "text": "Защита от ветра. В нашем регионе олива чувствительна к холодным ветрам. Лучше выбирать защищённое место, например возле стены дома или живой изгороди."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or13",
+            "_type": "image",
+            "alt": "Олива — продажа и посадка в садовом центре Несебра",
+            "asset": {
+              "_ref": "image-a1fcccc8b8d64368ab9d932dc980dd48091cec1e-640x1387-jpg",
+              "_type": "reference"
+            }
+          },
+          {
+            "_key": "or14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or14s",
+                "_type": "span",
+                "marks": [],
+                "text": "Когда начинается плодоношение"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "or15",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or15s",
+                "_type": "span",
+                "marks": [],
+                "text": "При подходящих условиях оливковое дерево может начать плодоносить через 3–4 года после посадки. Осенью и зимой можно собирать свежие оливки прямо с дерева."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or16",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or16s",
+                "_type": "span",
+                "marks": [],
+                "text": "Новая поставка оливковых деревьев из Испании"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "or17",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or17s",
+                "_type": "span",
+                "marks": [],
+                "text": "Мы предлагаем оливковые деревья, выращенные в Испании — стране с давними традициями их культивирования. В ассортименте есть сорта и размеры, подходящие для выращивания на черноморском побережье Болгарии."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or18",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or18s",
+                "_type": "span",
+                "marks": [],
+                "text": "Почему стоит выбрать оливу во Florial"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "or19",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or19s",
+                "_type": "span",
+                "marks": [],
+                "text": "Каждое дерево в нашем садовом центре тщательно отобрано. В ассортименте есть сорта, адаптированные к местным условиям."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or20",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or20s",
+                "_type": "span",
+                "marks": [],
+                "text": "Агрио — зелёный сорт оливы."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or21",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or21s",
+                "_type": "span",
+                "marks": [],
+                "text": "Петро — сорт с тёмной косточкой."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "or22",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "or22s",
+                "_type": "span",
+                "marks": [],
+                "text": "Создайте собственный уголок Средиземноморья! Посетите садовый центр Florial в Несебре, чтобы выбрать оливковое дерево для своего участка и в будущем наслаждаться его плодами."
+              }
+            ],
+            "style": "normal"
+          },
+          {
+            "_key": "cta-blogPost",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cta-t-ru-4",
+                "_type": "span",
+                "marks": [],
+                "text": "Следующий шаг: посмотрите "
+              },
+              {
+                "_key": "cta-s-ru-4",
+                "_type": "span",
+                "marks": [
+                  "cta-a-ru-4"
+                ],
+                "text": "каталог оливковых деревьев"
+              },
+              {
+                "_key": "cta-m-ru-4",
+                "_type": "span",
+                "marks": [],
+                "text": " или "
+              },
+              {
+                "_key": "cta-e-ru-4",
+                "_type": "span",
+                "marks": [
+                  "cta-b-ru-4"
+                ],
+                "text": "профессиональную посадку олив"
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "cta-a-ru-4",
+                "_type": "link",
+                "href": "/category/maslini"
+              },
+              {
+                "_key": "cta-b-ru-4",
+                "_type": "link",
+                "href": "/services/profesionalno-zasazhdane-na-maslini"
+              }
+            ],
+            "style": "normal"
+          }
+        ],
+        "coverAlt": "Олива: продажа и посадка в садовом центре Несебра",
+        "seoDescription": "Практические рекомендации по выбору и посадке оливы на побережье: солнечное место, защита от холодного ветра, дренированная почва и умеренный полив.",
+        "seoTitle": "Олива в саду: выбор и посадка в Несебре | Florial",
+        "shortDescription": "Как выбрать место для оливы у моря: солнечное освещение, защита от холодного ветра, подходящая почва, полив и уход после посадки.",
+        "title": "Олива: продажа и посадка в садовом центре Несебра"
+      }
+    }
+  }
+}
