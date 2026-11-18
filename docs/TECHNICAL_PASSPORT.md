@@ -1,3 +1,9 @@
+## 2026-11-18 — Manager PostHog analytics owner acceptance completed
+- The Manager PostHog analytics feature from PR #405 is deployed in Cloudflare Pages Production. The latest verified application source is `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`); the PostHog implementation itself entered Production with merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`).
+- On 18.11.2026 the owner personally checked the Manager analytics page and confirmed that PostHog analytics loads and displays correctly. This closes the live functional acceptance item. This is recorded as owner-confirmed browser acceptance; no independent browser session or secret value was captured by the assistant.
+- Cloudflare Production metadata had previously confirmed the server-only secret name `POSTHOG_API_KEY` (`secret_text`); its value was never read or changed. Successful owner-side data display confirms the configured end-to-end integration for the tested session. Keep the credential server-side; never expose it in browser code.
+- PR #406 completes this documentation update. No runtime code, Cloudflare settings/secrets, D1, Sanity or Resend were changed as part of closing the documentation task.
+
 ## 2026-11-18 — Bulgarian editorial review of 15 plant categories
 - Reviewed and published BG copy updates for 15 remaining plant categories in Sanity Production, dataset `plants`: clearer online-shop and garden-centre purchase CTAs, more natural Bulgarian phrasing, and correction of the indoor-plants H1.
 - Preserved IDs, slugs, product references/counts, images, product data, help-block service links and RU/EN content. The two categories with zero linked products (groundcovers and indoor plants) use enquiry/availability wording rather than implying current listed stock.
