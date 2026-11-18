@@ -1,3 +1,16 @@
+## 2026-11-18 — Olive tree blog article refresh
+
+- Sanity Production blog post `blogPost-maslina-sredizemnomorie` refreshed after explicit owner approval. Slug `maslina-sredizemnomorie`, public URL, cover asset, publication date, published state and sourceUrl preserved. Published revision: `LtPyN36JxI5SIUpVnhPu66`.
+- Pre-write full snapshot: `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`; backup commit `a10d5f86015e8aa784d8e01a73d23853834ef7d9`.
+- BG/RU/EN body now uses independent Portable Text: 79 blocks each; 12,856 / 11,740 / 12,042 characters; eight inline images and 15 internal links per locale. Localized titles, short descriptions, SEO titles/descriptions and cover ALT populated.
+- Content focuses on olive selection (young tree, bonsai, mature specimen), winter garden planning, site/microclimate assessment, compatible plant categories, planting, irrigation, aftercare and enquiry conversion. No universal frost threshold, unverified prices or delivery promises.
+- Seven newly copied plant assets are referenced in the body; the remaining inline photo is an existing olive asset. Old unrelated lawn/cypress/yucca body images removed. Cover preserved.
+- Internal links were checked against published plant and irrigation categories and active landscape-design, olive-planting and automatic-irrigation services. Existing service lead forms are present; no test enquiry submitted.
+- Tags `Озеленяване` and `Ландшафтно проектиране` return three relevant related articles through the unchanged blog tag renderer.
+- Sanity validator: `valid`, `complete=false` because custom callbacks are not executed by the beta validator. Published Sanity read-back verified all locales, image refs, links, SEO and revision.
+- Rendered live BG/RU/EN HTML remains unverified because Firecrawl credits were exhausted and direct page open was unavailable. Do not claim browser or HTTP status checks.
+- No app code, schema, Cloudflare, D1, Resend, forms/API or navigation changed; no build/deployment required. Audit: `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md`.
+
 ## 2026-11-18 — Winter landscape design blog article
 
 - Sanity Production document `blogPost-landshaften-proekt-zima-burgas` was refreshed after explicit owner approval. Slug `landshaften-proekt-zima-burgas`, URL, BG title, cover asset and publication date preserved. Final published revision: `QNgifPbO9FtDWOAbTv7vHo`.
