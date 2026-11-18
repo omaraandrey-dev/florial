@@ -1,7 +1,7 @@
 ## 2026-11-18 — Manager on-demand PostHog analytics implementation (pending credential)
 - Added a separate Manager PostHog analytics route and UI block, triggered only by an explicit owner/authorized manager click; the existing D1 report remains unchanged.
 - The server-side summary is designed for the five live-confirmed events and includes daily page views, top pages, language and approximate country breakdowns. Existing `canViewAnalytics` permission is reused; no D1 migration is required. Five-minute isolate cache reduces repeat calls.
-- Added helper tests for event allowlist, response normalization and summary sanitization. CI/build and live Query API verification are pending PR checks.
+- Added helper tests for event allowlist, response normalization and summary sanitization. CI on implementation commit `2cde88aa179bded19e299f42bac0a3ae50054e6b` passed: Blog and Studio validation run `44316779456`; D1 migration validation run `44316779386`. Live Query API verification remains pending the server-side key.
 - Read-only Cloudflare Pages inspection found only public `VITE_POSTHOG_PROJECT_KEY`; the required server-only `POSTHOG_PERSONAL_API_KEY` is absent. No secret values were read and no Cloudflare secret, D1, Sanity, Resend or Production deployment was changed. The feature remains unavailable until owner-approved key setup and live verification.
 
 ## 2026-11-18 — PostHog live analytics verified and dashboard extended
