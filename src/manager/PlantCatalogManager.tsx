@@ -14,7 +14,7 @@ type PlantForm={
 }
 type Category={_id:string;name:string;slug?:string;parentId?:string;parentName?:string}
 type ListItem={_id:string;_rev:string;name:string;scientificName?:string;sku?:string;slug?:string;categoryId?:string;categoryName?:string;categoryParent?:string;thumbnail?:string;priceFromEUR:number|null;listStockStatus:string;variantCount:number;isActive?:boolean}
-type Props={role:Role;permissions:{canCreatePlant:boolean;canEditPlantCard:boolean}}
+type Props={role:Role;permissions:{canCreatePlant:boolean;canEditPlantCard:boolean;canAddPlantVariant:boolean;canEditPlantPrice:boolean;canEditPlantStock:boolean}}
 type RichTextOriginal={description:any;careGuide:any;translations:Record<string,any>}
 const stockLabels:Record<string,string>={inStock:'В наличност',onRequest:'По заявка',outOfStock:'Няма наличност',mixed:'Различна наличност'}
 const productTypes=[['plant','Растение'],['tree','Дърво'],['shrub','Храст'],['flower','Цвете'],['perennial','Многогодишно растение'],['indoor','Стайно растение'],['citrus','Цитрус'],['palm','Палма'],['conifer','Иглолистно растение'],['fruit','Плодово растение'],['succulent','Сукулент'],['climber','Катерливо растение'],['ornamentalGrass','Декоративна трева'],['groundcover','Почвопокривно растение'],['bulb','Луковично растение'],['herb','Билка'],['aquatic','Водно растение'],['other','Друг вид растение']]
@@ -44,6 +44,9 @@ const money=(value:number|null)=>value==null?'Цена не указана':new 
 export default function PlantCatalogManager({role,permissions}:Props){
  const canCreate=role==='owner'||permissions.canCreatePlant
  const canEdit=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantCard)
+ const canEditVariantPrice=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantPrice)
+ const canEditVariantStock=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canEditPlantStock)
+ const canAddVariant=role==='owner'||(role==='seller'&&permissions.canCreatePlant)||(role==='manager'&&permissions.canAddPlantVariant&&permissions.canEditPlantPrice&&permissions.canEditPlantStock)
  const [items,setItems]=useState<ListItem[]>([])
  const [categories,setCategories]=useState<Category[]>([])
  const [query,setQuery]=useState('')
@@ -442,16 +445,16 @@ export default function PlantCatalogManager({role,permissions}:Props){
        <label><span className={labelClass}>Контейнер (л)</span><input type="number" min="0.1" step="0.1" className={inputClass} value={variant.containerVolumeL} onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={inputClass} value={variant.priceEUR} onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
-       <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.priceEUR} onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Наличност</span><select className={inputClass} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
+       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} disabled={!canEditVariantStock} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
-     <button type="button" disabled={form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
+     <button type="button" disabled={!canAddVariant||form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
     </details>
     <details open id="plant-editor-content" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">{role==='owner'?'Описание и преводи':'Описание'}</summary>{aiProof&&<span className="text-xs font-semibold text-lime-800">Google попълването е изпълнено</span>}</div>
