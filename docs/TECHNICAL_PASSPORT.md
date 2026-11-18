@@ -5,7 +5,7 @@
 - Five complete pre-write JSON snapshots are stored under `docs/backups/sanity/2026-11-18-plant-categories-bg-before-editorial-*.json`; detailed audit: `docs/audits/2026-11-18-plant-categories-bg-editorial-review.md`.
 - Storefront browser rendering and Google recrawl/indexing are not confirmed. No code, schema, product records, prices, stock, Cloudflare, D1 or Resend were changed.
 
-## 2026-11-18 — Manager on-demand PostHog integration (pending credential and release)
+## 2026-11-18 — Manager on-demand PostHog integration (deployed; live acceptance pending)
 - Added a separate authenticated Manager endpoint and UI block for on-demand PostHog summaries; D1 analytics remains unchanged. The feature covers the five live-confirmed events, daily page views, top paths, languages and approximate countries, with five-minute isolate cache.
 - Reuses the existing `canViewAnalytics` permission; no D1 migration is required. PostHog personal API credential is server-side only (`POSTHOG_PERSONAL_API_KEY`, preferred, or `POSTHOG_API_KEY`, supported alias).
 - Read-only Cloudflare Pages Production metadata confirms a server-side secret named `POSTHOG_API_KEY` (`secret_text`) in addition to public `VITE_POSTHOG_PROJECT_KEY`; its value was not read. The endpoint supports this alias. Credential validity and `query:read` scope await live API verification. No Cloudflare setting or secret was changed by this check.
