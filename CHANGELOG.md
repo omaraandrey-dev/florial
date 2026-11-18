@@ -1,3 +1,12 @@
+## 2026-11-18 — Repository release readiness and documentation cleanup
+- Verified current `main` HEAD `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; open PR count 0.
+- Exact-SHA GitHub Actions passed: Blog and Studio run `44301545917`; D1 validation run `44301545919`.
+- Cloudflare Pages Production deployment `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f` succeeded for the exact same SHA; all build/deploy stages passed; aliases `florial-bg.com` and `www.florial-bg.com`.
+- GitHub inventory: 416 branch refs including main, 415 non-main refs. Non-main refs remain historical and non-authoritative; none were deleted because branch-by-branch unique-commit review is required and the current connector has no branch-delete action. `main` reports `protected=false`; repository rulesets query is empty. Owner-side branch protection remains required.
+- Rewrote `docs/AI/CURRENT_STATE.md` as a current handoff; replaced stale open questions with a concise active list and preserved the full previous 97 KB file at `docs/archive/OPEN_QUESTIONS_HISTORY_2026-11-18.md`.
+- Added branch hygiene and release-readiness records under `docs/operations/`; corrected the stale PR #383 status and irrigation stage-7 handoff.
+- Live Cloudflare Pages metadata still contains legacy Supabase-named variables in Production/Preview. No values were recorded and no variables/secrets/settings were changed. A complete current-main usage audit and separate owner approval are required before removal.
+- Documentation-only change. No application code, Sanity, D1, Resend, Cloudflare configuration, DNS or Production settings changed.
 ## 2026-11-18 — Open PR queue reconciled; project history consolidated
 - Reviewed all 36 PRs that were open at the start of the cleanup. Unique historical audits, Sanity pre-write snapshots, release records and unresolved verification notes were integrated into main; superseded PRs were closed with explanatory comments. No branches or commits were deleted.
 - Documentation integration merges: #391 `6cd8ebb8a853c37283c8e03093f360ae746407c1`; #397 `7ba4660176d8520db41fc89d9b914e140612b209`; #398 `6ec7f35b87119296bc12c2d36e190dd1660424af`; #399 `7e10472e999e99cebd5dd31e16f11419dd560067`.
