@@ -2,7 +2,7 @@
 - Verified live main HEAD: `34a472b813119b72cc45d2009fbe3bd1ce617d4d`; no open PRs.
 - Exact-SHA CI: Blog and Studio run `44301545917` success; D1 migration validation run `44301545919` success.
 - Cloudflare Pages Production deployment `4fb5bbd8-5fcc-4f53-9c16-4d7a8356689f` succeeded on the exact same SHA. Production branch `main`; build `npm run build`; output `dist`; Pages Functions enabled; domains `florial-bg.com` and `www.florial-bg.com`.
-- GitHub branch inventory: 416 refs total (main + 415 non-main); no open PRs. Non-main branches are historical/non-authoritative and are not a base for new work. See `docs/operations/BRANCH_HYGIENE.md`.
+- GitHub branch inventory: 417 refs total (main + 416 non-main, including this cleanup branch); no open PRs after merge. Non-main branches are historical/non-authoritative and are not a base for new work. See `docs/operations/BRANCH_HYGIENE.md`.
 - `main` branch metadata reports `protected=false`; repository rulesets list is empty. Owner should configure PR-required branch protection and require both successful CI checks. Current GitHub integration cannot change this setting.
 - Legacy `SUPABASE_*` / `VITE_SUPABASE_*` variable names remain in live Cloudflare Pages Production/Preview. Root `package.json` has no Supabase SDK. Complete source/workflow/runtime usage audit and separate owner approval are required before removing these variables. No Cloudflare settings/secrets changed.
 - Detailed evidence: `docs/operations/REPOSITORY_RELEASE_READINESS_2026-11-18.md`; current branch policy: `docs/operations/BRANCH_HYGIENE.md`.
