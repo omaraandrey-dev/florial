@@ -10,6 +10,7 @@ import { ValveServiceCrosslink } from '../components/ValveServiceCrosslink'
 import { RichText } from '../components/RichText'
 import { KitComponents } from '../components/KitComponents'
 import { preferFormattedDescription, toPlainText } from '../lib/richTextUtils.mjs'
+import { buildProductOffer } from '../lib/productJsonLd.mjs'
 
 const PLANT_PRODUCT_TYPES = new Set([
   'plant', 'tree', 'shrub', 'flower', 'perennial', 'indoor', 'citrus',
@@ -301,16 +302,10 @@ export function ProductPage({
       alternates,
     })
 
-    const offer: Record<string, unknown> = {
-      '@type': 'Offer',
-      priceCurrency: 'EUR',
-      url: productUrl,
-      itemCondition: 'https://schema.org/NewCondition',
-    }
-    if (hasPrice) offer.price = Number(currentPrice).toFixed(2)
-    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'inStock') offer.availability = 'https://schema.org/InStock'
-    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'outOfStock') offer.availability = 'https://schema.org/OutOfStock'
-    if ((isPlantProduct(product) ? plantStockStatus : product.stockStatus) === 'onRequest') offer.availability = 'https://schema.org/PreOrder'
+    const offer = buildProductOffer({
+      ...product,
+      _dataset: isPlantProduct(product) ? 'plants' : 'production',
+    }, productUrl)
 
     setStructuredData('product', {
       '@context': 'https://schema.org',
@@ -320,7 +315,7 @@ export function ProductPage({
       url: productUrl,
       ...(product.imageUrl ? { image: [product.imageUrl] } : {}),
       ...(product.sku ? { sku: product.sku } : {}),
-      ...(hasPrice ? { offers: offer } : {}),
+      ...(offer ? { offers: offer } : {}),
     })
 
     const breadcrumbItems: Array<{ name: string; item: string }> = [
