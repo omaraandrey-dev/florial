@@ -1,3 +1,10 @@
+## 2026-11-18 — Repository history and open PR consolidation
+- Main history reconciled through documentation-only PRs #391, #397, #398 and #399. Final consolidation commit: `7e10472e999e99cebd5dd31e16f11419dd560067`.
+- All 36 PRs that were open at the beginning were reviewed; unique audits, pre-write Sanity snapshots and release evidence were integrated where still relevant. Stale/superseded PRs were closed with comments; no source branches or commits were deleted.
+- Final repository state at verification: main at the commit above; zero open PRs.
+- No runtime code, Sanity live data/schema, D1, Resend, Cloudflare configuration/secrets, DNS or Production settings were changed by the consolidation.
+- Full PR-by-PR reasoning: `docs/audits/2026-11-18-open-pr-reconciliation.md`.
+
 ## 2026-11-16 — Owner-approved sprinkler engine scope and current implementation
 - Development scope: Rain Bird R-VAN, HE-VAN and 3500; 5000 MPR is isolated reference data only, not a solver or customer recommendation family.
 - The later PR #339/#340 implementation added an isolated 3500 candidate generator with half-circle-only constraints. Current prototype README and OPEN_QUESTIONS describe exact capability and remaining engineering gates. Do not reuse the older PR #334 statement that 3500 is not integrated.
