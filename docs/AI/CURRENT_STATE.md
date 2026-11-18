@@ -78,3 +78,10 @@
 6. [CHANGELOG.md](../../CHANGELOG.md)
 7. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
 8. Relevant source, tests, workflows and live services for the task.
+
+
+### Latest Google structured-data QA (18.11.2026)
+
+- Schema.org Validator: corrected PR Preview equipment and plant each report 5 items, 0 errors, 0 warnings; Product and BreadcrumbList appear twice because the middleware canonical URL is Production while client markup uses the Preview host.
+- Current Production equipment baseline: 3 items, 0 errors, 0 warnings (Organization 1, BreadcrumbList 1, Product 1); this is pre-PR code.
+- Official Google Rich Results Test requires login/reCAPTCHA and returned “Log in and try again”; no Google test outcome confirmed. Owner-authenticated run and later Production retest remain pending. Details in roadmap and audit.
