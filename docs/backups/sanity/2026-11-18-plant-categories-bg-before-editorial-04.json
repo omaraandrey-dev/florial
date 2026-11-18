@@ -1,0 +1,4056 @@
+{
+  "createdAt": "2026-11-18",
+  "projectId": "bxvcy0qs",
+  "dataset": "plants",
+  "perspective": "published",
+  "documents": [
+    {
+      "_createdAt": "2026-10-20T11:45:12Z",
+      "_id": "plants-olives",
+      "_rev": "oFgU2xnFzJTvQ0oNTmRA8H",
+      "_system": {
+        "base": {
+          "id": "plants-olives",
+          "rev": "mCiJ6j1PmqLVq15csM6mcX"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-13T10:01:01Z",
+      "description": "Маслината (Olea europaea) е вечнозелено средиземноморско дърво със сребристозелени листа и характерен ствол. Подходяща е за слънчеви дворове и тераси, когато мястото е защитено, почвата е добре дренирана и е предвидена зимна защита при силни студове.",
+      "externalImageUrl": "https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72t80-A-LsDe8vHx5dqyMAap7Ynp42yhE9Pm1QzPvz_0hK47M_T-9I3sW15jUHRcThEDlne0U8Qg2uliORsPltYbozlNhuWYbPdJ0YuhjDQX4GD491LTIhvfCOTqaJiniupay7J816K3Ka4Vv612JEnSvDeZg96PnJzwF3jJkWz0Ktb3EgJB6xjNm2qHD1fnNS1mGEWmzgWDjXq3KXxadxs11HfrbMLftbFmcA_kCf3I=w1280",
+      "helpBlock": {
+        "buttonLabel": "Маслини — избор, продажба и засаждане",
+        "buttonUrl": "/services/profesionalno-zasazhdane-na-maslini",
+        "text": "Florial ще ви помогне да съобразите размера и формата на маслината с мястото, почвата и условията на конкретния имот. Можем да организираме доставка и професионално засаждане, а при необходимост — и капково напояване за първите сезони.",
+        "title": "Нуждаете се от помощ при избора на маслина?",
+        "translations": {
+          "en": {
+            "buttonLabel": "Olive trees — selection, sales and planting",
+            "text": "Florial can help you choose the right size and shape of olive tree for your site, soil and local conditions. We can arrange delivery and professional planting, as well as drip irrigation for the first growing seasons where needed.",
+            "title": "Need help choosing an olive tree?"
+          },
+          "ru": {
+            "buttonLabel": "Оливы — выбор, продажа и посадка",
+            "text": "Florial поможет подобрать размер и форму оливы с учётом места посадки, почвы и условий участка. Мы можем организовать доставку и профессиональную посадку, а при необходимости — капельный полив на первые сезоны.",
+            "title": "Нужна помощь с выбором оливы?"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Маслинови дървета за градини и озеленяване в района на Несебър",
+        "altEn": "Olive trees for gardens and landscaping near Nessebar",
+        "altRu": "Оливковые деревья для садов и озеленения в районе Несебра",
+        "asset": {
+          "_ref": "image-7819426d2ae4034145a4c0967ed019b4d2960d5f-1280x853-png",
+          "_type": "reference"
+        },
+        "title": "Маслинови дървета за градината в Несебър и Кошарица",
+        "titleEn": "Olive trees for gardens in Nessebar and Kosharitsa",
+        "titleRu": "Оливковые деревья для сада в Несебре и Кошарице"
+      },
+      "name": "Маслини",
+      "parent": {
+        "_ref": "plants-root",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Маслини за градини по Българското Черноморие",
+        "keywords": [
+          "маслини за градина",
+          "маслинови дървета",
+          "маслини по Черноморието",
+          "засаждане на маслини",
+          "маслини Несебър",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на маслинови дръвчета за градини и дворове в Несебър, Равда и по Южното Черноморие. Подбор на място, доставка и професионално засаждане.",
+        "metaTitle": "Маслини | Несебър | Градински център Флориал",
+        "noIndex": false
+      },
+      "seoContent": [
+        {
+          "_key": "bg001",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg002",
+              "_type": "span",
+              "marks": [],
+              "text": "Маслини за градини по Черноморието: как да изберете дърво, място и защита"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg003",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg004",
+              "_type": "span",
+              "marks": [],
+              "text": "Маслината (Olea europaea) е вечнозелено средиземноморско дърво със сребристозелени листа и характерен, често извиващ се с възрастта ствол. Расте сравнително бавно, а зрелите екземпляри могат да достигнат приблизително 4,5–9 m според условията и начина на отглеждане. В категорията на Florial ще откриете маслини с различни размери, включително едроразмерни и оформени дървета за вход, тераса или представителен двор."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg005",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg006",
+              "_type": "span",
+              "marks": [],
+              "text": "Какъв студ понася маслината"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg007",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg008",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимната устойчивост е един от най-важните критерии при избора. RHS посочва за Olea europaea оценка H4 по своята скала, която съответства ориентировъчно на диапазон от −10 до −5 °C. Научни обзори описват съществени повреди при температури около −6/−7 °C и риск от тежки увреждания при по-силен студ, особено под −12 °C. Тези стойности са ориентири, а не гарантирани граници за всяко дърво."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg009",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg010",
+              "_type": "span",
+              "marks": [],
+              "text": "Реалният резултат зависи от сорта, продължителността на студа, вятъра, влажността и оттичането на водата, възрастта на растението и степента му на аклиматизация. Ранното застудяване преди дървото да се е подготвило за зимата може да бъде по-опасно. Младите маслини и растенията в контейнери са по-уязвими, защото корените им са по-слабо защитени от температурните колебания."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg011",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg012",
+              "_type": "span",
+              "marks": [],
+              "text": "Как да изберете подходящо място"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg013",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg014",
+              "_type": "span",
+              "marks": [],
+              "text": "За доброто развитие на маслината са важни слънцето, топлината и свободното оттичане на водата. По Черноморието избирайте място според конкретния микроклимат на имота, а не само според общите климатични условия на района."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg015",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg016",
+              "_type": "span",
+              "marks": [],
+              "text": "Пълно слънце и топло, защитено изложение. Подходящо може да бъде място до южна стена, която акумулира топлина и намалява въздействието на студения вятър."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg017",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg018",
+              "_type": "span",
+              "marks": [],
+              "text": "Добре дренирана почва. Продължителното задържане на вода около корените увеличава риска от проблеми, особено през студените месеци."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg019",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg020",
+              "_type": "span",
+              "marks": [],
+              "text": "Избягвайте ниски точки и затворени вдлъбнатини, където се събира студен въздух."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg021",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg022",
+              "_type": "span",
+              "marks": [],
+              "text": "Оставете достатъчно пространство за бъдещата корона и съобразете размера на дървото с достъпа за доставка и засаждане."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg023",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg024",
+              "_type": "span",
+              "marks": [],
+              "text": "При избор между варианти сравнете височината, формата и размера на контейнера. Едроразмерното дърво създава завършен ефект веднага, но изисква по-добре планирано транспортиране и засаждане."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg025",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg026",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждане и грижи през първите сезони"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg027",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg028",
+              "_type": "span",
+              "marks": [],
+              "text": "В условията на българското Черноморие пролетта обикновено е подходящ период за засаждане: растението разполага с топлите месеци, за да се вкорени преди следващата зима. Изберете момент след преминаване на риска от силни студове и съобразете работата с влажността на почвата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg029",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg030",
+              "_type": "span",
+              "marks": [],
+              "text": "Подгответе място с добър дренаж и не засаждайте кореновата шийка по-дълбоко, отколкото е била в контейнера."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg031",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg032",
+              "_type": "span",
+              "marks": [],
+              "text": "След засаждането полейте обилно, за да се навлажни кореновата бала и почвата около нея."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg033",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg034",
+              "_type": "span",
+              "marks": [],
+              "text": "През периода на прихващане поливайте редовно според температурата, валежите и оттичането на водата. Целта е равномерна влага, а не постоянно мокра почва."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg035",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg036",
+              "_type": "span",
+              "marks": [],
+              "text": "След като се установи, маслината понася засушаване, но при продължителни горещини и сухи периоди допълнителното поливане подпомага добрия растеж."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg037",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg038",
+              "_type": "span",
+              "marks": [],
+              "text": "При контейнерно отглеждане използвайте съд с достатъчно дренажни отвори и подходящ субстрат. Саксиите изискват по-често наблюдение на влагата."
+            }
+          ],
+          "level": 1,
+          "listItem": "bullet",
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg039",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg040",
+              "_type": "span",
+              "marks": [],
+              "text": "Зимна защита на младите дървета и маслините в саксии"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg041",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg042",
+              "_type": "span",
+              "marks": [],
+              "text": "При прогноза за силен или продължителен студ защитете младите растения с дишащ градинарски текстил. При контейнерните маслини предпазете и съда, защото корените в него изстиват по-бързо. Поставете саксията на защитено място, повдигнете я така, че водата да се оттича свободно, и при необходимост преместете растението в светло, неотопляемо или прохладно помещение без мраз. Не оставяйте кореновата бала подгизнала през зимата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg043",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg044",
+              "_type": "span",
+              "marks": [],
+              "text": "Избирайте здрави растения от проследим източник"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg045",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg046",
+              "_type": "span",
+              "marks": [],
+              "text": "Маслината е сред растенията гостоприемници на бактерията Xylella fastidiosa, която е регулиран карантинен вредител в Европейския съюз. Затова избирайте растения от надежден разсадник или търговец с ясна проследимост. При търговията и движението на растенията се прилагат европейски фитосанитарни правила; когато е приложимо, растенията трябва да бъдат придружени от валиден растителен паспорт. Здравият външен вид сам по себе си не е достатъчно доказателство за фитосанитарен статус."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg047",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg048",
+              "_type": "span",
+              "marks": [],
+              "text": "Доставка, професионално засаждане и поливане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg049",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg050",
+              "_type": "span",
+              "marks": [],
+              "text": "Florial помага при избора на маслина според мястото, размера и условията на имота, както и с доставката и професионалното засаждане на дървета. За по-лесното прихващане през първите сезони може да се предвиди и капково напояване с режим, съобразен с почвата, времето и нуждите на растението. Работим в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие, Кошарица, Каблешково и околните населени места."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg051",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg052",
+              "_type": "span",
+              "marks": [],
+              "text": "Често задавани въпроси"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "bg053",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg054",
+              "_type": "span",
+              "marks": [],
+              "text": "Може ли маслината да зимува навън по Черноморието?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "bg055",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg056",
+              "_type": "span",
+              "marks": [],
+              "text": "В много защитени дворове това е възможно, ако мястото е слънчево и почвата отвежда добре водата. При силни или продължителни студове обаче са възможни повреди. Младите дървета и маслините в саксии се нуждаят от допълнителна защита, а при екстремна прогноза контейнерното растение може да се премести на защитено място."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg057",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg058",
+              "_type": "span",
+              "marks": [],
+              "text": "По-добре ли е маслината да бъде в саксия или засадена в земята?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "bg059",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg060",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждането в земята е добър избор за слънчев и защитен двор с подходящ дренаж и достатъчно пространство. Саксията дава възможност растението да бъде преместено при опасен студ, но корените са по-изложени на температурни промени и поливането трябва да се следи по-внимателно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "bg061",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg062",
+              "_type": "span",
+              "marks": [],
+              "text": "Кога е най-подходящо да засадя маслина?"
+            }
+          ],
+          "markDefs": [],
+          "style": "h3"
+        },
+        {
+          "_key": "bg063",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "bg064",
+              "_type": "span",
+              "marks": [],
+              "text": "Обикновено най-подходяща е пролетта, след отминаване на риска от силни студове. Така маслината има цял топъл сезон, за да развие нови корени преди зимата. При конкретен обект срокът трябва да се съобрази с времето, състоянието на почвата и начина на доставка."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "maslini"
+      },
+      "sortOrder": 2,
+      "translations": {
+        "en": {
+          "description": "The olive tree (Olea europaea) is an evergreen Mediterranean species with silvery-green foliage and a distinctive trunk. It suits sunny gardens and terraces where the position is sheltered, the soil is well drained and winter protection is available during severe frosts.",
+          "name": "Olive Trees",
+          "seo": {
+            "h1": "Olive Trees for Gardens on Bulgaria’s Black Sea Coast",
+            "keywords": [
+              "olive trees for gardens",
+              "olive trees Bulgaria",
+              "olive trees Black Sea coast",
+              "olive tree planting",
+              "olive trees Nessebar",
+              "Florial"
+            ],
+            "metaDescription": "Sale of olive trees for gardens and yards in Nessebar, Ravda and Bulgaria’s Southern Black Sea coast. Site selection, delivery and professional planting.",
+            "metaTitle": "Olive Trees | Nessebar | Florial Garden Center",
+            "noIndex": false
+          },
+          "seoContent": [
+            {
+              "_key": "en001",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en002",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Olive Trees for Gardens on Bulgaria’s Black Sea Coast: Choosing a Tree, Site and Winter Protection"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en003",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en004",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The olive tree (Olea europaea) is an evergreen Mediterranean species with silvery-green foliage and a distinctive trunk that often becomes gnarled with age. It grows relatively slowly; according to the RHS, mature trees can reach around 4.5–9 m, depending on growing conditions. The Florial category includes olive trees in different sizes, from smaller plants to large and shaped specimens for entrances, terraces and statement gardens."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en005",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en006",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "How much cold can an olive tree tolerate?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en007",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en008",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Winter hardiness is one of the most important factors when choosing an olive tree. The RHS lists Olea europaea as H4 on its hardiness scale, an indicative range of −10 to −5°C. Scientific reviews describe significant injury around −6/−7°C and a growing risk of severe damage in colder conditions, particularly below −12°C. These figures are guidance, not guaranteed limits for every tree."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en009",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en010",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The outcome depends on the cultivar, duration of the cold spell, wind, soil moisture and drainage, the plant’s age and how well it has acclimatised. An early cold snap before the tree has hardened for winter can be especially damaging. Young trees and container-grown olives are more vulnerable because their roots have less protection from temperature changes."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en011",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en012",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing the right planting position"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en013",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en014",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Olive trees need sunshine, warmth and free drainage. Along the Bulgarian Black Sea coast, choose a position according to the microclimate of the individual property rather than relying only on general regional conditions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en015",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en016",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Full sun and a warm, sheltered position. A spot beside a south-facing wall can be suitable because the wall stores heat and offers some protection from cold winds."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en017",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en018",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Well-drained soil. Water remaining around the roots for long periods increases the risk of problems, especially during winter."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en019",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en020",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Avoid low-lying pockets and enclosed dips where cold air can collect."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en021",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en022",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Allow enough room for the mature canopy and consider access for delivery and planting before choosing a large specimen."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en023",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en024",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Compare the height, shape and container size of available options. A large tree creates an immediate focal point but needs more careful transport and planting arrangements."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en025",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en026",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planting and care during the first seasons"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en027",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en028",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "In the climate of Bulgaria’s Black Sea coast, spring is generally a suitable time to plant: the tree has the warmer months to establish roots before the next winter. Plant after the risk of hard frost has passed and take the soil’s moisture conditions into account."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en029",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en030",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose a site with good drainage. Keep the root collar at the same level as it was in the container rather than planting the tree too deeply."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en031",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en032",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water thoroughly after planting to moisten both the root ball and the surrounding soil."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en033",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en034",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water regularly while the tree is establishing, adjusting the frequency to temperature, rainfall and drainage. Aim for even moisture, not permanently wet soil."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en035",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en036",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Once established, olives tolerate drought, but additional water during prolonged hot and dry periods supports healthy growth."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en037",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en038",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For container growing, use a pot with adequate drainage holes and a suitable growing medium. Check moisture levels more frequently."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en039",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en040",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Winter protection for young trees and container-grown olives"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en041",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en042",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When severe or prolonged frost is forecast, protect young trees with breathable horticultural fleece. For container-grown olives, protect the pot as well, as roots in containers cool more quickly. Move the pot to a sheltered position, raise it to allow water to drain freely and, if necessary, move the plant to a bright, cool, frost-free place. Do not leave the root ball waterlogged over winter."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en043",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en044",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose healthy plants from a traceable source"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en045",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en046",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Olive is among the known host plants of Xylella fastidiosa, a regulated quarantine pest in the European Union. Buy from a reputable nursery or seller that can provide clear plant traceability. EU plant-health rules apply to the trade and movement of plants; where required, plants must be accompanied by a valid plant passport. A healthy appearance alone does not confirm a plant’s phytosanitary status."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en047",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en048",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Delivery, professional planting and irrigation"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en049",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en050",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial can help you choose an olive tree to suit the site, tree size and property conditions, and arrange delivery and professional planting. Drip irrigation can also be planned for the first seasons, with a schedule adjusted to the soil, weather and the plant’s needs. We work in Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie, Kosharitsa, Kableshkovo and nearby settlements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en051",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en052",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Frequently asked questions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "en053",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en054",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Can an olive tree stay outdoors through winter on the Black Sea coast?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "en055",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en056",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "In many sheltered gardens it can, provided the position is sunny and the soil drains well. Severe or prolonged frost can still cause damage. Young trees and container-grown olives need extra protection; in an extreme cold spell, a potted tree can be moved to a sheltered place."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en057",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en058",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Is it better to plant an olive tree in the ground or keep it in a pot?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "en059",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en060",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Planting in the ground is a good option for a sunny, sheltered site with good drainage and enough space. A container makes it easier to move the tree when severe frost is expected, but the roots are more exposed to temperature changes and the growing medium needs closer moisture monitoring."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "en061",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en062",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "When is the best time to plant an olive tree?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "en063",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "en064",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Spring is generally the best time, after the risk of hard frost has passed. This gives the tree a full warm season to establish before winter. For an individual property, timing should also take account of the weather, soil condition and delivery arrangements."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Олива (Olea europaea) — вечнозелённое средиземноморское дерево с серебристо-зелёной листвой и характерным стволом. Она подходит для солнечных садов и террас, если место защищено, почва хорошо дренирована, а на случай сильных морозов предусмотрена зимняя защита.",
+          "name": "Оливы",
+          "seo": {
+            "h1": "Оливы для садов на болгарском Черноморье",
+            "keywords": [
+              "оливы для сада",
+              "оливковые деревья",
+              "оливы в Болгарии",
+              "посадка олив",
+              "оливы Несебр",
+              "Florial"
+            ],
+            "metaDescription": "Продажа оливковых деревьев для садов и участков в Несебре, Равде и на Южном Черноморье. Подбор места, доставка и профессиональная посадка.",
+            "metaTitle": "Оливковые деревья | Несебър | Садовый центр Флориал",
+            "noIndex": false
+          },
+          "seoContent": [
+            {
+              "_key": "ru001",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru002",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Оливы для садов на Черноморском побережье: как выбрать дерево, место и защиту"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru003",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru004",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Олива (Olea europaea) — вечнозелённое средиземноморское дерево с серебристо-зелёной листвой и характерным стволом, который с возрастом часто приобретает причудливую форму. Растёт сравнительно медленно; по данным RHS, взрослые деревья в зависимости от условий могут достигать примерно 4,5–9 м. В категории Florial представлены оливы разных размеров, в том числе крупномерные и сформированные экземпляры для входной зоны, террасы или парадного сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru005",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru006",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Какие морозы выдерживает олива"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru007",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru008",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимостойкость — один из главных критериев выбора. RHS относит Olea europaea к категории H4 по своей шкале, что ориентировочно соответствует диапазону от −10 до −5 °C. В научных обзорах описываются существенные повреждения при температуре около −6/−7 °C и риск тяжёлых повреждений при более сильном морозе, особенно ниже −12 °C. Это ориентиры, а не гарантированные пределы для каждого дерева."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru009",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru010",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Результат зависит от сорта, продолжительности похолодания, ветра, влажности и дренажа почвы, возраста растения и степени его закалки. Ранний мороз до завершения осенней акклиматизации может оказаться особенно опасным. Молодые оливы и растения в контейнерах уязвимее: их корни слабее защищены от перепадов температуры."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru011",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru012",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как выбрать подходящее место"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru013",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru014",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для хорошего развития оливе нужны солнце, тепло и свободный отвод лишней воды. На болгарском побережье выбирайте место с учётом микроклимата конкретного участка, а не только общих климатических условий региона."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru015",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru016",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полное солнце и тёплое, защищённое место. Подойдёт, например, участок возле стены южной экспозиции: она накапливает тепло и частично защищает от холодного ветра."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru017",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru018",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хорошо дренированная почва. Длительный застой воды у корней повышает риск проблем, особенно в холодное время года."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru019",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru020",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Избегайте низин и замкнутых углублений, где скапливается холодный воздух."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru021",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru022",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Оставьте достаточно места для будущей кроны и заранее оцените доступ для доставки и посадки дерева."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru023",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru024",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сравнивайте высоту, форму и размер контейнера. Крупномер сразу создаёт выразительный эффект, но требует более тщательной организации перевозки и посадки."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru025",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru026",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посадка и уход в первые сезоны"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru027",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru028",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В условиях болгарского Черноморья весна обычно подходит для посадки: у растения остаётся тёплый сезон, чтобы укорениться до следующей зимы. Выбирайте время после окончания риска сильных заморозков и учитывайте влажность почвы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru029",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru030",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовьте место с хорошим дренажом. Не заглубляйте корневую шейку относительно уровня, на котором растение росло в контейнере."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru031",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru032",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После посадки обильно полейте дерево, чтобы увлажнить корневой ком и окружающую почву."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru033",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru034",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В период укоренения поливайте регулярно, учитывая температуру, осадки и дренаж. Почва должна оставаться умеренно влажной, но не постоянно мокрой."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru035",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru036",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После укоренения олива переносит засуху, однако при длительной жаре и отсутствии осадков дополнительный полив поддерживает нормальный рост."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru037",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru038",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для выращивания в контейнере выбирайте ёмкость с достаточными дренажными отверстиями и подходящим субстратом. Влажность грунта в горшке нужно контролировать чаще."
+                }
+              ],
+              "level": 1,
+              "listItem": "bullet",
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru039",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru040",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Зимняя защита молодых деревьев и олив в контейнерах"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru041",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru042",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "При прогнозе сильного или продолжительного похолодания укройте молодое дерево воздухопроницаемым садовым материалом. У контейнерных олив защитите и сам горшок: корни в нём охлаждаются быстрее. Поставьте контейнер в укрытое от ветра место, приподнимите его для свободного стока воды и при необходимости перенесите растение в светлое прохладное помещение, где нет мороза. Не допускайте зимнего переувлажнения корневого кома."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru043",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru044",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Покупайте здоровые растения из проверенного источника"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru045",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru046",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Олива относится к растениям-хозяевам бактерии Xylella fastidiosa, которая в Европейском союзе является регулируемым карантинным вредителем. Поэтому выбирайте растения у надёжного питомника или продавца, обеспечивающего прослеживаемость происхождения. При торговле и перемещении растений действуют фитосанитарные правила ЕС; в случаях, когда это требуется, растение должно сопровождаться действующим паспортом растения. Здоровый внешний вид сам по себе не подтверждает фитосанитарный статус."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru047",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru048",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Доставка, профессиональная посадка и полив"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru049",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru050",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial поможет подобрать оливу с учётом места посадки, размера дерева и условий участка, организовать доставку и профессиональную посадку. Для успешного укоренения в первые сезоны можно предусмотреть капельный полив с режимом, подобранным по типу почвы, погоде и потребностям растения. Работаем в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие, Кошарице, Каблешково и близлежащих населённых пунктах."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru051",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru052",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Часто задаваемые вопросы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "ru053",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru054",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Может ли олива зимовать на улице на Черноморском побережье?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "ru055",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru056",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Во многих защищённых дворах это возможно, если место солнечное, а почва хорошо отводит воду. Однако сильные или продолжительные морозы могут повредить растение. Молодые деревья и оливы в горшках нуждаются в дополнительной защите; при экстремальном прогнозе контейнерное растение можно перенести в укрытое место."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru057",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru058",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Что лучше — посадить оливу в грунт или выращивать в контейнере?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "ru059",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru060",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Посадка в грунт подходит для солнечного защищённого участка с хорошим дренажом и достаточным пространством. Контейнер позволяет переместить растение при угрозе сильного мороза, но корни сильнее подвержены перепадам температуры, а влажность субстрата требует более внимательного контроля."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "ru061",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru062",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Когда лучше сажать оливу?"
+                }
+              ],
+              "markDefs": [],
+              "style": "h3"
+            },
+            {
+              "_key": "ru063",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ru064",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обычно лучшее время — весна, после окончания риска сильных заморозков. Тогда у дерева будет весь тёплый сезон для укоренения до зимы. Для конкретного участка срок выбирают с учётом погоды, состояния почвы и условий доставки."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-ornamental-grasses",
+      "_rev": "mCiJ6j1PmqLVq15csfurOH",
+      "_system": {
+        "base": {
+          "id": "plants-ornamental-grasses",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T09:54:33Z",
+      "description": "Декоративните треви и злаци придават движение, лекота и текстура на градината и пасват както на модерни, минималистични композиции, така и на природни насаждения. Красиво се съчетават с многогодишни цветя, храсти и камъни, остават декоративни през есента и зимата, а повечето видове изискват сравнително малко грижа. Използват се на групи, по бордюри и като самостоятелни акценти. При избора определете височината и ширината на растението, осветеността, почвата и устойчивостта към студ. Младите растения се поливат редовно до вкореняване, след което много видове понасят по-сухи периоди; удобен вариант е капковото напояване.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Декоративните треви и злаци добавят структура, движение и сезонен интерес в градината. При избора проверете зрелата височина и ширина, нуждата от слънце, почвата и устойчивостта към засушаване; някои видове се разрастват значително и изискват място. За открити дворове около Свети Влас и Слънчев бряг съобразете вида с вятъра и летните горещини. Поливайте редовно през периода на прихващане, след което режимът зависи от конкретния вид. Florial помага с подбора и композирането.",
+        "title": "Декоративни треви и злаци за текстура и движение",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Ornamental grasses add structure, movement and seasonal interest to a garden. Check mature height and spread, sunlight needs, soil preferences and drought tolerance; some species spread considerably and need room. For exposed gardens around Sveti Vlas and Sunny Beach, consider wind and summer heat when choosing a variety. Water regularly while plants establish; ongoing needs depend on the species. Florial can help with selection and planting design.",
+            "title": "Ornamental grasses for texture and movement"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Декоративные травы и злаки придают саду структуру, движение и сезонную выразительность. Учитывайте взрослую высоту и ширину, потребность в солнце, требования к почве и устойчивость к засухе; некоторые виды активно разрастаются и требуют пространства. Для открытых участков возле Святого Власа и Солнечного Берега учитывайте ветер и летнюю жару. Во время укоренения нужен регулярный полив, далее режим зависит от вида. Florial поможет с подбором и композицией.",
+            "title": "Декоративные травы и злаки для фактуры и движения"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Декоративни треви и злаци за градини по Южното Черноморие",
+        "altEn": "Ornamental grasses for gardens on the southern Black Sea coast",
+        "altRu": "Декоративные травы и злаки для садов Южного Черноморья",
+        "asset": {
+          "_ref": "image-f769d2d28704c71af513ed08f9f218c9d8a49ac8-1400x2100-jpg",
+          "_type": "reference"
+        },
+        "title": "Декоративни треви за градини в Поморие и Бургас",
+        "titleEn": "Ornamental grasses for gardens in Pomorie and Burgas",
+        "titleRu": "Декоративные травы для садов в Поморие и Бургасе"
+      },
+      "name": "Декоративни треви и злаци",
+      "parent": {
+        "_ref": "plants-flowers",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Декоративни треви и злаци за градината и озеленяването",
+        "keywords": [
+          "Декоративни треви и злаци",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на декоративни треви и злаци за цветни композиции и модерни градини в Несебър, Равда и по Южното Черноморие. Доставка и засаждане.",
+        "metaTitle": "Декоративни треви и злаци | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Декоративни треви и злаци за градината и озеленяването",
+          "metaDescription": "Декоративните треви и злаци придават движение, лекота и текстура на градината и пасват както на модерни, минималистични композиции, така и на.",
+          "metaTitle": "Декоративни треви и злаци | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "grsbg01h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg01hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративни треви и злаци за движение и естествена структура в градината"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg01a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg01as",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративните треви и злаци добавят движение, лека текстура и естествен характер към градината. Те могат да се използват като самостоятелни акценти, в групи, покрай алеи или в комбинация с многогодишни цветя и декоративни храсти."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg01b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg01bs",
+              "_type": "span",
+              "marks": [],
+              "text": "В Florial постоянно развиваме асортимента от декоративни растения. В собствените ни оранжерии подготвяме и засаждаме нови партиди растения, а конкретният избор се обновява според сезона и наличностите. За тази категория проверете актуалните предложения преди посещение."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg02h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg02hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Какво придават декоративните треви на градината"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg02a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg02as",
+              "_type": "span",
+              "marks": [],
+              "text": "Фините листа и съцветия създават усещане за движение при вятър и добавят обем без тежък визуален ефект. Декоративните треви могат да омекотят твърдите линии на настилки и огради и да свържат цветните лехи с по-естествена градинска среда."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg02b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg02bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Някои видове запазват декоративността си и през студените месеци, но външният вид и поведението зависят от конкретния вид и условията. При избора проверете зрелия размер и сезонната декоративност."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg03h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg03hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Съчетаване с многогодишни цветя и храсти"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg03a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg03as",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративните треви се комбинират добре с многогодишни цветя, почвопокривни растения и декоративни храсти. Контрастът между тесните листа и по-широката листна маса създава интересна композиция."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg03b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg03bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Използвайте тревите като фон, повторяем ритъм по бордюра или отделен акцент. Съобразете височината и ширината им с останалите растения, за да не засенчват по-ниските видове."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg04h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg04hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор според височината, формата и мястото"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg04a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg04as",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди покупка определете предназначението на растението: нисък бордюр, група в цветна леха или висок акцент. Проверете очакваната височина и ширина, начина на разрастване и нуждата от ограничаване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg04b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg04bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Съобразете избора с осветеността, почвата и достъпа до вода. Не всички декоративни треви имат еднаква устойчивост на суша или студ, затова се ориентирайте по изискванията на конкретния вид."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg05h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg05hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Засаждане в групи и оформяне на композиции"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg05a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg05as",
+              "_type": "span",
+              "marks": [],
+              "text": "Груповото засаждане често създава по-естествен ефект от единичните растения. Повтарянето на един вид през определено разстояние може да подчертае алея или да обедини различни части на градината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg05b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg05bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Оставете място за зрелия размер и не засаждайте прекалено близо до пътеки и настилки, ако листата или съцветията ще се разполагат широко. При малки градини използвайте умерен брой ясно подбрани акценти."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg06h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg06hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Почва, засаждане и прихващане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg06a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg06as",
+              "_type": "span",
+              "marks": [],
+              "text": "Подгответе почвата според изискванията на конкретния вид и осигурете добър дренаж, когато това е необходимо. При засаждане в групи подравнете терена и разпределете растенията така, че композицията да изглежда балансирано."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg06b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg06bs",
+              "_type": "span",
+              "marks": [],
+              "text": "След засаждането полейте и наблюдавайте влагата през периода на прихващане. Разстоянието и дълбочината на засаждане трябва да съответстват на размера на кореновата бала и особеностите на растението."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg07h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg07hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане, подрязване и сезонна грижа"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg07a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg07as",
+              "_type": "span",
+              "marks": [],
+              "text": "Младите декоративни треви се нуждаят от поливане, докато се установят. След това режимът зависи от вида, почвата и времето. Не приемайте, че всяка декоративна трева може да се остави без поливане през горещо и сухо лято."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg07b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg07bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Подрязването се извършва според вида и сезона. При много листопадни декоративни треви сухата надземна част се почиства в подходящия период преди новия растеж, но винаги се съобразявайте с конкретното растение."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg08h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg08hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративни треви за българското Черноморие"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg08a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg08as",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър, Равда, Слънчев бряг, Свети Влас и Поморие трябва да се отчетат слънцето, летните горещини, вятърът и характеристиките на почвата. Откритите места и защитените дворове могат да изискват различен избор и грижа."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg08b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg08bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Избирайте видове според реалното изложение и осигурете поливане при прихващане и продължителна суша. При крайбрежни терени вземете предвид и въздействието на вятъра и соления въздух."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg09h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg09hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративни растения и консултация от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "grsbg09a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg09as",
+              "_type": "span",
+              "marks": [],
+              "text": "Декоративните треви могат да допълнят цветна леха, двор, тераса или озеленяване на хотелска площ. В Florial можете да получите насоки за съчетаване на растенията, тяхната височина и място в композицията."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "grsbg09b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "grsbg09bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Асортиментът се обновява и наличността на отделните видове може да се променя. Свържете се с нас за актуални предложения, професионално засаждане и подходящо решение за напояване."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "dekorativni-trevi"
+      },
+      "sortOrder": 27,
+      "translations": {
+        "en": {
+          "description": "Ornamental grasses add movement, lightness and texture to a garden and suit both modern minimalist designs and naturalistic plantings. They combine beautifully with perennials, shrubs and stone, remain decorative through autumn and winter, and most require relatively little maintenance. Use them in groups, along borders or as standalone accents. Consider mature height and width, sunlight, soil and cold tolerance when choosing. Water young plants regularly until established; many species then tolerate drier periods, and drip irrigation is a convenient option.",
+          "name": "Ornamental Grasses",
+          "seo": {
+            "h1": "Ornamental Grasses for Gardens and Landscaping",
+            "keywords": [
+              "Ornamental Grasses",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of ornamental grasses for garden borders and contemporary landscapes in Nessebar, Ravda and the Southern Black Sea coast. Delivery and planting.",
+            "metaTitle": "Ornamental Grasses | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Ornamental Grasses for Gardens and Landscaping",
+              "metaDescription": "Ornamental grasses add movement, lightness and texture to a garden and suit both modern minimalist designs and naturalistic plantings.",
+              "metaTitle": "Ornamental Grasses | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "grsen01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental grasses for movement and natural garden structure"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental grasses add movement, light texture and a natural character to a garden. They can be used as individual accents, in groups, along paths or combined with perennial flowers and ornamental shrubs."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial continually develops its range of ornamental plants. In our own greenhouses, we prepare and plant new batches, while the selection changes with the season and availability. Please check current offers in this category before visiting."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "What ornamental grasses bring to a garden"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Fine leaves and flower heads move in the breeze and add volume without making a planting scheme feel heavy. Ornamental grasses can soften the hard lines of paths and fences and connect flower beds with a more natural garden setting."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Some varieties remain attractive during colder months, but appearance and behaviour depend on the plant and its growing conditions. Consider mature size and seasonal interest when choosing."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Combining grasses with perennials and shrubs"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental grasses work well with perennial flowers, ground covers and ornamental shrubs. The contrast between narrow blades and broader foliage creates visual interest."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Use grasses as a background, a repeating rhythm along a border or a standalone accent. Match their height and spread to neighbouring plants so that smaller varieties are not shaded."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing by height, form and location"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before buying, decide how the plant will be used: as a low border, a group within a flower bed or a tall accent. Check its expected height and width, spreading habit and whether growth needs to be contained."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Consider light, soil and access to water. Ornamental grasses do not all have the same tolerance of drought or cold, so check the requirements of the particular variety."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Group planting and garden compositions"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Group planting often creates a more natural effect than isolated specimens. Repeating one variety at intervals can highlight a path or connect different parts of a garden."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Allow room for mature growth and avoid planting too close to paths and paving if leaves or flower heads spread widely. In smaller gardens, use a limited number of carefully chosen accents."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Soil preparation, planting and establishment"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Prepare the soil according to the needs of the particular variety and provide good drainage where required. For group planting, level the area and position plants so the overall composition looks balanced."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Water after planting and monitor moisture while the plants establish. Spacing and planting depth should suit the root ball and the characteristics of the plant."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering, pruning and seasonal care"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Young ornamental grasses need watering while they establish. Afterwards, the routine depends on the variety, soil and weather. Do not assume every ornamental grass can be left without water during a hot, dry summer."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pruning depends on the plant and season. For many deciduous ornamental grasses, dry growth is removed at a suitable time before new growth begins, but always follow the needs of the particular variety."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental grasses for Bulgaria’s Black Sea coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda, Sunny Beach, Sveti Vlas and Pomorie, consider sunlight, summer heat, wind and soil conditions. Exposed locations and sheltered courtyards may require different plant choices and care."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose varieties for the actual exposure and provide water during establishment and extended dry spells. In coastal areas, also consider the effects of wind and salty air."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental plants and advice from Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsen09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ornamental grasses can complement a flower bed, garden, terrace or hotel landscape. At Florial, you can get guidance on combining plants, their mature height and their place in a planting scheme."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsen09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsen09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Our range is refreshed and the availability of individual varieties may change. Contact us for current options, professional planting and suitable irrigation solutions."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Декоративные травы и злаки придают саду движение, лёгкость и фактуру и подходят как современным минималистичным композициям, так и природным посадкам. Они красиво сочетаются с многолетними цветами, кустарниками и камнями, остаются декоративными осенью и зимой, а большинство видов требует сравнительно немного ухода. Используются группами, по бордюрам и как самостоятельные акценты. При выборе определите высоту и ширину растения, освещённость, почву и морозостойкость. Молодые растения поливают регулярно до приживания, после чего многие виды переносят более сухие периоды; удобный вариант — капельный полив.",
+          "name": "Декоративные травы и злаки",
+          "seo": {
+            "h1": "Декоративные травы и злаки для сада и озеленения",
+            "keywords": [
+              "Декоративные травы и злаки",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа декоративных трав и злаков для цветочных композиций и современных садов в Несебре, Равде и на Южном Черноморье. Доставка и посадка.",
+            "metaTitle": "Декоративные травы и злаки | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Декоративные травы и злаки для сада и озеленения",
+              "metaDescription": "Декоративные травы и злаки придают саду движение, лёгкость и фактуру и подходят как современным минималистичным композициям, так и природным посадкам.",
+              "metaTitle": "Декоративные травы и злаки | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "grsru01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные травы и злаки для движения и естественной структуры сада"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные травы и злаки добавляют саду движение, лёгкую фактуру и природный характер. Их используют как самостоятельные акценты, группами, вдоль дорожек или в сочетании с многолетними цветами и декоративными кустарниками."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial постоянно развивает ассортимент декоративных растений. В собственных теплицах мы подготавливаем и высаживаем новые партии, а выбор обновляется в зависимости от сезона и наличия. Перед посещением уточняйте актуальные предложения этой категории."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как декоративные травы меняют сад"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Тонкие листья и соцветия создают движение на ветру и добавляют объём без тяжёлого визуального эффекта. Декоративные травы смягчают строгие линии дорожек и ограждений и связывают цветники с более естественной садовой средой."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Некоторые виды сохраняют декоративность и в холодные месяцы, но внешний вид зависит от конкретного растения и условий. При выборе учитывайте взрослый размер и сезонный декоративный эффект."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сочетание с многолетниками и кустарниками"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные травы хорошо сочетаются с многолетними цветами, почвопокровными растениями и декоративными кустарниками. Контраст узких листьев и более широкой листвы создаёт выразительную композицию."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Используйте травы как фон, повторяющийся ритм вдоль бордюра или отдельный акцент. Сопоставляйте их высоту и ширину с соседними растениями, чтобы они не затеняли низкие виды."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбор по высоте, форме и месту посадки"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед покупкой определите назначение растения: низкий бордюр, группа в цветнике или высокий акцент. Проверьте ожидаемую высоту и ширину, характер разрастания и необходимость ограничения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Учитывайте освещение, почву и доступ к воде. Не все декоративные травы одинаково переносят засуху или холод, поэтому ориентируйтесь на требования конкретного вида."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Групповая посадка и создание композиций"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Групповая посадка часто выглядит естественнее, чем одиночные экземпляры. Повторение одного вида через определённые промежутки помогает подчеркнуть дорожку или объединить разные части сада."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Оставляйте место для взрослого размера и не сажайте слишком близко к дорожкам и покрытиям, если листья и соцветия широко разрастаются. В небольших садах лучше использовать умеренное количество продуманных акцентов."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Почва, посадка и укоренение"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовьте почву с учётом требований конкретного вида и обеспечьте хороший дренаж там, где это необходимо. При групповой посадке выровняйте участок и распределите растения так, чтобы композиция выглядела сбалансированно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "После посадки полейте растения и контролируйте влажность в период укоренения. Расстояние и глубина посадки должны соответствовать размеру корневого кома и особенностям растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив, обрезка и сезонный уход"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Молодые декоративные травы нуждаются в поливе до укоренения. Затем режим зависит от вида, почвы и погоды. Не следует считать, что любую декоративную траву можно оставить без воды в жаркое сухое лето."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Обрезку проводят с учётом вида и сезона. У многих листопадных декоративных трав сухую надземную часть удаляют в подходящее время до начала нового роста, но всегда учитывайте особенности конкретного растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные травы для болгарского Черноморья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра, Равды, Солнечного Берега, Святого Власа и Поморие учитывайте солнце, летнюю жару, ветер и свойства почвы. Открытые участки и защищённые дворы могут требовать разного выбора и ухода."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбирайте виды для фактического освещения и поливайте в период укоренения и продолжительной засухи. На побережье учитывайте также влияние ветра и солёного воздуха."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные растения и консультация Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "grsru09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Декоративные травы могут дополнить цветник, двор, террасу или озеленение территории отеля. В Florial можно получить рекомендации по сочетанию растений, их высоте и месту в композиции."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "grsru09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "grsru09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ассортимент обновляется, а наличие отдельных видов может меняться. Свяжитесь с нами, чтобы узнать актуальные предложения, заказать профессиональную посадку и подобрать подходящий полив."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "_createdAt": "2026-10-20T11:47:54Z",
+      "_id": "plants-perennials",
+      "_rev": "mCiJ6j1PmqLVq15csfurOH",
+      "_system": {
+        "base": {
+          "id": "plants-perennials",
+          "rev": "oFgU2xnFzJTvQ0oNTmRA8H"
+        }
+      },
+      "_type": "category",
+      "_updatedAt": "2026-11-15T09:54:33Z",
+      "description": "Многогодишните цветя се връщат всяка година, без да се засаждат наново, и са основа на трайните цветни лехи и бордюри. Повечето от тях презимуват под земята и напролет подновяват растежа си. В категорията са тревисти многогодишни растения за слънце и полусянка с различно време на цъфтеж, цвят и височина. Комбинирайте ги така, че да има цъфтеж от пролетта до есента. При избора определете осветеността, почвата, височината и разстоянието при засаждане. Растенията се нуждаят от поливане през първата година и при продължително засушаване, а капковото напояване поддържа равномерна влажност.",
+      "helpBlock": {
+        "buttonLabel": "Професионално засаждане и консултация",
+        "buttonUrl": "/services/zasazhdane-na-rasteniya",
+        "text": "Комбинирайте многогодишни растения с различни срокове на цъфтеж, височина и листна маса, за да запазите интереса в лехата от пролетта до есента. Съобразете слънцето, дренажа и разстоянието между растенията; някои видове се нуждаят от делене или подрязване след цъфтежа. През първия сезон след засаждането поливайте редовно, докато корените се установят. Florial помага при подбора и засаждането на композиции в Равда, Несебър и Бургас.",
+        "title": "Многогодишни цветя за последователен цъфтеж",
+        "translations": {
+          "en": {
+            "buttonLabel": "Professional planting and advice",
+            "text": "Combine perennials with different flowering periods, heights and foliage textures to keep a border interesting from spring to autumn. Consider sunlight, drainage and spacing; some species need dividing or cutting back after flowering. Water regularly during the first season while root systems establish. Florial can help select and plant perennial combinations in Ravda, Nessebar and Burgas.",
+            "title": "Perennials for a succession of seasonal blooms"
+          },
+          "ru": {
+            "buttonLabel": "Профессиональная посадка и консультация",
+            "text": "Сочетайте многолетники с разными сроками цветения, высотой и фактурой листвы, чтобы клумба оставалась выразительной с весны до осени. Учитывайте освещение, дренаж и расстояние между растениями; некоторым видам нужны деление или обрезка после цветения. В первый сезон после посадки поливайте регулярно, пока корни не укоренятся. Florial поможет подобрать и высадить композиции в Равде, Несебре и Бургасе.",
+            "title": "Многолетние цветы для последовательного цветения"
+          }
+        }
+      },
+      "image": {
+        "_type": "image",
+        "alt": "Многогодишни цветя за градини и цветни лехи в района на Равда",
+        "altEn": "Perennial flowers for gardens and flower beds around Ravda",
+        "altRu": "Многолетние цветы для садов и клумб в районе Равды",
+        "asset": {
+          "_ref": "image-8d29ee898c57ff314273ba2381d6fa18a976a065-899x1000-jpg",
+          "_type": "reference"
+        },
+        "title": "Многогодишни цветя за градини в Равда и Ахелой",
+        "titleEn": "Perennials for gardens in Ravda and Aheloy",
+        "titleRu": "Многолетние цветы для садов в Равде и Ахелое"
+      },
+      "name": "Многогодишни цветя",
+      "parent": {
+        "_ref": "plants-flowers",
+        "_type": "reference"
+      },
+      "seo": {
+        "h1": "Многогодишни цветя за градината и озеленяването",
+        "keywords": [
+          "Многогодишни цветя",
+          "растения за градината",
+          "декоративни растения",
+          "озеленяване",
+          "градински център Florial"
+        ],
+        "metaDescription": "Продажба на многогодишни цветя за градини и цветни лехи в Несебър, Равда и по Южното Черноморие. Видове за различни места и сезони, доставка и засаждане.",
+        "metaTitle": "Многогодишни цветя | Несебър | Градински център Флориал",
+        "suggested": {
+          "generatedAt": "2026-11-05T09:55:34.389Z",
+          "generatorVersion": "assistant-editorial-v1",
+          "h1": "Многогодишни цветя за градината и озеленяването",
+          "metaDescription": "Многогодишните цветя се връщат всяка година, без да се засаждат наново, и са основа на трайните цветни лехи и бордюри.",
+          "metaTitle": "Многогодишни цветя | Florial",
+          "status": "approved"
+        }
+      },
+      "seoContent": [
+        {
+          "_key": "pebg01h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg01hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Многогодишни цветя за градина с дълготраен характер"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg01a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg01as",
+              "_type": "span",
+              "marks": [],
+              "text": "Многогодишните цветя са основа на устойчивите цветни лехи. Те се развиват в градината повече от един сезон и при подходящи условия се връщат година след година. С тях можете да изградите постоянна структура, която постепенно се уплътнява и променя с растежа на растенията."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg01b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg01bs",
+              "_type": "span",
+              "marks": [],
+              "text": "В Florial постоянно развиваме асортимента от цветя и декоративни растения. В собствените ни оранжерии подготвяме и засаждаме нови партиди, а изборът се обновява според сезона и развитието на растенията. Конкретните видове и наличности се променят — попитайте ни какво е налично в момента."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg02h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg02hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Собствени оранжерии и постоянно обновяване на асортимента"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg02a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg02as",
+              "_type": "span",
+              "marks": [],
+              "text": "Отглеждането на растения е непрекъснат процес. В нашите оранжерии подготвяме растения, засаждаме нови партиди и се грижим за развитието им. Така редовно обновяваме избора и можем да предлагаме различни растения в различни моменти от сезона."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg02b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg02bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Не всяко многогодишно растение се предлага целогодишно и не всички видове са постоянно налични. Ако планирате конкретна леха или търсите определен цвят и форма, свържете се с Florial, за да проверите актуалния асортимент."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg03h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg03hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Многогодишни цветя за слънце и полусянка"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg03a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg03as",
+              "_type": "span",
+              "marks": [],
+              "text": "Различните многогодишни растения имат различни изисквания към светлината. За открити слънчеви места изберете видове, които понасят продължително огряване, а за участъци под дървета или до сгради потърсете растения, подходящи за полусянка."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg03b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg03bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Хоста и ирисът са примери за многогодишни растения с различна форма на листата и декоративен ефект. При избора се съобразете с реалното изложение, влажността и почвата, а не само с цвета на цветовете."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg04h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg04hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Хости, ириси и разнообразие от форми"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg04a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg04as",
+              "_type": "span",
+              "marks": [],
+              "text": "Хостите се ценят най-вече заради декоративните си листа и разнообразието от форми и окраски. Те често се използват в по-сенчести части на градината, където създават плътни зелени групи и допълват други растения."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg04b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg04bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Ирисите внасят изразителна форма и сезонен цъфтеж. Различните видове и сортове имат специфични предпочитания към почвата и влагата, затова е важно да се уточни конкретното растение преди засаждане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg05h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg05hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Как да съчетаете многогодишните цветя в лехата"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg05a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg05as",
+              "_type": "span",
+              "marks": [],
+              "text": "Планирайте композицията според височината, ширината и времето на цъфтеж. По-високите растения могат да оформят заден план, средните да изградят основната маса, а ниските да завършат предната част на лехата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg05b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg05bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Комбинирайте декоративна листна маса с цъфтящи видове, така че цветникът да остане интересен и извън периода на цъфтеж. Оставяйте достатъчно пространство за достигане на зрелия размер и избягвайте прекалено гъстото засаждане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg06h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg06hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Подготовка на почвата и правилно засаждане"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg06a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg06as",
+              "_type": "span",
+              "marks": [],
+              "text": "Преди засаждане почистете площта от плевели и разрохкайте почвата. При тежка или слабо дренирана почва преценете необходимостта от подобряване на структурата и отвеждането на излишната вода."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg06b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg06bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Разстоянията се определят според зрелия размер на конкретния вид. След засаждане уплътнете внимателно почвата около корените и полейте, за да се осигури добър контакт между кореновата бала и почвата."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg07h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg07hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Поливане и грижа през сезоните"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg07a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg07as",
+              "_type": "span",
+              "marks": [],
+              "text": "През първия период след засаждането многогодишните растения се нуждаят от редовно наблюдение и поливане, докато се установят. След това честотата се съобразява с вида, времето, почвата и валежите."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg07b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg07bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Премахвайте прецъфтелите съцветия, сухите листа и повредените части според особеностите на растението. Капковото напояване може да поддържа по-равномерна влажност в лехите и да улесни грижата през горещите периоди."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg08h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg08hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Многогодишни цветя за българското Черноморие"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg08a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg08as",
+              "_type": "span",
+              "marks": [],
+              "text": "В района на Несебър, Равда, Слънчев бряг, Свети Влас и Поморие условията в градините се различават според изложението, вятъра, почвата и близостта до морето. Едно и също растение може да се развива различно на открито слънчево място и в защитен двор."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg08b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg08bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Избирайте многогодишните цветя според конкретния микроклимат и осигурете поливане при продължителни сухи периоди. При крайбрежни терени обърнете внимание и на защитата от силен вятър и солен аерозол."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg09h",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg09hs",
+              "_type": "span",
+              "marks": [],
+              "text": "Избор на многогодишни растения и консултация от Florial"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "pebg09a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg09as",
+              "_type": "span",
+              "marks": [],
+              "text": "В Florial можете да потърсите многогодишни цветя за нова леха, за допълване на съществуваща градина или за композиция около тераса и вход. Асортиментът се обновява, включително чрез нови растения, които подготвяме и засаждаме в собствените си оранжерии."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "pebg09b",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "pebg09bs",
+              "_type": "span",
+              "marks": [],
+              "text": "Помагаме при избора според светлината, мястото и желания декоративен ефект. Предлагаме и съдействие за професионално засаждане и подходящо напояване. Свържете се с нас за актуална наличност и практичен съвет."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "slug": {
+        "_type": "slug",
+        "current": "mnogogodishni-tsvetya"
+      },
+      "sortOrder": 24,
+      "translations": {
+        "en": {
+          "description": "Perennial flowers return year after year without replanting and form the backbone of lasting flower beds and borders. Most overwinter underground and resume growth in spring. This category includes herbaceous perennials for sun and partial shade, with varied flowering periods, colours and heights. Combine them to enjoy blooms from spring through autumn. Consider sunlight, soil, plant height and spacing when planting. Water during the first year and through prolonged dry spells; drip irrigation helps maintain even soil moisture.",
+          "name": "Perennial Flowers",
+          "seo": {
+            "h1": "Perennial Flowers for Gardens and Landscaping",
+            "keywords": [
+              "Perennial Flowers",
+              "garden plants",
+              "ornamental plants",
+              "landscaping plants",
+              "Florial"
+            ],
+            "metaDescription": "Sale of perennial flowers for gardens and beds in Nessebar, Ravda and the Southern Black Sea coast. Varieties for different settings and seasons, with delivery and planting.",
+            "metaTitle": "Perennial Flowers | Nessebar | Florial Garden Center",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Perennial Flowers for Gardens and Landscaping",
+              "metaDescription": "Perennial flowers return year after year without replanting and form the backbone of lasting flower beds and borders.",
+              "metaTitle": "Perennial Flowers | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "peen01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennial flowers for a garden that lasts"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennial flowers form the foundation of long-lasting garden beds. They grow for more than one season and, in suitable conditions, return year after year. They help create a lasting structure that gradually fills out and changes as the plants mature."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial continually develops its range of flowers and ornamental plants. In our own greenhouses, we prepare and plant new batches, refreshing the selection as the season progresses and plants develop. Exact varieties and availability change, so ask us what is currently offered."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Our greenhouses and a continually refreshed selection"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Growing plants is an ongoing process. In our greenhouses, we prepare plants, set new batches and care for them as they develop. This allows us to refresh the selection regularly and offer different plants at different times of the season."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Not every perennial is available all year, and the availability of individual varieties may change. If you are planning a particular flower bed or looking for a specific colour or form, contact Florial to check the current range."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennials for sunny and partially shaded places"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennial plants have different light requirements. For open sunny areas, choose varieties suited to prolonged direct sun; for places beneath trees or beside buildings, look for plants that tolerate partial shade."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Hostas and irises are examples of perennials with different foliage forms and ornamental effects. Consider the actual light, moisture and soil conditions rather than choosing by flower colour alone."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Hostas, irises and a variety of forms"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Hostas are valued mainly for their ornamental foliage and range of leaf shapes and colours. They are often used in shadier parts of a garden, where they create attractive green groups and complement other plants."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Irises add distinctive shapes and seasonal flowers to a planting scheme. Different species and varieties may have specific soil and moisture requirements, so check the needs of the particular plant before planting."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Combining perennial flowers in a garden bed"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plan a planting scheme around plant height, width and flowering time. Taller plants can form the background, medium-height varieties create the main body, and lower plants can define the front edge."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Combine ornamental foliage with flowering varieties so the bed remains attractive outside the main flowering period. Allow room for mature growth and avoid planting too densely."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Soil preparation and planting"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Before planting, remove weeds and loosen the soil. On heavy or poorly drained ground, consider whether the soil structure and drainage need improvement."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Plant spacing depends on the mature size of each variety. After planting, gently firm the soil around the roots and water to help the root ball make good contact with the surrounding soil."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Watering and care through the seasons"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "During the establishment period, perennials need regular monitoring and watering until their roots settle in. Afterwards, adjust watering to the plant, weather, soil and rainfall."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Remove faded flower stems, dry leaves and damaged parts as appropriate for each variety. Drip irrigation can help maintain more even soil moisture in flower beds and make care easier during hot periods."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Perennials for Bulgaria’s Black Sea coast"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Around Nessebar, Ravda, Sunny Beach, Sveti Vlas and Pomorie, garden conditions vary with exposure, wind, soil and distance from the sea. The same plant may perform differently in an exposed sunny garden and a sheltered courtyard."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choose perennials for the actual microclimate and provide water during extended dry spells. In coastal locations, also consider protection from strong winds and salt spray."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Choosing perennials with advice from Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peen09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "At Florial, you can look for perennial flowers for a new bed, to complement an established garden or to create a planting near a terrace or entrance. The range is refreshed, including through new plants that we prepare and plant in our own greenhouses."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peen09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peen09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "We can help select plants for the light, location and decorative effect you want. Professional planting and suitable irrigation options are also available. Contact us for current availability and practical advice."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        "ru": {
+          "description": "Многолетние цветы возвращаются каждый год без повторной посадки и составляют основу долговечных клумб и бордюров. Большинство из них зимует под землёй и весной возобновляет рост. В категории — травянистые многолетники для солнца и полутени с разным временем цветения, цветом и высотой. Сочетайте их так, чтобы цветение шло с весны до осени. При выборе определите освещённость, почву, высоту и расстояние при посадке. Растениям нужен полив в первый год и при длительной засухе, а капельный полив поддерживает равномерную влажность.",
+          "name": "Многолетние цветы",
+          "seo": {
+            "h1": "Многолетние цветы для сада и озеленения",
+            "keywords": [
+              "Многолетние цветы",
+              "растения для сада",
+              "декоративные растения",
+              "озеленение",
+              "Florial"
+            ],
+            "metaDescription": "Продажа многолетних цветов для садов и клумб в Несебре, Равде и на Южном Черноморье. Виды для разных мест и сезонов, доставка и посадка.",
+            "metaTitle": "Многолетние цветы | Несебър | Садовый центр Флориал",
+            "suggested": {
+              "generatedAt": "2026-11-05T09:55:34.389Z",
+              "generatorVersion": "assistant-editorial-v1",
+              "h1": "Многолетние цветы для сада и озеленения",
+              "metaDescription": "Многолетние цветы возвращаются каждый год без повторной посадки и составляют основу долговечных клумб и бордюров.",
+              "metaTitle": "Многолетние цветы | Florial",
+              "status": "approved"
+            }
+          },
+          "seoContent": [
+            {
+              "_key": "peru01h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru01hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Многолетние цветы для сада на долгие годы"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru01a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru01as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Многолетние цветы составляют основу устойчивых клумб. Они растут в саду не один сезон и при подходящих условиях возвращаются год за годом. С их помощью можно создать постоянную структуру цветника, которая постепенно становится плотнее и меняется по мере развития растений."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru01b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru01bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Florial постоянно развивает ассортимент цветов и декоративных растений. В собственных теплицах мы подготавливаем и высаживаем новые партии, а выбор обновляется в зависимости от сезона и роста растений. Конкретные виды и наличие меняются — уточняйте, что доступно сейчас."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru02h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru02hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Собственные теплицы и обновление ассортимента"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru02a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru02as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выращивание растений — непрерывный процесс. В наших теплицах мы подготавливаем растения, высаживаем новые партии и ухаживаем за ними. Благодаря этому выбор регулярно обновляется, а новые растения появляются в разные периоды сезона."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru02b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru02bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Не каждый многолетник доступен круглый год, и наличие отдельных видов может меняться. Если вы планируете конкретную клумбу или ищете определённую окраску и форму, свяжитесь с Florial и уточните текущий ассортимент."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru03h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru03hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Многолетники для солнца и полутени"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru03a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru03as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "У разных многолетних растений разные требования к освещению. Для открытых солнечных участков выбирайте виды, переносящие продолжительное солнце, а для мест под деревьями или рядом со зданиями — растения, подходящие для полутени."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru03b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru03bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хоста и ирис — примеры многолетников с разной формой листьев и декоративным эффектом. При выборе учитывайте реальное освещение, влажность и тип почвы, а не только окраску цветков."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru04h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru04hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хосты, ирисы и разнообразие форм"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru04a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru04as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Хосты ценят прежде всего за декоративную листву и разнообразие форм и окраски. Их часто используют в более тенистых частях сада, где они создают выразительные зелёные группы и дополняют другие растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru04b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru04bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ирисы добавляют композиции выразительную форму и сезонное цветение. У разных видов и сортов могут отличаться требования к почве и влажности, поэтому перед посадкой важно уточнить особенности конкретного растения."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru05h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru05hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Как сочетать многолетние цветы на клумбе"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru05a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru05as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Планируйте композицию с учётом высоты, ширины и периода цветения растений. Высокие виды могут формировать задний план, средние — основную массу, а низкие — передний край клумбы."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru05b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru05bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Сочетайте декоративную листву и цветущие виды, чтобы цветник оставался интересным и вне периода цветения. Оставляйте место для взрослого размера растений и не высаживайте их чрезмерно плотно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru06h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru06hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подготовка почвы и правильная посадка"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru06a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru06as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Перед посадкой удалите сорняки и разрыхлите почву. На тяжёлых или плохо дренируемых участках оцените необходимость улучшить структуру грунта и отвод лишней воды."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru06b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru06bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Расстояние между растениями зависит от размера взрослого экземпляра. После посадки аккуратно уплотните почву вокруг корней и полейте, чтобы корневой ком хорошо соприкасался с грунтом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru07h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru07hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Полив и уход в течение года"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru07a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru07as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В первое время после посадки многолетники нуждаются в регулярном наблюдении и поливе, пока не укоренятся. Затем частоту полива определяют вид растения, погода, почва и количество осадков."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru07b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru07bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Удаляйте отцветшие соцветия, сухие листья и повреждённые части с учётом особенностей растения. Капельный полив помогает поддерживать более равномерную влажность клумбы и облегчает уход в жаркие периоды."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru08h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru08hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Многолетние цветы для болгарского Черноморья"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru08a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru08as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В районе Несебра, Равды, Солнечного Берега, Святого Власа и Поморие условия в садах различаются в зависимости от освещения, ветра, почвы и близости моря. Одно и то же растение может по-разному развиваться на открытом солнце и в защищённом дворе."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru08b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru08bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Выбирайте многолетники с учётом местного микроклимата и обеспечивайте полив во время продолжительной засухи. На прибрежных участках учитывайте также защиту от сильного ветра и солёного аэрозоля."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru09h",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru09hs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Подбор многолетников и консультация Florial"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "peru09a",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru09as",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В Florial можно подобрать многолетние цветы для новой клумбы, дополнения существующего сада или композиции возле террасы и входа. Ассортимент обновляется, в том числе благодаря новым растениям, которые мы подготавливаем и высаживаем в собственных теплицах."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "peru09b",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "peru09bs",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Мы помогаем выбрать растения с учётом освещения, места и желаемого декоративного эффекта. Также предлагаем профессиональную посадку и подбор подходящего полива. Свяжитесь с нами, чтобы узнать актуальное наличие и получить практический совет."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
