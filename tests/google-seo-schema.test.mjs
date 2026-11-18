@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { buildProductOffer, getServerProductPrice } from '../functions/_lib/productJsonLd.mjs'
 
-test('plant server price uses the first valid sale variant instead of a stale root price', () => {
+test('plant server price and Offer use the default first sale variant instead of a stale root price', () => {
   const product = {
     _dataset: 'plants',
     priceEUR: 3000,
@@ -11,12 +11,11 @@ test('plant server price uses the first valid sale variant instead of a stale ro
   }
   assert.equal(getServerProductPrice(product), 25)
   assert.deepEqual(buildProductOffer(product, 'https://florial-bg.com/product/citrus-japonica-kumquat'), {
-    '@type': 'AggregateOffer',
-    lowPrice: '25.00',
-    highPrice: '35.00',
-    offerCount: 2,
+    '@type': 'Offer',
+    price: '25.00',
     priceCurrency: 'EUR',
     url: 'https://florial-bg.com/product/citrus-japonica-kumquat',
+    itemCondition: 'https://schema.org/NewCondition',
   })
 })
 
@@ -31,29 +30,28 @@ test('plant with one unique sale price emits a regular Offer', () => {
   assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/fuchsia')['@type'], 'Offer')
 })
 
-test('multiple plant variants with the same price keep the true offer count', () => {
+test('plant with multiple variants does not collapse them into AggregateOffer', () => {
   const offer = buildProductOffer({
     _dataset: 'plants',
     saleVariants: [{ priceEUR: 25 }, { priceEUR: 25 }],
   }, 'https://florial-bg.com/product/plant')
   assert.deepEqual(offer, {
-    '@type': 'AggregateOffer',
-    lowPrice: '25.00',
-    highPrice: '25.00',
-    offerCount: 2,
+    '@type': 'Offer',
+    price: '25.00',
     priceCurrency: 'EUR',
     url: 'https://florial-bg.com/product/plant',
+    itemCondition: 'https://schema.org/NewCondition',
   })
 })
 
-test('plant fallback price matches the initially selected first variant', () => {
+test('plant without a priced default first variant does not advertise a later variant price', () => {
   const product = {
     _dataset: 'plants',
     priceEUR: 3000,
     saleVariants: [{ name: 'Size pending' }, { priceEUR: 13 }],
   }
   assert.equal(getServerProductPrice(product), null)
-  assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/plant').price, '13.00')
+  assert.equal(buildProductOffer(product, 'https://florial-bg.com/product/plant'), null)
 })
 
 test('irrigation product continues to use its published root price and stock status', () => {
@@ -101,4 +99,56 @@ test('client-side SEO preserves noIndex and restores page structured data after 
   assert.match(servicesIndex, /setStructuredData\('collection-page'/)
   assert.match(terms, /noIndex: language !== 'bg'/)
   assert.match(middleware, /noIndex: language !== 'bg'/)
+})
+
+
+test('plant Offer reports availability only for the default variant and only for known statuses', () => {
+  const inStock = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [
+      { priceEUR: 25, stockStatus: 'inStock' },
+      { priceEUR: 35, stockStatus: 'outOfStock' },
+    ],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal(inStock.availability, 'https://schema.org/InStock')
+
+  const outOfStock = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25, stockStatus: 'outOfStock' }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal(outOfStock.availability, 'https://schema.org/OutOfStock')
+
+  const onRequest = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25, stockStatus: 'onRequest' }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal('availability' in onRequest, false)
+})
+
+test('onRequest is not converted to PreOrder for equipment or plant variants', () => {
+  const equipment = buildProductOffer({
+    _dataset: 'production',
+    priceEUR: 141.27,
+    stockStatus: 'onRequest',
+  }, 'https://florial-bg.com/product/valve')
+  assert.equal(equipment['@type'], 'Offer')
+  assert.equal('availability' in equipment, false)
+
+  const plant = buildProductOffer({
+    _dataset: 'plants',
+    saleVariants: [{ priceEUR: 25, stockStatus: 'onRequest' }],
+  }, 'https://florial-bg.com/product/plant')
+  assert.equal('availability' in plant, false)
+  assert.notEqual(plant.availability, 'https://schema.org/PreOrder')
+})
+
+test('client ProductPage uses the same shared Offer builder as server middleware', async () => {
+  const [product, middleware] = await Promise.all([
+    readFile(new URL('../src/pages/ProductPage.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8'),
+  ])
+  assert.match(product, /import \{ buildProductOffer \} from '..\/lib\/productJsonLd\.mjs'/)
+  assert.match(product, /const offer = buildProductOffer\(/)
+  assert.doesNotMatch(product, /schema\.org\/PreOrder/)
+  assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '.\/_lib\/productJsonLd\.mjs'/)
 })

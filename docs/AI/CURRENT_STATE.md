@@ -45,6 +45,21 @@
 - D1's latest documented live audit is 2026-11-11; the migration 0014 status and table-count metadata discrepancy require a fresh read-only check before the next D1 migration.
 - The legacy Supabase archive and old Manager setup documents are not current implementation instructions. Follow the current architecture and Manager Technical Passport.
 
+## Active Google Shopping / SEO visibility workstream
+
+- Roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Any follow-up chat or implementation must read this roadmap first, update it with evidence, and continue from the first unfinished stage.
+- Stage 1 is in progress; source audit and Search Console baseline are recorded in [stage-1 audit](../audits/2026-11-18-google-shopping-seo-stage-1-audit.md). Fresh Production Product HTML, Rich Results validation and URL Inspection remain pending. Windsor.ai Google Merchant Center connector has no connected account; standalone account status is unknown.
+
+## Google Shopping / Product Schema workstream
+
+- Active roadmap: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). Continue from its earliest unfinished item and update it after each material step.
+- PR #407 contains the roadmap, audit and Product Offer remediation. It remains open/unmerged; do not assume Production has changed.
+- Product Offer builder is shared between middleware and ProductPage. Plants use only the default first variant Offer; onRequest is not PreOrder. AggregateOffer is not used for a set of variants.
+- ProductGroup is deferred because the published plants dataset has no non-empty variant SKU and the current route does not provide crawlable per-variant URLs.
+- Product Offer implementation and tests passed full Blog/Studio validation run 44355759803 and D1 validation run 44355682858 (source code commit 8fd6704). Cloudflare Preview for functional code plus the updated roadmap succeeded at https://811f1545.florial.pages.dev (Preview commit df414aa). Later PR commits are documentation-only; latest checked PR head 7305780 had CI and Preview in progress.
+- Google Rich Results Test and URL Inspection remain pending. The interactive Google test app and Preview pages were inaccessible through the available web reader; prefilled owner-run Rich Results links are in the roadmap/audit. Windsor.ai Search Console fields do not expose URL Inspection.
+- ProductGroup remains deferred: no plant variant SKU is populated in published Sanity, and there are no crawlable per-variant URLs.
+
 ## Current work boundaries / pending verification
 
 - Manager PostHog on-demand analytics is deployed and owner-accepted. The owner confirmed successful PostHog data display in Manager Production on 18.11.2026.
@@ -63,3 +78,10 @@
 6. [CHANGELOG.md](../../CHANGELOG.md)
 7. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
 8. Relevant source, tests, workflows and live services for the task.
+
+
+### Latest Google structured-data QA (18.11.2026)
+
+- Schema.org Validator: corrected PR Preview equipment and plant each report 5 items, 0 errors, 0 warnings; Product and BreadcrumbList appear twice because the middleware canonical URL is Production while client markup uses the Preview host.
+- Current Production equipment baseline: 3 items, 0 errors, 0 warnings (Organization 1, BreadcrumbList 1, Product 1); this is pre-PR code.
+- Official Google Rich Results Test requires login/reCAPTCHA and returned “Log in and try again”; no Google test outcome confirmed. Owner-authenticated run and later Production retest remain pending. Details in roadmap and audit.

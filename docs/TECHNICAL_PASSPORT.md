@@ -1,3 +1,27 @@
+## 2026-11-18 — Product Offer implementation verification
+
+- Shared Offer helper and tests: commit 92da3ecdb8d06b51de72ae87a5ed495030bc439d.
+- Blog and Studio validation run 44355682859 succeeded: typecheck, lint, all website tests, website build, migration checks/dry-run, Studio typecheck and Studio build.
+- D1 migration validation run 44355682858 succeeded.
+- Cloudflare Preview for 92da3ec deployed at https://9ba37c43.florial.pages.dev; Preview only, not Production.
+- Current branch head 8fd67042f41746b09f66f014734790131ff54e76 adds only a clarifying comment in ProductPage after the verified implementation commit.
+- Google Rich Results Test and URL Inspection are still pending; see the active roadmap and stage-1 audit. No Production deployment or live Google settings change.
+
+## 2026-11-18 — Product JSON-LD shared Offer contract (PR #407, validation pending)
+
+- Canonical builder: src/lib/productJsonLd.mjs. functions/_lib/productJsonLd.mjs re-exports it for Cloudflare middleware; src/pages/ProductPage.tsx imports the same builder.
+- Equipment: one Offer from the published root priceEUR and stockStatus.
+- Plants: one Offer for saleVariants[0], the default variant rendered in initial HTML. If its price is missing/invalid, omit offers; never silently substitute a later variant's price.
+- availability: InStock/OutOfStock only for those exact known statuses. onRequest is not mapped to PreOrder.
+- Do not use AggregateOffer to describe plant size variants. ProductGroup is deferred: published plants dataset read showed 50 product documents with saleVariants and 0 documents with any non-empty saleVariants[].sku; current routing does not provide a separate crawlable URL per variant. Do not invent identifiers.
+- Code/tests are in PR #407. CI and Preview results were pending at last check; no Production deployment or live Google validation is confirmed.
+
+## 2026-11-18 — Google Shopping and SEO visibility roadmap opened
+- The active task plan is `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`. All future work in this workstream must consult that roadmap first, update its stage statuses and evidence, and continue from the earliest unfinished stage.
+- Stage-1 audit: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`. Current code has server and client Product JSON-LD; server-side Offer availability is incomplete relative to client logic for plants and onRequest products. Search Console last-28-day connector report: 336 page rows, 1,171 impressions, 66 clicks. Latest sitemap report: 1,327 submitted, zero errors/warnings, last downloaded 2026-11-16. Google Merchant Center connector is not connected in Windsor.ai; standalone account status is unknown.
+- Fresh live Product HTML, Rich Results validation and URL Inspection are pending; no production or external settings were changed in stage 1.
+- Documentation PR #407 is open for review: https://github.com/omaraandrey-dev/florial/pull/407. It is not merged; no runtime or Production deployment occurred.
+
 ## 2026-11-18 — Manager PostHog analytics owner acceptance completed
 - The Manager PostHog analytics feature from PR #405 is deployed in Cloudflare Pages Production. The latest verified application source is `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`); the PostHog implementation itself entered Production with merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`).
 - On 18.11.2026 the owner personally checked the Manager analytics page and confirmed that PostHog analytics loads and displays correctly. This closes the live functional acceptance item. This is recorded as owner-confirmed browser acceptance; no independent browser session or secret value was captured by the assistant.
@@ -3815,3 +3839,11 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - The links `/services`, `/contacts`, `/about`, `/privacy-policy`, `/withdrawal` and `/terms` were checked against application routing and existing Footer behavior.
 - No Sanity, D1, Cloudflare configuration/secrets, Resend, Header, navigation, or Production changes. CI/build and visual browser QA are pending; do not infer Production status from this code change.
 - Follow-up verified read-only against published Sanity roots: plants dataset category slug `rastenia` (document `plants-root`) and production equipment category slug `vsichko-za-polivane` (document `7f6eaa30-8085-4fae-be3c-1209a0c50fc6`). `src/App.tsx` resolves `/category/:slug`; footer links preserve language using `localizedHref`. Instagram profile link supplied by owner is added alongside Facebook. BG catalog labels and company copy reviewed for natural Bulgarian wording.
+
+
+## 2026-11-18 — Product structured data validation evidence
+
+- Official Schema.org Validator fetched the PR Preview equipment and plant pages. Each reported 5 items, 0 errors and 0 warnings (Organization 1, BreadcrumbList 2, Product 2).
+- The second Product and BreadcrumbList on Preview use the Preview hostname while middleware output uses the canonical Production hostname. This is a Preview-only host/canonical mismatch; the current Production equipment baseline reports 3 items, 0 errors/warnings (Organization 1, BreadcrumbList 1, Product 1).
+- Official Google Rich Results Test requires login/reCAPTCHA in the available remote browser and returned “Something went wrong — Log in and try again”. No Google Rich Results outcome is confirmed. Rerun authenticated against Production after the corrected code is deployed with owner approval.
+- Detailed evidence: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`; execution plan: `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`.

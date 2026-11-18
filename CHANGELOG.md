@@ -1,3 +1,26 @@
+## 2026-11-18 — Product Offer remediation CI and Preview verification
+
+- The shared Product Offer implementation and corrected schema tests passed Blog and Studio validation run 44355682859 on commit 92da3ecdb8d06b51de72ae87a5ed495030bc439d: TypeScript typecheck, lint, website tests, website build, migration checks/dry-run, Studio typecheck and Studio build all succeeded. D1 migration validation run 44355682858 also succeeded.
+- Current branch head 8fd67042f41746b09f66f014734790131ff54e76 adds only a clarifying source comment after the verified code/test commit.
+- Cloudflare Pages Preview for 92da3ec deployed successfully at https://9ba37c43.florial.pages.dev. No Production deployment was performed.
+- Google Rich Results Test and URL Inspection remain pending: the interactive Google test app / Preview pages could not be accessed through the available web reader, and Windsor.ai Search Console connector does not expose URL Inspection fields. Prefilled test links are recorded in the roadmap and audit.
+- PR #407 remains open and unmerged. No Production, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings changed.
+
+## 2026-11-18 — Google Product Schema remediation (PR #407, validation pending)
+
+- Owner-directed sequence: re-review and correct Product JSON-LD before running Google Rich Results Test; raw HTML file retrieval is not a prerequisite for reviewing the source generator, but no claim is made that the live Production response has been fetched.
+- Google Search Central guidance was rechecked: do not use AggregateOffer to describe a set of product variants; Merchant listings require Offer; full variant markup requires ProductGroup and variant identifiers/URLs.
+- Read-only Sanity Production plants query: 50 published product documents contain saleVariants; 0 have a non-empty SKU on any variant. Current routing does not expose a separate crawlable URL per variant. ProductGroup is therefore deferred until real variant identifiers and URLs exist.
+- Shared Product Offer builder added at src/lib/productJsonLd.mjs and reused by Cloudflare middleware and ProductPage. Equipment keeps its root-price Offer. Plants describe only the first/default variant; no later variant price is substituted if the default has no valid price. onRequest does not map to PreOrder; availability is emitted only for known inStock/outOfStock statuses.
+- Added/updated schema tests. GitHub Actions runs 44355221560 (Blog and Studio validation) and 44355221606 (D1 migration validation) were in progress/pending at the last read; Cloudflare Preview for code commit 871315e was Build in progress. Recheck exact head and final results before declaring success.
+- No Production, Sanity, Cloudflare settings/secrets, D1, Resend, Merchant Center or Search Console settings were changed. PR #407 remains open and unmerged.
+
+## 2026-11-18 — Started Google Shopping and SEO visibility roadmap (stage 1)
+- Created the task roadmap at `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`. This roadmap is the required execution plan: every follow-up on Google Shopping / SEO visibility must read and update it, continue from the first unfinished stage, and record evidence before marking work complete.
+- Added stage-1 audit: `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`. Code review confirms existing server/client Product JSON-LD; a potential availability mismatch was identified in server helper vs client ProductPage. Search Console Windsor.ai read returned 336 page rows, 1,171 impressions and 66 clicks for last 28 days; latest sitemap row 1,327 submitted, zero errors/warnings, last downloaded 2026-11-16. Google Merchant Center connector is available but no connected account is present; actual standalone account existence is unknown.
+- Stage 1 remains in progress: fresh Production initial HTML, Rich Results validation and URL Inspection evidence are pending. Firecrawl request was blocked by exhausted credits and the public web reader could not open the product URLs. No runtime code, Sanity, Cloudflare, Google settings, D1, Resend or Production data were changed.
+- Documentation PR #407 is open for review: https://github.com/omaraandrey-dev/florial/pull/407. GitHub's refreshed PR metadata reports mergeable=true; no CI status checks were returned at the time of verification. No merge or Production deployment was performed.
+
 ## 2026-11-18 — Manager PostHog analytics owner acceptance completed
 - The Manager PostHog analytics feature from PR #405 is deployed in Cloudflare Pages Production. The latest verified application source is `3ff2c96d208d7c871cbf6b5975b5458e6efff4ea` (deployment `3edf0d48-e8ca-4d29-878d-a8e308c4d4c8`); the PostHog implementation itself entered Production with merge commit `a7da7916d2fc728432f116f395cc16038b0258ce` (deployment `0b850f57-8fdb-457e-bae2-2fcc52fe40b6`).
 - On 18.11.2026 the owner personally checked the Manager analytics page and confirmed that PostHog analytics loads and displays correctly. This closes the live functional acceptance item. This is recorded as owner-confirmed browser acceptance; no independent browser session or secret value was captured by the assistant.
@@ -3706,3 +3729,11 @@ Backups:
 - Затронуты `src/components/Footer.tsx` и новый `src/components/Footer.css`. Sanity, D1, Cloudflare settings/secrets, Resend, Header, основное меню и маршрутизация не изменялись.
 - Проверка: код и маршруты сверены с `main` SHA `1716996c487c3dbfa6995b4eaa7a617cb90ad480`; локальная сборка/тесты и CI ещё не подтверждены. Production deployment не выполнялся.
 - Дополнение по замечаниям владельца: добавлена ссылка Instagram `https://www.instagram.com/florial_garden`; вместо общей ссылки на главную добавлены отдельные ссылки на опубликованные корневые категории растений (`/category/rastenia`, Sanity plants) и поливного оборудования (`/category/vsichko-za-polivane`, Sanity production). Подписи локализованы BG/RU/EN; BG: «Онлайн магазин за растения», «Онлайн магазин за поливно оборудване». Описание компании вычитано и уточнено на естественном болгарском языке.
+
+
+## 2026-11-18 — Product Schema live validator evidence
+
+- Schema.org Validator fetched and parsed the corrected PR Preview equipment and plant pages. Both reported 5 items, 0 errors and 0 warnings: Organization 1, BreadcrumbList 2, Product 2.
+- The extra Product/BreadcrumbList objects on Preview are explained by canonical-host mismatch: server markup points to the canonical Production URL, client markup points to the Preview URL. Current Production equipment baseline reports 3 items, 0 errors/warnings: Organization 1, BreadcrumbList 1, Product 1. This Production check is the pre-PR runtime, not the corrected code.
+- Official Google Rich Results Test loaded but required Google login and reCAPTCHA (“Something went wrong — Log in and try again”). No Google result was generated. Google Rich Results validation remains pending; owner-authenticated browser run is needed.
+- Exact evidence and next steps are recorded in the active Google Shopping roadmap and stage-1 audit. No runtime, Production, Sanity, D1 or Google settings changed.
