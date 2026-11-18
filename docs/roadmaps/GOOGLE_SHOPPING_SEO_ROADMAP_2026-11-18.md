@@ -155,3 +155,10 @@
 - Никакой runtime-код, Sanity, Cloudflare, Merchant Center или Google настройки не изменялись.
 
 - Документационная дорожная карта и audit включены в PR #407: https://github.com/omaraandrey-dev/florial/pull/407. PR открыт, mergeability после повторного чтения GitHub — true; combined status пока не содержит CI checks. Не считать PR объединённым.
+
+
+### 2026-11-18 — Продолжение этапа 1: проверка Preview
+- GitHub PR #407 подтверждает успешный Cloudflare Pages Preview для commit `3c529439fcd1ffeb90c186831f0aa824e3a42128`: deployment `a2375a36-2745-4a0d-adb3-06900da114bc`, URL `https://a2375a36.florial.pages.dev` (комментарий Cloudflare в PR). Это подтверждает успешную сборку/публикацию Preview, но не содержимое HTML и не Production.
+- Попытка открыть три представительные Preview URL (оборудование, растение, категория) через публичный web reader завершилась ошибкой недоступности URL. Прямой сетевой fetch из доступной среды также не смог разрешить домен. Firecrawl account на момент проверки сообщает `remainingCredits: 0`; повторный scrape не запускался.
+- Поэтому подэтапы 1.5 и 1.6 остаются незавершёнными: фактический initial HTML/JSON-LD и Google Rich Results validation не получены. Preview deployment не подменяет эти доказательства.
+- Никакие runtime-файлы, Sanity, Cloudflare settings/secrets, Google accounts/settings или Production не изменялись.
