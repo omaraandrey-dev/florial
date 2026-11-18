@@ -310,7 +310,6 @@ export default function App() {
     const route = getRouteState()
     return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
   })
-  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
   const [irrigationAssistantPhoto, setIrrigationAssistantPhoto] = useState<{ imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string } | null>(null)
 
@@ -886,15 +885,6 @@ export default function App() {
         }
       `
 
-      const settingsQuery = `
-        *[_type == "siteSettings"][0] {
-          siteName,
-          heroTitle,
-          heroSubtitle,
-          translations
-        }
-      `
-
       const categoryPromise = Promise.allSettled([
         sanityClient.fetch(categoryQuery),
         publicPlantsClient.fetch(plantCategoryQuery),
@@ -907,14 +897,7 @@ export default function App() {
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }).finally(() => { if (!cancelled) setLoadingCategories(false) })
 
-      const settingsPromise = sanityClient.fetch(settingsQuery)
-        .then((data) => { if (!cancelled) setSiteSettings(data || null) })
-        .catch((error) => console.error('Sanity: не удалось загрузить настройки сайта:', error))
-
-      await Promise.allSettled([
-        categoryPromise,
-        settingsPromise,
-      ])
+      await categoryPromise
     }
 
     fetchData().catch((err) => console.error('Ошибка загрузки данных Florial:', err))
@@ -1837,7 +1820,6 @@ export default function App() {
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
           featuredEquipment={homeFeaturedEquipment}
-          siteSettings={siteSettings}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
           onNavigateProduct={navigateToProduct}
