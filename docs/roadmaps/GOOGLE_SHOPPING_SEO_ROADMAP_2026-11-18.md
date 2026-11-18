@@ -48,7 +48,7 @@
 - [x] 1.2 Проверить генерацию Product JSON-LD в серверном middleware, клиентском ProductPage, общем helper и тестах.
 - [x] 1.3 Проверить подключение Google Search Console и получить актуальные агрегированные показатели.
 - [x] 1.4 Проверить доступность Google Merchant Center connector через Windsor.ai и уточнить статус аккаунта у владельца.
-- [x] 1.5 Проверить по исходникам, как формируется initial HTML/SSR Product JSON-LD и как клиентская разметка синхронизируется с ним. Получение отдельной копии сырого HTML не является обязательным предварительным условием для анализа и исправления генератора; runtime HTML остаётся отдельным live QA доказательством.
+- [x] 1.5 Проверить SSR и client Product JSON-LD; live Production initial HTML Rain Bird/Kumquat получен 18.11.2026. JS-enabled Rain Bird render подтверждает одну Product node, но выявляет потерю brand после hydration; см. post-deploy audit.
 - [ ] 1.6 После исправления Product Schema и доступного Preview/Production deployment выполнить Google Rich Results Test / Schema Markup Validator для репрезентативных страниц.
 - [x] 1.7 Сверить актуальный sitemap report и выполнить доступные URL Inspection проверки в Google Search Console (18.11.2026; сохранённые Google crawl dates для двух Product URL предшествуют PR #407 deployment).
 - [ ] 1.8 Завершить audit report, зафиксировать результаты валидаторов, ограничения и подтверждённые решения.
@@ -248,7 +248,7 @@ Production HTML was fetched live with Cloudflare Browser Rendering:
 
 Published Sanity readiness:
 - Irrigation production: 275 active products, 267 with brand, 263 with internal SKU, 0 with EAN. The schema has an EAN field, but the storefront projection and Product JSON-LD do not currently emit it.
-- Plants plants: 50 active products, 70 sale variants, 0 variant SKUs. Root product SKU exists on 30/50 products. ProductGroup remains deferred because no variant SKU is populated and there are no crawlable per-variant URLs.
+- Plants dataset plants: 50 active products, 70 sale variants, 0 variant SKUs. Root product SKU exists on 30/50 products. ProductGroup remains deferred because no variant SKU is populated and there are no crawlable per-variant URLs.
 
 Interpretation of stored Google warnings:
 - Product snippets: missing review/aggregateRating is non-critical when offers is present; do not fabricate reviews. Google explicitly documents this warning behavior.
