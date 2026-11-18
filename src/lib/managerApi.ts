@@ -81,10 +81,10 @@ export const managerApi = {
   },
   from(table: string) { return new QueryBuilder(table) },
   async rpc(name: string, args: Record<string, unknown>) {
-    const endpoint = name === 'manager_site_analytics' ? '/api/manager/analytics?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_request_catalog_changes' ? '/api/manager/request-changes' : ''
+    const endpoint = name === 'manager_site_analytics' ? '/api/manager/analytics?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_posthog_analytics' ? '/api/manager/analytics-posthog?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_request_catalog_changes' ? '/api/manager/request-changes' : ''
     if (!endpoint) return { data: null, error: { message: 'Unknown operation.' } }
     try {
-      const response = await fetch(endpoint, { method: name === 'manager_site_analytics' ? 'GET' : 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...(name === 'manager_site_analytics' ? {} : { body: JSON.stringify(args) }) })
+      const response = await fetch(endpoint, { method: name === 'manager_site_analytics' || name === 'manager_posthog_analytics' ? 'GET' : 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...(name === 'manager_site_analytics' ? {} : { body: JSON.stringify(args) }) })
       const data = await response.json().catch(() => ({}))
       return response.ok ? { data, error: null } : { data: null, error: errorFrom(data, response.status) }
     } catch (error) { return { data: null, error: { message: error instanceof Error ? error.message : 'Заявката не беше изпълнена.' } } }
