@@ -81,9 +81,11 @@ Preview PageSpeed SEO is 69 because the Preview response intentionally carries `
 
 ### Remaining work
 
-- PR #354 remains open; no Production deployment or merge has been made.
-- After owner approval and merge, verify the exact Production deployment and repeat the three mobile/desktop Lighthouse runs on `https://florial-bg.com/product/washingtonia`.
-- Remaining Preview opportunities: approximately 18 KiB image delivery, 160 ms render-blocking requests on mobile (50 ms desktop), and about 41 KiB unused JavaScript. Treat these as a separate next optimization pass after Production confirmation.
+- PR #354 was squash-merged into `main` at `fb3bc874bf5228211511de5267824d3840f4f1c0`.
+- Cloudflare Pages Production deployment `2514fc0b-a708-41de-962f-5919d05c4519` completed successfully for that exact commit; branch `main`, aliases `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Post-merge D1 validation run `43944981077` and Blog/Studio validation run `43944980984` both completed successfully. Website and Pages type-check, lint, utility tests, website build, migration syntax/dry-run, Studio type-check and Studio build passed.
+- Production browser visual smoke and the three matched mobile/desktop Lighthouse reruns on `https://florial-bg.com/product/washingtonia` remain **not confirmed**. Preview measurements must not be presented as Production results.
+- Remaining Preview opportunities: approximately 18 KiB image delivery, 160 ms render-blocking requests on mobile (50 ms desktop), and about 41 KiB unused JavaScript. Treat these as a separate measured optimization pass after Production confirmation.
 
 ## Scope and safety
 
@@ -91,3 +93,11 @@ Preview PageSpeed SEO is 69 because the Preview response intentionally carries `
 - No changes to Header, navigation/menu, Footer component or global shell.
 - Product content, descriptions, SEO fields, schema.org data, prices, stock, variant selection and cart behavior are intended to remain unchanged.
 - Existing category catalogue loading remains on its current path.
+
+
+## 2026-11-16 — PR #354 merged and Production deployment verified
+
+- PR #354 was squash-merged into `main`; merge commit `fb3bc874bf5228211511de5267824d3840f4f1c0`.
+- Cloudflare Pages Production deployment `2514fc0b-a708-41de-962f-5919d05c4519` deployed the exact merge commit successfully. Production aliases: `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Post-merge D1 validation run `43944981077` and Blog/Studio validation run `43944980984` both completed successfully, including Studio type-check and build.
+- Production browser smoke and Production Lighthouse comparisons remain open; Preview metrics are not Production evidence.
