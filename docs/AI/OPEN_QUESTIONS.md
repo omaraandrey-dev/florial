@@ -1,3 +1,11 @@
+## 2026-11-18 — Olive article: rendered Production QA pending
+
+- The published Sanity Production document `blogPost-maslina-sredizemnomorie` was refreshed in BG/RU/EN. Direct published read-back confirmed 79 Portable Text blocks, eight inline images, 15 internal links, localized titles/SEO/ALT and final revision `LtPyN36JxI5SIUpVnhPu66`.
+- Categories, active service pages/forms and the three tag-based related articles were checked in Sanity Production.
+- **Pending verification:** rendered live HTML/browser QA for BG/RU/EN. Firecrawl connected-app credits were exhausted before these fetches; direct web open could not access the Florial Production URL. Do not claim HTTP 200 or rendered-page verification until a fresh live check is completed.
+- No content write is pending. The article is already published. No build or Production deployment was needed for this content-only update.
+- Audit and backup: `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md` and `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`.
+
 ## 2026-11-18 — Winter landscape article: rendered RU/EN QA pending
 
 - The existing blog post `blogPost-landshaften-proekt-zima-burgas` is published in Sanity Production with 69 Portable Text blocks and 8 inline images per locale. Localized titles, SEO fields, cover ALT, internal links and related-article tags were checked directly in Sanity.
