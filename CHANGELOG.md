@@ -1,3 +1,17 @@
+## 2026-11-18 — Статья о маслине: обновление BG/RU/EN
+
+- По отдельному подтверждению владельца обновлён существующий Sanity Production документ `blogPost-maslina-sredizemnomorie`; slug и URL `/blog/maslina-sredizemnomorie`, cover asset, `publishedAt`, `isPublished` и исходный `sourceUrl` сохранены. Финальная published revision: `LtPyN36JxI5SIUpVnhPu66`.
+- До первой Sanity write создан полный snapshot: `docs/backups/sanity/2026-11-18-maslina-sredizemnomorie-before-editorial-refresh.json`; backup commit `a10d5f86015e8aa784d8e01a73d23853834ef7d9`.
+- BG/RU/EN полностью переписаны как отдельные Portable Text версии: 79 блоков каждая; 12,856 / 11,740 / 12,042 знаков против исходных 2,859 / 2,225 / 2,167. Заполнены локализованные title, shortDescription, SEO title/description и cover ALT.
+- Добавлены разделы о выборе молодой маслины, бонсай и крупномерного солитера, зимнем планировании ландшафта, месте посадки, микроклимате Черноморья, сочетании с деревьями/хвойными/кустарниками/цветами, посадке, поливе, уходе, проектных этапах и FAQ.
+- В каждой локали восемь inline-фотографий с локализованными ALT/captions. Использованы существующая фотография маслины и копии уже опубликованных plant assets: обычная маслина, бонсай, крупномерный солитер, деревья/кустарники, хвойные, цветущие кустарники и цветы. Старые нерелевантные фото газона, кипариса и юкки удалены из body. Cover сохранён.
+- Контекстные ссылки ведут на категории маслин, деревьев и кустарников, хвойных, цветущих кустарников, цветов, пальм/юкки, полный каталог растений, оборудование для капкового и автоматического полива, а также активные услуги ландшафтного проектирования, посадки маслин и автоматического полива.
+- Существующий related-card renderer использует теги `Озеленяване` и `Ландшафтно проектиране`; published query подтвердил три статьи: `podroben-landshaften-proekt-gradina`, `landshaften-proekt-zima-burgas`, `landshaften-dizain-proekt-zasazhdenie`.
+- Формы на активных услугах ландшафтного проектирования и посадки маслин проверены read-only; production-заявка не отправлялась.
+- Sanity beta validator: `valid`, `complete=false` из-за custom validation callbacks. Published read-back подтвердил 79 блоков, 8 inline images, 15 внутренних ссылок и SEO-поля на каждую локаль.
+- Rendered Production HTML BG/RU/EN не подтверждён: Firecrawl credits exhausted, direct web open недоступен. Не заявлять HTTP 200/browser verification до повторной live-проверки.
+- Код, Sanity schema, Cloudflare Pages, D1, Resend, формы/API, Header/menu/Footer и маршрутизация не менялись; build/deployment для content-only обновления не запускались. Audit: `docs/audits/2026-11-18-maslina-sredizemnomorie-article-refresh.md`.
+
 ## 2026-11-18 — Статья «Зимата в Бургас е чудесно време за ландшафтен дизайн»: обновление BG/RU/EN
 
 - По отдельному подтверждению владельца переработан опубликованный Sanity Production документ `blogPost-landshaften-proekt-zima-burgas`; slug и URL `/blog/landshaften-proekt-zima-burgas`, BG title, cover asset, publishedAt и isPublished сохранены. Финальная published revision: `QNgifPbO9FtDWOAbTv7vHo`.
