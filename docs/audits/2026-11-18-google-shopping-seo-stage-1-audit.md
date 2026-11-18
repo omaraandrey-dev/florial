@@ -309,3 +309,38 @@ Production, Sanity schema/documents, Cloudflare settings/secrets, D1, Resend, Me
   - Equipment: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Frain-bird-100-pga-9v`
   - Plant: `https://search.google.com/test/rich-results?url=https%3A%2F%2F811f1545.florial.pages.dev%2Fproduct%2Fcitrus-japonica-kumquat`
 - Google Rich Results Test and URL Inspection remain pending; no external test result is claimed. PR #407 remains open/unmerged; no Production deployment.
+
+
+### 10.8 Schema.org Validator — live Preview and Production baseline
+
+Read-only browser checks were executed on 18.11.2026 using the official Schema.org Validator through Cloudflare Browser Rendering.
+
+**Corrected PR Preview — equipment**
+- URL: `https://811f1545.florial.pages.dev/product/rain-bird-100-pga-9v`
+- Result: 5 items, 0 errors, 0 warnings.
+- Types: Organization (1), BreadcrumbList (2), Product (2).
+
+**Corrected PR Preview — plant**
+- URL: `https://811f1545.florial.pages.dev/product/citrus-japonica-kumquat`
+- Result: 5 items, 0 errors, 0 warnings.
+- Types: Organization (1), BreadcrumbList (2), Product (2).
+
+**Preview duplicate explanation**
+Inspection of the fetched equipment HTML confirms that its two Product objects are not byte-for-byte duplicates:
+- Middleware-generated Product uses the canonical Production URL `https://florial-bg.com/product/rain-bird-100-pga-9v`.
+- Client-rendered Product uses the Preview URL `https://811f1545.florial.pages.dev/product/rain-bird-100-pga-9v`.
+The two BreadcrumbList objects similarly use canonical Production and Preview host URLs. This is a Preview canonical/host mismatch. It is not evidence of duplicate Product entities on Production.
+
+**Current Production baseline — equipment**
+- URL: `https://florial-bg.com/product/rain-bird-100-pga-9v`
+- Result: 3 items, 0 errors, 0 warnings.
+- Types: Organization (1), BreadcrumbList (1), Product (1).
+- Important: this is the currently deployed Production baseline, not the corrected code from PR #407.
+
+### 10.9 Official Google Rich Results Test — access blocked
+
+- Opened official Google Rich Results Test with the corrected Preview equipment URL using a remote browser.
+- Google loaded the application but returned an alert dialog: “Something went wrong — Log in and try again”; reCAPTCHA was also present.
+- No Rich Results report or Google eligibility result was generated. This is an authentication/access limitation, not a Google validation pass or a detected structured-data failure.
+- The owner can open the prefilled Google links from the roadmap in an authenticated browser. After PR merge and Production deployment, repeat the test on Production URLs; do not use Preview as the final acceptance target because the server canonical and Preview host URLs are intentionally different.
+- Google Rich Results validation remains pending. Stages 1 and 2 remain open.
