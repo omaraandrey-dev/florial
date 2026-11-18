@@ -69,4 +69,15 @@ The shared `CHANGELOG.md` and `docs/TECHNICAL_PASSPORT.md` updates are intention
 - Updated only the offerings grid in `src/pages/AboutPage.tsx` from a two-column grid to a single-column sequence. Plant sales remains first; professional automatic irrigation equipment remains second. Team and garden-centre grids are unchanged.
 - Runtime commit: `a1f7220f9055beef9b4b10cc468b3a86beea6f56`.
 - The exact source now contains `grid grid-cols-1 gap-4` for the offerings section. GitHub workflow lookup for this commit returned no PR-triggered runs; CI status for this follow-up is therefore **not confirmed**. No new Preview deployment or browser verification of this correction is confirmed yet.
-- Production and `main` were not changed. The PR remains open; merge and Production deployment still require the owner's explicit approval.
+- At the time of this follow-up entry, Production and `main` had not yet changed; the subsequent merge and Production release are recorded below.
+
+
+## Merge and Production release — 2026-11-17
+
+- Owner explicitly approved merge after reviewing the page and requesting the vertical offerings layout.
+- PR #380 was squash-merged successfully. Merge commit and resulting `main` HEAD: `3b7177d88423fccdc562383bba25774d13932223`.
+- Post-merge source verification on `main` confirmed the offerings section uses `grid grid-cols-1 gap-4`; plant sales remains first and automatic irrigation equipment second.
+- PR-triggered CI for final pre-merge head `ad0dfb00efdfb87ead840184fb33cd2338548332` completed successfully: Blog and Studio validation run `44114187471`; Florial D1 migration validation run `44114153524`. The earlier Blog and Studio run `44114153451` also succeeded. Type-checks, lint, tests, website build, Studio type-check/build and D1 validation jobs all reported success.
+- Cloudflare Pages Production deployment `40f28a5c-3635-4a90-b390-f26da2e0b434` completed with stage `success` for exact commit `3b7177d88423fccdc562383bba25774d13932223`. Production domains configured on the project: `florial-bg.com` and `www.florial-bg.com`.
+- A post-deployment Browser Rendering request was rate-limited by Cloudflare (HTTP 429); no new post-merge visual/browser QA is claimed. The previously recorded Preview QA remains evidence for the original layout, not for a fresh Production browser session.
+- Shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` were not modified in this release because open PRs #334, #281 and #274 still edit these shared files. Integrate this release record into those documents in a single conflict-aware documentation pass after those PRs are resolved.
