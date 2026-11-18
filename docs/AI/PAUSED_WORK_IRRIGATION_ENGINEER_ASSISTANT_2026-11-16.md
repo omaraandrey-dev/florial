@@ -92,7 +92,7 @@ AI collects, normalizes, clarifies and explains. Deterministic versioned Florial
 - Catch-can measured DUlq utility exists (`distributionUniformity.mjs`); it calculates measured DUlq, not predicted design DU/SC.
 - Rain Bird 3500 evaluator and candidate generator are separate modules; they are not integrated into the R-VAN/HE-VAN solver or customer UI.
 - 3500 evidence gate: exact Rain Bird D42378 manufacturer data; verified calculation basis currently 180° only. Do not interpolate unsupported arcs, do not infer arc-specific precipitation, and do not apply disputed 25%/35% radius reduction without authoritative resolution.
-- 3500 stage 5 (#347) benchmarks search-resolution sensitivity. Stage 6 (#348) constrains mutual head-to-head selection. Stage 7 site context/whole-site overspray is only in PR #349 until verified merged.
+- 3500 stage 5 (#347), stage 6 (#348) and stage 7 (#349) are merged into main. Stage 7 merge commit: `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`. Stage 8 is not implemented; the workstream remains intentionally paused.
 - 100% sampled geometric coverage is not proof of a correct engineering design.
 - Hydraulics, pipe losses, zoning, pressure at nozzle, precipitation matching, predicted DU/SC, wind, installation clearances and complete body/nozzle compatibility are not fully implemented/validated.
 - Rain Bird 5000 MPR is not an approved engine in this scope. Approved directions include R-VAN, HE-VAN and 3500.
