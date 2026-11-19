@@ -17,6 +17,9 @@ test('required plant variant fields have asterisk labels and missing values get 
 test('Manager and Seller receive a generic Gemini failure message without provider diagnostics', () => {
   assert.ok(source.includes("setGeminiError(role==='owner'?"))
   assert.ok(source.includes("'Gemini не успя да обработи заявката. Моля, опитайте отново по-късно.'"))
-  assert.ok(source.includes('{role===\'owner\'&&<span className="tabular-nums">Получени редове:'))
+  assert.ok(source.includes('Gemini обработва заявката… · Време:'))
+  assert.ok(source.includes('Получени редове от Google:'))
+  assert.ok(!source.includes("role==='owner'&&<span className=\"tabular-nums\">Получени редове:"))
+  assert.ok(source.includes('Резултатът от Google е получен успешно и е приложен към формата. Попълнете размерите, количеството и цената'))
   assert.ok(source.includes("setGeminiStage(role==='owner'?(event.message||event.stage"))
 })
