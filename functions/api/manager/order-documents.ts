@@ -45,12 +45,18 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
  try{
   if(action==='email_proforma'){
    if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)
+   const ownerResult=await db.prepare("SELECT email FROM catalog_staff_profiles WHERE role='owner' AND is_active=1 ORDER BY created_at ASC LIMIT 1").first<{email:string}>()
+   const ownerEmail=String(ownerResult?.email||'').trim()
+   if(!ownerEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail))return json({error:'Не е намерен активен email адрес на собственика на Florial.'},503)
    const pdf=await makePdf(r,env,items)
    const total=r.total_cents==null?'ще бъде потвърдена след уточняване на доставката':(r.total_cents/100).toFixed(2)+' EUR'
    const proformaHtml='<h2>Сметка проформа от Florial</h2><p>Здравейте, '+escapeHtml(r.customer_name)+'.</p><p>Изпращаме Ви сметка проформа за поръчка <strong>'+escapeHtml(r.order_number)+'</strong>. PDF документът е приложен към това писмо.</p><p>Обща сума: <strong>'+total+'</strong></p><p>Благодарим Ви!<br>Екипът на Florial</p>'
-   await sendOrderEmail(env.RESEND_API_KEY,env.EMAIL_FROM,r.email,'Сметка проформа '+r.order_number+' — Florial',proformaHtml,[{filename:'Florial-Proforma-'+r.order_number+'.pdf',content:toBase64(pdf),type:'application/pdf'}],'florial-proforma-'+r.id+'-'+newId())
-   await db.batch([ev(db,r,auth.user,'proforma_email_sent','Сметката проформа е изпратена на клиента като PDF.',{recipient:'customer',email:r.email,item_count:items.length,total_cents:r.total_cents})])
-   return json({ok:true})
+   const attachment=[{filename:'Florial-Proforma-'+r.order_number+'.pdf',content:toBase64(pdf),type:'application/pdf'}]
+   const ownerBcc=ownerEmail.toLowerCase()===r.email.toLowerCase()?undefined:[ownerEmail]
+   await sendOrderEmail(env.RESEND_API_KEY,env.EMAIL_FROM,r.email,'Сметка проформа '+r.order_number+' — Florial',proformaHtml,attachment,'florial-proforma-'+r.id+'-'+newId(),ownerBcc)
+   await db.batch([ev(db,r,auth.user,'proforma_email_sent','Сметката проформа е изпратена на клиента и на собственика на Florial; PDF е предоставен за изтегляне.',{recipients:['customer','owner'],item_count:items.length,total_cents:r.total_cents})])
+   const pdfBody=new Uint8Array(pdf.byteLength);pdfBody.set(pdf)
+   return new Response(pdfBody.buffer,{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="Florial-Proforma-'+r.order_number+'.pdf"','Cache-Control':'no-store','X-Florial-Proforma-Delivered':'customer-and-owner'}})
   }
   if(action==='email_customer'){
    if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)
