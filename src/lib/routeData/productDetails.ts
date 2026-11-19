@@ -118,7 +118,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
         *[_type == "product" && _id == $id][0] {
           _id, name, translations, productType,
           "slug": { "current": coalesce(slug.current, slug) },
-          sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity,
+          sku, "brand": brand->name, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity,
           saleVariants[]{_key, name, nameEn, nameRu, sku, saleHeightCm, containerVolumeL, priceEUR, oldPriceEUR, stockStatus, stockQuantity},
           shortDescription, description, seo,
           scientificName, plantCare, careGuide, recommendedIrrigation,
