@@ -19,3 +19,6 @@ test('sending a customer proforma attaches the generated PDF and records an even
 
 test('proforma email sends the same PDF to customer and owner and returns it for immediate download',()=>{assert.match(docs,/SELECT email FROM catalog_staff_profiles WHERE role='owner' AND is_active=1/);assert.match(docs,/recipients:\['customer','owner'\]/);assert.match(docs,/return new Response\(pdfBody\.buffer/);assert.match(docs,/X-Florial-Proforma-Delivered/);assert.match(helper,/bcc\?: string\[\]/);assert.match(helper,/\.\.\.\(bcc\?\.length \? \{ bcc \} : \{\}\)/)})
 test('order card improves customer contacts, item rows, total hierarchy and combined proforma action',()=>{for(const text of ['Клиент','Поръчани артикули','Общо','mailto:','tel:','Изпрати проформа + свали PDF','loading="lazy"'])assert.ok(orders.includes(text),text)})
+
+
+test('proforma PDF includes the documented Florial company identity and contact details',()=>{for(const text of ['„Флориал“ ООД / FLORIAL LTD','ЕИК: 206978288','ДДС: BG206978288','МОЛ: Десислав Бараков','8230 Несебър, България','+359 876 777 902','+359 885 834 860','omaraandrey@gmail.com'])assert.ok(helper.includes(text),text);assert.doesNotMatch(helper,/IBAN|BIC|SWIFT/)})
