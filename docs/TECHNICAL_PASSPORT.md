@@ -4,7 +4,7 @@
 - Code commit: `abb4738268d44ead18e6ba7f146bfd067c35f463`; test-only correction: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`.
 - Fix: client Product JSON-LD now emits the optional `Brand` object from `product.brand`, matching middleware `doc.brandName`; plant product-detail GROQ now dereferences `brand->name`. Equipment already selected this field.
 - Regression test checks client ProductPage output, the plant detail query and server middleware brand mapping.
-- CI for the corrected code commit: Blog/Studio validation run `44432432693` is still running; TypeScript, lint, website tests, website build, migration syntax and read-only migration dry-run have succeeded. Studio dependency installation/typecheck/build are pending. D1 validation run `44432432898` succeeded.
+- CI for the corrected code commit: Blog/Studio validation run `44432432693` succeeded: TypeScript, lint, website tests, website build, migration syntax, read-only migration dry-run, Studio typecheck and Studio build all passed. D1 validation run `44432432898` succeeded.
 - PR #410 is open; no merge or Production deployment has occurred. No Sanity documents/schema, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed.
 
 ## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
