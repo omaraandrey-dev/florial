@@ -17,5 +17,8 @@ Base: main at b5d68acfb45b4c138e61b581f81bc03a66f47bf8
 - Owner email is resolved at request time from the active Owner profile in D1. No owner email value was read during implementation.
 
 ## Verification
-- Pending exact-head CI and Pages Preview.
+- Source commit checked: `3c705839a889ee0a55ebf608236c96abc494d4c7`.
+- Blog and Studio validation: run [44587661876](https://github.com/omaraandrey-dev/florial/actions/runs/44587661876) — success; TypeScript, lint, website tests/build, migration syntax and read-only dry-run, Studio typecheck/build passed.
+- D1 migration validation: run [44587660642](https://github.com/omaraandrey-dev/florial/actions/runs/44587660642) — success.
+- Cloudflare Pages Preview deployment: `0344114c-ea00-4802-aa5d-407aa5ee60a1`, successful from the source commit above; Preview URL: https://0344114c.florial.pages.dev.
 - Live Resend delivery, authenticated role QA and Production deployment are not claimed.
