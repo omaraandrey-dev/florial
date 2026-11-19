@@ -502,7 +502,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   {geminiModalOpen&&geminiResult&&<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3" role="dialog" aria-modal="true" aria-labelledby="gemini-result-title">
    <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
     <div className="flex items-center justify-between gap-3 border-b border-stone-200 p-4">
-     <div><h2 id="gemini-result-title" className="text-lg font-bold text-stone-900">Резултат от Google Gemini</h2><p className="text-xs text-stone-500">{geminiResult.mode==='text'?'Проверка по име':'Проверка по снимка'} · {geminiResult.model} · {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p></div>
+     <div><h2 id="gemini-result-title" className="text-lg font-bold text-stone-900">Резултат от Google Gemini</h2><p className="text-xs text-stone-500">{geminiResult.mode==='text'?'Проверка по име':'Проверка по снимка'} · {Math.round((geminiResult.elapsedMs||0)/1000)} сек.</p></div>
      <button type="button" className={btn+' border border-stone-300'} disabled={saving} onClick={()=>{setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false)}}>Затвори</button>
     </div>
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
