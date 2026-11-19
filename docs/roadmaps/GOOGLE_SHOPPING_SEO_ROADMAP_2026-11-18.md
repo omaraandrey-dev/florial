@@ -81,15 +81,7 @@
 
 ### Этап 3. Merchant Center — готовность аккаунта и бизнес-правил
 
-Статус на 19.11.2026: **в работе; аккаунт Merchant Center ещё не зарегистрирован владельцем**. Подготовлена read-only карта локальных тарифов оборудования: [аудит shipping zones](../audits/2026-11-19-merchant-center-shipping-zones.md).
-
 Задачи:
-- Проверить официальные Google Ads Geo Target Criteria ID для 30 населённых пунктов из опубликованной страницы доставки Florial; подтвердить Country Code BG, активный Status и точное соответствие каждого ID.
-- Не подменять отсутствующие точные ID родительским муниципалитетом/областью. Если для части населённых пунктов отдельного Geo Target нет, отдельно оценить Merchant Center Region groups через `location_group_name`.
-- Создать шесть тарифных зон оборудования (0 / 10 / 15 / 17 / 20 / 25 EUR) только для опубликованных населённых пунктов; тарифы не распространять на всю Болгарию.
-- Разделить оборудование и живые растения: локальные фиксированные тарифы относятся только к оборудованию; доставка растений индивидуальная, без выдуманной фиксированной цены/скорости.
-- Не задавать handling/transit time, пока Florial не подтвердит фактические сроки.
-- Создать Merchant Center аккаунт и подключить его через безопасный OAuth flow Windsor.ai после регистрации владельцем.
 - Уточнить, существует ли Google Merchant Center аккаунт Florial, кто владелец/администратор и подтверждён ли домен.
 - Получить доступ через безопасный OAuth/connector flow; не запрашивать пароль или токены в чате.
 - Проверить целевую страну Болгария, язык BG, валюту EUR, налоговую модель и способы доставки.
@@ -272,12 +264,3 @@
 - Organization JSON-LD now links to the BG terms page via Google's link-based `MerchantReturnPolicy.merchantReturnLink` option. The linked text describes the statutory 14-day withdrawal right where applicable, conditional statutory exceptions, and the return process. The schema intentionally does not encode a universal 14-day return category, fixed return fee, free returns, return method or refund type because the document qualifies the right and leaves case-specific details to law/advance notice.
 - Shipping markup remains deferred, not because no delivery rules exist, but because the current rules distinguish pickup, equipment delivery to supported settlements, and individually arranged live-plant/special-order delivery without publishing the exact destination list or rate/transit-time values needed for reliable Google shipping conditions. Do not infer all-Bulgaria coverage or worldwide delivery.
 - Code and test are in branch `feat/google-merchant-return-policy-link`; PR/CI/deployment status to be recorded after validation.
-
-
-### 2026-11-19 — Локальные тарифы доставки для Merchant Center
-- Проверена опубликованная страница доставки оборудования: 30 населённых пунктов, 6 тарифных групп от 0 до 25 EUR. Растения доставляются по индивидуальному согласованию; сроки доставки на странице не опубликованы.
-- Google Merchant Center официально поддерживает региональный атрибут `shipping` с `location_id` (Google Ads Geo Target Criteria ID) и `location_group_name` (Merchant Center Regions). Сначала проверяется одобренный владельцем вариант `location_id`; `location_group_name` — только контролируемый fallback, если точного активного Geo Target нет.
-- Точные Geo Target IDs пока не подтверждены: официальный CSV справочник опубликован в ZIP, но текущие доступные инструменты не смогли скачать/распаковать файл. Не использовать предположительные IDs.
-- Владелец ранее подтвердил, что Merchant Center аккаунт ещё не зарегистрирован. Windsor.ai connector `google_merchant` доступен, но подключённого аккаунта нет. OAuth link подготовлен; он требует сначала создать Merchant Center account.
-- Никакие Merchant Center, Google, Sanity, Cloudflare или Production настройки не изменялись. Shipping schema.org не добавлялась; Organization return policy link-only остаётся без изменений.
-- Этап 3 остаётся открытым до регистрации аккаунта, подключения OAuth и подтверждения всех 30 региональных идентификаторов/групп.
