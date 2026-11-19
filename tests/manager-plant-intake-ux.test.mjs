@@ -23,3 +23,10 @@ test('Manager and Seller receive a generic Gemini failure message without provid
   assert.ok(source.includes('Резултатът от Google е получен успешно и е приложен към формата. Попълнете размерите, количеството и цената'))
   assert.ok(source.includes("setGeminiStage(role==='owner'?(event.message||event.stage"))
 })
+
+
+test('plant image library is available only to Owner; Manager and Seller use file upload', () => {
+  assert.ok(source.includes("{role==='owner'&&<button type=\"button\" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>}"))
+  assert.ok(source.includes("{role==='owner'&&libraryOpen&&<PlantImageLibrary"))
+  assert.ok(source.includes("role==='owner'?'Все още няма добавени снимки. Качете готов файл или изберете снимка от библиотеката.':'Все още няма добавени снимки. Качете готов файл.'"))
+})

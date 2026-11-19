@@ -375,7 +375,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    <div className="space-y-4">
     <details open id="plant-editor-photos" className="rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Снимки на растението</summary><div className="flex flex-wrap gap-2">
-       <button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>
+       {role==='owner'&&<button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>}
        <label className={btn+' cursor-pointer bg-lime-50 text-lime-800'}>{imageLoading?'Качване…':'＋ Качи снимки'}<input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={imageLoading} onChange={event=>{void uploadFiles(event.target.files);event.currentTarget.value=''}}/></label>
       <span className="text-xs text-stone-600">Препоръчителен размер: 1600 × 1600 px, до 500 KB. Максимален размер на файла: 1,5 MB.</span>
       </div></div>
@@ -384,9 +384,9 @@ export default function PlantCatalogManager({role,permissions}:Props){
        <button type="button" className="block aspect-square w-full" onClick={()=>{setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('');setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
        <button type="button" onClick={()=>{setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('');setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
       </div>)}
-      {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Все още няма добавени снимки. Качете готов файл или изберете снимка от библиотеката.</div>}
+      {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">{role==='owner'?'Все още няма добавени снимки. Качете готов файл или изберете снимка от библиотеката.':'Все още няма добавени снимки. Качете готов файл.'}</div>}
      </div>
-     {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
+     {role==='owner'&&libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
      <div className="mt-3 space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
       <div className="flex flex-wrap gap-2">
        <button type="button" disabled={geminiLoading||imageLoading||!activeImages} onClick={()=>void runGemini('photo')} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{geminiLoading&&geminiStage.toLowerCase().includes('сним')?'Google Photo работи…':'✦ Попълни по снимка'}</button>
