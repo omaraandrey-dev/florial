@@ -77,6 +77,7 @@ export const sendOrderEmail = async (
   html: string,
   attachments?: Array<{ filename: string; content: string; type: string }>,
   idempotencyKey?: string,
+  bcc?: string[],
 ): Promise<void> => {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -85,7 +86,7 @@ export const sendOrderEmail = async (
       'Content-Type': 'application/json',
       ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
     },
-    body: JSON.stringify({ from, to: [to], subject, html, ...(attachments?.length ? { attachments } : {}) }),
+    body: JSON.stringify({ from, to: [to], subject, html, ...(bcc?.length ? { bcc } : {}), ...(attachments?.length ? { attachments } : {}) }),
   })
   if (!response.ok) {
     throw new Error('Email provider returned ' + response.status + ': ' + await response.text())
