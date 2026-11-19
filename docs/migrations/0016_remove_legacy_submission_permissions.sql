@@ -3,6 +3,10 @@
 DROP TRIGGER IF EXISTS trg_staff_permissions_insert;
 DROP TRIGGER IF EXISTS trg_staff_permissions_update;
 
+UPDATE catalog_staff_profiles
+SET permissions=json_remove(permissions,'$.canReviewPlantSubmissions','$.canApprovePlantSubmission','$.canPublishPlant')
+WHERE json_valid(permissions)=1 AND json_type(permissions)='object';
+
 CREATE TRIGGER trg_staff_permissions_insert
 BEFORE INSERT ON catalog_staff_profiles
 WHEN json_valid(NEW.permissions)=0 OR json_type(NEW.permissions)<>'object'
