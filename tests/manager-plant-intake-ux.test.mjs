@@ -5,8 +5,8 @@ import { readFile } from 'node:fs/promises'
 const source = await readFile(new URL('../src/manager/PlantCatalogManager.tsx', import.meta.url), 'utf8')
 
 test('required plant variant fields have asterisk labels and missing values get a red outline', () => {
-  assert.match(source, /Височина \\(см\\) \\*/)
-  assert.match(source, /Контейнер \\(л\\) \\*/)
+  assert.ok(source.includes('Височина (см) *'))
+  assert.ok(source.includes('Контейнер (л) *'))
   assert.ok(source.includes("Цена (€){canEditVariantPrice?' *':''}"))
   assert.ok(source.includes("Количество{canEditVariantStock&&variant.stockStatus==='inStock'?' *':''}"))
   assert.ok(source.includes('!border-red-500'))
