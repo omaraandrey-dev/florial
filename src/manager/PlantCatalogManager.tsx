@@ -153,7 +153,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   try{
    const added:ImageItem[]=[]
    for(const file of Array.from(filesList)){
-    if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>10*1024*1024)throw new Error('Използвайте JPG, PNG или WebP до 10 MB.')
+    if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>1.5*1024*1024)throw new Error(file.size>1.5*1024*1024?'Размерът на снимката надвишава максимално допустимите 1,5 MB.':'Използвайте JPG, PNG или WebP.')
     const data=new FormData();data.append('file',file,file.name)
     const response=await fetch('/api/manager/upload-image',{method:'POST',credentials:'same-origin',body:data})
     const result=await responseJson(response)
@@ -231,7 +231,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    buffer+=decoder.decode()
    if(buffer)handleLine(buffer.replace(/\r$/,''))
    if(streamError)throw new Error(streamError)
-   if(!receivedResult)throw new Error('Поток Gemini приключи, но не получихме завършен структуриран резултат. Проверете потока отговор по-горе.')
+   if(!receivedResult)throw new Error('Потокът Gemini приключи без завършен резултат. Опитайте отново.')
   }catch(e){
    setGeminiError(e instanceof Error?(e.name==='AbortError'?'Gemini не отговори в рамките на пет минути. Потокът беше прекъснат от браузъра.':e.message):'Неуспешен тест на Gemini.')
   }finally{window.clearTimeout(requestTimeout);setGeminiLoading(false)}
@@ -383,24 +383,18 @@ export default function PlantCatalogManager({role,permissions}:Props){
        <button type="button" className="block aspect-square w-full" onClick={()=>{setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('');setAiProof(null);setMainImageIndex(index)}}><img src={image.url} alt="" className="h-full w-full object-cover"/>{mainImageIndex===index&&<span className="absolute left-1 top-1 rounded-md bg-lime-800 px-2 py-1 text-[10px] font-bold text-white">Основна</span>}</button>
        <button type="button" onClick={()=>{setGeminiError('');setGeminiResult(null);setGeminiStreamText('');setGeminiStage('');setAiProof(null);setImages(previous=>previous.filter((_,i)=>i!==index));setMainImageIndex(previous=>previous>index?previous-1:previous===index?0:previous)}} className="absolute right-1 top-1 rounded-full bg-white/95 px-2 py-1 text-xs text-red-700" aria-label="Премахни снимка">×</button>
       </div>)}
-      {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Добавете поне една снимка. Натиснете снимка, за да я направите основна.</div>}
+      {images.length===0&&<div className="col-span-3 rounded-xl border border-dashed border-stone-300 p-8 text-center text-sm text-stone-500">Все още няма добавени снимки. Качете готов файл или изберете снимка от библиотеката.</div>}
      </div>
      {libraryOpen&&<PlantImageLibrary selectedAssetIds={images.map(image=>image.assetId)} usedAssetIds={[]} maxSelectable={10} onToggle={toggleLibraryImage}/>}
-     <div className="mt-3 flex flex-wrap items-center gap-3">
-      <span className="text-xs text-stone-500">Изберете Google Gemini Flash-Lite за попълване по снимка или по име. Резултатът винаги се показва преди запис.</span>
-     </div>
      <div className="mt-3 space-y-3 rounded-xl border border-indigo-200 bg-indigo-50/40 p-3">
-      <div><h4 className="font-bold text-indigo-950">Google Gemini 3.5 Flash-Lite</h4><p className="mt-1 text-xs text-stone-600">Photo анализира основната снимка. Text анализира само въведеното име и не изпраща изображението към Google. Резултатът се показва за проверка. Приложете го към формата, прегледайте полетата и запазете отделно.</p></div>
       <div className="flex flex-wrap gap-2">
        <button type="button" disabled={geminiLoading||imageLoading||!activeImages} onClick={()=>void runGemini('photo')} className={btn+' bg-lime-800 text-white disabled:opacity-50'}>{geminiLoading&&geminiStage.toLowerCase().includes('сним')?'Google Photo работи…':'✦ Попълни по снимка'}</button>
        <button type="button" disabled={geminiLoading||imageLoading||!(geminiTextQuery.trim()||form.name.trim())} onClick={()=>void runGemini('text')} className={btn+' border border-indigo-300 bg-white text-indigo-800 disabled:opacity-50'}>{geminiLoading&&geminiStage.toLowerCase().includes('text')?'Google Text работи…':'Попълни по име'}</button>
       </div>
       <label className="block"><span className={labelClass}>Име за проверка без снимка</span><input className={inputClass} value={geminiTextQuery} onChange={event=>setGeminiTextQuery(event.target.value)} placeholder={form.name||'Например: лавровишня'}/></label>
       {geminiLoading&&<div className="rounded-xl border border-indigo-200 bg-white p-3 text-sm text-indigo-950" role="status" aria-live="polite">
-       <div className="flex flex-wrap items-center justify-between gap-2 font-semibold"><span>{geminiStage||'Google обработва заявката…'}</span><span className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</span></div>
-       <p className="mt-1 text-xs text-stone-500">Изчакването може да отнеме до 5 минути. Request ID: {geminiRequestId||'получава се…'}</p>
+       <div className="flex items-center justify-between gap-3"><span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-700" aria-hidden="true"/><span>Време: <strong className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</strong></span></span><span className="tabular-nums">Получени редове: <strong>{geminiStreamText.split(/\r?\n/).filter(line=>line.trim()).length}</strong></span></div>
       </div>}
-      {geminiStreamText&&<details className="rounded-xl border border-indigo-200 bg-white p-3" open={geminiLoading}><summary className="cursor-pointer text-sm font-semibold">Потоков отговор Google — {geminiStreamText.length} символа</summary><pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap break-words text-xs leading-5">{geminiStreamText}</pre></details>}
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
       {aiProof&&<p className="text-xs font-semibold text-lime-800">Резултатът от Google е приложен. Цените, размерите, SKU, количествата и снимките не са променени.</p>}
      </div>
