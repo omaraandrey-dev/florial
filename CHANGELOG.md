@@ -1,3 +1,13 @@
+## 2026-11-19 — Merchant Center: карта локальных тарифов доставки
+
+- Подготовлен read-only аудит `docs/audits/2026-11-19-merchant-center-shipping-zones.md`: 30 опубликованных населённых пунктов, шесть тарифных групп оборудования (0 / 10 / 15 / 17 / 20 / 25 EUR).
+- Google Merchant Center поддерживает региональную доставку через `shipping(location_id)` или `shipping(location_group_name)`. Владелец подтвердил выбор `location_id` как основной путь; точные Criteria ID пока НЕ ПОДТВЕРЖДЕНЫ, официальный Geo Targets CSV доступен как ZIP, но не был скачан/распакован текущими инструментами. Не подставлять произвольные или родительские IDs.
+- `location_group_name` зафиксирован как возможный fallback только для населённых пунктов, у которых нет отдельного активного Geo Target, после проверки Merchant Center Regions.
+- Тарифы относятся только к оборудованию для полива. Доставка живых растений остаётся индивидуально согласуемой; сроки доставки не опубликованы и не добавляются в feed.
+- Владелец ранее подтвердил, что отдельный Merchant Center account Florial ещё не зарегистрирован. Windsor.ai `google_merchant` connector доступен, но connected account отсутствует; OAuth connect URL подготовлен для использования после регистрации аккаунта.
+- Не изменялись Merchant Center/Google settings, сайт, Sanity, Cloudflare, D1 или Production. Общеболгарская ShippingService schema.org намеренно не добавлена. Существующая Organization `MerchantReturnPolicy.merchantReturnLink` на `/terms` сохранена.
+- Дорожная карта: `docs/roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md`. Этап 3 остаётся открытым до регистрации аккаунта, OAuth и верификации географических зон.
+
 ## 2026-11-19 — Google Merchant return policy markup
 
 - Added organization-level `MerchantReturnPolicy` JSON-LD using Google's link-based option: `merchantReturnLink: https://florial-bg.com/terms`. The linked Bulgarian terms already describe the statutory 14-day withdrawal right where applicable, return process, customer-paid direct return costs where previously disclosed, and case-specific statutory exceptions. No fixed return fee, free return, universal eligibility, or refund method was invented.
