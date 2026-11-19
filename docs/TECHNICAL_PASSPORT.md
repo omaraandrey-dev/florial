@@ -3,7 +3,7 @@
 - Expanded order card: one customer/delivery block; optional delivery/payment fields omitted when absent; duplicate order number/date/time and duplicate status/payment panel removed from expanded details.
 - Separate actions: `Изтегли сметката` downloads PDF only to the staff device; `Изпрати проформа + изтегли PDF` emails the PDF to the customer and active Owner and returns the same PDF for staff download.
 - Proforma PDF uses the owner-confirmed company email `omaraandrey@gmail.com` and IBAN `BG88STSA93000029605234`. No bank name/BIC/SWIFT/payment reference is inferred.
-- No live D1/Sanity/Cloudflare configuration or real order/email changed. Validation and deployment pending.
+- No live D1/Sanity/Cloudflare configuration or real order/email changed. PR #430 merged into `main` as `881db09ed84b0887560ddebc38fdcfa54aab4bcd`. PR-head CI workflows passed; Cloudflare Pages Preview succeeded. Production deployment `6d8c4a4b-3cdc-43d8-a782-06223d32b55e` succeeded from the exact merge commit. The owner reports that the updated workflow appears to work in the live interface. Resend delivery to customer and active Owner was not independently verified by a separate end-to-end email test.
 
 ## 2026-11-19 — PR #409 Production Product Schema audit evidence reconciled
 
