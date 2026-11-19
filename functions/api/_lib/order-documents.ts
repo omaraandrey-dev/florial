@@ -40,7 +40,17 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
     y -= size + 9
   }
   draw('FLORIAL OOD', 22, rgb(0.02, 0.39, 0.29))
-  draw('ЕИК: 206978288', 9)
+  const drawCompact = (text: string, size = 8, color = rgb(0.15, 0.2, 0.2)) => {
+    page.drawText(text, { x: left, y, size, font, color })
+    y -= size + 4
+  }
+  drawCompact('„Флориал“ ООД / FLORIAL LTD', 9)
+  drawCompact('ЕИК: 206978288  |  ДДС: BG206978288')
+  drawCompact('МОЛ: Десислав Бараков')
+  drawCompact('Градински център „Флориал“, ул. „Хан Крум“, 8230 Несебър, България', 7.5)
+  drawCompact('(до магазин Janet)  |  +359 876 777 902  |  +359 885 834 860', 7.5)
+  drawCompact('Email: omaraandrey@gmail.com', 7.5)
+  y -= 6
   draw('ПРОФОРМА / ПОТВЪРЖДЕНИЕ НА ПОРЪЧКА', 12)
   draw('Номер: ' + order.order_number)
   draw('Дата: ' + new Date(order.created_at).toLocaleDateString('bg-BG'))
