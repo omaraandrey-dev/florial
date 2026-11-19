@@ -5,7 +5,7 @@
 - Fix: client Product JSON-LD now emits the optional `Brand` object from `product.brand`, matching middleware `doc.brandName`; plant product-detail GROQ now dereferences `brand->name`. Equipment already selected this field.
 - Regression test checks client ProductPage output, the plant detail query and server middleware brand mapping.
 - CI for the corrected code commit: Blog/Studio validation run `44432432693` succeeded: TypeScript, lint, website tests, website build, migration syntax, read-only migration dry-run, Studio typecheck and Studio build all passed. D1 validation run `44432432898` succeeded.
-- PR #410 is open; no merge or Production deployment has occurred. No Sanity documents/schema, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed.
+- PR #410 merged into `main` at `9b697379c43db5e19a15bd91b48fb8d507da8479`. Cloudflare Pages Production deployment `ed8a8b40-bff1-4e35-948f-6b33970bcfff` succeeded from that exact commit; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are active. No Sanity documents/schema, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed.
 
 ## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
 

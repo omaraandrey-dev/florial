@@ -1,6 +1,15 @@
 # Florial — CURRENT STATE
 
-> Snapshot date: 2026-11-18. Verified against live GitHub main and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+> Snapshot date: 2026-11-19. Verified against live GitHub main and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+
+## Latest main and Production release — 2026-11-19
+
+- Latest GitHub `main` HEAD: `9b697379c43db5e19a15bd91b48fb8d507da8479` (PR #410 merge).
+- PR #410 synchronizes optional Schema.org Product `brand` between middleware and client ProductPage. Plant product-detail GROQ now fetches `brand->name`; equipment already did.
+- Exact code commit `6b4c78f` passed Blog/Studio validation run `44432432693` (317/317 tests, TypeScript, lint, website build, migration syntax/dry-run, Studio typecheck/build) and D1 validation run `44432432898`. Latest PR head `8ce3257` also passed Blog/Studio run `44432666988` and D1 run `44432666815`.
+- On merge commit `9b69737`, D1 validation run `44432799931` succeeded; Blog/Studio validation run `44432801621` was still running at snapshot time. Recheck before claiming merge-commit CI success.
+- Cloudflare Pages Production deployment `ed8a8b40-bff1-4e35-948f-6b33970bcfff` succeeded from exact merge commit `9b69737`; aliases remain `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Google Rich Results Test on Production and Search Console URL Inspection remain pending. No Sanity documents/schema, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings changed.
 
 ## Project and source of truth
 
